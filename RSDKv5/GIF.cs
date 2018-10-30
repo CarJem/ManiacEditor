@@ -80,7 +80,10 @@ namespace RSDKv5
                 //Debug.Print(_bitmapEditMemory.Palette.Entries.Length.ToString() + "(2)");
                 for (int y = 0; y < 255; ++y)
                 {
-                    pal.Entries[y] = SystemColor.FromArgb(readableColors[y].R, readableColors[y].G, readableColors[y].B);
+                    //if (readableColors[y].R != 255 && readableColors[y].G != 0 && readableColors[y].B != 255)
+                    //{
+                        pal.Entries[y] = SystemColor.FromArgb(readableColors[y].R, readableColors[y].G, readableColors[y].B);
+                    //}
                 }
                 _bitmapEditMemory.Palette = pal;
             }

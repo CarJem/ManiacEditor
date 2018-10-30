@@ -49,12 +49,12 @@ namespace ManiacEditor
             graphicPanel.Height = height;
         }
 
-        public void Reload()
+        public void Reload(string colors = null)
         {
-            TilesImage.Reload();
+            TilesImage.Reload(colors);
             graphicPanel.Refresh();
         }
-        
+
         public void DisposeTextures()
         {
             TilesImage?.DisposeTextures();

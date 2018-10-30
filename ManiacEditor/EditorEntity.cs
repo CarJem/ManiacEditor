@@ -18,6 +18,8 @@ using MonoGame.Extended;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using SystemColor = System.Drawing.Color;
 
 namespace ManiacEditor
 {
@@ -218,6 +220,46 @@ namespace ManiacEditor
                 }
             }
             return source;
+        }
+
+        private Bitmap SetEncoreColors(Bitmap _bitmap, string encoreColors = null)
+        {
+            Bitmap _bitmapEditMemory;
+            _bitmapEditMemory = _bitmap.Clone(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), PixelFormat.Format8bppIndexed);
+            //Debug.Print(_bitmapEditMemory.Palette.Entries.Length.ToString() + "(1)");
+
+            //Encore Palettes (WIP Potentially Improvable)
+            RSDKv5.Color[] readableColors = new RSDKv5.Color[256];
+            bool loadSpecialColors = false;
+            if (encoreColors != null && File.Exists(encoreColors))
+            {
+                using (var stream = File.OpenRead(encoreColors))
+                {
+                    for (int y = 0; y < 255; ++y)
+                    {
+                        readableColors[y].R = (byte)stream.ReadByte();
+                        readableColors[y].G = (byte)stream.ReadByte();
+                        readableColors[y].B = (byte)stream.ReadByte();
+                    }
+                }
+                loadSpecialColors = true;
+            }
+
+            if (loadSpecialColors == true)
+            {
+                ColorPalette pal = _bitmapEditMemory.Palette;
+                //Debug.Print(_bitmapEditMemory.Palette.Entries.Length.ToString() + "(2)");
+                for (int y = 0; y < 255; ++y)
+                {
+                    if (readableColors[y].R != 255 && readableColors[y].G != 0 && readableColors[y].B != 255)
+                    {
+                        pal.Entries[y] = SystemColor.FromArgb(readableColors[y].R, readableColors[y].G, readableColors[y].B);
+                    }
+                }
+                _bitmapEditMemory.Palette = pal;
+            }
+            _bitmap = _bitmapEditMemory;
+            return _bitmap;
         }
 
         public List<LoadAnimationData> AnimsToLoad = new List<LoadAnimationData>();
@@ -424,14 +466,24 @@ namespace ManiacEditor
                     }
                     else
                     {
-                        
-                            map = new Bitmap(targetFile);
-                            Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+                            
+                        map = new Bitmap(targetFile);
+                        //Encore Colors
+                        if (Editor.Instance.useEncoreColors && name != "SuperSpecialRing" && name != "TransportTubes" && name != "EditorAssets" && name != "EditorIcons2")
+                        {
+                            map = SetEncoreColors(map, Editor.EncorePalette[0]);
+                        }
+                        Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
                     }
                 }
                 else
                 {
                     map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
+                    //Encore Colors
+                    if (Editor.Instance.useEncoreColors && name != "SuperSpecialRing" && name != "TransportTubes" && name != "EditorAssets" && name != "EditorIcons2")
+                    {
+                        map = SetEncoreColors(map, Editor.EncorePalette[0]);
+                    }
                 }
 
 
@@ -466,7 +518,6 @@ namespace ManiacEditor
 
 
                 }
-
                 RemoveColourImage(map, colour, frame.Width, frame.Height);
 
                 Texture texture = null;
@@ -536,6 +587,7 @@ namespace ManiacEditor
                 // Checks Global frist
                 path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
                 path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+
                 if (!File.Exists(path2))
                 {
                     // Checks without last character
@@ -561,7 +613,10 @@ namespace ManiacEditor
                         path = Path.GetFileName(dir) + "\\" + name + ".bin";
                         path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
                         if (File.Exists(path2))
+                        {
                             break;
+                        }
+
                     }
                 }
                 if (!File.Exists(path2))

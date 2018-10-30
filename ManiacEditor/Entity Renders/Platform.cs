@@ -46,9 +46,6 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var tensionBall = e.LoadAnimation("Platform", d, -2, 1, false, false, false, 0);
-            var tensionBallCenter = e.LoadAnimation("Platform", d, -2, 2, false, false, false, 0);
-
             int aminID = 0;
             EditorEntity.EditorAnimation editorAnim = null;
             bool doNotShow = false;
@@ -85,12 +82,17 @@ namespace ManiacEditor.Entity_Renders
                     throw new ApplicationException($"Pop Loading Platforms! {aminID}", i);
                 }
             }
-            if (editorAnim.Frames.Count != 0 && tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0 && doNotShow == false)
+            var tensionBall = e.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
+            var tensionBallCenter = e.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
+            if (type == 4)
+            {
+                tensionBall = e.LoadAnimation("Platform", d, -2, 1, false, false, false, 0);
+                tensionBallCenter = e.LoadAnimation("Platform", d, -2, 2, false, false, false, 0);
+            }
+            if (editorAnim.Frames.Count != 0 && doNotShow == false)
             {
                 EditorEntity.EditorAnimation.EditorFrame frame = null;
                 EditorEntity.EditorAnimation.EditorFrame frame2 = null;
-                EditorEntity.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
-                EditorEntity.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
                 if (editorAnim.Frames[0].Entry.FrameSpeed > 0)
                 {
                     frame = editorAnim.Frames[e.index];
@@ -147,8 +149,10 @@ namespace ManiacEditor.Entity_Renders
                     int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
                     int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
                     int tensionCount = radiusInt / 16;
-                    if (hasTension == true)
+                    if (hasTension == true && tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                     {
+                        EditorEntity.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                        EditorEntity.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
                         for (int i = 0; i < tensionCount; i++)
                         {
                             int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
@@ -187,9 +191,13 @@ namespace ManiacEditor.Entity_Renders
                     int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
                     int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
                     int tensionCount = radiusInt / 16;
-
+                    if (tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
+                    {
+                        EditorEntity.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                        EditorEntity.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
                         for (int i = 0; i < tensionCount; i++)
                         {
+
                             int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
                             if (i == 0)
                             {
@@ -207,6 +215,8 @@ namespace ManiacEditor.Entity_Renders
                             }
 
                         }
+                    }
+
                     d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y + newY) + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 

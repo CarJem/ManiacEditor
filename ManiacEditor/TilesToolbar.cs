@@ -84,7 +84,7 @@ namespace ManiacEditor
             setCheckboxes = false;
         }
 
-        public TilesToolbar(StageTiles tiles)
+        public TilesToolbar(StageTiles tiles, String data_directory, String Colors)
         {
             InitializeComponent();
 
@@ -100,7 +100,8 @@ namespace ManiacEditor
             selectTileOptionsCheckboxes[4] = option5CheckBox;
             selectTileOptionsCheckboxes[5] = option6CheckBox;
 
-            tilesList.TilesImage = tiles.Image.Clone();
+            RSDKv5.GIF tileGridImage = new GIF((data_directory + "\\16x16Tiles.gif"), Colors);
+            tilesList.TilesImage = tileGridImage;
             tilesList.TileScale = 1 << trackBar1.Value;
 
             UpdateShortcuts();
@@ -111,10 +112,9 @@ namespace ManiacEditor
             tilesList.TileScale = 1 << trackBar1.Value;
         }
 
-        public void Reload()
+        public void Reload(string colors = null)
         {
-            tilesList.Reload();
-
+            tilesList.Reload(colors);
         }
 
         public new void Dispose()
