@@ -50,7 +50,7 @@ namespace ManiacEditor.Entity_Renders
                 if (moveType != 2)
                 {
                     e.ProcessMovingPlatform(angle);
-                    angle = e.angle;
+                    angle = e.platformAngle;
                 }
                 if (type != 2)
                 {

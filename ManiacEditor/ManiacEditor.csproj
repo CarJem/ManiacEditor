@@ -363,6 +363,12 @@
     <Compile Include="DeviceLostBox.Designer.cs">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FirstTimeSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FirstTimeSetup.Designer.cs">
+      <DependentUpon>FirstTimeSetup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Discord.cs" />
     <Compile Include="DuplicateAction.cs" />
     <Compile Include="EditorAnimations.cs" />
@@ -526,6 +532,7 @@
     <Compile Include="Entity Renders\Launcher.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\LaunchSpring.cs" />
     <Compile Include="Entity Renders\LEDPanel.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -898,6 +905,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FirstTimeSetup.resx">
+      <DependentUpon>FirstTimeSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModConfigCreator.resx">
       <DependentUpon>ModConfigCreator.cs</DependentUpon>

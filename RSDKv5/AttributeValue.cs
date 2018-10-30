@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RSDKv5
 {
@@ -20,6 +22,7 @@ namespace RSDKv5
         bool value_bool;
         string value_string = string.Empty; // default to empty string, null causes many problems
         Position value_position;
+        Position no_position = new Position(0, 0);
         Color value_color;
 
         public readonly AttributeTypes Type;
@@ -29,6 +32,46 @@ namespace RSDKv5
             if (type != Type)
             {
                 throw new Exception("Unexpected value type.");
+
+                /*switch (type)
+                {
+                    case AttributeTypes.UINT8:
+                        value_uint8 = 0;
+                        break;
+                    case AttributeTypes.UINT16:
+                        value_uint16 = 0;
+                        break;
+                    case AttributeTypes.UINT32:
+                        value_uint32 = 0;
+                        break;
+                    case AttributeTypes.INT8:
+                        value_int8 = 0;
+                        break;
+                    case AttributeTypes.INT16:
+                        value_int16 = 0;
+                        break;
+                    case AttributeTypes.INT32:
+                        value_int32 = 0;
+                        break;
+                    case AttributeTypes.VAR:
+                        value_var = 0;
+                        break;
+                    case AttributeTypes.BOOL:
+                        value_bool = false;
+                        break;
+                    case AttributeTypes.COLOR:
+                        value_color = Color.EMPTY;
+                        break;
+                    case AttributeTypes.POSITION:
+                        value_position = no_position;
+                        break;
+                    case AttributeTypes.STRING:
+                        value_string = string.Empty;
+                        break;
+                    default:
+                        throw new Exception("Unexpected value type.");
+
+                }*/
             }
         }
         public byte ValueUInt8

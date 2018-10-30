@@ -671,18 +671,6 @@ namespace ManiacEditor
             DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
         }
 
-        public void DrawBitmap(Texture image, int x, int y, Rectangle size, bool selected, int transparency)
-        {
-            if (!IsObjectOnScreen(x, y, size.Width, size.Height)) return;
-
-            Rectangle screen = _parent.GetScreen();
-            double zoom = _parent.GetZoom();
-            if (zoom == 1.0)
-                DrawTexture(image, size, new Vector3(), new Vector3(x - screen.X, y - screen.Y, 0), (selected) ? Color.BlueViolet : ColorsCaching.Get(transparency));
-            else
-                DrawTexture(image, size, new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : ColorsCaching.Get(transparency));
-        }
-
         public void DrawCircle(int x, int y, Color color)
         {
             if (!IsObjectOnScreen(x - 4, y - 4, 9, 9)) return;

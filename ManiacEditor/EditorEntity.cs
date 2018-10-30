@@ -17,6 +17,7 @@ using MonoGame.UI.Forms;
 using MonoGame.Extended;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.InteropServices;
+using System.Drawing.Drawing2D;
 
 namespace ManiacEditor
 {
@@ -43,12 +44,12 @@ namespace ManiacEditor
         List<string> renderOnScreenExlusions = Editor.Instance.renderOnScreenExlusions;
 
         //Rotating/Moving Platforms
-        public int angle = 0;
-        public int positionX = 0;
-        public int positionY = 0;
-        bool disableX = false;
-        bool disableY = false;
-        bool reverse = false;
+        public int platformAngle = 0;
+        public int platformpositionX = 0;
+        public int platformpositionY = 0;
+        bool platformdisableX = false;
+        bool platformdisableY = false;
+        bool platformreverse = false;
 
 
         public static Dictionary<string, EditorAnimation> Animations = new Dictionary<string, EditorAnimation>();
@@ -147,8 +148,63 @@ namespace ManiacEditor
             int size = ((section.Width > section.Height ? section.Width : section.Height) / 64) * 64;
             Bitmap bmp = new Bitmap(1024, 1024);
             using (Graphics g = Graphics.FromImage(bmp))
+            {
                 g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+            }
+
             return bmp;
+        }
+
+        public Bitmap RotateImage(Bitmap img, float rotationAngle)
+        {
+
+            // Get a reasonable size
+            int width;
+            int height;
+            int xDiffrence = img.Width - img.Height;
+            int yDiffrence = img.Height - img.Width;
+            if (xDiffrence < 0)
+            {
+                xDiffrence = -xDiffrence;
+            }
+            if (yDiffrence < 0)
+            {
+                yDiffrence = -yDiffrence;
+            }
+            width = img.Width + xDiffrence;
+            height = img.Height + yDiffrence;
+
+            float pointX = img.Width / 16;
+            float pointY = img.Height / 16;
+
+            //create an empty Bitmap image 
+            Bitmap bmp = new Bitmap(width, height);
+
+            using (Graphics gfx = Graphics.FromImage(bmp))
+            {
+                //set the point system origin to the center of our image
+                gfx.TranslateTransform(pointX, pointY);
+
+                //now rotate the image
+                gfx.RotateTransform(rotationAngle);
+
+                //move the point system origin back to 0,0
+                gfx.TranslateTransform(-pointX, -pointY);
+
+                //set the InterpolationMode to HighQualityBicubic so to ensure a high
+                //quality image once it is transformed to the specified size
+                gfx.InterpolationMode = InterpolationMode.NearestNeighbor;
+
+                //draw our new image onto the graphics object with its center on the center of rotation
+                gfx.DrawImage(img, new PointF(pointX, pointY));
+
+
+            }
+
+            //return the image
+            return bmp;
+
+
         }
 
         public Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour, int width, int height)
@@ -173,14 +229,14 @@ namespace ManiacEditor
             var val = AnimsToLoad[0];
             if (val.anim == null)
             {
-                string key = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}";
+                string key = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}";
                 if (!Animations.ContainsKey(key))
                 {
                     if (!Working)
                     {
                         try
                         {
-                            LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, false);
+                            LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, val.rotateImg, false);
                         }
                         catch (Exception)
                         {
@@ -222,6 +278,7 @@ namespace ManiacEditor
             public DevicePanel d;
             public int AnimId, frameId;
             public bool fliph, flipv, rotate;
+            public int rotateImg;
             public EditorAnimation anim;
         }
 
@@ -236,9 +293,9 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate)
+        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0)
         {
-            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}";
+            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}";
             if (Animations.ContainsKey(key))
             {
                 if (Animations[key].Ready)
@@ -257,7 +314,8 @@ namespace ManiacEditor
                 frameId = frameId,
                 fliph = fliph,
                 flipv = flipv,
-                rotate = rotate
+                rotate = rotate,
+                rotateImg = rotateImg
             };
             AnimsToLoad.Add(entry);
             return null;
@@ -274,10 +332,9 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, bool loadImageToDX = true)
+        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg, bool loadImageToDX = true)
         {
-
-            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}";
+            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}";
             var anim = new EditorAnimation();
             if (Animations.ContainsKey(key))
             {
@@ -294,91 +351,11 @@ namespace ManiacEditor
 
             Animations.Add(key, anim);
 
-
-            string path, path2;
-            if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
+            // Get the path of the object's textures
+            string path2 = getPaths(name);
+            if (path2 == null)
             {
-                if (name == "EditorAssets")
-                {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "EditorAssets.bin");
-                    if (!File.Exists(path2))
-                        return null;
-                }
-                else if (name == "EditorIcons2")
-                {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "EditorIcons2.bin");
-                    if (!File.Exists(path2))
-                        return null;
-                }
-                else if (name == "TransportTubes")
-                {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.bin");
-                    if (!File.Exists(path2))
-                        return null;
-                }
-                else
-                {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.bin");
-                    Debug.Print(path2);
-                    if (!File.Exists(path2))
-                        return null;
-                }
-            }
-            else
-            {
-                if (DataDirectoryList == null)
-                    DataDirectoryList = Directory.GetFiles(Path.Combine(Editor.DataDirectory, "Sprites"), $"*.bin", SearchOption.AllDirectories);
-
-                
-                // Checks Global frist
-                path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
-                path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
-                if (!File.Exists(path2))
-                {
-                    // Checks without last character
-                    path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + name + ".bin";
-                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
-                }
-                /*if (!File.Exists(path2))
-                {
-                    // Checks Editor Global
-                    path2 = Environment.CurrentDirectory + "\\Global\\" + name + ".bin";
-                }*/
-                if (!File.Exists(path2))
-                {
-                    // Checks Global
-                    path = "Global\\" + name + ".bin";
-                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
-                }
-                if (!File.Exists(path2))
-                {
-                    // Checks the Stage folder 
-                    foreach (string dir in Directory.GetDirectories(Path.Combine(Editor.DataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
-                    {
-                        path = Path.GetFileName(dir) + "\\" + name + ".bin";
-                        path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
-                        if (File.Exists(path2))
-                            break;
-                    }
-                }
-                if (!File.Exists(path2))
-                {
-                    // Seaches all around the Data directory
-                    var list = DataDirectoryList;
-                    if (list.Any(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())))
-                    {
-                        list = list.Where(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())).ToArray();
-                        if (list.Any(t => t.ToLower().Contains(Editor.Instance.SelectedZone)))
-                            path2 = list.Where(t => t.ToLower().Contains(Editor.Instance.SelectedZone)).First();
-                        else
-                            path2 = list.First();
-                    }
-                }
-                if (!File.Exists(path2))
-                {
-                    // No animation found
-                    return null;
-                }
+                return null;
             }
 
             using (var stream = File.OpenRead(path2))
@@ -468,6 +445,28 @@ namespace ManiacEditor
                 var colour = map.Palette.Entries[0];
                 // Slow
                 map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv);
+                if (rotateImg != 0)
+                {
+                    map = RotateImage(map, rotateImg);
+
+
+                    // Get a reasonable size
+                    int xDiffrence = map.Width - map.Height;
+                    int yDiffrence = map.Height - map.Width;
+                    if (xDiffrence < 0)
+                    {
+                        xDiffrence = -xDiffrence;
+                    }
+                    if (yDiffrence < 0)
+                    {
+                        yDiffrence = -yDiffrence;
+                    }
+                    frame.Height = map.Width + xDiffrence;
+                    frame.Width = map.Height + yDiffrence;
+
+
+                }
+
                 RemoveColourImage(map, colour, frame.Width, frame.Height);
 
                 Texture texture = null;
@@ -482,7 +481,7 @@ namespace ManiacEditor
                     Frame = frame,
                     Entry = rsdkAnim.Animations[AnimId]
                 };
-                if (!loadImageToDX)
+                if (loadImageToDX == false)
                     editorFrame._Bitmap = map;
                 anim.Frames.Add(editorFrame);
                 if (frameId != -1)
@@ -494,6 +493,98 @@ namespace ManiacEditor
             Working = false;
             return anim;
 
+        }
+
+
+        public String getPaths(string name)
+        {
+            string path, path2;
+            if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
+            {
+                if (name == "EditorAssets")
+                {
+                    path2 = Path.Combine(Environment.CurrentDirectory, "EditorAssets.bin");
+                    if (!File.Exists(path2))
+                        return null;
+                }
+                else if (name == "EditorIcons2")
+                {
+                    path2 = Path.Combine(Environment.CurrentDirectory, "EditorIcons2.bin");
+                    if (!File.Exists(path2))
+                        return null;
+                }
+                else if (name == "TransportTubes")
+                {
+                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.bin");
+                    if (!File.Exists(path2))
+                        return null;
+                }
+                else
+                {
+                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.bin");
+                    Debug.Print(path2);
+                    if (!File.Exists(path2))
+                        return null;
+                }
+            }
+            else
+            {
+                if (DataDirectoryList == null)
+                    DataDirectoryList = Directory.GetFiles(Path.Combine(Editor.DataDirectory, "Sprites"), $"*.bin", SearchOption.AllDirectories);
+
+
+                // Checks Global frist
+                path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
+                path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                if (!File.Exists(path2))
+                {
+                    // Checks without last character
+                    path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + name + ".bin";
+                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                }
+                /*if (!File.Exists(path2))
+                {
+                    // Checks Editor Global
+                    path2 = Environment.CurrentDirectory + "\\Global\\" + name + ".bin";
+                }*/
+                if (!File.Exists(path2))
+                {
+                    // Checks Global
+                    path = "Global\\" + name + ".bin";
+                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                }
+                if (!File.Exists(path2))
+                {
+                    // Checks the Stage folder 
+                    foreach (string dir in Directory.GetDirectories(Path.Combine(Editor.DataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
+                    {
+                        path = Path.GetFileName(dir) + "\\" + name + ".bin";
+                        path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                        if (File.Exists(path2))
+                            break;
+                    }
+                }
+                if (!File.Exists(path2))
+                {
+                    // Seaches all around the Data directory
+                    var list = DataDirectoryList;
+                    if (list.Any(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())))
+                    {
+                        list = list.Where(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())).ToArray();
+                        if (list.Any(t => t.ToLower().Contains(Editor.Instance.SelectedZone)))
+                            path2 = list.Where(t => t.ToLower().Contains(Editor.Instance.SelectedZone)).First();
+                        else
+                            path2 = list.First();
+                    }
+                }
+                if (!File.Exists(path2))
+                {
+                    // No animation found
+                    return null;
+                }
+            }
+
+            return path2;
         }
 
         public bool SetFilter()
@@ -593,10 +684,14 @@ namespace ManiacEditor
             {
                 if (!Properties.Settings.Default.NeverLoadEntityTextures)
                 {
-                    if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) || onScreenExlusionList.Contains(entity.Object.Name.Name))
+                    if ((d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
                     {
                         DrawOthers(d);
                     }
+                    else if (!Properties.Settings.Default.UseAltEntityRenderMode) {
+                        DrawOthers(d);
+                    }
+
                 }
 
             }
@@ -823,14 +918,14 @@ namespace ManiacEditor
                         speed1 = 1;
                     if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
                     {
-                        angle++;
+                        platformAngle++;
                         lastFrametime = DateTime.Now;
                     }
                 }
             }
-            else angle = angleDefault;
-            if (angle >= 768)
-                angle = 0;
+            else platformAngle = angleDefault;
+            if (platformAngle >= 768)
+                platformAngle = 0;
 
         }
 
@@ -847,41 +942,41 @@ namespace ManiacEditor
                         speed1 = 1;
                     if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
                     {
-                        if (reverse) {
-                            if (ampX != 0 && !disableX) positionX--;
-                            if (ampY != 0 && !disableY) positionY--;
-                            if (positionX >= ampX / 2 || positionX <= -(ampX / 2))
+                        if (platformreverse) {
+                            if (ampX != 0 && !platformdisableX) platformpositionX--;
+                            if (ampY != 0 && !platformdisableY) platformpositionY--;
+                            if (platformpositionX >= ampX / 2 || platformpositionX <= -(ampX / 2))
                             {
-                                disableX = true;
+                                platformdisableX = true;
                             }
-                            if (positionY == ampY)
+                            if (platformpositionY == ampY)
                             {
-                                disableY = true;
+                                platformdisableY = true;
                             }
-                            if (positionY == ampY && positionX == ampX)
+                            if (platformpositionY == ampY && platformpositionX == ampX)
                             {
-                                reverse = true;
-                                disableX = false;
-                                disableY = false;
+                                platformreverse = true;
+                                platformdisableX = false;
+                                platformdisableY = false;
                             }
                         }
                         else
                         {
-                            if (ampX != 0 && !disableX) positionX++;
-                            if (ampY != 0 && !disableY) positionY++;
-                            if (positionX >= ampX / 2 || positionX <= -(ampX / 2))
+                            if (ampX != 0 && !platformdisableX) platformpositionX++;
+                            if (ampY != 0 && !platformdisableY) platformpositionY++;
+                            if (platformpositionX >= ampX / 2 || platformpositionX <= -(ampX / 2))
                             {
-                                disableX = true;
+                                platformdisableX = true;
                             }
-                            if (positionY == ampY)
+                            if (platformpositionY == ampY)
                             {
-                                disableY = true;
+                                platformdisableY = true;
                             }
-                            if (positionY == ampY && positionX == ampX)
+                            if (platformpositionY == ampY && platformpositionX == ampX)
                             {
-                                reverse = true;
-                                disableX = false;
-                                disableY = false;
+                                platformreverse = true;
+                                platformdisableX = false;
+                                platformdisableY = false;
                             }
                         }
 
@@ -892,8 +987,8 @@ namespace ManiacEditor
             }
             else
             {
-                positionX = 0;
-                positionY = 0;
+                platformpositionX = 0;
+                platformpositionY = 0;
             }
 
 
@@ -923,6 +1018,7 @@ namespace ManiacEditor
                 if (renderer != null)
                     renderer.Draw(d, entity, this, x, y, Transparency);
             }
+
 
         }
 

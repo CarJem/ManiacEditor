@@ -46,8 +46,8 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var tensionBall = e.LoadAnimation("Platform", d, -2, 1, false, false, false);
-            var tensionBallCenter = e.LoadAnimation("Platform", d, -2, 2, false, false, false);
+            var tensionBall = e.LoadAnimation("Platform", d, -2, 1, false, false, false, 0);
+            var tensionBallCenter = e.LoadAnimation("Platform", d, -2, 2, false, false, false, 0);
 
             int aminID = 0;
             EditorEntity.EditorAnimation editorAnim = null;
@@ -61,11 +61,11 @@ namespace ManiacEditor.Entity_Renders
                     {
                         doNotShow = true;
                     }
-                        editorAnim = e.LoadAnimation("Platform", d, aminID, -1, false, false, false);
+                        editorAnim = e.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
 
                         if (type == 4)
                         {
-                            editorAnim = e.LoadAnimation("Platform", d, -2, 0, false, false, false);
+                            editorAnim = e.LoadAnimation("Platform", d, -2, 0, false, false, false, 0);
                         }
 
                         if (editorAnim == null) return; // no animation, bail out
@@ -137,7 +137,7 @@ namespace ManiacEditor.Entity_Renders
                 else if ((amplitudeX != 0 || amplitudeY != 0) && type == 3)
                 {
                     e.ProcessMovingPlatform(angle);
-                    angle = e.angle;
+                    angle = e.platformAngle;
                     double xd = x;
                     double yd = y;
                     double x2 = x + amplitudeX - amplitudeX / 3.7;
@@ -218,6 +218,19 @@ namespace ManiacEditor.Entity_Renders
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
 
+            }
+            else if (doNotShow == true)
+            {
+                var platformIcon = e.LoadAnimation2("EditorIcons", d, 0, 8, false, false, false);
+                if (platformIcon != null && platformIcon.Frames.Count != 0)
+                {
+                    var frame = platformIcon.Frames[e.index];
+
+                    d.DrawBitmap(frame.Texture,
+                        x + frame.Frame.CenterX,
+                        y + frame.Frame.CenterY,
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                }
             }
 
 

@@ -46,8 +46,8 @@ namespace ManiacEditor.Entity_Renders
                     double y2 = y + amplitudeY - amplitudeY / 3.7;
                     double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
                     int radiusInt = (int)Math.Sqrt(radius);
-                    int newX = (int)(radiusInt * Math.Cos(Math.PI * e.angle / 128));
-                    int newY = (int)(radiusInt * Math.Sin(Math.PI * e.angle / 128));
+                    int newX = (int)(radiusInt * Math.Cos(Math.PI * e.platformAngle / 128));
+                    int newY = (int)(radiusInt * Math.Sin(Math.PI * e.platformAngle / 128));
                     d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }

@@ -971,5 +971,149 @@ namespace ManiacEditor.Properties {
                 this["DisableRunSceneAutoInput"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt1 {
+            get {
+                return ((decimal)(this["devInt1"]));
+            }
+            set {
+                this["devInt1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt2 {
+            get {
+                return ((decimal)(this["devInt2"]));
+            }
+            set {
+                this["devInt2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt3 {
+            get {
+                return ((decimal)(this["devInt3"]));
+            }
+            set {
+                this["devInt3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt4 {
+            get {
+                return ((decimal)(this["devInt4"]));
+            }
+            set {
+                this["devInt4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt5 {
+            get {
+                return ((decimal)(this["devInt5"]));
+            }
+            set {
+                this["devInt5"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt6 {
+            get {
+                return ((decimal)(this["devInt6"]));
+            }
+            set {
+                this["devInt6"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt7 {
+            get {
+                return ((decimal)(this["devInt7"]));
+            }
+            set {
+                this["devInt7"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt8 {
+            get {
+                return ((decimal)(this["devInt8"]));
+            }
+            set {
+                this["devInt8"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt9 {
+            get {
+                return ((decimal)(this["devInt9"]));
+            }
+            set {
+                this["devInt9"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt10 {
+            get {
+                return ((decimal)(this["devInt10"]));
+            }
+            set {
+                this["devInt10"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal devInt {
+            get {
+                return ((decimal)(this["devInt"]));
+            }
+            set {
+                this["devInt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseAltEntityRenderMode {
+            get {
+                return ((bool)(this["UseAltEntityRenderMode"]));
+            }
+            set {
+                this["UseAltEntityRenderMode"] = value;
+            }
+        }
     }
 }

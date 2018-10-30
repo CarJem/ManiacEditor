@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation("SuperSpecialRing", d, 0, -1, fliph, flipv, false);
+            var editorAnim = e.LoadAnimation("SuperSpecialRing", d, 0, -1, fliph, flipv, false, 0);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[e.index];
