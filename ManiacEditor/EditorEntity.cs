@@ -101,7 +101,7 @@ namespace ManiacEditor
             entity.Position.Y.High += (short)diff.Y;
             // Since the Editor can now update without the use of this render, I removed it
             //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) Editor.Instance.UpdateRender();
-            if (Editor.GameRunning)
+            if (Editor.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
             {
                 int ObjectStart = 0x0086FFA0;
                 int ObjectSize = 0x458;

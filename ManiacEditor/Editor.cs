@@ -550,6 +550,7 @@ namespace ManiacEditor
             saveToolStripMenuItem.Enabled = enabled;
             saveAsToolStripMenuItem.Enabled = enabled;
             backupToolStripMenuItem.Enabled = enabled;
+            unloadSceneToolStripMenuItem.Enabled = enabled;
 
             ShowFGHigh.Enabled = enabled && FGHigh != null;
             ShowFGLow.Enabled = enabled && FGLow != null;
@@ -1959,6 +1960,7 @@ namespace ManiacEditor
 
             SelectedScene = null;
             SelectedZone = null;
+            enableEncorePalette.Checked = false;
 
             if (StageTiles != null) StageTiles.Dispose();
             StageTiles = null;
@@ -3459,6 +3461,15 @@ Error: {ex.Message}");
                     TilesToolbar?.Reload();
                 }
 
+                CollisionLayerA.Clear();
+                CollisionLayerB.Clear();
+
+                for (int i = 0; i < 1024; i++)
+                {
+                    CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
+                    CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
+                }
+
 
             }
             catch (Exception ex)
@@ -3475,7 +3486,15 @@ Error: {ex.Message}");
                 // Entities should take care of themselves
                 DisposeTextures();
 
-                StageTiles?.Image.Reload();
+                if (Editor.Instance.useEncoreColors)
+                {
+                    StageTiles?.Image.Reload(EncorePalette[0]);
+                }
+                else
+                {
+                    StageTiles?.Image.Reload();
+                }
+
             }
             catch (Exception ex)
             {
@@ -4500,6 +4519,11 @@ Error: {ex.Message}");
                 TilesToolbar?.Reload(EncorePalette[0]);
             }
             EditorEntity.ReleaseResources();
+        }
+
+        private void unloadSceneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UnloadScene();
         }
 
         private void movingPlatformsObjectsToolStripMenuItem_Click(object sender, EventArgs e)

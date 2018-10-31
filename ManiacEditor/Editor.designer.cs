@@ -39,10 +39,15 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.unloadSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupRecoverButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAspngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportEachLayerAspngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -214,10 +219,15 @@
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
             this.openDataDirectoryToolStripMenuItem,
+            this.toolStripSeparator13,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.toolStripSeparator12,
+            this.unloadSceneToolStripMenuItem,
+            this.toolStripSeparator15,
             this.backupToolStripMenuItem,
             this.backupRecoverButton,
+            this.toolStripSeparator11,
             this.exportToolStripMenuItem,
             this.toolStripSeparatorRecentStart,
             this.recentDataDirectoriesToolStripMenuItem,
@@ -253,6 +263,11 @@
             this.openDataDirectoryToolStripMenuItem.Text = "Open Data Directory";
             this.openDataDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openDataDirectoryToolStripMenuItem_Click);
             // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(244, 6);
+            // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
@@ -271,6 +286,23 @@
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(244, 6);
+            // 
+            // unloadSceneToolStripMenuItem
+            // 
+            this.unloadSceneToolStripMenuItem.Name = "unloadSceneToolStripMenuItem";
+            this.unloadSceneToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.unloadSceneToolStripMenuItem.Text = "Unload Scene";
+            this.unloadSceneToolStripMenuItem.Click += new System.EventHandler(this.unloadSceneToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator15
+            // 
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(244, 6);
+            // 
             // backupToolStripMenuItem
             // 
             this.backupToolStripMenuItem.Enabled = false;
@@ -285,6 +317,11 @@
             this.backupRecoverButton.Size = new System.Drawing.Size(247, 22);
             this.backupRecoverButton.Text = "Restore";
             this.backupRecoverButton.Click += new System.EventHandler(this.backupRecoverButton_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(244, 6);
             // 
             // exportToolStripMenuItem
             // 
@@ -1152,6 +1189,7 @@
             // resetDeviceButton
             // 
             this.resetDeviceButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.resetDeviceButton.Enabled = false;
             this.resetDeviceButton.Image = ((System.Drawing.Image)(resources.GetObject("resetDeviceButton.Image")));
             this.resetDeviceButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.resetDeviceButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -1793,6 +1831,11 @@
         private System.Windows.Forms.ToolStripStatusLabel hVScrollBarXYLabel;
         private System.Windows.Forms.ToolStripSeparator seperator8;
         private System.Windows.Forms.ToolStripButton enableEncorePalette;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripMenuItem unloadSceneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
     }
 }
 

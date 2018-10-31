@@ -1115,5 +1115,17 @@ namespace ManiacEditor.Properties {
                 this["UseAltEntityRenderMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableRealTimeObjectMovingInGame {
+            get {
+                return ((bool)(this["EnableRealTimeObjectMovingInGame"]));
+            }
+            set {
+                this["EnableRealTimeObjectMovingInGame"] = value;
+            }
+        }
     }
 }
