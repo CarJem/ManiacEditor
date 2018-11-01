@@ -363,6 +363,7 @@
     <Compile Include="DeviceLostBox.Designer.cs">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditorControls.cs" />
     <Compile Include="FirstTimeSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -756,6 +757,12 @@
     <Compile Include="ExitWarningBox.Designer.cs">
       <DependentUpon>ExitWarningBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="GoToPositionBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GoToPositionBox.Designer.cs">
+      <DependentUpon>GoToPositionBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModConfigCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -908,6 +915,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FirstTimeSetup.resx">
       <DependentUpon>FirstTimeSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GoToPositionBox.resx">
+      <DependentUpon>GoToPositionBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModConfigCreator.resx">
       <DependentUpon>ModConfigCreator.cs</DependentUpon>

@@ -394,7 +394,7 @@ namespace ManiacEditor
             Animations.Add(key, anim);
 
             // Get the path of the object's textures
-            string path2 = getPaths(name);
+            string path2 = GetAssetPath(name);
             if (path2 == null)
             {
                 return null;
@@ -432,27 +432,33 @@ namespace ManiacEditor
                 if (frameId >= 0 && frameId < animiation.Frames.Count)
                     frame = animiation.Frames[frameId];
                 Bitmap map;
+                bool noEncoreColors = false;
 
                 if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
                 {
                     string targetFile;
+
                     if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
                     {
                         if (name == "EditorAssets")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "EditorAssets.gif");
+                            noEncoreColors = true;
                         }
                         else if (name == "EditorIcons2")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "EditorIcons2.gif");
+                            noEncoreColors = true;
                         }
                         else if (name == "TransportTubes")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
+                            noEncoreColors = true;
                         }
                         else
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.gif");
+                            noEncoreColors = true;
                         }
                     }
                     else
@@ -469,7 +475,7 @@ namespace ManiacEditor
                             
                         map = new Bitmap(targetFile);
                         //Encore Colors
-                        if (Editor.Instance.useEncoreColors && name != "SuperSpecialRing" && name != "TransportTubes" && name != "EditorAssets" && name != "EditorIcons2")
+                        if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0))
                         {
                             map = SetEncoreColors(map, Editor.EncorePalette[0]);
                         }
@@ -480,7 +486,7 @@ namespace ManiacEditor
                 {
                     map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
                     //Encore Colors
-                    if (Editor.Instance.useEncoreColors && name != "SuperSpecialRing" && name != "TransportTubes" && name != "EditorAssets" && name != "EditorIcons2")
+                    if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0))
                     {
                         map = SetEncoreColors(map, Editor.EncorePalette[0]);
                     }
@@ -500,23 +506,8 @@ namespace ManiacEditor
                 if (rotateImg != 0)
                 {
                     map = RotateImage(map, rotateImg);
-
-
-                    // Get a reasonable size
-                    int xDiffrence = map.Width - map.Height;
-                    int yDiffrence = map.Height - map.Width;
-                    if (xDiffrence < 0)
-                    {
-                        xDiffrence = -xDiffrence;
-                    }
-                    if (yDiffrence < 0)
-                    {
-                        yDiffrence = -yDiffrence;
-                    }
-                    frame.Height = map.Width + xDiffrence;
-                    frame.Width = map.Height + yDiffrence;
-
-
+                    frame.Height = frame.Width + frame.Height + 64;
+                    frame.Width = frame.Height + frame.Width + 32;
                 }
                 RemoveColourImage(map, colour, frame.Width, frame.Height);
 
@@ -547,7 +538,7 @@ namespace ManiacEditor
         }
 
 
-        public String getPaths(string name)
+        public String GetAssetPath(string name)
         {
             string path, path2;
             if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
@@ -705,15 +696,15 @@ namespace ManiacEditor
             }
             System.Drawing.Color color = Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             System.Drawing.Color color2 = System.Drawing.Color.DarkBlue;
-            if (HasFilter(1) || HasFilter(5))
+            if (HasSpecificFilter(1) || HasSpecificFilter(5))
             {
                  color2 = System.Drawing.Color.DarkBlue;
             }
-            else if (HasFilter(2))
+            else if (HasSpecificFilter(2))
             {
                  color2 = System.Drawing.Color.DarkRed;
             }
-            else if (HasFilter(4))
+            else if (HasSpecificFilter(4))
             {
                 color2 = System.Drawing.Color.DarkGreen;
             }
@@ -757,8 +748,6 @@ namespace ManiacEditor
                 {
                     if (entity.Object.Name.Name == "StarPost")
                         index = 1;
-                    //else if (entity.Object.Name.Name == "SpecialRing")
-                    //    index = 9;
                 }
 
 
@@ -780,19 +769,20 @@ namespace ManiacEditor
                 }
                 else
                 { // No frame to render
-                    d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (Properties.EditorState.Default.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
-                // Draws the Special Objects
+                //Failsafe?
+                DrawOthers(d);
             }
             else
             {
-                if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT))
+                if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
                 {
                     d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
             }
 
-            if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT))
+            if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
             {
                 d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
                 d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
@@ -984,71 +974,6 @@ namespace ManiacEditor
 
         }
 
-        public void ProcessMovingPlatform2(int ampX, int ampY, int speed = 3)
-        {
-            int duration = 1;
-            // Playback
-            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
-            {
-                if (speed > 0)
-                {
-                    int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
-                    if (speed1 == 0)
-                        speed1 = 1;
-                    if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
-                    {
-                        if (platformreverse) {
-                            if (ampX != 0 && !platformdisableX) platformpositionX--;
-                            if (ampY != 0 && !platformdisableY) platformpositionY--;
-                            if (platformpositionX >= ampX / 2 || platformpositionX <= -(ampX / 2))
-                            {
-                                platformdisableX = true;
-                            }
-                            if (platformpositionY == ampY)
-                            {
-                                platformdisableY = true;
-                            }
-                            if (platformpositionY == ampY && platformpositionX == ampX)
-                            {
-                                platformreverse = true;
-                                platformdisableX = false;
-                                platformdisableY = false;
-                            }
-                        }
-                        else
-                        {
-                            if (ampX != 0 && !platformdisableX) platformpositionX++;
-                            if (ampY != 0 && !platformdisableY) platformpositionY++;
-                            if (platformpositionX >= ampX / 2 || platformpositionX <= -(ampX / 2))
-                            {
-                                platformdisableX = true;
-                            }
-                            if (platformpositionY == ampY)
-                            {
-                                platformdisableY = true;
-                            }
-                            if (platformpositionY == ampY && platformpositionX == ampX)
-                            {
-                                platformreverse = true;
-                                platformdisableX = false;
-                                platformdisableY = false;
-                            }
-                        }
-
-
-                        lastFrametime = DateTime.Now;
-                    }
-                }
-            }
-            else
-            {
-                platformpositionX = 0;
-                platformpositionY = 0;
-            }
-
-
-        }
-
         // These are special
         public void DrawOthers(DevicePanel d)
         {
@@ -1083,7 +1008,7 @@ namespace ManiacEditor
             return entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8;
         }
 
-        public bool HasFilter(uint input, bool checkHigher = false)
+        public bool HasSpecificFilter(uint input, bool checkHigher = false)
         {
             if (entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8)
             {

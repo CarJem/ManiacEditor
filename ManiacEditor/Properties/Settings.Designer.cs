@@ -1127,5 +1127,17 @@ namespace ManiacEditor.Properties {
                 this["EnableRealTimeObjectMovingInGame"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AlwaysDrawBitmaps {
+            get {
+                return ((bool)(this["AlwaysDrawBitmaps"]));
+            }
+            set {
+                this["AlwaysDrawBitmaps"] = value;
+            }
+        }
     }
 }

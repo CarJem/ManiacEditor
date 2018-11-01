@@ -264,5 +264,29 @@ namespace ManiacEditor.Properties {
                 this["devInt8"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowEntitySelectionBoxes {
+            get {
+                return ((bool)(this["ShowEntitySelectionBoxes"]));
+            }
+            set {
+                this["ShowEntitySelectionBoxes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PixelMode {
+            get {
+                return ((bool)(this["PixelMode"]));
+            }
+            set {
+                this["PixelMode"] = value;
+            }
+        }
     }
 }

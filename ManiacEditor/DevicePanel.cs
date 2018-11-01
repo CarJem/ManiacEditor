@@ -665,7 +665,8 @@ namespace ManiacEditor
 
         public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
         {
-            if (!IsObjectOnScreen(x, y, width, height)) return;
+            //Keep this off hopefully for the better
+            //if (!IsObjectOnScreen(x, y, width, height)) return;
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
             DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
