@@ -18,9 +18,18 @@ namespace ManiacEditor
         private IList<SceneObject> _targetSceneObjects;
         private StageConfig _stageConfig;
 
+        //Shorthanding Settings
+        Properties.Settings mySettings = Properties.Settings.Default;
+        Properties.EditorState myEditorState = Properties.EditorState.Default;
+        Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
+
         public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
         {
             InitializeComponent();
+            if (myEditorState.AddStageConfigEntriesAllowed)
+            {
+                checkBox1.Checked = true;
+            }
             rtbWarning.Rtf = Resources.ObjectWarning;
             _sourceSceneObjects = sourceSceneObjects;
             _targetSceneObjects = targetSceneObjects;
@@ -66,14 +75,35 @@ namespace ManiacEditor
                 objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
                 _targetSceneObjects.Add(_sourceSceneObjects.Single(sso => sso.Name.ToString().Equals(item.Text)));
 
-                if (   _stageConfig != null 
-                    && !_stageConfig.ObjectsNames.Contains(item.Text))
+                if (myEditorState.AddStageConfigEntriesAllowed)
                 {
-                    _stageConfig.ObjectsNames.Add(item.Text);
+                    if (_stageConfig != null
+                        && !_stageConfig.ObjectsNames.Contains(item.Text))
+                    {
+                        _stageConfig.ObjectsNames.Add(item.Text);
+                    }
                 }
+
             }
 
             Close();
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                myEditorState.AddStageConfigEntriesAllowed = true;
+            }
+            else
+            {
+                myEditorState.AddStageConfigEntriesAllowed = false;
+            }
         }
     }
 }

@@ -65,6 +65,10 @@ namespace ManiacEditor
         bool SceneLoaded = false;
         bool AllowSceneChange = false;
         bool encorePaletteExists = false;
+        bool UseMagnetMode = false;
+        int magnetSize = 16;
+        bool useMagnetXAxis = true;
+        bool useMagnetYAxis = true;
 
         public static string DataDirectory;
 
@@ -96,7 +100,9 @@ namespace ManiacEditor
         internal EditorLayer FGLow => EditorScene?.ForegroundLow;
         internal EditorLayer FGLower => EditorScene?.LowDetails;
         internal EditorLayer ScratchLayer => EditorScene?.Scratch;
-        private IList<ToolStripButton> _extraLayerButtons;
+        private IList<ToolStripButton> _extraLayerEditButtons;
+        private IList<ToolStripButton> _extraLayerViewButtons;
+        private IList<ToolStripSeparator> _extraLayerSeperators;
 
         internal EditorBackground Background;
 
@@ -218,7 +224,9 @@ namespace ManiacEditor
             GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
             GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
 
-            _extraLayerButtons = new List<ToolStripButton>();
+            _extraLayerEditButtons = new List<ToolStripButton>();
+            _extraLayerViewButtons = new List<ToolStripButton>();
+            _extraLayerSeperators = new List<ToolStripSeparator>();
             _recentDataItems = new List<ToolStripMenuItem>();
             _recentDataItems_Button = new List<ToolStripMenuItem>();
             EditorControls = new EditorControls();
@@ -613,17 +621,31 @@ namespace ManiacEditor
             else if (enabled && EditFGHigh.Checked) EditLayer = FGHigh;
             else if (enabled && EditFGHigher.Checked) EditLayer = FGHigher;
             else if (enabled && EditFGLower.Checked) EditLayer = FGLower;
-            else if (enabled && _extraLayerButtons.Any(elb => elb.Checked))
+            else if (enabled && _extraLayerEditButtons.Any(elb => elb.Checked))
             {
-                var selectedExtraLayerButton = _extraLayerButtons.Single(elb => elb.Checked);
+                var selectedExtraLayerButton = _extraLayerEditButtons.Single(elb => elb.Checked);
                 var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Text));
 
                 EditLayer = editorLayer;
             }
+            /*
+            else if (enabled && _extraLayerViewButtons.Any(elb => elb.Checked))
+            {
+                var selectedExtraLayerButton = _extraLayerViewButtons.Single(elb => elb.Checked);
+                var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Text));
+
+                EditLayer = editorLayer;
+            }
+            */
             else EditLayer = null;
 
             undoToolStripMenuItem.Enabled = enabled && undo.Count > 0;
             redoToolStripMenuItem.Enabled = enabled && redo.Count > 0;
+
+            MagnetMode.Enabled = enabled && IsEntitiesEdit();
+            MagnetMode.Checked = UseMagnetMode && IsEntitiesEdit();
+            MagnetModeSplitButton.Enabled = enabled && IsEntitiesEdit();
+            UseMagnetMode = IsEntitiesEdit() && MagnetMode.Checked;
 
             undoButton.Enabled = enabled && undo.Count > 0;
             redoButton.Enabled = enabled && redo.Count > 0;
@@ -791,6 +813,9 @@ namespace ManiacEditor
 
         public void MagnetDisable()
         {
+            MagnetMode.Enabled = false;
+            UseMagnetMode = false;
+            MagnetMode.Checked = false;
         }
 
         public void UpdateEditLayerActions()
@@ -869,8 +894,17 @@ namespace ManiacEditor
             //
             if (e != null)
             {
-                positionLabel.Text = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
+                if (mySettings.pixelCountMode == false)
+                {
+                    positionLabel.Text = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
+                }
+                else
+                {
+                    positionLabel.Text = "X: " + (int)((e.X / Zoom) / 16) + " Y: " + (int)((e.Y / Zoom) / 16);
+                }
             }
+
+
             _levelIDLabel.Text = "Level ID: " + myEditorState.Level_ID.ToString();
             seperator1.Visible = true;
             seperator2.Visible = true;
@@ -1193,17 +1227,78 @@ namespace ManiacEditor
                 }
                 else if (dragged)
                 {
+                    int oldGridX = (int)((lastX / Zoom) / magnetSize) * magnetSize;
+                    int oldGridY = (int)((lastY / Zoom) / magnetSize) * magnetSize;
+                    int newGridX = (int)((e.X / Zoom) / magnetSize) * magnetSize;
+                    int newGridY = (int)((e.Y / Zoom) / magnetSize) * magnetSize;
+                    Point oldPointGrid = new Point(0,0);
+                    Point newPointGrid = new Point(0, 0);
+                    if (UseMagnetMode)
+                    {
+                        if (useMagnetXAxis == true && useMagnetYAxis == true)
+                        {
+                            oldPointGrid = new Point(oldGridX, oldGridY);
+                            newPointGrid = new Point(newGridX, newGridY);
+                        }
+                        if (useMagnetXAxis && !useMagnetYAxis)
+                        {
+                            oldPointGrid = new Point(oldGridX, (int)(lastY / Zoom));
+                            newPointGrid = new Point(newGridX, (int)(e.Y / Zoom));
+                        }
+                        if (!useMagnetXAxis && useMagnetYAxis)
+                        {
+                            oldPointGrid = new Point((int)(lastX / Zoom), oldGridY);
+                            newPointGrid = new Point((int)(e.X / Zoom), newGridY);
+                        }
+                        if (!useMagnetXAxis && !useMagnetYAxis)
+                        {
+                            oldPointGrid = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
+                            newPointGrid = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+                        }
+                    }
+
+
+
+
                     Point oldPoint = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
                     Point newPoint = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+
 
                     EditLayer?.MoveSelected(oldPoint, newPoint, CtrlPressed());
 
                     UpdateEditLayerActions();
                     if (IsEntitiesEdit())
                     {
+                        if (UseMagnetMode)
+                        {
+                            int x = entities.SelectedEntities[0].Entity.Position.X.High;
+                            int y = entities.SelectedEntities[0].Entity.Position.Y.High;
+
+                            if (x % magnetSize != 0 && useMagnetXAxis)
+                            {
+                                int offsetX = x % magnetSize;
+                                oldPointGrid.X -= offsetX;
+                            }
+                            if (y % magnetSize != 0 && useMagnetYAxis)
+                            {
+                                int offsetY = y % magnetSize;
+                                oldPointGrid.Y -= offsetY;
+                            }
+                        }
+
+
                         try
                         {
-                            entities.MoveSelected(oldPoint, newPoint, CtrlPressed() && startDragged);
+
+                            if (Editor.Instance.UseMagnetMode)
+                            {
+                                entities.MoveSelected(oldPointGrid, newPointGrid, CtrlPressed() && startDragged);
+                            }
+                            else
+                            {
+                                entities.MoveSelected(oldPoint, newPoint, CtrlPressed() && startDragged);
+                            }
+
                         }
                         catch (EditorEntities.TooManyEntitiesException)
                         {
@@ -1211,8 +1306,16 @@ namespace ManiacEditor
                             dragged = false;
                             return;
                         }
-                        draggedX += newPoint.X - oldPoint.X;
-                        draggedY += newPoint.Y - oldPoint.Y;
+                        if (Editor.Instance.UseMagnetMode)
+                        {
+                            draggedX += newPointGrid.X - oldPointGrid.X;
+                            draggedY += newPointGrid.Y - oldPointGrid.Y;
+                        }
+                        else
+                        {
+                            draggedX += newPoint.X - oldPoint.X;
+                            draggedY += newPoint.Y - oldPoint.Y;
+                        }
                         if (CtrlPressed() && startDragged)
                         {
                             UpdateEntitiesToolbarList();
@@ -1223,6 +1326,7 @@ namespace ManiacEditor
                     startDragged = false;
                 }
             }
+            if (IsEntitiesEdit())
             lastX = e.X;
             lastY = e.Y;
             UpdateStatusPanel(sender, e);
@@ -1343,6 +1447,7 @@ namespace ManiacEditor
                 if (IsEditing())
                 {
                     //MagnetDisable();
+                    //This isn't what the new magnet mode is all about
                     if (draggingSelection)
                     {
                         if (selectingX != e.X && selectingY != e.Y)
@@ -1537,12 +1642,12 @@ namespace ManiacEditor
         {
             if (IsTilesEdit())
             {
-                EditLayer.Select(new Rectangle(0, 0, 32000, 32000), true, false);
+                EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
                 UpdateEditLayerActions();
             }
             else if (IsEntitiesEdit())
             {
-                entities.Select(new Rectangle(0, 0, 32000, 32000), true, false);
+                entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
             }
             SetSelectOnlyButtonsState();
             ClickedX = -1;
@@ -2099,15 +2204,33 @@ namespace ManiacEditor
         private void SetupLayerButtons()
         {
             TearDownExtraLayerButtons();
+            //EDIT BUTTONS
             foreach (EditorLayer el in EditorScene.OtherLayers)
             {
                 ToolStripButton tsb = new ToolStripButton(el.Name);
                 toolStrip1.Items.Add(tsb);
-                tsb.ForeColor = Color.DarkGreen;
+                tsb.ForeColor = Color.ForestGreen;    
                 tsb.CheckOnClick = true;
                 tsb.Click += AdHocLayerEdit;
 
-                _extraLayerButtons.Add(tsb);
+                _extraLayerEditButtons.Add(tsb);
+            }
+
+            //EDIT BUTTONS SEPERATOR
+            ToolStripSeparator tss = new ToolStripSeparator();
+            toolStrip1.Items.Add(tss);
+            _extraLayerSeperators.Add(tss);
+
+            //VIEW BUTTONS
+            foreach (EditorLayer el in EditorScene.OtherLayers)
+            {
+                ToolStripButton tsb = new ToolStripButton(el.Name);
+                //toolStrip1.Items.Add(tsb);
+                toolStrip1.Items.Insert(toolStrip1.Items.IndexOf(extraViewLayersSeperator), tsb);
+                tsb.ForeColor = Color.DarkGreen;
+                tsb.CheckOnClick = true;
+
+                _extraLayerViewButtons.Add(tsb);
             }
 
             UpdateDualButtonsControlsForLayer(FGLow, ShowFGLow, EditFGLow);
@@ -2118,12 +2241,26 @@ namespace ManiacEditor
 
         private void TearDownExtraLayerButtons()
         {
-            foreach (var elb in _extraLayerButtons)
+            foreach (var elb in _extraLayerEditButtons)
             {
                 elb.Click -= AdHocLayerEdit;
                 toolStrip1.Items.Remove(elb);
             }
-            _extraLayerButtons.Clear();
+            _extraLayerEditButtons.Clear();
+
+            foreach (var elb in _extraLayerViewButtons)
+            {
+                toolStrip1.Items.Remove(elb);
+            }
+            _extraLayerViewButtons.Clear();
+
+            
+            foreach (var els in _extraLayerSeperators)
+            {
+                toolStrip1.Items.Remove(els);
+            }
+            _extraLayerSeperators.Clear();
+            
         }
 
         /// <summary>
@@ -2163,7 +2300,7 @@ namespace ManiacEditor
                 EditFGHigher.Checked = false;
                 EditEntities.Checked = false;
 
-                foreach (var elb in _extraLayerButtons)
+                foreach (var elb in _extraLayerEditButtons)
                 {
                     if (elb != tsb)
                     {
@@ -2173,6 +2310,23 @@ namespace ManiacEditor
             }
 
             UpdateControls();
+        }
+
+        private void AdHocLayerShow(object sender, EventArgs e)
+        {
+            ToolStripButton tsb = sender as ToolStripButton;
+            if (tsb.Checked == true) {
+                tsb.Checked = false;
+                UpdateControls();
+                return;
+            }
+            else
+            {
+                tsb.Checked = true;
+                UpdateControls();
+                return;
+            }
+
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -2335,6 +2489,16 @@ a valid Data Directory.",
                     FGHigher.Draw(GraphicPanel);
                 if (EditEntities.Checked)
                     entities.Draw(GraphicPanel);
+
+                foreach(var elb in _extraLayerViewButtons)
+                {
+                    if (elb.Checked)
+                    {
+                        var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Text));
+                        _extraViewLayer.Draw(GraphicPanel);
+                    }
+                }
+
             }
             if (draggingSelection)
             {
@@ -2455,6 +2619,7 @@ a valid Data Directory.",
                     UpdateEditLayerActions();
             }
             //MagnetDisable();
+            //This isn't what the new magnet mode is all about
         }
 
         private void LayerEditButton_Click(ToolStripButton button)
@@ -2474,7 +2639,7 @@ a valid Data Directory.",
                 button.Checked = true;
             }
 
-            foreach (var elb in _extraLayerButtons)
+            foreach (var elb in _extraLayerEditButtons)
             {
                 elb.Checked = false;
             }
@@ -2549,6 +2714,16 @@ Error: {ex.Message}");
 
         private void MagnetMode_Click(object sender, EventArgs e)
         {
+            if (UseMagnetMode)
+            {
+                UseMagnetMode = false;
+                MagnetMode.Checked = false;
+            }
+            else
+            {
+                UseMagnetMode = true;
+                MagnetMode.Checked = true;
+            }
         }
 
 
@@ -3031,7 +3206,7 @@ Error: {ex.Message}");
             try
             {
                 Scene sourceScene = GetSceneSelection();
-                if (null == sourceScene) return;
+                if (sourceScene == null) return;
 
                 using (var objectImporter = new ObjectImporter(sourceScene.Objects, EditorScene.Objects, StageConfig))
                 {
@@ -3103,6 +3278,7 @@ Error: {ex.Message}");
                 string part2 = splitted[1];
 
                 selectedScene = Path.Combine(DataDirectory, "Stages", part1, part2);
+                Debug.Print(selectedScene);
             }
             return new Scene(selectedScene);
         }
@@ -3487,7 +3663,50 @@ Error: {ex.Message}");
         public void MoveEntityOrTiles(object sender, KeyEventArgs e)
         {
             int x = 0, y = 0;
-            if (mySettings.EnableFasterNudge == false)
+            if (MagnetMode.Checked == false)
+            {
+                UseMagnetMode = false;
+            }
+            if (nudgeFasterButton.Checked == false)
+            {
+                mySettings.EnableFasterNudge = false;
+                nudgeFasterButton.Checked = false;
+            }
+            if (UseMagnetMode)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.Up: y = (useMagnetYAxis ? -magnetSize : -1); break;
+                    case Keys.Down: y = (useMagnetYAxis ? magnetSize : 1); break;
+                    case Keys.Left: x = (useMagnetXAxis ? -magnetSize : -1); break;
+                    case Keys.Right: x = (useMagnetXAxis ? magnetSize : 1); break;
+                }
+            }
+            if (mySettings.EnableFasterNudge)
+            {
+                if (UseMagnetMode)
+                {
+                    switch (e.KeyData)
+                    {
+                        case Keys.Up: y = (useMagnetYAxis ? -magnetSize * mySettings.FasterNudgeValue : -1 - mySettings.FasterNudgeValue); break;
+                        case Keys.Down: y = (useMagnetYAxis ? magnetSize * mySettings.FasterNudgeValue : 1 + mySettings.FasterNudgeValue); break;
+                        case Keys.Left: x = (useMagnetXAxis ? -magnetSize * mySettings.FasterNudgeValue : -1 - mySettings.FasterNudgeValue); break;
+                        case Keys.Right: x = (useMagnetXAxis ? magnetSize * mySettings.FasterNudgeValue : 1 + mySettings.FasterNudgeValue); break;
+                    }
+                }
+                else
+                {
+                    switch (e.KeyData)
+                    {
+                        case Keys.Up: y = -1 - mySettings.FasterNudgeValue; break;
+                        case Keys.Down: y = 1 + mySettings.FasterNudgeValue; break;
+                        case Keys.Left: x = -1 - mySettings.FasterNudgeValue; break;
+                        case Keys.Right: x = 1 + mySettings.FasterNudgeValue; break;
+                    }
+                }
+
+            }
+            if (UseMagnetMode == false && mySettings.EnableFasterNudge == false)
             {
                 switch (e.KeyData)
                 {
@@ -3496,16 +3715,7 @@ Error: {ex.Message}");
                     case Keys.Left: x = -1; break;
                     case Keys.Right: x = 1; break;
                 }
-            }
-            else
-            {
-                switch (e.KeyData)
-                {
-                    case Keys.Up: y = -1 - mySettings.FasterNudgeValue; break;
-                    case Keys.Down: y = 1 + mySettings.FasterNudgeValue; break;
-                    case Keys.Left: x = -1 - mySettings.FasterNudgeValue; break;
-                    case Keys.Right: x = 1 + mySettings.FasterNudgeValue; break;
-                }
+
             }
             EditLayer?.MoveSelectedQuonta(new Point(x, y));
 
@@ -3513,6 +3723,24 @@ Error: {ex.Message}");
 
             if (IsEntitiesEdit())
             {
+                if (UseMagnetMode)
+                {
+                    int xE = entities.SelectedEntities[0].Entity.Position.X.High;
+                    int yE = entities.SelectedEntities[0].Entity.Position.Y.High;
+
+                    if (xE % magnetSize != 0 && useMagnetXAxis)
+                    {
+                        int offsetX = x % magnetSize;
+                        x -= offsetX;
+                    }
+                    if (yE % magnetSize != 0 && useMagnetYAxis)
+                    {
+                        int offsetY = y % magnetSize;
+                        y -= offsetY;
+                    }
+                }
+
+
                 entities.MoveSelected(new Point(0, 0), new Point(x, y), false);
                 entitiesToolbar.UpdateCurrentEntityProperites();
 
@@ -3720,15 +3948,16 @@ Error: {ex.Message}");
             backupTool(null, null);
         }
 
-        private void backupTool(object sender, EventArgs e)
+        public void backupTool(object sender, EventArgs e)
         {
             //Backup Types:
             // 1: Manual Backups - Made by the user, and infinite amount
             // 2: Emergency Backups - Made by the editor, right before a crash or something progress losing, and only is made
             // 3: Automatic Backups - Made by the editor by user choice (toggle in options) automatically every so often
+            // 4: Stage Config Backup - For Object Manager
             if (EditorScene == null) return;
 
-            if (IsTilesEdit())
+            if (IsTilesEdit()) 
             {
                 // Apply changes
                 Deselect();
@@ -3752,7 +3981,7 @@ Error: {ex.Message}");
                     String SceneFilenameBak = SceneFilename + ".crash.bak";
                     EditorScene.Save(SceneFilenameBak);
                 }
-                else
+                if (backupType >= 3 && backupType != 4)
                 {
                     String SceneFilenameBak = SceneFilename + ".idk.bak";
                     int i = 1;
@@ -3773,7 +4002,18 @@ Error: {ex.Message}");
 
             try
             {
-                StageConfig?.Write(StageConfigFileName);
+                if (backupType == 4)
+                {
+                    String StageConfigFileName = SceneFilepath + "StageConfig.bin" + ".bak";
+                    Debug.Print(StageConfigFileName);
+                    int i = 1;
+                    while ((File.Exists(StageConfigFileName)))
+                    {
+                        StageConfigFileName = "StageConfig" + "." + i + ".bin.bak";
+                        i++;
+                    }
+                    StageConfig?.Write(StageConfigFileName);
+                }
             }
             catch (Exception ex)
             {
@@ -4328,6 +4568,84 @@ Error: {ex.Message}");
         private void toggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e);
+        }
+
+        private void x8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            magnetSize = 8;
+            ResetMagnetModeOptions();
+            x8ToolStripMenuItem.Checked = true;
+        }
+
+        private void x16ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            magnetSize = 16;
+            ResetMagnetModeOptions();
+            x16ToolStripMenuItem1.Checked = true;
+        }
+
+        private void x32ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            magnetSize = 32;
+            ResetMagnetModeOptions();
+            x32ToolStripMenuItem.Checked = true;
+        }
+
+        private void x64ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            magnetSize = 64;
+            ResetMagnetModeOptions();
+            x64ToolStripMenuItem.Checked = true;
+        }
+
+        private void ResetMagnetModeOptions()
+        {
+            x16ToolStripMenuItem1.Checked = false;
+            x8ToolStripMenuItem.Checked = false;
+            x32ToolStripMenuItem.Checked = false;
+            x64ToolStripMenuItem.Checked = false;
+        }
+
+        private void enableXAxisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (enableXAxisToolStripMenuItem.Checked)
+            {
+                enableXAxisToolStripMenuItem.Checked = false;
+                useMagnetXAxis = false;
+            }
+            else
+            {
+                enableXAxisToolStripMenuItem.Checked = true;
+                useMagnetXAxis = true;
+            }
+        }
+
+        private void enableYAxisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (enableYAxisToolStripMenuItem.Checked)
+            {
+                enableYAxisToolStripMenuItem.Checked = false;
+                useMagnetYAxis = false;
+            }
+            else
+            {
+                enableYAxisToolStripMenuItem.Checked = true;
+                useMagnetYAxis = true;
+            }
+        }
+
+        private void stageConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            backupType = 4;
+            backupToolStripMenuItem_Click(null, null);
+            backupType = 0;
+        }
+
+        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            backupType = 1;
+            backupToolStripMenuItem_Click(null, null);
+            backupType = 0;
         }
 
         private void movingPlatformsObjectsToolStripMenuItem_Click(object sender, EventArgs e)

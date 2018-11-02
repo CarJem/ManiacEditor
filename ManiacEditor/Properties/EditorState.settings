@@ -70,5 +70,11 @@ Would you like to save your progress before Maniac Editor Closes?</Value>
     <Setting Name="PixelMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="RemoveStageConfigEntriesAllowed" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AddStageConfigEntriesAllowed" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

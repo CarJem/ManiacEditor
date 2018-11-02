@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace ManiacEditor
 {
@@ -136,11 +137,27 @@ namespace ManiacEditor
         public void entitiesList_SelectedIndexChanged(object sender, EventArgs e)
         {
             String input = entitiesList.Text.ToString();
-            Int32.TryParse(input.Substring(input.LastIndexOf(" ")), out int targetSlotID);
-            int selectedIndex = entitiesList.SelectedIndex;
+            string output = new string(input.TakeWhile(char.IsDigit).ToArray());
+            int selectedIndex = Int32.Parse(output);
+            int selectedSlotID = GetIndexOfSlotID(selectedIndex);
+
 
             if (updateSelected && !multipleObjects) SelectedEntity?.Invoke(_entities[entitiesList.SelectedIndex].SlotID);
-            if (updateSelected && multipleObjects) SelectedEntity?.Invoke(_entities[_selectedEntitySlots[selectedIndex]].SlotID);
+            if (updateSelected && multipleObjects) SelectedEntity?.Invoke(_entities[selectedSlotID].SlotID);
+
+        }
+
+        public int GetIndexOfSlotID(int slotID)
+        {
+            int index = 0;
+            for (int i = 0; i < _entities.Count; i++)
+            {
+                if (_entities[i].SlotID == (ushort)slotID)
+                {
+                    index = i;
+                }
+            }
+            return index;
         }
 
         private void addProperty(LocalProperties properties, int category_index, string category, string name, string value_type, object value, bool read_only=false) {
@@ -177,9 +194,18 @@ namespace ManiacEditor
                 {
                     entitiesList.SelectedText = String.Format("{0} entities selected", selectedEntities.Count);
                     entitiesList.Items.Clear();
-                    entitiesList.Items.AddRange(selectedEntities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name)).ToArray());
+                    entitiesList.DisplayMember = "Text";
+                    entitiesList.Tag = "Value";
+                    foreach (RSDKv5.SceneEntity selectedEntity in selectedEntities)
+                    {
+
+                        entitiesList.Items.Add(new { Text = (String.Format("{0} - {1}", selectedEntity.SlotID, selectedEntity.Object.Name)), Value = selectedEntity.SlotID });
+                        _selectedEntitySlots.Add(selectedEntity.SlotID);
+                    }
+                    //entitiesList.Items.AddRange(selectedEntities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name)).ToArray());
                     multipleObjects = true;
-                    _selectedEntitySlots.AddRange(selectedEntities.Select(x => (int)x.SlotID).ToList());
+                    //_selectedEntitySlots.AddRange(selectedEntities.Select(x => (int)x.SlotID).ToList());
+
                 }
                 return;
             }
@@ -524,6 +550,7 @@ namespace ManiacEditor
             }
         }
 
+
         private void maniaFilterCheck_CheckedChanged(object sender, EventArgs e)
         {
             EditorEntities.FilterRefreshNeeded = true;
@@ -561,6 +588,14 @@ namespace ManiacEditor
                 if (entity != null && !entity.attributesMap.ContainsKey("filter"))
                     entity.AddAttributeToObject("filter", RSDKv5.AttributeTypes.UINT8);
             PropertiesRefresh();
+        }
+
+        private void cbSpawn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSpawn_Click(sender, e);
+            }
         }
     }
 }

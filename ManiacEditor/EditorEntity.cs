@@ -37,6 +37,7 @@ namespace ManiacEditor
         public static EditorEntity Instance;
 
         private SceneEntity entity;
+        public AttributeValidater FetchAttribute = new AttributeValidater();
         private bool filteredOut;
 
         // Object Render List
@@ -49,9 +50,9 @@ namespace ManiacEditor
         public int platformAngle = 0;
         public int platformpositionX = 0;
         public int platformpositionY = 0;
-        bool platformdisableX = false;
-        bool platformdisableY = false;
-        bool platformreverse = false;
+        //bool platformdisableX = false;
+        //bool platformdisableY = false;
+        //bool platformreverse = false;
 
 
         public static Dictionary<string, EditorAnimation> Animations = new Dictionary<string, EditorAnimation>();
@@ -97,38 +98,28 @@ namespace ManiacEditor
 
         public void Move(Point diff)
         {
-            entity.Position.X.High += (short)diff.X;
-            entity.Position.Y.High += (short)diff.Y;
-            // Since the Editor can now update without the use of this render, I removed it
-            //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) Editor.Instance.UpdateRender();
-            if (Editor.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
-            {
-                int ObjectStart = 0x0086FFA0;
-                int ObjectSize = 0x458;
+                entity.Position.X.High += (short)diff.X;
+                entity.Position.Y.High += (short)diff.Y;
 
-                if (Properties.Settings.Default.UsePrePlusOffsets)
-                    ObjectStart = 0x00A5DCC0;
 
-                // TODO: Find out if this is constent
-                int ObjectAddress = ObjectStart + (ObjectSize * entity.SlotID);
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, entity.Position.X.High);
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, entity.Position.Y.High);
-            }
-        }
 
-        public void SnapToGrid(Point diff)
-        {
-            entity.Position.X.High = (short)((diff.X + 8) / 16 * 16);
-            entity.Position.Y.High = (short)((diff.Y + 8) / 16 * 16);
-            if (Editor.GameRunning)
-            {
-                // TODO: Find out if this is constent
-                int ObjectStart = 0x00A5DCC0;
-                int ObjectSize = 0x458;
-                int ObbjectAddress = ObjectStart + (ObjectSize * entity.SlotID);
-                Editor.GameMemory.WriteInt16(ObbjectAddress + 2, entity.Position.X.High);
-                Editor.GameMemory.WriteInt16(ObbjectAddress + 6, entity.Position.Y.High);
-            }
+                // Since the Editor can now update without the use of this render, I removed it
+                //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) Editor.Instance.UpdateRender();
+                if (Editor.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
+                {
+                    int ObjectStart = 0x0086FFA0;
+                    int ObjectSize = 0x458;
+
+                    if (Properties.Settings.Default.UsePrePlusOffsets)
+                        ObjectStart = 0x00A5DCC0;
+
+                    // TODO: Find out if this is constent
+                    int ObjectAddress = ObjectStart + (ObjectSize * entity.SlotID);
+                    Editor.GameMemory.WriteInt16(ObjectAddress + 2, entity.Position.X.High);
+                    Editor.GameMemory.WriteInt16(ObjectAddress + 6, entity.Position.Y.High);
+                }
+
+
         }
 
         public Rectangle GetDimensions()

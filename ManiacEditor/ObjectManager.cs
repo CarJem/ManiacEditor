@@ -21,10 +21,17 @@ namespace ManiacEditor
         private StageConfig _stageConfig;
         public List<String> objectCheckMemory = new List<string>();
 
+        //Shorthanding Settings
+        Properties.Settings mySettings = Properties.Settings.Default;
+        Properties.EditorState myEditorState = Properties.EditorState.Default;
+        Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
         public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
         {
-
+            if (myEditorState.RemoveStageConfigEntriesAllowed)
+            {
+                checkBox1.Checked = true;
+            }
 
             InitializeComponent();
             _sourceSceneObjects = targetSceneObjects;
@@ -264,11 +271,15 @@ namespace ManiacEditor
                         objectsToRemove.Entities.Clear(); // ditch instances of the object from the imported level
                         _targetSceneObjects.Remove(_targetSceneObjects.FirstOrDefault(sso => sso.Name.ToString().Equals(item.Text)));
 
-                        /*if (_stageConfig != null
-                            && !_stageConfig.ObjectsNames.Contains(item.Text))
+                        if (myEditorState.RemoveStageConfigEntriesAllowed)
                         {
-                            _stageConfig.ObjectsNames.Add(item.Text);
-                        }*/
+                            if (_stageConfig != null
+                                && !_stageConfig.ObjectsNames.Contains(item.Text))
+                            {
+                                _stageConfig.ObjectsNames.Remove(item.Text);
+                            }
+                        }
+
 
                         ReloadList();
                     }
@@ -370,7 +381,9 @@ namespace ManiacEditor
 
         private void backupStageConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Editor.Instance.backupType = 4;
+            Editor.Instance.backupTool(null, null);
+            Editor.Instance.backupType = 0;
         }
 
         private void restoreStageConfigToolStripMenuItem_Click(object sender, EventArgs e)
@@ -391,6 +404,20 @@ namespace ManiacEditor
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void removeStageConfigEntriesOnObjectRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                myEditorState.RemoveStageConfigEntriesAllowed = false;
+                checkBox1.Checked = false;
+            }
+            else
+            {
+                myEditorState.RemoveStageConfigEntriesAllowed = true;
+                checkBox1.Checked = true;
+            }
         }
     }
 }

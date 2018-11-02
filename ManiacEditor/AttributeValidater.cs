@@ -1,0 +1,205 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using RSDKv5;
+
+namespace ManiacEditor
+{
+    public class AttributeValidater
+    {
+        Position no_position = new Position(0, 0);
+
+        public byte AttributesMapUint8(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+               byte value = entity.attributesMap[name].ValueUInt8;
+               return value;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+        public ushort AttributesMapUint16(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                ushort value = entity.attributesMap[name].ValueUInt16;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public uint AttributesMapUint32(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                uint value = entity.attributesMap[name].ValueUInt32;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public sbyte AttributesMapInt8(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                sbyte value = entity.attributesMap[name].ValueInt8;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public short AttributesMapInt16(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                short value = entity.attributesMap[name].ValueInt16;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public int AttributesMapInt32(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                int value = entity.attributesMap[name].ValueInt32;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public uint AttributesMapVar(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                uint value = entity.attributesMap[name].ValueVar;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public bool AttributesMapBool(string name, SceneEntity entity, bool failReturnValue = false)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                bool value = entity.attributesMap[name].ValueBool;
+                return value;
+            }
+            else
+            {
+                // Allows the user to be able to set this they want
+                return failReturnValue;
+            }
+        }
+
+        public string AttributesMapString(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                string value = entity.attributesMap[name].ValueString;
+                return value;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public RSDKv5.Color AttributesMapColor(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                RSDKv5.Color value = entity.attributesMap[name].ValueColor;
+                return value;
+            }
+            else
+            {
+                return RSDKv5.Color.EMPTY;
+            }
+        }
+
+        public Position AttributesMapPosition(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                Position value = entity.attributesMap[name].ValuePosition;
+                return value;
+            }
+            else
+            {
+                return no_position;
+            }
+        }
+
+        public int AttributesMapPositionHighX(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                int value = entity.attributesMap[name].ValuePosition.X.High;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public int AttributesMapPositionLowX(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                int value = entity.attributesMap[name].ValuePosition.X.Low;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public int AttributesMapPositionHighY(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                int value = entity.attributesMap[name].ValuePosition.Y.High;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public int AttributesMapPositionLowY(string name, SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey(name))
+            {
+                int value = entity.attributesMap[name].ValuePosition.Y.Low;
+                return value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+
+    }
+}

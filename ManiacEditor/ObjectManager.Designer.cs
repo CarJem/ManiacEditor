@@ -49,6 +49,7 @@
             this.addAttributeToAllObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchLabel = new System.Windows.Forms.Label();
             this.FilterText = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +62,7 @@
             this.panel1.Controls.Add(this.removeAttributeBtn);
             this.panel1.Controls.Add(this.addAttributeBtn);
             this.panel1.Controls.Add(this.attributesTable);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 53);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(615, 548);
@@ -76,7 +78,7 @@
             this.lvObjects.Location = new System.Drawing.Point(3, 3);
             this.lvObjects.MultiSelect = false;
             this.lvObjects.Name = "lvObjects";
-            this.lvObjects.Size = new System.Drawing.Size(197, 511);
+            this.lvObjects.Size = new System.Drawing.Size(197, 494);
             this.lvObjects.TabIndex = 19;
             this.lvObjects.UseCompatibleStateImageBehavior = false;
             this.lvObjects.View = System.Windows.Forms.View.Details;
@@ -127,7 +129,7 @@
             this.attributesTable.Location = new System.Drawing.Point(206, 3);
             this.attributesTable.MultiSelect = false;
             this.attributesTable.Name = "attributesTable";
-            this.attributesTable.Size = new System.Drawing.Size(250, 513);
+            this.attributesTable.Size = new System.Drawing.Size(250, 494);
             this.attributesTable.TabIndex = 13;
             this.attributesTable.UseCompatibleStateImageBehavior = false;
             this.attributesTable.View = System.Windows.Forms.View.Details;
@@ -145,9 +147,9 @@
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.Location = new System.Drawing.Point(12, 607);
+            this.label1.Location = new System.Drawing.Point(3, 500);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(537, 17);
+            this.label1.Size = new System.Drawing.Size(453, 17);
             this.label1.TabIndex = 0;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
@@ -195,7 +197,6 @@
             // 
             // backupStageConfigToolStripMenuItem
             // 
-            this.backupStageConfigToolStripMenuItem.Enabled = false;
             this.backupStageConfigToolStripMenuItem.Name = "backupStageConfigToolStripMenuItem";
             this.backupStageConfigToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.backupStageConfigToolStripMenuItem.Text = "Backup StageConfig";
@@ -252,23 +253,33 @@
             this.FilterText.TabIndex = 9;
             this.FilterText.TextChanged += new System.EventHandler(this.filter_textchaged);
             // 
-            // ObjectRemover
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(16, 607);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(162, 17);
+            this.checkBox1.TabIndex = 20;
+            this.checkBox1.Text = "Remove StageConfig Entries";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // ObjectManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(637, 634);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.FilterText);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ObjectRemover";
+            this.Name = "ObjectManager";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -306,5 +317,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ListView lvObjects;
         private System.Windows.Forms.ColumnHeader col1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

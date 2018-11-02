@@ -288,5 +288,29 @@ namespace ManiacEditor.Properties {
                 this["PixelMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RemoveStageConfigEntriesAllowed {
+            get {
+                return ((bool)(this["RemoveStageConfigEntriesAllowed"]));
+            }
+            set {
+                this["RemoveStageConfigEntriesAllowed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AddStageConfigEntriesAllowed {
+            get {
+                return ((bool)(this["AddStageConfigEntriesAllowed"]));
+            }
+            set {
+                this["AddStageConfigEntriesAllowed"] = value;
+            }
+        }
     }
 }

@@ -342,6 +342,7 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="AttributeValidater.cs" />
     <Compile Include="ColorConsole.cs" />
     <Compile Include="ColorsCaching.cs" />
     <Compile Include="ConfigManager.cs">

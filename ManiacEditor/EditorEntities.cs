@@ -187,13 +187,7 @@ namespace ManiacEditor
             if (duplicate) DuplicateEntities(selectedEntities);
             foreach (var entity in selectedEntities)
             {
-                if (Editor.Instance.showGrid == false)
-                    entity.Move(diff);
-                else
-                {
-                    entity.Move(diff);
-                    //entity.SnapToGrid(diff);
-                }
+                entity.Move(diff);
             }
         }
 

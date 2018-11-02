@@ -35,8 +35,6 @@
             this.btnSpawn = new System.Windows.Forms.Button();
             this.cbSpawn = new System.Windows.Forms.ComboBox();
             this.gbEditor = new System.Windows.Forms.GroupBox();
-            this.addAllFiltersButton = new System.Windows.Forms.Button();
-            this.addFilterButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.otherFilterCheck = new System.Windows.Forms.CheckBox();
             this.bothFilterCheck = new System.Windows.Forms.CheckBox();
@@ -70,7 +68,7 @@
             this.entityProperties.Location = new System.Drawing.Point(7, 46);
             this.entityProperties.Name = "entityProperties";
             this.entityProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.entityProperties.Size = new System.Drawing.Size(234, 262);
+            this.entityProperties.Size = new System.Drawing.Size(234, 291);
             this.entityProperties.TabIndex = 1;
             this.entityProperties.ToolbarVisible = false;
             this.entityProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.entityProperties_PropertyValueChanged);
@@ -117,20 +115,22 @@
             // 
             this.cbSpawn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbSpawn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.cbSpawn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbSpawn.DisplayMember = "Name";
             this.cbSpawn.FormattingEnabled = true;
             this.cbSpawn.Location = new System.Drawing.Point(7, 20);
             this.cbSpawn.Name = "cbSpawn";
             this.cbSpawn.Size = new System.Drawing.Size(99, 21);
+            this.cbSpawn.Sorted = true;
             this.cbSpawn.TabIndex = 0;
+            this.cbSpawn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbSpawn_KeyDown);
             // 
             // gbEditor
             // 
             this.gbEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbEditor.Controls.Add(this.addAllFiltersButton);
-            this.gbEditor.Controls.Add(this.addFilterButton);
             this.gbEditor.Controls.Add(this.entitiesList);
             this.gbEditor.Controls.Add(this.entityProperties);
             this.gbEditor.Location = new System.Drawing.Point(6, 61);
@@ -139,28 +139,6 @@
             this.gbEditor.TabIndex = 3;
             this.gbEditor.TabStop = false;
             this.gbEditor.Text = "Entity Editor";
-            // 
-            // addAllFiltersButton
-            // 
-            this.addAllFiltersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addAllFiltersButton.Location = new System.Drawing.Point(126, 314);
-            this.addAllFiltersButton.Name = "addAllFiltersButton";
-            this.addAllFiltersButton.Size = new System.Drawing.Size(115, 23);
-            this.addAllFiltersButton.TabIndex = 3;
-            this.addAllFiltersButton.Text = "Add filters to all";
-            this.addAllFiltersButton.UseVisualStyleBackColor = true;
-            this.addAllFiltersButton.Click += new System.EventHandler(this.addAllFiltersButton_Click);
-            // 
-            // addFilterButton
-            // 
-            this.addFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addFilterButton.Location = new System.Drawing.Point(6, 314);
-            this.addFilterButton.Name = "addFilterButton";
-            this.addFilterButton.Size = new System.Drawing.Size(115, 23);
-            this.addFilterButton.TabIndex = 2;
-            this.addFilterButton.Text = "Add filter to this";
-            this.addFilterButton.UseVisualStyleBackColor = true;
-            this.addFilterButton.Click += new System.EventHandler(this.addFilterButton_Click);
             // 
             // groupBox1
             // 
@@ -268,7 +246,5 @@
         private System.Windows.Forms.CheckBox encoreFilterCheck;
         private System.Windows.Forms.CheckBox maniaFilterCheck;
         private System.Windows.Forms.ComboBox defaultFilter;
-        private System.Windows.Forms.Button addFilterButton;
-        private System.Windows.Forms.Button addAllFiltersButton;
     }
 }

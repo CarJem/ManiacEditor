@@ -15,13 +15,23 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            int type = (int)entity.attributesMap["type"].ValueVar;
-            int moveType = (int)entity.attributesMap["moveType"].ValueVar;
-            int angle = (int)entity.attributesMap["angle"].ValueInt32;
+            //int type = (int)entity.attributesMap["type"].ValueVar;
+            //int moveType = (int)entity.attributesMap["moveType"].ValueVar;
+            //int angle = (int)entity.attributesMap["angle"].ValueInt32;
+
+            int type = (int)e.FetchAttribute.AttributesMapVar("type", entity);
+            int moveType = (int)e.FetchAttribute.AttributesMapVar("moveType", entity);
+            int angle = (int)e.FetchAttribute.AttributesMapInt32("angle", entity);
+
             bool fliph = false;
             bool flipv = false;
-            int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
-            int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
+
+            //int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
+            //int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
+
+            int amplitudeX = (int)e.FetchAttribute.AttributesMapPositionHighX("amplitude", entity);
+            int amplitudeY = (int)e.FetchAttribute.AttributesMapPositionHighY("amplitude", entity);
+
             int angleStateX = 0;
             int angleStateY = 0;
             int animID;
