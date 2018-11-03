@@ -27,57 +27,101 @@ namespace ManiacEditor
 {
     public partial class Editor : Form, IDrawArea
     {
+        //Editor Editing States
         bool dragged;
         bool startDragged;
         int lastX, lastY, draggedX, draggedY;
         int ShiftX = 0, ShiftY = 0, ScreenWidth, ScreenHeight;
-        public bool showTileID;
-        public bool showGrid;
-        public bool useEncoreColors = false;
-        public bool showCollisionA;
-        public bool showCollisionB;
-        public int modConfig_CheckedItem;
-        public int backupType = 0;
-        public bool importingObjects = false;
-
-        //For Preload Loading Box
-        public static int progressValueX;
-        public static int progressValueY;
-        public static bool isPreRending = false;
-
-        public List<Bitmap> CollisionLayerA = new List<Bitmap>();
-        public List<Bitmap> CollisionLayerB = new List<Bitmap>();
-
-        public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names
-
+        public int select_x1, select_x2, select_y1, select_y2;
         int ClickedX = -1, ClickedY = -1;
-        string scrollDirection = "X";
-
-        public Stack<IAction> undo = new Stack<IAction>();
-        public Stack<IAction> redo = new Stack<IAction>();
-
-        bool draggingSelection;
+        bool draggingSelection; //Determines if we are dragging a selection
         int selectingX, selectingY;
-        bool zooming;
-        double Zoom = 1;
-        int ZoomLevel = 0;
-        public String ToolbarSelectedTile;
-        bool SceneLoaded = false;
-        bool AllowSceneChange = false;
-        bool encorePaletteExists = false;
-        bool UseMagnetMode = false;
-        int magnetSize = 16;
-        bool useMagnetXAxis = true;
-        bool useMagnetYAxis = true;
+        bool zooming; //Detects if we are zooming
+        double Zoom = 1; //Double Value for Zoom Levels
+        int ZoomLevel = 0; //Interger Value for Zoom Levels
+        public int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
+        public int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
+        internal int SelectedTileX; //Used to get a single Selected Tile's X
+        internal int SelectedTileY; //Used to get a single Selected Tile's Y
+        bool scrolling = false; //Determines if the User is Scrolling
+        bool scrollingDragged = false, wheelClicked = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
+        Point scrollPosition; //For Getting the Scroll Position
 
-        public static string DataDirectory;
+        //Editor Toggles
+        public bool showTileID; // Show Tile ID Mode Status
+        public bool showGrid; // Show Grid Mode Status
+        public bool useEncoreColors = false; // Show Encore Color Status
+        public bool showCollisionA; //Show Collision Path A Status
+        public bool showCollisionB; //Show Collision Path B Status
+        public int backupType = 0; //Determines What Kind of Backup to Make
+        bool UseMagnetMode = false; // Determines the state of Magnet Mode
+        bool useMagnetXAxis = true; //Determines if the Magnet should use the X Axis
+        bool useMagnetYAxis = true; //Determines if the Magnet should use the Y Axis
 
-        public string SelectedZone;
-        string SelectedScene;
-        public static string[] EncorePalette = new string[6];
-        public static int EncoreSetupType;
+        //Editor Status States (Like are we pre-loading a scene)
+        public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
+        public static bool isPreRending = false; //Determines if we are Preloading a Scene
+        bool AllowSceneChange = false; // For the Save Warning Dialog
+        bool encorePaletteExists = false; // Determines if an Encore Pallete Exists
 
-        // Public Classes
+
+        //Editor Variable States (Like Scroll Lock is in the X Direction)
+        string scrollDirection = "X"; //Determines Scroll Lock Direction
+        int magnetSize = 16; //Determines the Magnets Size
+        public static int EncoreSetupType; //Used to determine what kind of encore setup the stage uses
+        public string ToolbarSelectedTile; //Used to display the selected tile in the tiles toolbar
+        internal bool controlWindowOpen; //Used somewhere in the Layer Manager (Unkown)
+
+        //Editor Paths
+        public static string DataDirectory; //Used to get the current Data Directory
+        public string SelectedZone; //Used to get the Selected zone
+        string SelectedScene; //Used to get the Scene zone
+        public static string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
+        string SceneFilename = null; //Used for fetching the scene's file name
+        string SceneFilepath = null; //Used for fetching the folder that contains the scene file
+        string StageConfigFileName = null; //Used for fetch the scene's stage config file name
+
+        // Extra Layer Buttons
+        private IList<ToolStripButton> _extraLayerEditButtons; //Used for Extra Layer Edit Buttons
+        private IList<ToolStripButton> _extraLayerViewButtons; //Used for Extra Layer View Buttons
+        private IList<ToolStripSeparator> _extraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
+
+        // Editor Collections
+        public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
+        public List<Bitmap> CollisionLayerA = new List<Bitmap>(); //Collection of Collision Type A for the Loaded Scene
+        public List<Bitmap> CollisionLayerB = new List<Bitmap>(); //Collection of Collision Type B for the Loaded Scene
+        public Stack<IAction> undo = new Stack<IAction>(); //Undo Actions Stack
+        public Stack<IAction> redo = new Stack<IAction>(); //Redo Actions Stack
+        public List<string> entityRenderingObjects = EditorEntity_ini.getSpecialRenderList(1); //Used to get the Render List for Objects
+        public List<string> renderOnScreenExlusions = EditorEntity_ini.getSpecialRenderList(0); //Used to get the Always Render List for Objects
+        public IList<ToolStripMenuItem> _recentDataItems; //Used to get items for the Data Directory Toolstrip Area
+        private IList<ToolStripMenuItem> _recentDataItems_Button; //Used to get items for the Data Directory Button Toolstrip 
+
+        //Used for Get Common Layers
+        internal EditorLayer FGHigher => EditorScene?.HighDetails;
+        internal EditorLayer FGHigh => EditorScene?.ForegroundHigh;
+        internal EditorLayer FGLow => EditorScene?.ForegroundLow;
+        internal EditorLayer FGLower => EditorScene?.LowDetails;
+        internal EditorLayer ScratchLayer => EditorScene?.Scratch;
+        //Used to Get the Maximum Layer Height and Width
+        internal int SceneWidth => EditorScene.Layers.Max(sl => sl.Width) * 16;
+        internal int SceneHeight => EditorScene.Layers.Max(sl => sl.Height) * 16;
+
+        //Used for "Run Scene"
+        public static ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
+        public static bool GameRunning = false; //Tells us if the game is running
+        public static string GamePath = ""; //Tells us where the game is located
+
+        //Used to store information to Clipboards
+        internal Dictionary<Point, ushort> TilesClipboard;
+        private List<EditorEntity> entitiesClipboard;
+
+        //Used For Discord Rich Pressence
+        public SharpPresence.Discord.RichPresence RPCcontrol = new SharpPresence.Discord.RichPresence();
+        public SharpPresence.Discord.EventHandlers RPCEventHandler = new SharpPresence.Discord.EventHandlers();
+        public string ScenePath = "";
+
+        //Internal/Public/Vital Classes
         public StageTiles StageTiles;
         public EditorScene EditorScene;
         public StageConfig StageConfig;
@@ -86,67 +130,22 @@ namespace ManiacEditor
         public GameConfig GameConfig;
         public EditorControls EditorControls;
         EditorEntities entities;
-
-
-        public List<string> entityRenderingObjects = EditorEntity_ini.getSpecialRenderList(1);
-        public List<string> renderOnScreenExlusions = EditorEntity_ini.getSpecialRenderList(0);
-
-        string SceneFilename = null;
-        string SceneFilepath = null;
-        string StageConfigFileName = null;
-
-        internal EditorLayer FGHigher => EditorScene?.HighDetails;
-        internal EditorLayer FGHigh => EditorScene?.ForegroundHigh;
-        internal EditorLayer FGLow => EditorScene?.ForegroundLow;
-        internal EditorLayer FGLower => EditorScene?.LowDetails;
-        internal EditorLayer ScratchLayer => EditorScene?.Scratch;
-        private IList<ToolStripButton> _extraLayerEditButtons;
-        private IList<ToolStripButton> _extraLayerViewButtons;
-        private IList<ToolStripSeparator> _extraLayerSeperators;
-
+        public static Editor Instance; //Used the access this class easier
         internal EditorBackground Background;
-
         internal EditorLayer EditLayer;
-
-
         internal TilesToolbar TilesToolbar = null;
         private EntitiesToolbar entitiesToolbar = null;
 
-        internal Dictionary<Point, ushort> TilesClipboard;
+        //Editor Misc. Variables
+        
 
-        private List<EditorEntity> entitiesClipboard;
-        public int SelectedTilesCount;
-        public int DeselectTilesCount;
-        internal int SelectedTileX;
-        internal int SelectedTileY;
-        internal bool controlWindowOpen;
-
-        public int select_x1, select_x2, select_y1, select_y2;
-
-        internal int SceneWidth => EditorScene.Layers.Max(sl => sl.Width) * 16;
-        internal int SceneHeight => EditorScene.Layers.Max(sl => sl.Height) * 16;
-
-        bool scrolling = false;
-        bool scrollingDragged = false, wheelClicked = false;
-        Point scrollPosition;
-
-        public static Editor Instance;
-
-        public IList<ToolStripMenuItem> _recentDataItems;
-        private IList<ToolStripMenuItem> _recentDataItems_Button;
-        public static ProcessMemory GameMemory = new ProcessMemory();
-        public static bool GameRunning = false;
-        public static string GamePath = "";
-
-        public SharpPresence.Discord.RichPresence RPCcontrol = new SharpPresence.Discord.RichPresence(); //For Discord RPC
-        public SharpPresence.Discord.EventHandlers RPCEventHandler = new SharpPresence.Discord.EventHandlers(); //For Discord RPC
-        public string ScenePath = ""; //For Discord RPC
-
-        //Shorthanding Settings
+        //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
         Properties.EditorState myEditorState = Properties.EditorState.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
+
+        // Stuff Used for Command Line Tool to Fix Duplicate Object ID's
         /// <summary>
         /// This is for focusing Sonic Mania or anything else if opened.
         /// Also this for showing and hiding the console when needed
@@ -205,6 +204,10 @@ namespace ManiacEditor
 
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;
+        /// <summary>
+        /// End of Section
+        /// </summary>
+
 
         public Editor()
         {
@@ -481,7 +484,7 @@ namespace ManiacEditor
         private void ResetDataDirectoryToAndResetScene(string newDataDirectory)
         {
             Editor.Instance.SceneChangeWarning(null, null);
-            if (AllowSceneChange == true || SceneLoaded == false || mySettings.DisableSaveWarnings == true)
+            if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
             {
                 AllowSceneChange = false;
                 UnloadScene();
@@ -505,6 +508,14 @@ namespace ManiacEditor
         public bool IsEditing()
         {
             return IsTilesEdit() || IsEntitiesEdit();
+        }
+
+        public bool IsSceneLoaded()
+        {
+           if (EditorScene != null)
+                return true;
+           else
+                return false;
         }
 
         public bool IsTilesEdit()
@@ -536,6 +547,8 @@ namespace ManiacEditor
             saveAsToolStripMenuItem.Enabled = enabled;
             backupToolStripMenuItem.Enabled = enabled;
             unloadSceneToolStripMenuItem.Enabled = enabled;
+            goToToolStripMenuItem1.Enabled = enabled;
+            goToToolStripMenuItem2.Enabled = enabled;
 
             ShowFGHigh.Enabled = enabled && FGHigh != null;
             ShowFGLow.Enabled = enabled && FGLow != null;
@@ -595,6 +608,8 @@ namespace ManiacEditor
 
             flipHorizontalToolStripMenuItem.Enabled = enabled && IsTilesEdit();
             flipVerticalToolStripMenuItem.Enabled = enabled && IsTilesEdit();
+            flipHorizontalIndvidualToolStripMenuItem.Enabled = enabled && IsTilesEdit();
+            flipVerticalIndvidualToolStripMenuItem.Enabled = enabled && IsTilesEdit();
 
             selectAllToolStripMenuItem.Enabled = IsTilesEdit() || IsEntitiesEdit();
 
@@ -974,7 +989,7 @@ namespace ManiacEditor
         {
             if (mySettings.allowForSmoothSelection)
             {
-                UpdateRender();
+                GraphicPanel.Render();
                 UpdateStatusPanel(sender, e);
             }
             if (ClickedX != -1)
@@ -1112,7 +1127,7 @@ namespace ManiacEditor
                     UpdateStatusPanel(sender, e);
                 }
                 UpdateStatusPanel(sender, e);
-                UpdateRender();
+                GraphicPanel.Render();
 
             }
 
@@ -1192,7 +1207,7 @@ namespace ManiacEditor
                         }
                         GraphicPanel.OnMouseMoveEventCreate();
                         UpdateStatusPanel(sender, e);
-                        UpdateRender();
+                        GraphicPanel.Render();
 
 
 
@@ -1233,7 +1248,7 @@ namespace ManiacEditor
                     int newGridY = (int)((e.Y / Zoom) / magnetSize) * magnetSize;
                     Point oldPointGrid = new Point(0,0);
                     Point newPointGrid = new Point(0, 0);
-                    if (UseMagnetMode)
+                    if (UseMagnetMode && IsEntitiesEdit())
                     {
                         if (useMagnetXAxis == true && useMagnetYAxis == true)
                         {
@@ -1256,10 +1271,6 @@ namespace ManiacEditor
                             newPointGrid = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                         }
                     }
-
-
-
-
                     Point oldPoint = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
                     Point newPoint = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
 
@@ -1326,7 +1337,6 @@ namespace ManiacEditor
                     startDragged = false;
                 }
             }
-            if (IsEntitiesEdit())
             lastX = e.X;
             lastY = e.Y;
             UpdateStatusPanel(sender, e);
@@ -1832,7 +1842,6 @@ namespace ManiacEditor
 
         void UnloadScene()
         { 
-            SceneLoaded = false;
             EditorScene?.Dispose();
             EditorScene = null;
             SceneFilename = null;
@@ -1981,7 +1990,7 @@ namespace ManiacEditor
         public void Open_Click(object sender, EventArgs e)
         {
             Editor.Instance.SceneChangeWarning(sender, e);
-            if (AllowSceneChange == true || SceneLoaded == false || mySettings.DisableSaveWarnings == true)
+            if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
             {
                 AllowSceneChange = false;
                 if (mySettings.forceBrowse == true)
@@ -2152,7 +2161,6 @@ namespace ManiacEditor
                 }
                 ScenePath = Result;
                 UpdateDiscord("Editing " + Result);
-                SceneLoaded = true;
 
             }
             catch (Exception ex)
@@ -2171,8 +2179,6 @@ namespace ManiacEditor
             SetViewSize(SceneWidth, SceneHeight);
 
             UpdateControls(true);
-
-            SceneLoaded = true;
 
 
         }
@@ -2314,18 +2320,6 @@ namespace ManiacEditor
 
         private void AdHocLayerShow(object sender, EventArgs e)
         {
-            ToolStripButton tsb = sender as ToolStripButton;
-            if (tsb.Checked == true) {
-                tsb.Checked = false;
-                UpdateControls();
-                return;
-            }
-            else
-            {
-                tsb.Checked = true;
-                UpdateControls();
-                return;
-            }
 
         }
 
@@ -2431,7 +2425,7 @@ namespace ManiacEditor
         public void openDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SceneChangeWarning(sender, e);
-            if (AllowSceneChange == true || SceneLoaded == false)
+            if (AllowSceneChange == true || IsSceneLoaded() == false)
             {
                 AllowSceneChange = false;
                 string newDataDirectory = GetDataDirectory();
@@ -2463,6 +2457,7 @@ a valid Data Directory.",
         {
             // hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
             // So I will refresh it here
+
             if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
             if (EditorScene != null)
             {
@@ -2477,16 +2472,31 @@ a valid Data Directory.",
                 }
                 if (EditorScene.OtherLayers.Contains(EditLayer))
                     EditLayer.Draw(GraphicPanel);
+
                 if (ShowFGLower.Checked || EditFGLower.Checked)
                     FGLower.Draw(GraphicPanel);
+
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
-                if (ShowEntities.Checked && !EditEntities.Checked)
-                    entities.Draw(GraphicPanel);
+
+                if (ShowEntities.Checked && !EditEntities.Checked) //Plane Filter 1
+                {
+                    entities.DrawPriority(GraphicPanel, 0);
+                    entities.DrawPriority(GraphicPanel, 1);
+                }
+
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
+
+                if (ShowEntities.Checked && !EditEntities.Checked) //Plane Filter 2
+                {
+                    entities.DrawPriority(GraphicPanel, 2);
+                    entities.DrawPriority(GraphicPanel, 3);
+                } 
+
                 if (ShowFGHigher.Checked || EditFGHigher.Checked)
                     FGHigher.Draw(GraphicPanel);
+
                 if (EditEntities.Checked)
                     entities.Draw(GraphicPanel);
 
@@ -2846,6 +2856,12 @@ Error: {ex.Message}");
             UpdateEditLayerActions();
         }
 
+        public void flipHorizontalIndividualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditLayer?.FlipPropertySelected(FlipDirection.Horizontal, true);
+            UpdateEditLayerActions();
+        }
+
         public void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (IsTilesEdit())
@@ -3069,11 +3085,6 @@ Error: {ex.Message}");
             }
         }
 
-        public void GraphicPanel_MouseEnter(object sender, EventArgs e)
-        {
-            GraphicPanel.Focus();
-        }
-
         private void GraphicPanel_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
@@ -3097,7 +3108,7 @@ Error: {ex.Message}");
                 Point rel = GraphicPanel.PointToScreen(Point.Empty);
                 EditLayer.DragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
 
-                UpdateRender();
+                GraphicPanel.Render();
 
             }
         }
@@ -3105,7 +3116,7 @@ Error: {ex.Message}");
         private void GraphicPanel_DragLeave(object sender, EventArgs e)
         {
             EditLayer?.EndDragOver(true);
-            UpdateRender();
+            GraphicPanel.Render();
         }
 
         private void GraphicPanel_DragDrop(object sender, DragEventArgs e)
@@ -3660,6 +3671,12 @@ Error: {ex.Message}");
             UpdateEditLayerActions();
         }
 
+        public void flipVerticalIndividualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditLayer?.FlipPropertySelected(FlipDirection.Veritcal, true);
+            UpdateEditLayerActions();
+        }
+
         public void MoveEntityOrTiles(object sender, KeyEventArgs e)
         {
             int x = 0, y = 0;
@@ -3763,19 +3780,19 @@ Error: {ex.Message}");
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             ShiftY = e.NewValue;
-            UpdateRender();
+            GraphicPanel.Render();
         }
 
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             ShiftX = e.NewValue;
-            UpdateRender();
+            GraphicPanel.Render();
         }
 
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
         {
             ShiftY = (sender as VScrollBar).Value;
-            if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
+            if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
             if (draggingSelection)
             {
                 GraphicPanel.OnMouseMoveEventCreate();
@@ -3785,7 +3802,7 @@ Error: {ex.Message}");
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)
         {
             ShiftX = hScrollBar1.Value;
-            if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
+            if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
             if (draggingSelection)
             {
                 GraphicPanel.OnMouseMoveEventCreate();
@@ -4648,6 +4665,35 @@ Error: {ex.Message}");
             backupType = 0;
         }
 
+        private void mD5GeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MD5HashGen hashmap = new MD5HashGen();
+            hashmap.Show();
+        }
+
+        private void GraphicPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            GraphicPanel.Focus();
+        }
+
+        private void GraphicPanel_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void statusNAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (statusNAToolStripMenuItem.Checked)
+            {
+                mySettings.scrollLock = true;
+                 
+            }
+            else
+            {
+                mySettings.scrollLock = false;
+            }
+        }
+
         private void movingPlatformsObjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (movingPlatformsObjectsToolStripMenuItem.Checked == false)
@@ -4734,9 +4780,9 @@ Error: {ex.Message}");
         {
             return Zoom;
         }
-            private void Editor_FormClosing1(object sender, System.Windows.Forms.FormClosingEventArgs e)
+        private void Editor_FormClosing1(object sender, System.Windows.Forms.FormClosingEventArgs e)
             {
-                if (SceneLoaded == true && mySettings.DisableSaveWarnings == false)
+                if (IsSceneLoaded() == true && mySettings.DisableSaveWarnings == false)
                 {
                     DialogResult exitBoxResult;
                     using (var exitBox = new ExitWarningBox())
@@ -4767,7 +4813,7 @@ Error: {ex.Message}");
 
         private void SceneChangeWarning(object sender, EventArgs e)
         {
-            if (SceneLoaded == true && mySettings.DisableSaveWarnings == false)
+            if (IsSceneLoaded() == true && mySettings.DisableSaveWarnings == false)
             {
                 DialogResult exitBoxResult;
                 using (var exitBox = new ExitWarningBox())
@@ -4794,11 +4840,6 @@ Error: {ex.Message}");
                 AllowSceneChange = true;
             }
 
-        }
-
-        public void UpdateRender()
-        {
-           GraphicPanel.Render();
         }
 
         private void GoToPosition(int x, int y)

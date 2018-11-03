@@ -145,36 +145,55 @@ namespace ManiacEditor
             {
                 Editor.MoveEntityOrTiles(sender, e);
             }
-            // Flip Vertical
-            else if (e.KeyData == Keys.F)
-            {
-                if (Editor.IsTilesEdit())
-                    Editor.flipVerticalToolStripMenuItem_Click(sender, e);
-                else if (Editor.IsEntitiesEdit())
-                    Editor.FlipEntities(FlipDirection.Veritcal);
-            }
-            // Flip Horizontal
-            else if (e.KeyData == Keys.M)
-            {
-                if (Editor.IsTilesEdit())
-                    Editor.flipHorizontalToolStripMenuItem_Click(sender, e);
-                else if (Editor.IsEntitiesEdit())
-                    Editor.FlipEntities(FlipDirection.Horizontal);
-            }
-            // Cut/Copy/Duplicate (Ctrl Key)
+            // (Ctrl Key)
             if (e.Control)
             {
+                //Cut 
                 if (e.KeyCode == Keys.X)
                 {
                     Editor.cutToolStripMenuItem_Click(sender, e);
                 }
+                //Copy
                 else if (e.KeyCode == Keys.C)
                 {
                     Editor.copyToolStripMenuItem_Click(sender, e);
                 }
+                //Duplicate
                 else if (e.KeyCode == Keys.D)
                 {
                     Editor.duplicateToolStripMenuItem_Click(sender, e);
+                }
+                // Flip Vertical Individual
+                else if (e.KeyCode == Keys.F)
+                {
+                    if (Editor.IsTilesEdit())
+                        Editor.flipVerticalIndividualToolStripMenuItem_Click(sender, e);
+                }
+                // Flip Horizontal Individual
+                else if (e.KeyCode == Keys.M)
+                {
+                    if (Editor.IsTilesEdit())
+                        Editor.flipHorizontalIndividualToolStripMenuItem_Click(sender, e);
+                }
+            }
+            else
+            {
+                // Flip Vertical
+                if (e.KeyCode == Keys.F)
+                {
+                    if (Editor.IsTilesEdit())
+                        Editor.flipVerticalToolStripMenuItem_Click(sender, e);
+                    else if (Editor.IsEntitiesEdit())
+                        Editor.FlipEntities(FlipDirection.Veritcal);
+                }
+
+                // Flip Horizontal
+                else if (e.KeyCode == Keys.M)
+                {
+                    if (Editor.IsTilesEdit())
+                        Editor.flipHorizontalToolStripMenuItem_Click(sender, e);
+                    else if (Editor.IsEntitiesEdit())
+                        Editor.FlipEntities(FlipDirection.Horizontal);
                 }
             }
         }

@@ -604,8 +604,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\RubyPortal.cs" />
-    <Compile Include="Entity Renders\SchrodingersCapsulePart2.cs" />
-    <Compile Include="Entity Renders\SchrodingersCapsulePart1.cs" />
     <Compile Include="Entity Renders\SchrodingersCapsule.cs" />
     <Compile Include="Entity Renders\Shiversaw.cs" />
     <Compile Include="Entity Renders\ShopWindow.cs">
@@ -764,6 +762,12 @@
     <Compile Include="GoToPositionBox.Designer.cs">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="MD5HashGen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MD5HashGen.Designer.cs">
+      <DependentUpon>MD5HashGen.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModConfigCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -919,6 +923,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GoToPositionBox.resx">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MD5HashGen.resx">
+      <DependentUpon>MD5HashGen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModConfigCreator.resx">
       <DependentUpon>ModConfigCreator.cs</DependentUpon>

@@ -132,8 +132,8 @@ namespace ManiacEditor
                 _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
-                _device.SetRenderState(RenderState.ZWriteEnable, false);
-                _device.SetRenderState(RenderState.ZEnable, false);
+                //_device.SetRenderState(RenderState.ZWriteEnable, false);
+                //_device.SetRenderState(RenderState.ZEnable, false);
 
                 if (OnCreateDevice != null)
                 {
@@ -503,7 +503,7 @@ namespace ManiacEditor
                     _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                     _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                 }
-                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
+                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack | SpriteFlags.DoNotModifyRenderState);
 
 
             // Render of scene here

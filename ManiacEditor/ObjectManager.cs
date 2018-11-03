@@ -419,5 +419,29 @@ namespace ManiacEditor
                 checkBox1.Checked = true;
             }
         }
+
+        private void attributesTable_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (sender != attributesTable) return;
+
+            if (e.Control && e.KeyCode == Keys.C)
+                CopySelectedValuesToClipboard();
+
+
+        }
+        private void CopySelectedValuesToClipboard()
+        {
+            var builder = new StringBuilder();
+            foreach (ListViewItem item in attributesTable.SelectedItems)
+                builder.AppendLine(item.SubItems[0].Text);
+
+            Clipboard.SetText(builder.ToString());
+        }
+
+        private void mD5GeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MD5HashGen hashmap = new MD5HashGen();
+            hashmap.Show();
+        }
     }
 }

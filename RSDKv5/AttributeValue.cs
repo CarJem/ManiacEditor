@@ -31,9 +31,9 @@ namespace RSDKv5
         {
             if (type != Type)
             {
-                throw new Exception("Unexpected value type.");
+                //throw new Exception("Unexpected value type.");
 
-                /*switch (type)
+                switch (type)
                 {
                     case AttributeTypes.UINT8:
                         value_uint8 = 0;
@@ -71,7 +71,7 @@ namespace RSDKv5
                     default:
                         throw new Exception("Unexpected value type.");
 
-                }*/
+                }
             }
         }
         public byte ValueUInt8

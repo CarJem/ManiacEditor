@@ -12,7 +12,6 @@ namespace ManiacEditor.Entity_Renders
 {
     public class Ring : EntityRenderer
     {
-
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             //int type = (int)entity.attributesMap["type"].ValueVar;
@@ -62,11 +61,8 @@ namespace ManiacEditor.Entity_Renders
                     e.ProcessMovingPlatform(angle);
                     angle = e.platformAngle;
                 }
-                if (type != 2)
-                {
-                    frame = editorAnim.Frames[e.index];
-                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                }
+                frame = editorAnim.Frames[e.index];
+                e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
                 if ((amplitudeX != 0 || amplitudeY != 0))
                 {
                         double xd = x;

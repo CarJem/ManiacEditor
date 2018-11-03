@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Diagnostics;
 using SharpDX;
 using System.Runtime.InteropServices;
+using System.Data;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -105,7 +106,7 @@ namespace ManiacEditor.Entity_Renders
                 }
 
                 e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-
+                
                 if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && e.Selected)
                 {
                     d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + amplitudeX, y + frame.Frame.CenterY + amplitudeY,
@@ -115,27 +116,29 @@ namespace ManiacEditor.Entity_Renders
                     d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
+                
                 /*
                 if (type == 2)
                 {
                     int[] position = new int[2] { 0, 0 };
                     if (amplitudeX != 0 && amplitudeY == 0)
                     {
-                        position = platformMove.ProcessMovingPlatform2(amplitudeX, 0);
+                        position = e.EditorAnimations.ProcessMovingPlatform2(amplitudeX, 0);
                     }
                     if (amplitudeX == 0 && amplitudeY != 0)
                     {
-                        position = platformMove.ProcessMovingPlatform2(0, amplitudeY);
+                        position = e.EditorAnimations.ProcessMovingPlatform2(0, amplitudeY);
                     }
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
-                        position = platformMove.ProcessMovingPlatform2(amplitudeX, amplitudeY);
+                        position = e.EditorAnimations.ProcessMovingPlatform2(amplitudeX, amplitudeY);
                     }
 
                     d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 */
+                
                 else if ((amplitudeX != 0 || amplitudeY != 0) && type == 3)
                 {
                     e.ProcessMovingPlatform(angle);
@@ -177,10 +180,11 @@ namespace ManiacEditor.Entity_Renders
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 }
+
                 else if ((amplitudeX != 0 || amplitudeY != 0) && type == 4)
                 {
                     //Must improve upon, this isn't the right way of implementing this platform type.
-                    amplitudeX *= 4;
+                    /*amplitudeX *= 4;
                     amplitudeY *= 4;
                     double xd = x;
                     double yd = y;
@@ -191,6 +195,9 @@ namespace ManiacEditor.Entity_Renders
                     int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
                     int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
                     int tensionCount = radiusInt / 16;
+                    */
+                    int tensionCount = amplitudeY;
+                    int newY = amplitudeY * 16;
                     if (tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                     {
                         EditorEntity.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
@@ -198,7 +205,7 @@ namespace ManiacEditor.Entity_Renders
                         for (int i = 0; i < tensionCount; i++)
                         {
 
-                            int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
+                            int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
                             if (i == 0)
                             {
                                 d.DrawBitmap(frame4.Texture,
@@ -217,7 +224,7 @@ namespace ManiacEditor.Entity_Renders
                         }
                     }
 
-                    d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y + newY) + frame.Frame.CenterY,
+                    d.DrawBitmap(frame.Texture, (x) + frame.Frame.CenterX, (y) + frame.Frame.CenterY + newY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 }

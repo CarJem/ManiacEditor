@@ -407,14 +407,14 @@ namespace ManiacEditor
 
         }
 
-        public void FlipPropertySelected(FlipDirection direction)
+        public void FlipPropertySelected(FlipDirection direction, bool flipIndividually = false)
         {
             DetachSelected();
             List<Point> points = new List<Point>(SelectedTilesValue.Keys);
 
             if (points.Count == 0) return;
 
-            if (points.Count == 1)
+            if (points.Count == 1 || flipIndividually)
             {
                 FlipIndividualTiles(direction, points);
                 return;
@@ -982,17 +982,11 @@ namespace ManiacEditor
             int Transperncy;
 
             if (Editor.Instance.EditLayer != null && Editor.Instance.EditLayer != this)
-            {
                 Transperncy = 0x32;
-            }
             else if (Editor.Instance.EditEntities.Checked && Editor.Instance.EditLayer == null && Properties.EditorState.Default.editEntitiesTransparency)
-            {
                 Transperncy = 0x32;
-            }
             else
-            {
                 Transperncy = 0xFF;
-            }
 
             Rectangle screen = d.GetScreen();
             

@@ -50,6 +50,8 @@
             this.searchLabel = new System.Windows.Forms.Label();
             this.FilterText = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mD5GeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -133,6 +135,7 @@
             this.attributesTable.TabIndex = 13;
             this.attributesTable.UseCompatibleStateImageBehavior = false;
             this.attributesTable.View = System.Windows.Forms.View.Details;
+            this.attributesTable.KeyUp += new System.Windows.Forms.KeyEventHandler(this.attributesTable_KeyUp);
             // 
             // attName
             // 
@@ -169,7 +172,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.objectsToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(637, 24);
@@ -263,6 +267,21 @@
             this.checkBox1.Text = "Remove StageConfig Entries";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mD5GeneratorToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // mD5GeneratorToolStripMenuItem
+            // 
+            this.mD5GeneratorToolStripMenuItem.Name = "mD5GeneratorToolStripMenuItem";
+            this.mD5GeneratorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mD5GeneratorToolStripMenuItem.Text = "MD5 Generator";
+            this.mD5GeneratorToolStripMenuItem.Click += new System.EventHandler(this.mD5GeneratorToolStripMenuItem_Click);
+            // 
             // ObjectManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,5 +337,7 @@
         private System.Windows.Forms.ListView lvObjects;
         private System.Windows.Forms.ColumnHeader col1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mD5GeneratorToolStripMenuItem;
     }
 }

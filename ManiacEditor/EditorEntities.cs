@@ -28,6 +28,8 @@ namespace ManiacEditor
 
         public Actions.IAction LastAction;
 
+        public static int layerPrority = 0;
+
 
         public EditorEntities(RSDKv5.Scene scene)
         {
@@ -280,6 +282,18 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
                 entity.Draw(d);
+        }
+
+        public void DrawPriority(DevicePanel d, int prority)
+        {
+            if (FilterRefreshNeeded)
+                UpdateViewFilters();
+            foreach (var entity in entities)
+            {
+                entity.layerPriority = prority;
+                entity.Draw(d);
+            }
+
         }
 
         /// <summary>

@@ -35,6 +35,7 @@ namespace ManiacEditor
         public bool Selected;
 
         public static EditorEntity Instance;
+        public EditorAnimations EditorAnimations;
 
         private SceneEntity entity;
         public AttributeValidater FetchAttribute = new AttributeValidater();
@@ -62,12 +63,14 @@ namespace ManiacEditor
         public Animation rsdkAnim;
         public DateTime lastFrametime;
         public int index = 0;
+        public int layerPriority = 0;
         public SceneEntity Entity { get { return entity; } }
 
         public EditorEntity(SceneEntity entity)
         {
             this.entity = entity;
             lastFrametime = DateTime.Now;
+            EditorAnimations = new EditorAnimations();
 
             if (EntityRenderers.Count == 0)
             {
@@ -711,11 +714,25 @@ namespace ManiacEditor
             }
             int x = entity.Position.X.High;
             int y = entity.Position.Y.High;
+
             bool fliph = false;
             bool flipv = false;
             bool rotate = false;
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
+            bool validPlane = false;
+
+            if (layerPriority != 0)
+            {
+                validPlane = FetchAttribute.PlaneFilterCheck(entity, layerPriority);
+            }
+            else
+            {
+                validPlane = true;
+            }
+
+            if (validPlane == false && !Editor.Instance.IsEntitiesEdit()) return;
+
             var editorAnim = LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
             if (entityRenderList.Contains(name))
             {

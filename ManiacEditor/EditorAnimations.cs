@@ -8,7 +8,6 @@ namespace ManiacEditor
 {
     public partial class EditorAnimations
     {
-        static DateTime lastFrametime;
 
         //Rotating/Moving Platforms
         static int positionX = 0;
@@ -17,12 +16,18 @@ namespace ManiacEditor
         static bool reverseY = false;
         public static EditorAnimations Instance;
 
+        public DateTime lastFrametime;
+        public int index = 0;
+        public DateTime lastFrametime2;
+        public DateTime lastFrametime3;
+        public int index2 = 0;
+
         public EditorAnimations()
         {
             Instance = this;
         }
 
-        private static int[] ProcessMovingPlatform2(int ampX, int ampY, int speed = 3)
+        public int[] ProcessMovingPlatform2(int ampX, int ampY, int speed = 1)
         {
 
             int duration = 1;
@@ -34,7 +39,7 @@ namespace ManiacEditor
                     int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
                     if (speed1 == 0)
                         speed1 = 1;
-                    if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
+                    if ((DateTime.Now - lastFrametime3).TotalMilliseconds > 1024 / speed1)
                     {
                         if (ampX <= -1 && ampX != 0)
                         {
@@ -92,7 +97,7 @@ namespace ManiacEditor
                             }
                         }
 
-                        lastFrametime = DateTime.Now;
+                        lastFrametime3 = DateTime.Now;
                     }
                 }
             }
@@ -105,6 +110,51 @@ namespace ManiacEditor
             position[0] = positionX;
             position[1] = positionY;
             return position;
+
+        }
+
+        public void ProcessAnimation2(int speed, int frameCount, int duration, int startFrame = 0)
+        {
+            // Playback
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.annimationsChecked)
+            {
+                if (speed > 0)
+                {
+                    int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
+                    if (speed1 == 0)
+                        speed1 = 1;
+                    if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
+                    {
+                        index++;
+                        lastFrametime = DateTime.Now;
+                    }
+                }
+            }
+            else index = 0 + startFrame;
+            if (index >= frameCount)
+                index = 0;
+
+        }
+        public void ProcessAnimation3(int speed, int frameCount, int duration, int startFrame = 0)
+        {
+            // Playback
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.annimationsChecked)
+            {
+                if (speed > 0)
+                {
+                    int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
+                    if (speed1 == 0)
+                        speed1 = 1;
+                    if ((DateTime.Now - lastFrametime2).TotalMilliseconds > 1024 / speed1)
+                    {
+                        index2++;
+                        lastFrametime2 = DateTime.Now;
+                    }
+                }
+            }
+            else index2 = 0 + startFrame;
+            if (index2 >= frameCount)
+                index2 = 0;
 
         }
     }

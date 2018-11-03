@@ -200,6 +200,89 @@ namespace ManiacEditor
             }
         }
 
+        public bool PlaneFilterCheck(SceneEntity entity, int prority)
+        {
+            if (entity.attributesMap.ContainsKey("priority"))
+            {
+                int plane = (int)entity.attributesMap["priority"].ValueVar;
+                if (plane == 0)
+                {
+                    plane = (int)entity.attributesMap["priority"].ValueUInt8;
+                }
+                switch (plane)
+                {
+                    case 3:
+                        plane = 0;
+                        break;
+                    case 2:
+                        plane = 1;
+                        break;
+                    case 1:
+                        plane = 2;
+                        break;
+                    case 0:
+                        plane = 3;
+                        break;
+                }
+                if (plane == prority)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (entity.attributesMap.ContainsKey("targetLayer"))
+            {
+                int plane = (int)entity.attributesMap["targetLayer"].ValueUInt16;
+                switch (plane)
+                {
+                    case 3:
+                        plane = 0;
+                        break;
+                    case 2:
+                        plane = 1;
+                        break;
+                    case 1:
+                        plane = 2;
+                        break;
+                    case 0:
+                        plane = 3;
+                        break;
+                }
+                if (plane == prority)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (entity.attributesMap.ContainsKey("planeFilter"))
+            {
+                int plane = (int)entity.attributesMap["planeFilter"].ValueVar;
+                if (plane == 0)
+                {
+                    plane = (int)entity.attributesMap["planeFilter"].ValueUInt8;
+                }
+
+                if (plane == prority)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
     }
 }
