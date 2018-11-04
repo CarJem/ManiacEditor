@@ -16,8 +16,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High);
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High);
+            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High) + 16;
+            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High) + 16;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 

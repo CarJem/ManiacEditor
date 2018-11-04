@@ -36,6 +36,11 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawLine(x2, y2, x1, y2, SystemColors.White);
                 d.DrawLine(x2, y2, x2, y1, SystemColors.White);
 
+                d.DrawLine(x1-16, y1-16, x1-16, y2+16, SystemColors.Blue);
+                d.DrawLine(x1-16, y1-16, x2+16, y1-16, SystemColors.Blue);
+                d.DrawLine(x2+16, y2+16, x1-16, y2+16, SystemColors.Blue);
+                d.DrawLine(x2+16, y2+16, x2+16, y1-16, SystemColors.Blue);
+
                 // draw corners
                 for (int i = 0; i < 4; i++)
                 {

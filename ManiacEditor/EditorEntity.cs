@@ -436,12 +436,12 @@ namespace ManiacEditor
                     {
                         if (name == "EditorAssets")
                         {
-                            targetFile = Path.Combine(Environment.CurrentDirectory, "EditorAssets.gif");
+                            targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
                             noEncoreColors = true;
                         }
                         else if (name == "EditorIcons2")
                         {
-                            targetFile = Path.Combine(Environment.CurrentDirectory, "EditorIcons2.gif");
+                            targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
                             noEncoreColors = true;
                         }
                         else if (name == "TransportTubes")
@@ -539,13 +539,13 @@ namespace ManiacEditor
             {
                 if (name == "EditorAssets")
                 {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "EditorAssets.bin");
+                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.bin");
                     if (!File.Exists(path2))
                         return null;
                 }
                 else if (name == "EditorIcons2")
                 {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "EditorIcons2.bin");
+                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.bin");
                     if (!File.Exists(path2))
                         return null;
                 }
@@ -672,13 +672,17 @@ namespace ManiacEditor
         // allow derived types to override the draw
         public virtual void Draw(DevicePanel d)
         {
+            if (entity.Object.Name.Name == "Player" && !Editor.Instance.playerObjectPosition.Contains(entity))
+            {
+                Editor.Instance.playerObjectPosition.Add(entity);
+            }
+
             List<string> entityRenderList = entityRenderingObjects;
             List<string> onScreenExlusionList = renderOnScreenExlusions;
             if (Properties.Settings.Default.DisableRenderExlusions)
             {
                 onScreenExlusionList = new List<string>();
             }
-
 
             if (filteredOut) return;
 
