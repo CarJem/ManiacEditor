@@ -784,7 +784,7 @@ namespace ManiacEditor
                     if (Properties.EditorState.Default.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
-                DrawOthers(d);
+                //DrawOthers(d);
             }
             else
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -26,20 +27,9 @@ namespace ManiacEditor.Entity_Renders
             {
                 flipSides = true;
             }
-            switch (pullDir) {
-                case 0:
-                    fliph = false;
-                    break;
-                case 1:
-                    fliph = true;
-                    break;
-                default:
-                    fliph = false;
-                    break;
-            }
-            var editorAnim = e.LoadAnimation2("SDashWheel", d, 0, 0, flipSides, flipv, false);
-            var editorAnimKnob = e.LoadAnimation2("SDashWheel", d, 2, 0, flipSides, flipv, false);
-            var editorAnimHandle = e.LoadAnimation2("SDashWheel", d, 3, 0, flipSides, flipv, false);
+            var editorAnim = e.LoadAnimation2("SDashWheel", d, 0, 0, fliph, flipv, false);
+            var editorAnimKnob = e.LoadAnimation2("SDashWheel", d, 2, 0, fliph, flipv, false);
+            var editorAnimHandle = e.LoadAnimation2("SDashWheel", d, 3, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimKnob != null && editorAnimKnob.Frames.Count != 0 && editorAnimHandle != null && editorAnimHandle.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -47,16 +37,18 @@ namespace ManiacEditor.Entity_Renders
                 var frameHandle = editorAnimHandle.Frames[0];
 
                 x -= (flipSides ? -18 : 18);
+
                 //y += 26;
-                int[] processPoints = RotatePoints(x + length + 26, y, x, y, angle + (flipSides ? 121 : 6));
+                int[] processPoints = RotatePoints(x + length + 26, y, x, y, (int)(angle / -1.995));
+
                 d.DrawLine(x + 2, y, processPoints[0] + 2, processPoints[1], System.Drawing.Color.FromArgb(255, 0, 32, 0));
                 d.DrawLine(x + 1, y, processPoints[0] + 1, processPoints[1], System.Drawing.Color.FromArgb(255, 198, 32, 0));
                 d.DrawLine(x, y, processPoints[0], processPoints[1], System.Drawing.Color.FromArgb(255, 231, 130, 0));
                 d.DrawLine(x - 1, y, processPoints[0] - 1, processPoints[1], System.Drawing.Color.FromArgb(255, 198, 32, 0));
                 d.DrawLine(x - 2, y, processPoints[0] - 2, processPoints[1], System.Drawing.Color.FromArgb(255, 0, 32, 0));
                 d.DrawBitmap(frameHandle.Texture,
-                processPoints[0] + frameHandle.Frame.CenterX - (flipSides ? -8 : 5),
-                processPoints[1] + frameHandle.Frame.CenterY + (flipSides ? 10 : 10),
+                processPoints[0] + frameHandle.Frame.CenterX - (flipSides ? -5 : 5),
+                processPoints[1] + frameHandle.Frame.CenterY + (flipSides ? 10 : -10),
                 frameHandle.Frame.Width, frameHandle.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(frame.Texture,

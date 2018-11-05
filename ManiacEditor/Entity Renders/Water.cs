@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ManiacEditor;
+using Microsoft.Win32.SafeHandles;
 using Microsoft.Xna.Framework;
 using RSDKv5;
 using SystemColors = System.Drawing.Color;
@@ -23,29 +24,68 @@ namespace ManiacEditor.Entity_Renders
             var height = (int)heightPixels / 16;
             bool fliph = false;
             bool flipv = false;
-            int animID;
-            if (type == 2)
+            bool showBounds = false;
+            bool HCZBubbles = false;
+            int animID = 0;
+            switch (type)
             {
-                animID = 2;
+                case 0:
+                    showBounds = false;
+                    break;
+                case 1:
+                    showBounds = true;
+                    break;
+                case 2:
+                    showBounds = false;
+                    animID = 2;
+                    break;
+                case 3:
+                    showBounds = true;
+                    break;
+                case 4:
+                    showBounds = true;
+                    break;
+                case 5:
+                    showBounds = false;
+                    HCZBubbles = true;
+                    break;
             }
-            else
-            {
-                animID = 0;
-            }
+
             var editorAnim = e.LoadAnimation2("Water", d, animID, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && type != 1)
+
+            // Base Water + Bubble Source
+            if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && (type == 2 || type == 0))
             {
                 var frame = editorAnim.Frames[e.index];
 
                 e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
-x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
+            x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
+            y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
+            frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
-            else if (width != 0 && height != 0 && type != 2)
+
+
+            // HCZ Big Bubbles
+            else if (HCZBubbles == true)
+            {
+                editorAnim = e.LoadAnimation2("BigBubble", d, 7, -1, fliph, flipv, false);
+                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                {
+                    var frame = editorAnim.Frames[e.index];
+
+                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+
+                    d.DrawBitmap(frame.Texture,
+                        x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
+                        y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                }
+            }
+
+            // Bounded Water
+            if (width != 0 && height != 0 && showBounds == true && HCZBubbles == false)
             {
                 //Draw Icon
                 editorAnim = e.LoadAnimation2("EditorIcons2", d, 0, 8, fliph, flipv, false);
@@ -58,10 +98,10 @@ frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
-                    int x1 = x + widthPixels /  - 2;
-                    int x2 = x + widthPixels /  2 - 1;
-                    int y1 = y + heightPixels / - 2;
-                    int y2 = y + heightPixels / 2 - 1;
+                int x1 = x + widthPixels / -2;
+                int x2 = x + widthPixels / 2 - 1;
+                int y1 = y + heightPixels / -2;
+                int y2 = y + heightPixels / 2 - 1;
 
 
                 d.DrawLine(x1, y1, x1, y2, SystemColors.Aqua);
@@ -69,14 +109,14 @@ frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawLine(x2, y2, x1, y2, SystemColors.Aqua);
                 d.DrawLine(x2, y2, x2, y1, SystemColors.Aqua);
 
-                
+
                 // draw corners
                 for (int i = 0; i < 4; i++)
                 {
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 2, 0, right, bottom, false);
+                    editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 0, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[e.index];
