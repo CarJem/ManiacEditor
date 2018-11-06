@@ -2134,7 +2134,7 @@ namespace ManiacEditor
                 CollisionLayerA.Clear();
                 CollisionLayerB.Clear();
 
-                if (File.Exists(SceneFilepath + "TileConfig.bin"))
+                if (StageTiles != null)
                 {
                     for (int i = 0; i < 1024; i++)
                     {
