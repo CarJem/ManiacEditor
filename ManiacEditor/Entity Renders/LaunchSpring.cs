@@ -17,10 +17,15 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LaunchSpring : EntityRenderer
     {
+        //Shorthanding Setting Files
+        Properties.Settings mySettings = Properties.Settings.Default;
+        Properties.EditorState myEditorState = Properties.EditorState.Default;
+        Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             int angle = (int)entity.attributesMap["angle"].ValueInt32;
+            int type = (int)entity.attributesMap["type"].ValueUInt8;
             int rotation = 0;
             switch (angle)
             {
@@ -78,7 +83,7 @@ namespace ManiacEditor.Entity_Renders
                         //Launcher
                         d.DrawBitmap(frame.Texture,
                             x + frame.Frame.CenterX,
-                            y + frame.Frame.CenterY,
+                            y + frame.Frame.CenterY + (type == 0 ? 47 : 0),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
                             x + frame2.Frame.CenterX + frame3.Frame.Width + 24,
@@ -98,8 +103,8 @@ namespace ManiacEditor.Entity_Renders
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                         //Launcher
                         d.DrawBitmap(frame.Texture,
-                            x + frame.Frame.CenterX - 17,
-                            y + frame.Frame.CenterY - 70,
+                            x + frame.Frame.CenterX - 17 - (type == 0 ? 32 : 0),
+                            y + frame.Frame.CenterY - 70 + (type == 0 ? 33 : 0),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
                             x + frame2.Frame.CenterX + 11,
@@ -119,7 +124,7 @@ namespace ManiacEditor.Entity_Renders
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                         //Launcher
                         d.DrawBitmap(frame.Texture,
-                            x + frame.Frame.CenterX + 23,
+                            x + frame.Frame.CenterX + 23 - (type == 0 ? 47 : 0),
                             y + frame.Frame.CenterY - 41,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
@@ -140,8 +145,8 @@ namespace ManiacEditor.Entity_Renders
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                         //Launcher
                         d.DrawBitmap(frame.Texture,
-                            x + frame.Frame.CenterX + 28,
-                            y + frame.Frame.CenterY + 6,
+                            x + frame.Frame.CenterX + 28 - (type == 0 ? 32 : 0),
+                            y + frame.Frame.CenterY + 6 - (type == 0 ? 32 : 0),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
                             x + frame2.Frame.CenterX + 1,
@@ -162,7 +167,7 @@ namespace ManiacEditor.Entity_Renders
                         //Launcher
                         d.DrawBitmap(frame.Texture,
                             x + frame.Frame.CenterX - 1,
-                            y + frame.Frame.CenterY + 45,
+                            y + frame.Frame.CenterY + 45 - (type == 0 ? 47 : 0),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
                             x + frame2.Frame.CenterX - 40,
@@ -182,8 +187,8 @@ namespace ManiacEditor.Entity_Renders
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                         //Launcher
                         d.DrawBitmap(frame.Texture,
-                            x + frame.Frame.CenterX - 52,
-                            y + frame.Frame.CenterY + 50,
+                            x + frame.Frame.CenterX - 52 + (type == 0 ? 36 : 0),
+                            y + frame.Frame.CenterY + 50 - (type == 0 ? 30 : 0),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
                             x + frame2.Frame.CenterX - 78,
@@ -203,7 +208,7 @@ namespace ManiacEditor.Entity_Renders
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                         //Launcher
                         d.DrawBitmap(frame.Texture,
-                            x + frame.Frame.CenterX - 88,
+                            x + frame.Frame.CenterX - 88 + (type == 0 ? 47 : 0),
                             y + frame.Frame.CenterY + 22,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
@@ -228,8 +233,8 @@ namespace ManiacEditor.Entity_Renders
                             y + frame.Frame.CenterY - 27,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,
-                            x + frame2.Frame.CenterX - 67,
-                            y + frame2.Frame.CenterY - 55,
+                            x + frame2.Frame.CenterX - 67 + (type == 0 ? 34 : 0),
+                            y + frame2.Frame.CenterY - 55 + (type == 0 ? 34 : 0),
                             frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                         break;
                     default:
@@ -245,7 +250,7 @@ namespace ManiacEditor.Entity_Renders
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                         //Launcher
                         d.DrawBitmap(frame.Texture,
-                            x + frame.Frame.CenterX,
+                            x + frame.Frame.CenterX + (type == 0 ? 47 : 0),
                             y + frame.Frame.CenterY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                         d.DrawBitmap(frame2.Texture,

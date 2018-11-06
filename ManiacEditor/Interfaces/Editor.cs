@@ -64,6 +64,9 @@ namespace ManiacEditor
         public static bool isPreRending = false; //Determines if we are Preloading a Scene
         bool AllowSceneChange = false; // For the Save Warning Dialog
         bool encorePaletteExists = false; // Determines if an Encore Pallete Exists
+        bool forceResize = false; //For Opening a Scene Forcefully
+        int forceResizeGoToX = 0; //For Opening a Scene Forcefully and then going to the specified X
+        int forceResizeGoToY = 0; //For Opening a Scene Forcefullyand then going to the specified Y
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -240,9 +243,18 @@ namespace ManiacEditor
 
             SetViewSize();
 
+
             UpdateControls();
 
             TryLoadSettings();
+
+            if (mySettings.UseForcefulStartup) {
+                OpenSceneForceFully();
+            }
+
+
+
+
 
         }
 
@@ -2012,46 +2024,64 @@ namespace ManiacEditor
 
         }
 
-        private void OpenScene(bool manual = false)
+        private void OpenSceneForceFully()
         {
-            SceneSelect select;
-            string Result = null;
-            string ResultPath = null;
+            DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
+            string Result = "HCZ\\Scene1.bin";
             int LevelID = -1;
             bool isEncore = false;
-            if (manual == false)
-            {
+            forceResize = true;
+            int x = 3744;
+            int y = 1786;
+            forceResizeGoToX = x;
+            forceResizeGoToY = y;
+            OpenScene(false, Result, LevelID, isEncore, true);
 
-                if (!load())
+            
+        }
+        
+        private void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool shortcut = false)
+        {
+            SceneSelect select;
+            string ResultPath = null;
+            if (Result == null)
+            {
+                if (manual == false)
                 {
-                    select = new SceneSelect();
+
+                    if (!load())
+                    {
+                        select = new SceneSelect();
+                    }
+                    else
+                    {
+                        select = new SceneSelect(GameConfig);
+                    }
+                    select.ShowDialog();
+                    Result = select.Result;
+                    LevelID = select.LevelID;
+                    isEncore = select.isEncore;
+
                 }
                 else
                 {
-                    select = new SceneSelect(GameConfig);
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.Filter = "Scene File|*.bin";
+                    if (open.ShowDialog() != DialogResult.Cancel)
+                    {
+                        Result = open.FileName;
+                    }
+
+
                 }
-                select.ShowDialog();
-                Result = select.Result;
-                LevelID = select.LevelID;
-                isEncore = select.isEncore;
-
             }
-            else
-            {
-                OpenFileDialog open = new OpenFileDialog();
-                open.Filter = "Scene File|*.bin";
-                if (open.ShowDialog() != DialogResult.Cancel)
-                {
-                    Result = open.FileName;
-                }
 
-
-            }
 
             if (Result == null)
             {
                 return;
             }
+            Debug.Print(Result);
 
             ResultPath = Path.GetDirectoryName(Result);
             UnloadScene();
@@ -2134,7 +2164,7 @@ namespace ManiacEditor
                 CollisionLayerA.Clear();
                 CollisionLayerB.Clear();
 
-                if (StageTiles != null)
+                if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
                 {
                     for (int i = 0; i < 1024; i++)
                     {
@@ -2190,7 +2220,10 @@ namespace ManiacEditor
 
             UpdateControls(true);
 
-
+            if (shortcut)
+            {
+                UpdateControls();
+            }
         }
 
         private void RepairScene()
@@ -2496,7 +2529,9 @@ a valid Data Directory.",
                 }
 
                 if (ShowEntities.Checked && !EditEntities.Checked && !mySettings.PrioritizedObjectRendering)
+                {
                     entities.Draw(GraphicPanel);
+                }
 
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
@@ -3808,6 +3843,12 @@ Error: {ex.Message}");
 
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
         {
+            if (forceResize)
+            {
+                forceResize = false;
+                Form1_Resize(null, null);
+                GoToPosition(forceResizeGoToX, forceResizeGoToY);
+            }
             ShiftY = (sender as VScrollBar).Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
             if (draggingSelection)
@@ -3818,6 +3859,12 @@ Error: {ex.Message}");
 
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)
         {
+            if (forceResize)
+            {
+                forceResize = false;
+                Form1_Resize(null, null);
+                GoToPosition(forceResizeGoToX, forceResizeGoToY);
+            }
             ShiftX = hScrollBar1.Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
             if (draggingSelection)
@@ -4547,7 +4594,8 @@ Error: {ex.Message}");
             
         }
 
-        private void goToToolStripMenuItem_Click(object sender, EventArgs e)
+
+        public void goToToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GoToPositionBox form = new GoToPositionBox();
             DialogResult Result = form.ShowDialog();
@@ -4899,7 +4947,7 @@ Error: {ex.Message}");
 
         }
 
-        private void GoToPosition(int x, int y)
+        public void GoToPosition(int x, int y)
         {
             //Set Zoom Level to Position so we can Move to that location
             SetZoomLevel(0, new Point(0, 0));
