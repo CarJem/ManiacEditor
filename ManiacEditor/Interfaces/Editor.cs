@@ -1135,7 +1135,6 @@ namespace ManiacEditor
                 GraphicPanel.Render();
 
             }
-
             if (IsEditing())
             {
                 if (IsTilesEdit() && placeTilesButton.Checked)
@@ -2485,7 +2484,7 @@ a valid Data Directory.",
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
 
-                if (ShowEntities.Checked && !EditEntities.Checked) //Plane Filter 1
+                if (ShowEntities.Checked && !EditEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 1
                 {
                     entities.DrawPriority(GraphicPanel, 0);
                     entities.DrawPriority(GraphicPanel, 1);
@@ -2494,11 +2493,13 @@ a valid Data Directory.",
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
-                if (ShowEntities.Checked && !EditEntities.Checked) //Plane Filter 2
+                if (ShowEntities.Checked && !EditEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 2
                 {
                     entities.DrawPriority(GraphicPanel, 2);
                     entities.DrawPriority(GraphicPanel, 3);
-                } 
+                }
+                if (ShowEntities.Checked && !EditEntities.Checked && !mySettings.PrioritizedObjectRendering)
+                    entities.Draw(GraphicPanel);
 
                 if (ShowFGHigher.Checked || EditFGHigher.Checked)
                     FGHigher.Draw(GraphicPanel);
@@ -4247,6 +4248,11 @@ Error: {ex.Message}");
             preLoadForm.Show();
             toggleEditorButtons(false);
 
+            int ScrollAmount = 100;
+            if (mySettings.preRenderTURBOMode)
+            {
+                ScrollAmount = 500;
+            }
 
             hScrollBar1.Value = 0;
             vScrollBar1.Value = 0;
@@ -4258,14 +4264,14 @@ Error: {ex.Message}");
                 for (int x = 0; x < ScreenMaxH;)
                 {
                     hScrollBar1.Value = x;
-                    int x_test = x + 100;
+                    int x_test = x + ScrollAmount;
                     if (x_test >= ScreenMaxH)
                     {
                         x = x + x_test - ScreenMaxH;
                     }
                     else
                     {
-                        x = x + 100;
+                        x = x + ScrollAmount;
                     }
                     Application.DoEvents();
                     //preLoadForm.SetProgressBarStatus(progressValueX, progressValueY);
@@ -4273,15 +4279,16 @@ Error: {ex.Message}");
 
                 }
                 vScrollBar1.Value = y;
-                int y_test = y + 100;
+                int y_test = y + ScrollAmount;
                 if (y_test >= ScreenMaxV)
                 {
                     y = y + y_test - ScreenMaxV;
                 }
                 else
                 {
-                    y = y + 100;
+                    y = y + ScrollAmount;
                 }
+                Application.DoEvents();
                 //preLoadForm.SetProgressBarStatus(progressValueX, progressValueY);
 
 

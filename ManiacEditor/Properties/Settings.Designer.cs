@@ -1139,5 +1139,29 @@ namespace ManiacEditor.Properties {
                 this["AlwaysDrawBitmaps"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PrioritizedObjectRendering {
+            get {
+                return ((bool)(this["PrioritizedObjectRendering"]));
+            }
+            set {
+                this["PrioritizedObjectRendering"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool preRenderTURBOMode {
+            get {
+                return ((bool)(this["preRenderTURBOMode"]));
+            }
+            set {
+                this["preRenderTURBOMode"] = value;
+            }
+        }
     }
 }
