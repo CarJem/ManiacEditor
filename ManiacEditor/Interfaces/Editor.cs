@@ -22,6 +22,7 @@ using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Reflection;
 using ManiacEditor.Interfaces;
+using ManiacEditor.Entity_Renders;
 
 namespace ManiacEditor
 {
@@ -4096,11 +4097,15 @@ Error: {ex.Message}");
 
         private void openDataDirectoryMenuButton(object sender, EventArgs e)
         {
-            string dataDirectory = _recentDataItems[1].Tag.ToString();
-            if (dataDirectory != null)
+            if (_recentDataItems != null)
             {
-                RecentDataDirectoryClicked(sender, e, dataDirectory);
+                string dataDirectory = _recentDataItems[1].Tag.ToString();
+                if (dataDirectory != null || dataDirectory != "")
+                {
+                    RecentDataDirectoryClicked(sender, e, dataDirectory);
+                }
             }
+
         }
 
         private void openSceneFolderToolStripMenuItem_Click(object sender, EventArgs e)
