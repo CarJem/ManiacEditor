@@ -2134,11 +2134,15 @@ namespace ManiacEditor
                 CollisionLayerA.Clear();
                 CollisionLayerB.Clear();
 
-                for (int i = 0; i < 1024; i++)
+                if (File.Exists(SceneFilepath + "TileConfig.bin"))
                 {
-                    CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
-                    CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
+                    for (int i = 0; i < 1024; i++)
+                    {
+                        CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
+                        CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
+                    }
                 }
+
 
                 // Object Rescue Mode
                 if (mySettings.DisableEntityReading == true)
