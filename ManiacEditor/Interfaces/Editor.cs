@@ -2490,6 +2490,9 @@ a valid Data Directory.",
                     entities.DrawPriority(GraphicPanel, 1);
                 }
 
+                if (ShowEntities.Checked && !EditEntities.Checked && !mySettings.PrioritizedObjectRendering)
+                    entities.Draw(GraphicPanel);
+
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
@@ -2498,8 +2501,6 @@ a valid Data Directory.",
                     entities.DrawPriority(GraphicPanel, 2);
                     entities.DrawPriority(GraphicPanel, 3);
                 }
-                if (ShowEntities.Checked && !EditEntities.Checked && !mySettings.PrioritizedObjectRendering)
-                    entities.Draw(GraphicPanel);
 
                 if (ShowFGHigher.Checked || EditFGHigher.Checked)
                     FGHigher.Draw(GraphicPanel);
