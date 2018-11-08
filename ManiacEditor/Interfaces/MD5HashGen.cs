@@ -37,17 +37,27 @@ namespace ManiacEditor
             // Use input string to calculate MD5 hash
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
                 // Convert the byte array to hexadecimal string
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
-                return sb.ToString().ToLower();
+                foreach (byte b in Invert(hashBytes))
+                    sb.Append(string.Format("{0:X2}", b));
+
+                return sb.ToString();
             }
+        }
+
+        /// <summary>
+        /// Swaps nibbles position of a byte Array, Useful for Sonic Mania
+        /// e.g IN: 0CBC OUT: C0CB
+        /// </summary>
+        /// <param name="b">Hash Array</param>
+        /// <returns>Swaped IEnumerable</returns>
+        public static IEnumerable<byte> Invert(byte[] b)
+        {
+            return b.Select(item => (byte)((item << 4) | (item >> 4)));
         }
     }
 }
