@@ -281,30 +281,30 @@ namespace ManiacEditor
             Result result = _device.TestCooperativeLevel();
             if (result == ResultCode.DeviceLost)
             {
-                //try
-                //{
+                try
+                {
                     Debug.Print("Device Lost! Fixing....");
                     DisposeDeviceResources();
                     InitDeviceResources();
                     deviceLost = false;
-                //}
-                //catch (SharpDXException ex2)
-                //{
+                }
+                catch (SharpDXException ex2)
+                {
                     DeviceExceptionDialog(0, ex, null);
-                //}
+                }
             }
             else if (result == ResultCode.DeviceRemoved)
             {
-                //try
-                //{
+                try
+                {
                     Debug.Print("Device Removed! Fixing....");
                     ResetDevice();
                     deviceLost = false;
-                //}
-                //catch (SharpDXException ex2)
-                //{
+                }
+                catch (SharpDXException ex2)
+                {
                     DeviceExceptionDialog(0, ex, null);
-                //}
+                }
             }
             else if (result == ResultCode.OutOfVideoMemory)
             {
@@ -473,7 +473,7 @@ namespace ManiacEditor
         /// </summary>
         public void Render()
         {
-            if (deviceLost) AttemptRecovery(null);
+            //if (deviceLost) AttemptRecovery(null);
             if (_device == null)
             {
                 AttemptRecovery(null);

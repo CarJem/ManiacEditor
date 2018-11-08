@@ -76,6 +76,7 @@ namespace ManiacEditor
         public string ToolbarSelectedTile; //Used to display the selected tile in the tiles toolbar
         internal bool controlWindowOpen; //Used somewhere in the Layer Manager (Unkown)
         public int selectPlayerObject_GoTo = 0; //Used to determine which player object to go to
+        public bool cooldownDone = false; // For waiting on functions
 
         //Editor Paths
         public static string DataDirectory; //Used to get the current Data Directory
@@ -109,6 +110,8 @@ namespace ManiacEditor
         internal EditorLayer FGLow => EditorScene?.ForegroundLow;
         internal EditorLayer FGLower => EditorScene?.LowDetails;
         internal EditorLayer ScratchLayer => EditorScene?.Scratch;
+
+        internal IEnumerable<EditorLayer> AllLayers => EditorScene?.AllLayers;
         //Used to Get the Maximum Layer Height and Width
         internal int SceneWidth => EditorScene.Layers.Max(sl => sl.Width) * 16;
         internal int SceneHeight => EditorScene.Layers.Max(sl => sl.Height) * 16;
@@ -119,7 +122,9 @@ namespace ManiacEditor
         public static string GamePath = ""; //Tells us where the game is located
 
         //Used to store information to Clipboards
-        internal Dictionary<Point, ushort> TilesClipboard;
+        public Dictionary<Point, ushort> TilesClipboard;
+        public Dictionary<Point, ushort> FindReplaceClipboard;
+        public Dictionary<Point, ushort> TilesClipboardEditable;
         private List<EditorEntity> entitiesClipboard;
 
         //Used For Discord Rich Pressence
@@ -680,6 +685,8 @@ namespace ManiacEditor
             undoButton.Enabled = enabled && undo.Count > 0;
             redoButton.Enabled = enabled && redo.Count > 0;
 
+            findAndReplaceToolStripMenuItem.Enabled = enabled && EditLayer != null;
+
             pointerButton.Enabled = enabled && IsTilesEdit();
             selectTool.Enabled = enabled && IsTilesEdit();
             placeTilesButton.Enabled = enabled && IsTilesEdit();
@@ -842,6 +849,198 @@ namespace ManiacEditor
             tiles[new Point(0, 0)] = (ushort)tile;
             EditLayer.PasteFromClipboard(position, tiles);
             UpdateEditLayerActions();
+        }
+
+        public void EditorTileReplaceTest(int findValue, int replaceValue, int applyState, bool copyResults, bool perserveColllision)
+        {
+            if (IsTilesEdit())
+            {
+                    EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+                    UpdateEditLayerActions();
+                    Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard(true);
+                    FindReplaceClipboard = copyData;
+
+                    List<ushort> listValue = new List<ushort> { };
+                    List<Point> listPoint = new List<Point> { };
+                    List<int> listReplaceValues = new List<int> { };
+                    foreach (var item in FindReplaceClipboard)
+                    {
+                        listPoint.Add(item.Key);
+                    }
+                    foreach (var item in FindReplaceClipboard)
+                    {
+                        listValue.Add(item.Value);
+                    }
+                    for (int i = 0; i < listValue.Count; i++)
+                    {
+                        if ((listValue[i] & 0x3ff) == (ushort)(findValue & 0x3ff))
+                        unchecked
+                        {
+                            if (perserveColllision)
+                                {
+                                    ushort TileIndex = (ushort)(listValue[i] & 0x3ff);
+                                    int TileIndexInt = (int)(listValue[i] & 0x3ff);
+                                    bool flipX = ((listValue[i] >> 10) & 1) == 1;
+                                    bool flipY = ((listValue[i] >> 11) & 1) == 1;
+                                    bool SolidTopA = ((listValue[i] >> 12) & 1) == 1;
+                                    bool SolidLrbA = ((listValue[i] >> 13) & 1) == 1;
+                                    bool SolidTopB = ((listValue[i] >> 14) & 1) == 1;
+                                    bool SolidLrbB = ((listValue[i] >> 15) & 1) == 1;
+
+                                    listValue[i] = (ushort)replaceValue;
+                                    if (flipX)
+                                        listValue[i] |= (1 << 10);
+                                    else
+                                        listValue[i] &= (ushort)~(1 << 10);
+                                    if (flipY)
+                                        listValue[i] |= (1 << 11);
+                                    else
+                                        listValue[i] &= (ushort)~(1 << 11);
+                                    if (SolidTopA)
+                                        listValue[i] |= (1 << 12);
+                                    else
+                                        listValue[i] &= (ushort)~(1 << 12);
+                                    if (SolidLrbA)
+                                        listValue[i] |= (1 << 13);
+                                    else
+                                        listValue[i] &= (ushort)~(1 << 13);
+                                    if (SolidTopB)
+                                        listValue[i] |= (1 << 14);
+                                    else
+                                        listValue[i] &= (ushort)~(1 << 14);
+                                    if (SolidLrbB)
+                                        listValue[i] |= (1 << 15);
+                                    else
+                                        listValue[i] &= (ushort)~(1 << 15);
+                                }
+                            else
+                                {
+                                    listValue[i] = (ushort)replaceValue;
+                                }
+
+
+                            //Debug.Print(listValue[i].ToString());
+                        }
+                    }
+                    FindReplaceClipboard.Clear();
+                    for (int i = 0; i < listPoint.Count; i++)
+                    {
+                        FindReplaceClipboard.Add(listPoint[i], listValue[i]);
+                    }
+
+                    // if there's none, use the internal clipboard
+                    if (FindReplaceClipboard != null)
+                    {
+                        EditLayer.PasteFromClipboard(new Point(0, 0), FindReplaceClipboard);
+                        UpdateEditLayerActions();
+                    }
+                    UpdateEditLayerActions();
+                    FindReplaceClipboard.Clear();
+                    Deselect();
+            }
+
+        }
+
+        public void EditorTileFindTest(int tile, int applyState, bool copyResults)
+        {
+            if (IsTilesEdit())
+            {
+                EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+                UpdateEditLayerActions();
+                Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard(true);
+                FindReplaceClipboard = copyData;
+
+                List<ushort> listValue = new List<ushort> { };
+                List<Point> listPoint = new List<Point> { };
+                List<Point> listLocations = new List<Point> { };
+
+                foreach (var item in FindReplaceClipboard)
+                {
+                    listPoint.Add(item.Key);
+                }
+                foreach (var item in FindReplaceClipboard)
+                {
+                    listValue.Add(item.Value);
+                }
+                for (int i = 0; i < listValue.Count; i++)
+                {
+                    if ((listValue[i] & 0x3ff) == (ushort)(tile & 0x3ff))
+                    {
+                        listLocations.Add(listPoint[i]);
+                    }
+                }
+                FindReplaceClipboard.Clear();
+                if (listLocations != null || listLocations.Count != 0)
+                {
+                    var message = string.Join(Environment.NewLine, listLocations);
+                    MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
+                    if (copyResults && message != null)
+                    {
+                        Clipboard.SetText(message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Found Nothing", "Results");
+                }
+                FindReplaceClipboard.Clear();
+                Deselect();
+
+
+            }
+
+        }
+
+        public bool IsTileUnused(int tile)
+        {
+            List<ushort> listValue = new List<ushort> { };
+            List<Point> listPoint = new List<Point> { };
+            List<Point> listLocations = new List<Point> { };
+            IEnumerable<EditorLayer> AllLayers = EditorScene.AllLayers;
+
+            foreach (var editorLayer in EditorScene.AllLayers)
+            {
+                EditLayer = editorLayer;
+                EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+                UpdateEditLayerActions();
+                Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard(true);
+                FindReplaceClipboard = copyData;
+
+
+                if (FindReplaceClipboard != null)
+                {
+                    foreach (var item in FindReplaceClipboard)
+                    {
+                        listPoint.Add(item.Key);
+                    }
+                    foreach (var item in FindReplaceClipboard)
+                    {
+                        listValue.Add(item.Value);
+                    }
+                    for (int i = 0; i < listValue.Count; i++)
+                    {
+                        if ((listValue[i] & 0x3ff) == (ushort)(tile & 0x3ff))
+                        {
+                            listLocations.Add(listPoint[i]);
+                        }
+                    }
+                    FindReplaceClipboard.Clear();
+                    Deselect();
+                }
+
+            }
+
+                if (listLocations.Count != 0)
+                {
+                    cooldownDone = true;
+                    return false;
+                }
+                else
+                {
+                    cooldownDone = true;
+                    return true;
+                }
+
         }
 
         public void MagnetDisable()
@@ -2027,12 +2226,12 @@ namespace ManiacEditor
         private void OpenSceneForceFully()
         {
             DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
-            string Result = "HCZ\\Scene1.bin";
+            string Result = "HCZ\\Scene2.bin";
             int LevelID = -1;
             bool isEncore = false;
             forceResize = true;
-            int x = 3744;
-            int y = 1786;
+            int x = 21013;
+            int y = 1439;
             forceResizeGoToX = x;
             forceResizeGoToY = y;
             OpenScene(false, Result, LevelID, isEncore, true);
@@ -3051,12 +3250,12 @@ Error: {ex.Message}");
             }
         }
 
-        private void CopyTilesToClipboard()
+        private void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
         {
                 Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard();
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-                if (mySettings.EnableWindowsClipboard)
+                if (mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
                     Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
 
                 // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
@@ -4784,6 +4983,69 @@ Error: {ex.Message}");
                     vScrollBar1.Value = yPos;
                 }
             }
+        }
+
+        private void findToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FindandReplaceTool form = new FindandReplaceTool();
+            DialogResult result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                while (form.GetReadyState() == false)
+                {
+
+                }
+                int applyState = form.GetApplyState();
+                bool copyResults = form.CopyResultsOrNot();
+                bool replaceMode = form.IsReplaceMode();
+                int find = form.GetValue();
+                int replace = form.GetReplaceValue();
+                bool perserveColllision = form.PerservingCollision();
+
+                if (replaceMode)
+                {
+                    EditorTileReplaceTest(find, replace, applyState, copyResults, perserveColllision);
+                }
+                else
+                {
+                    EditorTileFindTest(find, applyState, copyResults);
+                }
+
+            }
+
+        }
+
+        private void findUnusedTiles(object sender, EventArgs e)
+        {
+            toggleEditorButtons(false);
+            List<int> UnusedTiles = new List<int> { };
+
+            for (int i = 0; i < 1024; i++)
+            {
+                Editor.Instance.TilesToolbar.selectedTileLabel.Text = "Selected Tile: " + i;
+                bool Unusued = IsTileUnused(i);
+                while (cooldownDone != true)
+                {
+                    Application.DoEvents();
+                }
+                cooldownDone = false;
+                if (Unusued)
+                {
+                    UnusedTiles.Add(i);
+                }
+                Application.DoEvents();
+            }
+            if (UnusedTiles.Count != 0)
+            {
+                var message = string.Join(Environment.NewLine, UnusedTiles);
+                MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
+            }
+            else
+            {
+                MessageBox.Show("Found Nothing", "Results");
+            }
+            toggleEditorButtons(true);
+
         }
 
         private void statusNAToolStripMenuItem_Click(object sender, EventArgs e)

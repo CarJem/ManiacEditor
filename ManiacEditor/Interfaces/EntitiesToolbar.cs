@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using RSDKv5;
 
 namespace ManiacEditor
 {
@@ -183,6 +184,7 @@ namespace ManiacEditor
                 currentObject = commonObject;*/
 
             multipleObjects = false;
+            bool isCommonObjects = false;
             
             if (selectedEntities.Count != 1)
             {
@@ -192,6 +194,7 @@ namespace ManiacEditor
                 _selectedEntitySlots.Clear();
                 if (selectedEntities.Count > 1)
                 {
+                    isCommonObjects = true;
                     entitiesList.SelectedText = String.Format("{0} entities selected", selectedEntities.Count);
                     entitiesList.Items.Clear();
                     entitiesList.DisplayMember = "Text";
@@ -205,83 +208,104 @@ namespace ManiacEditor
                     //entitiesList.Items.AddRange(selectedEntities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name)).ToArray());
                     multipleObjects = true;
                     //_selectedEntitySlots.AddRange(selectedEntities.Select(x => (int)x.SlotID).ToList());
+                    string commonObject = selectedEntities[0].Object.Name.Name;
+                    foreach (RSDKv5.SceneEntity selectedEntity in selectedEntities)
+                    {
+                        if (selectedEntity.Object.Name.Name != commonObject)
+                        {
+                            isCommonObjects = false;
+                        }
+                    }
 
                 }
-                return;
-            }
-
-            RSDKv5.SceneEntity entity = selectedEntities[0];
-
-            if (entity == currentEntity) return;
-            currentEntity = entity;
-
-            if (entitiesList.SelectedIndex >= 0 && entitiesList.SelectedIndex < _entities.Count && _entities[entitiesList.SelectedIndex] == currentEntity)
-            {
-                // Than it is called from selected item in the menu, so changeing the text will remove it, we don't want that
-            }
-            else
-            {
-                entitiesList.ResetText();
-                entitiesList.SelectedText = String.Format("{0} - {1}", currentEntity.SlotID, currentEntity.Object.Name);
-                //entitiesList.SelectedIndex = entities.IndexOf(entity);
-            }
-
-            LocalProperties objProperties = new LocalProperties();
-            int category_index = 2 + entity.Attributes.Count;
-            addProperty(objProperties, category_index, "object", "name", "string", entity.Object.Name.ToString(), false);
-            addProperty(objProperties, category_index, "object", "entitySlot", "ushort", entity.SlotID, false);
-            --category_index;
-            addProperty(objProperties, category_index, "position", "x", "float", entity.Position.X.High + ((float)entity.Position.X.Low / 0x10000));
-            addProperty(objProperties, category_index, "position", "y", "float", entity.Position.Y.High + ((float)entity.Position.Y.Low / 0x10000));
-            --category_index;
-
-
-            foreach (var attribute in entity.Object.Attributes)
-            {
-                string attribute_name = attribute.Name.ToString();
-                var attribute_value = currentEntity.GetAttribute(attribute_name);
-                switch (attribute.Type)
+                if (isCommonObjects == true)
                 {
-                    case RSDKv5.AttributeTypes.UINT8:
-                        addProperty(objProperties, category_index, attribute_name, "uint8", "byte", attribute_value.ValueUInt8);
-                        break;
-                    case RSDKv5.AttributeTypes.UINT16:
-                        addProperty(objProperties, category_index, attribute_name, "uint16", "ushort", attribute_value.ValueUInt16);
-                        break;
-                    case RSDKv5.AttributeTypes.UINT32:
-                        addProperty(objProperties, category_index, attribute_name, "uint32", "uint", attribute_value.ValueUInt32);
-                        break;
-                    case RSDKv5.AttributeTypes.INT8:
-                        addProperty(objProperties, category_index, attribute_name, "int8", "sbyte", attribute_value.ValueInt8);
-                        break;
-                    case RSDKv5.AttributeTypes.INT16:
-                        addProperty(objProperties, category_index, attribute_name, "int16", "short", attribute_value.ValueInt16);
-                        break;
-                    case RSDKv5.AttributeTypes.INT32:
-                        addProperty(objProperties, category_index, attribute_name, "int32", "int", attribute_value.ValueInt32);
-                        break;
-                    case RSDKv5.AttributeTypes.VAR:
-                        addProperty(objProperties, category_index, attribute_name, "var", "uint", attribute_value.ValueVar);
-                        break;
-                    case RSDKv5.AttributeTypes.BOOL:
-                        addProperty(objProperties, category_index, attribute_name, "bool", "bool", attribute_value.ValueBool);
-                        break;
-                    case RSDKv5.AttributeTypes.STRING:
-                        addProperty(objProperties, category_index, attribute_name, "string", "string", attribute_value.ValueString);
-                        break;
-                    case RSDKv5.AttributeTypes.POSITION:
-                        addProperty(objProperties, category_index, attribute_name, "x", "float", attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
-                        addProperty(objProperties, category_index, attribute_name, "y", "float", attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
-                        break;
-                    case RSDKv5.AttributeTypes.COLOR:
-                        var color = attribute_value.ValueColor;
-                        addProperty(objProperties, category_index, attribute_name, "color", "color", Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
-                        break;
+                    //Keep Going (if Implemented; which it's not)
+                    return;
                 }
-                --category_index;
+                else
+                {
+                    return;
+                }
+
             }
-            entityProperties.SelectedObject
-                = new LocalPropertyGridObject(objProperties);
+
+
+                RSDKv5.SceneEntity entity = selectedEntities[0];
+
+                if (entity == currentEntity) return;
+                currentEntity = entity;
+
+                if (entitiesList.SelectedIndex >= 0 && entitiesList.SelectedIndex < _entities.Count && _entities[entitiesList.SelectedIndex] == currentEntity)
+                {
+                    // Than it is called from selected item in the menu, so changeing the text will remove it, we don't want that
+                }
+                else
+                {
+                    entitiesList.ResetText();
+                    entitiesList.SelectedText = String.Format("{0} - {1}", currentEntity.SlotID, currentEntity.Object.Name);
+                    //entitiesList.SelectedIndex = entities.IndexOf(entity);
+                }
+
+
+                LocalProperties objProperties = new LocalProperties();
+                int category_index = 2 + entity.Attributes.Count;
+                addProperty(objProperties, category_index, "object", "name", "string", entity.Object.Name.ToString(), false);
+                addProperty(objProperties, category_index, "object", "entitySlot", "ushort", entity.SlotID, false);
+                --category_index;
+                addProperty(objProperties, category_index, "position", "x", "float", entity.Position.X.High + ((float)entity.Position.X.Low / 0x10000));
+                addProperty(objProperties, category_index, "position", "y", "float", entity.Position.Y.High + ((float)entity.Position.Y.Low / 0x10000));
+                --category_index;
+
+
+                foreach (var attribute in entity.Object.Attributes)
+                {
+                    string attribute_name = attribute.Name.ToString();
+                    var attribute_value = currentEntity.GetAttribute(attribute_name);
+                    switch (attribute.Type)
+                    {
+                        case RSDKv5.AttributeTypes.UINT8:
+                            addProperty(objProperties, category_index, attribute_name, "uint8", "byte", attribute_value.ValueUInt8);
+                            break;
+                        case RSDKv5.AttributeTypes.UINT16:
+                            addProperty(objProperties, category_index, attribute_name, "uint16", "ushort", attribute_value.ValueUInt16);
+                            break;
+                        case RSDKv5.AttributeTypes.UINT32:
+                            addProperty(objProperties, category_index, attribute_name, "uint32", "uint", attribute_value.ValueUInt32);
+                            break;
+                        case RSDKv5.AttributeTypes.INT8:
+                            addProperty(objProperties, category_index, attribute_name, "int8", "sbyte", attribute_value.ValueInt8);
+                            break;
+                        case RSDKv5.AttributeTypes.INT16:
+                            addProperty(objProperties, category_index, attribute_name, "int16", "short", attribute_value.ValueInt16);
+                            break;
+                        case RSDKv5.AttributeTypes.INT32:
+                            addProperty(objProperties, category_index, attribute_name, "int32", "int", attribute_value.ValueInt32);
+                            break;
+                        case RSDKv5.AttributeTypes.VAR:
+                            addProperty(objProperties, category_index, attribute_name, "var", "uint", attribute_value.ValueVar);
+                            break;
+                        case RSDKv5.AttributeTypes.BOOL:
+                            addProperty(objProperties, category_index, attribute_name, "bool", "bool", attribute_value.ValueBool);
+                            break;
+                        case RSDKv5.AttributeTypes.STRING:
+                            addProperty(objProperties, category_index, attribute_name, "string", "string", attribute_value.ValueString);
+                            break;
+                        case RSDKv5.AttributeTypes.POSITION:
+                            addProperty(objProperties, category_index, attribute_name, "x", "float", attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
+                            addProperty(objProperties, category_index, attribute_name, "y", "float", attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
+                            break;
+                        case RSDKv5.AttributeTypes.COLOR:
+                            var color = attribute_value.ValueColor;
+                            addProperty(objProperties, category_index, attribute_name, "color", "color", System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+                            break;
+                    }
+                    --category_index;
+                }
+                entityProperties.SelectedObject
+                    = new LocalPropertyGridObject(objProperties);
+            
+
         }
 
         public void UpdateCurrentEntityProperites()
@@ -330,7 +354,7 @@ namespace ManiacEditor
                             break;
                         case RSDKv5.AttributeTypes.COLOR:
                             var color = attribute_value.ValueColor;
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "color"), Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+                            obj.setValue(String.Format("{0}.{1}", attribute_name, "color"), System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
                             break;
                     }
                 }
@@ -496,7 +520,7 @@ namespace ManiacEditor
                             UpdateCurrentEntityProperites();
                         break;
                     case RSDKv5.AttributeTypes.COLOR:
-                        Color c = (Color)value;
+                        System.Drawing.Color c = (System.Drawing.Color)value;
                         attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
                         break;
                 }

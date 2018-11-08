@@ -26,6 +26,7 @@ namespace RSDKv5
     public class AttributeInfo
     {
         public readonly NameIdentifier Name;
+        public readonly NameIdentifier ManiacEditorObject;
         public readonly AttributeTypes Type;
 
         public AttributeInfo(NameIdentifier name, AttributeTypes type)
@@ -38,6 +39,7 @@ namespace RSDKv5
 
         internal AttributeInfo(Reader reader, ObjectInfo info = null)
         {
+            ManiacEditorObject = new NameIdentifier("ManiacEditorObject");
             Name = new NameIdentifier(reader);
             Type = (AttributeTypes)reader.ReadByte();
             if (info != null)
@@ -46,8 +48,23 @@ namespace RSDKv5
                 if (attribute != null)
                 {
                     // Type mismatch
-                    if (attribute.Type != Type) return;
+                    //if (attribute.Type != Type) return;
                     Name = attribute.Name;
+                }
+                else
+                {
+                    var everyAttribute = Objects.GetGlobalAttributes();
+                    string hashString = Name.HashString();
+                    for (int i = 0; i < everyAttribute.Count; i++)
+                    {
+                        NameIdentifier currentName = new NameIdentifier(everyAttribute[i]);
+                        String currentHashedName = currentName.HashString();
+                        if (currentHashedName == hashString)
+                        {
+                            Name = currentName;
+                            i = everyAttribute.Count;
+                        }
+                    }
                 }
             }
         }

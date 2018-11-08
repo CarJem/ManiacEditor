@@ -273,6 +273,6 @@
         private System.Windows.Forms.CheckBox tileOption3;
         private System.Windows.Forms.CheckBox tileOption2;
         private System.Windows.Forms.CheckBox tileOption1;
-        private System.Windows.Forms.Label selectedTileLabel;
+        public System.Windows.Forms.Label selectedTileLabel;
     }
 }

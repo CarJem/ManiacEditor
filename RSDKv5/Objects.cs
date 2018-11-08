@@ -14,6 +14,8 @@ namespace RSDKv5
     public class Objects
     {
         static List<ObjectInfo> objects = new List<ObjectInfo>();
+        static List<String> ObjectNames = new List<String>();
+        static List<String> AttributeNames = new List<String>();
         static Dictionary<string, ObjectInfo> hashToObject = new Dictionary<string, ObjectInfo>();
 
         public static void InitObjects(Stream stream, bool skipHash = false)
@@ -33,8 +35,16 @@ namespace RSDKv5
                     }
                     
                     attributes.Add(new AttributeInfo(new NameIdentifier(key.KeyName), type));
+                    if (!AttributeNames.Contains(key.KeyName))
+                    {
+                        AttributeNames.Add(key.KeyName);
+                    }
                 }
                 objects.Add(new ObjectInfo(new NameIdentifier(section.SectionName), attributes));
+                if (!ObjectNames.Contains(section.SectionName))
+                {
+                    ObjectNames.Add(section.SectionName);
+                }
             }
             if (skipHash != true)
             {
@@ -49,6 +59,16 @@ namespace RSDKv5
             ObjectInfo res = null;
             hashToObject.TryGetValue(name.HashString(), out res);
             return res;
+        }
+
+        public static List<String> GetGlobalAttributes()
+        {
+            return AttributeNames;
+        }
+
+        public static List<String> GetGlobalNames()
+        {
+            return ObjectNames;
         }
     }
 }

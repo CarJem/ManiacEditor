@@ -40,6 +40,7 @@
             this.bothFilterCheck = new System.Windows.Forms.CheckBox();
             this.encoreFilterCheck = new System.Windows.Forms.CheckBox();
             this.maniaFilterCheck = new System.Windows.Forms.CheckBox();
+            this.waitLoading1 = new CSharp.Winform.UI.Loading.WaitLoading();
             this.gbSpawn.SuspendLayout();
             this.gbEditor.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -77,6 +78,7 @@
             // 
             this.gbSpawn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSpawn.Controls.Add(this.waitLoading1);
             this.gbSpawn.Controls.Add(this.defaultFilter);
             this.gbSpawn.Controls.Add(this.btnSpawn);
             this.gbSpawn.Controls.Add(this.cbSpawn);
@@ -216,6 +218,19 @@
             this.maniaFilterCheck.UseVisualStyleBackColor = true;
             this.maniaFilterCheck.CheckedChanged += new System.EventHandler(this.maniaFilterCheck_CheckedChanged);
             // 
+            // waitLoading1
+            // 
+            this.waitLoading1.Alpha = 125;
+            this.waitLoading1.BindControl = null;
+            this.waitLoading1.BkColor = System.Drawing.Color.WhiteSmoke;
+            this.waitLoading1.IsTransparent = true;
+            this.waitLoading1.Location = new System.Drawing.Point(74, 20);
+            this.waitLoading1.Name = "waitLoading1";
+            this.waitLoading1.Size = new System.Drawing.Size(8, 8);
+            this.waitLoading1.TabIndex = 3;
+            this.waitLoading1.Text = "waitLoading1";
+            this.waitLoading1.Visible = false;
+            // 
             // EntitiesToolbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -246,5 +261,6 @@
         private System.Windows.Forms.CheckBox encoreFilterCheck;
         private System.Windows.Forms.CheckBox maniaFilterCheck;
         private System.Windows.Forms.ComboBox defaultFilter;
+        private CSharp.Winform.UI.Loading.WaitLoading waitLoading1;
     }
 }

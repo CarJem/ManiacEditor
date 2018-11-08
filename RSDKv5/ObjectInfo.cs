@@ -26,5 +26,12 @@ namespace RSDKv5
             hashToAttribute.TryGetValue(name.HashString(), out res);
             return res;
         }
+
+        public AttributeInfo GetAttributeInfoHashed(NameIdentifier name)
+        {
+            AttributeInfo res = null;
+            hashToAttribute.TryGetValue(name.HashString(), out res);
+            return res;
+        }
     }
 }

@@ -331,21 +331,26 @@
     <Compile Include="Entity Renders\Beanstalk.cs" />
     <Compile Include="Entity Renders\BouncePlant.cs" />
     <Compile Include="Entity Renders\Buggernaut.cs" />
+    <Compile Include="Entity Renders\ButtonDoor.cs" />
     <Compile Include="Entity Renders\Constellation.cs" />
     <Compile Include="Entity Renders\Dango.cs" />
+    <Compile Include="Entity Renders\DCEvent.cs" />
     <Compile Include="Entity Renders\Fan.cs" />
     <Compile Include="Entity Renders\Firework.cs" />
     <Compile Include="Entity Renders\FlowerPod.cs" />
     <Compile Include="Entity Renders\GigaMetal.cs" />
     <Compile Include="Entity Renders\HandLauncher.cs" />
     <Compile Include="Entity Renders\HangConveyor.cs" />
+    <Compile Include="Entity Renders\HCZOneWayDoor.cs" />
     <Compile Include="Entity Renders\HotaruHiWatt.cs" />
     <Compile Include="Entity Renders\HotaruMKII.cs" />
     <Compile Include="Entity Renders\Jellygnite.cs" />
+    <Compile Include="Entity Renders\LaundroMobile.cs" />
     <Compile Include="Entity Renders\MSFactory.cs" />
     <Compile Include="Entity Renders\MSPanel.cs" />
     <Compile Include="Entity Renders\PullChain.cs" />
     <Compile Include="Entity Renders\RTeleporter.cs" />
+    <Compile Include="Entity Renders\ScrewMobile.cs" />
     <Compile Include="Entity Renders\SDashWheel.cs" />
     <Compile Include="Entity Renders\Spear.cs" />
     <Compile Include="Entity Renders\SpikeFlail.cs" />
@@ -353,6 +358,7 @@
     <Compile Include="Entity Renders\SSZSpikeBall.cs" />
     <Compile Include="Entity Renders\TimePost.cs" />
     <Compile Include="Entity Renders\TurboSpiker.cs" />
+    <Compile Include="Entity Renders\TwistingSlide.cs" />
     <Compile Include="Entity Renders\UncurlPlant.cs" />
     <Compile Include="Entity Renders\YoyoPulley.cs" />
     <Compile Include="Interfaces\AboutBox.cs">
@@ -783,6 +789,12 @@
     <Compile Include="Interfaces\ExitWarningBox.Designer.cs">
       <DependentUpon>ExitWarningBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\FindandReplaceTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FindandReplaceTool.Designer.cs">
+      <DependentUpon>FindandReplaceTool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\GoToPlayerBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -953,6 +965,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FirstTimeSetup.resx">
       <DependentUpon>FirstTimeSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FindandReplaceTool.resx">
+      <DependentUpon>FindandReplaceTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\GoToPlayerBox.resx">
       <DependentUpon>GoToPlayerBox.cs</DependentUpon>
