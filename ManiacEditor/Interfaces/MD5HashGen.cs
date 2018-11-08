@@ -43,7 +43,7 @@ namespace ManiacEditor
                 // Convert the byte array to hexadecimal string
                 StringBuilder sb = new StringBuilder();
                 foreach (byte b in Invert(hashBytes))
-                    sb.Append(string.Format("{0:X2}", b));
+                    sb.Append($"{b:X2}");
 
                 return sb.ToString();
             }
