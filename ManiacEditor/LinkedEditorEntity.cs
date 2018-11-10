@@ -12,32 +12,94 @@ namespace ManiacEditor
         private uint goProperty;
         private uint destinationTag;
         private byte tag;
+        private ushort slotID;
+        private ushort targetSlotID;
+        private RSDKv5.SceneEntity currentEntity;
 
         public LinkedEditorEntity(RSDKv5.SceneEntity entity) : base(entity)
         {
-            goProperty = Entity.GetAttribute("go").ValueVar;
-            destinationTag = Entity.GetAttribute("destinationTag").ValueVar;
-            tag = Entity.GetAttribute("tag").ValueUInt8;
+            if (entity.Object.Name.Name == "WarpDoor")
+            {
+                goProperty = Entity.GetAttribute("go").ValueVar;
+                destinationTag = Entity.GetAttribute("destinationTag").ValueVar;
+                tag = Entity.GetAttribute("tag").ValueUInt8;
+                currentEntity = Entity;
+            }
+            else if (entity.Object.Name.Name == "TornadoPath")
+            {
+                slotID = Entity.SlotID;
+                targetSlotID = (ushort)(Entity.SlotID + 1);
+                currentEntity = Entity;
+            }
+            else if (entity.Object.Name.Name == "AIZTornadoPath")
+            {
+                slotID = Entity.SlotID;
+                targetSlotID = (ushort)(Entity.SlotID + 1);
+                currentEntity = Entity;
+            }
+
         }
 
         public override void Draw(DevicePanel d)
         {
-            base.Draw(d);
-            if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
-            
-            // this is the start of a WarpDoor, find its partner(s)
-            var warpDoors = Entity.Object.Entities.Where(e => e.GetAttribute("tag").ValueUInt8 ==
-                                                                destinationTag);
-
-            if (warpDoors != null
-                && warpDoors.Any())
+            if (currentEntity.Object.Name.Name == "WarpDoor")
             {
-                // some destinations seem to be duplicated, so we must loop
-                foreach (var wd in warpDoors)
+                base.Draw(d);
+                if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
+
+                // this is the start of a WarpDoor, find its partner(s)
+                var warpDoors = Entity.Object.Entities.Where(e => e.GetAttribute("tag").ValueUInt8 ==
+                                                                    destinationTag);
+
+                if (warpDoors != null
+                    && warpDoors.Any())
                 {
-                    DrawLinkArrow(d, Entity, wd);
+                    // some destinations seem to be duplicated, so we must loop
+                    foreach (var wd in warpDoors)
+                    {
+                        DrawLinkArrow(d, Entity, wd);
+                    }
                 }
             }
+            else if (currentEntity.Object.Name.Name == "TornadoPath")
+            {
+                base.Draw(d);
+
+                //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
+
+                // this is the start of a WarpDoor, find its partner(s)
+                var tornadoPaths = Entity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+
+                if (tornadoPaths != null
+                    && tornadoPaths.Any())
+                {
+                    // some destinations seem to be duplicated, so we must loop
+                    foreach (var tp in tornadoPaths)
+                    {
+                        DrawLinkArrow(d, Entity, tp);
+                    }
+                }
+            }
+            else if (currentEntity.Object.Name.Name == "AIZTornadoPath")
+            {
+                base.Draw(d);
+
+                //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
+
+                // this is the start of a WarpDoor, find its partner(s)
+                var tornadoPaths = Entity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+
+                if (tornadoPaths != null
+                    && tornadoPaths.Any())
+                {
+                    // some destinations seem to be duplicated, so we must loop
+                    foreach (var tp in tornadoPaths)
+                    {
+                        DrawLinkArrow(d, Entity, tp);
+                    }
+                }
+            }
+
         }
 
         private void DrawLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)

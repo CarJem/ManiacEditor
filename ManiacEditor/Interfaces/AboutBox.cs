@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ManiacEditor
 {
@@ -13,6 +15,7 @@ namespace ManiacEditor
             Text = String.Format("About {0}", AssemblyTitle);
             labelProductName.Text = AssemblyProduct;
             labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime);
             labelCopyright.Text = AssemblyCopyright;
             llAbout.Links.Clear();
 
@@ -76,7 +79,20 @@ namespace ManiacEditor
                 return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
         }
+
+        private string GetBuildTime
+        {
+            get
+            {
+                DateTime buildDate = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).LastWriteTime;
+                String buildTimeString = buildDate.ToString();
+                return buildTimeString;
+            }
+
+        }
         #endregion
+
+
 
         private void AddClickableLink(string sourceText, string linkTargetUrl)
         {
@@ -100,19 +116,21 @@ namespace ManiacEditor
             }
         }
 
-        private void tableLayoutPanel_Paint(object sender, PaintEventArgs e)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
         }
 
-        private void option2CheckBox_CheckedChanged(object sender, EventArgs e)
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            ProcessStartInfo sInfo = new ProcessStartInfo("https://ci.appveyor.com/project/CarJem/maniaceditor-generationsedition");
+            Process.Start(sInfo);
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            ProcessStartInfo sInfo = new ProcessStartInfo("https://github.com/CarJem/ManiacEditor-GenerationsEdition/releases");
+            Process.Start(sInfo);
         }
     }
 }

@@ -328,6 +328,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity Renders\Armadiloid.cs" />
     <Compile Include="Entity Renders\Beanstalk.cs" />
     <Compile Include="Entity Renders\BouncePlant.cs" />
     <Compile Include="Entity Renders\Buggernaut.cs" />
@@ -357,9 +358,11 @@
     <Compile Include="Entity Renders\SSZEggman.cs" />
     <Compile Include="Entity Renders\SSZSpikeBall.cs" />
     <Compile Include="Entity Renders\TimePost.cs" />
+    <Compile Include="Entity Renders\TornadoPath.cs" />
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />
     <Compile Include="Entity Renders\UncurlPlant.cs" />
+    <Compile Include="Entity Renders\Vultron.cs" />
     <Compile Include="Entity Renders\YoyoPulley.cs" />
     <Compile Include="Interfaces\AboutBox.cs">
       <SubType>Form</SubType>

@@ -10,52 +10,47 @@ using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
-    public class TwistingDoor : EntityRenderer
+    public class Vultron : EntityRenderer
     {
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            int type = (int)entity.attributesMap["type"].ValueVar;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            int type = (int)entity.attributesMap["type"].ValueUInt8;
+            int direction = (int)entity.attributesMap["direction"].ValueUInt8; 
             bool fliph = false;
             bool flipv = false;
-            int animID = 0;
+            int frameID;
             switch (type)
             {
                 case 0:
-                    animID = 0;
+                    frameID = 0;
                     break;
                 case 1:
-                    animID = 1;
-                    break;
-                case 2:
-                    animID = 2;
-                    break;
-                case 3:
-                    animID = 3;
-                    break;
-
-            }
-            switch (direction)
-            {
-                case 0:
-                    break;
-                case 1:
-                    flipv = true;
+                    frameID = 5;
                     break;
                 default:
+                    frameID = 0;
                     break;
             }
-
-            var editorAnim = e.LoadAnimation2("TwistingDoor", d, animID, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
+            switch(direction)
             {
-                var frame = editorAnim.Frames[e.index];
-
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                case 0:
+                    fliph = false;
+                    break;
+                case 1:
+                    fliph = true;
+                    break;
+                default:
+                    fliph = false;
+                    break;
+            }
+            var editorAnim = e.LoadAnimation2("Vultron", d, 0, frameID, fliph, flipv, false);
+            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            {
+                var frame = editorAnim.Frames[0];
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width + 10) : 0),
+                    x + frame.Frame.CenterX,
                     y + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
@@ -63,7 +58,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override string GetObjectName()
         {
-            return "TwistingDoor";
+            return "Vultron";
         }
     }
 }

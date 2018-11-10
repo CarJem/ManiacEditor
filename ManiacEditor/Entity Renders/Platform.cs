@@ -30,10 +30,15 @@ namespace ManiacEditor.Entity_Renders
             int type = (int)entity.attributesMap["type"].ValueVar;
             int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
             int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
+            int childCount = (int)entity.attributesMap["childCount"].ValueVar;
             bool hasTension = entity.attributesMap["hasTension"].ValueBool;
+            UInt32 speed = e.FetchAttribute.AttributesMapVar("speed", entity);
             int angleStateX = 0;
             int angleStateY = 0;
+
+            var platformIcon = e.LoadAnimation2("EditorIcons", d, 0, 8, false, false, false);
             
+
             switch (attribute.Type)
             {
                 case AttributeTypes.UINT8:
@@ -46,7 +51,6 @@ namespace ManiacEditor.Entity_Renders
                     targetFrameID = (int)attribute.ValueVar;
                     break;
             }
-
             int aminID = 0;
             EditorEntity.EditorAnimation editorAnim = null;
             bool doNotShow = false;
@@ -90,19 +94,20 @@ namespace ManiacEditor.Entity_Renders
                 tensionBall = e.LoadAnimation("Platform", d, -2, 1, false, false, false, 0);
                 tensionBallCenter = e.LoadAnimation("Platform", d, -2, 2, false, false, false, 0);
             }
-            if (editorAnim.Frames.Count != 0 && doNotShow == false)
+            if (editorAnim.Frames.Count != 0 && platformIcon != null)
             {
                 EditorEntity.EditorAnimation.EditorFrame frame = null;
-                EditorEntity.EditorAnimation.EditorFrame frame2 = null;
-                if (editorAnim.Frames[0].Entry.FrameSpeed > 0)
+                if (editorAnim.Frames[0].Entry.FrameSpeed > 0 && doNotShow == false)
                 {
                     frame = editorAnim.Frames[e.index];
-                    frame2 = editorAnim.Frames[0];
+                }
+                else if (doNotShow == true)
+                {
+                    frame = platformIcon.Frames[e.index];
                 }
                 else
                 {
                     frame = editorAnim.Frames[frameID > 0 ? frameID : 0];
-                    frame2 = editorAnim.Frames[0];
                 }
 
                 e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
@@ -117,27 +122,47 @@ namespace ManiacEditor.Entity_Renders
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 
-                /*
+                
                 if (type == 2)
                 {
+
+
                     int[] position = new int[2] { 0, 0 };
+                    int posX = amplitudeX;
+                    int posY = amplitudeY;
+                    //Negative Values only work atm
+                    if (amplitudeX <= -1) posX = -posX;
+                    if (amplitudeY <= -1) posY = -posY;
+
                     if (amplitudeX != 0 && amplitudeY == 0)
                     {
-                        position = e.EditorAnimations.ProcessMovingPlatform2(amplitudeX, 0);
+                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
                     if (amplitudeX == 0 && amplitudeY != 0)
                     {
-                        position = e.EditorAnimations.ProcessMovingPlatform2(0, amplitudeY);
+                        position = e.EditorAnimations.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
-                        position = e.EditorAnimations.ProcessMovingPlatform2(amplitudeX, amplitudeY);
+                        // Since we can don't know how to do it other than x or y yet
+                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.CenterX, frame.Frame.Height, speed);
+                    }
+
+                    if (childCount != 0)
+                    {
+                        for (int i = 0; i < childCount; i++)
+                        {
+                            EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
+                            childEntity.childDraw = true;
+                            childEntity.childX = position[0];
+                            childEntity.childY = -position[1];
+                        }
                     }
 
                     d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
-                */
+                
                 
                 else if ((amplitudeX != 0 || amplitudeY != 0) && type == 3)
                 {
@@ -176,6 +201,18 @@ namespace ManiacEditor.Entity_Renders
 
                         }
                     }
+
+                    if (childCount != 0)
+                    {
+                        for (int i = 0; i < childCount; i++)
+                        {
+                            EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
+                            childEntity.childDraw = true;
+                            childEntity.childX = newX;
+                            childEntity.childY = -newY;
+                        }
+                    }
+
                     d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
@@ -235,19 +272,6 @@ namespace ManiacEditor.Entity_Renders
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
 
-            }
-            else if (doNotShow == true)
-            {
-                var platformIcon = e.LoadAnimation2("EditorIcons", d, 0, 8, false, false, false);
-                if (platformIcon != null && platformIcon.Frames.Count != 0)
-                {
-                    var frame = platformIcon.Frames[e.index];
-
-                    d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
             }
 
 

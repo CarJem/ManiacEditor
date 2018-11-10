@@ -31,7 +31,7 @@ namespace RSDKv5
                     if(!Enum.TryParse(key.Value, out type))
                     {
                         // unknown attribute, what to do?
-                        Debug.WriteLine($"Unknown type! [{key.Value}]");
+                        Debug.WriteLine($"Unknown type in object_attributes.ini! [{key.Value}]");
                     }
                     
                     attributes.Add(new AttributeInfo(new NameIdentifier(key.KeyName), type));

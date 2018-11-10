@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor
 {
-    public partial class EditorAnimations
+    [Serializable]
+    public class EditorAnimations
     {
 
         //Rotating/Moving Platforms
-        static int positionX = 0;
-        static int positionY = 0;
-        static bool reverseX = false;
-        static bool reverseY = false;
-        public static EditorAnimations Instance;
+         int positionX = 0;
+         int positionY = 0;
+         bool reverseX = false;
+         bool reverseY = false;
+         EditorAnimations Instance;
 
         public DateTime lastFrametime;
         public int index = 0;
@@ -27,20 +28,35 @@ namespace ManiacEditor
             Instance = this;
         }
 
-        public int[] ProcessMovingPlatform2(int ampX, int ampY, int speed = 1)
-        {
 
+        public int[] ProcessMovingPlatform2(int ampX, int ampY, int x, int y, int height, int width, UInt32 speed = 1)
+        {
+            if (speed >= 4294967290)
+            {
+                speed = 10;
+            }
+            int slope = 0;
+            int c = 0;
+            if (ampX != 0 && ampY != 0)
+            {
+                slope = (-ampY / ampY) / (-ampX / ampX);
+                c = ampY - ampX * slope;
+            }
             int duration = 1;
+            int initalX = ampX;
+            int initalY = ampY;
+
             // Playback
             if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
             {
                 if (speed > 0)
                 {
-                    int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
+                    int speed1 = (int)speed * 64 / (duration == 0 ? 256 : duration);
                     if (speed1 == 0)
                         speed1 = 1;
                     if ((DateTime.Now - lastFrametime3).TotalMilliseconds > 1024 / speed1)
                     {
+                        /*//Moving Platforms
                         if (ampX <= -1 && ampX != 0)
                         {
                             reverseX = true;
@@ -48,54 +64,65 @@ namespace ManiacEditor
                         if (ampY <= -1 && ampY != 0)
                         {
                             reverseY = true;
+                        }*/
+
+                            if (reverseX)
+                            {
+                                if (positionX <= -ampX)
+                                {
+                                    reverseX = false;
+                                    
+                                }
+                                else
+                                {
+                                    positionX--;
+                                }
+                            }
+                            else
+                            {
+                                if (positionX >= ampX)
+                                {
+                                    reverseX = true;
+                                }
+                                else
+                                {
+                                    positionX++;
+                                }
+                            }
+                        if (ampX != 0 && ampY != 0)
+                        {
+                            positionY = slope * positionX + (int)Properties.Settings.Default.devInt;
                         }
 
-                        if (reverseX)
+
+
+
+                        if (!(ampX != 0 && ampY != 0))
                         {
-                            if (positionX <= -ampX)
+                            if (reverseY)
                             {
-                                reverseX = false;
+                                if (positionY <= -ampY)
+                                {
+                                    reverseY = false;
+                                }
+                                else
+                                {
+                                    positionY--;
+                                }
                             }
                             else
                             {
-                                positionX--;
-                            }
-                        }
-                        else
-                        {
-                            if (positionX >= ampX)
-                            {
-                                reverseX = true;
-                            }
-                            else
-                            {
-                                positionX++;
+                                if (positionY >= ampY)
+                                {
+                                    reverseY = true;
+                                }
+                                else
+                                {
+                                    positionY++;
+                                }
                             }
                         }
 
-
-                        if (reverseY)
-                        {
-                            if (positionY <= -ampY)
-                            {
-                                reverseY = false;
-                            }
-                            else
-                            {
-                                positionY--;
-                            }
-                        }
-                        else
-                        {
-                            if (positionY >= ampY)
-                            {
-                                reverseY = true;
-                            }
-                            else
-                            {
-                                positionY++;
-                            }
-                        }
 
                         lastFrametime3 = DateTime.Now;
                     }

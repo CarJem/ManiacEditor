@@ -16,9 +16,10 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
+            bool decorMode = entity.attributesMap["decorMode"].ValueBool;
             int length = (int)entity.attributesMap["length"].ValueUInt32;
             int frameID = 0;
-            if (type == 1)
+            if (decorMode == true)
             {
                 frameID = 1;
             }

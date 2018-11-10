@@ -140,7 +140,7 @@ namespace ManiacEditor
         public ConfigManager configLists;
         public GameConfig GameConfig;
         public EditorControls EditorControls;
-        EditorEntities entities;
+        public EditorEntities entities;
         public static Editor Instance; //Used the access this class easier
         internal EditorBackground Background;
         internal EditorLayer EditLayer;
@@ -2226,12 +2226,12 @@ namespace ManiacEditor
         private void OpenSceneForceFully()
         {
             DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
-            string Result = "HCZ\\Scene2.bin";
+            string Result = "GHZ\\Scene1.bin";
             int LevelID = -1;
             bool isEncore = false;
             forceResize = true;
-            int x = 21013;
-            int y = 1439;
+            int x = 7704;
+            int y = 1204;
             forceResizeGoToX = x;
             forceResizeGoToY = y;
             OpenScene(false, Result, LevelID, isEncore, true);

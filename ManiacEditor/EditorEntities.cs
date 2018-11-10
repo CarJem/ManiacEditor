@@ -8,7 +8,7 @@ using RSDKv5;
 
 namespace ManiacEditor
 {
-    class EditorEntities : IDrawable
+    public class EditorEntities : IDrawable
     {
         public static bool FilterRefreshNeeded = false;
         public static int DefaultFilter = -1;
@@ -281,7 +281,7 @@ namespace ManiacEditor
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
             foreach (var entity in entities)
-                entity.Draw(d);
+                entity.Draw(d,entities,entity);
         }
 
         public void DrawPriority(DevicePanel d, int prority)
@@ -321,6 +321,14 @@ namespace ManiacEditor
                 // ideally this would be driven by configuration...one day
                 // or can we assume anything with a "Go" and "Tag" Attributes is linked to another?
                 if (sceneEntity.Object.Name.ToString().Equals("WarpDoor", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new LinkedEditorEntity(sceneEntity);
+                }
+                else if (sceneEntity.Object.Name.ToString().Equals("TornadoPath", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new LinkedEditorEntity(sceneEntity);
+                }
+                else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return new LinkedEditorEntity(sceneEntity);
                 }

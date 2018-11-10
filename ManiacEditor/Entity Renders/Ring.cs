@@ -21,6 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int type = (int)e.FetchAttribute.AttributesMapVar("type", entity);
             int moveType = (int)e.FetchAttribute.AttributesMapVar("moveType", entity);
             int angle = (int)e.FetchAttribute.AttributesMapInt32("angle", entity);
+            UInt32 speed = e.FetchAttribute.AttributesMapUint32("speed", entity);
 
             bool fliph = false;
             bool flipv = false;
@@ -55,15 +56,16 @@ namespace ManiacEditor.Entity_Renders
             var editorAnim = e.LoadAnimation2("Ring", d, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
-                var frame = editorAnim.Frames[0];
-                if (moveType != 2)
+                var frame = editorAnim.Frames[e.index];
+                e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
+                if (moveType != 2 && moveType != 1)
                 {
                     e.ProcessMovingPlatform(angle);
                     angle = e.platformAngle;
                 }
-                frame = editorAnim.Frames[e.index];
-                e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
-                if ((amplitudeX != 0 || amplitudeY != 0))
+
+
+                if ((amplitudeX != 0 || amplitudeY != 0) && moveType != 1)
                 {
                         double xd = x;
                         double yd = y;
@@ -75,6 +77,32 @@ namespace ManiacEditor.Entity_Renders
                         int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
                         d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                }
+                else if (moveType == 1)
+                {
+                    int[] position = new int[2] { 0, 0 };
+                    int posX = amplitudeX;
+                    int posY = amplitudeY;
+                    //Negative Values only work atm
+                    if (amplitudeX <= -1) posX = -posX;
+                    if (amplitudeY <= -1) posY = -posY;
+
+                    if (amplitudeX != 0 && amplitudeY == 0)
+                    {
+                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                    }
+                    if (amplitudeX == 0 && amplitudeY != 0)
+                    {
+                        position = e.EditorAnimations.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                    }
+                    if (amplitudeX != 0 && amplitudeY != 0)
+                    {
+                        // Since we can don't know how to do it other than x or y yet
+                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                    }
+
+                    d.DrawBitmap(frame.Texture, (x + position[0]) + frame.Frame.CenterX, (y - position[1]) + frame.Frame.CenterY,
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
                 {

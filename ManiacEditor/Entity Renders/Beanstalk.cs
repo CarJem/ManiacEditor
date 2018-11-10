@@ -65,7 +65,7 @@ namespace ManiacEditor.Entity_Renders
                     y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnimNode.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameHead.Texture,
-                    x + (plantType ? (fliph ? frameHead.Frame.CenterX*2 : frameHead.Frame.CenterX) : (fliph ? (int)Properties.Settings.Default.devInt3 : frameHead.Frame.CenterX)),
+                    x + (plantType ? (fliph ? frameHead.Frame.CenterX*2 : frameHead.Frame.CenterX) : (fliph ? -frameHead.Frame.Width : frameHead.Frame.CenterX)),
                     y + frameHead.Frame.CenterY,
                     frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
 

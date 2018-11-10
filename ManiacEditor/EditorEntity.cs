@@ -56,6 +56,14 @@ namespace ManiacEditor
         //bool platformreverse = false;
 
 
+
+        //For Drawing Extra Child Objects
+        public EditorEntity drawEntity = null;
+        public List<EditorEntity> drawEntityList = null;
+        public bool childDraw = false;
+        public int childX = 0;
+        public int childY = 0;
+
         public static Dictionary<string, EditorAnimation> Animations = new Dictionary<string, EditorAnimation>();
         public static Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public static string[] DataDirectoryList = null;
@@ -242,15 +250,19 @@ namespace ManiacEditor
             if (loadSpecialColors == true)
             {
                 ColorPalette pal = _bitmapEditMemory.Palette;
-                //Debug.Print(_bitmapEditMemory.Palette.Entries.Length.ToString() + "(2)");
-                for (int y = 0; y < 255; ++y)
+                if (_bitmapEditMemory.Palette.Entries.Length == 256)
                 {
-                    if (readableColors[y].R != 255 && readableColors[y].G != 0 && readableColors[y].B != 255)
+                    //Debug.Print(_bitmapEditMemory.Palette.Entries.Length.ToString() + "(2)");
+                    for (int y = 0; y < 255; ++y)
                     {
-                        pal.Entries[y] = SystemColor.FromArgb(readableColors[y].R, readableColors[y].G, readableColors[y].B);
+                        if (readableColors[y].R != 255 && readableColors[y].G != 0 && readableColors[y].B != 255)
+                        {
+                            pal.Entries[y] = SystemColor.FromArgb(readableColors[y].R, readableColors[y].G, readableColors[y].B);
+                        }
                     }
+                    _bitmapEditMemory.Palette = pal;
                 }
-                _bitmapEditMemory.Palette = pal;
+
             }
             _bitmap = _bitmapEditMemory;
             return _bitmap;
@@ -427,8 +439,9 @@ namespace ManiacEditor
                     frame = animiation.Frames[frameId];
                 Bitmap map;
                 bool noEncoreColors = false;
+                if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes") noEncoreColors = true;
 
-                if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
+                    if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
                 {
                     string targetFile;
 
@@ -437,22 +450,18 @@ namespace ManiacEditor
                         if (name == "EditorAssets")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
-                            noEncoreColors = true;
                         }
                         else if (name == "EditorIcons2")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
-                            noEncoreColors = true;
                         }
                         else if (name == "TransportTubes")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
-                            noEncoreColors = true;
                         }
                         else
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.gif");
-                            noEncoreColors = true;
                         }
                     }
                     else
@@ -669,6 +678,13 @@ namespace ManiacEditor
             return filteredOut;
         }
 
+        public void Draw(DevicePanel d, List<EditorEntity> editorEntities = null, EditorEntity entity = null)
+        {
+            drawEntity = entity;
+            drawEntityList = editorEntities;
+            Draw(d);
+        }
+
         // allow derived types to override the draw
         public virtual void Draw(DevicePanel d)
         {
@@ -716,9 +732,8 @@ namespace ManiacEditor
             {
                 LoadNextAnimation();
             }
-            int x = entity.Position.X.High;
-            int y = entity.Position.Y.High;
-
+            int x = entity.Position.X.High + (childDraw ? childX : 0);
+            int y = entity.Position.Y.High + (childDraw ? childY : 0);
             bool fliph = false;
             bool flipv = false;
             bool rotate = false;
@@ -726,16 +741,21 @@ namespace ManiacEditor
             string name = entity.Object.Name.Name;
             bool validPlane = false;
 
-            if (layerPriority != 0)
+            if (Properties.Settings.Default.PrioritizedObjectRendering)
             {
-                validPlane = FetchAttribute.PlaneFilterCheck(entity, layerPriority);
-            }
-            else
-            {
-                validPlane = true;
+                if (layerPriority != 0)
+                {
+                    validPlane = FetchAttribute.PlaneFilterCheck(entity, layerPriority);
+                }
+                else
+                {
+                    validPlane = true;
+                }
+                if (validPlane == false && !Editor.Instance.IsEntitiesEdit()) return;
             }
 
-            if (validPlane == false && !Editor.Instance.IsEntitiesEdit()) return;
+
+
 
             var editorAnim = LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
             if (entityRenderList.Contains(name))
@@ -744,10 +764,10 @@ namespace ManiacEditor
                 {
                     if ((d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
                     {
-                        DrawOthers(d);
+                            DrawOthers(d);
                     }
                     else if (!Properties.Settings.Default.UseAltEntityRenderMode) {
-                        DrawOthers(d);
+                            DrawOthers(d);
                     }
 
                 }
@@ -755,43 +775,46 @@ namespace ManiacEditor
             }
             else if (editorAnim != null && editorAnim.Frames.Count > 0)
             {
-                // Special cases that always display a set frame(?)
-                if (Editor.Instance.ShowAnimations.Enabled == true)
-                {
-                    if (entity.Object.Name.Name == "StarPost")
-                        index = 1;
-                }
+
+                    // Special cases that always display a set frame(?)
+                    if (Editor.Instance.ShowAnimations.Enabled == true)
+                    {
+                        if (entity.Object.Name.Name == "StarPost")
+                            index = 1;
+                    }
 
 
 
-                // Just incase
-                if (index >= editorAnim.Frames.Count)
-                    index = 0;
-                var frame = editorAnim.Frames[index];
+                    // Just incase
+                    if (index >= editorAnim.Frames.Count)
+                        index = 0;
+                    var frame = editorAnim.Frames[index];
 
-                if (entity.attributesMap.ContainsKey("frameID"))
-                    frame = GetFrameFromAttribute(editorAnim, entity.attributesMap["frameID"]);
-                
-                if (frame != null)
-                {
-                    ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                    // Draw the normal filled Rectangle but Its visible if you have the entity selected
+                    if (entity.attributesMap.ContainsKey("frameID"))
+                        frame = GetFrameFromAttribute(editorAnim, entity.attributesMap["frameID"]);
+
+                    if (frame != null)
+                    {
+                        ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        // Draw the normal filled Rectangle but Its visible if you have the entity selected
                         d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + ((int)offset.X * frame.Frame.Width), y + frame.Frame.CenterY + ((int)offset.Y * frame.Frame.Height),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
-                else
-                { // No frame to render
-                    if (Properties.EditorState.Default.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
-                }
-                //Failsafe?
-                //DrawOthers(d);
+                    }
+                    else
+                    { // No frame to render
+                        if (Properties.EditorState.Default.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    }
+                    //Failsafe?
+                    //DrawOthers(d);
+
             }
             else
             {
-                if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
-                {
-                    d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
-                }
+                    if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
+                    {
+                        d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    }
+
             }
 
             if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
@@ -962,15 +985,20 @@ namespace ManiacEditor
 
         }
 
-        public void ProcessMovingPlatform(int angleDefault, int speed = 3)
+        public void ProcessMovingPlatform(int angleDefault, UInt32 speed = 3)
         {
+            if (speed >= 4294967290)
+            {
+                speed = 10;
+            }
+
             int duration = 1;
             // Playback
             if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
             {
                 if (speed > 0)
                 {
-                    int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
+                    int speed1 = (int)speed * 64 / (duration == 0 ? 256 : duration);
                     if (speed1 == 0)
                         speed1 = 1;
                     if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
@@ -989,8 +1017,8 @@ namespace ManiacEditor
         // These are special
         public void DrawOthers(DevicePanel d)
         {
-            int x = entity.Position.X.High;
-            int y = entity.Position.Y.High;
+            int x = entity.Position.X.High + childX;
+            int y = entity.Position.Y.High + childY;
             int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
             if (entity.Object.Name.Name.Contains("Setup"))
             {
@@ -1001,6 +1029,12 @@ namespace ManiacEditor
             else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
             {
                 EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
+                if (renderer != null)
+                    renderer.Draw(d, entity, this, x, y, Transparency);
+            }
+            else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
+            {
+                EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
                 if (renderer != null)
                     renderer.Draw(d, entity, this, x, y, Transparency);
             }

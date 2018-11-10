@@ -290,7 +290,7 @@ namespace ManiacEditor
                 }
                 catch (SharpDXException ex2)
                 {
-                    DeviceExceptionDialog(0, ex, null);
+                    DeviceExceptionDialog(0, ex, ex2);
                 }
             }
             else if (result == ResultCode.DeviceRemoved)
@@ -303,7 +303,7 @@ namespace ManiacEditor
                 }
                 catch (SharpDXException ex2)
                 {
-                    DeviceExceptionDialog(0, ex, null);
+                    DeviceExceptionDialog(0, ex, ex2);
                 }
             }
             else if (result == ResultCode.OutOfVideoMemory)
