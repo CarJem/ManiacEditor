@@ -17,6 +17,7 @@ namespace ManiacEditor
         string AppveyorVersion = "";
         bool badBuild = false;
         bool unkownError = false;
+        bool runningBuild = false;
         public void CheckforUpdates(bool manuallyTriggered = false) {
             // Appveyor Update Check
             int buildNumber = -1;
@@ -53,6 +54,10 @@ namespace ManiacEditor
                         {
                             badBuild = true;
                         }
+                        else if (appveyorDetails.Contains("\"status\":\"running\""))
+                        {
+                            runningBuild = true;
+                        }
                         else
                         {
                             unkownError = true;
@@ -74,7 +79,7 @@ namespace ManiacEditor
                 var version2 = new Version(v2);
 
                 var result = version1.CompareTo(version2);
-                if (result < 0 && badBuild == false && unkownError == false)
+                if (result < 0 && badBuild == false && runningBuild == false)
                 {
                         UpdateStatusBox box = new UpdateStatusBox(1, this);
                         box.ShowDialog();
