@@ -1,8 +1,5 @@
 version: 1.0.0.{build}
 image: Visual Studio 2017
-configuration:
-- x64 Release
-- Release
 skip_tags: true
 environment:
   matrix:
