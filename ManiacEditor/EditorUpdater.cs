@@ -74,10 +74,15 @@ namespace ManiacEditor
                 var version2 = new Version(v2);
 
                 var result = version1.CompareTo(version2);
-                if (result < 0)
+                if (result < 0 && badBuild == false && unkownError == false)
                 {
                         UpdateStatusBox box = new UpdateStatusBox(1, this);
                         box.ShowDialog();
+                }
+                else
+                {
+                    UpdateStatusBox box = new UpdateStatusBox(0, this);
+                    box.ShowDialog();
                 }
             }
             else
