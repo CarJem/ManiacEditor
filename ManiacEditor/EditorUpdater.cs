@@ -79,7 +79,8 @@ namespace ManiacEditor
                 var version2 = new Version(v2);
 
                 var result = version1.CompareTo(version2);
-                if (result < 0 && badBuild == false && runningBuild == false)
+                string curVer = GetCurrentVersion();
+                if (result < 0 && badBuild == false && !curVer.Contains("RUNNING"))
                 {
                         UpdateStatusBox box = new UpdateStatusBox(1, this);
                         box.ShowDialog();
@@ -131,9 +132,13 @@ namespace ManiacEditor
             {
                 return AppveyorVersion + (" (FAILED)");
             }
+            else if (runningBuild)
+            {
+                return AppveyorVersion + (" (BUILDING - May Fail)");
+            }
             else if (unkownError)
             {
-                return AppveyorVersion + (" (UNKOWN)");
+                return AppveyorVersion + (" (UNKOWN ERROR)");
             }
             else
             {
