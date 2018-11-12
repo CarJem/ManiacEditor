@@ -1,4 +1,4 @@
-version: 0.2.25.{build}
+version: 1.0.0.{build}
 skip_tags: true
 environment:
   matrix:
@@ -25,3 +25,9 @@ artifacts:
  - path: 'ManiacEditor\bin\Release(x64)'
    name: 'ManiacEditor-Generations-BETA-$(appveyor_build_version)[x64]' 
    type: zip
+ assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'

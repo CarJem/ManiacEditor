@@ -252,36 +252,60 @@ namespace ManiacEditor
 
             // Appveyor Update Check
             int buildNumber = -1;
-            string version = GetVersion();
+            string versionNum = GetVersion();
+            string versionNum2 = "0.0.0.0";
             this.Text = String.Format("Maniac Editor - Generations Edition {0}", GetVersion());
-            Debug.Print(version);
+            Debug.Print(versionNum);
             using (WebClient client = new WebClient())
             {
                 try
                 {
-                    string stuff = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
-                    if (stuff.Contains("buildNumber"))
+                    string appveyorDetails = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
+                    if (appveyorDetails.Contains("buildNumber"))
                     {
-                        if (stuff.Contains("\"status\":\"success\""))
+                        if (appveyorDetails.Contains("\"status\":\"success\""))
                         {
                             string regex = "[0-9]*";
-                            stuff = Regex.Match(stuff, "\"buildNumber\":" + regex).ToString();
+                            string stuff = Regex.Match(appveyorDetails, "\"buildNumber\":" + regex).ToString();
                             string buildNumberString = new String(stuff.Where(Char.IsDigit).ToArray());
                             buildNumber = Int32.Parse(buildNumberString);
                             Debug.Print(buildNumber.ToString());
+
+
+                            // Unable to retrive version number at the moment so disable this stuff
+                            string regex2 = "\"version\":";
+                            versionNum2 = Regex.Match(appveyorDetails, regex2 + "\"[^\"]*\"").Value.ToString();
+                            versionNum2 = versionNum2.Replace(regex2, "");
+                            versionNum2 = versionNum2.Replace("\"", "");
+                            Debug.Print(versionNum2);
                         }
                     }
                 }
                 catch
                 {
-                    Debug.Print("Unable to check for update, skipping.");
+                    Debug.Print("Unable to get version from Appveyor, skiping update check.");
                 }
 
             }
-            if (buildNumber != -1 && !version.Contains("DEV"))
+            if (buildNumber != -1 && !versionNum.Contains("DEV"))
             {
-                MessageBox.Show("Update is Avaliable!");
-            }   
+                string v1 = versionNum;
+                string v2 = versionNum2;
+
+                var version1 = new Version(v1);
+                var version2 = new Version(v2);
+
+                var result = version1.CompareTo(version2);
+                if (result < 0)
+                    MessageBox.Show("Update is Avaliable!");
+            }
+            else
+            {
+                if(versionNum.Contains("DEV"))
+                {
+                    Debug.Print("DEV Build is being used! Don't get updates");
+                }
+            }
 
             SetViewSize();
 
@@ -291,7 +315,7 @@ namespace ManiacEditor
             TryLoadSettings();
 
             if (mySettings.UseForcefulStartup) {
-                OpenSceneForceFully();
+                //OpenSceneForceFully();
             }
 
 
