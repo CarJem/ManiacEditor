@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace ManiacEditor
 {
@@ -15,7 +16,7 @@ namespace ManiacEditor
             Text = String.Format("About {0}", AssemblyTitle);
             labelProductName.Text = AssemblyProduct;
             labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime);
+            buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime) + Environment.NewLine + String.Format("Architecture: {0}", GetProgramType);
             labelCopyright.Text = AssemblyCopyright;
             llAbout.Links.Clear();
 
@@ -46,11 +47,32 @@ namespace ManiacEditor
             }
         }
 
+        public string GetProgramType
+        {
+            get
+            {
+                if (Environment.Is64BitProcess)
+                {
+                    return "x64";
+                }
+                else
+                {
+                    return "x86";
+                }
+            }
+        }
+
         public string AssemblyVersion
         {
             get
             {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                if (Regex.IsMatch(version, "[0 - 9]*.[0 - 9]*.[0 - 9]*.0"))
+                {
+                    string devVersion = version.TrimEnd(version[version.Length - 1]) + "DEV";
+                    return devVersion;
+                }
+                return version;
             }
         }
 

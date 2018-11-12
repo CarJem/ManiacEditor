@@ -23,6 +23,11 @@ using System.Collections;
 using System.Reflection;
 using ManiacEditor.Interfaces;
 using ManiacEditor.Entity_Renders;
+using CubeBuild.Framework.SocketAPI.Infrastructure;
+using System.Net;
+using System.Xml;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ManiacEditor
 {
@@ -244,7 +249,39 @@ namespace ManiacEditor
             _recentDataItems = new List<ToolStripMenuItem>();
             _recentDataItems_Button = new List<ToolStripMenuItem>();
             EditorControls = new EditorControls();
-            
+
+            // Appveyor Update Check
+            int buildNumber = -1;
+            string version = GetVersion();
+            this.Text = String.Format("Maniac Editor - Generations Edition {0}", GetVersion());
+            Debug.Print(version);
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    string stuff = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
+                    if (stuff.Contains("buildNumber"))
+                    {
+                        if (stuff.Contains("\"status\":\"success\""))
+                        {
+                            string regex = "[0-9]*";
+                            stuff = Regex.Match(stuff, "\"buildNumber\":" + regex).ToString();
+                            string buildNumberString = new String(stuff.Where(Char.IsDigit).ToArray());
+                            buildNumber = Int32.Parse(buildNumberString);
+                            Debug.Print(buildNumber.ToString());
+                        }
+                    }
+                }
+                catch
+                {
+                    Debug.Print("Unable to check for update, skipping.");
+                }
+
+            }
+            if (buildNumber != -1 && !version.Contains("DEV"))
+            {
+                MessageBox.Show("Update is Avaliable!");
+            }   
 
             SetViewSize();
 
@@ -261,6 +298,17 @@ namespace ManiacEditor
 
 
 
+        }
+
+        public string GetVersion()
+        {
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            if (Regex.IsMatch(version, "[0 - 9]*.[0 - 9]*.[0 - 9]*.0"))
+            {
+                string devVersion = version.TrimEnd(version[version.Length - 1]) + "DEV";
+                return devVersion;
+            }
+            return version;
         }
 
         public void InitDiscord()
@@ -2226,12 +2274,12 @@ namespace ManiacEditor
         private void OpenSceneForceFully()
         {
             DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
-            string Result = "GHZ\\Scene1.bin";
+            string Result = "MSZ\\Scene1K.bin";
             int LevelID = -1;
             bool isEncore = false;
             forceResize = true;
-            int x = 7704;
-            int y = 1204;
+            int x = 0;
+            int y = 0;
             forceResizeGoToX = x;
             forceResizeGoToY = y;
             OpenScene(false, Result, LevelID, isEncore, true);

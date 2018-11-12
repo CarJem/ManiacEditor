@@ -152,10 +152,18 @@ namespace ManiacEditor.Entity_Renders
                     {
                         for (int i = 0; i < childCount; i++)
                         {
-                            EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
-                            childEntity.childDraw = true;
-                            childEntity.childX = position[0];
-                            childEntity.childY = -position[1];
+                            try
+                            {
+                                EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
+                                childEntity.childDraw = true;
+                                childEntity.childX = position[0];
+                                childEntity.childY = -position[1];
+                            }
+                            catch
+                            {
+
+                            }
+
                         }
                     }
 

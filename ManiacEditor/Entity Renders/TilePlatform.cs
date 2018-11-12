@@ -48,8 +48,8 @@ namespace ManiacEditor.Entity_Renders
         public void DrawTileGroup(DevicePanel d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity)
         {
             Texture GroupTexture;
-            Rectangle rect = GetTileArea(x2 - width/2, y2 - height/2, width, height);
-            //Rectangle rect = GetTileArea(0, 0, _layer.Height, _layer.Width);
+            //Rectangle rect = GetTileArea(x2 - width/2, y2 - height/2, width, height);
+            Rectangle rect = GetTileArea(0, 0, _layer.Height, _layer.Width);
 
             try
             {
@@ -57,21 +57,21 @@ namespace ManiacEditor.Entity_Renders
                 {
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
-                        for (int ty = rect.Y; ty < rect.Y + rect.Height; ++ty)
+                        for (int ty = y2 - height/2; ty <= y2 + height/2; ++ty)
                         {
-                            for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+                            for (int tx = x2 - width/2; tx <= x2 + width/2; ++tx)
                             {
                                 // We will draw those later
                                 if (this._layer.Tiles?[ty][tx] != 0xffff)
                                 {
-                                    DrawTile(d, this._layer.Tiles[ty][tx], (x/16) + tx - x2, (y/16) + ty - y2, false, Transperncy);
-                                    //DrawTile(g, this._layer.Tiles[ty][tx], tx, ty);
+                                    //DrawTile(g, this._layer.Tiles[ty][tx], (x/16) + tx - x2, (y/16) + ty - y2, false, Transperncy);
+                                    DrawTile(g, this._layer.Tiles[ty][tx], tx, ty);
                                 }
                             }
                         }
                     }
                     GroupTexture = TextureCreator.FromBitmap(d._device, bmp);
-                    d.DrawBitmap(GroupTexture, x - x2*16, y - y2 * 16, bmp.Width, bmp.Height, false, Transperncy);
+                    d.DrawBitmap(GroupTexture, x - x2 - height / 2, y - y2 - height / 2, bmp.Width, bmp.Height, false, Transperncy);
                 }
 
             }

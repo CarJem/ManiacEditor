@@ -36,10 +36,10 @@
             this.labelProductName = new System.Windows.Forms.Label();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.buildDateLabel = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -50,7 +50,7 @@
             this.llAbout.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.llAbout.AutoSize = true;
             this.llAbout.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
-            this.llAbout.Location = new System.Drawing.Point(127, 130);
+            this.llAbout.Location = new System.Drawing.Point(127, 150);
             this.llAbout.Name = "llAbout";
             this.llAbout.Size = new System.Drawing.Size(245, 91);
             this.llAbout.TabIndex = 25;
@@ -62,7 +62,7 @@
             // 
             this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(3, 255);
+            this.okButton.Location = new System.Drawing.Point(3, 282);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(118, 20);
             this.okButton.TabIndex = 24;
@@ -71,11 +71,11 @@
             // labelCopyright
             // 
             this.labelCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelCopyright.Location = new System.Drawing.Point(130, 78);
+            this.labelCopyright.Location = new System.Drawing.Point(130, 103);
             this.labelCopyright.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelCopyright.MaximumSize = new System.Drawing.Size(0, 51);
             this.labelCopyright.Name = "labelCopyright";
-            this.labelCopyright.Size = new System.Drawing.Size(243, 48);
+            this.labelCopyright.Size = new System.Drawing.Size(243, 37);
             this.labelCopyright.TabIndex = 21;
             this.labelCopyright.Text = "Copyright";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -83,7 +83,7 @@
             // labelVersion
             // 
             this.labelVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelVersion.Location = new System.Drawing.Point(130, 26);
+            this.labelVersion.Location = new System.Drawing.Point(130, 29);
             this.labelVersion.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelVersion.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelVersion.Name = "labelVersion";
@@ -111,7 +111,7 @@
             this.logoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 6);
-            this.logoPictureBox.Size = new System.Drawing.Size(118, 232);
+            this.logoPictureBox.Size = new System.Drawing.Size(118, 259);
             this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.logoPictureBox.TabIndex = 12;
             this.logoPictureBox.TabStop = false;
@@ -126,48 +126,44 @@
             this.tableLayoutPanel.Controls.Add(this.labelVersion, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.labelCopyright, 1, 3);
             this.tableLayoutPanel.Controls.Add(this.llAbout, 1, 4);
-            this.tableLayoutPanel.Controls.Add(this.buildDateLabel, 1, 2);
             this.tableLayoutPanel.Controls.Add(this.okButton, 0, 7);
             this.tableLayoutPanel.Controls.Add(this.panel1, 1, 7);
+            this.tableLayoutPanel.Controls.Add(this.buildDateLabel, 1, 2);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(9, 9);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 8;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.98113F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.96226F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.59664F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.462185F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(376, 281);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(376, 308);
             this.tableLayoutPanel.TabIndex = 0;
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(155, 7);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(87, 13);
-            this.linkLabel2.TabIndex = 29;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Get Dev Builds...";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // buildDateLabel
             // 
-            this.buildDateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buildDateLabel.Location = new System.Drawing.Point(130, 52);
+            this.buildDateLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buildDateLabel.Location = new System.Drawing.Point(130, 65);
             this.buildDateLabel.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
-            this.buildDateLabel.MaximumSize = new System.Drawing.Size(0, 17);
             this.buildDateLabel.Name = "buildDateLabel";
-            this.buildDateLabel.Size = new System.Drawing.Size(243, 17);
+            this.buildDateLabel.Size = new System.Drawing.Size(243, 31);
             this.buildDateLabel.TabIndex = 27;
-            this.buildDateLabel.Text = "Build Date";
+            this.buildDateLabel.Text = "Build Date\r\nCPU Type\r\n";
             this.buildDateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.linkLabel1);
+            this.panel1.Controls.Add(this.linkLabel2);
+            this.panel1.Location = new System.Drawing.Point(127, 279);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(245, 26);
+            this.panel1.TabIndex = 31;
             // 
             // linkLabel1
             // 
@@ -181,21 +177,24 @@
             this.linkLabel1.Text = "Get Releases....";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked_1);
             // 
-            // panel1
+            // linkLabel2
             // 
-            this.panel1.Controls.Add(this.linkLabel1);
-            this.panel1.Controls.Add(this.linkLabel2);
-            this.panel1.Location = new System.Drawing.Point(127, 252);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(245, 26);
-            this.panel1.TabIndex = 31;
+            this.linkLabel2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(155, 7);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(87, 13);
+            this.linkLabel2.TabIndex = 29;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "Get Dev Builds...";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // AboutBox
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 299);
+            this.ClientSize = new System.Drawing.Size(394, 326);
             this.Controls.Add(this.tableLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
