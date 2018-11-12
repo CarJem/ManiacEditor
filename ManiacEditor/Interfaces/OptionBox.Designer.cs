@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionBox));
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.panel15 = new System.Windows.Forms.Panel();
+            this.label85 = new System.Windows.Forms.Label();
+            this.checkBox37 = new System.Windows.Forms.CheckBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -305,10 +308,8 @@
             this.checkBox22 = new System.Windows.Forms.CheckBox();
             this.label31 = new System.Windows.Forms.Label();
             this.checkBox34 = new System.Windows.Forms.CheckBox();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.label85 = new System.Windows.Forms.Label();
-            this.checkBox37 = new System.Windows.Forms.CheckBox();
             this.tabPage4.SuspendLayout();
+            this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel11.SuspendLayout();
@@ -337,7 +338,6 @@
             this.panel13.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel14.SuspendLayout();
-            this.panel15.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage4
@@ -358,6 +358,42 @@
             this.tabPage4.Size = new System.Drawing.Size(482, 574);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Other";
+            // 
+            // panel15
+            // 
+            this.panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel15.Controls.Add(this.label85);
+            this.panel15.Controls.Add(this.checkBox37);
+            this.panel15.Location = new System.Drawing.Point(197, 6);
+            this.panel15.Name = "panel15";
+            this.panel15.Size = new System.Drawing.Size(183, 81);
+            this.panel15.TabIndex = 109;
+            // 
+            // label85
+            // 
+            this.label85.BackColor = System.Drawing.Color.Transparent;
+            this.label85.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label85.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label85.Location = new System.Drawing.Point(16, 8);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(160, 13);
+            this.label85.TabIndex = 56;
+            this.label85.Text = "Developer Options:";
+            this.label85.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // checkBox37
+            // 
+            this.checkBox37.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox37.Checked = global::ManiacEditor.Properties.Settings.Default.UseForcefulStartup;
+            this.checkBox37.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseForcefulStartup", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox37.Location = new System.Drawing.Point(5, 26);
+            this.checkBox37.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox37.Name = "checkBox37";
+            this.checkBox37.Size = new System.Drawing.Size(171, 46);
+            this.checkBox37.TabIndex = 57;
+            this.checkBox37.Text = "Open Scene Forcefully on Startup\r\n";
+            this.checkBox37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox37.UseVisualStyleBackColor = false;
             // 
             // panel9
             // 
@@ -3592,42 +3628,6 @@
             this.checkBox34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox34.UseVisualStyleBackColor = false;
             // 
-            // panel15
-            // 
-            this.panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel15.Controls.Add(this.label85);
-            this.panel15.Controls.Add(this.checkBox37);
-            this.panel15.Location = new System.Drawing.Point(197, 6);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(183, 81);
-            this.panel15.TabIndex = 109;
-            // 
-            // label85
-            // 
-            this.label85.BackColor = System.Drawing.Color.Transparent;
-            this.label85.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label85.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label85.Location = new System.Drawing.Point(16, 8);
-            this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(160, 13);
-            this.label85.TabIndex = 56;
-            this.label85.Text = "Developer Options:";
-            this.label85.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // checkBox37
-            // 
-            this.checkBox37.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox37.Checked = global::ManiacEditor.Properties.Settings.Default.UseForcefulStartup;
-            this.checkBox37.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseForcefulStartup", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox37.Location = new System.Drawing.Point(5, 26);
-            this.checkBox37.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox37.Name = "checkBox37";
-            this.checkBox37.Size = new System.Drawing.Size(171, 46);
-            this.checkBox37.TabIndex = 57;
-            this.checkBox37.Text = "Open Scene Forcefully on Startup\r\n";
-            this.checkBox37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox37.UseVisualStyleBackColor = false;
-            // 
             // OptionBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3644,6 +3644,7 @@
             this.Text = "Maniac Editor Options";
             this.Load += new System.EventHandler(this.OptionBox_Load);
             this.tabPage4.ResumeLayout(false);
+            this.panel15.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
@@ -3681,7 +3682,6 @@
             this.panel13.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel14.ResumeLayout(false);
-            this.panel15.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

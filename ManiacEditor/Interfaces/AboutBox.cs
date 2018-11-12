@@ -67,7 +67,8 @@ namespace ManiacEditor
             get
             {
                 string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                if (Regex.IsMatch(version, "[0 - 9]*.[0 - 9]*.[0 - 9]*.0"))
+                //Adjust this after major and minor versions
+                if (version == "1.0.0.0")
                 {
                     string devVersion = version.TrimEnd(version[version.Length - 1]) + "DEV";
                     return devVersion;
