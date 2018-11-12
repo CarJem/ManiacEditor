@@ -119,11 +119,11 @@ namespace ManiacEditor
         {
             if (badBuild)
             {
-                return AppveyorVersion + ("FAILED");
+                return AppveyorVersion + (" (FAILED)");
             }
             else if (unkownError)
             {
-                return AppveyorVersion + ("UNKOWN");
+                return AppveyorVersion + (" (UNKOWN)");
             }
             else
             {
