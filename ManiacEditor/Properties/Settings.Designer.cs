@@ -1175,5 +1175,17 @@ namespace ManiacEditor.Properties {
                 this["UseForcefulStartup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool checkForUpdatesAuto {
+            get {
+                return ((bool)(this["checkForUpdatesAuto"]));
+            }
+            set {
+                this["checkForUpdatesAuto"] = value;
+            }
+        }
     }
 }

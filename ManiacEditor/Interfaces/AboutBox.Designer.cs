@@ -36,10 +36,9 @@
             this.labelProductName = new System.Windows.Forms.Label();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.buildDateLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.buildDateLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -145,6 +144,26 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(376, 308);
             this.tableLayoutPanel.TabIndex = 0;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.linkLabel3);
+            this.panel1.Location = new System.Drawing.Point(127, 279);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(245, 26);
+            this.panel1.TabIndex = 31;
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.Location = new System.Drawing.Point(3, 7);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(96, 13);
+            this.linkLabel3.TabIndex = 31;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "Check for Updates";
+            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+            // 
             // buildDateLabel
             // 
             this.buildDateLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -155,39 +174,6 @@
             this.buildDateLabel.TabIndex = 27;
             this.buildDateLabel.Text = "Build Date\r\nCPU Type\r\n";
             this.buildDateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.linkLabel1);
-            this.panel1.Controls.Add(this.linkLabel2);
-            this.panel1.Location = new System.Drawing.Point(127, 279);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(245, 26);
-            this.panel1.TabIndex = 31;
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(66, 7);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(83, 13);
-            this.linkLabel1.TabIndex = 30;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Get Releases....";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked_1);
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(155, 7);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(87, 13);
-            this.linkLabel2.TabIndex = 29;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Get Dev Builds...";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // AboutBox
             // 
@@ -224,8 +210,7 @@
         private System.Windows.Forms.PictureBox logoPictureBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.Label buildDateLabel;
-        private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkLabel3;
     }
 }

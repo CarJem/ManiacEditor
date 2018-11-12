@@ -328,6 +328,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorUpdater.cs" />
     <Compile Include="Entity Renders\Armadiloid.cs" />
     <Compile Include="Entity Renders\Beanstalk.cs" />
     <Compile Include="Entity Renders\BouncePlant.cs" />
@@ -822,6 +823,12 @@
     <Compile Include="Interfaces\ModConfigCreator.Designer.cs">
       <DependentUpon>ModConfigCreator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\UpdateStatusBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\UpdateStatusBox.Designer.cs">
+      <DependentUpon>UpdateStatusBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectIDHealer.cs" />
     <Compile Include="Properties\EditorState.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -983,6 +990,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ModConfigCreator.resx">
       <DependentUpon>ModConfigCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\UpdateStatusBox.resx">
+      <DependentUpon>UpdateStatusBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\objectRenderList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

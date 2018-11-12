@@ -10,12 +10,13 @@ namespace ManiacEditor
 {
     partial class AboutBox : Form
     {
+        public EditorUpdater Updater = new EditorUpdater();
         public AboutBox()
         {
             InitializeComponent();
             Text = String.Format("About {0}", AssemblyTitle);
             labelProductName.Text = AssemblyProduct;
-            labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            labelVersion.Text = String.Format("Version {0}", Updater.GetVersion());
             buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime) + Environment.NewLine + String.Format("Architecture: {0}", GetProgramType);
             labelCopyright.Text = AssemblyCopyright;
             llAbout.Links.Clear();
@@ -59,21 +60,6 @@ namespace ManiacEditor
                 {
                     return "x86";
                 }
-            }
-        }
-
-        public string AssemblyVersion
-        {
-            get
-            {
-                string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                //Adjust this after major and minor versions
-                if (version == "1.0.0.0")
-                {
-                    string devVersion = version.TrimEnd(version[version.Length - 1]) + "DEV";
-                    return devVersion;
-                }
-                return version;
             }
         }
 
@@ -139,21 +125,9 @@ namespace ManiacEditor
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            ProcessStartInfo sInfo = new ProcessStartInfo("https://ci.appveyor.com/project/CarJem/maniaceditor-generationsedition");
-            Process.Start(sInfo);
-        }
-
-        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            ProcessStartInfo sInfo = new ProcessStartInfo("https://github.com/CarJem/ManiacEditor-GenerationsEdition/releases");
-            Process.Start(sInfo);
+            Updater.CheckforUpdates(true);
         }
     }
 }

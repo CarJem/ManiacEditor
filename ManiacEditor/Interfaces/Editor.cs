@@ -151,9 +151,10 @@ namespace ManiacEditor
         internal EditorLayer EditLayer;
         internal TilesToolbar TilesToolbar = null;
         private EntitiesToolbar entitiesToolbar = null;
+        public EditorUpdater Updater = new EditorUpdater();
 
         //Editor Misc. Variables
-        
+
 
         //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
@@ -235,6 +236,11 @@ namespace ManiacEditor
             //InitDiscord();
 
 
+            this.Text = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
+            if (!Updater.GetVersion().Contains("DEV") && mySettings.checkForUpdatesAuto)
+            {
+                Updater.CheckforUpdates();
+            }
             this.splitContainer1.Panel2MinSize = 254;
 
             GraphicPanel.GotFocus += new EventHandler(OnGotFocus);
@@ -250,62 +256,7 @@ namespace ManiacEditor
             _recentDataItems_Button = new List<ToolStripMenuItem>();
             EditorControls = new EditorControls();
 
-            // Appveyor Update Check
-            int buildNumber = -1;
-            string versionNum = GetVersion();
-            string versionNum2 = "0.0.0.0";
-            this.Text = String.Format("Maniac Editor - Generations Edition {0}", GetVersion());
-            Debug.Print(versionNum);
-            using (WebClient client = new WebClient())
-            {
-                try
-                {
-                    string appveyorDetails = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
-                    if (appveyorDetails.Contains("buildNumber"))
-                    {
-                        if (appveyorDetails.Contains("\"status\":\"success\""))
-                        {
-                            string regex = "[0-9]*";
-                            string stuff = Regex.Match(appveyorDetails, "\"buildNumber\":" + regex).ToString();
-                            string buildNumberString = new String(stuff.Where(Char.IsDigit).ToArray());
-                            buildNumber = Int32.Parse(buildNumberString);
-                            Debug.Print(buildNumber.ToString());
-
-
-                            // Unable to retrive version number at the moment so disable this stuff
-                            string regex2 = "\"version\":";
-                            versionNum2 = Regex.Match(appveyorDetails, regex2 + "\"[^\"]*\"").Value.ToString();
-                            versionNum2 = versionNum2.Replace(regex2, "");
-                            versionNum2 = versionNum2.Replace("\"", "");
-                            Debug.Print(versionNum2);
-                        }
-                    }
-                }
-                catch
-                {
-                    Debug.Print("Unable to get version from Appveyor, skiping update check.");
-                }
-
-            }
-            if (buildNumber != -1 && !versionNum.Contains("DEV"))
-            {
-                string v1 = versionNum;
-                string v2 = versionNum2;
-
-                var version1 = new Version(v1);
-                var version2 = new Version(v2);
-
-                var result = version1.CompareTo(version2);
-                if (result < 0)
-                    MessageBox.Show("Update is Avaliable!");
-            }
-            else
-            {
-                if(versionNum.Contains("DEV"))
-                {
-                    Debug.Print("DEV Build is being used! Don't get updates");
-                }
-            }
+            
 
             SetViewSize();
 
@@ -315,25 +266,13 @@ namespace ManiacEditor
             TryLoadSettings();
 
             if (mySettings.UseForcefulStartup) {
-                //OpenSceneForceFully();
+                OpenSceneForceFully();
             }
 
 
 
 
 
-        }
-
-        public string GetVersion()
-        {
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            //Adjust this after major and minor versions
-            if (version == "1.0.0.0")
-            {
-                string devVersion = version.TrimEnd(version[version.Length - 1]) + "DEV";
-                return devVersion;
-            }
-            return version;
         }
 
         public void InitDiscord()
