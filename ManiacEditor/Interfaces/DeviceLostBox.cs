@@ -17,9 +17,9 @@ namespace ManiacEditor
             var newLine = Environment.NewLine;
             InitializeComponent();
 
-            System.IO.Stream str = Properties.Resources.OhNo;
-            System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
-            snd.Play();
+            //System.IO.Stream str = Properties.Resources.OhNo;
+            //System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
+            //snd.Play();
             if (state == 1)
             {
                 outOfMemory();
