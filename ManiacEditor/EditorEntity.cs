@@ -64,7 +64,15 @@ namespace ManiacEditor
         public int childX = 0;
         public int childY = 0;
 
+
+        //For Drawing/Saving Tile Platforms
+        internal EditorLayer MoveLayer => Editor.Instance.EditorScene?.Move;
+        private SceneLayer _layer;
+        internal SceneLayer Layer { get => _layer; }
+
+
         public static Dictionary<string, EditorAnimation> Animations = new Dictionary<string, EditorAnimation>();
+        public static Dictionary<string, EditorTilePlatforms> TilePlatforms = new Dictionary<string, EditorTilePlatforms>();
         public static Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public static string[] DataDirectoryList = null;
         public static bool Working = false;
@@ -540,6 +548,80 @@ namespace ManiacEditor
 
         }
 
+        public EditorTilePlatforms LoadTilePlatform(DevicePanel d, int x2, int y2, int width, int height)
+        {
+
+            _layer = MoveLayer.Layer;
+            string key = $"{x2}-{y2}-{width}-{height}";
+            var anim = new EditorTilePlatforms();
+            if (TilePlatforms.ContainsKey(key))
+            {
+                if (TilePlatforms[key].Ready)
+                {
+                    // Use the already loaded Amination
+                    return TilePlatforms[key];
+                }
+                else
+                    return null;
+            }
+            TilePlatforms.Add(key, anim);
+            Texture GroupTexture;
+            Rectangle rect = GetTilePlatformArea(x2 * 16, y2 * 16, height * 16, width * 16);
+            try
+            {
+                
+                using (Bitmap bmp = new Bitmap(_layer.Width * 16, _layer.Height * 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                {
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        for (int tx = 0; tx <= x2 + width; ++tx)
+                        {
+                            for (int ty = 0; ty <= y2 + height; ++ty)
+                            {
+                                // We will draw those later
+                                if (this._layer.Tiles?[ty][tx] != 0xffff)
+                                {
+                                    DrawObjectTile(g, this._layer.Tiles[ty][tx], tx - x2 + width/2, ty - y2 + height/2);
+                                }
+                            }
+                        }
+                    }
+                    GroupTexture = TextureCreator.FromBitmap(d._device, bmp);
+                    anim.Texture = GroupTexture;
+                    if (GroupTexture != null)
+                    {
+                        anim.Ready = true;
+                    }
+                    anim.Height = bmp.Height;
+                    anim.Width = bmp.Width;
+                    return anim;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public void DrawObjectTile(Graphics g, ushort tile, int x, int y)
+        {
+            ushort TileIndex = (ushort)(tile & 0x3ff);
+            int TileIndexInt = (int)TileIndex;
+            bool flipX = ((tile >> 10) & 1) == 1;
+            bool flipY = ((tile >> 11) & 1) == 1;
+            bool SolidTopA = ((tile >> 12) & 1) == 1;
+            bool SolidLrbA = ((tile >> 13) & 1) == 1;
+            bool SolidTopB = ((tile >> 14) & 1) == 1;
+            bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
+            g.DrawImage(Editor.Instance.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+                new Rectangle(x * 16, y * 16, 16, 16));
+        }
+
+        private Rectangle GetTilePlatformArea(int x, int y, int width, int height)
+        {
+            return new Rectangle(x, y, width, height);
+        }
 
         public String GetAssetPath(string name)
         {
@@ -1119,11 +1201,15 @@ namespace ManiacEditor
                 pair.Value?.Dispose();
             Sheets.Clear();
 
+            TilePlatforms.Clear();
+            
+
             foreach (var pair in Animations)
                 foreach (var pair2 in pair.Value.Frames)
                     pair2.Texture?.Dispose();
 
             Animations.Clear();
+            TilePlatforms.Clear();
         }
 
         public class EditorAnimation
@@ -1139,6 +1225,14 @@ namespace ManiacEditor
                 public Animation.AnimationEntry Entry;
                 public Bitmap _Bitmap;
             }
+        }
+
+        public class EditorTilePlatforms
+        {
+            public bool Ready = false;
+            public int Width = 0;
+            public int Height = 0;
+            public Texture Texture;
         }
 
     }

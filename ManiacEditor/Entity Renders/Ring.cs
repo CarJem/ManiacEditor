@@ -65,7 +65,7 @@ namespace ManiacEditor.Entity_Renders
                 }
 
 
-                if ((amplitudeX != 0 || amplitudeY != 0) && moveType != 1)
+                if ((amplitudeX != 0 || amplitudeY != 0) && moveType == 2)
                 {
                         double xd = x;
                         double yd = y;
@@ -107,8 +107,8 @@ namespace ManiacEditor.Entity_Renders
                 else
                 {
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX + (angleStateX),
-                        y + frame.Frame.CenterY - (angleStateY),
+                        x + frame.Frame.CenterX,
+                        y + frame.Frame.CenterY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
 

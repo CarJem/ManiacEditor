@@ -2238,12 +2238,12 @@ namespace ManiacEditor
         private void OpenSceneForceFully()
         {
             DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
-            string Result = "MSZ\\Scene1K.bin";
+            string Result = "MSZ\\Scene2.bin";
             int LevelID = -1;
             bool isEncore = false;
             forceResize = true;
-            int x = 0;
-            int y = 0;
+            int x = 6296;
+            int y = 314;
             forceResizeGoToX = x;
             forceResizeGoToY = y;
             OpenScene(false, Result, LevelID, isEncore, true);
