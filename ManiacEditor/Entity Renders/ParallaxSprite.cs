@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -17,7 +18,13 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
+            int aniID = (int)entity.attributesMap["aniID"].ValueUInt8;
+            string editorAnimFile = Editor.Instance.SelectedZone.Replace("\\","") + "Parallax";
             var editorAnim = e.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
+            if (Properties.EditorState.Default.ShowParallaxSprites)
+            {
+                editorAnim = e.LoadAnimation2(editorAnimFile, d, aniID, -1, fliph, flipv, false);
+            }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[e.index];

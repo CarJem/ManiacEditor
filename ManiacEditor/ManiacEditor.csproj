@@ -330,6 +330,7 @@
   <ItemGroup>
     <Compile Include="EditorUpdater.cs" />
     <Compile Include="Entity Renders\Armadiloid.cs" />
+    <Compile Include="Entity Renders\BarStool.cs" />
     <Compile Include="Entity Renders\Beanstalk.cs" />
     <Compile Include="Entity Renders\BouncePlant.cs" />
     <Compile Include="Entity Renders\Buggernaut.cs" />

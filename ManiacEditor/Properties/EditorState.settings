@@ -76,5 +76,8 @@ Would you like to save your progress before Maniac Editor Closes?</Value>
     <Setting Name="AddStageConfigEntriesAllowed" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ShowParallaxSprites" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

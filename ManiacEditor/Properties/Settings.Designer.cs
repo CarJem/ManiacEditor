@@ -1187,5 +1187,17 @@ namespace ManiacEditor.Properties {
                 this["checkForUpdatesAuto"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowFullParallaxEntityRenderDefault {
+            get {
+                return ((bool)(this["ShowFullParallaxEntityRenderDefault"]));
+            }
+            set {
+                this["ShowFullParallaxEntityRenderDefault"] = value;
+            }
+        }
     }
 }

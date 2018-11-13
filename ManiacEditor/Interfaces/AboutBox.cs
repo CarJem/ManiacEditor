@@ -20,8 +20,9 @@ namespace ManiacEditor
             buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime) + Environment.NewLine + String.Format("Architecture: {0}", GetProgramType);
             labelCopyright.Text = AssemblyCopyright;
             llAbout.Links.Clear();
-
+            
             AddClickableLink("koolkdev", "https://github.com/koolkdev/ManiacEditor");
+            AddClickableLink("Axanery", "https://www.youtube.com/channel/UCIsXoOHibP8wpjcha3bSbMQ");
             AddClickableLink("OtherworldBob", "https://github.com/OtherworldBob/ManiacEditor");
             AddClickableLink("SuperSonic16", "https://github.com/thesupersonic16");
             AddClickableLink("CarJem Generations", "https://github.com/CarJem");

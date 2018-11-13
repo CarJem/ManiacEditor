@@ -32,8 +32,6 @@ namespace ManiacEditor.Entity_Renders
             int amplitudeX = (int)e.FetchAttribute.AttributesMapPositionHighX("amplitude", entity);
             int amplitudeY = (int)e.FetchAttribute.AttributesMapPositionHighY("amplitude", entity);
 
-            int angleStateX = 0;
-            int angleStateY = 0;
             int animID;
             switch (type)
             {
@@ -57,11 +55,29 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[e.index];
-                e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
-                if (moveType != 2 && moveType != 1)
+
+                if (type >= 2)
+                {
+                    e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
+                }
+                else
+                {
+                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                }
+
+                if (moveType == 2)
                 {
                     e.ProcessMovingPlatform(angle);
                     angle = e.platformAngle;
+
+                    if (type >= 2)
+                    {
+                        e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
+                    }
+                    else
+                    {
+                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    }
                 }
 
 

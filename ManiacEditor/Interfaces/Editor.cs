@@ -365,9 +365,33 @@ namespace ManiacEditor
 
                 WindowState = mySettings.IsMaximized ? FormWindowState.Maximized : WindowState;
                 GamePath = mySettings.GamePath;
+
                 editEntitesTransparencyToolStripMenuItem.Checked = myEditorState.editEntitiesTransparency;
+                transparentLayersForEditingEntitiesToolStripMenuItem.Checked = myEditorState.editEntitiesTransparency;
+
+                statusNAToolStripMenuItem.Checked = mySettings.scrollLock;
+                scrollLockButton.Checked = mySettings.scrollLock;
+
+                xToolStripMenuItem.Checked = mySettings.ScrollLockDirection;
+                yToolStripMenuItem.Checked = !mySettings.ScrollLockDirection;
+
+
+
+
+
                 spriteFramesToolStripMenuItem.Checked = myEditorState.annimationsChecked;
                 movingPlatformsObjectsToolStripMenuItem.Checked = myEditorState.movingPlatformsChecked;
+
+                if (mySettings.ShowFullParallaxEntityRenderDefault)
+                {
+                    showParallaxSpritesToolStripMenuItem.Checked = true;
+                    myEditorState.ShowParallaxSprites = true;
+                }
+                else
+                {
+                    showParallaxSpritesToolStripMenuItem.Checked = false;
+                    myEditorState.ShowParallaxSprites = false;
+                }
 
                 if (mySettings.DataDirectories?.Count > 0)
                 {
@@ -2756,9 +2780,6 @@ a valid Data Directory.",
                 if (ShowFGHigher.Checked || EditFGHigher.Checked)
                     FGHigher.Draw(GraphicPanel);
 
-                if (EditEntities.Checked)
-                    entities.Draw(GraphicPanel);
-
                 foreach(var elb in _extraLayerViewButtons)
                 {
                     if (elb.Checked)
@@ -2767,6 +2788,9 @@ a valid Data Directory.",
                         _extraViewLayer.Draw(GraphicPanel);
                     }
                 }
+
+                if (EditEntities.Checked)
+                    entities.Draw(GraphicPanel);
 
             }
             if (draggingSelection)
@@ -3878,11 +3902,12 @@ Error: {ex.Message}");
 
         private void pixelModeButton_Click(object sender, EventArgs e)
         {
-            if (pixelModeButton.Checked == false)
+            if (pixelModeButton.Checked == false || pixelModeToolStripMenuItem.Checked == false)
             {
                 pixelModeButton.Checked = true;
                 pixelModeToolStripMenuItem.Checked = true;
                 mySettings.pixelCountMode = true;
+                
             }
             else
             {
@@ -3895,10 +3920,11 @@ Error: {ex.Message}");
 
         public void scrollLockButton_Click(object sender, EventArgs e)
         {
-            if (scrollLockButton.Checked == false)
+            if (mySettings.scrollLock == false)
             {
                 scrollLockButton.Checked = true;
                 mySettings.scrollLock = true;
+                statusNAToolStripMenuItem.Checked = true;
                 scrollDirection = "Locked";
             }
             else
@@ -3906,12 +3932,14 @@ Error: {ex.Message}");
                 if (mySettings.ScrollLockY == true)
                 {
                     scrollLockButton.Checked = false;
+                    statusNAToolStripMenuItem.Checked = false;
                     mySettings.scrollLock = false;
                     scrollDirection = "Y";
                 }
                 else
                 {
                     scrollLockButton.Checked = false;
+                    statusNAToolStripMenuItem.Checked = false;
                     mySettings.scrollLock = false;
                     scrollDirection = "X";
                 }
@@ -4181,11 +4209,13 @@ Error: {ex.Message}");
             if (nudgeFasterButton.Checked == false)
             {
                 nudgeFasterButton.Checked = true;
+                nudgeSelectionFasterToolStripMenuItem.Checked = true;
                 mySettings.EnableFasterNudge = true;
             }
             else
             {
                 nudgeFasterButton.Checked = false;
+                nudgeSelectionFasterToolStripMenuItem.Checked = false;
                 mySettings.EnableFasterNudge = false;
             }
         }
@@ -4758,29 +4788,25 @@ Error: {ex.Message}");
         public void swapScrollLockDirectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             myEditorState.lastQuickButtonState = 1;
-            if (mySettings.ScrollLockDirection == true)
-            {
-                mySettings.ScrollLockDirection = false;
-                scrollLockDirLabel.Text = "Scroll Lock Direction: X";
-            }
-            else
-            {
-                mySettings.ScrollLockDirection = true;
-                scrollLockDirLabel.Text = "Scroll Lock Direction: Y";
-            }
+            xToolStripMenuItem_Click(sender, e);
         }
 
         public void editEntitesTransparencyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            myEditorState.lastQuickButtonState = 2;
+            if (sender != transparentLayersForEditingEntitiesToolStripMenuItem)
+            {
+                myEditorState.lastQuickButtonState = 2;
+            }
             if (myEditorState.editEntitiesTransparency == false)
             {
                 myEditorState.editEntitiesTransparency = true;
+                transparentLayersForEditingEntitiesToolStripMenuItem.Checked = true;
                 editEntitesTransparencyToolStripMenuItem.Checked = true;
             }
             else
             {
                 myEditorState.editEntitiesTransparency = false;
+                transparentLayersForEditingEntitiesToolStripMenuItem.Checked = false;
                 editEntitesTransparencyToolStripMenuItem.Checked = false;
             }
         }
@@ -5060,17 +5086,60 @@ Error: {ex.Message}");
 
         }
 
-        private void statusNAToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showParallaxSpritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (statusNAToolStripMenuItem.Checked)
+            if (showParallaxSpritesToolStripMenuItem.Checked)
             {
-                mySettings.scrollLock = true;
-                 
+                myEditorState.ShowParallaxSprites = true;
             }
             else
             {
-                mySettings.scrollLock = false;
+                myEditorState.ShowParallaxSprites = false;
             }
+        }
+
+        private void transparentLayersForEditingEntitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void xToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mySettings.ScrollLockDirection)
+            {
+                mySettings.ScrollLockDirection = false;
+                xToolStripMenuItem.Checked = false;
+                yToolStripMenuItem.Checked = true;
+                scrollLockDirLabel.Text = "Scroll Lock Direction: Y";
+            }
+            else
+            {
+                mySettings.ScrollLockDirection = true;
+                xToolStripMenuItem.Checked = true;
+                yToolStripMenuItem.Checked = false;
+                scrollLockDirLabel.Text = "Scroll Lock Direction: X";
+            }
+        }
+
+        private void yToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mySettings.ScrollLockDirection)
+            {
+                mySettings.ScrollLockDirection = false;
+                xToolStripMenuItem.Checked = false;
+                yToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                mySettings.ScrollLockDirection = true;
+                xToolStripMenuItem.Checked = true;
+                yToolStripMenuItem.Checked = false;
+            }
+        }
+
+        private void statusNAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void movingPlatformsObjectsToolStripMenuItem_Click(object sender, EventArgs e)
