@@ -15,10 +15,10 @@ namespace RSDKv5
 
         const int TILES_COUNT = 0x400;
 
-        public TileConfig[] CollisionPath1 = new TileConfig[TILES_COUNT];
-        public TileConfig[] CollisionPath2 = new TileConfig[TILES_COUNT];
+        public CollisionMask[] CollisionPath1 = new CollisionMask[TILES_COUNT];
+        public CollisionMask[] CollisionPath2 = new CollisionMask[TILES_COUNT];
 
-        public class TileConfig
+        public class CollisionMask
         {
             // Collision position for each pixel
             public byte[] Collision;
@@ -41,7 +41,7 @@ namespace RSDKv5
             // If is ceiling, the collision is from below
             public bool IsCeiling;
 
-            public TileConfig()
+            public CollisionMask()
             {
                 Collision = new byte[16];
                 HasCollision = new bool[16];
@@ -53,9 +53,9 @@ namespace RSDKv5
                 special = 0;
             }
 
-            public TileConfig(Stream stream) : this(new Reader(stream)) { }
+            public CollisionMask(Stream stream) : this(new Reader(stream)) { }
 
-            internal TileConfig(Reader reader)
+            internal CollisionMask(Reader reader)
             {
                 Collision = reader.ReadBytes(16);
                 HasCollision = reader.ReadBytes(16).Select(x => x != 0).ToArray();
@@ -113,70 +113,13 @@ namespace RSDKv5
                 {
                     for (int w = 0; w < 16; w++) //Set the Active/Main (FG) colour
                     {
-                        if (Collision[w] <= 15 && HasCollision[w])
+                        for (int h = 0; h < 16; h++)
                         {
-                            b.SetPixel(w, 15, fg);
-                        }
-                        if (Collision[w] <= 14 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 14, fg);
-                        }
-                        if (Collision[w] <= 13 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 13, fg);
-                        }
-                        if (Collision[w] <= 12 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 12, fg);
-                        }
-                        if (Collision[w] <= 11 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 11, fg);
-                        }
-                        if (Collision[w] <= 10 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 10, fg);
-                        }
-                        if (Collision[w] <= 9 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 9, fg);
-                        }
-                        if (Collision[w] <= 8 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 8, fg);
-                        }
-                        if (Collision[w] <= 7 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 7, fg);
-                        }
-                        if (Collision[w] <= 6 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 6, fg);
-                        }
-                        if (Collision[w] <= 5 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 5, fg);
-                        }
-                        if (Collision[w] <= 4 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 4, fg);
-                        }
-                        if (Collision[w] <= 3 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 3, fg);
-                        }
-                        if (Collision[w] <= 2 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 2, fg);
-                        }
-                        if (Collision[w] <= 1 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 1, fg);
-                        }
-                        if (Collision[w] <= 0 && HasCollision[w])
-                        {
-                            b.SetPixel(w, 0, fg);
-                        }
+                            if (Collision[w] <= h && HasCollision[w])
+                            {
+                                b.SetPixel(w, h, fg);
+                            }
+                        }   
                     }
                 }
 
@@ -186,75 +129,18 @@ namespace RSDKv5
                     {
                         for (int x = 0; x < 16; x++) //Set the Active/Main (FG) colour
                         {
-                            b.SetPixel(x, y, fg);
+                            b.SetPixel(x, y, bg);
                         }
                     }
 
-                    for (int w = 0; w < 16; w++) //Set the Active/Main (FG) colour
+                    for (int w = 15; w > -1; w--) //Set the Active/Main (FG) colour
                     {
-                        if (Collision[w] <= 15)//&& HasCollision[w])
+                        for (int h = 15; h > -1; h--)
                         {
-                            b.SetPixel(w, 15, bg);
-                        }
-                        if (Collision[w] <= 14)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 14, bg);
-                        }
-                        if (Collision[w] <= 13)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 13, bg);
-                        }
-                        if (Collision[w] <= 12)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 12, bg);
-                        }
-                        if (Collision[w] <= 11)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 11, bg);
-                        }
-                        if (Collision[w] <= 10)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 10, bg);
-                        }
-                        if (Collision[w] <= 9)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 9, bg);
-                        }
-                        if (Collision[w] <= 8)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 8, bg);
-                        }
-                        if (Collision[w] <= 7)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 7, bg);
-                        }
-                        if (Collision[w] <= 6)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 6, bg);
-                        }
-                        if (Collision[w] <= 5)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 5, bg);
-                        }
-                        if (Collision[w] <= 4)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 4, bg);
-                        }
-                        if (Collision[w] <= 3)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 3, bg);
-                        }
-                        if (Collision[w] <= 2)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 2, bg);
-                        }
-                        if (Collision[w] <= 1)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 1, bg);
-                        }
-                        if (Collision[w] <= 0)//&& HasCollision[w])
-                        {
-                            b.SetPixel(w, 0, fg);
+                            if (Collision[w] >= h && HasCollision[w])
+                            {
+                                b.SetPixel(w, h, fg);
+                            }
                         }
                     }
                 }
@@ -265,9 +151,9 @@ namespace RSDKv5
         public TilesConfig()
         {
             for (int i = 0; i < TILES_COUNT; ++i)
-                CollisionPath1[i] = new TileConfig();
+                CollisionPath1[i] = new CollisionMask();
             for (int i = 0; i < TILES_COUNT; ++i)
-                CollisionPath2[i] = new TileConfig();
+                CollisionPath2[i] = new CollisionMask();
         }
 
         public TilesConfig(string filename) : this(new Reader(filename))
@@ -288,9 +174,9 @@ namespace RSDKv5
             using (Reader creader = reader.GetCompressedStream())
             {
                 for (int i = 0; i < TILES_COUNT; ++i)
-                    CollisionPath1[i] = new TileConfig(creader);
+                    CollisionPath1[i] = new CollisionMask(creader);
                 for (int i = 0; i < TILES_COUNT; ++i)
-                    CollisionPath2[i] = new TileConfig(creader);
+                    CollisionPath2[i] = new CollisionMask(creader);
             }
             reader.Close();
         }
@@ -314,17 +200,17 @@ namespace RSDKv5
                 using (Reader creader = reader.GetCompressedStream())
                 {
                     for (int i = 0; i < TILES_COUNT; ++i)
-                        CollisionPath1[i] = new TileConfig(creader);
+                        CollisionPath1[i] = new CollisionMask(creader);
                     for (int i = 0; i < TILES_COUNT; ++i)
-                        CollisionPath2[i] = new TileConfig(creader);
+                        CollisionPath2[i] = new CollisionMask(creader);
                 }
             }
             else
             {
                 for (int i = 0; i < TILES_COUNT; ++i)
-                    CollisionPath1[i] = new TileConfig(reader);
+                    CollisionPath1[i] = new CollisionMask(reader);
                 for (int i = 0; i < TILES_COUNT; ++i)
-                    CollisionPath2[i] = new TileConfig(reader);
+                    CollisionPath2[i] = new CollisionMask(reader);
             }
             reader.Close();
         }

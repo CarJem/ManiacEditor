@@ -233,7 +233,7 @@ namespace ManiacEditor
             AllocConsole();
             HideConsoleWindow();
             //useDarkTheme();
-            //InitDiscord();
+            InitDiscord();
 
 
             this.Text = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
@@ -269,16 +269,11 @@ namespace ManiacEditor
                 OpenSceneForceFully();
             }
 
-
-
-
-
         }
 
         public void InitDiscord()
         {
-            // TODO: This is broken and must be fixed before we can re-enable it
-            /* SharpPresence.Discord.Initialize("484279851830870026", RPCEventHandler);
+            SharpPresence.Discord.Initialize("484279851830870026", RPCEventHandler);
 
              if (mySettings.ShowDiscordRPC)
              {
@@ -311,12 +306,12 @@ namespace ManiacEditor
 
                  SharpPresence.Discord.RunCallbacks();
                  SharpPresence.Discord.UpdatePresence(RPCcontrol);
-             }*/
+             }
         }
 
         public void UpdateDiscord(string Details = null)
         {
-            /*if (mySettings.ShowDiscordRPC)
+            if (mySettings.ShowDiscordRPC)
             {
                 SharpPresence.Discord.RunCallbacks();
                 if (Details != null)
@@ -339,13 +334,13 @@ namespace ManiacEditor
 
                 SharpPresence.Discord.RunCallbacks();
                 SharpPresence.Discord.UpdatePresence(RPCcontrol);
-            }*/
+            }
         }
 
         public void DisposeDiscord()
         {
-            /*RPCcontrol.startTimestamp = 0;
-            SharpPresence.Discord.Shutdown();*/
+            RPCcontrol.startTimestamp = 0;
+            SharpPresence.Discord.Shutdown();
         }
 
         /// <summary>
