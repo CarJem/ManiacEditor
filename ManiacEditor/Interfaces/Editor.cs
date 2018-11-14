@@ -137,6 +137,11 @@ namespace ManiacEditor
         public SharpPresence.Discord.EventHandlers RPCEventHandler = new SharpPresence.Discord.EventHandlers();
         public string ScenePath = "";
 
+        //Collision Colours
+        public Color CollisionAllSolid = Color.FromArgb(255,255,255,255);
+        public Color CollisionTopOnlySolid = Color.FromArgb(255, 255, 255, 255);
+        public Color CollisionLRDSolid = Color.FromArgb(255, 255, 255, 0);
+
         //Internal/Public/Vital Classes
         public StageTiles StageTiles;
         public EditorScene EditorScene;
@@ -235,6 +240,7 @@ namespace ManiacEditor
             //useDarkTheme();
             InitDiscord();
 
+            RefreshCollisionColours();
 
             this.Text = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
             if (!Updater.GetVersion().Contains("DEV") && mySettings.checkForUpdatesAuto)
@@ -269,6 +275,25 @@ namespace ManiacEditor
                 OpenSceneForceFully();
             }
 
+        }
+
+        public void RefreshCollisionColours(bool RefreshMasks = false)
+        {
+            CollisionAllSolid = Properties.Settings.Default.CollisionSAColour;
+            CollisionTopOnlySolid = Properties.Settings.Default.CollisionTOColour;
+            CollisionLRDSolid = Properties.Settings.Default.CollisionLRDColour;
+
+            if (RefreshMasks)
+            {
+                CollisionLayerA.Clear();
+                CollisionLayerB.Clear();
+
+                for (int i = 0; i < 1024; i++)
+                {
+                    CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                    CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                }
+            }
         }
 
         public void InitDiscord()
@@ -2399,8 +2424,8 @@ namespace ManiacEditor
                 {
                     for (int i = 0; i < 1024; i++)
                     {
-                        CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
-                        CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
+                        CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                        CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
                     }
                 }
 
@@ -3654,8 +3679,8 @@ Error: {ex.Message}");
 
                 for (int i = 0; i < 1024; i++)
                 {
-                    CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
-                    CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 255, 255, 255)));
+                    CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                    CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
                 }
 
 

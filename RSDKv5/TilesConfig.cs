@@ -90,10 +90,12 @@ namespace RSDKv5
                 Bitmap b;
                 bool HasTile = false;
                 if (tile == null)
-                { b = new Bitmap(16, 16); }
+                {
+                    b = new Bitmap(16, 16);
+                }
                 else
                 {
-                 b = tile.Clone(new Rectangle(0, 0, tile.Width, tile.Height), System.Drawing.Imaging.PixelFormat.DontCare);
+                    b = tile.Clone(new Rectangle(0, 0, tile.Width, tile.Height), System.Drawing.Imaging.PixelFormat.DontCare);
                     HasTile = true;
 
                 }
@@ -144,6 +146,7 @@ namespace RSDKv5
                         }
                     }
                 }
+
                 return b;
             }
         }

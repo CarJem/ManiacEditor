@@ -808,9 +808,9 @@ namespace ManiacEditor
                             for (int iy = 0; iy < cm.Height; iy++)
                             {
                                 System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == System.Drawing.Color.FromArgb(255, 255, 255, 255))
+                                if (gotColor == Editor.Instance.CollisionAllSolid)
                                 {
-                                    cm.SetPixel(ix, iy, System.Drawing.Color.FromArgb(255, 255, 0));
+                                    cm.SetPixel(ix, iy, Editor.Instance.CollisionTopOnlySolid);
                                 }
                             }
                         }
@@ -823,9 +823,9 @@ namespace ManiacEditor
                             for (int iy = 0; iy < cm.Height; iy++)
                             {
                                 System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == System.Drawing.Color.FromArgb(255, 255, 255, 255))
+                                if (gotColor == Editor.Instance.CollisionAllSolid)
                                 {
-                                    cm.SetPixel(ix, iy, System.Drawing.Color.FromArgb(255, 0, 0));
+                                    cm.SetPixel(ix, iy, Editor.Instance.CollisionLRDSolid);
                                 }
                             }
                         }
@@ -852,9 +852,9 @@ namespace ManiacEditor
                             for (int iy = 0; iy < cm.Height; iy++)
                             {
                                 System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == System.Drawing.Color.FromArgb(255, 255, 255, 255))
+                                if (gotColor == Editor.Instance.CollisionAllSolid)
                                 {
-                                    cm.SetPixel(ix, iy, System.Drawing.Color.FromArgb(255, 255, 0));
+                                    cm.SetPixel(ix, iy, Editor.Instance.CollisionTopOnlySolid);
                                 }
                             }
                         }
@@ -867,9 +867,9 @@ namespace ManiacEditor
                             for (int iy = 0; iy < cm.Height; iy++)
                             {
                                 System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == System.Drawing.Color.FromArgb(255, 255, 255, 255))
+                                if (gotColor == Editor.Instance.CollisionAllSolid)
                                 {
-                                    cm.SetPixel(ix, iy, System.Drawing.Color.FromArgb(255, 0, 0));
+                                    cm.SetPixel(ix, iy, Editor.Instance.CollisionLRDSolid);
                                 }
                             }
                         }

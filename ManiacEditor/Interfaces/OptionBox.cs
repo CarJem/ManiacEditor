@@ -30,6 +30,18 @@ namespace ManiacEditor
             if (Properties.Settings.Default.CustomGridDefault) uncheckOtherGridDefaults(4);
             initilizeKeyDefaults();
 
+            CASANUD.Value = Properties.Settings.Default.CollisionSAColour.A;
+            CASRNUD.Value = Properties.Settings.Default.CollisionSAColour.R;
+            CASGNUD.Value = Properties.Settings.Default.CollisionSAColour.G;
+            CASBNUD.Value = Properties.Settings.Default.CollisionSAColour.B;
+            CTOSANUD.Value = Properties.Settings.Default.CollisionTOColour.A;
+            CTOSRNUD.Value = Properties.Settings.Default.CollisionTOColour.R;
+            CTOSGNUD.Value = Properties.Settings.Default.CollisionTOColour.G;
+            CTOSBNUD.Value = Properties.Settings.Default.CollisionTOColour.B;
+            CLRDSANUD.Value = Properties.Settings.Default.CollisionLRDColour.A;
+            CLRDSRNUD.Value = Properties.Settings.Default.CollisionLRDColour.R;
+            CLRDSGNUD.Value = Properties.Settings.Default.CollisionLRDColour.G;
+            CLRDSBNUD.Value = Properties.Settings.Default.CollisionLRDColour.B;
 
         }
 
@@ -495,6 +507,78 @@ namespace ManiacEditor
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void CASANUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionSAColour = System.Drawing.Color.FromArgb((int)CASANUD.Value, Properties.Settings.Default.CollisionSAColour.R, Properties.Settings.Default.CollisionSAColour.G, Properties.Settings.Default.CollisionSAColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CASRNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionSAColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionSAColour.A, (int)CASRNUD.Value, Properties.Settings.Default.CollisionSAColour.G, Properties.Settings.Default.CollisionSAColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CASGNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionSAColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionSAColour.A, Properties.Settings.Default.CollisionSAColour.R, (int)CASGNUD.Value, Properties.Settings.Default.CollisionSAColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CASBNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionSAColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionSAColour.A, Properties.Settings.Default.CollisionSAColour.R, Properties.Settings.Default.CollisionSAColour.G, (int)CASBNUD.Value);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CTOSANUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionTOColour = System.Drawing.Color.FromArgb((int)CTOSANUD.Value, Properties.Settings.Default.CollisionTOColour.R, Properties.Settings.Default.CollisionTOColour.G, Properties.Settings.Default.CollisionTOColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CTOSRNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionTOColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionTOColour.A, (int)CTOSRNUD.Value, Properties.Settings.Default.CollisionTOColour.G, Properties.Settings.Default.CollisionTOColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CTOSGNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionTOColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionTOColour.A, Properties.Settings.Default.CollisionTOColour.R, (int)CTOSGNUD.Value, Properties.Settings.Default.CollisionTOColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CTOSBNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionTOColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionTOColour.A, Properties.Settings.Default.CollisionTOColour.R, Properties.Settings.Default.CollisionTOColour.G, (int)CTOSBNUD.Value);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CLRDSANUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionLRDColour = System.Drawing.Color.FromArgb((int)CLRDSANUD.Value, Properties.Settings.Default.CollisionLRDColour.R, Properties.Settings.Default.CollisionLRDColour.G, Properties.Settings.Default.CollisionLRDColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CLRDSRNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionLRDColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionLRDColour.A, (int)CLRDSRNUD.Value, Properties.Settings.Default.CollisionLRDColour.G, Properties.Settings.Default.CollisionLRDColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CLRDSGNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionLRDColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionLRDColour.A, Properties.Settings.Default.CollisionLRDColour.R, (int)CLRDSGNUD.Value, Properties.Settings.Default.CollisionLRDColour.B);
+            Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void CLRDSBNUD_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CollisionLRDColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionLRDColour.A, Properties.Settings.Default.CollisionLRDColour.R, Properties.Settings.Default.CollisionLRDColour.G, (int)CLRDSBNUD.Value);
+            Editor.Instance.RefreshCollisionColours(true);
         }
     }
 }

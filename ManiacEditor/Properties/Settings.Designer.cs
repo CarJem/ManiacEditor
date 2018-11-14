@@ -1199,5 +1199,41 @@ namespace ManiacEditor.Properties {
                 this["ShowFullParallaxEntityRenderDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color CollisionSAColour {
+            get {
+                return ((global::System.Drawing.Color)(this["CollisionSAColour"]));
+            }
+            set {
+                this["CollisionSAColour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        public global::System.Drawing.Color CollisionTOColour {
+            get {
+                return ((global::System.Drawing.Color)(this["CollisionTOColour"]));
+            }
+            set {
+                this["CollisionTOColour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color CollisionLRDColour {
+            get {
+                return ((global::System.Drawing.Color)(this["CollisionLRDColour"]));
+            }
+            set {
+                this["CollisionLRDColour"] = value;
+            }
+        }
     }
 }
