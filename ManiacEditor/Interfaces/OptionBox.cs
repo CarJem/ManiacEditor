@@ -16,12 +16,15 @@ namespace ManiacEditor
     public partial class OptionBox : Form
     {
         bool preRenderRadioGroupCheckChangeAllowed = true;
+        bool collisionColorsRadioGroupCheckChangeAllowed = true;
         public OptionBox()
         {
             InitializeComponent();
 
             preRenderRadioGroupsUpdate(Properties.Settings.Default.preRenderSceneOption);
+            collisionColorsRadioGroupUpdate(Properties.Settings.Default.CollisionColorsDefault);
             preRenderRadioGroupCheckChangeAllowed = true;
+            collisionColorsRadioGroupCheckChangeAllowed = true;
             this.label21.Text = Properties.Settings.Default.FasterNudgeValue.ToString();
             this.gridSizeValueLabel.Text = Properties.Settings.Default.CustomGridSizeValue.ToString();
             if (Properties.Settings.Default.x16Default) uncheckOtherGridDefaults(1);
@@ -579,6 +582,41 @@ namespace ManiacEditor
         {
             Properties.Settings.Default.CollisionLRDColour = System.Drawing.Color.FromArgb(Properties.Settings.Default.CollisionLRDColour.A, Properties.Settings.Default.CollisionLRDColour.R, Properties.Settings.Default.CollisionLRDColour.G, (int)CLRDSBNUD.Value);
             Editor.Instance.RefreshCollisionColours(true);
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            preRenderRadioGroupsUpdate(1);
+            Properties.Settings.Default.CollisionColorsDefault = 0;
+            preRenderRadioGroupCheckChangeAllowed = true;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            preRenderRadioGroupsUpdate(2);
+            Properties.Settings.Default.CollisionColorsDefault = 1;
+            preRenderRadioGroupCheckChangeAllowed = true;
+        }
+
+        private void radioButton1_CheckedChanged_1(object sender, EventArgs e)
+        {
+            preRenderRadioGroupsUpdate(3);
+            Properties.Settings.Default.CollisionColorsDefault = 2;
+            preRenderRadioGroupCheckChangeAllowed = true;
+        }
+
+        private void collisionColorsRadioGroupUpdate(int type)
+        {
+            bool[] groups = new[] { false, false, false };
+            for (int i = 0; i < 3; i++) if (type == i) groups[i] = true;
+            if (collisionColorsRadioGroupCheckChangeAllowed == true)
+            {
+                collisionColorsRadioGroupCheckChangeAllowed = false;
+                radioButton4.Checked = false || groups[0];
+                radioButton3.Checked = false || groups[1];
+                radioButton1.Checked = false || groups[2];
+            }
+
         }
     }
 }

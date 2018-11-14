@@ -141,6 +141,7 @@ namespace ManiacEditor
         public Color CollisionAllSolid = Color.FromArgb(255,255,255,255);
         public Color CollisionTopOnlySolid = Color.FromArgb(255, 255, 255, 255);
         public Color CollisionLRDSolid = Color.FromArgb(255, 255, 255, 0);
+        public int collisionPreset = 0; //For Collision Presets
 
         //Internal/Public/Vital Classes
         public StageTiles StageTiles;
@@ -279,9 +280,27 @@ namespace ManiacEditor
 
         public void RefreshCollisionColours(bool RefreshMasks = false)
         {
-            CollisionAllSolid = Properties.Settings.Default.CollisionSAColour;
-            CollisionTopOnlySolid = Properties.Settings.Default.CollisionTOColour;
-            CollisionLRDSolid = Properties.Settings.Default.CollisionLRDColour;
+            switch (collisionPreset)
+            {
+                case 2:
+                    CollisionAllSolid = Properties.Settings.Default.CollisionSAColour;
+                    CollisionTopOnlySolid = Properties.Settings.Default.CollisionTOColour;
+                    CollisionLRDSolid = Properties.Settings.Default.CollisionLRDColour;
+                    break;
+                case 1:
+                    CollisionAllSolid = Color.Black;
+                    CollisionTopOnlySolid = Color.Yellow;
+                    CollisionLRDSolid = Color.Red;
+                    break;
+                case 0:
+                    CollisionAllSolid = Color.White;
+                    CollisionTopOnlySolid = Color.Yellow;
+                    CollisionLRDSolid = Color.Red;
+                    break;
+            }
+
+            
+
 
             if (RefreshMasks)
             {
@@ -391,6 +410,12 @@ namespace ManiacEditor
 
                 statusNAToolStripMenuItem.Checked = mySettings.scrollLock;
                 scrollLockButton.Checked = mySettings.scrollLock;
+
+                defaultToolStripMenuItem.Checked = mySettings.CollisionColorsDefault == 0;
+                invertedToolStripMenuItem.Checked = mySettings.CollisionColorsDefault == 1;
+                customToolStripMenuItem1.Checked = mySettings.CollisionColorsDefault == 2;
+                collisionPreset = mySettings.CollisionColorsDefault;
+                RefreshCollisionColours();
 
                 xToolStripMenuItem.Checked = mySettings.ScrollLockDirection;
                 yToolStripMenuItem.Checked = !mySettings.ScrollLockDirection;
@@ -5156,6 +5181,74 @@ Error: {ex.Message}");
                 xToolStripMenuItem.Checked = true;
                 yToolStripMenuItem.Checked = false;
             }
+        }
+
+        private void defaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (defaultToolStripMenuItem.Checked)
+            {
+                invertedToolStripMenuItem.Checked = false;
+                customToolStripMenuItem.Checked = false;
+                collisionPreset = 0;
+                ReloadSpecificTextures(sender, e);
+                RefreshCollisionColours(true);
+            }
+            else
+            {
+                defaultToolStripMenuItem.Checked = true;
+                invertedToolStripMenuItem.Checked = false;
+                customToolStripMenuItem.Checked = false;
+                collisionPreset = 0;
+                ReloadSpecificTextures(sender, e);
+                RefreshCollisionColours(true);
+            }
+        }
+
+        private void invertedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (invertedToolStripMenuItem.Checked)
+            {
+                defaultToolStripMenuItem.Checked = false;
+                customToolStripMenuItem.Checked = false;
+                collisionPreset = 1;
+                ReloadSpecificTextures(sender, e);
+                RefreshCollisionColours(true);
+            }
+            else
+            {
+                defaultToolStripMenuItem.Checked = true;
+                invertedToolStripMenuItem.Checked = false;
+                customToolStripMenuItem.Checked = false;
+                collisionPreset = 0;
+                ReloadSpecificTextures(sender, e);
+                RefreshCollisionColours(true);
+            }
+        }
+
+        private void customToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (customToolStripMenuItem1.Checked)
+            {
+                defaultToolStripMenuItem.Checked = false;
+                invertedToolStripMenuItem.Checked = false;
+                collisionPreset = 2;
+                ReloadSpecificTextures(sender, e);
+                RefreshCollisionColours(true);
+            }
+            else
+            {
+                defaultToolStripMenuItem.Checked = true;
+                invertedToolStripMenuItem.Checked = false;
+                customToolStripMenuItem.Checked = false;
+                collisionPreset = 0;
+                ReloadSpecificTextures(sender, e);
+                RefreshCollisionColours(true);
+            }
+        }
+
+        private void GraphicPanel_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void statusNAToolStripMenuItem_Click(object sender, EventArgs e)
