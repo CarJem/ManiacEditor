@@ -329,6 +329,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditorUpdater.cs" />
+    <Compile Include="Entity Renders\AIZTornado.cs" />
     <Compile Include="Entity Renders\Armadiloid.cs" />
     <Compile Include="Entity Renders\BarStool.cs" />
     <Compile Include="Entity Renders\Beanstalk.cs" />
@@ -345,6 +346,7 @@
     <Compile Include="Entity Renders\Firework.cs" />
     <Compile Include="Entity Renders\Flipper.cs" />
     <Compile Include="Entity Renders\FlowerPod.cs" />
+    <Compile Include="Entity Renders\GasPlatform.cs" />
     <Compile Include="Entity Renders\GiantPistol.cs" />
     <Compile Include="Entity Renders\GigaMetal.cs" />
     <Compile Include="Entity Renders\HandLauncher.cs" />
@@ -372,6 +374,7 @@
     <Compile Include="Entity Renders\SSZSpikeBall.cs" />
     <Compile Include="Entity Renders\SwingRope.cs" />
     <Compile Include="Entity Renders\TimePost.cs" />
+    <Compile Include="Entity Renders\Tornado.cs" />
     <Compile Include="Entity Renders\TornadoPath.cs" />
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />

@@ -123,7 +123,7 @@ namespace ManiacEditor.Entity_Renders
                 }
                 
                 
-                if (type == 2)
+                if (type == 2 || type == 7)
                 {
 
 

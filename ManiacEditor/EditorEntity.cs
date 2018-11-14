@@ -20,6 +20,8 @@ using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using SystemColor = System.Drawing.Color;
+using System.Text.RegularExpressions;
+using CubeBuild.Application.Views.Help;
 
 namespace ManiacEditor
 {
@@ -670,7 +672,28 @@ namespace ManiacEditor
                     path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + name + ".bin";
                     path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
                 }
-                /*if (!File.Exists(path2))
+                if (!File.Exists(path2))
+                {
+                    // Checks for name without the last character and without the numbers in the entity name
+                    string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
+                    path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + adjustedName + ".bin";
+                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                }
+                if (!File.Exists(path2))
+                {
+                    // Checks for name without any numbers in the Zone name
+                    string adjustedZone = Regex.Replace(Editor.Instance.SelectedZone, @"[\d-]", string.Empty);
+                    path = path = adjustedZone + "\\" + name + ".bin";
+                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                    if (!File.Exists(path2))
+                    {
+                        // Checks for name without any numbers in the Zone name, then add a 1 back
+                        adjustedZone = adjustedZone + "1";
+                        path = path = adjustedZone + "\\" + name + ".bin";
+                        path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                    }
+                }
+                /*if (!File.Exists(path2))z
                 {
                     // Checks Editor Global
                     path2 = Environment.CurrentDirectory + "\\Global\\" + name + ".bin";

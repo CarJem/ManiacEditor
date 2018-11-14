@@ -2262,11 +2262,11 @@ namespace ManiacEditor
         private void OpenSceneForceFully()
         {
             DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
-            string Result = "MSZ\\Scene2.bin";
+            string Result = "TMZ2\\Scene1.bin";
             int LevelID = -1;
             bool isEncore = false;
             forceResize = true;
-            int x = 6296;
+            int x = 0;
             int y = 314;
             forceResizeGoToX = x;
             forceResizeGoToY = y;
@@ -2355,6 +2355,7 @@ namespace ManiacEditor
                     SceneFilepath = Path.Combine(DataDirectory, "Stages", SelectedZone);
                     searchType = 1;
                 }
+                SelectedZone = SelectedZone.Replace("\\", "");
 
                 myEditorState.Level_ID = LevelID;
                 EditorScene = new EditorScene(SceneFilename);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,29 +10,17 @@ using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
-    public class ParallaxSprite : EntityRenderer
+    public class GasPlatform : EntityRenderer
     {
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             bool fliph = false;
             bool flipv = false;
-            int aniID = (int)entity.attributesMap["aniID"].ValueUInt8;
-            string editorAnimFile = Editor.Instance.SelectedZone.Replace("\\","") + "Parallax";
-            var editorAnim = e.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
-            if (Properties.EditorState.Default.ShowParallaxSprites)
-            {
-                editorAnim = e.LoadAnimation2(editorAnimFile, d, aniID, -1, fliph, flipv, false);
-            }
+            var editorAnim = e.LoadAnimation2("Platform", d, 0, 2, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[0];
-                if (Properties.EditorState.Default.ShowParallaxSprites)
-                {
-                    frame = editorAnim.Frames[e.index];
-                }
-
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                var frame = editorAnim.Frames[e.index];
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
@@ -44,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override string GetObjectName()
         {
-            return "ParallaxSprite";
+            return "GasPlatform";
         }
     }
 }
