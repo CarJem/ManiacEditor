@@ -751,14 +751,106 @@ namespace ManiacEditor
 
         public void DrawTile(DevicePanel d, ushort tile, int x, int y, bool selected, int Transperncy)
         {
+            ushort TileIndex = (ushort)(tile & 0x3ff);
+            int TileIndexInt = (int)TileIndex;
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
+            bool SolidTopA = ((tile >> 12) & 1) == 1;
+            bool SolidLrbA = ((tile >> 13) & 1) == 1;
+            bool SolidTopB = ((tile >> 14) & 1) == 1;
+            bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
             if (Properties.Settings.Default.UseFasterSelectionRendering == true)
             {
                 selected = false;
             }
             d.DrawBitmap(Editor.Instance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+
+            /* WIP Test for Selected Collision Viewing
+            if (Editor.Instance.showCollisionA == true)
+            {
+                Bitmap cm = Editor.Instance.CollisionLayerA[TileIndexInt].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
+
+                if (SolidTopA && !SolidLrbA)
+                {
+                    for (int ix = 0; ix < cm.Width; ix++)
+                    {
+                        for (int iy = 0; iy < cm.Height; iy++)
+                        {
+                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
+                            if (gotColor == Editor.Instance.CollisionAllSolid)
+                            {
+                                cm.SetPixel(ix, iy, Editor.Instance.CollisionTopOnlySolid);
+                            }
+                        }
+                    }
+                }//Change Colour if Solidity = Top
+
+                if (SolidLrbA && !SolidTopA)
+                {
+                    for (int ix = 0; ix < cm.Width; ix++)
+                    {
+                        for (int iy = 0; iy < cm.Height; iy++)
+                        {
+                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
+                            if (gotColor == Editor.Instance.CollisionAllSolid)
+                            {
+                                cm.SetPixel(ix, iy, Editor.Instance.CollisionLRDSolid);
+                            }
+                        }
+                    }
+                } //Change Colour if Solidity = All But Top
+
+                if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
+
+                if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
+
+                Texture collisionA = TextureCreator.FromBitmap(d._device, cm);  
+                d.DrawBitmap(collisionA, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+            }
+            if (Editor.Instance.showCollisionB == true)
+            {
+                Bitmap cm = Editor.Instance.CollisionLayerB[TileIndexInt].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
+                if (SolidTopA && !SolidLrbA)
+                {
+                    for (int ix = 0; ix < cm.Width; ix++)
+                    {
+                        for (int iy = 0; iy < cm.Height; iy++)
+                        {
+                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
+                            if (gotColor == Editor.Instance.CollisionAllSolid)
+                            {
+                                cm.SetPixel(ix, iy, Editor.Instance.CollisionTopOnlySolid);
+                            }
+                        }
+                    }
+                }//Change Colour if Solidity = Top
+
+                if (SolidLrbA && !SolidTopA)
+                {
+                    for (int ix = 0; ix < cm.Width; ix++)
+                    {
+                        for (int iy = 0; iy < cm.Height; iy++)
+                        {
+                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
+                            if (gotColor == Editor.Instance.CollisionAllSolid)
+                            {
+                                cm.SetPixel(ix, iy, Editor.Instance.CollisionLRDSolid);
+                            }
+                        }
+                    }
+                } //Change Colour if Solidity = All But Top
+
+                if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
+
+                if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
+
+
+                Texture collisionB = TextureCreator.FromBitmap(d._device, cm);
+                d.DrawBitmap(collisionB, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+            }
+            */
 
             if (Editor.Instance.showTileID == true)
             {
@@ -807,11 +899,11 @@ namespace ManiacEditor
                         {
                             for (int iy = 0; iy < cm.Height; iy++)
                             {
-                                System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == Editor.Instance.CollisionAllSolid)
-                                {
+                                //System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
+                                //if (gotColor == Editor.Instance.CollisionAllSolid)
+                                //{
                                     cm.SetPixel(ix, iy, Editor.Instance.CollisionTopOnlySolid);
-                                }
+                                //}
                             }
                         }
                     }//Change Colour if Solidity = Top
@@ -822,11 +914,11 @@ namespace ManiacEditor
                         {
                             for (int iy = 0; iy < cm.Height; iy++)
                             {
-                                System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == Editor.Instance.CollisionAllSolid)
-                                {
+                                //System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
+                                //if (gotColor == Editor.Instance.CollisionAllSolid)
+                                //{
                                     cm.SetPixel(ix, iy, Editor.Instance.CollisionLRDSolid);
-                                }
+                                //}
                             }
                         }
                     } //Change Colour if Solidity = All But Top
