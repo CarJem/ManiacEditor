@@ -72,15 +72,15 @@ namespace ManiacEditor
             {
                 maniaFilterCheck.Text = "Mania (0b0010)";
                 encoreFilterCheck.Text = "Encore (0b0100)";
-                otherFilterCheck.Text = "Both (0b0001)";
-                bothFilterCheck.Text = "Other (0b1000)";
+                otherFilterCheck.Text = "Other (0b1000)";
+                bothFilterCheck.Text = "Both (0b0001)";
             }
             else
             {
                 maniaFilterCheck.Text = "Mania (2)";
                 encoreFilterCheck.Text = "Encore (4)";
-                otherFilterCheck.Text = "Both (1 and 5)";
-                bothFilterCheck.Text = "Other (0)";
+                otherFilterCheck.Text = "Other (0)";
+                bothFilterCheck.Text = "Both (1 and 5)";
 
             }
 
