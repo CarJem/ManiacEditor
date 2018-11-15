@@ -464,22 +464,11 @@ namespace ManiacEditor
 
         private void ModConfigItemClicked(object sender, EventArgs e)
         {
-            var modConfig_CheckedItem = (sender as ToolStripMenuItem);
-            selectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
 
         }
 
         public void editConfigsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigManager configManager = new ConfigManager();
-            configManager.ShowDialog();
-
-            // TODO: Fix NullReferenceException on mySettings.modConfigs
-            selectConfigToolStripMenuItem.DropDownItems.Clear();
-            for (int i = 0; i < mySettings.modConfigs.Count; i++)
-            {
-                selectConfigToolStripMenuItem.DropDownItems.Add(CreateModConfigMenuItem(i));
-            }
 
         }
 
@@ -2733,10 +2722,6 @@ a valid Data Directory.",
 
         }
 
-        public void New_Click(object sender, EventArgs e)
-        {
-        }
-
         public void Save_Click(object sender, EventArgs e)
         {
             if (EditorScene == null) return;
@@ -3430,7 +3415,7 @@ Error: {ex.Message}");
         #region Main Toolstrip Buttons
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            New_Click(sender, e);
+            //New_Click(sender, e);
         }
 
         private void sToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5135,6 +5120,11 @@ Error: {ex.Message}");
             }
             toggleEditorButtons(true);
 
+        }
+
+        private void g(object sender, EventArgs e)
+        {
+        
         }
 
         #endregion

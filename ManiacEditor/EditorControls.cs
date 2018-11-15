@@ -77,7 +77,7 @@ namespace ManiacEditor
             // New Click
             else if (e.Control && e.KeyCode == Keys.N)
             {
-                Editor.New_Click(null, null);
+                //Editor.New_Click(null, null);
             }
             // Save Click (Alt: Save As)
             else if (e.Control && e.KeyCode == Keys.S)
