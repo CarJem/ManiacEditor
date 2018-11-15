@@ -49,7 +49,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 editorAnim = e.LoadAnimation2("Decoration", d, type, -1, fliph, flipv, false);
             }
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+             /*if (editorAnim != null && editorAnim.Frames.Count != 0 && false)
             {
                 if (e.index >= editorAnim.Frames.Count)
                     e.index = 0;
@@ -85,8 +85,28 @@ namespace ManiacEditor.Entity_Renders
 
                 //width /= frame.Frame.Width;
                 //height /= frame.Frame.Height;
+                }*/
+            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            {
+                if (e.index >= editorAnim.Frames.Count)
+                    e.index = 0;
+                var frame = editorAnim.Frames[e.index];
+                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+
+
+
+                for (int yy = 0; yy < repeatY; yy++)
+                {
+                    for (int xx = 0; xx < repeatX; xx++)
+                    {
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + offsetX * xx, y + frame.Frame.CenterY + offsetY * yy,
+                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
                 }
+
             }
+        }
+
         
 
         public override string GetObjectName()

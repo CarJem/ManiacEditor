@@ -588,21 +588,21 @@ namespace ManiacEditor
         {
             preRenderRadioGroupsUpdate(1);
             Properties.Settings.Default.CollisionColorsDefault = 0;
-            preRenderRadioGroupCheckChangeAllowed = true;
+            collisionColorsRadioGroupCheckChangeAllowed = true;
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
             preRenderRadioGroupsUpdate(2);
             Properties.Settings.Default.CollisionColorsDefault = 1;
-            preRenderRadioGroupCheckChangeAllowed = true;
+            collisionColorsRadioGroupCheckChangeAllowed = true;
         }
 
         private void radioButton1_CheckedChanged_1(object sender, EventArgs e)
         {
             preRenderRadioGroupsUpdate(3);
             Properties.Settings.Default.CollisionColorsDefault = 2;
-            preRenderRadioGroupCheckChangeAllowed = true;
+            collisionColorsRadioGroupCheckChangeAllowed = true;
         }
 
         private void collisionColorsRadioGroupUpdate(int type)

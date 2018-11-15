@@ -22,6 +22,9 @@ using System.Drawing.Imaging;
 using SystemColor = System.Drawing.Color;
 using System.Text.RegularExpressions;
 using CubeBuild.Application.Views.Help;
+using ImageMagick;
+using FastBitmapLib;
+using CubeBuild.Application.MVC;
 
 namespace ManiacEditor
 {
@@ -148,17 +151,25 @@ namespace ManiacEditor
             return new Rectangle(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT);
         }
 
-        public Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv)
+        public Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, int rotateImg = 0)
         {
             Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
+
             using (Graphics gg = Graphics.FromImage(bmp2))
                 gg.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-            if (fliph && flipv)
-                bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-            else if (fliph)
-                bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            else if (flipv)
-                bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                if (fliph && flipv)
+                    bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+                else if (fliph)
+                    bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                else if (flipv)
+                    bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+            if (rotateImg != 0)
+            {
+                bmp2 = RotateImage(bmp2, rotateImg, section);
+            }
+
+
             int size = ((section.Width > section.Height ? section.Width : section.Height) / 64) * 64;
             Bitmap bmp = new Bitmap(1024, 1024);
             using (Graphics g = Graphics.FromImage(bmp))
@@ -169,9 +180,34 @@ namespace ManiacEditor
             return bmp;
         }
 
-        public Bitmap RotateImage(Bitmap img, float rotationAngle)
+        public Bitmap RotateImage(Bitmap img, double rotationAngle, Rectangle section)
         {
+            int size = 0;
+            if (section.Size.Width > section.Size.Height)
+            {
+                size = section.Size.Width;
+            }
+            else
+            {
+                size = section.Size.Height;
+            }
 
+            MagickImage image = new MagickImage(img);
+
+            image.Resize(size, size);
+
+            image.RePage();
+
+            image.Rotate(90);
+
+            image.RePage();
+
+            Bitmap bmp = image.ToBitmap();
+            
+
+
+
+            /*
             // Get a reasonable size
             int width;
             int height;
@@ -214,7 +250,7 @@ namespace ManiacEditor
 
 
             }
-
+            */
             //return the image
             return bmp;
 
@@ -515,13 +551,7 @@ namespace ManiacEditor
                 // We are storing the first colour from the palette so we can use it to make sprites transparent
                 var colour = map.Palette.Entries[0];
                 // Slow
-                map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv);
-                if (rotateImg != 0)
-                {
-                    map = RotateImage(map, rotateImg);
-                    frame.Height = frame.Width + frame.Height + 64;
-                    frame.Width = frame.Height + frame.Width + 32;
-                }
+                map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, rotateImg);
                 RemoveColourImage(map, colour, frame.Width, frame.Height);
 
                 Texture texture = null;
