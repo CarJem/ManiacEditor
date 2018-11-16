@@ -23,7 +23,6 @@ using System.Collections;
 using System.Reflection;
 using ManiacEditor.Interfaces;
 using ManiacEditor.Entity_Renders;
-using CubeBuild.Framework.SocketAPI.Infrastructure;
 using System.Net;
 using System.Xml;
 using System.Text;
@@ -64,6 +63,7 @@ namespace ManiacEditor
         bool UseMagnetMode = false; // Determines the state of Magnet Mode
         bool useMagnetXAxis = true; //Determines if the Magnet should use the X Axis
         bool useMagnetYAxis = true; //Determines if the Magnet should use the Y Axis
+        public bool showEntityPathArrows = true; //Determines if we want to see Object Arrow Paths
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -2473,7 +2473,7 @@ namespace ManiacEditor
             int LevelID = -1;
             bool isEncore = false;
             forceResize = true;
-            int x = 0;
+            int x = 16064;
             int y = 0;
             forceResizeGoToX = x;
             forceResizeGoToY = y;
@@ -3138,6 +3138,18 @@ Error: {ex.Message}");
                 mySettings.ScrollLockDirection = true;
                 xToolStripMenuItem.Checked = true;
                 yToolStripMenuItem.Checked = false;
+            }
+        }
+
+        private void showEntityPathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (showEntityPathArrowsToolstripItem.Checked)
+            {
+                showEntityPathArrows = true;
+            }
+            else
+            {
+                showEntityPathArrows = false;
             }
         }
 
@@ -5122,9 +5134,9 @@ Error: {ex.Message}");
 
         }
 
-        private void g(object sender, EventArgs e)
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-        
+
         }
 
         #endregion

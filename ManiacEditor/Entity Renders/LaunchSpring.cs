@@ -27,6 +27,7 @@ namespace ManiacEditor.Entity_Renders
             int angle = (int)entity.attributesMap["angle"].ValueInt32;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int rotation = 0;
+            e.rotateImageLegacyMode = true;
             switch (angle)
             {
                 case 0:

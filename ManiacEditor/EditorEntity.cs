@@ -21,10 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using SystemColor = System.Drawing.Color;
 using System.Text.RegularExpressions;
-using CubeBuild.Application.Views.Help;
 using ImageMagick;
-using FastBitmapLib;
-using CubeBuild.Application.MVC;
 
 namespace ManiacEditor
 {
@@ -45,6 +42,7 @@ namespace ManiacEditor
         private SceneEntity entity;
         public AttributeValidater FetchAttribute = new AttributeValidater();
         private bool filteredOut;
+        public bool rotateImageLegacyMode = false;
 
         // Object Render List
         public static List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
@@ -166,7 +164,8 @@ namespace ManiacEditor
 
             if (rotateImg != 0)
             {
-                bmp2 = RotateImage(bmp2, rotateImg, section);
+                bmp2 = RotateImage(bmp2, rotateImg);
+
             }
 
 
@@ -180,81 +179,70 @@ namespace ManiacEditor
             return bmp;
         }
 
-        public Bitmap RotateImage(Bitmap img, double rotationAngle, Rectangle section)
+        public Bitmap RotateImage(Bitmap img, double rotationAngle)
         {
-            int size = 0;
-            if (section.Size.Width > section.Size.Height)
+            if (!rotateImageLegacyMode)
             {
-                size = section.Size.Width;
+
+                MagickImage image = new MagickImage(img);
+
+                image.RePage();
+
+                image.Rotate(rotationAngle);
+
+                image.RePage();
+
+                Bitmap bmp = image.ToBitmap();
+
+                return bmp;
             }
             else
             {
-                size = section.Size.Height;
+                
+                // Get a reasonable size
+                int width;
+                int height;
+                int xDiffrence = img.Width - img.Height;
+                int yDiffrence = img.Height - img.Width;
+                if (xDiffrence < 0)
+                {
+                    xDiffrence = -xDiffrence;
+                }
+                if (yDiffrence < 0)
+                {
+                    yDiffrence = -yDiffrence;
+                }
+                width = img.Width + xDiffrence;
+                height = img.Height + yDiffrence;
+
+                float pointX = img.Width / 16;
+                float pointY = img.Height / 16;
+
+                //create an empty Bitmap image 
+                Bitmap bmp = new Bitmap(width, height);
+
+                using (Graphics gfx = Graphics.FromImage(bmp))
+                {
+                    //set the point system origin to the center of our image
+                    gfx.TranslateTransform(pointX, pointY);
+
+                    //now rotate the image
+                    gfx.RotateTransform((float)rotationAngle);
+
+                    //move the point system origin back to 0,0
+                    gfx.TranslateTransform(-pointX, -pointY);
+
+                    //set the InterpolationMode to HighQualityBicubic so to ensure a high
+                    //quality image once it is transformed to the specified size
+                    gfx.InterpolationMode = InterpolationMode.NearestNeighbor;
+
+                    //draw our new image onto the graphics object with its center on the center of rotation
+                    gfx.DrawImage(img, new PointF(pointX, pointY));
+
+
+                }
+                return bmp;
             }
-
-            MagickImage image = new MagickImage(img);
-
-            image.Resize(size, size);
-
-            image.RePage();
-
-            image.Rotate(90);
-
-            image.RePage();
-
-            Bitmap bmp = image.ToBitmap();
-            
-
-
-
-            /*
-            // Get a reasonable size
-            int width;
-            int height;
-            int xDiffrence = img.Width - img.Height;
-            int yDiffrence = img.Height - img.Width;
-            if (xDiffrence < 0)
-            {
-                xDiffrence = -xDiffrence;
-            }
-            if (yDiffrence < 0)
-            {
-                yDiffrence = -yDiffrence;
-            }
-            width = img.Width + xDiffrence;
-            height = img.Height + yDiffrence;
-
-            float pointX = img.Width / 16;
-            float pointY = img.Height / 16;
-
-            //create an empty Bitmap image 
-            Bitmap bmp = new Bitmap(width, height);
-
-            using (Graphics gfx = Graphics.FromImage(bmp))
-            {
-                //set the point system origin to the center of our image
-                gfx.TranslateTransform(pointX, pointY);
-
-                //now rotate the image
-                gfx.RotateTransform(rotationAngle);
-
-                //move the point system origin back to 0,0
-                gfx.TranslateTransform(-pointX, -pointY);
-
-                //set the InterpolationMode to HighQualityBicubic so to ensure a high
-                //quality image once it is transformed to the specified size
-                gfx.InterpolationMode = InterpolationMode.NearestNeighbor;
-
-                //draw our new image onto the graphics object with its center on the center of rotation
-                gfx.DrawImage(img, new PointF(pointX, pointY));
-
-
-            }
-            */
-            //return the image
-            return bmp;
-
-
         }
 
         public Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour, int width, int height)
@@ -551,7 +539,33 @@ namespace ManiacEditor
                 // We are storing the first colour from the palette so we can use it to make sprites transparent
                 var colour = map.Palette.Entries[0];
                 // Slow
-                map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, rotateImg);
+                if (!rotateImageLegacyMode)
+                {
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, rotateImg);
+                    if (rotateImg != 0)
+                    {
+                        if (frame.Width > frame.Height)
+                        {
+                            frame.Height = frame.Width;
+                        }
+                        else
+                        {
+                            frame.Width = frame.Height;
+                        }
+                    }
+                }
+                else
+                {
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv);
+                    if (rotateImg != 0)
+                    {
+                        map = RotateImage(map, rotateImg);
+                        frame.Height = frame.Width + frame.Height + 64;
+                        frame.Width = frame.Height + frame.Width + 32;
+                    }
+                }
+
+
                 RemoveColourImage(map, colour, frame.Width, frame.Height);
 
                 Texture texture = null;

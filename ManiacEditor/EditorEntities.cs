@@ -318,20 +318,23 @@ namespace ManiacEditor
         {
             try
             {
-                // ideally this would be driven by configuration...one day
-                // or can we assume anything with a "Go" and "Tag" Attributes is linked to another?
-                if (sceneEntity.Object.Name.ToString().Equals("WarpDoor", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new LinkedEditorEntity(sceneEntity);
-                }
-                else if (sceneEntity.Object.Name.ToString().Equals("TornadoPath", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new LinkedEditorEntity(sceneEntity);
-                }
-                else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new LinkedEditorEntity(sceneEntity);
-                }
+
+                    // ideally this would be driven by configuration...one day
+                    // or can we assume anything with a "Go" and "Tag" Attributes is linked to another?
+                    if (sceneEntity.Object.Name.ToString().Equals("WarpDoor", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        return new LinkedEditorEntity(sceneEntity);
+                    }
+                    else if (sceneEntity.Object.Name.ToString().Equals("TornadoPath", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        return new LinkedEditorEntity(sceneEntity);
+                    }
+                    else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        return new LinkedEditorEntity(sceneEntity);
+                    }
+                
+
             }
             catch
             {

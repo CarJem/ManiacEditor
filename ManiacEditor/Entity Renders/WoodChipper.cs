@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Ionic.Zip;
 using ManiacEditor;
 using Microsoft.Xna.Framework;
 using RSDKv5;

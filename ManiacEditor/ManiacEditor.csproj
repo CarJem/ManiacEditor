@@ -242,27 +242,6 @@
     <Reference Include="CSharp.Winform.UI.Loading, Version=1.0.0.2, Culture=neutral, PublicKeyToken=872ff9e93c410e95, processorArchitecture=MSIL">
       <HintPath>..\packages\CSharp.Winform.UI.Loading.1.0.0.2\lib\net20\CSharp.Winform.UI.Loading.dll</HintPath>
     </Reference>
-    <Reference Include="CubeBuild.Application, Version=1.9.4739.41907, Culture=neutral, PublicKeyToken=d44ff0bfbbf33ae8, processorArchitecture=MSIL">
-      <HintPath>..\packages\CubeBuild.Application.1.9.4739.41907\lib\net40\CubeBuild.Application.dll</HintPath>
-    </Reference>
-    <Reference Include="CubeBuild.Framework, Version=1.9.4818.32976, Culture=neutral, PublicKeyToken=d44ff0bfbbf33ae8, processorArchitecture=MSIL">
-      <HintPath>..\packages\CubeBuild.Framework.1.9.4818.32976\lib\net40\CubeBuild.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="CubeBuild.License, Version=1.2.4739.41906, Culture=neutral, PublicKeyToken=d44ff0bfbbf33ae8, processorArchitecture=MSIL">
-      <HintPath>..\packages\CubeBuild.Application.1.9.4739.41907\lib\net40\CubeBuild.License.dll</HintPath>
-    </Reference>
-    <Reference Include="CubeBuild.RazorEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
-      <HintPath>..\packages\CubeBuild.Application.1.9.4739.41907\lib\net40\CubeBuild.RazorEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="CubeBuild.RepositoryModels, Version=1.0.4739.41906, Culture=neutral, PublicKeyToken=d44ff0bfbbf33ae8, processorArchitecture=MSIL">
-      <HintPath>..\packages\CubeBuild.Application.1.9.4739.41907\lib\net40\CubeBuild.RepositoryModels.dll</HintPath>
-    </Reference>
-    <Reference Include="FastBitmapLib, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastBitmapLib.1.1.2\lib\net452\FastBitmapLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <HintPath>..\packages\CubeBuild.Framework.1.9.4818.32976\lib\net40\Ionic.zip.dll</HintPath>
-    </Reference>
     <Reference Include="IronPython, Version=2.7.9.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.9\lib\net45\IronPython.dll</HintPath>
     </Reference>
@@ -365,6 +344,7 @@
     <Compile Include="Entity Renders\Jellygnite.cs" />
     <Compile Include="Entity Renders\LaundroMobile.cs" />
     <Compile Include="Entity Renders\LightBulb.cs" />
+    <Compile Include="Entity Renders\MeterDroid.cs" />
     <Compile Include="Entity Renders\MSFactory.cs" />
     <Compile Include="Entity Renders\MSPanel.cs" />
     <Compile Include="Entity Renders\PaintingEyes.cs" />
@@ -386,6 +366,7 @@
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />
     <Compile Include="Entity Renders\UncurlPlant.cs" />
+    <Compile Include="Entity Renders\Valve.cs" />
     <Compile Include="Entity Renders\Vultron.cs" />
     <Compile Include="Entity Renders\YoyoPulley.cs" />
     <Compile Include="Interfaces\AboutBox.cs">

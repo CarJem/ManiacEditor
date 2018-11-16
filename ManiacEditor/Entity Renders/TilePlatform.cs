@@ -8,7 +8,6 @@ using ManiacEditor;
 using System.Drawing;
 using SharpDX.Direct3D9;
 using RSDKv5;
-using CubeBuild.Helpers;
 using System.Windows.Forms;
 using System.Diagnostics;
 using IronPython.Compiler.Ast;

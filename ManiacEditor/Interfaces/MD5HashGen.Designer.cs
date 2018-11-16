@@ -1,4 +1,4 @@
-﻿using CubeBuild.Application.Views.Help;
+﻿
 
 namespace ManiacEditor
 {

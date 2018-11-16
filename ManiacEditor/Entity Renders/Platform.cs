@@ -125,7 +125,11 @@ namespace ManiacEditor.Entity_Renders
                 
                 if (type == 2 || type == 7)
                 {
-
+                    if (type == 7)
+                    {
+                        amplitudeX /= 2;
+                        amplitudeY /= 2;
+                    }
 
                     int[] position = new int[2] { 0, 0 };
                     int posX = amplitudeX;
