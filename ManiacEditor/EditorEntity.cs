@@ -66,6 +66,8 @@ namespace ManiacEditor
         public bool childDraw = false;
         public int childX = 0;
         public int childY = 0;
+        public bool childDrawAddMode = true;
+        public int previousChildCount = 0; //For Reseting ChildCount States
 
 
         //For Drawing/Saving Tile Platforms
@@ -881,8 +883,15 @@ namespace ManiacEditor
             {
                 LoadNextAnimation();
             }
-            int x = entity.Position.X.High + (childDraw ? childX : 0);
-            int y = entity.Position.Y.High + (childDraw ? childY : 0);
+            int x = entity.Position.X.High;
+            int y = entity.Position.Y.High;
+            int _ChildX = entity.Position.X.High + (childDraw ? childX : 0);
+            int _ChildY = entity.Position.Y.High + (childDraw ? childY : 0);
+            if (childDrawAddMode == false)
+            {
+                _ChildX = childX;
+                _ChildY = childY;
+            }
             bool fliph = false;
             bool flipv = false;
             bool rotate = false;
@@ -946,7 +955,7 @@ namespace ManiacEditor
                     {
                         ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         // Draw the normal filled Rectangle but Its visible if you have the entity selected
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + ((int)offset.X * frame.Frame.Width), y + frame.Frame.CenterY + ((int)offset.Y * frame.Frame.Height),
+                        d.DrawBitmap(frame.Texture, _ChildX + frame.Frame.CenterX + ((int)offset.X * frame.Frame.Width), _ChildY + frame.Frame.CenterY + ((int)offset.Y * frame.Frame.Height),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                     else
@@ -1168,6 +1177,11 @@ namespace ManiacEditor
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;
+            if (childDrawAddMode == false)
+            {
+                x = childX;
+                y = childY;
+            }
             int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
             if (entity.Object.Name.Name.Contains("Setup"))
             {

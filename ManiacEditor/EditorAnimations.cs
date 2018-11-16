@@ -17,6 +17,11 @@ namespace ManiacEditor
          bool reverseY = false;
          EditorAnimations Instance;
 
+        //Type 4 Platforms
+        bool reverseAngleRot = false;
+        public int platformAngle4 = 0;
+        public bool negX = false;
+
         public DateTime lastFrametime;
         public int index = 0;
         public DateTime lastFrametime2;
@@ -29,7 +34,7 @@ namespace ManiacEditor
         }
 
 
-        public int[] ProcessMovingPlatform2(int ampX, int ampY, int x, int y, int height, int width, UInt32 speed = 1)
+        public int[] ProcessMovingPlatform2(int ampX, int ampY, int x, int y, int width, int height, UInt32 speed = 1)
         {
             if (speed >= 4294967290)
             {
@@ -39,15 +44,15 @@ namespace ManiacEditor
             int c = 0;
             if (ampX != 0 && ampY != 0)
             {
-                slope = (-ampY / ampY) / (-ampX / ampX);
-                c = ampY - ampX * slope;
+                slope = (-ampX / ampX) / (-ampY / ampY);
+                c = ampY - (slope * ampX);
             }
             int duration = 1;
             int initalX = ampX;
             int initalY = ampY;
 
-            // Playback
-            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
+            // Playback || I disabled anything with both x and y values because they have way too many issues atm
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked && !(ampX != 0 && ampY != 0))
             {
                 if (speed > 0)
                 {
@@ -91,11 +96,8 @@ namespace ManiacEditor
                             }
                         if (ampX != 0 && ampY != 0)
                         {
-                            positionY = slope * positionX + (int)Properties.Settings.Default.devInt;
+                            positionY = slope * positionX;
                         }
-
-
-
 
                         if (!(ampX != 0 && ampY != 0))
                         {
@@ -137,6 +139,86 @@ namespace ManiacEditor
             position[0] = positionX;
             position[1] = positionY;
             return position;
+
+        }
+
+        public void ProcessMovingPlatform4(int ampX, int angleDefault, UInt32 speed = 3)
+        {
+            if (ampX <= -1)
+            {
+                negX = true;
+                ampX = -ampX;
+            }
+            if (speed >= 4294967290)
+            {
+                speed = 10;
+            }
+
+            int duration = 1;
+            // Playback
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
+            {
+                if (speed > 0)
+                {
+                    int speed1 = (int)speed * 64 / (duration == 0 ? 256 : duration);
+                    if (speed1 == 0)
+                        speed1 = 1;
+                    if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
+                    {
+                        if (!negX)
+                        {
+                            if (reverseAngleRot)
+                            {
+                                platformAngle4--;
+                                lastFrametime = DateTime.Now;
+                            }
+                            else
+                            {
+                                platformAngle4++;
+                                lastFrametime = DateTime.Now;
+                            }
+                        }
+                        else
+                        {
+                            if (reverseAngleRot)
+                            {
+                                platformAngle4++;
+                                lastFrametime = DateTime.Now;
+                            }
+                            else
+                            {
+                                platformAngle4--;
+                                lastFrametime = DateTime.Now;
+                            }
+                        }
+
+                    }
+                }
+            }
+            else platformAngle4 = angleDefault;
+            if (!negX)
+            {
+                if (platformAngle4 >= ampX)
+                {
+                    reverseAngleRot = true;
+                }
+                else if (platformAngle4 <= -ampX)
+                {
+                    reverseAngleRot = false;
+                }
+            }
+            else
+            {
+                if (platformAngle4 >= ampX)
+                {
+                    reverseAngleRot = false;
+                }
+                else if (platformAngle4 <= -ampX)
+                {
+                    reverseAngleRot = true;
+                }
+            }
+
 
         }
 

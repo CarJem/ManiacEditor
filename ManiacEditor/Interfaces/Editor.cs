@@ -464,12 +464,21 @@ namespace ManiacEditor
 
         private void ModConfigItemClicked(object sender, EventArgs e)
         {
-
+            var modConfig_CheckedItem = (sender as ToolStripMenuItem);
+            selectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
         }
 
         public void editConfigsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ConfigManager configManager = new ConfigManager();
+            configManager.ShowDialog();
 
+            // TODO: Fix NullReferenceException on mySettings.modConfigs
+            selectConfigToolStripMenuItem.DropDownItems.Clear();
+            for (int i = 0; i < mySettings.modConfigs.Count; i++)
+            {
+                selectConfigToolStripMenuItem.DropDownItems.Add(CreateModConfigMenuItem(i));
+            }
         }
 
         private void selectConfigToolStripMenuItem_Click(ToolStripMenuItem modConfig_CheckedItem)
@@ -2546,11 +2555,11 @@ namespace ManiacEditor
         private void OpenSceneForceFully()
         {
             DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
-            string Result = "OOZ1\\Scene1.bin";
+            string Result = "GHZ\\Scene1.bin";
             int LevelID = -1;
             bool isEncore = false;
             forceResize = true;
-            int x = 16064;
+            int x = 0;
             int y = 0;
             forceResizeGoToX = x;
             forceResizeGoToY = y;

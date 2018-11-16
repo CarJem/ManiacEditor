@@ -37,7 +37,28 @@ namespace ManiacEditor.Entity_Renders
             int angleStateY = 0;
 
             var platformIcon = e.LoadAnimation2("EditorIcons", d, 0, 8, false, false, false);
-            
+
+
+            if (childCount != e.previousChildCount)
+            {
+                for (int z = 0; z < e.previousChildCount; z++)
+                {
+                    try
+                    {
+                        EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (z + 1)).FirstOrDefault();
+                        childEntity.childDraw = false;
+                        childEntity.childDrawAddMode = false;
+                        childEntity.childX = 0;
+                        childEntity.childY = 0;
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+            }
+
 
             switch (attribute.Type)
             {
@@ -149,11 +170,12 @@ namespace ManiacEditor.Entity_Renders
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
                         // Since we can don't know how to do it other than x or y yet
-                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.CenterX, frame.Frame.Height, speed);
+                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
 
                     if (childCount != 0)
                     {
+                        e.previousChildCount = childCount;
                         for (int i = 0; i < childCount; i++)
                         {
                             try
@@ -216,6 +238,7 @@ namespace ManiacEditor.Entity_Renders
 
                     if (childCount != 0)
                     {
+                        e.previousChildCount = childCount;
                         for (int i = 0; i < childCount; i++)
                         {
                             EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
@@ -232,35 +255,82 @@ namespace ManiacEditor.Entity_Renders
 
                 else if ((amplitudeX != 0 || amplitudeY != 0) && type == 4)
                 {
-                    //Must improve upon, this isn't the right way of implementing this platform type.
-                    /*amplitudeX *= 4;
-                    amplitudeY *= 4;
-                    double xd = x;
-                    double yd = y;
-                    double x2 = x + amplitudeX - amplitudeX / 3.7;
-                    double y2 = y + amplitudeY - amplitudeY / 3.7;
-                    double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
-                    int radiusInt = (int)Math.Sqrt(radius);
-                    int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
-                    int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
-                    int tensionCount = radiusInt / 16;
-                    */
+                    e.EditorAnimations.ProcessMovingPlatform4(amplitudeX, angle);
+                    angle = e.EditorAnimations.platformAngle4;
                     int tensionCount = amplitudeY;
-                    int newY = amplitudeY * 16;
+
+
+                    //int newY = amplitudeY * 16;
+
+                    //Child Count
+                    //double xd = x;
+                    //double yd = y;
+                    //double x2 = x + amplitudeX - amplitudeX / 3.7;
+                    //double y2 = y + amplitudeY - amplitudeY / 3.7 + amplitudeY*16;
+                    //double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
+                    //int radiusInt = (int)Math.Sqrt(radius);
+                    //int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
+                    //int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
+                    //int tensionCount = radiusInt / 16;
+
                     if (tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                     {
                         EditorEntity.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
                         EditorEntity.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
-                        for (int i = 0; i < tensionCount; i++)
+                        int i = 0;
+                        int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
+                        for (i = 0; i <= tensionCount; i++)
                         {
-
-                            int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
+                            linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
                             if (i == 0)
                             {
                                 d.DrawBitmap(frame4.Texture,
                                     linePoints[0] + frame4.Frame.CenterX,
                                     linePoints[1] + frame4.Frame.CenterY,
                                     frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
+                            }
+                            else if (i == tensionCount)
+                            {
+                                d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.CenterX, linePoints[1] + frame.Frame.CenterY,
+                                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+
+                                if (childCount != 0)
+                                {
+                                    e.previousChildCount = childCount;
+                                    for (int z = 0; z < childCount; z++)
+                                    {
+                                        EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (z + 1)).FirstOrDefault();
+                                        if (childEntity != null)
+                                        {
+                                            childEntity.childDraw = true;
+                                            if (childEntity.Entity.Object.Name.Name == "ItemBox")
+                                            {
+                                                int cX = childEntity.Entity.Position.X.High;
+                                                int cY = childEntity.Entity.Position.Y.High;
+                                                int rX = linePoints[0] - x;
+                                                int rY = linePoints[1] - y;
+                                                linePoints = RotatePoints(cX, cY + (16) * tensionCount, cX, cY, angle);
+                                                childEntity.childDrawAddMode = false;
+                                                childEntity.childX = linePoints[0];
+                                                childEntity.childY = linePoints[1];
+                                            }
+                                            else
+                                            {
+                                                int cX = childEntity.Entity.Position.X.High;
+                                                int cY = childEntity.Entity.Position.Y.High;
+                                                int rX = linePoints[0] - x;
+                                                int rY = linePoints[1] - y;
+                                                linePoints = RotatePoints(cX, cY, cX, cY - (16) * i, angle);
+                                                childEntity.childDrawAddMode = false;
+                                                childEntity.childX = linePoints[0];
+                                                childEntity.childY = linePoints[1];
+                                            }
+                                        }
+
+
+                                    }
+                                }
+
                             }
                             else
                             {
@@ -269,12 +339,14 @@ namespace ManiacEditor.Entity_Renders
                                     linePoints[1] + frame3.Frame.CenterY,
                                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                             }
-
                         }
+
+                     
+                        
+
                     }
 
-                    d.DrawBitmap(frame.Texture, (x) + frame.Frame.CenterX, (y) + frame.Frame.CenterY + newY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+
 
                 }
                 else
@@ -285,7 +357,6 @@ namespace ManiacEditor.Entity_Renders
                 }
 
             }
-
 
         }
         private static int[] RotatePoints(double initX, double initY, double centerX, double centerY, double angle)
