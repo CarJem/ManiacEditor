@@ -14,8 +14,8 @@ namespace ManiacEditor.Interfaces
 {
     public partial class FindandReplaceTool : Form
     {
-        int value = 0;
-        int replaceValue = 0;
+        int FindValue = 0;
+        int ReplaceValue = 0;
         bool replaceMode = false;
         bool copyResults = false;
         int applyToState = 0;
@@ -29,8 +29,6 @@ namespace ManiacEditor.Interfaces
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Int32.TryParse(textBox1.Text,out value);
-            Int32.TryParse(textBox2.Text, out replaceValue);
             if (checkBox1.Checked)
             {
                 replaceMode = true;
@@ -62,9 +60,9 @@ namespace ManiacEditor.Interfaces
             readyState = true;
         }
 
-        public int GetValue()
+        public int GetFindValue()
         {
-            return value;
+            return FindValue;
         }
         public bool GetReadyState()
         {
@@ -72,7 +70,7 @@ namespace ManiacEditor.Interfaces
         }
         public int GetReplaceValue()
         {
-            return replaceValue;
+            return ReplaceValue;
         }
 
         public string GetSpecificLayer()
@@ -116,12 +114,12 @@ namespace ManiacEditor.Interfaces
         {
             if (checkBox1.Checked)
             {
-                textBox2.Enabled = true;
+                ReplaceNUD.Enabled = true;
                 label2.Enabled = true;
             }
             else
             {
-                textBox2.Enabled = false;
+                ReplaceNUD.Enabled = false;
                 label2.Enabled = false;
             }
         }
@@ -166,6 +164,16 @@ namespace ManiacEditor.Interfaces
         private void tabPage2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void FindNUD_ValueChanged(object sender, EventArgs e)
+        {
+            FindValue = (int)FindNUD.Value;
+        }
+
+        private void ReplaceNUD_ValueChanged(object sender, EventArgs e)
+        {
+            ReplaceValue = (int)ReplaceNUD.Value;
         }
     }
 }

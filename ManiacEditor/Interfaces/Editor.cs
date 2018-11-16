@@ -1160,6 +1160,83 @@ namespace ManiacEditor
 
         }
 
+        public void EditorTileFind(int tile, int applyState, bool copyResults)
+        {
+            List<Point> Points = new List<Point>();
+            
+            for (int y = 0; y < EditLayer.Layer.Height; y++)
+            {
+                for (int x = 0; x < EditLayer.Layer.Width; x++)
+                {
+                    ushort TileIndex = (ushort)(EditLayer.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
+                    if (TileIndex == tile) //do the tiles match?
+                    {
+                        Points.Add(new Point(x * 16, y * 16)); //Add the found tile to our list of points!
+                        //Console.WriteLine(x * 16 + " " + y * 16);                       
+                    }
+                }
+            }
+        }
+
+        public void EditorTileFindReplace(int FindTile, int ReplaceTile, int applyState, bool copyResults)
+        {
+            List<Point> Points = new List<Point>();
+
+            for (int y = 0; y < EditLayer.Layer.Height; y++)
+            {
+                for (int x = 0; x < EditLayer.Layer.Width; x++)
+                {
+                    ushort TileIndex = (ushort)(EditLayer.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
+                    if (TileIndex == FindTile) //do the tiles match?
+                    {
+                        Points.Add(new Point(x * 16, y * 16)); //Add the found tile to our list of points!
+
+                        ushort Tile = (ushort)ReplaceTile; //Make a new Ushort using the new tileindex
+                        
+                        //Copy the collision and flip data, but I'm to lazy rn lol
+
+                        //Tile = (ushort)SetBit(10, FlipX, Tile); //Set the flip X value
+                        //Tile = (ushort)SetBit(11, FlipY, Tile); //Set the flip Y value
+                        //Tile = (ushort)SetBit(12, CollisionAT, Tile); //Set the collision (Top, Path A) value
+                        //Tile = (ushort)SetBit(13, CollisionALRB, Tile); //Set the collision (All But Top, Path A) value
+                        //Tile = (ushort)SetBit(14, CollisionBT, Tile); //Set the collision (Top, Path B) value
+                        //Tile = (ushort)SetBit(15, CollisionBLRB, Tile); //Set the collision (All But Top, Path B) value
+
+                        //TEMPORARY (because I'm lazy)
+                        Tile = (ushort)SetBit(10, false, Tile);
+                        Tile = (ushort)SetBit(11, false, Tile);
+                        Tile = (ushort)SetBit(12, false, Tile);
+                        Tile = (ushort)SetBit(13, false, Tile);
+                        Tile = (ushort)SetBit(14, false, Tile);
+                        Tile = (ushort)SetBit(15, false, Tile);
+
+                        EditLayer.Layer.Tiles[y][x] = Tile; //Set our new tile Value
+
+                        //Console.WriteLine(x * 16 + " " + y * 16);
+                    }
+                }
+            }
+        }
+
+        //Used to set individual Bits in an int
+        public static int SetBit(int pos, bool Set, int Value) //Shitty Maybe, but idc, it works
+        {
+
+            // "Pos" is what bit we are changing
+            // "Set" tells it to be either on or off
+            // "Value" is the value you want as your source
+
+            if (Set)
+            {
+                Value |= 1 << pos;
+            }
+            if (!Set)
+            {
+                Value &= ~(1 << pos);
+            }
+            return Value;
+        }
+
         public void DeleteSelected()
         {
             EditLayer?.DeleteSelected();
@@ -5084,17 +5161,17 @@ Error: {ex.Message}");
                 int applyState = form.GetApplyState();
                 bool copyResults = form.CopyResultsOrNot();
                 bool replaceMode = form.IsReplaceMode();
-                int find = form.GetValue();
+                int find = form.GetFindValue();
                 int replace = form.GetReplaceValue();
                 bool perserveColllision = form.PerservingCollision();
 
                 if (replaceMode)
                 {
-                    EditorTileReplaceTest(find, replace, applyState, copyResults, perserveColllision);
+                    EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
                 }
                 else
                 {
-                    EditorTileFindTest(find, applyState, copyResults);
+                    EditorTileFind(find, applyState, copyResults);
                 }
 
             }
@@ -5137,6 +5214,20 @@ Error: {ex.Message}");
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void consoleWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            consoleWindowToolStripMenuItem.Checked = !consoleWindowToolStripMenuItem.Checked;
+
+            if (consoleWindowToolStripMenuItem.Checked)
+            {
+                ShowConsoleWindow();
+            }
+            else if (!consoleWindowToolStripMenuItem.Checked)
+            {
+                HideConsoleWindow();
+            }
         }
 
         #endregion

@@ -21,7 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using SystemColor = System.Drawing.Color;
 using System.Text.RegularExpressions;
-using ImageMagick;
+//using ImageMagick;
 
 namespace ManiacEditor
 {
@@ -184,17 +184,17 @@ namespace ManiacEditor
             if (!rotateImageLegacyMode)
             {
 
-                MagickImage image = new MagickImage(img);
+                //MagickImage image = new MagickImage(img);
 
-                image.RePage();
+                //image.RePage();
 
-                image.Rotate(rotationAngle);
+                //image.Rotate(rotationAngle);
 
-                image.RePage();
+                //image.RePage();
 
-                Bitmap bmp = image.ToBitmap();
+                //Bitmap bmp = image.ToBitmap();
 
-                return bmp;
+                return null;//bmp;
             }
             else
             {
