@@ -96,6 +96,7 @@ namespace RSDKv5
                 frame.Height = reader.ReadInt16();
                 frame.CenterX = reader.ReadInt16();
                 frame.CenterY = reader.ReadInt16();
+
                 for (int i = 0; i <  anim.CollisionBoxes.Count; ++i)
                 {
                     var hitBox = new HitBox();
@@ -111,6 +112,24 @@ namespace RSDKv5
             public struct HitBox
             {
                 public int Left, Right, Top, Bottom;
+            }
+
+            /// <summary>
+            /// Retrieves the PivotX value for the frame relative to its horrizontal flipping.
+            /// </summary>
+            /// <param name="fliph">Horizontal flip</param>
+            public int RelCenterX(bool fliph)
+            {
+                return (fliph ? -(Width + CenterX) : CenterX);
+            }
+
+            /// <summary>
+            /// Retrieves the PivotY value for the frame relative to its vertical flipping.
+            /// </summary>
+            /// <param name="flipv">Vertical flip</param>
+            public int RelCenterY(bool flipv)
+            {
+                return (flipv ? -(Height + CenterY) : CenterY);
             }
         }
     }
