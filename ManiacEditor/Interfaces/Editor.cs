@@ -286,57 +286,24 @@ namespace ManiacEditor
 
         public void InitDiscord()
         {
-            SharpPresence.Discord.Initialize("484279851830870026", RPCEventHandler);
-
-            if (mySettings.ShowDiscordRPC)
+            if (!Environment.Is64BitProcess)
             {
-                RPCcontrol.state = "Maniac Editor";
-                RPCcontrol.details = "Idle";
+                SharpPresence.Discord.Initialize("484279851830870026", RPCEventHandler);
 
-                RPCcontrol.largeImageKey = "maniac";
-                RPCcontrol.largeImageText = "maniac-small";
-
-                TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-                int secondsSinceEpoch = (int)t.TotalSeconds;
-
-                RPCcontrol.startTimestamp = secondsSinceEpoch;
-
-                SharpPresence.Discord.RunCallbacks();
-                SharpPresence.Discord.UpdatePresence(RPCcontrol);
-            }
-            else
-            {
-                RPCcontrol.state = "Maniac Editor";
-                RPCcontrol.details = "";
-
-                RPCcontrol.largeImageKey = "maniac";
-                RPCcontrol.largeImageText = "Maniac Editor";
-
-                TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-                int secondsSinceEpoch = (int)t.TotalSeconds;
-
-                RPCcontrol.startTimestamp = secondsSinceEpoch;
-
-                SharpPresence.Discord.RunCallbacks();
-                SharpPresence.Discord.UpdatePresence(RPCcontrol);
-            }
-        }
-
-        public void UpdateDiscord(string Details = null)
-        {
-            try
-            {
                 if (mySettings.ShowDiscordRPC)
                 {
+                    RPCcontrol.state = "Maniac Editor";
+                    RPCcontrol.details = "Idle";
+
+                    RPCcontrol.largeImageKey = "maniac";
+                    RPCcontrol.largeImageText = "maniac-small";
+
+                    TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+                    int secondsSinceEpoch = (int)t.TotalSeconds;
+
+                    RPCcontrol.startTimestamp = secondsSinceEpoch;
+
                     SharpPresence.Discord.RunCallbacks();
-                    if (Details != null)
-                    {
-                        RPCcontrol.details = Details;
-                    }
-                    else
-                    {
-                        RPCcontrol.details = "Idle";
-                    }
                     SharpPresence.Discord.UpdatePresence(RPCcontrol);
                 }
                 else
@@ -347,15 +314,54 @@ namespace ManiacEditor
                     RPCcontrol.largeImageKey = "maniac";
                     RPCcontrol.largeImageText = "Maniac Editor";
 
+                    TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+                    int secondsSinceEpoch = (int)t.TotalSeconds;
+
+                    RPCcontrol.startTimestamp = secondsSinceEpoch;
+
                     SharpPresence.Discord.RunCallbacks();
                     SharpPresence.Discord.UpdatePresence(RPCcontrol);
                 }
             }
-            catch
+
+        }
+
+        public void UpdateDiscord(string Details = null)
+        {
+            if (!Environment.Is64BitProcess)
             {
+                try
+                {
+                    if (mySettings.ShowDiscordRPC)
+                    {
+                        SharpPresence.Discord.RunCallbacks();
+                        if (Details != null)
+                        {
+                            RPCcontrol.details = Details;
+                        }
+                        else
+                        {
+                            RPCcontrol.details = "Idle";
+                        }
+                        SharpPresence.Discord.UpdatePresence(RPCcontrol);
+                    }
+                    else
+                    {
+                        RPCcontrol.state = "Maniac Editor";
+                        RPCcontrol.details = "";
 
+                        RPCcontrol.largeImageKey = "maniac";
+                        RPCcontrol.largeImageText = "Maniac Editor";
+
+                        SharpPresence.Discord.RunCallbacks();
+                        SharpPresence.Discord.UpdatePresence(RPCcontrol);
+                    }
+                }
+                catch
+                {
+
+                }
             }
-
         }
 
         public void DisposeDiscord()
@@ -408,31 +414,32 @@ namespace ManiacEditor
 
         private void ApplyDefaults()
         {
+            // These Prefrences are applied on Editor Load
             editEntitesTransparencyToolStripMenuItem.Checked = myEditorState.editEntitiesTransparency;
             transparentLayersForEditingEntitiesToolStripMenuItem.Checked = myEditorState.editEntitiesTransparency;
 
-            statusNAToolStripMenuItem.Checked = mySettings.scrollLock;
-            scrollLockButton.Checked = mySettings.scrollLock;
+            mySettings.scrollLock = mySettings.ScrollLockDefault;
+            statusNAToolStripMenuItem.Checked = mySettings.ScrollLockDefault;
+            scrollLockButton.Checked = mySettings.ScrollLockDefault;
+
 
             xToolStripMenuItem.Checked = mySettings.ScrollLockDirection;
             yToolStripMenuItem.Checked = !mySettings.ScrollLockDirection;
 
-            spriteFramesToolStripMenuItem.Checked = myEditorState.annimationsChecked;
-            movingPlatformsObjectsToolStripMenuItem.Checked = myEditorState.movingPlatformsChecked;
+            pixelModeButton.Checked = mySettings.EnablePixelModeDefault;
+            pixelModeToolStripMenuItem.Checked = mySettings.EnablePixelModeDefault;
+            mySettings.pixelCountMode = mySettings.EnablePixelModeDefault;
 
-            if (mySettings.ShowFullParallaxEntityRenderDefault)
-            {
-                showParallaxSpritesToolStripMenuItem.Checked = true;
-                myEditorState.ShowParallaxSprites = true;
-            }
-            else
-            {
-                showParallaxSpritesToolStripMenuItem.Checked = false;
-                myEditorState.ShowParallaxSprites = false;
-            }
+            showEntityPathArrowsToolstripItem.Checked = mySettings.ShowEntityArrowPathsDefault;
+            showEntityPathArrows = mySettings.ShowEntityArrowPathsDefault;
+
+            showParallaxSpritesToolStripMenuItem.Checked = mySettings.ShowFullParallaxEntityRenderDefault;
+            myEditorState.ShowParallaxSprites = mySettings.ShowFullParallaxEntityRenderDefault;
         }
         void UseDefaultPrefrences()
         {
+            //These Prefrences are applied on Stage Load
+
             //Default Layer Visibility Preferences
             if (!mySettings.FGLowerDefault) ShowFGLower.Checked = false;            
             else ShowFGLower.Checked = true;
@@ -446,6 +453,14 @@ namespace ManiacEditor
             else ShowEntities.Checked = true;           
             if (!mySettings.AnimationsDefault) ShowAnimations.Checked = false;       
             else ShowAnimations.Checked = true;
+
+            //Default Enabled Annimation Preferences
+            movingPlatformsObjectsToolStripMenuItem.Checked = mySettings.MovingPlatformsDefault;
+            myEditorState.movingPlatformsChecked = mySettings.MovingPlatformsDefault;
+
+            spriteFramesToolStripMenuItem.Checked = mySettings.AnimatedSpritesDefault;
+            myEditorState.annimationsChecked = mySettings.AnimatedSpritesDefault;
+
 
             //Default Grid Preferences
             if (!mySettings.x16Default) x16ToolStripMenuItem.Checked = false;
@@ -2640,7 +2655,7 @@ namespace ManiacEditor
             {
                 return;
             }
-            Debug.Print(Result);
+            //Debug.Print(Result);
 
             ResultPath = Path.GetDirectoryName(Result);
             UnloadScene();

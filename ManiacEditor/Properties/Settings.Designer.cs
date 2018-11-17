@@ -1247,5 +1247,77 @@ namespace ManiacEditor.Properties {
                 this["CollisionColorsDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowEntityArrowPathsDefault {
+            get {
+                return ((bool)(this["ShowEntityArrowPathsDefault"]));
+            }
+            set {
+                this["ShowEntityArrowPathsDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnablePixelModeDefault {
+            get {
+                return ((bool)(this["EnablePixelModeDefault"]));
+            }
+            set {
+                this["EnablePixelModeDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EditEntitiesTransparencyDefault {
+            get {
+                return ((bool)(this["EditEntitiesTransparencyDefault"]));
+            }
+            set {
+                this["EditEntitiesTransparencyDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AnimatedSpritesDefault {
+            get {
+                return ((bool)(this["AnimatedSpritesDefault"]));
+            }
+            set {
+                this["AnimatedSpritesDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MovingPlatformsDefault {
+            get {
+                return ((bool)(this["MovingPlatformsDefault"]));
+            }
+            set {
+                this["MovingPlatformsDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ScrollLockDefault {
+            get {
+                return ((bool)(this["ScrollLockDefault"]));
+            }
+            set {
+                this["ScrollLockDefault"] = value;
+            }
+        }
     }
 }

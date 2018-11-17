@@ -58,6 +58,9 @@ namespace ManiacEditor
         //bool platformdisableY = false;
         //bool platformreverse = false;
 
+        //Parallax Sprite Location Storing
+        public string parallaxSprite = "";
+
 
 
         //For Drawing Extra Child Objects

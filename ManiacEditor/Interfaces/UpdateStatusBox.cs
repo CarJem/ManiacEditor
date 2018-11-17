@@ -62,5 +62,10 @@ namespace ManiacEditor.Interfaces
             ProcessStartInfo sInfo = new ProcessStartInfo("https://ci.appveyor.com/project/CarJem/maniaceditor-generationsedition");
             Process.Start(sInfo);
         }
+
+        private void UpdateStatusBox_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

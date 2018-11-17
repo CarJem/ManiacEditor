@@ -21,6 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int rotation = 0;
             int offsetX = 0;
             int offsetY = 0;
+            e.rotateImageLegacyMode = true;
             switch (angle)
             {
                 case 0:
