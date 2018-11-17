@@ -694,6 +694,7 @@ namespace ManiacEditor
         private void SetEditButtonsState(bool enabled)
         {
             bool windowsClipboardState;
+            bool windowsEntityClipboardState;
             EditFGLow.Enabled = enabled && FGLow != null;
             EditFGHigh.Enabled = enabled && FGHigh != null;
             EditFGLower.Enabled = enabled && FGLower != null;
@@ -756,11 +757,25 @@ namespace ManiacEditor
 
 
             //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
-            //windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
-            windowsClipboardState = false;
+            try
+            {
+                windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
+                windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
+            }
+            catch
+            {
+                windowsClipboardState = false;
+                windowsEntityClipboardState = false;
+            }
 
 
-            if (enabled && IsTilesEdit() && (TilesClipboard != null || windowsClipboardState))
+
+            if (enabled && (IsTilesEdit() || ((TilesClipboard != null || windowsClipboardState))))
+                pasteToolStripMenuItem.Enabled = true;
+            else
+                pasteToolStripMenuItem.Enabled = false;
+
+            if (enabled && (IsEntitiesEdit() || ((entitiesClipboard != null || windowsEntityClipboardState))))
                 pasteToolStripMenuItem.Enabled = true;
             else
                 pasteToolStripMenuItem.Enabled = false;
