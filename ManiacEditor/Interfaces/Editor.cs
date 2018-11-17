@@ -237,7 +237,15 @@ namespace ManiacEditor
             AllocConsole();
             HideConsoleWindow();
             //useDarkTheme();
-            InitDiscord();
+            try
+            {
+                InitDiscord();
+            }
+            catch
+            {
+
+            }
+
 
             RefreshCollisionColours();
 

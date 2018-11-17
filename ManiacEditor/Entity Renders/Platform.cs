@@ -88,7 +88,7 @@ namespace ManiacEditor.Entity_Renders
 
                         if (type == 4)
                         {
-                            editorAnim = e.LoadAnimation("Platform", d, -2, 0, false, false, false, 0);
+                            editorAnim = e.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
                         }
 
                         if (editorAnim == null) return; // no animation, bail out
@@ -112,13 +112,13 @@ namespace ManiacEditor.Entity_Renders
             var tensionBallCenter = e.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
             if (type == 4)
             {
-                tensionBall = e.LoadAnimation("Platform", d, -2, 1, false, false, false, 0);
-                tensionBallCenter = e.LoadAnimation("Platform", d, -2, 2, false, false, false, 0);
+                tensionBall = e.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
+                tensionBallCenter = e.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
             }
             if (editorAnim.Frames.Count != 0 && platformIcon != null)
             {
                 EditorEntity.EditorAnimation.EditorFrame frame = null;
-                if (editorAnim.Frames[0].Entry.FrameSpeed > 0 && doNotShow == false)
+                if (editorAnim.Frames[0].Entry.FrameSpeed > 0 && doNotShow == false && type != 4)
                 {
                     frame = editorAnim.Frames[e.index];
                 }
