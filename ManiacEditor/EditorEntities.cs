@@ -13,6 +13,7 @@ namespace ManiacEditor
         public static bool FilterRefreshNeeded = false;
         public static int DefaultFilter = -1;
 
+        Scene scene;
         List<EditorEntity> entities = new List<EditorEntity>();
         List<EditorEntity> selectedEntities = new List<EditorEntity>();
         List<EditorEntity> tempSelection = new List<EditorEntity>();
@@ -31,8 +32,9 @@ namespace ManiacEditor
         public static int layerPrority = 0;
 
 
-        public EditorEntities(RSDKv5.Scene scene)
+        public EditorEntities(Scene scene)
         {
+            this.scene = scene;
             foreach (var obj in scene.Objects)
             {
                 entities.AddRange(obj.Entities.Select(x => GenerateEditorEntity(x)));
@@ -170,10 +172,22 @@ namespace ManiacEditor
             foreach (var entity in entities)
             {
                 ushort slot = getFreeSlot(entity.Entity);
-                var sceneEntity = new SceneEntity(entity.Entity, slot);
-                var editorEntity = GenerateEditorEntity(sceneEntity);
-                AddEntity(editorEntity);
-                new_entities.Add(editorEntity);
+
+                SceneEntity sceneEntity;
+                // If this is pasted from another Scene, we need to reassign its Object
+                if (entity.Entity.Object == null)
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, scene.Objects, slot);
+                // If it's from this Scene, we can use the existing Object
+                else
+                    sceneEntity = new SceneEntity(entity.Entity, slot);
+
+                // Make sure it was created properly
+                if (sceneEntity != null)
+                {
+                    var editorEntity = GenerateEditorEntity(sceneEntity);
+                    AddEntity(editorEntity);
+                    new_entities.Add(editorEntity);
+                }
             }
             if (new_entities.Count > 0)
                 LastAction = new Actions.ActionAddDeleteEntities(new_entities.ToList(), true, x => AddEntities(x), x => DeleteEntities(x));

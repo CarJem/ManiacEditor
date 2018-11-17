@@ -13,6 +13,7 @@ namespace RSDKv5
         public ushort SlotID;
         public Position Position;
         public SceneObject Object;
+        public string objName;
         public List<AttributeValue> Attributes = new List<AttributeValue>();
         public Dictionary<string, AttributeValue> attributesMap = new Dictionary<string, AttributeValue>();
 
@@ -77,6 +78,89 @@ namespace RSDKv5
         {
             Console.WriteLine("Attempted to add attribute of name \"" + name + "\" to entity \"" + Object.Name + "\"");
             Object.AddAttribute(name, type);
+        }
+
+        public static SceneEntity FromExternal(SceneEntity oldEntity, List<SceneObject> objs, ushort slotID)
+        {
+            // Search every Object in this Scene
+            foreach (SceneObject obj in objs)
+            {
+                // If this Entity is supposed to be of that Object...
+                if (oldEntity.objName == obj.Name.Name)
+                {
+                    // Make the Entity with that Object
+                    SceneEntity newEntity = new SceneEntity(obj, slotID);
+
+                    // Check each AttributeInfo in the Object
+                    foreach(AttributeInfo attInfo in obj.Attributes)
+                    {
+                        // Is there a matching AttributeValue in the old Entity that can be copied?
+                        if (attInfo.Name.Name != null && oldEntity.attributesMap.ContainsKey(attInfo.Name.Name))
+                        {
+                            AttributeValue oldAttVal = oldEntity.attributesMap[attInfo.Name.Name];
+                            AttributeValue newAttVal = newEntity.attributesMap[attInfo.Name.Name];
+
+                            // Make sure they share the same type or else problems will ensue
+                            if (oldAttVal.Type == newAttVal.Type)
+                            {
+                                // Reassign the value
+                                switch (newAttVal.Type)
+                                {
+                                    case AttributeTypes.INT8:
+                                        newAttVal.ValueInt8 = oldAttVal.ValueInt8;
+                                        break;
+
+                                    case AttributeTypes.INT16:
+                                        newAttVal.ValueInt16 = oldAttVal.ValueInt16;
+                                        break;
+
+                                    case AttributeTypes.INT32:
+                                        newAttVal.ValueInt32 = oldAttVal.ValueInt32;
+                                        break;
+
+                                    case AttributeTypes.UINT8:
+                                        newAttVal.ValueUInt8 = oldAttVal.ValueUInt8;
+                                        break;
+
+                                    case AttributeTypes.UINT16:
+                                        newAttVal.ValueUInt16 = oldAttVal.ValueUInt16;
+                                        break;
+
+                                    case AttributeTypes.UINT32:
+                                        newAttVal.ValueUInt32 = oldAttVal.ValueUInt32;
+                                        break;
+
+                                    case AttributeTypes.VAR:
+                                        newAttVal.ValueVar = oldAttVal.ValueVar;
+                                        break;
+
+                                    case AttributeTypes.BOOL:
+                                        newAttVal.ValueBool = oldAttVal.ValueBool;
+                                        break;
+
+                                    case AttributeTypes.COLOR:
+                                        newAttVal.ValueColor = oldAttVal.ValueColor;
+                                        break;
+
+                                    case AttributeTypes.POSITION:
+                                        newAttVal.ValuePosition = oldAttVal.ValuePosition;
+                                        break;
+
+                                    case AttributeTypes.STRING:
+                                        newAttVal.ValueString = oldAttVal.ValueString;
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    
+                    return newEntity;
+                }
+            }
+
+            // No matching Object found, so nothing is created
+            // Be sure to handle the null return or else a null Entity might get left floating around
+            return null;
         }
     }
 }

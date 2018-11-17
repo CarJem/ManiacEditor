@@ -4193,13 +4193,19 @@ Error: {ex.Message}");
             {
                 List<EditorEntity> copyData = entities.CopyToClipboard();
 
-                // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-                if (mySettings.EnableWindowsClipboard)
+                // Clear all Object references to avoid dragging along more data than necessary
+                // The Object references will be reassigned upon pasting
+                foreach (EditorEntity entity in copyData)
                 {
-                    if (!mySettings.ProhibitEntityUseOnExternalClipboard)
-                        Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData), true);
+                    entity.Entity.objName = entity.Entity.Object.Name.Name;
+                    entity.Entity.Object = null;
                 }
 
+                if (mySettings.EnableWindowsClipboard && !mySettings.ProhibitEntityUseOnExternalClipboard)
+                {
+                    // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
+                    Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData), true);
+                }
 
                 // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
                 entitiesClipboard = copyData;
