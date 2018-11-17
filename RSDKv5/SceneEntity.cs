@@ -87,7 +87,8 @@ namespace RSDKv5
         {
             // Clear the Object reference to avoid dragging along more data than necessary
             // The Object reference will be reassigned upon pasting
-            extObjName = Object.Name.Name;
+            if (Object != null)
+                extObjName = Object.Name.Name;
             Object = null;
         }
 

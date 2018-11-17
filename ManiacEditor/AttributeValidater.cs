@@ -7,6 +7,7 @@ using RSDKv5;
 
 namespace ManiacEditor
 {
+    [Serializable]
     public class AttributeValidater
     {
         Position no_position = new Position(0, 0);

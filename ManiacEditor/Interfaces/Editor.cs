@@ -2561,16 +2561,26 @@ namespace ManiacEditor
 
             Background = null;
 
-            if (!mySettings.ForceCopyUnlock)
+            // If copying between scenes is allowed...
+            if (mySettings.ForceCopyUnlock)
             {
+                // ...but not for entities...
+                if (mySettings.ProhibitEntityUseOnExternalClipboard)
+                    // Clear local entities clipboard
+                    entitiesClipboard = null;
+                else
+                    // Prepare entities for external copy
+                    foreach (EditorEntity entity in entitiesClipboard)
+                        entity.PrepareForExternalCopy();
+            }
+
+            // If copying between scenes is NOT allowed...
+            else
+            {
+                // Clear local clipboards
                 TilesClipboard = null;
                 entitiesClipboard = null;
             }
-            if (mySettings.ProhibitEntityUseOnExternalClipboard || !mySettings.ForceCopyUnlock)
-            {
-                entitiesClipboard = null;
-            }
-
 
             entities = null;
 
@@ -4221,24 +4231,28 @@ Error: {ex.Message}");
         {
             if (entitiesToolbar.ContainsFocus.Equals(false))
             {
-                // Clone the entities and stow them here
-                List<EditorEntity> copyData = entities.CopyToClipboard();
-
-                // Prepare each Entity for the copy to release unnecessary data
-                foreach (EditorEntity entity in copyData)
-                    entity.PrepareForExternalCopy();
-
+                // Windows Clipboard mode
                 if (mySettings.EnableWindowsClipboard && !mySettings.ProhibitEntityUseOnExternalClipboard)
                 {
+                    // Clone the entities and stow them here
+                    List<EditorEntity> copyData = entities.CopyToClipboard();
+
+                    // Prepare each Entity for the copy to release unnecessary data
+                    foreach (EditorEntity entity in copyData)
+                        entity.PrepareForExternalCopy();
+
                     // Make a DataObject for the data and send it to the Windows clipboard for cross-instance copying
                     Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData), true);
                 }
 
-                // Also send to Maniac's clipboard
-                entitiesClipboard = copyData;
+                // Local Clipboard mode
+                {
+                    // Clone the entities and stow them here
+                    List<EditorEntity> copyData = entities.CopyToClipboard();
 
-                // TODO: Skip external preparation for local copying for better efficiency
-                // This will require the preparation to be handled elsewhere for copying between scenes
+                    // Send to Maniac's clipboard
+                    entitiesClipboard = copyData;
+                }
             }
         }
 
