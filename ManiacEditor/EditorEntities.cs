@@ -175,7 +175,7 @@ namespace ManiacEditor
 
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
-                if (entity.Entity.Object == null)
+                if (entity.IsExternal())
                     sceneEntity = SceneEntity.FromExternal(entity.Entity, scene.Objects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else

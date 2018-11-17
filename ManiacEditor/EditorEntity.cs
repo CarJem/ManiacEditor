@@ -1259,6 +1259,16 @@ namespace ManiacEditor
             }
         }
 
+        public void PrepareForExternalCopy()
+        {
+            entity.PrepareForExternalCopy();
+        }
+
+        public bool IsExternal()
+        {
+            return entity.IsExternal();
+        }
+
         internal void Flip(FlipDirection flipDirection)
         {
             if (entity.attributesMap.ContainsKey("flipFlag"))
@@ -1315,6 +1325,5 @@ namespace ManiacEditor
             public int Height = 0;
             public Texture Texture;
         }
-
     }
 }

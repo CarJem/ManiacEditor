@@ -4206,24 +4206,24 @@ Error: {ex.Message}");
         {
             if (entitiesToolbar.ContainsFocus.Equals(false))
             {
+                // Clone the entities and stow them here
                 List<EditorEntity> copyData = entities.CopyToClipboard();
 
-                // Clear all Object references to avoid dragging along more data than necessary
-                // The Object references will be reassigned upon pasting
+                // Prepare each Entity for the copy to release unnecessary data
                 foreach (EditorEntity entity in copyData)
-                {
-                    entity.Entity.objName = entity.Entity.Object.Name.Name;
-                    entity.Entity.Object = null;
-                }
+                    entity.PrepareForExternalCopy();
 
                 if (mySettings.EnableWindowsClipboard && !mySettings.ProhibitEntityUseOnExternalClipboard)
                 {
-                    // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
+                    // Make a DataObject for the data and send it to the Windows clipboard for cross-instance copying
                     Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData), true);
                 }
 
-                // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
+                // Also send to Maniac's clipboard
                 entitiesClipboard = copyData;
+
+                // TODO: Skip external preparation for local copying for better efficiency
+                // This will require the preparation to be handled elsewhere for copying between scenes
             }
         }
 

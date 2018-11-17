@@ -12,8 +12,11 @@ namespace RSDKv5
     {
         public ushort SlotID;
         public Position Position;
+
         public SceneObject Object;
-        public string objName;
+        
+        private string extObjName = null;
+
         public List<AttributeValue> Attributes = new List<AttributeValue>();
         public Dictionary<string, AttributeValue> attributesMap = new Dictionary<string, AttributeValue>();
 
@@ -80,19 +83,33 @@ namespace RSDKv5
             Object.AddAttribute(name, type);
         }
 
+        public void PrepareForExternalCopy()
+        {
+            // Clear the Object reference to avoid dragging along more data than necessary
+            // The Object reference will be reassigned upon pasting
+            extObjName = Object.Name.Name;
+            Object = null;
+        }
+
+        public bool IsExternal()
+        {
+            return (Object == null && extObjName != null);
+        }
+
         public static SceneEntity FromExternal(SceneEntity oldEntity, List<SceneObject> objs, ushort slotID)
         {
             // Search every Object in this Scene
             foreach (SceneObject obj in objs)
             {
                 // If this Entity is supposed to be of that Object...
-                if (oldEntity.objName == obj.Name.Name)
+                if (oldEntity.extObjName == obj.Name.Name)
                 {
                     // Make the Entity with that Object
                     SceneEntity newEntity = new SceneEntity(obj, slotID);
+                    newEntity.Position = oldEntity.Position;
 
                     // Check each AttributeInfo in the Object
-                    foreach(AttributeInfo attInfo in obj.Attributes)
+                    foreach (AttributeInfo attInfo in obj.Attributes)
                     {
                         // Is there a matching AttributeValue in the old Entity that can be copied?
                         if (attInfo.Name.Name != null && oldEntity.attributesMap.ContainsKey(attInfo.Name.Name))
