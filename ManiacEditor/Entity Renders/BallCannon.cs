@@ -77,18 +77,21 @@ namespace ManiacEditor.Entity_Renders
                         break;
                 }
             }
-
-            switch (type)
+            else
             {
-                case 0:
-                    break;
-                case 1:
-                    CorkState = 3;
-                    break;
-                case 2:
-                    CorkState = 4;
-                    break;
+                switch (type)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        CorkState = 3;
+                        break;
+                    case 2:
+                        CorkState = 4;
+                        break;
+                }
             }
+
             var editorAnim = e.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation);
             var editorAnimHolo = e.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation2);
             var editorAnimCork = e.LoadAnimation2("BallCannon", d, CorkState, 0, fliph, flipv, false);

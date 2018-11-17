@@ -21,7 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using SystemColor = System.Drawing.Color;
 using System.Text.RegularExpressions;
-//using ImageMagick;
+using ImageMagick;
 
 namespace ManiacEditor
 {
@@ -183,20 +183,21 @@ namespace ManiacEditor
 
         public Bitmap RotateImage(Bitmap img, double rotationAngle)
         {
+            // I don't know who though it was a good idea to disable this, but it is essential for rotating textures
             if (!rotateImageLegacyMode)
             {
 
-                //MagickImage image = new MagickImage(img);
+                MagickImage image = new MagickImage(img);
 
-                //image.RePage();
+                image.RePage();
 
-                //image.Rotate(rotationAngle);
+                image.Rotate(rotationAngle);
 
-                //image.RePage();
+                image.RePage();
 
-                //Bitmap bmp = image.ToBitmap();
+                Bitmap bmp = image.ToBitmap();
 
-                return null;//bmp;
+                return bmp;
             }
             else
             {
