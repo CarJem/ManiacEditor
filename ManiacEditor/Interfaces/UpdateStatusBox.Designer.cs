@@ -39,15 +39,15 @@
             this.updateInfoLabel.AutoSize = true;
             this.updateInfoLabel.Location = new System.Drawing.Point(12, 9);
             this.updateInfoLabel.Name = "updateInfoLabel";
-            this.updateInfoLabel.Size = new System.Drawing.Size(102, 52);
+            this.updateInfoLabel.Size = new System.Drawing.Size(102, 78);
             this.updateInfoLabel.TabIndex = 0;
-            this.updateInfoLabel.Text = "No Updates Found!\r\n\r\nLocal Version: {0}\r\nCurrent Version: {1} ";
+            this.updateInfoLabel.Text = "No Updates Found!\r\n\r\nLocal Version: {0}\r\nCurrent Version: {1} \r\n\r\nDetails: {2}\r\n";
             // 
             // linkLabel1
             // 
             this.linkLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(12, 83);
+            this.linkLabel1.Location = new System.Drawing.Point(12, 109);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(83, 13);
             this.linkLabel1.TabIndex = 32;
@@ -59,7 +59,7 @@
             // 
             this.linkLabel2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(192, 83);
+            this.linkLabel2.Location = new System.Drawing.Point(192, 109);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(87, 13);
             this.linkLabel2.TabIndex = 31;
@@ -71,14 +71,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 105);
+            this.ClientSize = new System.Drawing.Size(291, 131);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.updateInfoLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(307, 144);
+            this.MaximumSize = new System.Drawing.Size(307, 170);
             this.MinimizeBox = false;
             this.Name = "UpdateStatusBox";
             this.ShowInTaskbar = false;

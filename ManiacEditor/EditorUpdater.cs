@@ -1,4 +1,5 @@
-﻿using ManiacEditor.Interfaces;
+﻿using IronPython.Runtime.Operations;
+using ManiacEditor.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace ManiacEditor
     public class EditorUpdater
     {
         string AppveyorVersion = "";
+        string AppveyorBuildMessage = "";
         bool badBuild = false;
         bool unkownError = false;
         bool runningBuild = false;
@@ -29,6 +31,7 @@ namespace ManiacEditor
                 try
                 {
                     string appveyorDetails = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
+                    Debug.Print(appveyorDetails);
                     if (appveyorDetails.Contains("buildNumber"))
                     {
                         string regex = "[0-9]*";
@@ -37,6 +40,12 @@ namespace ManiacEditor
                         buildNumber = Int32.Parse(buildNumberString);
                         //Debug.Print(buildNumber.ToString());
 
+                        string regex3 = "\"message\":.*,\"branch\"";
+                        string stuff3 = Regex.Match(appveyorDetails, regex3).ToString();
+                        stuff3 = stuff3.Replace("\"message\":", "");
+                        stuff3 = stuff3.Replace(",\"branch\"", "");
+                        AppveyorBuildMessage = stuff3;
+                        //Debug.Print(stuff3.ToString());
 
                         // Unable to retrive version number at the moment so disable this stuff
                         string regex2 = "\"version\":";
@@ -145,6 +154,11 @@ namespace ManiacEditor
                 return AppveyorVersion;
             }
 
+        }
+
+        public string GetBuildMessage()
+        {
+            return AppveyorBuildMessage;
         }
 
     }
