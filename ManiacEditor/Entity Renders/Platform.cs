@@ -105,7 +105,7 @@ namespace ManiacEditor.Entity_Renders
                 }
                 catch (Exception i)
                 {
-                    throw new ApplicationException($"Pop Loading Platforms! {aminID}", i);
+                    throw new ApplicationException($"Problem Loading Platforms! AnimID: {aminID}", i);
                 }
             }
             var tensionBall = e.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);

@@ -324,30 +324,38 @@ namespace ManiacEditor
 
         public void UpdateDiscord(string Details = null)
         {
-            if (mySettings.ShowDiscordRPC)
+            try
             {
-                SharpPresence.Discord.RunCallbacks();
-                if (Details != null)
+                if (mySettings.ShowDiscordRPC)
                 {
-                    RPCcontrol.details = Details;
+                    SharpPresence.Discord.RunCallbacks();
+                    if (Details != null)
+                    {
+                        RPCcontrol.details = Details;
+                    }
+                    else
+                    {
+                        RPCcontrol.details = "Idle";
+                    }
+                    SharpPresence.Discord.UpdatePresence(RPCcontrol);
                 }
                 else
                 {
-                    RPCcontrol.details = "Idle";
+                    RPCcontrol.state = "Maniac Editor";
+                    RPCcontrol.details = "";
+
+                    RPCcontrol.largeImageKey = "maniac";
+                    RPCcontrol.largeImageText = "Maniac Editor";
+
+                    SharpPresence.Discord.RunCallbacks();
+                    SharpPresence.Discord.UpdatePresence(RPCcontrol);
                 }
-                SharpPresence.Discord.UpdatePresence(RPCcontrol);
             }
-            else
+            catch
             {
-                RPCcontrol.state = "Maniac Editor";
-                RPCcontrol.details = "";
 
-                RPCcontrol.largeImageKey = "maniac";
-                RPCcontrol.largeImageText = "Maniac Editor";
-
-                SharpPresence.Discord.RunCallbacks();
-                SharpPresence.Discord.UpdatePresence(RPCcontrol);
             }
+
         }
 
         public void DisposeDiscord()
