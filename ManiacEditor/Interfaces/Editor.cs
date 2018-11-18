@@ -2568,7 +2568,7 @@ namespace ManiacEditor
                 if (mySettings.ProhibitEntityUseOnExternalClipboard)
                     // Clear local entities clipboard
                     entitiesClipboard = null;
-                else
+                else if (entitiesClipboard != null)
                     // Prepare entities for external copy
                     foreach (EditorEntity entity in entitiesClipboard)
                         entity.PrepareForExternalCopy();
