@@ -2491,6 +2491,7 @@
             // comboBox3
             // 
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.Enabled = false;
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
             "Scroll Lock",
@@ -2504,6 +2505,7 @@
             // comboBox2
             // 
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.Enabled = false;
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
             "Scroll Lock",
@@ -2517,6 +2519,7 @@
             // comboBox1
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Enabled = false;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Scroll Lock",
@@ -2530,6 +2533,7 @@
             // 
             // label59
             // 
+            this.label59.Enabled = false;
             this.label59.Location = new System.Drawing.Point(6, 8);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(47, 20);
@@ -2539,6 +2543,7 @@
             // 
             // label70
             // 
+            this.label70.Enabled = false;
             this.label70.Location = new System.Drawing.Point(6, 35);
             this.label70.Name = "label70";
             this.label70.Size = new System.Drawing.Size(47, 20);
@@ -2548,6 +2553,7 @@
             // 
             // label71
             // 
+            this.label71.Enabled = false;
             this.label71.Location = new System.Drawing.Point(6, 62);
             this.label71.Name = "label71";
             this.label71.Size = new System.Drawing.Size(47, 20);
