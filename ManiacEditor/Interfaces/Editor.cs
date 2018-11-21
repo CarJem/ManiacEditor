@@ -2610,15 +2610,16 @@ namespace ManiacEditor
 
         private void OpenSceneForceFully()
         {
-            DataDirectory = "D:\\Users\\Cwall\\Documents\\Mania Modding\\mods\\Mania Testing\\Data";
-            string Result = "GHZ\\Scene1.bin";
-            int LevelID = -1;
-            bool isEncore = false;
+
+            DataDirectory = mySettings.DevForceRestartData;
+            string Result = mySettings.DevForceRestartScene;
+            int LevelID = mySettings.DeveForceRestartLevelID;
+            bool isEncore = mySettings.DevForceRestartEncore;
             forceResize = true;
-            int x = 0;
-            int y = 0;
-            forceResizeGoToX = x;
-            forceResizeGoToY = y;
+            int x = mySettings.DevForceRestartX;
+            int y = mySettings.DevForeRestartY;
+            forceResizeGoToX = mySettings.DevForceRestartX;
+            forceResizeGoToY = mySettings.DevForeRestartY;
             OpenScene(false, Result, LevelID, isEncore, true);
 
 
@@ -2914,9 +2915,9 @@ Error: {ex.Message}");
                 {
                     // not all scenes have both a Low and a High foreground
                     // only attempt to render the ones we actually have
+                    FGLower?.Draw(g);
                     FGLow?.Draw(g);
                     FGHigh?.Draw(g);
-                    FGLower?.Draw(g);
                     FGHigher?.Draw(g);
                     entities?.Draw(g);
                     bitmap.Save(save.FileName);
@@ -4691,8 +4692,9 @@ Error: {ex.Message}");
             if (forceResize)
             {
                 forceResize = false;
-                Form1_Resize(null, null);
+                SetViewSize(SceneWidth, SceneHeight);
                 GoToPosition(forceResizeGoToX, forceResizeGoToY);
+                //SetZoomLevel(mySettings.DevForceRestartZoomLevel, new Point(forceResizeGoToX, forceResizeGoToY));
             }
             ShiftY = (sender as VScrollBar).Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
@@ -4707,8 +4709,9 @@ Error: {ex.Message}");
             if (forceResize)
             {
                 forceResize = false;
-                Form1_Resize(null, null);
+                SetViewSize(SceneWidth, SceneHeight);
                 GoToPosition(forceResizeGoToX, forceResizeGoToY);
+                SetZoomLevel(mySettings.DevForceRestartZoomLevel, new Point(forceResizeGoToX, forceResizeGoToY));
             }
             ShiftX = hScrollBar1.Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
@@ -5303,6 +5306,22 @@ Error: {ex.Message}");
             {
                 HideConsoleWindow();
             }
+        }
+
+        private void saveForForceOpenOnStartupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mySettings.DevForceRestartData = DataDirectory;
+            mySettings.DevForceRestartScene = ScenePath;
+            mySettings.DevForceRestartX = (short)(ShiftX / Zoom);
+            mySettings.DevForeRestartY = (short)(ShiftY / Zoom);
+            mySettings.DevForceRestartZoomLevel = ZoomLevel;
+            mySettings.DevForceRestartEncore = Editor.Instance.useEncoreColors;
+            mySettings.DeveForceRestartLevelID = Editor.Instance.myEditorState.Level_ID;
+        }
+
+        private void wikiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
         }
 
         #endregion

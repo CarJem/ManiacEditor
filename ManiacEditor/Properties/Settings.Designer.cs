@@ -1319,5 +1319,89 @@ namespace ManiacEditor.Properties {
                 this["ScrollLockDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DevForceRestartData {
+            get {
+                return ((string)(this["DevForceRestartData"]));
+            }
+            set {
+                this["DevForceRestartData"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DevForceRestartScene {
+            get {
+                return ((string)(this["DevForceRestartScene"]));
+            }
+            set {
+                this["DevForceRestartScene"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DevForceRestartEncore {
+            get {
+                return ((bool)(this["DevForceRestartEncore"]));
+            }
+            set {
+                this["DevForceRestartEncore"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DevForceRestartX {
+            get {
+                return ((int)(this["DevForceRestartX"]));
+            }
+            set {
+                this["DevForceRestartX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DevForeRestartY {
+            get {
+                return ((int)(this["DevForeRestartY"]));
+            }
+            set {
+                this["DevForeRestartY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DeveForceRestartLevelID {
+            get {
+                return ((int)(this["DeveForceRestartLevelID"]));
+            }
+            set {
+                this["DeveForceRestartLevelID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DevForceRestartZoomLevel {
+            get {
+                return ((int)(this["DevForceRestartZoomLevel"]));
+            }
+            set {
+                this["DevForceRestartZoomLevel"] = value;
+            }
+        }
     }
 }
