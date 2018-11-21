@@ -3,11 +3,11 @@ image: Visual Studio 2017
 skip_tags: true
 environment:
   matrix:
-    - BUILD: x86 (To Download Click Artfacts after clicking this link)_____________________________________________________                                          
+    - BUILD: x86 (To Download Click Artifacts after clicking this link)_____________________________________________________                                          
       appveyor_build_worker_image: Visual Studio 2017
       configuration: Release
       platform: x86     
-    - BUILD: x64 (To Download Click Artfacts after clicking this link)_____________________________________________________                                              
+    - BUILD: x64 (To Download Click Artifacts after clicking this link)_____________________________________________________                                              
       appveyor_build_worker_image: Visual Studio 2017
       configuration: Release
       platform: x64
