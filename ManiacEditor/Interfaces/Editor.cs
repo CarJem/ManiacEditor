@@ -27,6 +27,7 @@ using System.Net;
 using System.Xml;
 using System.Text;
 using System.Text.RegularExpressions;
+using Cyotek.Windows.Forms;
 
 namespace ManiacEditor
 {
@@ -64,6 +65,9 @@ namespace ManiacEditor
         bool useMagnetXAxis = true; //Determines if the Magnet should use the X Axis
         bool useMagnetYAxis = true; //Determines if the Magnet should use the Y Axis
         public bool showEntityPathArrows = true; //Determines if we want to see Object Arrow Paths
+        public bool showWaterLevel = false; //Determines if the Water Object should show it's Water Level.
+        public bool alwaysShowWaterLevel = false; //Determines if the Water Level Should be Shown at all times regardless of the object being selected
+        public bool sizeWaterLevelwithBounds = false; //Determines if the water level width should match those of the object's bounds
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -83,6 +87,9 @@ namespace ManiacEditor
         internal bool controlWindowOpen; //Used somewhere in the Layer Manager (Unkown)
         public int selectPlayerObject_GoTo = 0; //Used to determine which player object to go to
         public bool cooldownDone = false; // For waiting on functions
+        public Color waterColor = new Color(); // The color used for the Water Entity
+        public string INILayerNameLower = ""; //Reserved String for INI Default Layer Prefrences
+        public string INILayerNameHigher = ""; //Reserved String for INI Default Layer Prefrences
 
         //Editor Paths
         public static string DataDirectory; //Used to get the current Data Directory
@@ -433,6 +440,13 @@ namespace ManiacEditor
             showEntityPathArrowsToolstripItem.Checked = mySettings.ShowEntityArrowPathsDefault;
             showEntityPathArrows = mySettings.ShowEntityArrowPathsDefault;
 
+            showWaterLevelToolStripMenuItem.Checked = mySettings.showWaterLevelDefault;
+            showWaterLevel = mySettings.showWaterLevelDefault;
+            alwaysShowWaterLevel = mySettings.AlwaysShowWaterLevelDefault;
+            sizeWaterLevelwithBounds = mySettings.SizeWaterLevelWithBoundsDefault;
+            waterLevelAlwaysShowItem.Checked = mySettings.AlwaysShowWaterLevelDefault;
+            sizeWithBoundsWhenNotSelectedToolStripMenuItem.Checked = mySettings.SizeWaterLevelWithBoundsDefault;
+
             showParallaxSpritesToolStripMenuItem.Checked = mySettings.ShowFullParallaxEntityRenderDefault;
             myEditorState.ShowParallaxSprites = mySettings.ShowFullParallaxEntityRenderDefault;
         }
@@ -461,6 +475,8 @@ namespace ManiacEditor
             spriteFramesToolStripMenuItem.Checked = mySettings.AnimatedSpritesDefault;
             myEditorState.annimationsChecked = mySettings.AnimatedSpritesDefault;
 
+            waterColor = mySettings.WaterColorDefault;
+
 
             //Default Grid Preferences
             if (!mySettings.x16Default) x16ToolStripMenuItem.Checked = false;
@@ -478,6 +494,52 @@ namespace ManiacEditor
             customToolStripMenuItem1.Checked = mySettings.CollisionColorsDefault == 2;
             collisionPreset = mySettings.CollisionColorsDefault;
             RefreshCollisionColours();
+
+        }
+        void SetINIDefaultPrefrences()
+        {
+            Dictionary<String,String> ListedPrefrences = SettingsReader.ReturnPrefrences();
+            if (ListedPrefrences.ContainsKey("LevelID"))
+            {
+                string value;
+                ListedPrefrences.TryGetValue("LevelID", out value);
+                int resultingInt;
+                Int32.TryParse(value, out resultingInt);
+                if (resultingInt >= -1)
+                {
+                    myEditorState.Level_ID = resultingInt;
+                }
+
+            }
+            if (ListedPrefrences.ContainsKey("FGLower"))
+            {
+                string value;
+                ListedPrefrences.TryGetValue("FGLower", out value);
+                INILayerNameLower = value;
+            }
+            if (ListedPrefrences.ContainsKey("FGHigher"))
+            {
+                string value;
+                ListedPrefrences.TryGetValue("FGHigher", out value);
+                INILayerNameHigher = value;
+            }
+            if (ListedPrefrences.ContainsKey("WaterColor"))
+            {
+                string value;
+                ListedPrefrences.TryGetValue("WaterColor", out value);
+                Debug.Print(value);
+                Color color = System.Drawing.ColorTranslator.FromHtml(value);
+                
+                if (ListedPrefrences.ContainsKey("WaterColorAlpha"))
+                {
+                    string value2;
+                    ListedPrefrences.TryGetValue("WaterColorAlpha", out value2);
+                    int alpha;
+                    Int32.TryParse(value2, out alpha);
+                    color = Color.FromArgb(alpha, color.R, color.G, color.B);
+                }
+                waterColor = color;
+            }
 
         }
         #endregion
@@ -719,6 +781,12 @@ namespace ManiacEditor
             entityManagerToolStripMenuItem.Enabled = enabled && StageConfig != null;
             importSoundsToolStripMenuItem.Enabled = enabled && StageConfig != null;
             layerManagerToolStripMenuItem.Enabled = enabled;
+            editBackgroundColorsToolStripMenuItem.Enabled = enabled;
+            preRenderSceneToolStripMenuItem.Enabled = enabled;
+
+            openDataDirectoryFolderToolStripMenuItem.Enabled = enabled;
+            openSonicManiaFolderToolStripMenuItem.Enabled = enabled;
+            openSceneFolderToolStripMenuItem.Enabled = enabled;
 
             if (enabled && EditFGLow.Checked) EditLayer = FGLow;
             else if (enabled && EditFGHigh.Checked) EditLayer = FGHigh;
@@ -2549,6 +2617,9 @@ namespace ManiacEditor
             EncorePalette = null;
             EncoreSetupType = 0;
             playerObjectPosition = new List<SceneEntity> { };
+            INILayerNameHigher = "";
+            INILayerNameLower = "";
+            SettingsReader.CleanPrefrences();
 
             SelectedScene = null;
             SelectedZone = null;
@@ -2788,12 +2859,46 @@ namespace ManiacEditor
                 ScenePath = Result;
                 UpdateDiscord("Editing " + Result);
 
+                if (File.Exists(SceneFilepath + "\\maniac.ini"))
+                {
+                    bool allowToRead = false;
+                    using (Stream stream = SettingsReader.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
+                    {
+                        if (stream != null)
+                        {
+                            SettingsReader.GetSceneINISettings(stream);
+                            allowToRead = true;
+                        }
+                        else
+                        {
+                            Debug.Print("Something went wrong");
+                            allowToRead = false;
+                        }
+                    }
+                    if (allowToRead)
+                    {
+                        try
+                        {
+                            SetINIDefaultPrefrences();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
+                            SettingsReader.CleanPrefrences();
+                        }
+
+                    }
+                    
+                    
+                }
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Load failed. Error: " + ex.ToString() + " " + Result);
                 return;
             }
+
 
 
             SetupLayerButtons();
@@ -3233,6 +3338,42 @@ Error: {ex.Message}");
             }
         }
 
+        private void showWaterLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (showWaterLevelToolStripMenuItem.Checked)
+            {
+                showWaterLevel = true;
+            }
+            else
+            {
+                showWaterLevel = false;
+            }
+        }
+
+        private void waterLevelAlwaysShowItem_Click(object sender, EventArgs e)
+        {
+            if (waterLevelAlwaysShowItem.Checked)
+            {
+                alwaysShowWaterLevel = true;
+            }
+            else
+            {
+                alwaysShowWaterLevel = false;
+            }
+        }
+
+        private void sizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sizeWithBoundsWhenNotSelectedToolStripMenuItem.Checked)
+            {
+                sizeWaterLevelwithBounds = true;
+            }
+            else
+            {
+                sizeWaterLevelwithBounds = false;
+            }
+        }
+
         private void toggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e);
@@ -3369,6 +3510,44 @@ Error: {ex.Message}");
             SetupLayerButtons();
             ResetViewSize();
             UpdateControls();
+        }
+
+        private void primaryColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorPickerDialog colorSelect = new ColorPickerDialog();
+            colorSelect.Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor1.R, EditorScene.EditorMetadata.BackgroundColor1.G, EditorScene.EditorMetadata.BackgroundColor1.B);
+            DialogResult result = colorSelect.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                {
+                    RSDKv5.Color returnColor = new RSDKv5.Color();
+                    returnColor.R = colorSelect.Color.R;
+                    returnColor.A = colorSelect.Color.A;
+                    returnColor.B = colorSelect.Color.B;
+                    returnColor.G = colorSelect.Color.G;
+                    EditorScene.EditorMetadata.BackgroundColor1 = returnColor;
+                }
+              
+            }
+        }
+
+        private void secondaryColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorPickerDialog colorSelect = new ColorPickerDialog();
+            colorSelect.Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor2.R, EditorScene.EditorMetadata.BackgroundColor2.G, EditorScene.EditorMetadata.BackgroundColor2.B);
+            DialogResult result = colorSelect.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                {
+                    RSDKv5.Color returnColor = new RSDKv5.Color();
+                    returnColor.R = colorSelect.Color.R;
+                    returnColor.A = colorSelect.Color.A;
+                    returnColor.B = colorSelect.Color.B;
+                    returnColor.G = colorSelect.Color.G;
+                    EditorScene.EditorMetadata.BackgroundColor2 = returnColor;
+                }
+
+            }
         }
 
         #endregion
@@ -5323,6 +5502,10 @@ Error: {ex.Message}");
         {
             System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
         }
+
+
+
+
 
         #endregion
 

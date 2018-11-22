@@ -43,6 +43,16 @@ namespace RSDKv5
             return returnColor;
         }
 
+        internal Color FromSystemColor(SystemColor color)
+        {
+            Color returnColor = new Color();
+            returnColor.R = color.R;
+            returnColor.A = color.A;
+            returnColor.B = color.B;
+            returnColor.G = color.G;
+            return returnColor;
+        }
+
         internal void Write(Writer writer)
         {
             writer.Write(B);

@@ -47,32 +47,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel17 = new System.Windows.Forms.Panel();
-            this.label98 = new System.Windows.Forms.Label();
-            this.label110 = new System.Windows.Forms.Label();
-            this.label111 = new System.Windows.Forms.Label();
-            this.label112 = new System.Windows.Forms.Label();
-            this.label93 = new System.Windows.Forms.Label();
-            this.label94 = new System.Windows.Forms.Label();
-            this.label95 = new System.Windows.Forms.Label();
-            this.label96 = new System.Windows.Forms.Label();
-            this.CLRDSBNUD = new System.Windows.Forms.NumericUpDown();
-            this.CLRDSGNUD = new System.Windows.Forms.NumericUpDown();
-            this.CLRDSRNUD = new System.Windows.Forms.NumericUpDown();
-            this.CLRDSANUD = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.label113 = new System.Windows.Forms.Label();
-            this.CTOSBNUD = new System.Windows.Forms.NumericUpDown();
-            this.CTOSGNUD = new System.Windows.Forms.NumericUpDown();
-            this.CTOSRNUD = new System.Windows.Forms.NumericUpDown();
-            this.CTOSANUD = new System.Windows.Forms.NumericUpDown();
             this.label97 = new System.Windows.Forms.Label();
-            this.CASBNUD = new System.Windows.Forms.NumericUpDown();
-            this.label91 = new System.Windows.Forms.Label();
-            this.CASGNUD = new System.Windows.Forms.NumericUpDown();
-            this.label92 = new System.Windows.Forms.Label();
-            this.CASRNUD = new System.Windows.Forms.NumericUpDown();
-            this.label90 = new System.Windows.Forms.Label();
-            this.CASANUD = new System.Windows.Forms.NumericUpDown();
-            this.label89 = new System.Windows.Forms.Label();
             this.label88 = new System.Windows.Forms.Label();
             this.label87 = new System.Windows.Forms.Label();
             this.panel16 = new System.Windows.Forms.Panel();
@@ -88,21 +66,25 @@
             this.x256checkbox = new System.Windows.Forms.RadioButton();
             this.customGridCheckbox = new System.Windows.Forms.RadioButton();
             this.x128checkbox = new System.Windows.Forms.RadioButton();
+            this.label114 = new System.Windows.Forms.Label();
             this.gridSizeDown = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             this.gridSizeDownMore = new System.Windows.Forms.Button();
             this.gridSizeUp = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
             this.gridSizeUpMore = new System.Windows.Forms.Button();
             this.gridSizeValueLabel = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.nudgeValueUpMoreButton = new System.Windows.Forms.Button();
             this.label32 = new System.Windows.Forms.Label();
+            this.nudgeValueUpButton = new System.Windows.Forms.Button();
             this.nudgeValueDownButton = new System.Windows.Forms.Button();
             this.nudgeValueDownMoreButton = new System.Windows.Forms.Button();
-            this.nudgeValueUpButton = new System.Windows.Forms.Button();
-            this.nudgeValueUpMoreButton = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -279,7 +261,6 @@
             this.button6 = new System.Windows.Forms.Button();
             this.panel14 = new System.Windows.Forms.Panel();
             this.label31 = new System.Windows.Forms.Label();
-            this.label114 = new System.Windows.Forms.Label();
             this.checkBox27 = new System.Windows.Forms.CheckBox();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
@@ -295,6 +276,14 @@
             this.checkBox16 = new System.Windows.Forms.CheckBox();
             this.copyUnlock = new System.Windows.Forms.CheckBox();
             this.layerHide = new System.Windows.Forms.CheckBox();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.checkBox47 = new System.Windows.Forms.CheckBox();
+            this.checkBox46 = new System.Windows.Forms.CheckBox();
+            this.checkBox44 = new System.Windows.Forms.CheckBox();
             this.checkBox43 = new System.Windows.Forms.CheckBox();
             this.checkBox40 = new System.Windows.Forms.CheckBox();
             this.checkBox39 = new System.Windows.Forms.CheckBox();
@@ -314,16 +303,17 @@
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.tileToolbarZoomDefault = new System.Windows.Forms.TrackBar();
-            this.highLayerTextbox = new System.Windows.Forms.TextBox();
-            this.SceneSelectRadio1 = new System.Windows.Forms.RadioButton();
             this.SceneSelectRadio2 = new System.Windows.Forms.RadioButton();
+            this.SceneSelectRadio1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonY = new System.Windows.Forms.RadioButton();
+            this.radioButtonX = new System.Windows.Forms.RadioButton();
+            this.highLayerTextbox = new System.Windows.Forms.TextBox();
             this.lowLayerTextbox = new System.Windows.Forms.TextBox();
             this.solidTopDefault = new System.Windows.Forms.CheckBox();
             this.soildAllButTopDefault = new System.Windows.Forms.CheckBox();
             this.unknown1Default = new System.Windows.Forms.CheckBox();
             this.unkown2Default = new System.Windows.Forms.CheckBox();
-            this.radioButtonY = new System.Windows.Forms.RadioButton();
-            this.radioButtonX = new System.Windows.Forms.RadioButton();
+            this.checkBox45 = new System.Windows.Forms.CheckBox();
             this.checkBox31 = new System.Windows.Forms.CheckBox();
             this.checkBox26 = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
@@ -346,9 +336,6 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox33 = new System.Windows.Forms.CheckBox();
             this.RPCCheckBox = new System.Windows.Forms.CheckBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tabPage4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -356,23 +343,14 @@
             this.panel11.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSBNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSGNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSRNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSANUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSBNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSGNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSRNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSANUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASBNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASGNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASRNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASANUD)).BeginInit();
             this.panel16.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel7.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -391,9 +369,6 @@
             this.panel12.SuspendLayout();
             this.panel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tileToolbarZoomDefault)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage4
@@ -606,32 +581,15 @@
             // panel17
             // 
             this.panel17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel17.Controls.Add(this.label98);
-            this.panel17.Controls.Add(this.label110);
-            this.panel17.Controls.Add(this.label111);
-            this.panel17.Controls.Add(this.label112);
-            this.panel17.Controls.Add(this.label93);
-            this.panel17.Controls.Add(this.label94);
-            this.panel17.Controls.Add(this.label95);
-            this.panel17.Controls.Add(this.label96);
-            this.panel17.Controls.Add(this.CLRDSBNUD);
-            this.panel17.Controls.Add(this.CLRDSGNUD);
-            this.panel17.Controls.Add(this.CLRDSRNUD);
-            this.panel17.Controls.Add(this.CLRDSANUD);
+            this.panel17.Controls.Add(this.button22);
+            this.panel17.Controls.Add(this.button21);
+            this.panel17.Controls.Add(this.button20);
+            this.panel17.Controls.Add(this.button12);
+            this.panel17.Controls.Add(this.button9);
+            this.panel17.Controls.Add(this.label8);
+            this.panel17.Controls.Add(this.label1);
             this.panel17.Controls.Add(this.label113);
-            this.panel17.Controls.Add(this.CTOSBNUD);
-            this.panel17.Controls.Add(this.CTOSGNUD);
-            this.panel17.Controls.Add(this.CTOSRNUD);
-            this.panel17.Controls.Add(this.CTOSANUD);
             this.panel17.Controls.Add(this.label97);
-            this.panel17.Controls.Add(this.CASBNUD);
-            this.panel17.Controls.Add(this.label91);
-            this.panel17.Controls.Add(this.CASGNUD);
-            this.panel17.Controls.Add(this.label92);
-            this.panel17.Controls.Add(this.CASRNUD);
-            this.panel17.Controls.Add(this.label90);
-            this.panel17.Controls.Add(this.CASANUD);
-            this.panel17.Controls.Add(this.label89);
             this.panel17.Controls.Add(this.label88);
             this.panel17.Controls.Add(this.label87);
             this.panel17.Location = new System.Drawing.Point(364, 352);
@@ -639,307 +597,51 @@
             this.panel17.Size = new System.Drawing.Size(284, 186);
             this.panel17.TabIndex = 121;
             // 
-            // label98
+            // label8
             // 
-            this.label98.AutoSize = true;
-            this.label98.Location = new System.Drawing.Point(198, 132);
-            this.label98.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label98.Name = "label98";
-            this.label98.Size = new System.Drawing.Size(17, 13);
-            this.label98.TabIndex = 90;
-            this.label98.Text = "B:";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 151);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 8, 2, 8);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(93, 13);
+            this.label8.TabIndex = 138;
+            this.label8.Text = "Grid Default Color:";
             // 
-            // label110
+            // label1
             // 
-            this.label110.AutoSize = true;
-            this.label110.Location = new System.Drawing.Point(136, 132);
-            this.label110.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label110.Name = "label110";
-            this.label110.Size = new System.Drawing.Size(18, 13);
-            this.label110.TabIndex = 89;
-            this.label110.Text = "G:";
-            // 
-            // label111
-            // 
-            this.label111.AutoSize = true;
-            this.label111.Location = new System.Drawing.Point(66, 132);
-            this.label111.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label111.Name = "label111";
-            this.label111.Size = new System.Drawing.Size(18, 13);
-            this.label111.TabIndex = 88;
-            this.label111.Text = "R:";
-            // 
-            // label112
-            // 
-            this.label112.AutoSize = true;
-            this.label112.Location = new System.Drawing.Point(2, 132);
-            this.label112.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label112.Name = "label112";
-            this.label112.Size = new System.Drawing.Size(17, 13);
-            this.label112.TabIndex = 87;
-            this.label112.Text = "A:";
-            // 
-            // label93
-            // 
-            this.label93.AutoSize = true;
-            this.label93.Location = new System.Drawing.Point(198, 92);
-            this.label93.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label93.Name = "label93";
-            this.label93.Size = new System.Drawing.Size(17, 13);
-            this.label93.TabIndex = 86;
-            this.label93.Text = "B:";
-            // 
-            // label94
-            // 
-            this.label94.AutoSize = true;
-            this.label94.Location = new System.Drawing.Point(136, 92);
-            this.label94.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label94.Name = "label94";
-            this.label94.Size = new System.Drawing.Size(18, 13);
-            this.label94.TabIndex = 85;
-            this.label94.Text = "G:";
-            // 
-            // label95
-            // 
-            this.label95.AutoSize = true;
-            this.label95.Location = new System.Drawing.Point(66, 92);
-            this.label95.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label95.Name = "label95";
-            this.label95.Size = new System.Drawing.Size(18, 13);
-            this.label95.TabIndex = 84;
-            this.label95.Text = "R:";
-            // 
-            // label96
-            // 
-            this.label96.AutoSize = true;
-            this.label96.Location = new System.Drawing.Point(2, 92);
-            this.label96.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label96.Name = "label96";
-            this.label96.Size = new System.Drawing.Size(17, 13);
-            this.label96.TabIndex = 83;
-            this.label96.Text = "A:";
-            // 
-            // CLRDSBNUD
-            // 
-            this.CLRDSBNUD.Location = new System.Drawing.Point(218, 130);
-            this.CLRDSBNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CLRDSBNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CLRDSBNUD.Name = "CLRDSBNUD";
-            this.CLRDSBNUD.Size = new System.Drawing.Size(38, 20);
-            this.CLRDSBNUD.TabIndex = 82;
-            // 
-            // CLRDSGNUD
-            // 
-            this.CLRDSGNUD.Location = new System.Drawing.Point(156, 130);
-            this.CLRDSGNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CLRDSGNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CLRDSGNUD.Name = "CLRDSGNUD";
-            this.CLRDSGNUD.Size = new System.Drawing.Size(38, 20);
-            this.CLRDSGNUD.TabIndex = 80;
-            // 
-            // CLRDSRNUD
-            // 
-            this.CLRDSRNUD.Location = new System.Drawing.Point(86, 130);
-            this.CLRDSRNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CLRDSRNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CLRDSRNUD.Name = "CLRDSRNUD";
-            this.CLRDSRNUD.Size = new System.Drawing.Size(38, 20);
-            this.CLRDSRNUD.TabIndex = 78;
-            // 
-            // CLRDSANUD
-            // 
-            this.CLRDSANUD.Location = new System.Drawing.Point(22, 130);
-            this.CLRDSANUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CLRDSANUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CLRDSANUD.Name = "CLRDSANUD";
-            this.CLRDSANUD.Size = new System.Drawing.Size(38, 20);
-            this.CLRDSANUD.TabIndex = 76;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2, 122);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 8, 2, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(132, 13);
+            this.label1.TabIndex = 137;
+            this.label1.Text = "Water Level Default Color:";
             // 
             // label113
             // 
             this.label113.AutoSize = true;
-            this.label113.Location = new System.Drawing.Point(14, 113);
-            this.label113.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label113.Location = new System.Drawing.Point(3, 93);
+            this.label113.Margin = new System.Windows.Forms.Padding(2, 8, 2, 8);
             this.label113.Name = "label113";
             this.label113.Size = new System.Drawing.Size(138, 13);
             this.label113.TabIndex = 74;
             this.label113.Text = "Collision Solid (LRD) Colour:";
             // 
-            // CTOSBNUD
-            // 
-            this.CTOSBNUD.Location = new System.Drawing.Point(218, 90);
-            this.CTOSBNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CTOSBNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CTOSBNUD.Name = "CTOSBNUD";
-            this.CTOSBNUD.Size = new System.Drawing.Size(38, 20);
-            this.CTOSBNUD.TabIndex = 73;
-            // 
-            // CTOSGNUD
-            // 
-            this.CTOSGNUD.Location = new System.Drawing.Point(156, 90);
-            this.CTOSGNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CTOSGNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CTOSGNUD.Name = "CTOSGNUD";
-            this.CTOSGNUD.Size = new System.Drawing.Size(38, 20);
-            this.CTOSGNUD.TabIndex = 71;
-            // 
-            // CTOSRNUD
-            // 
-            this.CTOSRNUD.Location = new System.Drawing.Point(86, 90);
-            this.CTOSRNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CTOSRNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CTOSRNUD.Name = "CTOSRNUD";
-            this.CTOSRNUD.Size = new System.Drawing.Size(38, 20);
-            this.CTOSRNUD.TabIndex = 69;
-            // 
-            // CTOSANUD
-            // 
-            this.CTOSANUD.Location = new System.Drawing.Point(22, 90);
-            this.CTOSANUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CTOSANUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CTOSANUD.Name = "CTOSANUD";
-            this.CTOSANUD.Size = new System.Drawing.Size(38, 20);
-            this.CTOSANUD.TabIndex = 67;
-            // 
             // label97
             // 
             this.label97.AutoSize = true;
-            this.label97.Location = new System.Drawing.Point(14, 73);
-            this.label97.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label97.Location = new System.Drawing.Point(2, 67);
+            this.label97.Margin = new System.Windows.Forms.Padding(2, 8, 2, 8);
             this.label97.Name = "label97";
             this.label97.Size = new System.Drawing.Size(159, 13);
             this.label97.TabIndex = 65;
             this.label97.Text = "Collision Solid (Top Only) Colour:";
             // 
-            // CASBNUD
-            // 
-            this.CASBNUD.Location = new System.Drawing.Point(218, 53);
-            this.CASBNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CASBNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CASBNUD.Name = "CASBNUD";
-            this.CASBNUD.Size = new System.Drawing.Size(38, 20);
-            this.CASBNUD.TabIndex = 64;
-            // 
-            // label91
-            // 
-            this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(198, 54);
-            this.label91.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(17, 13);
-            this.label91.TabIndex = 63;
-            this.label91.Text = "B:";
-            // 
-            // CASGNUD
-            // 
-            this.CASGNUD.Location = new System.Drawing.Point(156, 53);
-            this.CASGNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CASGNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CASGNUD.Name = "CASGNUD";
-            this.CASGNUD.Size = new System.Drawing.Size(38, 20);
-            this.CASGNUD.TabIndex = 62;
-            // 
-            // label92
-            // 
-            this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(136, 54);
-            this.label92.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(18, 13);
-            this.label92.TabIndex = 61;
-            this.label92.Text = "G:";
-            // 
-            // CASRNUD
-            // 
-            this.CASRNUD.Location = new System.Drawing.Point(86, 53);
-            this.CASRNUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CASRNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CASRNUD.Name = "CASRNUD";
-            this.CASRNUD.Size = new System.Drawing.Size(38, 20);
-            this.CASRNUD.TabIndex = 60;
-            // 
-            // label90
-            // 
-            this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(66, 54);
-            this.label90.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label90.Name = "label90";
-            this.label90.Size = new System.Drawing.Size(18, 13);
-            this.label90.TabIndex = 59;
-            this.label90.Text = "R:";
-            // 
-            // CASANUD
-            // 
-            this.CASANUD.Location = new System.Drawing.Point(22, 53);
-            this.CASANUD.Margin = new System.Windows.Forms.Padding(2);
-            this.CASANUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CASANUD.Name = "CASANUD";
-            this.CASANUD.Size = new System.Drawing.Size(38, 20);
-            this.CASANUD.TabIndex = 58;
-            // 
-            // label89
-            // 
-            this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(2, 54);
-            this.label89.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label89.Name = "label89";
-            this.label89.Size = new System.Drawing.Size(17, 13);
-            this.label89.TabIndex = 57;
-            this.label89.Text = "A:";
-            // 
             // label88
             // 
             this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(14, 36);
-            this.label88.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label88.Location = new System.Drawing.Point(2, 38);
+            this.label88.Margin = new System.Windows.Forms.Padding(2, 8, 2, 8);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(127, 13);
             this.label88.TabIndex = 56;
@@ -950,17 +652,20 @@
             this.label87.BackColor = System.Drawing.Color.Transparent;
             this.label87.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label87.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label87.Location = new System.Drawing.Point(6, 8);
+            this.label87.Location = new System.Drawing.Point(-1, 8);
             this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(282, 13);
+            this.label87.Size = new System.Drawing.Size(284, 13);
             this.label87.TabIndex = 55;
-            this.label87.Text = "Custom Collision Viewer Colours:";
+            this.label87.Text = "Custom Colors:";
             this.label87.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel16
             // 
             this.panel16.BackColor = System.Drawing.Color.Transparent;
             this.panel16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel16.Controls.Add(this.checkBox47);
+            this.panel16.Controls.Add(this.checkBox46);
+            this.panel16.Controls.Add(this.checkBox44);
             this.panel16.Controls.Add(this.checkBox43);
             this.panel16.Controls.Add(this.checkBox40);
             this.panel16.Controls.Add(this.checkBox39);
@@ -1139,6 +844,18 @@
             this.x128checkbox.UseVisualStyleBackColor = false;
             this.x128checkbox.CheckedChanged += new System.EventHandler(this.X128checkbox_CheckedChanged);
             // 
+            // label114
+            // 
+            this.label114.BackColor = System.Drawing.Color.Transparent;
+            this.label114.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label114.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label114.Location = new System.Drawing.Point(5, 298);
+            this.label114.Name = "label114";
+            this.label114.Size = new System.Drawing.Size(156, 13);
+            this.label114.TabIndex = 120;
+            this.label114.Text = "Default Annimations";
+            this.label114.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // gridSizeDown
             // 
             this.gridSizeDown.Location = new System.Drawing.Point(37, 426);
@@ -1148,6 +865,18 @@
             this.gridSizeDown.Text = "<";
             this.gridSizeDown.UseVisualStyleBackColor = true;
             this.gridSizeDown.Click += new System.EventHandler(this.gridSizeDown_Click);
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label10.Location = new System.Drawing.Point(8, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(157, 13);
+            this.label10.TabIndex = 67;
+            this.label10.Text = "Entity Visibility Defaults:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gridSizeDownMore
             // 
@@ -1169,6 +898,18 @@
             this.gridSizeUp.UseVisualStyleBackColor = true;
             this.gridSizeUp.Click += new System.EventHandler(this.gridSizeUp_Click);
             // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label9.Location = new System.Drawing.Point(4, 138);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(157, 13);
+            this.label9.TabIndex = 49;
+            this.label9.Text = "Default Visible Layers:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // gridSizeUpMore
             // 
             this.gridSizeUpMore.Location = new System.Drawing.Point(130, 426);
@@ -1189,6 +930,18 @@
             this.gridSizeValueLabel.Text = "0";
             this.gridSizeValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label16
+            // 
+            this.label16.BackColor = System.Drawing.Color.Transparent;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label16.Location = new System.Drawing.Point(1, 365);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(162, 13);
+            this.label16.TabIndex = 95;
+            this.label16.Text = "Faster Nudge Amount:";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // label21
             // 
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1198,6 +951,16 @@
             this.label21.TabIndex = 103;
             this.label21.Text = "0";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nudgeValueUpMoreButton
+            // 
+            this.nudgeValueUpMoreButton.Location = new System.Drawing.Point(130, 384);
+            this.nudgeValueUpMoreButton.Name = "nudgeValueUpMoreButton";
+            this.nudgeValueUpMoreButton.Size = new System.Drawing.Size(28, 23);
+            this.nudgeValueUpMoreButton.TabIndex = 99;
+            this.nudgeValueUpMoreButton.Text = ">>";
+            this.nudgeValueUpMoreButton.UseVisualStyleBackColor = true;
+            this.nudgeValueUpMoreButton.Click += new System.EventHandler(this.nudgeValueUpMoreButton_Click);
             // 
             // label32
             // 
@@ -1210,6 +973,16 @@
             this.label32.TabIndex = 95;
             this.label32.Text = "Custom Grid Size";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nudgeValueUpButton
+            // 
+            this.nudgeValueUpButton.Location = new System.Drawing.Point(104, 384);
+            this.nudgeValueUpButton.Name = "nudgeValueUpButton";
+            this.nudgeValueUpButton.Size = new System.Drawing.Size(23, 23);
+            this.nudgeValueUpButton.TabIndex = 100;
+            this.nudgeValueUpButton.Text = ">";
+            this.nudgeValueUpButton.UseVisualStyleBackColor = true;
+            this.nudgeValueUpButton.Click += new System.EventHandler(this.nudgeValueUpButton_Click);
             // 
             // nudgeValueDownButton
             // 
@@ -1230,62 +1003,6 @@
             this.nudgeValueDownMoreButton.Text = "<<";
             this.nudgeValueDownMoreButton.UseVisualStyleBackColor = true;
             this.nudgeValueDownMoreButton.Click += new System.EventHandler(this.nudgeValueDownMoreButton_Click);
-            // 
-            // nudgeValueUpButton
-            // 
-            this.nudgeValueUpButton.Location = new System.Drawing.Point(104, 384);
-            this.nudgeValueUpButton.Name = "nudgeValueUpButton";
-            this.nudgeValueUpButton.Size = new System.Drawing.Size(23, 23);
-            this.nudgeValueUpButton.TabIndex = 100;
-            this.nudgeValueUpButton.Text = ">";
-            this.nudgeValueUpButton.UseVisualStyleBackColor = true;
-            this.nudgeValueUpButton.Click += new System.EventHandler(this.nudgeValueUpButton_Click);
-            // 
-            // nudgeValueUpMoreButton
-            // 
-            this.nudgeValueUpMoreButton.Location = new System.Drawing.Point(130, 384);
-            this.nudgeValueUpMoreButton.Name = "nudgeValueUpMoreButton";
-            this.nudgeValueUpMoreButton.Size = new System.Drawing.Size(28, 23);
-            this.nudgeValueUpMoreButton.TabIndex = 99;
-            this.nudgeValueUpMoreButton.Text = ">>";
-            this.nudgeValueUpMoreButton.UseVisualStyleBackColor = true;
-            this.nudgeValueUpMoreButton.Click += new System.EventHandler(this.nudgeValueUpMoreButton_Click);
-            // 
-            // label16
-            // 
-            this.label16.BackColor = System.Drawing.Color.Transparent;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1, 365);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(162, 13);
-            this.label16.TabIndex = 95;
-            this.label16.Text = "Faster Nudge Amount:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label10
-            // 
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label10.Location = new System.Drawing.Point(8, 8);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(157, 13);
-            this.label10.TabIndex = 67;
-            this.label10.Text = "Entity Visibility Defaults:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label9
-            // 
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label9.Location = new System.Drawing.Point(4, 138);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(157, 13);
-            this.label9.TabIndex = 49;
-            this.label9.Text = "Default Visible Layers:";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel6
             // 
@@ -1308,6 +1025,38 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(176, 532);
             this.panel6.TabIndex = 95;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.tileToolbarZoomDefault);
+            this.groupBox6.Location = new System.Drawing.Point(8, 298);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(157, 69);
+            this.groupBox6.TabIndex = 121;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Tile Toolbar Default Zoom";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.SceneSelectRadio2);
+            this.groupBox5.Controls.Add(this.SceneSelectRadio1);
+            this.groupBox5.Location = new System.Drawing.Point(7, 427);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(159, 64);
+            this.groupBox5.TabIndex = 120;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Scene Select Default View:";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.radioButtonY);
+            this.groupBox4.Controls.Add(this.radioButtonX);
+            this.groupBox4.Location = new System.Drawing.Point(6, 373);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(159, 44);
+            this.groupBox4.TabIndex = 119;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Scroll Lock Default Setting";
             // 
             // label2
             // 
@@ -3143,6 +2892,7 @@
             // panel13
             // 
             this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel13.Controls.Add(this.checkBox45);
             this.panel13.Controls.Add(this.checkBox31);
             this.panel13.Controls.Add(this.checkBox26);
             this.panel13.Controls.Add(this.checkBox12);
@@ -3150,9 +2900,9 @@
             this.panel13.Controls.Add(this.checkBox35);
             this.panel13.Controls.Add(this.checkBox30);
             this.panel13.Controls.Add(this.checkBox1);
-            this.panel13.Location = new System.Drawing.Point(464, 6);
+            this.panel13.Location = new System.Drawing.Point(205, 6);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(184, 342);
+            this.panel13.Size = new System.Drawing.Size(182, 522);
             this.panel13.TabIndex = 108;
             // 
             // label55
@@ -3266,18 +3016,6 @@
             this.label31.TabIndex = 55;
             this.label31.Text = "Varrious Settings:";
             this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label114
-            // 
-            this.label114.BackColor = System.Drawing.Color.Transparent;
-            this.label114.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label114.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label114.Location = new System.Drawing.Point(5, 298);
-            this.label114.Name = "label114";
-            this.label114.Size = new System.Drawing.Size(156, 13);
-            this.label114.TabIndex = 120;
-            this.label114.Text = "Default Annimations";
-            this.label114.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // checkBox27
             // 
@@ -3472,6 +3210,102 @@
             this.layerHide.Text = "Keep Main Layers on when Editing Extra Layers";
             this.layerHide.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.layerHide.UseVisualStyleBackColor = false;
+            // 
+            // button22
+            // 
+            this.button22.BackColor = global::ManiacEditor.Properties.Settings.Default.GridColorDefault;
+            this.button22.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "GridColorDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button22.Location = new System.Drawing.Point(167, 146);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(23, 23);
+            this.button22.TabIndex = 143;
+            this.button22.UseVisualStyleBackColor = false;
+            this.button22.Click += new System.EventHandler(this.comboBox8_DropDown);
+            // 
+            // button21
+            // 
+            this.button21.BackColor = global::ManiacEditor.Properties.Settings.Default.WaterColorDefault;
+            this.button21.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "WaterColorDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button21.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button21.Location = new System.Drawing.Point(167, 117);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(23, 23);
+            this.button21.TabIndex = 142;
+            this.button21.UseVisualStyleBackColor = false;
+            this.button21.Click += new System.EventHandler(this.comboBox7_DropDown);
+            // 
+            // button20
+            // 
+            this.button20.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionLRDColour;
+            this.button20.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionLRDColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button20.Location = new System.Drawing.Point(167, 88);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(23, 23);
+            this.button20.TabIndex = 141;
+            this.button20.UseVisualStyleBackColor = false;
+            this.button20.Click += new System.EventHandler(this.comboBox5_DropDown);
+            // 
+            // button12
+            // 
+            this.button12.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionTOColour;
+            this.button12.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionTOColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button12.Location = new System.Drawing.Point(167, 59);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(23, 23);
+            this.button12.TabIndex = 140;
+            this.button12.UseVisualStyleBackColor = false;
+            this.button12.Click += new System.EventHandler(this.comboBox6_DropDown);
+            // 
+            // button9
+            // 
+            this.button9.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionSAColour;
+            this.button9.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionSAColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button9.Location = new System.Drawing.Point(167, 30);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(23, 23);
+            this.button9.TabIndex = 139;
+            this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.comboBox4_DropDown);
+            // 
+            // checkBox47
+            // 
+            this.checkBox47.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox47.Checked = global::ManiacEditor.Properties.Settings.Default.SizeWaterLevelWithBoundsDefault;
+            this.checkBox47.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SizeWaterLevelWithBoundsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox47.Location = new System.Drawing.Point(178, 102);
+            this.checkBox47.Name = "checkBox47";
+            this.checkBox47.Size = new System.Drawing.Size(101, 55);
+            this.checkBox47.TabIndex = 128;
+            this.checkBox47.Text = "Size with Bounds when Not Selected";
+            this.checkBox47.UseVisualStyleBackColor = false;
+            // 
+            // checkBox46
+            // 
+            this.checkBox46.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox46.Checked = global::ManiacEditor.Properties.Settings.Default.AlwaysShowWaterLevelDefault;
+            this.checkBox46.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AlwaysShowWaterLevelDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox46.Location = new System.Drawing.Point(178, 63);
+            this.checkBox46.Name = "checkBox46";
+            this.checkBox46.Size = new System.Drawing.Size(101, 40);
+            this.checkBox46.TabIndex = 127;
+            this.checkBox46.Text = "Always Show Water Level";
+            this.checkBox46.UseVisualStyleBackColor = false;
+            // 
+            // checkBox44
+            // 
+            this.checkBox44.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox44.Checked = global::ManiacEditor.Properties.Settings.Default.showWaterLevelDefault;
+            this.checkBox44.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showWaterLevelDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox44.Location = new System.Drawing.Point(161, 40);
+            this.checkBox44.Name = "checkBox44";
+            this.checkBox44.Size = new System.Drawing.Size(118, 32);
+            this.checkBox44.TabIndex = 126;
+            this.checkBox44.Text = "Show Water Level";
+            this.checkBox44.UseVisualStyleBackColor = false;
             // 
             // checkBox43
             // 
@@ -3715,15 +3549,18 @@
             this.tileToolbarZoomDefault.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tileToolbarZoomDefault.Value = global::ManiacEditor.Properties.Settings.Default.tileToolbarDefaultZoomLevel;
             // 
-            // highLayerTextbox
+            // SceneSelectRadio2
             // 
-            this.highLayerTextbox.BackColor = System.Drawing.SystemColors.Window;
-            this.highLayerTextbox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "CustomLayerHigh", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.highLayerTextbox.Location = new System.Drawing.Point(8, 208);
-            this.highLayerTextbox.Name = "highLayerTextbox";
-            this.highLayerTextbox.Size = new System.Drawing.Size(157, 20);
-            this.highLayerTextbox.TabIndex = 41;
-            this.highLayerTextbox.Text = global::ManiacEditor.Properties.Settings.Default.CustomLayerHigh;
+            this.SceneSelectRadio2.BackColor = System.Drawing.Color.Transparent;
+            this.SceneSelectRadio2.Checked = global::ManiacEditor.Properties.Settings.Default.SceneSelectRadioButton2On;
+            this.SceneSelectRadio2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SceneSelectRadioButton2On", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.SceneSelectRadio2.Location = new System.Drawing.Point(11, 38);
+            this.SceneSelectRadio2.Name = "SceneSelectRadio2";
+            this.SceneSelectRadio2.Size = new System.Drawing.Size(88, 17);
+            this.SceneSelectRadio2.TabIndex = 60;
+            this.SceneSelectRadio2.Text = "Files View";
+            this.SceneSelectRadio2.UseVisualStyleBackColor = false;
+            this.SceneSelectRadio2.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // SceneSelectRadio1
             // 
@@ -3739,18 +3576,44 @@
             this.SceneSelectRadio1.UseVisualStyleBackColor = false;
             this.SceneSelectRadio1.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // SceneSelectRadio2
+            // radioButtonY
             // 
-            this.SceneSelectRadio2.BackColor = System.Drawing.Color.Transparent;
-            this.SceneSelectRadio2.Checked = global::ManiacEditor.Properties.Settings.Default.SceneSelectRadioButton2On;
-            this.SceneSelectRadio2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SceneSelectRadioButton2On", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.SceneSelectRadio2.Location = new System.Drawing.Point(11, 38);
-            this.SceneSelectRadio2.Name = "SceneSelectRadio2";
-            this.SceneSelectRadio2.Size = new System.Drawing.Size(88, 17);
-            this.SceneSelectRadio2.TabIndex = 60;
-            this.SceneSelectRadio2.Text = "Files View";
-            this.SceneSelectRadio2.UseVisualStyleBackColor = false;
-            this.SceneSelectRadio2.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.radioButtonY.AutoSize = true;
+            this.radioButtonY.BackColor = System.Drawing.Color.Transparent;
+            this.radioButtonY.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockY;
+            this.radioButtonY.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButtonY.Location = new System.Drawing.Point(49, 19);
+            this.radioButtonY.Name = "radioButtonY";
+            this.radioButtonY.Size = new System.Drawing.Size(32, 17);
+            this.radioButtonY.TabIndex = 91;
+            this.radioButtonY.Text = "Y";
+            this.radioButtonY.UseVisualStyleBackColor = false;
+            this.radioButtonY.CheckedChanged += new System.EventHandler(this.radioButtonY_CheckedChanged_1);
+            // 
+            // radioButtonX
+            // 
+            this.radioButtonX.AutoSize = true;
+            this.radioButtonX.BackColor = System.Drawing.Color.Transparent;
+            this.radioButtonX.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockX;
+            this.radioButtonX.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButtonX.Location = new System.Drawing.Point(11, 19);
+            this.radioButtonX.Name = "radioButtonX";
+            this.radioButtonX.Size = new System.Drawing.Size(32, 17);
+            this.radioButtonX.TabIndex = 92;
+            this.radioButtonX.TabStop = true;
+            this.radioButtonX.Text = "X";
+            this.radioButtonX.UseVisualStyleBackColor = false;
+            this.radioButtonX.CheckedChanged += new System.EventHandler(this.radioButtonX_CheckedChanged_1);
+            // 
+            // highLayerTextbox
+            // 
+            this.highLayerTextbox.BackColor = System.Drawing.SystemColors.Window;
+            this.highLayerTextbox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "CustomLayerHigh", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.highLayerTextbox.Location = new System.Drawing.Point(8, 208);
+            this.highLayerTextbox.Name = "highLayerTextbox";
+            this.highLayerTextbox.Size = new System.Drawing.Size(157, 20);
+            this.highLayerTextbox.TabIndex = 41;
+            this.highLayerTextbox.Text = global::ManiacEditor.Properties.Settings.Default.CustomLayerHigh;
             // 
             // lowLayerTextbox
             // 
@@ -3812,34 +3675,21 @@
             this.unkown2Default.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.unkown2Default.UseVisualStyleBackColor = false;
             // 
-            // radioButtonY
+            // checkBox45
             // 
-            this.radioButtonY.AutoSize = true;
-            this.radioButtonY.BackColor = System.Drawing.Color.Transparent;
-            this.radioButtonY.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockY;
-            this.radioButtonY.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButtonY.Location = new System.Drawing.Point(49, 19);
-            this.radioButtonY.Name = "radioButtonY";
-            this.radioButtonY.Size = new System.Drawing.Size(32, 17);
-            this.radioButtonY.TabIndex = 91;
-            this.radioButtonY.Text = "Y";
-            this.radioButtonY.UseVisualStyleBackColor = false;
-            this.radioButtonY.CheckedChanged += new System.EventHandler(this.radioButtonY_CheckedChanged_1);
-            // 
-            // radioButtonX
-            // 
-            this.radioButtonX.AutoSize = true;
-            this.radioButtonX.BackColor = System.Drawing.Color.Transparent;
-            this.radioButtonX.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockX;
-            this.radioButtonX.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButtonX.Location = new System.Drawing.Point(11, 19);
-            this.radioButtonX.Name = "radioButtonX";
-            this.radioButtonX.Size = new System.Drawing.Size(32, 17);
-            this.radioButtonX.TabIndex = 92;
-            this.radioButtonX.TabStop = true;
-            this.radioButtonX.Text = "X";
-            this.radioButtonX.UseVisualStyleBackColor = false;
-            this.radioButtonX.CheckedChanged += new System.EventHandler(this.radioButtonX_CheckedChanged_1);
+            this.checkBox45.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox45.Checked = global::ManiacEditor.Properties.Settings.Default.SimplifiedWaterLevelRendering;
+            this.checkBox45.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox45.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SimplifiedWaterLevelRendering", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox45.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox45.Location = new System.Drawing.Point(5, 339);
+            this.checkBox45.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox45.Name = "checkBox45";
+            this.checkBox45.Size = new System.Drawing.Size(171, 59);
+            this.checkBox45.TabIndex = 105;
+            this.checkBox45.Text = "Simplified Water Level Rendering \r\n(Perferable for Performance Reasons)";
+            this.checkBox45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox45.UseVisualStyleBackColor = false;
             // 
             // checkBox31
             // 
@@ -4168,38 +4018,6 @@
             this.RPCCheckBox.UseVisualStyleBackColor = false;
             this.RPCCheckBox.CheckedChanged += new System.EventHandler(this.RPCCheckBox_CheckedChanged);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.radioButtonY);
-            this.groupBox4.Controls.Add(this.radioButtonX);
-            this.groupBox4.Location = new System.Drawing.Point(6, 373);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(159, 44);
-            this.groupBox4.TabIndex = 119;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Scroll Lock Default Setting";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.SceneSelectRadio2);
-            this.groupBox5.Controls.Add(this.SceneSelectRadio1);
-            this.groupBox5.Location = new System.Drawing.Point(7, 427);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(159, 64);
-            this.groupBox5.TabIndex = 120;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Scene Select Default View:";
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.tileToolbarZoomDefault);
-            this.groupBox6.Location = new System.Drawing.Point(8, 298);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(157, 69);
-            this.groupBox6.TabIndex = 121;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Tile Toolbar Default Zoom";
-            // 
             // OptionBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4223,18 +4041,6 @@
             this.tabPage2.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel17.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSBNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSGNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSRNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CLRDSANUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSBNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSGNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSRNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTOSANUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASBNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASGNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASRNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CASANUD)).EndInit();
             this.panel16.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -4242,6 +4048,11 @@
             this.groupBox1.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -4266,11 +4077,6 @@
             this.panel12.ResumeLayout(false);
             this.panel14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tileToolbarZoomDefault)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -4555,32 +4361,8 @@
         private System.Windows.Forms.CheckBox checkBox36;
         private System.Windows.Forms.Label label86;
         private System.Windows.Forms.Panel panel17;
-        private System.Windows.Forms.Label label98;
-        private System.Windows.Forms.Label label110;
-        private System.Windows.Forms.Label label111;
-        private System.Windows.Forms.Label label112;
-        private System.Windows.Forms.Label label93;
-        private System.Windows.Forms.Label label94;
-        private System.Windows.Forms.Label label95;
-        private System.Windows.Forms.Label label96;
-        private System.Windows.Forms.NumericUpDown CLRDSBNUD;
-        private System.Windows.Forms.NumericUpDown CLRDSGNUD;
-        private System.Windows.Forms.NumericUpDown CLRDSRNUD;
-        private System.Windows.Forms.NumericUpDown CLRDSANUD;
         private System.Windows.Forms.Label label113;
-        private System.Windows.Forms.NumericUpDown CTOSBNUD;
-        private System.Windows.Forms.NumericUpDown CTOSGNUD;
-        private System.Windows.Forms.NumericUpDown CTOSRNUD;
-        private System.Windows.Forms.NumericUpDown CTOSANUD;
         private System.Windows.Forms.Label label97;
-        private System.Windows.Forms.NumericUpDown CASBNUD;
-        private System.Windows.Forms.Label label91;
-        private System.Windows.Forms.NumericUpDown CASGNUD;
-        private System.Windows.Forms.Label label92;
-        private System.Windows.Forms.NumericUpDown CASRNUD;
-        private System.Windows.Forms.Label label90;
-        private System.Windows.Forms.NumericUpDown CASANUD;
-        private System.Windows.Forms.Label label89;
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.Label label87;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -4597,5 +4379,16 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox checkBox44;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.CheckBox checkBox45;
+        private System.Windows.Forms.CheckBox checkBox47;
+        private System.Windows.Forms.CheckBox checkBox46;
     }
 }

@@ -15,7 +15,7 @@ namespace ManiacEditor
 
         public EditorLayer LowDetails
         {
-            get => _editorLayers.LastOrDefault(el => el.Name.Equals(Properties.Settings.Default.CustomLayerLow) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(Editor.Instance.INILayerNameLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
         }
         public EditorLayer ForegroundLow
         {
@@ -35,8 +35,10 @@ namespace ManiacEditor
 
         public EditorLayer HighDetails
         {
-            get => _editorLayers.LastOrDefault(el => el.Name.Equals(Properties.Settings.Default.CustomLayerHigh) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(Editor.Instance.INILayerNameHigher) || el.Name.Equals(Properties.Settings.Default.CustomLayerHigh) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
         }
+
+        
         public EditorLayer ForegroundHigh
         {
             get => _editorLayers.LastOrDefault(el => el.Name.Equals("FG High") || el.Name.Equals("Ring Count"));

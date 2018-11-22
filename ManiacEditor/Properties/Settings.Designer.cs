@@ -1403,5 +1403,77 @@ namespace ManiacEditor.Properties {
                 this["DevForceRestartZoomLevel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showWaterLevelDefault {
+            get {
+                return ((bool)(this["showWaterLevelDefault"]));
+            }
+            set {
+                this["showWaterLevelDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
+        public global::System.Drawing.Color WaterColorDefault {
+            get {
+                return ((global::System.Drawing.Color)(this["WaterColorDefault"]));
+            }
+            set {
+                this["WaterColorDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color GridColorDefault {
+            get {
+                return ((global::System.Drawing.Color)(this["GridColorDefault"]));
+            }
+            set {
+                this["GridColorDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SimplifiedWaterLevelRendering {
+            get {
+                return ((bool)(this["SimplifiedWaterLevelRendering"]));
+            }
+            set {
+                this["SimplifiedWaterLevelRendering"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlwaysShowWaterLevelDefault {
+            get {
+                return ((bool)(this["AlwaysShowWaterLevelDefault"]));
+            }
+            set {
+                this["AlwaysShowWaterLevelDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SizeWaterLevelWithBoundsDefault {
+            get {
+                return ((bool)(this["SizeWaterLevelWithBoundsDefault"]));
+            }
+            set {
+                this["SizeWaterLevelWithBoundsDefault"] = value;
+            }
+        }
     }
 }
