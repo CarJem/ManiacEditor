@@ -353,5 +353,11 @@
     <Setting Name="SizeWaterLevelWithBoundsDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="EditorGeneralConfigMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"Basic"</Value>
+    </Setting>
+    <Setting Name="ShowFirstTimeSetup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

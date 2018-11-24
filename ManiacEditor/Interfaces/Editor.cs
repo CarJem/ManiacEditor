@@ -28,6 +28,7 @@ using System.Xml;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cyotek.Windows.Forms;
+using System.Linq.Expressions;
 
 namespace ManiacEditor
 {
@@ -68,6 +69,7 @@ namespace ManiacEditor
         public bool showWaterLevel = false; //Determines if the Water Object should show it's Water Level.
         public bool alwaysShowWaterLevel = false; //Determines if the Water Level Should be Shown at all times regardless of the object being selected
         public bool sizeWaterLevelwithBounds = false; //Determines if the water level width should match those of the object's bounds
+        public bool editEntitiesDisplayAboveAll = true; //Determines if when Editing Entities if Entities Should be above all Layers.
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -495,6 +497,11 @@ namespace ManiacEditor
             collisionPreset = mySettings.CollisionColorsDefault;
             RefreshCollisionColours();
 
+            if (editEntitiesDisplayAboveAll)
+            {
+                showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked = true;
+            }
+
         }
         void SetINIDefaultPrefrences()
         {
@@ -784,6 +791,8 @@ namespace ManiacEditor
             editBackgroundColorsToolStripMenuItem.Enabled = enabled;
             preRenderSceneToolStripMenuItem.Enabled = enabled;
 
+            editEntitiesOptionToolStrip.Enabled = enabled;
+
             openDataDirectoryFolderToolStripMenuItem.Enabled = enabled;
             openSonicManiaFolderToolStripMenuItem.Enabled = enabled;
             openSceneFolderToolStripMenuItem.Enabled = enabled;
@@ -817,6 +826,8 @@ namespace ManiacEditor
             MagnetMode.Checked = UseMagnetMode && IsEntitiesEdit();
             MagnetModeSplitButton.Enabled = enabled && IsEntitiesEdit();
             UseMagnetMode = IsEntitiesEdit() && MagnetMode.Checked;
+
+            
 
             undoButton.Enabled = enabled && undo.Count > 0;
             redoButton.Enabled = enabled && redo.Count > 0;
@@ -3324,6 +3335,19 @@ Error: {ex.Message}");
         #endregion
 
         #region View Tab Buttons
+
+        private void showEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked)
+            {
+                editEntitiesDisplayAboveAll = true;
+            }
+            else
+            {
+                editEntitiesDisplayAboveAll = false;
+            }
+        }
+
         private void showEntitySelectionBoxesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (myEditorState.ShowEntitySelectionBoxes)
@@ -4044,24 +4068,34 @@ Error: {ex.Message}");
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
 
-                if (ShowEntities.Checked && !EditEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 1
+                if (ShowEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 1
                 {
-                    entities.DrawPriority(GraphicPanel, 0);
-                    entities.DrawPriority(GraphicPanel, 1);
+                    if (!EditEntities.Checked || !editEntitiesDisplayAboveAll)
+                    {
+                        entities.DrawPriority(GraphicPanel, 0);
+                        entities.DrawPriority(GraphicPanel, 1);
+                    }
+
                 }
 
-                if (ShowEntities.Checked && !EditEntities.Checked && !mySettings.PrioritizedObjectRendering)
+                if (ShowEntities.Checked && !mySettings.PrioritizedObjectRendering)
                 {
-                    entities.Draw(GraphicPanel);
+                    if (!EditEntities.Checked || !editEntitiesDisplayAboveAll)
+                    {
+                        entities.Draw(GraphicPanel);
+                    }
                 }
 
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
-                if (ShowEntities.Checked && !EditEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 2
+                if (ShowEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 2
                 {
-                    entities.DrawPriority(GraphicPanel, 2);
-                    entities.DrawPriority(GraphicPanel, 3);
+                    if (!EditEntities.Checked || !editEntitiesDisplayAboveAll)
+                    {
+                        entities.DrawPriority(GraphicPanel, 2);
+                        entities.DrawPriority(GraphicPanel, 3);
+                    }
                 }
 
                 if (ShowFGHigher.Checked || EditFGHigher.Checked)
@@ -4076,7 +4110,7 @@ Error: {ex.Message}");
                     }
                 }
 
-                if (EditEntities.Checked)
+                if (EditEntities.Checked && editEntitiesDisplayAboveAll)
                     entities.Draw(GraphicPanel);
 
             }
@@ -4124,6 +4158,8 @@ Error: {ex.Message}");
             }
             if (showGrid)
                 Background.DrawGrid(GraphicPanel);
+
+            //Background.DrawSnow(GraphicPanel);
         }
 
         public void Form1_Load(object sender, EventArgs e)
@@ -5295,6 +5331,7 @@ Error: {ex.Message}");
 
         public void preLoadSceneButton_Click(object sender, EventArgs e)
         {
+            preLoadSceneButton.Enabled = false;
             isPreRending = true;
             PreLoadBox preLoadForm = new PreLoadBox();
             preLoadForm.TopLevel = false;
@@ -5344,8 +5381,6 @@ Error: {ex.Message}");
                 }
                 Application.DoEvents();
                 //preLoadForm.SetProgressBarStatus(progressValueX, progressValueY);
-
-
             }
             hScrollBar1.Value = 0;
             vScrollBar1.Value = 0;
@@ -5359,7 +5394,7 @@ Error: {ex.Message}");
             System.IO.Stream str = Properties.Resources.ScoreTotal;
             System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
             snd.Play();
-
+            preLoadSceneButton.Enabled = true;
         }
 
         private void developerTerminalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5501,6 +5536,12 @@ Error: {ex.Message}");
         private void wikiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
+        }
+
+        //TO-MOVE
+        private void editEntitiesOptionToolStrip_DropDownOpening(object sender, EventArgs e)
+        {
+
         }
 
 
@@ -5717,6 +5758,11 @@ Error: {ex.Message}");
             int yPos = (int)(y / Zoom);
             hScrollBar1.Value = xPos;
             vScrollBar1.Value = yPos;
+        }
+
+        public void LetItSnow()
+        {
+
         }
 
         #endregion

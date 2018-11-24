@@ -10,6 +10,9 @@ namespace ManiacEditor
 {
     public class EditorEntities : IDrawable
     {
+        protected const int NAME_BOX_WIDTH = 20;
+        protected const int NAME_BOX_HEIGHT = 20;
+
         public static bool FilterRefreshNeeded = false;
         public static int DefaultFilter = -1;
 
@@ -286,26 +289,52 @@ namespace ManiacEditor
 
         public void Draw(Graphics g)
         {
-            foreach (var entity in entities)
-                entity.Draw(g);
+
         }
 
         public void Draw(DevicePanel d)
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
-            foreach (var entity in entities)
-                entity.Draw(d,entities,entity);
+            if (Properties.Settings.Default.DisableRenderExlusions)
+            {
+                foreach (var entity in entities)
+                {
+                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
+                    else if (Editor.Instance.renderOnScreenExlusions.Contains(entity.Name)) entity.Draw(d, entities, entity);
+                }
+            }
+            else
+            {
+                foreach (var entity in entities)
+                {
+                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
+                }
+            }
+
+
         }
 
         public void DrawPriority(DevicePanel d, int prority)
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
-            foreach (var entity in entities)
+            if (!Properties.Settings.Default.DisableRenderExlusions)
             {
-                entity.layerPriority = prority;
-                entity.Draw(d);
+                foreach (var entity in entities)
+                {
+                    entity.layerPriority = prority;
+                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
+                    else if (Editor.Instance.renderOnScreenExlusions.Contains(entity.Name)) entity.Draw(d, entities, entity);
+                }
+            }
+            else
+            {
+                foreach (var entity in entities)
+                {
+                    entity.layerPriority = prority;
+                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
+                }
             }
 
         }

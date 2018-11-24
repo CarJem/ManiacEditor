@@ -90,9 +90,16 @@ namespace ManiacEditor
         public int layerPriority = 0;
         public SceneEntity Entity { get { return entity; } }
 
+        public int PositionX = 0;
+        public int PositionY = 0;
+        public string Name = "";
+
         public EditorEntity(SceneEntity entity)
         {
             this.entity = entity;
+            PositionX = entity.Position.X.High;
+            PositionY = entity.Position.Y.High;
+            Name = entity.Object.Name.Name;
             lastFrametime = DateTime.Now;
             EditorAnimations = new EditorAnimations();
 
@@ -154,7 +161,7 @@ namespace ManiacEditor
             return new Rectangle(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT);
         }
 
-        public Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, int rotateImg = 0)
+        public Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0)
         {
             Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
 
@@ -169,7 +176,7 @@ namespace ManiacEditor
 
             if (rotateImg != 0)
             {
-                bmp2 = RotateImage(bmp2, rotateImg);
+                bmp2 = RotateImage(bmp2, rotateImg, colour);
 
             }
 
@@ -184,11 +191,12 @@ namespace ManiacEditor
             return bmp;
         }
 
-        public Bitmap RotateImage(Bitmap img, double rotationAngle)
+        public Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
         {
             // I don't know who though it was a good idea to disable this, but it is essential for rotating textures
             if (!rotateImageLegacyMode)
             {
+                img.MakeTransparent(colour);
 
                 MagickImage image = new MagickImage(img);
 
@@ -196,9 +204,12 @@ namespace ManiacEditor
 
                 image.Rotate(rotationAngle);
 
+
                 image.RePage();
 
                 Bitmap bmp = image.ToBitmap();
+
+                bmp.MakeTransparent(SystemColor.White);
 
                 return bmp;
             }
@@ -545,9 +556,10 @@ namespace ManiacEditor
                 // We are storing the first colour from the palette so we can use it to make sprites transparent
                 var colour = map.Palette.Entries[0];
                 // Slow
+
                 if (!rotateImageLegacyMode)
                 {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, rotateImg);
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg);
                     if (rotateImg != 0)
                     {
                         if (frame.Width > frame.Height)
@@ -562,17 +574,16 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv);
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour);
                     if (rotateImg != 0)
                     {
-                        map = RotateImage(map, rotateImg);
+                        map = RotateImage(map, rotateImg, colour);
                         frame.Height = frame.Width + frame.Height + 64;
-                        frame.Width = frame.Height + frame.Width + 32;
+                        frame.Width = frame.Height + frame.Width + 32;                        
                     }
                 }
-
-
                 RemoveColourImage(map, colour, frame.Width, frame.Height);
+
 
                 Texture texture = null;
                 if (loadImageToDX)
@@ -855,13 +866,16 @@ namespace ManiacEditor
                 onScreenExlusionList = new List<string>();
             }
 
-            if (filteredOut) return;
+            if (filteredOut && !Editor.isPreRending) return;
 
 
             if (Properties.Settings.Default.AlwaysRenderObjects == false && !onScreenExlusionList.Contains(entity.Object.Name.Name))
             {
                 //This causes some objects not to load ever, which is problamatic, so I made a toggle(and a list as of recently). It can also have some performance benifits
-                if (!d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) return;
+                if (!Editor.isPreRending)
+                {
+                    if (!d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) return;
+                }
             }
             System.Drawing.Color color = Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             System.Drawing.Color color2 = System.Drawing.Color.DarkBlue;
@@ -1211,7 +1225,6 @@ namespace ManiacEditor
                 if (renderer != null)
                     renderer.Draw(d, entity, this, x, y, Transparency);
             }
-
 
         }
 

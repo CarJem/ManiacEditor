@@ -1475,5 +1475,29 @@ namespace ManiacEditor.Properties {
                 this["SizeWaterLevelWithBoundsDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"Basic\"")]
+        public string EditorGeneralConfigMode {
+            get {
+                return ((string)(this["EditorGeneralConfigMode"]));
+            }
+            set {
+                this["EditorGeneralConfigMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowFirstTimeSetup {
+            get {
+                return ((bool)(this["ShowFirstTimeSetup"]));
+            }
+            set {
+                this["ShowFirstTimeSetup"] = value;
+            }
+        }
     }
 }

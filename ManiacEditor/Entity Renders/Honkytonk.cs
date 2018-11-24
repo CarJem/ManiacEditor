@@ -18,63 +18,75 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int angle = (int)entity.attributesMap["angle"].ValueVar;
-            int rotation = 0;
-            int offsetX = 0;
-            int offsetY = 0;
-            e.rotateImageLegacyMode = true;
-            switch (angle)
+            int rotation = 0; //(int)(angle / -0.71);
+            int offsetX = 0; //(int)Math.Cos(angle / -0.71);
+            int offsetY = 0; //(int)Math.Sin(angle / -0.71);
+
+            if (e.rotateImageLegacyMode == true)
             {
-                case 0:
-                    offsetY = 12;
-                    break;
-                case 32:
-                    rotation = 315;
-                    offsetX = 67;
-                    offsetY = 61;
-                    break;
-                case 160:
-                    rotation = 135;
-                    offsetX = 10;
-                    offsetY = 72;
-                    break;
-                case 64:
-                    rotation = 270;
-                    offsetX = 55;
-                    offsetY = 41;
-                    break;
-                case 224:
-                    rotation = 45;
-                    offsetX = 44;
-                    offsetY = 94;
-                    break;
-                case 96:
-                    rotation = 225;
-                    offsetX = 34;
-                    offsetY = 39;
-                    break;
-                case 128:
-                    rotation = 180;
-                    offsetX = 16;
-                    offsetY = 53;
-                    break;
-                case 192:
-                    rotation = 90;
-                    offsetX = 25;
-                    offsetY = 88;
-                    break;
+                switch (angle)
+                {
+                    case 0:
+                        rotation = 0;
+                        offsetY = 12;
+                        break;
+                    case 32:
+                        rotation = 315;
+                        offsetX = 67;
+                        offsetY = 61;
+                        break;
+                    case 160:
+                        rotation = 135;
+                        offsetX = 10;
+                        offsetY = 72;
+                        break;
+                    case 64:
+                        rotation = 270;
+                        offsetX = 55;
+                        offsetY = 41;
+                        break;
+                    case 224:
+                        rotation = 45;
+                        offsetX = 44;
+                        offsetY = 94;
+                        break;
+                    case 96:
+                        rotation = 225;
+                        offsetX = 34;
+                        offsetY = 39;
+                        break;
+                    case 128:
+                        rotation = 180;
+                        offsetX = 16;
+                        offsetY = 53;
+                        break;
+                    case 192:
+                        rotation = 90;
+                        offsetX = 25;
+                        offsetY = 88;
+                        break;
+                }
             }
+
+            var editorAnimFocus = e.LoadAnimation2("HonkyTonk", d, 0, 0, fliph, flipv, false);
             var editorAnim = e.LoadAnimation2("HonkyTonk", d, 0, 1, fliph, flipv, false, rotation);
             var editorAnim2 = e.LoadAnimation2("HonkyTonk", d, 0, 2, fliph, flipv, false, rotation);
             var editorAnim3 = e.LoadAnimation2("HonkyTonk", d, 0, 3, fliph, flipv, false, rotation);
             var editorAnim4 = e.LoadAnimation2("HonkyTonk", d, 0, 4, fliph, flipv, false, rotation);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0)
+            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnimFocus != null)
             {
                 var frame = editorAnim.Frames[0];
+                var frameFocus = editorAnimFocus.Frames[0];
                 var frame2 = editorAnim2.Frames[0];
                 var frame3 = editorAnim3.Frames[0];
                 var frame4 = editorAnim4.Frames[0];
 
                 //e.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration, 5);
+
+                /*d.DrawBitmap(frameFocus.Texture,
+                    x + frameFocus.Frame.CenterX,
+                    y + frameFocus.Frame.CenterY,
+                    frameFocus.Frame.Width, frameFocus.Frame.Height, false, Transparency);*/
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX - offsetX,

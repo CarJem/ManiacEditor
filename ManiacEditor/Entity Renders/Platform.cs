@@ -170,7 +170,7 @@ namespace ManiacEditor.Entity_Renders
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
                         // Since we can don't know how to do it other than x or y yet
-                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = e.EditorAnimations.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
 
                     if (childCount != 0)
@@ -193,8 +193,12 @@ namespace ManiacEditor.Entity_Renders
                         }
                     }
 
-                    d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
+                    else
+                    {
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
+
                 }
                 
                 

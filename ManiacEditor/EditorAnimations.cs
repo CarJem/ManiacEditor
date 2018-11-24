@@ -44,15 +44,15 @@ namespace ManiacEditor
             int c = 0;
             if (ampX != 0 && ampY != 0)
             {
-                slope = (-ampX / ampX) / (-ampY / ampY);
-                c = ampY - (slope * ampX);
+                slope = (ampX + ampX) / (ampY + ampY);
+                c = ampX - (slope * ampY);
             }
             int duration = 1;
             int initalX = ampX;
             int initalY = ampY;
 
             // Playback || I disabled anything with both x and y values because they have way too many issues atm
-            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked && !(ampX != 0 && ampY != 0))
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
             {
                 if (speed > 0)
                 {
@@ -61,15 +61,6 @@ namespace ManiacEditor
                         speed1 = 1;
                     if ((DateTime.Now - lastFrametime3).TotalMilliseconds > 1024 / speed1)
                     {
-                        /*//Moving Platforms
-                        if (ampX <= -1 && ampX != 0)
-                        {
-                            reverseX = true;
-                        }
-                        if (ampY <= -1 && ampY != 0)
-                        {
-                            reverseY = true;
-                        }*/
 
                             if (reverseX)
                             {
@@ -96,9 +87,10 @@ namespace ManiacEditor
                             }
                         if (ampX != 0 && ampY != 0)
                         {
-                            positionY = slope * positionX;
+                            positionY = slope * positionX + c;
                         }
 
+                        
                         if (!(ampX != 0 && ampY != 0))
                         {
                             if (reverseY)
@@ -124,6 +116,7 @@ namespace ManiacEditor
                                 }
                             }
                         }
+                        
 
 
                         lastFrametime3 = DateTime.Now;
@@ -132,14 +125,104 @@ namespace ManiacEditor
             }
             else
             {
-                positionX = 0;
-                positionY = 0;
+                if (ampX != 0 && ampY != 0)
+                {
+                    positionX = ampX;
+                    positionY = ampY;
+                }
+                else
+                {
+                    positionX = 0;
+                    positionY = 0;
+                }
+
             }
             int[] position = new int[2];
             position[0] = positionX;
             position[1] = positionY;
             return position;
 
+        }
+
+        public int[] ProcessMovingPlatform2D(int ampX, int ampY, int x, int y, int width, int height, UInt32 speed = 1)
+        {
+            positionX = 0;
+            positionY = 0;
+
+            int[] position = new int[2];
+            position[0] = positionX;
+            position[1] = positionY;
+            return position;
+
+            /*
+            if (speed >= 4294967290)
+            {
+                speed = 10;
+            }
+            int slope = 0;
+            int c = 0;
+            if (ampX != 0 && ampY != 0)
+            {
+                slope =  (ampX + ampX) / (ampY + ampY);
+                c = ampX - (slope * ampY);
+            }
+            int duration = 1;
+            int initalX = ampX;
+            int initalY = ampY;
+
+            // Playback || I disabled anything with both x and y values because they have way too many issues atm
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
+            {
+                if (speed > 0)
+                {
+                    int speed1 = (int)speed * 64 / (duration == 0 ? 256 : duration);
+                    if (speed1 == 0)
+                        speed1 = 1;
+                    if ((DateTime.Now - lastFrametime3).TotalMilliseconds > 1024 / speed1)
+                    {
+                        if (reverseX)
+                        {
+                            if (positionX <= 0)
+                            {
+                                reverseX = false;
+
+                            }
+                            else
+                            {
+                                positionX--;
+                            }
+                        }
+                        else
+                        {
+                            if (positionX >= ampX)
+                            {
+                                reverseX = true;
+                            }
+                            else
+                            {
+                                positionX++;
+                            }
+                        }
+
+                        if (ampX != 0 && ampY != 0)
+                        {
+                            positionY = slope * positionX + c;
+                        }
+                        lastFrametime3 = DateTime.Now;
+                    }
+                }
+            }
+            else
+            {
+                positionX = ampX;
+                positionY = ampY;
+            }
+
+            int[] position = new int[2];
+            position[0] = positionX;
+            position[1] = positionY;
+            return position;
+            */
         }
 
         public void ProcessMovingPlatform4(int ampX, int angleDefault, UInt32 speed = 3)

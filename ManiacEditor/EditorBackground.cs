@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using RSDKv5Color = RSDKv5.Color;
+using IronPython.Modules;
 
 namespace ManiacEditor
 {
@@ -103,6 +104,11 @@ namespace ManiacEditor
                             d.DrawLine(x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, x * GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, Properties.Settings.Default.GridColorDefault);
                     }
                 }
+        }
+
+        public void DrawSnow(DevicePanel d)
+        {
+                
         }
     }
 }

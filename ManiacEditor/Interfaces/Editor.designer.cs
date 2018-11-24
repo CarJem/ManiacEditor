@@ -89,6 +89,8 @@
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.invertedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editEntitiesOptionToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
             this.entityViewSettingsLabel = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
@@ -633,6 +635,7 @@
             this.changeEncorePaleteToolStripMenuItem,
             this.showParallaxSpritesToolStripMenuItem,
             this.collisionColorsToolStripMenuItem,
+            this.editEntitiesOptionToolStrip,
             this.toolStripSeparator22,
             this.entityViewSettingsLabel,
             this.toolStripSeparator21,
@@ -724,6 +727,23 @@
             this.customToolStripMenuItem1.Text = "Custom";
             this.customToolStripMenuItem1.Click += new System.EventHandler(this.customToolStripMenuItem1_Click);
             // 
+            // editEntitiesOptionToolStrip
+            // 
+            this.editEntitiesOptionToolStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem});
+            this.editEntitiesOptionToolStrip.Name = "editEntitiesOptionToolStrip";
+            this.editEntitiesOptionToolStrip.Size = new System.Drawing.Size(272, 22);
+            this.editEntitiesOptionToolStrip.Text = "Edit Entities Options";
+            this.editEntitiesOptionToolStrip.DropDownOpening += new System.EventHandler(this.editEntitiesOptionToolStrip_DropDownOpening);
+            // 
+            // showEntitiesAboveAllOtherLayersToolStripMenuItem
+            // 
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.CheckOnClick = true;
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Name = "showEntitiesAboveAllOtherLayersToolStripMenuItem";
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Text = "Show Objects Above All Other Layers";
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Click += new System.EventHandler(this.showEntitiesAboveAllOtherLayersToolStripMenuItem_Click);
+            // 
             // toolStripSeparator22
             // 
             this.toolStripSeparator22.Name = "toolStripSeparator22";
@@ -814,7 +834,7 @@
             // statusNAToolStripMenuItem
             // 
             this.statusNAToolStripMenuItem.Name = "statusNAToolStripMenuItem";
-            this.statusNAToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.statusNAToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.statusNAToolStripMenuItem.Text = "Enabled";
             this.statusNAToolStripMenuItem.Click += new System.EventHandler(this.scrollLockButton_Click);
             // 
@@ -824,7 +844,7 @@
             this.xToolStripMenuItem,
             this.yToolStripMenuItem});
             this.axisToolStripMenuItem.Name = "axisToolStripMenuItem";
-            this.axisToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.axisToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.axisToolStripMenuItem.Text = "Axis...";
             // 
             // xToolStripMenuItem
@@ -861,14 +881,14 @@
             // 
             this.specificPlaceToolStripMenuItem.Enabled = false;
             this.specificPlaceToolStripMenuItem.Name = "specificPlaceToolStripMenuItem";
-            this.specificPlaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.specificPlaceToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.specificPlaceToolStripMenuItem.Text = "Specific Place";
             // 
             // playerSpawnToolStripMenuItem
             // 
             this.playerSpawnToolStripMenuItem.Enabled = false;
             this.playerSpawnToolStripMenuItem.Name = "playerSpawnToolStripMenuItem";
-            this.playerSpawnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playerSpawnToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.playerSpawnToolStripMenuItem.Text = "Player Spawn";
             this.playerSpawnToolStripMenuItem.Click += new System.EventHandler(this.playerSpawnToolStripMenuItem_Click);
             // 
@@ -1011,14 +1031,14 @@
             // primaryColorToolStripMenuItem
             // 
             this.primaryColorToolStripMenuItem.Name = "primaryColorToolStripMenuItem";
-            this.primaryColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.primaryColorToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.primaryColorToolStripMenuItem.Text = "Primary Color...";
             this.primaryColorToolStripMenuItem.Click += new System.EventHandler(this.primaryColorToolStripMenuItem_Click);
             // 
             // secondaryColorToolStripMenuItem
             // 
             this.secondaryColorToolStripMenuItem.Name = "secondaryColorToolStripMenuItem";
-            this.secondaryColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.secondaryColorToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.secondaryColorToolStripMenuItem.Text = "Secondary Color...";
             this.secondaryColorToolStripMenuItem.Click += new System.EventHandler(this.secondaryColorToolStripMenuItem_Click);
             // 
@@ -1114,28 +1134,28 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "Settings";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionToolStripMenuItem_Click);
             // 
             // controlsToolStripMenuItem
             // 
             this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.controlsToolStripMenuItem.Text = "Controls";
             this.controlsToolStripMenuItem.Click += new System.EventHandler(this.controlsToolStripMenuItem_Click);
             // 
             // wikiToolStripMenuItem
             // 
             this.wikiToolStripMenuItem.Name = "wikiToolStripMenuItem";
-            this.wikiToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.wikiToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.wikiToolStripMenuItem.Text = "Wiki";
             this.wikiToolStripMenuItem.Click += new System.EventHandler(this.wikiToolStripMenuItem_Click);
             // 
@@ -2310,7 +2330,7 @@
         private System.Windows.Forms.Panel mainPanel;
         //private System.Windows.Forms.Panel GraphicPanel;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private ManiacEditor.DevicePanel GraphicPanel;
+        public ManiacEditor.DevicePanel GraphicPanel;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.VScrollBar vScrollBar1;
@@ -2518,6 +2538,8 @@
         private System.Windows.Forms.ToolStripMenuItem editBackgroundColorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem primaryColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem secondaryColorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editEntitiesOptionToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem showEntitiesAboveAllOtherLayersToolStripMenuItem;
     }
 }
 

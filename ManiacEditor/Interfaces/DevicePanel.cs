@@ -213,6 +213,14 @@ namespace ManiacEditor
                     {
                         devWarnBox.ShowDialog();
                     }
+                    if (Properties.Settings.Default.ShowFirstTimeSetup)
+                    {
+                        using (var fristTimeSetup = new FirstTimeSetup())
+                        {
+                            fristTimeSetup.ShowDialog();
+                        }
+                    }
+
                 }
             }
             RenderLoop.Run(this, () =>
