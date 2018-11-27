@@ -135,7 +135,9 @@
             // 
             this.lbLayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbLayers.BackColor = System.Drawing.Color.White;
             this.lbLayers.DataSource = this.bsLayers;
+            this.lbLayers.ForeColor = System.Drawing.Color.Black;
             this.lbLayers.FormattingEnabled = true;
             this.lbLayers.Location = new System.Drawing.Point(0, 0);
             this.lbLayers.Name = "lbLayers";
@@ -148,6 +150,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbRawSize.Controls.Add(this.flpEffectiveSize);
             this.gbRawSize.Controls.Add(this.flpCurrentSize);
+            this.gbRawSize.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbRawSize.Location = new System.Drawing.Point(129, 187);
             this.gbRawSize.Name = "gbRawSize";
             this.gbRawSize.Size = new System.Drawing.Size(324, 63);
@@ -240,6 +243,7 @@
             this.gbResize.Controls.Add(this.panel2);
             this.gbResize.Controls.Add(this.lblResizedEffective);
             this.gbResize.Controls.Add(this.btnResize);
+            this.gbResize.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbResize.Location = new System.Drawing.Point(129, 253);
             this.gbResize.Name = "gbResize";
             this.gbResize.Size = new System.Drawing.Size(324, 141);
@@ -269,6 +273,8 @@
             // 
             this.nudWidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudWidth.BackColor = System.Drawing.Color.White;
+            this.nudWidth.ForeColor = System.Drawing.Color.Black;
             this.nudWidth.Location = new System.Drawing.Point(47, 3);
             this.nudWidth.Maximum = new decimal(new int[] {
             2048,
@@ -313,6 +319,8 @@
             // 
             this.nudHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudHeight.BackColor = System.Drawing.Color.White;
+            this.nudHeight.ForeColor = System.Drawing.Color.Black;
             this.nudHeight.Location = new System.Drawing.Point(47, 3);
             this.nudHeight.Maximum = new decimal(new int[] {
             2048,
@@ -337,6 +345,7 @@
             // btnResize
             // 
             this.btnResize.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnResize.ForeColor = System.Drawing.Color.Black;
             this.btnResize.Location = new System.Drawing.Point(3, 115);
             this.btnResize.Name = "btnResize";
             this.btnResize.Size = new System.Drawing.Size(318, 23);
@@ -350,6 +359,7 @@
             this.gbName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbName.Controls.Add(this.flpAttributes);
+            this.gbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbName.Location = new System.Drawing.Point(129, 54);
             this.gbName.Name = "gbName";
             this.gbName.Size = new System.Drawing.Size(324, 130);
@@ -396,6 +406,8 @@
             // 
             this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbName.BackColor = System.Drawing.Color.White;
+            this.tbName.ForeColor = System.Drawing.Color.Black;
             this.tbName.Location = new System.Drawing.Point(41, 5);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(265, 20);
@@ -416,6 +428,8 @@
             // 
             this.nudVerticalScroll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudVerticalScroll.BackColor = System.Drawing.Color.White;
+            this.nudVerticalScroll.ForeColor = System.Drawing.Color.Black;
             this.nudVerticalScroll.Location = new System.Drawing.Point(95, 3);
             this.nudVerticalScroll.Maximum = new decimal(new int[] {
             255,
@@ -453,6 +467,8 @@
             // 
             this.nudUnknownByte2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudUnknownByte2.BackColor = System.Drawing.Color.White;
+            this.nudUnknownByte2.ForeColor = System.Drawing.Color.Black;
             this.nudUnknownByte2.Location = new System.Drawing.Point(95, 3);
             this.nudUnknownByte2.Maximum = new decimal(new int[] {
             255,
@@ -489,6 +505,8 @@
             // 
             this.nudUnknownWord1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudUnknownWord1.BackColor = System.Drawing.Color.White;
+            this.nudUnknownWord1.ForeColor = System.Drawing.Color.Black;
             this.nudUnknownWord1.Location = new System.Drawing.Point(95, 8);
             this.nudUnknownWord1.Maximum = new decimal(new int[] {
             32767,
@@ -531,6 +549,8 @@
             // 
             this.nudUnknownWord2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudUnknownWord2.BackColor = System.Drawing.Color.White;
+            this.nudUnknownWord2.ForeColor = System.Drawing.Color.Black;
             this.nudUnknownWord2.Location = new System.Drawing.Point(95, 8);
             this.nudUnknownWord2.Maximum = new decimal(new int[] {
             32767,
@@ -584,6 +604,7 @@
             // 
             this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUp.ForeColor = System.Drawing.Color.Black;
             this.btnUp.Location = new System.Drawing.Point(3, 3);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(23, 23);
@@ -598,6 +619,7 @@
             // 
             this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDown.ForeColor = System.Drawing.Color.Black;
             this.btnDown.Location = new System.Drawing.Point(32, 3);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(23, 23);
@@ -613,7 +635,7 @@
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnAdd.ForeColor = System.Drawing.Color.DarkGreen;
+            this.btnAdd.ForeColor = System.Drawing.Color.Black;
             this.btnAdd.Location = new System.Drawing.Point(61, 3);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(23, 23);
@@ -628,7 +650,7 @@
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.BackColor = System.Drawing.Color.LightCoral;
-            this.btnDelete.ForeColor = System.Drawing.Color.Red;
+            this.btnDelete.ForeColor = System.Drawing.Color.Black;
             this.btnDelete.Location = new System.Drawing.Point(90, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(23, 23);
@@ -640,12 +662,14 @@
             // 
             // rtbWarn
             // 
+            this.rtbWarn.BackColor = System.Drawing.SystemColors.Control;
             this.rtbWarn.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbWarn.Dock = System.Windows.Forms.DockStyle.Top;
+            this.rtbWarn.ForeColor = System.Drawing.SystemColors.WindowText;
             this.rtbWarn.Location = new System.Drawing.Point(124, 0);
             this.rtbWarn.Name = "rtbWarn";
-            this.rtbWarn.ReadOnly = true;
-            this.rtbWarn.Size = new System.Drawing.Size(660, 48);
+            this.rtbWarn.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.rtbWarn.Size = new System.Drawing.Size(660, 55);
             this.rtbWarn.TabIndex = 15;
             this.rtbWarn.Text = "The feature is highly experimental! Any changes made will be reflected when this " +
     "window is closed. \nDon\'t forget to save after! You did take that backup, didn\'t " +
@@ -687,7 +711,9 @@
             // 
             // lbHorizontalRules
             // 
+            this.lbHorizontalRules.BackColor = System.Drawing.Color.White;
             this.lbHorizontalRules.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbHorizontalRules.ForeColor = System.Drawing.Color.Black;
             this.lbHorizontalRules.FormattingEnabled = true;
             this.lbHorizontalRules.Location = new System.Drawing.Point(0, 0);
             this.lbHorizontalRules.Name = "lbHorizontalRules";
@@ -700,7 +726,7 @@
             this.btnAddHorizontalRule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddHorizontalRule.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnAddHorizontalRule.ForeColor = System.Drawing.Color.DarkGreen;
+            this.btnAddHorizontalRule.ForeColor = System.Drawing.Color.Black;
             this.btnAddHorizontalRule.Location = new System.Drawing.Point(3, 3);
             this.btnAddHorizontalRule.Name = "btnAddHorizontalRule";
             this.btnAddHorizontalRule.Size = new System.Drawing.Size(23, 23);
@@ -715,7 +741,7 @@
             this.btnRemoveHorizontalRule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveHorizontalRule.BackColor = System.Drawing.Color.LightCoral;
-            this.btnRemoveHorizontalRule.ForeColor = System.Drawing.Color.Red;
+            this.btnRemoveHorizontalRule.ForeColor = System.Drawing.Color.Black;
             this.btnRemoveHorizontalRule.Location = new System.Drawing.Point(32, 3);
             this.btnRemoveHorizontalRule.Name = "btnRemoveHorizontalRule";
             this.btnRemoveHorizontalRule.Size = new System.Drawing.Size(23, 23);
@@ -730,7 +756,7 @@
             this.btnAddHorizontalMapping.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddHorizontalMapping.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnAddHorizontalMapping.ForeColor = System.Drawing.Color.DarkGreen;
+            this.btnAddHorizontalMapping.ForeColor = System.Drawing.Color.Black;
             this.btnAddHorizontalMapping.Location = new System.Drawing.Point(3, 3);
             this.btnAddHorizontalMapping.Name = "btnAddHorizontalMapping";
             this.btnAddHorizontalMapping.Size = new System.Drawing.Size(23, 23);
@@ -745,7 +771,7 @@
             this.btnRemoveHorizontalMapping.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveHorizontalMapping.BackColor = System.Drawing.Color.LightCoral;
-            this.btnRemoveHorizontalMapping.ForeColor = System.Drawing.Color.Red;
+            this.btnRemoveHorizontalMapping.ForeColor = System.Drawing.Color.Black;
             this.btnRemoveHorizontalMapping.Location = new System.Drawing.Point(32, 3);
             this.btnRemoveHorizontalMapping.Name = "btnRemoveHorizontalMapping";
             this.btnRemoveHorizontalMapping.Size = new System.Drawing.Size(23, 23);
@@ -759,6 +785,8 @@
             // 
             this.nudHorizontalEffect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudHorizontalEffect.BackColor = System.Drawing.Color.White;
+            this.nudHorizontalEffect.ForeColor = System.Drawing.Color.Black;
             this.nudHorizontalEffect.Location = new System.Drawing.Point(60, 6);
             this.nudHorizontalEffect.Maximum = new decimal(new int[] {
             255,
@@ -771,8 +799,10 @@
             // 
             // lbMappings
             // 
+            this.lbMappings.BackColor = System.Drawing.Color.White;
             this.lbMappings.DataSource = this.bsLayers;
             this.lbMappings.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbMappings.ForeColor = System.Drawing.Color.Black;
             this.lbMappings.FormattingEnabled = true;
             this.lbMappings.Location = new System.Drawing.Point(0, 0);
             this.lbMappings.Name = "lbMappings";
@@ -786,6 +816,7 @@
             this.gbHorizontalMappings.Controls.Add(this.lblLineCount);
             this.gbHorizontalMappings.Controls.Add(this.nudStartLine);
             this.gbHorizontalMappings.Controls.Add(this.label3);
+            this.gbHorizontalMappings.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbHorizontalMappings.Location = new System.Drawing.Point(459, 253);
             this.gbHorizontalMappings.Name = "gbHorizontalMappings";
             this.gbHorizontalMappings.Size = new System.Drawing.Size(313, 141);
@@ -815,6 +846,8 @@
             // 
             // nudLineCount
             // 
+            this.nudLineCount.BackColor = System.Drawing.Color.White;
+            this.nudLineCount.ForeColor = System.Drawing.Color.Black;
             this.nudLineCount.Location = new System.Drawing.Point(227, 73);
             this.nudLineCount.Maximum = new decimal(new int[] {
             65535,
@@ -836,6 +869,8 @@
             // 
             // nudStartLine
             // 
+            this.nudStartLine.BackColor = System.Drawing.Color.White;
+            this.nudStartLine.ForeColor = System.Drawing.Color.Black;
             this.nudStartLine.Location = new System.Drawing.Point(227, 47);
             this.nudStartLine.Maximum = new decimal(new int[] {
             65535,
@@ -863,6 +898,7 @@
             this.gbHorizRules.Controls.Add(this.panel8);
             this.gbHorizRules.Controls.Add(this.panel9);
             this.gbHorizRules.Controls.Add(this.panel10);
+            this.gbHorizRules.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbHorizRules.Location = new System.Drawing.Point(459, 54);
             this.gbHorizRules.Name = "gbHorizRules";
             this.gbHorizRules.Size = new System.Drawing.Size(313, 196);
@@ -926,6 +962,8 @@
             // 
             this.nudHorizByte2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudHorizByte2.BackColor = System.Drawing.Color.White;
+            this.nudHorizByte2.ForeColor = System.Drawing.Color.Black;
             this.nudHorizByte2.Location = new System.Drawing.Point(60, 6);
             this.nudHorizByte2.Maximum = new decimal(new int[] {
             255,
@@ -960,6 +998,8 @@
             // 
             this.nudHorizVal1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudHorizVal1.BackColor = System.Drawing.Color.White;
+            this.nudHorizVal1.ForeColor = System.Drawing.Color.Black;
             this.nudHorizVal1.Location = new System.Drawing.Point(60, 6);
             this.nudHorizVal1.Maximum = new decimal(new int[] {
             32767,
@@ -990,6 +1030,8 @@
             // 
             this.nudHorizVal2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudHorizVal2.BackColor = System.Drawing.Color.White;
+            this.nudHorizVal2.ForeColor = System.Drawing.Color.Black;
             this.nudHorizVal2.Location = new System.Drawing.Point(60, 6);
             this.nudHorizVal2.Maximum = new decimal(new int[] {
             32767,

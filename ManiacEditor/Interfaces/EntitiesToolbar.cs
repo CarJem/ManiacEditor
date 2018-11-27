@@ -621,5 +621,30 @@ namespace ManiacEditor
                 btnSpawn_Click(sender, e);
             }
         }
+
+        private void defaultFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbSpawn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gbEditor_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gbSpawn_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

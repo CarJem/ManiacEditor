@@ -39,6 +39,11 @@ namespace ManiacEditor
         public TilesList()
         {
             InitializeComponent();
+
+            if (Properties.Settings.Default.NightMode)
+            {
+                graphicPanel.DeviceBackColor = Editor.Instance.darkTheme1;
+            }
             
             graphicPanel.Init(this);
         }

@@ -61,6 +61,7 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Yes;
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(129, 96);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(85, 23);
@@ -72,6 +73,7 @@
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.No;
+            this.button2.ForeColor = System.Drawing.Color.Black;
             this.button2.Location = new System.Drawing.Point(220, 96);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(128, 23);
@@ -83,6 +85,7 @@
             // button3
             // 
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Retry;
+            this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Location = new System.Drawing.Point(354, 96);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(128, 23);
@@ -94,6 +97,7 @@
             // button4
             // 
             this.button4.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+            this.button4.ForeColor = System.Drawing.Color.Black;
             this.button4.Location = new System.Drawing.Point(488, 96);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(85, 23);

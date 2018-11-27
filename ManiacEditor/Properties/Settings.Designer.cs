@@ -1499,5 +1499,41 @@ namespace ManiacEditor.Properties {
                 this["ShowFirstTimeSetup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RellyOnRenderLoopForUpdatingOnly {
+            get {
+                return ((bool)(this["RellyOnRenderLoopForUpdatingOnly"]));
+            }
+            set {
+                this["RellyOnRenderLoopForUpdatingOnly"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableDraging {
+            get {
+                return ((bool)(this["DisableDraging"]));
+            }
+            set {
+                this["DisableDraging"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NightMode {
+            get {
+                return ((bool)(this["NightMode"]));
+            }
+            set {
+                this["NightMode"] = value;
+            }
+        }
     }
 }

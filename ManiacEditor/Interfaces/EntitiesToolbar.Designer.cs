@@ -40,7 +40,6 @@
             this.bothFilterCheck = new System.Windows.Forms.CheckBox();
             this.encoreFilterCheck = new System.Windows.Forms.CheckBox();
             this.maniaFilterCheck = new System.Windows.Forms.CheckBox();
-            //this.waitLoading1 = null;//new CSharp.Winform.UI.Loading.WaitLoading();
             this.gbSpawn.SuspendLayout();
             this.gbEditor.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -50,6 +49,8 @@
             // 
             this.entitiesList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.entitiesList.BackColor = System.Drawing.Color.White;
+            this.entitiesList.ForeColor = System.Drawing.Color.Black;
             this.entitiesList.FormattingEnabled = true;
             this.entitiesList.Location = new System.Drawing.Point(7, 19);
             this.entitiesList.Name = "entitiesList";
@@ -63,37 +64,52 @@
             this.entityProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.entityProperties.BackColor = System.Drawing.Color.White;
+            this.entityProperties.CategoryForeColor = System.Drawing.Color.Black;
             this.entityProperties.CausesValidation = false;
+            this.entityProperties.CommandsBorderColor = System.Drawing.Color.DarkGray;
+            this.entityProperties.CommandsForeColor = System.Drawing.Color.Black;
+            this.entityProperties.HelpBackColor = System.Drawing.Color.White;
+            this.entityProperties.HelpBorderColor = System.Drawing.Color.DarkGray;
+            this.entityProperties.HelpForeColor = System.Drawing.Color.Black;
             this.entityProperties.HelpVisible = false;
-            this.entityProperties.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.entityProperties.LineColor = System.Drawing.Color.Silver;
             this.entityProperties.Location = new System.Drawing.Point(7, 46);
             this.entityProperties.Name = "entityProperties";
             this.entityProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.entityProperties.SelectedItemWithFocusBackColor = System.Drawing.Color.DodgerBlue;
+            this.entityProperties.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
             this.entityProperties.Size = new System.Drawing.Size(234, 291);
             this.entityProperties.TabIndex = 1;
             this.entityProperties.ToolbarVisible = false;
+            this.entityProperties.ViewBackColor = System.Drawing.Color.White;
+            this.entityProperties.ViewBorderColor = System.Drawing.Color.DarkGray;
+            this.entityProperties.ViewForeColor = System.Drawing.Color.Black;
             this.entityProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.entityProperties_PropertyValueChanged);
             // 
             // gbSpawn
             // 
             this.gbSpawn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            //this.gbSpawn.Controls.Add(this.waitLoading1);
             this.gbSpawn.Controls.Add(this.defaultFilter);
             this.gbSpawn.Controls.Add(this.btnSpawn);
             this.gbSpawn.Controls.Add(this.cbSpawn);
+            this.gbSpawn.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbSpawn.Location = new System.Drawing.Point(6, 6);
             this.gbSpawn.Name = "gbSpawn";
             this.gbSpawn.Size = new System.Drawing.Size(247, 49);
             this.gbSpawn.TabIndex = 2;
             this.gbSpawn.TabStop = false;
             this.gbSpawn.Text = "Entity Spawner";
+            this.gbSpawn.Enter += new System.EventHandler(this.gbSpawn_Enter);
             // 
             // defaultFilter
             // 
             this.defaultFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.defaultFilter.BackColor = System.Drawing.Color.White;
             this.defaultFilter.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "DefaultFilter", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.defaultFilter.DisplayMember = "Name";
+            this.defaultFilter.ForeColor = System.Drawing.Color.Black;
             this.defaultFilter.FormattingEnabled = true;
             this.defaultFilter.Location = new System.Drawing.Point(168, 20);
             this.defaultFilter.MaxDropDownItems = 3;
@@ -101,10 +117,12 @@
             this.defaultFilter.Size = new System.Drawing.Size(73, 21);
             this.defaultFilter.TabIndex = 2;
             this.defaultFilter.Text = global::ManiacEditor.Properties.Settings.Default.DefaultFilter;
+            this.defaultFilter.SelectedIndexChanged += new System.EventHandler(this.defaultFilter_SelectedIndexChanged);
             // 
             // btnSpawn
             // 
             this.btnSpawn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSpawn.ForeColor = System.Drawing.Color.Black;
             this.btnSpawn.Location = new System.Drawing.Point(112, 19);
             this.btnSpawn.Name = "btnSpawn";
             this.btnSpawn.Size = new System.Drawing.Size(50, 23);
@@ -119,13 +137,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSpawn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.cbSpawn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbSpawn.BackColor = System.Drawing.Color.White;
             this.cbSpawn.DisplayMember = "Name";
+            this.cbSpawn.ForeColor = System.Drawing.Color.Black;
             this.cbSpawn.FormattingEnabled = true;
             this.cbSpawn.Location = new System.Drawing.Point(7, 20);
             this.cbSpawn.Name = "cbSpawn";
             this.cbSpawn.Size = new System.Drawing.Size(99, 21);
             this.cbSpawn.Sorted = true;
             this.cbSpawn.TabIndex = 0;
+            this.cbSpawn.SelectedIndexChanged += new System.EventHandler(this.cbSpawn_SelectedIndexChanged);
             this.cbSpawn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbSpawn_KeyDown);
             // 
             // gbEditor
@@ -135,12 +156,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbEditor.Controls.Add(this.entitiesList);
             this.gbEditor.Controls.Add(this.entityProperties);
+            this.gbEditor.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbEditor.Location = new System.Drawing.Point(6, 61);
             this.gbEditor.Name = "gbEditor";
             this.gbEditor.Size = new System.Drawing.Size(247, 343);
             this.gbEditor.TabIndex = 3;
             this.gbEditor.TabStop = false;
             this.gbEditor.Text = "Entity Editor";
+            this.gbEditor.Enter += new System.EventHandler(this.gbEditor_Enter);
             // 
             // groupBox1
             // 
@@ -150,6 +173,7 @@
             this.groupBox1.Controls.Add(this.bothFilterCheck);
             this.groupBox1.Controls.Add(this.encoreFilterCheck);
             this.groupBox1.Controls.Add(this.maniaFilterCheck);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.groupBox1.Location = new System.Drawing.Point(6, 410);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -157,6 +181,7 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filter Entity View";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // otherFilterCheck
             // 
@@ -217,19 +242,6 @@
             this.maniaFilterCheck.Text = "Mania ( 0b0010 )";
             this.maniaFilterCheck.UseVisualStyleBackColor = true;
             this.maniaFilterCheck.CheckedChanged += new System.EventHandler(this.maniaFilterCheck_CheckedChanged);
-            // 
-            // waitLoading1
-            // 
-            /*this.waitLoading1.Alpha = 125;
-            this.waitLoading1.BindControl = null;
-            this.waitLoading1.BkColor = System.Drawing.Color.WhiteSmoke;
-            this.waitLoading1.IsTransparent = true;
-            this.waitLoading1.Location = new System.Drawing.Point(74, 20);
-            this.waitLoading1.Name = "waitLoading1";
-            this.waitLoading1.Size = new System.Drawing.Size(8, 8);
-            this.waitLoading1.TabIndex = 3;
-            this.waitLoading1.Text = "waitLoading1";
-            this.waitLoading1.Visible = false;*/
             // 
             // EntitiesToolbar
             // 

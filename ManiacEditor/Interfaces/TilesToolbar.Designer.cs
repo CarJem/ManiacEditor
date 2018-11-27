@@ -31,7 +31,6 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.option1CheckBox = new System.Windows.Forms.CheckBox();
             this.option2CheckBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tileOption4 = new System.Windows.Forms.CheckBox();
             this.tileOption3 = new System.Windows.Forms.CheckBox();
@@ -41,8 +40,8 @@
             this.option5CheckBox = new System.Windows.Forms.CheckBox();
             this.option4CheckBox = new System.Windows.Forms.CheckBox();
             this.option3CheckBox = new System.Windows.Forms.CheckBox();
-            this.tilesList = new ManiacEditor.TilesList();
             this.selectedTileLabel = new System.Windows.Forms.Label();
+            this.tilesList = new ManiacEditor.TilesList();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,16 +83,6 @@
             this.option2CheckBox.Text = "Flip Vertical (Shift)";
             this.option2CheckBox.UseVisualStyleBackColor = true;
             this.option2CheckBox.CheckedChanged += new System.EventHandler(this.option2CheckBox_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Location = new System.Drawing.Point(0, 426);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(255, 2);
-            this.label1.TabIndex = 8;
             // 
             // label2
             // 
@@ -204,21 +193,6 @@
             this.option3CheckBox.Text = "Solid (Top)";
             this.option3CheckBox.UseVisualStyleBackColor = true;
             // 
-            // tilesList
-            // 
-            this.tilesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tilesList.BackColor = System.Drawing.Color.White;
-            this.tilesList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tilesList.FlipHorizontal = false;
-            this.tilesList.FlipVertical = false;
-            this.tilesList.Location = new System.Drawing.Point(3, 73);
-            this.tilesList.Name = "tilesList";
-            this.tilesList.Size = new System.Drawing.Size(249, 267);
-            this.tilesList.TabIndex = 0;
-            this.tilesList.TileScale = 2;
-            // 
             // selectedTileLabel
             // 
             this.selectedTileLabel.AutoSize = true;
@@ -228,6 +202,22 @@
             this.selectedTileLabel.Size = new System.Drawing.Size(112, 19);
             this.selectedTileLabel.TabIndex = 14;
             this.selectedTileLabel.Text = "Selected Tile: NULL ";
+            // 
+            // tilesList
+            // 
+            this.tilesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tilesList.BackColor = System.Drawing.SystemColors.Window;
+            this.tilesList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tilesList.FlipHorizontal = false;
+            this.tilesList.FlipVertical = false;
+            this.tilesList.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tilesList.Location = new System.Drawing.Point(3, 73);
+            this.tilesList.Name = "tilesList";
+            this.tilesList.Size = new System.Drawing.Size(249, 267);
+            this.tilesList.TabIndex = 0;
+            this.tilesList.TileScale = 2;
             // 
             // TilesToolbar
             // 
@@ -239,7 +229,6 @@
             this.Controls.Add(this.tileOption2);
             this.Controls.Add(this.tileOption1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.option6CheckBox);
             this.Controls.Add(this.option5CheckBox);
             this.Controls.Add(this.option4CheckBox);
@@ -267,7 +256,6 @@
         private System.Windows.Forms.CheckBox option4CheckBox;
         private System.Windows.Forms.CheckBox option5CheckBox;
         private System.Windows.Forms.CheckBox option6CheckBox;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox tileOption4;
         private System.Windows.Forms.CheckBox tileOption3;

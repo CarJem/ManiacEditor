@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using RSDKv5Color = RSDKv5.Color;
 using IronPython.Modules;
+using System.Net.Http.Headers;
 
 namespace ManiacEditor
 {
@@ -14,6 +15,10 @@ namespace ManiacEditor
         const int BOX_SIZE = 8;
         const int TILE_BOX_SIZE = 1;
         public int GRID_TILE_SIZE = 16;
+
+        //Let it snow
+        int i = 0;
+        snowflake[] snowflakes = new snowflake[256];
 
         static int DivideRoundUp(int number, int by)
         {
@@ -108,7 +113,92 @@ namespace ManiacEditor
 
         public void DrawSnow(DevicePanel d)
         {
-                
+            Rectangle screen = d.GetScreen();
+
+            int start_x = screen.X / (BOX_SIZE * EditorLayer.TILE_SIZE);
+            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, BOX_SIZE * EditorLayer.TILE_SIZE), Editor.Instance.SceneWidth);
+            int start_y = screen.Y / (BOX_SIZE * EditorLayer.TILE_SIZE);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, BOX_SIZE * EditorLayer.TILE_SIZE), Editor.Instance.Height);
+
+            LetItSnow();
+            foreach (snowflake flake in snowflakes)
+            {
+                if (flake != null)
+                {
+                    d.DrawSnowLines(flake.Location.X, flake.Location.Y, flake.Location.X, flake.Location.Y, flake.Color);
+                }
+            }
+
         }
+
+        public void DrawNight(DevicePanel d)
+        {
+            Rectangle screen = d.GetScreen();
+
+            int start_x = screen.X / (TILE_BOX_SIZE * GRID_TILE_SIZE);
+            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILE_BOX_SIZE * GRID_TILE_SIZE), Editor.Instance.SceneWidth);
+            int start_y = screen.Y / (TILE_BOX_SIZE * GRID_TILE_SIZE);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILE_BOX_SIZE * GRID_TILE_SIZE), Editor.Instance.Height);
+
+
+            d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, Color.FromArgb(100, 0, 0, 0));
+        }
+
+        public void LetItSnow()
+        {
+            if (i >= 256)
+            {
+                return;
+            }
+            snowflakes[i] = new snowflake();
+            i++;
+        }
+
+        class snowflake : snowParticle
+        {
+            public snowflake()
+            {
+                create();
+                move();
+            }
+
+            Random r = new Random();
+
+            private void create()
+            {
+                this.Location = new Point(r.Next(-Editor.Instance.GraphicPanel.DrawWidth, Editor.Instance.GraphicPanel.DrawWidth), r.Next(-Editor.Instance.GraphicPanel.DrawHeight, Editor.Instance.GraphicPanel.DrawHeight));
+
+                this.MinimumSize = new Size(3, 3);
+                this.Size = new Size(5, 5);
+                this.Color = Color.White;
+
+            }
+
+            public void move()
+            {
+                this.Location.Offset(0, 3);
+                System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
+                t.Interval = 5;
+                t.Tick += new EventHandler(t_Tick);
+                t.Start();
+            }
+
+            void t_Tick(object sender, EventArgs e)
+            {
+                this.Location.Offset(0, 3);
+                if (this.Location.X > Editor.Instance.GraphicPanel.DrawWidth || this.Location.Y > Editor.Instance.GraphicPanel.DrawHeight)
+                    this.Location = new Point(r.Next(-Editor.Instance.GraphicPanel.DrawWidth, Editor.Instance.GraphicPanel.DrawWidth), r.Next(-Editor.Instance.GraphicPanel.DrawHeight, Editor.Instance.GraphicPanel.DrawHeight));
+
+            }
+        }
+
+        class snowParticle
+        {
+            public Point Location;
+            public Size MinimumSize;
+            public Size Size;
+            public Color Color;
+        }
+
     }
 }

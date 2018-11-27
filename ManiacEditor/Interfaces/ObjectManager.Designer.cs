@@ -47,11 +47,11 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optimizeObjectIDPlacementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAttributeToAllObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mD5GeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchLabel = new System.Windows.Forms.Label();
             this.FilterText = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mD5GeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -73,9 +73,12 @@
             // lvObjects
             // 
             this.lvObjects.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lvObjects.BackColor = System.Drawing.Color.White;
+            this.lvObjects.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvObjects.CheckBoxes = true;
             this.lvObjects.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.col1});
+            this.lvObjects.ForeColor = System.Drawing.Color.Black;
             this.lvObjects.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvObjects.Location = new System.Drawing.Point(3, 3);
             this.lvObjects.MultiSelect = false;
@@ -94,6 +97,7 @@
             // 
             // button2
             // 
+            this.button2.ForeColor = System.Drawing.Color.Black;
             this.button2.Location = new System.Drawing.Point(3, 520);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(197, 23);
@@ -104,6 +108,7 @@
             // 
             // removeAttributeBtn
             // 
+            this.removeAttributeBtn.ForeColor = System.Drawing.Color.Black;
             this.removeAttributeBtn.Location = new System.Drawing.Point(353, 520);
             this.removeAttributeBtn.Name = "removeAttributeBtn";
             this.removeAttributeBtn.Size = new System.Drawing.Size(103, 23);
@@ -114,6 +119,7 @@
             // 
             // addAttributeBtn
             // 
+            this.addAttributeBtn.ForeColor = System.Drawing.Color.Black;
             this.addAttributeBtn.Location = new System.Drawing.Point(206, 520);
             this.addAttributeBtn.Name = "addAttributeBtn";
             this.addAttributeBtn.Size = new System.Drawing.Size(103, 23);
@@ -124,9 +130,12 @@
             // 
             // attributesTable
             // 
+            this.attributesTable.BackColor = System.Drawing.Color.White;
+            this.attributesTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.attributesTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.attName,
             this.attType});
+            this.attributesTable.ForeColor = System.Drawing.Color.Black;
             this.attributesTable.FullRowSelect = true;
             this.attributesTable.Location = new System.Drawing.Point(206, 3);
             this.attributesTable.MultiSelect = false;
@@ -160,6 +169,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.ForeColor = System.Drawing.Color.Black;
             this.btnCancel.Location = new System.Drawing.Point(552, 607);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 22);
@@ -238,6 +248,21 @@
             this.addAttributeToAllObjectsToolStripMenuItem.Text = "Add Attribute to All Objects";
             this.addAttributeToAllObjectsToolStripMenuItem.Click += new System.EventHandler(this.addAttributeToAllObjectsToolStripMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mD5GeneratorToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // mD5GeneratorToolStripMenuItem
+            // 
+            this.mD5GeneratorToolStripMenuItem.Name = "mD5GeneratorToolStripMenuItem";
+            this.mD5GeneratorToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.mD5GeneratorToolStripMenuItem.Text = "MD5 Generator";
+            this.mD5GeneratorToolStripMenuItem.Click += new System.EventHandler(this.mD5GeneratorToolStripMenuItem_Click);
+            // 
             // searchLabel
             // 
             this.searchLabel.AutoSize = true;
@@ -251,6 +276,8 @@
             // 
             this.FilterText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterText.BackColor = System.Drawing.Color.White;
+            this.FilterText.ForeColor = System.Drawing.Color.Black;
             this.FilterText.Location = new System.Drawing.Point(47, 27);
             this.FilterText.Name = "FilterText";
             this.FilterText.Size = new System.Drawing.Size(580, 20);
@@ -266,21 +293,6 @@
             this.checkBox1.TabIndex = 20;
             this.checkBox1.Text = "Remove StageConfig Entries";
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mD5GeneratorToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // mD5GeneratorToolStripMenuItem
-            // 
-            this.mD5GeneratorToolStripMenuItem.Name = "mD5GeneratorToolStripMenuItem";
-            this.mD5GeneratorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.mD5GeneratorToolStripMenuItem.Text = "MD5 Generator";
-            this.mD5GeneratorToolStripMenuItem.Click += new System.EventHandler(this.mD5GeneratorToolStripMenuItem_Click);
             // 
             // ObjectManager
             // 

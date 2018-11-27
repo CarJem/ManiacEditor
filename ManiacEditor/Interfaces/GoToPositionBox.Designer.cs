@@ -56,6 +56,8 @@ namespace ManiacEditor
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.BackColor = System.Drawing.Color.White;
+            this.numericUpDown1.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown1.Location = new System.Drawing.Point(12, 25);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             -1,
@@ -68,6 +70,8 @@ namespace ManiacEditor
             // 
             // numericUpDown2
             // 
+            this.numericUpDown2.BackColor = System.Drawing.Color.White;
+            this.numericUpDown2.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown2.Location = new System.Drawing.Point(64, 25);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             -1,
@@ -90,6 +94,7 @@ namespace ManiacEditor
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(227, 90);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -130,7 +135,9 @@ namespace ManiacEditor
             // 
             // comboBox1
             // 
+            this.comboBox1.BackColor = System.Drawing.Color.White;
             this.comboBox1.Enabled = false;
+            this.comboBox1.ForeColor = System.Drawing.Color.Black;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(227, 25);
             this.comboBox1.Name = "comboBox1";
@@ -139,7 +146,9 @@ namespace ManiacEditor
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.Enabled = false;
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
             this.textBox1.Location = new System.Drawing.Point(121, 92);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);

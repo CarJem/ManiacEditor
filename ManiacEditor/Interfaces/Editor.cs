@@ -29,6 +29,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Cyotek.Windows.Forms;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Microsoft.Win32;
 
 namespace ManiacEditor
 {
@@ -79,6 +81,7 @@ namespace ManiacEditor
         bool forceResize = false; //For Opening a Scene Forcefully
         int forceResizeGoToX = 0; //For Opening a Scene Forcefully and then going to the specified X
         int forceResizeGoToY = 0; //For Opening a Scene Forcefullyand then going to the specified Y
+        //bool onRenderActive = false;
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -170,7 +173,12 @@ namespace ManiacEditor
         public EditorUpdater Updater = new EditorUpdater();
 
         //Editor Misc. Variables
+        System.Windows.Forms.Timer t;
 
+        //Dark Theme
+        public Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
+        public Color darkTheme2 = Color.FromArgb(255, 70, 70, 70);
+        public Color darkTheme3 = Color.White;
 
         //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
@@ -245,7 +253,6 @@ namespace ManiacEditor
             InitializeComponent();
             AllocConsole();
             HideConsoleWindow();
-            //useDarkTheme();
             try
             {
                 InitDiscord();
@@ -274,8 +281,6 @@ namespace ManiacEditor
             _recentDataItems = new List<ToolStripMenuItem>();
             _recentDataItems_Button = new List<ToolStripMenuItem>();
             EditorControls = new EditorControls();
-
-
 
             SetViewSize();
 
@@ -958,6 +963,7 @@ namespace ManiacEditor
 
         private void UpdateControls(bool stageLoad = false)
         {
+            useDarkTheme(mySettings.NightMode);
             SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
         }
 
@@ -1030,22 +1036,19 @@ namespace ManiacEditor
             }
         }
 
-        private void UpdateStatusPanel(object sender, MouseEventArgs e)
+        private void UpdateStatusPanel(object sender, EventArgs e)
         {
             //
             // Tooltip Bar Info 
             //
-            if (e != null)
-            {
                 if (mySettings.pixelCountMode == false)
                 {
-                    positionLabel.Text = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
+                    positionLabel.Text = "X: " + (int)(lastX / Zoom) + " Y: " + (int)(lastY / Zoom);
                 }
                 else
                 {
-                    positionLabel.Text = "X: " + (int)((e.X / Zoom) / 16) + " Y: " + (int)((e.Y / Zoom) / 16);
+                    positionLabel.Text = "X: " + (int)((lastX / Zoom) / 16) + " Y: " + (int)((lastY / Zoom) / 16);
                 }
-            }
 
 
             _levelIDLabel.Text = "Level ID: " + myEditorState.Level_ID.ToString();
@@ -1421,11 +1424,12 @@ namespace ManiacEditor
         #region Mouse Actions
         private void GraphicPanel_OnMouseMove(object sender, MouseEventArgs e)
         {
+            
             if (mySettings.allowForSmoothSelection)
             {
-                GraphicPanel.Render();
-                UpdateStatusPanel(sender, e);
+                UpdateRender();
             }
+
             if (ClickedX != -1)
             {
                 Point clicked_point = new Point((int)(ClickedX / Zoom), (int)(ClickedY / Zoom));
@@ -1439,7 +1443,7 @@ namespace ManiacEditor
                         dragged = true;
                         startDragged = true;
                         EditLayer.StartDrag();
-                        UpdateStatusPanel(sender, e);
+            
                     }
 
                     else if (!selectTool.Checked && !ShiftPressed() && !CtrlPressed() && EditLayer.HasTileAt(clicked_point))
@@ -1449,7 +1453,7 @@ namespace ManiacEditor
                         dragged = true;
                         startDragged = true;
                         EditLayer.StartDrag();
-                        UpdateStatusPanel(sender, e);
+            
                     }
 
                     else
@@ -1460,7 +1464,7 @@ namespace ManiacEditor
                             Deselect();
                         UpdateControls();
                         UpdateEditLayerActions();
-                        UpdateStatusPanel(sender, e);
+            
                         draggingSelection = true;
                         selectingX = ClickedX;
                         selectingY = ClickedY;
@@ -1477,7 +1481,7 @@ namespace ManiacEditor
                         draggedX = 0;
                         draggedY = 0;
                         startDragged = true;
-                        UpdateStatusPanel(sender, e);
+            
                     }
                     else
                     {
@@ -1488,20 +1492,19 @@ namespace ManiacEditor
                         draggingSelection = true;
                         selectingX = ClickedX;
                         selectingY = ClickedY;
-                        UpdateStatusPanel(sender, e);
+            
                     }
                 }
                 ClickedX = -1;
                 ClickedY = -1;
-                UpdateStatusPanel(sender, e);
+    
             }
             if (scrolling)
             {
                 if (wheelClicked)
                 {
                     scrollingDragged = true;
-                    UpdateStatusPanel(sender, e);
-                    UpdateStatusPanel(sender, e);
+        
                 }
 
                 int xMove = (hScrollBar1.Visible) ? e.X - ShiftX - scrollPosition.X : 0;
@@ -1515,18 +1518,18 @@ namespace ManiacEditor
                     if (yMove > 0) Cursor = Cursors.PanSE;
                     else if (yMove < 0) Cursor = Cursors.PanNE;
                     else Cursor = Cursors.PanEast;
-                    UpdateStatusPanel(sender, e);
+        
                 }
                 else if (xMove < 0)
                 {
                     if (yMove > 0) Cursor = Cursors.PanSW;
                     else if (yMove < 0) Cursor = Cursors.PanNW;
                     else Cursor = Cursors.PanWest;
-                    UpdateStatusPanel(sender, e);
+        
                 }
                 else
                 {
-                    UpdateStatusPanel(sender, e);
+        
                     if (yMove > 0) Cursor = Cursors.PanSouth;
                     else if (yMove < 0) Cursor = Cursors.PanNorth;
                     else
@@ -1535,7 +1538,7 @@ namespace ManiacEditor
                         else if (vScrollBar1.Visible) Cursor = Cursors.NoMoveVert;
                         else if (hScrollBar1.Visible) Cursor = Cursors.NoMoveHoriz;
                     }
-                    UpdateStatusPanel(sender, e);
+        
                 }
 
                 Point position = new Point(ShiftX, ShiftY); ;
@@ -1557,11 +1560,11 @@ namespace ManiacEditor
                     {
                         hScrollBar1.Value = x;
                     }
-                    GraphicPanel.OnMouseMoveEventCreate();
-                    UpdateStatusPanel(sender, e);
+                   OnMouseMoveEvent();
+        
                 }
-                UpdateStatusPanel(sender, e);
-                GraphicPanel.Render();
+
+                UpdateRender();
 
             }
             if (IsEditing())
@@ -1638,9 +1641,8 @@ namespace ManiacEditor
                         {
                             hScrollBar1.Value = x;
                         }
-                        GraphicPanel.OnMouseMoveEventCreate();
-                        UpdateStatusPanel(sender, e);
-                        GraphicPanel.Render();
+                        OnMouseMoveEvent();
+                        UpdateRender();
 
 
 
@@ -1670,7 +1672,6 @@ namespace ManiacEditor
                         UpdateTilesOptions();
 
                         if (IsEntitiesEdit()) entities.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
-                        UpdateStatusPanel(null, null);
                     }
                 }
                 else if (dragged)
@@ -1770,9 +1771,12 @@ namespace ManiacEditor
                     startDragged = false;
                 }
             }
+            
+
             lastX = e.X;
             lastY = e.Y;
-            UpdateStatusPanel(sender, e);
+
+            
         }
 
         private void GraphicPanel_OnMouseDown(object sender, MouseEventArgs e)
@@ -1883,6 +1887,7 @@ namespace ManiacEditor
                 }
             }
         }
+
         private void GraphicPanel_OnMouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -2632,6 +2637,11 @@ namespace ManiacEditor
             INILayerNameLower = "";
             SettingsReader.CleanPrefrences();
 
+            t = new System.Windows.Forms.Timer();
+            t.Interval = 10;
+            t.Tick += new EventHandler(UpdateStatusPanel);
+            t.Start();
+
             SelectedScene = null;
             SelectedZone = null;
             enableEncorePalette.Checked = false;
@@ -2926,6 +2936,7 @@ namespace ManiacEditor
             {
                 UpdateControls();
             }
+
         }
 
         #endregion
@@ -3539,6 +3550,8 @@ Error: {ex.Message}");
         private void primaryColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog();
+            colorSelect.ForeColor = Color.Black;
+            colorSelect.BackColor = Color.White;
             colorSelect.Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor1.R, EditorScene.EditorMetadata.BackgroundColor1.G, EditorScene.EditorMetadata.BackgroundColor1.B);
             DialogResult result = colorSelect.ShowDialog();
             if (result == DialogResult.OK)
@@ -3558,6 +3571,8 @@ Error: {ex.Message}");
         private void secondaryColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog();
+            colorSelect.ForeColor = Color.Black;
+            colorSelect.BackColor = Color.White;
             colorSelect.Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor2.R, EditorScene.EditorMetadata.BackgroundColor2.G, EditorScene.EditorMetadata.BackgroundColor2.B);
             DialogResult result = colorSelect.ShowDialog();
             if (result == DialogResult.OK)
@@ -4047,6 +4062,8 @@ Error: {ex.Message}");
             // hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
             // So I will refresh it here
 
+            //onRenderActive = true;
+
             if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
             if (EditorScene != null)
             {
@@ -4113,6 +4130,7 @@ Error: {ex.Message}");
                 if (EditEntities.Checked && editEntitiesDisplayAboveAll)
                     entities.Draw(GraphicPanel);
 
+
             }
             if (draggingSelection)
             {
@@ -4139,7 +4157,6 @@ Error: {ex.Message}");
                     GraphicPanel.DrawLine(x1, y1, x1, y2, Color.Purple);
                     GraphicPanel.DrawLine(x2, y2, x2, y1, Color.Purple);
                     GraphicPanel.DrawLine(x2, y2, x1, y2, Color.Purple);
-                    UpdateStatusPanel(sender, null);
                 }
             }
             if (!draggingSelection)
@@ -4159,7 +4176,15 @@ Error: {ex.Message}");
             if (showGrid)
                 Background.DrawGrid(GraphicPanel);
 
-            //Background.DrawSnow(GraphicPanel);
+
+
+            //if (EditorScene != null)
+            //{
+            //    Background.DrawSnow(GraphicPanel);
+            //}
+
+
+            //onRenderActive = false;
         }
 
         public void Form1_Load(object sender, EventArgs e)
@@ -4172,46 +4197,56 @@ Error: {ex.Message}");
             Show();
             Focus();
             GraphicPanel.Run();
-
         }
 
         private void GraphicPanel_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
+            if (!mySettings.DisableDraging)
             {
-                Point rel = GraphicPanel.PointToScreen(Point.Empty);
-                e.Effect = DragDropEffects.Move;
-                //(ushort)((Int32)e.Data.GetData(e.Data.GetFormats()[0])
-                EditLayer.StartDragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
-                UpdateEditLayerActions();
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
+                if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
+                {
+                    Point rel = GraphicPanel.PointToScreen(Point.Empty);
+                    e.Effect = DragDropEffects.Move;
+                    //(ushort)((Int32)e.Data.GetData(e.Data.GetFormats()[0])
+                    EditLayer?.StartDragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
+                    UpdateEditLayerActions();
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
             }
         }
 
         private void GraphicPanel_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
+            if (!mySettings.DisableDraging)
             {
-                Point rel = GraphicPanel.PointToScreen(Point.Empty);
-                EditLayer.DragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
+                if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
+                {
+                    Point rel = GraphicPanel.PointToScreen(Point.Empty);
+                    EditLayer?.DragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
+                    UpdateRender();
 
-                GraphicPanel.Render();
-
+                }
             }
         }
 
         private void GraphicPanel_DragLeave(object sender, EventArgs e)
         {
-            EditLayer?.EndDragOver(true);
-            GraphicPanel.Render();
+            if (!mySettings.DisableDraging)
+            {
+                EditLayer?.EndDragOver(true);
+                UpdateRender();
+            }
         }
 
         private void GraphicPanel_DragDrop(object sender, DragEventArgs e)
         {
-            EditLayer?.EndDragOver(false);
+            if (!mySettings.DisableDraging)
+            {
+                EditLayer?.EndDragOver(false);
+            }
         }
 
         public void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
@@ -4893,13 +4928,13 @@ Error: {ex.Message}");
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             ShiftY = e.NewValue;
-            GraphicPanel.Render();
+            UpdateRender();
         }
 
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             ShiftX = e.NewValue;
-            GraphicPanel.Render();
+            UpdateRender();
         }
 
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
@@ -4912,10 +4947,10 @@ Error: {ex.Message}");
                 //SetZoomLevel(mySettings.DevForceRestartZoomLevel, new Point(forceResizeGoToX, forceResizeGoToY));
             }
             ShiftY = (sender as VScrollBar).Value;
-            if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
+            if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
             if (draggingSelection)
             {
-                GraphicPanel.OnMouseMoveEventCreate();
+                OnMouseMoveEvent();
             }
         }
 
@@ -4929,10 +4964,10 @@ Error: {ex.Message}");
                 SetZoomLevel(mySettings.DevForceRestartZoomLevel, new Point(forceResizeGoToX, forceResizeGoToY));
             }
             ShiftX = hScrollBar1.Value;
-            if (!(zooming || draggingSelection || dragged || scrolling)) GraphicPanel.Render();
+            if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
             if (draggingSelection)
             {
-                GraphicPanel.OnMouseMoveEventCreate();
+                OnMouseMoveEvent();
             }
         }
 
@@ -5634,6 +5669,11 @@ Error: {ex.Message}");
 
         }
 
+        private void viewPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            UpdateStatusPanel(sender, e);
+        }
+
         private void spriteFramesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (spriteFramesToolStripMenuItem.Checked == false)
@@ -5760,10 +5800,104 @@ Error: {ex.Message}");
             vScrollBar1.Value = yPos;
         }
 
-        public void LetItSnow()
+        public void UpdateRender()
         {
+            if (!mySettings.RellyOnRenderLoopForUpdatingOnly)
+            {
+                GraphicPanel.Render();
+            }
+        }
+
+        public void OnMouseMoveEvent()
+        {
+            if (!mySettings.RellyOnRenderLoopForUpdatingOnly)
+            {
+                GraphicPanel.OnMouseMoveEventCreate();
+            }
+        }
+
+        public void useDarkTheme(bool state = false)
+        {
+            if (state)
+            {
+                SystemColorsUtility systemColors = new SystemColorsUtility();
+                systemColors.SetColor(KnownColor.Window, darkTheme1);
+                systemColors.SetColor(KnownColor.Highlight, Color.Blue);
+                systemColors.SetColor(KnownColor.WindowFrame, darkTheme2);
+                systemColors.SetColor(KnownColor.GradientActiveCaption, darkTheme1);
+                systemColors.SetColor(KnownColor.GradientInactiveCaption, darkTheme1);
+                systemColors.SetColor(KnownColor.ControlText, darkTheme3);
+                systemColors.SetColor(KnownColor.WindowText, darkTheme3);
+                systemColors.SetColor(KnownColor.GrayText, darkTheme2);
+                systemColors.SetColor(KnownColor.InfoText, darkTheme2);
+                systemColors.SetColor(KnownColor.MenuText, darkTheme3);
+                systemColors.SetColor(KnownColor.Control, darkTheme1);
+                systemColors.SetColor(KnownColor.ButtonHighlight, darkTheme3);
+                systemColors.SetColor(KnownColor.ButtonShadow, darkTheme2);
+                systemColors.SetColor(KnownColor.ButtonFace, darkTheme1);
+                systemColors.SetColor(KnownColor.Desktop, darkTheme1);
+                systemColors.SetColor(KnownColor.ControlLightLight, darkTheme2);
+                systemColors.SetColor(KnownColor.ControlLight, darkTheme1);
+                systemColors.SetColor(KnownColor.ControlDark, darkTheme3);
+                systemColors.SetColor(KnownColor.ControlDarkDark, darkTheme3);
+                systemColors.SetColor(KnownColor.ActiveBorder, darkTheme1);
+                systemColors.SetColor(KnownColor.ActiveCaption, darkTheme1);
+                systemColors.SetColor(KnownColor.ActiveCaptionText, darkTheme3);
+                systemColors.SetColor(KnownColor.InactiveBorder, darkTheme2);
+                systemColors.SetColor(KnownColor.MenuBar, darkTheme1);
+            }
+            else
+            {
+                SystemColorsUtility systemColors = new SystemColorsUtility();
+                systemColors.SetColor(KnownColor.Window, SystemColors.Window);
+                systemColors.SetColor(KnownColor.Highlight, SystemColors.Highlight);
+                systemColors.SetColor(KnownColor.WindowFrame, SystemColors.WindowFrame);
+                systemColors.SetColor(KnownColor.GradientActiveCaption, SystemColors.GradientActiveCaption);
+                systemColors.SetColor(KnownColor.GradientInactiveCaption, SystemColors.GradientInactiveCaption);
+                systemColors.SetColor(KnownColor.ControlText, SystemColors.ControlText);
+                systemColors.SetColor(KnownColor.WindowText, SystemColors.WindowText);
+                systemColors.SetColor(KnownColor.GrayText, SystemColors.GrayText);
+                systemColors.SetColor(KnownColor.InfoText, SystemColors.InfoText);
+                systemColors.SetColor(KnownColor.MenuText, SystemColors.MenuText);
+                systemColors.SetColor(KnownColor.Control, SystemColors.Control);
+                systemColors.SetColor(KnownColor.ButtonHighlight, SystemColors.ButtonHighlight);
+                systemColors.SetColor(KnownColor.ButtonShadow, SystemColors.ButtonShadow);
+                systemColors.SetColor(KnownColor.ButtonFace, SystemColors.ButtonFace);
+                systemColors.SetColor(KnownColor.Desktop, SystemColors.Desktop);
+                systemColors.SetColor(KnownColor.ControlLightLight, SystemColors.ControlLightLight);
+                systemColors.SetColor(KnownColor.ControlLight, SystemColors.ControlLight);
+                systemColors.SetColor(KnownColor.ControlDark, SystemColors.ControlDark);
+                systemColors.SetColor(KnownColor.ControlDarkDark, SystemColors.ControlDarkDark);
+                systemColors.SetColor(KnownColor.ActiveBorder, SystemColors.ActiveBorder);
+                systemColors.SetColor(KnownColor.ActiveCaption, SystemColors.ActiveCaption);
+                systemColors.SetColor(KnownColor.ActiveCaptionText, SystemColors.ActiveCaptionText);
+                systemColors.SetColor(KnownColor.InactiveBorder, SystemColors.InactiveBorder);
+                systemColors.SetColor(KnownColor.MenuBar, SystemColors.MenuBar);
+            }
 
         }
+        public class SystemColorsUtility
+        {
+            public SystemColorsUtility()
+            {
+                // force init color table
+                byte unused = SystemColors.Window.R;
+
+                var colorTableField = typeof(Color).Assembly.GetType("System.Drawing.KnownColorTable")
+                    .GetField("colorTable", BindingFlags.Static | BindingFlags.NonPublic);
+
+                _colorTable = (int[])colorTableField.GetValue(null);
+            }
+
+            public void SetColor(KnownColor knownColor, Color value)
+            {
+                _colorTable[(int)knownColor] = value.ToArgb();
+            }
+
+            private int[] _colorTable;
+        }
+
+
 
         #endregion
     }

@@ -33,6 +33,11 @@ namespace ManiacEditor
         public SceneSelect(GameConfig config = null)
         {
             InitializeComponent();
+            if (Properties.Settings.Default.NightMode)
+            {
+                dataLabelToolStripItem.BackColor = Editor.Instance.darkTheme1;
+                dataLabelToolStripItem.ForeColor = Editor.Instance.darkTheme3;
+            }
             if (Properties.EditorState.Default.preRenderSceneSelectCheckbox) preRenderCheckbox.Checked = true;
             if (Properties.Settings.Default.preRenderSceneOption == 1) preRenderCheckbox.Enabled = true;
             ReloadQuickPanel();

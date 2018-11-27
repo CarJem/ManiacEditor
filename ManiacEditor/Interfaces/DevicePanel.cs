@@ -235,7 +235,7 @@ namespace ManiacEditor
 
 
             });
-            //Application.DoEvents();
+            Application.DoEvents();
         }
 
         public void InitDeviceResources()
@@ -732,6 +732,30 @@ namespace ManiacEditor
                 DrawLinePBP(X1, Y1, X2, Y2, color);
             }
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
+        }
+
+        public void DrawSnowLines(int X1, int Y1, int X2, int Y2, Color color)
+        {
+            Rectangle screen = _parent.GetScreen();
+            double zoom = _parent.GetZoom();
+            int width = Math.Abs(X2 - X1);
+            int height = Math.Abs(Y2 - Y1);
+            int x = Math.Min(X1, X2);
+            int y = Math.Min(Y1, Y2);
+            int pixel_width = Math.Max((int)zoom, 1);
+
+            if (width == 0 || height == 0)
+            {
+                if (width == 0) width = pixel_width;
+                else width = (int)(width * zoom);
+                if (height == 0) height = pixel_width;
+                else height = (int)(height * zoom);
+                DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x)), (int)((y)), 0), color);
+            }
+            else
+            {
+                DrawLinePBP(X1, Y1, X2, Y2, color);
+            }
         }
 
         public void DrawArrow(int x0, int y0, int x1, int y1, Color color)

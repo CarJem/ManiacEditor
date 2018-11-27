@@ -61,6 +61,7 @@
             // 
             this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.okButton.ForeColor = System.Drawing.Color.Black;
             this.okButton.Location = new System.Drawing.Point(3, 282);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(118, 20);

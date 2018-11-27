@@ -88,6 +88,12 @@ namespace ManiacEditor
         {
             InitializeComponent();
 
+            if (Properties.Settings.Default.NightMode)
+            {
+                trackBar1.BackColor = Editor.Instance.darkTheme1;
+                tilesList.BackColor = Editor.Instance.darkTheme1;
+            }
+
             tileOptionsCheckboxes[0] = tileOption1;
             tileOptionsCheckboxes[1] = tileOption2;
             tileOptionsCheckboxes[2] = tileOption3;

@@ -40,8 +40,10 @@
             // 
             // listView1
             // 
+            this.listView1.BackColor = System.Drawing.Color.White;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
+            this.listView1.ForeColor = System.Drawing.Color.Black;
             this.listView1.Location = new System.Drawing.Point(12, 12);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -60,6 +62,7 @@
             // 
             // addButton
             // 
+            this.addButton.ForeColor = System.Drawing.Color.Black;
             this.addButton.Location = new System.Drawing.Point(228, 12);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
@@ -71,6 +74,7 @@
             // removeButton
             // 
             this.removeButton.Enabled = false;
+            this.removeButton.ForeColor = System.Drawing.Color.Black;
             this.removeButton.Location = new System.Drawing.Point(228, 41);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(75, 23);
@@ -82,6 +86,7 @@
             // editButton
             // 
             this.editButton.Enabled = false;
+            this.editButton.ForeColor = System.Drawing.Color.Black;
             this.editButton.Location = new System.Drawing.Point(228, 70);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(75, 23);
@@ -92,6 +97,7 @@
             // 
             // reloadButton
             // 
+            this.reloadButton.ForeColor = System.Drawing.Color.Black;
             this.reloadButton.Location = new System.Drawing.Point(228, 386);
             this.reloadButton.Name = "reloadButton";
             this.reloadButton.Size = new System.Drawing.Size(75, 23);
@@ -102,6 +108,7 @@
             // 
             // saveButton
             // 
+            this.saveButton.ForeColor = System.Drawing.Color.Black;
             this.saveButton.Location = new System.Drawing.Point(228, 415);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);

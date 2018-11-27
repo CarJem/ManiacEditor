@@ -41,6 +41,7 @@
             // btnImport
             // 
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnImport.ForeColor = System.Drawing.Color.Black;
             this.btnImport.Location = new System.Drawing.Point(3, 334);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 23);
@@ -53,6 +54,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.ForeColor = System.Drawing.Color.Black;
             this.btnCancel.Location = new System.Drawing.Point(306, 334);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -63,9 +65,11 @@
             // 
             // lvObjects
             // 
+            this.lvObjects.BackColor = System.Drawing.Color.White;
             this.lvObjects.CheckBoxes = true;
             this.tableLayoutPanel1.SetColumnSpan(this.lvObjects, 2);
             this.lvObjects.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvObjects.ForeColor = System.Drawing.Color.Black;
             this.lvObjects.Location = new System.Drawing.Point(3, 100);
             this.lvObjects.Name = "lvObjects";
             this.lvObjects.Size = new System.Drawing.Size(378, 228);
@@ -75,6 +79,7 @@
             // 
             // rtbWarning
             // 
+            this.rtbWarning.BackColor = System.Drawing.Color.White;
             this.rtbWarning.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tableLayoutPanel1.SetColumnSpan(this.rtbWarning, 2);
             this.rtbWarning.Dock = System.Windows.Forms.DockStyle.Fill;

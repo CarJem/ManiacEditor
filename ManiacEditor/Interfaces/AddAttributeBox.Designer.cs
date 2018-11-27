@@ -77,6 +77,8 @@
             // 
             // nameBox
             // 
+            this.nameBox.BackColor = System.Drawing.Color.White;
+            this.nameBox.ForeColor = System.Drawing.Color.Black;
             this.nameBox.Location = new System.Drawing.Point(52, 28);
             this.nameBox.Name = "nameBox";
             this.nameBox.Size = new System.Drawing.Size(144, 20);
@@ -84,6 +86,8 @@
             // 
             // defaultBox
             // 
+            this.defaultBox.BackColor = System.Drawing.Color.White;
+            this.defaultBox.ForeColor = System.Drawing.Color.Black;
             this.defaultBox.Location = new System.Drawing.Point(15, 158);
             this.defaultBox.Name = "defaultBox";
             this.defaultBox.Size = new System.Drawing.Size(144, 20);
@@ -91,7 +95,9 @@
             // 
             // typeBox
             // 
+            this.typeBox.BackColor = System.Drawing.Color.White;
             this.typeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.typeBox.ForeColor = System.Drawing.Color.Black;
             this.typeBox.FormattingEnabled = true;
             this.typeBox.Location = new System.Drawing.Point(52, 82);
             this.typeBox.Name = "typeBox";
@@ -100,6 +106,7 @@
             // 
             // addBtn
             // 
+            this.addBtn.ForeColor = System.Drawing.Color.Black;
             this.addBtn.Location = new System.Drawing.Point(12, 205);
             this.addBtn.Name = "addBtn";
             this.addBtn.Size = new System.Drawing.Size(104, 23);
@@ -110,6 +117,7 @@
             // 
             // cancelBtn
             // 
+            this.cancelBtn.ForeColor = System.Drawing.Color.Black;
             this.cancelBtn.Location = new System.Drawing.Point(177, 205);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(104, 23);

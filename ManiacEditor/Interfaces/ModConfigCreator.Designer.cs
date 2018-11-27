@@ -47,6 +47,8 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.BackColor = System.Drawing.Color.White;
+            this.richTextBox1.ForeColor = System.Drawing.Color.Black;
             this.richTextBox1.Location = new System.Drawing.Point(12, 25);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(452, 383);
@@ -65,6 +67,7 @@
             // create
             // 
             this.create.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.create.ForeColor = System.Drawing.Color.Black;
             this.create.Location = new System.Drawing.Point(389, 415);
             this.create.Name = "create";
             this.create.Size = new System.Drawing.Size(75, 23);
@@ -76,6 +79,7 @@
             // cancel
             // 
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancel.ForeColor = System.Drawing.Color.Black;
             this.cancel.Location = new System.Drawing.Point(308, 415);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 23);
@@ -86,6 +90,7 @@
             // 
             // import
             // 
+            this.import.ForeColor = System.Drawing.Color.Black;
             this.import.Location = new System.Drawing.Point(12, 415);
             this.import.Name = "import";
             this.import.Size = new System.Drawing.Size(88, 23);
@@ -96,6 +101,8 @@
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
             this.textBox1.Location = new System.Drawing.Point(183, 417);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(98, 20);

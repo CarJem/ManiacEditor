@@ -76,6 +76,9 @@ namespace ManiacEditor
             // scenesTree
             // 
             this.scenesTree.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.scenesTree.BackColor = System.Drawing.Color.White;
+            this.scenesTree.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.scenesTree.ForeColor = System.Drawing.Color.Black;
             this.scenesTree.Location = new System.Drawing.Point(14, 63);
             this.scenesTree.Name = "scenesTree";
             this.scenesTree.Size = new System.Drawing.Size(472, 349);
@@ -89,6 +92,7 @@ namespace ManiacEditor
             // 
             this.selectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.selectButton.Enabled = false;
+            this.selectButton.ForeColor = System.Drawing.Color.Black;
             this.selectButton.Location = new System.Drawing.Point(381, 418);
             this.selectButton.Name = "selectButton";
             this.selectButton.Size = new System.Drawing.Size(105, 28);
@@ -101,6 +105,7 @@ namespace ManiacEditor
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.ForeColor = System.Drawing.Color.Black;
             this.cancelButton.Location = new System.Drawing.Point(893, 418);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(105, 28);
@@ -122,6 +127,9 @@ namespace ManiacEditor
             // FilterText
             // 
             this.FilterText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterText.BackColor = System.Drawing.Color.White;
+            this.FilterText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FilterText.ForeColor = System.Drawing.Color.Black;
             this.FilterText.Location = new System.Drawing.Point(54, 37);
             this.FilterText.Name = "FilterText";
             this.FilterText.Size = new System.Drawing.Size(432, 20);
@@ -131,6 +139,7 @@ namespace ManiacEditor
             // browse
             // 
             this.browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.browse.ForeColor = System.Drawing.Color.Black;
             this.browse.Location = new System.Drawing.Point(270, 418);
             this.browse.Name = "browse";
             this.browse.Size = new System.Drawing.Size(105, 28);
@@ -236,6 +245,8 @@ namespace ManiacEditor
             // recentDataDirList
             // 
             this.recentDataDirList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.recentDataDirList.BackColor = System.Drawing.Color.White;
+            this.recentDataDirList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.recentDataDirList.Location = new System.Drawing.Point(492, 63);
             this.recentDataDirList.Name = "recentDataDirList";
             this.recentDataDirList.Size = new System.Drawing.Size(506, 349);
@@ -246,6 +257,7 @@ namespace ManiacEditor
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Location = new System.Drawing.Point(718, 418);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(88, 28);
@@ -258,6 +270,7 @@ namespace ManiacEditor
             // addButton
             // 
             this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addButton.ForeColor = System.Drawing.Color.Black;
             this.addButton.Location = new System.Drawing.Point(812, 418);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 28);

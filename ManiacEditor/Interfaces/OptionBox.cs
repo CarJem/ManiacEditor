@@ -34,6 +34,21 @@ namespace ManiacEditor
             if (Properties.Settings.Default.CustomGridDefault) uncheckOtherGridDefaults(4);
             initilizeKeyDefaults();
 
+            if (Properties.Settings.Default.NightMode)
+            {
+                checkBox15.Checked = true;
+                tileToolbarZoomDefault.BackColor = Editor.Instance.darkTheme1;
+                tabControl1.BackColor = System.Drawing.Color.Bisque;
+            }
+            tabPage1.UseVisualStyleBackColor = false;
+            tabPage2.UseVisualStyleBackColor = false;
+            tabPage3.UseVisualStyleBackColor = false;
+            tabPage4.UseVisualStyleBackColor = false;
+            tabPage5.UseVisualStyleBackColor = false;
+            tabPage6.UseVisualStyleBackColor = false;
+            tabPage7.UseVisualStyleBackColor = false;
+            tabPage8.UseVisualStyleBackColor = false;
+
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -589,6 +604,30 @@ namespace ManiacEditor
             if (result == DialogResult.OK)
             {
                 Properties.Settings.Default.CollisionSAColour = colorSelect.Color;
+            }
+        }
+
+        private void OptionBox_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (checkBox15.Checked && !Properties.Settings.Default.NightMode)
+            {
+                DialogResult result = MessageBox.Show("To apply this setting correctly, you will have to restart the editor, would you like to that now?", "Restart to Apply", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                {
+                    Properties.Settings.Default.NightMode = true;
+                    Application.Restart();
+                    Environment.Exit(0);
+                }
+            }
+            else if (!checkBox15.Checked && Properties.Settings.Default.NightMode)
+            {
+                DialogResult result = MessageBox.Show("To apply this setting correctly, you will have to restart the editor, would you like to that now?", "Restart to Apply", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                {
+                    Properties.Settings.Default.NightMode = false;
+                    Application.Restart();
+                    Environment.Exit(0);
+                }
             }
         }
     }

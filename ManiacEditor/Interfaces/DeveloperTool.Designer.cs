@@ -194,8 +194,10 @@ namespace ManiacEditor
             // 
             // numericUpDown10
             // 
+            this.numericUpDown10.BackColor = System.Drawing.Color.White;
             this.numericUpDown10.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt10", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown10.DecimalPlaces = 4;
+            this.numericUpDown10.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown10.Location = new System.Drawing.Point(6, 253);
             this.numericUpDown10.Maximum = new decimal(new int[] {
             -1,
@@ -214,8 +216,10 @@ namespace ManiacEditor
             // 
             // numericUpDown9
             // 
+            this.numericUpDown9.BackColor = System.Drawing.Color.White;
             this.numericUpDown9.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt8", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown9.DecimalPlaces = 4;
+            this.numericUpDown9.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown9.Location = new System.Drawing.Point(6, 201);
             this.numericUpDown9.Maximum = new decimal(new int[] {
             -1,
@@ -234,8 +238,10 @@ namespace ManiacEditor
             // 
             // numericUpDown8
             // 
+            this.numericUpDown8.BackColor = System.Drawing.Color.White;
             this.numericUpDown8.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt7", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown8.DecimalPlaces = 4;
+            this.numericUpDown8.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown8.Location = new System.Drawing.Point(6, 175);
             this.numericUpDown8.Maximum = new decimal(new int[] {
             -1,
@@ -254,8 +260,10 @@ namespace ManiacEditor
             // 
             // numericUpDown7
             // 
+            this.numericUpDown7.BackColor = System.Drawing.Color.White;
             this.numericUpDown7.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt9", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown7.DecimalPlaces = 4;
+            this.numericUpDown7.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown7.Location = new System.Drawing.Point(6, 227);
             this.numericUpDown7.Maximum = new decimal(new int[] {
             -1,
@@ -274,8 +282,10 @@ namespace ManiacEditor
             // 
             // numericUpDown6
             // 
+            this.numericUpDown6.BackColor = System.Drawing.Color.White;
             this.numericUpDown6.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt6", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown6.DecimalPlaces = 4;
+            this.numericUpDown6.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown6.Location = new System.Drawing.Point(6, 149);
             this.numericUpDown6.Maximum = new decimal(new int[] {
             -1,
@@ -294,8 +304,10 @@ namespace ManiacEditor
             // 
             // numericUpDown5
             // 
+            this.numericUpDown5.BackColor = System.Drawing.Color.White;
             this.numericUpDown5.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt5", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown5.DecimalPlaces = 4;
+            this.numericUpDown5.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown5.Location = new System.Drawing.Point(6, 123);
             this.numericUpDown5.Maximum = new decimal(new int[] {
             -1,
@@ -314,8 +326,10 @@ namespace ManiacEditor
             // 
             // numericUpDown4
             // 
+            this.numericUpDown4.BackColor = System.Drawing.Color.White;
             this.numericUpDown4.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt4", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown4.DecimalPlaces = 4;
+            this.numericUpDown4.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown4.Location = new System.Drawing.Point(6, 97);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             -1,
@@ -334,8 +348,10 @@ namespace ManiacEditor
             // 
             // numericUpDown3
             // 
+            this.numericUpDown3.BackColor = System.Drawing.Color.White;
             this.numericUpDown3.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt3", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown3.DecimalPlaces = 4;
+            this.numericUpDown3.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown3.Location = new System.Drawing.Point(6, 71);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             -1,
@@ -354,8 +370,10 @@ namespace ManiacEditor
             // 
             // numericUpDown2
             // 
+            this.numericUpDown2.BackColor = System.Drawing.Color.White;
             this.numericUpDown2.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt2", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown2.DecimalPlaces = 4;
+            this.numericUpDown2.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown2.Location = new System.Drawing.Point(6, 45);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             -1,
@@ -374,8 +392,10 @@ namespace ManiacEditor
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.BackColor = System.Drawing.Color.White;
             this.numericUpDown1.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "devInt", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown1.DecimalPlaces = 4;
+            this.numericUpDown1.ForeColor = System.Drawing.Color.Black;
             this.numericUpDown1.Location = new System.Drawing.Point(6, 19);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             -1,
