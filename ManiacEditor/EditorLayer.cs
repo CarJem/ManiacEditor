@@ -1071,40 +1071,43 @@ namespace ManiacEditor
 
         public void Draw(DevicePanel d)
         {
-            int Transperncy;
 
-            if (Editor.Instance.EditLayer != null && Editor.Instance.EditLayer != this)
-                Transperncy = 0x32;
-            else if (Editor.Instance.EditEntities.Checked && Editor.Instance.EditLayer == null && Properties.EditorState.Default.editEntitiesTransparency)
-                Transperncy = 0x32;
-            else
-                Transperncy = 0xFF;
+                int Transperncy;
 
-            Rectangle screen = d.GetScreen();
-            
-            int start_x = screen.X / (TILES_CHUNK_SIZE * TILE_SIZE);
-            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures[0].Length);
-            int start_y = screen.Y / (TILES_CHUNK_SIZE * TILE_SIZE);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures.Length);
-            for (int y = start_y; y < end_y; ++y)
-            {
-                for (int x = start_x; x < end_x; ++x)
+                if (Editor.Instance.EditLayer != null && Editor.Instance.EditLayer != this)
+                    Transperncy = 0x32;
+                else if (Editor.Instance.EditEntities.Checked && Editor.Instance.EditLayer == null && Properties.EditorState.Default.editEntitiesTransparency)
+                    Transperncy = 0x32;
+                else
+                    Transperncy = 0xFF;
+
+                Rectangle screen = d.GetScreen();
+
+                int start_x = screen.X / (TILES_CHUNK_SIZE * TILE_SIZE);
+                int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures[0].Length);
+                int start_y = screen.Y / (TILES_CHUNK_SIZE * TILE_SIZE);
+                int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures.Length);
+                for (int y = start_y; y < end_y; ++y)
                 {
-                    Rectangle rect = GetTilesChunkArea(x, y);
-                    if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
+                    for (int x = start_x; x < end_x; ++x)
                     {
-                        // TODO: If the full chunk isDrawTilesChunk selected, cache it
-                        // draw one by one
-                        DrawTilesChunk(d, x, y, Transperncy);
+                        Rectangle rect = GetTilesChunkArea(x, y);
+                        if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
+                        {
+                            // TODO: If the full chunk isDrawTilesChunk selected, cache it
+                            // draw one by one
+                            DrawTilesChunk(d, x, y, Transperncy);
+                        }
+                        else
+                        {
+                            d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * TILE_SIZE, rect.Y * TILE_SIZE, rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, false, Transperncy);
+                        }
+                        DrawSelectedTiles(d, x, y, Transperncy);
+
                     }
-                    else
-                    {
-                        d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * TILE_SIZE, rect.Y * TILE_SIZE, rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, false, Transperncy);
-                    }
-                    DrawSelectedTiles(d, x, y, Transperncy);
-                    
                 }
-            }
+            
+
         }
 
         /// <summary>

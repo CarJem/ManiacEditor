@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Buggernaut : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
@@ -22,14 +22,14 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = e.LoadAnimation2("Buggernaut", d, 0, 0, fliph, flipv, false);
-            var editorAnimWings = e.LoadAnimation2("Buggernaut", d, 2, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Buggernaut", d, 0, 0, fliph, flipv, false);
+            var editorAnimWings = EditorEntity_ini.LoadAnimation2("Buggernaut", d, 2, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimWings != null && editorAnimWings.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                var frameWings = editorAnimWings.Frames[e.index];
+                var frameWings = editorAnimWings.Frames[Animation.index];
 
-                e.ProcessAnimation(frameWings.Entry.FrameSpeed, frameWings.Entry.Frames.Count, frameWings.Frame.Duration);
+                Animation.ProcessAnimation(frameWings.Entry.FrameSpeed, frameWings.Entry.Frames.Count, frameWings.Frame.Duration);
 
                 d.DrawBitmap(frameWings.Texture,
                     x + frameWings.Frame.CenterX - (fliph ? (frameWings.Frame.Width - editorAnimWings.Frames[0].Frame.Width) : 0),

@@ -13,16 +13,16 @@ namespace ManiacEditor.Entity_Renders
     public class SpikeFlail : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
             int chainLength = (int)entity.attributesMap["chainLength"].ValueUInt8;            
-            var editorAnim = e.LoadAnimation2("SpikeFlail", d, 0, 0, fliph, flipv, false);
-            var editorAnimBall = e.LoadAnimation2("SpikeFlail", d, 1, 0, fliph, flipv, false);
-            var editorAnimRing1 = e.LoadAnimation2("SpikeFlail", d, 2, 0, fliph, flipv, false);
-            var editorAnimRing2 = e.LoadAnimation2("SpikeFlail", d, 3, 0, fliph, flipv, false);
-            var editorAnimRing3 = e.LoadAnimation2("SpikeFlail", d, 4, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("SpikeFlail", d, 0, 0, fliph, flipv, false);
+            var editorAnimBall = EditorEntity_ini.LoadAnimation2("SpikeFlail", d, 1, 0, fliph, flipv, false);
+            var editorAnimRing1 = EditorEntity_ini.LoadAnimation2("SpikeFlail", d, 2, 0, fliph, flipv, false);
+            var editorAnimRing2 = EditorEntity_ini.LoadAnimation2("SpikeFlail", d, 3, 0, fliph, flipv, false);
+            var editorAnimRing3 = EditorEntity_ini.LoadAnimation2("SpikeFlail", d, 4, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBall != null && editorAnimBall.Frames.Count != 0 && editorAnimRing1 != null && editorAnimRing1.Frames.Count != 0 && editorAnimRing2 != null && editorAnimRing2.Frames.Count != 0 && editorAnimRing3 != null && editorAnimRing3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -31,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
                 var frameRing2 = editorAnimRing2.Frames[0];
                 var frameRing3 = editorAnimRing3.Frames[0];
 
-                //e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                //Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),

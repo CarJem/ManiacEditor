@@ -13,39 +13,39 @@ namespace ManiacEditor.Entity_Renders
     public class EggLoco : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("Train", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("Train", d, 1, -1, fliph, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("Train", d, 2, -1, fliph, flipv, false);
-            var editorAnim4 = e.LoadAnimation2("Train", d, 5, 0, false, false, false);
-            var editorAnim5 = e.LoadAnimation2("Train", d, 7, -1, fliph, flipv, false);
-            var editorAnim6 = e.LoadAnimation2("Train", d, 6, 0, false, false, false);
-            var editorAnim7 = e.LoadAnimation2("Train", d, 3, -1, fliph, flipv, false);
-            var editorAnim8 = e.LoadAnimation2("Train", d, 4, -1, fliph, flipv, false);
-            var editorAnim9 = e.LoadAnimation2("Train", d, 10, -1, fliph, flipv, false);
-            var editorAnim10 = e.LoadAnimation2("Train", d, 12, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Train", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Train", d, 1, -1, fliph, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("Train", d, 2, -1, fliph, flipv, false);
+            var editorAnim4 = EditorEntity_ini.LoadAnimation2("Train", d, 5, 0, false, false, false);
+            var editorAnim5 = EditorEntity_ini.LoadAnimation2("Train", d, 7, -1, fliph, flipv, false);
+            var editorAnim6 = EditorEntity_ini.LoadAnimation2("Train", d, 6, 0, false, false, false);
+            var editorAnim7 = EditorEntity_ini.LoadAnimation2("Train", d, 3, -1, fliph, flipv, false);
+            var editorAnim8 = EditorEntity_ini.LoadAnimation2("Train", d, 4, -1, fliph, flipv, false);
+            var editorAnim9 = EditorEntity_ini.LoadAnimation2("Train", d, 10, -1, fliph, flipv, false);
+            var editorAnim10 = EditorEntity_ini.LoadAnimation2("Train", d, 12, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0 && editorAnim10 != null && editorAnim10.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
                 var frame2 = editorAnim2.Frames[0];
                 var frame3 = editorAnim2.Frames[1];
-                var frame4 = editorAnim3.Frames[e.EditorAnimations.index];
+                var frame4 = editorAnim3.Frames[Animation.index];
                 var frame5 = editorAnim4.Frames[0];
-                var frame6 = editorAnim5.Frames[e.index];
+                var frame6 = editorAnim5.Frames[Animation.index];
                 var frame7 = editorAnim6.Frames[0];
                 var frame8 = editorAnim7.Frames[0];
                 var frame9 = editorAnim7.Frames[1];
                 var frame10 = editorAnim8.Frames[0];
                 var frame11 = editorAnim8.Frames[1];
-                var frame12 = editorAnim9.Frames[e.EditorAnimations.index2];
+                var frame12 = editorAnim9.Frames[Animation.index2];
                 var frame13 = editorAnim10.Frames[0];
 
-                e.ProcessAnimation(frame6.Entry.FrameSpeed, frame6.Entry.Frames.Count, frame6.Frame.Duration);
-                e.EditorAnimations.ProcessAnimation2(frame4.Entry.FrameSpeed, frame4.Entry.Frames.Count, frame4.Frame.Duration);
-                e.EditorAnimations.ProcessAnimation3(frame12.Entry.FrameSpeed, frame12.Entry.Frames.Count, frame12.Frame.Duration);
+                Animation.ProcessAnimation(frame6.Entry.FrameSpeed, frame6.Entry.Frames.Count, frame6.Frame.Duration);
+                Animation.ProcessAnimation2(frame4.Entry.FrameSpeed, frame4.Entry.Frames.Count, frame4.Frame.Duration);
+                Animation.ProcessAnimation3(frame12.Entry.FrameSpeed, frame12.Entry.Frames.Count, frame12.Frame.Duration);
 
                 //Eggman
                 d.DrawBitmap(frame12.Texture,

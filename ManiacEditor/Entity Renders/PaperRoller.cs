@@ -13,16 +13,16 @@ namespace ManiacEditor.Entity_Renders
     public class PaperRoller : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int length = (int)entity.attributesMap["length"].ValueVar;
             int angle = (int)entity.attributesMap["angle"].ValueVar;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("PaperRoller", d, 0, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("PaperRoller", d, 0, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 int[] newPos = RotatePoints(x - (length / 2), y, x, y, -angle);
                 int[] newPos2 = RotatePoints(x + (length / 2), y, x, y, -angle);
                 int[] newPosAngle = RotatePoints(newPos[0] - 23, newPos[1], newPos[0], newPos[1], -angle + 64);
@@ -30,7 +30,7 @@ namespace ManiacEditor.Entity_Renders
                 int[] newPos2Angle = RotatePoints(newPos2[0] - 23, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
                 int[] newPos2Angle2 = RotatePoints(newPos2[0] + 24, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
 
                 d.DrawBitmap(frame.Texture,

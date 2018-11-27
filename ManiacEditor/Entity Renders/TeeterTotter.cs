@@ -13,10 +13,10 @@ namespace ManiacEditor.Entity_Renders
     public class TeeterTotter : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var value = entity.attributesMap["length"].ValueUInt32 / 2;
-            var editorAnim = e.LoadAnimation2("TeeterTotter", d, 0, 0, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("TeeterTotter", d, 0, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

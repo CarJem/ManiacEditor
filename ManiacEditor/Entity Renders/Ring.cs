@@ -12,16 +12,16 @@ namespace ManiacEditor.Entity_Renders
 {
     public class Ring : EntityRenderer
     {
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             //int type = (int)entity.attributesMap["type"].ValueVar;
             //int moveType = (int)entity.attributesMap["moveType"].ValueVar;
             //int angle = (int)entity.attributesMap["angle"].ValueInt32;
 
-            int type = (int)e.FetchAttribute.AttributesMapVar("type", entity);
-            int moveType = (int)e.FetchAttribute.AttributesMapVar("moveType", entity);
-            int angle = (int)e.FetchAttribute.AttributesMapInt32("angle", entity);
-            UInt32 speed = e.FetchAttribute.AttributesMapUint32("speed", entity);
+            int type = (int)attribMap.AttributesMapVar("type", entity);
+            int moveType = (int)attribMap.AttributesMapVar("moveType", entity);
+            int angle = (int)attribMap.AttributesMapInt32("angle", entity);
+            UInt32 speed = attribMap.AttributesMapUint32("speed", entity);
 
             bool fliph = false;
             bool flipv = false;
@@ -29,8 +29,8 @@ namespace ManiacEditor.Entity_Renders
             //int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
             //int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
 
-            int amplitudeX = (int)e.FetchAttribute.AttributesMapPositionHighX("amplitude", entity);
-            int amplitudeY = (int)e.FetchAttribute.AttributesMapPositionHighY("amplitude", entity);
+            int amplitudeX = (int)attribMap.AttributesMapPositionHighX("amplitude", entity);
+            int amplitudeY = (int)attribMap.AttributesMapPositionHighY("amplitude", entity);
 
             int animID;
             switch (type)
@@ -51,32 +51,32 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var editorAnim = e.LoadAnimation2("Ring", d, animID, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Ring", d, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
 
                 if (type >= 2)
                 {
-                    e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
                 }
                 else
                 {
-                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 }
 
                 if (moveType == 2)
                 {
-                    e.ProcessMovingPlatform(angle);
-                    angle = e.platformAngle;
+                    //e.ProcessMovingPlatform(angle);
+                    angle = Animation.platformAngle;
 
                     if (type >= 2)
                     {
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
                     }
                     else
                     {
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                     }
                 }
 
@@ -105,16 +105,16 @@ namespace ManiacEditor.Entity_Renders
 
                     if (amplitudeX != 0 && amplitudeY == 0)
                     {
-                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
                     if (amplitudeX == 0 && amplitudeY != 0)
                     {
-                        position = e.EditorAnimations.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
                         // Since we can don't know how to do it other than x or y yet
-                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
 
                     d.DrawBitmap(frame.Texture, (x + position[0]) + frame.Frame.CenterX, (y - position[1]) + frame.Frame.CenterY,

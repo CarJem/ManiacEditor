@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class HCZOneWayDoor : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int length = (int)(entity.attributesMap["length"].ValueVar) - 1;
             int orientation = (int)(entity.attributesMap["orientation"].ValueUInt8);
@@ -40,11 +40,11 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.LoadAnimation2("ButtonDoor", d, 0, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("ButtonDoor", d, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                var frame = editorAnim.Frames[Animation.index];
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 bool wEven = width % 2 == 0;
                 bool hEven = height % 2 == 0;
                 for (int xx = 0; xx <= width; ++xx)

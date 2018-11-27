@@ -13,22 +13,22 @@ namespace ManiacEditor.Entity_Renders
     public class MonkeyDude : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("MonkeyDude", d, 0, -1, fliph, flipv, false);
-            var editorAnimTail = e.LoadAnimation2("MonkeyDude", d, 1, -1, fliph, flipv, false);
-            var editorAnimArm = e.LoadAnimation2("MonkeyDude", d, 2, -1, fliph, flipv, false);
-            var editorAnimHand = e.LoadAnimation2("MonkeyDude", d, 3, -1, fliph, flipv, false);
-            var editorAnimCoconut = e.LoadAnimation2("MonkeyDude", d, 4, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 0, -1, fliph, flipv, false);
+            var editorAnimTail = EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 1, -1, fliph, flipv, false);
+            var editorAnimArm = EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 2, -1, fliph, flipv, false);
+            var editorAnimHand = EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 3, -1, fliph, flipv, false);
+            var editorAnimCoconut = EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimTail != null && editorAnimTail.Frames.Count != 0 && editorAnimArm != null && editorAnimArm.Frames.Count != 0 && editorAnimCoconut != null && editorAnimCoconut.Frames.Count != 0 && editorAnimHand != null && editorAnimHand.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                var frameTail = editorAnimTail.Frames[e.index];
-                var frameArm = editorAnimArm.Frames[e.index];
-                var frameHand = editorAnimHand.Frames[e.index];
-                var frameCoconut = editorAnimCoconut.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var frameTail = editorAnimTail.Frames[Animation.index];
+                var frameArm = editorAnimArm.Frames[Animation.index];
+                var frameHand = editorAnimHand.Frames[Animation.index];
+                var frameCoconut = editorAnimCoconut.Frames[Animation.index];
                 int i;
                 for (i = 0; i < 4; i++)
                 {

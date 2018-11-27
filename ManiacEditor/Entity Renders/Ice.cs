@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
         ItemBox itemBox = new ItemBox();
         Spikes spikes = new Spikes();
         IceSpring iceSpring = new IceSpring();
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int size = (int)entity.attributesMap["size"].ValueUInt8;
@@ -34,12 +34,12 @@ namespace ManiacEditor.Entity_Renders
                     frameID = 1;
                     break;
             }
-            var editorAnim = e.LoadAnimation2("Ice", d, animID, frameID, fliph, flipv, false);
-            var editorAnimContents = e.LoadAnimation2("Ice", d, 9, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Ice", d, animID, frameID, fliph, flipv, false);
+            var editorAnimContents = EditorEntity_ini.LoadAnimation2("Ice", d, 9, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimContents != null && editorAnimContents.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[animID];
-                var frameContents = editorAnimContents.Frames[e.index];
+                var frameContents = editorAnimContents.Frames[Animation.index];
 
                 switch (type)
                 {

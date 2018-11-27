@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class WaterGush : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var length = (int)(entity.attributesMap["length"].ValueUInt32);
             int orientation = (int)(entity.attributesMap["orientation"].ValueUInt8);
@@ -42,14 +42,14 @@ namespace ManiacEditor.Entity_Renders
                     flipv = true;
                     break;
             }
-            var editorAnim = e.LoadAnimation2("WaterGush", d, animID, -1, fliph, flipv, false);
-            var editorAnimGush = e.LoadAnimation2("WaterGush", d, animID2, -1, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("WaterGush", d, animID, -1, fliph, flipv, false);
+            var editorAnimGush = EditorEntity_ini.LoadAnimation2("WaterGush", d, animID2, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimGush != null && editorAnimGush.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                var frameGush = editorAnimGush.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var frameGush = editorAnimGush.Frames[Animation.index];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 switch (orientation)
                 {

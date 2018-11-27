@@ -284,62 +284,73 @@ namespace ManiacEditor
         /// </summary>
         public void AttemptRecovery(SharpDXException ex)
         {
-            if (_device == null) return;
-
-            Result result = _device.TestCooperativeLevel();
-            if (result == ResultCode.DeviceLost)
-            {
-                try
-                {
-                    Debug.Print("Device Lost! Fixing....");
-                    DisposeDeviceResources();
-                    InitDeviceResources();
-                    deviceLost = false;
-                }
-                catch (SharpDXException ex2)
-                {
-                    DeviceExceptionDialog(0, ex, ex2);
-                }
-            }
-            else if (result == ResultCode.DeviceRemoved)
-            {
-                try
-                {
-                    Debug.Print("Device Removed! Fixing....");
-                    ResetDevice();
-                    deviceLost = false;
-                }
-                catch (SharpDXException ex2)
-                {
-                    DeviceExceptionDialog(0, ex, ex2);
-                }
-            }
-            else if (result == ResultCode.OutOfVideoMemory)
+            Process proc = Process.GetCurrentProcess();
+            long memory = proc.PrivateMemorySize64;
+            if (!Environment.Is64BitProcess && memory >= 1500000000)
             {
                 Debug.Print("Out of Video Memory!");
                 DeviceExceptionDialog(1, ex, null);
             }
-            else if (result == ResultCode.DeviceNotReset)
-            {
-                try
-                {
-                    deviceLost = true;
-                    Debug.Print("Device Not Reset! Fixing....");
-                    DisposeDeviceResources();
-                    InitDeviceResources();
-                    Init(Editor.Instance);
-                    Editor.Instance.DisposeTextures();
-                    deviceLost = false;
-                }
-                catch (SharpDXException ex2)
-                {
-                    DeviceExceptionDialog(0, ex, ex2);
-                }
-            }
             else
             {
-                DeviceExceptionDialog(0, ex, null);
+                Result result = _device.TestCooperativeLevel();
+                if (result == ResultCode.DeviceLost)
+                {
+                    try
+                    {
+                        Debug.Print("Device Lost! Fixing....");
+                        DisposeDeviceResources();
+                        InitDeviceResources();
+                        deviceLost = false;
+                    }
+                    catch (SharpDXException ex2)
+                    {
+                        DeviceExceptionDialog(0, ex, ex2);
+                    }
+                }
+                else if (result == ResultCode.DeviceRemoved)
+                {
+                    try
+                    {
+                        Debug.Print("Device Removed! Fixing....");
+                        ResetDevice();
+                        deviceLost = false;
+                    }
+                    catch (SharpDXException ex2)
+                    {
+                        DeviceExceptionDialog(0, ex, ex2);
+                    }
+                }
+                else if (result == ResultCode.OutOfVideoMemory)
+                {
+                    Debug.Print("Out of Video Memory!");
+                    DeviceExceptionDialog(1, ex, null);
+                }
+                else if (result == ResultCode.DeviceNotReset)
+                {
+                    try
+                    {
+                        deviceLost = true;
+                        Debug.Print("Device Not Reset! Fixing....");
+                        DisposeDeviceResources();
+                        InitDeviceResources();
+                        Init(Editor.Instance);
+                        Editor.Instance.DisposeTextures();
+                        deviceLost = false;
+                    }
+                    catch (SharpDXException ex2)
+                    {
+                        DeviceExceptionDialog(0, ex, ex2);
+                    }
+                }
+                else
+                {
+                    DeviceExceptionDialog(0, ex, null);
+                }
             }
+
+
+
         }
 
 

@@ -15,13 +15,13 @@ namespace ManiacEditor.Entity_Renders
     public class BreakableWall : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var type = entity.attributesMap["type"].ValueUInt8;
             var width = (int)(entity.attributesMap["size"].ValuePosition.X.High) - 1;
             var height = (int)(entity.attributesMap["size"].ValuePosition.Y.High) - 1;
 
-            var editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
 
             if (width != -1 && height != -1)
             {
@@ -45,11 +45,11 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         d.DrawBitmap(frame.Texture,
                             (x + (wEven ? frame.Frame.CenterX : -frame.Frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Frame.Width),
                             (y + (hEven ? frame.Frame.CenterY : -frame.Frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Frame.Height),
@@ -65,11 +65,11 @@ namespace ManiacEditor.Entity_Renders
             // draw Knuckles icon
             if (knux)
             {
-                editorAnim = e.LoadAnimation2("HUD", d, 2, 2, false, false, false);
+                editorAnim = EditorEntity_ini.LoadAnimation2("HUD", d, 2, 2, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
-                    var frame = editorAnim.Frames[e.index];
-                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    var frame = editorAnim.Frames[Animation.index];
+                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                     d.DrawBitmap(frame.Texture, x - frame.Frame.Width / (mighty ? 1 : 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }
@@ -77,11 +77,11 @@ namespace ManiacEditor.Entity_Renders
             // draw Mighty icon
             if (mighty)
             {
-                editorAnim = e.LoadAnimation2("HUD", d, 2, 3, false, false, false);
+                editorAnim = EditorEntity_ini.LoadAnimation2("HUD", d, 2, 3, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
-                    var frame = editorAnim.Frames[e.index];
-                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    var frame = editorAnim.Frames[Animation.index];
+                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                     d.DrawBitmap(frame.Texture, x - (knux ? 0 : frame.Frame.Width / 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }

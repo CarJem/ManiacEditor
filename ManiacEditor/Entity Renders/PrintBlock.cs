@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class PrintBlock : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int letter = (int)entity.attributesMap["letter"].ValueUInt8;
             int duration = (int)entity.attributesMap["duration"].ValueUInt16;
@@ -29,10 +29,10 @@ namespace ManiacEditor.Entity_Renders
                 frameID = 4;
             }
 
-           var editorAnim = e.LoadAnimation2("PrintBlock", d, letter, frameID, fliph, flipv, false);
+           var editorAnim = EditorEntity_ini.LoadAnimation2("PrintBlock", d, letter, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),

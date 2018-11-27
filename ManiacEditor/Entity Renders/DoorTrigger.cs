@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class DoorTrigger : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int orientation = entity.attributesMap["orientation"].ValueUInt8;
             bool fliph = false;
@@ -54,14 +54,14 @@ namespace ManiacEditor.Entity_Renders
                     offsetY = 0;
                     break;
             }
-            var editorAnim = e.LoadAnimation2("DoorTrigger", d, 0, frameID, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("DoorTrigger", d, AnimID_2, frameID_2, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("DoorTrigger", d, 0, frameID, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("DoorTrigger", d, AnimID_2, frameID_2, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && frameID >= 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && frameID >= 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                var frame2 = editorAnim2.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var frame2 = editorAnim2.Frames[Animation.index];
 
-                e.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
+                Animation.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + (fliph ? -frame.Frame.CenterX : frame.Frame.CenterX) - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0) + offsetX,

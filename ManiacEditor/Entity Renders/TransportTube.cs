@@ -13,19 +13,19 @@ namespace ManiacEditor.Entity_Renders
     public class TransportTube : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int dirMask = (int)entity.attributesMap["dirMask"].ValueUInt8;
-            var editorAnim = e.LoadAnimation2("TransportTube", d, 0, 0, false, false, false);
-            var upAnim = e.LoadAnimation2("TransportTubes", d, 0, 0, false, false, false);
-            var downAnim = e.LoadAnimation2("TransportTubes", d, 0, 1, false, false, false);
-            var rightAnim = e.LoadAnimation2("TransportTubes", d, 0, 2, false, false, false);
-            var leftAnim = e.LoadAnimation2("TransportTubes", d, 0, 3, false, false, false);
-            var upleftAnim = e.LoadAnimation2("TransportTubes", d, 0, 4, false, false, false);
-            var downleftAnim = e.LoadAnimation2("TransportTubes", d, 0, 5, false, false, false);
-            var uprightAnim = e.LoadAnimation2("TransportTubes", d, 0, 6, false, false, false);
-            var downrightAnim = e.LoadAnimation2("TransportTubes", d, 0, 7, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("TransportTube", d, 0, 0, false, false, false);
+            var upAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 0, false, false, false);
+            var downAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 1, false, false, false);
+            var rightAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 2, false, false, false);
+            var leftAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 3, false, false, false);
+            var upleftAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 4, false, false, false);
+            var downleftAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 5, false, false, false);
+            var uprightAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 6, false, false, false);
+            var downrightAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 7, false, false, false);
             bool showUp = false, showDown = false, showLeft = false, showRight = false, showUpLeft = false, showDownLeft = false, showUpRight = false, showDownRight = false;
             if (type == 0)
             {
@@ -95,15 +95,15 @@ namespace ManiacEditor.Entity_Renders
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && upAnim != null && upAnim.Frames.Count != 0 && downAnim != null && downAnim.Frames.Count != 0 && rightAnim != null && rightAnim.Frames.Count != 0 && leftAnim != null && leftAnim.Frames.Count != 0 && uprightAnim != null && uprightAnim.Frames.Count != 0 && downrightAnim != null && downrightAnim.Frames.Count != 0 && upleftAnim != null && upleftAnim.Frames.Count != 0 && downleftAnim != null && downleftAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                var frame2 = upAnim.Frames[e.index];
-                var frame3 = downAnim.Frames[e.index];
-                var frame4 = rightAnim.Frames[e.index];
-                var frame5 = leftAnim.Frames[e.index];
-                var frame6 = uprightAnim.Frames[e.index];
-                var frame7 = downrightAnim.Frames[e.index];
-                var frame8 = upleftAnim.Frames[e.index];
-                var frame9 = downleftAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var frame2 = upAnim.Frames[Animation.index];
+                var frame3 = downAnim.Frames[Animation.index];
+                var frame4 = rightAnim.Frames[Animation.index];
+                var frame5 = leftAnim.Frames[Animation.index];
+                var frame6 = uprightAnim.Frames[Animation.index];
+                var frame7 = downrightAnim.Frames[Animation.index];
+                var frame8 = upleftAnim.Frames[Animation.index];
+                var frame9 = downleftAnim.Frames[Animation.index];
 
 
                 d.DrawBitmap(frame.Texture,

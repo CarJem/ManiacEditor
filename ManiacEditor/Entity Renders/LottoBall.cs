@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class LottoBall : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int lottoNum = (int)entity.attributesMap["lottoNum"].ValueUInt8;
@@ -79,14 +79,14 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var ballAnim = e.LoadAnimation2("LottoBall", d, 0, frameID1, fliph, flipv, false);
-            var numAnimL = e.LoadAnimation2("LottoBall", d, 1, frameID2, fliph, flipv, false);
-            var numAnimR = e.LoadAnimation2("LottoBall", d, 2, frameID3, fliph, flipv, false);
+            var ballAnim = EditorEntity_ini.LoadAnimation2("LottoBall", d, 0, frameID1, fliph, flipv, false);
+            var numAnimL = EditorEntity_ini.LoadAnimation2("LottoBall", d, 1, frameID2, fliph, flipv, false);
+            var numAnimR = EditorEntity_ini.LoadAnimation2("LottoBall", d, 2, frameID3, fliph, flipv, false);
             if (ballAnim != null && ballAnim.Frames.Count != 0 && numAnimL != null && numAnimL.Frames.Count != 0 && numAnimR != null && numAnimR.Frames.Count != 0)
             {
-                var frame = ballAnim.Frames[e.index];
-                var frame2 = numAnimL.Frames[e.index];
-                var frame3 = numAnimR.Frames[e.index];
+                var frame = ballAnim.Frames[Animation.index];
+                var frame2 = numAnimL.Frames[Animation.index];
+                var frame3 = numAnimR.Frames[Animation.index];
 
 
                 d.DrawBitmap(frame.Texture,

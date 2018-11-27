@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class PullChain : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             bool decorMode = entity.attributesMap["decorMode"].ValueBool;
@@ -25,14 +25,14 @@ namespace ManiacEditor.Entity_Renders
             }
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("PullChain", d, 0, frameID, fliph, flipv, false);
-            var editorAnimChain = e.LoadAnimation2("PullChain", d, 1, frameID, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("PullChain", d, 0, frameID, fliph, flipv, false);
+            var editorAnimChain = EditorEntity_ini.LoadAnimation2("PullChain", d, 1, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimChain != null && editorAnimChain.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 var frameChain = editorAnimChain.Frames[0];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),

@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class TurboSpiker : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
@@ -23,14 +23,14 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = e.LoadAnimation2("TurboSpiker", d, 0, -1, fliph, flipv, false);
-            var editorAnimShell = e.LoadAnimation2("TurboSpiker", d, 3, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("TurboSpiker", d, 0, -1, fliph, flipv, false);
+            var editorAnimShell = EditorEntity_ini.LoadAnimation2("TurboSpiker", d, 3, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimShell != null && editorAnimShell.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 var frameShell = editorAnimShell.Frames[0];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frameShell.Texture,
                     x + frameShell.Frame.CenterX - (fliph ? (frameShell.Frame.Width - editorAnimShell.Frames[0].Frame.Width) : 0),

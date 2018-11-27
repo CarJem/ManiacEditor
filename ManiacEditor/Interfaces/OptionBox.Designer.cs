@@ -330,6 +330,8 @@
             this.checkBox34 = new System.Windows.Forms.CheckBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label20 = new System.Windows.Forms.Label();
             this.tabPage4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -363,6 +365,7 @@
             this.panel13.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel14.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage4
@@ -378,7 +381,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(654, 547);
+            this.tabPage4.Size = new System.Drawing.Size(961, 547);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Other";
             // 
@@ -424,7 +427,7 @@
             this.panel9.Controls.Add(this.label11);
             this.panel9.Controls.Add(this.label27);
             this.panel9.Controls.Add(this.label25);
-            this.panel9.Location = new System.Drawing.Point(506, 260);
+            this.panel9.Location = new System.Drawing.Point(813, 270);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(136, 184);
             this.panel9.TabIndex = 109;
@@ -553,7 +556,7 @@
             this.importOptionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.importOptionsButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.importOptionsButton.ForeColor = System.Drawing.Color.Black;
-            this.importOptionsButton.Location = new System.Drawing.Point(506, 460);
+            this.importOptionsButton.Location = new System.Drawing.Point(813, 460);
             this.importOptionsButton.Name = "importOptionsButton";
             this.importOptionsButton.Size = new System.Drawing.Size(136, 22);
             this.importOptionsButton.TabIndex = 106;
@@ -565,7 +568,7 @@
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button5.ForeColor = System.Drawing.Color.Black;
-            this.button5.Location = new System.Drawing.Point(506, 488);
+            this.button5.Location = new System.Drawing.Point(813, 488);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(136, 22);
             this.button5.TabIndex = 105;
@@ -580,7 +583,7 @@
             this.panel11.Controls.Add(this.RPCCheckBox);
             this.panel11.Location = new System.Drawing.Point(7, 339);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(184, 128);
+            this.panel11.Size = new System.Drawing.Size(184, 199);
             this.panel11.TabIndex = 104;
             // 
             // checkBox33
@@ -628,7 +631,7 @@
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button4.ForeColor = System.Drawing.Color.Black;
-            this.button4.Location = new System.Drawing.Point(506, 516);
+            this.button4.Location = new System.Drawing.Point(813, 516);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(136, 22);
             this.button4.TabIndex = 103;
@@ -638,6 +641,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Controls.Add(this.panel17);
             this.tabPage2.Controls.Add(this.panel16);
             this.tabPage2.Controls.Add(this.panel7);
@@ -645,7 +649,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(654, 547);
+            this.tabPage2.Size = new System.Drawing.Size(961, 547);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Defaults";
             // 
@@ -1663,7 +1667,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(654, 547);
+            this.tabPage1.Size = new System.Drawing.Size(961, 547);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Common";
             // 
@@ -1692,7 +1696,7 @@
             this.panel4.Controls.Add(this.textBox1);
             this.panel4.Controls.Add(this.label18);
             this.panel4.Controls.Add(this.label17);
-            this.panel4.Location = new System.Drawing.Point(448, 6);
+            this.panel4.Location = new System.Drawing.Point(755, 8);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(200, 390);
             this.panel4.TabIndex = 99;
@@ -1980,7 +1984,7 @@
             this.panel5.Controls.Add(this.label15);
             this.panel5.Controls.Add(this.label14);
             this.panel5.Controls.Add(this.label13);
-            this.panel5.Location = new System.Drawing.Point(465, 409);
+            this.panel5.Location = new System.Drawing.Point(772, 409);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(183, 132);
             this.panel5.TabIndex = 100;
@@ -2235,7 +2239,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 8);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(662, 573);
+            this.tabControl1.Size = new System.Drawing.Size(969, 573);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage6
@@ -2245,7 +2249,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(654, 547);
+            this.tabPage6.Size = new System.Drawing.Size(961, 547);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Controls";
             // 
@@ -3577,7 +3581,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(654, 547);
+            this.tabPage5.Size = new System.Drawing.Size(961, 547);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Performance";
             // 
@@ -3592,9 +3596,9 @@
             this.panel13.Controls.Add(this.checkBox35);
             this.panel13.Controls.Add(this.checkBox30);
             this.panel13.Controls.Add(this.checkBox1);
-            this.panel13.Location = new System.Drawing.Point(205, 6);
+            this.panel13.Location = new System.Drawing.Point(567, 6);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(182, 522);
+            this.panel13.Size = new System.Drawing.Size(388, 345);
             this.panel13.TabIndex = 108;
             // 
             // checkBox45
@@ -3604,7 +3608,7 @@
             this.checkBox45.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox45.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SimplifiedWaterLevelRendering", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox45.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox45.Location = new System.Drawing.Point(5, 339);
+            this.checkBox45.Location = new System.Drawing.Point(186, 13);
             this.checkBox45.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox45.Name = "checkBox45";
             this.checkBox45.Size = new System.Drawing.Size(171, 59);
@@ -3722,7 +3726,7 @@
             this.panel12.Controls.Add(this.label26);
             this.panel12.Controls.Add(this.label23);
             this.panel12.Controls.Add(this.label24);
-            this.panel12.Location = new System.Drawing.Point(504, 356);
+            this.panel12.Location = new System.Drawing.Point(811, 357);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(144, 184);
             this.panel12.TabIndex = 104;
@@ -3782,7 +3786,7 @@
             this.panel14.Controls.Add(this.checkBox34);
             this.panel14.Location = new System.Drawing.Point(8, 6);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(191, 522);
+            this.panel14.Size = new System.Drawing.Size(381, 522);
             this.panel14.TabIndex = 102;
             // 
             // checkBox49
@@ -3790,13 +3794,14 @@
             this.checkBox49.BackColor = System.Drawing.Color.Transparent;
             this.checkBox49.Checked = global::ManiacEditor.Properties.Settings.Default.DisableDraging;
             this.checkBox49.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableDraging", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox49.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox49.Location = new System.Drawing.Point(5, 483);
+            this.checkBox49.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.checkBox49.Location = new System.Drawing.Point(5, 450);
             this.checkBox49.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox49.Name = "checkBox49";
             this.checkBox49.Size = new System.Drawing.Size(171, 23);
             this.checkBox49.TabIndex = 110;
-            this.checkBox49.Text = "Disable Dragging?";
+            this.checkBox49.Text = "Disable Editor Dragging";
+            this.checkBox49.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox49.UseVisualStyleBackColor = false;
             // 
             // checkBox48
@@ -3805,12 +3810,12 @@
             this.checkBox48.Checked = global::ManiacEditor.Properties.Settings.Default.RellyOnRenderLoopForUpdatingOnly;
             this.checkBox48.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "RellyOnRenderLoopForUpdatingOnly", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox48.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox48.Location = new System.Drawing.Point(5, 450);
+            this.checkBox48.Location = new System.Drawing.Point(207, 35);
             this.checkBox48.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox48.Name = "checkBox48";
-            this.checkBox48.Size = new System.Drawing.Size(171, 23);
+            this.checkBox48.Size = new System.Drawing.Size(171, 39);
             this.checkBox48.TabIndex = 109;
-            this.checkBox48.Text = "RenderLoop-Only Rendering";
+            this.checkBox48.Text = "RenderLoop-Only Rendering\r\n(Might have less crashes)\r\n";
             this.checkBox48.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox48.UseVisualStyleBackColor = false;
             // 
@@ -3968,7 +3973,7 @@
             this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button8.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button8.ForeColor = System.Drawing.Color.Black;
-            this.button8.Location = new System.Drawing.Point(514, 587);
+            this.button8.Location = new System.Drawing.Point(821, 587);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(75, 22);
             this.button8.TabIndex = 108;
@@ -3981,19 +3986,41 @@
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button6.ForeColor = System.Drawing.Color.Black;
-            this.button6.Location = new System.Drawing.Point(595, 587);
+            this.button6.Location = new System.Drawing.Point(902, 587);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 22);
             this.button6.TabIndex = 101;
             this.button6.Text = "&OK";
             this.button6.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label20);
+            this.panel1.Location = new System.Drawing.Point(659, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(296, 532);
+            this.panel1.TabIndex = 129;
+            // 
+            // label20
+            // 
+            this.label20.BackColor = System.Drawing.Color.Transparent;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label20.Location = new System.Drawing.Point(-1, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(292, 530);
+            this.label20.TabIndex = 120;
+            this.label20.Text = "More Defaults Coming Soon!";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // OptionBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(686, 613);
+            this.ClientSize = new System.Drawing.Size(993, 613);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button6);
@@ -4051,6 +4078,7 @@
             this.panel13.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel14.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -4358,5 +4386,7 @@
         private System.Windows.Forms.CheckBox checkBox48;
         private System.Windows.Forms.CheckBox checkBox49;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label20;
     }
 }

@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
     public class TilePlatform : EntityRenderer
     {
 
-            public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+            public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
             {
             bool fliph = false;
             bool flipv = false;
@@ -28,7 +28,7 @@ namespace ManiacEditor.Entity_Renders
             int height = (int)entity.attributesMap["size"].ValuePosition.Y.High - 1;
             int x2 = (int)entity.attributesMap["targetPos"].ValuePosition.X.High - 1;
             int y2 = (int)entity.attributesMap["targetPos"].ValuePosition.Y.High - 1;
-            var editorAnim = e.LoadAnimation2("EditorIcons2", d, 0, 7, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 7, fliph, flipv, false);
 
             //int widthD = (int)Math.Round(width / 16, MidpointRounding.ToEven);
             //int heightD = (int)Math.Round(height / 16, MidpointRounding.ToEven);
@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
 
 
             // The position for some platforms are still off a bit (but it's very decent)
-            var GroupTexture = e.LoadTilePlatform(d, x2D, y2D, widthD, heightD);
+            var GroupTexture = EditorEntity_ini.LoadTilePlatform(d, x2D, y2D, widthD, heightD);
             if (GroupTexture != null)
             {
                 d.DrawBitmap(GroupTexture.Texture, x - (int)(RoundNum(width, 16)/ 2), y - (int)(RoundNum(height, 16) / 2), GroupTexture.Width, GroupTexture.Height, false, Transparency);

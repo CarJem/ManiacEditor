@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class SeltzerBottle : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -22,10 +22,10 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = e.LoadAnimation2("Seltzer", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("Seltzer", d, 1, -1, fliph, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("Seltzer", d, 0, 5, fliph, flipv, false);
-            var editorAnim4 = e.LoadAnimation2("Seltzer", d, 0, 4, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Seltzer", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Seltzer", d, 1, -1, fliph, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("Seltzer", d, 0, 5, fliph, flipv, false);
+            var editorAnim4 = EditorEntity_ini.LoadAnimation2("Seltzer", d, 0, 4, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

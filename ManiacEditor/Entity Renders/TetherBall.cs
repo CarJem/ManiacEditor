@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class TetherBall : EntityRenderer
     {
         //TODO: Get the Angle Calculations Correct
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             double angleStart = entity.attributesMap["angleStart"].ValueVar; //Because they used values over the int limit
@@ -63,15 +63,15 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var editorAnim = e.LoadAnimation2("TetherBall", d, 0, animID, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("TetherBall", d, 0, 2, fliph, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("TetherBall", d, 0, 3, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("TetherBall", d, 0, animID, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("TetherBall", d, 0, 2, fliph, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("TetherBall", d, 0, 3, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
 
-                var frame = editorAnim.Frames[e.index];
-                var frame2 = editorAnim2.Frames[e.index];
-                var frame3 = editorAnim3.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var frame2 = editorAnim2.Frames[Animation.index];
+                var frame3 = editorAnim3.Frames[Animation.index];
 
                 double angleStartInt = (-angleStart / 4);
 

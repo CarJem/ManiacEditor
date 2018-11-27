@@ -250,6 +250,15 @@
             this.customToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCollisionAButton = new System.Windows.Forms.ToolStripButton();
             this.showCollisionBButton = new System.Windows.Forms.ToolStripButton();
+            this.layerPriorityOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveExtraLayersToFrontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.objectFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.entityVisibilityOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.constantEntityRenderItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onTopOnlyWhileEditingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
@@ -636,6 +645,7 @@
             this.showParallaxSpritesToolStripMenuItem,
             this.collisionColorsToolStripMenuItem,
             this.editEntitiesOptionToolStrip,
+            this.layerPriorityOptionsToolStripMenuItem,
             this.toolStripSeparator22,
             this.entityViewSettingsLabel,
             this.toolStripSeparator21,
@@ -730,18 +740,26 @@
             // editEntitiesOptionToolStrip
             // 
             this.editEntitiesOptionToolStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showEntitiesAboveAllOtherLayersToolStripMenuItem});
+            this.entityVisibilityOptionsToolStripMenuItem,
+            this.toolStripSeparator23,
+            this.constantEntityRenderItem,
+            this.onTopOnlyWhileEditingToolStripMenuItem,
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem,
+            this.toolStripSeparator24,
+            this.objectFilterToolStripMenuItem,
+            this.toolStripTextBox1});
             this.editEntitiesOptionToolStrip.Name = "editEntitiesOptionToolStrip";
             this.editEntitiesOptionToolStrip.Size = new System.Drawing.Size(272, 22);
-            this.editEntitiesOptionToolStrip.Text = "Edit Entities Options";
+            this.editEntitiesOptionToolStrip.Text = "Entities Options";
             this.editEntitiesOptionToolStrip.DropDownOpening += new System.EventHandler(this.editEntitiesOptionToolStrip_DropDownOpening);
             // 
             // showEntitiesAboveAllOtherLayersToolStripMenuItem
             // 
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem.CheckOnClick = true;
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Enabled = false;
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Name = "showEntitiesAboveAllOtherLayersToolStripMenuItem";
-            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Text = "Show Objects Above All Other Layers";
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Text = "Always On Top";
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Click += new System.EventHandler(this.showEntitiesAboveAllOtherLayersToolStripMenuItem_Click);
             // 
             // toolStripSeparator22
@@ -1429,7 +1447,7 @@
             // spacingLabel
             // 
             this.spacingLabel.Name = "spacingLabel";
-            this.spacingLabel.Size = new System.Drawing.Size(946, 18);
+            this.spacingLabel.Size = new System.Drawing.Size(1013, 18);
             this.spacingLabel.Spring = true;
             this.spacingLabel.Text = "                              ";
             // 
@@ -2257,6 +2275,75 @@
             this.showCollisionBButton.Text = "Show Collision Layer B";
             this.showCollisionBButton.Click += new System.EventHandler(this.showCollisionBButton_Click);
             // 
+            // layerPriorityOptionsToolStripMenuItem
+            // 
+            this.layerPriorityOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.moveExtraLayersToFrontToolStripMenuItem});
+            this.layerPriorityOptionsToolStripMenuItem.Name = "layerPriorityOptionsToolStripMenuItem";
+            this.layerPriorityOptionsToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
+            this.layerPriorityOptionsToolStripMenuItem.Text = "Layer Priority Options";
+            // 
+            // moveExtraLayersToFrontToolStripMenuItem
+            // 
+            this.moveExtraLayersToFrontToolStripMenuItem.CheckOnClick = true;
+            this.moveExtraLayersToFrontToolStripMenuItem.Name = "moveExtraLayersToFrontToolStripMenuItem";
+            this.moveExtraLayersToFrontToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.moveExtraLayersToFrontToolStripMenuItem.Text = "Move Extra Layers to Front";
+            this.moveExtraLayersToFrontToolStripMenuItem.Click += new System.EventHandler(this.moveExtraLayersToFrontToolStripMenuItem_Click);
+            // 
+            // objectFilterToolStripMenuItem
+            // 
+            this.objectFilterToolStripMenuItem.Enabled = false;
+            this.objectFilterToolStripMenuItem.Name = "objectFilterToolStripMenuItem";
+            this.objectFilterToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.objectFilterToolStripMenuItem.Text = "Object Filter:";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BackColor = System.Drawing.Color.White;
+            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBox1.ForeColor = System.Drawing.Color.Black;
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(116, 23);
+            this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_TextChanged);
+            // 
+            // entityVisibilityOptionsToolStripMenuItem
+            // 
+            this.entityVisibilityOptionsToolStripMenuItem.Enabled = false;
+            this.entityVisibilityOptionsToolStripMenuItem.Name = "entityVisibilityOptionsToolStripMenuItem";
+            this.entityVisibilityOptionsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.entityVisibilityOptionsToolStripMenuItem.Text = "Entity Visibility Options:";
+            // 
+            // toolStripSeparator23
+            // 
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            this.toolStripSeparator23.Size = new System.Drawing.Size(196, 6);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(196, 6);
+            // 
+            // constantEntityRenderItem
+            // 
+            this.constantEntityRenderItem.CheckOnClick = true;
+            this.constantEntityRenderItem.Enabled = false;
+            this.constantEntityRenderItem.Name = "constantEntityRenderItem";
+            this.constantEntityRenderItem.Size = new System.Drawing.Size(199, 22);
+            this.constantEntityRenderItem.Text = "Constant";
+            this.constantEntityRenderItem.Click += new System.EventHandler(this.constantEntityRenderItem_Click);
+            // 
+            // onTopOnlyWhileEditingToolStripMenuItem
+            // 
+            this.onTopOnlyWhileEditingToolStripMenuItem.Checked = true;
+            this.onTopOnlyWhileEditingToolStripMenuItem.CheckOnClick = true;
+            this.onTopOnlyWhileEditingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.onTopOnlyWhileEditingToolStripMenuItem.Enabled = false;
+            this.onTopOnlyWhileEditingToolStripMenuItem.Name = "onTopOnlyWhileEditingToolStripMenuItem";
+            this.onTopOnlyWhileEditingToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.onTopOnlyWhileEditingToolStripMenuItem.Text = "On Top when Editing";
+            this.onTopOnlyWhileEditingToolStripMenuItem.Click += new System.EventHandler(this.onTopOnlyWhileEditingToolStripMenuItem_Click);
+            // 
             // GraphicPanel
             // 
             this.GraphicPanel.AllowDrop = true;
@@ -2552,6 +2639,15 @@
         private System.Windows.Forms.ToolStripMenuItem secondaryColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editEntitiesOptionToolStrip;
         private System.Windows.Forms.ToolStripMenuItem showEntitiesAboveAllOtherLayersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem layerPriorityOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveExtraLayersToFrontToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem entityVisibilityOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
+        private System.Windows.Forms.ToolStripMenuItem constantEntityRenderItem;
+        private System.Windows.Forms.ToolStripMenuItem onTopOnlyWhileEditingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
     }
 }
 

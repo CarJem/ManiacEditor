@@ -15,17 +15,17 @@ namespace ManiacEditor.Entity_Renders
         public DateTime lastFrametime;
         public int index = 0;
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("FilmProjector", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("FilmProjector", d, 0, 1, fliph, flipv, false);
-            var editorAnim4 = e.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
-            var editorAnim5 = e.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
-            var editorAnim6 = e.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
-            var editorAnim7 = e.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("FilmProjector", d, 3, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("FilmProjector", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("FilmProjector", d, 0, 1, fliph, flipv, false);
+            var editorAnim4 = EditorEntity_ini.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
+            var editorAnim5 = EditorEntity_ini.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
+            var editorAnim6 = EditorEntity_ini.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
+            var editorAnim7 = EditorEntity_ini.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("FilmProjector", d, 3, -1, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0)
             {
@@ -35,7 +35,7 @@ namespace ManiacEditor.Entity_Renders
                 var frame5 = editorAnim5.Frames[0];
                 var frame6 = editorAnim4.Frames[0];
                 var frame7 = editorAnim5.Frames[0];
-                var frame3 = editorAnim3.Frames[index];
+                var frame3 = editorAnim3.Frames[Animation.index];
 
                 d.DrawBitmap(frame5.Texture,
                     x + 42 + frame5.Frame.CenterX - (fliph ? (frame5.Frame.Width - editorAnim5.Frames[0].Frame.Width) : 0),

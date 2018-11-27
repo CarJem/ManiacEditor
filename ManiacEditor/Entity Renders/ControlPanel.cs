@@ -13,18 +13,18 @@ namespace ManiacEditor.Entity_Renders
     public class ControlPanel : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("ControlPanel", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("ControlPanel", d, 1, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("ControlPanel", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("ControlPanel", d, 1, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                var frame2 = editorAnim2.Frames[e.index];
+                var frame2 = editorAnim2.Frames[Animation.index];
 
-                e.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
+                Animation.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),

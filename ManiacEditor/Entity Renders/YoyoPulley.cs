@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class YoyoPulley : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int pullDir = (int)entity.attributesMap["pullDir"].ValueUInt8;
@@ -27,9 +27,9 @@ namespace ManiacEditor.Entity_Renders
             {
                 flipSides = true;
             }
-            var editorAnim = e.LoadAnimation2("SDashWheel", d, 0, 0, fliph, flipv, false);
-            var editorAnimKnob = e.LoadAnimation2("SDashWheel", d, 2, 0, fliph, flipv, false);
-            var editorAnimHandle = e.LoadAnimation2("SDashWheel", d, 3, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("SDashWheel", d, 0, 0, fliph, flipv, false);
+            var editorAnimKnob = EditorEntity_ini.LoadAnimation2("SDashWheel", d, 2, 0, fliph, flipv, false);
+            var editorAnimHandle = EditorEntity_ini.LoadAnimation2("SDashWheel", d, 3, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimKnob != null && editorAnimKnob.Frames.Count != 0 && editorAnimHandle != null && editorAnimHandle.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

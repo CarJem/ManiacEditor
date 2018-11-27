@@ -13,18 +13,18 @@ namespace ManiacEditor.Entity_Renders
     public class SSZEggman : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = e.LoadAnimation2("EggmanSSZ", d, 0, -1, false, false, false);
-            var editorAnimMobile = e.LoadAnimation2("EggmanSSZ", d, 5, -1, false, false, false);
-            var editorAnimSeat = e.LoadAnimation2("EggmanSSZ", d, 4, -1, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("EggmanSSZ", d, 0, -1, false, false, false);
+            var editorAnimMobile = EditorEntity_ini.LoadAnimation2("EggmanSSZ", d, 5, -1, false, false, false);
+            var editorAnimSeat = EditorEntity_ini.LoadAnimation2("EggmanSSZ", d, 4, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimMobile != null && editorAnimMobile.Frames.Count != 0 && editorAnimSeat != null && editorAnimSeat.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 var frameMobile = editorAnimMobile.Frames[0];
                 var frameSeat = editorAnimSeat.Frames[0];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frameSeat.Texture,
                     x + frameSeat.Frame.CenterX,

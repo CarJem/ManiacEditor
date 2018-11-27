@@ -1535,5 +1535,17 @@ namespace ManiacEditor.Properties {
                 this["NightMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EntityFilter {
+            get {
+                return ((string)(this["EntityFilter"]));
+            }
+            set {
+                this["EntityFilter"] = value;
+            }
+        }
     }
 }

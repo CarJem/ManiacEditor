@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
     {
         //EditorAnimations platformMove = new EditorAnimations();
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int frameID = 0;
             int targetFrameID = -1;
@@ -32,20 +32,20 @@ namespace ManiacEditor.Entity_Renders
             int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
             int childCount = (int)entity.attributesMap["childCount"].ValueVar;
             bool hasTension = entity.attributesMap["hasTension"].ValueBool;
-            UInt32 speed = e.FetchAttribute.AttributesMapVar("speed", entity);
+            UInt32 speed = attribMap.AttributesMapVar("speed", entity);
             int angleStateX = 0;
             int angleStateY = 0;
 
-            var platformIcon = e.LoadAnimation2("EditorIcons", d, 0, 8, false, false, false);
+            var platformIcon = EditorEntity_ini.LoadAnimation2("EditorIcons", d, 0, 8, false, false, false);
 
-
-            if (childCount != e.previousChildCount)
+            
+            if (childCount != previousChildCount)
             {
-                for (int z = 0; z < e.previousChildCount; z++)
+                for (int z = 0; z < previousChildCount; z++)
                 {
                     try
                     {
-                        EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (z + 1)).FirstOrDefault();
+                        EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                         childEntity.childDraw = false;
                         childEntity.childDrawAddMode = false;
                         childEntity.childX = 0;
@@ -58,7 +58,7 @@ namespace ManiacEditor.Entity_Renders
 
                 }
             }
-
+            
 
             switch (attribute.Type)
             {
@@ -73,7 +73,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
             int aminID = 0;
-            EditorEntity.EditorAnimation editorAnim = null;
+            EditorEntity_ini.EditorAnimation editorAnim = null;
             bool doNotShow = false;
             while (true)
             {
@@ -84,11 +84,11 @@ namespace ManiacEditor.Entity_Renders
                     {
                         doNotShow = true;
                     }
-                        editorAnim = e.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
+                        editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
 
                         if (type == 4)
                         {
-                            editorAnim = e.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
+                            editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
                         }
 
                         if (editorAnim == null) return; // no animation, bail out
@@ -108,32 +108,32 @@ namespace ManiacEditor.Entity_Renders
                     throw new ApplicationException($"Problem Loading Platforms! AnimID: {aminID}", i);
                 }
             }
-            var tensionBall = e.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
-            var tensionBallCenter = e.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
+            var tensionBall = EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
+            var tensionBallCenter = EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
             if (type == 4)
             {
-                tensionBall = e.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
-                tensionBallCenter = e.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
+                tensionBall = EditorEntity_ini.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
+                tensionBallCenter = EditorEntity_ini.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
             }
             if (editorAnim.Frames.Count != 0 && platformIcon != null)
             {
-                EditorEntity.EditorAnimation.EditorFrame frame = null;
+                EditorEntity_ini.EditorAnimation.EditorFrame frame = null;
                 if (editorAnim.Frames[0].Entry.FrameSpeed > 0 && doNotShow == false && type != 4)
                 {
-                    frame = editorAnim.Frames[e.index];
+                    frame = editorAnim.Frames[Animation.index];
                 }
                 else if (doNotShow == true)
                 {
-                    frame = platformIcon.Frames[e.index];
+                    frame = platformIcon.Frames[Animation.index];
                 }
                 else
                 {
                     frame = editorAnim.Frames[frameID > 0 ? frameID : 0];
                 }
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 
-                if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && e.Selected)
+                if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && selected)
                 {
                     d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + amplitudeX, y + frame.Frame.CenterY + amplitudeY,
                         frame.Frame.Width, frame.Frame.Height, false, 125);
@@ -161,26 +161,26 @@ namespace ManiacEditor.Entity_Renders
 
                     if (amplitudeX != 0 && amplitudeY == 0)
                     {
-                        position = e.EditorAnimations.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
                     if (amplitudeX == 0 && amplitudeY != 0)
                     {
-                        position = e.EditorAnimations.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
                         // Since we can don't know how to do it other than x or y yet
-                        position = e.EditorAnimations.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
 
                     if (childCount != 0)
                     {
-                        e.previousChildCount = childCount;
+                        previousChildCount = childCount;
                         for (int i = 0; i < childCount; i++)
                         {
                             try
                             {
-                                EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
+                                EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                 childEntity.childDraw = true;
                                 childEntity.childX = position[0];
                                 childEntity.childY = -position[1];
@@ -204,8 +204,8 @@ namespace ManiacEditor.Entity_Renders
                 
                 else if ((amplitudeX != 0 || amplitudeY != 0) && type == 3)
                 {
-                    e.ProcessMovingPlatform(angle);
-                    angle = e.platformAngle;
+                    Animation.ProcessMovingPlatform(angle);
+                    angle = Animation.platformAngle;
                     double xd = x;
                     double yd = y;
                     double x2 = x + amplitudeX - amplitudeX / 3.7;
@@ -217,8 +217,8 @@ namespace ManiacEditor.Entity_Renders
                     int tensionCount = radiusInt / 16;
                     if (hasTension == true && tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                     {
-                        EditorEntity.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
-                        EditorEntity.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
+                        EditorEntity_ini.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                        EditorEntity_ini.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
                         for (int i = 0; i < tensionCount; i++)
                         {
                             int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
@@ -242,10 +242,10 @@ namespace ManiacEditor.Entity_Renders
 
                     if (childCount != 0)
                     {
-                        e.previousChildCount = childCount;
+                        previousChildCount = childCount;
                         for (int i = 0; i < childCount; i++)
                         {
-                            EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
+                            EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
                             childEntity.childDraw = true;
                             childEntity.childX = newX;
                             childEntity.childY = -newY;
@@ -259,8 +259,8 @@ namespace ManiacEditor.Entity_Renders
 
                 else if ((amplitudeX != 0 || amplitudeY != 0) && type == 4)
                 {
-                    e.EditorAnimations.ProcessMovingPlatform4(amplitudeX, angle);
-                    angle = e.EditorAnimations.platformAngle4;
+                    Animation.ProcessMovingPlatform4(amplitudeX, angle);
+                    angle = Animation.platformAngle4;
                     int tensionCount = amplitudeY;
 
 
@@ -279,8 +279,8 @@ namespace ManiacEditor.Entity_Renders
 
                     if (tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                     {
-                        EditorEntity.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
-                        EditorEntity.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
+                        EditorEntity_ini.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                        EditorEntity_ini.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
                         int i = 0;
                         int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
                         for (i = 0; i <= tensionCount; i++)
@@ -300,10 +300,10 @@ namespace ManiacEditor.Entity_Renders
 
                                 if (childCount != 0)
                                 {
-                                    e.previousChildCount = childCount;
+                                    previousChildCount = childCount;
                                     for (int z = 0; z < childCount; z++)
                                     {
-                                        EditorEntity childEntity = e.drawEntityList.Where(t => t.Entity.SlotID == e.Entity.SlotID + (z + 1)).FirstOrDefault();
+                                        EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                                         if (childEntity != null)
                                         {
                                             childEntity.childDraw = true;

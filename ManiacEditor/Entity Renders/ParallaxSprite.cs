@@ -16,30 +16,30 @@ namespace ManiacEditor.Entity_Renders
     public class ParallaxSprite : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
             int aniID = (int)entity.attributesMap["aniID"].ValueUInt8;
-            if (e.parallaxSprite == "")
+            if (Animation.parallaxSprite == "")
             {
-                e.parallaxSprite = getParallaxPath();
+                Animation.parallaxSprite = getParallaxPath();
             }
 
-            var editorAnim = e.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
             if (Properties.EditorState.Default.ShowParallaxSprites)
             {
-                editorAnim = e.LoadAnimation2(e.parallaxSprite, d, aniID, -1, fliph, flipv, false);
+                editorAnim = EditorEntity_ini.LoadAnimation2(Animation.parallaxSprite, d, aniID, -1, fliph, flipv, false);
             }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
                 if (Properties.EditorState.Default.ShowParallaxSprites)
                 {
-                    frame = editorAnim.Frames[e.index];
+                    frame = editorAnim.Frames[Animation.index];
                 }
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),

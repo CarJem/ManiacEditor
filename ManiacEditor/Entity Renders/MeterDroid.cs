@@ -13,18 +13,18 @@ namespace ManiacEditor.Entity_Renders
     public class MeterDroid : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = e.LoadAnimation2("MeterDroid", d, 1, -1, false, false, false);
-            var editorAnim2 = e.LoadAnimation2("MeterDroid", d, 8, -1, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("MeterDroid", d, 1, -1, false, false, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("MeterDroid", d, 8, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                var frame2 = editorAnim2.Frames[e.EditorAnimations.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var frame2 = editorAnim2.Frames[Animation.index];
 
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                e.EditorAnimations.ProcessAnimation2(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation2(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX,

@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class BallCannon : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int x2 = x;
             int y2 = y;
@@ -92,9 +92,9 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnim = e.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation);
-            var editorAnimHolo = e.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation2);
-            var editorAnimCork = e.LoadAnimation2("BallCannon", d, CorkState, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation);
+            var editorAnimHolo = EditorEntity_ini.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation2);
+            var editorAnimCork = EditorEntity_ini.LoadAnimation2("BallCannon", d, CorkState, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHolo != null && editorAnimHolo.Frames.Count != 0 && editorAnimCork != null && editorAnimCork.Frames.Count != 0)
             {
                 if (type == 1)
@@ -117,8 +117,8 @@ namespace ManiacEditor.Entity_Renders
                 }
                 else
                 {
-                    var frame = editorAnim.Frames[e.index];
-                    var frame3 = editorAnimHolo.Frames[e.index];
+                    var frame = editorAnim.Frames[Animation.index];
+                    var frame3 = editorAnimHolo.Frames[Animation.index];
 
                     if (e.Selected)
                     {

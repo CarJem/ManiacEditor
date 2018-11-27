@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class ChemicalPool : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             Transparency = 95;
             var type = entity.attributesMap["type"].ValueVar;
@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)widthPixels / 16 - 1;
             var height = (int)heightPixels / 16 - 1;
 
-            var editorAnim = e.LoadAnimation2("EditorAssets", d, 1, 1 + (int)type * 2, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 1, 1 + (int)type * 2, false, false, false);
 
             if (width != -1 && height != -1)
             {
@@ -30,11 +30,11 @@ namespace ManiacEditor.Entity_Renders
                 // TODO this is really heavy on resources, so maybe switch to just drawing a rectangle??
                 for (int i = 0; i <= height; i++)
                 {
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 1, 1 + (int)type * 2, false, false, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 1, 1 + (int)type * 2, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
@@ -50,11 +50,11 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool bottom = !((i & 1) > 0);
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 1, (bottom ? 1 : 0) + (int)type * 2, false, false, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 1, (bottom ? 1 : 0) + (int)type * 2, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)

@@ -13,22 +13,22 @@ namespace ManiacEditor.Entity_Renders
     public class ScrewMobile : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("ScrewMobile", d, 0, 0, fliph, flipv, false);
-            var editorAnimSeat = e.LoadAnimation2("ScrewMobile", d, 0, 1, fliph, flipv, false);
-            var editorAnimLaunch = e.LoadAnimation2("ScrewMobile", d, 0, 2, fliph, flipv, false);
-            var editorAnimPropel = e.LoadAnimation2("ScrewMobile", d, 1, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 0, 0, fliph, flipv, false);
+            var editorAnimSeat = EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 0, 1, fliph, flipv, false);
+            var editorAnimLaunch = EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 0, 2, fliph, flipv, false);
+            var editorAnimPropel = EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 1, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimSeat != null && editorAnimSeat.Frames.Count != 0 && editorAnimLaunch != null && editorAnimLaunch.Frames.Count != 0 && editorAnimPropel != null && editorAnimPropel.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
                 var frameSeat = editorAnimSeat.Frames[0];
                 var frameLaunch = editorAnimLaunch.Frames[0];
-                var framePropel = editorAnimPropel.Frames[e.index];
+                var framePropel = editorAnimPropel.Frames[Animation.index];
 
-                e.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration);
+                Animation.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration);
 
                 d.DrawBitmap(frameSeat.Texture,
                     x + frameSeat.Frame.CenterX,

@@ -13,16 +13,16 @@ namespace ManiacEditor.Entity_Renders
     public class MSPanel : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = e.LoadAnimation2("MSPanel", d, 0, 0, false, false, false);
-            var editorAnimPanel = e.LoadAnimation2("MSPanel", d, 1, -1, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("MSPanel", d, 0, 0, false, false, false);
+            var editorAnimPanel = EditorEntity_ini.LoadAnimation2("MSPanel", d, 1, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimPanel != null && editorAnimPanel.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                var framePanel = editorAnimPanel.Frames[e.index];
+                var framePanel = editorAnimPanel.Frames[Animation.index];
 
-                e.ProcessAnimation(framePanel.Entry.FrameSpeed, framePanel.Entry.Frames.Count, framePanel.Frame.Duration);
+                Animation.ProcessAnimation(framePanel.Entry.FrameSpeed, framePanel.Entry.Frames.Count, framePanel.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX,

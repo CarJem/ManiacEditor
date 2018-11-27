@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
     public class Water : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High);
@@ -53,15 +53,15 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.LoadAnimation2("Water", d, animID, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("Water", d, 0, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Water", d, animID, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Water", d, 0, -1, fliph, flipv, false);
 
             // Base Water + Bubble Source
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && (type == 2 || type == 0))
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
             x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
@@ -73,12 +73,12 @@ namespace ManiacEditor.Entity_Renders
             // HCZ Big Bubbles
             else if (HCZBubbles == true)
             {
-                editorAnim = e.LoadAnimation2("BigBubble", d, 7, -1, fliph, flipv, false);
+                editorAnim = EditorEntity_ini.LoadAnimation2("BigBubble", d, 7, -1, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
-                    var frame = editorAnim.Frames[e.index];
+                    var frame = editorAnim.Frames[Animation.index];
 
-                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                     d.DrawBitmap(frame.Texture,
                         x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
@@ -91,10 +91,10 @@ namespace ManiacEditor.Entity_Renders
             if (width != 0 && height != 0 && showBounds == true && HCZBubbles == false)
             {
                 //Draw Icon
-                editorAnim = e.LoadAnimation2("EditorIcons2", d, 0, 8, fliph, flipv, false);
+                editorAnim = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 8, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
-                    var frame = editorAnim.Frames[e.index];
+                    var frame = editorAnim.Frames[Animation.index];
 
                     d.DrawBitmap(frame.Texture,
                         x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
@@ -116,9 +116,9 @@ namespace ManiacEditor.Entity_Renders
                             d.DrawLine(0, heightX, Editor.Instance.SceneWidth, heightX, SystemColors.White);
                             if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                             {
-                                var frame = editorAnim2.Frames[e.EditorAnimations.index];
+                                var frame = editorAnim2.Frames[Animation.index];
 
-                                e.EditorAnimations.ProcessAnimation2(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                                Animation.ProcessAnimation2(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                                 for (int i = 0; i < Editor.Instance.SceneWidth; i = i + frame.Frame.Width)
                                     d.DrawBitmap(frame.Texture,
@@ -146,9 +146,9 @@ namespace ManiacEditor.Entity_Renders
                                 d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
                                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                                 {
-                                    var frame = editorAnim2.Frames[e.EditorAnimations.index];
+                                    var frame = editorAnim2.Frames[Animation.index];
 
-                                    e.EditorAnimations.ProcessAnimation2(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                                    Animation.ProcessAnimation2(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                                     for (int i = startX; i < endX; i = i + frame.Frame.Width)
                                         d.DrawBitmap(frame.Texture,
@@ -185,11 +185,11 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         d.DrawBitmap(frame.Texture,
                             (x + widthPixels / (right ? 2 : -2)) - (right ? frame.Frame.Width : 0),
                             (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),

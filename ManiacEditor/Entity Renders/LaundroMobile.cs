@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
         Properties.Settings mySettings = Properties.Settings.Default;
         Properties.EditorState myEditorState = Properties.EditorState.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -33,31 +33,31 @@ namespace ManiacEditor.Entity_Renders
                     blockID = randomNum+3;
                     break;
             }
-            var editorAnim = e.LoadAnimation2("LaundroMobile", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("LaundroMobile", d, 9, blockID, fliph, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("LaundroMobile", d, 1, -1, fliph, flipv, false);
-            var editorAnim4 = e.LoadAnimation2("LaundroMobile", d, 3, -1, fliph, flipv, false);
-            var editorAnim5 = e.LoadAnimation2("LaundroMobile", d, 8, -1, fliph, flipv, false);
-            var editorAnim6 = e.LoadAnimation2("LaundroMobile", d, 2, -1, fliph, flipv, false);
-            var editorAnim7 = e.LoadAnimation2("LaundroMobile", d, 0, 3, fliph, flipv, false);
-            var editorAnim8 = e.LoadAnimation2("LaundroMobile", d, 0, 2, fliph, flipv, false);
-            var editorAnim9 = e.LoadAnimation2("LaundroMobile", d, 0, 4, fliph, flipv, false);
-            var editorAnimIcon = e.LoadAnimation2("EditorIcons2", d, 0, 14, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 9, blockID, fliph, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 1, -1, fliph, flipv, false);
+            var editorAnim4 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 3, -1, fliph, flipv, false);
+            var editorAnim5 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 8, -1, fliph, flipv, false);
+            var editorAnim6 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 2, -1, fliph, flipv, false);
+            var editorAnim7 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 0, 3, fliph, flipv, false);
+            var editorAnim8 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 0, 2, fliph, flipv, false);
+            var editorAnim9 = EditorEntity_ini.LoadAnimation2("LaundroMobile", d, 0, 4, fliph, flipv, false);
+            var editorAnimIcon = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 14, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
                 var frameBlock = editorAnim2.Frames[0];
-                var frameLaundry = editorAnim3.Frames[e.EditorAnimations.index];
-                var framePropel = editorAnim4.Frames[e.index];
-                var frameBomb = editorAnim5.Frames[e.EditorAnimations.index2];
-                var frameLaundryCenter = editorAnim6.Frames[e.EditorAnimations.index];
+                var frameLaundry = editorAnim3.Frames[Animation.index];
+                var framePropel = editorAnim4.Frames[Animation.index];
+                var frameBomb = editorAnim5.Frames[Animation.index2];
+                var frameLaundryCenter = editorAnim6.Frames[Animation.index];
                 var frameLaundryCenterBottom = editorAnim7.Frames[0];
                 var frameLaundryCenterTop = editorAnim8.Frames[0];
                 var frameRockets = editorAnim9.Frames[0];
 
 
                 if (type == 0) {
-                    e.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration);
+                    Animation.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration);
                     d.DrawBitmap(frameRockets.Texture,
                         x + frameRockets.Frame.CenterX - 4,
                         y + frameRockets.Frame.CenterY - 27,
@@ -80,7 +80,7 @@ namespace ManiacEditor.Entity_Renders
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
                 }
                     else if (type == 1) {
-                    e.EditorAnimations.ProcessAnimation3(frameBomb.Entry.FrameSpeed, frameBomb.Entry.Frames.Count, frameBomb.Frame.Duration);
+                    Animation.ProcessAnimation3(frameBomb.Entry.FrameSpeed, frameBomb.Entry.Frames.Count, frameBomb.Frame.Duration);
                     d.DrawBitmap(frameBomb.Texture,
                             x + frameBomb.Frame.CenterX,
                             y + frameBomb.Frame.CenterY,
@@ -88,7 +88,7 @@ namespace ManiacEditor.Entity_Renders
                     }
                     else if (type == 2)
                     {
-                    e.EditorAnimations.ProcessAnimation2(frameLaundry.Entry.FrameSpeed, frameLaundry.Entry.Frames.Count, frameLaundry.Frame.Duration);
+                    Animation.ProcessAnimation2(frameLaundry.Entry.FrameSpeed, frameLaundry.Entry.Frames.Count, frameLaundry.Frame.Duration);
                     d.DrawBitmap(frameLaundry.Texture,
                         x + frameLaundry.Frame.CenterX,
                         y + frameLaundry.Frame.CenterY + 16,

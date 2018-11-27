@@ -14,12 +14,12 @@ namespace ManiacEditor.Entity_Renders
     public class TVPole : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var value = entity.attributesMap["length"].ValueUInt16 + 1;
-            var editorAnim = e.LoadAnimation2("TVPole", d, 1, 0, false, false, false);
-            var editorAnim2 = e.LoadAnimation2("TVPole", d, 1, 1, false, false, false);
-            var editorAnim3 = e.LoadAnimation2("TVPole", d, 1, 2, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("TVPole", d, 1, 0, false, false, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("TVPole", d, 1, 1, false, false, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("TVPole", d, 1, 2, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

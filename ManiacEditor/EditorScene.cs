@@ -56,11 +56,11 @@ namespace ManiacEditor
                 return _editorLayers.Where(el => el != ForegroundLow && el != ForegroundHigh && el != HighDetails && el != LowDetails);
             }
         }
-        public IEnumerable<EditorLayer> ViewableOtherLayers
+        public IEnumerable<EditorLayer> LayerByDrawingOrder
         {
             get
             {
-                return _editorLayers.Where(el => el != ForegroundLow && el != ForegroundHigh && el != HighDetails && el != LowDetails);
+                return _editorLayers.Where(el => el.Layer.UnknownByte2.Equals(1));
             }
         }
 

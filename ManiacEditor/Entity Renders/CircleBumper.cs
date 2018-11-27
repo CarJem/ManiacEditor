@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class CircleBumper : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             int speed = (int)entity.attributesMap["speed"].ValueVar;
@@ -24,40 +24,94 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int animID = 0;
-            var editorAnim = e.LoadAnimation2("CircleBumper", d, animID, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("CircleBumper", d, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
 
-                var frame = editorAnim.Frames[e.index];
-                //e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                var frame = editorAnim.Frames[Animation.index];
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 if (type == 2)
                 {
                     //Something is wrong here, wait untill I figure this out to define them
-                    //e.ProcessMovingPlatform(angle,speed);
-                    e.ProcessMovingPlatform(angle);
+                    //Animation.ProcessMovingPlatform(angle,speed);
+                    Animation.ProcessMovingPlatform(angle);
+                    if ((amplitudeX != 0 || amplitudeY != 0))
+                    {
+                        double xd = x;
+                        double yd = y;
+                        double x2 = x + amplitudeX - amplitudeX / 3.7;
+                        double y2 = y + amplitudeY - amplitudeY / 3.7;
+                        double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
+                        int radiusInt = (int)Math.Sqrt(radius);
+                        int newX = (int)(radiusInt * Math.Cos(Math.PI * Animation.platformAngle / 128));
+                        int newY = (int)(radiusInt * Math.Sin(Math.PI * Animation.platformAngle / 128));
+                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
+                           frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
+                    else
+                    {
+                        d.DrawBitmap(frame.Texture,
+                            x + frame.Frame.CenterX,
+                            y + frame.Frame.CenterY,
+                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
                 }
 
-
-                if ((amplitudeX != 0 || amplitudeY != 0))
+                else if (type == 1)
                 {
-                    double xd = x;
-                    double yd = y;
-                    double x2 = x + amplitudeX - amplitudeX / 3.7;
-                    double y2 = y + amplitudeY - amplitudeY / 3.7;
-                    double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
-                    int radiusInt = (int)Math.Sqrt(radius);
-                    int newX = (int)(radiusInt * Math.Cos(Math.PI * e.platformAngle / 128));
-                    int newY = (int)(radiusInt * Math.Sin(Math.PI * e.platformAngle / 128));
-                    d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
-                       frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    int[] position = new int[2] { 0, 0 };
+                    int posX = amplitudeX;
+                    int posY = amplitudeY;
+                    //Negative Values only work atm
+                    if (amplitudeX <= -1) posX = -posX;
+                    if (amplitudeY <= -1) posY = -posY;
+
+                    if (amplitudeX != 0 && amplitudeY == 0)
+                    {
+                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                    }
+                    if (amplitudeX == 0 && amplitudeY != 0)
+                    {
+                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                    }
+                    if (amplitudeX != 0 && amplitudeY != 0)
+                    {
+                        // Since we can don't know how to do it other than x or y yet
+                        position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                    }
+
+                    else
+                    {
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
                 }
+                
                 else
                 {
-                    d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    if ((amplitudeX != 0 || amplitudeY != 0))
+                    {
+                        double xd = x;
+                        double yd = y;
+                        double x2 = x + amplitudeX - amplitudeX / 3.7;
+                        double y2 = y + amplitudeY - amplitudeY / 3.7;
+                        double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
+                        int radiusInt = (int)Math.Sqrt(radius);
+                        int newX = (int)(radiusInt * Math.Cos(Math.PI * Animation.platformAngle / 128));
+                        int newY = (int)(radiusInt * Math.Sin(Math.PI * Animation.platformAngle / 128));
+                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
+                           frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
+                    else
+                    {
+                        d.DrawBitmap(frame.Texture,
+                            x + frame.Frame.CenterX,
+                            y + frame.Frame.CenterY,
+                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
                 }
+
+
             }
         }
 

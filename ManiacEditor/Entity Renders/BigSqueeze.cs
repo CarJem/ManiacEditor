@@ -13,20 +13,20 @@ namespace ManiacEditor.Entity_Renders
     public class BigSqueeze : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("BigSqueeze", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("BigSqueeze", d, 0, -1, true, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("BigSqueeze", d, 1, -1, fliph, flipv, false);
-            var editorAnim4 = e.LoadAnimation2("BigSqueeze", d, 2, -1, fliph, flipv, false);
-            var editorAnim5 = e.LoadAnimation2("BigSqueeze", d, 3, -1, fliph, flipv, false);
-            var editorAnim6 = e.LoadAnimation2("BigSqueeze", d, 4, -1, fliph, flipv, false);
-            var editorAnim7 = e.LoadAnimation2("BigSqueeze", d, 4, -1, true, flipv, false);
-            var editorAnim8 = e.LoadAnimation2("BigSqueeze", d, 5, -1, true, flipv, false);
-            var editorAnim9 = e.LoadAnimation2("EditorIcons2", d, 0, 14, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 0, -1, true, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 1, -1, fliph, flipv, false);
+            var editorAnim4 = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 2, -1, fliph, flipv, false);
+            var editorAnim5 = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 3, -1, fliph, flipv, false);
+            var editorAnim6 = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 4, -1, fliph, flipv, false);
+            var editorAnim7 = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 4, -1, true, flipv, false);
+            var editorAnim8 = EditorEntity_ini.LoadAnimation2("BigSqueeze", d, 5, -1, true, flipv, false);
+            var editorAnim9 = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 14, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0)
             {
                 var wall1 = editorAnim.Frames[0];
@@ -36,18 +36,18 @@ namespace ManiacEditor.Entity_Renders
                 var wall2r = editorAnim2.Frames[1];
                 var wall3r = editorAnim2.Frames[2];
                 var electroMagBase = editorAnim3.Frames[0];
-                var electroMagDome = editorAnim4.Frames[e.index];
-                var electroMagProngs = editorAnim5.Frames[e.index];
-                var wheels = editorAnim6.Frames[e.index];
-                var wheelsr = editorAnim7.Frames[e.index];
-                var shocking = editorAnim8.Frames[e.index];
+                var electroMagDome = editorAnim4.Frames[Animation.index];
+                var electroMagProngs = editorAnim5.Frames[Animation.index];
+                var wheels = editorAnim6.Frames[Animation.index];
+                var wheelsr = editorAnim7.Frames[Animation.index];
+                var shocking = editorAnim8.Frames[Animation.index];
                 var frame = editorAnim9.Frames[0];
 
-                e.ProcessAnimation(electroMagDome.Entry.FrameSpeed, electroMagDome.Entry.Frames.Count, electroMagDome.Frame.Duration);
-                e.ProcessAnimation(electroMagProngs.Entry.FrameSpeed, electroMagProngs.Entry.Frames.Count, electroMagProngs.Frame.Duration);
-                e.ProcessAnimation(wheels.Entry.FrameSpeed, wheels.Entry.Frames.Count, wheels.Frame.Duration);
-                e.ProcessAnimation(wheelsr.Entry.FrameSpeed, wheelsr.Entry.Frames.Count, wheelsr.Frame.Duration);
-                //e.ProcessAnimation(shocking.Entry.FrameSpeed, shocking.Entry.Frames.Count, shocking.Frame.Duration);
+                Animation.ProcessAnimation(electroMagDome.Entry.FrameSpeed, electroMagDome.Entry.Frames.Count, electroMagDome.Frame.Duration);
+                Animation.ProcessAnimation(electroMagProngs.Entry.FrameSpeed, electroMagProngs.Entry.Frames.Count, electroMagProngs.Frame.Duration);
+                Animation.ProcessAnimation(wheels.Entry.FrameSpeed, wheels.Entry.Frames.Count, wheels.Frame.Duration);
+                Animation.ProcessAnimation(wheelsr.Entry.FrameSpeed, wheelsr.Entry.Frames.Count, wheelsr.Frame.Duration);
+                //Animation.ProcessAnimation(shocking.Entry.FrameSpeed, shocking.Entry.Frames.Count, shocking.Frame.Duration);
 
                 if (type == 2)
                 {

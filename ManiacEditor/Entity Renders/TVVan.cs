@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class TVVan : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             bool allowToRender = false;
@@ -73,19 +73,19 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnim = e.LoadAnimation2("TVVan", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("TVVan", d, 0, -1, true, flipv, false);
-            var editorAnim10 = e.LoadAnimation2("TVVan", d, 0, 9, fliph, flipv, false);
-            var editorAnim11 = e.LoadAnimation2("TVVan", d, 3, 3, fliph, flipv, false);
-            var editorAnim12 = e.LoadAnimation2("TVVan", d, 4, 3, fliph, flipv, false);
-            var editorAnim13 = e.LoadAnimation2("TVVan", d, 6, 0, fliph, flipv, false);
-            var editorAnim14 = e.LoadAnimation2("TVVan", d, 6, 1, fliph, flipv, false);
-            var editorAnim15 = e.LoadAnimation2("TVVan", d, 6, 2, fliph, flipv, false);
-            var editorAnim16 = e.LoadAnimation2("TVVan", d, 15, -1, fliph, flipv, false);
-            var normalSataliteReversedHV = e.LoadAnimation2("TVVan", d, 6, 0, true, true, false);
-            var normalSataliteReversedV = e.LoadAnimation2("TVVan", d, 6, 0, false, true, false);
-            var normalSataliteReversedH = e.LoadAnimation2("TVVan", d, 6, 0, true, false, false);
-            var downwardsSatalite = e.LoadAnimation2("TVVan", d, 6, 1, fliph, true, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("TVVan", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("TVVan", d, 0, -1, true, flipv, false);
+            var editorAnim10 = EditorEntity_ini.LoadAnimation2("TVVan", d, 0, 9, fliph, flipv, false);
+            var editorAnim11 = EditorEntity_ini.LoadAnimation2("TVVan", d, 3, 3, fliph, flipv, false);
+            var editorAnim12 = EditorEntity_ini.LoadAnimation2("TVVan", d, 4, 3, fliph, flipv, false);
+            var editorAnim13 = EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, fliph, flipv, false);
+            var editorAnim14 = EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 1, fliph, flipv, false);
+            var editorAnim15 = EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 2, fliph, flipv, false);
+            var editorAnim16 = EditorEntity_ini.LoadAnimation2("TVVan", d, 15, -1, fliph, flipv, false);
+            var normalSataliteReversedHV = EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, true, true, false);
+            var normalSataliteReversedV = EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, false, true, false);
+            var normalSataliteReversedH = EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, true, false, false);
+            var downwardsSatalite = EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 1, fliph, true, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
@@ -136,13 +136,13 @@ namespace ManiacEditor.Entity_Renders
                 var normalSatalite = editorAnim13.Frames[0];
                 var upwardsSatalite = editorAnim14.Frames[0];
                 var sataliteHook = editorAnim15.Frames[0];
-                var frame16 = editorAnim16.Frames[e.index];
+                var frame16 = editorAnim16.Frames[Animation.index];
                 var normalSatalite2 = normalSataliteReversedHV.Frames[0];
                 var normalSataliteH = normalSataliteReversedH.Frames[0];
                 var normalSataliteV = normalSataliteReversedV.Frames[0];
                 var downwardsFaceSatalite = downwardsSatalite.Frames[0];
 
-                e.ProcessAnimation(frame16.Entry.FrameSpeed, frame16.Entry.Frames.Count, frame16.Frame.Duration);
+                Animation.ProcessAnimation(frame16.Entry.FrameSpeed, frame16.Entry.Frames.Count, frame16.Frame.Duration);
 
                 if (objType == 0 || objType == 12 || objType == 13) // Normal (TV Van)
                 {

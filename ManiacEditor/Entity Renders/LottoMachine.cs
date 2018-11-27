@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class LottoMachine : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             //int type = (int)entity.attributesMap["type"].ValueUInt8;
             //int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -21,27 +21,27 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             bool allowToRender = false;
-            var editorAnim = e.LoadAnimation2("LottoMachine", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("LottoMachine", d, 0, 1, fliph, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("LottoMachine", d, 0, 2, fliph, flipv, false);
-            var editorAnim4 = e.LoadAnimation2("LottoMachine", d, 0, 3, fliph, flipv, false);
-            var editorAnim5 = e.LoadAnimation2("LottoMachine", d, 0, 4, fliph, flipv, false);
-            var editorAnim3_2 = e.LoadAnimation2("LottoMachine", d, 0, 2, true, flipv, false);
-            var editorAnim4_2 = e.LoadAnimation2("LottoMachine", d, 0, 3, true, flipv, false);
-            var editorAnim5_2 = e.LoadAnimation2("LottoMachine", d, 0, 4, true, flipv, false);
-            var editorAnim6 = e.LoadAnimation2("LottoMachine", d, 0, 5, fliph, flipv, false);
-            var editorAnim7 = e.LoadAnimation2("LottoMachine", d, 0, 6, fliph, flipv, false);
-            var editorAnim8 = e.LoadAnimation2("LottoMachine", d, 0, 7, fliph, flipv, false);
-            var editorAnim9 = e.LoadAnimation2("LottoMachine", d, 0, 8, fliph, flipv, false);
-            var editorAnim10 = e.LoadAnimation2("LottoMachine", d, 0, 9, fliph, flipv, false);
-            var editorAnim11 = e.LoadAnimation2("LottoMachine", d, 0, 8, true, false, false);
-            var editorAnim12 = e.LoadAnimation2("LottoMachine", d, 0, 8, true, true, false);
-            var editorAnim13 = e.LoadAnimation2("LottoMachine", d, 0, 8, false, true, false);
-            var editorAnim14 = e.LoadAnimation2("LottoMachine", d, 0, 1, fliph, flipv, false);
-            var editorAnim15 = e.LoadAnimation2("LottoMachine", d, 0, 2, fliph, flipv, false);
-            var editorAnim16 = e.LoadAnimation2("LottoMachine", d, 0, 0, fliph, flipv, false);
-            var editorAnim17 = e.LoadAnimation2("LottoMachine", d, 2, 0, fliph, flipv, false);
-            var editorAnim18 = e.LoadAnimation2("LottoMachine", d, 0, 1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 1, fliph, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 2, fliph, flipv, false);
+            var editorAnim4 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 3, fliph, flipv, false);
+            var editorAnim5 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 4, fliph, flipv, false);
+            var editorAnim3_2 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 2, true, flipv, false);
+            var editorAnim4_2 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 3, true, flipv, false);
+            var editorAnim5_2 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 4, true, flipv, false);
+            var editorAnim6 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 5, fliph, flipv, false);
+            var editorAnim7 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 6, fliph, flipv, false);
+            var editorAnim8 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 7, fliph, flipv, false);
+            var editorAnim9 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 8, fliph, flipv, false);
+            var editorAnim10 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 9, fliph, flipv, false);
+            var editorAnim11 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 8, true, false, false);
+            var editorAnim12 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 8, true, true, false);
+            var editorAnim13 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 8, false, true, false);
+            var editorAnim14 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 1, fliph, flipv, false);
+            var editorAnim15 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 2, fliph, flipv, false);
+            var editorAnim16 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 0, fliph, flipv, false);
+            var editorAnim17 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 2, 0, fliph, flipv, false);
+            var editorAnim18 = EditorEntity_ini.LoadAnimation2("LottoMachine", d, 0, 1, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
@@ -79,26 +79,26 @@ namespace ManiacEditor.Entity_Renders
             }
             if (allowToRender == true)
             {
-                var frame = editorAnim.Frames[e.index];
-                var dispenser = editorAnim2.Frames[e.index];
-                var ballslot1 = editorAnim3.Frames[e.index];
-                var ballslot2 = editorAnim4.Frames[e.index];
-                var ballslot3 = editorAnim5.Frames[e.index];
-                var frame6 = editorAnim6.Frames[e.index];
-                var frame7 = editorAnim7.Frames[e.index];
-                var galloplogo = editorAnim8.Frames[e.index];
-                var frame9 = editorAnim9.Frames[e.index];
-                var frame10 = editorAnim10.Frames[e.index];
-                var frame11 = editorAnim11.Frames[e.index];
-                var frame12 = editorAnim12.Frames[e.index];
-                var frame13 = editorAnim13.Frames[e.index];
-                var frame14 = editorAnim14.Frames[e.index];
-                var frame15 = editorAnim15.Frames[e.index];
-                var frame16 = editorAnim16.Frames[e.index];
-                var chute = editorAnim17.Frames[e.index];
-                var ballslot1_2 = editorAnim3_2.Frames[e.index];
-                var ballslot2_2 = editorAnim4_2.Frames[e.index];
-                var ballslot3_2 = editorAnim5_2.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var dispenser = editorAnim2.Frames[Animation.index];
+                var ballslot1 = editorAnim3.Frames[Animation.index];
+                var ballslot2 = editorAnim4.Frames[Animation.index];
+                var ballslot3 = editorAnim5.Frames[Animation.index];
+                var frame6 = editorAnim6.Frames[Animation.index];
+                var frame7 = editorAnim7.Frames[Animation.index];
+                var galloplogo = editorAnim8.Frames[Animation.index];
+                var frame9 = editorAnim9.Frames[Animation.index];
+                var frame10 = editorAnim10.Frames[Animation.index];
+                var frame11 = editorAnim11.Frames[Animation.index];
+                var frame12 = editorAnim12.Frames[Animation.index];
+                var frame13 = editorAnim13.Frames[Animation.index];
+                var frame14 = editorAnim14.Frames[Animation.index];
+                var frame15 = editorAnim15.Frames[Animation.index];
+                var frame16 = editorAnim16.Frames[Animation.index];
+                var chute = editorAnim17.Frames[Animation.index];
+                var ballslot1_2 = editorAnim3_2.Frames[Animation.index];
+                var ballslot2_2 = editorAnim4_2.Frames[Animation.index];
+                var ballslot3_2 = editorAnim5_2.Frames[Animation.index];
 
                 //ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 d.DrawBitmap(frame9.Texture,

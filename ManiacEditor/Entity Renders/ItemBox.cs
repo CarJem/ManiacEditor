@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class ItemBox : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
                 var value = entity.attributesMap["type"];
                 int direction = (int)entity.attributesMap["direction"].ValueUInt8;
@@ -30,8 +30,8 @@ namespace ManiacEditor.Entity_Renders
                         break;
 
                 }
-                var editorAnimBox = e.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
-                var editorAnimEffect = e.LoadAnimation2("ItemBox", d, 2, (int)value.ValueVar, fliph, flipv, false);
+                var editorAnimBox = EditorEntity_ini.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
+                var editorAnimEffect = EditorEntity_ini.LoadAnimation2("ItemBox", d, 2, (int)value.ValueVar, fliph, flipv, false);
                 if (editorAnimBox != null && editorAnimEffect != null && editorAnimEffect.Frames.Count != 0)
                 {
                     var frameBox = editorAnimBox.Frames[0];
@@ -48,8 +48,8 @@ namespace ManiacEditor.Entity_Renders
             var value = (forceType == -1 ? 0 : forceType);
             bool fliph = false;
             bool flipv = false;
-            var editorAnimBox = e.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
-            var editorAnimEffect = e.LoadAnimation2("ItemBox", d, 2, (int)value, fliph, flipv, false);
+            var editorAnimBox = EditorEntity_ini.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
+            var editorAnimEffect = EditorEntity_ini.LoadAnimation2("ItemBox", d, 2, (int)value, fliph, flipv, false);
             if (editorAnimBox != null)
             {
                 var frameBox = editorAnimBox.Frames[0];

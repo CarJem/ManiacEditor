@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Spikes : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var value = entity.attributesMap["type"];
             bool fliph = false;
@@ -49,10 +49,10 @@ namespace ManiacEditor.Entity_Renders
             bool extra = false;
             count *= 2; // I made all this with an incorrect assumption so here's a cheap fix
             int count2 = count >> 2;
-            var editorAnim = e.LoadAnimation2("Spikes", d, animID, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Spikes", d, animID, 0, fliph, flipv, false);
             if (isFBZ)
             {
-                editorAnim = e.LoadAnimation2("Spikes", d, animID, -1, fliph, flipv, false);
+                editorAnim = EditorEntity_ini.LoadAnimation2("Spikes", d, animID, -1, fliph, flipv, false);
             }
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -60,8 +60,8 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
                 if (isFBZ)
                 {
-                    frame = editorAnim.Frames[e.index];
-                    e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    frame = editorAnim.Frames[Animation.index];
+                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 }
 
 
@@ -134,10 +134,10 @@ namespace ManiacEditor.Entity_Renders
 
         public void IceDraw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var editorAnim = e.LoadAnimation2("Spikes", d, 0, 0, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Spikes", d, 0, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[0];
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX,
                     y + frame.Frame.CenterY,

@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Honkytonk : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
             int offsetX = 0; //(int)Math.Cos(angle / -0.71);
             int offsetY = 0; //(int)Math.Sin(angle / -0.71);
 
-            if (e.rotateImageLegacyMode == true)
+            if (EditorEntity_ini.rotateImageLegacyMode == true)
             {
                 switch (angle)
                 {
@@ -68,11 +68,11 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnimFocus = e.LoadAnimation2("HonkyTonk", d, 0, 0, fliph, flipv, false);
-            var editorAnim = e.LoadAnimation2("HonkyTonk", d, 0, 1, fliph, flipv, false, rotation);
-            var editorAnim2 = e.LoadAnimation2("HonkyTonk", d, 0, 2, fliph, flipv, false, rotation);
-            var editorAnim3 = e.LoadAnimation2("HonkyTonk", d, 0, 3, fliph, flipv, false, rotation);
-            var editorAnim4 = e.LoadAnimation2("HonkyTonk", d, 0, 4, fliph, flipv, false, rotation);
+            var editorAnimFocus = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 1, fliph, flipv, false, rotation);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 2, fliph, flipv, false, rotation);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 3, fliph, flipv, false, rotation);
+            var editorAnim4 = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 4, fliph, flipv, false, rotation);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnimFocus != null)
             {
                 var frame = editorAnim.Frames[0];
@@ -81,7 +81,7 @@ namespace ManiacEditor.Entity_Renders
                 var frame3 = editorAnim3.Frames[0];
                 var frame4 = editorAnim4.Frames[0];
 
-                //e.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration, 5);
+                //Animation.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration, 5);
 
                 /*d.DrawBitmap(frameFocus.Texture,
                     x + frameFocus.Frame.CenterX,

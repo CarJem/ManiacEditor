@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class WoodChipper : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -25,7 +25,7 @@ namespace ManiacEditor.Entity_Renders
                     fliph = true;
                     break;
             }
-            var editorAnim = e.LoadAnimation2("WoodChipper", d, 0, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("WoodChipper", d, 0, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -37,7 +37,7 @@ namespace ManiacEditor.Entity_Renders
                 var log2 = editorAnim.Frames[4];
                 var log3 = editorAnim.Frames[5];
 
-                //e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                //Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 if (size > 0)
                 {

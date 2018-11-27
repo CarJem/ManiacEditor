@@ -14,13 +14,13 @@ namespace ManiacEditor.Entity_Renders
     public class BGSwitch : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = e.LoadAnimation2("EditorIcons", d, 0, 5, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorIcons", d, 0, 5, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                var frame = editorAnim.Frames[Animation.index];
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
@@ -29,7 +29,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
-            var editorAnim2 = e.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
 
             if (width != 0 && height != 0)
             {
@@ -50,11 +50,11 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         d.DrawBitmap(frame.Texture,
                             (x + widthPixels / (right ? 2 : -2)) - (right ? frame.Frame.Width : 0),
                             (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),

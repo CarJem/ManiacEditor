@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class PimPom : EntityRenderer
     {
         Boolean boolState = true;
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             int color = (int)entity.attributesMap["color"].ValueUInt8;
@@ -88,12 +88,12 @@ namespace ManiacEditor.Entity_Renders
                 default:
                     break;
             }
-            var editorAnim = e.LoadAnimation2("PimPom", d, animID, frameID, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("PimPom", d, animID, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
 
-                //e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                //Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 if (length != 0 && angle == 0)
                 {
                     var value = entity.attributesMap["length"].ValueUInt8;

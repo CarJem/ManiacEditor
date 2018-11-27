@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class SSZSpikeBall : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -35,8 +35,8 @@ namespace ManiacEditor.Entity_Renders
                     animID = 3;
                     break;
             } 
-            var editorAnim = e.LoadAnimation2("SpikeBall", d, 0, animID, fliph, flipv, false);
-            var editorAnimSpikeBall = e.LoadAnimation2("SpikeBall", d, 1, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("SpikeBall", d, 0, animID, fliph, flipv, false);
+            var editorAnimSpikeBall = EditorEntity_ini.LoadAnimation2("SpikeBall", d, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnimSpikeBall != null && editorAnim.Frames.Count != 0 && editorAnimSpikeBall.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

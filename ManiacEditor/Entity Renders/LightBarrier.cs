@@ -13,15 +13,15 @@ namespace ManiacEditor.Entity_Renders
     public class LightBarrier : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
             bool enabled = entity.attributesMap["enabled"].ValueBool;
             int size = (int)entity.attributesMap["size"].ValueVar;
-            var editorAnim = e.LoadAnimation2("LightBarrier", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("LightBarrier", d, 0, -1, fliph, true, false);
-            var editorAnim3 = e.LoadAnimation2("LightBarrier", d, 0, 1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("LightBarrier", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("LightBarrier", d, 0, -1, fliph, true, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("LightBarrier", d, 0, 1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

@@ -10,7 +10,7 @@ namespace ManiacEditor
     [Serializable]
     public class AttributeValidater
     {
-        Position no_position = new Position(0, 0);
+         Position no_position = new Position(0, 0);
 
         public byte AttributesMapUint8(string name, SceneEntity entity)
         {

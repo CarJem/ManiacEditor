@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class BreakBar : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var length = (short)(entity.attributesMap["length"].ValueUInt16);
             var orientation = entity.attributesMap["orientation"].ValueUInt8;
@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 orientation = 0;
             }
-            var editorAnim = e.LoadAnimation2("BreakBar", d, orientation, -1, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("BreakBar", d, orientation, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frameTop = editorAnim.Frames[0];

@@ -13,15 +13,15 @@ namespace ManiacEditor.Entity_Renders
     public class MagPlatform : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int length = (int)entity.attributesMap["length"].ValueVar;
             int i = 0;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("Platform", d, 3, 0, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("Platform", d, 3, 1, fliph, flipv, false);
-            var editorAnim3 = e.LoadAnimation2("Platform", d, 3, 2, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Platform", d, 3, 0, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Platform", d, 3, 1, fliph, flipv, false);
+            var editorAnim3 = EditorEntity_ini.LoadAnimation2("Platform", d, 3, 2, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -29,7 +29,7 @@ namespace ManiacEditor.Entity_Renders
                 var frame3 = editorAnim3.Frames[0];
                 int lengthMemory = length;
 
-                //e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                //Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 int repeat = 0;
                 int lengthLeft = length;
                 bool finalLoop = false;

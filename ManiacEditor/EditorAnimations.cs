@@ -16,6 +16,7 @@ namespace ManiacEditor
          bool reverseX = false;
          bool reverseY = false;
          EditorAnimations Instance;
+         public int platformAngle = 0;
 
         //Type 4 Platforms
         bool reverseAngleRot = false;
@@ -27,12 +28,72 @@ namespace ManiacEditor
         public DateTime lastFrametime2;
         public DateTime lastFrametime3;
         public int index2 = 0;
+        public int index3 = 0;
+
+        //Parallax Sprite Location Storing
+        public string parallaxSprite = "";
 
         public EditorAnimations()
         {
             Instance = this;
         }
 
+        /// <summary>
+        /// Handles animation timing
+        /// </summary>
+        /// <param name="speed">Speed</param>
+        /// <param name="frameCount">The total amount of frames</param>
+        public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
+        {
+            // Playback
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.annimationsChecked)
+            {
+                if (speed > 0)
+                {
+                    int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
+                    if (speed1 == 0)
+                        speed1 = 1;
+                    if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
+                    {
+                        index++;
+                        lastFrametime = DateTime.Now;
+                    }
+                }
+            }
+            else index = 0 + startFrame;
+            if (index >= frameCount)
+                index = 0;
+
+        }
+
+        public void ProcessMovingPlatform(int angleDefault, UInt32 speed = 3)
+        {
+            if (speed >= 4294967290)
+            {
+                speed = 10;
+            }
+
+            int duration = 1;
+            // Playback
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.movingPlatformsChecked)
+            {
+                if (speed > 0)
+                {
+                    int speed1 = (int)speed * 64 / (duration == 0 ? 256 : duration);
+                    if (speed1 == 0)
+                        speed1 = 1;
+                    if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
+                    {
+                        platformAngle++;
+                        lastFrametime = DateTime.Now;
+                    }
+                }
+            }
+            else platformAngle = angleDefault;
+            if (platformAngle >= 768)
+                platformAngle = 0;
+
+        }
 
         public int[] ProcessMovingPlatform2(int ampX, int ampY, int x, int y, int width, int height, UInt32 speed = 1)
         {
@@ -317,14 +378,14 @@ namespace ManiacEditor
                         speed1 = 1;
                     if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
                     {
-                        index++;
+                        index2++;
                         lastFrametime = DateTime.Now;
                     }
                 }
             }
-            else index = 0 + startFrame;
-            if (index >= frameCount)
-                index = 0;
+            else index2 = 0 + startFrame;
+            if (index2 >= frameCount)
+                index2 = 0;
 
         }
         public void ProcessAnimation3(int speed, int frameCount, int duration, int startFrame = 0)
@@ -339,14 +400,14 @@ namespace ManiacEditor
                         speed1 = 1;
                     if ((DateTime.Now - lastFrametime2).TotalMilliseconds > 1024 / speed1)
                     {
-                        index2++;
+                        index3++;
                         lastFrametime2 = DateTime.Now;
                     }
                 }
             }
-            else index2 = 0 + startFrame;
-            if (index2 >= frameCount)
-                index2 = 0;
+            else index3 = 0 + startFrame;
+            if (index3 >= frameCount)
+                index3 = 0;
 
         }
     }

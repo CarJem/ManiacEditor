@@ -31,6 +31,9 @@ using Cyotek.Windows.Forms;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using Microsoft.Scripting.Utils;
+using IronPython.Runtime;
+using System.Security.Permissions;
 
 namespace ManiacEditor
 {
@@ -71,7 +74,7 @@ namespace ManiacEditor
         public bool showWaterLevel = false; //Determines if the Water Object should show it's Water Level.
         public bool alwaysShowWaterLevel = false; //Determines if the Water Level Should be Shown at all times regardless of the object being selected
         public bool sizeWaterLevelwithBounds = false; //Determines if the water level width should match those of the object's bounds
-        public bool editEntitiesDisplayAboveAll = true; //Determines if when Editing Entities if Entities Should be above all Layers.
+        public bool extraLayersMoveToFront = false; //Determines if we should render the extra layers in front of everything on behind everything
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -95,6 +98,8 @@ namespace ManiacEditor
         public Color waterColor = new Color(); // The color used for the Water Entity
         public string INILayerNameLower = ""; //Reserved String for INI Default Layer Prefrences
         public string INILayerNameHigher = ""; //Reserved String for INI Default Layer Prefrences
+        public string entitiesTextFilter = ""; //Used to hide objects that don't match the discription
+        public int entityVisibilityType = 0; // Used to determine how to display entities
 
         //Editor Paths
         public static string DataDirectory; //Used to get the current Data Directory
@@ -164,7 +169,7 @@ namespace ManiacEditor
         public ConfigManager configLists;
         public GameConfig GameConfig;
         public EditorControls EditorControls;
-        public EditorEntities entities;
+        public static EditorEntities entities;
         public static Editor Instance; //Used the access this class easier
         internal EditorBackground Background;
         internal EditorLayer EditLayer;
@@ -250,6 +255,7 @@ namespace ManiacEditor
         public Editor()
         {
             Instance = this;
+            useDarkTheme(mySettings.NightMode);
             InitializeComponent();
             AllocConsole();
             HideConsoleWindow();
@@ -501,11 +507,6 @@ namespace ManiacEditor
             customToolStripMenuItem1.Checked = mySettings.CollisionColorsDefault == 2;
             collisionPreset = mySettings.CollisionColorsDefault;
             RefreshCollisionColours();
-
-            if (editEntitiesDisplayAboveAll)
-            {
-                showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked = true;
-            }
 
         }
         void SetINIDefaultPrefrences()
@@ -963,7 +964,6 @@ namespace ManiacEditor
 
         private void UpdateControls(bool stageLoad = false)
         {
-            useDarkTheme(mySettings.NightMode);
             SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
         }
 
@@ -1011,7 +1011,7 @@ namespace ManiacEditor
         {
             if (EditLayer != null)
             {
-                List<IAction> actions = EditLayer.Actions;
+                List<IAction> actions = EditLayer?.Actions;
                 if (actions.Count > 0) redo.Clear();
                 while (actions.Count > 0)
                 {
@@ -1032,7 +1032,8 @@ namespace ManiacEditor
                     actions.RemoveAt(0);
                 }
 
-                UpdateControls();
+                //UpdateControls();
+                //Potential Issue Causer
             }
         }
 
@@ -1105,10 +1106,11 @@ namespace ManiacEditor
                 ScreenMaxV = vScrollBar1.Maximum - vScrollBar1.LargeChange;
             }
 
+            Process proc = Process.GetCurrentProcess();
+            long memory = proc.PrivateMemorySize64;
 
-
-            hVScrollBarXYLabel.Text = "Scroll Bar Position Values: X: " + (ScreenMaxH - hScrollBar1.Value) + ", Y: " + (ScreenMaxV - vScrollBar1.Value);
-
+            //hVScrollBarXYLabel.Text = "Scroll Bar Position Values: X: " + (ScreenMaxH - hScrollBar1.Value) + ", Y: " + (ScreenMaxV - vScrollBar1.Value);
+            hVScrollBarXYLabel.Text = "Memory Used: " + memory.ToString();
 
 
             //
@@ -1430,6 +1432,7 @@ namespace ManiacEditor
                 UpdateRender();
             }
 
+
             if (ClickedX != -1)
             {
                 Point clicked_point = new Point((int)(ClickedX / Zoom), (int)(ClickedY / Zoom));
@@ -1437,22 +1440,23 @@ namespace ManiacEditor
 
                 if (IsTilesEdit())
                 {
-                    if (EditLayer.IsPointSelected(clicked_point))
+                    
+                    if ((EditLayer?.IsPointSelected(clicked_point)).Value)
                     {
                         // Start dragging the tiles
                         dragged = true;
                         startDragged = true;
-                        EditLayer.StartDrag();
+                        EditLayer?.StartDrag();
             
                     }
 
-                    else if (!selectTool.Checked && !ShiftPressed() && !CtrlPressed() && EditLayer.HasTileAt(clicked_point))
+                    else if (!selectTool.Checked && !ShiftPressed() && !CtrlPressed() && (EditLayer?.HasTileAt(clicked_point)).Value)
                     {
                         // Start dragging the single selected tile
-                        EditLayer.Select(clicked_point);
+                        EditLayer?.Select(clicked_point);
                         dragged = true;
                         startDragged = true;
-                        EditLayer.StartDrag();
+                        EditLayer?.StartDrag();
             
                     }
 
@@ -1841,21 +1845,6 @@ namespace ManiacEditor
                 {
                     // Remove tile
                     Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-
-                    // Prevent Error by Preventing NULL if these don't exist
-                    bool? pointSelect1 = FGHigh?.IsPointSelected(p);
-                    bool? pointSelect2 = FGHigher?.IsPointSelected(p);
-                    bool? pointSelect3 = FGLow?.IsPointSelected(p);
-                    bool? pointSelect4 = FGLower?.IsPointSelected(p);
-                    if (pointSelect1 == null) pointSelect1 = false;
-                    if (pointSelect2 == null) pointSelect2 = false;
-                    if (pointSelect3 == null) pointSelect3 = false;
-                    if (pointSelect4 == null) pointSelect4 = false;
-                    bool point1 = pointSelect1.Value;
-                    bool point2 = pointSelect1.Value;
-                    bool point3 = pointSelect1.Value;
-                    bool point4 = pointSelect1.Value;
-
                     if (!EditLayer.IsPointSelected(p))
                     {
                         EditLayer.Select(p);
@@ -1975,6 +1964,7 @@ namespace ManiacEditor
                     Cursor = Cursors.Default;
                 }
             }
+            UpdateControls();
         }
 
         private void GraphicPanel_MouseWheel(object sender, MouseEventArgs e)
@@ -2837,7 +2827,6 @@ namespace ManiacEditor
                 }
 
 
-
                 //These cause issues, but not clearing them means when new stages are loaded Collision Mask 0 will be index 1024... (I think)
                 CollisionLayerA.Clear();
                 CollisionLayerB.Clear();
@@ -3349,14 +3338,48 @@ Error: {ex.Message}");
 
         private void showEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked)
+            uncheckOtherEntityVisibilityStates();
+            entityVisibilityType = 2;
+            showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked = true;
+        }
+
+        private void onTopOnlyWhileEditingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            uncheckOtherEntityVisibilityStates();
+            entityVisibilityType = 1;
+            onTopOnlyWhileEditingToolStripMenuItem.Checked = true;
+        }
+
+        private void constantEntityRenderItem_Click(object sender, EventArgs e)
+        {
+            uncheckOtherEntityVisibilityStates();
+            entityVisibilityType = 0;
+            constantEntityRenderItem.Checked = true;
+        }
+
+        private void uncheckOtherEntityVisibilityStates()
+        {
+            showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked = false;
+            onTopOnlyWhileEditingToolStripMenuItem.Checked = false;
+            constantEntityRenderItem.Checked = false;
+        }
+
+        private void moveExtraLayersToFrontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (moveExtraLayersToFrontToolStripMenuItem.Checked)
             {
-                editEntitiesDisplayAboveAll = true;
+                extraLayersMoveToFront = true;
             }
             else
             {
-                editEntitiesDisplayAboveAll = false;
+                extraLayersMoveToFront = false;
             }
+        }
+
+        private void toolStripTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            entitiesTextFilter = toolStripTextBox1.Text;
+            EditorEntities.FilterRefreshNeeded = true;
         }
 
         private void showEntitySelectionBoxesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3893,6 +3916,7 @@ Error: {ex.Message}");
                 }
 
 
+
             }
             catch (Exception ex)
             {
@@ -4063,7 +4087,6 @@ Error: {ex.Message}");
             // So I will refresh it here
 
             //onRenderActive = true;
-
             if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
             if (EditorScene != null)
             {
@@ -4076,8 +4099,39 @@ Error: {ex.Message}");
                         Background.DrawEdit(GraphicPanel);
                     }
                 }
-                if (EditorScene.OtherLayers.Contains(EditLayer))
-                    EditLayer.Draw(GraphicPanel);
+
+                // Future Implementation
+
+                /*
+                List<int> layerDrawingOrder = new List<int> { };
+                var allLayers = EditorScene.AllLayers;
+                foreach (var layer in allLayers)
+                {
+                    layerDrawingOrder.Add(layer.Layer.UnknownByte2);
+                }
+                layerDrawingOrder.Sort();
+                for (int i = 0; i < layerDrawingOrder.Count; i++)
+                {
+                    DrawLayers(layerDrawingOrder[i]);
+                }
+
+
+                DrawLayers();
+                */
+
+                if (EditorScene.OtherLayers.Contains(EditLayer)) EditLayer.Draw(GraphicPanel);
+
+                if (!extraLayersMoveToFront)
+                {
+                    foreach (var elb in _extraLayerViewButtons)
+                    {
+                        if (elb.Checked)
+                        {
+                            var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Text));
+                            _extraViewLayer.Draw(GraphicPanel);
+                        }
+                    }
+                }
 
                 if (ShowFGLower.Checked || EditFGLower.Checked)
                     FGLower.Draw(GraphicPanel);
@@ -4085,50 +4139,38 @@ Error: {ex.Message}");
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
 
-                if (ShowEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 1
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked)
                 {
-                    if (!EditEntities.Checked || !editEntitiesDisplayAboveAll)
-                    {
-                        entities.DrawPriority(GraphicPanel, 0);
-                        entities.DrawPriority(GraphicPanel, 1);
-                    }
-
+                    entities.DrawPriority(GraphicPanel, 0);
+                    entities.DrawPriority(GraphicPanel, 1);
                 }
 
-                if (ShowEntities.Checked && !mySettings.PrioritizedObjectRendering)
-                {
-                    if (!EditEntities.Checked || !editEntitiesDisplayAboveAll)
-                    {
-                        entities.Draw(GraphicPanel);
-                    }
-                }
+                if (!mySettings.PrioritizedObjectRendering && !EditEntities.Checked) entities.Draw(GraphicPanel);
 
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
-                if (ShowEntities.Checked && mySettings.PrioritizedObjectRendering) //Plane Filter 2
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked)
                 {
-                    if (!EditEntities.Checked || !editEntitiesDisplayAboveAll)
-                    {
-                        entities.DrawPriority(GraphicPanel, 2);
-                        entities.DrawPriority(GraphicPanel, 3);
-                    }
+                    entities.DrawPriority(GraphicPanel, 2);
+                    entities.DrawPriority(GraphicPanel, 3);
                 }
 
                 if (ShowFGHigher.Checked || EditFGHigher.Checked)
                     FGHigher.Draw(GraphicPanel);
 
-                foreach (var elb in _extraLayerViewButtons)
-                {
-                    if (elb.Checked)
+                if (extraLayersMoveToFront) {
+                    foreach (var elb in _extraLayerViewButtons)
                     {
-                        var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Text));
-                        _extraViewLayer.Draw(GraphicPanel);
+                        if (elb.Checked)
+                        {
+                            var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Text));
+                            _extraViewLayer.Draw(GraphicPanel);
+                        }
                     }
                 }
 
-                if (EditEntities.Checked && editEntitiesDisplayAboveAll)
-                    entities.Draw(GraphicPanel);
+                if (EditEntities.Checked) entities.Draw(GraphicPanel);
 
 
             }
@@ -4185,6 +4227,12 @@ Error: {ex.Message}");
 
 
             //onRenderActive = false;
+        }
+
+        public void DrawLayers(int drawOrder = 0)
+        {
+            var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.UnknownByte2.Equals(drawOrder));
+            _extraViewLayer.Draw(GraphicPanel);
         }
 
         public void Form1_Load(object sender, EventArgs e)
@@ -5669,11 +5717,6 @@ Error: {ex.Message}");
 
         }
 
-        private void viewPanel_MouseMove(object sender, MouseEventArgs e)
-        {
-            UpdateStatusPanel(sender, e);
-        }
-
         private void spriteFramesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (spriteFramesToolStripMenuItem.Checked == false)
@@ -5828,7 +5871,7 @@ Error: {ex.Message}");
                 systemColors.SetColor(KnownColor.GradientInactiveCaption, darkTheme1);
                 systemColors.SetColor(KnownColor.ControlText, darkTheme3);
                 systemColors.SetColor(KnownColor.WindowText, darkTheme3);
-                systemColors.SetColor(KnownColor.GrayText, darkTheme2);
+                systemColors.SetColor(KnownColor.GrayText, Color.Gray);
                 systemColors.SetColor(KnownColor.InfoText, darkTheme2);
                 systemColors.SetColor(KnownColor.MenuText, darkTheme3);
                 systemColors.SetColor(KnownColor.Control, darkTheme1);

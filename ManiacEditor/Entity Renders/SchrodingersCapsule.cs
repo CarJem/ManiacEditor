@@ -13,14 +13,14 @@ namespace ManiacEditor.Entity_Renders
     public class SchrodingersCapsule : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("SchrodingersCapsule", d, 0, 0, fliph, flipv, false);
-            var editorAnimInside = e.LoadAnimation2("SchrodingersCapsule", d, 0, 2, fliph, flipv, false);
-            var editorAnimExclamation = e.LoadAnimation2("SchrodingersCapsule", d, 0, 3, fliph, flipv, false);
-            var editorAnimButton = e.LoadAnimation2("SchrodingersCapsule", d, 1, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 0, fliph, flipv, false);
+            var editorAnimInside = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 2, fliph, flipv, false);
+            var editorAnimExclamation = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 3, fliph, flipv, false);
+            var editorAnimButton = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 1, -1, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimButton != null && editorAnimButton.Frames.Count != 0 && editorAnimInside != null && editorAnimInside.Frames.Count != 0 && editorAnimExclamation != null && editorAnimExclamation.Frames.Count != 0)
             {
@@ -45,16 +45,16 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-                var mightyAnim = e.LoadAnimation2("SchrodingersCapsule", d, 3, -1, fliph, flipv, false);
-                var rayAnim = e.LoadAnimation2("SchrodingersCapsule", d, 4, -1, fliph, flipv, false);
+                var mightyAnim = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 3, -1, fliph, flipv, false);
+                var rayAnim = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 4, -1, fliph, flipv, false);
 
                 if (mightyAnim != null && mightyAnim.Frames.Count != 0 && rayAnim != null && rayAnim.Frames.Count != 0)
                 {
-                    var mightyFrame = mightyAnim.Frames[e.EditorAnimations.index2 < 6 ? e.EditorAnimations.index2 : 0];
-                    var rayFrame = rayAnim.Frames[e.index];
+                    var mightyFrame = mightyAnim.Frames[Animation.index2 < 6 ? Animation.index2 : 0];
+                    var rayFrame = rayAnim.Frames[Animation.index];
 
-                    e.ProcessAnimation(rayFrame.Entry.FrameSpeed, rayFrame.Entry.Frames.Count, rayFrame.Frame.Duration);
-                    //e.EditorAnimations.ProcessAnimation2(mightyFrame.Entry.FrameSpeed, mightyFrame.Entry.Frames.Count, mightyFrame.Frame.Duration);
+                    Animation.ProcessAnimation(rayFrame.Entry.FrameSpeed, rayFrame.Entry.Frames.Count, rayFrame.Frame.Duration);
+                    //Animation.ProcessAnimation2(mightyFrame.Entry.FrameSpeed, mightyFrame.Entry.Frames.Count, mightyFrame.Frame.Duration);
 
                     d.DrawBitmap(mightyFrame.Texture,
                         x + mightyFrame.Frame.CenterX - (fliph ? (mightyFrame.Frame.Width - mightyAnim.Frames[0].Frame.Width) : 0) + 15,
@@ -66,13 +66,13 @@ namespace ManiacEditor.Entity_Renders
                         rayFrame.Frame.Width, rayFrame.Frame.Height, false, Transparency);
                 }
 
-                var editorAnimGlass = e.LoadAnimation2("SchrodingersCapsule", d, 2, -1, fliph, flipv, false);
+                var editorAnimGlass = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 2, -1, fliph, flipv, false);
 
                 if (editorAnimGlass != null && editorAnimGlass.Frames.Count != 0)
                 {
-                    var glassFrame = editorAnimGlass.Frames[e.EditorAnimations.index2];
+                    var glassFrame = editorAnimGlass.Frames[Animation.index2];
 
-                    e.EditorAnimations.ProcessAnimation3(glassFrame.Entry.FrameSpeed, glassFrame.Entry.Frames.Count, glassFrame.Frame.Duration);
+                    Animation.ProcessAnimation3(glassFrame.Entry.FrameSpeed, glassFrame.Entry.Frames.Count, glassFrame.Frame.Duration);
 
                     d.DrawBitmap(glassFrame.Texture,
                         x + glassFrame.Frame.CenterX - (fliph ? (glassFrame.Frame.Width - editorAnimGlass.Frames[0].Frame.Width) : 0),

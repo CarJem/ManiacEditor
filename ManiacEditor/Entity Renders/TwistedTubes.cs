@@ -13,17 +13,17 @@ namespace ManiacEditor.Entity_Renders
     public class TwistedTubes : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
             int height = (int)entity.attributesMap["height"].ValueUInt8;
-            var editorAnim = e.LoadAnimation2("TwistedTubes", d, 0, 1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("TwistedTubes", d, 0, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("TwistedTubes", d, 0, 1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("TwistedTubes", d, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
-                var frame2 = editorAnim2.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
+                var frame2 = editorAnim2.Frames[Animation.index];
 
 
                 //ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);

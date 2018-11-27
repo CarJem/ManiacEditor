@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Valve : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
@@ -35,14 +35,14 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.LoadAnimation2("Valve", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("Valve", d, 2, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Valve", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Valve", d, 2, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 var frame2 = editorAnim2.Frames[0];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frame2.Texture,
                     x + frame2.Frame.CenterX ,

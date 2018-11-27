@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Jellygnite : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
@@ -34,9 +34,9 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
 
-            var editorAnim = e.LoadAnimation2("Jellygnite", d, 0, 0, fliph, flipv, false);
-            var editorAnimFront = e.LoadAnimation2("Jellygnite", d, 3, 0, fliph, flipv, false);
-            var editorAnimBack = e.LoadAnimation2("Jellygnite", d, 5, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Jellygnite", d, 0, 0, fliph, flipv, false);
+            var editorAnimFront = EditorEntity_ini.LoadAnimation2("Jellygnite", d, 3, 0, fliph, flipv, false);
+            var editorAnimBack = EditorEntity_ini.LoadAnimation2("Jellygnite", d, 5, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimFront != null && editorAnimFront.Frames.Count != 0 && editorAnimBack != null && editorAnimBack.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

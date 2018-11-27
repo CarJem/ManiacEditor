@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class FlameSpring : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             bool fliph = false;
@@ -51,16 +51,16 @@ namespace ManiacEditor.Entity_Renders
                     valveType = 0;
                     break;
             }
-            var editorAnim = e.LoadAnimation2("FlameSpring", d, 0, animID, fliph, flipv, false);
-            var nozzelA = e.LoadAnimation2("FlameSpring", d, 1, 0, fliph, flipv, false);
-            var nozzelB = e.LoadAnimation2("FlameSpring", d, 1, 1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("FlameSpring", d, 0, animID, fliph, flipv, false);
+            var nozzelA = EditorEntity_ini.LoadAnimation2("FlameSpring", d, 1, 0, fliph, flipv, false);
+            var nozzelB = EditorEntity_ini.LoadAnimation2("FlameSpring", d, 1, 1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && nozzelA != null && nozzelA.Frames.Count != 0 && nozzelB != null && nozzelB.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 var headA = nozzelA.Frames[0];
                 var headB = nozzelB.Frames[0];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 d.DrawBitmap(frame.Texture,
                     x + frame.Frame.CenterX,

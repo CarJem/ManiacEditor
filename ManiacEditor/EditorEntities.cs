@@ -17,9 +17,9 @@ namespace ManiacEditor
         public static int DefaultFilter = -1;
 
         Scene scene;
-        List<EditorEntity> entities = new List<EditorEntity>();
-        List<EditorEntity> selectedEntities = new List<EditorEntity>();
-        List<EditorEntity> tempSelection = new List<EditorEntity>();
+        public List<EditorEntity> entities = new List<EditorEntity>();
+        public List<EditorEntity> selectedEntities = new List<EditorEntity>();
+        public List<EditorEntity> tempSelection = new List<EditorEntity>();
 
         Dictionary<ushort, EditorEntity> entitiesBySlot = new Dictionary<ushort, EditorEntity>();
 
@@ -296,46 +296,23 @@ namespace ManiacEditor
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
-            if (Properties.Settings.Default.DisableRenderExlusions)
+            foreach (var entity in entities)
             {
-                foreach (var entity in entities)
-                {
-                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
-                    else if (Editor.Instance.renderOnScreenExlusions.Contains(entity.Name)) entity.Draw(d, entities, entity);
-                }
+                entity.Draw(d, entities, entity);
             }
-            else
-            {
-                foreach (var entity in entities)
-                {
-                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
-                }
-            }
-
-
         }
 
         public void DrawPriority(DevicePanel d, int prority)
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
-            if (!Properties.Settings.Default.DisableRenderExlusions)
+            foreach (var entity in entities)
             {
-                foreach (var entity in entities)
-                {
-                    entity.layerPriority = prority;
-                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
-                    else if (Editor.Instance.renderOnScreenExlusions.Contains(entity.Name)) entity.Draw(d, entities, entity);
-                }
+                entity.layerPriority = prority;
+                entity.Draw(d, entities, entity);
             }
-            else
-            {
-                foreach (var entity in entities)
-                {
-                    entity.layerPriority = prority;
-                    if (d.IsObjectOnScreen(entity.PositionX, entity.PositionY, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) entity.Draw(d, entities, entity);
-                }
-            }
+
+
 
         }
 
@@ -359,6 +336,7 @@ namespace ManiacEditor
 
         private EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
         {
+
             try
             {
 

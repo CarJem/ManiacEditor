@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class CableWarp : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             bool fliph = false;
@@ -31,14 +31,14 @@ namespace ManiacEditor.Entity_Renders
                 animID = 0;
                 frameID = 0;
             }
-            var editorAnim = e.LoadAnimation2("CableWarp", d, animID, frameID, fliph, flipv, false);
-            var editorAnim2 = e.LoadAnimation2("PlaneSwitch", d, 0, 5, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("CableWarp", d, animID, frameID, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("PlaneSwitch", d, 0, 5, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 var frame2 = editorAnim2.Frames[0];
 
-                e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
 
                 if (type != 2)
                 {

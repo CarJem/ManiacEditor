@@ -14,16 +14,16 @@ namespace ManiacEditor.Entity_Renders
     public class ZipLine : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int angle = (int)(entity.attributesMap["angle"].ValueInt32);
             int length = (int)(entity.attributesMap["length"].ValueVar/1.4);
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("ZipLine", d, 0, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("ZipLine", d, 0, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[e.index];
+                var frame = editorAnim.Frames[Animation.index];
                 var frame2 = editorAnim.Frames[1];
 
 

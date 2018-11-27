@@ -13,14 +13,14 @@ namespace ManiacEditor.Entity_Renders
     public class Funnel : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             //int type = (int)entity.attributesMap["type"].ValueUInt8;
             //int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
             int animID = 0;
-            var editorAnim = e.LoadAnimation2("Funnel", d, animID, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Funnel", d, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[0];

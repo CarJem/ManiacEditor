@@ -13,25 +13,25 @@ namespace ManiacEditor.Entity_Renders
     public class Armadiloid : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.LoadAnimation2("Armadiloid", d, 0, 0, fliph, flipv, false);
-            var editorAnimHead = e.LoadAnimation2("Armadiloid", d, 1, 0, fliph, flipv, false);
-            var editorAnimBoost = e.LoadAnimation2("Armadiloid", d, 3, -1, fliph, flipv, false);
-            var editorAnimRider = e.LoadAnimation2("Armadiloid", d, 4, -1, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Armadiloid", d, 0, 0, fliph, flipv, false);
+            var editorAnimHead = EditorEntity_ini.LoadAnimation2("Armadiloid", d, 1, 0, fliph, flipv, false);
+            var editorAnimBoost = EditorEntity_ini.LoadAnimation2("Armadiloid", d, 3, -1, fliph, flipv, false);
+            var editorAnimRider = EditorEntity_ini.LoadAnimation2("Armadiloid", d, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHead != null && editorAnimHead.Frames.Count != 0 && editorAnimBoost != null && editorAnimBoost.Frames.Count != 0 && editorAnimRider != null && editorAnimRider.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
                 var frameHead = editorAnimHead.Frames[0];
-                var frameBoost = editorAnimBoost.Frames[e.index];
-                var frameRider = editorAnimRider.Frames[e.index];
+                var frameBoost = editorAnimBoost.Frames[Animation.index];
+                var frameRider = editorAnimRider.Frames[Animation.index];
 
                 if (type == 0)
                 {
-                    e.ProcessAnimation(frameBoost.Entry.FrameSpeed, frameBoost.Entry.Frames.Count, frameBoost.Frame.Duration);
+                    Animation.ProcessAnimation(frameBoost.Entry.FrameSpeed, frameBoost.Entry.Frames.Count, frameBoost.Frame.Duration);
 
                     d.DrawBitmap(frame.Texture,
                         x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
@@ -50,7 +50,7 @@ namespace ManiacEditor.Entity_Renders
                 }
                 else if (type == 1)
                 {
-                    e.ProcessAnimation(frameRider.Entry.FrameSpeed, frameRider.Entry.Frames.Count, frameRider.Frame.Duration);
+                    Animation.ProcessAnimation(frameRider.Entry.FrameSpeed, frameRider.Entry.Frames.Count, frameRider.Frame.Duration);
 
                     d.DrawBitmap(frameRider.Texture,
                         x + frameRider.Frame.CenterX - (fliph ? (frameRider.Frame.Width - editorAnimRider.Frames[0].Frame.Width) : 0),

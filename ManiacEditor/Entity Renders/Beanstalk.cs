@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Beanstalk : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -46,8 +46,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnimNode = e.LoadAnimation2("Beanstalk", d, 0, 0, fliph, flipv, false);
-            var editorAnimType = e.LoadAnimation2("Beanstalk", d, animID, frameID, fliph, flipv, false);
+            var editorAnimNode = EditorEntity_ini.LoadAnimation2("Beanstalk", d, 0, 0, fliph, flipv, false);
+            var editorAnimType = EditorEntity_ini.LoadAnimation2("Beanstalk", d, animID, frameID, fliph, flipv, false);
             if (editorAnimNode != null && editorAnimNode.Frames.Count != 0 && editorAnimType != null && editorAnimType.Frames.Count != 0)
             {
                 var frame = editorAnimNode.Frames[0];
@@ -55,8 +55,8 @@ namespace ManiacEditor.Entity_Renders
 
                 if (plantType == true)
                 {
-                    frameHead = editorAnimType.Frames[e.index];
-                    e.ProcessAnimation(frameHead.Entry.FrameSpeed, frameHead.Entry.Frames.Count, frameHead.Frame.Duration);
+                    frameHead = editorAnimType.Frames[Animation.index];
+                    Animation.ProcessAnimation(frameHead.Entry.FrameSpeed, frameHead.Entry.Frames.Count, frameHead.Frame.Duration);
                 }
 
 

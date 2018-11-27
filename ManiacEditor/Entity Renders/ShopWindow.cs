@@ -16,14 +16,14 @@ namespace ManiacEditor.Entity_Renders
     public class ShopWindow : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High) * 2;
             var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High) * 2;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
-            var editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false); ;
+            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false); ;
 
             if (width != 0 && height != 0)
             {
@@ -44,11 +44,11 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         d.DrawBitmap(frame.Texture,
                             (x + widthPixels / (right ? 2 : -2)) - (right ? frame.Frame.Width : 0),
                             (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),
@@ -62,11 +62,11 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool bottom = (i & 1) > 0;
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 1, false, bottom, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         bool wEven = width % 2 == 0;
                         for (int j = 1; j < width; j++)
                             d.DrawBitmap(frame.Texture,
@@ -81,11 +81,11 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool right = (i & 1) > 0;
 
-                    editorAnim = e.LoadAnimation2("EditorAssets", d, 0, 2, right, false, false);
+                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 2, right, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
-                        var frame = editorAnim.Frames[e.index];
-                        e.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        var frame = editorAnim.Frames[Animation.index];
+                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                         bool hEven = height % 2 == 0;
                         for (int j = 1; j < height; j++)
                             d.DrawBitmap(frame.Texture,
