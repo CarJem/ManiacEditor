@@ -120,7 +120,7 @@ namespace ManiacEditor.Entity_Renders
                     var frame = editorAnim.Frames[Animation.index];
                     var frame3 = editorAnimHolo.Frames[Animation.index];
 
-                    if (e.Selected)
+                    if (selected)
                     {
                         d.DrawBitmap(frame3.Texture,
                             x2 + frame3.Frame.CenterX,

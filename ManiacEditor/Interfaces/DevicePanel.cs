@@ -236,6 +236,7 @@ namespace ManiacEditor
 
             });
             Application.DoEvents();
+
         }
 
         public void InitDeviceResources()

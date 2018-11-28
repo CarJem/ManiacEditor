@@ -2340,10 +2340,10 @@ namespace ManiacEditor
             }
 
             zooming = false;
-            /*if (mySettings.AllowMoreRenderUpdates)
-            {
-                UpdateRender();
-            }*/
+            //if (mySettings.AllowMoreRenderUpdates)
+            //{
+            //    UpdateRender();
+            //}
 
             UpdateControls();
         }
@@ -2606,7 +2606,7 @@ namespace ManiacEditor
                 return false;
             }
             // Clears all the Textures
-            EditorEntity.ReleaseResources();
+            EditorEntity_ini.ReleaseResources();
             return true;
         }
         void UnloadScene()
@@ -2683,7 +2683,7 @@ namespace ManiacEditor
             UpdateControls();
 
             // clear memory a little more aggressively 
-            EditorEntity.ReleaseResources();
+            EditorEntity_ini.ReleaseResources();
             GC.Collect();
 
             CollisionLayerA.Clear();
@@ -3892,7 +3892,7 @@ Error: {ex.Message}");
                 // release all our resources, and force a reload of the tiles
                 // Entities should take care of themselves
                 DisposeTextures();
-                EditorEntity.ReleaseResources();
+                EditorEntity_ini.ReleaseResources();
 
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (useEncoreColors == true)
@@ -4068,7 +4068,7 @@ Error: {ex.Message}");
                 StageTiles?.Image.Reload(EncorePalette[0]);
                 TilesToolbar?.Reload(EncorePalette[0]);
             }
-            EditorEntity.ReleaseResources();
+            EditorEntity_ini.ReleaseResources();
         }
 
 

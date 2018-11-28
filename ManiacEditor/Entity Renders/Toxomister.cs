@@ -10,7 +10,7 @@ using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
-    public class Valve : EntityRenderer
+    public class Toxomister : EntityRenderer
     {
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
@@ -24,8 +24,9 @@ namespace ManiacEditor.Entity_Renders
                 case 0:
                     break;
                 case 1:
-                    fliph = true;
+                    flipv = true;
                     break;
+                    /*
                 case 2:
                     flipv = true;
                     break;
@@ -33,13 +34,14 @@ namespace ManiacEditor.Entity_Renders
                     flipv = true;
                     fliph = true;
                     break;
+                    */
             }
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("Valve", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Valve", d, 2, 0, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("Toxomister", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Toxomister", d, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[Animation.index];
+                var frame = editorAnim.Frames[0];
                 var frame2 = editorAnim2.Frames[0];
 
                 Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
@@ -58,7 +60,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override string GetObjectName()
         {
-            return "Valve";
+            return "Toxomister";
         }
     }
 }

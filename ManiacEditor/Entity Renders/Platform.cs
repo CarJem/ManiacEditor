@@ -193,11 +193,9 @@ namespace ManiacEditor.Entity_Renders
                         }
                     }
 
-                    else
-                    {
+
                         d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
 
                 }
                 

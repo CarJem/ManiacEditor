@@ -46,7 +46,7 @@ namespace ManiacEditor.Entity_Renders
             var GroupTexture = EditorEntity_ini.LoadTilePlatform(d, x2D, y2D, widthD, heightD);
             if (GroupTexture != null)
             {
-                d.DrawBitmap(GroupTexture.Texture, x - (int)(RoundNum(width, 16)/ 2), y - (int)(RoundNum(height, 16) / 2), GroupTexture.Width, GroupTexture.Height, false, Transparency);
+                d.DrawBitmap(GroupTexture.Texture, x - (int)(RoundNum(width, 16)/ 2), y - (int)(RoundNum(height, 16) / 2), width, height, false, Transparency);
             }               
             }
 

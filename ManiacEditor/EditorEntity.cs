@@ -605,23 +605,5 @@ namespace ManiacEditor
                 }
             }
         }
-
-        public static void ReleaseResources()
-        {
-
-            foreach (var pair in EditorEntity_ini.Sheets)
-                pair.Value?.Dispose();
-            EditorEntity_ini.Sheets.Clear();
-
-            EditorEntity_ini.TilePlatforms.Clear();
-            
-
-            foreach (var pair in EditorEntity_ini.Animations)
-                foreach (var pair2 in pair.Value.Frames)
-                    pair2.Texture?.Dispose();
-
-            EditorEntity_ini.Animations.Clear();
-            EditorEntity_ini.TilePlatforms.Clear();
-        }
     }
 }
