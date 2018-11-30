@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using ManiacEditor.Properties;
+using Microsoft.Xna.Framework;
 
 namespace ManiacEditor
 {
@@ -17,15 +19,32 @@ namespace ManiacEditor
         }
 
         private bool _layerArrangementChanged = false;
+        bool initilzing = true;
+
+
+        //Previous Values for Specific Varriables
+        int nudStartLineTemp = 0;
+        int nudLineCountTemp = 0;
+
+        //Clipboards
+        private EditorLayer LayerClipboard;
 
         private BindingSource _bsHorizontal;
         private BindingSource _bsHorizontalMap;
-        
+
         // I clearly have no understanding of WinForms Data Binding
         public LayerManager(EditorScene editorScene)
         {
             InitializeComponent();
-            rtbWarn.Rtf = Resources.LayerManagerWarning;
+            if (Settings.mySettings.NightMode)
+            {
+                rtbWarn.Rtf = Resources.LayerManagerWarningDarkTheme;
+            }
+            else
+            {
+                rtbWarn.Rtf = Resources.LayerManagerWarning;
+            }
+
             _editorScene = editorScene;
             bsLayers.DataSource = Layers;
             lbLayers.DisplayMember = "Name";
@@ -95,8 +114,8 @@ namespace ManiacEditor
 You really should save what you have and take a backup first.
 Proceed with the resize?",
                                         "Caution!",
-                                        MessageBoxButtons.YesNo, 
-                                        MessageBoxIcon.Warning, 
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Warning,
                                         MessageBoxDefaultButton.Button2);
             if (check == DialogResult.Yes)
             {
@@ -164,6 +183,35 @@ Are you sure you want to delete the [{current.Name}] layer?",
             }
         }
 
+        private void btnCut_Click(object sender, EventArgs e)
+        {
+            var current = bsLayers.Current as EditorLayer;
+            if (null == current) return;
+            CopyLayerToClipboard(current);
+            bsLayers.Remove(current);
+            _layerArrangementChanged = true;
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            var current = bsLayers.Current as EditorLayer;
+            if (null == current) return;
+            CopyLayerToClipboard(current);
+        }
+
+        private void btnDuplicate_Click(object sender, EventArgs e)
+        {
+            var current = bsLayers.Current as EditorLayer;
+            if (null == current) return;
+            bsLayers.Insert(bsLayers.IndexOf(current), current);
+            _layerArrangementChanged = true;
+        }
+
+        private void btnPaste_Click(object sender, EventArgs e)
+        {
+            PasteLayerFromClipboard();
+        }
+
         private void LayerManager_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (!_layerArrangementChanged) return;
@@ -178,7 +226,7 @@ They may well happen anway, this is all experimental!",
                             MessageBoxIcon.Information);
         }
 
-        
+
         private void btnAddHorizontalRule_Click(object sender, EventArgs e)
         {
             // create the horizontal rule set
@@ -265,6 +313,100 @@ Are you sure you want to delete this mapping?",
             if (_bsHorizontalMap != null) _bsHorizontal.Dispose();
 
             base.Dispose(disposing);
+        }
+
+        private void nudStartLine_ValueChanged(object sender, EventArgs e)
+        {
+            if (!initilzing)
+            {
+                if (nudStartLine.Value + nudLineCount.Value > (nudHeight.Value * 16))
+                {
+                    overflowMessage.Text = $@"The Start Line Value plus the Line Count Value must not Exceed the Maximum Layer Height! (" + nudStartLine.Value + "+" + nudLineCount.Value + " (" + (nudStartLine.Value + nudLineCount.Value) + ") " + "> " + (nudHeight.Value * 16) + ") You won't be able to save!";
+                    overflowMessage.ForeColor = System.Drawing.Color.Red;
+                }
+                else
+                {
+                    overflowMessage.Text = "Make sure the Start Line Value plus the Line Count Value does not Exceed the Maximum Layer Height! Otherwise, you will be unable to save!";
+                    overflowMessage.ForeColor = SystemColors.WindowText;
+                }
+            }
+
+        }
+
+        private void LayerManager_Load(object sender, EventArgs e)
+        {
+            if (nudStartLine.Value + nudLineCount.Value > (nudHeight.Value * 16))
+            {
+                nudStartLineTemp = (int)nudStartLine.Value;
+                nudLineCountTemp = (int)nudLineCount.Value;
+            }
+            initilzing = false;
+        }
+
+        private void gbHorizontalMappings_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbLayers_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void lbLayers_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (lbLayers.SelectedItem != null)
+                {
+                    contextMenuStrip1.Show(lbLayers, e.X, e.Y);
+                }
+
+            }
+        }
+
+        private void CopyLayerToClipboard(EditorLayer layerToCopy)
+        {
+            EditorLayer copyData = layerToCopy;
+
+            // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
+            if (Settings.mySettings.EnableWindowsClipboard)
+                Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
+
+            // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
+            LayerClipboard = copyData;
+
+        }
+
+        public void PasteLayerFromClipboard()
+        {
+            // check if there is a layer on the Windows clipboard; if so, use those
+
+            // For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
+            if (Settings.mySettings.EnableWindowsClipboard && Clipboard.ContainsData("ManiacLayer") && false)
+            {
+                var layerToPaste = (EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
+
+                bsLayers.Insert(bsLayers.Count - 1, layerToPaste);
+
+                _layerArrangementChanged = true;
+            }
+            
+
+            // if there's none, use the internal clipboard
+            else if (LayerClipboard != null)
+            {
+
+                var layerToPaste = LayerClipboard;
+                bsLayers.Insert(bsLayers.Count - 1, layerToPaste);
+                _layerArrangementChanged = true;
+
+            }
         }
     }
 }

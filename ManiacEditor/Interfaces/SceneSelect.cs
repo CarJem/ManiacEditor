@@ -661,9 +661,9 @@ namespace ManiacEditor
         private void removeSavedFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             String toRemove = recentDataDirList.SelectedNode.Tag.ToString();
-            if (Settings.Default.SavedPlaces.Contains(toRemove))
+            if (Settings.mySettings.SavedPlaces.Contains(toRemove))
             {
-                Settings.Default.SavedPlaces.Remove(toRemove);
+                Settings.mySettings.SavedPlaces.Remove(toRemove);
             }
             ReloadQuickPanel();
         }
@@ -671,9 +671,9 @@ namespace ManiacEditor
         private void removeDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             String toRemove = recentDataDirList.SelectedNode.Tag.ToString();
-            if (Settings.Default.DataDirectories.Contains(toRemove))
+            if (Settings.mySettings.DataDirectories.Contains(toRemove))
             {
-                Settings.Default.DataDirectories.Remove(toRemove);
+                Settings.mySettings.DataDirectories.Remove(toRemove);
             }
             Editor.Instance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
             ReloadQuickPanel();
@@ -845,9 +845,9 @@ namespace ManiacEditor
         {
             if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Data Directories", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (Settings.Default.DataDirectories != null)
+                if (Settings.mySettings.DataDirectories != null)
                 {
-                    Settings.Default.DataDirectories.Clear();
+                    Settings.mySettings.DataDirectories.Clear();
                     Editor.Instance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
                     ReloadQuickPanel();
                 }
@@ -861,9 +861,9 @@ namespace ManiacEditor
         {
             if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Saved Places", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (Settings.Default.SavedPlaces != null)
+                if (Settings.mySettings.SavedPlaces != null)
                 {
-                    Settings.Default.SavedPlaces.Clear();
+                    Settings.mySettings.SavedPlaces.Clear();
                     ReloadQuickPanel();
                 }
             }

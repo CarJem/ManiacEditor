@@ -73,6 +73,7 @@
             this.nudHorizontalEffect = new System.Windows.Forms.NumericUpDown();
             this.lbMappings = new System.Windows.Forms.ListBox();
             this.gbHorizontalMappings = new System.Windows.Forms.GroupBox();
+            this.overflowMessage = new System.Windows.Forms.Label();
             this.panelHorizMap = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.nudLineCount = new System.Windows.Forms.NumericUpDown();
@@ -91,6 +92,18 @@
             this.nudHorizVal1 = new System.Windows.Forms.NumericUpDown();
             this.panel10 = new System.Windows.Forms.Panel();
             this.nudHorizVal2 = new System.Windows.Forms.NumericUpDown();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cutLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.duplicateLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bsLayers)).BeginInit();
             this.gbRawSize.SuspendLayout();
             this.flpEffectiveSize.SuspendLayout();
@@ -129,6 +142,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHorizVal1)).BeginInit();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHorizVal2)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbLayers
@@ -141,13 +156,14 @@
             this.lbLayers.FormattingEnabled = true;
             this.lbLayers.Location = new System.Drawing.Point(0, 0);
             this.lbLayers.Name = "lbLayers";
-            this.lbLayers.Size = new System.Drawing.Size(124, 368);
+            this.lbLayers.Size = new System.Drawing.Size(124, 407);
             this.lbLayers.TabIndex = 0;
+            this.lbLayers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbLayers_MouseClick);
+            this.lbLayers.SelectedIndexChanged += new System.EventHandler(this.nudStartLine_ValueChanged);
+            this.lbLayers.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lbLayers_MouseUp);
             // 
             // gbRawSize
             // 
-            this.gbRawSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbRawSize.Controls.Add(this.flpEffectiveSize);
             this.gbRawSize.Controls.Add(this.flpCurrentSize);
             this.gbRawSize.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -236,8 +252,6 @@
             // 
             // gbResize
             // 
-            this.gbResize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbResize.Controls.Add(this.lblResizeWarnInstruct);
             this.gbResize.Controls.Add(this.panel1);
             this.gbResize.Controls.Add(this.panel2);
@@ -246,14 +260,14 @@
             this.gbResize.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbResize.Location = new System.Drawing.Point(129, 253);
             this.gbResize.Name = "gbResize";
-            this.gbResize.Size = new System.Drawing.Size(324, 141);
+            this.gbResize.Size = new System.Drawing.Size(324, 178);
             this.gbResize.TabIndex = 1;
             this.gbResize.TabStop = false;
             this.gbResize.Text = "Resize";
             // 
             // lblResizeWarnInstruct
             // 
-            this.lblResizeWarnInstruct.Location = new System.Drawing.Point(6, 84);
+            this.lblResizeWarnInstruct.Location = new System.Drawing.Point(3, 120);
             this.lblResizeWarnInstruct.Name = "lblResizeWarnInstruct";
             this.lblResizeWarnInstruct.Size = new System.Drawing.Size(309, 29);
             this.lblResizeWarnInstruct.TabIndex = 15;
@@ -346,7 +360,7 @@
             // 
             this.btnResize.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnResize.ForeColor = System.Drawing.Color.Black;
-            this.btnResize.Location = new System.Drawing.Point(3, 115);
+            this.btnResize.Location = new System.Drawing.Point(3, 152);
             this.btnResize.Name = "btnResize";
             this.btnResize.Size = new System.Drawing.Size(318, 23);
             this.btnResize.TabIndex = 3;
@@ -356,8 +370,6 @@
             // 
             // gbName
             // 
-            this.gbName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbName.Controls.Add(this.flpAttributes);
             this.gbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbName.Location = new System.Drawing.Point(129, 54);
@@ -585,7 +597,7 @@
             this.panelLayers.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLayers.Location = new System.Drawing.Point(0, 0);
             this.panelLayers.Name = "panelLayers";
-            this.panelLayers.Size = new System.Drawing.Size(124, 402);
+            this.panelLayers.Size = new System.Drawing.Size(124, 443);
             this.panelLayers.TabIndex = 1;
             // 
             // flpLayerbuttons
@@ -595,7 +607,7 @@
             this.flpLayerbuttons.Controls.Add(this.btnAdd);
             this.flpLayerbuttons.Controls.Add(this.btnDelete);
             this.flpLayerbuttons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flpLayerbuttons.Location = new System.Drawing.Point(0, 373);
+            this.flpLayerbuttons.Location = new System.Drawing.Point(0, 414);
             this.flpLayerbuttons.Name = "flpLayerbuttons";
             this.flpLayerbuttons.Size = new System.Drawing.Size(124, 29);
             this.flpLayerbuttons.TabIndex = 4;
@@ -669,7 +681,7 @@
             this.rtbWarn.Location = new System.Drawing.Point(124, 0);
             this.rtbWarn.Name = "rtbWarn";
             this.rtbWarn.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.rtbWarn.Size = new System.Drawing.Size(660, 55);
+            this.rtbWarn.Size = new System.Drawing.Size(875, 55);
             this.rtbWarn.TabIndex = 15;
             this.rtbWarn.Text = "The feature is highly experimental! Any changes made will be reflected when this " +
     "window is closed. \nDon\'t forget to save after! You did take that backup, didn\'t " +
@@ -720,6 +732,7 @@
             this.lbHorizontalRules.Size = new System.Drawing.Size(62, 147);
             this.lbHorizontalRules.TabIndex = 0;
             this.toolTipProvider.SetToolTip(this.lbHorizontalRules, "These IDs may be reassigned when you hit save.\r\n\r\nDo NOT trust them!");
+            this.lbHorizontalRules.SelectedIndexChanged += new System.EventHandler(this.nudStartLine_ValueChanged);
             // 
             // btnAddHorizontalRule
             // 
@@ -806,11 +819,12 @@
             this.lbMappings.FormattingEnabled = true;
             this.lbMappings.Location = new System.Drawing.Point(0, 0);
             this.lbMappings.Name = "lbMappings";
-            this.lbMappings.Size = new System.Drawing.Size(156, 95);
+            this.lbMappings.Size = new System.Drawing.Size(156, 134);
             this.lbMappings.TabIndex = 16;
             // 
             // gbHorizontalMappings
             // 
+            this.gbHorizontalMappings.Controls.Add(this.overflowMessage);
             this.gbHorizontalMappings.Controls.Add(this.panelHorizMap);
             this.gbHorizontalMappings.Controls.Add(this.nudLineCount);
             this.gbHorizontalMappings.Controls.Add(this.lblLineCount);
@@ -819,10 +833,18 @@
             this.gbHorizontalMappings.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gbHorizontalMappings.Location = new System.Drawing.Point(459, 253);
             this.gbHorizontalMappings.Name = "gbHorizontalMappings";
-            this.gbHorizontalMappings.Size = new System.Drawing.Size(313, 141);
+            this.gbHorizontalMappings.Size = new System.Drawing.Size(528, 178);
             this.gbHorizontalMappings.TabIndex = 17;
             this.gbHorizontalMappings.TabStop = false;
             this.gbHorizontalMappings.Text = "Horizontal Mappings";
+            this.gbHorizontalMappings.Enter += new System.EventHandler(this.gbHorizontalMappings_Enter);
+            // 
+            // overflowMessage
+            // 
+            this.overflowMessage.Location = new System.Drawing.Point(165, 96);
+            this.overflowMessage.Name = "overflowMessage";
+            this.overflowMessage.Size = new System.Drawing.Size(357, 78);
+            this.overflowMessage.TabIndex = 19;
             // 
             // panelHorizMap
             // 
@@ -831,7 +853,7 @@
             this.panelHorizMap.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelHorizMap.Location = new System.Drawing.Point(3, 16);
             this.panelHorizMap.Name = "panelHorizMap";
-            this.panelHorizMap.Size = new System.Drawing.Size(156, 122);
+            this.panelHorizMap.Size = new System.Drawing.Size(156, 159);
             this.panelHorizMap.TabIndex = 21;
             // 
             // flowLayoutPanel1
@@ -839,7 +861,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnAddHorizontalMapping);
             this.flowLayoutPanel1.Controls.Add(this.btnRemoveHorizontalMapping);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 95);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 132);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(156, 27);
             this.flowLayoutPanel1.TabIndex = 17;
@@ -857,6 +879,7 @@
             this.nudLineCount.Name = "nudLineCount";
             this.nudLineCount.Size = new System.Drawing.Size(80, 20);
             this.nudLineCount.TabIndex = 20;
+            this.nudLineCount.ValueChanged += new System.EventHandler(this.nudStartLine_ValueChanged);
             // 
             // lblLineCount
             // 
@@ -880,6 +903,7 @@
             this.nudStartLine.Name = "nudStartLine";
             this.nudStartLine.Size = new System.Drawing.Size(80, 20);
             this.nudStartLine.TabIndex = 18;
+            this.nudStartLine.ValueChanged += new System.EventHandler(this.nudStartLine_ValueChanged);
             // 
             // label3
             // 
@@ -1047,11 +1071,115 @@
             this.nudHorizVal2.Size = new System.Drawing.Size(50, 20);
             this.nudHorizVal2.TabIndex = 1;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.groupBox1.Location = new System.Drawing.Point(778, 54);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(142, 196);
+            this.groupBox1.TabIndex = 19;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Options";
+            // 
+            // button2
+            // 
+            this.button2.Enabled = false;
+            this.button2.ForeColor = System.Drawing.Color.Black;
+            this.button2.Location = new System.Drawing.Point(6, 48);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(129, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Import Layer Properties";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Location = new System.Drawing.Point(6, 19);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(129, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Export Layer Properties";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutLayerToolStripMenuItem,
+            this.copyLayerToolStripMenuItem,
+            this.pasteLayerToolStripMenuItem,
+            this.duplicateLayerToolStripMenuItem,
+            this.deleteLayerToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.moveUpToolStripMenuItem,
+            this.moveDownToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 164);
+            // 
+            // cutLayerToolStripMenuItem
+            // 
+            this.cutLayerToolStripMenuItem.Name = "cutLayerToolStripMenuItem";
+            this.cutLayerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.cutLayerToolStripMenuItem.Text = "Cut Selected Layer";
+            this.cutLayerToolStripMenuItem.Click += new System.EventHandler(this.btnCut_Click);
+            // 
+            // copyLayerToolStripMenuItem
+            // 
+            this.copyLayerToolStripMenuItem.Name = "copyLayerToolStripMenuItem";
+            this.copyLayerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.copyLayerToolStripMenuItem.Text = "Copy Selected Layer";
+            this.copyLayerToolStripMenuItem.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
+            // duplicateLayerToolStripMenuItem
+            // 
+            this.duplicateLayerToolStripMenuItem.Name = "duplicateLayerToolStripMenuItem";
+            this.duplicateLayerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.duplicateLayerToolStripMenuItem.Text = "Duplicate Selected Layer";
+            this.duplicateLayerToolStripMenuItem.Click += new System.EventHandler(this.btnDuplicate_Click);
+            // 
+            // deleteLayerToolStripMenuItem
+            // 
+            this.deleteLayerToolStripMenuItem.Name = "deleteLayerToolStripMenuItem";
+            this.deleteLayerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.deleteLayerToolStripMenuItem.Text = "Delete Selected Layer";
+            this.deleteLayerToolStripMenuItem.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
+            // 
+            // moveUpToolStripMenuItem
+            // 
+            this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.moveUpToolStripMenuItem.Text = "Move Selected Up";
+            this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // moveDownToolStripMenuItem
+            // 
+            this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.moveDownToolStripMenuItem.Text = "Move Selected Down";
+            this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // pasteLayerToolStripMenuItem
+            // 
+            this.pasteLayerToolStripMenuItem.Name = "pasteLayerToolStripMenuItem";
+            this.pasteLayerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.pasteLayerToolStripMenuItem.Text = "Paste Layer";
+            this.pasteLayerToolStripMenuItem.Click += new System.EventHandler(this.btnPaste_Click);
+            // 
             // LayerManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 402);
+            this.ClientSize = new System.Drawing.Size(999, 443);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbHorizRules);
             this.Controls.Add(this.gbHorizontalMappings);
             this.Controls.Add(this.rtbWarn);
@@ -1069,6 +1197,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Layer Manager";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LayerManager_FormClosed);
+            this.Load += new System.EventHandler(this.LayerManager_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bsLayers)).EndInit();
             this.gbRawSize.ResumeLayout(false);
             this.flpEffectiveSize.ResumeLayout(false);
@@ -1123,6 +1252,8 @@
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHorizVal2)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1204,5 +1335,18 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button btnAddHorizontalMapping;
         private System.Windows.Forms.Button btnRemoveHorizontalMapping;
+        private System.Windows.Forms.Label overflowMessage;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem cutLayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyLayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem duplicateLayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteLayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem moveUpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteLayerToolStripMenuItem;
     }
 }

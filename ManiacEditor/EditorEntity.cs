@@ -197,7 +197,7 @@ namespace ManiacEditor
             else
                 filteredOut = !Properties.Settings.Default.showBothEntities;
 
-            if (Editor.Instance.entitiesTextFilter != "" && entity.Object.Name.Name != Editor.Instance.entitiesTextFilter)
+            if (Editor.Instance.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Editor.Instance.entitiesTextFilter))
             {
                 filteredOut = true;
             }

@@ -3537,7 +3537,16 @@ Error: {ex.Message}");
                     fd.InitialDirectory = Path.Combine(DataDirectory, "Stages");
                     if (fd.ShowDialog() == DialogResult.OK)
                     {
-                        sourceStageConfig = new StageConfig(fd.FileName);
+                        try
+                        {
+                            sourceStageConfig = new StageConfig(fd.FileName);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
+                            return;
+                        }
+
                     }
                 }
                 if (null == sourceStageConfig) return;

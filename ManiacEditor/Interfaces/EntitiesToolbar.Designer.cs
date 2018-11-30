@@ -40,9 +40,12 @@
             this.bothFilterCheck = new System.Windows.Forms.CheckBox();
             this.encoreFilterCheck = new System.Windows.Forms.CheckBox();
             this.maniaFilterCheck = new System.Windows.Forms.CheckBox();
+            this.searchBox = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.gbSpawn.SuspendLayout();
             this.gbEditor.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // entitiesList
@@ -50,6 +53,7 @@
             this.entitiesList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.entitiesList.BackColor = System.Drawing.Color.White;
+            this.entitiesList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.entitiesList.ForeColor = System.Drawing.Color.Black;
             this.entitiesList.FormattingEnabled = true;
             this.entitiesList.Location = new System.Drawing.Point(7, 19);
@@ -58,6 +62,7 @@
             this.entitiesList.TabIndex = 0;
             this.entitiesList.DropDown += new System.EventHandler(this.entitiesList_DropDown);
             this.entitiesList.SelectedIndexChanged += new System.EventHandler(this.entitiesList_SelectedIndexChanged);
+            this.entitiesList.TextChanged += new System.EventHandler(this.entitiesList_TextChanged);
             // 
             // entityProperties
             // 
@@ -79,7 +84,7 @@
             this.entityProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
             this.entityProperties.SelectedItemWithFocusBackColor = System.Drawing.Color.DodgerBlue;
             this.entityProperties.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
-            this.entityProperties.Size = new System.Drawing.Size(234, 291);
+            this.entityProperties.Size = new System.Drawing.Size(234, 236);
             this.entityProperties.TabIndex = 1;
             this.entityProperties.ToolbarVisible = false;
             this.entityProperties.ViewBackColor = System.Drawing.Color.White;
@@ -154,6 +159,7 @@
             this.gbEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbEditor.Controls.Add(this.groupBox2);
             this.gbEditor.Controls.Add(this.entitiesList);
             this.gbEditor.Controls.Add(this.entityProperties);
             this.gbEditor.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -243,6 +249,31 @@
             this.maniaFilterCheck.UseVisualStyleBackColor = true;
             this.maniaFilterCheck.CheckedChanged += new System.EventHandler(this.maniaFilterCheck_CheckedChanged);
             // 
+            // searchBox
+            // 
+            this.searchBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.searchBox.BackColor = System.Drawing.Color.White;
+            this.searchBox.ForeColor = System.Drawing.Color.Black;
+            this.searchBox.Location = new System.Drawing.Point(6, 23);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(222, 20);
+            this.searchBox.TabIndex = 2;
+            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox2.Controls.Add(this.searchBox);
+            this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.groupBox2.Location = new System.Drawing.Point(7, 288);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(234, 49);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Search Box";
+            // 
             // EntitiesToolbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,6 +286,8 @@
             this.gbSpawn.ResumeLayout(false);
             this.gbEditor.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -273,6 +306,8 @@
         private System.Windows.Forms.CheckBox encoreFilterCheck;
         private System.Windows.Forms.CheckBox maniaFilterCheck;
         private System.Windows.Forms.ComboBox defaultFilter;
+        private System.Windows.Forms.TextBox searchBox;
+        private System.Windows.Forms.GroupBox groupBox2;
         //private CSharp.Winform.UI.Loading.WaitLoading waitLoading1;
     }
 }

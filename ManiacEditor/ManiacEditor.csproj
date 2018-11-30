@@ -389,6 +389,7 @@
     <Compile Include="Entity Renders\Valve.cs" />
     <Compile Include="Entity Renders\Vultron.cs" />
     <Compile Include="Entity Renders\YoyoPulley.cs" />
+    <Compile Include="Enums\Settings.cs" />
     <Compile Include="Interfaces\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -927,6 +928,11 @@
       <DependentUpon>PreLoadBox.cs</DependentUpon>
     </Compile>
     <Compile Include="ProcessMemory.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Reflector.cs" />
     <Compile Include="Interfaces\SceneSelect.cs">
       <SubType>Form</SubType>
@@ -990,11 +996,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\ColorPalette_16x.png" />
+    <None Include="Resources\LayerManagerWarning1.rtf" />
+    <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
     <None Include="README.md" />
     <None Include="Resources\ScoreTotal.wav" />
     <None Include="Properties\EditorState.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>EditorState.Designer.cs</LastGenOutput>
     </None>
     <EmbeddedResource Include="Interfaces\ConfigManager.resx">
@@ -1034,7 +1042,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\KeyBinds.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>KeyBinds.Designer.cs</LastGenOutput>
     </None>
     <EmbeddedResource Include="Resources\onScreenRenderExclusions.ini">
@@ -1102,14 +1110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="discord-rpc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1140,6 +1143,7 @@
     <None Include="Resources\SoundWarning.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\SoundWarning1.rtf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

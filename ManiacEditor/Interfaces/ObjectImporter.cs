@@ -18,19 +18,22 @@ namespace ManiacEditor
         private IList<SceneObject> _targetSceneObjects;
         private StageConfig _stageConfig;
 
-        //Shorthanding Settings
-        Properties.Settings mySettings = Properties.Settings.Default;
-        Properties.EditorState myEditorState = Properties.EditorState.Default;
-        Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
-
         public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
         {
             InitializeComponent();
-            if (myEditorState.AddStageConfigEntriesAllowed)
+            if (Settings.myEditorState.AddStageConfigEntriesAllowed)
             {
                 checkBox1.Checked = true;
             }
-            rtbWarning.Rtf = Resources.ObjectWarning;
+            if (Settings.mySettings.NightMode)
+            {
+                rtbWarning.Rtf = Resources.ObjectWarningDarkTheme;
+            }
+            else
+            {
+                rtbWarning.Rtf = Resources.ObjectWarning;
+            }
+
             _sourceSceneObjects = sourceSceneObjects;
             _targetSceneObjects = targetSceneObjects;
             _stageConfig = stageConfig;
@@ -75,7 +78,7 @@ namespace ManiacEditor
                 objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
                 _targetSceneObjects.Add(_sourceSceneObjects.Single(sso => sso.Name.ToString().Equals(item.Text)));
 
-                if (myEditorState.AddStageConfigEntriesAllowed)
+                if (Settings.myEditorState.AddStageConfigEntriesAllowed)
                 {
                     if (_stageConfig != null
                         && !_stageConfig.ObjectsNames.Contains(item.Text))
@@ -98,11 +101,11 @@ namespace ManiacEditor
         {
             if (checkBox1.Checked)
             {
-                myEditorState.AddStageConfigEntriesAllowed = true;
+                Settings.myEditorState.AddStageConfigEntriesAllowed = true;
             }
             else
             {
-                myEditorState.AddStageConfigEntriesAllowed = false;
+                Settings.myEditorState.AddStageConfigEntriesAllowed = false;
             }
         }
     }

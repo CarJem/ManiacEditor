@@ -39,7 +39,7 @@
             // 
             // rtbWarning
             // 
-            this.rtbWarning.BackColor = System.Drawing.Color.White;
+            this.rtbWarning.BackColor = System.Drawing.SystemColors.Window;
             this.rtbWarning.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tableLayoutPanel1.SetColumnSpan(this.rtbWarning, 2);
             this.rtbWarning.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -116,6 +116,7 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(384, 362);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SoundImporter";

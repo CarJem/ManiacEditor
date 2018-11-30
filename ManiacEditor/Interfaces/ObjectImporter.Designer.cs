@@ -79,7 +79,7 @@
             // 
             // rtbWarning
             // 
-            this.rtbWarning.BackColor = System.Drawing.Color.White;
+            this.rtbWarning.BackColor = System.Drawing.SystemColors.Window;
             this.rtbWarning.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tableLayoutPanel1.SetColumnSpan(this.rtbWarning, 2);
             this.rtbWarning.Dock = System.Windows.Forms.DockStyle.Fill;

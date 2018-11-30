@@ -131,17 +131,24 @@ namespace ManiacEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1252\deff0\deflang2057{\fonttbl{\f0\fswiss\fprq2\fcharset0 Segoe UI;}{\f1\fnil\fcharset0 Calibri;}}
-        ///{\colortbl ;\red255\green0\blue0;}
-        ///\viewkind4\uc1\pard\qc\f0\fs18 This feature is \cf1\b highly experimental\cf0\b0 . \par
-        ///Any changes made will be reflected when this window is closed. Don&apos;t forget to save after! \par
-        ///You did take that backup, didn&apos;t you?\lang9\f1\fs22\par
-        ///}
-        ///.
+        ///   Looks up a localized string similar to {\rtf1\ansi\deff3\adeflang1025
+        ///{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\froman\fprq2\fcharset0 Liberation Serif{\*\falt Times New Roman};}{\f4\fswiss\fprq2\fcharset0 Liberation Sans{\*\falt Arial};}{\f5\froman\fprq2\fcharset0 Segoe UI;}{\f6\fnil\fprq2\fcharset0 Microsoft YaHei;}{\f7\fnil\fprq2\fcharset0 Lucida Sans;}{\f8\fswiss\fprq0\fcharset128 Lucida Sans;}}
+        ///{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\g [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LayerManagerWarning {
             get {
                 return ResourceManager.GetString("LayerManagerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi\deff3\adeflang1025
+        ///{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\froman\fprq2\fcharset0 Liberation Serif{\*\falt Times New Roman};}{\f4\fswiss\fprq2\fcharset0 Liberation Sans{\*\falt Arial};}{\f5\froman\fprq2\fcharset0 Segoe UI;}{\f6\fnil\fprq2\fcharset0 Microsoft YaHei;}{\f7\fnil\fprq2\fcharset0 Lucida Sans;}{\f8\fswiss\fprq0\fcharset128 Lucida Sans;}}
+        ///{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\g [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LayerManagerWarningDarkTheme {
+            get {
+                return ResourceManager.GetString("LayerManagerWarningDarkTheme", resourceCulture);
             }
         }
         
@@ -220,13 +227,26 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1252\deff0\deflang2057{\fonttbl{\f0\fswiss\fprq2\fcharset0 Segoe UI;}{\f1\fnil\fcharset0 Calibri;}}
         ///{\colortbl ;\red255\green0\blue0;}
-        ///\viewkind4\uc1\pard\qc\f0\fs18 This feature is \cf1\b highly experimental\cf0\b0 .\par
-        ///\pard It will make changes to the \i StageConfig.bin\i0  file which belongs to the Scene you are currently editing. Some Objects will require you to import sounds, or make other changes; but those are not automatically handled...\par
-        ///\pard\qc\b you \b0 must do that b [rest of string was truncated]&quot;;.
+        ///\viewkind4\uc1\pard\qc\f0\fs18 This feature is to be used \cf1\b with caution\cf0\b0 .\par
+        ///\pard It will make changes to the \i StageConfig.bin\i0  file (if checked below) which belongs to the Scene you are currently editing. Some Objects will require you to import sounds, or make other changes; but those are not automatically handled...\par
+        ///\pard\qc\b [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ObjectWarning {
             get {
                 return ResourceManager.GetString("ObjectWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1252\deff0\deflang2057{\fonttbl{\f0\fswiss\fprq2\fcharset0 Segoe UI;}{\f1\fnil\fcharset0 Calibri;}}
+        ///{\colortbl ;\red255\green0\blue0;}
+        ///\viewkind4\uc1\pard\qc\f0\fs18 This feature is to be used \cf1\b with caution\cf0\b0 .\par
+        ///\pard It will make changes to the \i StageConfig.bin\i0  file (if checked below) which belongs to the Scene you are currently editing. Some Objects will require you to import sounds, or make other changes; but those are not automatically handled...\par
+        ///\pard\qc\b [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ObjectWarningDarkTheme {
+            get {
+                return ResourceManager.GetString("ObjectWarningDarkTheme", resourceCulture);
             }
         }
         
@@ -408,6 +428,19 @@ namespace ManiacEditor.Properties {
         internal static string SoundWarning {
             get {
                 return ResourceManager.GetString("SoundWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1252\deff0\deflang2057{\fonttbl{\f0\fswiss\fprq2\fcharset0 Segoe UI;}{\f1\fnil\fcharset0 Calibri;}}
+        ///{\colortbl ;\red255\green0\blue0;}
+        ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qc\f0\fs18 This feature is \cf1\b highly experimental\cf0\b0 .\par
+        ///\pard It will make changes to the \i StageConfig.bin\i0  file which belongs to the Scene you are currently editing, in order to make the Sounds you select available for use. But actually getting those sounds to play...\par
+        ///\pard\q [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SoundWarningDarkTheme {
+            get {
+                return ResourceManager.GetString("SoundWarningDarkTheme", resourceCulture);
             }
         }
         

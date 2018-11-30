@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using RSDKv5;
+using IronPython.Modules;
+using Microsoft.Scripting.Utils;
 
 namespace ManiacEditor
 {
@@ -118,7 +120,7 @@ namespace ManiacEditor
             entitiesList.ResetText();
             if (currentEntity != null && _entities.Contains(currentEntity))
             {
-                entitiesList.SelectedText = String.Format("{0} - {1}", currentEntity.SlotID, currentEntity.Object.Name);
+                entitiesList.SelectedText = String.Format("{0} - {1}", currentEntity.SlotID, currentEntity.Object.Name.Name.ToString());
             }
         }
 
@@ -143,8 +145,8 @@ namespace ManiacEditor
             int selectedSlotID = GetIndexOfSlotID(selectedIndex);
 
 
-            if (updateSelected && !multipleObjects) SelectedEntity?.Invoke(_entities[entitiesList.SelectedIndex].SlotID);
-            if (updateSelected && multipleObjects) SelectedEntity?.Invoke(_entities[selectedSlotID].SlotID);
+            if (updateSelected && !multipleObjects || !searchBox.Text.Contains("")) SelectedEntity?.Invoke(_entities[entitiesList.SelectedIndex].SlotID);
+            if (updateSelected && multipleObjects || searchBox.Text.Contains("")) SelectedEntity?.Invoke(_entities[selectedSlotID].SlotID);
 
         }
 
@@ -202,7 +204,7 @@ namespace ManiacEditor
                     foreach (RSDKv5.SceneEntity selectedEntity in selectedEntities)
                     {
 
-                        entitiesList.Items.Add(new { Text = (String.Format("{0} - {1}", selectedEntity.SlotID, selectedEntity.Object.Name)), Value = selectedEntity.SlotID });
+                        entitiesList.Items.Add(new { Text = (String.Format("{1} - {0}", (searchBox.Text != "" ? selectedEntity.Object.Name.Name.Contains(searchBox.Text) ? selectedEntity.Object.Name.Name.ToString() : "" : selectedEntity.Object.Name.Name.ToString()) , selectedEntity.SlotID)), Value = selectedEntity.SlotID });
                         _selectedEntitySlots.Add(selectedEntity.SlotID);
                     }
                     //entitiesList.Items.AddRange(selectedEntities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name)).ToArray());
@@ -243,7 +245,7 @@ namespace ManiacEditor
                 else
                 {
                     entitiesList.ResetText();
-                    entitiesList.SelectedText = String.Format("{0} - {1}", currentEntity.SlotID, currentEntity.Object.Name);
+                    entitiesList.SelectedText = String.Format("{1} - {0}", currentEntity.Object.Name.Name.ToString(), currentEntity.SlotID);
                     //entitiesList.SelectedIndex = entities.IndexOf(entity);
                 }
 
@@ -537,11 +539,12 @@ namespace ManiacEditor
 
         private void entitiesList_DropDown(object sender, EventArgs e)
         {
+
             if (multipleObjects == false)
             {
                 // It is slow to update the list, so lets generate it when the menu opens
                 entitiesList.Items.Clear();
-                entitiesList.Items.AddRange(_entities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name)).ToArray());
+                entitiesList.Items.AddRange(_entities.Select(x => String.Format("{1} - {0}", x.Object.Name.Name, x.SlotID)).Where(x => x.Contains(searchBox.Text != "" ? searchBox.Text : x)).ToArray());              
             }
 
 
@@ -643,6 +646,16 @@ namespace ManiacEditor
         }
 
         private void gbSpawn_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void entitiesList_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void searchBox_TextChanged(object sender, EventArgs e)
         {
 
         }

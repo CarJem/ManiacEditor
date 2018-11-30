@@ -21,7 +21,15 @@ namespace ManiacEditor
         public SoundImporter(StageConfig sourceSceneSounds, StageConfig stageConfig)
         {
             InitializeComponent();
-            rtbWarning.Rtf = Resources.SoundWarning;
+            if (Settings.mySettings.NightMode)
+            {
+                rtbWarning.Rtf = Resources.SoundWarningDarkTheme;
+            }
+            else
+            {
+                rtbWarning.Rtf = Resources.SoundWarning;
+            }
+
             _sourceSceneSounds = sourceSceneSounds.WAVs;
             _targetSceneSounds = stageConfig.WAVs;
             _stageConfig = stageConfig;

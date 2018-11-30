@@ -90,7 +90,16 @@
             this.invertedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.editEntitiesOptionToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.entityVisibilityOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.constantEntityRenderItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onTopOnlyWhileEditingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.objectFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.layerPriorityOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveExtraLayersToFrontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
             this.entityViewSettingsLabel = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
@@ -122,7 +131,6 @@
             this.saveForForceOpenOnStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.entityManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importSoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layerManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editBackgroundColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -149,6 +157,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.seperator1 = new System.Windows.Forms.ToolStripSeparator();
             this._levelIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -250,16 +259,8 @@
             this.customToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCollisionAButton = new System.Windows.Forms.ToolStripButton();
             this.showCollisionBButton = new System.Windows.Forms.ToolStripButton();
-            this.layerPriorityOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveExtraLayersToFrontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.objectFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.entityVisibilityOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
-            this.constantEntityRenderItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.onTopOnlyWhileEditingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GraphicPanel = new ManiacEditor.DevicePanel();
+            this.legacyItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -753,6 +754,38 @@
             this.editEntitiesOptionToolStrip.Text = "Entities Options";
             this.editEntitiesOptionToolStrip.DropDownOpening += new System.EventHandler(this.editEntitiesOptionToolStrip_DropDownOpening);
             // 
+            // entityVisibilityOptionsToolStripMenuItem
+            // 
+            this.entityVisibilityOptionsToolStripMenuItem.Enabled = false;
+            this.entityVisibilityOptionsToolStripMenuItem.Name = "entityVisibilityOptionsToolStripMenuItem";
+            this.entityVisibilityOptionsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.entityVisibilityOptionsToolStripMenuItem.Text = "Entity Visibility Options:";
+            // 
+            // toolStripSeparator23
+            // 
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            this.toolStripSeparator23.Size = new System.Drawing.Size(196, 6);
+            // 
+            // constantEntityRenderItem
+            // 
+            this.constantEntityRenderItem.CheckOnClick = true;
+            this.constantEntityRenderItem.Enabled = false;
+            this.constantEntityRenderItem.Name = "constantEntityRenderItem";
+            this.constantEntityRenderItem.Size = new System.Drawing.Size(199, 22);
+            this.constantEntityRenderItem.Text = "Constant";
+            this.constantEntityRenderItem.Click += new System.EventHandler(this.constantEntityRenderItem_Click);
+            // 
+            // onTopOnlyWhileEditingToolStripMenuItem
+            // 
+            this.onTopOnlyWhileEditingToolStripMenuItem.Checked = true;
+            this.onTopOnlyWhileEditingToolStripMenuItem.CheckOnClick = true;
+            this.onTopOnlyWhileEditingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.onTopOnlyWhileEditingToolStripMenuItem.Enabled = false;
+            this.onTopOnlyWhileEditingToolStripMenuItem.Name = "onTopOnlyWhileEditingToolStripMenuItem";
+            this.onTopOnlyWhileEditingToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.onTopOnlyWhileEditingToolStripMenuItem.Text = "On Top when Editing";
+            this.onTopOnlyWhileEditingToolStripMenuItem.Click += new System.EventHandler(this.onTopOnlyWhileEditingToolStripMenuItem_Click);
+            // 
             // showEntitiesAboveAllOtherLayersToolStripMenuItem
             // 
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem.CheckOnClick = true;
@@ -761,6 +794,43 @@
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Text = "Always On Top";
             this.showEntitiesAboveAllOtherLayersToolStripMenuItem.Click += new System.EventHandler(this.showEntitiesAboveAllOtherLayersToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(196, 6);
+            // 
+            // objectFilterToolStripMenuItem
+            // 
+            this.objectFilterToolStripMenuItem.Enabled = false;
+            this.objectFilterToolStripMenuItem.Name = "objectFilterToolStripMenuItem";
+            this.objectFilterToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.objectFilterToolStripMenuItem.Text = "Object Filter:";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BackColor = System.Drawing.Color.White;
+            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBox1.ForeColor = System.Drawing.Color.Black;
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(116, 23);
+            this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_TextChanged);
+            // 
+            // layerPriorityOptionsToolStripMenuItem
+            // 
+            this.layerPriorityOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.moveExtraLayersToFrontToolStripMenuItem});
+            this.layerPriorityOptionsToolStripMenuItem.Name = "layerPriorityOptionsToolStripMenuItem";
+            this.layerPriorityOptionsToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
+            this.layerPriorityOptionsToolStripMenuItem.Text = "Layer Priority Options";
+            // 
+            // moveExtraLayersToFrontToolStripMenuItem
+            // 
+            this.moveExtraLayersToFrontToolStripMenuItem.CheckOnClick = true;
+            this.moveExtraLayersToFrontToolStripMenuItem.Name = "moveExtraLayersToFrontToolStripMenuItem";
+            this.moveExtraLayersToFrontToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.moveExtraLayersToFrontToolStripMenuItem.Text = "Move Extra Layers to Front";
+            this.moveExtraLayersToFrontToolStripMenuItem.Click += new System.EventHandler(this.moveExtraLayersToFrontToolStripMenuItem_Click);
             // 
             // toolStripSeparator22
             // 
@@ -997,10 +1067,10 @@
             // 
             this.sceneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.entityManagerToolStripMenuItem,
-            this.importObjectsToolStripMenuItem,
             this.importSoundsToolStripMenuItem,
             this.layerManagerToolStripMenuItem,
-            this.editBackgroundColorsToolStripMenuItem});
+            this.editBackgroundColorsToolStripMenuItem,
+            this.legacyItemsToolStripMenuItem});
             this.sceneToolStripMenuItem.Name = "sceneToolStripMenuItem";
             this.sceneToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.sceneToolStripMenuItem.Text = "Scene";
@@ -1009,22 +1079,15 @@
             // 
             this.entityManagerToolStripMenuItem.Enabled = false;
             this.entityManagerToolStripMenuItem.Name = "entityManagerToolStripMenuItem";
-            this.entityManagerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.entityManagerToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.entityManagerToolStripMenuItem.Text = "Entity Manager";
             this.entityManagerToolStripMenuItem.Click += new System.EventHandler(this.removeObjectToolStripMenuItem_Click);
-            // 
-            // importObjectsToolStripMenuItem
-            // 
-            this.importObjectsToolStripMenuItem.Enabled = false;
-            this.importObjectsToolStripMenuItem.Name = "importObjectsToolStripMenuItem";
-            this.importObjectsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.importObjectsToolStripMenuItem.Text = "Import Objects";
             // 
             // importSoundsToolStripMenuItem
             // 
             this.importSoundsToolStripMenuItem.Enabled = false;
             this.importSoundsToolStripMenuItem.Name = "importSoundsToolStripMenuItem";
-            this.importSoundsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.importSoundsToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.importSoundsToolStripMenuItem.Text = "Import Sounds";
             this.importSoundsToolStripMenuItem.Click += new System.EventHandler(this.importSoundsToolStripMenuItem_Click);
             // 
@@ -1032,7 +1095,7 @@
             // 
             this.layerManagerToolStripMenuItem.Enabled = false;
             this.layerManagerToolStripMenuItem.Name = "layerManagerToolStripMenuItem";
-            this.layerManagerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.layerManagerToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.layerManagerToolStripMenuItem.Text = "Layer Manager";
             this.layerManagerToolStripMenuItem.Click += new System.EventHandler(this.layerManagerToolStripMenuItem_Click);
             // 
@@ -1043,7 +1106,7 @@
             this.secondaryColorToolStripMenuItem});
             this.editBackgroundColorsToolStripMenuItem.Enabled = false;
             this.editBackgroundColorsToolStripMenuItem.Name = "editBackgroundColorsToolStripMenuItem";
-            this.editBackgroundColorsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.editBackgroundColorsToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.editBackgroundColorsToolStripMenuItem.Text = "Background Colors";
             // 
             // primaryColorToolStripMenuItem
@@ -1261,6 +1324,30 @@
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
             this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar1_Entered);
+            // 
+            // GraphicPanel
+            // 
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
+            this.GraphicPanel.TabIndex = 10;
+            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
             // 
             // statusStrip1
             // 
@@ -2275,98 +2362,23 @@
             this.showCollisionBButton.Text = "Show Collision Layer B";
             this.showCollisionBButton.Click += new System.EventHandler(this.showCollisionBButton_Click);
             // 
-            // layerPriorityOptionsToolStripMenuItem
+            // legacyItemsToolStripMenuItem
             // 
-            this.layerPriorityOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.moveExtraLayersToFrontToolStripMenuItem});
-            this.layerPriorityOptionsToolStripMenuItem.Name = "layerPriorityOptionsToolStripMenuItem";
-            this.layerPriorityOptionsToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
-            this.layerPriorityOptionsToolStripMenuItem.Text = "Layer Priority Options";
+            this.legacyItemsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importObjectsToolStripMenuItem});
+            this.legacyItemsToolStripMenuItem.Enabled = false;
+            this.legacyItemsToolStripMenuItem.Name = "legacyItemsToolStripMenuItem";
+            this.legacyItemsToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.legacyItemsToolStripMenuItem.Text = "Legacy Items (Not Visible)";
+            this.legacyItemsToolStripMenuItem.Visible = false;
             // 
-            // moveExtraLayersToFrontToolStripMenuItem
+            // importObjectsToolStripMenuItem
             // 
-            this.moveExtraLayersToFrontToolStripMenuItem.CheckOnClick = true;
-            this.moveExtraLayersToFrontToolStripMenuItem.Name = "moveExtraLayersToFrontToolStripMenuItem";
-            this.moveExtraLayersToFrontToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-            this.moveExtraLayersToFrontToolStripMenuItem.Text = "Move Extra Layers to Front";
-            this.moveExtraLayersToFrontToolStripMenuItem.Click += new System.EventHandler(this.moveExtraLayersToFrontToolStripMenuItem_Click);
-            // 
-            // objectFilterToolStripMenuItem
-            // 
-            this.objectFilterToolStripMenuItem.Enabled = false;
-            this.objectFilterToolStripMenuItem.Name = "objectFilterToolStripMenuItem";
-            this.objectFilterToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.objectFilterToolStripMenuItem.Text = "Object Filter:";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.BackColor = System.Drawing.Color.White;
-            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(116, 23);
-            this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_TextChanged);
-            // 
-            // entityVisibilityOptionsToolStripMenuItem
-            // 
-            this.entityVisibilityOptionsToolStripMenuItem.Enabled = false;
-            this.entityVisibilityOptionsToolStripMenuItem.Name = "entityVisibilityOptionsToolStripMenuItem";
-            this.entityVisibilityOptionsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.entityVisibilityOptionsToolStripMenuItem.Text = "Entity Visibility Options:";
-            // 
-            // toolStripSeparator23
-            // 
-            this.toolStripSeparator23.Name = "toolStripSeparator23";
-            this.toolStripSeparator23.Size = new System.Drawing.Size(196, 6);
-            // 
-            // toolStripSeparator24
-            // 
-            this.toolStripSeparator24.Name = "toolStripSeparator24";
-            this.toolStripSeparator24.Size = new System.Drawing.Size(196, 6);
-            // 
-            // constantEntityRenderItem
-            // 
-            this.constantEntityRenderItem.CheckOnClick = true;
-            this.constantEntityRenderItem.Enabled = false;
-            this.constantEntityRenderItem.Name = "constantEntityRenderItem";
-            this.constantEntityRenderItem.Size = new System.Drawing.Size(199, 22);
-            this.constantEntityRenderItem.Text = "Constant";
-            this.constantEntityRenderItem.Click += new System.EventHandler(this.constantEntityRenderItem_Click);
-            // 
-            // onTopOnlyWhileEditingToolStripMenuItem
-            // 
-            this.onTopOnlyWhileEditingToolStripMenuItem.Checked = true;
-            this.onTopOnlyWhileEditingToolStripMenuItem.CheckOnClick = true;
-            this.onTopOnlyWhileEditingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.onTopOnlyWhileEditingToolStripMenuItem.Enabled = false;
-            this.onTopOnlyWhileEditingToolStripMenuItem.Name = "onTopOnlyWhileEditingToolStripMenuItem";
-            this.onTopOnlyWhileEditingToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.onTopOnlyWhileEditingToolStripMenuItem.Text = "On Top when Editing";
-            this.onTopOnlyWhileEditingToolStripMenuItem.Click += new System.EventHandler(this.onTopOnlyWhileEditingToolStripMenuItem_Click);
-            // 
-            // GraphicPanel
-            // 
-            this.GraphicPanel.AllowDrop = true;
-            this.GraphicPanel.AutoSize = true;
-            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
-            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.GraphicPanel.Name = "GraphicPanel";
-            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
-            this.GraphicPanel.TabIndex = 10;
-            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+            this.importObjectsToolStripMenuItem.Enabled = false;
+            this.importObjectsToolStripMenuItem.Name = "importObjectsToolStripMenuItem";
+            this.importObjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importObjectsToolStripMenuItem.Text = "Import Objects";
+            this.importObjectsToolStripMenuItem.Click += new System.EventHandler(this.importObjectsToolStripMenuItem_Click);
             // 
             // Editor
             // 
@@ -2450,7 +2462,6 @@
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ToolStripMenuItem sceneToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importObjectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importSoundsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem layerManagerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
@@ -2648,6 +2659,8 @@
         private System.Windows.Forms.ToolStripMenuItem constantEntityRenderItem;
         private System.Windows.Forms.ToolStripMenuItem onTopOnlyWhileEditingToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
+        private System.Windows.Forms.ToolStripMenuItem legacyItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importObjectsToolStripMenuItem;
     }
 }
 
