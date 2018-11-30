@@ -43,6 +43,15 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            var width = (int)(entity.attributesMap["width"].ValueUInt8);
+            var height = (int)(entity.attributesMap["height"].ValueUInt8);
+            int widthPixels = width * 16;
+            int heightPixels = height * 16;
+            return d.IsObjectOnScreen(x - 8 - widthPixels / 2, y - 8 - heightPixels / 2, widthPixels + 8, heightPixels + 8);
+        }
+
         public override string GetObjectName()
         {
             return "ForceUnstick";

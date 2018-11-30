@@ -99,6 +99,13 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            //TO-DO: Improve
+            int bounds = 600;
+            return d.IsObjectOnScreen(x - bounds / 2, y - bounds / 2, bounds, bounds);
+        }
+
         public override string GetObjectName()
         {
             return "FilmProjector";

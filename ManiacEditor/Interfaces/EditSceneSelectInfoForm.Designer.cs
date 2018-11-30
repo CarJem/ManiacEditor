@@ -31,17 +31,17 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.positionIDLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.positionIDLabel = new System.Windows.Forms.Label();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,24 +78,6 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Name: ";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Zone:  ";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 73);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Scene ID: ";
-            // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.White;
@@ -105,6 +87,23 @@
             this.textBox1.Size = new System.Drawing.Size(173, 20);
             this.textBox1.TabIndex = 9;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 118);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(0, 13);
+            this.label4.TabIndex = 13;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Zone:  ";
             // 
             // textBox2
             // 
@@ -126,11 +125,30 @@
             this.textBox3.TabIndex = 11;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(22, 73);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Scene ID: ";
+            // 
+            // positionIDLabel
+            // 
+            this.positionIDLabel.AutoSize = true;
+            this.positionIDLabel.Location = new System.Drawing.Point(22, 99);
+            this.positionIDLabel.Name = "positionIDLabel";
+            this.positionIDLabel.Size = new System.Drawing.Size(52, 13);
+            this.positionIDLabel.TabIndex = 14;
+            this.positionIDLabel.Text = "Stage ID:";
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.checkBox3);
             this.groupBox1.Controls.Add(this.checkBox2);
             this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox1.Location = new System.Drawing.Point(265, 18);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(190, 72);
@@ -148,16 +166,6 @@
             this.checkBox3.Text = "Encore Mode";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 19);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(85, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Mania Mode";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -168,22 +176,15 @@
             this.checkBox1.Text = "Common";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // checkBox2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 118);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 13);
-            this.label4.TabIndex = 13;
-            // 
-            // positionIDLabel
-            // 
-            this.positionIDLabel.AutoSize = true;
-            this.positionIDLabel.Location = new System.Drawing.Point(22, 99);
-            this.positionIDLabel.Name = "positionIDLabel";
-            this.positionIDLabel.Size = new System.Drawing.Size(52, 13);
-            this.positionIDLabel.TabIndex = 14;
-            this.positionIDLabel.Text = "Stage ID:";
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(6, 19);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(85, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Mania Mode";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // EditSceneSelectInfoForm
             // 
@@ -205,6 +206,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditSceneSelectInfoForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Scene Info";
             this.Load += new System.EventHandler(this.EditSceneSelectInfoForm_Load);
             this.groupBox1.ResumeLayout(false);
@@ -219,16 +221,16 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label positionIDLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label positionIDLabel;
     }
 }

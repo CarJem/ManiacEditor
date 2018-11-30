@@ -136,6 +136,19 @@ namespace ManiacEditor.Entity_Renders
             return new Rectangle(x, y, x + width, y + height);
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
+            int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
+            int x2 = (int)entity.attributesMap["offset"].ValuePosition.X.High;
+            int y2 = (int)entity.attributesMap["offset"].ValuePosition.Y.High;
+
+            int boundsX = width * 16;
+            int boundsY = height * 16;
+
+            return d.IsObjectOnScreen(x - boundsX / 2, y - boundsY / 2, boundsX, boundsY);
+        }
+
         public override string GetObjectName()
         {
             return "EncoreRoute";

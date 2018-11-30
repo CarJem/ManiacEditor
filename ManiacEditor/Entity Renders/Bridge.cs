@@ -31,6 +31,14 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            var length = entity.attributesMap["length"].ValueUInt8;
+            int widthPixels = length * 16;
+            int heightPixels = 16;
+            return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels + 15, heightPixels);
+        }
+
         public override string GetObjectName()
         {
             return "Bridge";

@@ -641,19 +641,19 @@ namespace ManiacEditor
             if (!rotateImageLegacyMode)
             {
                 img.MakeTransparent(colour);
-
                 MagickImage image = new MagickImage(img);
 
                 image.RePage();
 
-                image.Rotate(rotationAngle);
 
+                image.BackgroundColor =  SystemColor.Transparent;
+                image.Interpolate = PixelInterpolateMethod.Nearest;
+
+                image.Rotate(rotationAngle);
 
                 image.RePage();
 
                 Bitmap bmp = image.ToBitmap();
-
-                bmp.MakeTransparent(SystemColor.White);
 
                 return bmp;
             }

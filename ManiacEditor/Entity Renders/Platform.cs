@@ -18,7 +18,14 @@ namespace ManiacEditor.Entity_Renders
 {
     public class Platform : EntityRenderer
     {
+
         //EditorAnimations platformMove = new EditorAnimations();
+        public static int PlatformWidth = 0;
+        public static int PlatformHight = 0;
+        public static int PlatformOffsetX = 0;
+        public static int PlatformOffsetY = 0;
+
+
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
@@ -117,6 +124,7 @@ namespace ManiacEditor.Entity_Renders
             }
             if (editorAnim.Frames.Count != 0 && platformIcon != null)
             {
+
                 EditorEntity_ini.EditorAnimation.EditorFrame frame = null;
                 if (editorAnim.Frames[0].Entry.FrameSpeed > 0 && doNotShow == false && type != 4)
                 {
@@ -130,6 +138,11 @@ namespace ManiacEditor.Entity_Renders
                 {
                     frame = editorAnim.Frames[frameID > 0 ? frameID : 0];
                 }
+
+                PlatformWidth = frame.Frame.Width;
+                PlatformHight = frame.Frame.Height;
+                PlatformOffsetX = frame.Frame.CenterX;
+                PlatformOffsetY = frame.Frame.CenterY;
 
                 Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
                 
@@ -243,7 +256,7 @@ namespace ManiacEditor.Entity_Renders
                         previousChildCount = childCount;
                         for (int i = 0; i < childCount; i++)
                         {
-                            EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == e.Entity.SlotID + (i + 1)).FirstOrDefault();
+                            EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                             childEntity.childDraw = true;
                             childEntity.childX = newX;
                             childEntity.childY = -newY;
@@ -383,6 +396,29 @@ namespace ManiacEditor.Entity_Renders
 
             int[] results = { (int)Math.Round(finalX), (int)Math.Round(finalY) };
             return results;
+        }
+
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            var attribute = entity.attributesMap["frameID"];
+            int angle = (int)entity.attributesMap["angle"].ValueInt32;
+            int angleRotate = (int)entity.attributesMap["angle"].ValueInt32;
+            int type = (int)entity.attributesMap["type"].ValueVar;
+            int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
+            int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
+            int childCount = (int)entity.attributesMap["childCount"].ValueVar;
+            bool hasTension = entity.attributesMap["hasTension"].ValueBool;
+
+            if (type == 0 || type == 1)
+            {
+                return d.IsObjectOnScreen(x - PlatformOffsetX - PlatformWidth / 2, y - PlatformOffsetY - PlatformHight / 2, PlatformWidth, PlatformHight);
+            }
+            else
+            {
+                //Default Type
+                return d.IsObjectOnScreen(x - PlatformOffsetX - PlatformWidth / 2, y - PlatformOffsetY - PlatformHight / 2, PlatformWidth, PlatformHight);
+            }
+
         }
 
 

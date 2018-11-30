@@ -164,6 +164,12 @@ chute.Frame.Width, chute.Frame.Height, false, Transparency);
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            int bounds = 330;
+            return d.IsObjectOnScreen(x - bounds / 2, y - bounds / 2, bounds, bounds);
+        }
+
         public override string GetObjectName()
         {
             return "LottoMachine";

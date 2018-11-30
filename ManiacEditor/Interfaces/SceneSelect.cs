@@ -13,6 +13,9 @@ using ManiacEditor.Properties;
 using System.Configuration;
 using RSDKv5;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Point = System.Drawing.Point;
+using System.Linq.Expressions;
 
 namespace ManiacEditor
 {
@@ -28,6 +31,8 @@ namespace ManiacEditor
         public string Result = null;
         public int LevelID = -1;
         public bool isEncore = false;
+        Timer timer = new Timer();
+        public int selectedCategoryIndex = -1;
 
 
         public SceneSelect(GameConfig config = null)
@@ -46,13 +51,16 @@ namespace ManiacEditor
                 LoadFromGameConfig(config);
                 _GameConfig = config;
             }
+
+            timer.Interval = 10;
+            timer.Tick += new EventHandler(UpdateToolstrip);
+            timer.Start();
         }
 
         public void LoadFromGameConfig(GameConfig config)
         {
             Categories.Clear();
             Directories.Clear();
-            RSDKv5.GameConfig.CurrentLevelID = 0;
             foreach (GameConfig.Category category in config.Categories)
             {
                 List<Tuple<string, string>> scenes = new List<Tuple<string, string>>();
@@ -88,6 +96,19 @@ namespace ManiacEditor
             else
             {
                 this.isFilesView.Checked = false;
+            }
+        }
+
+
+        public void UpdateToolstrip(object sender, EventArgs e)
+        {
+            if (scenesTree.SelectedNode != null)
+            {
+                selectedCategoryIndex = scenesTree.SelectedNode.Index;
+            }
+            else
+            {
+                selectedCategoryIndex = -1;
             }
         }
 
@@ -250,6 +271,7 @@ namespace ManiacEditor
 
         private void scenesTree_MouseUp(object sender, MouseEventArgs e)
         {
+
             if (scenesTree.SelectedNode == null)
             {
                 selectButton.Enabled = false;
@@ -282,6 +304,7 @@ namespace ManiacEditor
 
         private void scenesTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+
             if (e.Button == MouseButtons.Right)
             {
                 scenesTree.SelectedNode = e.Node;
@@ -304,7 +327,37 @@ namespace ManiacEditor
                     LoadFromGameConfig(_GameConfig);
                     if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                    ReloadGameConfig();
+
                 }
+            }
+        }
+
+        private void addCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new EditSceneSelectInfoForm();
+            if (form.ShowDialog() == DialogResult.Yes)
+            {
+                    var scenes = new List <RSDKv5.GameConfig.SceneInfo> ();
+                    scenes.Add(form.Scene);
+                    
+                    var form2 = new EditCategorySelectInfoForm();
+                    form2.Scenes = scenes;
+                    
+                    if (form2.ShowDialog() == DialogResult.Yes)
+                    {
+                    if (form2.Category != null)
+                    {
+                        _GameConfig.Categories.Insert(scenesTree.SelectedNode.Index, form2.Category);
+                        LoadFromGameConfig(_GameConfig);
+
+                        if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                            ReloadGameConfig();
+                    }
+
+
+                    }
             }
         }
 
@@ -314,15 +367,30 @@ namespace ManiacEditor
             var cat = _GameConfig.Categories.Where(t => t.Name == scenesTree.SelectedNode.Parent.Text).FirstOrDefault();
             if (cat != null)
             {
-                var scene = cat.Scenes.Where(t => $"{t.Zone}\\Scene{t.SceneID}.bin" == scenesTree.SelectedNode.Tag as string).FirstOrDefault();
+                var scene = cat.Scenes.Where(t => t.Index == scenesTree.SelectedNode.Index).FirstOrDefault();
                 var form = new EditSceneSelectInfoForm(scene);
                 if (form.ShowDialog() == DialogResult.Yes)
                 {
                     LoadFromGameConfig(_GameConfig);
                     if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                        ReloadGameConfig();
                 }
             }
+        }
+
+        private void editCategoryMenuItem_Click(object sender, EventArgs e)
+        {
+                var Category = _GameConfig.Categories[scenesTree.SelectedNode.Index];
+                var form = new EditCategorySelectInfoForm(Category, Category.Scenes);
+                if (form.ShowDialog() == DialogResult.Yes)
+                {
+                    LoadFromGameConfig(_GameConfig);
+                    if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                        ReloadGameConfig();
+            }
+            
         }
 
         private void deleteSceneInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -330,7 +398,7 @@ namespace ManiacEditor
             var cat = _GameConfig.Categories.Where(t => t.Name == scenesTree.SelectedNode.Parent.Text).FirstOrDefault();
             if (cat != null)
             {
-                var scene = cat.Scenes.FindIndex(t => $"{t.Zone}\\Scene{t.SceneID}.bin" == scenesTree.SelectedNode.Tag as string);
+                var scene = cat.Scenes.FindIndex(t => t.Index == scenesTree.SelectedNode.Index);
                 if (scene + 1 < cat.Scenes.Count && !char.IsDigit(cat.Scenes[scene].Name[0]) && char.IsDigit(cat.Scenes[scene + 1].Name[0]))
                 {
                     if (MessageBox.Show("This Scene as other acts attached,\n" +
@@ -345,7 +413,17 @@ namespace ManiacEditor
                 LoadFromGameConfig(_GameConfig);
                 if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                    ReloadGameConfig();
             }
+        }
+
+        private void deleteCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _GameConfig.Categories.RemoveAt(scenesTree.SelectedNode.Index);
+            LoadFromGameConfig(_GameConfig);
+            if (MessageBox.Show("Write Changes to File? Please make sure you didn't delete something on accident!", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                ReloadGameConfig();
         }
 
         private void load_Click(object sender, EventArgs e)
@@ -453,6 +531,14 @@ namespace ManiacEditor
             Point ptLowerLeft = new Point(0, btnSender.Height);
             ptLowerLeft = btnSender.PointToScreen(ptLowerLeft);
             contextMenuStrip3.Show(ptLowerLeft);
+        }
+
+        private void ReloadGameConfig()
+        {
+            _GameConfig.Write(Path.Combine(Environment.CurrentDirectory, "GameConfig_Temp.bin"));
+            _GameConfig = new GameConfig(Path.Combine(Environment.CurrentDirectory, "GameConfig_Temp.bin"));
+            File.Delete(Path.Combine(Environment.CurrentDirectory, "GameConfig_Temp.bin"));
+            LoadFromGameConfig(_GameConfig);        
         }
 
         private void dataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -593,6 +679,7 @@ namespace ManiacEditor
             ReloadQuickPanel();
         }
 
+
         private void recentDataDirList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -631,6 +718,155 @@ namespace ManiacEditor
                 Properties.EditorState.Default.preRenderSceneSelectCheckbox = true;
             else
                 Properties.EditorState.Default.preRenderSceneSelectCheckbox = false;
+        }
+
+        private void scenesTree_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void moveCategoryUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var item = _GameConfig.Categories[scenesTree.SelectedNode.Index];
+            int OldIndex = _GameConfig.Categories.IndexOf(item);
+            var itemAbove = _GameConfig.Categories[scenesTree.SelectedNode.Index - 1];
+            _GameConfig.Categories.RemoveAt(scenesTree.SelectedNode.Index);
+            int NewIndex = _GameConfig.Categories.IndexOf(itemAbove);
+
+            if (NewIndex == OldIndex) NewIndex--;
+
+            _GameConfig.Categories.Insert(NewIndex, item);
+
+            LoadFromGameConfig(_GameConfig);
+            if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+            ReloadGameConfig();
+        }
+
+        private void moveCategoryDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var item = _GameConfig.Categories[scenesTree.SelectedNode.Index];
+            int OldIndex = _GameConfig.Categories.IndexOf(item);
+            var itemAbove = _GameConfig.Categories[scenesTree.SelectedNode.Index + 1];
+            _GameConfig.Categories.RemoveAt(scenesTree.SelectedNode.Index);
+            int NewIndex = _GameConfig.Categories.IndexOf(itemAbove);
+
+            if (NewIndex == OldIndex) NewIndex++;
+
+            _GameConfig.Categories.Insert(NewIndex, item);
+
+            LoadFromGameConfig(_GameConfig);
+            if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+            ReloadGameConfig();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            if (selectedCategoryIndex != -1)
+            {
+                if (scenesTree.SelectedNode.Index == 0)
+                {
+                    moveCategoryUpToolStripMenuItem.Enabled = false;
+                }
+                else
+                {
+                    moveCategoryUpToolStripMenuItem.Enabled = true;
+                }
+
+                if (scenesTree.SelectedNode.Index == scenesTree.Nodes.Count - 1)
+                {
+                    moveCategoryDownToolStripMenuItem.Enabled = false;
+                }
+                else
+                {
+                    moveCategoryDownToolStripMenuItem.Enabled = true;
+                }
+            }
+            else
+            {
+                moveCategoryUpToolStripMenuItem.Enabled = false;
+                moveCategoryDownToolStripMenuItem.Enabled = false;
+            }
+
+        }
+
+        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
+        {
+            moveSceneInfoDownToolStripMenuItem.Enabled = false;
+            moveSceneInfoUpToolStripMenuItem.Enabled = false;
+        }
+
+        private void moveSceneInfoUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var cat = _GameConfig.Categories.Where(t => t.Name == scenesTree.SelectedNode.Parent.Text).FirstOrDefault();
+            if (cat != null)
+            {
+                var scene = cat.Scenes.Where(t => t.Index == scenesTree.SelectedNode.Index).FirstOrDefault();
+                int OldIndex = cat.Scenes.IndexOf(scene);
+                var sceneAbove = cat.Scenes.Where(t => t.Index == scenesTree.SelectedNode.Index - 1).FirstOrDefault();
+                cat.Scenes.Remove(scene);
+                int NewIndex = cat.Scenes.IndexOf(sceneAbove);
+
+                if (NewIndex == OldIndex) NewIndex--;
+                cat.Scenes.Insert(NewIndex, scene);
+
+                LoadFromGameConfig(_GameConfig);
+                if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                ReloadGameConfig();
+            }
+        }
+
+        private void moveSceneInfoDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var cat = _GameConfig.Categories.Where(t => t.Name == scenesTree.SelectedNode.Parent.Text).FirstOrDefault();
+            if (cat != null)
+            {
+                
+                var scene = cat.Scenes.Where(t => t.Index == scenesTree.SelectedNode.Index).FirstOrDefault();
+                int OldIndex = cat.Scenes.IndexOf(scene);
+                var sceneBelow = cat.Scenes.Where(t => t.Index == scenesTree.SelectedNode.Index + 1).FirstOrDefault();
+                cat.Scenes.Remove(scene);
+                int NewIndex = cat.Scenes.IndexOf(sceneBelow);
+
+                if (NewIndex == OldIndex) NewIndex++;
+                cat.Scenes.Insert(NewIndex, scene);
+                
+
+                LoadFromGameConfig(_GameConfig);
+                if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    _GameConfig.Write(Path.Combine(Editor.DataDirectory, "Game", "GameConfig.bin"));
+                ReloadGameConfig();
+            }
+        }
+
+        private void clearDataDirectoriesToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Data Directories", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (Settings.Default.DataDirectories != null)
+                {
+                    Settings.Default.DataDirectories.Clear();
+                    Editor.Instance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+                    ReloadQuickPanel();
+                }
+
+
+            }
+
+        }
+
+        private void removeAllSavedPlacesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Saved Places", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (Settings.Default.SavedPlaces != null)
+                {
+                    Settings.Default.SavedPlaces.Clear();
+                    ReloadQuickPanel();
+                }
+            }
         }
     }
 }

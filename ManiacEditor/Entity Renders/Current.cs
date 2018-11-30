@@ -62,6 +62,13 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High);
+            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High);
+            return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels, heightPixels);
+        }
+
         public override string GetObjectName()
         {
             return "Current";

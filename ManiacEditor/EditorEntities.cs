@@ -298,7 +298,23 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-                entity.Draw(d, entities, entity);
+                if (entity.filteredOut && !Editor.isPreRending)
+                {
+                    //Do Nothing
+                }
+
+
+                else if (!entity.IsObjectOnScreen(d))
+                {
+                    //Do Nothing
+                }
+
+                else
+                {
+                    entity.Draw(d, entities, entity);
+                }
+
+
             }
         }
 

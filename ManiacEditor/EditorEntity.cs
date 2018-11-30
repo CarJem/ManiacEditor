@@ -40,7 +40,7 @@ namespace ManiacEditor
         public AttributeValidater AttributeValidater;
 
         private SceneEntity entity;
-        private bool filteredOut;
+        public bool filteredOut;
 
 
         // Object List for initilizing the if statement
@@ -234,7 +234,7 @@ namespace ManiacEditor
                 //This causes some objects not to load ever, which is problamatic, so I made a toggle(and a list as of recently). It can also have some performance benifits
                 if (!Editor.isPreRending)
                 {
-                    if (!d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT)) return;
+                    if (!this.IsObjectOnScreen(d)) return;
                 }
             }
             System.Drawing.Color color = Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
@@ -300,7 +300,7 @@ namespace ManiacEditor
             {
                 if (!Properties.Settings.Default.NeverLoadEntityTextures)
                 {
-                    if ((d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
+                    if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
                     {
                             DrawOthers(d);
                     }
@@ -348,14 +348,14 @@ namespace ManiacEditor
             }
             else
             {
-                    if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
+                    if (this.IsObjectOnScreen(d) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
                     {
                         d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                     }
 
             }
 
-            if (d.IsObjectOnScreen(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
+            if (this.IsObjectOnScreen(d) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
             {
                 d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
                 d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
@@ -530,6 +530,34 @@ namespace ManiacEditor
                 if (renderer != null)
                     renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
             }
+
+        }
+
+        public bool IsObjectOnScreen(DevicePanel d)
+        {
+            int x = entity.Position.X.High + childX;
+            int y = entity.Position.Y.High + childY;
+            if (childDrawAddMode == false)
+            {
+                x = childX;
+                y = childY;
+            }
+            int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
+
+            bool isObjectVisibile = false;
+
+            EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+            if (renderer != null)
+            {
+                isObjectVisibile = renderer.isObjectOnScreen(d, entity, null, x, y, 0);
+            }
+            else
+            {
+                isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
+            }
+
+            return isObjectVisibile;
+
 
         }
 

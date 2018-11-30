@@ -87,6 +87,13 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High * 2 - 1) * 16;
+            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High * 2 - 1) * 16;
+            return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels + 15, heightPixels + 15);
+        }
+
         public override string GetObjectName()
         {
             return "BreakableWall";

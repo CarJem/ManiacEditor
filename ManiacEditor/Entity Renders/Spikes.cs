@@ -147,6 +147,19 @@ namespace ManiacEditor.Entity_Renders
             
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            var value = entity.attributesMap["type"];
+            int count = (entity.attributesMap.ContainsKey("count") ? (int)entity.attributesMap["count"].ValueUInt8 : 0);
+            if (count == 0)
+            {
+                count = 1;
+            }
+            int bounds = (32 * count);
+
+            return d.IsObjectOnScreen(x - bounds/2, y - bounds / 2, bounds, bounds);
+        }
+
         public override string GetObjectName()
         {
            return "Spikes";

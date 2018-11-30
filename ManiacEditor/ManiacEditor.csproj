@@ -426,6 +426,12 @@
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
     <Compile Include="EditorControls.cs" />
+    <Compile Include="Interfaces\EditCategorySelectInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\EditCategorySelectInfoForm.Designer.cs">
+      <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\FirstTimeSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -996,6 +1002,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\EditCategorySelectInfoForm.resx">
+      <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FirstTimeSetup.resx">
       <DependentUpon>FirstTimeSetup.cs</DependentUpon>

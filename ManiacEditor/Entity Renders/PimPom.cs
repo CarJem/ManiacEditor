@@ -166,6 +166,15 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            int length = (int)entity.attributesMap["length"].ValueUInt8 + 1;
+            int gap = (int)entity.attributesMap["gap"].ValueUInt8;
+            int bounds = (48 * length+gap);
+
+            return d.IsObjectOnScreen(x - bounds / 2, y - bounds / 2, bounds, bounds);
+        }
+
         public override string GetObjectName()
         {
             return "PimPom";

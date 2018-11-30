@@ -10,7 +10,7 @@ namespace RSDKv5
     public class CommonConfig
     {
         public static readonly byte[] MAGIC = new byte[] { (byte)'C', (byte)'F', (byte)'G', (byte)'\0' };
-        public static int CurrentLevelID = 0;
+
 
         const int PALETTES_COUNT = 8;
 

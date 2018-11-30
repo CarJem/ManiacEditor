@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
@@ -11,29 +10,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using System.ComponentModel;
 using ManiacEditor.Actions;
 using ManiacEditor.Enums;
-using ManiacEditor.Properties;
 using RSDKv5;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
-using System.Runtime.CompilerServices;
-using System.Collections;
 using System.Reflection;
 using ManiacEditor.Interfaces;
-using ManiacEditor.Entity_Renders;
-using System.Net;
-using System.Xml;
-using System.Text;
-using System.Text.RegularExpressions;
 using Cyotek.Windows.Forms;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Microsoft.Win32;
 using Microsoft.Scripting.Utils;
-using IronPython.Runtime;
-using System.Security.Permissions;
 
 namespace ManiacEditor
 {
@@ -2104,13 +2089,14 @@ namespace ManiacEditor
 
         public bool SetGameConfig()
         {
+            MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
             try
-            {
+             {
                 GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
                 return true;
             }
             catch
-            {
+                {
                 // Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
                 try
                 {
@@ -2119,7 +2105,7 @@ namespace ManiacEditor
                 }
                 catch
                 {
-                    MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work you in Sonic Mania can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
+                    MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
                     return false;
                 }
 
@@ -2233,6 +2219,21 @@ namespace ManiacEditor
 
         }
 
+        private void UpdateDataFolderLabel(string dataDirectory = null)
+        {
+            if (dataDirectory != null)
+            {
+                _baseDataDirectoryLabel.Text = string.Format(_baseDataDirectoryLabel.Tag.ToString(),
+                                                 dataDirectory);
+            }
+            else
+            {
+                _baseDataDirectoryLabel.Text = string.Format(_baseDataDirectoryLabel.Tag.ToString(),
+                                                 DataDirectory);
+            }
+
+        }
+
         /// <summary>
         /// Removes any recent Data directories from the File menu.
         /// </summary>
@@ -2284,8 +2285,9 @@ namespace ManiacEditor
 
                 RefreshDataDirectories(dataDirectories);
 
-                _baseDataDirectoryLabel.Text = string.Format(_baseDataDirectoryLabel.Tag.ToString(),
-                                                             dataDirectory);
+                UpdateDataFolderLabel(dataDirectory);
+
+
             }
             catch (Exception ex)
             {
@@ -2909,7 +2911,7 @@ namespace ManiacEditor
                 return;
             }
 
-
+            UpdateDataFolderLabel();
 
             SetupLayerButtons();
 

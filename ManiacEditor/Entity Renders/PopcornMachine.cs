@@ -100,6 +100,17 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            //TO-DO: Improve
+            int type = (int)entity.attributesMap["type"].ValueUInt8;
+            int height = (int)entity.attributesMap["height"].ValueUInt8;
+
+            int boundsX = 256;
+            int boundsY = 160*height + 96;
+            return d.IsObjectOnScreen(x - boundsX * height, y - boundsY * height, boundsX * height, boundsY * height);
+        }
+
         public override string GetObjectName()
         {
             return "PopcornMachine";
