@@ -2089,7 +2089,6 @@ namespace ManiacEditor
 
         public bool SetGameConfig()
         {
-            MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
             try
              {
                 GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
