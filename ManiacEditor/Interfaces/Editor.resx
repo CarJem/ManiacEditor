@@ -421,19 +421,6 @@
         2FNVVWEj2DIQ3Pw2CzECA+/RZyNeh0QAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="resetDeviceButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGeSURBVDhPjZJNTgJBEIXbA2jcGPUEnsCFiSsWkyEcAcYb
-        AFchIWw0LkyIMSxYcADClkuMcTKwYcH/QFzQ1ld2I8mgsZJKaqree/26ekyWZfavnE6n58bFYrG4cOVP
-        ACoUCkdzMpnsBXa73dl8Pk9Wq9Wb1KdKJv4rILinXq9nu90uzoZ7EQQAdjqdXwU2m00wHo9tqVTSPiLi
-        5FUFpAjTNLXFYlGHrVYrJyCH3GPfz8IwtHEc4+TOrNfr52azqYNarWblOyfgDrqazWZptVrVWaPRAPti
-        lstlHEWRNvv9vm7+mAAhswcwzMrlssWV7iAIAm2ORiMVgEji5lBAXFyD8QeANdL49AIsarvd3kDyaa09
-        cXy9BhiwcOByhfdKpaLNwWCAauTwuWAGBiwcuDQf/RLr9bqVv+1DBpeOsw96zMCAhQOXV7hNkkSfxg8A
-        chqWSWp6/iCwcOCquhRt/jKG3glWuS9J7U8mwcJRMsF/LqcMGXgnx5IZGLBwHP07aKCKNayyJDZNUtNz
-        tts58mFwL5bDhnkmkpoeMwdzYcwXrOlWBR859l8AAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="undoButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

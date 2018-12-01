@@ -854,6 +854,12 @@
     <Compile Include="Interfaces\ModConfigCreator.Designer.cs">
       <DependentUpon>ModConfigCreator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\Sanic2-Maniac.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Sanic2-Maniac.Designer.cs">
+      <DependentUpon>Sanic2-Maniac.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\UpdateStatusBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -995,6 +1001,7 @@
     <Content Include="Global\TransportTubes.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\do-not-sign-icon-png-0.png" />
     <None Include="Resources\ColorPalette_16x.png" />
     <None Include="Resources\LayerManagerWarning1.rtf" />
     <None Include="Resources\ObjectWarning1.rtf" />
@@ -1031,6 +1038,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ModConfigCreator.resx">
       <DependentUpon>ModConfigCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\Sanic2-Maniac.resx">
+      <DependentUpon>Sanic2-Maniac.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UpdateStatusBox.resx">
       <DependentUpon>UpdateStatusBox.cs</DependentUpon>

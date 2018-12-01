@@ -57,6 +57,7 @@ namespace ManiacEditor
         {
             InitializeComponent();
 
+
             RefreshObjects(sceneObjects);
 
             defaultFilter.Items.Add("Mania (2)");
@@ -539,12 +540,11 @@ namespace ManiacEditor
 
         private void entitiesList_DropDown(object sender, EventArgs e)
         {
-
             if (multipleObjects == false)
             {
                 // It is slow to update the list, so lets generate it when the menu opens
                 entitiesList.Items.Clear();
-                entitiesList.Items.AddRange(_entities.Select(x => String.Format("{1} - {0}", x.Object.Name.Name, x.SlotID)).Where(x => x.Contains(searchBox.Text != "" ? searchBox.Text : x)).ToArray());              
+                entitiesList.Items.AddRange(_entities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name.Name)).Where(x => x.Contains(searchBox.Text != "" ? searchBox.Text : x)).ToArray());              
             }
 
 
@@ -656,6 +656,11 @@ namespace ManiacEditor
         }
 
         private void searchBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void entitiesList_DropDownClosed(object sender, EventArgs e)
         {
 
         }

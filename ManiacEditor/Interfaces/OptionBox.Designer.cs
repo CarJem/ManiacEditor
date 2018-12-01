@@ -51,6 +51,8 @@
             this.RPCCheckBox = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label20 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
             this.button22 = new System.Windows.Forms.Button();
             this.button21 = new System.Windows.Forms.Button();
@@ -330,14 +332,13 @@
             this.checkBox34 = new System.Windows.Forms.CheckBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label20 = new System.Windows.Forms.Label();
             this.tabPage4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel11.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel16.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -365,7 +366,6 @@
             this.panel13.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel14.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage4
@@ -652,6 +652,28 @@
             this.tabPage2.Size = new System.Drawing.Size(961, 547);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Defaults";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label20);
+            this.panel1.Location = new System.Drawing.Point(659, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(296, 532);
+            this.panel1.TabIndex = 129;
+            // 
+            // label20
+            // 
+            this.label20.BackColor = System.Drawing.Color.Transparent;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label20.Location = new System.Drawing.Point(-1, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(292, 530);
+            this.label20.TabIndex = 120;
+            this.label20.Text = "More Defaults Coming Soon!";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel17
             // 
@@ -3993,33 +4015,11 @@
             this.button6.Text = "&OK";
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label20);
-            this.panel1.Location = new System.Drawing.Point(659, 6);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(296, 532);
-            this.panel1.TabIndex = 129;
-            // 
-            // label20
-            // 
-            this.label20.BackColor = System.Drawing.Color.Transparent;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label20.Location = new System.Drawing.Point(-1, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(292, 530);
-            this.label20.TabIndex = 120;
-            this.label20.Text = "More Defaults Coming Soon!";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // OptionBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(993, 613);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button8);
@@ -4040,6 +4040,7 @@
             this.panel10.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel17.PerformLayout();
             this.panel16.ResumeLayout(false);
@@ -4078,7 +4079,6 @@
             this.panel13.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel14.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

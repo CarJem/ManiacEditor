@@ -223,6 +223,7 @@ namespace ManiacEditor
 
                 }
             }
+
             RenderLoop.Run(this, () =>
             {
                 // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
@@ -758,9 +759,9 @@ namespace ManiacEditor
 
             if (width == 0 || height == 0)
             {
-                if (width == 0) width = pixel_width;
+                if (width == 0) width = 1;
                 else width = (int)(width * zoom);
-                if (height == 0) height = pixel_width;
+                if (height == 0) height = 1;
                 else height = (int)(height * zoom);
                 DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x)), (int)((y)), 0), color);
             }

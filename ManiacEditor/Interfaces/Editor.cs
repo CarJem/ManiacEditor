@@ -69,7 +69,6 @@ namespace ManiacEditor
         bool forceResize = false; //For Opening a Scene Forcefully
         int forceResizeGoToX = 0; //For Opening a Scene Forcefully and then going to the specified X
         int forceResizeGoToY = 0; //For Opening a Scene Forcefullyand then going to the specified Y
-        //bool onRenderActive = false;
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -3625,6 +3624,12 @@ Error: {ex.Message}");
         #endregion
 
         #region Apps Tab Buttons
+
+        private void insanicManiacToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Sanic2Maniac sanic = new Sanic2Maniac();
+            sanic.Show();
+        }
         private void rSDKAnnimationEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             String aniProcessName = Path.GetFileNameWithoutExtension(mySettings.RunAniEdPath);
@@ -4096,7 +4101,6 @@ Error: {ex.Message}");
             // hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
             // So I will refresh it here
 
-            //onRenderActive = true;
             if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
             if (EditorScene != null)
             {
@@ -4155,7 +4159,7 @@ Error: {ex.Message}");
                     entities.DrawPriority(GraphicPanel, 1);
                 }
 
-                if (!mySettings.PrioritizedObjectRendering && !EditEntities.Checked) entities.Draw(GraphicPanel);
+                if (!mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked) entities.Draw(GraphicPanel);
 
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
@@ -4228,15 +4232,12 @@ Error: {ex.Message}");
             if (showGrid)
                 Background.DrawGrid(GraphicPanel);
 
-
-
-            //if (EditorScene != null)
-            //{
-            //    Background.DrawSnow(GraphicPanel);
-            //}
-
-
-            //onRenderActive = false;
+            /*
+            if (EditorScene != null)
+            {
+                Background.DrawSnow(GraphicPanel);
+            }
+            */
         }
 
         public void DrawLayers(int drawOrder = 0)
@@ -4890,8 +4891,8 @@ Error: {ex.Message}");
                     GameRunning = false;
                     Invoke(new Action(() => UpdateControls()));
                 }).Start();
-            }
-        }
+            }        
+    }
 
         public void UseCheatCodes(Process p)
         {
@@ -5768,6 +5769,19 @@ Error: {ex.Message}");
             }*/
         }
 
+        private void resetDeviceButton_Click_1(object sender, EventArgs e)
+        {
+            if (freezeDeviceButton.Checked)
+            {
+                GraphicPanel.bRender = false;
+            }
+            else
+            {
+                ReloadToolStripButton_Click(null, null);
+                GraphicPanel.bRender = true;
+            }
+        }
+
         private bool CanWriteFile(string fullFilePath)
         {
             if (!File.Exists(fullFilePath)) return true;
@@ -5855,7 +5869,7 @@ Error: {ex.Message}");
 
         public void UpdateRender()
         {
-            if (!mySettings.RellyOnRenderLoopForUpdatingOnly)
+            if (!mySettings.RellyOnRenderLoopForUpdatingOnly && GraphicPanel.bRender)
             {
                 GraphicPanel.Render();
             }
@@ -5863,7 +5877,7 @@ Error: {ex.Message}");
 
         public void OnMouseMoveEvent()
         {
-            if (!mySettings.RellyOnRenderLoopForUpdatingOnly)
+            if (!mySettings.RellyOnRenderLoopForUpdatingOnly && GraphicPanel.bRender)
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }

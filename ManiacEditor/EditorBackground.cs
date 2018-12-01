@@ -18,7 +18,7 @@ namespace ManiacEditor
 
         //Let it snow
         int i = 0;
-        snowflake[] snowflakes = new snowflake[256];
+        snowflake[] snowflakes = new snowflake[1024];
 
         static int DivideRoundUp(int number, int by)
         {
@@ -128,6 +128,7 @@ namespace ManiacEditor
                     d.DrawSnowLines(flake.Location.X, flake.Location.Y, flake.Location.X, flake.Location.Y, flake.Color);
                 }
             }
+            LetItSnow();
 
         }
 
@@ -146,7 +147,7 @@ namespace ManiacEditor
 
         public void LetItSnow()
         {
-            if (i >= 256)
+            if (i >= 1024)
             {
                 return;
             }
@@ -166,7 +167,9 @@ namespace ManiacEditor
 
             private void create()
             {
-                this.Location = new Point(r.Next(-Editor.Instance.GraphicPanel.DrawWidth, Editor.Instance.GraphicPanel.DrawWidth), r.Next(-Editor.Instance.GraphicPanel.DrawHeight, Editor.Instance.GraphicPanel.DrawHeight));
+                double zoom = Editor.Instance.GetZoom();
+
+                this.Location = new Point(r.Next((int)(-Editor.Instance.GraphicPanel.DrawWidth), (int)(Editor.Instance.GraphicPanel.DrawWidth)), r.Next((int)(-Editor.Instance.GraphicPanel.DrawHeight), (int)(Editor.Instance.GraphicPanel.DrawHeight)));
 
                 this.MinimumSize = new Size(3, 3);
                 this.Size = new Size(5, 5);
@@ -185,9 +188,11 @@ namespace ManiacEditor
 
             void t_Tick(object sender, EventArgs e)
             {
+                double zoom = Editor.Instance.GetZoom();
+
                 this.Location.Offset(0, 3);
-                if (this.Location.X > Editor.Instance.GraphicPanel.DrawWidth || this.Location.Y > Editor.Instance.GraphicPanel.DrawHeight)
-                    this.Location = new Point(r.Next(-Editor.Instance.GraphicPanel.DrawWidth, Editor.Instance.GraphicPanel.DrawWidth), r.Next(-Editor.Instance.GraphicPanel.DrawHeight, Editor.Instance.GraphicPanel.DrawHeight));
+                if (this.Location.X > Editor.Instance.GraphicPanel.DrawWidth || this.Location.Y > Editor.Instance.GraphicPanel.DrawHeight * zoom)
+                    this.Location = new Point(r.Next((int)(-Editor.Instance.GraphicPanel.DrawWidth), (int)(Editor.Instance.GraphicPanel.DrawWidth)), r.Next((int)(-Editor.Instance.GraphicPanel.DrawHeight), (int)(Editor.Instance.GraphicPanel.DrawHeight)));
 
             }
         }
