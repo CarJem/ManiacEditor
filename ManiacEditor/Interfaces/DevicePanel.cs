@@ -183,7 +183,15 @@ namespace ManiacEditor
             }
             catch (SharpDXException ex)
             {
-                throw new ArgumentException("Error initializing DirectX", ex);
+                try
+                {
+                    _device.Reset();
+                }
+                catch
+                {
+                    throw new ArgumentException("Error initializing DirectX", ex);
+                }
+
             }
             catch (DllNotFoundException)
             {

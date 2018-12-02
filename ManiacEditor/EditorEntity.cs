@@ -302,10 +302,10 @@ namespace ManiacEditor
                 {
                     if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
                     {
-                            DrawOthers(d);
+                        EditorEntity_ini.DrawOthers(d, entity, null, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
                     }
                     else if (!Properties.Settings.Default.UseAltEntityRenderMode) {
-                            DrawOthers(d);
+                        EditorEntity_ini.DrawOthers(d, entity, null, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
                     }
 
                 }
@@ -493,44 +493,6 @@ namespace ManiacEditor
                 }
             }
             return offset;
-        }
-
-        // These are special
-        public void DrawOthers(DevicePanel d)
-        {
-            int x = entity.Position.X.High + childX;
-            int y = entity.Position.Y.High + childY;
-            if (childDrawAddMode == false)
-            {
-                x = childX;
-                y = childY;
-            }
-            int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
-            if (entity.Object.Name.Name.Contains("Setup"))
-            {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-            }
-            else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
-            {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-            }
-            else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
-            {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-            }
-            else
-            {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-            }
-
         }
 
         public bool IsObjectOnScreen(DevicePanel d)

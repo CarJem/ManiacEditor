@@ -2441,6 +2441,7 @@
             this.toolStrip1.PerformLayout();
             this.toolStrip5.ResumeLayout(false);
             this.toolStrip5.PerformLayout();
+
             this.ResumeLayout(false);
             this.PerformLayout();
 

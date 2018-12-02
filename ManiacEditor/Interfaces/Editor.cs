@@ -20,6 +20,7 @@ using ManiacEditor.Interfaces;
 using Cyotek.Windows.Forms;
 using Microsoft.Scripting.Utils;
 using TileManiac;
+using Microsoft.Win32;
 
 namespace ManiacEditor
 {
@@ -168,6 +169,7 @@ namespace ManiacEditor
 
         //Editor Misc. Variables
         System.Windows.Forms.Timer t;
+        System.Windows.Forms.Timer powerCheckTimer;
 
         //Dark Theme
         public Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
@@ -243,6 +245,8 @@ namespace ManiacEditor
 
         public Editor()
         {
+            SystemEvents.PowerModeChanged += CheckDeviceState;
+
             Instance = this;
             useDarkTheme(mySettings.NightMode);
             InitializeComponent();
@@ -4085,8 +4089,22 @@ Error: {ex.Message}");
             Device device = e.Device;
         }
 
-        private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
+        public void CheckDeviceState(object sender, PowerModeChangedEventArgs e)
         {
+            switch(e.Mode)
+            {
+                case PowerModes.Suspend:
+                    setDeviceSleepState(false);
+                    break;
+                case PowerModes.Resume:
+                    setDeviceSleepState(true);
+                    break;                
+            }
+        }
+
+
+            private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
+            {
             // hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
             // So I will refresh it here
 
@@ -5772,6 +5790,15 @@ Error: {ex.Message}");
             {
                 ReloadToolStripButton_Click(null, null);
                 GraphicPanel.bRender = true;
+            }
+        }
+
+        private void setDeviceSleepState(bool state)
+        {
+            GraphicPanel.bRender = state;
+            if (state == true)
+            {
+                ReloadToolStripButton_Click(null, null);
             }
         }
 

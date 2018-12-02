@@ -23,6 +23,7 @@ namespace TileManiac
         RSDKv5.TilesConfig.CollisionMask TileClipboard;
 
         List<Bitmap> ColImges = new List<Bitmap>(); //List of images, saves memory
+        List<Bitmap> ColImgesNoCol = new List<Bitmap>(); //List of images, saves memory
         List<Bitmap> ColActivatedImges = new List<Bitmap>(); //List of images, saves memory
 
         List<Bitmap> CollisionListImgA = new List<Bitmap>();
@@ -86,6 +87,24 @@ namespace TileManiac
             ColImges.Add(new Bitmap(Properties.Resources._15));
             ColImges.Add(new Bitmap(Properties.Resources._16));
             ColImges.Add(new Bitmap(Properties.Resources._0));
+
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._1_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._2_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._3_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._4_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._5_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._6_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._7_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._8_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._9_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._10_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._11_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._12_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._13_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._14_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._15_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._16_NoCol));
+            ColImgesNoCol.Add(new Bitmap(Properties.Resources._0_NoCol));
 
 
             ColActivatedImges.Add(Properties.Resources.Red);
@@ -516,67 +535,67 @@ namespace TileManiac
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[0])
             { Viewer1.Image = ColImges[lb00.SelectedIndex]; }
-            else { Viewer1.Image = ColImges[16]; }
+            else { Viewer1.Image = ColImgesNoCol[lb00.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[1])
             { Viewer2.Image = ColImges[lb01.SelectedIndex]; }
-            else { Viewer2.Image = ColImges[16]; }
+            else { Viewer2.Image = ColImgesNoCol[lb01.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[2])
             { Viewer3.Image = ColImges[lb02.SelectedIndex]; }
-            else { Viewer3.Image = ColImges[16]; }
+            else { Viewer3.Image = ColImgesNoCol[lb02.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[3])
             { Viewer4.Image = ColImges[lb03.SelectedIndex]; }
-            else { Viewer4.Image = ColImges[16]; }
+            else { Viewer4.Image = ColImgesNoCol[lb03.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[4])
             { Viewer5.Image = ColImges[lb04.SelectedIndex]; }
-            else { Viewer5.Image = ColImges[16]; }
+            else { Viewer5.Image = ColImgesNoCol[lb04.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[5])
             { Viewer6.Image = ColImges[lb05.SelectedIndex]; }
-            else { Viewer6.Image = ColImges[16]; }
+            else { Viewer6.Image = ColImgesNoCol[lb05.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[6])
             { Viewer7.Image = ColImges[lb06.SelectedIndex]; }
-            else { Viewer7.Image = ColImges[16]; }
+            else { Viewer7.Image = ColImgesNoCol[lb06.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[7])
             { Viewer8.Image = ColImges[lb07.SelectedIndex]; }
-            else { Viewer8.Image = ColImges[16]; }
+            else { Viewer8.Image = ColImgesNoCol[lb07.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[8])
             { Viewer9.Image = ColImges[lb08.SelectedIndex]; }
-            else { Viewer9.Image = ColImges[16]; }
+            else { Viewer9.Image = ColImgesNoCol[lb08.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[9])
             { Viewer10.Image = ColImges[lb09.SelectedIndex]; }
-            else { Viewer10.Image = ColImges[16]; }
+            else { Viewer10.Image = ColImgesNoCol[lb09.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[10])
             { Viewer11.Image = ColImges[lb10.SelectedIndex]; }
-            else { Viewer11.Image = ColImges[16]; }
+            else { Viewer11.Image = ColImgesNoCol[lb10.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[11])
             { Viewer12.Image = ColImges[lb11.SelectedIndex]; }
-            else { Viewer12.Image = ColImges[16]; }
+            else { Viewer12.Image = ColImgesNoCol[lb11.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[12])
             { Viewer13.Image = ColImges[lb12.SelectedIndex]; }
-            else { Viewer13.Image = ColImges[16]; }
+            else { Viewer13.Image = ColImgesNoCol[lb12.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[13])
             { Viewer14.Image = ColImges[lb13.SelectedIndex]; }
-            else { Viewer14.Image = ColImges[16]; }
+            else { Viewer14.Image = ColImgesNoCol[lb13.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[14])
             { Viewer15.Image = ColImges[lb14.SelectedIndex]; }
-            else { Viewer15.Image = ColImges[16]; }
+            else { Viewer15.Image = ColImgesNoCol[lb14.SelectedIndex]; }
 
             if (tcf.CollisionPath1[curColisionMask].HasCollision[15])
             { Viewer16.Image = ColImges[lb15.SelectedIndex]; }
-            else { Viewer16.Image = ColImges[16]; }
+            else { Viewer16.Image = ColImgesNoCol[lb15.SelectedIndex]; }
 
 
 
@@ -669,67 +688,67 @@ namespace TileManiac
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[0])
             { Viewer1.Image = ColImges[lb00.SelectedIndex]; }
-            else { Viewer1.Image = ColImges[16]; }
+            else { Viewer1.Image = ColImgesNoCol[lb00.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[1])
             { Viewer2.Image = ColImges[lb01.SelectedIndex]; }
-            else { Viewer2.Image = ColImges[16]; }
+            else { Viewer2.Image = ColImgesNoCol[lb01.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[2])
             { Viewer3.Image = ColImges[lb02.SelectedIndex]; }
-            else { Viewer3.Image = ColImges[16]; }
+            else { Viewer3.Image = ColImgesNoCol[lb02.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[3])
             { Viewer4.Image = ColImges[lb03.SelectedIndex]; }
-            else { Viewer4.Image = ColImges[16]; }
+            else { Viewer4.Image = ColImgesNoCol[lb03.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[4])
             { Viewer5.Image = ColImges[lb04.SelectedIndex]; }
-            else { Viewer5.Image = ColImges[16]; }
+            else { Viewer5.Image = ColImgesNoCol[lb04.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[5])
             { Viewer6.Image = ColImges[lb05.SelectedIndex]; }
-            else { Viewer6.Image = ColImges[16]; }
+            else { Viewer6.Image = ColImgesNoCol[lb05.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[6])
             { Viewer7.Image = ColImges[lb06.SelectedIndex]; }
-            else { Viewer7.Image = ColImges[16]; }
+            else { Viewer7.Image = ColImgesNoCol[lb06.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[7])
             { Viewer8.Image = ColImges[lb07.SelectedIndex]; }
-            else { Viewer8.Image = ColImges[16]; }
+            else { Viewer8.Image = ColImgesNoCol[lb07.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[8])
             { Viewer9.Image = ColImges[lb08.SelectedIndex]; }
-            else { Viewer9.Image = ColImges[16]; }
+            else { Viewer9.Image = ColImgesNoCol[lb08.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[9])
             { Viewer10.Image = ColImges[lb09.SelectedIndex]; }
-            else { Viewer10.Image = ColImges[16]; }
+            else { Viewer10.Image = ColImgesNoCol[lb09.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[10])
             { Viewer11.Image = ColImges[lb10.SelectedIndex]; }
-            else { Viewer11.Image = ColImges[16]; }
+            else { Viewer11.Image = ColImgesNoCol[lb10.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[11])
             { Viewer12.Image = ColImges[lb11.SelectedIndex]; }
-            else { Viewer12.Image = ColImges[16]; }
+            else { Viewer12.Image = ColImgesNoCol[lb11.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[12])
             { Viewer13.Image = ColImges[lb12.SelectedIndex]; }
-            else { Viewer13.Image = ColImges[16]; }
+            else { Viewer13.Image = ColImgesNoCol[lb12.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[13])
             { Viewer14.Image = ColImges[lb13.SelectedIndex]; }
-            else { Viewer14.Image = ColImges[16]; }
+            else { Viewer14.Image = ColImgesNoCol[lb13.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[14])
             { Viewer15.Image = ColImges[lb14.SelectedIndex]; }
-            else { Viewer15.Image = ColImges[16]; }
+            else { Viewer15.Image = ColImgesNoCol[lb14.SelectedIndex]; }
 
             if (tcf.CollisionPath2[curColisionMask].HasCollision[15])
             { Viewer16.Image = ColImges[lb15.SelectedIndex]; }
-            else { Viewer16.Image = ColImges[16]; }
+            else { Viewer16.Image = ColImgesNoCol[lb15.SelectedIndex]; }
 
 
 
@@ -1124,14 +1143,14 @@ namespace TileManiac
         {
             if (!showPathB)
             {
-                tcf.CollisionPath2[curColisionMask] = (RSDKv5.TilesConfig.CollisionMask)tcf.CollisionPath1[curColisionMask].Collision.Clone();
+                tcf.CollisionPath2[curColisionMask] = tcf.CollisionPath1[curColisionMask];
                 //tcf.CollisionPath2[curColisionMask] = tc;RSDKv5.TilesConfig.ColllisionMask tc
                 CollisionListImgB[curColisionMask] = CollisionListImgA[curColisionMask];
                 RefreshUI();
             }
             else if (showPathB)
             {
-                tcf.CollisionPath1[curColisionMask] = (RSDKv5.TilesConfig.CollisionMask)tcf.CollisionPath2[curColisionMask].Collision.Clone();
+                tcf.CollisionPath1[curColisionMask] = tcf.CollisionPath2[curColisionMask];
                 CollisionListImgA[curColisionMask] = CollisionListImgB[curColisionMask];
                 RefreshUI();
             }
@@ -1895,6 +1914,7 @@ namespace TileManiac
         private void cb02_MouseUp(object sender, MouseEventArgs e)
         {
             mouseHeldDown = false;
+            RefreshUI();
         }
 
         private void cb02_MouseMove(object sender, MouseEventArgs e)
