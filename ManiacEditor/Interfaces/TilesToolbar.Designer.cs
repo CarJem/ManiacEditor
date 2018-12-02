@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.option1CheckBox = new System.Windows.Forms.CheckBox();
             this.option2CheckBox = new System.Windows.Forms.CheckBox();
@@ -41,8 +42,11 @@
             this.option4CheckBox = new System.Windows.Forms.CheckBox();
             this.option3CheckBox = new System.Windows.Forms.CheckBox();
             this.selectedTileLabel = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editTileInTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tilesList = new ManiacEditor.TilesList();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // trackBar1
@@ -199,9 +203,23 @@
             this.selectedTileLabel.Location = new System.Drawing.Point(3, 51);
             this.selectedTileLabel.Name = "selectedTileLabel";
             this.selectedTileLabel.Padding = new System.Windows.Forms.Padding(3);
-            this.selectedTileLabel.Size = new System.Drawing.Size(112, 19);
+            this.selectedTileLabel.Size = new System.Drawing.Size(90, 19);
             this.selectedTileLabel.TabIndex = 14;
-            this.selectedTileLabel.Text = "Selected Tile: NULL ";
+            this.selectedTileLabel.Text = "Selected Tile: -1";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editTileInTileManiacToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(218, 26);
+            // 
+            // editTileInTileManiacToolStripMenuItem
+            // 
+            this.editTileInTileManiacToolStripMenuItem.Name = "editTileInTileManiacToolStripMenuItem";
+            this.editTileInTileManiacToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.editTileInTileManiacToolStripMenuItem.Text = "Edit Tile #{0} in Tile Maniac";
+            this.editTileInTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileInTileManiacToolStripMenuItem_Click);
             // 
             // tilesList
             // 
@@ -241,6 +259,7 @@
             this.Size = new System.Drawing.Size(255, 525);
             this.Load += new System.EventHandler(this.TilesToolbar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,5 +281,7 @@
         private System.Windows.Forms.CheckBox tileOption2;
         private System.Windows.Forms.CheckBox tileOption1;
         public System.Windows.Forms.Label selectedTileLabel;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        public System.Windows.Forms.ToolStripMenuItem editTileInTileManiacToolStripMenuItem;
     }
 }

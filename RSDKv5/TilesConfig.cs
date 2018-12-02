@@ -18,8 +18,13 @@ namespace RSDKv5
         public CollisionMask[] CollisionPath1 = new CollisionMask[TILES_COUNT];
         public CollisionMask[] CollisionPath2 = new CollisionMask[TILES_COUNT];
 
-        public class CollisionMask
+        public class CollisionMask : ICloneable
         {
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
+
             // Collision position for each pixel
             public byte[] Collision;
 
@@ -53,9 +58,7 @@ namespace RSDKv5
                 special = 0;
             }
 
-            public CollisionMask(Stream stream) : this(new Reader(stream)) { }
-
-            internal CollisionMask(Reader reader)
+            public CollisionMask(Reader reader)
             {
                 Collision = reader.ReadBytes(16);
                 HasCollision = reader.ReadBytes(16).Select(x => x != 0).ToArray();
@@ -65,6 +68,11 @@ namespace RSDKv5
                 momentum = reader.ReadByte();
                 unknown = reader.ReadByte();
                 special = reader.ReadByte();
+            }
+
+            public CollisionMask(Stream stream) : this(new Reader(stream))
+            {
+
             }
 
             public void Write(System.IO.BinaryWriter writer)
@@ -131,7 +139,10 @@ namespace RSDKv5
                     {
                         for (int x = 0; x < 16; x++) //Set the Active/Main (FG) colour
                         {
-                            b.SetPixel(x, y, bg);
+                            if (!HasTile)
+                            {
+                                b.SetPixel(x, y, bg);
+                            }
                         }
                     }
 

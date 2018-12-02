@@ -19,6 +19,7 @@ using System.Reflection;
 using ManiacEditor.Interfaces;
 using Cyotek.Windows.Forms;
 using Microsoft.Scripting.Utils;
+using TileManiac;
 
 namespace ManiacEditor
 {
@@ -91,7 +92,7 @@ namespace ManiacEditor
         string SelectedScene; //Used to get the Scene zone
         public static string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
         string SceneFilename = null; //Used for fetching the scene's file name
-        string SceneFilepath = null; //Used for fetching the folder that contains the scene file
+        public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
         string StageConfigFileName = null; //Used for fetch the scene's stage config file name
 
         // Extra Layer Buttons
@@ -160,6 +161,10 @@ namespace ManiacEditor
         internal TilesToolbar TilesToolbar = null;
         private EntitiesToolbar entitiesToolbar = null;
         public EditorUpdater Updater = new EditorUpdater();
+        public TilesConfig TilesConfig;
+
+        //Tile Maniac Instance
+        public TileManiac.Mainform mainform = new Mainform();
 
         //Editor Misc. Variables
         System.Windows.Forms.Timer t;
@@ -281,7 +286,15 @@ namespace ManiacEditor
 
             if (mySettings.UseForcefulStartup)
             {
-                OpenSceneForceFully();
+                try
+                {
+                    OpenSceneForceFully();
+                }
+                catch
+                {
+                    Debug.Print("Couldn't Force Open!");
+                }
+
             }
 
         }
@@ -2688,6 +2701,7 @@ namespace ManiacEditor
 
             CollisionLayerA.Clear();
             CollisionLayerB.Clear();
+            TilesConfig = null;
         }
 
         private void OpenSceneForceFully()
@@ -2833,6 +2847,7 @@ namespace ManiacEditor
 
                 if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
                 {
+                    TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
                     for (int i = 0; i < 1024; i++)
                     {
                         CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
@@ -2920,11 +2935,6 @@ namespace ManiacEditor
             SetViewSize(SceneWidth, SceneHeight);
 
             UpdateControls(true);
-
-            if (shortcut)
-            {
-                UpdateControls();
-            }
 
         }
 
@@ -3625,6 +3635,24 @@ Error: {ex.Message}");
 
         #region Apps Tab Buttons
 
+        private void tileManiacToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
+            mainform.Show();
+            if (Editor.Instance.TilesConfig != null && Editor.Instance.StageTiles != null)
+            {
+                if (!mainform.Visible || Editor.Instance.mainform.tcf == null)
+                {
+                    mainform.LoadTileConfigViaIntergration(TilesConfig, SceneFilepath);
+                }
+                else
+                {
+                    mainform.Activate();
+                }
+
+            }
+
+        }
         private void insanicManiacToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Sanic2Maniac sanic = new Sanic2Maniac();
@@ -3676,45 +3704,6 @@ Error: {ex.Message}");
 
         private void cToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            String collisionProcessName = Path.GetFileNameWithoutExtension(mySettings.RunTileManiacPath);
-            IntPtr hWnd = FindWindow(collisionProcessName, null); // this gives you the handle of the window you need.
-            Process processes = Process.GetProcessesByName(collisionProcessName).FirstOrDefault();
-            if (processes != null)
-            {
-                // check if the window is hidden / minimized
-                if (processes.MainWindowHandle == IntPtr.Zero)
-                {
-                    // the window is hidden so try to restore it before setting focus.
-                    ShowWindow(processes.Handle, ShowWindowEnum.Restore);
-                }
-
-                // set user the focus to the window
-                SetForegroundWindow(processes.MainWindowHandle);
-            }
-            else
-            {
-                // Ask where Tile Maniac is located when not set
-                if (string.IsNullOrEmpty(mySettings.RunTileManiacPath))
-                {
-                    var ofd = new OpenFileDialog();
-                    ofd.Title = "Select TileManiac.exe";
-                    ofd.Filter = "Windows PE Executable|*.exe";
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                        mySettings.RunTileManiacPath = ofd.FileName;
-                }
-                else
-                {
-                    if (!File.Exists(mySettings.RunTileManiacPath))
-                    {
-                        mySettings.RunTileManiacPath = "";
-                        return;
-                    }
-                }
-
-                ProcessStartInfo psi;
-                psi = new ProcessStartInfo(mySettings.RunTileManiacPath);
-                Process.Start(psi);
-            }
 
         }
 
@@ -4321,6 +4310,10 @@ Error: {ex.Message}");
         private void MapEditor_Activated(object sender, EventArgs e)
         {
             GraphicPanel.Focus();
+            if (mainform.hasModified)
+            {
+                ReloadToolStripButton_Click(sender, e);
+            }
         }
 
         private void MapEditor_KeyDown(object sender, KeyEventArgs e)

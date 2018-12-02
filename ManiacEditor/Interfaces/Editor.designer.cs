@@ -142,11 +142,13 @@
             this.openDataDirectoryFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openSonicManiaFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.collisionEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insanicManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.duplicateObjectIDHealerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.animationManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.maniacPalColorPaletteEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rSDKAnnimationEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorPaletteEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.duplicateObjectIDHealerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -261,8 +263,6 @@
             this.customToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCollisionAButton = new System.Windows.Forms.ToolStripButton();
             this.showCollisionBButton = new System.Windows.Forms.ToolStripButton();
-            this.animationManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.maniacPalColorPaletteEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -923,7 +923,7 @@
             // statusNAToolStripMenuItem
             // 
             this.statusNAToolStripMenuItem.Name = "statusNAToolStripMenuItem";
-            this.statusNAToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.statusNAToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.statusNAToolStripMenuItem.Text = "Enabled";
             this.statusNAToolStripMenuItem.Click += new System.EventHandler(this.scrollLockButton_Click);
             // 
@@ -933,7 +933,7 @@
             this.xToolStripMenuItem,
             this.yToolStripMenuItem});
             this.axisToolStripMenuItem.Name = "axisToolStripMenuItem";
-            this.axisToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.axisToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.axisToolStripMenuItem.Text = "Axis...";
             // 
             // xToolStripMenuItem
@@ -970,14 +970,14 @@
             // 
             this.specificPlaceToolStripMenuItem.Enabled = false;
             this.specificPlaceToolStripMenuItem.Name = "specificPlaceToolStripMenuItem";
-            this.specificPlaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.specificPlaceToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.specificPlaceToolStripMenuItem.Text = "Specific Place";
             // 
             // playerSpawnToolStripMenuItem
             // 
             this.playerSpawnToolStripMenuItem.Enabled = false;
             this.playerSpawnToolStripMenuItem.Name = "playerSpawnToolStripMenuItem";
-            this.playerSpawnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playerSpawnToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.playerSpawnToolStripMenuItem.Text = "Player Spawn";
             this.playerSpawnToolStripMenuItem.Click += new System.EventHandler(this.playerSpawnToolStripMenuItem_Click);
             // 
@@ -1169,7 +1169,7 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.collisionEditorToolStripMenuItem,
+            this.tileManiacToolStripMenuItem,
             this.insanicManiacToolStripMenuItem,
             this.duplicateObjectIDHealerToolStripMenuItem,
             this.animationManiacToolStripMenuItem,
@@ -1181,12 +1181,12 @@
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Apps";
             // 
-            // collisionEditorToolStripMenuItem
+            // tileManiacToolStripMenuItem
             // 
-            this.collisionEditorToolStripMenuItem.Name = "collisionEditorToolStripMenuItem";
-            this.collisionEditorToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
-            this.collisionEditorToolStripMenuItem.Text = "TileManiac (Collision Editor)";
-            this.collisionEditorToolStripMenuItem.Click += new System.EventHandler(this.cToolStripMenuItem_Click);
+            this.tileManiacToolStripMenuItem.Name = "tileManiacToolStripMenuItem";
+            this.tileManiacToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.tileManiacToolStripMenuItem.Text = "TileManiac (Collision Editor)";
+            this.tileManiacToolStripMenuItem.Click += new System.EventHandler(this.tileManiacToolStripMenuItem_Click);
             // 
             // insanicManiacToolStripMenuItem
             // 
@@ -1194,6 +1194,27 @@
             this.insanicManiacToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.insanicManiacToolStripMenuItem.Text = "InsanicManiac (Game Config Editor)";
             this.insanicManiacToolStripMenuItem.Click += new System.EventHandler(this.insanicManiacToolStripMenuItem_Click);
+            // 
+            // duplicateObjectIDHealerToolStripMenuItem
+            // 
+            this.duplicateObjectIDHealerToolStripMenuItem.Name = "duplicateObjectIDHealerToolStripMenuItem";
+            this.duplicateObjectIDHealerToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.duplicateObjectIDHealerToolStripMenuItem.Text = "FixerManiac (Duplicate Object ID Healer)";
+            this.duplicateObjectIDHealerToolStripMenuItem.Click += new System.EventHandler(this.duplicateObjectIDHealerToolStripMenuItem_Click);
+            // 
+            // animationManiacToolStripMenuItem
+            // 
+            this.animationManiacToolStripMenuItem.Enabled = false;
+            this.animationManiacToolStripMenuItem.Name = "animationManiacToolStripMenuItem";
+            this.animationManiacToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.animationManiacToolStripMenuItem.Text = "AnimationManiac (Animation Editor)";
+            // 
+            // maniacPalColorPaletteEditorToolStripMenuItem
+            // 
+            this.maniacPalColorPaletteEditorToolStripMenuItem.Enabled = false;
+            this.maniacPalColorPaletteEditorToolStripMenuItem.Name = "maniacPalColorPaletteEditorToolStripMenuItem";
+            this.maniacPalColorPaletteEditorToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.maniacPalColorPaletteEditorToolStripMenuItem.Text = "ManiacPal (Color Palette Editor)";
             // 
             // rSDKAnnimationEditorToolStripMenuItem
             // 
@@ -1208,13 +1229,6 @@
             this.colorPaletteEditorToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.colorPaletteEditorToolStripMenuItem.Text = "Color Palette Editor";
             this.colorPaletteEditorToolStripMenuItem.Click += new System.EventHandler(this.colorPaletteEditorToolStripMenuItem_Click);
-            // 
-            // duplicateObjectIDHealerToolStripMenuItem
-            // 
-            this.duplicateObjectIDHealerToolStripMenuItem.Name = "duplicateObjectIDHealerToolStripMenuItem";
-            this.duplicateObjectIDHealerToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
-            this.duplicateObjectIDHealerToolStripMenuItem.Text = "FixerManiac (Duplicate Object ID Healer)";
-            this.duplicateObjectIDHealerToolStripMenuItem.Click += new System.EventHandler(this.duplicateObjectIDHealerToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem2
             // 
@@ -2383,20 +2397,6 @@
             this.showCollisionBButton.Text = "Show Collision Layer B";
             this.showCollisionBButton.Click += new System.EventHandler(this.showCollisionBButton_Click);
             // 
-            // animationManiacToolStripMenuItem
-            // 
-            this.animationManiacToolStripMenuItem.Enabled = false;
-            this.animationManiacToolStripMenuItem.Name = "animationManiacToolStripMenuItem";
-            this.animationManiacToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
-            this.animationManiacToolStripMenuItem.Text = "AnimationManiac (Animation Editor)";
-            // 
-            // maniacPalColorPaletteEditorToolStripMenuItem
-            // 
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Enabled = false;
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Name = "maniacPalColorPaletteEditorToolStripMenuItem";
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Text = "ManiacPal (Color Palette Editor)";
-            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2509,7 +2509,7 @@
         private System.Windows.Forms.ToolStripMenuItem openDataDirectoryFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSonicManiaFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem collisionEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tileManiacToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rSDKAnnimationEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem colorPaletteEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip4;

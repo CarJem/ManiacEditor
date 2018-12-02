@@ -1171,12 +1171,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RSDKv5\RSDKv5.csproj">
-      <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
-      <Name>RSDKv5</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Global\EditorAssets.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1227,7 +1221,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\RSDKv5\RSDKv5.csproj">
+      <Project>{d10dc6b1-eb04-46bc-8c7a-62914af396b0}</Project>
+      <Name>RSDKv5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tile Maniac\TileManiac.csproj">
+      <Project>{3d9f597d-8d90-44d3-a0b9-a0cb2292d0e1}</Project>
+      <Name>TileManiac</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>

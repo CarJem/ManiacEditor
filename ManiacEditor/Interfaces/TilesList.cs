@@ -40,10 +40,10 @@ namespace ManiacEditor
         {
             InitializeComponent();
 
-            if (Properties.Settings.Default.NightMode)
-            {
-                graphicPanel.DeviceBackColor = Editor.Instance.darkTheme1;
-            }
+            //if (Properties.Settings.Default.NightMode)
+            //{
+            //    graphicPanel.DeviceBackColor = Editor.Instance.darkTheme1;
+            //}
             
             graphicPanel.Init(this);
         }
@@ -176,7 +176,7 @@ namespace ManiacEditor
             vScrollBar1.Value = Math.Max(Math.Min(vScrollBar1.Value - (e.Delta * vScrollBar1.SmallChange / 120), vScrollBar1.Maximum - vScrollBar1.LargeChange), 0);
         }
 
-        private void ClickTile(int x, int y)
+        private void ClickTile(int x, int y, bool rightClick = false, MouseEventArgs e = null)
         {
             int tile_size = (TILE_SIZE + BorderSize * 2);
             int tiles_per_line = panel1.Width / tile_size / TileScale;
@@ -186,13 +186,15 @@ namespace ManiacEditor
             {
                 SelectedTile = tile_number;
                 Editor.Instance.ToolbarSelectedTile = tile_number.ToString();
+                Editor.Instance.TilesToolbar.editTileInTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
+                if (rightClick) Editor.Instance.TilesToolbar.contextMenuStrip1.Show(TilesToolbar.MousePosition);
             }
             else
             {
                 SelectedTile = -1;
             }
            graphicPanel.Render();
-            TilesToolbar.RefreshTileSelected();
+           TilesToolbar.RefreshTileSelected();
         }
 
 
@@ -201,6 +203,11 @@ namespace ManiacEditor
             if (e.Button == MouseButtons.Left)
             {
                 ClickTile(e.X, e.Y);
+                mouseDownPos = e.Location;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                ClickTile(e.X, e.Y, true, e);
                 mouseDownPos = e.Location;
             }
         }

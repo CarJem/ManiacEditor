@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RSDKv5;
 using System.Diagnostics;
-
+using TileManiac;
 
 namespace ManiacEditor
 {
@@ -189,6 +189,28 @@ namespace ManiacEditor
             Editor.Instance.TilesToolbar.selectedTileLabel.Text = "Selected Tile: " + Editor.Instance.ToolbarSelectedTile;
         }
 
+        private void editTileInTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Editor.Instance.mainform.IsDisposed) Editor.Instance.mainform = new TileManiac.Mainform();
+            if (!Editor.Instance.mainform.Visible)
+            {
+                Editor.Instance.mainform.Show();
+            }
+            if (Editor.Instance.TilesConfig != null && Editor.Instance.StageTiles != null)
+            {
+                if (!Editor.Instance.mainform.Visible || Editor.Instance.mainform.tcf == null)
+                {
+                    Editor.Instance.mainform.LoadTileConfigViaIntergration(Editor.Instance.TilesConfig, Editor.Instance.SceneFilepath, SelectedTile);
+                }
+                else
+                {
+                    Editor.Instance.mainform.SetCollisionIndex(SelectedTile);
+                    Editor.Instance.mainform.Activate();
+                }
+
+            }
+
+        }
     }
 
 }
