@@ -178,131 +178,110 @@
             this.layerHide = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.exportLayersKeyBox = new System.Windows.Forms.TextBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
+            this.label83 = new System.Windows.Forms.Label();
+            this.mouseModeKeyBox = new System.Windows.Forms.TextBox();
+            this.exportKeyBox = new System.Windows.Forms.TextBox();
+            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label58 = new System.Windows.Forms.Label();
             this.label53 = new System.Windows.Forms.Label();
             this.label52 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
-            this.label46 = new System.Windows.Forms.Label();
-            this.mouseModeKeyBox = new System.Windows.Forms.TextBox();
-            this.flipHKeyBox = new System.Windows.Forms.TextBox();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label51 = new System.Windows.Forms.Label();
-            this.selectionModeKeyBox = new System.Windows.Forms.TextBox();
             this.nudgeFasterKeyBox = new System.Windows.Forms.TextBox();
-            this.flipVKeyBox = new System.Windows.Forms.TextBox();
-            this.label48 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.placeTilesKeyBox = new System.Windows.Forms.TextBox();
             this.scrollLockKeyBox = new System.Windows.Forms.TextBox();
-            this.label43 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.editEntitiesKeyBox = new System.Windows.Forms.TextBox();
             this.scrollLockAxisKeyBox = new System.Windows.Forms.TextBox();
+            this.label50 = new System.Windows.Forms.Label();
+            this.selectionModeKeyBox = new System.Windows.Forms.TextBox();
+            this.label81 = new System.Windows.Forms.Label();
+            this.openSettingsKeyBox = new System.Windows.Forms.TextBox();
+            this.selectAllControl = new System.Windows.Forms.TextBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.runManiaKeyBox = new System.Windows.Forms.TextBox();
+            this.label82 = new System.Windows.Forms.Label();
+            this.placeTilesKeyBox = new System.Windows.Forms.TextBox();
+            this.label60 = new System.Windows.Forms.Label();
+            this.label102 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.editEntitiesKeyBox = new System.Windows.Forms.TextBox();
+            this.entityManagerKeyBox = new System.Windows.Forms.TextBox();
+            this.label99 = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
+            this.openModLoaderKeybox = new System.Windows.Forms.TextBox();
             this.cycleLayersRKeyBox = new System.Windows.Forms.TextBox();
+            this.textBox15 = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
+            this.label61 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.cycleLayersLKeyBox = new System.Windows.Forms.TextBox();
+            this.copyControl = new System.Windows.Forms.TextBox();
             this.showGridKeyBox = new System.Windows.Forms.TextBox();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.multiLayerModeKeyBox = new System.Windows.Forms.TextBox();
-            this.showTileIDKeyBox = new System.Windows.Forms.TextBox();
-            this.label64 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.showCollisionBKeyBox = new System.Windows.Forms.TextBox();
-            this.showCollisionAKeyBox = new System.Windows.Forms.TextBox();
-            this.label42 = new System.Windows.Forms.Label();
-            this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.exportLayersKeyBox = new System.Windows.Forms.TextBox();
-            this.label57 = new System.Windows.Forms.Label();
-            this.exportKeyBox = new System.Windows.Forms.TextBox();
-            this.label58 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
-            this.openSettingsKeyBox = new System.Windows.Forms.TextBox();
-            this.runManiaKeyBox = new System.Windows.Forms.TextBox();
-            this.label60 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.entityManagerKeyBox = new System.Windows.Forms.TextBox();
-            this.openModLoaderKeybox = new System.Windows.Forms.TextBox();
-            this.label61 = new System.Windows.Forms.Label();
             this.label69 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label79 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
             this.restoreKeyBox = new System.Windows.Forms.TextBox();
+            this.moveRightControl = new System.Windows.Forms.TextBox();
+            this.showTileIDKeyBox = new System.Windows.Forms.TextBox();
             this.openRSDKAnimKeyBox = new System.Windows.Forms.TextBox();
+            this.label80 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
+            this.showCollisionBKeyBox = new System.Windows.Forms.TextBox();
+            this.cutControl = new System.Windows.Forms.TextBox();
+            this.showCollisionAKeyBox = new System.Windows.Forms.TextBox();
             this.label68 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.textBox12 = new System.Windows.Forms.TextBox();
             this.preLoadKeyBox = new System.Windows.Forms.TextBox();
+            this.label100 = new System.Windows.Forms.Label();
             this.openPaletteEditKeyBox = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
             this.label63 = new System.Windows.Forms.Label();
+            this.label109 = new System.Windows.Forms.Label();
             this.label67 = new System.Windows.Forms.Label();
+            this.label77 = new System.Windows.Forms.Label();
             this.backupKeyBox = new System.Windows.Forms.TextBox();
+            this.label101 = new System.Windows.Forms.Label();
             this.openSMFolderKeyBox = new System.Windows.Forms.TextBox();
+            this.label78 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
+            this.label108 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
             this.openDataFolderKeyBox = new System.Windows.Forms.TextBox();
-            this.openSceneFolderKeyBox = new System.Windows.Forms.TextBox();
-            this.label65 = new System.Windows.Forms.Label();
-            this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label59 = new System.Windows.Forms.Label();
-            this.label70 = new System.Windows.Forms.Label();
-            this.label71 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label84 = new System.Windows.Forms.Label();
-            this.textBox17 = new System.Windows.Forms.TextBox();
-            this.label81 = new System.Windows.Forms.Label();
-            this.label82 = new System.Windows.Forms.Label();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
-            this.label79 = new System.Windows.Forms.Label();
-            this.label80 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.label77 = new System.Windows.Forms.Label();
-            this.label78 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
+            this.openSceneFolderKeyBox = new System.Windows.Forms.TextBox();
+            this.moveDownControl = new System.Windows.Forms.TextBox();
+            this.label65 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
+            this.deleteControl = new System.Windows.Forms.TextBox();
             this.label75 = new System.Windows.Forms.Label();
+            this.moveLeftControl = new System.Windows.Forms.TextBox();
             this.label76 = new System.Windows.Forms.Label();
+            this.pasteControl = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label107 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label103 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
+            this.label106 = new System.Windows.Forms.Label();
             this.label74 = new System.Windows.Forms.Label();
+            this.flipHorizontalControl = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.flipVeritcalControl = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
+            this.moveUpControl = new System.Windows.Forms.TextBox();
             this.label72 = new System.Windows.Forms.Label();
+            this.duplicateControl = new System.Windows.Forms.TextBox();
             this.label56 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
-            this.textBox18 = new System.Windows.Forms.TextBox();
-            this.tabPage11 = new System.Windows.Forms.TabPage();
-            this.label83 = new System.Windows.Forms.Label();
-            this.textBox19 = new System.Windows.Forms.TextBox();
-            this.label99 = new System.Windows.Forms.Label();
-            this.textBox33 = new System.Windows.Forms.TextBox();
-            this.label100 = new System.Windows.Forms.Label();
-            this.label101 = new System.Windows.Forms.Label();
-            this.textBox35 = new System.Windows.Forms.TextBox();
-            this.textBox36 = new System.Windows.Forms.TextBox();
-            this.label102 = new System.Windows.Forms.Label();
-            this.label103 = new System.Windows.Forms.Label();
-            this.textBox37 = new System.Windows.Forms.TextBox();
-            this.textBox38 = new System.Windows.Forms.TextBox();
             this.label104 = new System.Windows.Forms.Label();
+            this.textBox18 = new System.Windows.Forms.TextBox();
             this.label105 = new System.Windows.Forms.Label();
-            this.textBox39 = new System.Windows.Forms.TextBox();
-            this.textBox40 = new System.Windows.Forms.TextBox();
-            this.label106 = new System.Windows.Forms.Label();
-            this.label107 = new System.Windows.Forms.Label();
-            this.textBox41 = new System.Windows.Forms.TextBox();
-            this.textBox42 = new System.Windows.Forms.TextBox();
-            this.label108 = new System.Windows.Forms.Label();
-            this.label109 = new System.Windows.Forms.Label();
-            this.textBox43 = new System.Windows.Forms.TextBox();
-            this.textBox44 = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.panel13 = new System.Windows.Forms.Panel();
             this.checkBox45 = new System.Windows.Forms.CheckBox();
@@ -356,12 +335,6 @@
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage6.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tabPage7.SuspendLayout();
-            this.tabPage8.SuspendLayout();
-            this.tabPage9.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage11.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.panel13.SuspendLayout();
             this.panel12.SuspendLayout();
@@ -2267,1104 +2240,148 @@
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.tabPage6.Controls.Add(this.tabControl2);
+            this.tabPage6.Controls.Add(this.label53);
+            this.tabPage6.Controls.Add(this.exportLayersKeyBox);
+            this.tabPage6.Controls.Add(this.label52);
+            this.tabPage6.Controls.Add(this.label84);
+            this.tabPage6.Controls.Add(this.label33);
+            this.tabPage6.Controls.Add(this.label57);
+            this.tabPage6.Controls.Add(this.label83);
+            this.tabPage6.Controls.Add(this.mouseModeKeyBox);
+            this.tabPage6.Controls.Add(this.exportKeyBox);
+            this.tabPage6.Controls.Add(this.nudgeFasterKeyBox);
+            this.tabPage6.Controls.Add(this.textBox17);
+            this.tabPage6.Controls.Add(this.label47);
+            this.tabPage6.Controls.Add(this.label58);
+            this.tabPage6.Controls.Add(this.scrollLockKeyBox);
+            this.tabPage6.Controls.Add(this.label50);
+            this.tabPage6.Controls.Add(this.scrollLockAxisKeyBox);
+            this.tabPage6.Controls.Add(this.selectionModeKeyBox);
+            this.tabPage6.Controls.Add(this.label81);
+            this.tabPage6.Controls.Add(this.openSettingsKeyBox);
+            this.tabPage6.Controls.Add(this.selectAllControl);
+            this.tabPage6.Controls.Add(this.label48);
+            this.tabPage6.Controls.Add(this.runManiaKeyBox);
+            this.tabPage6.Controls.Add(this.label82);
+            this.tabPage6.Controls.Add(this.placeTilesKeyBox);
+            this.tabPage6.Controls.Add(this.label60);
+            this.tabPage6.Controls.Add(this.label102);
+            this.tabPage6.Controls.Add(this.label43);
+            this.tabPage6.Controls.Add(this.label49);
+            this.tabPage6.Controls.Add(this.textBox14);
+            this.tabPage6.Controls.Add(this.editEntitiesKeyBox);
+            this.tabPage6.Controls.Add(this.entityManagerKeyBox);
+            this.tabPage6.Controls.Add(this.label99);
+            this.tabPage6.Controls.Add(this.label44);
+            this.tabPage6.Controls.Add(this.openModLoaderKeybox);
+            this.tabPage6.Controls.Add(this.cycleLayersRKeyBox);
+            this.tabPage6.Controls.Add(this.textBox15);
+            this.tabPage6.Controls.Add(this.label45);
+            this.tabPage6.Controls.Add(this.label61);
+            this.tabPage6.Controls.Add(this.label39);
+            this.tabPage6.Controls.Add(this.cycleLayersLKeyBox);
+            this.tabPage6.Controls.Add(this.copyControl);
+            this.tabPage6.Controls.Add(this.showGridKeyBox);
+            this.tabPage6.Controls.Add(this.label69);
+            this.tabPage6.Controls.Add(this.label40);
+            this.tabPage6.Controls.Add(this.label79);
+            this.tabPage6.Controls.Add(this.label38);
+            this.tabPage6.Controls.Add(this.restoreKeyBox);
+            this.tabPage6.Controls.Add(this.moveRightControl);
+            this.tabPage6.Controls.Add(this.showTileIDKeyBox);
+            this.tabPage6.Controls.Add(this.openRSDKAnimKeyBox);
+            this.tabPage6.Controls.Add(this.label80);
+            this.tabPage6.Controls.Add(this.label37);
+            this.tabPage6.Controls.Add(this.label62);
+            this.tabPage6.Controls.Add(this.showCollisionBKeyBox);
+            this.tabPage6.Controls.Add(this.cutControl);
+            this.tabPage6.Controls.Add(this.showCollisionAKeyBox);
+            this.tabPage6.Controls.Add(this.label68);
+            this.tabPage6.Controls.Add(this.label42);
+            this.tabPage6.Controls.Add(this.textBox12);
+            this.tabPage6.Controls.Add(this.preLoadKeyBox);
+            this.tabPage6.Controls.Add(this.label100);
+            this.tabPage6.Controls.Add(this.openPaletteEditKeyBox);
+            this.tabPage6.Controls.Add(this.textBox13);
+            this.tabPage6.Controls.Add(this.label63);
+            this.tabPage6.Controls.Add(this.label109);
+            this.tabPage6.Controls.Add(this.label67);
+            this.tabPage6.Controls.Add(this.label77);
+            this.tabPage6.Controls.Add(this.backupKeyBox);
+            this.tabPage6.Controls.Add(this.label101);
+            this.tabPage6.Controls.Add(this.openSMFolderKeyBox);
+            this.tabPage6.Controls.Add(this.label78);
+            this.tabPage6.Controls.Add(this.label41);
+            this.tabPage6.Controls.Add(this.label108);
+            this.tabPage6.Controls.Add(this.label66);
+            this.tabPage6.Controls.Add(this.openDataFolderKeyBox);
+            this.tabPage6.Controls.Add(this.textBox10);
+            this.tabPage6.Controls.Add(this.openSceneFolderKeyBox);
+            this.tabPage6.Controls.Add(this.moveDownControl);
+            this.tabPage6.Controls.Add(this.label65);
+            this.tabPage6.Controls.Add(this.textBox11);
+            this.tabPage6.Controls.Add(this.deleteControl);
+            this.tabPage6.Controls.Add(this.label75);
+            this.tabPage6.Controls.Add(this.moveLeftControl);
+            this.tabPage6.Controls.Add(this.label76);
+            this.tabPage6.Controls.Add(this.pasteControl);
+            this.tabPage6.Controls.Add(this.textBox8);
+            this.tabPage6.Controls.Add(this.label107);
+            this.tabPage6.Controls.Add(this.textBox9);
+            this.tabPage6.Controls.Add(this.label103);
+            this.tabPage6.Controls.Add(this.label73);
+            this.tabPage6.Controls.Add(this.label106);
+            this.tabPage6.Controls.Add(this.label74);
+            this.tabPage6.Controls.Add(this.flipHorizontalControl);
+            this.tabPage6.Controls.Add(this.textBox6);
+            this.tabPage6.Controls.Add(this.flipVeritcalControl);
+            this.tabPage6.Controls.Add(this.textBox7);
+            this.tabPage6.Controls.Add(this.moveUpControl);
+            this.tabPage6.Controls.Add(this.label72);
+            this.tabPage6.Controls.Add(this.duplicateControl);
+            this.tabPage6.Controls.Add(this.label56);
+            this.tabPage6.Controls.Add(this.textBox16);
+            this.tabPage6.Controls.Add(this.label104);
+            this.tabPage6.Controls.Add(this.textBox18);
+            this.tabPage6.Controls.Add(this.label105);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage6.Size = new System.Drawing.Size(961, 547);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Controls";
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Controls.Add(this.tabPage7);
-            this.tabControl2.Controls.Add(this.tabPage8);
-            this.tabControl2.Controls.Add(this.tabPage9);
-            this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Controls.Add(this.tabPage11);
-            this.tabControl2.Location = new System.Drawing.Point(0, 0);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(657, 540);
-            this.tabControl2.TabIndex = 168;
-            this.tabControl2.Visible = false;
-            // 
-            // tabPage7
-            // 
-            this.tabPage7.Controls.Add(this.label53);
-            this.tabPage7.Controls.Add(this.label52);
-            this.tabPage7.Controls.Add(this.label33);
-            this.tabPage7.Controls.Add(this.label46);
-            this.tabPage7.Controls.Add(this.mouseModeKeyBox);
-            this.tabPage7.Controls.Add(this.flipHKeyBox);
-            this.tabPage7.Controls.Add(this.label47);
-            this.tabPage7.Controls.Add(this.label34);
-            this.tabPage7.Controls.Add(this.label51);
-            this.tabPage7.Controls.Add(this.selectionModeKeyBox);
-            this.tabPage7.Controls.Add(this.nudgeFasterKeyBox);
-            this.tabPage7.Controls.Add(this.flipVKeyBox);
-            this.tabPage7.Controls.Add(this.label48);
-            this.tabPage7.Controls.Add(this.label35);
-            this.tabPage7.Controls.Add(this.placeTilesKeyBox);
-            this.tabPage7.Controls.Add(this.scrollLockKeyBox);
-            this.tabPage7.Controls.Add(this.label43);
-            this.tabPage7.Controls.Add(this.label36);
-            this.tabPage7.Controls.Add(this.editEntitiesKeyBox);
-            this.tabPage7.Controls.Add(this.scrollLockAxisKeyBox);
-            this.tabPage7.Controls.Add(this.label44);
-            this.tabPage7.Controls.Add(this.cycleLayersRKeyBox);
-            this.tabPage7.Controls.Add(this.label45);
-            this.tabPage7.Controls.Add(this.label39);
-            this.tabPage7.Controls.Add(this.cycleLayersLKeyBox);
-            this.tabPage7.Controls.Add(this.showGridKeyBox);
-            this.tabPage7.Controls.Add(this.label40);
-            this.tabPage7.Controls.Add(this.label38);
-            this.tabPage7.Controls.Add(this.multiLayerModeKeyBox);
-            this.tabPage7.Controls.Add(this.showTileIDKeyBox);
-            this.tabPage7.Controls.Add(this.label64);
-            this.tabPage7.Controls.Add(this.label37);
-            this.tabPage7.Controls.Add(this.showCollisionBKeyBox);
-            this.tabPage7.Controls.Add(this.showCollisionAKeyBox);
-            this.tabPage7.Controls.Add(this.label42);
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(649, 514);
-            this.tabPage7.TabIndex = 0;
-            this.tabPage7.Text = "General";
-            // 
-            // label53
-            // 
-            this.label53.Location = new System.Drawing.Point(107, 57);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(46, 20);
-            this.label53.TabIndex = 155;
-            this.label53.Text = "CRTL +";
-            this.label53.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label52
-            // 
-            this.label52.Location = new System.Drawing.Point(107, 30);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(46, 20);
-            this.label52.TabIndex = 154;
-            this.label52.Text = "CRTL +";
-            this.label52.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label33
-            // 
-            this.label33.Location = new System.Drawing.Point(107, 4);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(46, 20);
-            this.label33.TabIndex = 153;
-            this.label33.Text = "CRTL +";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label46
-            // 
-            this.label46.Enabled = false;
-            this.label46.Location = new System.Drawing.Point(5, 342);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(96, 20);
-            this.label46.TabIndex = 133;
-            this.label46.Text = "Flip Horizontially";
-            this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mouseModeKeyBox
-            // 
-            this.mouseModeKeyBox.Enabled = false;
-            this.mouseModeKeyBox.Location = new System.Drawing.Point(107, 316);
-            this.mouseModeKeyBox.Name = "mouseModeKeyBox";
-            this.mouseModeKeyBox.ReadOnly = true;
-            this.mouseModeKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.mouseModeKeyBox.TabIndex = 132;
-            // 
-            // flipHKeyBox
-            // 
-            this.flipHKeyBox.Enabled = false;
-            this.flipHKeyBox.Location = new System.Drawing.Point(107, 342);
-            this.flipHKeyBox.Name = "flipHKeyBox";
-            this.flipHKeyBox.ReadOnly = true;
-            this.flipHKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.flipHKeyBox.TabIndex = 134;
-            // 
-            // label47
-            // 
-            this.label47.Enabled = false;
-            this.label47.Location = new System.Drawing.Point(5, 316);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(96, 20);
-            this.label47.TabIndex = 131;
-            this.label47.Text = "Mouse Mode";
-            this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label34
-            // 
-            this.label34.Location = new System.Drawing.Point(2, 4);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(99, 20);
-            this.label34.TabIndex = 57;
-            this.label34.Text = "Nudge Faster";
-            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label51
-            // 
-            this.label51.Enabled = false;
-            this.label51.Location = new System.Drawing.Point(2, 368);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(99, 20);
-            this.label51.TabIndex = 135;
-            this.label51.Text = "Flip Veritcally";
-            this.label51.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // selectionModeKeyBox
-            // 
-            this.selectionModeKeyBox.Enabled = false;
-            this.selectionModeKeyBox.Location = new System.Drawing.Point(107, 290);
-            this.selectionModeKeyBox.Name = "selectionModeKeyBox";
-            this.selectionModeKeyBox.ReadOnly = true;
-            this.selectionModeKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.selectionModeKeyBox.TabIndex = 130;
-            // 
-            // nudgeFasterKeyBox
-            // 
-            this.nudgeFasterKeyBox.Location = new System.Drawing.Point(159, 4);
-            this.nudgeFasterKeyBox.Name = "nudgeFasterKeyBox";
-            this.nudgeFasterKeyBox.ReadOnly = true;
-            this.nudgeFasterKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.nudgeFasterKeyBox.TabIndex = 58;
-            this.nudgeFasterKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.nudgeFaster_KeyDown);
-            // 
-            // flipVKeyBox
-            // 
-            this.flipVKeyBox.Enabled = false;
-            this.flipVKeyBox.Location = new System.Drawing.Point(107, 368);
-            this.flipVKeyBox.Name = "flipVKeyBox";
-            this.flipVKeyBox.ReadOnly = true;
-            this.flipVKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.flipVKeyBox.TabIndex = 136;
-            // 
-            // label48
-            // 
-            this.label48.Enabled = false;
-            this.label48.Location = new System.Drawing.Point(2, 290);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(99, 20);
-            this.label48.TabIndex = 129;
-            this.label48.Text = "Selection Mode";
-            this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label35
-            // 
-            this.label35.Location = new System.Drawing.Point(5, 30);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(96, 20);
-            this.label35.TabIndex = 59;
-            this.label35.Text = "Scroll Lock";
-            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // placeTilesKeyBox
-            // 
-            this.placeTilesKeyBox.Enabled = false;
-            this.placeTilesKeyBox.Location = new System.Drawing.Point(107, 264);
-            this.placeTilesKeyBox.Name = "placeTilesKeyBox";
-            this.placeTilesKeyBox.ReadOnly = true;
-            this.placeTilesKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.placeTilesKeyBox.TabIndex = 128;
-            // 
-            // scrollLockKeyBox
-            // 
-            this.scrollLockKeyBox.Location = new System.Drawing.Point(159, 30);
-            this.scrollLockKeyBox.Name = "scrollLockKeyBox";
-            this.scrollLockKeyBox.ReadOnly = true;
-            this.scrollLockKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.scrollLockKeyBox.TabIndex = 60;
-            this.scrollLockKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scrollLock_KeyDown);
-            // 
-            // label43
-            // 
-            this.label43.Enabled = false;
-            this.label43.Location = new System.Drawing.Point(5, 264);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(96, 20);
-            this.label43.TabIndex = 127;
-            this.label43.Text = "Place Tiles Mode";
-            this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label36
-            // 
-            this.label36.Location = new System.Drawing.Point(5, 56);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(96, 20);
-            this.label36.TabIndex = 61;
-            this.label36.Text = "Scroll Lock Axis";
-            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // editEntitiesKeyBox
-            // 
-            this.editEntitiesKeyBox.Enabled = false;
-            this.editEntitiesKeyBox.Location = new System.Drawing.Point(107, 238);
-            this.editEntitiesKeyBox.Name = "editEntitiesKeyBox";
-            this.editEntitiesKeyBox.ReadOnly = true;
-            this.editEntitiesKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.editEntitiesKeyBox.TabIndex = 126;
-            // 
-            // scrollLockAxisKeyBox
-            // 
-            this.scrollLockAxisKeyBox.Location = new System.Drawing.Point(159, 56);
-            this.scrollLockAxisKeyBox.Name = "scrollLockAxisKeyBox";
-            this.scrollLockAxisKeyBox.ReadOnly = true;
-            this.scrollLockAxisKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.scrollLockAxisKeyBox.TabIndex = 62;
-            this.scrollLockAxisKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scrollLockType_KeyDown);
-            // 
-            // label44
-            // 
-            this.label44.Enabled = false;
-            this.label44.Location = new System.Drawing.Point(5, 238);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(96, 20);
-            this.label44.TabIndex = 125;
-            this.label44.Text = "Edit Entities";
-            this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cycleLayersRKeyBox
-            // 
-            this.cycleLayersRKeyBox.Enabled = false;
-            this.cycleLayersRKeyBox.Location = new System.Drawing.Point(107, 212);
-            this.cycleLayersRKeyBox.Name = "cycleLayersRKeyBox";
-            this.cycleLayersRKeyBox.ReadOnly = true;
-            this.cycleLayersRKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.cycleLayersRKeyBox.TabIndex = 124;
-            // 
-            // label45
-            // 
-            this.label45.Enabled = false;
-            this.label45.Location = new System.Drawing.Point(2, 212);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(99, 20);
-            this.label45.TabIndex = 123;
-            this.label45.Text = "Cycle Layers Right";
-            this.label45.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label39
-            // 
-            this.label39.Enabled = false;
-            this.label39.Location = new System.Drawing.Point(2, 82);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(99, 20);
-            this.label39.TabIndex = 111;
-            this.label39.Text = "Show Grid";
-            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cycleLayersLKeyBox
-            // 
-            this.cycleLayersLKeyBox.Enabled = false;
-            this.cycleLayersLKeyBox.Location = new System.Drawing.Point(107, 186);
-            this.cycleLayersLKeyBox.Name = "cycleLayersLKeyBox";
-            this.cycleLayersLKeyBox.ReadOnly = true;
-            this.cycleLayersLKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.cycleLayersLKeyBox.TabIndex = 122;
-            // 
-            // showGridKeyBox
-            // 
-            this.showGridKeyBox.Enabled = false;
-            this.showGridKeyBox.Location = new System.Drawing.Point(107, 82);
-            this.showGridKeyBox.Name = "showGridKeyBox";
-            this.showGridKeyBox.ReadOnly = true;
-            this.showGridKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.showGridKeyBox.TabIndex = 112;
-            // 
-            // label40
-            // 
-            this.label40.Enabled = false;
-            this.label40.Location = new System.Drawing.Point(5, 186);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(96, 20);
-            this.label40.TabIndex = 121;
-            this.label40.Text = "Cycle Layers Left";
-            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label38
-            // 
-            this.label38.Enabled = false;
-            this.label38.Location = new System.Drawing.Point(5, 108);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(96, 20);
-            this.label38.TabIndex = 113;
-            this.label38.Text = "Show Tile ID";
-            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // multiLayerModeKeyBox
-            // 
-            this.multiLayerModeKeyBox.Enabled = false;
-            this.multiLayerModeKeyBox.Location = new System.Drawing.Point(107, 394);
-            this.multiLayerModeKeyBox.Name = "multiLayerModeKeyBox";
-            this.multiLayerModeKeyBox.ReadOnly = true;
-            this.multiLayerModeKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.multiLayerModeKeyBox.TabIndex = 152;
-            // 
-            // showTileIDKeyBox
-            // 
-            this.showTileIDKeyBox.Enabled = false;
-            this.showTileIDKeyBox.Location = new System.Drawing.Point(107, 108);
-            this.showTileIDKeyBox.Name = "showTileIDKeyBox";
-            this.showTileIDKeyBox.ReadOnly = true;
-            this.showTileIDKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.showTileIDKeyBox.TabIndex = 114;
-            // 
-            // label64
-            // 
-            this.label64.Enabled = false;
-            this.label64.Location = new System.Drawing.Point(5, 394);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(96, 20);
-            this.label64.TabIndex = 151;
-            this.label64.Text = "Multi-Layer Mode";
-            this.label64.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label37
-            // 
-            this.label37.Enabled = false;
-            this.label37.Location = new System.Drawing.Point(5, 134);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(96, 20);
-            this.label37.TabIndex = 115;
-            this.label37.Text = "Show Collision (A)";
-            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // showCollisionBKeyBox
-            // 
-            this.showCollisionBKeyBox.Enabled = false;
-            this.showCollisionBKeyBox.Location = new System.Drawing.Point(107, 160);
-            this.showCollisionBKeyBox.Name = "showCollisionBKeyBox";
-            this.showCollisionBKeyBox.ReadOnly = true;
-            this.showCollisionBKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.showCollisionBKeyBox.TabIndex = 118;
-            // 
-            // showCollisionAKeyBox
-            // 
-            this.showCollisionAKeyBox.Enabled = false;
-            this.showCollisionAKeyBox.Location = new System.Drawing.Point(107, 134);
-            this.showCollisionAKeyBox.Name = "showCollisionAKeyBox";
-            this.showCollisionAKeyBox.ReadOnly = true;
-            this.showCollisionAKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.showCollisionAKeyBox.TabIndex = 116;
-            // 
-            // label42
-            // 
-            this.label42.Enabled = false;
-            this.label42.Location = new System.Drawing.Point(2, 160);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(99, 20);
-            this.label42.TabIndex = 117;
-            this.label42.Text = "Show Collision (B)";
-            this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tabPage8
-            // 
-            this.tabPage8.Controls.Add(this.exportLayersKeyBox);
-            this.tabPage8.Controls.Add(this.label57);
-            this.tabPage8.Controls.Add(this.exportKeyBox);
-            this.tabPage8.Controls.Add(this.label58);
-            this.tabPage8.Controls.Add(this.label50);
-            this.tabPage8.Controls.Add(this.openSettingsKeyBox);
-            this.tabPage8.Controls.Add(this.runManiaKeyBox);
-            this.tabPage8.Controls.Add(this.label60);
-            this.tabPage8.Controls.Add(this.label49);
-            this.tabPage8.Controls.Add(this.entityManagerKeyBox);
-            this.tabPage8.Controls.Add(this.openModLoaderKeybox);
-            this.tabPage8.Controls.Add(this.label61);
-            this.tabPage8.Controls.Add(this.label69);
-            this.tabPage8.Controls.Add(this.restoreKeyBox);
-            this.tabPage8.Controls.Add(this.openRSDKAnimKeyBox);
-            this.tabPage8.Controls.Add(this.label62);
-            this.tabPage8.Controls.Add(this.label68);
-            this.tabPage8.Controls.Add(this.preLoadKeyBox);
-            this.tabPage8.Controls.Add(this.openPaletteEditKeyBox);
-            this.tabPage8.Controls.Add(this.label63);
-            this.tabPage8.Controls.Add(this.label67);
-            this.tabPage8.Controls.Add(this.backupKeyBox);
-            this.tabPage8.Controls.Add(this.openSMFolderKeyBox);
-            this.tabPage8.Controls.Add(this.label41);
-            this.tabPage8.Controls.Add(this.label66);
-            this.tabPage8.Controls.Add(this.openDataFolderKeyBox);
-            this.tabPage8.Controls.Add(this.openSceneFolderKeyBox);
-            this.tabPage8.Controls.Add(this.label65);
-            this.tabPage8.Location = new System.Drawing.Point(4, 22);
-            this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(649, 514);
-            this.tabPage8.TabIndex = 1;
-            this.tabPage8.Text = "Menu";
+            this.tabPage6.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // exportLayersKeyBox
             // 
             this.exportLayersKeyBox.Enabled = false;
-            this.exportLayersKeyBox.Location = new System.Drawing.Point(111, 136);
+            this.exportLayersKeyBox.Location = new System.Drawing.Point(595, 133);
             this.exportLayersKeyBox.Name = "exportLayersKeyBox";
             this.exportLayersKeyBox.ReadOnly = true;
             this.exportLayersKeyBox.Size = new System.Drawing.Size(103, 20);
             this.exportLayersKeyBox.TabIndex = 195;
-            // 
-            // label57
-            // 
-            this.label57.Enabled = false;
-            this.label57.Location = new System.Drawing.Point(6, 135);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(99, 20);
-            this.label57.TabIndex = 194;
-            this.label57.Text = "Export Layers";
-            this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // exportKeyBox
-            // 
-            this.exportKeyBox.Enabled = false;
-            this.exportKeyBox.Location = new System.Drawing.Point(111, 110);
-            this.exportKeyBox.Name = "exportKeyBox";
-            this.exportKeyBox.ReadOnly = true;
-            this.exportKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.exportKeyBox.TabIndex = 193;
-            // 
-            // label58
-            // 
-            this.label58.Enabled = false;
-            this.label58.Location = new System.Drawing.Point(9, 110);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(96, 20);
-            this.label58.TabIndex = 192;
-            this.label58.Text = "Export";
-            this.label58.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label50
-            // 
-            this.label50.Enabled = false;
-            this.label50.Location = new System.Drawing.Point(9, 266);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(96, 20);
-            this.label50.TabIndex = 170;
-            this.label50.Text = "Run Scene";
-            this.label50.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // openSettingsKeyBox
-            // 
-            this.openSettingsKeyBox.Enabled = false;
-            this.openSettingsKeyBox.Location = new System.Drawing.Point(111, 344);
-            this.openSettingsKeyBox.Name = "openSettingsKeyBox";
-            this.openSettingsKeyBox.ReadOnly = true;
-            this.openSettingsKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.openSettingsKeyBox.TabIndex = 191;
-            // 
-            // runManiaKeyBox
-            // 
-            this.runManiaKeyBox.Enabled = false;
-            this.runManiaKeyBox.Location = new System.Drawing.Point(111, 266);
-            this.runManiaKeyBox.Name = "runManiaKeyBox";
-            this.runManiaKeyBox.ReadOnly = true;
-            this.runManiaKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.runManiaKeyBox.TabIndex = 171;
-            // 
-            // label60
-            // 
-            this.label60.Enabled = false;
-            this.label60.Location = new System.Drawing.Point(6, 344);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(99, 20);
-            this.label60.TabIndex = 190;
-            this.label60.Text = "Open Settings";
-            this.label60.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label49
-            // 
-            this.label49.Enabled = false;
-            this.label49.Location = new System.Drawing.Point(6, 292);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(102, 20);
-            this.label49.TabIndex = 172;
-            this.label49.Text = "Open Mod Manager";
-            this.label49.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // entityManagerKeyBox
-            // 
-            this.entityManagerKeyBox.Enabled = false;
-            this.entityManagerKeyBox.Location = new System.Drawing.Point(111, 318);
-            this.entityManagerKeyBox.Name = "entityManagerKeyBox";
-            this.entityManagerKeyBox.ReadOnly = true;
-            this.entityManagerKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.entityManagerKeyBox.TabIndex = 189;
-            // 
-            // openModLoaderKeybox
-            // 
-            this.openModLoaderKeybox.Enabled = false;
-            this.openModLoaderKeybox.Location = new System.Drawing.Point(111, 292);
-            this.openModLoaderKeybox.Name = "openModLoaderKeybox";
-            this.openModLoaderKeybox.ReadOnly = true;
-            this.openModLoaderKeybox.Size = new System.Drawing.Size(103, 20);
-            this.openModLoaderKeybox.TabIndex = 173;
-            // 
-            // label61
-            // 
-            this.label61.Enabled = false;
-            this.label61.Location = new System.Drawing.Point(6, 318);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(99, 20);
-            this.label61.TabIndex = 188;
-            this.label61.Text = "Entity Manager";
-            this.label61.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label69
-            // 
-            this.label69.Enabled = false;
-            this.label69.Location = new System.Drawing.Point(6, 188);
-            this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(99, 20);
-            this.label69.TabIndex = 174;
-            this.label69.Text = "Open RSDK Anim.";
-            this.label69.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // restoreKeyBox
-            // 
-            this.restoreKeyBox.Enabled = false;
-            this.restoreKeyBox.Location = new System.Drawing.Point(111, 84);
-            this.restoreKeyBox.Name = "restoreKeyBox";
-            this.restoreKeyBox.ReadOnly = true;
-            this.restoreKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.restoreKeyBox.TabIndex = 187;
-            // 
-            // openRSDKAnimKeyBox
-            // 
-            this.openRSDKAnimKeyBox.Enabled = false;
-            this.openRSDKAnimKeyBox.Location = new System.Drawing.Point(111, 188);
-            this.openRSDKAnimKeyBox.Name = "openRSDKAnimKeyBox";
-            this.openRSDKAnimKeyBox.ReadOnly = true;
-            this.openRSDKAnimKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.openRSDKAnimKeyBox.TabIndex = 175;
-            // 
-            // label62
-            // 
-            this.label62.Enabled = false;
-            this.label62.Location = new System.Drawing.Point(12, 83);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(96, 20);
-            this.label62.TabIndex = 186;
-            this.label62.Text = "Restore";
-            this.label62.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label68
-            // 
-            this.label68.Enabled = false;
-            this.label68.Location = new System.Drawing.Point(12, 214);
-            this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(96, 20);
-            this.label68.TabIndex = 176;
-            this.label68.Text = "Open Pallete Edit.";
-            this.label68.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // preLoadKeyBox
-            // 
-            this.preLoadKeyBox.Enabled = false;
-            this.preLoadKeyBox.Location = new System.Drawing.Point(111, 162);
-            this.preLoadKeyBox.Name = "preLoadKeyBox";
-            this.preLoadKeyBox.ReadOnly = true;
-            this.preLoadKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.preLoadKeyBox.TabIndex = 185;
-            // 
-            // openPaletteEditKeyBox
-            // 
-            this.openPaletteEditKeyBox.Enabled = false;
-            this.openPaletteEditKeyBox.Location = new System.Drawing.Point(111, 214);
-            this.openPaletteEditKeyBox.Name = "openPaletteEditKeyBox";
-            this.openPaletteEditKeyBox.ReadOnly = true;
-            this.openPaletteEditKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.openPaletteEditKeyBox.TabIndex = 177;
-            // 
-            // label63
-            // 
-            this.label63.Enabled = false;
-            this.label63.Location = new System.Drawing.Point(6, 162);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(99, 20);
-            this.label63.TabIndex = 184;
-            this.label63.Text = "Pre-Load Scene";
-            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label67
-            // 
-            this.label67.Enabled = false;
-            this.label67.Location = new System.Drawing.Point(9, 240);
-            this.label67.Name = "label67";
-            this.label67.Size = new System.Drawing.Size(96, 20);
-            this.label67.TabIndex = 178;
-            this.label67.Text = "Open SM Folder";
-            this.label67.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // backupKeyBox
-            // 
-            this.backupKeyBox.Enabled = false;
-            this.backupKeyBox.Location = new System.Drawing.Point(111, 58);
-            this.backupKeyBox.Name = "backupKeyBox";
-            this.backupKeyBox.ReadOnly = true;
-            this.backupKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.backupKeyBox.TabIndex = 169;
-            // 
-            // openSMFolderKeyBox
-            // 
-            this.openSMFolderKeyBox.Enabled = false;
-            this.openSMFolderKeyBox.Location = new System.Drawing.Point(111, 240);
-            this.openSMFolderKeyBox.Name = "openSMFolderKeyBox";
-            this.openSMFolderKeyBox.ReadOnly = true;
-            this.openSMFolderKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.openSMFolderKeyBox.TabIndex = 179;
-            // 
-            // label41
-            // 
-            this.label41.Enabled = false;
-            this.label41.Location = new System.Drawing.Point(12, 57);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(96, 20);
-            this.label41.TabIndex = 168;
-            this.label41.Text = "Backup";
-            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label66
-            // 
-            this.label66.Enabled = false;
-            this.label66.Location = new System.Drawing.Point(6, 6);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(99, 20);
-            this.label66.TabIndex = 180;
-            this.label66.Text = "Open Scene Folder";
-            this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // openDataFolderKeyBox
-            // 
-            this.openDataFolderKeyBox.Enabled = false;
-            this.openDataFolderKeyBox.Location = new System.Drawing.Point(111, 32);
-            this.openDataFolderKeyBox.Name = "openDataFolderKeyBox";
-            this.openDataFolderKeyBox.ReadOnly = true;
-            this.openDataFolderKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.openDataFolderKeyBox.TabIndex = 183;
-            // 
-            // openSceneFolderKeyBox
-            // 
-            this.openSceneFolderKeyBox.Enabled = false;
-            this.openSceneFolderKeyBox.Location = new System.Drawing.Point(111, 6);
-            this.openSceneFolderKeyBox.Name = "openSceneFolderKeyBox";
-            this.openSceneFolderKeyBox.ReadOnly = true;
-            this.openSceneFolderKeyBox.Size = new System.Drawing.Size(103, 20);
-            this.openSceneFolderKeyBox.TabIndex = 181;
-            // 
-            // label65
-            // 
-            this.label65.Enabled = false;
-            this.label65.Location = new System.Drawing.Point(9, 32);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(96, 20);
-            this.label65.TabIndex = 182;
-            this.label65.Text = "Open Data Folder";
-            this.label65.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tabPage9
-            // 
-            this.tabPage9.Controls.Add(this.comboBox3);
-            this.tabPage9.Controls.Add(this.comboBox2);
-            this.tabPage9.Controls.Add(this.comboBox1);
-            this.tabPage9.Controls.Add(this.label59);
-            this.tabPage9.Controls.Add(this.label70);
-            this.tabPage9.Controls.Add(this.label71);
-            this.tabPage9.Location = new System.Drawing.Point(4, 22);
-            this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(649, 514);
-            this.tabPage9.TabIndex = 2;
-            this.tabPage9.Text = "UI";
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.Enabled = false;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "Scroll Lock",
-            "Nudge Faster",
-            "Pixel Mode"});
-            this.comboBox3.Location = new System.Drawing.Point(59, 63);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
-            this.comboBox3.TabIndex = 163;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Enabled = false;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Scroll Lock",
-            "Nudge Faster",
-            "Pixel Mode"});
-            this.comboBox2.Location = new System.Drawing.Point(59, 36);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 162;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Enabled = false;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Scroll Lock",
-            "Nudge Faster",
-            "Pixel Mode"});
-            this.comboBox1.Location = new System.Drawing.Point(59, 8);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 161;
-            this.comboBox1.Tag = "";
-            // 
-            // label59
-            // 
-            this.label59.Enabled = false;
-            this.label59.Location = new System.Drawing.Point(6, 8);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(47, 20);
-            this.label59.TabIndex = 156;
-            this.label59.Text = "Button 1";
-            this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label70
-            // 
-            this.label70.Enabled = false;
-            this.label70.Location = new System.Drawing.Point(6, 35);
-            this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(47, 20);
-            this.label70.TabIndex = 158;
-            this.label70.Text = "Button 2";
-            this.label70.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label71
-            // 
-            this.label71.Enabled = false;
-            this.label71.Location = new System.Drawing.Point(6, 62);
-            this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(47, 20);
-            this.label71.TabIndex = 160;
-            this.label71.Text = "Button 3";
-            this.label71.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.label84);
-            this.tabPage3.Controls.Add(this.textBox17);
-            this.tabPage3.Controls.Add(this.label81);
-            this.tabPage3.Controls.Add(this.label82);
-            this.tabPage3.Controls.Add(this.textBox14);
-            this.tabPage3.Controls.Add(this.textBox15);
-            this.tabPage3.Controls.Add(this.label79);
-            this.tabPage3.Controls.Add(this.label80);
-            this.tabPage3.Controls.Add(this.textBox12);
-            this.tabPage3.Controls.Add(this.textBox13);
-            this.tabPage3.Controls.Add(this.label77);
-            this.tabPage3.Controls.Add(this.label78);
-            this.tabPage3.Controls.Add(this.textBox10);
-            this.tabPage3.Controls.Add(this.textBox11);
-            this.tabPage3.Controls.Add(this.label75);
-            this.tabPage3.Controls.Add(this.label76);
-            this.tabPage3.Controls.Add(this.textBox8);
-            this.tabPage3.Controls.Add(this.textBox9);
-            this.tabPage3.Controls.Add(this.label73);
-            this.tabPage3.Controls.Add(this.label74);
-            this.tabPage3.Controls.Add(this.textBox6);
-            this.tabPage3.Controls.Add(this.textBox7);
-            this.tabPage3.Controls.Add(this.label72);
-            this.tabPage3.Controls.Add(this.label56);
-            this.tabPage3.Controls.Add(this.textBox16);
-            this.tabPage3.Controls.Add(this.textBox18);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(649, 514);
-            this.tabPage3.TabIndex = 3;
-            this.tabPage3.Text = "Common";
+            this.exportLayersKeyBox.Text = "Unbounded";
+            this.exportLayersKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label84
             // 
             this.label84.Enabled = false;
-            this.label84.Location = new System.Drawing.Point(6, 315);
+            this.label84.Location = new System.Drawing.Point(248, 315);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(110, 20);
             this.label84.TabIndex = 248;
             this.label84.Text = "Flip Tiles Horizontal";
             this.label84.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox17
+            // label57
             // 
-            this.textBox17.Enabled = false;
-            this.textBox17.Location = new System.Drawing.Point(139, 315);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.ReadOnly = true;
-            this.textBox17.Size = new System.Drawing.Size(103, 20);
-            this.textBox17.TabIndex = 246;
-            // 
-            // label81
-            // 
-            this.label81.Enabled = false;
-            this.label81.Location = new System.Drawing.Point(6, 289);
-            this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(110, 20);
-            this.label81.TabIndex = 245;
-            this.label81.Text = "Flip Tiles Vertical";
-            this.label81.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label82
-            // 
-            this.label82.Enabled = false;
-            this.label82.Location = new System.Drawing.Point(6, 263);
-            this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(127, 20);
-            this.label82.TabIndex = 244;
-            this.label82.Text = "Swap Scroll Lock Axis";
-            this.label82.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox14
-            // 
-            this.textBox14.Enabled = false;
-            this.textBox14.Location = new System.Drawing.Point(139, 263);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.ReadOnly = true;
-            this.textBox14.Size = new System.Drawing.Size(103, 20);
-            this.textBox14.TabIndex = 242;
-            // 
-            // textBox15
-            // 
-            this.textBox15.Enabled = false;
-            this.textBox15.Location = new System.Drawing.Point(139, 289);
-            this.textBox15.Name = "textBox15";
-            this.textBox15.ReadOnly = true;
-            this.textBox15.Size = new System.Drawing.Size(103, 20);
-            this.textBox15.TabIndex = 243;
-            // 
-            // label79
-            // 
-            this.label79.Enabled = false;
-            this.label79.Location = new System.Drawing.Point(6, 237);
-            this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(110, 20);
-            this.label79.TabIndex = 241;
-            this.label79.Text = "Toggle Scroll Lock";
-            this.label79.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label80
-            // 
-            this.label80.Enabled = false;
-            this.label80.Location = new System.Drawing.Point(6, 211);
-            this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(110, 20);
-            this.label80.TabIndex = 240;
-            this.label80.Text = "Toggle Faster Nudge";
-            this.label80.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox12
-            // 
-            this.textBox12.Enabled = false;
-            this.textBox12.Location = new System.Drawing.Point(139, 211);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.ReadOnly = true;
-            this.textBox12.Size = new System.Drawing.Size(103, 20);
-            this.textBox12.TabIndex = 238;
-            // 
-            // textBox13
-            // 
-            this.textBox13.Enabled = false;
-            this.textBox13.Location = new System.Drawing.Point(139, 237);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.ReadOnly = true;
-            this.textBox13.Size = new System.Drawing.Size(103, 20);
-            this.textBox13.TabIndex = 239;
-            // 
-            // label77
-            // 
-            this.label77.Enabled = false;
-            this.label77.Location = new System.Drawing.Point(6, 185);
-            this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(110, 20);
-            this.label77.TabIndex = 237;
-            this.label77.Text = "Reset Zoom Level";
-            this.label77.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label78
-            // 
-            this.label78.Enabled = false;
-            this.label78.Location = new System.Drawing.Point(6, 159);
-            this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(110, 20);
-            this.label78.TabIndex = 236;
-            this.label78.Text = "Redo";
-            this.label78.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox10
-            // 
-            this.textBox10.Enabled = false;
-            this.textBox10.Location = new System.Drawing.Point(139, 159);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.ReadOnly = true;
-            this.textBox10.Size = new System.Drawing.Size(103, 20);
-            this.textBox10.TabIndex = 234;
-            // 
-            // textBox11
-            // 
-            this.textBox11.Enabled = false;
-            this.textBox11.Location = new System.Drawing.Point(139, 185);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.ReadOnly = true;
-            this.textBox11.Size = new System.Drawing.Size(103, 20);
-            this.textBox11.TabIndex = 235;
-            // 
-            // label75
-            // 
-            this.label75.Enabled = false;
-            this.label75.Location = new System.Drawing.Point(6, 133);
-            this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(110, 20);
-            this.label75.TabIndex = 233;
-            this.label75.Text = "Undo";
-            this.label75.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label76
-            // 
-            this.label76.Enabled = false;
-            this.label76.Location = new System.Drawing.Point(6, 107);
-            this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(110, 20);
-            this.label76.TabIndex = 232;
-            this.label76.Text = "Save As";
-            this.label76.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox8
-            // 
-            this.textBox8.Enabled = false;
-            this.textBox8.Location = new System.Drawing.Point(139, 107);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(103, 20);
-            this.textBox8.TabIndex = 230;
-            // 
-            // textBox9
-            // 
-            this.textBox9.Enabled = false;
-            this.textBox9.Location = new System.Drawing.Point(139, 133);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(103, 20);
-            this.textBox9.TabIndex = 231;
-            // 
-            // label73
-            // 
-            this.label73.Enabled = false;
-            this.label73.Location = new System.Drawing.Point(6, 81);
-            this.label73.Name = "label73";
-            this.label73.Size = new System.Drawing.Size(110, 20);
-            this.label73.TabIndex = 229;
-            this.label73.Text = "Save";
-            this.label73.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label74
-            // 
-            this.label74.Enabled = false;
-            this.label74.Location = new System.Drawing.Point(6, 55);
-            this.label74.Name = "label74";
-            this.label74.Size = new System.Drawing.Size(110, 20);
-            this.label74.TabIndex = 228;
-            this.label74.Text = "Open Data Directory";
-            this.label74.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Enabled = false;
-            this.textBox6.Location = new System.Drawing.Point(139, 55);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(103, 20);
-            this.textBox6.TabIndex = 226;
-            // 
-            // textBox7
-            // 
-            this.textBox7.Enabled = false;
-            this.textBox7.Location = new System.Drawing.Point(139, 81);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(103, 20);
-            this.textBox7.TabIndex = 227;
-            // 
-            // label72
-            // 
-            this.label72.Enabled = false;
-            this.label72.Location = new System.Drawing.Point(6, 29);
-            this.label72.Name = "label72";
-            this.label72.Size = new System.Drawing.Size(110, 20);
-            this.label72.TabIndex = 225;
-            this.label72.Text = "Open";
-            this.label72.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label56
-            // 
-            this.label56.Enabled = false;
-            this.label56.Location = new System.Drawing.Point(6, 3);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(110, 20);
-            this.label56.TabIndex = 224;
-            this.label56.Text = "New";
-            this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox16
-            // 
-            this.textBox16.Enabled = false;
-            this.textBox16.Location = new System.Drawing.Point(139, 3);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.ReadOnly = true;
-            this.textBox16.Size = new System.Drawing.Size(103, 20);
-            this.textBox16.TabIndex = 197;
-            // 
-            // textBox18
-            // 
-            this.textBox18.Enabled = false;
-            this.textBox18.Location = new System.Drawing.Point(139, 29);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.ReadOnly = true;
-            this.textBox18.Size = new System.Drawing.Size(103, 20);
-            this.textBox18.TabIndex = 211;
-            // 
-            // tabPage11
-            // 
-            this.tabPage11.Controls.Add(this.label83);
-            this.tabPage11.Controls.Add(this.textBox19);
-            this.tabPage11.Controls.Add(this.label99);
-            this.tabPage11.Controls.Add(this.textBox33);
-            this.tabPage11.Controls.Add(this.label100);
-            this.tabPage11.Controls.Add(this.label101);
-            this.tabPage11.Controls.Add(this.textBox35);
-            this.tabPage11.Controls.Add(this.textBox36);
-            this.tabPage11.Controls.Add(this.label102);
-            this.tabPage11.Controls.Add(this.label103);
-            this.tabPage11.Controls.Add(this.textBox37);
-            this.tabPage11.Controls.Add(this.textBox38);
-            this.tabPage11.Controls.Add(this.label104);
-            this.tabPage11.Controls.Add(this.label105);
-            this.tabPage11.Controls.Add(this.textBox39);
-            this.tabPage11.Controls.Add(this.textBox40);
-            this.tabPage11.Controls.Add(this.label106);
-            this.tabPage11.Controls.Add(this.label107);
-            this.tabPage11.Controls.Add(this.textBox41);
-            this.tabPage11.Controls.Add(this.textBox42);
-            this.tabPage11.Controls.Add(this.label108);
-            this.tabPage11.Controls.Add(this.label109);
-            this.tabPage11.Controls.Add(this.textBox43);
-            this.tabPage11.Controls.Add(this.textBox44);
-            this.tabPage11.Location = new System.Drawing.Point(4, 22);
-            this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Size = new System.Drawing.Size(649, 514);
-            this.tabPage11.TabIndex = 4;
-            this.tabPage11.Text = "Selection";
+            this.label57.Enabled = false;
+            this.label57.Location = new System.Drawing.Point(490, 132);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(99, 20);
+            this.label57.TabIndex = 194;
+            this.label57.Text = "Export Layers";
+            this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label83
             // 
@@ -3376,71 +2393,217 @@
             this.label83.Text = "Select All";
             this.label83.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox19
+            // mouseModeKeyBox
             // 
-            this.textBox19.Enabled = false;
-            this.textBox19.Location = new System.Drawing.Point(139, 133);
-            this.textBox19.Name = "textBox19";
-            this.textBox19.ReadOnly = true;
-            this.textBox19.Size = new System.Drawing.Size(103, 20);
-            this.textBox19.TabIndex = 298;
+            this.mouseModeKeyBox.Enabled = false;
+            this.mouseModeKeyBox.Location = new System.Drawing.Point(809, 240);
+            this.mouseModeKeyBox.Name = "mouseModeKeyBox";
+            this.mouseModeKeyBox.ReadOnly = true;
+            this.mouseModeKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.mouseModeKeyBox.TabIndex = 132;
+            this.mouseModeKeyBox.Text = "Unbounded";
+            this.mouseModeKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // label99
+            // exportKeyBox
             // 
-            this.label99.Enabled = false;
-            this.label99.Location = new System.Drawing.Point(6, 107);
-            this.label99.Name = "label99";
-            this.label99.Size = new System.Drawing.Size(127, 20);
-            this.label99.TabIndex = 297;
-            this.label99.Text = "Duplicate";
-            this.label99.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.exportKeyBox.Enabled = false;
+            this.exportKeyBox.Location = new System.Drawing.Point(595, 107);
+            this.exportKeyBox.Name = "exportKeyBox";
+            this.exportKeyBox.ReadOnly = true;
+            this.exportKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.exportKeyBox.TabIndex = 193;
+            this.exportKeyBox.Text = "Unbounded";
+            this.exportKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // textBox33
+            // textBox17
             // 
-            this.textBox33.Enabled = false;
-            this.textBox33.Location = new System.Drawing.Point(139, 289);
-            this.textBox33.Name = "textBox33";
-            this.textBox33.ReadOnly = true;
-            this.textBox33.Size = new System.Drawing.Size(103, 20);
-            this.textBox33.TabIndex = 295;
+            this.textBox17.Enabled = false;
+            this.textBox17.Location = new System.Drawing.Point(381, 315);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.ReadOnly = true;
+            this.textBox17.Size = new System.Drawing.Size(103, 20);
+            this.textBox17.TabIndex = 246;
+            this.textBox17.Text = "Unbounded";
+            this.textBox17.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // label100
+            // label47
             // 
-            this.label100.Enabled = false;
-            this.label100.Location = new System.Drawing.Point(6, 55);
-            this.label100.Name = "label100";
-            this.label100.Size = new System.Drawing.Size(110, 20);
-            this.label100.TabIndex = 294;
-            this.label100.Text = "Paste";
-            this.label100.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label47.Enabled = false;
+            this.label47.Location = new System.Drawing.Point(707, 240);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(96, 20);
+            this.label47.TabIndex = 131;
+            this.label47.Text = "Mouse Mode";
+            this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label101
+            // label58
             // 
-            this.label101.Enabled = false;
-            this.label101.Location = new System.Drawing.Point(6, 29);
-            this.label101.Name = "label101";
-            this.label101.Size = new System.Drawing.Size(110, 20);
-            this.label101.TabIndex = 293;
-            this.label101.Text = "Copy";
-            this.label101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label58.Enabled = false;
+            this.label58.Location = new System.Drawing.Point(493, 107);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(96, 20);
+            this.label58.TabIndex = 192;
+            this.label58.Text = "Export";
+            this.label58.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBox35
+            // label53
             // 
-            this.textBox35.Enabled = false;
-            this.textBox35.Location = new System.Drawing.Point(139, 237);
-            this.textBox35.Name = "textBox35";
-            this.textBox35.ReadOnly = true;
-            this.textBox35.Size = new System.Drawing.Size(103, 20);
-            this.textBox35.TabIndex = 291;
+            this.label53.Location = new System.Drawing.Point(378, 264);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(46, 20);
+            this.label53.TabIndex = 155;
+            this.label53.Text = "CRTL +";
+            this.label53.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBox36
+            // label52
             // 
-            this.textBox36.Enabled = false;
-            this.textBox36.Location = new System.Drawing.Point(139, 263);
-            this.textBox36.Name = "textBox36";
-            this.textBox36.ReadOnly = true;
-            this.textBox36.Size = new System.Drawing.Size(103, 20);
-            this.textBox36.TabIndex = 292;
+            this.label52.Location = new System.Drawing.Point(378, 237);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(46, 20);
+            this.label52.TabIndex = 154;
+            this.label52.Text = "CRTL +";
+            this.label52.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label33
+            // 
+            this.label33.Location = new System.Drawing.Point(378, 211);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(46, 20);
+            this.label33.TabIndex = 153;
+            this.label33.Text = "CRTL +";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // nudgeFasterKeyBox
+            // 
+            this.nudgeFasterKeyBox.Location = new System.Drawing.Point(430, 211);
+            this.nudgeFasterKeyBox.Name = "nudgeFasterKeyBox";
+            this.nudgeFasterKeyBox.ReadOnly = true;
+            this.nudgeFasterKeyBox.Size = new System.Drawing.Size(54, 20);
+            this.nudgeFasterKeyBox.TabIndex = 58;
+            this.nudgeFasterKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.nudgeFaster_KeyDown);
+            // 
+            // scrollLockKeyBox
+            // 
+            this.scrollLockKeyBox.Location = new System.Drawing.Point(430, 237);
+            this.scrollLockKeyBox.Name = "scrollLockKeyBox";
+            this.scrollLockKeyBox.ReadOnly = true;
+            this.scrollLockKeyBox.Size = new System.Drawing.Size(54, 20);
+            this.scrollLockKeyBox.TabIndex = 60;
+            this.scrollLockKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scrollLock_KeyDown);
+            // 
+            // scrollLockAxisKeyBox
+            // 
+            this.scrollLockAxisKeyBox.Location = new System.Drawing.Point(430, 263);
+            this.scrollLockAxisKeyBox.Name = "scrollLockAxisKeyBox";
+            this.scrollLockAxisKeyBox.ReadOnly = true;
+            this.scrollLockAxisKeyBox.Size = new System.Drawing.Size(54, 20);
+            this.scrollLockAxisKeyBox.TabIndex = 62;
+            this.scrollLockAxisKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scrollLockType_KeyDown);
+            // 
+            // label50
+            // 
+            this.label50.Enabled = false;
+            this.label50.Location = new System.Drawing.Point(493, 263);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(96, 20);
+            this.label50.TabIndex = 170;
+            this.label50.Text = "Run Scene";
+            this.label50.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // selectionModeKeyBox
+            // 
+            this.selectionModeKeyBox.Enabled = false;
+            this.selectionModeKeyBox.Location = new System.Drawing.Point(809, 214);
+            this.selectionModeKeyBox.Name = "selectionModeKeyBox";
+            this.selectionModeKeyBox.ReadOnly = true;
+            this.selectionModeKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.selectionModeKeyBox.TabIndex = 130;
+            this.selectionModeKeyBox.Text = "Unbounded";
+            this.selectionModeKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label81
+            // 
+            this.label81.Enabled = false;
+            this.label81.Location = new System.Drawing.Point(248, 289);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(110, 20);
+            this.label81.TabIndex = 245;
+            this.label81.Text = "Flip Tiles Vertical";
+            this.label81.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // openSettingsKeyBox
+            // 
+            this.openSettingsKeyBox.Enabled = false;
+            this.openSettingsKeyBox.Location = new System.Drawing.Point(595, 341);
+            this.openSettingsKeyBox.Name = "openSettingsKeyBox";
+            this.openSettingsKeyBox.ReadOnly = true;
+            this.openSettingsKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.openSettingsKeyBox.TabIndex = 191;
+            this.openSettingsKeyBox.Text = "Unbounded";
+            this.openSettingsKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // selectAllControl
+            // 
+            this.selectAllControl.Enabled = false;
+            this.selectAllControl.Location = new System.Drawing.Point(139, 133);
+            this.selectAllControl.Name = "selectAllControl";
+            this.selectAllControl.ReadOnly = true;
+            this.selectAllControl.Size = new System.Drawing.Size(103, 20);
+            this.selectAllControl.TabIndex = 298;
+            this.selectAllControl.Text = "Unbounded";
+            this.selectAllControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label48
+            // 
+            this.label48.Enabled = false;
+            this.label48.Location = new System.Drawing.Point(704, 214);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(99, 20);
+            this.label48.TabIndex = 129;
+            this.label48.Text = "Selection Mode";
+            this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // runManiaKeyBox
+            // 
+            this.runManiaKeyBox.Enabled = false;
+            this.runManiaKeyBox.Location = new System.Drawing.Point(595, 263);
+            this.runManiaKeyBox.Name = "runManiaKeyBox";
+            this.runManiaKeyBox.ReadOnly = true;
+            this.runManiaKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.runManiaKeyBox.TabIndex = 171;
+            this.runManiaKeyBox.Text = "Unbounded";
+            this.runManiaKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label82
+            // 
+            this.label82.Enabled = false;
+            this.label82.Location = new System.Drawing.Point(248, 263);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(113, 20);
+            this.label82.TabIndex = 244;
+            this.label82.Text = "Swap Scroll Lock Axis";
+            this.label82.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // placeTilesKeyBox
+            // 
+            this.placeTilesKeyBox.Enabled = false;
+            this.placeTilesKeyBox.Location = new System.Drawing.Point(809, 188);
+            this.placeTilesKeyBox.Name = "placeTilesKeyBox";
+            this.placeTilesKeyBox.ReadOnly = true;
+            this.placeTilesKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.placeTilesKeyBox.TabIndex = 128;
+            this.placeTilesKeyBox.Text = "Unbounded";
+            this.placeTilesKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label60
+            // 
+            this.label60.Enabled = false;
+            this.label60.Location = new System.Drawing.Point(490, 341);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(99, 20);
+            this.label60.TabIndex = 190;
+            this.label60.Text = "Open Settings";
+            this.label60.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label102
             // 
@@ -3452,119 +2615,405 @@
             this.label102.Text = "Cut";
             this.label102.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label103
+            // label43
             // 
-            this.label103.Enabled = false;
-            this.label103.Location = new System.Drawing.Point(6, 185);
-            this.label103.Name = "label103";
-            this.label103.Size = new System.Drawing.Size(110, 20);
-            this.label103.TabIndex = 289;
-            this.label103.Text = "Flip Horizontal";
-            this.label103.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label43.Enabled = false;
+            this.label43.Location = new System.Drawing.Point(707, 188);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(96, 20);
+            this.label43.TabIndex = 127;
+            this.label43.Text = "Place Tiles Mode";
+            this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBox37
+            // label49
             // 
-            this.textBox37.Enabled = false;
-            this.textBox37.Location = new System.Drawing.Point(139, 185);
-            this.textBox37.Name = "textBox37";
-            this.textBox37.ReadOnly = true;
-            this.textBox37.Size = new System.Drawing.Size(103, 20);
-            this.textBox37.TabIndex = 287;
+            this.label49.Enabled = false;
+            this.label49.Location = new System.Drawing.Point(490, 289);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(102, 20);
+            this.label49.TabIndex = 172;
+            this.label49.Text = "Open Mod Manager";
+            this.label49.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBox38
+            // textBox14
             // 
-            this.textBox38.Enabled = false;
-            this.textBox38.Location = new System.Drawing.Point(139, 211);
-            this.textBox38.Name = "textBox38";
-            this.textBox38.ReadOnly = true;
-            this.textBox38.Size = new System.Drawing.Size(103, 20);
-            this.textBox38.TabIndex = 288;
+            this.textBox14.Enabled = false;
+            this.textBox14.Location = new System.Drawing.Point(944, 520);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.ReadOnly = true;
+            this.textBox14.Size = new System.Drawing.Size(11, 20);
+            this.textBox14.TabIndex = 242;
+            this.textBox14.Visible = false;
+            this.textBox14.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // label104
+            // editEntitiesKeyBox
             // 
-            this.label104.Enabled = false;
-            this.label104.Location = new System.Drawing.Point(6, 159);
-            this.label104.Name = "label104";
-            this.label104.Size = new System.Drawing.Size(110, 20);
-            this.label104.TabIndex = 286;
-            this.label104.Text = "Flip Vertical";
-            this.label104.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.editEntitiesKeyBox.Enabled = false;
+            this.editEntitiesKeyBox.Location = new System.Drawing.Point(809, 162);
+            this.editEntitiesKeyBox.Name = "editEntitiesKeyBox";
+            this.editEntitiesKeyBox.ReadOnly = true;
+            this.editEntitiesKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.editEntitiesKeyBox.TabIndex = 126;
+            this.editEntitiesKeyBox.Text = "Unbounded";
+            this.editEntitiesKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // label105
+            // entityManagerKeyBox
             // 
-            this.label105.Enabled = false;
-            this.label105.Location = new System.Drawing.Point(6, 289);
-            this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(110, 20);
-            this.label105.TabIndex = 285;
-            this.label105.Text = "Move Right";
-            this.label105.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.entityManagerKeyBox.Enabled = false;
+            this.entityManagerKeyBox.Location = new System.Drawing.Point(595, 315);
+            this.entityManagerKeyBox.Name = "entityManagerKeyBox";
+            this.entityManagerKeyBox.ReadOnly = true;
+            this.entityManagerKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.entityManagerKeyBox.TabIndex = 189;
+            this.entityManagerKeyBox.Text = "Unbounded";
+            this.entityManagerKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // textBox39
+            // label99
             // 
-            this.textBox39.Enabled = false;
-            this.textBox39.Location = new System.Drawing.Point(139, 107);
-            this.textBox39.Name = "textBox39";
-            this.textBox39.ReadOnly = true;
-            this.textBox39.Size = new System.Drawing.Size(103, 20);
-            this.textBox39.TabIndex = 283;
+            this.label99.Enabled = false;
+            this.label99.Location = new System.Drawing.Point(6, 107);
+            this.label99.Name = "label99";
+            this.label99.Size = new System.Drawing.Size(127, 20);
+            this.label99.TabIndex = 297;
+            this.label99.Text = "Duplicate";
+            this.label99.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox40
+            // label44
             // 
-            this.textBox40.Enabled = false;
-            this.textBox40.Location = new System.Drawing.Point(139, 159);
-            this.textBox40.Name = "textBox40";
-            this.textBox40.ReadOnly = true;
-            this.textBox40.Size = new System.Drawing.Size(103, 20);
-            this.textBox40.TabIndex = 284;
+            this.label44.Enabled = false;
+            this.label44.Location = new System.Drawing.Point(707, 162);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(96, 20);
+            this.label44.TabIndex = 125;
+            this.label44.Text = "Edit Entities";
+            this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label106
+            // openModLoaderKeybox
             // 
-            this.label106.Enabled = false;
-            this.label106.Location = new System.Drawing.Point(6, 263);
-            this.label106.Name = "label106";
-            this.label106.Size = new System.Drawing.Size(110, 20);
-            this.label106.TabIndex = 282;
-            this.label106.Text = "Move Left";
-            this.label106.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.openModLoaderKeybox.Enabled = false;
+            this.openModLoaderKeybox.Location = new System.Drawing.Point(595, 289);
+            this.openModLoaderKeybox.Name = "openModLoaderKeybox";
+            this.openModLoaderKeybox.ReadOnly = true;
+            this.openModLoaderKeybox.Size = new System.Drawing.Size(103, 20);
+            this.openModLoaderKeybox.TabIndex = 173;
+            this.openModLoaderKeybox.Text = "Unbounded";
+            this.openModLoaderKeybox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // label107
+            // cycleLayersRKeyBox
             // 
-            this.label107.Enabled = false;
-            this.label107.Location = new System.Drawing.Point(6, 237);
-            this.label107.Name = "label107";
-            this.label107.Size = new System.Drawing.Size(110, 20);
-            this.label107.TabIndex = 281;
-            this.label107.Text = "Move Down";
-            this.label107.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cycleLayersRKeyBox.Enabled = false;
+            this.cycleLayersRKeyBox.Location = new System.Drawing.Point(809, 136);
+            this.cycleLayersRKeyBox.Name = "cycleLayersRKeyBox";
+            this.cycleLayersRKeyBox.ReadOnly = true;
+            this.cycleLayersRKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.cycleLayersRKeyBox.TabIndex = 124;
+            this.cycleLayersRKeyBox.Text = "Unbounded";
+            this.cycleLayersRKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // textBox41
+            // textBox15
             // 
-            this.textBox41.Enabled = false;
-            this.textBox41.Location = new System.Drawing.Point(139, 55);
-            this.textBox41.Name = "textBox41";
-            this.textBox41.ReadOnly = true;
-            this.textBox41.Size = new System.Drawing.Size(103, 20);
-            this.textBox41.TabIndex = 279;
+            this.textBox15.Enabled = false;
+            this.textBox15.Location = new System.Drawing.Point(381, 289);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.ReadOnly = true;
+            this.textBox15.Size = new System.Drawing.Size(103, 20);
+            this.textBox15.TabIndex = 243;
+            this.textBox15.Text = "Unbounded";
+            this.textBox15.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
-            // textBox42
+            // label45
             // 
-            this.textBox42.Enabled = false;
-            this.textBox42.Location = new System.Drawing.Point(139, 81);
-            this.textBox42.Name = "textBox42";
-            this.textBox42.ReadOnly = true;
-            this.textBox42.Size = new System.Drawing.Size(103, 20);
-            this.textBox42.TabIndex = 280;
+            this.label45.Enabled = false;
+            this.label45.Location = new System.Drawing.Point(704, 136);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(99, 20);
+            this.label45.TabIndex = 123;
+            this.label45.Text = "Cycle Layers Right";
+            this.label45.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label108
+            // label61
             // 
-            this.label108.Enabled = false;
-            this.label108.Location = new System.Drawing.Point(6, 211);
-            this.label108.Name = "label108";
-            this.label108.Size = new System.Drawing.Size(110, 20);
-            this.label108.TabIndex = 278;
-            this.label108.Text = "Move Up";
-            this.label108.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label61.Enabled = false;
+            this.label61.Location = new System.Drawing.Point(490, 315);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(99, 20);
+            this.label61.TabIndex = 188;
+            this.label61.Text = "Entity Manager";
+            this.label61.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label39
+            // 
+            this.label39.Enabled = false;
+            this.label39.Location = new System.Drawing.Point(704, 6);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(99, 20);
+            this.label39.TabIndex = 111;
+            this.label39.Text = "Show Grid";
+            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cycleLayersLKeyBox
+            // 
+            this.cycleLayersLKeyBox.Enabled = false;
+            this.cycleLayersLKeyBox.Location = new System.Drawing.Point(809, 110);
+            this.cycleLayersLKeyBox.Name = "cycleLayersLKeyBox";
+            this.cycleLayersLKeyBox.ReadOnly = true;
+            this.cycleLayersLKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.cycleLayersLKeyBox.TabIndex = 122;
+            this.cycleLayersLKeyBox.Text = "Unbounded";
+            this.cycleLayersLKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // copyControl
+            // 
+            this.copyControl.Enabled = false;
+            this.copyControl.Location = new System.Drawing.Point(139, 29);
+            this.copyControl.Name = "copyControl";
+            this.copyControl.ReadOnly = true;
+            this.copyControl.Size = new System.Drawing.Size(103, 20);
+            this.copyControl.TabIndex = 276;
+            this.copyControl.Text = "Unbounded";
+            this.copyControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // showGridKeyBox
+            // 
+            this.showGridKeyBox.Enabled = false;
+            this.showGridKeyBox.Location = new System.Drawing.Point(809, 6);
+            this.showGridKeyBox.Name = "showGridKeyBox";
+            this.showGridKeyBox.ReadOnly = true;
+            this.showGridKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.showGridKeyBox.TabIndex = 112;
+            this.showGridKeyBox.Text = "Unbounded";
+            this.showGridKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label69
+            // 
+            this.label69.Enabled = false;
+            this.label69.Location = new System.Drawing.Point(490, 185);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(99, 20);
+            this.label69.TabIndex = 174;
+            this.label69.Text = "Open RSDK Anim.";
+            this.label69.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label40
+            // 
+            this.label40.Enabled = false;
+            this.label40.Location = new System.Drawing.Point(707, 110);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(96, 20);
+            this.label40.TabIndex = 121;
+            this.label40.Text = "Cycle Layers Left";
+            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label79
+            // 
+            this.label79.Enabled = false;
+            this.label79.Location = new System.Drawing.Point(248, 237);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(110, 20);
+            this.label79.TabIndex = 241;
+            this.label79.Text = "Toggle Scroll Lock";
+            this.label79.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label38
+            // 
+            this.label38.Enabled = false;
+            this.label38.Location = new System.Drawing.Point(707, 32);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(96, 20);
+            this.label38.TabIndex = 113;
+            this.label38.Text = "Show Tile ID";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // restoreKeyBox
+            // 
+            this.restoreKeyBox.Enabled = false;
+            this.restoreKeyBox.Location = new System.Drawing.Point(595, 81);
+            this.restoreKeyBox.Name = "restoreKeyBox";
+            this.restoreKeyBox.ReadOnly = true;
+            this.restoreKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.restoreKeyBox.TabIndex = 187;
+            this.restoreKeyBox.Text = "Unbounded";
+            this.restoreKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // moveRightControl
+            // 
+            this.moveRightControl.Enabled = false;
+            this.moveRightControl.Location = new System.Drawing.Point(139, 289);
+            this.moveRightControl.Name = "moveRightControl";
+            this.moveRightControl.ReadOnly = true;
+            this.moveRightControl.Size = new System.Drawing.Size(103, 20);
+            this.moveRightControl.TabIndex = 295;
+            this.moveRightControl.Text = "Unbounded";
+            this.moveRightControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // showTileIDKeyBox
+            // 
+            this.showTileIDKeyBox.Enabled = false;
+            this.showTileIDKeyBox.Location = new System.Drawing.Point(809, 32);
+            this.showTileIDKeyBox.Name = "showTileIDKeyBox";
+            this.showTileIDKeyBox.ReadOnly = true;
+            this.showTileIDKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.showTileIDKeyBox.TabIndex = 114;
+            this.showTileIDKeyBox.Text = "Unbounded";
+            this.showTileIDKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // openRSDKAnimKeyBox
+            // 
+            this.openRSDKAnimKeyBox.Enabled = false;
+            this.openRSDKAnimKeyBox.Location = new System.Drawing.Point(595, 185);
+            this.openRSDKAnimKeyBox.Name = "openRSDKAnimKeyBox";
+            this.openRSDKAnimKeyBox.ReadOnly = true;
+            this.openRSDKAnimKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.openRSDKAnimKeyBox.TabIndex = 175;
+            this.openRSDKAnimKeyBox.Text = "Unbounded";
+            this.openRSDKAnimKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label80
+            // 
+            this.label80.Enabled = false;
+            this.label80.Location = new System.Drawing.Point(248, 211);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(110, 20);
+            this.label80.TabIndex = 240;
+            this.label80.Text = "Toggle Faster Nudge";
+            this.label80.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label37
+            // 
+            this.label37.Enabled = false;
+            this.label37.Location = new System.Drawing.Point(707, 58);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(96, 20);
+            this.label37.TabIndex = 115;
+            this.label37.Text = "Show Collision (A)";
+            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label62
+            // 
+            this.label62.Enabled = false;
+            this.label62.Location = new System.Drawing.Point(496, 80);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(96, 20);
+            this.label62.TabIndex = 186;
+            this.label62.Text = "Restore";
+            this.label62.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // showCollisionBKeyBox
+            // 
+            this.showCollisionBKeyBox.Enabled = false;
+            this.showCollisionBKeyBox.Location = new System.Drawing.Point(809, 84);
+            this.showCollisionBKeyBox.Name = "showCollisionBKeyBox";
+            this.showCollisionBKeyBox.ReadOnly = true;
+            this.showCollisionBKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.showCollisionBKeyBox.TabIndex = 118;
+            this.showCollisionBKeyBox.Text = "Unbounded";
+            this.showCollisionBKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // cutControl
+            // 
+            this.cutControl.Enabled = false;
+            this.cutControl.Location = new System.Drawing.Point(139, 3);
+            this.cutControl.Name = "cutControl";
+            this.cutControl.ReadOnly = true;
+            this.cutControl.Size = new System.Drawing.Size(103, 20);
+            this.cutControl.TabIndex = 275;
+            this.cutControl.Text = "Unbounded";
+            this.cutControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // showCollisionAKeyBox
+            // 
+            this.showCollisionAKeyBox.Enabled = false;
+            this.showCollisionAKeyBox.Location = new System.Drawing.Point(809, 58);
+            this.showCollisionAKeyBox.Name = "showCollisionAKeyBox";
+            this.showCollisionAKeyBox.ReadOnly = true;
+            this.showCollisionAKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.showCollisionAKeyBox.TabIndex = 116;
+            this.showCollisionAKeyBox.Text = "Unbounded";
+            this.showCollisionAKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label68
+            // 
+            this.label68.Enabled = false;
+            this.label68.Location = new System.Drawing.Point(496, 211);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(96, 20);
+            this.label68.TabIndex = 176;
+            this.label68.Text = "Open Pallete Edit.";
+            this.label68.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label42
+            // 
+            this.label42.Enabled = false;
+            this.label42.Location = new System.Drawing.Point(704, 84);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(99, 20);
+            this.label42.TabIndex = 117;
+            this.label42.Text = "Show Collision (B)";
+            this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBox12
+            // 
+            this.textBox12.Enabled = false;
+            this.textBox12.Location = new System.Drawing.Point(944, 468);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.ReadOnly = true;
+            this.textBox12.Size = new System.Drawing.Size(11, 20);
+            this.textBox12.TabIndex = 238;
+            this.textBox12.Visible = false;
+            this.textBox12.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // preLoadKeyBox
+            // 
+            this.preLoadKeyBox.Enabled = false;
+            this.preLoadKeyBox.Location = new System.Drawing.Point(595, 159);
+            this.preLoadKeyBox.Name = "preLoadKeyBox";
+            this.preLoadKeyBox.ReadOnly = true;
+            this.preLoadKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.preLoadKeyBox.TabIndex = 185;
+            this.preLoadKeyBox.Text = "Unbounded";
+            this.preLoadKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label100
+            // 
+            this.label100.Enabled = false;
+            this.label100.Location = new System.Drawing.Point(6, 55);
+            this.label100.Name = "label100";
+            this.label100.Size = new System.Drawing.Size(110, 20);
+            this.label100.TabIndex = 294;
+            this.label100.Text = "Paste";
+            this.label100.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // openPaletteEditKeyBox
+            // 
+            this.openPaletteEditKeyBox.Enabled = false;
+            this.openPaletteEditKeyBox.Location = new System.Drawing.Point(595, 211);
+            this.openPaletteEditKeyBox.Name = "openPaletteEditKeyBox";
+            this.openPaletteEditKeyBox.ReadOnly = true;
+            this.openPaletteEditKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.openPaletteEditKeyBox.TabIndex = 177;
+            this.openPaletteEditKeyBox.Text = "Unbounded";
+            this.openPaletteEditKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // textBox13
+            // 
+            this.textBox13.Enabled = false;
+            this.textBox13.Location = new System.Drawing.Point(944, 494);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.ReadOnly = true;
+            this.textBox13.Size = new System.Drawing.Size(11, 20);
+            this.textBox13.TabIndex = 239;
+            this.textBox13.Visible = false;
+            this.textBox13.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label63
+            // 
+            this.label63.Enabled = false;
+            this.label63.Location = new System.Drawing.Point(490, 159);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(99, 20);
+            this.label63.TabIndex = 184;
+            this.label63.Text = "Pre-Load Scene";
+            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label109
             // 
@@ -3576,23 +3025,415 @@
             this.label109.Text = "Delete";
             this.label109.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox43
+            // label67
             // 
-            this.textBox43.Enabled = false;
-            this.textBox43.Location = new System.Drawing.Point(139, 3);
-            this.textBox43.Name = "textBox43";
-            this.textBox43.ReadOnly = true;
-            this.textBox43.Size = new System.Drawing.Size(103, 20);
-            this.textBox43.TabIndex = 275;
+            this.label67.Enabled = false;
+            this.label67.Location = new System.Drawing.Point(493, 237);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(96, 20);
+            this.label67.TabIndex = 178;
+            this.label67.Text = "Open SM Folder";
+            this.label67.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBox44
+            // label77
             // 
-            this.textBox44.Enabled = false;
-            this.textBox44.Location = new System.Drawing.Point(139, 29);
-            this.textBox44.Name = "textBox44";
-            this.textBox44.ReadOnly = true;
-            this.textBox44.Size = new System.Drawing.Size(103, 20);
-            this.textBox44.TabIndex = 276;
+            this.label77.Enabled = false;
+            this.label77.Location = new System.Drawing.Point(248, 185);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(110, 20);
+            this.label77.TabIndex = 237;
+            this.label77.Text = "Reset Zoom Level";
+            this.label77.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // backupKeyBox
+            // 
+            this.backupKeyBox.Enabled = false;
+            this.backupKeyBox.Location = new System.Drawing.Point(595, 55);
+            this.backupKeyBox.Name = "backupKeyBox";
+            this.backupKeyBox.ReadOnly = true;
+            this.backupKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.backupKeyBox.TabIndex = 169;
+            this.backupKeyBox.Text = "Unbounded";
+            this.backupKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label101
+            // 
+            this.label101.Enabled = false;
+            this.label101.Location = new System.Drawing.Point(6, 29);
+            this.label101.Name = "label101";
+            this.label101.Size = new System.Drawing.Size(110, 20);
+            this.label101.TabIndex = 293;
+            this.label101.Text = "Copy";
+            this.label101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // openSMFolderKeyBox
+            // 
+            this.openSMFolderKeyBox.Enabled = false;
+            this.openSMFolderKeyBox.Location = new System.Drawing.Point(595, 237);
+            this.openSMFolderKeyBox.Name = "openSMFolderKeyBox";
+            this.openSMFolderKeyBox.ReadOnly = true;
+            this.openSMFolderKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.openSMFolderKeyBox.TabIndex = 179;
+            this.openSMFolderKeyBox.Text = "Unbounded";
+            this.openSMFolderKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label78
+            // 
+            this.label78.Enabled = false;
+            this.label78.Location = new System.Drawing.Point(248, 159);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(110, 20);
+            this.label78.TabIndex = 236;
+            this.label78.Text = "Redo";
+            this.label78.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label41
+            // 
+            this.label41.Enabled = false;
+            this.label41.Location = new System.Drawing.Point(496, 54);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(96, 20);
+            this.label41.TabIndex = 168;
+            this.label41.Text = "Backup";
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label108
+            // 
+            this.label108.Enabled = false;
+            this.label108.Location = new System.Drawing.Point(6, 211);
+            this.label108.Name = "label108";
+            this.label108.Size = new System.Drawing.Size(110, 20);
+            this.label108.TabIndex = 278;
+            this.label108.Text = "Move Up";
+            this.label108.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label66
+            // 
+            this.label66.Enabled = false;
+            this.label66.Location = new System.Drawing.Point(490, 3);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(99, 20);
+            this.label66.TabIndex = 180;
+            this.label66.Text = "Open Scene Folder";
+            this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // openDataFolderKeyBox
+            // 
+            this.openDataFolderKeyBox.Enabled = false;
+            this.openDataFolderKeyBox.Location = new System.Drawing.Point(595, 29);
+            this.openDataFolderKeyBox.Name = "openDataFolderKeyBox";
+            this.openDataFolderKeyBox.ReadOnly = true;
+            this.openDataFolderKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.openDataFolderKeyBox.TabIndex = 183;
+            this.openDataFolderKeyBox.Text = "Unbounded";
+            this.openDataFolderKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // textBox10
+            // 
+            this.textBox10.Enabled = false;
+            this.textBox10.Location = new System.Drawing.Point(381, 159);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.ReadOnly = true;
+            this.textBox10.Size = new System.Drawing.Size(103, 20);
+            this.textBox10.TabIndex = 234;
+            this.textBox10.Text = "Unbounded";
+            this.textBox10.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // openSceneFolderKeyBox
+            // 
+            this.openSceneFolderKeyBox.Enabled = false;
+            this.openSceneFolderKeyBox.Location = new System.Drawing.Point(595, 3);
+            this.openSceneFolderKeyBox.Name = "openSceneFolderKeyBox";
+            this.openSceneFolderKeyBox.ReadOnly = true;
+            this.openSceneFolderKeyBox.Size = new System.Drawing.Size(103, 20);
+            this.openSceneFolderKeyBox.TabIndex = 181;
+            this.openSceneFolderKeyBox.Text = "Unbounded";
+            this.openSceneFolderKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // moveDownControl
+            // 
+            this.moveDownControl.Enabled = false;
+            this.moveDownControl.Location = new System.Drawing.Point(139, 237);
+            this.moveDownControl.Name = "moveDownControl";
+            this.moveDownControl.ReadOnly = true;
+            this.moveDownControl.Size = new System.Drawing.Size(103, 20);
+            this.moveDownControl.TabIndex = 291;
+            this.moveDownControl.Text = "Unbounded";
+            this.moveDownControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label65
+            // 
+            this.label65.Enabled = false;
+            this.label65.Location = new System.Drawing.Point(493, 29);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(96, 20);
+            this.label65.TabIndex = 182;
+            this.label65.Text = "Open Data Folder";
+            this.label65.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBox11
+            // 
+            this.textBox11.Enabled = false;
+            this.textBox11.Location = new System.Drawing.Point(381, 185);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.Size = new System.Drawing.Size(103, 20);
+            this.textBox11.TabIndex = 235;
+            this.textBox11.Text = "Unbounded";
+            this.textBox11.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // deleteControl
+            // 
+            this.deleteControl.Enabled = false;
+            this.deleteControl.Location = new System.Drawing.Point(139, 81);
+            this.deleteControl.Name = "deleteControl";
+            this.deleteControl.ReadOnly = true;
+            this.deleteControl.Size = new System.Drawing.Size(103, 20);
+            this.deleteControl.TabIndex = 280;
+            this.deleteControl.Text = "Unbounded";
+            this.deleteControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label75
+            // 
+            this.label75.Enabled = false;
+            this.label75.Location = new System.Drawing.Point(248, 133);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(110, 20);
+            this.label75.TabIndex = 233;
+            this.label75.Text = "Undo";
+            this.label75.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // moveLeftControl
+            // 
+            this.moveLeftControl.Enabled = false;
+            this.moveLeftControl.Location = new System.Drawing.Point(139, 263);
+            this.moveLeftControl.Name = "moveLeftControl";
+            this.moveLeftControl.ReadOnly = true;
+            this.moveLeftControl.Size = new System.Drawing.Size(103, 20);
+            this.moveLeftControl.TabIndex = 292;
+            this.moveLeftControl.Text = "Unbounded";
+            this.moveLeftControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label76
+            // 
+            this.label76.Enabled = false;
+            this.label76.Location = new System.Drawing.Point(248, 107);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(110, 20);
+            this.label76.TabIndex = 232;
+            this.label76.Text = "Save As";
+            this.label76.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pasteControl
+            // 
+            this.pasteControl.Enabled = false;
+            this.pasteControl.Location = new System.Drawing.Point(139, 55);
+            this.pasteControl.Name = "pasteControl";
+            this.pasteControl.ReadOnly = true;
+            this.pasteControl.Size = new System.Drawing.Size(103, 20);
+            this.pasteControl.TabIndex = 279;
+            this.pasteControl.Text = "Unbounded";
+            this.pasteControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // textBox8
+            // 
+            this.textBox8.Enabled = false;
+            this.textBox8.Location = new System.Drawing.Point(381, 107);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.ReadOnly = true;
+            this.textBox8.Size = new System.Drawing.Size(103, 20);
+            this.textBox8.TabIndex = 230;
+            this.textBox8.Text = "Unbounded";
+            this.textBox8.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label107
+            // 
+            this.label107.Enabled = false;
+            this.label107.Location = new System.Drawing.Point(6, 237);
+            this.label107.Name = "label107";
+            this.label107.Size = new System.Drawing.Size(110, 20);
+            this.label107.TabIndex = 281;
+            this.label107.Text = "Move Down";
+            this.label107.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox9
+            // 
+            this.textBox9.Enabled = false;
+            this.textBox9.Location = new System.Drawing.Point(381, 133);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.ReadOnly = true;
+            this.textBox9.Size = new System.Drawing.Size(103, 20);
+            this.textBox9.TabIndex = 231;
+            this.textBox9.Text = "Unbounded";
+            this.textBox9.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label103
+            // 
+            this.label103.Enabled = false;
+            this.label103.Location = new System.Drawing.Point(6, 185);
+            this.label103.Name = "label103";
+            this.label103.Size = new System.Drawing.Size(110, 20);
+            this.label103.TabIndex = 289;
+            this.label103.Text = "Flip Horizontal";
+            this.label103.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label73
+            // 
+            this.label73.Enabled = false;
+            this.label73.Location = new System.Drawing.Point(248, 81);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(110, 20);
+            this.label73.TabIndex = 229;
+            this.label73.Text = "Save";
+            this.label73.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label106
+            // 
+            this.label106.Enabled = false;
+            this.label106.Location = new System.Drawing.Point(6, 263);
+            this.label106.Name = "label106";
+            this.label106.Size = new System.Drawing.Size(110, 20);
+            this.label106.TabIndex = 282;
+            this.label106.Text = "Move Left";
+            this.label106.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label74
+            // 
+            this.label74.Enabled = false;
+            this.label74.Location = new System.Drawing.Point(248, 55);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(110, 20);
+            this.label74.TabIndex = 228;
+            this.label74.Text = "Open Data Directory";
+            this.label74.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // flipHorizontalControl
+            // 
+            this.flipHorizontalControl.Enabled = false;
+            this.flipHorizontalControl.Location = new System.Drawing.Point(139, 185);
+            this.flipHorizontalControl.Name = "flipHorizontalControl";
+            this.flipHorizontalControl.ReadOnly = true;
+            this.flipHorizontalControl.Size = new System.Drawing.Size(103, 20);
+            this.flipHorizontalControl.TabIndex = 287;
+            this.flipHorizontalControl.Text = "Unbounded";
+            this.flipHorizontalControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // textBox6
+            // 
+            this.textBox6.Enabled = false;
+            this.textBox6.Location = new System.Drawing.Point(381, 55);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.ReadOnly = true;
+            this.textBox6.Size = new System.Drawing.Size(103, 20);
+            this.textBox6.TabIndex = 226;
+            this.textBox6.Text = "Unbounded";
+            this.textBox6.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // flipVeritcalControl
+            // 
+            this.flipVeritcalControl.Enabled = false;
+            this.flipVeritcalControl.Location = new System.Drawing.Point(139, 159);
+            this.flipVeritcalControl.Name = "flipVeritcalControl";
+            this.flipVeritcalControl.ReadOnly = true;
+            this.flipVeritcalControl.Size = new System.Drawing.Size(103, 20);
+            this.flipVeritcalControl.TabIndex = 284;
+            this.flipVeritcalControl.Text = "Unbounded";
+            this.flipVeritcalControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // textBox7
+            // 
+            this.textBox7.Enabled = false;
+            this.textBox7.Location = new System.Drawing.Point(381, 81);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.ReadOnly = true;
+            this.textBox7.Size = new System.Drawing.Size(103, 20);
+            this.textBox7.TabIndex = 227;
+            this.textBox7.Text = "Unbounded";
+            this.textBox7.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // moveUpControl
+            // 
+            this.moveUpControl.Enabled = false;
+            this.moveUpControl.Location = new System.Drawing.Point(139, 211);
+            this.moveUpControl.Name = "moveUpControl";
+            this.moveUpControl.ReadOnly = true;
+            this.moveUpControl.Size = new System.Drawing.Size(103, 20);
+            this.moveUpControl.TabIndex = 288;
+            this.moveUpControl.Text = "Unbounded";
+            this.moveUpControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label72
+            // 
+            this.label72.Enabled = false;
+            this.label72.Location = new System.Drawing.Point(248, 29);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(110, 20);
+            this.label72.TabIndex = 225;
+            this.label72.Text = "Open";
+            this.label72.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // duplicateControl
+            // 
+            this.duplicateControl.Enabled = false;
+            this.duplicateControl.Location = new System.Drawing.Point(139, 107);
+            this.duplicateControl.Name = "duplicateControl";
+            this.duplicateControl.ReadOnly = true;
+            this.duplicateControl.Size = new System.Drawing.Size(103, 20);
+            this.duplicateControl.TabIndex = 283;
+            this.duplicateControl.Text = "Unbounded";
+            this.duplicateControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label56
+            // 
+            this.label56.Enabled = false;
+            this.label56.Location = new System.Drawing.Point(248, 3);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(110, 20);
+            this.label56.TabIndex = 224;
+            this.label56.Text = "New";
+            this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox16
+            // 
+            this.textBox16.Enabled = false;
+            this.textBox16.Location = new System.Drawing.Point(381, 3);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.ReadOnly = true;
+            this.textBox16.Size = new System.Drawing.Size(103, 20);
+            this.textBox16.TabIndex = 197;
+            this.textBox16.Text = "Unbounded";
+            this.textBox16.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label104
+            // 
+            this.label104.Enabled = false;
+            this.label104.Location = new System.Drawing.Point(6, 159);
+            this.label104.Name = "label104";
+            this.label104.Size = new System.Drawing.Size(110, 20);
+            this.label104.TabIndex = 286;
+            this.label104.Text = "Flip Vertical";
+            this.label104.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox18
+            // 
+            this.textBox18.Enabled = false;
+            this.textBox18.Location = new System.Drawing.Point(381, 29);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.ReadOnly = true;
+            this.textBox18.Size = new System.Drawing.Size(103, 20);
+            this.textBox18.TabIndex = 211;
+            this.textBox18.Text = "Unbounded";
+            this.textBox18.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label105
+            // 
+            this.label105.Enabled = false;
+            this.label105.Location = new System.Drawing.Point(6, 289);
+            this.label105.Name = "label105";
+            this.label105.Size = new System.Drawing.Size(110, 20);
+            this.label105.TabIndex = 285;
+            this.label105.Text = "Move Right";
+            this.label105.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabPage5
             // 
@@ -4065,16 +3906,7 @@
             this.groupBox2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tabPage7.ResumeLayout(false);
-            this.tabPage7.PerformLayout();
-            this.tabPage8.ResumeLayout(false);
-            this.tabPage8.PerformLayout();
-            this.tabPage9.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.tabPage11.ResumeLayout(false);
-            this.tabPage11.PerformLayout();
+            this.tabPage6.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.panel13.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
@@ -4189,16 +4021,9 @@
         private System.Windows.Forms.RadioButton x16checkbox;
         private System.Windows.Forms.RadioButton x128checkbox;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label34;
         private System.Windows.Forms.TextBox nudgeFasterKeyBox;
         private System.Windows.Forms.TextBox scrollLockKeyBox;
-        private System.Windows.Forms.Label label35;
         private System.Windows.Forms.TextBox scrollLockAxisKeyBox;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.TextBox flipVKeyBox;
-        private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.TextBox flipHKeyBox;
-        private System.Windows.Forms.Label label46;
         private System.Windows.Forms.TextBox mouseModeKeyBox;
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.TextBox selectionModeKeyBox;
@@ -4219,14 +4044,9 @@
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.TextBox showGridKeyBox;
         private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.TextBox multiLayerModeKeyBox;
-        private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.TextBox exportLayersKeyBox;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.TextBox exportKeyBox;
@@ -4257,13 +4077,6 @@
         private System.Windows.Forms.Label label65;
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox11;
-        private System.Windows.Forms.TabPage tabPage9;
-        private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Label label70;
-        private System.Windows.Forms.Label label71;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label27;
@@ -4291,7 +4104,6 @@
         private System.Windows.Forms.CheckBox checkBox26;
         private System.Windows.Forms.CheckBox checkBox27;
         private System.Windows.Forms.CheckBox checkBox29;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Label label84;
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.Label label81;
@@ -4318,31 +4130,30 @@
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.TextBox textBox18;
-        private System.Windows.Forms.TabPage tabPage11;
         private System.Windows.Forms.Label label99;
-        private System.Windows.Forms.TextBox textBox33;
+        private System.Windows.Forms.TextBox moveRightControl;
         private System.Windows.Forms.Label label100;
         private System.Windows.Forms.Label label101;
-        private System.Windows.Forms.TextBox textBox35;
-        private System.Windows.Forms.TextBox textBox36;
+        private System.Windows.Forms.TextBox moveDownControl;
+        private System.Windows.Forms.TextBox moveLeftControl;
         private System.Windows.Forms.Label label102;
         private System.Windows.Forms.Label label103;
-        private System.Windows.Forms.TextBox textBox37;
-        private System.Windows.Forms.TextBox textBox38;
+        private System.Windows.Forms.TextBox flipHorizontalControl;
+        private System.Windows.Forms.TextBox moveUpControl;
         private System.Windows.Forms.Label label104;
         private System.Windows.Forms.Label label105;
-        private System.Windows.Forms.TextBox textBox39;
-        private System.Windows.Forms.TextBox textBox40;
+        private System.Windows.Forms.TextBox duplicateControl;
+        private System.Windows.Forms.TextBox flipVeritcalControl;
         private System.Windows.Forms.Label label106;
         private System.Windows.Forms.Label label107;
-        private System.Windows.Forms.TextBox textBox41;
-        private System.Windows.Forms.TextBox textBox42;
+        private System.Windows.Forms.TextBox pasteControl;
+        private System.Windows.Forms.TextBox deleteControl;
         private System.Windows.Forms.Label label108;
         private System.Windows.Forms.Label label109;
-        private System.Windows.Forms.TextBox textBox43;
-        private System.Windows.Forms.TextBox textBox44;
+        private System.Windows.Forms.TextBox cutControl;
+        private System.Windows.Forms.TextBox copyControl;
         private System.Windows.Forms.Label label83;
-        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.TextBox selectAllControl;
         private System.Windows.Forms.CheckBox checkBox31;
         private System.Windows.Forms.CheckBox checkBox32;
         private System.Windows.Forms.CheckBox checkBox20;

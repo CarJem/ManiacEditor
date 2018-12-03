@@ -767,6 +767,12 @@ namespace ManiacEditor
             d.DrawBitmap(Editor.Instance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 
+            if (Editor.Instance.showFlippedTileHelper == true)
+            {
+                d.DrawBitmap(Editor.Instance.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+                x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+            }
+
             /* WIP Test for Selected Collision Viewing
             if (Editor.Instance.showCollisionA == true)
             {
@@ -851,7 +857,6 @@ namespace ManiacEditor
                 d.DrawBitmap(collisionB, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
             }
             */
-
             if (Editor.Instance.showTileID == true)
             {
                 d.DrawBitmap(Editor.Instance.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
@@ -975,6 +980,11 @@ namespace ManiacEditor
                 }
             }
 
+            if (Editor.Instance.showFlippedTileHelper == true)
+            {
+                g.DrawImage(Editor.Instance.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+                            new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+            }
             if (Editor.Instance.showTileID == true)
             {
                 g.DrawImage(Editor.Instance.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),

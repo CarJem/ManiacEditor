@@ -263,6 +263,7 @@
             this.customToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCollisionAButton = new System.Windows.Forms.ToolStripButton();
             this.showCollisionBButton = new System.Windows.Forms.ToolStripButton();
+            this.showFlippedTileHelperButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1958,7 +1959,8 @@
             this.showGridButton,
             this.gridSizeButton,
             this.showCollisionAButton,
-            this.showCollisionBButton});
+            this.showCollisionBButton,
+            this.showFlippedTileHelperButton});
             this.toolStrip5.Location = new System.Drawing.Point(0, 24);
             this.toolStrip5.Name = "toolStrip5";
             this.toolStrip5.Size = new System.Drawing.Size(1284, 25);
@@ -2397,6 +2399,17 @@
             this.showCollisionBButton.Text = "Show Collision Layer B";
             this.showCollisionBButton.Click += new System.EventHandler(this.showCollisionBButton_Click);
             // 
+            // showFlippedTileHelperButton
+            // 
+            this.showFlippedTileHelperButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.showFlippedTileHelperButton.Image = global::ManiacEditor.Properties.Resources.collisionFlipHelper;
+            this.showFlippedTileHelperButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.showFlippedTileHelperButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.showFlippedTileHelperButton.Name = "showFlippedTileHelperButton";
+            this.showFlippedTileHelperButton.Size = new System.Drawing.Size(23, 22);
+            this.showFlippedTileHelperButton.Text = "Show Flipped Tile Helper";
+            this.showFlippedTileHelperButton.Click += new System.EventHandler(this.showFlippedTileHelper_Click);
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2441,7 +2454,6 @@
             this.toolStrip1.PerformLayout();
             this.toolStrip5.ResumeLayout(false);
             this.toolStrip5.PerformLayout();
-
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2681,6 +2693,7 @@
         private System.Windows.Forms.ToolStripMenuItem insanicManiacToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem animationManiacToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem maniacPalColorPaletteEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton showFlippedTileHelperButton;
     }
 }
 

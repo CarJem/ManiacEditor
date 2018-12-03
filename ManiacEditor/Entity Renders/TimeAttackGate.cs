@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
             var editorAnimBase = EditorEntity_ini.LoadAnimation2("SpeedGate", d, 0, 0, false, false, false);
             var editorAnimTop = EditorEntity_ini.LoadAnimation2("SpeedGate", d, 1, 0, false, false, false);
             var editorAnimFins = EditorEntity_ini.LoadAnimation2("SpeedGate", d, finish ? 4 : 3, -1, false, false, false);
-            if (editorAnimBase != null && editorAnimTop != null && editorAnimFins != null)
+            if (editorAnimBase != null && editorAnimTop != null && editorAnimFins != null && editorAnimFins.Frames.Count != 0 && editorAnimTop.Frames.Count != 0 && editorAnimTop.Frames.Count != 0)
             {
                 var frameBase = editorAnimBase.Frames[0];
                 var frameTop = editorAnimTop.Frames[0];

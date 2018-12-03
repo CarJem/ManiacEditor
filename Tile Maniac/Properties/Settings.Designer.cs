@@ -238,5 +238,17 @@ namespace TileManiac.Properties {
                 this["MirrorMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SlopeInDegrees {
+            get {
+                return ((bool)(this["SlopeInDegrees"]));
+            }
+            set {
+                this["SlopeInDegrees"] = value;
+            }
+        }
     }
 }

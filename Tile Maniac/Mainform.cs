@@ -40,11 +40,10 @@ namespace TileManiac
         bool mouseHeldDown = false;
         MouseButtons mouseButtonHeld = MouseButtons.None;
 
-        bool MirrorPaths = false; //Do we want to activate "Mirror Paths" Mode?
-
         bool changingModes = false; //To prevent updating the radio buttons until after we change the viewer mode
 
         public RSDKv5.TilesConfig tcf; //The ColllisionMask Data
+        public RSDKv5.TilesConfig tcfBak; //Backup ColllisionMask Data
 
         List<Bitmap> Tiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles
         int gotoVal; //What collision mask we goto when "GO!" is pressed
@@ -223,6 +222,7 @@ namespace TileManiac
                 curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
                 filepath = Path.Combine(scenePath, "TileConfig.bin");
                 tcf = tilesConfig;
+                tcfBak = tilesConfig;
                 string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
                 LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
 
@@ -284,6 +284,7 @@ namespace TileManiac
                 curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
                 filepath = dlg.FileName;
                 tcf = new RSDKv5.TilesConfig(dlg.FileName);
+                tcfBak = new RSDKv5.TilesConfig(dlg.FileName);
                 string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
                 LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
 
@@ -428,13 +429,11 @@ namespace TileManiac
                 CurMaskLabel.Text = "Collision Mask " + (curColisionMask + 1) + " of " + 1024; //what collision mask are we on?
                 TilePicBox.Image = ResizeBitmap(Tiles[curColisionMask],96,96); //update the tile preview 
                 Bitmap Overlaypic = new Bitmap(16, 16);
+                GetRawSlopeNUD();
                 if (!showPathB) //if we are showing Path A then refresh the values accordingly
                 {
                     CollisionPicBox.Image = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
                     Overlaypic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0), Tiles[curColisionMask]);
-                    degreeLabel.Text = "Degree of Slope (Experimental): " + ((int)((256 - tcf.CollisionPath1[curColisionMask].slopeAngle) * (360f / 0x100))).ToString();
-                    SlopeNUD.Value = tcf.CollisionPath1[curColisionMask].slopeAngle;
-                    //RawSlopeNUD.Value = tcf.CollisionPath1[curColisionMask].slopeAngle;
                     PhysicsNUD.Value = tcf.CollisionPath1[curColisionMask].physics;
                     MomentumNUD.Value = tcf.CollisionPath1[curColisionMask].momentum;
                     UnknownNUD.Value = tcf.CollisionPath1[curColisionMask].unknown;
@@ -449,8 +448,6 @@ namespace TileManiac
                 {
                     CollisionPicBox.Image = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(0, 255, 0)); Overlaypic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0), Tiles[curColisionMask]);
                     SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].slopeAngle;
-                    //RawSlopeNUD.Value = tcf.CollisionPath2[curColisionMask].slopeAngle;
-                    degreeLabel.Text = "Degree of Slope (Experimental): " + ((int)((256 - tcf.CollisionPath2[curColisionMask].slopeAngle) * (360f / 0xFF))).ToString();
                     PhysicsNUD.Value = tcf.CollisionPath2[curColisionMask].physics;
                     MomentumNUD.Value = tcf.CollisionPath2[curColisionMask].momentum;
                     UnknownNUD.Value = tcf.CollisionPath2[curColisionMask].unknown;
@@ -802,6 +799,29 @@ namespace TileManiac
             else { RGBoxF.Image = ColActivatedImges[0]; }
         }
 
+        public void GetRawSlopeNUD()
+        {
+            if (tcf != null)
+            {
+                if (!showPathB)
+                {                
+                    SlopeNUD.Value = tcf.CollisionPath1[curColisionMask].slopeAngle;
+                    int calculationSlopeA = (int)((decimal)tcf.CollisionPath1[curColisionMask].slopeAngle / 256 * 360);
+                    //degreeLabel.Text = "Degree of Slope: " + calculationSlopeA.ToString();
+                    RawSlopeNUD.Value = calculationSlopeA;
+
+                }
+                else
+                {
+                    SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].slopeAngle;
+                    int calculationSlopeB = (int)((decimal)tcf.CollisionPath2[curColisionMask].slopeAngle / 256 * 360);
+                    //degreeLabel.Text = "Degree of Slope: " + calculationSlopeB.ToString();
+                    RawSlopeNUD.Value = calculationSlopeB;
+
+                }
+            }
+        }
+
         public void RefreshCollisionList()
         {
             CollisionList.Images.Clear();
@@ -913,7 +933,6 @@ namespace TileManiac
 
                     if (SlopeNUD.Value <= 255)
                     {
-                        //tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)(256 - ((float)SlopeNUD.Value / (360f / 0x100))); //Set Slope angle for Path B
                         tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path B
                         tcf.CollisionPath1[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path A
                     }
@@ -929,7 +948,6 @@ namespace TileManiac
                     {
                         if (SlopeNUD.Value <= 255)
                         {
-                            //tcf.CollisionPath1[curColisionMask].slopeAngle = (byte)(256 - ((float)SlopeNUD.Value / (360f / 0x100))); //Set Slope angle for Path A
                             tcf.CollisionPath1[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path A
                         }
                         else
@@ -943,7 +961,6 @@ namespace TileManiac
                     {
                         if (SlopeNUD.Value <= 255)
                         {
-                            //tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)(256 - ((float)SlopeNUD.Value / (360f / 0x100))); //Set Slope angle for Path B
                             tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path B
                         }
                         else
@@ -953,57 +970,12 @@ namespace TileManiac
                     }
                 }
 
-                RefreshUI();
+                GetRawSlopeNUD();
+
+                //RefreshUI();
             }
         }
 
-
-        private void RawSlopeNUD_ValueChanged(object sender, EventArgs e)
-        {
-            if (tcf != null)
-            {
-                if (Properties.Settings.Default.MirrorMode)
-                {
-                    if (RawSlopeNUD.Value <= 255)
-                    {
-                        tcf.CollisionPath1[curColisionMask].slopeAngle = (byte)(256 - ((float)RawSlopeNUD.Value / (360f / 0x100))); //Set Slope angle for Path A
-                        tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)(256 - ((float)RawSlopeNUD.Value / (360f / 0x100))); //Set Slope angle for Path B
-                    }
-                    else
-                    {
-                        RawSlopeNUD.Value = 255;
-                    }
-                }
-                else
-                {
-                    if (!showPathB)
-                    {
-                        if (RawSlopeNUD.Value <= 255)
-                        {
-                            tcf.CollisionPath1[curColisionMask].slopeAngle = (byte)(256 - ((float)RawSlopeNUD.Value / (360f / 0x100))); //Set Slope angle for Path A
-                        }
-                        else
-                        {
-                            RawSlopeNUD.Value = 255;
-                        }
-
-                    }
-                    if (showPathB)
-                    {
-                        if (RawSlopeNUD.Value <= 255)
-                        {
-                            tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)(256 - ((float)RawSlopeNUD.Value / (360f / 0x100))); //Set Slope angle for Path B
-                        }
-                        else
-                        {
-                            RawSlopeNUD.Value = 255;
-                        }
-                    }
-                }
-
-                RefreshUI();
-            }
-        }
 
         private void PhysicsNUD_ValueChanged(object sender, EventArgs e)
         {
@@ -1026,7 +998,7 @@ namespace TileManiac
                     }
                 }
 
-                RefreshUI();
+                //RefreshUI();
             }
         }
 
@@ -1051,12 +1023,12 @@ namespace TileManiac
                     }
                 }
 
-                RefreshUI();
+                //RefreshUI();
             }
         }
 
         private void UnknownNUD_ValueChanged(object sender, EventArgs e)
-        {
+        {           
             if (tcf != null)
             {
                 if (Properties.Settings.Default.MirrorMode)
@@ -1076,7 +1048,7 @@ namespace TileManiac
                     }
                 }
 
-                RefreshUI();
+                //RefreshUI();
             }
         }
 
@@ -1101,7 +1073,7 @@ namespace TileManiac
                     }
                 }
 
-                RefreshUI();
+                //RefreshUI();
             }
         }
 
@@ -1675,6 +1647,7 @@ namespace TileManiac
                 curColisionMask = 0; //Set the current collision mask to zero (avoids rare errors)
                 filepath = dlg.FileName;
                 tcf = new RSDKv5.TilesConfig();
+                tcfBak = new RSDKv5.TilesConfig();
                 RSDKv4.CollisionMask tcfOLD = new RSDKv4.CollisionMask(dlg.FileName);
                 string t = filepath.Replace("CollisionMasks.bin", "16x16tiles.gif"); //get the path to the stage's tileset
                 LoadTileSet(new Bitmap(t)); //load each 16x16 tile into the list
@@ -2044,6 +2017,37 @@ namespace TileManiac
             else
             {
                 mirrorModeStatusLabel.Text = "Mirror Mode: OFF";
+            }
+        }
+
+        private void pathAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                tcf.CollisionPath1[curColisionMask].Collision = tcfBak.CollisionPath1[curColisionMask].Collision;
+                RefreshUI();
+            }
+        }
+
+        private void pathBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                tcf.CollisionPath2[curColisionMask] = tcfBak.CollisionPath2[curColisionMask];
+                RefreshUI();
+            }
+        }
+
+        private void bothToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                tcf.CollisionPath1[curColisionMask] = tcfBak.CollisionPath1[curColisionMask];
+                tcf.CollisionPath2[curColisionMask] = tcfBak.CollisionPath2[curColisionMask];
+                RefreshUI();
             }
         }
     }

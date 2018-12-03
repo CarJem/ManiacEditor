@@ -1547,5 +1547,17 @@ namespace ManiacEditor.Properties {
                 this["EntityFilter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MasterDataDirectory {
+            get {
+                return ((string)(this["MasterDataDirectory"]));
+            }
+            set {
+                this["MasterDataDirectory"] = value;
+            }
+        }
     }
 }

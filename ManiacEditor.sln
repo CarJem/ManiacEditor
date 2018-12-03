@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManiacEditor", "ManiacEditor\ManiacEditor.csproj", "{297BA354-5E1E-4701-A6A2-73784BC8C8B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileManiac", "Tile Maniac\TileManiac.csproj", "{3D9F597D-8D90-44D3-A0B9-A0CB2292D0E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile Maniac - RSDKv5 Collision Editor", "Tile Maniac\Tile Maniac - RSDKv5 Collision Editor.csproj", "{3D9F597D-8D90-44D3-A0B9-A0CB2292D0E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSDKv4", "RSDKv4\RSDKv4.csproj", "{1A58BA31-C9E1-4D18-876E-EC73799E7A9F}"
 EndProject

@@ -382,7 +382,6 @@ namespace TileManiac
             this.GotoNUD = new System.Windows.Forms.NumericUpDown();
             this.PrevButton = new System.Windows.Forms.Button();
             this.NextButton = new System.Windows.Forms.Button();
-            this.degreeLabel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tileViewRadioButton = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
@@ -430,6 +429,10 @@ namespace TileManiac
             this.RGBox5 = new System.Windows.Forms.PictureBox();
             this.RGBox3 = new System.Windows.Forms.PictureBox();
             this.RGBox4 = new System.Windows.Forms.PictureBox();
+            this.resetCollisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -609,7 +612,8 @@ namespace TileManiac
             this.copyToOtherPathToolStripMenuItem1,
             this.pasteToolStripMenuItem,
             this.toolStripSeparator3,
-            this.mirrorPathsToolStripMenuItem1});
+            this.mirrorPathsToolStripMenuItem1,
+            this.resetCollisionToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -770,7 +774,7 @@ namespace TileManiac
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
@@ -783,13 +787,12 @@ namespace TileManiac
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.mirrorModeStatusLabel);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.degreeLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.mirrorModeStatusLabel);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
@@ -805,7 +808,7 @@ namespace TileManiac
             this.mirrorModeStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.mirrorModeStatusLabel.AutoSize = true;
             this.mirrorModeStatusLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.mirrorModeStatusLabel.Location = new System.Drawing.Point(8, 463);
+            this.mirrorModeStatusLabel.Location = new System.Drawing.Point(6, 459);
             this.mirrorModeStatusLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.mirrorModeStatusLabel.Name = "mirrorModeStatusLabel";
             this.mirrorModeStatusLabel.Size = new System.Drawing.Size(89, 13);
@@ -834,7 +837,7 @@ namespace TileManiac
             this.groupBox1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.groupBox1.Location = new System.Drawing.Point(11, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(363, 358);
+            this.groupBox1.Size = new System.Drawing.Size(363, 377);
             this.groupBox1.TabIndex = 67;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tile Collision Data";
@@ -1125,7 +1128,7 @@ namespace TileManiac
             this.tableLayoutPanel1.Enabled = false;
             this.tableLayoutPanel1.ForeColor = System.Drawing.Color.Black;
             this.tableLayoutPanel1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 15);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 16);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 16;
@@ -3478,8 +3481,9 @@ namespace TileManiac
             // 
             this.RawSlopeNUD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RawSlopeNUD.BackColor = System.Drawing.Color.White;
+            this.RawSlopeNUD.Enabled = false;
             this.RawSlopeNUD.ForeColor = System.Drawing.Color.Black;
-            this.RawSlopeNUD.Location = new System.Drawing.Point(59, 333);
+            this.RawSlopeNUD.Location = new System.Drawing.Point(4, 352);
             this.RawSlopeNUD.Margin = new System.Windows.Forms.Padding(2);
             this.RawSlopeNUD.Maximum = new decimal(new int[] {
             360,
@@ -3489,14 +3493,14 @@ namespace TileManiac
             this.RawSlopeNUD.Name = "RawSlopeNUD";
             this.RawSlopeNUD.Size = new System.Drawing.Size(49, 20);
             this.RawSlopeNUD.TabIndex = 113;
-            this.RawSlopeNUD.ValueChanged += new System.EventHandler(this.RawSlopeNUD_ValueChanged);
+            this.RawSlopeNUD.ValueChanged += new System.EventHandler(this.SlopeNUD_ValueChanged);
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label2.Location = new System.Drawing.Point(5, 334);
+            this.label2.Location = new System.Drawing.Point(3, 334);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
@@ -3508,7 +3512,7 @@ namespace TileManiac
             this.ICLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ICLabel.AutoSize = true;
             this.ICLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.ICLabel.Location = new System.Drawing.Point(267, 293);
+            this.ICLabel.Location = new System.Drawing.Point(265, 295);
             this.ICLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ICLabel.Name = "ICLabel";
             this.ICLabel.Size = new System.Drawing.Size(46, 13);
@@ -3519,7 +3523,7 @@ namespace TileManiac
             // 
             this.IsCeilingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.IsCeilingButton.AutoSize = true;
-            this.IsCeilingButton.Location = new System.Drawing.Point(270, 311);
+            this.IsCeilingButton.Location = new System.Drawing.Point(268, 313);
             this.IsCeilingButton.Margin = new System.Windows.Forms.Padding(2);
             this.IsCeilingButton.Name = "IsCeilingButton";
             this.IsCeilingButton.Size = new System.Drawing.Size(15, 14);
@@ -3533,7 +3537,7 @@ namespace TileManiac
             this.SpecialNUD.BackColor = System.Drawing.Color.White;
             this.SpecialNUD.ForeColor = System.Drawing.Color.Black;
             this.SpecialNUD.Hexadecimal = true;
-            this.SpecialNUD.Location = new System.Drawing.Point(222, 310);
+            this.SpecialNUD.Location = new System.Drawing.Point(220, 312);
             this.SpecialNUD.Margin = new System.Windows.Forms.Padding(2);
             this.SpecialNUD.Maximum = new decimal(new int[] {
             255,
@@ -3550,7 +3554,7 @@ namespace TileManiac
             this.SpecialLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SpecialLabel.AutoSize = true;
             this.SpecialLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.SpecialLabel.Location = new System.Drawing.Point(221, 293);
+            this.SpecialLabel.Location = new System.Drawing.Point(219, 295);
             this.SpecialLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SpecialLabel.Name = "SpecialLabel";
             this.SpecialLabel.Size = new System.Drawing.Size(42, 13);
@@ -3563,7 +3567,7 @@ namespace TileManiac
             this.UnknownNUD.BackColor = System.Drawing.Color.White;
             this.UnknownNUD.ForeColor = System.Drawing.Color.Black;
             this.UnknownNUD.Hexadecimal = true;
-            this.UnknownNUD.Location = new System.Drawing.Point(168, 310);
+            this.UnknownNUD.Location = new System.Drawing.Point(166, 312);
             this.UnknownNUD.Margin = new System.Windows.Forms.Padding(2);
             this.UnknownNUD.Maximum = new decimal(new int[] {
             255,
@@ -3580,7 +3584,7 @@ namespace TileManiac
             this.UnknownLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.UnknownLabel.AutoSize = true;
             this.UnknownLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.UnknownLabel.Location = new System.Drawing.Point(167, 293);
+            this.UnknownLabel.Location = new System.Drawing.Point(165, 295);
             this.UnknownLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.UnknownLabel.Name = "UnknownLabel";
             this.UnknownLabel.Size = new System.Drawing.Size(53, 13);
@@ -3593,7 +3597,7 @@ namespace TileManiac
             this.MomentumNUD.BackColor = System.Drawing.Color.White;
             this.MomentumNUD.ForeColor = System.Drawing.Color.Black;
             this.MomentumNUD.Hexadecimal = true;
-            this.MomentumNUD.Location = new System.Drawing.Point(106, 310);
+            this.MomentumNUD.Location = new System.Drawing.Point(104, 312);
             this.MomentumNUD.Margin = new System.Windows.Forms.Padding(2);
             this.MomentumNUD.Maximum = new decimal(new int[] {
             255,
@@ -3610,7 +3614,7 @@ namespace TileManiac
             this.MomentumLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.MomentumLabel.AutoSize = true;
             this.MomentumLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.MomentumLabel.Location = new System.Drawing.Point(105, 293);
+            this.MomentumLabel.Location = new System.Drawing.Point(103, 295);
             this.MomentumLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.MomentumLabel.Name = "MomentumLabel";
             this.MomentumLabel.Size = new System.Drawing.Size(59, 13);
@@ -3623,7 +3627,7 @@ namespace TileManiac
             this.PhysicsNUD.BackColor = System.Drawing.Color.White;
             this.PhysicsNUD.ForeColor = System.Drawing.Color.Black;
             this.PhysicsNUD.Hexadecimal = true;
-            this.PhysicsNUD.Location = new System.Drawing.Point(59, 310);
+            this.PhysicsNUD.Location = new System.Drawing.Point(57, 312);
             this.PhysicsNUD.Margin = new System.Windows.Forms.Padding(2);
             this.PhysicsNUD.Maximum = new decimal(new int[] {
             255,
@@ -3640,7 +3644,7 @@ namespace TileManiac
             this.PhysicsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PhysicsLabel.AutoSize = true;
             this.PhysicsLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.PhysicsLabel.Location = new System.Drawing.Point(58, 293);
+            this.PhysicsLabel.Location = new System.Drawing.Point(56, 295);
             this.PhysicsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PhysicsLabel.Name = "PhysicsLabel";
             this.PhysicsLabel.Size = new System.Drawing.Size(43, 13);
@@ -3653,7 +3657,7 @@ namespace TileManiac
             this.SlopeNUD.BackColor = System.Drawing.Color.White;
             this.SlopeNUD.ForeColor = System.Drawing.Color.Black;
             this.SlopeNUD.Hexadecimal = true;
-            this.SlopeNUD.Location = new System.Drawing.Point(6, 310);
+            this.SlopeNUD.Location = new System.Drawing.Point(4, 312);
             this.SlopeNUD.Margin = new System.Windows.Forms.Padding(2);
             this.SlopeNUD.Maximum = new decimal(new int[] {
             360,
@@ -3670,7 +3674,7 @@ namespace TileManiac
             this.SlopeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SlopeLabel.AutoSize = true;
             this.SlopeLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.SlopeLabel.Location = new System.Drawing.Point(5, 293);
+            this.SlopeLabel.Location = new System.Drawing.Point(3, 295);
             this.SlopeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SlopeLabel.Name = "SlopeLabel";
             this.SlopeLabel.Size = new System.Drawing.Size(34, 13);
@@ -4498,9 +4502,9 @@ namespace TileManiac
             this.panel1.Controls.Add(this.GotoNUD);
             this.panel1.Controls.Add(this.PrevButton);
             this.panel1.Controls.Add(this.NextButton);
-            this.panel1.Location = new System.Drawing.Point(12, 369);
+            this.panel1.Location = new System.Drawing.Point(11, 391);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(362, 87);
+            this.panel1.Size = new System.Drawing.Size(363, 87);
             this.panel1.TabIndex = 66;
             // 
             // VPLabel
@@ -4601,18 +4605,6 @@ namespace TileManiac
             this.NextButton.Text = "Next";
             this.NextButton.UseVisualStyleBackColor = true;
             this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
-            // degreeLabel
-            // 
-            this.degreeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.degreeLabel.AutoSize = true;
-            this.degreeLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.degreeLabel.Location = new System.Drawing.Point(6, 373);
-            this.degreeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.degreeLabel.Name = "degreeLabel";
-            this.degreeLabel.Size = new System.Drawing.Size(165, 13);
-            this.degreeLabel.TabIndex = 112;
-            this.degreeLabel.Text = "Degree of Slope (Experimental): 0";
             // 
             // panel2
             // 
@@ -5117,6 +5109,37 @@ namespace TileManiac
             this.RGBox4.TabIndex = 57;
             this.RGBox4.TabStop = false;
             // 
+            // resetCollisionToolStripMenuItem
+            // 
+            this.resetCollisionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bothToolStripMenuItem,
+            this.pathAToolStripMenuItem,
+            this.pathBToolStripMenuItem});
+            this.resetCollisionToolStripMenuItem.Name = "resetCollisionToolStripMenuItem";
+            this.resetCollisionToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
+            this.resetCollisionToolStripMenuItem.Text = "Restore Mask from Memory";
+            // 
+            // pathAToolStripMenuItem
+            // 
+            this.pathAToolStripMenuItem.Name = "pathAToolStripMenuItem";
+            this.pathAToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pathAToolStripMenuItem.Text = "Path A";
+            this.pathAToolStripMenuItem.Click += new System.EventHandler(this.pathAToolStripMenuItem_Click);
+            // 
+            // pathBToolStripMenuItem
+            // 
+            this.pathBToolStripMenuItem.Name = "pathBToolStripMenuItem";
+            this.pathBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pathBToolStripMenuItem.Text = "Path B";
+            this.pathBToolStripMenuItem.Click += new System.EventHandler(this.pathBToolStripMenuItem_Click);
+            // 
+            // bothToolStripMenuItem
+            // 
+            this.bothToolStripMenuItem.Name = "bothToolStripMenuItem";
+            this.bothToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bothToolStripMenuItem.Text = "Both";
+            this.bothToolStripMenuItem.Click += new System.EventHandler(this.bothToolStripMenuItem_Click);
+            // 
             // Mainform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5136,7 +5159,6 @@ namespace TileManiac
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -5328,7 +5350,6 @@ namespace TileManiac
         private System.Windows.Forms.RadioButton tileViewRadioButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton collisionViewRadioButton;
-        private System.Windows.Forms.Label degreeLabel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem openSingleCollisionMaskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportCurrentCollisionMaskAsToolStripMenuItem;
@@ -5605,6 +5626,10 @@ namespace TileManiac
         private ToolStripMenuItem overlayToolStripMenuItem;
         private ToolStripMenuItem collisionToolStripMenuItem;
         private Label mirrorModeStatusLabel;
+        private ToolStripMenuItem resetCollisionToolStripMenuItem;
+        private ToolStripMenuItem pathAToolStripMenuItem;
+        private ToolStripMenuItem pathBToolStripMenuItem;
+        private ToolStripMenuItem bothToolStripMenuItem;
     }
 }
 

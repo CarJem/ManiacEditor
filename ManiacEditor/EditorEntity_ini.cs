@@ -254,7 +254,9 @@ namespace ManiacEditor
             EditorEntity_ini.Animations.Add(key, anim);
 
             // Get the path of the object's textures
-            string path2 = GetAssetPath(name);
+            var assetInfo = GetAssetPath(name);
+            string path2 = assetInfo.Item1;
+            string dataFolderLocation = assetInfo.Item2;
             if (path2 == null)
             {
                 return null;
@@ -319,7 +321,7 @@ namespace ManiacEditor
                         }
                     }
                     else
-                        targetFile = Path.Combine(Editor.DataDirectory, "sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
+                        targetFile = Path.Combine(dataFolderLocation, "sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
                     if (!File.Exists(targetFile))
                     {
                         map = null;
@@ -489,9 +491,10 @@ namespace ManiacEditor
             return new Rectangle(x, y, width, height);
         }
 
-        public static String GetAssetPath(string name)
+        public static Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false)
         {
             string path, path2;
+            string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : Editor.DataDirectory);
             if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
             {
                 if (name == "EditorAssets")
@@ -523,38 +526,38 @@ namespace ManiacEditor
             else
             {
                 if (DataDirectoryList == null)
-                    DataDirectoryList = Directory.GetFiles(Path.Combine(Editor.DataDirectory, "Sprites"), $"*.bin", SearchOption.AllDirectories);
+                    DataDirectoryList = Directory.GetFiles(Path.Combine(dataDirectory, "Sprites"), $"*.bin", SearchOption.AllDirectories);
 
 
                 // Checks Global frist
                 path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
-                path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
 
                 if (!File.Exists(path2))
                 {
                     // Checks without last character
                     path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + name + ".bin";
-                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
                 }
                 if (!File.Exists(path2))
                 {
                     // Checks for name without the last character and without the numbers in the entity name
                     string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
                     path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + adjustedName + ".bin";
-                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
                 }
                 if (!File.Exists(path2))
                 {
                     // Checks for name without any numbers in the Zone name
                     string adjustedZone = Regex.Replace(Editor.Instance.SelectedZone, @"[\d-]", string.Empty);
                     path = path = adjustedZone + "\\" + name + ".bin";
-                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
                     if (!File.Exists(path2))
                     {
                         // Checks for name without any numbers in the Zone name, then add a 1 back
                         adjustedZone = adjustedZone + "1";
                         path = path = adjustedZone + "\\" + name + ".bin";
-                        path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                        path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
                     }
                 }
                 /*if (!File.Exists(path2))z
@@ -566,15 +569,15 @@ namespace ManiacEditor
                 {
                     // Checks Global
                     path = "Global\\" + name + ".bin";
-                    path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
                 }
                 if (!File.Exists(path2))
                 {
                     // Checks the Stage folder 
-                    foreach (string dir in Directory.GetDirectories(Path.Combine(Editor.DataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
+                    foreach (string dir in Directory.GetDirectories(Path.Combine(dataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
                     {
                         path = Path.GetFileName(dir) + "\\" + name + ".bin";
-                        path2 = Path.Combine(Editor.DataDirectory, "sprites") + '\\' + path;
+                        path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
                         if (File.Exists(path2))
                         {
                             break;
@@ -582,6 +585,20 @@ namespace ManiacEditor
 
                     }
                 }
+                /*
+                if (!File.Exists(path2) && !dontSeachCustom)
+                {
+                    Debug.Print(Editor.MasterDataDirectory);
+                    Debug.Print(Editor.DataDirectory);
+                    var masterDataDetails = GetAssetPath(name, Editor.MasterDataDirectory, true);
+                    if (File.Exists(masterDataDetails.Item1))
+                    {
+                        path2 = masterDataDetails.Item1;
+                        dataDirectory = masterDataDetails.Item2;
+                    }
+                }
+                */
+                    
                 if (!File.Exists(path2))
                 {
                     // Seaches all around the Data directory
@@ -602,7 +619,7 @@ namespace ManiacEditor
                 }
             }
 
-            return path2;
+            return Tuple.Create(path2, dataDirectory);
         }
 
         public static Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0)

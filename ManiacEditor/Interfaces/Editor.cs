@@ -62,6 +62,7 @@ namespace ManiacEditor
         public bool alwaysShowWaterLevel = false; //Determines if the Water Level Should be Shown at all times regardless of the object being selected
         public bool sizeWaterLevelwithBounds = false; //Determines if the water level width should match those of the object's bounds
         public bool extraLayersMoveToFront = false; //Determines if we should render the extra layers in front of everything on behind everything
+        public bool showFlippedTileHelper = false;
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -89,6 +90,7 @@ namespace ManiacEditor
 
         //Editor Paths
         public static string DataDirectory; //Used to get the current Data Directory
+        public static string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
         public string SelectedZone; //Used to get the Selected zone
         string SelectedScene; //Used to get the Scene zone
         public static string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
@@ -169,7 +171,6 @@ namespace ManiacEditor
 
         //Editor Misc. Variables
         System.Windows.Forms.Timer t;
-        System.Windows.Forms.Timer powerCheckTimer;
 
         //Dark Theme
         public Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
@@ -2106,12 +2107,12 @@ namespace ManiacEditor
         public bool SetGameConfig()
         {
             try
-             {
+            {
                 GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
                 return true;
             }
             catch
-                {
+            {
                 // Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
                 try
                 {
@@ -2159,19 +2160,19 @@ namespace ManiacEditor
             Editor.Instance.SceneChangeWarning(null, null);
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
             {
-                AllowSceneChange = false;
-                UnloadScene();
-                UseDefaultPrefrences();
-                DataDirectory = newDataDirectory;
-                AddRecentDataFolder(newDataDirectory);
-                bool goodGameConfig = SetGameConfig();
-                if (goodGameConfig == true)
-                {
-                    if (mySettings.forceBrowse == true)
-                        OpenScene(true);
-                    else
-                        OpenScene();
-                }
+                    AllowSceneChange = false;
+                    UnloadScene();
+                    UseDefaultPrefrences();
+                    DataDirectory = newDataDirectory;
+                    AddRecentDataFolder(newDataDirectory);
+                    bool goodGameConfig = SetGameConfig();
+                    if (goodGameConfig == true)
+                    {
+                        if (mySettings.forceBrowse == true)
+                            OpenScene(true);
+                        else
+                            OpenScene();
+                    }
 
             }
 
@@ -2854,8 +2855,8 @@ namespace ManiacEditor
                     TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
                     for (int i = 0; i < 1024; i++)
                     {
-                        CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-                        CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                        CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                        CollisionLayerB.Add(TilesConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
                     }
                 }
 
@@ -3914,13 +3915,15 @@ Error: {ex.Message}");
                     TilesToolbar?.Reload();
                 }
 
+                TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
+
                 CollisionLayerA.Clear();
                 CollisionLayerB.Clear();
 
                 for (int i = 0; i < 1024; i++)
                 {
-                    CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-                    CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                    CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                    CollisionLayerB.Add(TilesConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
                 }
 
 
@@ -4038,6 +4041,23 @@ Error: {ex.Message}");
                 showCollisionAButton.Checked = false;
                 showCollisionA = false;
                 ReloadSpecificTextures(sender, e);
+            }
+        }
+
+        private void showFlippedTileHelper_Click(object sender, EventArgs e)
+        {
+            if (showFlippedTileHelperButton.Checked == false)
+            {
+                showFlippedTileHelperButton.Checked = true;
+                ReloadSpecificTextures(sender, e);
+                showFlippedTileHelper = true;
+
+            }
+            else
+            {
+                showFlippedTileHelperButton.Checked = false;
+                ReloadSpecificTextures(sender, e);
+                showFlippedTileHelper = false;
             }
         }
 

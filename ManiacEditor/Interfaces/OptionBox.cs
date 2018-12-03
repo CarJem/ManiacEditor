@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.PropertyGridInternal;
 using Cyotek.Windows.Forms;
+using ManiacEditor.Interfaces;
 
 namespace ManiacEditor
 {
@@ -42,12 +43,9 @@ namespace ManiacEditor
             }
             tabPage1.UseVisualStyleBackColor = false;
             tabPage2.UseVisualStyleBackColor = false;
-            tabPage3.UseVisualStyleBackColor = false;
             tabPage4.UseVisualStyleBackColor = false;
             tabPage5.UseVisualStyleBackColor = false;
             tabPage6.UseVisualStyleBackColor = false;
-            tabPage7.UseVisualStyleBackColor = false;
-            tabPage8.UseVisualStyleBackColor = false;
 
         }
 
@@ -629,6 +627,21 @@ namespace ManiacEditor
                     Environment.Exit(0);
                 }
             }
+        }
+
+        private void textBox43_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            bool state = true;
+            if (state)
+            {
+                KeybindTool keybinder = new KeybindTool();
+                if (keybinder.ShowDialog() == DialogResult.OK)
+                {
+                    string name = sender.ToString();
+                }
+            }
+
+
         }
     }
 }

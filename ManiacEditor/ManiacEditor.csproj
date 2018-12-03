@@ -842,6 +842,12 @@
     <Compile Include="Interfaces\GoToPositionBox.Designer.cs">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\KeybindTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\KeybindTool.Designer.cs">
+      <DependentUpon>KeybindTool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\MD5HashGen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1001,6 +1007,7 @@
     <Content Include="Global\TransportTubes.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\ColorWheel_16x.png" />
     <None Include="Resources\do-not-sign-icon-png-0.png" />
     <None Include="Resources\ColorPalette_16x.png" />
     <None Include="Resources\LayerManagerWarning1.rtf" />
@@ -1032,6 +1039,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\GoToPositionBox.resx">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\KeybindTool.resx">
+      <DependentUpon>KeybindTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\MD5HashGen.resx">
       <DependentUpon>MD5HashGen.cs</DependentUpon>
@@ -1178,10 +1188,10 @@
   <ItemGroup>
     <Content Include="128x128.ico" />
     <Content Include="16x16Tiles_Edit.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="16x16Tiles_ID.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="64x64.ico" />
     <Content Include="Global\SpecialRing1.gif">
@@ -1226,9 +1236,9 @@
       <Project>{d10dc6b1-eb04-46bc-8c7a-62914af396b0}</Project>
       <Name>RSDKv5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tile Maniac\TileManiac.csproj">
+    <ProjectReference Include="..\Tile Maniac\Tile Maniac - RSDKv5 Collision Editor.csproj">
       <Project>{3d9f597d-8d90-44d3-a0b9-a0cb2292d0e1}</Project>
-      <Name>TileManiac</Name>
+      <Name>Tile Maniac - RSDKv5 Collision Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
