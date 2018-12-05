@@ -296,6 +296,7 @@ namespace ManiacEditor
         {
             Process proc = Process.GetCurrentProcess();
             long memory = proc.PrivateMemorySize64;
+
             if (!Environment.Is64BitProcess && memory >= 1500000000)
             {
                 Debug.Print("Out of Video Memory!");
@@ -502,12 +503,14 @@ namespace ManiacEditor
         /// </summary>
         public void Render()
         {
-            //if (deviceLost) AttemptRecovery(null);
+            if (deviceLost) AttemptRecovery(null);
+            
             if (_device == null)
             {
                 AttemptRecovery(null);
                 return;
             }
+            
 
             try
             {

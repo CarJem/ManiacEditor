@@ -740,7 +740,7 @@ namespace ManiacEditor
 
 
 
-            runSceneButton.Enabled = enabled && !GameRunning;
+            runSceneButton.Enabled = enabled;
 
             SetEditButtonsState(enabled);
             UpdateTooltips();
@@ -846,6 +846,7 @@ namespace ManiacEditor
             pointerButton.Enabled = enabled && IsTilesEdit();
             selectTool.Enabled = enabled && IsTilesEdit();
             placeTilesButton.Enabled = enabled && IsTilesEdit();
+            interactionToolButton.Enabled = enabled && IsTilesEdit();
 
             showGridButton.Enabled = enabled && StageConfig != null;
             showCollisionAButton.Enabled = enabled && StageConfig != null;
@@ -1441,7 +1442,7 @@ namespace ManiacEditor
                 Point clicked_point = new Point((int)(ClickedX / Zoom), (int)(ClickedY / Zoom));
                 // There was just a click now we can determine that this click is dragging
 
-                if (IsTilesEdit())
+                if (IsTilesEdit() && !interactionToolButton.Checked)
                 {
                     
                     if ((EditLayer?.IsPointSelected(clicked_point)).Value)
@@ -1793,7 +1794,7 @@ namespace ManiacEditor
             {
                 if (IsEditing() && !dragged)
                 {
-                    if (IsTilesEdit())
+                    if (IsTilesEdit() && !interactionToolButton.Checked)
                     {
                         if (placeTilesButton.Checked)
                         {
@@ -3888,6 +3889,7 @@ Error: {ex.Message}");
             selectTool.Checked = !selectTool.Checked;
             pointerButton.Checked = false;
             placeTilesButton.Checked = false;
+            interactionToolButton.Checked = false;
             UpdateControls();
         }
 
@@ -3896,12 +3898,23 @@ Error: {ex.Message}");
             pointerButton.Checked = !pointerButton.Checked;
             selectTool.Checked = false;
             placeTilesButton.Checked = false;
+            interactionToolButton.Checked = false;
             UpdateControls();
         }
 
         private void placeTilesButton_Click(object sender, EventArgs e)
         {
             placeTilesButton.Checked = !placeTilesButton.Checked;
+            selectTool.Checked = false;
+            pointerButton.Checked = false;
+            interactionToolButton.Checked = false;
+            UpdateControls();
+        }
+
+        private void interactionToolButton_Click(object sender, EventArgs e)
+        {
+            interactionToolButton.Checked = !interactionToolButton.Checked;
+            placeTilesButton.Checked = false;
             selectTool.Checked = false;
             pointerButton.Checked = false;
             UpdateControls();
@@ -3963,25 +3976,33 @@ Error: {ex.Message}");
 
                 // set user the focus to the window
                 SetForegroundWindow(processes.MainWindowHandle);
+                if (!GameRunning)
+                {
+                    RunSequence(sender, e, true);
+                }
             }
             else
             {
-                if (mySettings.RunModLoaderPath != null && mySettings.modConfigs?.Count > 0)
+                if (!GameRunning)
                 {
-                    string ConfigPath = mySettings.RunGamePath;
-                    var dropDownItem = selectConfigToolStripMenuItem.DropDownItems[0];
-                    ConfigPath = ConfigPath.Replace('/', '\\');
-                    ConfigPath = ConfigPath.Replace("SonicMania.exe", "//mods//ManiaModLoader.ini");
-                    foreach (ToolStripMenuItem item in selectConfigToolStripMenuItem.DropDownItems)
+                    if (mySettings.RunModLoaderPath != null && mySettings.modConfigs?.Count > 0)
                     {
-                        if (item.Checked)
+                        string ConfigPath = mySettings.RunGamePath;
+                        var dropDownItem = selectConfigToolStripMenuItem.DropDownItems[0];
+                        ConfigPath = ConfigPath.Replace('/', '\\');
+                        ConfigPath = ConfigPath.Replace("SonicMania.exe", "//mods//ManiaModLoader.ini");
+                        foreach (ToolStripMenuItem item in selectConfigToolStripMenuItem.DropDownItems)
                         {
-                            dropDownItem = item;
+                            if (item.Checked)
+                            {
+                                dropDownItem = item;
+                            }
                         }
+                        File.WriteAllText(ConfigPath, dropDownItem.Tag.ToString());
                     }
-                    File.WriteAllText(ConfigPath, dropDownItem.Tag.ToString());
+                    RunSequence(sender, e);
                 }
-                RunSequence(sender, e);
+
             }
         }
 
@@ -4057,6 +4078,18 @@ Error: {ex.Message}");
             }
         }
 
+        private void openDataDirectoryMenuButton(object sender, EventArgs e)
+        {
+            if (_recentDataItems != null)
+            {
+                string dataDirectory = _recentDataItems[1].Tag.ToString();
+                if (dataDirectory != null || dataDirectory != "")
+                {
+                    RecentDataDirectoryClicked(sender, e, dataDirectory);
+                }
+            }
+        }
+
         private void showFlippedTileHelper_Click(object sender, EventArgs e)
         {
             if (showFlippedTileHelperButton.Checked == false)
@@ -4077,19 +4110,6 @@ Error: {ex.Message}");
         private void resetDeviceButton_Click(object sender, EventArgs e)
         {
             GraphicPanel.AttemptRecovery(null);
-        }
-
-        private void openDataDirectoryMenuButton(object sender, EventArgs e)
-        {
-            if (_recentDataItems != null)
-            {
-                string dataDirectory = _recentDataItems[1].Tag.ToString();
-                if (dataDirectory != null || dataDirectory != "")
-                {
-                    RecentDataDirectoryClicked(sender, e, dataDirectory);
-                }
-            }
-
         }
 
         private void enableEncorePalette_Click(object sender, EventArgs e)
@@ -4406,7 +4426,7 @@ Error: {ex.Message}");
         private void GraphicPanel_MouseClick(object sender, MouseEventArgs e)
         {
             GraphicPanel.Focus();
-            if (e.Button == MouseButtons.Right && IsTilesEdit() && pointerButton.Checked)
+            if (e.Button == MouseButtons.Right && IsTilesEdit() && interactionToolButton.Checked)
             {
                 Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                 int tile = (ushort)(EditLayer?.GetTileAt(clicked_point_tile) & 0x3ff);
@@ -4804,7 +4824,7 @@ Error: {ex.Message}");
         #region Run Mania Methods
 
         // TODO: Perfect Scene Autobooting
-        private void RunSequence(object sender, EventArgs e)
+        private void RunSequence(object sender, EventArgs e, bool attachMode = false)
         {
             // Ask where Sonic Mania is located when not set
             string path = "steam://run/584400";
@@ -4847,7 +4867,7 @@ Error: {ex.Message}");
                 }
 
             }
-            if (path != "")
+            if (path != "" || attachMode)
             {
                 string maniaDir = Path.GetDirectoryName(path);
                 // Check if the mod loader is installed
@@ -4855,7 +4875,16 @@ Error: {ex.Message}");
                     psi.WorkingDirectory = maniaDir;
                 else
                     psi.WorkingDirectory = Path.GetDirectoryName(DataDirectory);
-                var p = Process.Start(psi);
+                Process p;
+                if (!attachMode)
+                {
+                     p = Process.Start(psi);
+                }
+                else
+                {
+                    var mania = Process.GetProcessesByName("SonicMania.exe");
+                    p = mania.FirstOrDefault();
+                }
                 GameRunning = true;
 
                 int CurrentScene_ptr = 0x00E48758;          // &CurrentScene
@@ -5815,6 +5844,8 @@ Error: {ex.Message}");
         {
             return Zoom;
         }
+
+
 
         #endregion
 

@@ -175,6 +175,16 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MagicWand_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("MagicWand_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MagnetMode {
             get {
                 object obj = ResourceManager.GetObject("MagnetMode", resourceCulture);
@@ -283,6 +293,16 @@ namespace ManiacEditor.Properties {
         internal static System.Drawing.Bitmap Open {
             get {
                 object obj = ResourceManager.GetObject("Open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PenTool_16x {
+            get {
+                object obj = ResourceManager.GetObject("PenTool_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

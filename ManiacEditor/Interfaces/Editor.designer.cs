@@ -242,6 +242,7 @@
             this.pointerButton = new System.Windows.Forms.ToolStripButton();
             this.selectTool = new System.Windows.Forms.ToolStripButton();
             this.placeTilesButton = new System.Windows.Forms.ToolStripButton();
+            this.interactionToolButton = new System.Windows.Forms.ToolStripButton();
             this.MagnetMode = new System.Windows.Forms.ToolStripButton();
             this.MagnetModeSplitButton = new System.Windows.Forms.ToolStripSplitButton();
             this.gridAlignmentSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -269,6 +270,11 @@
             this.editTile0WithTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.GraphicPanel = new ManiacEditor.DevicePanel();
+            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.setPlayerRespawnToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveThePlayerToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1942,6 +1948,7 @@
             this.pointerButton,
             this.selectTool,
             this.placeTilesButton,
+            this.interactionToolButton,
             this.MagnetMode,
             this.MagnetModeSplitButton,
             this.toolStripSeparator14,
@@ -1994,7 +2001,7 @@
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
             this.toolStripSplitButton1.Text = "Open Data Directory";
-            this.toolStripSplitButton1.Click += new System.EventHandler(this.openDataDirectoryMenuButton);
+            this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.openDataDirectoryMenuButton);
             // 
             // noRecentDataDirectoriesToolStripMenuItem
             // 
@@ -2052,6 +2059,8 @@
             this.runSceneButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.runSceneButton.DropDownButtonWidth = 16;
             this.runSceneButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.launchToolStripMenuItem,
+            this.toolStripSeparator26,
             this.openModManagerToolStripMenuItem,
             this.selectConfigToolStripMenuItem,
             this.editConfigsToolStripMenuItem1});
@@ -2163,7 +2172,7 @@
             this.pointerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pointerButton.Name = "pointerButton";
             this.pointerButton.Size = new System.Drawing.Size(23, 22);
-            this.pointerButton.Text = "Select & move";
+            this.pointerButton.Text = "Select/Move Tool";
             this.pointerButton.Click += new System.EventHandler(this.pointerButton_Click);
             // 
             // selectTool
@@ -2186,6 +2195,17 @@
             this.placeTilesButton.Size = new System.Drawing.Size(23, 22);
             this.placeTilesButton.Text = "Place tiles (Right click [+drag] - place, Left click [+drag] - delete)";
             this.placeTilesButton.Click += new System.EventHandler(this.placeTilesButton_Click);
+            // 
+            // interactionToolButton
+            // 
+            this.interactionToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.interactionToolButton.Image = global::ManiacEditor.Properties.Resources.MagicWand_16x_24;
+            this.interactionToolButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.interactionToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.interactionToolButton.Name = "interactionToolButton";
+            this.interactionToolButton.Size = new System.Drawing.Size(23, 22);
+            this.interactionToolButton.Text = "Interaction Tool";
+            this.interactionToolButton.Click += new System.EventHandler(this.interactionToolButton_Click);
             // 
             // MagnetMode
             // 
@@ -2404,9 +2424,12 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editTile0WithTileManiacToolStripMenuItem});
+            this.editTile0WithTileManiacToolStripMenuItem,
+            this.toolStripSeparator25,
+            this.setPlayerRespawnToHereToolStripMenuItem,
+            this.moveThePlayerToHereToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 76);
             // 
             // editTile0WithTileManiacToolStripMenuItem
             // 
@@ -2443,6 +2466,37 @@
             this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
             this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
             this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+            // 
+            // toolStripSeparator25
+            // 
+            this.toolStripSeparator25.Name = "toolStripSeparator25";
+            this.toolStripSeparator25.Size = new System.Drawing.Size(220, 6);
+            // 
+            // setPlayerRespawnToHereToolStripMenuItem
+            // 
+            this.setPlayerRespawnToHereToolStripMenuItem.Enabled = false;
+            this.setPlayerRespawnToHereToolStripMenuItem.Name = "setPlayerRespawnToHereToolStripMenuItem";
+            this.setPlayerRespawnToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.setPlayerRespawnToHereToolStripMenuItem.Text = "Set Player Respawn to Here";
+            // 
+            // moveThePlayerToHereToolStripMenuItem
+            // 
+            this.moveThePlayerToHereToolStripMenuItem.Enabled = false;
+            this.moveThePlayerToHereToolStripMenuItem.Name = "moveThePlayerToHereToolStripMenuItem";
+            this.moveThePlayerToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.moveThePlayerToHereToolStripMenuItem.Text = "Move the Player to Here";
+            // 
+            // launchToolStripMenuItem
+            // 
+            this.launchToolStripMenuItem.Name = "launchToolStripMenuItem";
+            this.launchToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.launchToolStripMenuItem.Text = "Launch/Attach";
+            this.launchToolStripMenuItem.Click += new System.EventHandler(this.RunScene_Click);
+            // 
+            // toolStripSeparator26
+            // 
+            this.toolStripSeparator26.Name = "toolStripSeparator26";
+            this.toolStripSeparator26.Size = new System.Drawing.Size(178, 6);
             // 
             // Editor
             // 
@@ -2733,6 +2787,12 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem editTile0WithTileManiacToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripButton interactionToolButton;
+        private System.Windows.Forms.ToolStripMenuItem launchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
+        private System.Windows.Forms.ToolStripMenuItem setPlayerRespawnToHereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveThePlayerToHereToolStripMenuItem;
     }
 }
 

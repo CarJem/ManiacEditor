@@ -185,7 +185,6 @@
     <None Include="Resources\Maniac.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="License-LGPL.txt" />
     <Content Include="Maniac.ico" />
     <None Include="Resources\_0_NoCol.png" />
     <None Include="Resources\_1_NoCol.png" />

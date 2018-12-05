@@ -69,6 +69,8 @@ namespace TileManiac
             this.splitFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.developerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.developerInterfaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipTileHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipTileVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -435,8 +437,6 @@ namespace TileManiac
             this.RGBox5 = new System.Windows.Forms.PictureBox();
             this.RGBox3 = new System.Windows.Forms.PictureBox();
             this.RGBox4 = new System.Windows.Forms.PictureBox();
-            this.flipTileHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flipTileVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -812,6 +812,22 @@ namespace TileManiac
             this.developerInterfaceToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.developerInterfaceToolStripMenuItem.Text = "Developer Interface";
             this.developerInterfaceToolStripMenuItem.Click += new System.EventHandler(this.developerInterfaceToolStripMenuItem_Click);
+            // 
+            // flipTileHorizontallyToolStripMenuItem
+            // 
+            this.flipTileHorizontallyToolStripMenuItem.Enabled = false;
+            this.flipTileHorizontallyToolStripMenuItem.Name = "flipTileHorizontallyToolStripMenuItem";
+            this.flipTileHorizontallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.flipTileHorizontallyToolStripMenuItem.Text = "Flip Tile Horizontally";
+            this.flipTileHorizontallyToolStripMenuItem.Click += new System.EventHandler(this.flipTileHorizontallyToolStripMenuItem_Click);
+            // 
+            // flipTileVerticallyToolStripMenuItem
+            // 
+            this.flipTileVerticallyToolStripMenuItem.Enabled = false;
+            this.flipTileVerticallyToolStripMenuItem.Name = "flipTileVerticallyToolStripMenuItem";
+            this.flipTileVerticallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.flipTileVerticallyToolStripMenuItem.Text = "Flip Tile Vertically";
+            this.flipTileVerticallyToolStripMenuItem.Click += new System.EventHandler(this.flipTileVerticallyToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -5159,20 +5175,6 @@ namespace TileManiac
             this.RGBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.RGBox4.TabIndex = 57;
             this.RGBox4.TabStop = false;
-            // 
-            // flipTileHorizontallyToolStripMenuItem
-            // 
-            this.flipTileHorizontallyToolStripMenuItem.Name = "flipTileHorizontallyToolStripMenuItem";
-            this.flipTileHorizontallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.flipTileHorizontallyToolStripMenuItem.Text = "Flip Tile Horizontally";
-            this.flipTileHorizontallyToolStripMenuItem.Click += new System.EventHandler(this.flipTileHorizontallyToolStripMenuItem_Click);
-            // 
-            // flipTileVerticallyToolStripMenuItem
-            // 
-            this.flipTileVerticallyToolStripMenuItem.Name = "flipTileVerticallyToolStripMenuItem";
-            this.flipTileVerticallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.flipTileVerticallyToolStripMenuItem.Text = "Flip Tile Vertically";
-            this.flipTileVerticallyToolStripMenuItem.Click += new System.EventHandler(this.flipTileVerticallyToolStripMenuItem_Click);
             // 
             // Mainform
             // 

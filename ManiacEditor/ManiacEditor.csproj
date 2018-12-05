@@ -1007,6 +1007,17 @@
     <Content Include="Global\TransportTubes.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\MagicWand_16x_24.bmp" />
+    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor34.png" />
+    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor3.png" />
+    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor2.png" />
+    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor.png" />
+    <None Include="Resources\Hand-Touch-2-icon.png" />
+    <None Include="Resources\4.png" />
+    <None Include="Resources\Hands-Hand-icon3.png" />
+    <None Include="Resources\Hands-Hand-icon2.png" />
+    <None Include="Resources\Hands-Hand-icon.png" />
+    <None Include="Resources\PenTool_16x.png" />
     <None Include="Resources\ColorWheel_16x.png" />
     <None Include="Resources\do-not-sign-icon-png-0.png" />
     <None Include="Resources\ColorPalette_16x.png" />

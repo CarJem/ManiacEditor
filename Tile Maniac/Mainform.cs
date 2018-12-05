@@ -337,7 +337,8 @@ namespace TileManiac
             {
                 if (imageIsModified)
                 {
-                    SaveTileSet();
+                    //SaveTileSet(); //Not Functional Yet
+                    imageIsModified = false;
                 }
                 tcf.Write(filepath);
                 hasModified = true;
@@ -404,8 +405,9 @@ namespace TileManiac
                 Bitmap CroppedImage = CropImage(TileSet, CropArea); // crop that image
                 Tiles.Add(CroppedImage); // add it to the tile list
 
-                Bitmap CroppedImageIndexed = CropImage(TileSet, CropArea, true); // crop that indexed image
-                IndexedTiles.Add(CroppedImageIndexed); // add it to the indexed tile list
+                //Code Not Ready Yet!
+                //Bitmap CroppedImageIndexed = CropImage(TileSet, CropArea, true); // crop that indexed image
+                //IndexedTiles.Add(CroppedImageIndexed); // add it to the indexed tile list
             }
         }
 
