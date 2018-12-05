@@ -72,6 +72,7 @@ namespace ManiacEditor
         bool forceResize = false; //For Opening a Scene Forcefully
         int forceResizeGoToX = 0; //For Opening a Scene Forcefully and then going to the specified X
         int forceResizeGoToY = 0; //For Opening a Scene Forcefullyand then going to the specified Y
+        int SelectedTileID = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -3638,6 +3639,18 @@ Error: {ex.Message}");
 
         #endregion
 
+        #region Tools Tab Buttons
+
+        private void optimizeEntitySlotIDsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (EditorScene != null)
+            {
+                entities.OptimizeSlotIDs();
+            }
+        }
+
+        #endregion
+
         #region Apps Tab Buttons
 
         private void tileManiacToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4256,7 +4269,7 @@ Error: {ex.Message}");
                 else if (vScrollBar1.Visible && !deviceLost) GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
                 else if (hScrollBar1.Visible && !deviceLost) GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
             }
-            if (showGrid)
+            if (showGrid && EditorScene != null)
                 Background.DrawGrid(GraphicPanel);
 
             /*
@@ -4393,6 +4406,22 @@ Error: {ex.Message}");
         private void GraphicPanel_MouseClick(object sender, MouseEventArgs e)
         {
             GraphicPanel.Focus();
+            if (e.Button == MouseButtons.Right && IsTilesEdit() && pointerButton.Checked)
+            {
+                Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+                int tile = (ushort)(EditLayer?.GetTileAt(clicked_point_tile) & 0x3ff);
+                SelectedTileID = tile;
+                if (tile >= 1023) editTile0WithTileManiacToolStripMenuItem.Enabled = false;
+                else editTile0WithTileManiacToolStripMenuItem.Enabled = true;
+
+                editTile0WithTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile);
+                contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
+            }
+        }
+
+        private void viewPanel_Click(object sender, EventArgs e)
+        {
+
         }
 
         #endregion
@@ -5791,6 +5820,27 @@ Error: {ex.Message}");
 
         #region Miscellaneous
 
+        private void editTileWithTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Editor.Instance.mainform.IsDisposed) Editor.Instance.mainform = new TileManiac.Mainform();
+            if (!Editor.Instance.mainform.Visible)
+            {
+                Editor.Instance.mainform.Show();
+            }
+            if (Editor.Instance.TilesConfig != null && Editor.Instance.StageTiles != null)
+            {
+                if (!Editor.Instance.mainform.Visible || Editor.Instance.mainform.tcf == null)
+                {
+                    Editor.Instance.mainform.LoadTileConfigViaIntergration(Editor.Instance.TilesConfig, Editor.Instance.SceneFilepath, SelectedTileID);
+                }
+                else
+                {
+                    Editor.Instance.mainform.SetCollisionIndex(SelectedTileID);
+                    Editor.Instance.mainform.Activate();
+                }
+
+            }
+        }
         private void ShowError(string message, string title = "Error!")
         {
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);

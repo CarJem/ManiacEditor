@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using ManiacEditor.Enums;
 using RSDKv5;
 
@@ -135,6 +136,20 @@ namespace ManiacEditor
             entity.Entity.Object.Entities.Add(entity.Entity);
             this.entities.Add(entity);
             entitiesBySlot[entity.Entity.SlotID] = entity;
+        }
+
+
+        public void OptimizeSlotIDs()
+        {
+            var entitiesSortedBySlot = entities.OrderBy(e => e.Entity.SlotID).ToList();
+            int lastSlotID = entitiesBySlot.Values.Last().Entity.SlotID;
+            int unusedSpaces = lastSlotID - entitiesSortedBySlot.Count;
+            for (int i = 0; i < entities.Count; i++)
+            {
+                entitiesSortedBySlot[i].Entity.SlotID = (ushort)i;
+            }
+            entities = entitiesSortedBySlot;
+            //MessageBox.Show("There are exactly " + unusedSpaces + " unused slots, in this scene", "Results");
         }
 
         /// <summary>
@@ -306,7 +321,7 @@ namespace ManiacEditor
 
                 else if (!entity.IsObjectOnScreen(d))
                 {
-                    //Do Nothing
+
                 }
 
                 else

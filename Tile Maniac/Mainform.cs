@@ -12,7 +12,10 @@ using System.Linq.Expressions;
 using System.Diagnostics;
 using RSDKv4;
 using RSDKv5;
+using System.Drawing.Imaging;
+using System.Media;
 using Color = System.Drawing.Color;
+using System.Runtime.InteropServices;
 
 namespace TileManiac
 {
@@ -32,10 +35,12 @@ namespace TileManiac
         public int curColisionMask; //What Collision Mask are we editing?
 
         public string filepath; //Where is the file located?
+        public string folderpath; //Where is the folder located?
 
         bool showPathB = false; //should we show Path A or Path B?
 
         public bool hasModified = false; //For intergrating tools to know that we have saved/made edits to this config.
+        bool imageIsModified = false;
 
         bool mouseHeldDown = false;
         MouseButtons mouseButtonHeld = MouseButtons.None;
@@ -46,6 +51,7 @@ namespace TileManiac
         public RSDKv5.TilesConfig tcfBak; //Backup ColllisionMask Data
 
         List<Bitmap> Tiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles
+        List<Bitmap> IndexedTiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles (Preserving Color Pallete)
         int gotoVal; //What collision mask we goto when "GO!" is pressed
 
         public Mainform()
@@ -259,7 +265,7 @@ namespace TileManiac
                 CollisionList.SelectedIndex = selectedTile;
                 CollisionList.Refresh();
 
-                curColisionMask = 0;
+                curColisionMask = selectedTile;
                 RefreshUI(); //update the UI
             
         }
@@ -329,6 +335,10 @@ namespace TileManiac
         {
             if (filepath != null) //Did we open a file?
             {
+                if (imageIsModified)
+                {
+                    SaveTileSet();
+                }
                 tcf.Write(filepath);
                 hasModified = true;
             }
@@ -393,20 +403,70 @@ namespace TileManiac
 
                 Bitmap CroppedImage = CropImage(TileSet, CropArea); // crop that image
                 Tiles.Add(CroppedImage); // add it to the tile list
+
+                Bitmap CroppedImageIndexed = CropImage(TileSet, CropArea, true); // crop that indexed image
+                IndexedTiles.Add(CroppedImageIndexed); // add it to the indexed tile list
             }
         }
 
-        public Bitmap CropImage(Bitmap source, Rectangle section)
+        public void SaveTileSet()
+        {
+            Bitmap bmp = mergeImages(IndexedTiles.ToArray());
+            bmp.Save(Path.Combine(Path.GetDirectoryName(filepath), "16x16Tiles_Test.gif"));         
+        }
+
+        public Bitmap mergeImages(Bitmap[] images)
+        {
+            Bitmap mergedImg = new Bitmap(16, 16384, PixelFormat.Format8bppIndexed);
+            mergedImg.Palette = IndexedTiles[0].Palette;
+            for (int i = 0; i < IndexedTiles.Count; i++)
+            {
+                var bitmapData = IndexedTiles[i].LockBits(new Rectangle(0, 0, IndexedTiles[i].Width, IndexedTiles[i].Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+                for (int h = 0; h < 16; h++)
+                {
+                    for (int w = 0; w < 16; w++)
+                    {
+                        int indexColor = GetIndexedPixel(w, h, bitmapData);
+                        SetPixel(mergedImg, w, h + (16 * i), indexColor);
+                    }
+                }
+            }
+
+            return mergedImg;
+        }
+
+        private int GetIndexedPixel(int x, int y, BitmapData bitmapData)
+        {
+            //I tried to get this section working, but I didn't run into any luck.
+            return 0;
+        }
+
+        private static void SetPixel(Bitmap bmp, int x, int y, int paletteEntry)
+        {
+            BitmapData data = bmp.LockBits(new Rectangle(new Point(x, y), new Size(1, 1)), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+            byte b = Marshal.ReadByte(data.Scan0);
+            Marshal.WriteByte(data.Scan0, (byte)(b & 0xf | (paletteEntry)));
+            bmp.UnlockBits(data);
+        }
+
+        public Bitmap CropImage(Bitmap source, Rectangle section, bool indexed = false)
         {
             // An empty bitmap which will hold the cropped image
+
+
             Bitmap bmp = new Bitmap(section.Width, section.Height);
+            if (indexed)
+            {
+                bmp = source.Clone(section, PixelFormat.Format8bppIndexed);
+            }
+            else
+            {
+                Graphics g = Graphics.FromImage(bmp);
 
-            Graphics g = Graphics.FromImage(bmp);
-
-            // Draw the given area (section) of the source image
-            // at location 0,0 on the empty bitmap (bmp)
-            g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-
+                // Draw the given area (section) of the source image
+                // at location 0,0 on the empty bitmap (bmp)
+                g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+            }
             return bmp;
         }
 
@@ -1526,11 +1586,13 @@ namespace TileManiac
             if (!showPathB)
             {
                 TileClipboard = tcf.CollisionPath1[curColisionMask];
+                Clipboard.SetData("TileManiacCollision", tcf.CollisionPath1[curColisionMask]);
                 RefreshUI();
             }
             else if (showPathB)
             {
                 TileClipboard = tcf.CollisionPath2[curColisionMask];
+                Clipboard.SetData("TileManiacCollision", tcf.CollisionPath2[curColisionMask]);
                 RefreshUI();
             }
         }
@@ -1539,12 +1601,36 @@ namespace TileManiac
         {
             if (!showPathB)
             {
-                tcf.CollisionPath1[curColisionMask] = TileClipboard;
+                if (Clipboard.ContainsData("TileManiacCollision"))
+                {
+                    var copyData = Clipboard.GetData("TileManiacCollision") as TilesConfig.CollisionMask;
+                    if (copyData != null)
+                    {
+                        tcf.CollisionPath1[curColisionMask] = copyData;
+                    }
+
+                }
+                else if (TileClipboard != null)
+                {
+                    tcf.CollisionPath1[curColisionMask] = TileClipboard;
+                }
+
                 RefreshUI();
             }
             else if (showPathB)
             {
-                tcf.CollisionPath2[curColisionMask] = TileClipboard;
+                if (Clipboard.ContainsData("TileManiacCollision"))
+                {
+                    var copyData = Clipboard.GetData("TileManiacCollision") as TilesConfig.CollisionMask;
+                    if (copyData != null)
+                    {
+                        tcf.CollisionPath2[curColisionMask] = copyData;
+                    }
+                }
+                else if (TileClipboard != null)
+                {
+                    tcf.CollisionPath2[curColisionMask] = TileClipboard;
+                }
                 RefreshUI();
             }
         }
@@ -2049,6 +2135,40 @@ namespace TileManiac
                 tcf.CollisionPath2[curColisionMask] = tcfBak.CollisionPath2[curColisionMask];
                 RefreshUI();
             }
+        }
+
+        private void newInstanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var mainform = new Mainform();
+            mainform.Show();
+        }
+
+        private void flipTileHorizontallyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bitmap tile = Tiles[curColisionMask];
+            tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            tile = Tiles[curColisionMask];
+            imageIsModified = true;
+
+            Bitmap indexedTile = IndexedTiles[curColisionMask];
+            indexedTile.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            indexedTile = IndexedTiles[curColisionMask];
+
+            RefreshUI();
+        }
+
+        private void flipTileVerticallyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bitmap tile = Tiles[curColisionMask];
+            tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            tile = Tiles[curColisionMask];
+            imageIsModified = true;
+
+            Bitmap indexedTile = IndexedTiles[curColisionMask];
+            indexedTile.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            indexedTile = IndexedTiles[curColisionMask];
+
+            RefreshUI();
         }
     }
 }

@@ -33,6 +33,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,6 +121,7 @@
             this.playerSpawnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.multiLayerSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optimizeEntitySlotIDsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preRenderSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.developerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.developerInterfaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,7 +163,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.seperator1 = new System.Windows.Forms.ToolStripSeparator();
             this._levelIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -264,6 +265,10 @@
             this.showCollisionAButton = new System.Windows.Forms.ToolStripButton();
             this.showCollisionBButton = new System.Windows.Forms.ToolStripButton();
             this.showFlippedTileHelperButton = new System.Windows.Forms.ToolStripButton();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editTile0WithTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -275,6 +280,7 @@
             this.toolStrip4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStrip5.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -899,6 +905,7 @@
             this.goToToolStripMenuItem1,
             this.overlayImageToolStripMenuItem,
             this.multiLayerSelectionToolStripMenuItem,
+            this.optimizeEntitySlotIDsToolStripMenuItem,
             this.preRenderSceneToolStripMenuItem,
             this.developerToolStripMenuItem1});
             this.toolsToolStripMenuItem1.Name = "toolsToolStripMenuItem1";
@@ -908,7 +915,7 @@
             // findAndReplaceToolStripMenuItem
             // 
             this.findAndReplaceToolStripMenuItem.Name = "findAndReplaceToolStripMenuItem";
-            this.findAndReplaceToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.findAndReplaceToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.findAndReplaceToolStripMenuItem.Text = "Find and Replace...";
             this.findAndReplaceToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem1_Click);
             // 
@@ -918,7 +925,7 @@
             this.statusNAToolStripMenuItem,
             this.axisToolStripMenuItem});
             this.scrollLockToolStripMenuItem.Name = "scrollLockToolStripMenuItem";
-            this.scrollLockToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.scrollLockToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.scrollLockToolStripMenuItem.Text = "Scroll Lock...";
             // 
             // statusNAToolStripMenuItem
@@ -954,7 +961,7 @@
             // nudgeSelectionFasterToolStripMenuItem
             // 
             this.nudgeSelectionFasterToolStripMenuItem.Name = "nudgeSelectionFasterToolStripMenuItem";
-            this.nudgeSelectionFasterToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.nudgeSelectionFasterToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.nudgeSelectionFasterToolStripMenuItem.Text = "Nudge Selection Faster";
             this.nudgeSelectionFasterToolStripMenuItem.Click += new System.EventHandler(this.nudgeFasterButton_Click);
             // 
@@ -964,7 +971,7 @@
             this.specificPlaceToolStripMenuItem,
             this.playerSpawnToolStripMenuItem});
             this.goToToolStripMenuItem1.Name = "goToToolStripMenuItem1";
-            this.goToToolStripMenuItem1.Size = new System.Drawing.Size(195, 22);
+            this.goToToolStripMenuItem1.Size = new System.Drawing.Size(197, 22);
             this.goToToolStripMenuItem1.Text = "Go to...";
             // 
             // specificPlaceToolStripMenuItem
@@ -986,20 +993,27 @@
             // 
             this.overlayImageToolStripMenuItem.Enabled = false;
             this.overlayImageToolStripMenuItem.Name = "overlayImageToolStripMenuItem";
-            this.overlayImageToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.overlayImageToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.overlayImageToolStripMenuItem.Text = "Overlay Image...";
             // 
             // multiLayerSelectionToolStripMenuItem
             // 
             this.multiLayerSelectionToolStripMenuItem.Enabled = false;
             this.multiLayerSelectionToolStripMenuItem.Name = "multiLayerSelectionToolStripMenuItem";
-            this.multiLayerSelectionToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.multiLayerSelectionToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.multiLayerSelectionToolStripMenuItem.Text = "Multi-Layer Selection";
+            // 
+            // optimizeEntitySlotIDsToolStripMenuItem
+            // 
+            this.optimizeEntitySlotIDsToolStripMenuItem.Name = "optimizeEntitySlotIDsToolStripMenuItem";
+            this.optimizeEntitySlotIDsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.optimizeEntitySlotIDsToolStripMenuItem.Text = "Optimize Entity Slot IDs";
+            this.optimizeEntitySlotIDsToolStripMenuItem.Click += new System.EventHandler(this.optimizeEntitySlotIDsToolStripMenuItem_Click);
             // 
             // preRenderSceneToolStripMenuItem
             // 
             this.preRenderSceneToolStripMenuItem.Name = "preRenderSceneToolStripMenuItem";
-            this.preRenderSceneToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.preRenderSceneToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.preRenderSceneToolStripMenuItem.Text = "Pre-Render Scene";
             this.preRenderSceneToolStripMenuItem.Click += new System.EventHandler(this.preLoadSceneButton_Click);
             // 
@@ -1013,7 +1027,7 @@
             this.consoleWindowToolStripMenuItem,
             this.saveForForceOpenOnStartupToolStripMenuItem});
             this.developerToolStripMenuItem1.Name = "developerToolStripMenuItem1";
-            this.developerToolStripMenuItem1.Size = new System.Drawing.Size(195, 22);
+            this.developerToolStripMenuItem1.Size = new System.Drawing.Size(197, 22);
             this.developerToolStripMenuItem1.Text = "Developer";
             // 
             // developerInterfaceToolStripMenuItem
@@ -1322,6 +1336,7 @@
             this.viewPanel.Name = "viewPanel";
             this.viewPanel.Size = new System.Drawing.Size(925, 616);
             this.viewPanel.TabIndex = 8;
+            this.viewPanel.Click += new System.EventHandler(this.viewPanel_Click);
             // 
             // panel3
             // 
@@ -1361,30 +1376,6 @@
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
             this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar1_Entered);
-            // 
-            // GraphicPanel
-            // 
-            this.GraphicPanel.AllowDrop = true;
-            this.GraphicPanel.AutoSize = true;
-            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
-            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.GraphicPanel.Name = "GraphicPanel";
-            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
-            this.GraphicPanel.TabIndex = 10;
-            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
             // 
             // statusStrip1
             // 
@@ -2410,6 +2401,49 @@
             this.showFlippedTileHelperButton.Text = "Show Flipped Tile Helper";
             this.showFlippedTileHelperButton.Click += new System.EventHandler(this.showFlippedTileHelper_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editTile0WithTileManiacToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 26);
+            // 
+            // editTile0WithTileManiacToolStripMenuItem
+            // 
+            this.editTile0WithTileManiacToolStripMenuItem.Name = "editTile0WithTileManiacToolStripMenuItem";
+            this.editTile0WithTileManiacToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.editTile0WithTileManiacToolStripMenuItem.Text = "Edit Tile {0} with Tile Maniac";
+            this.editTile0WithTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileWithTileManiacToolStripMenuItem_Click);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+            // 
+            // GraphicPanel
+            // 
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
+            this.GraphicPanel.TabIndex = 10;
+            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2454,6 +2488,7 @@
             this.toolStrip1.PerformLayout();
             this.toolStrip5.ResumeLayout(false);
             this.toolStrip5.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2694,6 +2729,10 @@
         private System.Windows.Forms.ToolStripMenuItem animationManiacToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem maniacPalColorPaletteEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton showFlippedTileHelperButton;
+        private System.Windows.Forms.ToolStripMenuItem optimizeEntitySlotIDsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem editTile0WithTileManiacToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
     }
 }
 

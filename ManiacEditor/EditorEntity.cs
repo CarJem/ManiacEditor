@@ -295,7 +295,7 @@ namespace ManiacEditor
 
 
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
+
             if (entityRenderList.Contains(name) && !skipRenderforx86)
             {
                 if (!Properties.Settings.Default.NeverLoadEntityTextures)
@@ -311,8 +311,10 @@ namespace ManiacEditor
                 }
 
             }
-            else if (editorAnim != null && editorAnim.Frames.Count > 0)
-            {
+            else {
+                var editorAnim = EditorEntity_ini.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
+                if (editorAnim != null && editorAnim.Frames.Count > 0)
+                {
 
                     // Special cases that always display a set frame(?)
                     if (Editor.Instance.ShowAnimations.Enabled == true)
@@ -345,15 +347,18 @@ namespace ManiacEditor
                     //Failsafe?
                     //DrawOthers(d);
 
-            }
-            else
-            {
+                }
+                else
+                {
                     if (this.IsObjectOnScreen(d) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
                     {
                         d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                     }
 
+                }
             }
+
+
 
             if (this.IsObjectOnScreen(d) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
             {
@@ -594,6 +599,11 @@ namespace ManiacEditor
                     entity.attributesMap["flipFlag"].ValueVar ^= 0x02;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

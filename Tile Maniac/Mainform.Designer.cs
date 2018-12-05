@@ -33,6 +33,8 @@ namespace TileManiac
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mainform));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newInstanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +52,10 @@ namespace TileManiac
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.mirrorPathsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetCollisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showPathBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +72,6 @@ namespace TileManiac
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.mirrorModeStatusLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label243 = new System.Windows.Forms.Label();
@@ -382,6 +387,7 @@ namespace TileManiac
             this.GotoNUD = new System.Windows.Forms.NumericUpDown();
             this.PrevButton = new System.Windows.Forms.Button();
             this.NextButton = new System.Windows.Forms.Button();
+            this.mirrorModeStatusLabel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tileViewRadioButton = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
@@ -429,10 +435,8 @@ namespace TileManiac
             this.RGBox5 = new System.Windows.Forms.PictureBox();
             this.RGBox3 = new System.Windows.Forms.PictureBox();
             this.RGBox4 = new System.Windows.Forms.PictureBox();
-            this.resetCollisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pathAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pathBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipTileHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipTileVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -510,6 +514,8 @@ namespace TileManiac
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newInstanceToolStripMenuItem,
+            this.toolStripSeparator6,
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
@@ -524,6 +530,18 @@ namespace TileManiac
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newInstanceToolStripMenuItem
+            // 
+            this.newInstanceToolStripMenuItem.Name = "newInstanceToolStripMenuItem";
+            this.newInstanceToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
+            this.newInstanceToolStripMenuItem.Text = "New Instance";
+            this.newInstanceToolStripMenuItem.Click += new System.EventHandler(this.newInstanceToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(305, 6);
             // 
             // openToolStripMenuItem
             // 
@@ -658,6 +676,37 @@ namespace TileManiac
             this.mirrorPathsToolStripMenuItem1.Text = "Mirror Paths";
             this.mirrorPathsToolStripMenuItem1.Click += new System.EventHandler(this.mirrorPathsToolStripMenuItem_Click);
             // 
+            // resetCollisionToolStripMenuItem
+            // 
+            this.resetCollisionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bothToolStripMenuItem,
+            this.pathAToolStripMenuItem,
+            this.pathBToolStripMenuItem});
+            this.resetCollisionToolStripMenuItem.Name = "resetCollisionToolStripMenuItem";
+            this.resetCollisionToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
+            this.resetCollisionToolStripMenuItem.Text = "Restore Mask from Memory";
+            // 
+            // bothToolStripMenuItem
+            // 
+            this.bothToolStripMenuItem.Name = "bothToolStripMenuItem";
+            this.bothToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.bothToolStripMenuItem.Text = "Both";
+            this.bothToolStripMenuItem.Click += new System.EventHandler(this.bothToolStripMenuItem_Click);
+            // 
+            // pathAToolStripMenuItem
+            // 
+            this.pathAToolStripMenuItem.Name = "pathAToolStripMenuItem";
+            this.pathAToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.pathAToolStripMenuItem.Text = "Path A";
+            this.pathAToolStripMenuItem.Click += new System.EventHandler(this.pathAToolStripMenuItem_Click);
+            // 
+            // pathBToolStripMenuItem
+            // 
+            this.pathBToolStripMenuItem.Name = "pathBToolStripMenuItem";
+            this.pathBToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.pathBToolStripMenuItem.Text = "Path B";
+            this.pathBToolStripMenuItem.Click += new System.EventHandler(this.pathBToolStripMenuItem_Click);
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -734,7 +783,9 @@ namespace TileManiac
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.splitFileToolStripMenuItem,
-            this.developerToolStripMenuItem});
+            this.developerToolStripMenuItem,
+            this.flipTileHorizontallyToolStripMenuItem,
+            this.flipTileVerticallyToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -743,7 +794,7 @@ namespace TileManiac
             // splitFileToolStripMenuItem
             // 
             this.splitFileToolStripMenuItem.Name = "splitFileToolStripMenuItem";
-            this.splitFileToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.splitFileToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.splitFileToolStripMenuItem.Text = "Split File";
             this.splitFileToolStripMenuItem.Click += new System.EventHandler(this.splitFileToolStripMenuItem_Click);
             // 
@@ -752,7 +803,7 @@ namespace TileManiac
             this.developerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.developerInterfaceToolStripMenuItem});
             this.developerToolStripMenuItem.Name = "developerToolStripMenuItem";
-            this.developerToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.developerToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.developerToolStripMenuItem.Text = "Developer";
             // 
             // developerInterfaceToolStripMenuItem
@@ -802,18 +853,6 @@ namespace TileManiac
             this.splitContainer1.SplitterDistance = 377;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // mirrorModeStatusLabel
-            // 
-            this.mirrorModeStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.mirrorModeStatusLabel.AutoSize = true;
-            this.mirrorModeStatusLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.mirrorModeStatusLabel.Location = new System.Drawing.Point(6, 459);
-            this.mirrorModeStatusLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.mirrorModeStatusLabel.Name = "mirrorModeStatusLabel";
-            this.mirrorModeStatusLabel.Size = new System.Drawing.Size(89, 13);
-            this.mirrorModeStatusLabel.TabIndex = 113;
-            this.mirrorModeStatusLabel.Text = "Mirror Mode: OFF";
             // 
             // groupBox1
             // 
@@ -4606,6 +4645,18 @@ namespace TileManiac
             this.NextButton.UseVisualStyleBackColor = true;
             this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
             // 
+            // mirrorModeStatusLabel
+            // 
+            this.mirrorModeStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.mirrorModeStatusLabel.AutoSize = true;
+            this.mirrorModeStatusLabel.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.mirrorModeStatusLabel.Location = new System.Drawing.Point(6, 459);
+            this.mirrorModeStatusLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.mirrorModeStatusLabel.Name = "mirrorModeStatusLabel";
+            this.mirrorModeStatusLabel.Size = new System.Drawing.Size(89, 13);
+            this.mirrorModeStatusLabel.TabIndex = 113;
+            this.mirrorModeStatusLabel.Text = "Mirror Mode: OFF";
+            // 
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -5109,36 +5160,19 @@ namespace TileManiac
             this.RGBox4.TabIndex = 57;
             this.RGBox4.TabStop = false;
             // 
-            // resetCollisionToolStripMenuItem
+            // flipTileHorizontallyToolStripMenuItem
             // 
-            this.resetCollisionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bothToolStripMenuItem,
-            this.pathAToolStripMenuItem,
-            this.pathBToolStripMenuItem});
-            this.resetCollisionToolStripMenuItem.Name = "resetCollisionToolStripMenuItem";
-            this.resetCollisionToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
-            this.resetCollisionToolStripMenuItem.Text = "Restore Mask from Memory";
+            this.flipTileHorizontallyToolStripMenuItem.Name = "flipTileHorizontallyToolStripMenuItem";
+            this.flipTileHorizontallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.flipTileHorizontallyToolStripMenuItem.Text = "Flip Tile Horizontally";
+            this.flipTileHorizontallyToolStripMenuItem.Click += new System.EventHandler(this.flipTileHorizontallyToolStripMenuItem_Click);
             // 
-            // pathAToolStripMenuItem
+            // flipTileVerticallyToolStripMenuItem
             // 
-            this.pathAToolStripMenuItem.Name = "pathAToolStripMenuItem";
-            this.pathAToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pathAToolStripMenuItem.Text = "Path A";
-            this.pathAToolStripMenuItem.Click += new System.EventHandler(this.pathAToolStripMenuItem_Click);
-            // 
-            // pathBToolStripMenuItem
-            // 
-            this.pathBToolStripMenuItem.Name = "pathBToolStripMenuItem";
-            this.pathBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pathBToolStripMenuItem.Text = "Path B";
-            this.pathBToolStripMenuItem.Click += new System.EventHandler(this.pathBToolStripMenuItem_Click);
-            // 
-            // bothToolStripMenuItem
-            // 
-            this.bothToolStripMenuItem.Name = "bothToolStripMenuItem";
-            this.bothToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.bothToolStripMenuItem.Text = "Both";
-            this.bothToolStripMenuItem.Click += new System.EventHandler(this.bothToolStripMenuItem_Click);
+            this.flipTileVerticallyToolStripMenuItem.Name = "flipTileVerticallyToolStripMenuItem";
+            this.flipTileVerticallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.flipTileVerticallyToolStripMenuItem.Text = "Flip Tile Vertically";
+            this.flipTileVerticallyToolStripMenuItem.Click += new System.EventHandler(this.flipTileVerticallyToolStripMenuItem_Click);
             // 
             // Mainform
             // 
@@ -5630,6 +5664,10 @@ namespace TileManiac
         private ToolStripMenuItem pathAToolStripMenuItem;
         private ToolStripMenuItem pathBToolStripMenuItem;
         private ToolStripMenuItem bothToolStripMenuItem;
+        private ToolStripMenuItem newInstanceToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator6;
+        private ToolStripMenuItem flipTileHorizontallyToolStripMenuItem;
+        private ToolStripMenuItem flipTileVerticallyToolStripMenuItem;
     }
 }
 
