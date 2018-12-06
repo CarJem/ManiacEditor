@@ -2749,6 +2749,7 @@ namespace ManiacEditor
                     Result = select.Result;
                     LevelID = select.LevelID;
                     isEncore = select.isEncore;
+                    ResultPath = Path.GetDirectoryName(Result);
 
                 }
                 else
@@ -2797,7 +2798,7 @@ namespace ManiacEditor
                     SelectedZone = new DirectoryInfo(directoryPath).Name;
                     SelectedScene = Path.GetFileName(Result);
                     SceneFilename = Result;
-                    SceneFilepath = ResultPath;
+                    SceneFilepath = Path.Combine(DataDirectory, "Stages", SelectedZone);
                     searchType = 0;
                 }
                 else
@@ -5186,26 +5187,31 @@ Error: {ex.Message}");
                 if (backupType == 1)
                 {
                     String SceneFilenameBak = SceneFilename + ".bak";
+                    String SceneFilenameBakReserve = SceneFilenameBak;
+                    SceneFilenameBak += ".bin";
                     int i = 1;
                     while ((File.Exists(SceneFilenameBak)))
                     {
-                        SceneFilenameBak = SceneFilename.Substring(0, SceneFilename.Length - 4) + "." + i + ".bin.bak";
+                        SceneFilenameBak = SceneFilenameBakReserve + i + ".bin";
                         i++;
                     }
                     EditorScene.Save(SceneFilenameBak);
                 }
                 if (backupType == 2)
                 {
-                    String SceneFilenameBak = SceneFilename + ".crash.bak";
+                    String SceneFilenameBak = SceneFilename + ".crash.bak.bin";
+                    String SceneFilenameBakReserve = SceneFilenameBak;
                     EditorScene.Save(SceneFilenameBak);
                 }
                 if (backupType >= 3 && backupType != 4)
                 {
                     String SceneFilenameBak = SceneFilename + ".idk.bak";
+                    String SceneFilenameBakReserve = SceneFilenameBak;
+                    SceneFilenameBak += ".bin";
                     int i = 1;
                     while ((File.Exists(SceneFilenameBak)))
                     {
-                        SceneFilenameBak = SceneFilename.Substring(0, SceneFilename.Length - 4) + "." + i + ".bin.bak";
+                        SceneFilenameBak = SceneFilenameBakReserve + i + ".bin";
                         i++;
                     }
                     EditorScene.Save(SceneFilenameBak);
@@ -5222,12 +5228,14 @@ Error: {ex.Message}");
             {
                 if (backupType == 4)
                 {
-                    String StageConfigFileName = SceneFilepath + "StageConfig.bin" + ".bak";
+                    String StageConfigFileName = SceneFilepath + "\\StageConfig" + ".bak";
+                    String StageConfigFileNameReserve = StageConfigFileName;
+                    StageConfigFileName += ".bin";
                     Debug.Print(StageConfigFileName);
                     int i = 1;
                     while ((File.Exists(StageConfigFileName)))
                     {
-                        StageConfigFileName = "StageConfig" + "." + i + ".bin.bak";
+                        StageConfigFileName = StageConfigFileNameReserve + i + ".bin";
                         i++;
                     }
                     StageConfig?.Write(StageConfigFileName);

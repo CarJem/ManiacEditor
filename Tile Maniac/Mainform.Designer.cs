@@ -41,6 +41,10 @@ namespace TileManiac
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importRSDKv5TileConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToRSDKv5TileConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x16TilesgifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tileConfigbinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.openSingleCollisionMaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportCurrentCollisionMaskAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +77,7 @@ namespace TileManiac
             this.flipTileVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -399,9 +404,9 @@ namespace TileManiac
             this.TilePicBox = new TileManiac.Mainform.PictureBoxNearestNeighbor();
             this.CollisionPicBox = new TileManiac.Mainform.PictureBoxNearestNeighbor();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.overlayViewButton = new System.Windows.Forms.RadioButton();
+            this.colllisionViewButton = new System.Windows.Forms.RadioButton();
+            this.tileViewButton = new System.Windows.Forms.RadioButton();
             this.CollisionList = new TileManiac.TileList();
             this.CollisionVIEW = new System.Windows.Forms.GroupBox();
             this.RGBoxF = new System.Windows.Forms.PictureBox();
@@ -437,6 +442,8 @@ namespace TileManiac
             this.RGBox5 = new System.Windows.Forms.PictureBox();
             this.RGBox3 = new System.Windows.Forms.PictureBox();
             this.RGBox4 = new System.Windows.Forms.PictureBox();
+            this.foldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openCollisionHomeFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -503,6 +510,7 @@ namespace TileManiac
             this.editToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.toolsToolStripMenuItem,
+            this.foldersToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -522,6 +530,8 @@ namespace TileManiac
             this.toolStripSeparator2,
             this.importRSDKv5TileConfigToolStripMenuItem,
             this.exportToRSDKv5TileConfigToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.backupToolStripMenuItem,
             this.toolStripSeparator4,
             this.openSingleCollisionMaskToolStripMenuItem,
             this.exportCurrentCollisionMaskAsToolStripMenuItem,
@@ -591,6 +601,34 @@ namespace TileManiac
             this.exportToRSDKv5TileConfigToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
             this.exportToRSDKv5TileConfigToolStripMenuItem.Text = "Save As... (Uncompressed)";
             this.exportToRSDKv5TileConfigToolStripMenuItem.Click += new System.EventHandler(this.saveAsUncompressedToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(305, 6);
+            // 
+            // backupToolStripMenuItem
+            // 
+            this.backupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.x16TilesgifToolStripMenuItem,
+            this.tileConfigbinToolStripMenuItem});
+            this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
+            this.backupToolStripMenuItem.Text = "Backup...";
+            // 
+            // x16TilesgifToolStripMenuItem
+            // 
+            this.x16TilesgifToolStripMenuItem.Name = "x16TilesgifToolStripMenuItem";
+            this.x16TilesgifToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x16TilesgifToolStripMenuItem.Text = "16x16Tiles.gif";
+            this.x16TilesgifToolStripMenuItem.Click += new System.EventHandler(this.x16TilesgifToolStripMenuItem_Click);
+            // 
+            // tileConfigbinToolStripMenuItem
+            // 
+            this.tileConfigbinToolStripMenuItem.Name = "tileConfigbinToolStripMenuItem";
+            this.tileConfigbinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tileConfigbinToolStripMenuItem.Text = "TileConfig.bin";
+            this.tileConfigbinToolStripMenuItem.Click += new System.EventHandler(this.tileConfigbinToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -815,7 +853,6 @@ namespace TileManiac
             // 
             // flipTileHorizontallyToolStripMenuItem
             // 
-            this.flipTileHorizontallyToolStripMenuItem.Enabled = false;
             this.flipTileHorizontallyToolStripMenuItem.Name = "flipTileHorizontallyToolStripMenuItem";
             this.flipTileHorizontallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.flipTileHorizontallyToolStripMenuItem.Text = "Flip Tile Horizontally";
@@ -823,7 +860,6 @@ namespace TileManiac
             // 
             // flipTileVerticallyToolStripMenuItem
             // 
-            this.flipTileVerticallyToolStripMenuItem.Enabled = false;
             this.flipTileVerticallyToolStripMenuItem.Name = "flipTileVerticallyToolStripMenuItem";
             this.flipTileVerticallyToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.flipTileVerticallyToolStripMenuItem.Text = "Flip Tile Vertically";
@@ -832,7 +868,8 @@ namespace TileManiac
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem1});
+            this.aboutToolStripMenuItem1,
+            this.settingsToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
@@ -841,9 +878,16 @@ namespace TileManiac
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -4777,9 +4821,9 @@ namespace TileManiac
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.radioButton3);
-            this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Controls.Add(this.radioButton2);
+            this.groupBox2.Controls.Add(this.overlayViewButton);
+            this.groupBox2.Controls.Add(this.colllisionViewButton);
+            this.groupBox2.Controls.Add(this.tileViewButton);
             this.groupBox2.ForeColor = System.Drawing.SystemColors.WindowText;
             this.groupBox2.Location = new System.Drawing.Point(143, 241);
             this.groupBox2.Name = "groupBox2";
@@ -4788,41 +4832,41 @@ namespace TileManiac
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Viewer Mode:";
             // 
-            // radioButton3
+            // overlayViewButton
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 62);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(61, 17);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Overlay";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            this.overlayViewButton.AutoSize = true;
+            this.overlayViewButton.Location = new System.Drawing.Point(6, 62);
+            this.overlayViewButton.Name = "overlayViewButton";
+            this.overlayViewButton.Size = new System.Drawing.Size(61, 17);
+            this.overlayViewButton.TabIndex = 2;
+            this.overlayViewButton.TabStop = true;
+            this.overlayViewButton.Text = "Overlay";
+            this.overlayViewButton.UseVisualStyleBackColor = true;
+            this.overlayViewButton.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
-            // radioButton1
+            // colllisionViewButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(63, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Collision";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.colllisionViewButton.AutoSize = true;
+            this.colllisionViewButton.Location = new System.Drawing.Point(6, 19);
+            this.colllisionViewButton.Name = "colllisionViewButton";
+            this.colllisionViewButton.Size = new System.Drawing.Size(63, 17);
+            this.colllisionViewButton.TabIndex = 0;
+            this.colllisionViewButton.TabStop = true;
+            this.colllisionViewButton.Text = "Collision";
+            this.colllisionViewButton.UseVisualStyleBackColor = true;
+            this.colllisionViewButton.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
-            // radioButton2
+            // tileViewButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 39);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(42, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Tile";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.tileViewButton.AutoSize = true;
+            this.tileViewButton.Location = new System.Drawing.Point(6, 39);
+            this.tileViewButton.Name = "tileViewButton";
+            this.tileViewButton.Size = new System.Drawing.Size(42, 17);
+            this.tileViewButton.TabIndex = 1;
+            this.tileViewButton.TabStop = true;
+            this.tileViewButton.Text = "Tile";
+            this.tileViewButton.UseVisualStyleBackColor = true;
+            this.tileViewButton.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // CollisionList
             // 
@@ -5176,6 +5220,21 @@ namespace TileManiac
             this.RGBox4.TabIndex = 57;
             this.RGBox4.TabStop = false;
             // 
+            // foldersToolStripMenuItem
+            // 
+            this.foldersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openCollisionHomeFolderToolStripMenuItem});
+            this.foldersToolStripMenuItem.Name = "foldersToolStripMenuItem";
+            this.foldersToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.foldersToolStripMenuItem.Text = "Folders";
+            // 
+            // openCollisionHomeFolderToolStripMenuItem
+            // 
+            this.openCollisionHomeFolderToolStripMenuItem.Name = "openCollisionHomeFolderToolStripMenuItem";
+            this.openCollisionHomeFolderToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.openCollisionHomeFolderToolStripMenuItem.Text = "Open Collision Home Folder";
+            this.openCollisionHomeFolderToolStripMenuItem.Click += new System.EventHandler(this.openCollisionHomeFolderToolStripMenuItem_Click);
+            // 
             // Mainform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5369,9 +5428,9 @@ namespace TileManiac
         private System.Windows.Forms.Label ICLabel;
         private PictureBoxNearestNeighbor TilePicBox;
         private PictureBoxNearestNeighbor CollisionPicBox;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton overlayViewButton;
+        private System.Windows.Forms.RadioButton tileViewButton;
+        private System.Windows.Forms.RadioButton colllisionViewButton;
         private System.Windows.Forms.GroupBox groupBox2;
         private PictureBoxNearestNeighbor overlayPicBox;
         private System.Windows.Forms.Button button1;
@@ -5670,6 +5729,13 @@ namespace TileManiac
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripMenuItem flipTileHorizontallyToolStripMenuItem;
         private ToolStripMenuItem flipTileVerticallyToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator7;
+        private ToolStripMenuItem backupToolStripMenuItem;
+        private ToolStripMenuItem x16TilesgifToolStripMenuItem;
+        private ToolStripMenuItem tileConfigbinToolStripMenuItem;
+        private ToolStripMenuItem foldersToolStripMenuItem;
+        private ToolStripMenuItem openCollisionHomeFolderToolStripMenuItem;
     }
 }
 
