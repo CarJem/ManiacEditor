@@ -480,350 +480,138 @@
     <Compile Include="Entity Renders\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\AIZRockPile.cs" />
     <Compile Include="Entity Renders\Animals.cs" />
-    <Compile Include="Entity Renders\BGSwitch.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\BigSqueeze.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\BlankObject.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\BoundsMarker.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\BreakableWall.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\BreakBar.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Bridge.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Button.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\CableWarp.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\CaterkillerJr.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\ChemicalPool.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Chopper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\CircleBumper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Clapperboard.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Clucker.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\CollapsingPlatform.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\CorkscrewPath.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Crane.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\BGSwitch.cs" />
+    <Compile Include="Entity Renders\BigSqueeze.cs" />
+    <Compile Include="Entity Renders\BlankObject.cs" />
+    <Compile Include="Entity Renders\BoundsMarker.cs" />
+    <Compile Include="Entity Renders\BreakableWall.cs" />
+    <Compile Include="Entity Renders\BreakBar.cs" />
+    <Compile Include="Entity Renders\Bridge.cs" />
+    <Compile Include="Entity Renders\Button.cs" />
+    <Compile Include="Entity Renders\CableWarp.cs" />
+    <Compile Include="Entity Renders\CaterkillerJr.cs" />
+    <Compile Include="Entity Renders\ChemicalPool.cs" />
+    <Compile Include="Entity Renders\Chopper.cs" />
+    <Compile Include="Entity Renders\CircleBumper.cs" />
+    <Compile Include="Entity Renders\Clapperboard.cs" />
+    <Compile Include="Entity Renders\Clucker.cs" />
+    <Compile Include="Entity Renders\CollapsingPlatform.cs" />
+    <Compile Include="Entity Renders\CorkscrewPath.cs" />
+    <Compile Include="Entity Renders\Crane.cs" />
     <Compile Include="Entity Renders\Current.cs" />
-    <Compile Include="Entity Renders\CutsceneHBH.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Decoration.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\DERobot.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\DirectorChair.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\DNARiser.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\CutsceneHBH.cs" />
+    <Compile Include="Entity Renders\Decoration.cs" />
+    <Compile Include="Entity Renders\DERobot.cs" />
+    <Compile Include="Entity Renders\DirectorChair.cs" />
+    <Compile Include="Entity Renders\DNARiser.cs" />
     <Compile Include="Entity Renders\DoorTrigger.cs" />
     <Compile Include="Entity Renders\Dragonfly.cs" />
-    <Compile Include="Entity Renders\EggPrison.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\EggTV.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\ElectroMagnet.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\EncoreRoute.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\EntityRenderer.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\FBZFan.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\FBZMissile.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\FBZSinkTrash.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\FBZTrash.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\FilmProjector.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\FlameSpring.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\EggPrison.cs" />
+    <Compile Include="Entity Renders\EggTV.cs" />
+    <Compile Include="Entity Renders\ElectroMagnet.cs" />
+    <Compile Include="Entity Renders\EncoreRoute.cs" />
+    <Compile Include="Entity Renders\EntityRenderer.cs" />
+    <Compile Include="Entity Renders\FBZFan.cs" />
+    <Compile Include="Entity Renders\FBZMissile.cs" />
+    <Compile Include="Entity Renders\FBZSinkTrash.cs" />
+    <Compile Include="Entity Renders\FBZTrash.cs" />
+    <Compile Include="Entity Renders\FilmProjector.cs" />
+    <Compile Include="Entity Renders\FlameSpring.cs" />
     <Compile Include="Entity Renders\FlingRamp.cs" />
-    <Compile Include="Entity Renders\FoldingPlatform.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\ForceSpin.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\ForceUnstick.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Funnel.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\GenericTrigger.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Grabber.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\HangGlider.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\HangPoint.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\HUD.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\FoldingPlatform.cs" />
+    <Compile Include="Entity Renders\ForceSpin.cs" />
+    <Compile Include="Entity Renders\ForceUnstick.cs" />
+    <Compile Include="Entity Renders\Funnel.cs" />
+    <Compile Include="Entity Renders\GenericTrigger.cs" />
+    <Compile Include="Entity Renders\Grabber.cs" />
+    <Compile Include="Entity Renders\HangGlider.cs" />
+    <Compile Include="Entity Renders\HangPoint.cs" />
+    <Compile Include="Entity Renders\HUD.cs" />
     <Compile Include="Entity Renders\Ice.cs" />
     <Compile Include="Entity Renders\IceBomba.cs" />
-    <Compile Include="Entity Renders\InvisibleBlock.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\InvisibleBlock.cs" />
     <Compile Include="Entity Renders\JuggleSaw.cs" />
-    <Compile Include="Entity Renders\Launcher.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\Launcher.cs" />
     <Compile Include="Entity Renders\LaunchSpring.cs" />
-    <Compile Include="Entity Renders\LEDPanel.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Letterboard.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\LightBarrier.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\LottoBall.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\LottoMachine.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\MagPlatform.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\LEDPanel.cs" />
+    <Compile Include="Entity Renders\Letterboard.cs" />
+    <Compile Include="Entity Renders\LightBarrier.cs" />
+    <Compile Include="Entity Renders\LottoBall.cs" />
+    <Compile Include="Entity Renders\LottoMachine.cs" />
+    <Compile Include="Entity Renders\MagPlatform.cs" />
     <Compile Include="Entity Renders\MonkeyDude.cs" />
-    <Compile Include="Entity Renders\Music.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\Music.cs" />
     <Compile Include="Entity Renders\Newspaper.cs" />
-    <Compile Include="Entity Renders\OneWayDoor.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Outro_Intro_Object.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\OneWayDoor.cs" />
+    <Compile Include="Entity Renders\Outro_Intro_Object.cs" />
     <Compile Include="Entity Renders\PaperRoller.cs" />
-    <Compile Include="Entity Renders\ParallaxSprite.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\ParallaxSprite.cs" />
     <Compile Include="Entity Renders\PetalPile.cs" />
-    <Compile Include="Entity Renders\PimPom.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\PlaneSwitch.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Platform.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\PlatformControl.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\PlatformNode.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Player.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\PopcornMachine.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\PimPom.cs" />
+    <Compile Include="Entity Renders\PlaneSwitch.cs" />
+    <Compile Include="Entity Renders\Platform.cs" />
+    <Compile Include="Entity Renders\PlatformControl.cs" />
+    <Compile Include="Entity Renders\PlatformNode.cs" />
+    <Compile Include="Entity Renders\Player.cs" />
+    <Compile Include="Entity Renders\PopcornMachine.cs" />
     <Compile Include="Entity Renders\Press.cs" />
     <Compile Include="Entity Renders\PrintBlock.cs" />
     <Compile Include="Entity Renders\PSZDoor.cs" />
     <Compile Include="Entity Renders\PSZLauncher.cs" />
-    <Compile Include="Entity Renders\Ring.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\RockemSockem.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\RubyFX.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\Ring.cs" />
+    <Compile Include="Entity Renders\RockemSockem.cs" />
+    <Compile Include="Entity Renders\RubyFX.cs" />
     <Compile Include="Entity Renders\RubyPortal.cs" />
     <Compile Include="Entity Renders\SchrodingersCapsule.cs" />
     <Compile Include="Entity Renders\Shiversaw.cs" />
-    <Compile Include="Entity Renders\ShopWindow.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\SignPost.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\SpecialRing.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\SpikeLog.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Spikes.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\SpinBooster.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\SpinSign.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Spiny.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\ShopWindow.cs" />
+    <Compile Include="Entity Renders\SignPost.cs" />
+    <Compile Include="Entity Renders\SpecialRing.cs" />
+    <Compile Include="Entity Renders\SpikeLog.cs" />
+    <Compile Include="Entity Renders\Spikes.cs" />
+    <Compile Include="Entity Renders\SpinBooster.cs" />
+    <Compile Include="Entity Renders\SpinSign.cs" />
+    <Compile Include="Entity Renders\Spiny.cs" />
     <Compile Include="Entity Renders\Splats.cs" />
-    <Compile Include="Entity Renders\IceSpring.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Spring.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\StickyPlatform.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Syringe.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Technosqueek.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\TeeterTotter.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Template.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Newtron.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\ItemBox.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\IceSpring.cs" />
+    <Compile Include="Entity Renders\Spring.cs" />
+    <Compile Include="Entity Renders\StickyPlatform.cs" />
+    <Compile Include="Entity Renders\Syringe.cs" />
+    <Compile Include="Entity Renders\Technosqueek.cs" />
+    <Compile Include="Entity Renders\TeeterTotter.cs" />
+    <Compile Include="Entity Renders\Template.cs" />
+    <Compile Include="Entity Renders\Newtron.cs" />
+    <Compile Include="Entity Renders\ItemBox.cs" />
     <Compile Include="Entity Renders\ControlPanel.cs" />
-    <Compile Include="Entity Renders\TetherBall.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\TetherBall.cs" />
     <Compile Include="Entity Renders\TilePlatform.cs" />
-    <Compile Include="Entity Renders\TimeAttackGate.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\TippingPlatform.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\TitleCard.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\TransportTube.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Tubinaut.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Tuesday.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\TimeAttackGate.cs" />
+    <Compile Include="Entity Renders\TippingPlatform.cs" />
+    <Compile Include="Entity Renders\TitleCard.cs" />
+    <Compile Include="Entity Renders\TransportTube.cs" />
+    <Compile Include="Entity Renders\Tubinaut.cs" />
+    <Compile Include="Entity Renders\Tuesday.cs" />
     <Compile Include="Entity Renders\Turntable.cs" />
-    <Compile Include="Entity Renders\TVPole.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\TVVan.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\TwistedTubes.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\TwistingDoor.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\UFO_ItemBox.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\UFO_Player.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\UFO_Ring.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\UFO_Sphere.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\UFO_Springboard.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\UIControl.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\WarpDoor.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Water.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\WaterfallSound.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\WaterGush.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\WeatherMobile.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\TVPole.cs" />
+    <Compile Include="Entity Renders\TVVan.cs" />
+    <Compile Include="Entity Renders\TwistedTubes.cs" />
+    <Compile Include="Entity Renders\TwistingDoor.cs" />
+    <Compile Include="Entity Renders\UFO_ItemBox.cs" />
+    <Compile Include="Entity Renders\UFO_Player.cs" />
+    <Compile Include="Entity Renders\UFO_Ring.cs" />
+    <Compile Include="Entity Renders\UFO_Sphere.cs" />
+    <Compile Include="Entity Renders\UFO_Springboard.cs" />
+    <Compile Include="Entity Renders\UIControl.cs" />
+    <Compile Include="Entity Renders\WarpDoor.cs" />
+    <Compile Include="Entity Renders\Water.cs" />
+    <Compile Include="Entity Renders\WaterfallSound.cs" />
+    <Compile Include="Entity Renders\WaterGush.cs" />
+    <Compile Include="Entity Renders\WeatherMobile.cs" />
     <Compile Include="Entity Renders\Whirlpool.cs" />
     <Compile Include="Entity Renders\WoodChipper.cs" />
     <Compile Include="Entity Renders\Woodrow.cs" />
-    <Compile Include="Entity Renders\ZipLine.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\ZoneSetup.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Entity Renders\ZipLine.cs" />
+    <Compile Include="Entity Renders\ZoneSetup.cs" />
     <Compile Include="Enums\FlipDirection.cs" />
     <Compile Include="Interfaces\DevWarningBox.cs">
       <SubType>Form</SubType>
