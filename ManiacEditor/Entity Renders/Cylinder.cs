@@ -150,6 +150,71 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        {
+            int type = (int)entity.attributesMap["type"].ValueUInt8;
+            int multiplierX = 0;
+            int multiplierY = 0;
+            int widthPixels = 0;
+            int heightPixels = 0;
+            switch (type)
+            {
+                case 0:
+                    multiplierX = 2;
+                    multiplierY = 2;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    break;
+                case 1:
+                    multiplierX = 2;
+                    multiplierY = 2;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    break;
+                case 2:
+                    multiplierX = 2;
+                    multiplierY = 2;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    break;
+                case 3: //Reverse Direction of 3
+                    multiplierX = 2;
+                    multiplierY = 2;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    break;
+                case 4:
+                    multiplierX = 2;
+                    multiplierY = 2;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    break;
+                case 5: // Nothing Apparently
+                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    break;
+                case 6: // Nothing Apparently
+                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    break;
+                case 7:
+                    multiplierX = 2;
+                    multiplierY = 2;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    break;
+            }
+            if (widthPixels != 0 && heightPixels != 0)
+            {
+                return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels, heightPixels);
+            }
+            else
+            {
+                return d.IsObjectOnScreen(x - 16, y - 16, 32, 32);
+            }
+
+        }
+
         public override string GetObjectName()
         {
             return "Cylinder";
