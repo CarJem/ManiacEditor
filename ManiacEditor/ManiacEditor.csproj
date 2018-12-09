@@ -361,6 +361,7 @@
     <Compile Include="Entity Renders\Cactula.cs" />
     <Compile Include="Entity Renders\CollapsingSand.cs" />
     <Compile Include="Entity Renders\Constellation.cs" />
+    <Compile Include="Entity Renders\Cylinder.cs" />
     <Compile Include="Entity Renders\Dango.cs" />
     <Compile Include="Entity Renders\DashLift.cs" />
     <Compile Include="Entity Renders\DCEvent.cs" />
