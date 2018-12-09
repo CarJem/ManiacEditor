@@ -123,7 +123,7 @@ namespace ManiacEditor
         internal EditorLayer FGLower => EditorScene?.LowDetails;
         internal EditorLayer ScratchLayer => EditorScene?.Scratch;
 
-        internal IEnumerable<EditorLayer> AllLayers => EditorScene?.AllLayers;
+        //internal IEnumerable<EditorLayer> AllLayers => EditorScene?.AllLayers;
         //Used to Get the Maximum Layer Height and Width
         internal int SceneWidth => EditorScene.Layers.Max(sl => sl.Width) * 16;
         internal int SceneHeight => EditorScene.Layers.Max(sl => sl.Height) * 16;
@@ -267,10 +267,6 @@ namespace ManiacEditor
             RefreshCollisionColours();
 
             this.Text = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
-            if (!Updater.GetVersion().Contains("DEV") && mySettings.checkForUpdatesAuto)
-            {
-                Updater.CheckforUpdates();
-            }
             this.splitContainer1.Panel2MinSize = 254;
 
             GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
@@ -301,6 +297,11 @@ namespace ManiacEditor
                     Debug.Print("Couldn't Force Open!");
                 }
 
+            }
+
+            if (!Updater.GetVersion().Contains("DEV") && mySettings.checkForUpdatesAuto)
+            {
+                Updater.CheckforUpdates();
             }
 
         }
@@ -3649,6 +3650,12 @@ Error: {ex.Message}");
             {
                 entities.OptimizeSlotIDs();
             }
+        }
+
+        private void soundLooperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SoundLooper form = new SoundLooper();
+            form.ShowDialog();
         }
 
         #endregion

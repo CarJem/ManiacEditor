@@ -305,9 +305,18 @@
       <HintPath>..\packages\MonoGame.UI.Forms.1.0.1\lib\MonoGame.UI.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="NAudio, Version=1.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.5\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Vorbis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Vorbis.1.0.0.0\lib\net35\NAudio.Vorbis.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="NVorbis, Version=0.8.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
@@ -674,6 +683,12 @@
     <Compile Include="Interfaces\Sanic2-Maniac.Designer.cs">
       <DependentUpon>Sanic2-Maniac.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\SoundLooper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\SoundLooper.Designer.cs">
+      <DependentUpon>SoundLooper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\UpdateStatusBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -870,6 +885,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\Sanic2-Maniac.resx">
       <DependentUpon>Sanic2-Maniac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\SoundLooper.resx">
+      <DependentUpon>SoundLooper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UpdateStatusBox.resx">
       <DependentUpon>UpdateStatusBox.cs</DependentUpon>

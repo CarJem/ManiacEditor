@@ -47,6 +47,7 @@ namespace ManiacEditor
         {
             get
             {
+                
                 string internalName = _layer.Name;
                 return internalName?.TrimEnd('\0');
             }

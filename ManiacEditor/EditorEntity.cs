@@ -260,8 +260,7 @@ namespace ManiacEditor
             if (!Properties.Settings.Default.NeverLoadEntityTextures)
             {
                 if (!Environment.Is64BitProcess && entity.Object.Name.Name == "SpecialRing") skipRenderforx86 = true;
-                else
-                    EditorEntity_ini.LoadNextAnimation(this);
+                else EditorEntity_ini.LoadNextAnimation(this);
             }
             int x = entity.Position.X.High;
             int y = entity.Position.Y.High;

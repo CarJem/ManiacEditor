@@ -163,6 +163,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.seperator1 = new System.Windows.Forms.ToolStripSeparator();
             this._levelIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -228,6 +229,8 @@
             this.zoomOutButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.runSceneButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.openModManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noConfigFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -268,13 +271,11 @@
             this.showFlippedTileHelperButton = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editTile0WithTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.setPlayerRespawnToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveThePlayerToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.soundLooperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1028,6 +1029,7 @@
             this.developerToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.developerInterfaceToolStripMenuItem,
             this.goToToolStripMenuItem2,
+            this.soundLooperToolStripMenuItem,
             this.mD5GeneratorToolStripMenuItem,
             this.findUnusedTilesToolStripMenuItem,
             this.consoleWindowToolStripMenuItem,
@@ -1382,6 +1384,30 @@
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
             this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar1_Entered);
+            // 
+            // GraphicPanel
+            // 
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
+            this.GraphicPanel.TabIndex = 10;
+            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
             // 
             // statusStrip1
             // 
@@ -2071,6 +2097,18 @@
             this.runSceneButton.Text = "Run Scene";
             this.runSceneButton.ButtonClick += new System.EventHandler(this.RunScene_Click);
             // 
+            // launchToolStripMenuItem
+            // 
+            this.launchToolStripMenuItem.Name = "launchToolStripMenuItem";
+            this.launchToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.launchToolStripMenuItem.Text = "Launch/Attach";
+            this.launchToolStripMenuItem.Click += new System.EventHandler(this.RunScene_Click);
+            // 
+            // toolStripSeparator26
+            // 
+            this.toolStripSeparator26.Name = "toolStripSeparator26";
+            this.toolStripSeparator26.Size = new System.Drawing.Size(178, 6);
+            // 
             // openModManagerToolStripMenuItem
             // 
             this.openModManagerToolStripMenuItem.Name = "openModManagerToolStripMenuItem";
@@ -2438,35 +2476,6 @@
             this.editTile0WithTileManiacToolStripMenuItem.Text = "Edit Tile {0} with Tile Maniac";
             this.editTile0WithTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileWithTileManiacToolStripMenuItem_Click);
             // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
-            // 
-            // GraphicPanel
-            // 
-            this.GraphicPanel.AllowDrop = true;
-            this.GraphicPanel.AutoSize = true;
-            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
-            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.GraphicPanel.Name = "GraphicPanel";
-            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
-            this.GraphicPanel.TabIndex = 10;
-            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
-            // 
             // toolStripSeparator25
             // 
             this.toolStripSeparator25.Name = "toolStripSeparator25";
@@ -2486,17 +2495,17 @@
             this.moveThePlayerToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.moveThePlayerToHereToolStripMenuItem.Text = "Move the Player to Here";
             // 
-            // launchToolStripMenuItem
+            // contextMenuStrip2
             // 
-            this.launchToolStripMenuItem.Name = "launchToolStripMenuItem";
-            this.launchToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.launchToolStripMenuItem.Text = "Launch/Attach";
-            this.launchToolStripMenuItem.Click += new System.EventHandler(this.RunScene_Click);
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
             // 
-            // toolStripSeparator26
+            // soundLooperToolStripMenuItem
             // 
-            this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(178, 6);
+            this.soundLooperToolStripMenuItem.Name = "soundLooperToolStripMenuItem";
+            this.soundLooperToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.soundLooperToolStripMenuItem.Text = "Sound Looper";
+            this.soundLooperToolStripMenuItem.Click += new System.EventHandler(this.soundLooperToolStripMenuItem_Click);
             // 
             // Editor
             // 
@@ -2793,6 +2802,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
         private System.Windows.Forms.ToolStripMenuItem setPlayerRespawnToHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveThePlayerToHereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem soundLooperToolStripMenuItem;
     }
 }
 

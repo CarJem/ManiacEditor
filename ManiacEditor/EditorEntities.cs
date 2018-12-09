@@ -17,7 +17,7 @@ namespace ManiacEditor
         public static bool FilterRefreshNeeded = false;
         public static int DefaultFilter = -1;
 
-        Scene scene;
+        //Scene scene;
         public List<EditorEntity> entities = new List<EditorEntity>();
         public List<EditorEntity> selectedEntities = new List<EditorEntity>();
         public List<EditorEntity> tempSelection = new List<EditorEntity>();
@@ -38,7 +38,7 @@ namespace ManiacEditor
 
         public EditorEntities(Scene scene)
         {
-            this.scene = scene;
+            //this.scene = scene;
             foreach (var obj in scene.Objects)
             {
                 entities.AddRange(obj.Entities.Select(x => GenerateEditorEntity(x)));
@@ -194,7 +194,7 @@ namespace ManiacEditor
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal())
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, scene.Objects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Editor.Instance.EditorScene.Objects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);
@@ -321,7 +321,7 @@ namespace ManiacEditor
 
                 else if (!entity.IsObjectOnScreen(d))
                 {
-
+                    
                 }
 
                 else

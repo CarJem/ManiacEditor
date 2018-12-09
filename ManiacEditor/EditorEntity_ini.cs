@@ -129,9 +129,7 @@ namespace ManiacEditor
         public static bool rotateImageLegacyMode = false;
 
         //For Drawing/Saving Tile Platforms
-        static internal EditorLayer MoveLayer => Editor.Instance.EditorScene?.Move;
-        private static SceneLayer _layer;
-        static internal SceneLayer Layer { get => _layer; }
+
 
         public static string[] DataDirectoryList = null;
 
@@ -139,6 +137,10 @@ namespace ManiacEditor
         {
             if (AnimsToLoad.Count == 0)
                 return;
+            if (AnimsToLoad.Count < 1)
+            {
+                //Break Here
+            }
             var val = AnimsToLoad[0];
             if (val.anim == null)
             {
@@ -165,7 +167,9 @@ namespace ManiacEditor
 
             }
             if (val.anim == null)
+            {
                 return;
+            }
             if (val.anim.Ready)
                 AnimsToLoad.RemoveAt(0);
             else
@@ -178,9 +182,14 @@ namespace ManiacEditor
                 }
                 val.anim.Frames[val.anim.loadedFrames].Texture = TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
                 val.anim.Frames[val.anim.loadedFrames]._Bitmap.Dispose();
+                val.anim.Frames[val.anim.loadedFrames]._Bitmap = null;
                 ++val.anim.loadedFrames;
                 if (val.anim.loadedFrames == val.anim.Frames.Count)
+                {
                     val.anim.Ready = true;
+                    AnimsToLoad.RemoveAt(0);
+                }
+
             }
         }
 
@@ -419,7 +428,7 @@ namespace ManiacEditor
         public static EditorTilePlatforms LoadTilePlatform(DevicePanel d, int x2, int y2, int width, int height)
         {
 
-            _layer = MoveLayer.Layer;
+            SceneLayer _layer = Editor.Instance.EditorScene?.Move.Layer;
             string key = $"{x2}-{y2}-{width}-{height}";
             var anim = new EditorEntity_ini.EditorTilePlatforms();
             if (EditorEntity_ini.TilePlatforms.ContainsKey(key))
