@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using IronPython.Modules;
 using ManiacEditor.Enums;
 using RSDKv5;
 
@@ -17,10 +18,16 @@ namespace ManiacEditor
         public static bool FilterRefreshNeeded = false;
         public static int DefaultFilter = -1;
 
+        public bool OptimizeAssets = false;
+
         //Scene scene;
         public List<EditorEntity> entities = new List<EditorEntity>();
         public List<EditorEntity> selectedEntities = new List<EditorEntity>();
         public List<EditorEntity> tempSelection = new List<EditorEntity>();
+
+        public List<String> NotOnScreenKeys = new List<String>();
+        public List<String> OnScreenKeys = new List<String>();
+        public List<String> TrueNotOnScreenKeys = new List<String>();
 
         Dictionary<ushort, EditorEntity> entitiesBySlot = new Dictionary<ushort, EditorEntity>();
 
@@ -317,20 +324,49 @@ namespace ManiacEditor
                 {
                     //Do Nothing
                 }
-
-
-                else if (!entity.IsObjectOnScreen(d))
-                {
-                    
-                }
-
+                else if (!entity.IsObjectOnScreen(d) && entity.uniqueKey != "") NotOnScreenKeys.Add(entity.uniqueKey);
                 else
                 {
                     entity.Draw(d, entities, entity);
+                    OnScreenKeys.Add(entity.uniqueKey);
                 }
+            }
+            TrueNotOnScreenKeys = NotOnScreenKeys.Except(OnScreenKeys).ToList();          
+            if (OptimizeAssets)
+            {
+                OptimizeEntities();
+            }
 
+            OnScreenKeys.Clear();
+            NotOnScreenKeys.Clear();
+            TrueNotOnScreenKeys.Clear();
+
+        }
+
+        public void OptimizeEntities()
+        {
+
+            foreach (var key in TrueNotOnScreenKeys)
+            {
+                foreach (var EntityObject in entities)
+                {
+                    if (EntityObject.uniqueKey == key)
+                    {
+                        EntityObject.uniqueKey = "";
+                    }
+                }
+                foreach (var pair in EditorEntity_ini.Animations)
+                {
+                    if (pair.Key == key)
+                    {
+                        foreach (var pair2 in pair.Value.Frames)
+                            pair2.Texture?.Dispose();
+                    }
+                }
+                EditorEntity_ini.Animations.Remove(key);
 
             }
+            OptimizeAssets = false;
         }
 
         public void DrawPriority(DevicePanel d, int prority)

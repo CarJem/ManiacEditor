@@ -26,6 +26,9 @@ namespace ManiacEditor
         // Object Render List
         public static List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
 
+        // Object List for initilizing the if statement
+        public static List<string> entityRenderingObjects = Editor.Instance.entityRenderingObjects;
+        public static List<string> renderOnScreenExlusions = Editor.Instance.renderOnScreenExlusions;
 
         public static List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
 
@@ -63,7 +66,6 @@ namespace ManiacEditor
             if (type == 1) //For the list of objects with renders
             {
                 var path = Path.Combine(Environment.CurrentDirectory, "Resources\\objectRenderList.ini");
-                //Debug.Print(path.ToString());
                 using (StreamReader reader = new StreamReader(path))
                 {
                     return EnumerateLines(reader).ToList<string>();
@@ -72,7 +74,6 @@ namespace ManiacEditor
             else //For On Screen Render Exlusions (So we can make our own rules in the object's render file)
             {
                 var path = Path.Combine(Environment.CurrentDirectory, "Resources\\onScreenRenderExclusions.ini");
-                //Debug.Print(path.ToString());
                 using (StreamReader reader = new StreamReader(path))
                 {
                     return EnumerateLines(reader).ToList<string>();
@@ -150,8 +151,9 @@ namespace ManiacEditor
                     if (!Working)
                     {
                         try
-                        {
+                        {                           
                             LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, val.rotateImg, false);
+                            entity.uniqueKey = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}";
                         }
                         catch (Exception)
                         {
@@ -263,10 +265,12 @@ namespace ManiacEditor
             EditorEntity_ini.Animations.Add(key, anim);
 
             // Get the path of the object's textures
-            var assetInfo = GetAssetPath(name);
+            string assetName = (Editor.Instance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? Editor.Instance.userDefinedEntityRenderSwaps[name] : name);
+            var assetInfo = GetAssetPath(assetName, (Editor.ModDataDirectory != "" ? Editor.ModDataDirectory : ""), false, (Editor.ModDataDirectory != "" ? true : false));
+
             string path2 = assetInfo.Item1;
-            string dataFolderLocation = assetInfo.Item2;
-            if (path2 == null)
+            string dataFolderLocation = assetInfo.Item2;         
+            if (!File.Exists(path2) || path2 == null)
             {
                 return null;
             }
@@ -304,23 +308,23 @@ namespace ManiacEditor
                     frame = animiation.Frames[frameId];
                 Bitmap map;
                 bool noEncoreColors = false;
-                if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes") noEncoreColors = true;
+                if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes") noEncoreColors = true;
 
                 if (!EditorEntity_ini.Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
                 {
                     string targetFile;
 
-                    if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
+                    if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes")
                     {
-                        if (name == "EditorAssets")
+                        if (assetName == "EditorAssets")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
                         }
-                        else if (name == "EditorIcons2")
+                        else if (assetName == "EditorIcons2")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
                         }
-                        else if (name == "TransportTubes")
+                        else if (assetName == "TransportTubes")
                         {
                             targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
                         }
@@ -330,7 +334,7 @@ namespace ManiacEditor
                         }
                     }
                     else
-                        targetFile = Path.Combine(dataFolderLocation, "sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
+                        targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
                     if (!File.Exists(targetFile))
                     {
                         map = null;
@@ -398,12 +402,10 @@ namespace ManiacEditor
                 }
                 RemoveColourImage(map, colour, frame.Width, frame.Height);
 
-
                 Texture texture = null;
                 if (loadImageToDX)
                 {
                     texture = TextureCreator.FromBitmap(d._device, map);
-
                 }
                 var editorFrame = new EditorEntity_ini.EditorAnimation.EditorFrame()
                 {
@@ -411,8 +413,10 @@ namespace ManiacEditor
                     Frame = frame,
                     Entry = rsdkAnim.Animations[AnimId]
                 };
-                if (loadImageToDX == false)
+                if (loadImageToDX == false) {
                     editorFrame._Bitmap = map;
+                }
+
                 anim.Frames.Add(editorFrame);
                 if (frameId != -1)
                     break;
@@ -500,132 +504,135 @@ namespace ManiacEditor
             return new Rectangle(x, y, width, height);
         }
 
-        public static Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false)
+        public static Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
         {
             string path, path2;
             string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : Editor.DataDirectory);
             if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
             {
-                if (name == "EditorAssets")
+                switch (name)
                 {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.bin");
-                    if (!File.Exists(path2))
-                        return null;
-                }
-                else if (name == "EditorIcons2")
-                {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.bin");
-                    if (!File.Exists(path2))
-                        return null;
-                }
-                else if (name == "TransportTubes")
-                {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.bin");
-                    if (!File.Exists(path2))
-                        return null;
-                }
-                else
-                {
-                    path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.bin");
-                    Debug.Print(path2);
-                    if (!File.Exists(path2))
+                    case "EditorAssets":
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.bin");
+                        if (!File.Exists(path2)) return null;
+                        break;
+                    case "EditorIcons2":
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.bin");
+                        if (!File.Exists(path2)) return null;
+                        break;
+                    case "TransportTubes":
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.bin");
+                        if (!File.Exists(path2)) return null;
+                        break;
+                    case "SuperSpecialRing":
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.bin");
+                        if (!File.Exists(path2)) return null;
+                        break;
+                    default:
                         return null;
                 }
             }
             else
             {
-                if (DataDirectoryList == null)
-                    DataDirectoryList = Directory.GetFiles(Path.Combine(dataDirectory, "Sprites"), $"*.bin", SearchOption.AllDirectories);
+                if (DataDirectoryList == null) DataDirectoryList = Directory.GetFiles(Path.Combine(dataDirectory, "Sprites"), $"*.bin", SearchOption.AllDirectories);
 
 
-                // Checks Global frist
+                // Checks the Stage Folder First
+
                 path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
-                path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
-
-                if (!File.Exists(path2))
+                path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                if (Editor.Instance.userDefinedSpritePaths != null && Editor.Instance.userDefinedSpritePaths.Count != 0)
                 {
-                    // Checks without last character
-                    path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + name + ".bin";
-                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
-                }
-                if (!File.Exists(path2))
-                {
-                    // Checks for name without the last character and without the numbers in the entity name
-                    string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-                    path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + adjustedName + ".bin";
-                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
-                }
-                if (!File.Exists(path2))
-                {
-                    // Checks for name without any numbers in the Zone name
-                    string adjustedZone = Regex.Replace(Editor.Instance.SelectedZone, @"[\d-]", string.Empty);
-                    path = path = adjustedZone + "\\" + name + ".bin";
-                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
-                    if (!File.Exists(path2))
+                    foreach (string userDefinedPath in Editor.Instance.userDefinedSpritePaths)
                     {
-                        // Checks for name without any numbers in the Zone name, then add a 1 back
-                        adjustedZone = adjustedZone + "1";
-                        path = path = adjustedZone + "\\" + name + ".bin";
-                        path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
-                    }
-                }
-                /*if (!File.Exists(path2))z
-                {
-                    // Checks Editor Global
-                    path2 = Environment.CurrentDirectory + "\\Global\\" + name + ".bin";
-                }*/
-                if (!File.Exists(path2))
-                {
-                    // Checks Global
-                    path = "Global\\" + name + ".bin";
-                    path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
-                }
-                if (!File.Exists(path2))
-                {
-                    // Checks the Stage folder 
-                    foreach (string dir in Directory.GetDirectories(Path.Combine(dataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
-                    {
-                        path = Path.GetFileName(dir) + "\\" + name + ".bin";
-                        path2 = Path.Combine(dataDirectory, "sprites") + '\\' + path;
+                        path = userDefinedPath + "\\" + name + ".bin";
+                        path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                        Debug.Print(path2);
                         if (File.Exists(path2))
                         {
                             break;
                         }
+                    }
+                    if (!File.Exists(path2))
+                    {
+                        path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
+                        path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                    }
+                }
 
-                    }
-                }
-                /*
-                if (!File.Exists(path2) && !dontSeachCustom)
-                {
-                    Debug.Print(Editor.MasterDataDirectory);
-                    Debug.Print(Editor.DataDirectory);
-                    var masterDataDetails = GetAssetPath(name, Editor.MasterDataDirectory, true);
-                    if (File.Exists(masterDataDetails.Item1))
-                    {
-                        path2 = masterDataDetails.Item1;
-                        dataDirectory = masterDataDetails.Item2;
-                    }
-                }
-                */
-                    
+
                 if (!File.Exists(path2))
                 {
-                    // Seaches all around the Data directory
-                    var list = DataDirectoryList;
-                    if (list.Any(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())))
+
+                    // Checks without last character
+                    path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + name + ".bin";
+                    path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                    if (!File.Exists(path2))
                     {
-                        list = list.Where(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())).ToArray();
-                        if (list.Any(t => t.ToLower().Contains(Editor.Instance.SelectedZone)))
-                            path2 = list.Where(t => t.ToLower().Contains(Editor.Instance.SelectedZone)).First();
-                        else
-                            path2 = list.First();
+                        // Checks for name without the last character and without the numbers in the entity name
+                        string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
+                        path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + adjustedName + ".bin";
+                        path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                        if (!File.Exists(path2))
+                        {
+                            // Checks for name without any numbers in the Zone name
+                            string adjustedZone = Regex.Replace(Editor.Instance.SelectedZone, @"[\d-]", string.Empty);
+                            path = path = adjustedZone + "\\" + name + ".bin";
+                            path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                            if (!File.Exists(path2))
+                            {
+                                // Checks for name without any numbers in the Zone name, then add a 1 back
+                                adjustedZone = adjustedZone + "1";
+                                path = path = adjustedZone + "\\" + name + ".bin";
+                                path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                                if (!File.Exists(path2))
+                                {
+                                    // Checks Global
+                                    path = "Global\\" + name + ".bin";
+                                    path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+
+                                    if (isModLoaded && !File.Exists(path2) && !dontSeachCustom)
+                                    {
+                                        var masterDataDetails = GetAssetPath(name, Editor.DataDirectory, true, true);
+                                        if (File.Exists(masterDataDetails.Item1))
+                                        {
+                                            path2 = masterDataDetails.Item1;
+                                            dataDirectory = masterDataDetails.Item2;
+                                        }
+                                    }
+                                    else if (!File.Exists(path2) && !dontSeachCustom)
+                                    {
+                                        var masterDataDetails = GetAssetPath(name, Editor.MasterDataDirectory, true);
+                                        if (File.Exists(masterDataDetails.Item1))
+                                        {
+                                            path2 = masterDataDetails.Item1;
+                                            dataDirectory = masterDataDetails.Item2;
+                                        }
+                                    }
+                                    else if (!File.Exists(path2))
+                                    {
+                                        // Seaches all around the Data directory
+                                        var list = DataDirectoryList;
+                                        if (list.Any(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())))
+                                        {
+                                            list = list.Where(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())).ToArray();
+                                            if (list.Any(t => t.ToLower().Contains(Editor.Instance.SelectedZone)))
+                                                path2 = list.Where(t => t.ToLower().Contains(Editor.Instance.SelectedZone)).First();
+                                            else
+                                                path2 = list.First();
+                                        }
+                                        if (!File.Exists(path2))
+                                        {
+                                            // No animation found
+                                            path2 = null;
+                                            dataDirectory = null;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                }
-                if (!File.Exists(path2))
-                {
-                    // No animation found
-                    return null;
-                }
+                }                           
             }
 
             return Tuple.Create(path2, dataDirectory);
@@ -657,6 +664,7 @@ namespace ManiacEditor
             {
                 g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
             }
+            bmp2.Dispose();
 
             return bmp;
         }
@@ -680,6 +688,8 @@ namespace ManiacEditor
                 image.RePage();
 
                 Bitmap bmp = image.ToBitmap();
+
+                image.Dispose();
 
                 return bmp;
             }
@@ -725,8 +735,6 @@ namespace ManiacEditor
 
                     //draw our new image onto the graphics object with its center on the center of rotation
                     gfx.DrawImage(img, new PointF(pointX, pointY));
-
-
                 }
                 return bmp;
             }
@@ -749,7 +757,6 @@ namespace ManiacEditor
         {
             Bitmap _bitmapEditMemory;
             _bitmapEditMemory = _bitmap.Clone(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), PixelFormat.Format8bppIndexed);
-            //Debug.Print(_bitmapEditMemory.Palette.Entries.Length.ToString() + "(1)");
 
             //Encore Palettes (WIP Potentially Improvable)
             RSDKv5.Color[] readableColors = new RSDKv5.Color[256];
@@ -773,7 +780,6 @@ namespace ManiacEditor
                 ColorPalette pal = _bitmapEditMemory.Palette;
                 if (_bitmapEditMemory.Palette.Entries.Length == 256)
                 {
-                    //Debug.Print(_bitmapEditMemory.Palette.Entries.Length.ToString() + "(2)");
                     for (int y = 0; y < 255; ++y)
                     {
                         if (readableColors[y].R != 255 && readableColors[y].G != 0 && readableColors[y].B != 255)
@@ -827,6 +833,7 @@ namespace ManiacEditor
 
         }
 
+        [Serializable]
         public class EditorAnimation
         {
             public int loadedFrames = 0;
@@ -842,6 +849,7 @@ namespace ManiacEditor
             }
         }
 
+        [Serializable]
         public class EditorTilePlatforms
         {
             public bool Ready = false;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -12,10 +13,72 @@ namespace ManiacEditor
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
-        {
+        static void Main(string[] args)
+        { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            string DataDir = "";
+            string ScenePath = "";
+            string ModPath = "";
+            int LevelID = -1;
+            int X = 0;
+            int Y = 0;
+            bool isEncoreMode = false;
+            bool launchAsShortcut = false;
+            int shortcutMode = 0;
+            foreach (string argument in args)
+            {
+                    if (argument.StartsWith("DataDir="))
+                    {
+                        DataDir = argument.Substring(8);
+                    }
+                    else if (argument.StartsWith("ScenePath="))
+                    {
+                        ScenePath = argument.Substring(10);
+                    }
+                    else if (argument.StartsWith("ModPath="))
+                    {
+                        ModPath = argument.Substring(8);
+                    }
+                    else if (argument.StartsWith("LevelID="))
+                    {
+                        Int32.TryParse(argument.Substring(8), out LevelID);
+                    }
+                    else if (argument.Equals("EncoreMode=TRUE"))
+                    {
+                        isEncoreMode = true;
+                    }
+                    else if (argument.StartsWith("X="))
+                    {
+                        Debug.Print(argument.Substring(2));
+                        Int32.TryParse(argument.Substring(2), out X);
+                    }
+                    else if (argument.StartsWith("Y="))
+                    {
+                        Debug.Print(argument.Substring(2));
+                        Int32.TryParse(argument.Substring(2), out Y);
+                    }
+            }
+            //Remove the "" from the arguments to prevent errors.
+            DataDir.Replace("\"", "");
+            ScenePath.Replace("\"", "");
+            ModPath.Replace("\"", "");
+
+            Debug.Print(DataDir);
+            Debug.Print(ModPath);
+            Debug.Print(ScenePath);
+            Debug.Print(LevelID.ToString());
+
+            if (DataDir != "" && ScenePath != "")
+            {
+                launchAsShortcut = true;
+                shortcutMode = 1;
+            }
+            else if (DataDir != "")
+            {
+                launchAsShortcut = true;
+                shortcutMode = 0;
+            }
             
 
             bool allowedToLoad = false;
@@ -39,7 +102,7 @@ Missing file: {fnfe.FileName}");
 
             if (allowedToLoad)
             {
-                Editor e = new Editor();
+                Editor e = new Editor(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
                 e.Run();
             }
         }

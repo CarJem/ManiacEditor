@@ -41,11 +41,10 @@ namespace ManiacEditor
 
         private SceneEntity entity;
         public bool filteredOut;
+        public string uniqueKey = "";
 
 
-        // Object List for initilizing the if statement
-        List<string> entityRenderingObjects = Editor.Instance.entityRenderingObjects;
-        List<string> renderOnScreenExlusions = Editor.Instance.renderOnScreenExlusions;
+
 
         //Rotating/Moving Platforms
         public int platformAngle = 0;
@@ -54,8 +53,6 @@ namespace ManiacEditor
         //bool platformdisableX = false;
         //bool platformdisableY = false;
         //bool platformreverse = false;
-
-
 
 
 
@@ -219,8 +216,8 @@ namespace ManiacEditor
                 Editor.Instance.playerObjectPosition.Add(entity);
             }
 
-            List<string> entityRenderList = entityRenderingObjects;
-            List<string> onScreenExlusionList = renderOnScreenExlusions;
+            List<string> entityRenderList = EditorEntity_ini.entityRenderingObjects;
+            List<string> onScreenExlusionList = EditorEntity_ini.renderOnScreenExlusions;
             if (Properties.Settings.Default.DisableRenderExlusions)
             {
                 onScreenExlusionList = new List<string>();

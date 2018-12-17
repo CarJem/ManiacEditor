@@ -21,6 +21,9 @@ using Cyotek.Windows.Forms;
 using Microsoft.Scripting.Utils;
 using TileManiac;
 using Microsoft.Win32;
+using ManiacEditor.Entity_Renders;
+using IWshRuntimeLibrary;
+using File = System.IO.File;
 
 namespace ManiacEditor
 {
@@ -92,6 +95,7 @@ namespace ManiacEditor
         //Editor Paths
         public static string DataDirectory; //Used to get the current Data Directory
         public static string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
+        public static string ModDataDirectory = ""; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
         public string SelectedZone; //Used to get the Selected zone
         string SelectedScene; //Used to get the Scene zone
         public static string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
@@ -115,6 +119,8 @@ namespace ManiacEditor
         public IList<ToolStripMenuItem> _recentDataItems; //Used to get items for the Data Directory Toolstrip Area
         private IList<ToolStripMenuItem> _recentDataItems_Button; //Used to get items for the Data Directory Button Toolstrip
         public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions
+        public List<string> userDefinedSpritePaths = new List<string>();
+        public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
 
         //Used for Get Common Layers
         internal EditorLayer FGHigher => EditorScene?.HighDetails;
@@ -244,14 +250,20 @@ namespace ManiacEditor
 
         #endregion
 
-
-        public Editor()
+        
+        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0)
         {
             SystemEvents.PowerModeChanged += CheckDeviceState;
 
             Instance = this;
             useDarkTheme(mySettings.NightMode);
             InitializeComponent();
+            if (mySettings.NightMode)
+            {
+                MagnetMode.Image = Properties.Resources.MagnetMode_dark;
+                placeTilesButton.Image = Properties.Resources.placeTilesButton_dark;
+                runSceneButton.Image = Properties.Resources.RunScene_dark;
+            }
             AllocConsole();
             HideConsoleWindow();
             try
@@ -288,9 +300,23 @@ namespace ManiacEditor
 
             if (mySettings.UseForcefulStartup)
             {
+                OpenSceneForceFully();
+            }
+            if (shortcutLaunch)
+            {
                 try
                 {
-                    OpenSceneForceFully();
+                    if (dataDir != "")
+                    {
+                        if (scenePath != "")
+                        {
+                            OpenSceneForceFully(dataDir, scenePath, modPath, levelID, isEncoreMode, X, Y);
+                        }
+                        else
+                        {
+                            OpenSceneForceFully(dataDir);
+                        }
+                    }
                 }
                 catch
                 {
@@ -544,7 +570,6 @@ namespace ManiacEditor
             {
                 string value;
                 ListedPrefrences.TryGetValue("WaterColor", out value);
-                Debug.Print(value);
                 Color color = System.Drawing.ColorTranslator.FromHtml(value);
                 
                 if (ListedPrefrences.ContainsKey("WaterColorAlpha"))
@@ -557,6 +582,48 @@ namespace ManiacEditor
                 }
                 waterColor = color;
             }
+            if (ListedPrefrences.ContainsKey("SpritePaths"))
+            {
+                string value;
+                ListedPrefrences.TryGetValue("SpritePaths", out value);
+                List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
+                foreach (string item in list)
+                {
+                    MessageBox.Show(item);
+                }
+                userDefinedSpritePaths = list;
+            }
+            if (ListedPrefrences.ContainsKey("SwapEntityRenderNames"))
+            {
+                string value;
+                ListedPrefrences.TryGetValue("SwapEntityRenderNames", out value);
+                List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
+                if (list.Count % 2 == 0 && list.Count != 0)
+                {
+                    for (int i = 0; i < list.Count;)
+                    {
+                        string toBeSwapped = list[i];
+                        string toSet = list[i+1];
+                        MessageBox.Show(toBeSwapped + "-> " + toSet);
+                        userDefinedEntityRenderSwaps.Add(toBeSwapped, toSet);
+                        i = i + 2;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
+                }
+
+
+            }
+            if (ListedPrefrences.ContainsKey("EncoreACTFile"))
+            {
+                string value;
+                ListedPrefrences.TryGetValue("EncoreACTFile", out value);
+                value = value.Replace("\"", "");
+                setEncorePalete(null, value);
+            }
+
 
         }
         #endregion
@@ -725,6 +792,10 @@ namespace ManiacEditor
             animationsSplitButton.Enabled = enabled;
             ReloadToolStripButton.Enabled = enabled;
             preLoadSceneButton.Enabled = enabled;
+            newShortcutToolStripMenuItem.Enabled = Directory.Exists(DataDirectory);
+            withoutCurrentCoordinatesToolStripMenuItem.Enabled = EditorScene != null;
+            withCurrentCoordinatesToolStripMenuItem.Enabled = EditorScene != null;
+            changeEncorePaleteToolStripMenuItem.Enabled = enabled;
 
             Save.Enabled = enabled;
 
@@ -802,10 +873,6 @@ namespace ManiacEditor
             preRenderSceneToolStripMenuItem.Enabled = enabled;
 
             editEntitiesOptionToolStrip.Enabled = enabled;
-
-            openDataDirectoryFolderToolStripMenuItem.Enabled = enabled;
-            openSonicManiaFolderToolStripMenuItem.Enabled = enabled;
-            openSceneFolderToolStripMenuItem.Enabled = enabled;
 
             if (enabled && EditFGLow.Checked) EditLayer = FGLow;
             else if (enabled && EditFGHigh.Checked) EditLayer = FGHigh;
@@ -1115,7 +1182,8 @@ namespace ManiacEditor
             long memory = proc.PrivateMemorySize64;
 
             //hVScrollBarXYLabel.Text = "Scroll Bar Position Values: X: " + (ScreenMaxH - hScrollBar1.Value) + ", Y: " + (ScreenMaxV - vScrollBar1.Value);
-            hVScrollBarXYLabel.Text = "Memory Used: " + memory.ToString();
+            //hVScrollBarXYLabel.Text = "Memory Used: " + memory.ToString();
+            hVScrollBarXYLabel.Text = "Zoom Value: " + Zoom.ToString();
 
 
             //
@@ -1230,9 +1298,6 @@ namespace ManiacEditor
                             {
                                 listValue[i] = (ushort)replaceValue;
                             }
-
-
-                            //Debug.Print(listValue[i].ToString());
                         }
                 }
                 FindReplaceClipboard.Clear();
@@ -2171,10 +2236,7 @@ namespace ManiacEditor
                     bool goodGameConfig = SetGameConfig();
                     if (goodGameConfig == true)
                     {
-                        if (mySettings.forceBrowse == true)
-                            OpenScene(true);
-                        else
-                            OpenScene();
+                        OpenScene(mySettings.forceBrowse);
                     }
 
             }
@@ -2475,7 +2537,7 @@ namespace ManiacEditor
             {
                 ToolStripButton tsb = new ToolStripButton(el.Name);
                 toolStrip1.Items.Add(tsb);
-                tsb.ForeColor = Color.ForestGreen;
+                tsb.ForeColor = Color.LawnGreen;
                 tsb.CheckOnClick = true;
                 tsb.Click += AdHocLayerEdit;
 
@@ -2493,7 +2555,7 @@ namespace ManiacEditor
                 ToolStripButton tsb = new ToolStripButton(el.Name);
                 //toolStrip1.Items.Add(tsb);
                 toolStrip1.Items.Insert(toolStrip1.Items.IndexOf(extraViewLayersSeperator), tsb);
-                tsb.ForeColor = Color.DarkGreen;
+                tsb.ForeColor = Color.FromArgb(0x33AD35);
                 tsb.CheckOnClick = true;
 
                 _extraLayerViewButtons.Add(tsb);
@@ -2647,6 +2709,8 @@ namespace ManiacEditor
             INILayerNameHigher = "";
             INILayerNameLower = "";
             SettingsReader.CleanPrefrences();
+            userDefinedEntityRenderSwaps = new Dictionary<string, string>();
+            userDefinedSpritePaths = new List<string>();
 
             t = new System.Windows.Forms.Timer();
             t.Interval = 10;
@@ -2724,14 +2788,39 @@ namespace ManiacEditor
             int y = mySettings.DevForeRestartY;
             forceResizeGoToX = mySettings.DevForceRestartX;
             forceResizeGoToY = mySettings.DevForeRestartY;
-            OpenScene(false, Result, LevelID, isEncore, true);
+            OpenScene(false, Result, LevelID, isEncore);
 
 
         }
+        private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y)
+        {
+            DataDirectory = dataDir;
+            string Result = scenePath;
+            int LevelID = levelID;
+            bool isEncore = isEncoreMode;
+            forceResize = true;
+            if (X != 0)
+            {
+                forceResizeGoToX = X;
+            }
+            if (Y != 0)
+            {
+                forceResizeGoToY = Y;
+            }
 
-        private void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool shortcut = false)
+            OpenScene(false, Result, LevelID, isEncore, (modPath != "" ? true : false), modPath);
+        }
+
+        private void OpenSceneForceFully(string dataDir)
+        {
+            DataDirectory = dataDir;
+            OpenScene();
+        }
+
+        private void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
         {
             SceneSelect select;
+            ModDataDirectory = modDir; 
             string ResultPath = null;
             if (Result == null)
             {
@@ -2751,6 +2840,7 @@ namespace ManiacEditor
                     LevelID = select.LevelID;
                     isEncore = select.isEncore;
                     ResultPath = Path.GetDirectoryName(Result);
+                    modLoaded = (select.isModLoadedwithGameConfig);
 
                 }
                 else
@@ -2771,7 +2861,9 @@ namespace ManiacEditor
             {
                 return;
             }
-            //Debug.Print(Result);
+
+            string _DataDirectory = (modLoaded == true ? Editor.ModDataDirectory : Editor.DataDirectory);
+            
 
             ResultPath = Path.GetDirectoryName(Result);
             UnloadScene();
@@ -2787,73 +2879,67 @@ namespace ManiacEditor
                 enableEncorePalette.Checked = true;
                 useEncoreColors = true;
             }
-
             try
             {
-                int searchType = 0;
                 if (File.Exists(Result))
                 {
-                    // Selected file
-                    // Don't forget to populate these Members
-                    string directoryPath = Path.GetDirectoryName(Result);
-                    SelectedZone = new DirectoryInfo(directoryPath).Name;
-                    SelectedScene = Path.GetFileName(Result);
-                    SceneFilename = Result;
-                    SceneFilepath = Path.Combine(DataDirectory, "Stages", SelectedZone);
-                    searchType = 0;
+                    OpenScenefromBrowse(Result, _DataDirectory, LevelID);
                 }
                 else
                 {
-                    SelectedZone = Result.Replace(Path.GetFileName(Result), "");
-                    SelectedScene = Path.GetFileName(Result);
-                    SceneFilename = Path.Combine(DataDirectory, "Stages", SelectedZone, SelectedScene);
-                    SceneFilepath = Path.Combine(DataDirectory, "Stages", SelectedZone);
-                    searchType = 1;
+                    OpenScenefromSceneSelect(Result, _DataDirectory, LevelID, modLoaded);
                 }
-                SelectedZone = SelectedZone.Replace("\\", "");
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Load failed. Error: " + ex.ToString() + " " + Result);
+                return;
+            }
+
+            UpdateDataFolderLabel();
+
+            SetupLayerButtons();
+
+            Background = new EditorBackground();
+
+            entities = new EditorEntities(EditorScene);
+
+            SetViewSize(SceneWidth, SceneHeight);
+
+            UpdateControls(true);
+
+        }
+
+        private void OpenScenefromSceneSelect(string Result, string _DataDirectory, int LevelID, bool modLoaded)
+        {       
+                int searchType = 1;
+                SelectedZone = Result.Replace(Path.GetFileName(Result), "");
+                SelectedScene = Path.GetFileName(Result);
+                SceneFilename = Path.Combine(_DataDirectory, "Stages", SelectedZone, SelectedScene);
+                SceneFilepath = Path.Combine(_DataDirectory, "Stages", SelectedZone);               
+                SelectedZone = SelectedZone.Replace("\\", "");
                 myEditorState.Level_ID = LevelID;
                 EditorScene = new EditorScene(SceneFilename);
-
-
                 //Encore Palette + Stage Tiles Initaliazation
-                EncorePalette = EditorScene.getEncorePalette(SelectedZone, DataDirectory, SelectedScene, Result, searchType);
-                EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, DataDirectory, SelectedScene, Result);
+                EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
+                EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
                 if (EncorePalette[0] != "")
                 {
                     encorePaletteExists = true;
                 }
-
                 //Encore Palette + Stage Tiles
-                if (File.Exists(Result))
+                if (useEncoreColors == true && EncorePalette[0] != "")
                 {
-                    string directoryPath = Path.GetDirectoryName(Result);
-                    if (useEncoreColors == true && EncorePalette[0] != "")
-                    {
-                        StageTiles = new StageTiles(directoryPath, EncorePalette[0]);
-                    }
-                    else
-                    {
-                        StageTiles = new StageTiles(directoryPath);
-                    }
+                    StageTiles = new StageTiles(Path.Combine(_DataDirectory, "Stages", SelectedZone), EncorePalette[0]);
                 }
                 else
                 {
-                    if (useEncoreColors == true && EncorePalette[0] != "")
-                    {
-                        StageTiles = new StageTiles(Path.Combine(DataDirectory, "Stages", SelectedZone), EncorePalette[0]);
-                    }
-                    else
-                    {
-                        StageTiles = new StageTiles(Path.Combine(DataDirectory, "Stages", SelectedZone));
-                    }
+                    StageTiles = new StageTiles(Path.Combine(_DataDirectory, "Stages", SelectedZone));
                 }
-
-
                 //These cause issues, but not clearing them means when new stages are loaded Collision Mask 0 will be index 1024... (I think)
                 CollisionLayerA.Clear();
                 CollisionLayerB.Clear();
-
                 if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
                 {
                     TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
@@ -2863,8 +2949,6 @@ namespace ManiacEditor
                         CollisionLayerB.Add(TilesConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
                     }
                 }
-
-
                 // Object Rescue Mode
                 if (mySettings.DisableEntityReading == true)
                 {
@@ -2874,13 +2958,11 @@ namespace ManiacEditor
                 {
                     RSDKv5.Scene.readTilesOnly = false;
                 }
-
                 StageConfigFileName = Path.Combine(Path.GetDirectoryName(SceneFilename), "StageConfig.bin");
                 if (File.Exists(StageConfigFileName))
                 {
                     StageConfig = new StageConfig(StageConfigFileName);
                 }
-
                 ObjectList.Clear();
                 for (int i = 0; i < GameConfig.ObjectsNames.Count; i++)
                 {
@@ -2922,29 +3004,109 @@ namespace ManiacEditor
                         }
 
                     }
-                    
-                    
+
+
                 }
 
-            }
-            catch (Exception ex)
+            
+        }
+
+        private void OpenScenefromBrowse(string Result, string _DataDirectory, int LevelID)
+        {
+            int searchType = 0;
+            // Selected file
+            // Don't forget to populate these Members
+            string directoryPath = Path.GetDirectoryName(Result);
+            SelectedZone = new DirectoryInfo(directoryPath).Name;
+            SelectedScene = Path.GetFileName(Result);
+            SceneFilename = Result;
+            SceneFilepath = Path.Combine(directoryPath);
+            searchType = 0;
+            SelectedZone = SelectedZone.Replace("\\", "");
+            myEditorState.Level_ID = LevelID;
+            EditorScene = new EditorScene(SceneFilename);
+            //Encore Palette + Stage Tiles Initaliazation
+            EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
+            EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
+            if (EncorePalette[0] != "")
             {
-                MessageBox.Show("Load failed. Error: " + ex.ToString() + " " + Result);
-                return;
+                encorePaletteExists = true;
+            }
+            //Encore Palette + Stage Tiles
+            //string directoryPath = Path.GetDirectoryName(Result);
+            if (useEncoreColors == true && EncorePalette[0] != "")
+            {
+                StageTiles = new StageTiles(directoryPath, EncorePalette[0]);
+            }
+            else
+            {
+                StageTiles = new StageTiles(directoryPath);
+            }
+            //These cause issues, but not clearing them means when new stages are loaded Collision Mask 0 will be index 1024... (I think)
+            CollisionLayerA.Clear();
+            CollisionLayerB.Clear();
+
+            if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
+            {
+                TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
+                for (int i = 0; i < 1024; i++)
+                {
+                    CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                    CollisionLayerB.Add(TilesConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+                }
             }
 
-            UpdateDataFolderLabel();
+            // Object Rescue Mode
+            if (mySettings.DisableEntityReading == true) RSDKv5.Scene.readTilesOnly = true;
+            else RSDKv5.Scene.readTilesOnly = false;
 
-            SetupLayerButtons();
+            StageConfigFileName = Path.Combine(Path.GetDirectoryName(SceneFilename), "StageConfig.bin");
+            if (File.Exists(StageConfigFileName)) StageConfig = new StageConfig(StageConfigFileName);
+            ObjectList.Clear();
 
-            Background = new EditorBackground();
+            for (int i = 0; i < GameConfig.ObjectsNames.Count; i++)
+            {
+                ObjectList.Add(GameConfig.ObjectsNames[i]);
+            }
+            for (int i = 0; i < StageConfig.ObjectsNames.Count; i++)
+            {
+                ObjectList.Add(StageConfig.ObjectsNames[i]);
+            }
+            ScenePath = Result;
+            UpdateDiscord("Editing " + Result);
 
-            entities = new EditorEntities(EditorScene);
+            if (File.Exists(SceneFilepath + "\\maniac.ini"))
+            {
+                bool allowToRead = false;
+                using (Stream stream = SettingsReader.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
+                {
+                    if (stream != null)
+                    {
+                        SettingsReader.GetSceneINISettings(stream);
+                        allowToRead = true;
+                    }
+                    else
+                    {
+                        Debug.Print("Something went wrong");
+                        allowToRead = false;
+                    }
+                }
+                if (allowToRead)
+                {
+                    try
+                    {
+                        SetINIDefaultPrefrences();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
+                        SettingsReader.CleanPrefrences();
+                    }
 
-            SetViewSize(SceneWidth, SceneHeight);
+                }
 
-            UpdateControls(true);
 
+            }
         }
 
         #endregion
@@ -2956,10 +3118,7 @@ namespace ManiacEditor
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
             {
                 AllowSceneChange = false;
-                if (mySettings.forceBrowse == true)
-                    OpenScene(true);
-                else
-                    OpenScene();
+                OpenScene(mySettings.forceBrowse);
 
             }
             else
@@ -3349,6 +3508,7 @@ Error: {ex.Message}");
         {
             EditLayer?.FlipPropertySelected(FlipDirection.Veritcal, true);
             UpdateEditLayerActions();
+            UpdateEditLayerActions();
         }
 
         #endregion
@@ -3357,30 +3517,74 @@ Error: {ex.Message}");
 
         private void showEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            uncheckOtherEntityVisibilityStates();
-            entityVisibilityType = 2;
-            showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked = true;
+            if (showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked)
+            {
+                entityVisibilityType = 1;
+            }
+            else
+            {
+                entityVisibilityType = 0;
+            }
+
         }
 
-        private void onTopOnlyWhileEditingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void changeEncorePaleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            uncheckOtherEntityVisibilityStates();
-            entityVisibilityType = 1;
-            onTopOnlyWhileEditingToolStripMenuItem.Checked = true;
+            setEncorePalete(sender);
         }
 
-        private void constantEntityRenderItem_Click(object sender, EventArgs e)
+        private void setEncorePalete(object sender = null, string path = "")
         {
-            uncheckOtherEntityVisibilityStates();
-            entityVisibilityType = 0;
-            constantEntityRenderItem.Checked = true;
-        }
+            if (sender != null)
+            {
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+                bool useModFolder = (clickedItem == fromModDirectoryToolStripMenuItem) && ModDataDirectory != "" && Directory.Exists(Path.Combine(ModDataDirectory, "Palettes"));
+                string StartDir = (useModFolder ? ModDataDirectory : DataDirectory);
+                try
+                {
+                    using (var fd = new OpenFileDialog())
+                    {
+                        fd.Filter = "Color Palette File|*.act";
+                        fd.DefaultExt = ".act";
+                        fd.Title = "Select an Encore Color Palette";
+                        fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
+                        if (fd.ShowDialog() == DialogResult.OK)
+                        {
+                            EncorePalette = EditorScene.getEncorePalette("", "", "", "", -1, fd.FileName);
+                            EncoreSetupType = 0;
+                            if (File.Exists(EncorePalette[0]))
+                            {
+                                encorePaletteExists = true;
+                                enableEncorePalette.Checked = true;
+                                useEncoreColors = true;
+                                ReloadSpecificTextures(null, null);
+                            }
 
-        private void uncheckOtherEntityVisibilityStates()
-        {
-            showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked = false;
-            onTopOnlyWhileEditingToolStripMenuItem.Checked = false;
-            constantEntityRenderItem.Checked = false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
+                }
+            }
+            else if (path != "")
+            {
+                EncorePalette = EditorScene.getEncorePalette("", "", "", "", -1, path);
+                EncoreSetupType = 0;
+                if (File.Exists(EncorePalette[0]))
+                {
+                    encorePaletteExists = true;
+                    enableEncorePalette.Checked = true;
+                    useEncoreColors = true;
+                    ReloadSpecificTextures(null, null);
+                }
+                else
+                {
+                    MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
+                }
+            }
+
         }
 
         private void moveExtraLayersToFrontToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3652,6 +3856,36 @@ Error: {ex.Message}");
             }
         }
 
+        private void makeForDataFolderOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string dataDir = DataDirectory;
+            CreateShortcut(dataDir);
+        }
+
+        private void withCurrentCoordinatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string dataDir = DataDirectory;
+            string scenePath = ScenePath;
+            string modPath = ModDataDirectory;
+            int rX = (short)(ShiftX / Zoom);
+            int rY = (short)(ShiftY / Zoom);
+            bool isEncoreSet = Editor.Instance.useEncoreColors;
+            int levelSlotNum = Editor.Instance.myEditorState.Level_ID;
+            CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum);
+        }
+
+        private void withoutCurrentCoordinatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string dataDir = DataDirectory;
+            string scenePath = ScenePath;
+            string modPath = ModDataDirectory;
+            int rX = 0;
+            int rY = 0;
+            bool isEncoreSet = Editor.Instance.useEncoreColors;
+            int levelSlotNum = Editor.Instance.myEditorState.Level_ID;
+            CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum);
+        }
+
         private void soundLooperToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SoundLooper form = new SoundLooper();
@@ -3790,26 +4024,88 @@ Error: {ex.Message}");
         #region Folders Tab Buttons
         private void openSceneFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string SceneFilename_mod = SceneFilename.Replace('/', '\\');
-            Process.Start("explorer.exe", "/select, " + SceneFilename_mod);
-            //MessageBox.Show(SceneFilename_mod);
+            if (SceneFilename != null && SceneFilename != "" && File.Exists(SceneFilename))
+            {
+                string SceneFilename_mod = SceneFilename.Replace('/', '\\');
+                Process.Start("explorer.exe", "/select, " + SceneFilename_mod);
+            }
+            else
+            {
+                MessageBox.Show("Scene File does not exist or simply isn't loaded!", "ERROR");
+            }
+
         }
 
         private void openDataDirectoryFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string DataDirectory_mod = DataDirectory.Replace('/', '\\');
-            Process.Start("explorer.exe", "/select, " + DataDirectory_mod);
-            //MessageBox.Show(DataDirectory_mod);
+            string DataDirectory_mod = DataDirectory.Replace('/', '\\');          
+            if (DataDirectory_mod != null && DataDirectory_mod != "" && Directory.Exists(DataDirectory_mod))
+            {
+                Process.Start("explorer.exe", "/select, " + DataDirectory_mod);
+            }
+            else
+            {
+                MessageBox.Show("Data Directory does not exist or simply isn't loaded!", "ERROR");
+            }
+
         }
 
         private void openSonicManiaFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (mySettings.RunGamePath != null && mySettings.RunGamePath != "" && File.Exists(mySettings.RunGamePath))
+            {
+                string GameFolder = mySettings.RunGamePath;
+                string GameFolder_mod = GameFolder.Replace('/', '\\');
+                Process.Start("explorer.exe", "/select, " + GameFolder_mod);
+            }
+            else
+            {
+                MessageBox.Show("Game Folder does not exist or isn't set!", "ERROR");
+            }
 
-            string GameFolder = mySettings.RunGamePath;
-            string GameFolder_mod = GameFolder.Replace('/', '\\');
-            Process.Start("explorer.exe", "/select, " + GameFolder_mod);
-            //MessageBox.Show(GameFolder_mod);
         }
+
+        private void openModDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ModDataDirectory != "")
+            {
+                string ModDataDir = ModDataDirectory.Replace('/', '\\');
+                Process.Start("explorer.exe", "/select, " + ModDataDir);
+            }
+            else
+            {
+                MessageBox.Show("Mod Data Directory Not Loaded!", "ERROR");
+            }
+
+
+        }
+        private void openASavedPlaceToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            if (Settings.mySettings.SavedPlaces != null && Settings.mySettings.SavedPlaces.Count > 0)
+            {
+                openASavedPlaceToolStripMenuItem.DropDownItems.RemoveAt(0);
+                foreach (string savedPlace in Settings.mySettings.SavedPlaces)
+                {
+                    openASavedPlaceToolStripMenuItem.DropDownItems.Add(savedPlace, null, openASavedPlaceTrigger);
+                }
+            }
+
+        }
+
+        private void openASavedPlaceTrigger(object sender, EventArgs e)
+        {
+            ToolStripDropDownItem item = sender as ToolStripDropDownItem;
+            string savedPlaceDir = item.Text.Replace('/', '\\');
+            Process.Start("explorer.exe", "/select, " + savedPlaceDir);
+        }
+
+        private void openASavedPlaceToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
+        {
+            openASavedPlaceToolStripMenuItem.DropDownItems.Clear();
+            openASavedPlaceToolStripMenuItem.DropDownItems.Add("No Saved Places");
+            openASavedPlaceToolStripMenuItem.DropDownItems[0].Enabled = false;
+        }
+
         #endregion
 
         #region Other Tab Buttons
@@ -4221,18 +4517,18 @@ Error: {ex.Message}");
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0)
                 {
                     entities.DrawPriority(GraphicPanel, 0);
                     entities.DrawPriority(GraphicPanel, 1);
                 }
 
-                if (!mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked) entities.Draw(GraphicPanel);
+                if (!mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType == 0) entities.Draw(GraphicPanel);
 
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0)
                 {
                     entities.DrawPriority(GraphicPanel, 2);
                     entities.DrawPriority(GraphicPanel, 3);
@@ -4252,7 +4548,7 @@ Error: {ex.Message}");
                     }
                 }
 
-                if (EditEntities.Checked) entities.Draw(GraphicPanel);
+                if (EditEntities.Checked || (entityVisibilityType == 1 && ShowEntities.Checked)) entities.Draw(GraphicPanel);
 
 
             }
@@ -4300,13 +4596,26 @@ Error: {ex.Message}");
             if (showGrid && EditorScene != null)
                 Background.DrawGrid(GraphicPanel);
 
-            /*
-            if (EditorScene != null)
+            //if (Settings.mySettings.AllowAutomaticTextureDisposal)
+            //{
+            //    entities.OptimizeAssets = true;
+            //}
+
+            Process proc = Process.GetCurrentProcess();
+            long memory = proc.PrivateMemorySize64;
+
+            if (!Environment.Is64BitProcess && memory >= 1500000000)
             {
-                Background.DrawSnow(GraphicPanel);
+                ReloadToolStripButton_Click(null, null);
             }
-            */
-        }
+
+                /*
+                if (EditorScene != null)
+                {
+                    Background.DrawSnow(GraphicPanel);
+                }
+                */
+            }
 
         public void DrawLayers(int drawOrder = 0)
         {
@@ -5238,7 +5547,6 @@ Error: {ex.Message}");
                     String StageConfigFileName = SceneFilepath + "\\StageConfig" + ".bak";
                     String StageConfigFileNameReserve = StageConfigFileName;
                     StageConfigFileName += ".bin";
-                    Debug.Print(StageConfigFileName);
                     int i = 1;
                     while ((File.Exists(StageConfigFileName)))
                     {
@@ -5866,6 +6174,46 @@ Error: {ex.Message}");
 
         #region Miscellaneous
 
+        private void CreateShortcut(string dataDir, string scenePath = "", string modPath = "", int X = 0, int Y = 0, bool isEncoreMode = false, int LevelSlotNum = -1)
+        {
+            object shDesktop = (object)"Desktop";
+            WshShell shell = new WshShell();
+            string shortcutAddress = "";
+            if (scenePath != "")
+            {
+                shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + "Scene Link" + " - Maniac.lnk";
+            }
+            else
+            {
+                shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + "Data Folder Link" + " - Maniac.lnk";
+            }
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+
+            string targetAddress = "\"" + Environment.CurrentDirectory + @"\ManiacEditor.exe" + "\"";
+            string launchArguments = "";
+            if (scenePath != "")
+            {
+                launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "") + (scenePath != "" ? "ScenePath=" + "\"" + scenePath + "\" " : "") + (modPath != "" ? "ModPath=" + "\"" + modPath + "\" " : "") + (LevelSlotNum != -1 ? "LevelID=" + LevelSlotNum.ToString() + " " : "") + (isEncoreMode == true ? "EncoreMode=TRUE " : "") + (X != 0 ? "X=" + X.ToString() + " " : "") + (Y != 0 ? "Y=" + Y.ToString() + " " : "");
+            }
+            else
+            {
+                launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "");
+            }
+
+            shortcut.TargetPath = targetAddress;
+            shortcut.Arguments = launchArguments;
+            shortcut.WorkingDirectory = Environment.CurrentDirectory;
+            shortcut.Save();
+        }
+
+        private void seeStatsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var StatsBox = new StatusBox())
+            {
+                StatsBox.ShowDialog();
+            }
+        }
+
         private void editTileWithTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Editor.Instance.mainform.IsDisposed) Editor.Instance.mainform = new TileManiac.Mainform();
@@ -5948,7 +6296,6 @@ Error: {ex.Message}");
 
                 selectedScene = select.Result;
             }
-            Debug.Print(selectedScene);
             if (!File.Exists(selectedScene))
             {
                 string[] splitted = selectedScene.Split('\\');
@@ -5957,7 +6304,6 @@ Error: {ex.Message}");
                 string part2 = splitted[1];
 
                 selectedScene = Path.Combine(DataDirectory, "Stages", part1, part2);
-                Debug.Print(selectedScene);
             }
             return new Scene(selectedScene);
         }

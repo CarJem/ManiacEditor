@@ -1098,11 +1098,14 @@ namespace ManiacEditor
                 int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures[0].Length);
                 int start_y = screen.Y / (TILES_CHUNK_SIZE * TILE_SIZE);
                 int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures.Length);
+
                 for (int y = start_y; y < end_y; ++y)
                 {
                     for (int x = start_x; x < end_x; ++x)
                     {
                         Rectangle rect = GetTilesChunkArea(x, y);
+
+                        
                         if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
                         {
                             // TODO: If the full chunk isDrawTilesChunk selected, cache it
@@ -1114,6 +1117,7 @@ namespace ManiacEditor
                             d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * TILE_SIZE, rect.Y * TILE_SIZE, rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, false, Transperncy);
                         }
                         DrawSelectedTiles(d, x, y, Transperncy);
+                        
 
                     }
                 }

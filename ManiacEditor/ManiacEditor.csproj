@@ -450,6 +450,12 @@
     <Compile Include="Interfaces\AddAttributeBox.Designer.cs">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\StatusBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\StatusBox.Designer.cs">
+      <DependentUpon>StatusBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\DeviceLostBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -785,6 +791,7 @@
     <Compile Include="Interfaces\SoundImporter.Designer.cs">
       <DependentUpon>SoundImporter.cs</DependentUpon>
     </Compile>
+    <Compile Include="TextPrompt.cs" />
     <Compile Include="TextureCreator.cs" />
     <Compile Include="ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
@@ -831,20 +838,6 @@
     <Content Include="Global\TransportTubes.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\MagicWand_16x_24.bmp" />
-    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor34.png" />
-    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor3.png" />
-    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor2.png" />
-    <None Include="Resources\e121099fc09680fdfce5445933a5ed89-apple-mouse-cursor.png" />
-    <None Include="Resources\Hand-Touch-2-icon.png" />
-    <None Include="Resources\4.png" />
-    <None Include="Resources\Hands-Hand-icon3.png" />
-    <None Include="Resources\Hands-Hand-icon2.png" />
-    <None Include="Resources\Hands-Hand-icon.png" />
-    <None Include="Resources\PenTool_16x.png" />
-    <None Include="Resources\ColorWheel_16x.png" />
-    <None Include="Resources\do-not-sign-icon-png-0.png" />
-    <None Include="Resources\ColorPalette_16x.png" />
     <None Include="Resources\LayerManagerWarning1.rtf" />
     <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
@@ -856,6 +849,9 @@
     </None>
     <EmbeddedResource Include="Interfaces\ConfigManager.resx">
       <DependentUpon>ConfigManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\StatusBox.resx">
+      <DependentUpon>StatusBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
@@ -1090,6 +1086,17 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

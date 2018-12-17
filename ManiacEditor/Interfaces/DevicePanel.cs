@@ -758,6 +758,41 @@ namespace ManiacEditor
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
 
+        public void DrawLinePaperRoller(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4)
+        {
+            Rectangle screen = _parent.GetScreen();
+            double zoom = _parent.GetZoom();
+            int width = Math.Abs(X2 - X1);
+            int height = Math.Abs(Y2 - Y1);
+            int x = Math.Min(X1, X2);
+            int y = Math.Min(Y1, Y2);
+            int pixel_width = Math.Max((int)zoom, 1);
+
+            if (Properties.Settings.Default.AlwaysRenderLines != true)
+            {
+                if (!IsObjectOnScreen(x, y, width, height)) return;
+            }
+
+            //tx = new Texture(_device, txb, Usage.Dynamic, Pool.Default);
+
+
+            sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
+            /*
+            if (width == 0 || height == 0)
+            {
+                if (width == 0) width = pixel_width;
+                else width = (int)(width * zoom);
+                if (height == 0) height = pixel_width;
+                else height = (int)(height * zoom);
+                DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x - (int)(screen.X / zoom)) * zoom), (int)((y - (int)(screen.Y / zoom)) * zoom), 0), color);
+            }
+            else
+            {*/
+                DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
+            //}
+            sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
+        }
+
         public void DrawSnowLines(int X1, int Y1, int X2, int Y2, Color color)
         {
             Rectangle screen = _parent.GetScreen();
@@ -842,6 +877,81 @@ namespace ManiacEditor
                         e -= dy;
                     }
                     e += dx; y0 += iny;
+                }
+            }
+            DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
+        }
+
+        void DrawLinePBPDoted(int x0, int y0, int x1, int y1, Color color, Color color2, Color color3, Color color4)
+        {
+            Rectangle screen = _parent.GetScreen();
+            double zoom = _parent.GetZoom();
+            int dx, dy, inx, iny, e;
+            int pixel_width = (int)(Math.Ceiling(zoom + 0.3));
+
+            dx = x1 - x0;
+            dy = y1 - y0;
+            inx = dx > 0 ? 1 : -1;
+            iny = dy > 0 ? 1 : -1;
+
+            dx = Math.Abs(dx);
+            dy = Math.Abs(dy);
+
+            Color currentColor = color;
+            int iterations = 0;
+
+            if (dx >= dy)
+            {
+                dy <<= 1;
+                e = dy - dx;
+                dx <<= 1;
+                while (x0 != x1)
+                {
+                    if (iterations >= 5)
+                    {
+                        if (currentColor == color4) currentColor = color;
+                        else if (currentColor == color3) currentColor = color4;
+                        else if (currentColor == color2) currentColor = color3;
+                        else if (currentColor == color) currentColor = color2;
+
+                        iterations = 0;
+                    }
+
+
+                    DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), currentColor);
+                    if (e >= 0)
+                    {
+                        y0 += iny;
+                        e -= dx;
+                    }
+                    e += dy; x0 += inx; iterations++;
+
+                }
+            }
+            else
+            {
+                dx <<= 1;
+                e = dx - dy;
+                dy <<= 1;
+                while (y0 != y1)
+                {
+                    if (iterations >= 5)
+                    {
+                        if (currentColor == color4) currentColor = color;
+                        else if (currentColor == color3) currentColor = color4;
+                        else if (currentColor == color2) currentColor = color3;
+                        else if (currentColor == color) currentColor = color2;
+
+                        iterations = 0;
+                    }
+
+                    DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), currentColor);
+                    if (e >= 0)
+                    {
+                        x0 += inx;
+                        e -= dy;
+                    }
+                    e += dx; y0 += iny; iterations++;
                 }
             }
             DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);

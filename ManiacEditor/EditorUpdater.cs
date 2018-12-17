@@ -31,7 +31,7 @@ namespace ManiacEditor
                 try
                 {
                     string appveyorDetails = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
-                    Debug.Print(appveyorDetails);
+                    //Debug.Print(appveyorDetails);
                     if (appveyorDetails.Contains("buildNumber"))
                     {
                         string regex = "[0-9]*";
@@ -84,21 +84,29 @@ namespace ManiacEditor
                 string v1 = versionNum;
                 string v2 = versionNum2;
 
+                Debug.Print(v1);
+                Debug.Print(v2);
+
                 var version1 = new Version(v1);
                 var version2 = new Version(v2);
 
                 var result = version1.CompareTo(version2);
                 string curVer = GetCurrentVersion();
-                if (result < 0 && badBuild == false && !curVer.Contains("RUNNING"))
+                Debug.Print(result.ToString());
+                if (result != 0)
                 {
+                    if (badBuild == false && !curVer.Contains("RUNNING"))
+                    {
                         UpdateStatusBox box = new UpdateStatusBox(1, this);
                         box.ShowDialog();
+                    }
+                    else
+                    {
+                        UpdateStatusBox box = new UpdateStatusBox(0, this);
+                        box.ShowDialog();
+                    }
                 }
-                else
-                {
-                    UpdateStatusBox box = new UpdateStatusBox(0, this);
-                    box.ShowDialog();
-                }
+
             }
             else
             {
@@ -127,11 +135,13 @@ namespace ManiacEditor
         {
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             //Adjust this after major and minor versions
+            
             if (version == "1.0.0.0")
             {
                 string devVersion = version.TrimEnd(version[version.Length - 1]) + "DEV";
                 return devVersion;
             }
+            
             return version;
         }
 

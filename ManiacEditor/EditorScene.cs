@@ -91,7 +91,7 @@ namespace ManiacEditor
             _editorLayers.Remove(thisLayer);
         }
 
-        public String[] getEncorePalette(string SelectedZone, string DataDirectory, string SelectedScene, string Result, int searchType)
+        public String[] getEncorePalette(string SelectedZone, string DataDirectory, string SelectedScene, string Result, int searchType, string userLoad = "")
         {
             string EncorePallete1 = ""; //Base Pallete
             string EncorePallete2 = "";
@@ -206,14 +206,25 @@ namespace ManiacEditor
             }
             else
             {
-                // For Custom Encore Palette Finding
-                String CustomEncore;
-                CustomEncore = locateEncorePalettes(ZoneName, SelectedScene, Result, DataDirectory, SelectedScene, SelectedScene);
-                
-                if (File.Exists(CustomEncore))
+                if (searchType == -1)
                 {
-                    EncorePallete1 = CustomEncore;
+                    if (File.Exists(userLoad))
+                    {
+                        EncorePallete1 = userLoad;
+                    }
                 }
+                else
+                {
+                    // For Custom Encore Palette Finding
+                    String CustomEncore;
+                    CustomEncore = locateEncorePalettes(ZoneName, SelectedScene, Result, DataDirectory, SelectedScene, SelectedScene);
+
+                    if (File.Exists(CustomEncore))
+                    {
+                        EncorePallete1 = CustomEncore;
+                    }
+                }
+
             }
             string[] encorePalletes = new string[6] { EncorePallete1, EncorePallete2, EncorePallete3, EncorePallete4, EncorePallete5, EncorePallete6 };
             return encorePalletes;
@@ -328,12 +339,8 @@ namespace ManiacEditor
             else
             {
                 //Second Check (intended for external data folders)
-                string ModDataDir = FullPath.Replace('/', '\\');
-                ModDataDir = ModDataDir.Replace(Path.Combine("Stages", Zone, SelectedScene), "");
-                Debug.Print(ModDataDir);
-                Debug.Print(Path.Combine("Stages", Zone, SelectedScene));
                 actFile = "Encore" + Zone + ".act";
-                newPal = Path.Combine(ModDataDir, "Palettes", actFile);
+                newPal = Path.Combine(DataDirectory, "Palettes", actFile);
                 Debug.Print(newPal);
                 if (File.Exists(newPal))
                 {
@@ -350,7 +357,7 @@ namespace ManiacEditor
                     modifiedScene = modifiedScene.Replace("1e", "1");
                     modifiedScene = modifiedScene.Replace("1k", "1");
                     actFile = "Encore" + modifiedZone + modifiedScene + ".act";
-                    newPal = Path.Combine(ModDataDir, "Palettes", actFile);
+                    newPal = Path.Combine(DataDirectory, "Palettes", actFile);
 
                     Debug.Print(newPal);
                     if (File.Exists(newPal))

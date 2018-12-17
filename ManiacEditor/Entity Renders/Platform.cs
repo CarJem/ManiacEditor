@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
             int angleStateX = 0;
             int angleStateY = 0;
 
-            var platformIcon = EditorEntity_ini.LoadAnimation2("EditorIcons", d, 0, 8, false, false, false);
+            var platformIcon = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 8, false, false, false);
 
             
             if (childCount != previousChildCount)
@@ -82,47 +82,41 @@ namespace ManiacEditor.Entity_Renders
             int aminID = 0;
             EditorEntity_ini.EditorAnimation editorAnim = null;
             bool doNotShow = false;
+
             while (true)
             {
-
                 try
                 {
-                    if (targetFrameID == -1)
+                    if (targetFrameID == -1) doNotShow = true;
+                    editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
+                    if (type == 4) editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
+                    if (editorAnim == null)
                     {
-                        doNotShow = true;
+                        Debug.Print("I suck!");
+                        return; // no animation, bail out
                     }
-                        editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
-
-                        if (type == 4)
-                        {
-                            editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
-                        }
-
-                        if (editorAnim == null) return; // no animation, bail out
-
-                        frameID += editorAnim.Frames.Count;
-                        if (targetFrameID < frameID)
-                        {
-                            int aminStart = (frameID - editorAnim.Frames.Count);
-                            frameID = targetFrameID - aminStart;
-                            break;
-                        }
-                        aminID++;
-
+                    
+                    frameID += editorAnim.Frames.Count;
+                    if (targetFrameID < frameID)
+                    {
+                        int aminStart = (frameID - editorAnim.Frames.Count);
+                        frameID = targetFrameID - aminStart;
+                        break;
+                    }
+                    aminID++;
                 }
                 catch (Exception i)
                 {
                     throw new ApplicationException($"Problem Loading Platforms! AnimID: {aminID}", i);
                 }
             }
+
             var tensionBall = EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
             var tensionBallCenter = EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
-            if (type == 4)
-            {
-                tensionBall = EditorEntity_ini.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
-                tensionBallCenter = EditorEntity_ini.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
-            }
-            if (editorAnim.Frames.Count != 0 && platformIcon != null)
+            if (type == 4) tensionBall = EditorEntity_ini.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
+            if (type == 4) tensionBallCenter = EditorEntity_ini.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
+
+            if (editorAnim.Frames.Count != 0 && platformIcon != null && editorAnim != null && platformIcon.Frames.Count != 0)
             {
 
                 EditorEntity_ini.EditorAnimation.EditorFrame frame = null;
@@ -130,247 +124,243 @@ namespace ManiacEditor.Entity_Renders
                 {
                     frame = editorAnim.Frames[Animation.index];
                 }
-                else if (doNotShow == true)
+                else if (doNotShow == true && platformIcon != null && platformIcon.Frames.Count != 0)
                 {
                     frame = platformIcon.Frames[Animation.index];
+
                 }
                 else
                 {
                     frame = editorAnim.Frames[frameID > 0 ? frameID : 0];
                 }
 
-                PlatformWidth = frame.Frame.Width;
-                PlatformHight = frame.Frame.Height;
-                PlatformOffsetX = frame.Frame.CenterX;
-                PlatformOffsetY = frame.Frame.CenterY;
-
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                
-                if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && selected)
+                if (frame != null)
                 {
-                    d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + amplitudeX, y + frame.Frame.CenterY + amplitudeY,
-                        frame.Frame.Width, frame.Frame.Height, false, 125);
-                    d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX - amplitudeX, y + frame.Frame.CenterY - amplitudeY,
-                        frame.Frame.Width, frame.Frame.Height, false, 125);
-                    d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
-                
-                
-                if (type == 2 || type == 7)
-                {
-                    if (type == 7)
+                    PlatformWidth = frame.Frame.Width;
+                    PlatformHight = frame.Frame.Height;
+                    PlatformOffsetX = frame.Frame.CenterX;
+                    PlatformOffsetY = frame.Frame.CenterY;
+
+                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+
+                    if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && selected)
                     {
-                        amplitudeX /= 2;
-                        amplitudeY /= 2;
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + amplitudeX, y + frame.Frame.CenterY + amplitudeY,
+                            frame.Frame.Width, frame.Frame.Height, false, 125);
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX - amplitudeX, y + frame.Frame.CenterY - amplitudeY,
+                            frame.Frame.Width, frame.Frame.Height, false, 125);
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
 
-                    int[] position = new int[2] { 0, 0 };
-                    int posX = amplitudeX;
-                    int posY = amplitudeY;
-                    //Negative Values only work atm
-                    if (amplitudeX <= -1) posX = -posX;
-                    if (amplitudeY <= -1) posY = -posY;
 
-                    if (amplitudeX != 0 && amplitudeY == 0)
+                    if (type == 2 || type == 7)
                     {
-                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
-                    }
-                    if (amplitudeX == 0 && amplitudeY != 0)
-                    {
-                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
-                    }
-                    if (amplitudeX != 0 && amplitudeY != 0)
-                    {
-                        // Since we can don't know how to do it other than x or y yet
-                        position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
-                    }
-
-                    if (childCount != 0)
-                    {
-                        previousChildCount = childCount;
-                        for (int i = 0; i < childCount; i++)
+                        if (type == 7)
                         {
-                            try
-                            {
-                                EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
-                                childEntity.childDraw = true;
-                                childEntity.childX = position[0];
-                                childEntity.childY = -position[1];
-                            }
-                            catch
-                            {
-
-                            }
-
+                            amplitudeX /= 2;
+                            amplitudeY /= 2;
                         }
-                    }
+
+                        int[] position = new int[2] { 0, 0 };
+                        int posX = amplitudeX;
+                        int posY = amplitudeY;
+                        //Negative Values only work atm
+                        if (amplitudeX <= -1) posX = -posX;
+                        if (amplitudeY <= -1) posY = -posY;
+
+                        if (amplitudeX != 0 && amplitudeY == 0)
+                        {
+                            position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        }
+                        if (amplitudeX == 0 && amplitudeY != 0)
+                        {
+                            position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        }
+                        if (amplitudeX != 0 && amplitudeY != 0)
+                        {
+                            // Since we can don't know how to do it other than x or y yet
+                            position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        }
+
+                        if (childCount != 0)
+                        {
+                            previousChildCount = childCount;
+                            for (int i = 0; i < childCount; i++)
+                            {
+                                try
+                                {
+                                    EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                    childEntity.childDraw = true;
+                                    childEntity.childX = position[0];
+                                    childEntity.childY = -position[1];
+                                }
+                                catch
+                                {
+
+                                }
+
+                            }
+                        }
 
 
                         d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                }
-                
-                
-                else if ((amplitudeX != 0 || amplitudeY != 0) && type == 3)
-                {
-                    Animation.ProcessMovingPlatform(angle);
-                    angle = Animation.platformAngle;
-                    double xd = x;
-                    double yd = y;
-                    double x2 = x + amplitudeX - amplitudeX / 3.7;
-                    double y2 = y + amplitudeY - amplitudeY / 3.7;
-                    double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
-                    int radiusInt = (int)Math.Sqrt(radius);
-                    int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
-                    int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
-                    int tensionCount = radiusInt / 16;
-                    if (hasTension == true && tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
-                    {
-                        EditorEntity_ini.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
-                        EditorEntity_ini.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
-                        for (int i = 0; i < tensionCount; i++)
-                        {
-                            int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
-                            if (i == 0)
-                            {
-                                d.DrawBitmap(frame4.Texture,
-                                    linePoints[0] + frame4.Frame.CenterX,
-                                    linePoints[1] + frame4.Frame.CenterY,
-                                    frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-                            }
-                            else
-                            {
-                                d.DrawBitmap(frame3.Texture,
-                                    linePoints[0] + frame3.Frame.CenterX,
-                                    linePoints[1] + frame3.Frame.CenterY,
-                                    frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                            }
-
-                        }
                     }
 
-                    if (childCount != 0)
+
+                    else if ((amplitudeX != 0 || amplitudeY != 0) && type == 3)
                     {
-                        previousChildCount = childCount;
-                        for (int i = 0; i < childCount; i++)
+                        Animation.ProcessMovingPlatform(angle);
+                        angle = Animation.platformAngle;
+                        double xd = x;
+                        double yd = y;
+                        double x2 = x + amplitudeX - amplitudeX / 3.7;
+                        double y2 = y + amplitudeY - amplitudeY / 3.7;
+                        double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
+                        int radiusInt = (int)Math.Sqrt(radius);
+                        int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
+                        int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
+                        int tensionCount = radiusInt / 16;
+                        if (hasTension == true && tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                         {
-                            EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
-                            childEntity.childDraw = true;
-                            childEntity.childX = newX;
-                            childEntity.childY = -newY;
-                        }
-                    }
-
-                    d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                }
-
-                else if ((amplitudeX != 0 || amplitudeY != 0) && type == 4)
-                {
-                    Animation.ProcessMovingPlatform4(amplitudeX, angle);
-                    angle = Animation.platformAngle4;
-                    int tensionCount = amplitudeY;
-
-
-                    //int newY = amplitudeY * 16;
-
-                    //Child Count
-                    //double xd = x;
-                    //double yd = y;
-                    //double x2 = x + amplitudeX - amplitudeX / 3.7;
-                    //double y2 = y + amplitudeY - amplitudeY / 3.7 + amplitudeY*16;
-                    //double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
-                    //int radiusInt = (int)Math.Sqrt(radius);
-                    //int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
-                    //int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
-                    //int tensionCount = radiusInt / 16;
-
-                    if (tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
-                    {
-                        EditorEntity_ini.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
-                        EditorEntity_ini.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
-                        int i = 0;
-                        int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
-                        for (i = 0; i <= tensionCount; i++)
-                        {
-                            linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
-                            if (i == 0)
+                            EditorEntity_ini.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                            EditorEntity_ini.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
+                            for (int i = 0; i < tensionCount; i++)
                             {
-                                d.DrawBitmap(frame4.Texture,
-                                    linePoints[0] + frame4.Frame.CenterX,
-                                    linePoints[1] + frame4.Frame.CenterY,
-                                    frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-                            }
-                            else if (i == tensionCount)
-                            {
-                                d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.CenterX, linePoints[1] + frame.Frame.CenterY,
-                                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                                if (childCount != 0)
+                                int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
+                                if (i == 0)
                                 {
-                                    previousChildCount = childCount;
-                                    for (int z = 0; z < childCount; z++)
-                                    {
-                                        EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
-                                        if (childEntity != null)
-                                        {
-                                            childEntity.childDraw = true;
-                                            if (childEntity.Entity.Object.Name.Name == "ItemBox")
-                                            {
-                                                int cX = childEntity.Entity.Position.X.High;
-                                                int cY = childEntity.Entity.Position.Y.High;
-                                                int rX = linePoints[0] - x;
-                                                int rY = linePoints[1] - y;
-                                                linePoints = RotatePoints(cX, cY + (16) * tensionCount, cX, cY, angle);
-                                                childEntity.childDrawAddMode = false;
-                                                childEntity.childX = linePoints[0];
-                                                childEntity.childY = linePoints[1];
-                                            }
-                                            else
-                                            {
-                                                int cX = childEntity.Entity.Position.X.High;
-                                                int cY = childEntity.Entity.Position.Y.High;
-                                                int rX = linePoints[0] - x;
-                                                int rY = linePoints[1] - y;
-                                                linePoints = RotatePoints(cX, cY, cX, cY - (16) * i, angle);
-                                                childEntity.childDrawAddMode = false;
-                                                childEntity.childX = linePoints[0];
-                                                childEntity.childY = linePoints[1];
-                                            }
-                                        }
-
-
-                                    }
+                                    d.DrawBitmap(frame4.Texture,
+                                        linePoints[0] + frame4.Frame.CenterX,
+                                        linePoints[1] + frame4.Frame.CenterY,
+                                        frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
+                                }
+                                else
+                                {
+                                    d.DrawBitmap(frame3.Texture,
+                                        linePoints[0] + frame3.Frame.CenterX,
+                                        linePoints[1] + frame3.Frame.CenterY,
+                                        frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                                 }
 
                             }
-                            else
+                        }
+
+                        if (childCount != 0)
+                        {
+                            previousChildCount = childCount;
+                            for (int i = 0; i < childCount; i++)
                             {
-                                d.DrawBitmap(frame3.Texture,
-                                    linePoints[0] + frame3.Frame.CenterX,
-                                    linePoints[1] + frame3.Frame.CenterY,
-                                    frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
+                                EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                childEntity.childDraw = true;
+                                childEntity.childX = newX;
+                                childEntity.childY = -newY;
                             }
                         }
 
-                     
-                        
+                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                     }
 
+                    else if ((amplitudeX != 0 || amplitudeY != 0) && type == 4)
+                    {
+                        Animation.ProcessMovingPlatform4(amplitudeX, angle);
+                        angle = Animation.platformAngle4;
+                        int tensionCount = amplitudeY;
 
 
-                }
-                else
-                {
+                        //int newY = amplitudeY * 16;
 
-                    d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + angleStateX, y + frame.Frame.CenterY - angleStateY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
+                        //Child Count
+                        //double xd = x;
+                        //double yd = y;
+                        //double x2 = x + amplitudeX - amplitudeX / 3.7;
+                        //double y2 = y + amplitudeY - amplitudeY / 3.7 + amplitudeY*16;
+                        //double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
+                        //int radiusInt = (int)Math.Sqrt(radius);
+                        //int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
+                        //int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
+                        //int tensionCount = radiusInt / 16;
 
+                        if (tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
+                        {
+                            EditorEntity_ini.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                            EditorEntity_ini.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
+                            int i = 0;
+                            int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
+                            for (i = 0; i <= tensionCount; i++)
+                            {
+                                linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
+                                if (i == 0)
+                                {
+                                    d.DrawBitmap(frame4.Texture,
+                                        linePoints[0] + frame4.Frame.CenterX,
+                                        linePoints[1] + frame4.Frame.CenterY,
+                                        frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
+                                }
+                                else if (i == tensionCount)
+                                {
+                                    d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.CenterX, linePoints[1] + frame.Frame.CenterY,
+                                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+
+                                    if (childCount != 0)
+                                    {
+                                        previousChildCount = childCount;
+                                        for (int z = 0; z < childCount; z++)
+                                        {
+                                            EditorEntity childEntity = Editor.entities.entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                                            if (childEntity != null)
+                                            {
+                                                childEntity.childDraw = true;
+                                                if (childEntity.Entity.Object.Name.Name == "ItemBox")
+                                                {
+                                                    int cX = childEntity.Entity.Position.X.High;
+                                                    int cY = childEntity.Entity.Position.Y.High;
+                                                    int rX = linePoints[0] - x;
+                                                    int rY = linePoints[1] - y;
+                                                    linePoints = RotatePoints(cX, cY + (16) * tensionCount, cX, cY, angle);
+                                                    childEntity.childDrawAddMode = false;
+                                                    childEntity.childX = linePoints[0];
+                                                    childEntity.childY = linePoints[1];
+                                                }
+                                                else
+                                                {
+                                                    int cX = childEntity.Entity.Position.X.High;
+                                                    int cY = childEntity.Entity.Position.Y.High;
+                                                    int rX = linePoints[0] - x;
+                                                    int rY = linePoints[1] - y;
+                                                    linePoints = RotatePoints(cX, cY, cX, cY - (16) * i, angle);
+                                                    childEntity.childDrawAddMode = false;
+                                                    childEntity.childX = linePoints[0];
+                                                    childEntity.childY = linePoints[1];
+                                                }
+                                            }
+
+
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    d.DrawBitmap(frame3.Texture,
+                                        linePoints[0] + frame3.Frame.CenterX,
+                                        linePoints[1] + frame3.Frame.CenterY,
+                                        frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + angleStateX, y + frame.Frame.CenterY - angleStateY,
+                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    }
+                }             
             }
 
         }

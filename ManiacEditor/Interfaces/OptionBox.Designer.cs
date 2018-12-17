@@ -134,6 +134,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.customRadioButton = new System.Windows.Forms.RadioButton();
+            this.superRadioButton = new System.Windows.Forms.RadioButton();
+            this.hyperRadioButton = new System.Windows.Forms.RadioButton();
+            this.basicRadioButton = new System.Windows.Forms.RadioButton();
+            this.minimalRadioButton = new System.Windows.Forms.RadioButton();
+            this.label34 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.checkBox27 = new System.Windows.Forms.CheckBox();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
@@ -178,22 +186,22 @@
             this.layerHide = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.label53 = new System.Windows.Forms.Label();
             this.exportLayersKeyBox = new System.Windows.Forms.TextBox();
+            this.label52 = new System.Windows.Forms.Label();
             this.label84 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
             this.label57 = new System.Windows.Forms.Label();
             this.label83 = new System.Windows.Forms.Label();
             this.mouseModeKeyBox = new System.Windows.Forms.TextBox();
             this.exportKeyBox = new System.Windows.Forms.TextBox();
+            this.nudgeFasterKeyBox = new System.Windows.Forms.TextBox();
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.label47 = new System.Windows.Forms.Label();
             this.label58 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.nudgeFasterKeyBox = new System.Windows.Forms.TextBox();
             this.scrollLockKeyBox = new System.Windows.Forms.TextBox();
-            this.scrollLockAxisKeyBox = new System.Windows.Forms.TextBox();
             this.label50 = new System.Windows.Forms.Label();
+            this.scrollLockAxisKeyBox = new System.Windows.Forms.TextBox();
             this.selectionModeKeyBox = new System.Windows.Forms.TextBox();
             this.label81 = new System.Windows.Forms.Label();
             this.openSettingsKeyBox = new System.Windows.Forms.TextBox();
@@ -297,6 +305,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.panel14 = new System.Windows.Forms.Panel();
+            this.checkBox50 = new System.Windows.Forms.CheckBox();
             this.checkBox49 = new System.Windows.Forms.CheckBox();
             this.checkBox48 = new System.Windows.Forms.CheckBox();
             this.checkBox29 = new System.Windows.Forms.CheckBox();
@@ -311,6 +320,7 @@
             this.checkBox34 = new System.Windows.Forms.CheckBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.label35 = new System.Windows.Forms.Label();
             this.tabPage4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -329,6 +339,8 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -863,9 +875,9 @@
             this.checkBox40.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EnablePixelModeDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox40.Location = new System.Drawing.Point(6, 150);
             this.checkBox40.Name = "checkBox40";
-            this.checkBox40.Size = new System.Drawing.Size(118, 25);
+            this.checkBox40.Size = new System.Drawing.Size(153, 25);
             this.checkBox40.TabIndex = 124;
-            this.checkBox40.Text = "Enable Pixel Mode";
+            this.checkBox40.Text = "Enable Pixel Count Mode";
             this.checkBox40.UseVisualStyleBackColor = false;
             // 
             // checkBox39
@@ -1656,6 +1668,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.panel2);
             this.tabPage1.Controls.Add(this.panel4);
             this.tabPage1.Controls.Add(this.panel5);
             this.tabPage1.Controls.Add(this.panel3);
@@ -1665,6 +1678,107 @@
             this.tabPage1.Size = new System.Drawing.Size(961, 547);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Common";
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.label35);
+            this.panel2.Controls.Add(this.groupBox7);
+            this.panel2.Controls.Add(this.label34);
+            this.panel2.Location = new System.Drawing.Point(198, 8);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(184, 231);
+            this.panel2.TabIndex = 111;
+            this.panel2.Visible = false;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.customRadioButton);
+            this.groupBox7.Controls.Add(this.superRadioButton);
+            this.groupBox7.Controls.Add(this.hyperRadioButton);
+            this.groupBox7.Controls.Add(this.basicRadioButton);
+            this.groupBox7.Controls.Add(this.minimalRadioButton);
+            this.groupBox7.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.groupBox7.Location = new System.Drawing.Point(3, 32);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(176, 138);
+            this.groupBox7.TabIndex = 109;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Performance Setting";
+            // 
+            // customRadioButton
+            // 
+            this.customRadioButton.AutoSize = true;
+            this.customRadioButton.Checked = true;
+            this.customRadioButton.Enabled = false;
+            this.customRadioButton.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.customRadioButton.Location = new System.Drawing.Point(6, 111);
+            this.customRadioButton.Name = "customRadioButton";
+            this.customRadioButton.Size = new System.Drawing.Size(60, 17);
+            this.customRadioButton.TabIndex = 104;
+            this.customRadioButton.TabStop = true;
+            this.customRadioButton.Text = "Custom";
+            this.customRadioButton.UseVisualStyleBackColor = false;
+            // 
+            // superRadioButton
+            // 
+            this.superRadioButton.AutoSize = true;
+            this.superRadioButton.Enabled = false;
+            this.superRadioButton.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.superRadioButton.Location = new System.Drawing.Point(6, 65);
+            this.superRadioButton.Name = "superRadioButton";
+            this.superRadioButton.Size = new System.Drawing.Size(53, 17);
+            this.superRadioButton.TabIndex = 103;
+            this.superRadioButton.Text = "Super";
+            this.superRadioButton.UseVisualStyleBackColor = false;
+            // 
+            // hyperRadioButton
+            // 
+            this.hyperRadioButton.AutoSize = true;
+            this.hyperRadioButton.Enabled = false;
+            this.hyperRadioButton.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.hyperRadioButton.Location = new System.Drawing.Point(6, 88);
+            this.hyperRadioButton.Name = "hyperRadioButton";
+            this.hyperRadioButton.Size = new System.Drawing.Size(53, 17);
+            this.hyperRadioButton.TabIndex = 102;
+            this.hyperRadioButton.Text = "Hyper";
+            this.hyperRadioButton.UseVisualStyleBackColor = false;
+            // 
+            // basicRadioButton
+            // 
+            this.basicRadioButton.AutoSize = true;
+            this.basicRadioButton.Enabled = false;
+            this.basicRadioButton.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.basicRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.basicRadioButton.Name = "basicRadioButton";
+            this.basicRadioButton.Size = new System.Drawing.Size(51, 17);
+            this.basicRadioButton.TabIndex = 101;
+            this.basicRadioButton.Text = "Basic";
+            this.basicRadioButton.UseVisualStyleBackColor = false;
+            // 
+            // minimalRadioButton
+            // 
+            this.minimalRadioButton.AutoSize = true;
+            this.minimalRadioButton.Enabled = false;
+            this.minimalRadioButton.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.minimalRadioButton.Location = new System.Drawing.Point(6, 19);
+            this.minimalRadioButton.Name = "minimalRadioButton";
+            this.minimalRadioButton.Size = new System.Drawing.Size(60, 17);
+            this.minimalRadioButton.TabIndex = 100;
+            this.minimalRadioButton.Text = "Minimal";
+            this.minimalRadioButton.UseVisualStyleBackColor = false;
+            // 
+            // label34
+            // 
+            this.label34.BackColor = System.Drawing.Color.Transparent;
+            this.label34.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.Location = new System.Drawing.Point(16, 8);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(160, 13);
+            this.label34.TabIndex = 55;
+            this.label34.Text = "Inital Settings:";
+            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel4
             // 
@@ -2352,6 +2466,15 @@
             this.tabPage6.Text = "Controls";
             this.tabPage6.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
+            // label53
+            // 
+            this.label53.Location = new System.Drawing.Point(378, 264);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(46, 20);
+            this.label53.TabIndex = 155;
+            this.label53.Text = "CRTL +";
+            this.label53.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // exportLayersKeyBox
             // 
             this.exportLayersKeyBox.Enabled = false;
@@ -2360,8 +2483,17 @@
             this.exportLayersKeyBox.ReadOnly = true;
             this.exportLayersKeyBox.Size = new System.Drawing.Size(103, 20);
             this.exportLayersKeyBox.TabIndex = 195;
-            this.exportLayersKeyBox.Text = "Unbounded";
+            this.exportLayersKeyBox.Text = "Not Bounded";
             this.exportLayersKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // label52
+            // 
+            this.label52.Location = new System.Drawing.Point(378, 237);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(46, 20);
+            this.label52.TabIndex = 154;
+            this.label52.Text = "CRTL +";
+            this.label52.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label84
             // 
@@ -2372,6 +2504,15 @@
             this.label84.TabIndex = 248;
             this.label84.Text = "Flip Tiles Horizontal";
             this.label84.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label33
+            // 
+            this.label33.Location = new System.Drawing.Point(378, 211);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(46, 20);
+            this.label33.TabIndex = 153;
+            this.label33.Text = "CRTL +";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label57
             // 
@@ -2401,7 +2542,7 @@
             this.mouseModeKeyBox.ReadOnly = true;
             this.mouseModeKeyBox.Size = new System.Drawing.Size(103, 20);
             this.mouseModeKeyBox.TabIndex = 132;
-            this.mouseModeKeyBox.Text = "Unbounded";
+            this.mouseModeKeyBox.Text = "Not Bounded";
             this.mouseModeKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // exportKeyBox
@@ -2412,8 +2553,17 @@
             this.exportKeyBox.ReadOnly = true;
             this.exportKeyBox.Size = new System.Drawing.Size(103, 20);
             this.exportKeyBox.TabIndex = 193;
-            this.exportKeyBox.Text = "Unbounded";
+            this.exportKeyBox.Text = "Not Bounded";
             this.exportKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
+            // 
+            // nudgeFasterKeyBox
+            // 
+            this.nudgeFasterKeyBox.Location = new System.Drawing.Point(430, 211);
+            this.nudgeFasterKeyBox.Name = "nudgeFasterKeyBox";
+            this.nudgeFasterKeyBox.ReadOnly = true;
+            this.nudgeFasterKeyBox.Size = new System.Drawing.Size(54, 20);
+            this.nudgeFasterKeyBox.TabIndex = 58;
+            this.nudgeFasterKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.nudgeFaster_KeyDown);
             // 
             // textBox17
             // 
@@ -2423,7 +2573,7 @@
             this.textBox17.ReadOnly = true;
             this.textBox17.Size = new System.Drawing.Size(103, 20);
             this.textBox17.TabIndex = 246;
-            this.textBox17.Text = "Unbounded";
+            this.textBox17.Text = "Not Bounded";
             this.textBox17.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label47
@@ -2446,42 +2596,6 @@
             this.label58.Text = "Export";
             this.label58.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label53
-            // 
-            this.label53.Location = new System.Drawing.Point(378, 264);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(46, 20);
-            this.label53.TabIndex = 155;
-            this.label53.Text = "CRTL +";
-            this.label53.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label52
-            // 
-            this.label52.Location = new System.Drawing.Point(378, 237);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(46, 20);
-            this.label52.TabIndex = 154;
-            this.label52.Text = "CRTL +";
-            this.label52.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label33
-            // 
-            this.label33.Location = new System.Drawing.Point(378, 211);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(46, 20);
-            this.label33.TabIndex = 153;
-            this.label33.Text = "CRTL +";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // nudgeFasterKeyBox
-            // 
-            this.nudgeFasterKeyBox.Location = new System.Drawing.Point(430, 211);
-            this.nudgeFasterKeyBox.Name = "nudgeFasterKeyBox";
-            this.nudgeFasterKeyBox.ReadOnly = true;
-            this.nudgeFasterKeyBox.Size = new System.Drawing.Size(54, 20);
-            this.nudgeFasterKeyBox.TabIndex = 58;
-            this.nudgeFasterKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.nudgeFaster_KeyDown);
-            // 
             // scrollLockKeyBox
             // 
             this.scrollLockKeyBox.Location = new System.Drawing.Point(430, 237);
@@ -2490,15 +2604,6 @@
             this.scrollLockKeyBox.Size = new System.Drawing.Size(54, 20);
             this.scrollLockKeyBox.TabIndex = 60;
             this.scrollLockKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scrollLock_KeyDown);
-            // 
-            // scrollLockAxisKeyBox
-            // 
-            this.scrollLockAxisKeyBox.Location = new System.Drawing.Point(430, 263);
-            this.scrollLockAxisKeyBox.Name = "scrollLockAxisKeyBox";
-            this.scrollLockAxisKeyBox.ReadOnly = true;
-            this.scrollLockAxisKeyBox.Size = new System.Drawing.Size(54, 20);
-            this.scrollLockAxisKeyBox.TabIndex = 62;
-            this.scrollLockAxisKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scrollLockType_KeyDown);
             // 
             // label50
             // 
@@ -2510,6 +2615,15 @@
             this.label50.Text = "Run Scene";
             this.label50.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // scrollLockAxisKeyBox
+            // 
+            this.scrollLockAxisKeyBox.Location = new System.Drawing.Point(430, 263);
+            this.scrollLockAxisKeyBox.Name = "scrollLockAxisKeyBox";
+            this.scrollLockAxisKeyBox.ReadOnly = true;
+            this.scrollLockAxisKeyBox.Size = new System.Drawing.Size(54, 20);
+            this.scrollLockAxisKeyBox.TabIndex = 62;
+            this.scrollLockAxisKeyBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scrollLockType_KeyDown);
+            // 
             // selectionModeKeyBox
             // 
             this.selectionModeKeyBox.Enabled = false;
@@ -2518,7 +2632,7 @@
             this.selectionModeKeyBox.ReadOnly = true;
             this.selectionModeKeyBox.Size = new System.Drawing.Size(103, 20);
             this.selectionModeKeyBox.TabIndex = 130;
-            this.selectionModeKeyBox.Text = "Unbounded";
+            this.selectionModeKeyBox.Text = "Not Bounded";
             this.selectionModeKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label81
@@ -2539,7 +2653,7 @@
             this.openSettingsKeyBox.ReadOnly = true;
             this.openSettingsKeyBox.Size = new System.Drawing.Size(103, 20);
             this.openSettingsKeyBox.TabIndex = 191;
-            this.openSettingsKeyBox.Text = "Unbounded";
+            this.openSettingsKeyBox.Text = "Not Bounded";
             this.openSettingsKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // selectAllControl
@@ -2550,7 +2664,7 @@
             this.selectAllControl.ReadOnly = true;
             this.selectAllControl.Size = new System.Drawing.Size(103, 20);
             this.selectAllControl.TabIndex = 298;
-            this.selectAllControl.Text = "Unbounded";
+            this.selectAllControl.Text = "Not Bounded";
             this.selectAllControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label48
@@ -2571,7 +2685,7 @@
             this.runManiaKeyBox.ReadOnly = true;
             this.runManiaKeyBox.Size = new System.Drawing.Size(103, 20);
             this.runManiaKeyBox.TabIndex = 171;
-            this.runManiaKeyBox.Text = "Unbounded";
+            this.runManiaKeyBox.Text = "Not Bounded";
             this.runManiaKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label82
@@ -2592,7 +2706,7 @@
             this.placeTilesKeyBox.ReadOnly = true;
             this.placeTilesKeyBox.Size = new System.Drawing.Size(103, 20);
             this.placeTilesKeyBox.TabIndex = 128;
-            this.placeTilesKeyBox.Text = "Unbounded";
+            this.placeTilesKeyBox.Text = "Not Bounded";
             this.placeTilesKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label60
@@ -2654,7 +2768,7 @@
             this.editEntitiesKeyBox.ReadOnly = true;
             this.editEntitiesKeyBox.Size = new System.Drawing.Size(103, 20);
             this.editEntitiesKeyBox.TabIndex = 126;
-            this.editEntitiesKeyBox.Text = "Unbounded";
+            this.editEntitiesKeyBox.Text = "Not Bounded";
             this.editEntitiesKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // entityManagerKeyBox
@@ -2665,7 +2779,7 @@
             this.entityManagerKeyBox.ReadOnly = true;
             this.entityManagerKeyBox.Size = new System.Drawing.Size(103, 20);
             this.entityManagerKeyBox.TabIndex = 189;
-            this.entityManagerKeyBox.Text = "Unbounded";
+            this.entityManagerKeyBox.Text = "Not Bounded";
             this.entityManagerKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label99
@@ -2696,7 +2810,7 @@
             this.openModLoaderKeybox.ReadOnly = true;
             this.openModLoaderKeybox.Size = new System.Drawing.Size(103, 20);
             this.openModLoaderKeybox.TabIndex = 173;
-            this.openModLoaderKeybox.Text = "Unbounded";
+            this.openModLoaderKeybox.Text = "Not Bounded";
             this.openModLoaderKeybox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // cycleLayersRKeyBox
@@ -2707,7 +2821,7 @@
             this.cycleLayersRKeyBox.ReadOnly = true;
             this.cycleLayersRKeyBox.Size = new System.Drawing.Size(103, 20);
             this.cycleLayersRKeyBox.TabIndex = 124;
-            this.cycleLayersRKeyBox.Text = "Unbounded";
+            this.cycleLayersRKeyBox.Text = "Not Bounded";
             this.cycleLayersRKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // textBox15
@@ -2718,7 +2832,7 @@
             this.textBox15.ReadOnly = true;
             this.textBox15.Size = new System.Drawing.Size(103, 20);
             this.textBox15.TabIndex = 243;
-            this.textBox15.Text = "Unbounded";
+            this.textBox15.Text = "Not Bounded";
             this.textBox15.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label45
@@ -2759,7 +2873,7 @@
             this.cycleLayersLKeyBox.ReadOnly = true;
             this.cycleLayersLKeyBox.Size = new System.Drawing.Size(103, 20);
             this.cycleLayersLKeyBox.TabIndex = 122;
-            this.cycleLayersLKeyBox.Text = "Unbounded";
+            this.cycleLayersLKeyBox.Text = "Not Bounded";
             this.cycleLayersLKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // copyControl
@@ -2770,7 +2884,7 @@
             this.copyControl.ReadOnly = true;
             this.copyControl.Size = new System.Drawing.Size(103, 20);
             this.copyControl.TabIndex = 276;
-            this.copyControl.Text = "Unbounded";
+            this.copyControl.Text = "Not Bounded";
             this.copyControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // showGridKeyBox
@@ -2781,7 +2895,7 @@
             this.showGridKeyBox.ReadOnly = true;
             this.showGridKeyBox.Size = new System.Drawing.Size(103, 20);
             this.showGridKeyBox.TabIndex = 112;
-            this.showGridKeyBox.Text = "Unbounded";
+            this.showGridKeyBox.Text = "Not Bounded";
             this.showGridKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label69
@@ -2832,7 +2946,7 @@
             this.restoreKeyBox.ReadOnly = true;
             this.restoreKeyBox.Size = new System.Drawing.Size(103, 20);
             this.restoreKeyBox.TabIndex = 187;
-            this.restoreKeyBox.Text = "Unbounded";
+            this.restoreKeyBox.Text = "Not Bounded";
             this.restoreKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // moveRightControl
@@ -2843,7 +2957,7 @@
             this.moveRightControl.ReadOnly = true;
             this.moveRightControl.Size = new System.Drawing.Size(103, 20);
             this.moveRightControl.TabIndex = 295;
-            this.moveRightControl.Text = "Unbounded";
+            this.moveRightControl.Text = "Not Bounded";
             this.moveRightControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // showTileIDKeyBox
@@ -2854,7 +2968,7 @@
             this.showTileIDKeyBox.ReadOnly = true;
             this.showTileIDKeyBox.Size = new System.Drawing.Size(103, 20);
             this.showTileIDKeyBox.TabIndex = 114;
-            this.showTileIDKeyBox.Text = "Unbounded";
+            this.showTileIDKeyBox.Text = "Not Bounded";
             this.showTileIDKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // openRSDKAnimKeyBox
@@ -2865,7 +2979,7 @@
             this.openRSDKAnimKeyBox.ReadOnly = true;
             this.openRSDKAnimKeyBox.Size = new System.Drawing.Size(103, 20);
             this.openRSDKAnimKeyBox.TabIndex = 175;
-            this.openRSDKAnimKeyBox.Text = "Unbounded";
+            this.openRSDKAnimKeyBox.Text = "Not Bounded";
             this.openRSDKAnimKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label80
@@ -2906,7 +3020,7 @@
             this.showCollisionBKeyBox.ReadOnly = true;
             this.showCollisionBKeyBox.Size = new System.Drawing.Size(103, 20);
             this.showCollisionBKeyBox.TabIndex = 118;
-            this.showCollisionBKeyBox.Text = "Unbounded";
+            this.showCollisionBKeyBox.Text = "Not Bounded";
             this.showCollisionBKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // cutControl
@@ -2917,7 +3031,7 @@
             this.cutControl.ReadOnly = true;
             this.cutControl.Size = new System.Drawing.Size(103, 20);
             this.cutControl.TabIndex = 275;
-            this.cutControl.Text = "Unbounded";
+            this.cutControl.Text = "Not Bounded";
             this.cutControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // showCollisionAKeyBox
@@ -2928,7 +3042,7 @@
             this.showCollisionAKeyBox.ReadOnly = true;
             this.showCollisionAKeyBox.Size = new System.Drawing.Size(103, 20);
             this.showCollisionAKeyBox.TabIndex = 116;
-            this.showCollisionAKeyBox.Text = "Unbounded";
+            this.showCollisionAKeyBox.Text = "Not Bounded";
             this.showCollisionAKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label68
@@ -2970,7 +3084,7 @@
             this.preLoadKeyBox.ReadOnly = true;
             this.preLoadKeyBox.Size = new System.Drawing.Size(103, 20);
             this.preLoadKeyBox.TabIndex = 185;
-            this.preLoadKeyBox.Text = "Unbounded";
+            this.preLoadKeyBox.Text = "Not Bounded";
             this.preLoadKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label100
@@ -2991,7 +3105,7 @@
             this.openPaletteEditKeyBox.ReadOnly = true;
             this.openPaletteEditKeyBox.Size = new System.Drawing.Size(103, 20);
             this.openPaletteEditKeyBox.TabIndex = 177;
-            this.openPaletteEditKeyBox.Text = "Unbounded";
+            this.openPaletteEditKeyBox.Text = "Not Bounded";
             this.openPaletteEditKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // textBox13
@@ -3053,7 +3167,7 @@
             this.backupKeyBox.ReadOnly = true;
             this.backupKeyBox.Size = new System.Drawing.Size(103, 20);
             this.backupKeyBox.TabIndex = 169;
-            this.backupKeyBox.Text = "Unbounded";
+            this.backupKeyBox.Text = "Not Bounded";
             this.backupKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label101
@@ -3074,7 +3188,7 @@
             this.openSMFolderKeyBox.ReadOnly = true;
             this.openSMFolderKeyBox.Size = new System.Drawing.Size(103, 20);
             this.openSMFolderKeyBox.TabIndex = 179;
-            this.openSMFolderKeyBox.Text = "Unbounded";
+            this.openSMFolderKeyBox.Text = "Not Bounded";
             this.openSMFolderKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label78
@@ -3125,7 +3239,7 @@
             this.openDataFolderKeyBox.ReadOnly = true;
             this.openDataFolderKeyBox.Size = new System.Drawing.Size(103, 20);
             this.openDataFolderKeyBox.TabIndex = 183;
-            this.openDataFolderKeyBox.Text = "Unbounded";
+            this.openDataFolderKeyBox.Text = "Not Bounded";
             this.openDataFolderKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // textBox10
@@ -3136,7 +3250,7 @@
             this.textBox10.ReadOnly = true;
             this.textBox10.Size = new System.Drawing.Size(103, 20);
             this.textBox10.TabIndex = 234;
-            this.textBox10.Text = "Unbounded";
+            this.textBox10.Text = "Not Bounded";
             this.textBox10.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // openSceneFolderKeyBox
@@ -3147,7 +3261,7 @@
             this.openSceneFolderKeyBox.ReadOnly = true;
             this.openSceneFolderKeyBox.Size = new System.Drawing.Size(103, 20);
             this.openSceneFolderKeyBox.TabIndex = 181;
-            this.openSceneFolderKeyBox.Text = "Unbounded";
+            this.openSceneFolderKeyBox.Text = "Not Bounded";
             this.openSceneFolderKeyBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // moveDownControl
@@ -3158,7 +3272,7 @@
             this.moveDownControl.ReadOnly = true;
             this.moveDownControl.Size = new System.Drawing.Size(103, 20);
             this.moveDownControl.TabIndex = 291;
-            this.moveDownControl.Text = "Unbounded";
+            this.moveDownControl.Text = "Not Bounded";
             this.moveDownControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label65
@@ -3179,7 +3293,7 @@
             this.textBox11.ReadOnly = true;
             this.textBox11.Size = new System.Drawing.Size(103, 20);
             this.textBox11.TabIndex = 235;
-            this.textBox11.Text = "Unbounded";
+            this.textBox11.Text = "Not Bounded";
             this.textBox11.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // deleteControl
@@ -3190,7 +3304,7 @@
             this.deleteControl.ReadOnly = true;
             this.deleteControl.Size = new System.Drawing.Size(103, 20);
             this.deleteControl.TabIndex = 280;
-            this.deleteControl.Text = "Unbounded";
+            this.deleteControl.Text = "Not Bounded";
             this.deleteControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label75
@@ -3211,7 +3325,7 @@
             this.moveLeftControl.ReadOnly = true;
             this.moveLeftControl.Size = new System.Drawing.Size(103, 20);
             this.moveLeftControl.TabIndex = 292;
-            this.moveLeftControl.Text = "Unbounded";
+            this.moveLeftControl.Text = "Not Bounded";
             this.moveLeftControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label76
@@ -3232,7 +3346,7 @@
             this.pasteControl.ReadOnly = true;
             this.pasteControl.Size = new System.Drawing.Size(103, 20);
             this.pasteControl.TabIndex = 279;
-            this.pasteControl.Text = "Unbounded";
+            this.pasteControl.Text = "Not Bounded";
             this.pasteControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // textBox8
@@ -3243,7 +3357,7 @@
             this.textBox8.ReadOnly = true;
             this.textBox8.Size = new System.Drawing.Size(103, 20);
             this.textBox8.TabIndex = 230;
-            this.textBox8.Text = "Unbounded";
+            this.textBox8.Text = "Not Bounded";
             this.textBox8.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label107
@@ -3264,7 +3378,7 @@
             this.textBox9.ReadOnly = true;
             this.textBox9.Size = new System.Drawing.Size(103, 20);
             this.textBox9.TabIndex = 231;
-            this.textBox9.Text = "Unbounded";
+            this.textBox9.Text = "Not Bounded";
             this.textBox9.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label103
@@ -3315,7 +3429,7 @@
             this.flipHorizontalControl.ReadOnly = true;
             this.flipHorizontalControl.Size = new System.Drawing.Size(103, 20);
             this.flipHorizontalControl.TabIndex = 287;
-            this.flipHorizontalControl.Text = "Unbounded";
+            this.flipHorizontalControl.Text = "Not Bounded";
             this.flipHorizontalControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // textBox6
@@ -3326,7 +3440,7 @@
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(103, 20);
             this.textBox6.TabIndex = 226;
-            this.textBox6.Text = "Unbounded";
+            this.textBox6.Text = "Not Bounded";
             this.textBox6.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // flipVeritcalControl
@@ -3337,7 +3451,7 @@
             this.flipVeritcalControl.ReadOnly = true;
             this.flipVeritcalControl.Size = new System.Drawing.Size(103, 20);
             this.flipVeritcalControl.TabIndex = 284;
-            this.flipVeritcalControl.Text = "Unbounded";
+            this.flipVeritcalControl.Text = "Not Bounded";
             this.flipVeritcalControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // textBox7
@@ -3348,7 +3462,7 @@
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(103, 20);
             this.textBox7.TabIndex = 227;
-            this.textBox7.Text = "Unbounded";
+            this.textBox7.Text = "Not Bounded";
             this.textBox7.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // moveUpControl
@@ -3359,7 +3473,7 @@
             this.moveUpControl.ReadOnly = true;
             this.moveUpControl.Size = new System.Drawing.Size(103, 20);
             this.moveUpControl.TabIndex = 288;
-            this.moveUpControl.Text = "Unbounded";
+            this.moveUpControl.Text = "Not Bounded";
             this.moveUpControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label72
@@ -3380,7 +3494,7 @@
             this.duplicateControl.ReadOnly = true;
             this.duplicateControl.Size = new System.Drawing.Size(103, 20);
             this.duplicateControl.TabIndex = 283;
-            this.duplicateControl.Text = "Unbounded";
+            this.duplicateControl.Text = "Not Bounded";
             this.duplicateControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label56
@@ -3401,7 +3515,7 @@
             this.textBox16.ReadOnly = true;
             this.textBox16.Size = new System.Drawing.Size(103, 20);
             this.textBox16.TabIndex = 197;
-            this.textBox16.Text = "Unbounded";
+            this.textBox16.Text = "Not Bounded";
             this.textBox16.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label104
@@ -3422,7 +3536,7 @@
             this.textBox18.ReadOnly = true;
             this.textBox18.Size = new System.Drawing.Size(103, 20);
             this.textBox18.TabIndex = 211;
-            this.textBox18.Text = "Unbounded";
+            this.textBox18.Text = "Not Bounded";
             this.textBox18.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox43_MouseDoubleClick);
             // 
             // label105
@@ -3635,6 +3749,7 @@
             // panel14
             // 
             this.panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel14.Controls.Add(this.checkBox50);
             this.panel14.Controls.Add(this.checkBox49);
             this.panel14.Controls.Add(this.checkBox48);
             this.panel14.Controls.Add(this.checkBox29);
@@ -3651,6 +3766,22 @@
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(381, 522);
             this.panel14.TabIndex = 102;
+            // 
+            // checkBox50
+            // 
+            this.checkBox50.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox50.Checked = global::ManiacEditor.Properties.Settings.Default.AllowAutomaticTextureDisposal;
+            this.checkBox50.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AllowAutomaticTextureDisposal", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox50.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox50.Location = new System.Drawing.Point(203, 89);
+            this.checkBox50.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox50.Name = "checkBox50";
+            this.checkBox50.Size = new System.Drawing.Size(171, 63);
+            this.checkBox50.TabIndex = 111;
+            this.checkBox50.Text = "Dispose Textures for Entities when not in view. \r\n(Perfect for x86 Users; Heavily" +
+    " Reduces Memory Usage)";
+            this.checkBox50.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox50.UseVisualStyleBackColor = false;
             // 
             // checkBox49
             // 
@@ -3856,6 +3987,19 @@
             this.button6.Text = "&OK";
             this.button6.UseVisualStyleBackColor = true;
             // 
+            // label35
+            // 
+            this.label35.BackColor = System.Drawing.Color.Transparent;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label35.Location = new System.Drawing.Point(0, 177);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(179, 51);
+            this.label35.TabIndex = 75;
+            this.label35.Text = "* Changing other settings outside of these settings will result in a custom confi" +
+    "guration ";
+            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // OptionBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3898,6 +4042,9 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPage1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
@@ -4199,5 +4346,15 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.CheckBox checkBox50;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.RadioButton customRadioButton;
+        private System.Windows.Forms.RadioButton superRadioButton;
+        private System.Windows.Forms.RadioButton hyperRadioButton;
+        private System.Windows.Forms.RadioButton basicRadioButton;
+        private System.Windows.Forms.RadioButton minimalRadioButton;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
     }
 }

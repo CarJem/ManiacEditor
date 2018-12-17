@@ -31,6 +31,7 @@ namespace ManiacEditor
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SceneSelect));
             this.scenesTree = new System.Windows.Forms.TreeView();
             this.selectButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -39,11 +40,20 @@ namespace ManiacEditor
             this.browse = new System.Windows.Forms.Button();
             this.isFilesView = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.moveCategoryUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveCategoryDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSceneInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.moveSceneInfoUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveSceneInfoDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
@@ -56,31 +66,34 @@ namespace ManiacEditor
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dataDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.savedPlaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearDataDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllSavedPlacesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAllModsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataLabelToolStripItem = new System.Windows.Forms.ToolStripTextBox();
             this.folderEditContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeSavedFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataDirEditContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeDataDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preRenderCheckbox = new System.Windows.Forms.CheckBox();
-            this.deleteSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.moveCategoryUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveCategoryDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.moveSceneInfoUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveSceneInfoDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modEditContext = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.setNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.modFolderStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.spacer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.restoreOriginalNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.folderEditContext.SuspendLayout();
             this.dataDirEditContext.SuspendLayout();
+            this.modEditContext.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // scenesTree
@@ -161,7 +174,6 @@ namespace ManiacEditor
             // 
             // isFilesView
             // 
-            this.isFilesView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.isFilesView.AutoSize = true;
             this.isFilesView.Location = new System.Drawing.Point(14, 429);
             this.isFilesView.Name = "isFilesView";
@@ -186,6 +198,18 @@ namespace ManiacEditor
             this.contextMenuStrip1.Size = new System.Drawing.Size(230, 148);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.addToolStripMenuItem.Text = "Add Scene to Category";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(226, 6);
+            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
@@ -193,12 +217,38 @@ namespace ManiacEditor
             this.toolStripMenuItem2.Text = "Add Category to Gameconfig";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addCategoryToolStripMenuItem_Click);
             // 
-            // addToolStripMenuItem
+            // editSelectedCategoryToolStripMenuItem
             // 
-            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.addToolStripMenuItem.Text = "Add Scene to Category";
-            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+            this.editSelectedCategoryToolStripMenuItem.Name = "editSelectedCategoryToolStripMenuItem";
+            this.editSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.editSelectedCategoryToolStripMenuItem.Text = "Edit Selected Category";
+            this.editSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.editCategoryMenuItem_Click);
+            // 
+            // deleteSelectedCategoryToolStripMenuItem
+            // 
+            this.deleteSelectedCategoryToolStripMenuItem.Name = "deleteSelectedCategoryToolStripMenuItem";
+            this.deleteSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.deleteSelectedCategoryToolStripMenuItem.Text = "Delete Selected Category";
+            this.deleteSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.deleteCategoryToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(226, 6);
+            // 
+            // moveCategoryUpToolStripMenuItem
+            // 
+            this.moveCategoryUpToolStripMenuItem.Name = "moveCategoryUpToolStripMenuItem";
+            this.moveCategoryUpToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.moveCategoryUpToolStripMenuItem.Text = "Move Category Up";
+            this.moveCategoryUpToolStripMenuItem.Click += new System.EventHandler(this.moveCategoryUpToolStripMenuItem_Click);
+            // 
+            // moveCategoryDownToolStripMenuItem
+            // 
+            this.moveCategoryDownToolStripMenuItem.Name = "moveCategoryDownToolStripMenuItem";
+            this.moveCategoryDownToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.moveCategoryDownToolStripMenuItem.Text = "Move Category Down";
+            this.moveCategoryDownToolStripMenuItem.Click += new System.EventHandler(this.moveCategoryDownToolStripMenuItem_Click);
             // 
             // contextMenuStrip2
             // 
@@ -212,6 +262,13 @@ namespace ManiacEditor
             this.contextMenuStrip2.Size = new System.Drawing.Size(197, 98);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
+            // deleteSceneInfoToolStripMenuItem
+            // 
+            this.deleteSceneInfoToolStripMenuItem.Name = "deleteSceneInfoToolStripMenuItem";
+            this.deleteSceneInfoToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.deleteSceneInfoToolStripMenuItem.Text = "Delete Scene Info";
+            this.deleteSceneInfoToolStripMenuItem.Click += new System.EventHandler(this.deleteSceneInfoToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -219,12 +276,24 @@ namespace ManiacEditor
             this.toolStripMenuItem1.Text = "Edit Scene Info";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
-            // deleteSceneInfoToolStripMenuItem
+            // toolStripSeparator3
             // 
-            this.deleteSceneInfoToolStripMenuItem.Name = "deleteSceneInfoToolStripMenuItem";
-            this.deleteSceneInfoToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.deleteSceneInfoToolStripMenuItem.Text = "Delete Scene Info";
-            this.deleteSceneInfoToolStripMenuItem.Click += new System.EventHandler(this.deleteSceneInfoToolStripMenuItem_Click);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(193, 6);
+            // 
+            // moveSceneInfoUpToolStripMenuItem
+            // 
+            this.moveSceneInfoUpToolStripMenuItem.Name = "moveSceneInfoUpToolStripMenuItem";
+            this.moveSceneInfoUpToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.moveSceneInfoUpToolStripMenuItem.Text = "Move Scene Info Up";
+            this.moveSceneInfoUpToolStripMenuItem.Click += new System.EventHandler(this.moveSceneInfoUpToolStripMenuItem_Click);
+            // 
+            // moveSceneInfoDownToolStripMenuItem
+            // 
+            this.moveSceneInfoDownToolStripMenuItem.Name = "moveSceneInfoDownToolStripMenuItem";
+            this.moveSceneInfoDownToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.moveSceneInfoDownToolStripMenuItem.Text = "Move Scene Info Down";
+            this.moveSceneInfoDownToolStripMenuItem.Click += new System.EventHandler(this.moveSceneInfoDownToolStripMenuItem_Click);
             // 
             // label2
             // 
@@ -313,9 +382,10 @@ namespace ManiacEditor
             // 
             this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dataDirectoryToolStripMenuItem,
-            this.savedPlaceToolStripMenuItem});
+            this.savedPlaceToolStripMenuItem,
+            this.modToolStripMenuItem});
             this.contextMenuStrip3.Name = "contextMenuStrip3";
-            this.contextMenuStrip3.Size = new System.Drawing.Size(150, 48);
+            this.contextMenuStrip3.Size = new System.Drawing.Size(150, 70);
             // 
             // dataDirectoryToolStripMenuItem
             // 
@@ -330,6 +400,13 @@ namespace ManiacEditor
             this.savedPlaceToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.savedPlaceToolStripMenuItem.Text = "Saved Place";
             this.savedPlaceToolStripMenuItem.Click += new System.EventHandler(this.savedPlaceToolStripMenuItem_Click);
+            // 
+            // modToolStripMenuItem
+            // 
+            this.modToolStripMenuItem.Name = "modToolStripMenuItem";
+            this.modToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.modToolStripMenuItem.Text = "Mod";
+            this.modToolStripMenuItem.Click += new System.EventHandler(this.modToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -348,7 +425,8 @@ namespace ManiacEditor
             this.optionsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearDataDirectoriesToolStripMenuItem,
-            this.removeAllSavedPlacesToolStripMenuItem});
+            this.removeAllSavedPlacesToolStripMenuItem,
+            this.removeAllModsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -370,6 +448,13 @@ namespace ManiacEditor
             this.removeAllSavedPlacesToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.removeAllSavedPlacesToolStripMenuItem.Text = "Remove All Saved Places";
             this.removeAllSavedPlacesToolStripMenuItem.Click += new System.EventHandler(this.removeAllSavedPlacesToolStripMenuItem_Click);
+            // 
+            // removeAllModsToolStripMenuItem
+            // 
+            this.removeAllModsToolStripMenuItem.Name = "removeAllModsToolStripMenuItem";
+            this.removeAllModsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.removeAllModsToolStripMenuItem.Text = "Remove All Mods";
+            this.removeAllModsToolStripMenuItem.Click += new System.EventHandler(this.removeAllModsToolStripMenuItem_Click);
             // 
             // dataLabelToolStripItem
             // 
@@ -412,7 +497,6 @@ namespace ManiacEditor
             // 
             // preRenderCheckbox
             // 
-            this.preRenderCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.preRenderCheckbox.AutoSize = true;
             this.preRenderCheckbox.BackColor = System.Drawing.SystemColors.Control;
             this.preRenderCheckbox.Enabled = false;
@@ -424,62 +508,71 @@ namespace ManiacEditor
             this.preRenderCheckbox.UseVisualStyleBackColor = false;
             this.preRenderCheckbox.CheckedChanged += new System.EventHandler(this.preRenderCheckbox_CheckedChanged);
             // 
-            // deleteSelectedCategoryToolStripMenuItem
+            // modEditContext
             // 
-            this.deleteSelectedCategoryToolStripMenuItem.Name = "deleteSelectedCategoryToolStripMenuItem";
-            this.deleteSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.deleteSelectedCategoryToolStripMenuItem.Text = "Delete Selected Category";
-            this.deleteSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.deleteCategoryToolStripMenuItem_Click);
+            this.modEditContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setNameToolStripMenuItem,
+            this.restoreOriginalNameToolStripMenuItem,
+            this.removeModToolStripMenuItem});
+            this.modEditContext.Name = "folderEditContext";
+            this.modEditContext.Size = new System.Drawing.Size(194, 92);
             // 
-            // editSelectedCategoryToolStripMenuItem
+            // setNameToolStripMenuItem
             // 
-            this.editSelectedCategoryToolStripMenuItem.Name = "editSelectedCategoryToolStripMenuItem";
-            this.editSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.editSelectedCategoryToolStripMenuItem.Text = "Edit Selected Category";
-            this.editSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.editCategoryMenuItem_Click);
+            this.setNameToolStripMenuItem.Name = "setNameToolStripMenuItem";
+            this.setNameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.setNameToolStripMenuItem.Text = "Set Name...";
+            this.setNameToolStripMenuItem.Click += new System.EventHandler(this.setNameToolStripMenuItem_Click);
             // 
-            // toolStripSeparator1
+            // removeModToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(226, 6);
+            this.removeModToolStripMenuItem.Name = "removeModToolStripMenuItem";
+            this.removeModToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.removeModToolStripMenuItem.Text = "Remove Mod";
+            this.removeModToolStripMenuItem.Click += new System.EventHandler(this.removeModToolStripMenuItem_Click);
             // 
-            // toolStripSeparator2
+            // statusStrip1
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(226, 6);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.modFolderStatusLabel,
+            this.spacer,
+            this.toolStripDropDownButton1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 461);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.statusStrip1.Size = new System.Drawing.Size(1010, 22);
+            this.statusStrip1.TabIndex = 22;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // moveCategoryUpToolStripMenuItem
+            // modFolderStatusLabel
             // 
-            this.moveCategoryUpToolStripMenuItem.Name = "moveCategoryUpToolStripMenuItem";
-            this.moveCategoryUpToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.moveCategoryUpToolStripMenuItem.Text = "Move Category Up";
-            this.moveCategoryUpToolStripMenuItem.Click += new System.EventHandler(this.moveCategoryUpToolStripMenuItem_Click);
+            this.modFolderStatusLabel.Name = "modFolderStatusLabel";
+            this.modFolderStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // moveCategoryDownToolStripMenuItem
+            // spacer
             // 
-            this.moveCategoryDownToolStripMenuItem.Name = "moveCategoryDownToolStripMenuItem";
-            this.moveCategoryDownToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.moveCategoryDownToolStripMenuItem.Text = "Move Category Down";
-            this.moveCategoryDownToolStripMenuItem.Click += new System.EventHandler(this.moveCategoryDownToolStripMenuItem_Click);
+            this.spacer.Name = "spacer";
+            this.spacer.Size = new System.Drawing.Size(909, 17);
+            this.spacer.Spring = true;
+            this.spacer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // toolStripSeparator3
+            // toolStripDropDownButton1
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(193, 6);
+            this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(86, 20);
+            this.toolStripDropDownButton1.Text = "Unload Mod";
+            this.toolStripDropDownButton1.Click += new System.EventHandler(this.toolStripDropDownButton1_Click);
             // 
-            // moveSceneInfoUpToolStripMenuItem
+            // restoreOriginalNameToolStripMenuItem
             // 
-            this.moveSceneInfoUpToolStripMenuItem.Name = "moveSceneInfoUpToolStripMenuItem";
-            this.moveSceneInfoUpToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.moveSceneInfoUpToolStripMenuItem.Text = "Move Scene Info Up";
-            this.moveSceneInfoUpToolStripMenuItem.Click += new System.EventHandler(this.moveSceneInfoUpToolStripMenuItem_Click);
-            // 
-            // moveSceneInfoDownToolStripMenuItem
-            // 
-            this.moveSceneInfoDownToolStripMenuItem.Name = "moveSceneInfoDownToolStripMenuItem";
-            this.moveSceneInfoDownToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.moveSceneInfoDownToolStripMenuItem.Text = "Move Scene Info Down";
-            this.moveSceneInfoDownToolStripMenuItem.Click += new System.EventHandler(this.moveSceneInfoDownToolStripMenuItem_Click);
+            this.restoreOriginalNameToolStripMenuItem.Name = "restoreOriginalNameToolStripMenuItem";
+            this.restoreOriginalNameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.restoreOriginalNameToolStripMenuItem.Text = "Restore Original Name";
+            this.restoreOriginalNameToolStripMenuItem.Click += new System.EventHandler(this.restoreOriginalNameToolStripMenuItem_Click);
             // 
             // SceneSelect
             // 
@@ -487,7 +580,8 @@ namespace ManiacEditor
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(1010, 456);
+            this.ClientSize = new System.Drawing.Size(1010, 483);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.preRenderCheckbox);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.button3);
@@ -518,6 +612,9 @@ namespace ManiacEditor
             this.menuStrip1.PerformLayout();
             this.folderEditContext.ResumeLayout(false);
             this.dataDirEditContext.ResumeLayout(false);
+            this.modEditContext.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -569,5 +666,15 @@ namespace ManiacEditor
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem moveSceneInfoUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveSceneInfoDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip modEditContext;
+        private System.Windows.Forms.ToolStripMenuItem setNameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeModToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeAllModsToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel modFolderStatusLabel;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripStatusLabel spacer;
+        private System.Windows.Forms.ToolStripMenuItem restoreOriginalNameToolStripMenuItem;
     }
 }

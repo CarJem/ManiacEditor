@@ -15,7 +15,6 @@ namespace ManiacEditor
          int positionY = 0;
          bool reverseX = false;
          bool reverseY = false;
-         EditorAnimations Instance;
          public int platformAngle = 0;
 
         //Type 4 Platforms
@@ -29,14 +28,10 @@ namespace ManiacEditor
         public DateTime lastFrametime3;
         public int index2 = 0;
         public int index3 = 0;
+        public int PaperRollerIndex = 0;
 
         //Parallax Sprite Location Storing
         public string parallaxSprite = "";
-
-        public EditorAnimations()
-        {
-            Instance = this;
-        }
 
         /// <summary>
         /// Handles animation timing
@@ -409,6 +404,25 @@ namespace ManiacEditor
             if (index3 >= frameCount)
                 index3 = 0;
 
+        }
+
+        public void ProcessPaperRollerRotatingColors()
+        {
+            if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.annimationsChecked)
+            {
+                if ((DateTime.Now - lastFrametime2).TotalMilliseconds > 1024)
+                {
+                    if (PaperRollerIndex >= 3)
+                    {
+                        PaperRollerIndex = 0;
+                    }
+                    else
+                    {
+                        PaperRollerIndex++;
+                    }
+                }
+
+            }
         }
     }
 }

@@ -195,6 +195,16 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MagnetMode_dark {
+            get {
+                object obj = ResourceManager.GetObject("MagnetMode_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap New {
             get {
                 object obj = ResourceManager.GetObject("New", resourceCulture);
@@ -320,6 +330,16 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap placeTilesButton_dark {
+            get {
+                object obj = ResourceManager.GetObject("placeTilesButton_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pointerButton {
             get {
                 object obj = ResourceManager.GetObject("pointerButton", resourceCulture);
@@ -373,6 +393,16 @@ namespace ManiacEditor.Properties {
         internal static System.Drawing.Bitmap RunScene {
             get {
                 object obj = ResourceManager.GetObject("RunScene", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RunScene_dark {
+            get {
+                object obj = ResourceManager.GetObject("RunScene_dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
