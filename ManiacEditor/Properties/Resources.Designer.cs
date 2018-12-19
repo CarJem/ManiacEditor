@@ -63,39 +63,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ApplicationServiceOK_16x {
+        internal static System.Drawing.Bitmap ColorPalette_alt {
             get {
-                object obj = ResourceManager.GetObject("ApplicationServiceOK_16x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap collisionFlipHelper {
-            get {
-                object obj = ResourceManager.GetObject("collisionFlipHelper", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ColorPalette_16x {
-            get {
-                object obj = ResourceManager.GetObject("ColorPalette_16x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap do_not_sign_icon_png_0 {
-            get {
-                object obj = ResourceManager.GetObject("do_not_sign_icon_png_0", resourceCulture);
+                object obj = ResourceManager.GetObject("ColorPalette_alt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +113,29 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FreezeDevice {
+            get {
+                object obj = ResourceManager.GetObject("FreezeDevice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap InfoStatic2 {
             get {
                 object obj = ResourceManager.GetObject("InfoStatic2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InteractionTool {
+            get {
+                object obj = ResourceManager.GetObject("InteractionTool", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,9 +165,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MagicWand_16x_24 {
+        internal static System.Drawing.Bitmap MagnetTool {
             get {
-                object obj = ResourceManager.GetObject("MagicWand_16x_24", resourceCulture);
+                object obj = ResourceManager.GetObject("MagnetTool", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,9 +175,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MagnetMode {
+        internal static System.Drawing.Bitmap MultiLayerSelect {
             get {
-                object obj = ResourceManager.GetObject("MagnetMode", resourceCulture);
+                object obj = ResourceManager.GetObject("MultiLayerSelect", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,9 +185,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MagnetMode_dark {
+        internal static System.Drawing.Bitmap NewFile {
             get {
-                object obj = ResourceManager.GetObject("MagnetMode_dark", resourceCulture);
+                object obj = ResourceManager.GetObject("NewFile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,9 +195,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap New {
+        internal static System.Drawing.Bitmap NewFolder {
             get {
-                object obj = ResourceManager.GetObject("New", resourceCulture);
+                object obj = ResourceManager.GetObject("NewFolder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -300,9 +290,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Open {
+        internal static System.Drawing.Bitmap OpenDataFolder {
             get {
-                object obj = ResourceManager.GetObject("Open", resourceCulture);
+                object obj = ResourceManager.GetObject("OpenDataFolder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -310,9 +300,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PenTool_16x {
+        internal static System.Drawing.Bitmap OpenDocumentFolder {
             get {
-                object obj = ResourceManager.GetObject("PenTool_16x", resourceCulture);
+                object obj = ResourceManager.GetObject("OpenDocumentFolder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -320,9 +310,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap placeTilesButton {
+        internal static System.Drawing.Bitmap OpenFolder {
             get {
-                object obj = ResourceManager.GetObject("placeTilesButton", resourceCulture);
+                object obj = ResourceManager.GetObject("OpenFolder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -330,9 +320,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap placeTilesButton_dark {
+        internal static System.Drawing.Bitmap OpenFolder_Alt {
             get {
-                object obj = ResourceManager.GetObject("placeTilesButton_dark", resourceCulture);
+                object obj = ResourceManager.GetObject("OpenFolder_Alt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -340,9 +330,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pointerButton {
+        internal static System.Drawing.Bitmap OpenSharedFolder {
             get {
-                object obj = ResourceManager.GetObject("pointerButton", resourceCulture);
+                object obj = ResourceManager.GetObject("OpenSharedFolder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -350,9 +340,59 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap redoButton {
+        internal static System.Drawing.Bitmap PlaceTiles {
             get {
-                object obj = ResourceManager.GetObject("redoButton", resourceCulture);
+                object obj = ResourceManager.GetObject("PlaceTiles", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pointer {
+            get {
+                object obj = ResourceManager.GetObject("Pointer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pointer_alt {
+            get {
+                object obj = ResourceManager.GetObject("Pointer_alt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PreRender {
+            get {
+                object obj = ResourceManager.GetObject("PreRender", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Redo {
+            get {
+                object obj = ResourceManager.GetObject("Redo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Refresh {
+            get {
+                object obj = ResourceManager.GetObject("Refresh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -370,9 +410,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ReloadToolStripButton {
+        internal static System.Drawing.Bitmap RotateAssist {
             get {
-                object obj = ResourceManager.GetObject("ReloadToolStripButton", resourceCulture);
+                object obj = ResourceManager.GetObject("RotateAssist", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -380,9 +420,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap resetDeviceButton {
+        internal static System.Drawing.Bitmap RunGame {
             get {
-                object obj = ResourceManager.GetObject("resetDeviceButton", resourceCulture);
+                object obj = ResourceManager.GetObject("RunGame", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -390,29 +430,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RunScene {
+        internal static System.Drawing.Bitmap Save_ {
             get {
-                object obj = ResourceManager.GetObject("RunScene", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap RunScene_dark {
-            get {
-                object obj = ResourceManager.GetObject("RunScene_dark", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Save {
-            get {
-                object obj = ResourceManager.GetObject("Save", resourceCulture);
+                object obj = ResourceManager.GetObject("Save_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -429,9 +449,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap selectTool {
+        internal static System.Drawing.Bitmap Select {
             get {
-                object obj = ResourceManager.GetObject("selectTool", resourceCulture);
+                object obj = ResourceManager.GetObject("Select", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -439,9 +459,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Settings_12x_16x {
+        internal static System.Drawing.Bitmap Settings {
             get {
-                object obj = ResourceManager.GetObject("Settings_12x_16x", resourceCulture);
+                object obj = ResourceManager.GetObject("Settings", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -449,9 +469,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap showCollisionAButton {
+        internal static System.Drawing.Bitmap ShowCollisionPathA {
             get {
-                object obj = ResourceManager.GetObject("showCollisionAButton", resourceCulture);
+                object obj = ResourceManager.GetObject("ShowCollisionPathA", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -459,9 +479,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap showCollisionBButton {
+        internal static System.Drawing.Bitmap ShowCollisionPathB {
             get {
-                object obj = ResourceManager.GetObject("showCollisionBButton", resourceCulture);
+                object obj = ResourceManager.GetObject("ShowCollisionPathB", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -469,9 +489,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap showGridButton {
+        internal static System.Drawing.Bitmap ShowGrid {
             get {
-                object obj = ResourceManager.GetObject("showGridButton", resourceCulture);
+                object obj = ResourceManager.GetObject("ShowGrid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -479,9 +499,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap showTileIDButton {
+        internal static System.Drawing.Bitmap ShowTileID {
             get {
-                object obj = ResourceManager.GetObject("showTileIDButton", resourceCulture);
+                object obj = ResourceManager.GetObject("ShowTileID", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -513,9 +533,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap toolStripButton1 {
+        internal static System.Drawing.Bitmap StampTool {
             get {
-                object obj = ResourceManager.GetObject("toolStripButton1", resourceCulture);
+                object obj = ResourceManager.GetObject("StampTool", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -523,9 +543,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap undoButton {
+        internal static System.Drawing.Bitmap Undo {
             get {
-                object obj = ResourceManager.GetObject("undoButton", resourceCulture);
+                object obj = ResourceManager.GetObject("Undo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -553,9 +573,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap zoomInButton {
+        internal static System.Drawing.Bitmap ZoomIn {
             get {
-                object obj = ResourceManager.GetObject("zoomInButton", resourceCulture);
+                object obj = ResourceManager.GetObject("ZoomIn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -563,9 +583,9 @@ namespace ManiacEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap zoomOutButton {
+        internal static System.Drawing.Bitmap ZoomOut {
             get {
-                object obj = ResourceManager.GetObject("zoomOutButton", resourceCulture);
+                object obj = ResourceManager.GetObject("ZoomOut", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

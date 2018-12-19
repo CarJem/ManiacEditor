@@ -140,6 +140,7 @@
             this.consoleWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveForForceOpenOnStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seeStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableAllButtonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.entityManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importSoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -205,13 +206,13 @@
             this.pixelModeButton = new System.Windows.Forms.ToolStripButton();
             this.nudgeFasterButton = new System.Windows.Forms.ToolStripButton();
             this.scrollLockButton = new System.Windows.Forms.ToolStripButton();
-            this.moreSettingsButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.MoreSettingsButton = new System.Windows.Forms.ToolStripSplitButton();
             this.swapScrollLockDirectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editEntitesTransparencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleEncoreManiaEntitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
-            this.preLoadSceneButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.PreloadSceneButton = new System.Windows.Forms.ToolStripButton();
+            this.MultiSelectButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ShowFGLower = new System.Windows.Forms.ToolStripButton();
             this.ShowFGLow = new System.Windows.Forms.ToolStripButton();
@@ -232,34 +233,39 @@
             this.movingPlatformsObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spriteFramesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editTile0WithTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.setPlayerRespawnToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveThePlayerToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.New = new System.Windows.Forms.ToolStripButton();
             this.Open = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.RecentDataDirectories = new System.Windows.Forms.ToolStripSplitButton();
             this.noRecentDataDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Save = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.zoomInButton = new System.Windows.Forms.ToolStripButton();
-            this.zoomOutButton = new System.Windows.Forms.ToolStripButton();
+            this.ZoomInButton = new System.Windows.Forms.ToolStripButton();
+            this.ZoomOutButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.runSceneButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.RunSceneButton = new System.Windows.Forms.ToolStripSplitButton();
             this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.openModManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noConfigFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editConfigsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.freezeDeviceButton = new System.Windows.Forms.ToolStripButton();
+            this.FreezeDeviceButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.undoButton = new System.Windows.Forms.ToolStripButton();
-            this.redoButton = new System.Windows.Forms.ToolStripButton();
+            this.UndoButton = new System.Windows.Forms.ToolStripButton();
+            this.RedoButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.ReloadToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.ReloadButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.pointerButton = new System.Windows.Forms.ToolStripButton();
-            this.selectTool = new System.Windows.Forms.ToolStripButton();
-            this.placeTilesButton = new System.Windows.Forms.ToolStripButton();
-            this.interactionToolButton = new System.Windows.Forms.ToolStripButton();
+            this.PointerButton = new System.Windows.Forms.ToolStripButton();
+            this.SelectToolButton = new System.Windows.Forms.ToolStripButton();
+            this.PlaceTilesButton = new System.Windows.Forms.ToolStripButton();
+            this.InteractionToolButton = new System.Windows.Forms.ToolStripButton();
             this.MagnetMode = new System.Windows.Forms.ToolStripButton();
             this.MagnetModeSplitButton = new System.Windows.Forms.ToolStripSplitButton();
             this.gridAlignmentSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -270,25 +276,23 @@
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.enableXAxisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableYAxisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChunksToolButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.enableEncorePalette = new System.Windows.Forms.ToolStripButton();
-            this.showTileIDButton = new System.Windows.Forms.ToolStripButton();
-            this.showGridButton = new System.Windows.Forms.ToolStripButton();
-            this.gridSizeButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.EncorePaletteButton = new System.Windows.Forms.ToolStripButton();
+            this.ShowTileIDButton = new System.Windows.Forms.ToolStripButton();
+            this.ShowGridButton = new System.Windows.Forms.ToolStripButton();
+            this.GridSizeButton = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.x16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.x128ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.x256ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showCollisionAButton = new System.Windows.Forms.ToolStripButton();
-            this.showCollisionBButton = new System.Windows.Forms.ToolStripButton();
-            this.showFlippedTileHelperButton = new System.Windows.Forms.ToolStripButton();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editTile0WithTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
-            this.setPlayerRespawnToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveThePlayerToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ShowCollisionAButton = new System.Windows.Forms.ToolStripButton();
+            this.ShowCollisionBButton = new System.Windows.Forms.ToolStripButton();
+            this.FlipAssistButton = new System.Windows.Forms.ToolStripButton();
+            this.mainToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -299,8 +303,8 @@
             this.toolStrip3.SuspendLayout();
             this.toolStrip4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.toolStrip5.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.mainToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -1017,7 +1021,7 @@
             this.multiLayerSelectionToolStripMenuItem.Enabled = false;
             this.multiLayerSelectionToolStripMenuItem.Name = "multiLayerSelectionToolStripMenuItem";
             this.multiLayerSelectionToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.multiLayerSelectionToolStripMenuItem.Text = "Multi-Layer Selection";
+            this.multiLayerSelectionToolStripMenuItem.Text = "Multi-Layer Selection Mode";
             // 
             // optimizeEntitySlotIDsToolStripMenuItem
             // 
@@ -1099,7 +1103,8 @@
             this.findUnusedTilesToolStripMenuItem,
             this.consoleWindowToolStripMenuItem,
             this.saveForForceOpenOnStartupToolStripMenuItem,
-            this.seeStatsToolStripMenuItem});
+            this.seeStatsToolStripMenuItem,
+            this.enableAllButtonsToolStripMenuItem});
             this.developerToolStripMenuItem1.Name = "developerToolStripMenuItem1";
             this.developerToolStripMenuItem1.Size = new System.Drawing.Size(220, 22);
             this.developerToolStripMenuItem1.Text = "Developer";
@@ -1107,58 +1112,65 @@
             // developerInterfaceToolStripMenuItem
             // 
             this.developerInterfaceToolStripMenuItem.Name = "developerInterfaceToolStripMenuItem";
-            this.developerInterfaceToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.developerInterfaceToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.developerInterfaceToolStripMenuItem.Text = "Developer Interface";
             this.developerInterfaceToolStripMenuItem.Click += new System.EventHandler(this.developerTerminalToolStripMenuItem_Click);
             // 
             // goToToolStripMenuItem2
             // 
             this.goToToolStripMenuItem2.Name = "goToToolStripMenuItem2";
-            this.goToToolStripMenuItem2.Size = new System.Drawing.Size(238, 22);
+            this.goToToolStripMenuItem2.Size = new System.Drawing.Size(249, 22);
             this.goToToolStripMenuItem2.Text = "Go to...";
             this.goToToolStripMenuItem2.Click += new System.EventHandler(this.goToToolStripMenuItem_Click);
             // 
             // soundLooperToolStripMenuItem
             // 
             this.soundLooperToolStripMenuItem.Name = "soundLooperToolStripMenuItem";
-            this.soundLooperToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.soundLooperToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.soundLooperToolStripMenuItem.Text = "Sound Looper";
             this.soundLooperToolStripMenuItem.Click += new System.EventHandler(this.soundLooperToolStripMenuItem_Click);
             // 
             // mD5GeneratorToolStripMenuItem
             // 
             this.mD5GeneratorToolStripMenuItem.Name = "mD5GeneratorToolStripMenuItem";
-            this.mD5GeneratorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.mD5GeneratorToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.mD5GeneratorToolStripMenuItem.Text = "MD5 Generator";
             this.mD5GeneratorToolStripMenuItem.Click += new System.EventHandler(this.mD5GeneratorToolStripMenuItem_Click);
             // 
             // findUnusedTilesToolStripMenuItem
             // 
             this.findUnusedTilesToolStripMenuItem.Name = "findUnusedTilesToolStripMenuItem";
-            this.findUnusedTilesToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.findUnusedTilesToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.findUnusedTilesToolStripMenuItem.Text = "Find Unused Tiles";
             this.findUnusedTilesToolStripMenuItem.Click += new System.EventHandler(this.findUnusedTiles);
             // 
             // consoleWindowToolStripMenuItem
             // 
             this.consoleWindowToolStripMenuItem.Name = "consoleWindowToolStripMenuItem";
-            this.consoleWindowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.consoleWindowToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.consoleWindowToolStripMenuItem.Text = "Console Window";
             this.consoleWindowToolStripMenuItem.Click += new System.EventHandler(this.consoleWindowToolStripMenuItem_Click);
             // 
             // saveForForceOpenOnStartupToolStripMenuItem
             // 
             this.saveForForceOpenOnStartupToolStripMenuItem.Name = "saveForForceOpenOnStartupToolStripMenuItem";
-            this.saveForForceOpenOnStartupToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.saveForForceOpenOnStartupToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.saveForForceOpenOnStartupToolStripMenuItem.Text = "Save for Force Open on Startup";
             this.saveForForceOpenOnStartupToolStripMenuItem.Click += new System.EventHandler(this.saveForForceOpenOnStartupToolStripMenuItem_Click);
             // 
             // seeStatsToolStripMenuItem
             // 
             this.seeStatsToolStripMenuItem.Name = "seeStatsToolStripMenuItem";
-            this.seeStatsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.seeStatsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.seeStatsToolStripMenuItem.Text = "See Stats";
             this.seeStatsToolStripMenuItem.Click += new System.EventHandler(this.seeStatsToolStripMenuItem_Click);
+            // 
+            // enableAllButtonsToolStripMenuItem
+            // 
+            this.enableAllButtonsToolStripMenuItem.Name = "enableAllButtonsToolStripMenuItem";
+            this.enableAllButtonsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.enableAllButtonsToolStripMenuItem.Text = "Enable All Main Toolstrip Buttons";
+            this.enableAllButtonsToolStripMenuItem.Click += new System.EventHandler(this.enableAllButtonsToolStripMenuItem_Click);
             // 
             // sceneToolStripMenuItem
             // 
@@ -1418,9 +1430,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mainPanel.Controls.Add(this.splitContainer1);
-            this.mainPanel.Location = new System.Drawing.Point(34, 77);
+            this.mainPanel.Location = new System.Drawing.Point(34, 91);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1238, 620);
+            this.mainPanel.Size = new System.Drawing.Size(1238, 658);
             this.mainPanel.TabIndex = 9;
             // 
             // splitContainer1
@@ -1440,7 +1452,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(1236, 618);
+            this.splitContainer1.Size = new System.Drawing.Size(1236, 656);
             this.splitContainer1.SplitterDistance = 927;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -1454,7 +1466,7 @@
             this.viewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewPanel.Location = new System.Drawing.Point(0, 0);
             this.viewPanel.Name = "viewPanel";
-            this.viewPanel.Size = new System.Drawing.Size(925, 616);
+            this.viewPanel.Size = new System.Drawing.Size(925, 654);
             this.viewPanel.TabIndex = 8;
             this.viewPanel.Click += new System.EventHandler(this.viewPanel_Click);
             // 
@@ -1462,7 +1474,7 @@
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel3.Location = new System.Drawing.Point(907, 598);
+            this.panel3.Location = new System.Drawing.Point(907, 636);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(18, 18);
             this.panel3.TabIndex = 8;
@@ -1472,7 +1484,7 @@
             // 
             this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.hScrollBar1.LargeChange = 20;
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 598);
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 636);
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(907, 18);
             this.hScrollBar1.SmallChange = 20;
@@ -1489,7 +1501,7 @@
             this.vScrollBar1.LargeChange = 20;
             this.vScrollBar1.Location = new System.Drawing.Point(907, 0);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(18, 598);
+            this.vScrollBar1.Size = new System.Drawing.Size(18, 636);
             this.vScrollBar1.SmallChange = 20;
             this.vScrollBar1.TabIndex = 1;
             this.vScrollBar1.Visible = false;
@@ -1533,7 +1545,7 @@
             this.spacer,
             this.toolStripSeparator17,
             this.scrollLockDirLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 726);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 778);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
             this.statusStrip1.Size = new System.Drawing.Size(1284, 23);
@@ -1566,6 +1578,7 @@
             this._baseDataDirectoryLabel.Tag = "Data Directory: {0}";
             this._baseDataDirectoryLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._baseDataDirectoryLabel.ToolTipText = "\r\n";
+            this._baseDataDirectoryLabel.Click += new System.EventHandler(this.UpdateDataFolderLabel);
             // 
             // spacer
             // 
@@ -1618,102 +1631,103 @@
             this.pixelModeButton,
             this.nudgeFasterButton,
             this.scrollLockButton,
-            this.moreSettingsButton});
-            this.toolStrip3.Location = new System.Drawing.Point(0, 703);
+            this.MoreSettingsButton});
+            this.toolStrip3.Location = new System.Drawing.Point(0, 752);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1284, 23);
+            this.toolStrip3.Size = new System.Drawing.Size(1284, 26);
+            this.toolStrip3.SizingGrip = false;
             this.toolStrip3.TabIndex = 11;
             this.toolStrip3.Text = "toolStrip3";
             // 
             // seperator3
             // 
             this.seperator3.Name = "seperator3";
-            this.seperator3.Size = new System.Drawing.Size(6, 23);
+            this.seperator3.Size = new System.Drawing.Size(6, 26);
             this.seperator3.Visible = false;
             // 
             // positionLabel
             // 
             this.positionLabel.Name = "positionLabel";
-            this.positionLabel.Size = new System.Drawing.Size(0, 18);
+            this.positionLabel.Size = new System.Drawing.Size(0, 21);
             this.positionLabel.ToolTipText = "The position relative to your mouse (Pixels Only for Now)";
             // 
             // seperator4
             // 
             this.seperator4.Name = "seperator4";
             this.seperator4.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.seperator4.Size = new System.Drawing.Size(6, 23);
+            this.seperator4.Size = new System.Drawing.Size(6, 26);
             this.seperator4.Visible = false;
             // 
             // selectionSizeLabel
             // 
             this.selectionSizeLabel.Name = "selectionSizeLabel";
             this.selectionSizeLabel.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.selectionSizeLabel.Size = new System.Drawing.Size(0, 18);
+            this.selectionSizeLabel.Size = new System.Drawing.Size(0, 21);
             this.selectionSizeLabel.ToolTipText = "The Size of the Selection";
             // 
             // seperator5
             // 
             this.seperator5.Name = "seperator5";
             this.seperator5.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.seperator5.Size = new System.Drawing.Size(6, 23);
+            this.seperator5.Size = new System.Drawing.Size(6, 26);
             this.seperator5.Visible = false;
             // 
             // selectedPositionLabel
             // 
             this.selectedPositionLabel.Name = "selectedPositionLabel";
             this.selectedPositionLabel.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.selectedPositionLabel.Size = new System.Drawing.Size(0, 18);
+            this.selectedPositionLabel.Size = new System.Drawing.Size(0, 21);
             this.selectedPositionLabel.ToolTipText = "The Position of the Selected Tile";
             // 
             // seperator6
             // 
             this.seperator6.Name = "seperator6";
             this.seperator6.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.seperator6.Size = new System.Drawing.Size(6, 23);
+            this.seperator6.Size = new System.Drawing.Size(6, 26);
             this.seperator6.Visible = false;
             // 
             // selectionBoxSizeLabel
             // 
             this.selectionBoxSizeLabel.Name = "selectionBoxSizeLabel";
             this.selectionBoxSizeLabel.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.selectionBoxSizeLabel.Size = new System.Drawing.Size(0, 18);
+            this.selectionBoxSizeLabel.Size = new System.Drawing.Size(0, 21);
             this.selectionBoxSizeLabel.ToolTipText = "The Size of the Selection Box";
             // 
             // seperator7
             // 
             this.seperator7.Name = "seperator7";
             this.seperator7.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.seperator7.Size = new System.Drawing.Size(6, 23);
+            this.seperator7.Size = new System.Drawing.Size(6, 26);
             this.seperator7.Visible = false;
             // 
             // hVScrollBarXYLabel
             // 
             this.hVScrollBarXYLabel.Name = "hVScrollBarXYLabel";
-            this.hVScrollBarXYLabel.Size = new System.Drawing.Size(0, 18);
+            this.hVScrollBarXYLabel.Size = new System.Drawing.Size(0, 21);
             // 
             // seperator8
             // 
             this.seperator8.Name = "seperator8";
             this.seperator8.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.seperator8.Size = new System.Drawing.Size(6, 23);
+            this.seperator8.Size = new System.Drawing.Size(6, 26);
             this.seperator8.Visible = false;
             // 
             // statusLabel
             // 
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(0, 18);
+            this.statusLabel.Size = new System.Drawing.Size(0, 21);
             // 
             // spacingLabel
             // 
             this.spacingLabel.Name = "spacingLabel";
-            this.spacingLabel.Size = new System.Drawing.Size(977, 18);
+            this.spacingLabel.Size = new System.Drawing.Size(973, 21);
             this.spacingLabel.Spring = true;
             this.spacingLabel.Text = "                              ";
             // 
             // toolStripSeparator20
             // 
             this.toolStripSeparator20.Name = "toolStripSeparator20";
-            this.toolStripSeparator20.Size = new System.Drawing.Size(6, 23);
+            this.toolStripSeparator20.Size = new System.Drawing.Size(6, 26);
             // 
             // pixelModeButton
             // 
@@ -1722,7 +1736,7 @@
             this.pixelModeButton.Image = ((System.Drawing.Image)(resources.GetObject("pixelModeButton.Image")));
             this.pixelModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pixelModeButton.Name = "pixelModeButton";
-            this.pixelModeButton.Size = new System.Drawing.Size(105, 21);
+            this.pixelModeButton.Size = new System.Drawing.Size(105, 24);
             this.pixelModeButton.Text = "Pixel Count Mode";
             this.pixelModeButton.ToolTipText = "Change the Positional/Selection Values to Pixel or Tile Based Values";
             this.pixelModeButton.Click += new System.EventHandler(this.pixelModeButton_Click);
@@ -1734,7 +1748,7 @@
             this.nudgeFasterButton.Image = ((System.Drawing.Image)(resources.GetObject("nudgeFasterButton.Image")));
             this.nudgeFasterButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.nudgeFasterButton.Name = "nudgeFasterButton";
-            this.nudgeFasterButton.Size = new System.Drawing.Size(81, 21);
+            this.nudgeFasterButton.Size = new System.Drawing.Size(81, 24);
             this.nudgeFasterButton.Text = "Nudge Faster";
             this.nudgeFasterButton.ToolTipText = "Move entities/tiles in a larger increment. (Configurable in Options)\r\nShortcut Ke" +
     "y: N";
@@ -1747,30 +1761,29 @@
             this.scrollLockButton.Image = ((System.Drawing.Image)(resources.GetObject("scrollLockButton.Image")));
             this.scrollLockButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.scrollLockButton.Name = "scrollLockButton";
-            this.scrollLockButton.Size = new System.Drawing.Size(68, 21);
+            this.scrollLockButton.Size = new System.Drawing.Size(68, 24);
             this.scrollLockButton.Text = "Scroll Lock";
             this.scrollLockButton.ToolTipText = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key" +
     ": B";
             this.scrollLockButton.Click += new System.EventHandler(this.scrollLockButton_Click);
             // 
-            // moreSettingsButton
+            // MoreSettingsButton
             // 
-            this.moreSettingsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.moreSettingsButton.BackColor = System.Drawing.Color.White;
-            this.moreSettingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.moreSettingsButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MoreSettingsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.MoreSettingsButton.BackColor = System.Drawing.Color.White;
+            this.MoreSettingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MoreSettingsButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.swapScrollLockDirectionToolStripMenuItem,
             this.editEntitesTransparencyToolStripMenuItem,
             this.toggleEncoreManiaEntitiesToolStripMenuItem});
-            this.moreSettingsButton.ForeColor = System.Drawing.Color.Black;
-            this.moreSettingsButton.Image = global::ManiacEditor.Properties.Resources.Settings_12x_16x;
-            this.moreSettingsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.moreSettingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.moreSettingsButton.Name = "moreSettingsButton";
-            this.moreSettingsButton.Size = new System.Drawing.Size(32, 21);
-            this.moreSettingsButton.Text = "Other Options";
-            this.moreSettingsButton.ToolTipText = "Other Various Settings";
-            this.moreSettingsButton.ButtonClick += new System.EventHandler(this.moreSettingsButton_ButtonClick);
+            this.MoreSettingsButton.Image = global::ManiacEditor.Properties.Resources.Settings;
+            this.MoreSettingsButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.MoreSettingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MoreSettingsButton.Name = "MoreSettingsButton";
+            this.MoreSettingsButton.Size = new System.Drawing.Size(36, 24);
+            this.MoreSettingsButton.Text = "Other Options";
+            this.MoreSettingsButton.ToolTipText = "Other Various Settings";
+            this.MoreSettingsButton.ButtonClick += new System.EventHandler(this.moreSettingsButton_ButtonClick);
             // 
             // swapScrollLockDirectionToolStripMenuItem
             // 
@@ -1808,37 +1821,35 @@
             this.toolStrip4.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip4.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.preLoadSceneButton,
-            this.toolStripButton1});
+            this.PreloadSceneButton,
+            this.MultiSelectButton});
             this.toolStrip4.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.toolStrip4.Location = new System.Drawing.Point(2, 77);
+            this.toolStrip4.Location = new System.Drawing.Point(2, 91);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(31, 621);
+            this.toolStrip4.Size = new System.Drawing.Size(31, 659);
             this.toolStrip4.TabIndex = 12;
             this.toolStrip4.Text = "toolStrip4";
             this.toolStrip4.Click += new System.EventHandler(this.preLoadSceneButton_Click);
             // 
-            // preLoadSceneButton
+            // PreloadSceneButton
             // 
-            this.preLoadSceneButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.preLoadSceneButton.Image = global::ManiacEditor.Properties.Resources.ApplicationServiceOK_16x;
-            this.preLoadSceneButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.preLoadSceneButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.preLoadSceneButton.Name = "preLoadSceneButton";
-            this.preLoadSceneButton.Size = new System.Drawing.Size(29, 20);
-            this.preLoadSceneButton.Text = "Virtual Walkaround (Pre-Load all of the Scene)";
-            this.preLoadSceneButton.Click += new System.EventHandler(this.preLoadSceneButton_Click);
+            this.PreloadSceneButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.PreloadSceneButton.Image = global::ManiacEditor.Properties.Resources.PreRender;
+            this.PreloadSceneButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PreloadSceneButton.Name = "PreloadSceneButton";
+            this.PreloadSceneButton.Size = new System.Drawing.Size(29, 24);
+            this.PreloadSceneButton.Text = "Pre-Render Scene";
+            this.PreloadSceneButton.Click += new System.EventHandler(this.preLoadSceneButton_Click);
             // 
-            // toolStripButton1
+            // MultiSelectButton
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Enabled = false;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(29, 20);
-            this.toolStripButton1.Text = "Multi-Layer Selection Mode";
+            this.MultiSelectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MultiSelectButton.Enabled = false;
+            this.MultiSelectButton.Image = global::ManiacEditor.Properties.Resources.MultiLayerSelect;
+            this.MultiSelectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MultiSelectButton.Name = "MultiSelectButton";
+            this.MultiSelectButton.Size = new System.Drawing.Size(29, 24);
+            this.MultiSelectButton.Text = "Multi-Layer Selection Mode";
             // 
             // toolStripSeparator4
             // 
@@ -1998,7 +2009,7 @@
             this.EditFGHigh,
             this.EditFGHigher,
             this.EditEntities});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 49);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 63);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1284, 25);
             this.toolStrip1.TabIndex = 2;
@@ -2063,83 +2074,82 @@
             this.toolStripSeparator19.Name = "toolStripSeparator19";
             this.toolStripSeparator19.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStrip5
+            // contextMenuStrip1
             // 
-            this.toolStrip5.ImageScalingSize = new System.Drawing.Size(18, 18);
-            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.New,
-            this.Open,
-            this.toolStripSplitButton1,
-            this.Save,
-            this.toolStripSeparator1,
-            this.zoomInButton,
-            this.zoomOutButton,
-            this.toolStripSeparator2,
-            this.runSceneButton,
-            this.freezeDeviceButton,
-            this.toolStripSeparator8,
-            this.undoButton,
-            this.redoButton,
-            this.toolStripSeparator10,
-            this.ReloadToolStripButton,
-            this.toolStripSeparator9,
-            this.pointerButton,
-            this.selectTool,
-            this.placeTilesButton,
-            this.interactionToolButton,
-            this.MagnetMode,
-            this.MagnetModeSplitButton,
-            this.toolStripSeparator14,
-            this.enableEncorePalette,
-            this.showTileIDButton,
-            this.showGridButton,
-            this.gridSizeButton,
-            this.showCollisionAButton,
-            this.showCollisionBButton,
-            this.showFlippedTileHelperButton});
-            this.toolStrip5.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(1284, 25);
-            this.toolStrip5.TabIndex = 14;
-            this.toolStrip5.Text = "Open Most Recent Data Directory";
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editTile0WithTileManiacToolStripMenuItem,
+            this.toolStripSeparator25,
+            this.setPlayerRespawnToHereToolStripMenuItem,
+            this.moveThePlayerToHereToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 76);
+            // 
+            // editTile0WithTileManiacToolStripMenuItem
+            // 
+            this.editTile0WithTileManiacToolStripMenuItem.Name = "editTile0WithTileManiacToolStripMenuItem";
+            this.editTile0WithTileManiacToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.editTile0WithTileManiacToolStripMenuItem.Text = "Edit Tile {0} with Tile Maniac";
+            this.editTile0WithTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileWithTileManiacToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator25
+            // 
+            this.toolStripSeparator25.Name = "toolStripSeparator25";
+            this.toolStripSeparator25.Size = new System.Drawing.Size(220, 6);
+            // 
+            // setPlayerRespawnToHereToolStripMenuItem
+            // 
+            this.setPlayerRespawnToHereToolStripMenuItem.Enabled = false;
+            this.setPlayerRespawnToHereToolStripMenuItem.Name = "setPlayerRespawnToHereToolStripMenuItem";
+            this.setPlayerRespawnToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.setPlayerRespawnToHereToolStripMenuItem.Text = "Set Player Respawn to Here";
+            // 
+            // moveThePlayerToHereToolStripMenuItem
+            // 
+            this.moveThePlayerToHereToolStripMenuItem.Enabled = false;
+            this.moveThePlayerToHereToolStripMenuItem.Name = "moveThePlayerToHereToolStripMenuItem";
+            this.moveThePlayerToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.moveThePlayerToHereToolStripMenuItem.Text = "Move the Player to Here";
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
             // 
             // New
             // 
             this.New.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.New.Enabled = false;
-            this.New.Image = ((System.Drawing.Image)(resources.GetObject("New.Image")));
-            this.New.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.New.Image = global::ManiacEditor.Properties.Resources.NewFile;
             this.New.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.New.Name = "New";
-            this.New.Size = new System.Drawing.Size(23, 22);
+            this.New.Size = new System.Drawing.Size(26, 36);
             this.New.Text = "toolStripButton2";
-            this.New.ToolTipText = "Create new map";
+            this.New.ToolTipText = "Create New Scene...";
             this.New.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
             // Open
             // 
             this.Open.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Open.Image = ((System.Drawing.Image)(resources.GetObject("Open.Image")));
-            this.Open.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.Open.Image = global::ManiacEditor.Properties.Resources.OpenFolder_Alt;
             this.Open.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Open.Name = "Open";
-            this.Open.Size = new System.Drawing.Size(23, 22);
+            this.Open.Size = new System.Drawing.Size(26, 36);
             this.Open.Text = "Open Map.wz";
-            this.Open.ToolTipText = "Open Map.wz";
+            this.Open.ToolTipText = "Open Scene...";
             this.Open.Click += new System.EventHandler(this.Open_Click);
             // 
-            // toolStripSplitButton1
+            // RecentDataDirectories
             // 
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RecentDataDirectories.AutoSize = false;
+            this.RecentDataDirectories.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RecentDataDirectories.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.noRecentDataDirectoriesToolStripMenuItem});
-            this.toolStripSplitButton1.Image = global::ManiacEditor.Properties.Resources.toolStripButton1;
-            this.toolStripSplitButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
-            this.toolStripSplitButton1.Text = "Open Data Directory";
-            this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.openDataDirectoryMenuButton);
+            this.RecentDataDirectories.Image = global::ManiacEditor.Properties.Resources.OpenDocumentFolder;
+            this.RecentDataDirectories.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RecentDataDirectories.Name = "RecentDataDirectories";
+            this.RecentDataDirectories.Size = new System.Drawing.Size(43, 36);
+            this.RecentDataDirectories.Text = "Open Data Directory";
+            this.RecentDataDirectories.ButtonClick += new System.EventHandler(this.openDataDirectoryMenuButton);
             // 
             // noRecentDataDirectoriesToolStripMenuItem
             // 
@@ -2152,62 +2162,60 @@
             // Save
             // 
             this.Save.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Save.Image = ((System.Drawing.Image)(resources.GetObject("Save.Image")));
-            this.Save.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.Save.Image = global::ManiacEditor.Properties.Resources.Save_;
             this.Save.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(23, 22);
+            this.Save.Size = new System.Drawing.Size(26, 36);
             this.Save.Text = "Save";
             this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
             // 
-            // zoomInButton
+            // ZoomInButton
             // 
-            this.zoomInButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.zoomInButton.Image = ((System.Drawing.Image)(resources.GetObject("zoomInButton.Image")));
-            this.zoomInButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.zoomInButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.zoomInButton.Name = "zoomInButton";
-            this.zoomInButton.Size = new System.Drawing.Size(23, 22);
-            this.zoomInButton.Text = "Zoom In (Ctrl + Wheel Up)";
-            this.zoomInButton.Click += new System.EventHandler(this.zoomInButton_Click);
+            this.ZoomInButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ZoomInButton.Image = global::ManiacEditor.Properties.Resources.ZoomIn;
+            this.ZoomInButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ZoomInButton.Name = "ZoomInButton";
+            this.ZoomInButton.Size = new System.Drawing.Size(26, 36);
+            this.ZoomInButton.Text = "Zoom In (Ctrl + Wheel Up)";
+            this.ZoomInButton.Click += new System.EventHandler(this.zoomInButton_Click);
             // 
-            // zoomOutButton
+            // ZoomOutButton
             // 
-            this.zoomOutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.zoomOutButton.Image = ((System.Drawing.Image)(resources.GetObject("zoomOutButton.Image")));
-            this.zoomOutButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.zoomOutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.zoomOutButton.Name = "zoomOutButton";
-            this.zoomOutButton.Size = new System.Drawing.Size(23, 22);
-            this.zoomOutButton.Text = "Zoom In (Ctrl + Wheel Down)";
-            this.zoomOutButton.Click += new System.EventHandler(this.zoomOutButton_Click);
+            this.ZoomOutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ZoomOutButton.Image = global::ManiacEditor.Properties.Resources.ZoomOut;
+            this.ZoomOutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ZoomOutButton.Name = "ZoomOutButton";
+            this.ZoomOutButton.Size = new System.Drawing.Size(26, 36);
+            this.ZoomOutButton.Text = "Zoom In (Ctrl + Wheel Down)";
+            this.ZoomOutButton.Click += new System.EventHandler(this.zoomOutButton_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
             // 
-            // runSceneButton
+            // RunSceneButton
             // 
-            this.runSceneButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.runSceneButton.DropDownButtonWidth = 16;
-            this.runSceneButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RunSceneButton.AutoSize = false;
+            this.RunSceneButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RunSceneButton.DropDownButtonWidth = 16;
+            this.RunSceneButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.launchToolStripMenuItem,
             this.toolStripSeparator26,
             this.openModManagerToolStripMenuItem,
             this.selectConfigToolStripMenuItem,
             this.editConfigsToolStripMenuItem1});
-            this.runSceneButton.Image = ((System.Drawing.Image)(resources.GetObject("runSceneButton.Image")));
-            this.runSceneButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.runSceneButton.Name = "runSceneButton";
-            this.runSceneButton.Size = new System.Drawing.Size(39, 22);
-            this.runSceneButton.Text = "Run Scene";
-            this.runSceneButton.ButtonClick += new System.EventHandler(this.RunScene_Click);
+            this.RunSceneButton.Image = global::ManiacEditor.Properties.Resources.RunGame;
+            this.RunSceneButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RunSceneButton.Name = "RunSceneButton";
+            this.RunSceneButton.Size = new System.Drawing.Size(43, 36);
+            this.RunSceneButton.Text = "Run Scene";
+            this.RunSceneButton.ButtonClick += new System.EventHandler(this.RunScene_Click);
             // 
             // launchToolStripMenuItem
             // 
@@ -2249,122 +2257,116 @@
             this.editConfigsToolStripMenuItem1.Text = "Edit Configs";
             this.editConfigsToolStripMenuItem1.Click += new System.EventHandler(this.editConfigsToolStripMenuItem_Click);
             // 
-            // freezeDeviceButton
+            // FreezeDeviceButton
             // 
-            this.freezeDeviceButton.CheckOnClick = true;
-            this.freezeDeviceButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.freezeDeviceButton.Image = global::ManiacEditor.Properties.Resources.do_not_sign_icon_png_0;
-            this.freezeDeviceButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.freezeDeviceButton.Name = "freezeDeviceButton";
-            this.freezeDeviceButton.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.freezeDeviceButton.Size = new System.Drawing.Size(23, 22);
-            this.freezeDeviceButton.Text = "Freeze Device";
-            this.freezeDeviceButton.ToolTipText = "Freeze Device";
-            this.freezeDeviceButton.Click += new System.EventHandler(this.resetDeviceButton_Click_1);
+            this.FreezeDeviceButton.CheckOnClick = true;
+            this.FreezeDeviceButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.FreezeDeviceButton.Image = global::ManiacEditor.Properties.Resources.FreezeDevice;
+            this.FreezeDeviceButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FreezeDeviceButton.Name = "FreezeDeviceButton";
+            this.FreezeDeviceButton.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.FreezeDeviceButton.Size = new System.Drawing.Size(26, 36);
+            this.FreezeDeviceButton.Text = "Freeze Device";
+            this.FreezeDeviceButton.ToolTipText = "Freeze Device";
+            this.FreezeDeviceButton.Click += new System.EventHandler(this.resetDeviceButton_Click_1);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 39);
             // 
-            // undoButton
+            // UndoButton
             // 
-            this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.undoButton.Image = ((System.Drawing.Image)(resources.GetObject("undoButton.Image")));
-            this.undoButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.undoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.undoButton.Name = "undoButton";
-            this.undoButton.Size = new System.Drawing.Size(23, 22);
-            this.undoButton.Text = "Undo {0} (Ctrl + Z)";
-            this.undoButton.ToolTipText = "Undo (Ctrl + Z)";
-            this.undoButton.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            this.UndoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.UndoButton.Image = global::ManiacEditor.Properties.Resources.Undo;
+            this.UndoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.UndoButton.Name = "UndoButton";
+            this.UndoButton.Size = new System.Drawing.Size(26, 36);
+            this.UndoButton.Text = "Undo {0} (Ctrl + Z)";
+            this.UndoButton.ToolTipText = "Undo (Ctrl + Z)";
+            this.UndoButton.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
-            // redoButton
+            // RedoButton
             // 
-            this.redoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.redoButton.Image = ((System.Drawing.Image)(resources.GetObject("redoButton.Image")));
-            this.redoButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.redoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.redoButton.Name = "redoButton";
-            this.redoButton.Size = new System.Drawing.Size(23, 22);
-            this.redoButton.Text = "Redo {0} (Ctrl + Y)";
-            this.redoButton.ToolTipText = "Redo (Ctrl + Y)";
-            this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
+            this.RedoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RedoButton.Image = global::ManiacEditor.Properties.Resources.Redo;
+            this.RedoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RedoButton.Name = "RedoButton";
+            this.RedoButton.Size = new System.Drawing.Size(26, 36);
+            this.RedoButton.Text = "Redo {0} (Ctrl + Y)";
+            this.RedoButton.ToolTipText = "Redo (Ctrl + Y)";
+            this.RedoButton.Click += new System.EventHandler(this.redoButton_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 39);
             // 
-            // ReloadToolStripButton
+            // ReloadButton
             // 
-            this.ReloadToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ReloadToolStripButton.Enabled = false;
-            this.ReloadToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ReloadToolStripButton.Image")));
-            this.ReloadToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ReloadToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ReloadToolStripButton.Name = "ReloadToolStripButton";
-            this.ReloadToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.ReloadToolStripButton.Text = "Reload Tiles and Sprites";
-            this.ReloadToolStripButton.Click += new System.EventHandler(this.ReloadToolStripButton_Click);
+            this.ReloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ReloadButton.Enabled = false;
+            this.ReloadButton.Image = global::ManiacEditor.Properties.Resources.Refresh;
+            this.ReloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ReloadButton.Name = "ReloadButton";
+            this.ReloadButton.Size = new System.Drawing.Size(26, 36);
+            this.ReloadButton.Text = "Reload Tiles and Sprites";
+            this.ReloadButton.Click += new System.EventHandler(this.ReloadToolStripButton_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 39);
             // 
-            // pointerButton
+            // PointerButton
             // 
-            this.pointerButton.Checked = true;
-            this.pointerButton.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.pointerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.pointerButton.Image = ((System.Drawing.Image)(resources.GetObject("pointerButton.Image")));
-            this.pointerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.pointerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pointerButton.Name = "pointerButton";
-            this.pointerButton.Size = new System.Drawing.Size(23, 22);
-            this.pointerButton.Text = "Select/Move Tool";
-            this.pointerButton.Click += new System.EventHandler(this.pointerButton_Click);
+            this.PointerButton.Checked = true;
+            this.PointerButton.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.PointerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.PointerButton.Image = global::ManiacEditor.Properties.Resources.Pointer_alt;
+            this.PointerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PointerButton.Name = "PointerButton";
+            this.PointerButton.Size = new System.Drawing.Size(26, 36);
+            this.PointerButton.Text = "Select/Move Tool";
+            this.PointerButton.Click += new System.EventHandler(this.pointerButton_Click);
             // 
-            // selectTool
+            // SelectToolButton
             // 
-            this.selectTool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.selectTool.Image = ((System.Drawing.Image)(resources.GetObject("selectTool.Image")));
-            this.selectTool.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.selectTool.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.selectTool.Name = "selectTool";
-            this.selectTool.Size = new System.Drawing.Size(23, 22);
-            this.selectTool.Text = "Selection Tool (To select groups of tiles and not dragged the clicked tile)";
-            this.selectTool.Click += new System.EventHandler(this.selectTool_Click);
+            this.SelectToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SelectToolButton.Image = global::ManiacEditor.Properties.Resources.Select;
+            this.SelectToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SelectToolButton.Name = "SelectToolButton";
+            this.SelectToolButton.Size = new System.Drawing.Size(26, 36);
+            this.SelectToolButton.Text = "Selection Tool (To select groups of tiles and not dragged the clicked tile)";
+            this.SelectToolButton.Click += new System.EventHandler(this.selectTool_Click);
             // 
-            // placeTilesButton
+            // PlaceTilesButton
             // 
-            this.placeTilesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.placeTilesButton.Image = global::ManiacEditor.Properties.Resources.placeTilesButton;
-            this.placeTilesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.placeTilesButton.Name = "placeTilesButton";
-            this.placeTilesButton.Size = new System.Drawing.Size(23, 22);
-            this.placeTilesButton.Text = "Place tiles (Right click [+drag] - place, Left click [+drag] - delete)";
-            this.placeTilesButton.Click += new System.EventHandler(this.placeTilesButton_Click);
+            this.PlaceTilesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.PlaceTilesButton.Image = global::ManiacEditor.Properties.Resources.PlaceTiles;
+            this.PlaceTilesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PlaceTilesButton.Name = "PlaceTilesButton";
+            this.PlaceTilesButton.Size = new System.Drawing.Size(26, 36);
+            this.PlaceTilesButton.Text = "Place tiles (Right click [+drag] - place, Left click [+drag] - delete)";
+            this.PlaceTilesButton.Click += new System.EventHandler(this.placeTilesButton_Click);
             // 
-            // interactionToolButton
+            // InteractionToolButton
             // 
-            this.interactionToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.interactionToolButton.Image = global::ManiacEditor.Properties.Resources.MagicWand_16x_24;
-            this.interactionToolButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.interactionToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.interactionToolButton.Name = "interactionToolButton";
-            this.interactionToolButton.Size = new System.Drawing.Size(23, 22);
-            this.interactionToolButton.Text = "Interaction Tool";
-            this.interactionToolButton.Click += new System.EventHandler(this.interactionToolButton_Click);
+            this.InteractionToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.InteractionToolButton.Image = global::ManiacEditor.Properties.Resources.InteractionTool;
+            this.InteractionToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.InteractionToolButton.Name = "InteractionToolButton";
+            this.InteractionToolButton.Size = new System.Drawing.Size(26, 36);
+            this.InteractionToolButton.Text = "Interaction Tool";
+            this.InteractionToolButton.Click += new System.EventHandler(this.interactionToolButton_Click);
             // 
             // MagnetMode
             // 
             this.MagnetMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MagnetMode.Image = global::ManiacEditor.Properties.Resources.MagnetMode;
+            this.MagnetMode.Image = global::ManiacEditor.Properties.Resources.MagnetTool;
             this.MagnetMode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MagnetMode.Name = "MagnetMode";
-            this.MagnetMode.Size = new System.Drawing.Size(23, 22);
+            this.MagnetMode.Size = new System.Drawing.Size(26, 36);
             this.MagnetMode.Text = "toolStripButton9";
             this.MagnetMode.ToolTipText = "Magnet Mode";
             this.MagnetMode.Click += new System.EventHandler(this.MagnetMode_Click);
@@ -2386,7 +2388,7 @@
             this.MagnetModeSplitButton.Image = ((System.Drawing.Image)(resources.GetObject("MagnetModeSplitButton.Image")));
             this.MagnetModeSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MagnetModeSplitButton.Name = "MagnetModeSplitButton";
-            this.MagnetModeSplitButton.Size = new System.Drawing.Size(10, 22);
+            this.MagnetModeSplitButton.Size = new System.Drawing.Size(12, 36);
             // 
             // gridAlignmentSizeToolStripMenuItem
             // 
@@ -2450,59 +2452,66 @@
             this.enableYAxisToolStripMenuItem.Text = "Enable Y Axis";
             this.enableYAxisToolStripMenuItem.Click += new System.EventHandler(this.enableYAxisToolStripMenuItem_Click);
             // 
+            // ChunksToolButton
+            // 
+            this.ChunksToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ChunksToolButton.Image = global::ManiacEditor.Properties.Resources.StampTool;
+            this.ChunksToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ChunksToolButton.Name = "ChunksToolButton";
+            this.ChunksToolButton.Size = new System.Drawing.Size(26, 36);
+            this.ChunksToolButton.Text = "Chunk Tool";
+            this.ChunksToolButton.Click += new System.EventHandler(this.chunkToolButton_Click);
+            // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 39);
             // 
-            // enableEncorePalette
+            // EncorePaletteButton
             // 
-            this.enableEncorePalette.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.enableEncorePalette.Image = global::ManiacEditor.Properties.Resources.ColorPalette_16x;
-            this.enableEncorePalette.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.enableEncorePalette.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.enableEncorePalette.Name = "enableEncorePalette";
-            this.enableEncorePalette.Size = new System.Drawing.Size(23, 22);
-            this.enableEncorePalette.Text = "Toggle Encore Palette";
-            this.enableEncorePalette.Click += new System.EventHandler(this.enableEncorePalette_Click);
+            this.EncorePaletteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.EncorePaletteButton.Image = global::ManiacEditor.Properties.Resources.ColorPalette_alt;
+            this.EncorePaletteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.EncorePaletteButton.Name = "EncorePaletteButton";
+            this.EncorePaletteButton.Size = new System.Drawing.Size(26, 36);
+            this.EncorePaletteButton.Text = "Toggle Encore Palette";
+            this.EncorePaletteButton.Click += new System.EventHandler(this.enableEncorePalette_Click);
             // 
-            // showTileIDButton
+            // ShowTileIDButton
             // 
-            this.showTileIDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.showTileIDButton.Image = ((System.Drawing.Image)(resources.GetObject("showTileIDButton.Image")));
-            this.showTileIDButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.showTileIDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.showTileIDButton.Name = "showTileIDButton";
-            this.showTileIDButton.Size = new System.Drawing.Size(23, 22);
-            this.showTileIDButton.Text = "Show Tile ID Number";
-            this.showTileIDButton.Click += new System.EventHandler(this.showTileIDButton_Click);
+            this.ShowTileIDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ShowTileIDButton.Image = global::ManiacEditor.Properties.Resources.ShowTileID;
+            this.ShowTileIDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ShowTileIDButton.Name = "ShowTileIDButton";
+            this.ShowTileIDButton.Size = new System.Drawing.Size(26, 36);
+            this.ShowTileIDButton.Text = "Show Tile ID Number";
+            this.ShowTileIDButton.Click += new System.EventHandler(this.showTileIDButton_Click);
             // 
-            // showGridButton
+            // ShowGridButton
             // 
-            this.showGridButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.showGridButton.Image = ((System.Drawing.Image)(resources.GetObject("showGridButton.Image")));
-            this.showGridButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.showGridButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.showGridButton.Name = "showGridButton";
-            this.showGridButton.Size = new System.Drawing.Size(23, 22);
-            this.showGridButton.Text = "Show Grid";
-            this.showGridButton.Click += new System.EventHandler(this.showGridButton_Click);
+            this.ShowGridButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ShowGridButton.Image = global::ManiacEditor.Properties.Resources.ShowGrid;
+            this.ShowGridButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ShowGridButton.Name = "ShowGridButton";
+            this.ShowGridButton.Size = new System.Drawing.Size(26, 36);
+            this.ShowGridButton.Text = "Show Grid";
+            this.ShowGridButton.Click += new System.EventHandler(this.showGridButton_Click);
             // 
-            // gridSizeButton
+            // GridSizeButton
             // 
-            this.gridSizeButton.AutoSize = false;
-            this.gridSizeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.gridSizeButton.DropDownButtonWidth = 12;
-            this.gridSizeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.GridSizeButton.AutoSize = false;
+            this.GridSizeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
+            this.GridSizeButton.DropDownButtonWidth = 12;
+            this.GridSizeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.x16ToolStripMenuItem,
             this.x128ToolStripMenuItem,
             this.x256ToolStripMenuItem,
             this.customToolStripMenuItem});
-            this.gridSizeButton.Image = ((System.Drawing.Image)(resources.GetObject("gridSizeButton.Image")));
-            this.gridSizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.gridSizeButton.Name = "gridSizeButton";
-            this.gridSizeButton.Size = new System.Drawing.Size(10, 22);
+            this.GridSizeButton.Image = ((System.Drawing.Image)(resources.GetObject("GridSizeButton.Image")));
+            this.GridSizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.GridSizeButton.Name = "GridSizeButton";
+            this.GridSizeButton.Size = new System.Drawing.Size(12, 36);
             // 
             // toolStripMenuItem1
             // 
@@ -2539,91 +2548,101 @@
             this.customToolStripMenuItem.Text = "Custom...";
             this.customToolStripMenuItem.Click += new System.EventHandler(this.customToolStripMenuItem_Click);
             // 
-            // showCollisionAButton
+            // ShowCollisionAButton
             // 
-            this.showCollisionAButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.showCollisionAButton.Image = ((System.Drawing.Image)(resources.GetObject("showCollisionAButton.Image")));
-            this.showCollisionAButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.showCollisionAButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.showCollisionAButton.Name = "showCollisionAButton";
-            this.showCollisionAButton.Size = new System.Drawing.Size(23, 22);
-            this.showCollisionAButton.Text = "Show Collision Layer A";
-            this.showCollisionAButton.Click += new System.EventHandler(this.ShowCollisionAButton_Click);
+            this.ShowCollisionAButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ShowCollisionAButton.Image = global::ManiacEditor.Properties.Resources.ShowCollisionPathA;
+            this.ShowCollisionAButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ShowCollisionAButton.Name = "ShowCollisionAButton";
+            this.ShowCollisionAButton.Size = new System.Drawing.Size(26, 36);
+            this.ShowCollisionAButton.Text = "Show Collision Layer A";
+            this.ShowCollisionAButton.Click += new System.EventHandler(this.ShowCollisionAButton_Click);
             // 
-            // showCollisionBButton
+            // ShowCollisionBButton
             // 
-            this.showCollisionBButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.showCollisionBButton.Image = ((System.Drawing.Image)(resources.GetObject("showCollisionBButton.Image")));
-            this.showCollisionBButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.showCollisionBButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.showCollisionBButton.Name = "showCollisionBButton";
-            this.showCollisionBButton.Size = new System.Drawing.Size(23, 22);
-            this.showCollisionBButton.Text = "Show Collision Layer B";
-            this.showCollisionBButton.Click += new System.EventHandler(this.showCollisionBButton_Click);
+            this.ShowCollisionBButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ShowCollisionBButton.Image = global::ManiacEditor.Properties.Resources.ShowCollisionPathB;
+            this.ShowCollisionBButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ShowCollisionBButton.Name = "ShowCollisionBButton";
+            this.ShowCollisionBButton.Size = new System.Drawing.Size(26, 36);
+            this.ShowCollisionBButton.Text = "Show Collision Layer B";
+            this.ShowCollisionBButton.Click += new System.EventHandler(this.showCollisionBButton_Click);
             // 
-            // showFlippedTileHelperButton
+            // FlipAssistButton
             // 
-            this.showFlippedTileHelperButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.showFlippedTileHelperButton.Image = global::ManiacEditor.Properties.Resources.collisionFlipHelper;
-            this.showFlippedTileHelperButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.showFlippedTileHelperButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.showFlippedTileHelperButton.Name = "showFlippedTileHelperButton";
-            this.showFlippedTileHelperButton.Size = new System.Drawing.Size(23, 22);
-            this.showFlippedTileHelperButton.Text = "Show Flipped Tile Helper";
-            this.showFlippedTileHelperButton.Click += new System.EventHandler(this.showFlippedTileHelper_Click);
+            this.FlipAssistButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.FlipAssistButton.Image = ((System.Drawing.Image)(resources.GetObject("FlipAssistButton.Image")));
+            this.FlipAssistButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FlipAssistButton.Name = "FlipAssistButton";
+            this.FlipAssistButton.Size = new System.Drawing.Size(26, 36);
+            this.FlipAssistButton.Text = "Show Flipped Tile Helper";
+            this.FlipAssistButton.Click += new System.EventHandler(this.showFlippedTileHelper_Click);
             // 
-            // contextMenuStrip1
+            // mainToolStrip
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editTile0WithTileManiacToolStripMenuItem,
-            this.toolStripSeparator25,
-            this.setPlayerRespawnToHereToolStripMenuItem,
-            this.moveThePlayerToHereToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 76);
+            this.mainToolStrip.ImageScalingSize = new System.Drawing.Size(22, 22);
+            this.mainToolStrip.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.mainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.New,
+            this.Open,
+            this.RecentDataDirectories,
+            this.Save,
+            this.toolStripSeparator1,
+            this.ZoomInButton,
+            this.ZoomOutButton,
+            this.toolStripSeparator2,
+            this.RunSceneButton,
+            this.toolStripSeparator8,
+            this.UndoButton,
+            this.RedoButton,
+            this.toolStripSeparator10,
+            this.ReloadButton,
+            this.toolStripSeparator9,
+            this.PointerButton,
+            this.SelectToolButton,
+            this.PlaceTilesButton,
+            this.InteractionToolButton,
+            this.MagnetMode,
+            this.MagnetModeSplitButton,
+            this.ChunksToolButton,
+            this.toolStripSeparator31,
+            this.EncorePaletteButton,
+            this.ShowTileIDButton,
+            this.FlipAssistButton,
+            this.ShowGridButton,
+            this.GridSizeButton,
+            this.toolStripSeparator32,
+            this.ShowCollisionAButton,
+            this.ShowCollisionBButton,
+            this.toolStripSeparator14,
+            this.FreezeDeviceButton});
+            this.mainToolStrip.Location = new System.Drawing.Point(0, 24);
+            this.mainToolStrip.Name = "mainToolStrip";
+            this.mainToolStrip.Size = new System.Drawing.Size(1284, 39);
+            this.mainToolStrip.TabIndex = 14;
+            this.mainToolStrip.Text = "Open Most Recent Data Directory";
             // 
-            // editTile0WithTileManiacToolStripMenuItem
+            // toolStripSeparator31
             // 
-            this.editTile0WithTileManiacToolStripMenuItem.Name = "editTile0WithTileManiacToolStripMenuItem";
-            this.editTile0WithTileManiacToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.editTile0WithTileManiacToolStripMenuItem.Text = "Edit Tile {0} with Tile Maniac";
-            this.editTile0WithTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileWithTileManiacToolStripMenuItem_Click);
+            this.toolStripSeparator31.Name = "toolStripSeparator31";
+            this.toolStripSeparator31.Size = new System.Drawing.Size(6, 39);
             // 
-            // toolStripSeparator25
+            // toolStripSeparator32
             // 
-            this.toolStripSeparator25.Name = "toolStripSeparator25";
-            this.toolStripSeparator25.Size = new System.Drawing.Size(220, 6);
-            // 
-            // setPlayerRespawnToHereToolStripMenuItem
-            // 
-            this.setPlayerRespawnToHereToolStripMenuItem.Enabled = false;
-            this.setPlayerRespawnToHereToolStripMenuItem.Name = "setPlayerRespawnToHereToolStripMenuItem";
-            this.setPlayerRespawnToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.setPlayerRespawnToHereToolStripMenuItem.Text = "Set Player Respawn to Here";
-            // 
-            // moveThePlayerToHereToolStripMenuItem
-            // 
-            this.moveThePlayerToHereToolStripMenuItem.Enabled = false;
-            this.moveThePlayerToHereToolStripMenuItem.Name = "moveThePlayerToHereToolStripMenuItem";
-            this.moveThePlayerToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.moveThePlayerToHereToolStripMenuItem.Text = "Move the Player to Here";
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+            this.toolStripSeparator32.Name = "toolStripSeparator32";
+            this.toolStripSeparator32.Size = new System.Drawing.Size(6, 39);
             // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1284, 749);
+            this.ClientSize = new System.Drawing.Size(1284, 801);
             this.Controls.Add(this.toolStrip4);
             this.Controls.Add(this.toolStrip3);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.toolStrip5);
+            this.Controls.Add(this.mainToolStrip);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.toolStrip2);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -2655,9 +2674,9 @@
             this.toolStrip4.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.toolStrip5.ResumeLayout(false);
-            this.toolStrip5.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.mainToolStrip.ResumeLayout(false);
+            this.mainToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2730,7 +2749,7 @@
         private System.Windows.Forms.ToolStripMenuItem rSDKAnnimationEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem colorPaletteEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip4;
-        private System.Windows.Forms.ToolStripButton preLoadSceneButton;
+        private System.Windows.Forms.ToolStripButton PreloadSceneButton;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton ShowFGLower;
@@ -2745,13 +2764,13 @@
         private System.Windows.Forms.ToolStripButton EditFGHigher;
         public System.Windows.Forms.ToolStripButton EditEntities;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton MultiSelectButton;
         private System.Windows.Forms.ToolStripButton pixelModeButton;
         private System.Windows.Forms.ToolStripStatusLabel spacingLabel;
         private System.Windows.Forms.ToolStripSeparator seperator4;
         private System.Windows.Forms.ToolStripStatusLabel spacer;
         private System.Windows.Forms.ToolStripStatusLabel scrollLockDirLabel;
-        private System.Windows.Forms.ToolStripSplitButton moreSettingsButton;
+        private System.Windows.Forms.ToolStripSplitButton MoreSettingsButton;
         private System.Windows.Forms.ToolStripMenuItem swapScrollLockDirectionToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem editEntitesTransparencyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toggleEncoreManiaEntitiesToolStripMenuItem;
@@ -2819,53 +2838,6 @@
         private System.Windows.Forms.ToolStripMenuItem defaultToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem invertedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem1;
-        private System.Windows.Forms.ToolStrip toolStrip5;
-        private System.Windows.Forms.ToolStripButton New;
-        private System.Windows.Forms.ToolStripButton Open;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
-        private System.Windows.Forms.ToolStripMenuItem noRecentDataDirectoriesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton Save;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton zoomInButton;
-        private System.Windows.Forms.ToolStripButton zoomOutButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripSplitButton runSceneButton;
-        private System.Windows.Forms.ToolStripMenuItem openModManagerToolStripMenuItem;
-        public System.Windows.Forms.ToolStripMenuItem selectConfigToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem noConfigFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editConfigsToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripButton freezeDeviceButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripButton undoButton;
-        private System.Windows.Forms.ToolStripButton redoButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ToolStripButton ReloadToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripButton pointerButton;
-        private System.Windows.Forms.ToolStripButton selectTool;
-        public System.Windows.Forms.ToolStripButton placeTilesButton;
-        private System.Windows.Forms.ToolStripButton MagnetMode;
-        private System.Windows.Forms.ToolStripSplitButton MagnetModeSplitButton;
-        private System.Windows.Forms.ToolStripMenuItem gridAlignmentSizeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x8ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x16ToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem x32ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x64ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem enableXAxisToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enableYAxisToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-        private System.Windows.Forms.ToolStripButton enableEncorePalette;
-        private System.Windows.Forms.ToolStripButton showTileIDButton;
-        private System.Windows.Forms.ToolStripButton showGridButton;
-        private System.Windows.Forms.ToolStripSplitButton gridSizeButton;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem x16ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x128ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x256ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton showCollisionAButton;
-        private System.Windows.Forms.ToolStripButton showCollisionBButton;
         private System.Windows.Forms.ToolStripMenuItem showEntityPathArrowsToolstripItem;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
@@ -2895,14 +2867,10 @@
         private System.Windows.Forms.ToolStripMenuItem insanicManiacToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem animationManiacToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem maniacPalColorPaletteEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton showFlippedTileHelperButton;
         private System.Windows.Forms.ToolStripMenuItem optimizeEntitySlotIDsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem editTile0WithTileManiacToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.ToolStripButton interactionToolButton;
-        private System.Windows.Forms.ToolStripMenuItem launchToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
         private System.Windows.Forms.ToolStripMenuItem setPlayerRespawnToHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveThePlayerToHereToolStripMenuItem;
@@ -2922,6 +2890,61 @@
         private System.Windows.Forms.ToolStripMenuItem fromDataDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromModDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
+        private System.Windows.Forms.ToolStripButton New;
+        private System.Windows.Forms.ToolStripButton Open;
+        private System.Windows.Forms.ToolStripSplitButton RecentDataDirectories;
+        private System.Windows.Forms.ToolStripMenuItem noRecentDataDirectoriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton Save;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton ZoomInButton;
+        private System.Windows.Forms.ToolStripButton ZoomOutButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSplitButton RunSceneButton;
+        private System.Windows.Forms.ToolStripMenuItem launchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
+        private System.Windows.Forms.ToolStripMenuItem openModManagerToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem selectConfigToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem noConfigFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editConfigsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripButton FreezeDeviceButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripButton UndoButton;
+        private System.Windows.Forms.ToolStripButton RedoButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripButton ReloadButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripButton PointerButton;
+        private System.Windows.Forms.ToolStripButton SelectToolButton;
+        public System.Windows.Forms.ToolStripButton PlaceTilesButton;
+        private System.Windows.Forms.ToolStripButton InteractionToolButton;
+        private System.Windows.Forms.ToolStripButton MagnetMode;
+        private System.Windows.Forms.ToolStripSplitButton MagnetModeSplitButton;
+        private System.Windows.Forms.ToolStripMenuItem gridAlignmentSizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x8ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x16ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem x32ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x64ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem enableXAxisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableYAxisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton ChunksToolButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripButton EncorePaletteButton;
+        private System.Windows.Forms.ToolStripButton ShowTileIDButton;
+        private System.Windows.Forms.ToolStripButton ShowGridButton;
+        private System.Windows.Forms.ToolStripSplitButton GridSizeButton;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem x16ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x128ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x256ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton ShowCollisionAButton;
+        private System.Windows.Forms.ToolStripButton ShowCollisionBButton;
+        private System.Windows.Forms.ToolStripButton FlipAssistButton;
+        private System.Windows.Forms.ToolStrip mainToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem enableAllButtonsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator32;
     }
 }
 

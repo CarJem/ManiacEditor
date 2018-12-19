@@ -40,16 +40,19 @@
             // 
             // informationLabel
             // 
-            this.informationLabel.Location = new System.Drawing.Point(12, 9);
+            this.informationLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.informationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.informationLabel.Location = new System.Drawing.Point(0, 0);
             this.informationLabel.Name = "informationLabel";
-            this.informationLabel.Size = new System.Drawing.Size(500, 511);
+            this.informationLabel.Size = new System.Drawing.Size(768, 529);
             this.informationLabel.TabIndex = 2;
             // 
             // StatusBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(524, 529);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(768, 529);
             this.Controls.Add(this.informationLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

@@ -53,13 +53,13 @@ namespace ManiacEditor
             // Tiles Toolbar Flip Vertical
             else if (e.KeyCode == Keys.ShiftKey)
             {
-                if (Editor.IsTilesEdit() && Editor.placeTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
                     Editor.TilesToolbar.SetSelectTileOption(1, true);
             }
             // Tiles Toolbar Flip Horizontal
             else if (e.KeyCode == Keys.ControlKey)
             {
-                if (Editor.IsTilesEdit() && Editor.placeTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
                     Editor.TilesToolbar.SetSelectTileOption(0, true);
             }
             // Open Click (Alt: Open Data Dir)
@@ -203,13 +203,13 @@ namespace ManiacEditor
             // Tiles Toolbar Flip Horizontal
             if (e.KeyCode == Keys.ControlKey)
             {
-                if (Editor.IsTilesEdit() && Editor.placeTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
                     Editor.TilesToolbar.SetSelectTileOption(0, false);
             }
             // Tiles Toolbar Flip Vertical
             else if (e.KeyCode == Keys.ShiftKey)
             {
-                if (Editor.IsTilesEdit() && Editor.placeTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
                     Editor.TilesToolbar.SetSelectTileOption(1, false);
             }
         }

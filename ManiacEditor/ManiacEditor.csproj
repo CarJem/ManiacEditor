@@ -696,6 +696,12 @@
     <Compile Include="Interfaces\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ChunksToolbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ChunksToolbar.Designer.cs">
+      <DependentUpon>ChunksToolbar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\UpdateStatusBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -885,6 +891,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\SoundLooper.resx">
       <DependentUpon>SoundLooper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\ChunksToolbar.resx">
+      <DependentUpon>ChunksToolbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UpdateStatusBox.resx">
       <DependentUpon>UpdateStatusBox.cs</DependentUpon>

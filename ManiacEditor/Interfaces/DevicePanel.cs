@@ -18,7 +18,7 @@ using Point = System.Drawing.Point;
 
 /*
  * This file is a ported old rendering code
- * It will be replaced with OpenGL soon
+ * It will be replaced with OpenGL soon (Update: Or never if this pace keeps up - CarJem Generations)
  */
 
 
@@ -415,18 +415,20 @@ namespace ManiacEditor
         {
             String error = "No Error. OH-NO!";
             String error2 = "";
-            String errorCode = "404 (No Error Code Given)";
-            String errorCode2 = "404 (No Secondary Error Code Given)";
+            String error3 = "";
+            String errorCode = "404 (No Error Code Found)";
+            String errorCode2 = "404 (No Secondary Error Code Found)";
+            String errorCode3 = "404 (No Trimary Error Code Found)";
 
             if (ex != null)
             {
                  error = ex.ToString();
                  errorCode = ex.ResultCode.ToString();
             }
-            else if (ex3 != null)
+            if (ex3 != null)
             {
-                error = ex3.ToString();
-                errorCode = ex3.HResult.ToString();
+                error3 = ex3.ToString();
+                errorCode3 = ex3.HResult.ToString();
             }
             if (ex2 != null)
             {
@@ -436,7 +438,7 @@ namespace ManiacEditor
 
             if (state == 0)
             {
-                    using (var deviceLostBox = new DeviceLostBox(error, error2, errorCode, errorCode2))
+                    using (var deviceLostBox = new DeviceLostBox(error, error2, error3, errorCode, errorCode2, error3))
                     {
                         deviceLostBox.ShowDialog();
                         deviceExceptionResult = deviceLostBox.DialogResult;
@@ -467,7 +469,7 @@ namespace ManiacEditor
             else if (state == 1)
             {
 
-                using (var deviceLostBox = new DeviceLostBox(error, error2, errorCode, errorCode2, 1))
+                using (var deviceLostBox = new DeviceLostBox(error, error2, error3, errorCode, errorCode2, errorCode3, 1))
                 {
                     deviceLostBox.ShowDialog();
                     deviceExceptionResult = deviceLostBox.DialogResult;

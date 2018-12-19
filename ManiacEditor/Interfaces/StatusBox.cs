@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace ManiacEditor
             informationLabel.Text = informationLabel.Text + newLine + "Scene Filepath: " + Editor.Instance.SceneFilepath;
             informationLabel.Text = informationLabel.Text + newLine + "Scene Path: " + Editor.Instance.ScenePath;
             informationLabel.Text = informationLabel.Text + newLine + "Selected Zone: " + Editor.Instance.SelectedZone;
+            informationLabel.Text = informationLabel.Text + newLine + "Scene TileConfig Path: " + Path.Combine(Editor.Instance.SceneFilepath, "TileConfig.bin").ToString(); 
         }
 
 

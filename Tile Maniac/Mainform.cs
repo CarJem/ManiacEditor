@@ -244,48 +244,50 @@ namespace TileManiac
 
         public void LoadTileConfigViaIntergration(TilesConfig tilesConfig, string scenePath, int selectedTile = 0)
         {
-                curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
-                filepath = Path.Combine(scenePath, "TileConfig.bin");
-                tcf = tilesConfig;
-                tcfBak = tilesConfig;
-                string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
-                LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
+            curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
+            filepath = Path.Combine(scenePath, "TileConfig.bin");
+            //tcf = tilesConfig;
+            //tcfBak = tilesConfig;
+            tcf = new TilesConfig(Path.Combine(scenePath, "TileConfig.bin").ToString());
+            tcfBak = new TilesConfig(Path.Combine(scenePath, "TileConfig.bin").ToString());
+            string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
+            LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
 
-                CollisionList.Images.Clear();
+            CollisionList.Images.Clear();
 
-                for (int i = 0; i < 1024; i++)
+            for (int i = 0; i < 1024; i++)
+            {
+                if (listSetting == 0)
                 {
-                    if (listSetting == 0)
-                    {
-                        CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
-                        CollisionList.Images.Add(CollisionListImgA[i]);
-                    }
-                    else
-                    {
-                        CollisionListImgA.Add(Tiles[i]);
-                        CollisionList.Images.Add(Tiles[i]);
-                    }
-
+                    CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+                    CollisionList.Images.Add(CollisionListImgA[i]);
+                }
+                else
+                {
+                    CollisionListImgA.Add(Tiles[i]);
+                    CollisionList.Images.Add(Tiles[i]);
                 }
 
-                for (int i = 0; i < 1024; i++)
-                {
-                    if (listSetting == 0)
-                    {
-                        CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
-                        CollisionList.Images.Add(CollisionListImgB[i]);
-                    }
-                    else
-                    {
-                        CollisionListImgB.Add(Tiles[i]);
-                        CollisionList.Images.Add(Tiles[i]);
-                    }
-                }
-                CollisionList.SelectedIndex = selectedTile;
-                CollisionList.Refresh();
+            }
 
-                curColisionMask = selectedTile;
-                RefreshUI(); //update the UI
+            for (int i = 0; i < 1024; i++)
+            {
+                if (listSetting == 0)
+                {
+                    CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+                    CollisionList.Images.Add(CollisionListImgB[i]);
+                }
+                else
+                {
+                    CollisionListImgB.Add(Tiles[i]);
+                    CollisionList.Images.Add(Tiles[i]);
+                }
+            }
+            CollisionList.SelectedIndex = selectedTile;
+            CollisionList.Refresh();
+
+            curColisionMask = selectedTile;
+            RefreshUI(); //update the UI
             
         }
 
@@ -657,7 +659,6 @@ namespace TileManiac
                     }
 
                 }
-
 
                 RefreshCollisionList();
             }
@@ -2221,7 +2222,7 @@ namespace TileManiac
             DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                tcf.CollisionPath1[curColisionMask].Collision = tcfBak.CollisionPath1[curColisionMask].Collision;
+                tcf.CollisionPath1[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath1[curColisionMask].Clone();            
                 RefreshUI();
             }
         }
@@ -2231,7 +2232,7 @@ namespace TileManiac
             DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                tcf.CollisionPath2[curColisionMask] = tcfBak.CollisionPath2[curColisionMask];
+                tcf.CollisionPath2[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath2[curColisionMask].Clone();
                 RefreshUI();
             }
         }
@@ -2241,8 +2242,8 @@ namespace TileManiac
             DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                tcf.CollisionPath1[curColisionMask] = tcfBak.CollisionPath1[curColisionMask];
-                tcf.CollisionPath2[curColisionMask] = tcfBak.CollisionPath2[curColisionMask];
+                tcf.CollisionPath1[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath1[curColisionMask].Clone();
+                tcf.CollisionPath2[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath2[curColisionMask].Clone();
                 RefreshUI();
             }
         }
