@@ -32,7 +32,7 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
                 var frame2 = editorAnim2.Frames[0];
                 var frame3 = editorAnim2.Frames[1];
-                var frame4 = editorAnim3.Frames[Animation.index];
+                var frame4 = editorAnim3.Frames[Animation.index2];
                 var frame5 = editorAnim4.Frames[0];
                 var frame6 = editorAnim5.Frames[Animation.index];
                 var frame7 = editorAnim6.Frames[0];
@@ -40,7 +40,7 @@ namespace ManiacEditor.Entity_Renders
                 var frame9 = editorAnim7.Frames[1];
                 var frame10 = editorAnim8.Frames[0];
                 var frame11 = editorAnim8.Frames[1];
-                var frame12 = editorAnim9.Frames[Animation.index2];
+                var frame12 = editorAnim9.Frames[Animation.index3];
                 var frame13 = editorAnim10.Frames[0];
 
                 Animation.ProcessAnimation(frame6.Entry.FrameSpeed, frame6.Entry.Frames.Count, frame6.Frame.Duration);

@@ -24,11 +24,11 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frame = editorAnim.Frames[0];
                 var frame2 = editorAnim2.Frames[Animation.index];
-                var frame3 = editorAnim3.Frames[Animation.index];
+                var frame3 = editorAnim3.Frames[Animation.index3];
 
 
                 Animation.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
-                Animation.ProcessAnimation2(frame3.Entry.FrameSpeed, frame3.Entry.Frames.Count, frame3.Frame.Duration);
+                Animation.ProcessAnimation3(frame3.Entry.FrameSpeed, frame3.Entry.Frames.Count, frame3.Frame.Duration);
 
                 d.DrawBitmap(frame3.Texture,
                     x + frame3.Frame.CenterX,

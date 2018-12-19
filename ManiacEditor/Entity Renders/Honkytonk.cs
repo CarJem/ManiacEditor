@@ -18,9 +18,9 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int angle = (int)entity.attributesMap["angle"].ValueVar;
-            int rotation = 0; //(int)(angle / -0.71);
-            int offsetX = 0; //(int)Math.Cos(angle / -0.71);
-            int offsetY = 0; //(int)Math.Sin(angle / -0.71);
+            int rotation = (int)(angle / -0.71);
+            int offsetX = (int)Math.Cos(angle / -0.71);
+            int offsetY = (int)Math.Sin(angle / -0.71);
 
             if (EditorEntity_ini.rotateImageLegacyMode == true)
             {

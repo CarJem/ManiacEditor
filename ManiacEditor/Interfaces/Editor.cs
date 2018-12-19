@@ -5865,7 +5865,7 @@ Error: {ex.Message}");
 
         public void preLoadSceneButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this, "It is cautioned that you save now, as there is NO WAY TO END THIS PROCESS ONCE IT STARTS and you may be forced to force the program to quit! Are you sure you want to continue?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.OK)
+            if (MessageBox.Show(this, "It is cautioned that you save now, as there is NO WAY TO END THIS PROCESS ONCE IT STARTS and you may be forced to force the program to quit! Are you sure you want to continue?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 PreloadSceneButton.Enabled = false;
                 isPreRending = true;
@@ -5901,7 +5901,7 @@ Error: {ex.Message}");
                             x = x + ScrollAmount;
                         }
                         Application.DoEvents();
-                        //preLoadForm.SetProgressBarStatus(progressValueX, progressValueY);
+                        //preLoadForm.SetProgressBarStatus(ScreenMaxH - x, ScreenMaxV - y);
                         // Enable when the previous TODO above is Fixed
 
                     }
@@ -5916,7 +5916,6 @@ Error: {ex.Message}");
                         y = y + ScrollAmount;
                     }
                     Application.DoEvents();
-                    //preLoadForm.SetProgressBarStatus(progressValueX, progressValueY);
                 }
                 hScrollBar1.Value = 0;
                 vScrollBar1.Value = 0;
