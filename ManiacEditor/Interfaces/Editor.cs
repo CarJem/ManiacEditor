@@ -2651,7 +2651,33 @@ namespace ManiacEditor
 
         private void AdHocLayerEdit(object sender, EventArgs e)
         {
+            ToolStripButton tsb = sender as ToolStripButton;
+            Deselect(false);
+            if (tsb.Checked)
+            {
+                if (!mySettings.KeepLayersVisible)
+                {
+                    ShowFGLow.Checked = false;
+                    ShowFGHigh.Checked = false;
+                    ShowFGLower.Checked = false;
+                    ShowFGHigher.Checked = false;
+                }
+                EditFGLow.Checked = false;
+                EditFGHigh.Checked = false;
+                EditFGLower.Checked = false;
+                EditFGHigher.Checked = false;
+                EditEntities.Checked = false;
 
+                foreach (var elb in _extraLayerEditButtons)
+                {
+                    if (elb != tsb)
+                    {
+                        elb.Checked = false;
+                    }
+                }
+            }
+
+            UpdateControls();
         }
         #endregion
 

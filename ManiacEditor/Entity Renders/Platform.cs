@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
             int angleStateX = 0;
             int angleStateY = 0;
 
-            var platformIcon = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 8, false, false, false);
+            var platformIcon = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 20, false, false, false);
 
             
             if (childCount != previousChildCount)
