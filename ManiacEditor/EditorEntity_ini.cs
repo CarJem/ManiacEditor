@@ -250,16 +250,9 @@ namespace ManiacEditor
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}";
             var anim = new EditorEntity_ini.EditorAnimation();
             if (EditorEntity_ini.Animations.ContainsKey(key))
-            {
-                if (EditorEntity_ini.Animations[key].Ready)
-                {
-                    // Use the already loaded Amination
-                    return EditorEntity_ini.Animations[key];
-                }
-                else
-                {
-                    return null;
-                }
+            {   
+                if (EditorEntity_ini.Animations[key].Ready) return EditorEntity_ini.Animations[key]; // Use the already loaded Amination
+                else return null;
             }
 
             EditorEntity_ini.Animations.Add(key, anim);
@@ -270,10 +263,7 @@ namespace ManiacEditor
 
             string path2 = assetInfo.Item1;
             string dataFolderLocation = assetInfo.Item2;         
-            if (!File.Exists(path2) || path2 == null)
-            {
-                return null;
-            }
+            if (!File.Exists(path2) || path2 == null) return null;
 
             using (var stream = File.OpenRead(path2))
             {
@@ -282,21 +272,17 @@ namespace ManiacEditor
             }
             if (AnimId == -1)
             {
-                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Normal")))
-                    AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Normal"));
+                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Normal"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Normal"));
                 else AnimId = 0;
                 // Use Vertical Amination if one exists
-                if (rotate && rsdkAnim.Animations.Any(t => t.AnimName.EndsWith(" V")))
-                    AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.EndsWith(" V"));
+                if (rotate && rsdkAnim.Animations.Any(t => t.AnimName.EndsWith(" V"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.EndsWith(" V"));
             }
             if (AnimId == -2)
             {
-                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Swing")))
-                    AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Swing"));
+                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Swing"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Swing"));
                 else AnimId = 0;
             }
-            if (AnimId >= rsdkAnim.Animations.Count)
-                AnimId = rsdkAnim.Animations.Count - 1;
+            if (AnimId >= rsdkAnim.Animations.Count) AnimId = rsdkAnim.Animations.Count - 1;
             for (int i = 0; i < rsdkAnim.Animations[AnimId].Frames.Count; ++i)
             {
                 // check we don't stray outside our loaded animations/frames
@@ -304,8 +290,7 @@ namespace ManiacEditor
                 // a valid frame instead
                 var animiation = rsdkAnim.Animations[AnimId];
                 var frame = animiation.Frames[i];
-                if (frameId >= 0 && frameId < animiation.Frames.Count)
-                    frame = animiation.Frames[frameId];
+                if (frameId >= 0 && frameId < animiation.Frames.Count) frame = animiation.Frames[frameId];
                 Bitmap map;
                 bool noEncoreColors = false;
                 if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes") noEncoreColors = true;
@@ -316,29 +301,15 @@ namespace ManiacEditor
 
                     if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes")
                     {
-                        if (assetName == "EditorAssets")
-                        {
-                            targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
-                        }
-                        else if (assetName == "EditorIcons2")
-                        {
-                            targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
-                        }
-                        else if (assetName == "TransportTubes")
-                        {
-                            targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
-                        }
-                        else
-                        {
-                            targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.gif");
-                        }
+                        if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
+                        else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
+                        else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
+                        else targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.gif");
                     }
-                    else
-                        targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
+                    else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
                     if (!File.Exists(targetFile))
                     {
                         map = null;
-
                         // add a Null to our lookup, so we can avoid looking again in the future
                         EditorEntity_ini.Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
                     }
@@ -347,10 +318,7 @@ namespace ManiacEditor
 
                         map = new Bitmap(targetFile);
                         //Encore Colors
-                        if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0))
-                        {
-                            map = SetEncoreColors(map, Editor.EncorePalette[0]);
-                        }
+                        if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
                         EditorEntity_ini.Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
                     }
                 }
@@ -358,15 +326,11 @@ namespace ManiacEditor
                 {
                     map = EditorEntity_ini.Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
                     //Encore Colors
-                    if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0))
-                    {
-                        map = SetEncoreColors(map, Editor.EncorePalette[0]);
-                    }
+                    if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
                 }
 
 
-                if (frame.Width == 0 || frame.Height == 0)
-                    continue;
+                if (frame.Width == 0 || frame.Height == 0) continue;
 
                 // can't load the animation, it probably doesn't exist in the User's Sprites folder
                 if (map == null) return null;
@@ -375,55 +339,48 @@ namespace ManiacEditor
                 var colour = map.Palette.Entries[0];
                 // Slow
 
+
+                
                 if (!rotateImageLegacyMode)
                 {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg);
-                    if (rotateImg != 0)
-                    {
-                        if (frame.Width > frame.Height)
-                        {
-                            frame.Height = frame.Width;
-                        }
-                        else
-                        {
-                            frame.Width = frame.Height;
-                        }
-                    }
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, name);
+                    //if (rotateImg != 0)
+                    //{
+                    //    if (frame.Width > frame.Height) frame.Height = frame.Width;
+                    //   else frame.Width = frame.Height;
+                    //}
                 }
                 else
                 {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour);
-                    if (rotateImg != 0)
-                    {
-                        map = RotateImage(map, rotateImg, colour);
-                        frame.Height = frame.Width + frame.Height + 64;
-                        frame.Width = frame.Height + frame.Width + 32;
-                    }
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, 0, name);
+                    //if (rotateImg != 0)
+                    //{
+                    //    map = RotateImage(map, rotateImg, colour);
+                    //    frame.Height = frame.Width + frame.Height + 64;
+                    //    frame.Width = frame.Height + frame.Width + 32;
+                    //}
                 }
-                RemoveColourImage(map, colour, frame.Width, frame.Height);
+                
+                RemoveColourImage(map, colour, map.Width, map.Height);
 
                 Texture texture = null;
-                if (loadImageToDX)
-                {
-                    texture = TextureCreator.FromBitmap(d._device, map);
-                }
+                if (loadImageToDX) texture = TextureCreator.FromBitmap(d._device, map);
                 var editorFrame = new EditorEntity_ini.EditorAnimation.EditorFrame()
                 {
                     Texture = texture,
                     Frame = frame,
-                    Entry = rsdkAnim.Animations[AnimId]
+                    Entry = rsdkAnim.Animations[AnimId],
+                    ImageWidth = map.Size.Width,
+                    ImageHeight = map.Size.Height
+                    
+                    
                 };
-                if (loadImageToDX == false) {
-                    editorFrame._Bitmap = map;
-                }
-
+                if (loadImageToDX == false) editorFrame._Bitmap = map;
                 anim.Frames.Add(editorFrame);
-                if (frameId != -1)
-                    break;
+                if (frameId != -1) break;
             }
             anim.ImageLoaded = true;
-            if (loadImageToDX)
-                anim.Ready = true;
+            if (loadImageToDX) anim.Ready = true;
             Working = false;
             return anim;
 
@@ -638,35 +595,45 @@ namespace ManiacEditor
             return Tuple.Create(path2, dataDirectory);
         }
 
-        public static Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0)
+        public static Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0, string name = "example")
         {
             Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
+            using (Graphics g = Graphics.FromImage(bmp2)) g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+            if (fliph && flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+            else if (fliph) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            else if (flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            if (rotateImg != 0) bmp2 = RotateImage(bmp2, rotateImg, colour);
 
-            using (Graphics gg = Graphics.FromImage(bmp2))
-                gg.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-            if (fliph && flipv)
-                bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-            else if (fliph)
-                bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            else if (flipv)
-                bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            if (rotateImg != 0)
-            {
-                bmp2 = RotateImage(bmp2, rotateImg, colour);
-
+            int size = 0;
+            int diffrence = 0;
+            int sizeW = 0;
+            int sizeH = 0;
+            if (bmp2.Size.Width > bmp2.Size.Height) {
+                size = bmp2.Size.Width * 2;
+                diffrence = bmp2.Size.Width - bmp2.Size.Height;
+                sizeH = size - diffrence*2;
+                sizeW = size;
+            } 
+            else {
+                size = bmp2.Size.Height * 2;
+                diffrence = bmp2.Size.Height - bmp2.Size.Width;
+                sizeH = size;
+                sizeW = size - diffrence*2;
             }
 
 
-            int size = ((section.Width > section.Height ? section.Width : section.Height) / 64) * 64;
-            Bitmap bmp = new Bitmap(1024, 1024);
+
+            // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have.      
+            Bitmap bmp = new Bitmap(sizeW, sizeH);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+                g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);               
             }
             bmp2.Dispose();
-
+            bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + ".gif");
             return bmp;
+
         }
 
         public static Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
@@ -676,21 +643,13 @@ namespace ManiacEditor
             {
                 img.MakeTransparent(colour);
                 MagickImage image = new MagickImage(img);
-
                 image.RePage();
-
-
                 image.BackgroundColor =  SystemColor.Transparent;
                 image.Interpolate = PixelInterpolateMethod.Nearest;
-
                 image.Rotate(rotationAngle);
-
-                image.RePage();
-
+                image.RePage();               
                 Bitmap bmp = image.ToBitmap();
-
-                image.Dispose();
-
+                image.Dispose();            
                 return bmp;
             }
             else
@@ -742,14 +701,7 @@ namespace ManiacEditor
 
         public static Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour, int width, int height)
         {
-            for (int x = 0; x < width; ++x)
-            {
-                for (int y = 0; y < height; ++y)
-                {
-                    if (source.GetPixel(x, y) == colour)
-                        source.SetPixel(x, y, System.Drawing.Color.Transparent);
-                }
-            }
+            source.MakeTransparent(colour);
             return source;
         }
 
@@ -846,6 +798,8 @@ namespace ManiacEditor
                 public Animation.Frame Frame;
                 public Animation.AnimationEntry Entry;
                 public Bitmap _Bitmap;
+                public int ImageWidth;
+                public int ImageHeight;
             }
         }
 

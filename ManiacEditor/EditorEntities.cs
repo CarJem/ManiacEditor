@@ -375,8 +375,16 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-                entity.layerPriority = prority;
-                entity.Draw(d, entities, entity);
+                if (entity.filteredOut && !Editor.isPreRending)
+                {
+                    //Do Nothing
+                }
+                else
+                {
+                    entity.layerPriority = prority;
+                    entity.Draw(d, entities, entity);
+                }
+
             }
 
 

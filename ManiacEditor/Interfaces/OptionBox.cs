@@ -643,5 +643,35 @@ namespace ManiacEditor
 
 
         }
+
+        private void checkBox24_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox25_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox11_CheckedChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox50_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox48_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox35_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

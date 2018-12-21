@@ -210,6 +210,21 @@ namespace ManiacEditor
         // allow derived types to override the draw
         public virtual void Draw(DevicePanel d)
         {
+            bool validPlane = false;
+
+            if (Properties.Settings.Default.PrioritizedObjectRendering)
+            {
+                if (layerPriority != 0)
+                {
+                    validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
+                }
+                else
+                {
+                    validPlane = true;
+                }
+                if (validPlane == false && !Editor.Instance.IsEntitiesEdit()) return;
+            }
+
             bool skipRenderforx86 = false;
             if (entity.Object.Name.Name == "Player" && !Editor.Instance.playerObjectPosition.Contains(entity))
             {
@@ -273,20 +288,6 @@ namespace ManiacEditor
             bool rotate = false;
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
-            bool validPlane = false;
-
-            if (Properties.Settings.Default.PrioritizedObjectRendering)
-            {
-                if (layerPriority != 0)
-                {
-                    validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
-                }
-                else
-                {
-                    validPlane = true;
-                }
-                if (validPlane == false && !Editor.Instance.IsEntitiesEdit()) return;
-            }
 
 
 

@@ -183,7 +183,7 @@ namespace ManiacEditor.Entity_Renders
                             position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                         }
 
-                        if (childCount != 0)
+                        if (childCount != 0 && Editor.entities.entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
@@ -197,7 +197,7 @@ namespace ManiacEditor.Entity_Renders
                                 }
                                 catch
                                 {
-
+                                    break;
                                 }
 
                             }
@@ -248,7 +248,7 @@ namespace ManiacEditor.Entity_Renders
                             }
                         }
 
-                        if (childCount != 0)
+                        if (childCount != 0 && Editor.entities.entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
@@ -306,7 +306,7 @@ namespace ManiacEditor.Entity_Renders
                                     d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.CenterX, linePoints[1] + frame.Frame.CenterY,
                                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                                    if (childCount != 0)
+                                    if (childCount != 0 && Editor.entities.entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
                                     {
                                         previousChildCount = childCount;
                                         for (int z = 0; z < childCount; z++)

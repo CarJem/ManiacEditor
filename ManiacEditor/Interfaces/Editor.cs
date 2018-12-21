@@ -4545,7 +4545,7 @@ Error: {ex.Message}");
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0 && ShowEntities.Checked)
                 {
                     entities.DrawPriority(GraphicPanel, 0);
                     entities.DrawPriority(GraphicPanel, 1);
@@ -4556,7 +4556,7 @@ Error: {ex.Message}");
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0 && ShowEntities.Checked)
                 {
                     entities.DrawPriority(GraphicPanel, 2);
                     entities.DrawPriority(GraphicPanel, 3);
