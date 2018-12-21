@@ -127,7 +127,6 @@ namespace ManiacEditor
 
 
         public static Animation rsdkAnim;
-        public static bool rotateImageLegacyMode = false;
 
         //For Drawing/Saving Tile Platforms
 
@@ -145,15 +144,15 @@ namespace ManiacEditor
             var val = AnimsToLoad[0];
             if (val.anim == null)
             {
-                string key = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}";
+                string key = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}-{val.legacyRotation}";
                 if (!Animations.ContainsKey(key))
                 {
                     if (!Working)
                     {
                         try
                         {                           
-                            LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, val.rotateImg, false);
-                            entity.uniqueKey = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}";
+                            LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, val.rotateImg, false, val.legacyRotation);
+                            entity.uniqueKey = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}-{val.legacyRotation}";
                         }
                         catch (Exception)
                         {
@@ -206,9 +205,9 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public static EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0)
+        public static EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool legacyRotation = false)
         {
-            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}";
+            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotation}";
             if (EditorEntity_ini.Animations.ContainsKey(key))
             {
                 if (EditorEntity_ini.Animations[key].Ready)
@@ -228,7 +227,8 @@ namespace ManiacEditor
                 fliph = fliph,
                 flipv = flipv,
                 rotate = rotate,
-                rotateImg = rotateImg
+                rotateImg = rotateImg,
+                legacyRotation = legacyRotation
             };
             EditorEntity_ini.AnimsToLoad.Add(entry);
             return null;
@@ -245,9 +245,9 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public static EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg, bool loadImageToDX = true)
+        public static EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg, bool loadImageToDX = true, bool legacyRotate = true)
         {
-            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}";
+            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
             var anim = new EditorEntity_ini.EditorAnimation();
             if (EditorEntity_ini.Animations.ContainsKey(key))
             {   
@@ -340,31 +340,24 @@ namespace ManiacEditor
                 // Slow
 
 
-                
-                if (!rotateImageLegacyMode)
+                map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
+                if (rotateImg != 0 && legacyRotate)
                 {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, name);
-                    //if (rotateImg != 0)
-                    //{
-                    //    if (frame.Width > frame.Height) frame.Height = frame.Width;
-                    //   else frame.Width = frame.Height;
-                    //}
+                    map = RotateImageLegacy(map, rotateImg, colour);
+                    frame.Height = frame.Width + frame.Height + 64;
+                    frame.Width = frame.Height + frame.Width + 32;
                 }
-                else
-                {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, 0, name);
-                    //if (rotateImg != 0)
-                    //{
-                    //    map = RotateImage(map, rotateImg, colour);
-                    //    frame.Height = frame.Width + frame.Height + 64;
-                    //    frame.Width = frame.Height + frame.Width + 32;
-                    //}
-                }
-                
+
+
+
                 RemoveColourImage(map, colour, map.Width, map.Height);
 
                 Texture texture = null;
-                if (loadImageToDX) texture = TextureCreator.FromBitmap(d._device, map);
+                if (loadImageToDX)
+                {
+                    texture = TextureCreator.FromBitmap(d._device, map);
+                }
+                
                 var editorFrame = new EditorEntity_ini.EditorAnimation.EditorFrame()
                 {
                     Texture = texture,
@@ -595,43 +588,34 @@ namespace ManiacEditor
             return Tuple.Create(path2, dataDirectory);
         }
 
-        public static Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0, string name = "example")
+        public static Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0, bool rotate = false, bool legacyRotate = false)
         {
             Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
             using (Graphics g = Graphics.FromImage(bmp2)) g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
             if (fliph && flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
             else if (fliph) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
             else if (flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            if (rotateImg != 0) bmp2 = RotateImage(bmp2, rotateImg, colour);
-
-
-            int size = 0;
-            int diffrence = 0;
-            int sizeW = 0;
-            int sizeH = 0;
-            if (bmp2.Size.Width > bmp2.Size.Height) {
-                size = bmp2.Size.Width * 2;
-                diffrence = bmp2.Size.Width - bmp2.Size.Height;
-                sizeH = size - diffrence*2;
-                sizeW = size;
-            } 
-            else {
-                size = bmp2.Size.Height * 2;
-                diffrence = bmp2.Size.Height - bmp2.Size.Width;
-                sizeH = size;
-                sizeW = size - diffrence*2;
-            }
+            if (rotate && !legacyRotate) bmp2 = RotateImage(bmp2, rotateImg, colour);
 
 
 
-            // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have.      
-            Bitmap bmp = new Bitmap(sizeW, sizeH);
+
+            // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have. (UPDATE: Inital Fix to the Problem)
+            var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
+            int factor = 32;
+            int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+            if (newSize == 0) newSize = factor;
+            while (newSize < squareSize) newSize += factor;
+
+            Bitmap bmp = new Bitmap(newSize, newSize);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);               
+                if (rotate && !legacyRotate) g.DrawImage(bmp2, bmp.Width/2 - bmp2.Width/2, bmp.Height/2 - bmp2.Height / 2, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+                else g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+
             }
             bmp2.Dispose();
-            bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + ".gif");
+            //bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + (frameID != -1 ? "_" + frameID : "") + (animID != -1 ? "_" + animID : "") + ".gif");
             return bmp;
 
         }
@@ -639,64 +623,62 @@ namespace ManiacEditor
         public static Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
         {
             // I don't know who though it was a good idea to disable this, but it is essential for rotating textures
-            if (!rotateImageLegacyMode)
+            img.MakeTransparent(colour);
+            MagickImage image = new MagickImage(img);
+            image.RePage();
+            image.BackgroundColor =  SystemColor.Transparent;
+            image.Interpolate = PixelInterpolateMethod.Nearest;
+            image.Rotate(rotationAngle);
+            image.RePage();               
+            Bitmap bmp = image.ToBitmap();
+            image.Dispose();            
+            return bmp;
+            
+        }
+
+        public static Bitmap RotateImageLegacy(Bitmap img, double rotationAngle, SystemColor colour)
+        {
+            // Get a reasonable size
+            int width;
+            int height;
+            int xDiffrence = img.Width - img.Height;
+            int yDiffrence = img.Height - img.Width;
+            if (xDiffrence < 0)
             {
-                img.MakeTransparent(colour);
-                MagickImage image = new MagickImage(img);
-                image.RePage();
-                image.BackgroundColor =  SystemColor.Transparent;
-                image.Interpolate = PixelInterpolateMethod.Nearest;
-                image.Rotate(rotationAngle);
-                image.RePage();               
-                Bitmap bmp = image.ToBitmap();
-                image.Dispose();            
-                return bmp;
+                xDiffrence = -xDiffrence;
             }
-            else
+            if (yDiffrence < 0)
             {
-
-                // Get a reasonable size
-                int width;
-                int height;
-                int xDiffrence = img.Width - img.Height;
-                int yDiffrence = img.Height - img.Width;
-                if (xDiffrence < 0)
-                {
-                    xDiffrence = -xDiffrence;
-                }
-                if (yDiffrence < 0)
-                {
-                    yDiffrence = -yDiffrence;
-                }
-                width = img.Width + xDiffrence;
-                height = img.Height + yDiffrence;
-
-                float pointX = img.Width / 16;
-                float pointY = img.Height / 16;
-
-                //create an empty Bitmap image 
-                Bitmap bmp = new Bitmap(width, height);
-
-                using (Graphics gfx = Graphics.FromImage(bmp))
-                {
-                    //set the point system origin to the center of our image
-                    gfx.TranslateTransform(pointX, pointY);
-
-                    //now rotate the image
-                    gfx.RotateTransform((float)rotationAngle);
-
-                    //move the point system origin back to 0,0
-                    gfx.TranslateTransform(-pointX, -pointY);
-
-                    //set the InterpolationMode to HighQualityBicubic so to ensure a high
-                    //quality image once it is transformed to the specified size
-                    gfx.InterpolationMode = InterpolationMode.NearestNeighbor;
-
-                    //draw our new image onto the graphics object with its center on the center of rotation
-                    gfx.DrawImage(img, new PointF(pointX, pointY));
-                }
-                return bmp;
+                yDiffrence = -yDiffrence;
             }
+            width = img.Width + xDiffrence;
+            height = img.Height + yDiffrence;
+
+            float pointX = img.Width / 16;
+            float pointY = img.Height / 16;
+
+            //create an empty Bitmap image 
+            Bitmap bmp = new Bitmap(width, height);
+
+            using (Graphics gfx = Graphics.FromImage(bmp))
+            {
+                //set the point system origin to the center of our image
+                gfx.TranslateTransform(pointX, pointY);
+
+                //now rotate the image
+                gfx.RotateTransform((float)rotationAngle);
+
+                //move the point system origin back to 0,0
+                gfx.TranslateTransform(-pointX, -pointY);
+
+                //set the InterpolationMode to HighQualityBicubic so to ensure a high
+                //quality image once it is transformed to the specified size
+                gfx.InterpolationMode = InterpolationMode.NearestNeighbor;
+
+                //draw our new image onto the graphics object with its center on the center of rotation
+                gfx.DrawImage(img, new PointF(pointX, pointY));
+            }
+            return bmp;
         }
 
         public static Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour, int width, int height)
@@ -818,7 +800,7 @@ namespace ManiacEditor
             public string name;
             public DevicePanel d;
             public int AnimId, frameId;
-            public bool fliph, flipv, rotate;
+            public bool fliph, flipv, rotate, legacyRotation;
             public int rotateImg;
             public EditorAnimation anim;
         }

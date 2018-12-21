@@ -125,9 +125,9 @@ namespace ManiacEditor
                     CreateFlags.HardwareVertexProcessing)
                 {
                     createFlags |= CreateFlags.PureDevice;
-                } 
+                }
 
-     
+
                 _device = new Device(direct3d, 0, DeviceType.Hardware, this.Handle, createFlags, presentParams);
                 _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
@@ -537,10 +537,10 @@ namespace ManiacEditor
                     _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                     _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                 }
-                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
+                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack | SpriteFlags.DoNotModifyRenderState);
 
-            // Render of scene here
-            if (OnRender != null && !deviceLost)
+                // Render of scene here
+                if (OnRender != null && !deviceLost)
             {
                 OnRender(this, new DeviceEventArgs(_device));
             }
@@ -700,7 +700,7 @@ namespace ManiacEditor
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
-            DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3((float)(x - (screen.X / zoom)), (float)(y - (screen.Y / zoom)), 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
+            DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
         }
 
         public void DrawCircle(int x, int y, Color color)
@@ -711,18 +711,6 @@ namespace ManiacEditor
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
             DrawTexture(tcircle, new Rectangle(0, 0, 9, 9), new Vector3(0, 0, 0), new Vector3(x - 4 - (int)(screen.X / zoom), y - 4 - (int)(screen.Y / zoom), 0), color);
-        }
-
-        public void DrawBitmap(Texture image, int x, int y, Rectangle size, bool selected, int transparency)
-        {
-            if (!IsObjectOnScreen(x, y, size.Width, size.Height)) return;
-
-            Rectangle screen = _parent.GetScreen();
-            double zoom = _parent.GetZoom();
-            if (zoom == 1.0)
-                DrawTexture(image, size, new Vector3(), new Vector3(x - screen.X, y - screen.Y, 0), (selected) ? Color.BlueViolet : ColorsCaching.Get(transparency));
-            else
-                DrawTexture(image, size, new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : ColorsCaching.Get(transparency));
         }
 
         public void DrawEmptyCircle(int x, int y, Color color)

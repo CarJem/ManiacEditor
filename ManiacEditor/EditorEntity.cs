@@ -35,6 +35,8 @@ namespace ManiacEditor
 
         public bool Selected;
 
+        public bool rotateImageLegacyMode = false;
+
         //public static EditorEntity Instance;
         public EditorAnimations EditorAnimations;
         public AttributeValidater AttributeValidater;
