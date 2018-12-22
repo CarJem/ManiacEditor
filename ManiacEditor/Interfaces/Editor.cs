@@ -36,6 +36,7 @@ namespace ManiacEditor
         bool startDragged;
         int lastX, lastY, draggedX, draggedY;
         int ShiftX = 0, ShiftY = 0, ScreenWidth, ScreenHeight;
+        int CustomX = 0, CustomY = 0;
         public int select_x1, select_x2, select_y1, select_y2;
         int ClickedX = -1, ClickedY = -1;
         bool draggingSelection; //Determines if we are dragging a selection
@@ -1064,6 +1065,16 @@ namespace ManiacEditor
 
         private void UpdateControls(bool stageLoad = false)
         {
+            if (mySettings.EntityFreeCam)
+            {
+                vScrollBar1.Enabled = false;
+                hScrollBar1.Enabled = false;
+            }
+            else
+            {
+                vScrollBar1.Enabled = true;
+                hScrollBar1.Enabled = true;
+            }
             SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
         }
 
@@ -1647,13 +1658,18 @@ namespace ManiacEditor
                 int x = xMove / 10 + position.X;
                 int y = yMove / 10 + position.Y;
 
+                CustomX += xMove / 10;
+                CustomY += yMove / 10;
+
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
                 if (x > hScrollBar1.Maximum - hScrollBar1.LargeChange) x = hScrollBar1.Maximum - hScrollBar1.LargeChange;
                 if (y > vScrollBar1.Maximum - vScrollBar1.LargeChange) y = vScrollBar1.Maximum - vScrollBar1.LargeChange;
-
+                
+                
                 if (x != position.X || y != position.Y)
                 {
+
                     if (vScrollBar1.Visible)
                     {
                         vScrollBar1.Value = y;
@@ -1662,6 +1678,7 @@ namespace ManiacEditor
                     {
                         hScrollBar1.Value = x;
                     }
+                    
                    OnMouseMoveEvent();
         
                 }
@@ -2170,6 +2187,12 @@ namespace ManiacEditor
 
                     }
                 }
+                if (mySettings.EntityFreeCam)
+                {
+                    if (mySettings.ScrollLockDirection) CustomX -= e.Delta;
+                    else CustomY -= e.Delta;
+
+                }
 
             }
         }
@@ -2449,6 +2472,7 @@ namespace ManiacEditor
             if (EditorScene != null)
                 SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 
+            
             if (hScrollBar1.Visible)
             {
                 ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Zoom - zoom_point.X);
@@ -2461,6 +2485,7 @@ namespace ManiacEditor
                 ShiftY = Math.Min(vScrollBar1.Maximum - vScrollBar1.LargeChange, Math.Max(0, ShiftY));
                 vScrollBar1.Value = ShiftY;
             }
+            
 
             zooming = false;
             //if (mySettings.AllowMoreRenderUpdates)
@@ -2533,20 +2558,33 @@ namespace ManiacEditor
                 ResizeGraphicPanel(GraphicPanel.Width * 2, GraphicPanel.Height);
             while (ScreenHeight > GraphicPanel.Height)
                 ResizeGraphicPanel(GraphicPanel.Width, GraphicPanel.Height * 2);
+                
         }
 
         private void SetViewSize(int width = 0, int height = 0)
         {
-            vScrollBar1.Maximum = height;
-            hScrollBar1.Maximum = width;
+            if (mySettings.EntityFreeCam)
+            {
+                width = 10000000;
+                height = 10000000;
+            }
+
+            if (!mySettings.EntityFreeCam)
+            {
+                vScrollBar1.Maximum = height;
+                hScrollBar1.Maximum = width;
+            }
 
             GraphicPanel.DrawWidth = Math.Min(width, GraphicPanel.Width);
             GraphicPanel.DrawHeight = Math.Min(height, GraphicPanel.Height);
 
             Form1_Resize(null, null);
 
-            hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
-            vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
+            if (!mySettings.EntityFreeCam)
+            {
+                hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
+                vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
+            }
         }
 
         private void ResetViewSize()
@@ -2556,6 +2594,13 @@ namespace ManiacEditor
 
         private void ResizeGraphicPanel(int width = 0, int height = 0)
         {
+            if (mySettings.EntityFreeCam)
+            {
+                width = 10000000;
+                height = 10000000;
+            }
+
+
             GraphicPanel.Width = width;
             GraphicPanel.Height = height;
 
@@ -4663,13 +4708,13 @@ Error: {ex.Message}");
                 ReloadToolStripButton_Click(null, null);
             }
 
-                /*
-                if (EditorScene != null)
-                {
-                    Background.DrawSnow(GraphicPanel);
-                }
-                */
+            /*
+            if (EditorScene != null)
+            {
+                Background.DrawSnow(GraphicPanel);
             }
+            */
+        }
 
         public void DrawLayers(int drawOrder = 0)
         {
@@ -4756,6 +4801,7 @@ Error: {ex.Message}");
             {
                 ReloadToolStripButton_Click(sender, e);
             }
+            
         }
 
         private void MapEditor_KeyDown(object sender, KeyEventArgs e)
@@ -5112,6 +5158,23 @@ Error: {ex.Message}");
             }
         }
 
+        public void MoveCameraFreely(object sender, KeyEventArgs e)
+        {
+            hScrollBar1.MaximumSize = new Size(100000000, 100000000);
+            vScrollBar1.MaximumSize = new Size(100000000, 100000000);
+            if (CtrlPressed() && ShiftPressed())
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.Up: CustomY -= 5; break;
+                    case Keys.Down: CustomY += 5; break;
+                    case Keys.Left: CustomX -= 5; break;
+                    case Keys.Right: CustomX += 5; break;
+                }
+            }
+
+        }
+
         #endregion
 
         #region Asset Reloading
@@ -5458,6 +5521,7 @@ Error: {ex.Message}");
 
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
         {
+            
             if (forceResize)
             {
                 forceResize = false;
@@ -5465,12 +5529,14 @@ Error: {ex.Message}");
                 GoToPosition(forceResizeGoToX, forceResizeGoToY);
                 //SetZoomLevel(mySettings.DevForceRestartZoomLevel, new Point(forceResizeGoToX, forceResizeGoToY));
             }
+            
             ShiftY = (sender as VScrollBar).Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
             if (draggingSelection)
             {
                 OnMouseMoveEvent();
             }
+            
         }
 
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)
@@ -5482,12 +5548,14 @@ Error: {ex.Message}");
                 GoToPosition(forceResizeGoToX, forceResizeGoToY);
                 SetZoomLevel(mySettings.DevForceRestartZoomLevel, new Point(forceResizeGoToX, forceResizeGoToY));
             }
+            
             ShiftX = hScrollBar1.Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
             if (draggingSelection)
             {
                 OnMouseMoveEvent();
             }
+            
         }
 
         private void vScrollBar1_Entered(object sender, EventArgs e)
@@ -6215,8 +6283,9 @@ Error: {ex.Message}");
         #region GetScreen + Get Zoom
 
         public Rectangle GetScreen()
-        {
-            return new Rectangle(ShiftX, ShiftY, viewPanel.Width, viewPanel.Height);
+        {   
+            if (mySettings.EntityFreeCam) return new Rectangle(CustomX, CustomY, viewPanel.Width, viewPanel.Height);
+            else return new Rectangle(ShiftX, ShiftY, viewPanel.Width, viewPanel.Height);
         }
 
         public double GetZoom()

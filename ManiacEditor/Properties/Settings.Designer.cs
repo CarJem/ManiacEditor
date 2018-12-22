@@ -1593,5 +1593,17 @@ namespace ManiacEditor.Properties {
                 this["ModFolderCustomNames"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EntityFreeCam {
+            get {
+                return ((bool)(this["EntityFreeCam"]));
+            }
+            set {
+                this["EntityFreeCam"] = value;
+            }
+        }
     }
 }

@@ -106,6 +106,10 @@ namespace ManiacEditor
             {
                 Editor.EditorRedo();
             }
+            /*else if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Left || e.KeyData == Keys.Right)
+            {
+                Editor.MoveCameraFreely(sender, e);
+            }*/
             // Editing Key Shortcuts
             if (Editor.IsEditing())
             {

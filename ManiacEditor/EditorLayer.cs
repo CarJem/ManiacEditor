@@ -1082,7 +1082,8 @@ namespace ManiacEditor
 
         public void Draw(DevicePanel d)
         {
-
+            if (!Settings.mySettings.EntityFreeCam)
+            {
                 int Transperncy;
 
                 if (Editor.Instance.EditLayer != null && Editor.Instance.EditLayer != this)
@@ -1093,6 +1094,7 @@ namespace ManiacEditor
                     Transperncy = 0xFF;
 
                 Rectangle screen = d.GetScreen();
+
 
                 int start_x = screen.X / (TILES_CHUNK_SIZE * TILE_SIZE);
                 int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures[0].Length);
@@ -1105,7 +1107,7 @@ namespace ManiacEditor
                     {
                         Rectangle rect = GetTilesChunkArea(x, y);
 
-                        
+
                         if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
                         {
                             // TODO: If the full chunk isDrawTilesChunk selected, cache it
@@ -1117,12 +1119,30 @@ namespace ManiacEditor
                             d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * TILE_SIZE, rect.Y * TILE_SIZE, rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, false, Transperncy);
                         }
                         DrawSelectedTiles(d, x, y, Transperncy);
-                        
+
 
                     }
                 }
-            
+            }
+            else
+            {
+                Rectangle screen = d.GetScreen();
 
+                int start_x = 0;
+                int end_x = Editor.Instance.SceneWidth;
+                int start_y = 0;
+                int end_y = Editor.Instance.SceneHeight;
+
+                d.DrawLine(start_x, start_y, end_x, start_y, System.Drawing.Color.White); //Top
+                d.DrawLine(start_x, end_y, end_x, end_y, System.Drawing.Color.White); //Bottom
+                d.DrawLine(start_x, start_y, start_x, end_y, System.Drawing.Color.White); //Left
+                d.DrawLine(end_x, start_y, end_x, end_y, System.Drawing.Color.White); //Left
+
+
+            }
+
+            
+            
         }
 
         /// <summary>

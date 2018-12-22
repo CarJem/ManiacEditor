@@ -302,6 +302,7 @@
             this.checkBox30 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel12 = new System.Windows.Forms.Panel();
+            this.label36 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -321,7 +322,7 @@
             this.checkBox34 = new System.Windows.Forms.CheckBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.label36 = new System.Windows.Forms.Label();
+            this.checkBox51 = new System.Windows.Forms.CheckBox();
             this.tabPage4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -370,6 +371,7 @@
             this.tabPage4.Size = new System.Drawing.Size(961, 547);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Other";
+            this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
             // 
             // panel15
             // 
@@ -458,6 +460,7 @@
             // panel10
             // 
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel10.Controls.Add(this.checkBox51);
             this.panel10.Controls.Add(this.checkBox28);
             this.panel10.Controls.Add(this.checkBox19);
             this.panel10.Controls.Add(this.label12);
@@ -465,7 +468,7 @@
             this.panel10.Controls.Add(this.checkBox2);
             this.panel10.Location = new System.Drawing.Point(8, 93);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(183, 240);
+            this.panel10.Size = new System.Drawing.Size(183, 310);
             this.panel10.TabIndex = 108;
             // 
             // checkBox28
@@ -567,9 +570,9 @@
             this.panel11.Controls.Add(this.checkBox33);
             this.panel11.Controls.Add(this.label22);
             this.panel11.Controls.Add(this.RPCCheckBox);
-            this.panel11.Location = new System.Drawing.Point(7, 339);
+            this.panel11.Location = new System.Drawing.Point(7, 409);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(184, 199);
+            this.panel11.Size = new System.Drawing.Size(184, 129);
             this.panel11.TabIndex = 104;
             // 
             // checkBox33
@@ -3725,6 +3728,19 @@
             this.panel12.Size = new System.Drawing.Size(315, 184);
             this.panel12.TabIndex = 104;
             // 
+            // label36
+            // 
+            this.label36.BackColor = System.Drawing.Color.Transparent;
+            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label36.ForeColor = System.Drawing.Color.Red;
+            this.label36.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label36.Location = new System.Drawing.Point(149, 37);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(161, 64);
+            this.label36.TabIndex = 76;
+            this.label36.Text = "RED Labeled Settings are leaving soon! Recommended that you do not use them!\r\n";
+            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // label26
             // 
             this.label26.BackColor = System.Drawing.Color.Transparent;
@@ -4016,18 +4032,20 @@
             this.button6.Text = "&OK";
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // label36
+            // checkBox51
             // 
-            this.label36.BackColor = System.Drawing.Color.Transparent;
-            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label36.ForeColor = System.Drawing.Color.Red;
-            this.label36.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label36.Location = new System.Drawing.Point(149, 37);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(161, 64);
-            this.label36.TabIndex = 76;
-            this.label36.Text = "RED Labeled Settings are leaving soon! Recommended that you do not use them!\r\n";
-            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox51.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox51.Checked = global::ManiacEditor.Properties.Settings.Default.EntityFreeCam;
+            this.checkBox51.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EntityFreeCam", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox51.Location = new System.Drawing.Point(16, 233);
+            this.checkBox51.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox51.Name = "checkBox51";
+            this.checkBox51.Size = new System.Drawing.Size(152, 70);
+            this.checkBox51.TabIndex = 62;
+            this.checkBox51.Text = "Entity FreeCam Mode\r\n(Disables Layer Viewing)\r\n(Allows You to see outside of the " +
+    "normal bounds)\r\n\r\n";
+            this.checkBox51.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox51.UseVisualStyleBackColor = false;
             // 
             // OptionBox
             // 
@@ -4386,5 +4404,6 @@
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.CheckBox checkBox51;
     }
 }
