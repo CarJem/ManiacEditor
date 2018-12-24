@@ -270,8 +270,6 @@ namespace ManiacEditor
         const int SW_SHOW = 5;
         #endregion
 
-        #endregion
-
         
         public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0)
         {
@@ -6601,7 +6599,6 @@ Error: {ex.Message}");
         private void assetResetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int CurrentScene = 0x00E48758;
-            int ActState = 0x00E48777;
             int GameState = 0x00E48776;
             int timer = 0;
             IntPtr processHandle = Editor.GameMemory.ProcessHandle;
@@ -6868,3 +6865,4 @@ Error: {ex.Message}");
 
     }
 }
+#endregion

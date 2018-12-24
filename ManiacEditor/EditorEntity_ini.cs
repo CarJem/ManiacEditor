@@ -465,9 +465,7 @@ namespace ManiacEditor
         public static Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
         {
             string path, path2;
-            string altPath = "";
             string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : Editor.DataDirectory);
-            string altdataDirectory = "";
             if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
             {
                 switch (name)
