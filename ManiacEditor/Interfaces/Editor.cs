@@ -290,19 +290,6 @@ namespace ManiacEditor
 
             }
 
-            #if !DEBUG
-            // Enable our Crash Window if Compiled in Release
-            if (!Debugger.IsAttached)
-            {
-                // Redirects all Unhandle Exceptions to Application.ThreadException
-                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-                // Adds our Event into the Application.ThreadException handler
-                //Application.ThreadException += new ThreadExceptionEventHandler(ExceptionWindow.UnhandledExceptionEventHandler);
-                // Incase anything else throws an exception it will go to our handler
-                //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(ExceptionWindow.UnhandledExceptionEventHandler);
-            }
-            #endif
-
 
             RefreshCollisionColours();
 
