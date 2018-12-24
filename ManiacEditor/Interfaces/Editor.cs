@@ -270,7 +270,7 @@ namespace ManiacEditor
         const int SW_SHOW = 5;
         #endregion
 
-        
+        #endregion
         public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0)
         {
             SystemEvents.PowerModeChanged += CheckDeviceState;
@@ -6852,4 +6852,3 @@ Error: {ex.Message}");
 
     }
 }
-#endregion
