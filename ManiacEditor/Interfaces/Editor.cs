@@ -25,6 +25,7 @@ using ManiacEditor.Entity_Renders;
 using IWshRuntimeLibrary;
 using File = System.IO.File;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 namespace ManiacEditor
 {
@@ -78,7 +79,7 @@ namespace ManiacEditor
         bool forceResize = false; //For Opening a Scene Forcefully
         int forceResizeGoToX = 0; //For Opening a Scene Forcefully and then going to the specified X
         int forceResizeGoToY = 0; //For Opening a Scene Forcefullyand then going to the specified Y
-        int SelectedTileID = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
+        int SelectedTileID = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel       
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -141,6 +142,19 @@ namespace ManiacEditor
         public static ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public static bool GameRunning = false; //Tells us if the game is running
         public static string GamePath = ""; //Tells us where the game is located
+        public int P1_X = 0;
+        public int P1_Y = 0;
+        public int P2_X = 0;
+        public int P2_Y = 0;
+        public int P3_X = 0;
+        public int P3_Y = 0;
+        public int P4_X = 0;
+        public int P4_Y = 0;
+        public int SP_X = 0;
+        public int SP_Y = 0;
+        public int selectedPlayer = 0;
+        public bool playerSelected = false;
+        public bool checkpointSelected = false;
 
         //Used to store information to Clipboards
         public Dictionary<Point, ushort> TilesClipboard;
@@ -176,6 +190,7 @@ namespace ManiacEditor
         private EntitiesToolbar entitiesToolbar = null;
         public EditorUpdater Updater = new EditorUpdater();
         public TilesConfig TilesConfig;
+        public EditorInGame EditorGame = new EditorInGame();
 
         //Tile Maniac Instance
         public TileManiac.Mainform mainform = new Mainform();
@@ -239,6 +254,9 @@ namespace ManiacEditor
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool AllocConsole();
 
+        [DllImport("kernel32.dll")]
+        public static extern bool ReadProcessMemory(int hProcess, int lpBaseAddress, byte[] buffer, int size, int lpNumberOfBytesRead);
+
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool AttachConsole(int dwProcessId);
 
@@ -273,6 +291,19 @@ namespace ManiacEditor
             {
 
             }
+
+            #if !DEBUG
+            // Enable our Crash Window if Compiled in Release
+            if (!Debugger.IsAttached)
+            {
+                // Redirects all Unhandle Exceptions to Application.ThreadException
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                // Adds our Event into the Application.ThreadException handler
+                //Application.ThreadException += new ThreadExceptionEventHandler(ExceptionWindow.UnhandledExceptionEventHandler);
+                // Incase anything else throws an exception it will go to our handler
+                //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(ExceptionWindow.UnhandledExceptionEventHandler);
+            }
+            #endif
 
 
             RefreshCollisionColours();
@@ -918,7 +949,7 @@ namespace ManiacEditor
             PointerButton.Enabled = enabled && IsTilesEdit();
             SelectToolButton.Enabled = enabled && IsTilesEdit();
             PlaceTilesButton.Enabled = enabled && IsTilesEdit();
-            InteractionToolButton.Enabled = enabled && IsTilesEdit();
+            InteractionToolButton.Enabled = enabled;
             ChunksToolButton.Enabled = enabled && IsTilesEdit();
 
             ShowGridButton.Enabled = enabled && StageConfig != null;
@@ -1511,8 +1542,22 @@ namespace ManiacEditor
 
         public void FlipEntities(FlipDirection direction)
         {
+            Dictionary<EditorEntity, Point> initalPos = new Dictionary<EditorEntity, Point> ();
+            Dictionary<EditorEntity, Point> postPos = new Dictionary<EditorEntity, Point>();
+            foreach (EditorEntity e in entities.selectedEntities)
+            {
+                initalPos.Add(e, new Point(e.PositionX, e.PositionY));
+            }
             entities.Flip(direction);
             entitiesToolbar.UpdateCurrentEntityProperites();
+            foreach (EditorEntity e in entities.selectedEntities)
+            {
+                postPos.Add(e, new Point(e.PositionX, e.PositionY));
+            }
+            IAction action = new ActionMultipleMoveEntities(initalPos, postPos);
+            undo.Push(action);
+            redo.Clear();
+
         }
 
         public void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1533,6 +1578,7 @@ namespace ManiacEditor
         #endregion
 
         #region Mouse Actions
+
         private void GraphicPanel_OnMouseMove(object sender, MouseEventArgs e)
         {
             
@@ -1541,6 +1587,17 @@ namespace ManiacEditor
                 UpdateRender();
             }
 
+            if (playerSelected)
+            {
+                EditorGame.MovePlayer(new Point(e.X, e.Y), Zoom, selectedPlayer);
+
+            }
+
+            if (checkpointSelected)
+            {
+                Point clicked_point = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+                EditorGame.UpdateCheckpoint(clicked_point, true);
+            }
 
             if (ClickedX != -1)
             {
@@ -1948,6 +2005,16 @@ namespace ManiacEditor
                     }
                 }
 
+                if (playerSelected)
+                {
+                    playerSelected = false;
+                    selectedPlayer = 0;
+                }
+                if (checkpointSelected)
+                {
+                    checkpointSelected = false;
+                }
+
                 if (scrolling)
                 {
                     scrolling = false;
@@ -2041,7 +2108,8 @@ namespace ManiacEditor
                             else if (IsEntitiesEdit())
                             {
                                 entities.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-                            }
+                            }                        
+
                             SetSelectOnlyButtonsState();
                             ClickedX = -1;
                             ClickedY = -1;
@@ -4695,10 +4763,21 @@ Error: {ex.Message}");
             if (showGrid && EditorScene != null)
                 Background.DrawGrid(GraphicPanel);
 
-            //if (Settings.mySettings.AllowAutomaticTextureDisposal)
-            //{
-            //    entities.OptimizeAssets = true;
-            //}
+            if (Editor.GameRunning)
+            {
+                EditorGame.DrawGameElements(GraphicPanel);
+
+                if (playerSelected)
+                {
+                    EditorGame.MovePlayer(new Point(lastX, lastY), Zoom, selectedPlayer);
+                }
+                if (checkpointSelected)
+                {
+                    Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
+                    EditorGame.UpdateCheckpoint(clicked_point);
+                }
+            }
+            
 
             Process proc = Process.GetCurrentProcess();
             long memory = proc.PrivateMemorySize64;
@@ -4848,12 +4927,33 @@ Error: {ex.Message}");
                 Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                 int tile = (ushort)(EditLayer?.GetTileAt(clicked_point_tile) & 0x3ff);
                 SelectedTileID = tile;
-                if (tile >= 1023) editTile0WithTileManiacToolStripMenuItem.Enabled = false;
-                else editTile0WithTileManiacToolStripMenuItem.Enabled = true;
+                editTile0WithTileManiacToolStripMenuItem.Enabled = (tile >= 1023);
+                moveThePlayerToHereToolStripMenuItem.Enabled = GameRunning;
+                setPlayerRespawnToHereToolStripMenuItem.Enabled = GameRunning;
 
                 editTile0WithTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile);
                 contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
             }
+            else if (e.Button == MouseButtons.Right && InteractionToolButton.Checked)
+            {
+                Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+                string tile = "NULL";
+                editTile0WithTileManiacToolStripMenuItem.Enabled = false;
+                moveThePlayerToHereToolStripMenuItem.Enabled = GameRunning;
+                setPlayerRespawnToHereToolStripMenuItem.Enabled = GameRunning;
+                moveThisPlayerToolStripMenuItem.Enabled = GameRunning;
+                moveCheckpointToolStripMenuItem.Enabled = GameRunning;
+
+                editTile0WithTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile);
+                contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
+            }
+
+            //Stuff that Doesn't work yet that I'm not ready to ship
+            setPlayerRespawnToHereToolStripMenuItem.Enabled = false;
+            removeCheckpointToolStripMenuItem.Enabled = false;
+            assetResetToolStripMenuItem.Enabled = false;
+            restartSceneToolStripMenuItem.Enabled = false;
+            moveCheckpointToolStripMenuItem.Enabled = false;
         }
 
         private void viewPanel_Click(object sender, EventArgs e)
@@ -6443,6 +6543,89 @@ Error: {ex.Message}");
 
         #endregion
 
+        #region Game Manipulation Stuff
+
+        private void setPlayerRespawnToHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
+            if (Editor.GameRunning)
+            {
+                EditorGame.UpdateCheckpoint(clicked_point);
+            }
+        }
+
+        private void moveThisPlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
+            if (EditorGame.GetPlayerAt(clicked_point) != -1)
+            {
+                playerSelected = true;
+                selectedPlayer = EditorGame.GetPlayerAt(clicked_point);
+            }
+        }
+
+        private void player1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            playerSelected = true;
+            selectedPlayer = 0;
+        }
+
+        private void player2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            playerSelected = true;
+            selectedPlayer = 1;
+        }
+
+        private void player3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            playerSelected = true;
+            selectedPlayer = 2;
+        }
+
+        private void player4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            playerSelected = true;
+            selectedPlayer = 3;
+        }
+
+        private void moveCheckpointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkpointSelected = true;
+        }
+
+        private void removeCheckpointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditorGame.UpdateCheckpoint(new Point(0, 0), false);
+        }
+
+        private void assetResetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int CurrentScene = 0x00E48758;
+            int ActState = 0x00E48777;
+            int GameState = 0x00E48776;
+            int timer = 0;
+            IntPtr processHandle = Editor.GameMemory.ProcessHandle;
+
+            EditorGame.UpdateCheckpoint(new Point((int)(lastX / Zoom), (int)(lastY / Zoom)));
+
+            byte[] oldScene = EditorGame.ReadMemory(CurrentScene, 1, (int)processHandle);
+            GameMemory.WriteByte(CurrentScene, 2);
+            GameMemory.WriteByte(GameState, 0);
+
+            while (timer <= 100000)
+            {
+                timer++;
+            }
+            GameMemory.WriteByte(CurrentScene, oldScene[0]);
+            GameMemory.WriteByte(GameState, 0);
+        }
+
+        private void restartSceneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
 
         #region Miscellaneous
 
@@ -6476,6 +6659,16 @@ Error: {ex.Message}");
             shortcut.Arguments = launchArguments;
             shortcut.WorkingDirectory = Environment.CurrentDirectory;
             shortcut.Save();
+        }
+
+        private void moveThePlayerToHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Editor.GameRunning)
+            {         
+                int ObjectAddress = 0x85E9A0;
+                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(lastX / Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(lastY / Zoom));
+            }
         }
 
         private void seeStatsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6672,5 +6865,6 @@ Error: {ex.Message}");
 
 
         #endregion
+
     }
 }

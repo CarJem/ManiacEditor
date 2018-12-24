@@ -178,7 +178,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.seperator1 = new System.Windows.Forms.ToolStripSeparator();
             this._levelIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -238,6 +237,7 @@
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.setPlayerRespawnToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveThePlayerToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveThisPlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.New = new System.Windows.Forms.ToolStripButton();
             this.Open = new System.Windows.Forms.ToolStripButton();
@@ -293,6 +293,15 @@
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
+            this.player1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.player2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.player3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.player4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveCheckpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeCheckpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restartSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assetResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1509,30 +1518,6 @@
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
             this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar1_Entered);
             // 
-            // GraphicPanel
-            // 
-            this.GraphicPanel.AllowDrop = true;
-            this.GraphicPanel.AutoSize = true;
-            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
-            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.GraphicPanel.Name = "GraphicPanel";
-            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
-            this.GraphicPanel.TabIndex = 10;
-            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -2080,9 +2065,14 @@
             this.editTile0WithTileManiacToolStripMenuItem,
             this.toolStripSeparator25,
             this.setPlayerRespawnToHereToolStripMenuItem,
-            this.moveThePlayerToHereToolStripMenuItem});
+            this.moveThePlayerToHereToolStripMenuItem,
+            this.moveThisPlayerToolStripMenuItem,
+            this.moveCheckpointToolStripMenuItem,
+            this.removeCheckpointToolStripMenuItem,
+            this.restartSceneToolStripMenuItem,
+            this.assetResetToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 208);
             // 
             // editTile0WithTileManiacToolStripMenuItem
             // 
@@ -2098,17 +2088,28 @@
             // 
             // setPlayerRespawnToHereToolStripMenuItem
             // 
-            this.setPlayerRespawnToHereToolStripMenuItem.Enabled = false;
             this.setPlayerRespawnToHereToolStripMenuItem.Name = "setPlayerRespawnToHereToolStripMenuItem";
             this.setPlayerRespawnToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.setPlayerRespawnToHereToolStripMenuItem.Text = "Set Player Respawn to Here";
+            this.setPlayerRespawnToHereToolStripMenuItem.Click += new System.EventHandler(this.setPlayerRespawnToHereToolStripMenuItem_Click);
             // 
             // moveThePlayerToHereToolStripMenuItem
             // 
-            this.moveThePlayerToHereToolStripMenuItem.Enabled = false;
             this.moveThePlayerToHereToolStripMenuItem.Name = "moveThePlayerToHereToolStripMenuItem";
             this.moveThePlayerToHereToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.moveThePlayerToHereToolStripMenuItem.Text = "Move the Player to Here";
+            this.moveThePlayerToHereToolStripMenuItem.Click += new System.EventHandler(this.moveThePlayerToHereToolStripMenuItem_Click);
+            // 
+            // moveThisPlayerToolStripMenuItem
+            // 
+            this.moveThisPlayerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.player1ToolStripMenuItem,
+            this.player2ToolStripMenuItem,
+            this.player3ToolStripMenuItem,
+            this.player4ToolStripMenuItem});
+            this.moveThisPlayerToolStripMenuItem.Name = "moveThisPlayerToolStripMenuItem";
+            this.moveThisPlayerToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.moveThisPlayerToolStripMenuItem.Text = "Move Player...";
             // 
             // contextMenuStrip2
             // 
@@ -2632,6 +2633,86 @@
             this.toolStripSeparator32.Name = "toolStripSeparator32";
             this.toolStripSeparator32.Size = new System.Drawing.Size(6, 39);
             // 
+            // player1ToolStripMenuItem
+            // 
+            this.player1ToolStripMenuItem.Name = "player1ToolStripMenuItem";
+            this.player1ToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.player1ToolStripMenuItem.Text = "Player 1";
+            this.player1ToolStripMenuItem.Click += new System.EventHandler(this.player1ToolStripMenuItem_Click);
+            // 
+            // player2ToolStripMenuItem
+            // 
+            this.player2ToolStripMenuItem.Name = "player2ToolStripMenuItem";
+            this.player2ToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.player2ToolStripMenuItem.Text = "Player 2";
+            this.player2ToolStripMenuItem.Click += new System.EventHandler(this.player2ToolStripMenuItem_Click);
+            // 
+            // player3ToolStripMenuItem
+            // 
+            this.player3ToolStripMenuItem.Name = "player3ToolStripMenuItem";
+            this.player3ToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.player3ToolStripMenuItem.Text = "Player 3";
+            this.player3ToolStripMenuItem.Click += new System.EventHandler(this.player3ToolStripMenuItem_Click);
+            // 
+            // player4ToolStripMenuItem
+            // 
+            this.player4ToolStripMenuItem.Name = "player4ToolStripMenuItem";
+            this.player4ToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.player4ToolStripMenuItem.Text = "Player 4";
+            this.player4ToolStripMenuItem.Click += new System.EventHandler(this.player4ToolStripMenuItem_Click);
+            // 
+            // moveCheckpointToolStripMenuItem
+            // 
+            this.moveCheckpointToolStripMenuItem.Name = "moveCheckpointToolStripMenuItem";
+            this.moveCheckpointToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.moveCheckpointToolStripMenuItem.Text = "Move Checkpoint";
+            this.moveCheckpointToolStripMenuItem.Click += new System.EventHandler(this.moveCheckpointToolStripMenuItem_Click);
+            // 
+            // removeCheckpointToolStripMenuItem
+            // 
+            this.removeCheckpointToolStripMenuItem.Name = "removeCheckpointToolStripMenuItem";
+            this.removeCheckpointToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.removeCheckpointToolStripMenuItem.Text = "Remove Checkpoint";
+            this.removeCheckpointToolStripMenuItem.Click += new System.EventHandler(this.removeCheckpointToolStripMenuItem_Click);
+            // 
+            // restartSceneToolStripMenuItem
+            // 
+            this.restartSceneToolStripMenuItem.Name = "restartSceneToolStripMenuItem";
+            this.restartSceneToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.restartSceneToolStripMenuItem.Text = "Restart Scene";
+            this.restartSceneToolStripMenuItem.Click += new System.EventHandler(this.restartSceneToolStripMenuItem_Click);
+            // 
+            // assetResetToolStripMenuItem
+            // 
+            this.assetResetToolStripMenuItem.Name = "assetResetToolStripMenuItem";
+            this.assetResetToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.assetResetToolStripMenuItem.Text = "Asset Reset";
+            this.assetResetToolStripMenuItem.Click += new System.EventHandler(this.assetResetToolStripMenuItem_Click);
+            // 
+            // GraphicPanel
+            // 
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
+            this.GraphicPanel.TabIndex = 10;
+            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2945,6 +3026,15 @@
         private System.Windows.Forms.ToolStripMenuItem enableAllButtonsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator32;
+        private System.Windows.Forms.ToolStripMenuItem moveThisPlayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem player1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem player2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem player3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem player4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveCheckpointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeCheckpointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem restartSceneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem assetResetToolStripMenuItem;
     }
 }
 

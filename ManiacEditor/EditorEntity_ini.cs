@@ -262,8 +262,16 @@ namespace ManiacEditor
             var assetInfo = GetAssetPath(assetName, (Editor.ModDataDirectory != "" ? Editor.ModDataDirectory : ""), false, (Editor.ModDataDirectory != "" ? true : false));
 
             string path2 = assetInfo.Item1;
-            string dataFolderLocation = assetInfo.Item2;         
-            if (!File.Exists(path2) || path2 == null) return null;
+            string dataFolderLocation = assetInfo.Item2;
+            if (!File.Exists(path2) || path2 == null)
+            {
+                assetInfo = GetAssetPath(assetName);
+                path2 = assetInfo.Item1;
+                dataFolderLocation = assetInfo.Item2;
+                if (!File.Exists(path2) || path2 == null) return null;
+
+            }
+
 
             using (var stream = File.OpenRead(path2))
             {
@@ -457,7 +465,9 @@ namespace ManiacEditor
         public static Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
         {
             string path, path2;
+            string altPath = "";
             string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : Editor.DataDirectory);
+            string altdataDirectory = "";
             if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
             {
                 switch (name)
@@ -540,42 +550,31 @@ namespace ManiacEditor
                                     // Checks Global
                                     path = "Global\\" + name + ".bin";
                                     path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                                    if (!File.Exists(path2))
+                                    {
+                                        //Checks Editor
+                                        path = "Editor\\" + name + ".bin";
+                                        path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
 
-                                    if (isModLoaded && !File.Exists(path2) && !dontSeachCustom)
-                                    {
-                                        var masterDataDetails = GetAssetPath(name, Editor.DataDirectory, true, true);
-                                        if (File.Exists(masterDataDetails.Item1))
-                                        {
-                                            path2 = masterDataDetails.Item1;
-                                            dataDirectory = masterDataDetails.Item2;
-                                        }
-                                    }
-                                    else if (!File.Exists(path2) && !dontSeachCustom)
-                                    {
-                                        var masterDataDetails = GetAssetPath(name, Editor.MasterDataDirectory, true);
-                                        if (File.Exists(masterDataDetails.Item1))
-                                        {
-                                            path2 = masterDataDetails.Item1;
-                                            dataDirectory = masterDataDetails.Item2;
-                                        }
-                                    }
-                                    else if (!File.Exists(path2))
-                                    {
-                                        // Seaches all around the Data directory
-                                        var list = DataDirectoryList;
-                                        if (list.Any(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())))
-                                        {
-                                            list = list.Where(t => Path.GetFileName(t.ToLower()).Contains(name.ToLower())).ToArray();
-                                            if (list.Any(t => t.ToLower().Contains(Editor.Instance.SelectedZone)))
-                                                path2 = list.Where(t => t.ToLower().Contains(Editor.Instance.SelectedZone)).First();
-                                            else
-                                                path2 = list.First();
-                                        }
                                         if (!File.Exists(path2))
                                         {
-                                            // No animation found
-                                            path2 = null;
-                                            dataDirectory = null;
+                                            // Checks the Entire Sprite folder 
+                                            foreach (string dir in Directory.GetDirectories(Path.Combine(dataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
+                                            {
+                                                path = Path.GetFileName(dir) + "\\" + name + ".bin";
+                                                path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                                                if (File.Exists(path2))
+                                                {
+                                                    break;
+                                                }
+
+                                            }
+                                            if (!File.Exists(path2))
+                                            {
+                                                // No animation found
+                                                path2 = null;
+                                                dataDirectory = null;
+                                            }                                       
                                         }
                                     }
                                 }

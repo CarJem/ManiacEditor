@@ -115,28 +115,34 @@ namespace ManiacEditor
             return GetDimensions().IntersectsWith(area);
         }
 
-        public void Move(Point diff)
+        public void Move(Point diff, bool relative = true)
         {
+            if (relative)
+            {
                 entity.Position.X.High += (short)diff.X;
                 entity.Position.Y.High += (short)diff.Y;
+            }
+            else
+            {
+                entity.Position.X.High = (short)diff.X;
+                entity.Position.Y.High = (short)diff.Y;
+            }
 
+            // Since the Editor can now update without the use of this render, I removed it
+            //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) Editor.Instance.UpdateRender();
+            if (Editor.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
+            {
+                int ObjectStart = 0x0086FFA0;
+                int ObjectSize = 0x458;
 
+                if (Properties.Settings.Default.UsePrePlusOffsets)
+                    ObjectStart = 0x00A5DCC0;
 
-                // Since the Editor can now update without the use of this render, I removed it
-                //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) Editor.Instance.UpdateRender();
-                if (Editor.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
-                {
-                    int ObjectStart = 0x0086FFA0;
-                    int ObjectSize = 0x458;
-
-                    if (Properties.Settings.Default.UsePrePlusOffsets)
-                        ObjectStart = 0x00A5DCC0;
-
-                    // TODO: Find out if this is constent
-                    int ObjectAddress = ObjectStart + (ObjectSize * entity.SlotID);
-                    Editor.GameMemory.WriteInt16(ObjectAddress + 2, entity.Position.X.High);
-                    Editor.GameMemory.WriteInt16(ObjectAddress + 6, entity.Position.Y.High);
-                }
+                // TODO: Find out if this is constent
+                int ObjectAddress = ObjectStart + (ObjectSize * entity.SlotID);
+                Editor.GameMemory.WriteInt16(ObjectAddress + 2, entity.Position.X.High);
+                Editor.GameMemory.WriteInt16(ObjectAddress + 6, entity.Position.Y.High);
+            }
 
 
         }
@@ -383,6 +389,8 @@ namespace ManiacEditor
 
 
         }
+
+
 
         public EditorEntity_ini.EditorAnimation.EditorFrame GetFrameFromAttribute(EditorEntity_ini.EditorAnimation anim, AttributeValue attribute, string key = "frameID")
         {

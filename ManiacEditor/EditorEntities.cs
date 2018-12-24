@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using IronPython.Modules;
 using ManiacEditor.Enums;
 using RSDKv5;
+using SharpDX.Direct3D9;
 
 namespace ManiacEditor
 {
@@ -342,6 +343,10 @@ namespace ManiacEditor
             TrueNotOnScreenKeys.Clear();
 
         }
+
+
+
+
 
         public void OptimizeEntities()
         {
