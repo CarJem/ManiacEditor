@@ -299,7 +299,7 @@ namespace ManiacEditor
 
         private void importObjectsToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Editor.Instance.importObjectsToolStripMenuItem_Click(sender, e);
+            Editor.Instance.ImportObjectsToolStripMenuItem_Click(sender, e);
             ReloadList();
             // Blanks the list for some reason should consider fixing badly
         }
@@ -382,7 +382,7 @@ namespace ManiacEditor
         private void backupStageConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Editor.Instance.backupType = 4;
-            Editor.Instance.backupTool(null, null);
+            Editor.Instance.BackupTool(null, null);
             Editor.Instance.backupType = 0;
         }
 

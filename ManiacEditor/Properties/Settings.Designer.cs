@@ -1605,5 +1605,29 @@ namespace ManiacEditor.Properties {
                 this["EntityFreeCam"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastModConfig {
+            get {
+                return ((string)(this["LastModConfig"]));
+            }
+            set {
+                this["LastModConfig"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("EN")]
+        public string LangDefault {
+            get {
+                return ((string)(this["LangDefault"]));
+            }
+            set {
+                this["LangDefault"] = value;
+            }
+        }
     }
 }

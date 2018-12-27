@@ -37,7 +37,7 @@ namespace ManiacEditor
         public static Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public static bool Working = false;
 
-        public static List<string> getEntityInternalList(int type)
+        public static List<string> GetEntityInternalList(int type)
         {
             if (type == 1) //For the list of objects with renders
             {
@@ -61,7 +61,7 @@ namespace ManiacEditor
             }
 
         }
-        public static List<string> getEntityExternalList(int type)
+        public static List<string> GetEntityExternalList(int type)
         {
             if (type == 1) //For the list of objects with renders
             {
@@ -82,12 +82,12 @@ namespace ManiacEditor
 
         }
 
-        public static List<string> getSpecialRenderList(int type)
+        public static List<string> GetSpecialRenderList(int type)
         {
             if (type == 1) //For the list of objects with renders
             {
-                List<string> entityRenderListInternal = getEntityInternalList(1); // Get the list embeded in the editor
-                List<string> entityRenderListExternal = getEntityExternalList(1); // Get the list the user is allowed to edit
+                List<string> entityRenderListInternal = GetEntityInternalList(1); // Get the list embeded in the editor
+                List<string> entityRenderListExternal = GetEntityExternalList(1); // Get the list the user is allowed to edit
                 if (entityRenderListExternal != entityRenderListInternal)
                 {
                     return entityRenderListExternal;
@@ -99,8 +99,8 @@ namespace ManiacEditor
             }
             else //For On Screen Render Exlusions (So we can make our own rules in the object's render file)
             {
-                List<string> entityRenderListInternal = getEntityInternalList(0); // Get the list embeded in the editor
-                List<string> entityRenderListExternal = getEntityExternalList(0); // Get the list the user is allowed to edit
+                List<string> entityRenderListInternal = GetEntityInternalList(0); // Get the list embeded in the editor
+                List<string> entityRenderListExternal = GetEntityExternalList(0); // Get the list the user is allowed to edit
                 if (entityRenderListExternal != entityRenderListInternal)
                 {
                     return entityRenderListExternal;
@@ -245,7 +245,7 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public static EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg, bool loadImageToDX = true, bool legacyRotate = true)
+        public static EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true)
         {
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
             var anim = new EditorEntity_ini.EditorAnimation();
@@ -553,26 +553,45 @@ namespace ManiacEditor
                                         //Checks Editor
                                         path = "Editor\\" + name + ".bin";
                                         path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-
                                         if (!File.Exists(path2))
                                         {
-                                            // Checks the Entire Sprite folder 
-                                            foreach (string dir in Directory.GetDirectories(Path.Combine(dataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
-                                            {
-                                                path = Path.GetFileName(dir) + "\\" + name + ".bin";
-                                                path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-                                                if (File.Exists(path2))
-                                                {
-                                                    break;
-                                                }
-
-                                            }
+                                            //Checks Cutscene
+                                            path = "Cutscene\\" + name + ".bin";
+                                            path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
                                             if (!File.Exists(path2))
                                             {
-                                                // No animation found
-                                                path2 = null;
-                                                dataDirectory = null;
-                                            }                                       
+                                                //Checks MSZ
+                                                path = "MSZ\\" + name + ".bin";
+                                                path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                                                if (!File.Exists(path2))
+                                                {
+                                                    //Checks Base without a Path
+                                                    path = name + ".bin";
+                                                    path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+
+
+                                                    if (!File.Exists(path2))
+                                                    {
+                                                        // Checks the Entire Sprite folder 
+                                                        foreach (string dir in Directory.GetDirectories(Path.Combine(dataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
+                                                        {
+                                                            path = Path.GetFileName(dir) + "\\" + name + ".bin";
+                                                            path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+                                                            if (File.Exists(path2))
+                                                            {
+                                                                break;
+                                                            }
+
+                                                        }
+                                                        if (!File.Exists(path2))
+                                                        {
+                                                            // No animation found
+                                                            path2 = null;
+                                                            dataDirectory = null;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }

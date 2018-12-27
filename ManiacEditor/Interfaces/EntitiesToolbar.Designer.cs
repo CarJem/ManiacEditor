@@ -28,6 +28,7 @@
         /// </summary>
         public void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.entitiesList = new System.Windows.Forms.ComboBox();
             this.entityProperties = new System.Windows.Forms.PropertyGrid();
             this.gbSpawn = new System.Windows.Forms.GroupBox();
@@ -35,6 +36,7 @@
             this.btnSpawn = new System.Windows.Forms.Button();
             this.cbSpawn = new System.Windows.Forms.ComboBox();
             this.gbEditor = new System.Windows.Forms.GroupBox();
+            this.MoreButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.searchBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -42,10 +44,13 @@
             this.bothFilterCheck = new System.Windows.Forms.CheckBox();
             this.encoreFilterCheck = new System.Windows.Forms.CheckBox();
             this.maniaFilterCheck = new System.Windows.Forms.CheckBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.goToThisEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbSpawn.SuspendLayout();
             this.gbEditor.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // entitiesList
@@ -57,10 +62,10 @@
             this.entitiesList.FormattingEnabled = true;
             this.entitiesList.Location = new System.Drawing.Point(7, 19);
             this.entitiesList.Name = "entitiesList";
-            this.entitiesList.Size = new System.Drawing.Size(234, 21);
+            this.entitiesList.Size = new System.Drawing.Size(204, 21);
             this.entitiesList.TabIndex = 0;
             this.entitiesList.DropDown += new System.EventHandler(this.entitiesList_DropDown);
-            this.entitiesList.SelectedIndexChanged += new System.EventHandler(this.entitiesList_SelectedIndexChanged);
+            this.entitiesList.SelectedIndexChanged += new System.EventHandler(this.EntitiesList_SelectedIndexChanged);
             this.entitiesList.DropDownClosed += new System.EventHandler(this.entitiesList_DropDownClosed);
             this.entitiesList.TextChanged += new System.EventHandler(this.entitiesList_TextChanged);
             // 
@@ -90,7 +95,10 @@
             this.entityProperties.ViewBackColor = System.Drawing.Color.White;
             this.entityProperties.ViewBorderColor = System.Drawing.Color.DarkGray;
             this.entityProperties.ViewForeColor = System.Drawing.Color.Black;
+            this.entityProperties.MouseMove += new System.Windows.Forms.MouseEventHandler(this.entityProperties_MouseHover);
             this.entityProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.entityProperties_PropertyValueChanged);
+            this.entityProperties.PropertyTabChanged += new System.Windows.Forms.PropertyTabChangedEventHandler(this.entityProperties_PropertyTabChanged);
+            this.entityProperties.Click += new System.EventHandler(this.entityProperties_Click);
             // 
             // gbSpawn
             // 
@@ -159,6 +167,7 @@
             this.gbEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbEditor.Controls.Add(this.MoreButton);
             this.gbEditor.Controls.Add(this.groupBox2);
             this.gbEditor.Controls.Add(this.entitiesList);
             this.gbEditor.Controls.Add(this.entityProperties);
@@ -170,6 +179,19 @@
             this.gbEditor.TabStop = false;
             this.gbEditor.Text = "Entity Editor";
             this.gbEditor.Enter += new System.EventHandler(this.gbEditor_Enter);
+            // 
+            // MoreButton
+            // 
+            this.MoreButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MoreButton.Enabled = false;
+            this.MoreButton.ForeColor = System.Drawing.Color.Black;
+            this.MoreButton.Location = new System.Drawing.Point(217, 19);
+            this.MoreButton.Name = "MoreButton";
+            this.MoreButton.Size = new System.Drawing.Size(24, 21);
+            this.MoreButton.TabIndex = 3;
+            this.MoreButton.Text = "...";
+            this.MoreButton.UseVisualStyleBackColor = true;
+            this.MoreButton.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox2
             // 
@@ -274,6 +296,20 @@
             this.maniaFilterCheck.UseVisualStyleBackColor = true;
             this.maniaFilterCheck.CheckedChanged += new System.EventHandler(this.maniaFilterCheck_CheckedChanged);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.goToThisEntityToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(159, 26);
+            // 
+            // goToThisEntityToolStripMenuItem
+            // 
+            this.goToThisEntityToolStripMenuItem.Name = "goToThisEntityToolStripMenuItem";
+            this.goToThisEntityToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.goToThisEntityToolStripMenuItem.Text = "Go to this Entity";
+            this.goToThisEntityToolStripMenuItem.Click += new System.EventHandler(this.goToThisEntityToolStripMenuItem_Click);
+            // 
             // EntitiesToolbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -288,6 +324,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -308,6 +345,9 @@
         private System.Windows.Forms.ComboBox defaultFilter;
         private System.Windows.Forms.TextBox searchBox;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem goToThisEntityToolStripMenuItem;
+        public System.Windows.Forms.Button MoreButton;
         //private CSharp.Winform.UI.Loading.WaitLoading waitLoading1;
     }
 }

@@ -38,7 +38,7 @@ namespace ManiacEditor.Entity_Renders
                     d.DrawBitmap(frame.Texture,
                         x + -frame.Frame.Width + (-1 / 2 + 1) * frame.Frame.Width + frame.Frame.CenterX,
                         y + -frame.Frame.Height + (-size / 2 + y2) * frame.Frame.Height,
-                        platform.Frame.Width, platform.Frame.Height, false, Transparency);
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     if (y2 == size)
                     {
                         y2 = y2 + 2;

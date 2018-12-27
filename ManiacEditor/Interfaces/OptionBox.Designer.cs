@@ -38,6 +38,7 @@
             this.label27 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
+            this.checkBox51 = new System.Windows.Forms.CheckBox();
             this.checkBox28 = new System.Windows.Forms.CheckBox();
             this.checkBox19 = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -66,6 +67,16 @@
             this.label88 = new System.Windows.Forms.Label();
             this.label87 = new System.Windows.Forms.Label();
             this.panel16 = new System.Windows.Forms.Panel();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.TC = new System.Windows.Forms.RadioButton();
+            this.SP = new System.Windows.Forms.RadioButton();
+            this.SC = new System.Windows.Forms.RadioButton();
+            this.KO = new System.Windows.Forms.RadioButton();
+            this.JP = new System.Windows.Forms.RadioButton();
+            this.IT = new System.Windows.Forms.RadioButton();
+            this.GE = new System.Windows.Forms.RadioButton();
+            this.FR = new System.Windows.Forms.RadioButton();
+            this.EN = new System.Windows.Forms.RadioButton();
             this.checkBox47 = new System.Windows.Forms.CheckBox();
             this.checkBox46 = new System.Windows.Forms.CheckBox();
             this.checkBox44 = new System.Windows.Forms.CheckBox();
@@ -322,7 +333,6 @@
             this.checkBox34 = new System.Windows.Forms.CheckBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.checkBox51 = new System.Windows.Forms.CheckBox();
             this.tabPage4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -332,6 +342,7 @@
             this.panel1.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel16.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -470,6 +481,21 @@
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(183, 310);
             this.panel10.TabIndex = 108;
+            // 
+            // checkBox51
+            // 
+            this.checkBox51.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox51.Checked = global::ManiacEditor.Properties.Settings.Default.EntityFreeCam;
+            this.checkBox51.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EntityFreeCam", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox51.Location = new System.Drawing.Point(16, 233);
+            this.checkBox51.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox51.Name = "checkBox51";
+            this.checkBox51.Size = new System.Drawing.Size(152, 70);
+            this.checkBox51.TabIndex = 62;
+            this.checkBox51.Text = "Entity FreeCam Mode\r\n(Disables Layer Viewing)\r\n(Allows You to see outside of the " +
+    "normal bounds)\r\n\r\n";
+            this.checkBox51.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox51.UseVisualStyleBackColor = false;
             // 
             // checkBox28
             // 
@@ -657,9 +683,9 @@
             this.label20.BackColor = System.Drawing.Color.Transparent;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label20.Location = new System.Drawing.Point(-1, 0);
+            this.label20.Location = new System.Drawing.Point(-1, -1);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(292, 530);
+            this.label20.Size = new System.Drawing.Size(292, 531);
             this.label20.TabIndex = 120;
             this.label20.Text = "More Defaults Coming Soon!";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -809,6 +835,7 @@
             // 
             this.panel16.BackColor = System.Drawing.Color.Transparent;
             this.panel16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel16.Controls.Add(this.groupBox8);
             this.panel16.Controls.Add(this.checkBox47);
             this.panel16.Controls.Add(this.checkBox46);
             this.panel16.Controls.Add(this.checkBox44);
@@ -823,6 +850,134 @@
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(284, 340);
             this.panel16.TabIndex = 120;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.TC);
+            this.groupBox8.Controls.Add(this.SP);
+            this.groupBox8.Controls.Add(this.SC);
+            this.groupBox8.Controls.Add(this.KO);
+            this.groupBox8.Controls.Add(this.JP);
+            this.groupBox8.Controls.Add(this.IT);
+            this.groupBox8.Controls.Add(this.GE);
+            this.groupBox8.Controls.Add(this.FR);
+            this.groupBox8.Controls.Add(this.EN);
+            this.groupBox8.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.groupBox8.Location = new System.Drawing.Point(161, 152);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(118, 183);
+            this.groupBox8.TabIndex = 122;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Default Language";
+            this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
+            // 
+            // TC
+            // 
+            this.TC.AutoSize = true;
+            this.TC.Location = new System.Drawing.Point(52, 65);
+            this.TC.Name = "TC";
+            this.TC.Size = new System.Drawing.Size(39, 17);
+            this.TC.TabIndex = 109;
+            this.TC.Tag = "TC";
+            this.TC.Text = "TC";
+            this.TC.UseVisualStyleBackColor = true;
+            this.TC.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // SP
+            // 
+            this.SP.AutoSize = true;
+            this.SP.Location = new System.Drawing.Point(52, 42);
+            this.SP.Name = "SP";
+            this.SP.Size = new System.Drawing.Size(39, 17);
+            this.SP.TabIndex = 108;
+            this.SP.Tag = "SP";
+            this.SP.Text = "SP";
+            this.SP.UseVisualStyleBackColor = true;
+            this.SP.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // SC
+            // 
+            this.SC.AutoSize = true;
+            this.SC.Location = new System.Drawing.Point(52, 19);
+            this.SC.Name = "SC";
+            this.SC.Size = new System.Drawing.Size(39, 17);
+            this.SC.TabIndex = 107;
+            this.SC.Tag = "SC";
+            this.SC.Text = "SC";
+            this.SC.UseVisualStyleBackColor = true;
+            this.SC.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // KO
+            // 
+            this.KO.AutoSize = true;
+            this.KO.Location = new System.Drawing.Point(5, 134);
+            this.KO.Name = "KO";
+            this.KO.Size = new System.Drawing.Size(40, 17);
+            this.KO.TabIndex = 106;
+            this.KO.Tag = "KO";
+            this.KO.Text = "KO";
+            this.KO.UseVisualStyleBackColor = true;
+            this.KO.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // JP
+            // 
+            this.JP.AutoSize = true;
+            this.JP.Location = new System.Drawing.Point(5, 111);
+            this.JP.Name = "JP";
+            this.JP.Size = new System.Drawing.Size(37, 17);
+            this.JP.TabIndex = 105;
+            this.JP.Tag = "JP";
+            this.JP.Text = "JP";
+            this.JP.UseVisualStyleBackColor = true;
+            this.JP.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // IT
+            // 
+            this.IT.AutoSize = true;
+            this.IT.Location = new System.Drawing.Point(5, 88);
+            this.IT.Name = "IT";
+            this.IT.Size = new System.Drawing.Size(35, 17);
+            this.IT.TabIndex = 104;
+            this.IT.Tag = "IT";
+            this.IT.Text = "IT";
+            this.IT.UseVisualStyleBackColor = true;
+            this.IT.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // GE
+            // 
+            this.GE.AutoSize = true;
+            this.GE.Location = new System.Drawing.Point(6, 65);
+            this.GE.Name = "GE";
+            this.GE.Size = new System.Drawing.Size(40, 17);
+            this.GE.TabIndex = 103;
+            this.GE.Tag = "GE";
+            this.GE.Text = "GE";
+            this.GE.UseVisualStyleBackColor = true;
+            this.GE.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // FR
+            // 
+            this.FR.AutoSize = true;
+            this.FR.Location = new System.Drawing.Point(6, 42);
+            this.FR.Name = "FR";
+            this.FR.Size = new System.Drawing.Size(39, 17);
+            this.FR.TabIndex = 101;
+            this.FR.Tag = "FR";
+            this.FR.Text = "FR";
+            this.FR.UseVisualStyleBackColor = true;
+            this.FR.Click += new System.EventHandler(this.radioButton12_Click);
+            // 
+            // EN
+            // 
+            this.EN.AutoSize = true;
+            this.EN.Location = new System.Drawing.Point(6, 19);
+            this.EN.Name = "EN";
+            this.EN.Size = new System.Drawing.Size(40, 17);
+            this.EN.TabIndex = 100;
+            this.EN.Tag = "EN";
+            this.EN.Text = "EN";
+            this.EN.UseVisualStyleBackColor = true;
+            this.EN.Click += new System.EventHandler(this.radioButton12_Click);
             // 
             // checkBox47
             // 
@@ -4032,21 +4187,6 @@
             this.button6.Text = "&OK";
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // checkBox51
-            // 
-            this.checkBox51.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox51.Checked = global::ManiacEditor.Properties.Settings.Default.EntityFreeCam;
-            this.checkBox51.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EntityFreeCam", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox51.Location = new System.Drawing.Point(16, 233);
-            this.checkBox51.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox51.Name = "checkBox51";
-            this.checkBox51.Size = new System.Drawing.Size(152, 70);
-            this.checkBox51.TabIndex = 62;
-            this.checkBox51.Text = "Entity FreeCam Mode\r\n(Disables Layer Viewing)\r\n(Allows You to see outside of the " +
-    "normal bounds)\r\n\r\n";
-            this.checkBox51.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox51.UseVisualStyleBackColor = false;
-            // 
             // OptionBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4076,6 +4216,8 @@
             this.panel17.ResumeLayout(false);
             this.panel17.PerformLayout();
             this.panel16.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.panel7.ResumeLayout(false);
@@ -4405,5 +4547,15 @@
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.CheckBox checkBox51;
+        private System.Windows.Forms.RadioButton GE;
+        private System.Windows.Forms.RadioButton FR;
+        private System.Windows.Forms.RadioButton EN;
+        private System.Windows.Forms.RadioButton KO;
+        private System.Windows.Forms.RadioButton JP;
+        private System.Windows.Forms.RadioButton IT;
+        private System.Windows.Forms.RadioButton TC;
+        private System.Windows.Forms.RadioButton SP;
+        private System.Windows.Forms.RadioButton SC;
+        public System.Windows.Forms.GroupBox groupBox8;
     }
 }

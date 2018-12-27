@@ -299,12 +299,14 @@ namespace TileManiac
             RefreshUI(); //update the UI
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Open RSDKv5 Tileconfig";
-            dlg.DefaultExt = ".bin";
-            dlg.Filter = "RSDKv5 Tileconfig Files|Tileconfig*.bin|All Files|*";
+            OpenFileDialog dlg = new OpenFileDialog
+            {
+                Title = "Open RSDKv5 Tileconfig",
+                DefaultExt = ".bin",
+                Filter = "RSDKv5 Tileconfig Files|Tileconfig*.bin|All Files|*"
+            };
 
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
@@ -368,10 +370,12 @@ namespace TileManiac
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Title = "Save RSDKv5 Tileconfig As...";
-            dlg.DefaultExt = ".bin";
-            dlg.Filter = "RSDKv5 Tileconfig Files|Tileconfig*.bin";
+            SaveFileDialog dlg = new SaveFileDialog
+            {
+                Title = "Save RSDKv5 Tileconfig As...",
+                DefaultExt = ".bin",
+                Filter = "RSDKv5 Tileconfig Files|Tileconfig*.bin"
+            };
 
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
@@ -478,8 +482,10 @@ namespace TileManiac
 
         private void splitFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.Description = "Select Folder to Export to...";
+            FolderBrowserDialog dlg = new FolderBrowserDialog
+            {
+                Description = "Select Folder to Export to..."
+            };
 
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
@@ -527,8 +533,10 @@ namespace TileManiac
 
         public Bitmap mergeImages(Bitmap[] images)
         {
-            Bitmap mergedImg = new Bitmap(16, 16384, PixelFormat.Format8bppIndexed);
-            mergedImg.Palette = IndexedTiles[0].Palette;
+            Bitmap mergedImg = new Bitmap(16, 16384, PixelFormat.Format8bppIndexed)
+            {
+                Palette = IndexedTiles[0].Palette
+            };
             for (int i = 0; i < IndexedTiles.Count; i++)
             {
                 var bitmapData = IndexedTiles[i].LockBits(new Rectangle(0, 0, IndexedTiles[i].Width, IndexedTiles[i].Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
@@ -1566,10 +1574,12 @@ namespace TileManiac
 
         private void saveAsUncompressedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Title = "Save Uncompressed As...";
-            dlg.DefaultExt = ".bin";
-            dlg.Filter = "RSDKv5 Tileconfig Files (*.bin)|*.bin";
+            SaveFileDialog dlg = new SaveFileDialog
+            {
+                Title = "Save Uncompressed As...",
+                DefaultExt = ".bin",
+                Filter = "RSDKv5 Tileconfig Files (*.bin)|*.bin"
+            };
 
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {

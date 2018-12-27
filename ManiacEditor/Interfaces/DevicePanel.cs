@@ -445,7 +445,7 @@ namespace ManiacEditor
                     }
                     if (deviceExceptionResult == DialogResult.Yes) //Yes and Exit
                     {
-                        Editor.Instance.backupSceneBeforeCrash();
+                        Editor.Instance.BackupSceneBeforeCrash();
                         Environment.Exit(1);
 
                     }
@@ -457,7 +457,7 @@ namespace ManiacEditor
                     }
                     else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                     {
-                        Editor.Instance.backupSceneBeforeCrash();
+                        Editor.Instance.BackupSceneBeforeCrash();
                         DisposeDeviceResources();
                         Init(Editor.Instance);
                     }
@@ -477,7 +477,7 @@ namespace ManiacEditor
                 }
                 if (deviceExceptionResult == DialogResult.Yes) //Yes and Exit
                 {
-                    Editor.Instance.backupSceneBeforeCrash();
+                    Editor.Instance.BackupSceneBeforeCrash();
                     Environment.Exit(1);
 
                 }
@@ -489,7 +489,7 @@ namespace ManiacEditor
                 }
                 else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                 {
-                    Editor.Instance.backupSceneBeforeCrash();
+                    Editor.Instance.BackupSceneBeforeCrash();
                     DisposeDeviceResources();
                     Init(Editor.Instance);
                 }

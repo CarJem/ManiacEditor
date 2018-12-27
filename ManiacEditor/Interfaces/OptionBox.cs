@@ -33,6 +33,15 @@ namespace ManiacEditor
             if (Properties.Settings.Default.x128Default) uncheckOtherGridDefaults(2);
             if (Properties.Settings.Default.x256Default) uncheckOtherGridDefaults(3);
             if (Properties.Settings.Default.CustomGridDefault) uncheckOtherGridDefaults(4);
+
+            foreach (RadioButton rdo in groupBox8.Controls.OfType<RadioButton>())
+            {
+                if (rdo.Tag.ToString() == Settings.mySettings.LangDefault)
+                {
+                    rdo.Checked = true;
+                }
+            }
+
             initilizeKeyDefaults();
 
             if (Properties.Settings.Default.NightMode)
@@ -676,6 +685,19 @@ namespace ManiacEditor
 
         private void tabPage4_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void groupBox8_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton12_Click(object sender, EventArgs e)
+        {
+            RadioButton button = sender as RadioButton;
+            if (sender != null) Settings.mySettings.LangDefault = button.Tag.ToString();
+
 
         }
     }

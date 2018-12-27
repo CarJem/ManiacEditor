@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManiacEditor.Entity_Renders;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -124,6 +125,8 @@ namespace ManiacEditor
                     break;
 
             }
+
+            if (playerID == Editor.Instance.PlayerBeingTracked) Editor.Instance.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;

@@ -27,6 +27,7 @@ namespace ManiacEditor
 
 
         Texture[][] TileChunksTextures;
+        Dictionary<ushort, Texture> TileTexture = new Dictionary<ushort, Texture>();
 
         public PointsMap SelectedTiles;
         
@@ -761,11 +762,11 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            if (Properties.Settings.Default.UseFasterSelectionRendering == true)
-            {
-                selected = false;
-            }
-            d.DrawBitmap(Editor.Instance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            if (!TileTexture.ContainsKey(tile)) TileTexture.Add(tile, Editor.Instance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY));
+
+            if (Properties.Settings.Default.UseFasterSelectionRendering == true) selected = false;
+
+            d.DrawBitmap(TileTexture[tile],
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 
             if (Editor.Instance.showFlippedTileHelper == true)

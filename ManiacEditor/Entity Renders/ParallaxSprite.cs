@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
             int aniID = (int)entity.attributesMap["aniID"].ValueUInt8;
             if (Animation.parallaxSprite == "")
             {
-                Animation.parallaxSprite = getParallaxPath();
+                Animation.parallaxSprite = GetParallaxPath();
             }
 
             var editorAnim = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        private string getParallaxPath ()
+        private string GetParallaxPath ()
         {
             string name = Editor.Instance.SelectedZone.Replace("\\", "");
             string zoneName = "";

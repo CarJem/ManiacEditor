@@ -433,6 +433,15 @@
     <Compile Include="Entity Renders\Toxomister.cs" />
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />
+    <Compile Include="Entity Renders\SummaryEmerald.cs" />
+    <Compile Include="Entity Renders\UIButtonLabel.cs" />
+    <Compile Include="Entity Renders\UISubHeading.cs" />
+    <Compile Include="Entity Renders\UISaveSlot.cs" />
+    <Compile Include="Entity Renders\UIButtonPrompt.cs" />
+    <Compile Include="Entity Renders\UIButton.cs" />
+    <Compile Include="Entity Renders\UIHeading.cs" />
+    <Compile Include="Entity Renders\UIText.cs" />
+    <Compile Include="Entity Renders\UIPicture.cs" />
     <Compile Include="Entity Renders\UncurlPlant.cs" />
     <Compile Include="Entity Renders\Valve.cs" />
     <Compile Include="Entity Renders\Vultron.cs" />

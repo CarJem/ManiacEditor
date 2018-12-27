@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int size = (int)entity.attributesMap["size"].ValueVar;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("Platform", d, 0, size + 3, fliph, flipv, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation2("AIZ\\Platform", d, 0, size + 3, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

@@ -66,10 +66,10 @@ namespace ManiacEditor
             defaultFilter.Items.Add("Pinball (255)");
             defaultFilter.Items.Add("Other (0)");
 
-            updateFilterNames();
+            UpdateFilterNames();
         }
 
-        public void updateFilterNames()
+        public void UpdateFilterNames()
         {
             if (Properties.Settings.Default.useBitOperators)
             {
@@ -122,7 +122,10 @@ namespace ManiacEditor
             if (currentEntity != null && _entities.Contains(currentEntity))
             {
                 entitiesList.SelectedText = String.Format("{0} - {1}", currentEntity.SlotID, currentEntity.Object.Name.Name.ToString());
+                MoreButton.Enabled = true;
             }
+            else if (currentEntity != null) MoreButton.Enabled = true;
+            else MoreButton.Enabled = false;
         }
 
         public void RefreshObjects(List<RSDKv5.SceneObject> sceneObjects)
@@ -138,7 +141,7 @@ namespace ManiacEditor
             }
         }
 
-        public void entitiesList_SelectedIndexChanged(object sender, EventArgs e)
+        public void EntitiesList_SelectedIndexChanged(object sender, EventArgs e)
         {
             String input = entitiesList.Text.ToString();
             string output = new string(input.TakeWhile(char.IsDigit).ToArray());
@@ -148,6 +151,10 @@ namespace ManiacEditor
 
             if (updateSelected && !multipleObjects || !searchBox.Text.Contains("")) SelectedEntity?.Invoke(_entities[entitiesList.SelectedIndex].SlotID);
             if (updateSelected && multipleObjects || searchBox.Text.Contains("")) SelectedEntity?.Invoke(_entities[selectedSlotID].SlotID);
+
+            if (currentEntity != null) MoreButton.Enabled = true;
+            else MoreButton.Enabled = false;
+
 
         }
 
@@ -164,10 +171,39 @@ namespace ManiacEditor
             return index;
         }
 
-        private void addProperty(LocalProperties properties, int category_index, string category, string name, string value_type, object value, bool read_only=false) {
-            properties.Add(String.Format("{0}.{1}", category, name),
-                    new LocalProperty(name, value_type, category_index, category, name, true, read_only, value, "")
-                );
+        private void AddProperty(LocalProperties properties, int category_index, string category, string name, string value_type, object value, bool read_only=false) {
+            properties.Add(String.Format("{0}.{1}", category, name), new LocalProperty(name, value_type, category_index, category, name, true, read_only, value, ""));
+            
+        }
+
+        private System.Drawing.Color SetForeColor()
+        {
+            System.Drawing.Color ForeColor;
+            if (currentEntity.attributesMap.ContainsKey("filter") && currentEntity.attributesMap["filter"].Type == AttributeTypes.UINT8)
+            {
+                int filter = currentEntity.attributesMap["filter"].ValueUInt8;
+                switch (filter)
+                {
+                    case 1:
+                        ForeColor = System.Drawing.Color.DarkBlue;
+                        break;
+                    case 2:
+                        ForeColor = System.Drawing.Color.DarkRed;
+                        break;
+                    case 4:
+                        ForeColor = System.Drawing.Color.DarkGreen;
+                        break;
+                    case 5:
+                        ForeColor = System.Drawing.Color.DarkBlue;
+                        break;
+                    default:
+                        ForeColor = System.Drawing.Color.SandyBrown;
+                        break;
+
+                }
+            }
+
+            return System.Drawing.Color.Aqua;
         }
 
         private void UpdateEntitiesProperties(List<RSDKv5.SceneEntity> selectedEntities)
@@ -201,11 +237,11 @@ namespace ManiacEditor
                     entitiesList.SelectedText = String.Format("{0} entities selected", selectedEntities.Count);
                     entitiesList.Items.Clear();
                     entitiesList.DisplayMember = "Text";
-                    entitiesList.Tag = "Value";
+                    entitiesList.Tag = "Value";             
                     foreach (RSDKv5.SceneEntity selectedEntity in selectedEntities)
                     {
 
-                        entitiesList.Items.Add(new { Text = (String.Format("{1} - {0}", (searchBox.Text != "" ? selectedEntity.Object.Name.Name.Contains(searchBox.Text) ? selectedEntity.Object.Name.Name.ToString() : "" : selectedEntity.Object.Name.Name.ToString()) , selectedEntity.SlotID)), Value = selectedEntity.SlotID });
+                        entitiesList.Items.Add(new { Text = (String.Format("{1} - {0}", (searchBox.Text != "" ? selectedEntity.Object.Name.Name.Contains(searchBox.Text) ? selectedEntity.Object.Name.Name.ToString() : "" : selectedEntity.Object.Name.Name.ToString()) , selectedEntity.SlotID)), Value = selectedEntity.SlotID});
                         _selectedEntitySlots.Add(selectedEntity.SlotID);
                     }
                     //entitiesList.Items.AddRange(selectedEntities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name)).ToArray());
@@ -253,11 +289,11 @@ namespace ManiacEditor
 
                 LocalProperties objProperties = new LocalProperties();
                 int category_index = 2 + entity.Attributes.Count;
-                addProperty(objProperties, category_index, "object", "name", "string", entity.Object.Name.ToString(), false);
-                addProperty(objProperties, category_index, "object", "entitySlot", "ushort", entity.SlotID, false);
+                AddProperty(objProperties, category_index, "object", "name", "string", entity.Object.Name.ToString(), false);
+                AddProperty(objProperties, category_index, "object", "entitySlot", "ushort", entity.SlotID, false);
                 --category_index;
-                addProperty(objProperties, category_index, "position", "x", "float", entity.Position.X.High + ((float)entity.Position.X.Low / 0x10000));
-                addProperty(objProperties, category_index, "position", "y", "float", entity.Position.Y.High + ((float)entity.Position.Y.Low / 0x10000));
+                AddProperty(objProperties, category_index, "position", "x", "float", entity.Position.X.High + ((float)entity.Position.X.Low / 0x10000));
+                AddProperty(objProperties, category_index, "position", "y", "float", entity.Position.Y.High + ((float)entity.Position.Y.Low / 0x10000));
                 --category_index;
 
 
@@ -268,39 +304,39 @@ namespace ManiacEditor
                     switch (attribute.Type)
                     {
                         case RSDKv5.AttributeTypes.UINT8:
-                            addProperty(objProperties, category_index, attribute_name, "uint8", "byte", attribute_value.ValueUInt8);
+                            AddProperty(objProperties, category_index, attribute_name, "uint8", "byte", attribute_value.ValueUInt8);
                             break;
                         case RSDKv5.AttributeTypes.UINT16:
-                            addProperty(objProperties, category_index, attribute_name, "uint16", "ushort", attribute_value.ValueUInt16);
+                            AddProperty(objProperties, category_index, attribute_name, "uint16", "ushort", attribute_value.ValueUInt16);
                             break;
                         case RSDKv5.AttributeTypes.UINT32:
-                            addProperty(objProperties, category_index, attribute_name, "uint32", "uint", attribute_value.ValueUInt32);
+                            AddProperty(objProperties, category_index, attribute_name, "uint32", "uint", attribute_value.ValueUInt32);
                             break;
                         case RSDKv5.AttributeTypes.INT8:
-                            addProperty(objProperties, category_index, attribute_name, "int8", "sbyte", attribute_value.ValueInt8);
+                            AddProperty(objProperties, category_index, attribute_name, "int8", "sbyte", attribute_value.ValueInt8);
                             break;
                         case RSDKv5.AttributeTypes.INT16:
-                            addProperty(objProperties, category_index, attribute_name, "int16", "short", attribute_value.ValueInt16);
+                            AddProperty(objProperties, category_index, attribute_name, "int16", "short", attribute_value.ValueInt16);
                             break;
                         case RSDKv5.AttributeTypes.INT32:
-                            addProperty(objProperties, category_index, attribute_name, "int32", "int", attribute_value.ValueInt32);
+                            AddProperty(objProperties, category_index, attribute_name, "int32", "int", attribute_value.ValueInt32);
                             break;
                         case RSDKv5.AttributeTypes.VAR:
-                            addProperty(objProperties, category_index, attribute_name, "var", "uint", attribute_value.ValueVar);
+                            AddProperty(objProperties, category_index, attribute_name, "var", "uint", attribute_value.ValueVar);
                             break;
                         case RSDKv5.AttributeTypes.BOOL:
-                            addProperty(objProperties, category_index, attribute_name, "bool", "bool", attribute_value.ValueBool);
+                            AddProperty(objProperties, category_index, attribute_name, "bool", "bool", attribute_value.ValueBool);
                             break;
                         case RSDKv5.AttributeTypes.STRING:
-                            addProperty(objProperties, category_index, attribute_name, "string", "string", attribute_value.ValueString);
+                            AddProperty(objProperties, category_index, attribute_name, "string", "string", attribute_value.ValueString);
                             break;
                         case RSDKv5.AttributeTypes.POSITION:
-                            addProperty(objProperties, category_index, attribute_name, "x", "float", attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
-                            addProperty(objProperties, category_index, attribute_name, "y", "float", attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
+                            AddProperty(objProperties, category_index, attribute_name, "x", "float", attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
+                            AddProperty(objProperties, category_index, attribute_name, "y", "float", attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
                             break;
                         case RSDKv5.AttributeTypes.COLOR:
                             var color = attribute_value.ValueColor;
-                            addProperty(objProperties, category_index, attribute_name, "color", "color", System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+                            AddProperty(objProperties, category_index, attribute_name, "color", "color", System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
                             break;
                     }
                     --category_index;
@@ -313,8 +349,7 @@ namespace ManiacEditor
 
         public void UpdateCurrentEntityProperites()
         {
-            var obj = entityProperties.SelectedObject as LocalPropertyGridObject;
-            if (obj != null)
+            if (entityProperties.SelectedObject is LocalPropertyGridObject obj)
             {
                 obj.setValue("position.x", currentEntity.Position.X.High + ((float)currentEntity.Position.X.Low / 0x10000));
                 obj.setValue("position.y", currentEntity.Position.Y.High + ((float)currentEntity.Position.Y.Low / 0x10000));
@@ -386,6 +421,7 @@ namespace ManiacEditor
                     return;
                 }
                 var pos = entity.Position;
+                if (name == "x")
                 if (name == "x")
                 {
                     pos.X.High = (short)fvalue;
@@ -544,10 +580,14 @@ namespace ManiacEditor
             {
                 // It is slow to update the list, so lets generate it when the menu opens
                 entitiesList.Items.Clear();
-                entitiesList.Items.AddRange(_entities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name.Name)).Where(x => x.Contains(searchBox.Text != "" ? searchBox.Text : x)).ToArray());              
+                entitiesList.Items.AddRange(_entities.Select(x => String.Format("{0} - {1}", x.SlotID, x.Object.Name.Name)).Where(x => x.Contains(searchBox.Text != "" ? searchBox.Text : x)).ToArray());
             }
 
 
+        }
+
+        private void ColorizeList()
+        {
         }
 
         private void btnSpawn_Click(object sender, EventArgs e)
@@ -663,6 +703,37 @@ namespace ManiacEditor
         private void entitiesList_DropDownClosed(object sender, EventArgs e)
         {
 
+        }
+
+        private void entityProperties_MouseHover(object sender, EventArgs e)
+        {
+            var obj = entityProperties.SelectedObject as LocalPropertyGridObject;
+            if (obj != null) MessageBox.Show(obj.ToString());
+        }
+
+        private void entityProperties_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void entityProperties_PropertyTabChanged(object s, PropertyTabChangedEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            contextMenuStrip1.Show(MoreButton, new Point(0, MoreButton.Size.Height));
+        }
+
+        private void goToThisEntityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentEntity != null)
+            {
+                int x = currentEntity.Position.X.High;
+                int y = currentEntity.Position.Y.High;
+                Editor.Instance.GoToPosition(x, y);
+            }
         }
     }
 }

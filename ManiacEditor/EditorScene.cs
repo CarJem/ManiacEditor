@@ -64,7 +64,7 @@ namespace ManiacEditor
             }
         }
 
-        public EditorScene(string filename) : base(filename)
+        public EditorScene(string filename, DevicePanel d) : base(filename)
         {
             _editorLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
