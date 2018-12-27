@@ -187,7 +187,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.seperator1 = new System.Windows.Forms.ToolStripSeparator();
             this._levelIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -317,6 +316,10 @@
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
+            this.restartSceneToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.assetResetToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphicPanel = new ManiacEditor.DevicePanel();
+            this.changeLevelIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1036,6 +1039,7 @@
             this.goToToolStripMenuItem1,
             this.overlayImageToolStripMenuItem,
             this.multiLayerSelectionToolStripMenuItem,
+            this.changeLevelIDToolStripMenuItem,
             this.optimizeEntitySlotIDsToolStripMenuItem,
             this.preRenderSceneToolStripMenuItem,
             this.newShortcutToolStripMenuItem,
@@ -1614,30 +1618,6 @@
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.VScrollBar1_Scroll);
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.VScrollBar1_ValueChanged);
             this.vScrollBar1.MouseEnter += new System.EventHandler(this.VScrollBar1_Entered);
-            // 
-            // GraphicPanel
-            // 
-            this.GraphicPanel.AllowDrop = true;
-            this.GraphicPanel.AutoSize = true;
-            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
-            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.GraphicPanel.Name = "GraphicPanel";
-            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
-            this.GraphicPanel.TabIndex = 10;
-            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
             // 
             // statusStrip1
             // 
@@ -2386,6 +2366,8 @@
             this.launchToolStripMenuItem,
             this.toolStripSeparator33,
             this.trackThePlayerToolStripMenuItem,
+            this.restartSceneToolStripMenuItem1,
+            this.assetResetToolStripMenuItem1,
             this.toolStripSeparator26,
             this.openModManagerToolStripMenuItem,
             this.selectConfigToolStripMenuItem,
@@ -2396,6 +2378,7 @@
             this.RunSceneButton.Size = new System.Drawing.Size(43, 36);
             this.RunSceneButton.Text = "Run Scene";
             this.RunSceneButton.ButtonClick += new System.EventHandler(this.RunScene_Click);
+            this.RunSceneButton.DropDownOpening += new System.EventHandler(this.RunSceneButton_DropDownOpening);
             // 
             // launchToolStripMenuItem
             // 
@@ -2860,6 +2843,51 @@
             this.toolStripSeparator32.Name = "toolStripSeparator32";
             this.toolStripSeparator32.Size = new System.Drawing.Size(6, 39);
             // 
+            // restartSceneToolStripMenuItem1
+            // 
+            this.restartSceneToolStripMenuItem1.Name = "restartSceneToolStripMenuItem1";
+            this.restartSceneToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
+            this.restartSceneToolStripMenuItem1.Text = "Restart Scene";
+            this.restartSceneToolStripMenuItem1.Click += new System.EventHandler(this.RestartSceneToolStripMenuItem_Click);
+            // 
+            // assetResetToolStripMenuItem1
+            // 
+            this.assetResetToolStripMenuItem1.Name = "assetResetToolStripMenuItem1";
+            this.assetResetToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
+            this.assetResetToolStripMenuItem1.Text = "Asset Reset";
+            this.assetResetToolStripMenuItem1.Click += new System.EventHandler(this.AssetResetToolStripMenuItem_Click);
+            // 
+            // GraphicPanel
+            // 
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(0, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(882, 482);
+            this.GraphicPanel.TabIndex = 10;
+            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+            // 
+            // changeLevelIDToolStripMenuItem
+            // 
+            this.changeLevelIDToolStripMenuItem.Name = "changeLevelIDToolStripMenuItem";
+            this.changeLevelIDToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.changeLevelIDToolStripMenuItem.Text = "Change Level ID...";
+            this.changeLevelIDToolStripMenuItem.Click += new System.EventHandler(this.changeLevelIDToolStripMenuItem_Click);
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3197,6 +3225,9 @@
         private System.Windows.Forms.ToolStripMenuItem trackP2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trackP3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trackP4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem restartSceneToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem assetResetToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem changeLevelIDToolStripMenuItem;
     }
 }
 

@@ -222,14 +222,8 @@ namespace ManiacEditor
 
             if (Properties.Settings.Default.PrioritizedObjectRendering)
             {
-                if (layerPriority != 0)
-                {
-                    validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
-                }
-                else
-                {
-                    validPlane = true;
-                }
+                if (layerPriority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
+                else validPlane = true;
                 if (validPlane == false && !Editor.Instance.IsEntitiesEdit()) return;
             }
 

@@ -4017,6 +4017,14 @@ Error: {ex.Message}");
             }
         }
 
+        private void changeLevelIDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string inputValue = TextPrompt.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", myEditorState.Level_ID.ToString());
+            int.TryParse(inputValue.ToString(), out int output);
+            myEditorState.Level_ID = output;
+            _levelIDLabel.Text = "Level ID: " + myEditorState.Level_ID.ToString();
+        }
+
         private void MakeForDataFolderOnlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string dataDir = DataDirectory;
@@ -4489,6 +4497,14 @@ Error: {ex.Message}");
             }
         }
 
+        private void RunSceneButton_DropDownOpening(object sender, EventArgs e)
+        {
+            trackThePlayerToolStripMenuItem.Enabled = GameRunning;
+            assetResetToolStripMenuItem1.Enabled = GameRunning;
+            restartSceneToolStripMenuItem1.Enabled = GameRunning;
+            selectConfigToolStripMenuItem.Enabled = !GameRunning;           
+        }
+
         private void ShowTileIDButton_Click(object sender, EventArgs e)
         {
             if (ShowTileIDButton.Checked == false)
@@ -4801,7 +4817,7 @@ Error: {ex.Message}");
 
             if (ForceWarp)
             {
-                SetZoomLevel(mySettings.DevForceRestartZoomLevel, new Point(0, 0));
+                SetZoomLevel(mySettings.DevForceRestartZoomLevel, TempWarpCoords);
                 GoToPosition(TempWarpCoords.X, TempWarpCoords.Y, false, true);
             }
         }
@@ -4941,6 +4957,11 @@ Error: {ex.Message}");
                 editTile0WithTileManiacToolStripMenuItem.Enabled = (tile <= 1023);
                 moveThePlayerToHereToolStripMenuItem.Enabled = GameRunning;
                 setPlayerRespawnToHereToolStripMenuItem.Enabled = GameRunning;
+                removeCheckpointToolStripMenuItem.Enabled = GameRunning && Editor.Instance.EditorGame.CheckpointEnabled;
+                assetResetToolStripMenuItem.Enabled = GameRunning;
+                restartSceneToolStripMenuItem.Enabled = GameRunning;
+                moveCheckpointToolStripMenuItem.Enabled = GameRunning && Editor.Instance.EditorGame.CheckpointEnabled;
+
 
                 editTile0WithTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile);
                 contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
@@ -4955,16 +4976,18 @@ Error: {ex.Message}");
                 moveThisPlayerToolStripMenuItem.Enabled = GameRunning;
                 moveCheckpointToolStripMenuItem.Enabled = GameRunning;
 
+                setPlayerRespawnToHereToolStripMenuItem.Enabled = GameRunning;
+                removeCheckpointToolStripMenuItem.Enabled = GameRunning;
+                assetResetToolStripMenuItem.Enabled = GameRunning;
+                restartSceneToolStripMenuItem.Enabled = GameRunning;
+                moveCheckpointToolStripMenuItem.Enabled = GameRunning;
+
                 editTile0WithTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile);
                 contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
             }
 
             //Stuff that Doesn't work yet that I'm not ready to ship
-            setPlayerRespawnToHereToolStripMenuItem.Enabled = false;
-            removeCheckpointToolStripMenuItem.Enabled = false;
-            assetResetToolStripMenuItem.Enabled = false;
-            restartSceneToolStripMenuItem.Enabled = false;
-            moveCheckpointToolStripMenuItem.Enabled = false;
+
         }
 
         private void ViewPanel_Click(object sender, EventArgs e)
@@ -6596,28 +6619,12 @@ Error: {ex.Message}");
 
         private void AssetResetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int CurrentScene = 0x00E48758;
-            int GameState = 0x00E48776;
-            int timer = 0;
-            IntPtr processHandle = Editor.GameMemory.ProcessHandle;
-
-            EditorGame.UpdateCheckpoint(new Point((int)(lastX / Zoom), (int)(lastY / Zoom)));
-
-            byte[] oldScene = EditorGame.ReadMemory(CurrentScene, 1, (int)processHandle);
-            GameMemory.WriteByte(CurrentScene, 2);
-            GameMemory.WriteByte(GameState, 0);
-
-            while (timer <= 100000)
-            {
-                timer++;
-            }
-            GameMemory.WriteByte(CurrentScene, oldScene[0]);
-            GameMemory.WriteByte(GameState, 0);
+            EditorGame.AssetReset();
         }
 
         private void RestartSceneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            EditorGame.RestartScene();
         }
 
         #endregion

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ManiacEditor
 {
@@ -13,10 +14,35 @@ namespace ManiacEditor
         protected const int NAME_BOX_WIDTH = 20;
         protected const int NAME_BOX_HEIGHT = 20;
 
-        public int StarPostEnable = 0x00EBB6C4 + 34;
-        public int StarPostX = 0x00EBB6C4 + 12;
-        public int StarPostY = 0x00EBB6C4 + 16;
+        public static int CheckpointBase = 0x00EBB6C4;
+        public static int PlayerBase = 0x85E9A0;
+        public static int Player1Base = PlayerBase + (0x458 * 0);
+        public static int Player2Base = PlayerBase + (0x458 * 1);
+        public static int Player3Base = PlayerBase + (0x458 * 2);
+        public static int Player4Base = PlayerBase + (0x458 * 3);
 
+        public static short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
+        public static short Player1_X { get { return Editor.GameMemory.ReadShort(Player1Base + 0x02); } set { Editor.GameMemory.WriteShort(Player1Base + 0x02, value); } }
+        public static short Player1_Y { get { return Editor.GameMemory.ReadShort(Player1Base + 0x06); } set { Editor.GameMemory.WriteShort(Player1Base + 0x06, value); } }
+
+        public static short Player4_State { get { return Editor.GameMemory.ReadShort(Player4Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player4Base + 0xC0, value); } }
+        public static short Player4_X { get { return Editor.GameMemory.ReadShort(Player4Base + 0x02); } set { Editor.GameMemory.WriteShort(Player4Base + 0x02, value); } }
+        public static short Player4_Y { get { return Editor.GameMemory.ReadShort(Player4Base + 0x06); } set { Editor.GameMemory.WriteShort(Player4Base + 0x06, value); } }
+
+        public static short Player3_State { get { return Editor.GameMemory.ReadShort(Player3Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player3Base + 0xC0, value); } }
+        public static short Player3_X { get { return Editor.GameMemory.ReadShort(Player3Base + 0x02); } set { Editor.GameMemory.WriteShort(Player3Base + 0x02, value); } }
+        public static short Player3_Y { get { return Editor.GameMemory.ReadShort(Player3Base + 0x06); } set { Editor.GameMemory.WriteShort(Player3Base + 0x06, value); } }
+
+        public static short Player2_State { get { return Editor.GameMemory.ReadShort(Player2Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player2Base + 0xC0, value); } }
+        public static short Player2_X { get { return Editor.GameMemory.ReadShort(Player2Base + 0x02); } set { Editor.GameMemory.WriteShort(Player2Base + 0x02, value); } }
+        public static short Player2_Y { get { return Editor.GameMemory.ReadShort(Player2Base + 0x06); } set { Editor.GameMemory.WriteShort(Player2Base + 0x06, value); } }
+
+        public static byte StarPostEnable { get { return Editor.GameMemory.ReadByte(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x34); } set { Editor.GameMemory.WriteByte(Editor.GameMemory.ReadByte(CheckpointBase) + 0x34, value); } }
+        public static int StarPostX { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x12); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x12, value); } }
+        public static int StarPostY { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x16); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x16, value); } }
+
+        public static byte CurrentScene { get { return Editor.GameMemory.ReadByte(0x00E48758); } set { Editor.GameMemory.WriteByte(0x00E48758, value); } }
+        public static byte GameState { get { return Editor.GameMemory.ReadByte(0x00E48776); } set { Editor.GameMemory.WriteByte(0x00E48776, value); } }
 
         public int GetPlayerAt(Point point)
         {
@@ -30,6 +56,9 @@ namespace ManiacEditor
         {
             return GetDimensions(player).Contains(point);
         }
+
+        public bool CheckpointEnabled { get { return StarPostEnable >= 0; } }
+
 
         public Rectangle GetDimensions(int player)
         {
@@ -83,48 +112,69 @@ namespace ManiacEditor
             if (Editor.GameRunning)
             {
                 // TODO: Find out if this is constent
-                int ObjectAddress = GetPlayerBase(player);
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(p.X / Zoom));
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(p.Y / Zoom));
+                switch (player)
+                {
+                    case 0:
+                        Player1_X = (short)(p.X / Zoom);
+                        Player1_Y = (short)(p.Y / Zoom);
+                        break;
+                    case 1:
+                        Player2_X = (short)(p.X / Zoom);
+                        Player2_Y = (short)(p.Y / Zoom);
+                        break;
+                    case 2:
+                        Player3_X = (short)(p.X / Zoom);
+                        Player3_Y = (short)(p.Y / Zoom);
+                        break;
+                    case 3:
+                        Player4_X = (short)(p.X / Zoom);
+                        Player4_Y = (short)(p.Y / Zoom);
+                        break;
+                }
+
             }
         }
 
-        public int GetPlayerBase(int player)
-        {
-            return 0x85E9A0 + (0x458 * player--);
-        }
-
-        public void DrawSinglePlayer(DevicePanel d, int playerID, int playerBase)
+        public void DrawSinglePlayer(DevicePanel d, int playerID)
         {
 
-            int ObjectAddress = playerBase;
-            IntPtr processHandle = Editor.GameMemory.ProcessHandle;
-            byte[] xb = ReadMemory(ObjectAddress + 2, 2, (int)processHandle);
-            byte[] yb = ReadMemory(ObjectAddress + 6, 2, (int)processHandle);
-            byte[] PID = ReadMemory(ObjectAddress + 0xC0, 2, (int)processHandle);
-            int x = BitConverter.ToUInt16(xb, 0);
-            int y = BitConverter.ToUInt16(yb, 0);
-            int ID = BitConverter.ToUInt16(PID, 0);
+            int x = 0;
+            int y = 0;
+            int ID = 0;
             switch (playerID)
             {
                 case 1:
-                    Editor.Instance.P1_X = x;
-                    Editor.Instance.P1_Y = y;
+                    Editor.Instance.P1_X = Player1_X;
+                    Editor.Instance.P1_Y = Player1_Y;
+                    x = Player1_X;
+                    y = Player1_Y;
+                    ID = Player1_State;
                     break;
                 case 2:
-                    Editor.Instance.P2_X = x;
-                    Editor.Instance.P2_Y = y;
+                    Editor.Instance.P2_X = Player2_X;
+                    Editor.Instance.P2_Y = Player2_Y;
+                    x = Player2_X;
+                    y = Player2_Y;
+                    ID = Player2_State;
                     break;
                 case 3:
-                    Editor.Instance.P3_X = x;
-                    Editor.Instance.P3_Y = y;
+                    Editor.Instance.P3_X = Player3_X;
+                    Editor.Instance.P3_Y = Player3_Y;
+                    x = Player3_X;
+                    y = Player3_Y;
+                    ID = Player3_State;
                     break;
                 case 4:
-                    Editor.Instance.P4_X = x;
-                    Editor.Instance.P4_Y = y;
+                    Editor.Instance.P4_X = Player4_X;
+                    Editor.Instance.P4_Y = Player4_Y;
+                    x = Player4_X;
+                    y = Player4_Y;
+                    ID = Player4_State;
                     break;
 
             }
+
+            if (playerID <= 0 || playerID >= 5) return;
 
             if (playerID == Editor.Instance.PlayerBeingTracked) Editor.Instance.GoToPosition(x, y);
 
@@ -194,26 +244,45 @@ namespace ManiacEditor
         }
 
         public void UpdateCheckpoint(Point p, bool enabled = true)
-        {       
+        {
 
-            //byte status = 0x00;
-            //if (enabled == true) status = 0x01;
-            Editor.GameMemory.WriteByte(StarPostEnable, 0x01);
-            Editor.GameMemory.WriteInt16(StarPostX, (short)p.X);
-            Editor.GameMemory.WriteInt16(StarPostY, (short)p.Y);
-            
+            byte status = StarPostEnable;
+            if (enabled == true)
+            {
+                if (StarPostEnable <= 0x00) status = 0x01;
+            }
+            else status = 0x00;
+            StarPostX = p.X;
+            StarPostY = p.Y;
+            StarPostEnable = status;
+
+        }
+
+        public void AssetReset()
+        {
+            UpdateCheckpoint(new Point(Player1_X, Player1_Y));
+
+            byte oldScene = CurrentScene;
+            CurrentScene = 0x03;
+            GameState = 0;
+
+            MessageBox.Show("Click to Finish");
+            CurrentScene = oldScene;
+            GameState = 0;
+        }
+
+        public void RestartScene()
+        {
+            GameState = 0;
         }
 
         public void DrawCheckpoint(DevicePanel d)
         {
             // TODO: Find out if this is constent
-            IntPtr processHandle = Editor.GameMemory.ProcessHandle;
-            byte[] xb = ReadMemory(StarPostX, 2, (int)processHandle);
-            byte[] yb = ReadMemory(StarPostY, 2, (int)processHandle);
-            byte[] isEnabled = ReadMemory(StarPostEnable, 1, (int)processHandle);
-            int x = BitConverter.ToUInt16(xb, 0);
-            int y = BitConverter.ToUInt16(yb, 0);
-            
+            int x = StarPostX;
+            int y = StarPostY;
+            bool isEnabled = (StarPostEnable >= 1 ? true : false);
+
 
             int Transparency = 0xff;
 
@@ -224,7 +293,7 @@ namespace ManiacEditor
 
 
 
-            if (isEnabled[0] == 1)
+            if (isEnabled)
             {
                 if (showFrame)
                 {
@@ -258,17 +327,13 @@ namespace ManiacEditor
 
         public void DrawGameElements(DevicePanel d)
         {
-            int P1 = 0x85E9A0;
-            int P2 = 0x85E9A0 + (0x458 * 1);
-            int P3 = 0x85E9A0 + (0x458 * 2);
-            int P4 = 0x85E9A0 + (0x458 * 3);
 
-            DrawSinglePlayer(d, 1, P1);
-            DrawSinglePlayer(d, 2, P2);
-            DrawSinglePlayer(d, 3, P3);
-            DrawSinglePlayer(d, 4, P4);
+            DrawSinglePlayer(d, 1);
+            DrawSinglePlayer(d, 2);
+            DrawSinglePlayer(d, 3);
+            DrawSinglePlayer(d, 4);
 
-            //DrawCheckpoint(d);
+            DrawCheckpoint(d);
 
 
         }
