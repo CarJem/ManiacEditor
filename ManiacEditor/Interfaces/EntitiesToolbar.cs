@@ -422,7 +422,6 @@ namespace ManiacEditor
                 }
                 var pos = entity.Position;
                 if (name == "x")
-                if (name == "x")
                 {
                     pos.X.High = (short)fvalue;
                     pos.X.Low = (ushort)(fvalue * 0x10000);

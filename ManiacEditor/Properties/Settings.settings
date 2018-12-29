@@ -392,5 +392,8 @@
     <Setting Name="LangDefault" Type="System.String" Scope="User">
       <Value Profile="(Default)">EN</Value>
     </Setting>
+    <Setting Name="ButtonLayoutDefault" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Xbox</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

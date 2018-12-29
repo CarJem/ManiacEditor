@@ -27,6 +27,7 @@ using File = System.IO.File;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Net.Sockets;
+using System.Windows.Forms.VisualStyles;
 
 namespace ManiacEditor
 {
@@ -81,7 +82,9 @@ namespace ManiacEditor
         public string CurrentLanguage = "EN"; //Current Selected Language
         Point TempWarpCoords = new Point(0, 0); //Temporary Warp Position for Shortcuts and Force Open
         public bool ForceWarp = false; //For Shortcuts and Force Open.
+        public bool ShortcutHasZoom = false; //For Shortcuts and Force Open.
         public int PlayerBeingTracked = -1;
+        public int CurrentControllerButtons = 2; //For Setting the Menu Control Button Images.
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -99,6 +102,7 @@ namespace ManiacEditor
         public int entityVisibilityType = 0; // Used to determine how to display entities
         string MenuCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";
         public char[] MenuChar;
+        public double ShortcutZoomValue = 0.0;
 
         //Editor Paths
         public static string DataDirectory; //Used to get the current Data Directory
@@ -275,7 +279,7 @@ namespace ManiacEditor
         #endregion
 
         #endregion
-        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0)
+        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0)
         {
             SystemEvents.PowerModeChanged += CheckDeviceState;
 
@@ -515,11 +519,28 @@ namespace ManiacEditor
 
             showParallaxSpritesToolStripMenuItem.Checked = mySettings.ShowFullParallaxEntityRenderDefault;
             myEditorState.ShowParallaxSprites = mySettings.ShowFullParallaxEntityRenderDefault;
+            prioritizedViewingToolStripMenuItem.Checked = mySettings.PrioritizedObjectRendering;
             foreach (ToolStripMenuItem item in menuLanguageToolStripMenuItem.DropDownItems) if (item.Tag.ToString() == mySettings.LangDefault)
                 {
                     item.Checked = true;
                     CurrentLanguage = item.Tag.ToString();
                 }
+            foreach (ToolStripMenuItem item in menuButtonsToolStripMenuItem.DropDownItems) {
+                if (item.Tag.ToString() == mySettings.ButtonLayoutDefault)
+                {
+                    item.Checked = true;
+                    SetMenuButtons(item.Tag.ToString());
+                }
+                foreach (ToolStripMenuItem subItem in item.DropDownItems)
+                {
+                    if (item.Tag.ToString() == mySettings.ButtonLayoutDefault)
+                    {
+                        item.Checked = true;
+                        SetMenuButtons(item.Tag.ToString());
+                    }
+                }
+            }
+
         }
         void UseDefaultPrefrences()
         {
@@ -961,8 +982,10 @@ namespace ManiacEditor
             //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
             try
             {
-                windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
-                windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
+                if (IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
+                else windowsClipboardState = false;
+                if (IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
+                else windowsEntityClipboardState = false;
             }
             catch
             {
@@ -2509,26 +2532,36 @@ namespace ManiacEditor
 
         #region Zooming/Resizing Related Methods
 
-        public void SetZoomLevel(int zoom_level, Point zoom_point)
+        public void SetZoomLevel(int zoom_level, Point zoom_point, double zoom_level_d = 0.0)
         {
             double old_zoom = Zoom;
 
-            ZoomLevel = zoom_level;
 
-            switch (ZoomLevel)
+
+            if (zoom_level_d == 0.0)
             {
-                case 5: Zoom = 4; break;
-                case 4: Zoom = 3; break;
-                case 3: Zoom = 2; break;
-                case 2: Zoom = 3 / 2.0; break;
-                case 1: Zoom = 5 / 4.0; break;
-                case 0: Zoom = 1; break;
-                case -1: Zoom = 2 / 3.0; break;
-                case -2: Zoom = 1 / 2.0; break;
-                case -3: Zoom = 1 / 3.0; break;
-                case -4: Zoom = 1 / 4.0; break;
-                case -5: Zoom = 1 / 8.0; break;
+                ZoomLevel = zoom_level;
+                switch (ZoomLevel)
+                {
+                    case 5: Zoom = 4; break;
+                    case 4: Zoom = 3; break;
+                    case 3: Zoom = 2; break;
+                    case 2: Zoom = 3 / 2.0; break;
+                    case 1: Zoom = 5 / 4.0; break;
+                    case 0: Zoom = 1; break;
+                    case -1: Zoom = 2 / 3.0; break;
+                    case -2: Zoom = 1 / 2.0; break;
+                    case -3: Zoom = 1 / 3.0; break;
+                    case -4: Zoom = 1 / 4.0; break;
+                    case -5: Zoom = 1 / 8.0; break;
+                }
             }
+            else
+            {
+                ZoomLevel = (int)zoom_level_d;
+                Zoom = zoom_level_d;
+            }
+
 
             zooming = true;
 
@@ -2943,12 +2976,17 @@ namespace ManiacEditor
 
 
         }
-        private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y)
+        private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0)
         {
             DataDirectory = dataDir;
             string Result = scenePath;
             int LevelID = levelID;
             bool isEncore = isEncoreMode;
+            if (_ZoomScale != 0.0)
+            {
+                ShortcutZoomValue = _ZoomScale;
+                ShortcutHasZoom = true;
+            }
             TempWarpCoords = new Point(X, Y);
             ForceWarp = true;
             OpenScene(false, Result, LevelID, isEncore, (modPath != "" ? true : false), modPath);
@@ -3668,6 +3706,111 @@ Error: {ex.Message}");
 
         #region View Tab Buttons
 
+        private void SetMenuButtons(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+            if (menuItem != null)
+            {
+                if (menuItem.Tag != null)
+                {
+                    foreach (ToolStripMenuItem item in menuButtonsToolStripMenuItem.DropDownItems)
+                    {
+                        item.Checked = false;
+                        foreach (ToolStripMenuItem subItem in item.DropDownItems)
+                        {
+                            subItem.Checked = false;
+                        }
+                    }
+                        string tag = menuItem.Tag.ToString();
+                    switch (tag)
+                    {
+                        case "Xbox":
+                            CurrentControllerButtons = 2;
+                            break;
+                        case "Switch":
+                            CurrentControllerButtons = 4;
+                            break;
+                        case "PS4":
+                            CurrentControllerButtons = 3;
+                            break;
+                        case "Saturn Black":
+                            CurrentControllerButtons = 5;
+                            break;
+                        case "Saturn White":
+                            CurrentControllerButtons = 6;
+                            break;
+                        case "Switch Joy L":
+                            CurrentControllerButtons = 7;
+                            break;
+                        case "Switch Joy R":
+                            CurrentControllerButtons = 8;
+                            break;
+                        case "PC EN/JP":
+                            CurrentControllerButtons = 1;
+                            break;
+                        case "PC FR":
+                            CurrentControllerButtons = 9;
+                            break;
+                        case "PC IT":
+                            CurrentControllerButtons = 10;
+                            break;
+                        case "PC GE":
+                            CurrentControllerButtons = 11;
+                            break;
+                        case "PC SP":
+                            CurrentControllerButtons = 12;
+                            break;
+                    }
+                    menuItem.Checked = true;
+                }
+
+            }
+
+        }
+
+        private void SetMenuButtons(string tag)
+        {
+            switch (tag)
+            {
+                case "Xbox":
+                    CurrentControllerButtons = 2;
+                    break;
+                case "Switch":
+                    CurrentControllerButtons = 4;
+                    break;
+                case "PS4":
+                    CurrentControllerButtons = 3;
+                    break;
+                case "Saturn Black":
+                    CurrentControllerButtons = 5;
+                    break;
+                case "Saturn White":
+                    CurrentControllerButtons = 6;
+                    break;
+                case "Switch Joy L":
+                    CurrentControllerButtons = 7;
+                    break;
+                case "Switch Joy R":
+                    CurrentControllerButtons = 8;
+                    break;
+                case "PC EN/JP":
+                    CurrentControllerButtons = 1;
+                    break;
+                case "PC FR":
+                    CurrentControllerButtons = 9;
+                    break;
+                case "PC IT":
+                    CurrentControllerButtons = 10;
+                    break;
+                case "PC GE":
+                    CurrentControllerButtons = 11;
+                    break;
+                case "PC SP":
+                    CurrentControllerButtons = 12;
+                    break;
+            }
+        }
+
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (showEntitiesAboveAllOtherLayersToolStripMenuItem.Checked)
@@ -3679,6 +3822,12 @@ Error: {ex.Message}");
                 entityVisibilityType = 0;
             }
 
+        }
+
+        private void prioritizedViewingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (prioritizedViewingToolStripMenuItem.Checked) mySettings.PrioritizedObjectRendering = true;
+            else mySettings.PrioritizedObjectRendering = false;
         }
 
         private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3959,10 +4108,9 @@ Error: {ex.Message}");
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
-                ForeColor = Color.Black,
-                BackColor = Color.White,
                 Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor1.R, EditorScene.EditorMetadata.BackgroundColor1.G, EditorScene.EditorMetadata.BackgroundColor1.B)
             };
+            UseExternalDarkTheme(colorSelect);
             DialogResult result = colorSelect.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -3984,10 +4132,9 @@ Error: {ex.Message}");
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
-                ForeColor = Color.Black,
-                BackColor = Color.White,
                 Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor2.R, EditorScene.EditorMetadata.BackgroundColor2.G, EditorScene.EditorMetadata.BackgroundColor2.B)
             };
+            UseExternalDarkTheme(colorSelect);
             DialogResult result = colorSelect.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -4036,11 +4183,12 @@ Error: {ex.Message}");
             string dataDir = DataDirectory;
             string scenePath = ScenePath;
             string modPath = ModDataDirectory;
-            int rX = (short)(ShiftX / Zoom);
-            int rY = (short)(ShiftY / Zoom);
+            int rX = (short)(ShiftX);
+            int rY = (short)(ShiftY);
+            double _ZoomLevel = ZoomLevel;
             bool isEncoreSet = Editor.Instance.useEncoreColors;
             int levelSlotNum = Editor.Instance.myEditorState.Level_ID;
-            CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum);
+            CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
         }
 
         private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4501,6 +4649,7 @@ Error: {ex.Message}");
         {
             trackThePlayerToolStripMenuItem.Enabled = GameRunning;
             assetResetToolStripMenuItem1.Enabled = GameRunning;
+            moveThePlayerToHereToolStripMenuItem.Enabled = GameRunning;
             restartSceneToolStripMenuItem1.Enabled = GameRunning;
             selectConfigToolStripMenuItem.Enabled = !GameRunning;           
         }
@@ -4712,7 +4861,7 @@ Error: {ex.Message}");
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0 && ShowEntities.Checked)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType != 1)
                 {
                     entities.DrawPriority(GraphicPanel, 0);
                     entities.DrawPriority(GraphicPanel, 1);
@@ -4723,7 +4872,7 @@ Error: {ex.Message}");
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && entityVisibilityType == 0 && ShowEntities.Checked)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType != 1)
                 {
                     entities.DrawPriority(GraphicPanel, 2);
                     entities.DrawPriority(GraphicPanel, 3);
@@ -4817,7 +4966,8 @@ Error: {ex.Message}");
 
             if (ForceWarp)
             {
-                SetZoomLevel(mySettings.DevForceRestartZoomLevel, TempWarpCoords);
+                if (ShortcutHasZoom) SetZoomLevel(0, TempWarpCoords, ShortcutZoomValue);
+                else SetZoomLevel(mySettings.DevForceRestartZoomLevel, TempWarpCoords);
                 GoToPosition(TempWarpCoords.X, TempWarpCoords.Y, false, true);
             }
         }
@@ -4954,7 +5104,7 @@ Error: {ex.Message}");
                 Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                 int tile = (ushort)(EditLayer?.GetTileAt(clicked_point_tile) & 0x3ff);
                 SelectedTileID = tile;
-                editTile0WithTileManiacToolStripMenuItem.Enabled = (tile <= 1023);
+                editTile0WithTileManiacToolStripMenuItem.Enabled = (tile < 1023);
                 moveThePlayerToHereToolStripMenuItem.Enabled = GameRunning;
                 setPlayerRespawnToHereToolStripMenuItem.Enabled = GameRunning;
                 removeCheckpointToolStripMenuItem.Enabled = GameRunning && Editor.Instance.EditorGame.CheckpointEnabled;
@@ -6479,6 +6629,35 @@ Error: {ex.Message}");
 
         }
 
+        public Control UseExternalDarkTheme(Control control)
+        {
+            foreach (Control c in control.Controls)
+            {
+                if (c is Cyotek.Windows.Forms.ColorEditor)
+                {
+                    foreach (Control c2 in c.Controls)
+                    {
+                        if (c2 is NumericUpDown)
+                        {
+                            c2.ForeColor = Color.Black;
+                            c2.BackColor = Color.White;
+                        }
+                        if (c2 is ComboBox)
+                        {
+                            c2.ForeColor = Color.Black;
+                            c2.BackColor = Color.White;
+                        }
+                    }
+                }
+
+                if (c is System.Windows.Forms.Button)
+                {
+                    c.ForeColor = Color.Black;
+                }
+            }
+            return control;
+        }
+
         public void SetButtonColors(object sender, Color OverallColor)
         {
             //Set the Overall Color for the Black Editor Buttons
@@ -6631,7 +6810,7 @@ Error: {ex.Message}");
 
         #region Miscellaneous
 
-        private void CreateShortcut(string dataDir, string scenePath = "", string modPath = "", int X = 0, int Y = 0, bool isEncoreMode = false, int LevelSlotNum = -1)
+        private void CreateShortcut(string dataDir, string scenePath = "", string modPath = "", int X = 0, int Y = 0, bool isEncoreMode = false, int LevelSlotNum = -1, double ZoomedLevel = 0.0)
         {
             object shDesktop = (object)"Desktop";
             WshShell shell = new WshShell();
@@ -6650,7 +6829,7 @@ Error: {ex.Message}");
             string launchArguments = "";
             if (scenePath != "")
             {
-                launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "") + (scenePath != "" ? "ScenePath=" + "\"" + scenePath + "\" " : "") + (modPath != "" ? "ModPath=" + "\"" + modPath + "\" " : "") + (LevelSlotNum != -1 ? "LevelID=" + LevelSlotNum.ToString() + " " : "") + (isEncoreMode == true ? "EncoreMode=TRUE " : "") + (X != 0 ? "X=" + X.ToString() + " " : "") + (Y != 0 ? "Y=" + Y.ToString() + " " : "");
+                launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "") + (scenePath != "" ? "ScenePath=" + "\"" + scenePath + "\" " : "") + (modPath != "" ? "ModPath=" + "\"" + modPath + "\" " : "") + (LevelSlotNum != -1 ? "LevelID=" + LevelSlotNum.ToString() + " " : "") + (isEncoreMode == true ? "EncoreMode=TRUE " : "") + (X != 0 ? "X=" + X.ToString() + " " : "") + (Y != 0 ? "Y=" + Y.ToString() + " " : "") + (ZoomedLevel != 0 ? "ZoomedLevel=" + ZoomedLevel.ToString() + " " : "");
             }
             else
             {
@@ -6879,6 +7058,8 @@ Error: {ex.Message}");
             {
                 ForceWarp = false;
                 TempWarpCoords = new Point(0, 0);
+                ShortcutHasZoom = false;
+                ShortcutZoomValue = 0.0;
             }
 
         }

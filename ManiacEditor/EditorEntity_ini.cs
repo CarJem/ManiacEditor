@@ -705,6 +705,7 @@ namespace ManiacEditor
 
         private static Bitmap SetEncoreColors(Bitmap _bitmap, string encoreColors = null)
         {
+            if (encoreColors == "") return _bitmap;
             Bitmap _bitmapEditMemory;
             _bitmapEditMemory = _bitmap.Clone(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), PixelFormat.Format8bppIndexed);
 
