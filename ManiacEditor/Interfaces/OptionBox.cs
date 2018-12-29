@@ -42,6 +42,14 @@ namespace ManiacEditor
                 }
             }
 
+            foreach (RadioButton rdo in groupBox9.Controls.OfType<RadioButton>())
+            {
+                if (rdo.Tag.ToString() == Settings.mySettings.ButtonLayoutDefault)
+                {
+                    rdo.Checked = true;
+                }
+            }
+
             initilizeKeyDefaults();
 
             if (Properties.Settings.Default.NightMode)
@@ -697,8 +705,12 @@ namespace ManiacEditor
         {
             RadioButton button = sender as RadioButton;
             if (sender != null) Settings.mySettings.LangDefault = button.Tag.ToString();
+        }
 
-
+        private void SetButtonLayoutDefault(object sender, EventArgs e)
+        {
+            RadioButton button = sender as RadioButton;
+            if (sender != null) Settings.mySettings.ButtonLayoutDefault = button.Tag.ToString();
         }
     }
 }

@@ -224,7 +224,7 @@ namespace ManiacEditor
             {
                 if (layerPriority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
                 else validPlane = true;
-                if (validPlane == false && !Editor.Instance.IsEntitiesEdit()) return;
+                if (validPlane == false && !Editor.Instance.IsEntitiesEdit() && Editor.Instance.entityVisibilityType != 1) return;
             }
 
             bool skipRenderforx86 = false;

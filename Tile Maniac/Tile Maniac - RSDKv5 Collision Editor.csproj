@@ -114,15 +114,6 @@
     <Compile Include="Mainform.Designer.cs">
       <DependentUpon>Mainform.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mainform_old.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Mainform_old.Designer.cs">
-      <DependentUpon>Mainform_old.cs</DependentUpon>
-    </Compile>
-    <None Include="MergeMainForm.text">
-      <SubType>Form</SubType>
-    </None>
     <Compile Include="OptionsBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,9 +138,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mainform.resx">
       <DependentUpon>Mainform.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mainform_old.resx">
-      <DependentUpon>Mainform_old.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OptionsBox.resx">
       <DependentUpon>OptionsBox.cs</DependentUpon>

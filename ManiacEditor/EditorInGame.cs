@@ -243,15 +243,14 @@ namespace ManiacEditor
             }
         }
 
-        public void UpdateCheckpoint(Point p, bool enabled = true)
+        public void UpdateCheckpoint(Point p, bool enabled = true, bool forceStatus = false)
         {
 
             byte status = StarPostEnable;
             if (enabled == true)
             {
-                if (StarPostEnable <= 0x00) status = 0x01;
+                status = 0x01;
             }
-            else status = 0x00;
             StarPostX = p.X;
             StarPostY = p.Y;
             StarPostEnable = status;
@@ -260,15 +259,17 @@ namespace ManiacEditor
 
         public void AssetReset()
         {
-            UpdateCheckpoint(new Point(Player1_X, Player1_Y));
+            int x = Player1_X;
+            int y = Player1_Y;
 
             byte oldScene = CurrentScene;
             CurrentScene = 0x03;
             GameState = 0;
 
-            MessageBox.Show("Click to Finish");
+            MessageBox.Show("Click OK to Finish Asset Reset");
             CurrentScene = oldScene;
             GameState = 0;
+            UpdateCheckpoint(new Point(x, y), true, true);
         }
 
         public void RestartScene()

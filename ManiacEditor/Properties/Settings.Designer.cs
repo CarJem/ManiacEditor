@@ -1629,5 +1629,17 @@ namespace ManiacEditor.Properties {
                 this["LangDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Xbox")]
+        public string ButtonLayoutDefault {
+            get {
+                return ((string)(this["ButtonLayoutDefault"]));
+            }
+            set {
+                this["ButtonLayoutDefault"] = value;
+            }
+        }
     }
 }

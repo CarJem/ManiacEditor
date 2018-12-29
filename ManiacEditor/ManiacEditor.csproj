@@ -267,7 +267,7 @@
     </Reference>
     <Reference Include="Cyotek.Windows.Forms.ColorPicker, Version=1.0.0.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221, processorArchitecture=MSIL">
       <HintPath>..\packages\Cyotek.Windows.Forms.ColorPicker.1.7.2\lib\net35\Cyotek.Windows.Forms.ColorPicker.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -361,7 +361,9 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -434,7 +436,13 @@
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />
     <Compile Include="Entity Renders\SummaryEmerald.cs" />
+    <Compile Include="Entity Renders\UIChoice.cs" />
+    <Compile Include="Entity Renders\UIButtonBack.cs" />
     <Compile Include="Entity Renders\UIButtonLabel.cs" />
+    <Compile Include="Entity Renders\UIDiorama.cs" />
+    <Compile Include="Entity Renders\UICharButton.cs" />
+    <Compile Include="Entity Renders\UIVsZoneButton.cs" />
+    <Compile Include="Entity Renders\UITAZoneModule.cs" />
     <Compile Include="Entity Renders\UISubHeading.cs" />
     <Compile Include="Entity Renders\UISaveSlot.cs" />
     <Compile Include="Entity Renders\UIButtonPrompt.cs" />

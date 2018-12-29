@@ -27,7 +27,7 @@ namespace TileManiac
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            
+            Mainform.Instance.RefreshUI();
         }
     }
 }

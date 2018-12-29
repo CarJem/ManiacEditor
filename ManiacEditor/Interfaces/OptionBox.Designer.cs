@@ -32,34 +32,21 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panel15 = new System.Windows.Forms.Panel();
             this.label85 = new System.Windows.Forms.Label();
-            this.checkBox37 = new System.Windows.Forms.CheckBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.checkBox51 = new System.Windows.Forms.CheckBox();
-            this.checkBox28 = new System.Windows.Forms.CheckBox();
-            this.checkBox19 = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.enableWindowsClipboard = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.importOptionsButton = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
-            this.checkBox33 = new System.Windows.Forms.CheckBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.RPCCheckBox = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label20 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
-            this.button22 = new System.Windows.Forms.Button();
-            this.button21 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label113 = new System.Windows.Forms.Label();
@@ -77,71 +64,39 @@
             this.GE = new System.Windows.Forms.RadioButton();
             this.FR = new System.Windows.Forms.RadioButton();
             this.EN = new System.Windows.Forms.RadioButton();
-            this.checkBox47 = new System.Windows.Forms.CheckBox();
-            this.checkBox46 = new System.Windows.Forms.CheckBox();
-            this.checkBox44 = new System.Windows.Forms.CheckBox();
-            this.checkBox43 = new System.Windows.Forms.CheckBox();
-            this.checkBox40 = new System.Windows.Forms.CheckBox();
-            this.checkBox39 = new System.Windows.Forms.CheckBox();
-            this.checkBox38 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.checkBox36 = new System.Windows.Forms.CheckBox();
             this.label86 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.checkBox41 = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.x16checkbox = new System.Windows.Forms.RadioButton();
             this.x256checkbox = new System.Windows.Forms.RadioButton();
             this.customGridCheckbox = new System.Windows.Forms.RadioButton();
             this.x128checkbox = new System.Windows.Forms.RadioButton();
-            this.checkBox42 = new System.Windows.Forms.CheckBox();
             this.label114 = new System.Windows.Forms.Label();
             this.gridSizeDown = new System.Windows.Forms.Button();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.gridSizeDownMore = new System.Windows.Forms.Button();
-            this.animationsDefault = new System.Windows.Forms.CheckBox();
-            this.entitiesDefault = new System.Windows.Forms.CheckBox();
             this.gridSizeUp = new System.Windows.Forms.Button();
-            this.fgLowerDefault = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.gridSizeUpMore = new System.Windows.Forms.Button();
-            this.fgLowDefault = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.gridSizeValueLabel = new System.Windows.Forms.Label();
-            this.fgHighDefault = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.nudgeValueUpMoreButton = new System.Windows.Forms.Button();
-            this.fgHigherDefault = new System.Windows.Forms.CheckBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.nudgeValueUpButton = new System.Windows.Forms.Button();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.nudgeValueDownButton = new System.Windows.Forms.Button();
             this.nudgeValueDownMoreButton = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.tileToolbarZoomDefault = new System.Windows.Forms.TrackBar();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.SceneSelectRadio2 = new System.Windows.Forms.RadioButton();
-            this.SceneSelectRadio1 = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.radioButtonY = new System.Windows.Forms.RadioButton();
-            this.radioButtonX = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.highLayerTextbox = new System.Windows.Forms.TextBox();
-            this.lowLayerTextbox = new System.Windows.Forms.TextBox();
-            this.solidTopDefault = new System.Windows.Forms.CheckBox();
-            this.soildAllButTopDefault = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.unknown1Default = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.unkown2Default = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -155,26 +110,16 @@
             this.minimalRadioButton = new System.Windows.Forms.RadioButton();
             this.label34 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.checkBox27 = new System.Windows.Forms.CheckBox();
-            this.checkBox14 = new System.Windows.Forms.CheckBox();
-            this.checkBox13 = new System.Windows.Forms.CheckBox();
-            this.checkBox17 = new System.Windows.Forms.CheckBox();
-            this.checkBox18 = new System.Windows.Forms.CheckBox();
             this.label54 = new System.Windows.Forms.Label();
             this.button17 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -182,20 +127,15 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.checkBox32 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.caseBasedPreRender = new System.Windows.Forms.RadioButton();
             this.manualPreRender = new System.Windows.Forms.RadioButton();
             this.promptForPreRender = new System.Windows.Forms.RadioButton();
             this.preRenderAlways = new System.Windows.Forms.RadioButton();
-            this.checkBox20 = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox16 = new System.Windows.Forms.CheckBox();
-            this.copyUnlock = new System.Windows.Forms.CheckBox();
             this.checkBox15 = new System.Windows.Forms.CheckBox();
-            this.layerHide = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.label53 = new System.Windows.Forms.Label();
@@ -304,20 +244,88 @@
             this.label105 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.checkBox45 = new System.Windows.Forms.CheckBox();
-            this.checkBox31 = new System.Windows.Forms.CheckBox();
-            this.checkBox26 = new System.Windows.Forms.CheckBox();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.label55 = new System.Windows.Forms.Label();
-            this.checkBox35 = new System.Windows.Forms.CheckBox();
-            this.checkBox30 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel12 = new System.Windows.Forms.Panel();
             this.label36 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.panel14 = new System.Windows.Forms.Panel();
+            this.label31 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.radioButton9 = new System.Windows.Forms.RadioButton();
+            this.radioButton10 = new System.Windows.Forms.RadioButton();
+            this.radioButton11 = new System.Windows.Forms.RadioButton();
+            this.radioButton12 = new System.Windows.Forms.RadioButton();
+            this.radioButton13 = new System.Windows.Forms.RadioButton();
+            this.radioButton14 = new System.Windows.Forms.RadioButton();
+            this.radioButton15 = new System.Windows.Forms.RadioButton();
+            this.checkBox27 = new System.Windows.Forms.CheckBox();
+            this.checkBox14 = new System.Windows.Forms.CheckBox();
+            this.checkBox13 = new System.Windows.Forms.CheckBox();
+            this.checkBox17 = new System.Windows.Forms.CheckBox();
+            this.checkBox18 = new System.Windows.Forms.CheckBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.checkBox32 = new System.Windows.Forms.CheckBox();
+            this.checkBox20 = new System.Windows.Forms.CheckBox();
+            this.checkBox16 = new System.Windows.Forms.CheckBox();
+            this.copyUnlock = new System.Windows.Forms.CheckBox();
+            this.layerHide = new System.Windows.Forms.CheckBox();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.checkBox47 = new System.Windows.Forms.CheckBox();
+            this.checkBox46 = new System.Windows.Forms.CheckBox();
+            this.checkBox44 = new System.Windows.Forms.CheckBox();
+            this.checkBox43 = new System.Windows.Forms.CheckBox();
+            this.checkBox40 = new System.Windows.Forms.CheckBox();
+            this.checkBox39 = new System.Windows.Forms.CheckBox();
+            this.checkBox38 = new System.Windows.Forms.CheckBox();
+            this.checkBox36 = new System.Windows.Forms.CheckBox();
+            this.checkBox41 = new System.Windows.Forms.CheckBox();
+            this.checkBox42 = new System.Windows.Forms.CheckBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.animationsDefault = new System.Windows.Forms.CheckBox();
+            this.entitiesDefault = new System.Windows.Forms.CheckBox();
+            this.fgLowerDefault = new System.Windows.Forms.CheckBox();
+            this.fgLowDefault = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.fgHighDefault = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.fgHigherDefault = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.tileToolbarZoomDefault = new System.Windows.Forms.TrackBar();
+            this.SceneSelectRadio2 = new System.Windows.Forms.RadioButton();
+            this.SceneSelectRadio1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonY = new System.Windows.Forms.RadioButton();
+            this.radioButtonX = new System.Windows.Forms.RadioButton();
+            this.highLayerTextbox = new System.Windows.Forms.TextBox();
+            this.lowLayerTextbox = new System.Windows.Forms.TextBox();
+            this.solidTopDefault = new System.Windows.Forms.CheckBox();
+            this.soildAllButTopDefault = new System.Windows.Forms.CheckBox();
+            this.unknown1Default = new System.Windows.Forms.CheckBox();
+            this.unkown2Default = new System.Windows.Forms.CheckBox();
+            this.checkBox45 = new System.Windows.Forms.CheckBox();
+            this.checkBox31 = new System.Windows.Forms.CheckBox();
+            this.checkBox26 = new System.Windows.Forms.CheckBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
+            this.checkBox35 = new System.Windows.Forms.CheckBox();
+            this.checkBox30 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox50 = new System.Windows.Forms.CheckBox();
             this.checkBox49 = new System.Windows.Forms.CheckBox();
             this.checkBox48 = new System.Windows.Forms.CheckBox();
@@ -329,10 +337,15 @@
             this.checkBox21 = new System.Windows.Forms.CheckBox();
             this.checkBox23 = new System.Windows.Forms.CheckBox();
             this.checkBox22 = new System.Windows.Forms.CheckBox();
-            this.label31 = new System.Windows.Forms.Label();
             this.checkBox34 = new System.Windows.Forms.CheckBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.checkBox37 = new System.Windows.Forms.CheckBox();
+            this.checkBox51 = new System.Windows.Forms.CheckBox();
+            this.checkBox28 = new System.Windows.Forms.CheckBox();
+            this.checkBox19 = new System.Windows.Forms.CheckBox();
+            this.enableWindowsClipboard = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox33 = new System.Windows.Forms.CheckBox();
+            this.RPCCheckBox = new System.Windows.Forms.CheckBox();
             this.tabPage4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -348,7 +361,6 @@
             this.groupBox1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tileToolbarZoomDefault)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -364,6 +376,8 @@
             this.panel13.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel14.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tileToolbarZoomDefault)).BeginInit();
             this.SuspendLayout();
             // 
             // tabPage4
@@ -405,20 +419,6 @@
             this.label85.TabIndex = 56;
             this.label85.Text = "Developer Options:";
             this.label85.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // checkBox37
-            // 
-            this.checkBox37.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox37.Checked = global::ManiacEditor.Properties.Settings.Default.UseForcefulStartup;
-            this.checkBox37.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseForcefulStartup", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox37.Location = new System.Drawing.Point(11, 26);
-            this.checkBox37.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox37.Name = "checkBox37";
-            this.checkBox37.Size = new System.Drawing.Size(157, 46);
-            this.checkBox37.TabIndex = 57;
-            this.checkBox37.Text = "Open Scene Forcefully on Startup\r\n";
-            this.checkBox37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox37.UseVisualStyleBackColor = false;
             // 
             // panel9
             // 
@@ -482,49 +482,6 @@
             this.panel10.Size = new System.Drawing.Size(183, 310);
             this.panel10.TabIndex = 108;
             // 
-            // checkBox51
-            // 
-            this.checkBox51.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox51.Checked = global::ManiacEditor.Properties.Settings.Default.EntityFreeCam;
-            this.checkBox51.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EntityFreeCam", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox51.Location = new System.Drawing.Point(16, 233);
-            this.checkBox51.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox51.Name = "checkBox51";
-            this.checkBox51.Size = new System.Drawing.Size(152, 70);
-            this.checkBox51.TabIndex = 62;
-            this.checkBox51.Text = "Entity FreeCam Mode\r\n(Disables Layer Viewing)\r\n(Allows You to see outside of the " +
-    "normal bounds)\r\n\r\n";
-            this.checkBox51.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox51.UseVisualStyleBackColor = false;
-            // 
-            // checkBox28
-            // 
-            this.checkBox28.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox28.Checked = global::ManiacEditor.Properties.Settings.Default.DisableEntityReading;
-            this.checkBox28.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableEntityReading", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox28.Location = new System.Drawing.Point(16, 189);
-            this.checkBox28.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox28.Name = "checkBox28";
-            this.checkBox28.Size = new System.Drawing.Size(152, 32);
-            this.checkBox28.TabIndex = 61;
-            this.checkBox28.Text = "Disable Entity Reading\r\n(Scene Rescue Mode)";
-            this.checkBox28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox28.UseVisualStyleBackColor = false;
-            // 
-            // checkBox19
-            // 
-            this.checkBox19.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox19.Checked = global::ManiacEditor.Properties.Settings.Default.ProhibitEntityUseOnExternalClipboard;
-            this.checkBox19.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox19.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ProhibitEntityUseOnExternalClipboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox19.Location = new System.Drawing.Point(16, 112);
-            this.checkBox19.Name = "checkBox19";
-            this.checkBox19.Size = new System.Drawing.Size(152, 69);
-            this.checkBox19.TabIndex = 60;
-            this.checkBox19.Text = "Prohibit Entities from Using Windows Clipboard and Between Scenes Copying**";
-            this.checkBox19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox19.UseVisualStyleBackColor = false;
-            // 
             // label12
             // 
             this.label12.BackColor = System.Drawing.Color.Transparent;
@@ -536,35 +493,6 @@
             this.label12.TabIndex = 56;
             this.label12.Text = "Experimental Options:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // enableWindowsClipboard
-            // 
-            this.enableWindowsClipboard.BackColor = System.Drawing.Color.Transparent;
-            this.enableWindowsClipboard.Checked = global::ManiacEditor.Properties.Settings.Default.EnableWindowsClipboard;
-            this.enableWindowsClipboard.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EnableWindowsClipboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.enableWindowsClipboard.Location = new System.Drawing.Point(16, 30);
-            this.enableWindowsClipboard.Margin = new System.Windows.Forms.Padding(5);
-            this.enableWindowsClipboard.Name = "enableWindowsClipboard";
-            this.enableWindowsClipboard.Size = new System.Drawing.Size(152, 32);
-            this.enableWindowsClipboard.TabIndex = 57;
-            this.enableWindowsClipboard.Text = "Enable Windows Clipboard*";
-            this.enableWindowsClipboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.enableWindowsClipboard.UseVisualStyleBackColor = false;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox2.Checked = global::ManiacEditor.Properties.Settings.Default.RemoveObjectImportLock;
-            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "RemoveObjectImportLock", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox2.Location = new System.Drawing.Point(16, 72);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(152, 32);
-            this.checkBox2.TabIndex = 59;
-            this.checkBox2.Text = "Remove Object Import Lock**";
-            this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox2.UseVisualStyleBackColor = false;
             // 
             // importOptionsButton
             // 
@@ -601,20 +529,6 @@
             this.panel11.Size = new System.Drawing.Size(184, 129);
             this.panel11.TabIndex = 104;
             // 
-            // checkBox33
-            // 
-            this.checkBox33.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox33.Checked = global::ManiacEditor.Properties.Settings.Default.checkForUpdatesAuto;
-            this.checkBox33.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox33.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "checkForUpdatesAuto", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox33.Location = new System.Drawing.Point(16, 78);
-            this.checkBox33.Name = "checkBox33";
-            this.checkBox33.Size = new System.Drawing.Size(160, 40);
-            this.checkBox33.TabIndex = 56;
-            this.checkBox33.Text = "Check for Updates on Startup";
-            this.checkBox33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox33.UseVisualStyleBackColor = false;
-            // 
             // label22
             // 
             this.label22.BackColor = System.Drawing.Color.Transparent;
@@ -626,20 +540,6 @@
             this.label22.TabIndex = 55;
             this.label22.Text = "Misc Settings:";
             this.label22.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // RPCCheckBox
-            // 
-            this.RPCCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.RPCCheckBox.Checked = global::ManiacEditor.Properties.Settings.Default.ForceCopyUnlock;
-            this.RPCCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "forceCopyUnlock", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.RPCCheckBox.Location = new System.Drawing.Point(16, 32);
-            this.RPCCheckBox.Name = "RPCCheckBox";
-            this.RPCCheckBox.Size = new System.Drawing.Size(160, 40);
-            this.RPCCheckBox.TabIndex = 29;
-            this.RPCCheckBox.Text = "Enable Discord Rich Presence";
-            this.RPCCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.RPCCheckBox.UseVisualStyleBackColor = false;
-            this.RPCCheckBox.CheckedChanged += new System.EventHandler(this.RPCCheckBox_CheckedChanged);
             // 
             // button4
             // 
@@ -673,19 +573,20 @@
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label20);
-            this.panel1.Location = new System.Drawing.Point(659, 6);
+            this.panel1.Location = new System.Drawing.Point(659, 352);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(296, 532);
+            this.panel1.Size = new System.Drawing.Size(296, 186);
             this.panel1.TabIndex = 129;
             // 
             // label20
             // 
             this.label20.BackColor = System.Drawing.Color.Transparent;
+            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label20.Location = new System.Drawing.Point(-1, -1);
+            this.label20.Location = new System.Drawing.Point(0, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(292, 531);
+            this.label20.Size = new System.Drawing.Size(294, 184);
             this.label20.TabIndex = 120;
             this.label20.Text = "More Defaults Coming Soon!";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -708,66 +609,6 @@
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(284, 186);
             this.panel17.TabIndex = 121;
-            // 
-            // button22
-            // 
-            this.button22.BackColor = global::ManiacEditor.Properties.Settings.Default.GridColorDefault;
-            this.button22.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "GridColorDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button22.Location = new System.Drawing.Point(167, 146);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(23, 23);
-            this.button22.TabIndex = 143;
-            this.button22.UseVisualStyleBackColor = false;
-            this.button22.Click += new System.EventHandler(this.comboBox8_DropDown);
-            // 
-            // button21
-            // 
-            this.button21.BackColor = global::ManiacEditor.Properties.Settings.Default.WaterColorDefault;
-            this.button21.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "WaterColorDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button21.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button21.Location = new System.Drawing.Point(167, 117);
-            this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(23, 23);
-            this.button21.TabIndex = 142;
-            this.button21.UseVisualStyleBackColor = false;
-            this.button21.Click += new System.EventHandler(this.comboBox7_DropDown);
-            // 
-            // button20
-            // 
-            this.button20.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionLRDColour;
-            this.button20.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionLRDColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button20.Location = new System.Drawing.Point(167, 88);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(23, 23);
-            this.button20.TabIndex = 141;
-            this.button20.UseVisualStyleBackColor = false;
-            this.button20.Click += new System.EventHandler(this.comboBox5_DropDown);
-            // 
-            // button12
-            // 
-            this.button12.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionTOColour;
-            this.button12.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionTOColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button12.Location = new System.Drawing.Point(167, 59);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(23, 23);
-            this.button12.TabIndex = 140;
-            this.button12.UseVisualStyleBackColor = false;
-            this.button12.Click += new System.EventHandler(this.comboBox6_DropDown);
-            // 
-            // button9
-            // 
-            this.button9.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionSAColour;
-            this.button9.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionSAColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button9.Location = new System.Drawing.Point(167, 30);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(23, 23);
-            this.button9.TabIndex = 139;
-            this.button9.UseVisualStyleBackColor = false;
-            this.button9.Click += new System.EventHandler(this.comboBox4_DropDown);
             // 
             // label8
             // 
@@ -835,6 +676,7 @@
             // 
             this.panel16.BackColor = System.Drawing.Color.Transparent;
             this.panel16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel16.Controls.Add(this.groupBox9);
             this.panel16.Controls.Add(this.groupBox8);
             this.panel16.Controls.Add(this.checkBox47);
             this.panel16.Controls.Add(this.checkBox46);
@@ -848,7 +690,7 @@
             this.panel16.Controls.Add(this.label86);
             this.panel16.Location = new System.Drawing.Point(364, 6);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(284, 340);
+            this.panel16.Size = new System.Drawing.Size(591, 340);
             this.panel16.TabIndex = 120;
             // 
             // groupBox8
@@ -865,10 +707,10 @@
             this.groupBox8.ForeColor = System.Drawing.SystemColors.MenuText;
             this.groupBox8.Location = new System.Drawing.Point(161, 152);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(118, 183);
+            this.groupBox8.Size = new System.Drawing.Size(147, 183);
             this.groupBox8.TabIndex = 122;
             this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Default Language";
+            this.groupBox8.Text = "Default Menu Language";
             this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
             // 
             // TC
@@ -979,91 +821,6 @@
             this.EN.UseVisualStyleBackColor = true;
             this.EN.Click += new System.EventHandler(this.radioButton12_Click);
             // 
-            // checkBox47
-            // 
-            this.checkBox47.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox47.Checked = global::ManiacEditor.Properties.Settings.Default.SizeWaterLevelWithBoundsDefault;
-            this.checkBox47.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SizeWaterLevelWithBoundsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox47.Location = new System.Drawing.Point(178, 102);
-            this.checkBox47.Name = "checkBox47";
-            this.checkBox47.Size = new System.Drawing.Size(101, 55);
-            this.checkBox47.TabIndex = 128;
-            this.checkBox47.Text = "Size with Bounds when Not Selected";
-            this.checkBox47.UseVisualStyleBackColor = false;
-            // 
-            // checkBox46
-            // 
-            this.checkBox46.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox46.Checked = global::ManiacEditor.Properties.Settings.Default.AlwaysShowWaterLevelDefault;
-            this.checkBox46.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AlwaysShowWaterLevelDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox46.Location = new System.Drawing.Point(178, 63);
-            this.checkBox46.Name = "checkBox46";
-            this.checkBox46.Size = new System.Drawing.Size(101, 40);
-            this.checkBox46.TabIndex = 127;
-            this.checkBox46.Text = "Always Show Water Level";
-            this.checkBox46.UseVisualStyleBackColor = false;
-            // 
-            // checkBox44
-            // 
-            this.checkBox44.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox44.Checked = global::ManiacEditor.Properties.Settings.Default.showWaterLevelDefault;
-            this.checkBox44.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showWaterLevelDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox44.Location = new System.Drawing.Point(161, 40);
-            this.checkBox44.Name = "checkBox44";
-            this.checkBox44.Size = new System.Drawing.Size(118, 32);
-            this.checkBox44.TabIndex = 126;
-            this.checkBox44.Text = "Show Water Level";
-            this.checkBox44.UseVisualStyleBackColor = false;
-            // 
-            // checkBox43
-            // 
-            this.checkBox43.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox43.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockDefault;
-            this.checkBox43.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox43.Location = new System.Drawing.Point(6, 273);
-            this.checkBox43.Name = "checkBox43";
-            this.checkBox43.Size = new System.Drawing.Size(118, 25);
-            this.checkBox43.TabIndex = 125;
-            this.checkBox43.Text = "Enable Scroll Lock";
-            this.checkBox43.UseVisualStyleBackColor = false;
-            // 
-            // checkBox40
-            // 
-            this.checkBox40.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox40.Checked = global::ManiacEditor.Properties.Settings.Default.EnablePixelModeDefault;
-            this.checkBox40.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EnablePixelModeDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox40.Location = new System.Drawing.Point(6, 150);
-            this.checkBox40.Name = "checkBox40";
-            this.checkBox40.Size = new System.Drawing.Size(153, 25);
-            this.checkBox40.TabIndex = 124;
-            this.checkBox40.Text = "Enable Pixel Count Mode";
-            this.checkBox40.UseVisualStyleBackColor = false;
-            // 
-            // checkBox39
-            // 
-            this.checkBox39.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox39.Checked = global::ManiacEditor.Properties.Settings.Default.EditEntitiesTransparencyDefault;
-            this.checkBox39.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EditEntitiesTransparencyDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox39.Location = new System.Drawing.Point(6, 114);
-            this.checkBox39.Name = "checkBox39";
-            this.checkBox39.Size = new System.Drawing.Size(153, 37);
-            this.checkBox39.TabIndex = 123;
-            this.checkBox39.Text = "Use Transparency when Editing Entities";
-            this.checkBox39.UseVisualStyleBackColor = false;
-            // 
-            // checkBox38
-            // 
-            this.checkBox38.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox38.Checked = global::ManiacEditor.Properties.Settings.Default.ShowEntityArrowPathsDefault;
-            this.checkBox38.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox38.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ShowEntityArrowPathsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox38.Location = new System.Drawing.Point(6, 78);
-            this.checkBox38.Name = "checkBox38";
-            this.checkBox38.Size = new System.Drawing.Size(118, 32);
-            this.checkBox38.TabIndex = 122;
-            this.checkBox38.Text = "Show Warp Door / Entity Arrow Paths";
-            this.checkBox38.UseVisualStyleBackColor = false;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.radioButton1);
@@ -1109,19 +866,6 @@
             this.radioButton4.Text = "Default";
             this.radioButton4.UseVisualStyleBackColor = true;
             this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
-            // 
-            // checkBox36
-            // 
-            this.checkBox36.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox36.Checked = global::ManiacEditor.Properties.Settings.Default.ShowFullParallaxEntityRenderDefault;
-            this.checkBox36.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox36.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ShowFullParallaxEntityRenderDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox36.Location = new System.Drawing.Point(6, 32);
-            this.checkBox36.Name = "checkBox36";
-            this.checkBox36.Size = new System.Drawing.Size(118, 48);
-            this.checkBox36.TabIndex = 120;
-            this.checkBox36.Text = "Show Full Parallax Entity Render";
-            this.checkBox36.UseVisualStyleBackColor = false;
             // 
             // label86
             // 
@@ -1172,18 +916,6 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(168, 532);
             this.panel7.TabIndex = 0;
-            // 
-            // checkBox41
-            // 
-            this.checkBox41.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox41.Checked = global::ManiacEditor.Properties.Settings.Default.MovingPlatformsDefault;
-            this.checkBox41.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "MovingPlatformsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox41.Location = new System.Drawing.Point(39, 345);
-            this.checkBox41.Name = "checkBox41";
-            this.checkBox41.Size = new System.Drawing.Size(77, 17);
-            this.checkBox41.TabIndex = 122;
-            this.checkBox41.Text = "Platforms";
-            this.checkBox41.UseVisualStyleBackColor = false;
             // 
             // groupBox1
             // 
@@ -1246,19 +978,6 @@
             this.x128checkbox.UseVisualStyleBackColor = false;
             this.x128checkbox.CheckedChanged += new System.EventHandler(this.X128checkbox_CheckedChanged);
             // 
-            // checkBox42
-            // 
-            this.checkBox42.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox42.Checked = global::ManiacEditor.Properties.Settings.Default.AnimatedSpritesDefault;
-            this.checkBox42.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox42.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AnimatedSpritesDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox42.Location = new System.Drawing.Point(39, 322);
-            this.checkBox42.Name = "checkBox42";
-            this.checkBox42.Size = new System.Drawing.Size(77, 17);
-            this.checkBox42.TabIndex = 121;
-            this.checkBox42.Text = "Sprites";
-            this.checkBox42.UseVisualStyleBackColor = false;
-            // 
             // label114
             // 
             this.label114.BackColor = System.Drawing.Color.Transparent;
@@ -1281,18 +1000,6 @@
             this.gridSizeDown.Text = "<";
             this.gridSizeDown.UseVisualStyleBackColor = false;
             this.gridSizeDown.Click += new System.EventHandler(this.gridSizeDown_Click);
-            // 
-            // checkBox9
-            // 
-            this.checkBox9.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox9.Checked = global::ManiacEditor.Properties.Settings.Default.useBitOperators;
-            this.checkBox9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "useBitOperators", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox9.Location = new System.Drawing.Point(86, 32);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(75, 33);
-            this.checkBox9.TabIndex = 119;
-            this.checkBox9.Text = "Use Bit Operators";
-            this.checkBox9.UseVisualStyleBackColor = false;
             // 
             // label10
             // 
@@ -1317,32 +1024,6 @@
             this.gridSizeDownMore.UseVisualStyleBackColor = false;
             this.gridSizeDownMore.Click += new System.EventHandler(this.gridSizeDownMore_Click);
             // 
-            // animationsDefault
-            // 
-            this.animationsDefault.BackColor = System.Drawing.Color.Transparent;
-            this.animationsDefault.Checked = global::ManiacEditor.Properties.Settings.Default.AnimationsDefault;
-            this.animationsDefault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.animationsDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AnimationsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.animationsDefault.Location = new System.Drawing.Point(39, 273);
-            this.animationsDefault.Name = "animationsDefault";
-            this.animationsDefault.Size = new System.Drawing.Size(77, 17);
-            this.animationsDefault.TabIndex = 52;
-            this.animationsDefault.Text = "Animations";
-            this.animationsDefault.UseVisualStyleBackColor = false;
-            // 
-            // entitiesDefault
-            // 
-            this.entitiesDefault.BackColor = System.Drawing.Color.Transparent;
-            this.entitiesDefault.Checked = global::ManiacEditor.Properties.Settings.Default.EntitiesDefault;
-            this.entitiesDefault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.entitiesDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EntitiesDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.entitiesDefault.Location = new System.Drawing.Point(39, 250);
-            this.entitiesDefault.Name = "entitiesDefault";
-            this.entitiesDefault.Size = new System.Drawing.Size(77, 17);
-            this.entitiesDefault.TabIndex = 51;
-            this.entitiesDefault.Text = "Entities";
-            this.entitiesDefault.UseVisualStyleBackColor = false;
-            // 
             // gridSizeUp
             // 
             this.gridSizeUp.ForeColor = System.Drawing.Color.Black;
@@ -1353,19 +1034,6 @@
             this.gridSizeUp.Text = ">";
             this.gridSizeUp.UseVisualStyleBackColor = false;
             this.gridSizeUp.Click += new System.EventHandler(this.gridSizeUp_Click);
-            // 
-            // fgLowerDefault
-            // 
-            this.fgLowerDefault.BackColor = System.Drawing.Color.Transparent;
-            this.fgLowerDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGLowerDefault;
-            this.fgLowerDefault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.fgLowerDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGLowerDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.fgLowerDefault.Location = new System.Drawing.Point(39, 158);
-            this.fgLowerDefault.Name = "fgLowerDefault";
-            this.fgLowerDefault.Size = new System.Drawing.Size(77, 17);
-            this.fgLowerDefault.TabIndex = 48;
-            this.fgLowerDefault.Text = "FG Lower";
-            this.fgLowerDefault.UseVisualStyleBackColor = false;
             // 
             // label9
             // 
@@ -1390,32 +1058,6 @@
             this.gridSizeUpMore.UseVisualStyleBackColor = false;
             this.gridSizeUpMore.Click += new System.EventHandler(this.gridSizeUpMore_Click);
             // 
-            // fgLowDefault
-            // 
-            this.fgLowDefault.BackColor = System.Drawing.Color.Transparent;
-            this.fgLowDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGLowDefault;
-            this.fgLowDefault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.fgLowDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGLowDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.fgLowDefault.Location = new System.Drawing.Point(39, 181);
-            this.fgLowDefault.Name = "fgLowDefault";
-            this.fgLowDefault.Size = new System.Drawing.Size(77, 17);
-            this.fgLowDefault.TabIndex = 47;
-            this.fgLowDefault.Text = "FG Low";
-            this.fgLowDefault.UseVisualStyleBackColor = false;
-            // 
-            // checkBox6
-            // 
-            this.checkBox6.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox6.Checked = global::ManiacEditor.Properties.Settings.Default.showOtherEntities;
-            this.checkBox6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showOtherEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox6.Location = new System.Drawing.Point(8, 109);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(75, 17);
-            this.checkBox6.TabIndex = 63;
-            this.checkBox6.Text = "Other";
-            this.checkBox6.UseVisualStyleBackColor = false;
-            // 
             // gridSizeValueLabel
             // 
             this.gridSizeValueLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1425,19 +1067,6 @@
             this.gridSizeValueLabel.TabIndex = 108;
             this.gridSizeValueLabel.Text = "0";
             this.gridSizeValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // fgHighDefault
-            // 
-            this.fgHighDefault.BackColor = System.Drawing.Color.Transparent;
-            this.fgHighDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGHighDefault;
-            this.fgHighDefault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.fgHighDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGHighDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.fgHighDefault.Location = new System.Drawing.Point(39, 204);
-            this.fgHighDefault.Name = "fgHighDefault";
-            this.fgHighDefault.Size = new System.Drawing.Size(77, 17);
-            this.fgHighDefault.TabIndex = 46;
-            this.fgHighDefault.Text = "FG High";
-            this.fgHighDefault.UseVisualStyleBackColor = false;
             // 
             // label16
             // 
@@ -1461,19 +1090,6 @@
             this.label21.Text = "0";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBox5
-            // 
-            this.checkBox5.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox5.Checked = global::ManiacEditor.Properties.Settings.Default.showBothEntities;
-            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showBothEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox5.Location = new System.Drawing.Point(8, 86);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(75, 17);
-            this.checkBox5.TabIndex = 64;
-            this.checkBox5.Text = "Both";
-            this.checkBox5.UseVisualStyleBackColor = false;
-            // 
             // nudgeValueUpMoreButton
             // 
             this.nudgeValueUpMoreButton.ForeColor = System.Drawing.Color.Black;
@@ -1484,19 +1100,6 @@
             this.nudgeValueUpMoreButton.Text = ">>";
             this.nudgeValueUpMoreButton.UseVisualStyleBackColor = false;
             this.nudgeValueUpMoreButton.Click += new System.EventHandler(this.nudgeValueUpMoreButton_Click);
-            // 
-            // fgHigherDefault
-            // 
-            this.fgHigherDefault.BackColor = System.Drawing.Color.Transparent;
-            this.fgHigherDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGHigherDefault;
-            this.fgHigherDefault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.fgHigherDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGHigherDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.fgHigherDefault.Location = new System.Drawing.Point(39, 227);
-            this.fgHigherDefault.Name = "fgHigherDefault";
-            this.fgHigherDefault.Size = new System.Drawing.Size(77, 17);
-            this.fgHigherDefault.TabIndex = 45;
-            this.fgHigherDefault.Text = "FG Higher";
-            this.fgHigherDefault.UseVisualStyleBackColor = false;
             // 
             // label32
             // 
@@ -1510,19 +1113,6 @@
             this.label32.Text = "Custom Grid Size";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBox4
-            // 
-            this.checkBox4.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox4.Checked = global::ManiacEditor.Properties.Settings.Default.showEncoreEntities;
-            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showEncoreEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox4.Location = new System.Drawing.Point(8, 63);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(75, 17);
-            this.checkBox4.TabIndex = 65;
-            this.checkBox4.Text = "Encore";
-            this.checkBox4.UseVisualStyleBackColor = false;
-            // 
             // nudgeValueUpButton
             // 
             this.nudgeValueUpButton.ForeColor = System.Drawing.Color.Black;
@@ -1533,19 +1123,6 @@
             this.nudgeValueUpButton.Text = ">";
             this.nudgeValueUpButton.UseVisualStyleBackColor = false;
             this.nudgeValueUpButton.Click += new System.EventHandler(this.nudgeValueUpButton_Click);
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox3.Checked = global::ManiacEditor.Properties.Settings.Default.showManiaEntities;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showManiaEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox3.Location = new System.Drawing.Point(8, 40);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(75, 17);
-            this.checkBox3.TabIndex = 66;
-            this.checkBox3.Text = "Mania";
-            this.checkBox3.UseVisualStyleBackColor = false;
             // 
             // nudgeValueDownButton
             // 
@@ -1602,19 +1179,6 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Tile Toolbar Default Zoom";
             // 
-            // tileToolbarZoomDefault
-            // 
-            this.tileToolbarZoomDefault.BackColor = System.Drawing.SystemColors.Control;
-            this.tileToolbarZoomDefault.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "tileToolbarDefaultZoomLevel", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.tileToolbarZoomDefault.LargeChange = 1;
-            this.tileToolbarZoomDefault.Location = new System.Drawing.Point(6, 19);
-            this.tileToolbarZoomDefault.Maximum = 3;
-            this.tileToolbarZoomDefault.Name = "tileToolbarZoomDefault";
-            this.tileToolbarZoomDefault.Size = new System.Drawing.Size(147, 45);
-            this.tileToolbarZoomDefault.TabIndex = 53;
-            this.tileToolbarZoomDefault.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tileToolbarZoomDefault.Value = global::ManiacEditor.Properties.Settings.Default.tileToolbarDefaultZoomLevel;
-            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.SceneSelectRadio2);
@@ -1626,33 +1190,6 @@
             this.groupBox5.TabIndex = 120;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Scene Select Default View:";
-            // 
-            // SceneSelectRadio2
-            // 
-            this.SceneSelectRadio2.BackColor = System.Drawing.Color.Transparent;
-            this.SceneSelectRadio2.Checked = global::ManiacEditor.Properties.Settings.Default.SceneSelectRadioButton2On;
-            this.SceneSelectRadio2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SceneSelectRadioButton2On", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.SceneSelectRadio2.Location = new System.Drawing.Point(11, 38);
-            this.SceneSelectRadio2.Name = "SceneSelectRadio2";
-            this.SceneSelectRadio2.Size = new System.Drawing.Size(88, 17);
-            this.SceneSelectRadio2.TabIndex = 60;
-            this.SceneSelectRadio2.Text = "Files View";
-            this.SceneSelectRadio2.UseVisualStyleBackColor = false;
-            this.SceneSelectRadio2.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
-            // SceneSelectRadio1
-            // 
-            this.SceneSelectRadio1.BackColor = System.Drawing.Color.Transparent;
-            this.SceneSelectRadio1.Checked = global::ManiacEditor.Properties.Settings.Default.SceneSelectRadioButton1On;
-            this.SceneSelectRadio1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SceneSelectRadioButton1On", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.SceneSelectRadio1.Location = new System.Drawing.Point(11, 17);
-            this.SceneSelectRadio1.Name = "SceneSelectRadio1";
-            this.SceneSelectRadio1.Size = new System.Drawing.Size(88, 17);
-            this.SceneSelectRadio1.TabIndex = 61;
-            this.SceneSelectRadio1.TabStop = true;
-            this.SceneSelectRadio1.Text = "Sorted View";
-            this.SceneSelectRadio1.UseVisualStyleBackColor = false;
-            this.SceneSelectRadio1.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -1666,35 +1203,6 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Scroll Lock Default Setting";
             // 
-            // radioButtonY
-            // 
-            this.radioButtonY.AutoSize = true;
-            this.radioButtonY.BackColor = System.Drawing.Color.Transparent;
-            this.radioButtonY.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockY;
-            this.radioButtonY.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButtonY.Location = new System.Drawing.Point(49, 19);
-            this.radioButtonY.Name = "radioButtonY";
-            this.radioButtonY.Size = new System.Drawing.Size(32, 17);
-            this.radioButtonY.TabIndex = 91;
-            this.radioButtonY.Text = "Y";
-            this.radioButtonY.UseVisualStyleBackColor = false;
-            this.radioButtonY.CheckedChanged += new System.EventHandler(this.radioButtonY_CheckedChanged_1);
-            // 
-            // radioButtonX
-            // 
-            this.radioButtonX.AutoSize = true;
-            this.radioButtonX.BackColor = System.Drawing.Color.Transparent;
-            this.radioButtonX.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockX;
-            this.radioButtonX.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButtonX.Location = new System.Drawing.Point(11, 19);
-            this.radioButtonX.Name = "radioButtonX";
-            this.radioButtonX.Size = new System.Drawing.Size(32, 17);
-            this.radioButtonX.TabIndex = 92;
-            this.radioButtonX.TabStop = true;
-            this.radioButtonX.Text = "X";
-            this.radioButtonX.UseVisualStyleBackColor = false;
-            this.radioButtonX.CheckedChanged += new System.EventHandler(this.radioButtonX_CheckedChanged_1);
-            // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
@@ -1706,52 +1214,6 @@
             this.label2.TabIndex = 36;
             this.label2.Text = "Tiles Toolbar Defaults:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // highLayerTextbox
-            // 
-            this.highLayerTextbox.BackColor = System.Drawing.Color.White;
-            this.highLayerTextbox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "CustomLayerHigh", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.highLayerTextbox.ForeColor = System.Drawing.Color.Black;
-            this.highLayerTextbox.Location = new System.Drawing.Point(8, 208);
-            this.highLayerTextbox.Name = "highLayerTextbox";
-            this.highLayerTextbox.Size = new System.Drawing.Size(157, 20);
-            this.highLayerTextbox.TabIndex = 41;
-            this.highLayerTextbox.Text = global::ManiacEditor.Properties.Settings.Default.CustomLayerHigh;
-            // 
-            // lowLayerTextbox
-            // 
-            this.lowLayerTextbox.BackColor = System.Drawing.Color.White;
-            this.lowLayerTextbox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "CustomLayerLow", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lowLayerTextbox.ForeColor = System.Drawing.Color.Black;
-            this.lowLayerTextbox.Location = new System.Drawing.Point(8, 168);
-            this.lowLayerTextbox.Name = "lowLayerTextbox";
-            this.lowLayerTextbox.Size = new System.Drawing.Size(157, 20);
-            this.lowLayerTextbox.TabIndex = 40;
-            this.lowLayerTextbox.Text = global::ManiacEditor.Properties.Settings.Default.CustomLayerLow;
-            // 
-            // solidTopDefault
-            // 
-            this.solidTopDefault.BackColor = System.Drawing.Color.Transparent;
-            this.solidTopDefault.Checked = global::ManiacEditor.Properties.Settings.Default.SolidTopDefault;
-            this.solidTopDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "solidTopDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.solidTopDefault.Location = new System.Drawing.Point(8, 33);
-            this.solidTopDefault.Name = "solidTopDefault";
-            this.solidTopDefault.Size = new System.Drawing.Size(77, 17);
-            this.solidTopDefault.TabIndex = 35;
-            this.solidTopDefault.Text = "Solid (Top)";
-            this.solidTopDefault.UseVisualStyleBackColor = false;
-            // 
-            // soildAllButTopDefault
-            // 
-            this.soildAllButTopDefault.BackColor = System.Drawing.Color.Transparent;
-            this.soildAllButTopDefault.Checked = global::ManiacEditor.Properties.Settings.Default.SolidAllButTopDefault;
-            this.soildAllButTopDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SolidAllButTopDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.soildAllButTopDefault.Location = new System.Drawing.Point(8, 56);
-            this.soildAllButTopDefault.Name = "soildAllButTopDefault";
-            this.soildAllButTopDefault.Size = new System.Drawing.Size(112, 17);
-            this.soildAllButTopDefault.TabIndex = 34;
-            this.soildAllButTopDefault.Text = "Solid (All excl. top)";
-            this.soildAllButTopDefault.UseVisualStyleBackColor = false;
             // 
             // label3
             // 
@@ -1765,19 +1227,6 @@
             this.label3.Text = "Custom FG Layers:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // unknown1Default
-            // 
-            this.unknown1Default.BackColor = System.Drawing.Color.Transparent;
-            this.unknown1Default.Checked = global::ManiacEditor.Properties.Settings.Default.Unkown1Default;
-            this.unknown1Default.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "Unkown1Default", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.unknown1Default.Location = new System.Drawing.Point(8, 79);
-            this.unknown1Default.Name = "unknown1Default";
-            this.unknown1Default.Size = new System.Drawing.Size(122, 17);
-            this.unknown1Default.TabIndex = 33;
-            this.unknown1Default.Text = "Soild (Top) (Plane 2)";
-            this.unknown1Default.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.unknown1Default.UseVisualStyleBackColor = false;
-            // 
             // label5
             // 
             this.label5.BackColor = System.Drawing.Color.Transparent;
@@ -1788,19 +1237,6 @@
             this.label5.TabIndex = 42;
             this.label5.Text = "Lower Layer:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // unkown2Default
-            // 
-            this.unkown2Default.BackColor = System.Drawing.Color.Transparent;
-            this.unkown2Default.Checked = global::ManiacEditor.Properties.Settings.Default.Unkown2Default;
-            this.unkown2Default.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "Unkown2Default", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.unkown2Default.Location = new System.Drawing.Point(8, 102);
-            this.unkown2Default.Name = "unkown2Default";
-            this.unkown2Default.Size = new System.Drawing.Size(157, 17);
-            this.unkown2Default.TabIndex = 32;
-            this.unkown2Default.Text = "Solid (All excl. top) (Plane 2)";
-            this.unkown2Default.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.unkown2Default.UseVisualStyleBackColor = false;
             // 
             // label6
             // 
@@ -1983,77 +1419,6 @@
             this.panel4.TabIndex = 99;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
-            // checkBox27
-            // 
-            this.checkBox27.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox27.Checked = global::ManiacEditor.Properties.Settings.Default.EnableRealTimeObjectMovingInGame;
-            this.checkBox27.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox27.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EnableRealTimeObjectMovingInGame", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox27.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox27.Location = new System.Drawing.Point(5, 362);
-            this.checkBox27.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox27.Name = "checkBox27";
-            this.checkBox27.Size = new System.Drawing.Size(191, 21);
-            this.checkBox27.TabIndex = 127;
-            this.checkBox27.Text = "Enable Real Time Object Moving";
-            this.checkBox27.UseVisualStyleBackColor = false;
-            // 
-            // checkBox14
-            // 
-            this.checkBox14.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox14.Checked = global::ManiacEditor.Properties.Settings.Default.DisableRunSceneAutoInput;
-            this.checkBox14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableRunSceneAutoInput", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox14.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox14.Location = new System.Drawing.Point(5, 339);
-            this.checkBox14.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(170, 21);
-            this.checkBox14.TabIndex = 126;
-            this.checkBox14.Text = "Disable Auto Input Binding";
-            this.checkBox14.UseVisualStyleBackColor = false;
-            // 
-            // checkBox13
-            // 
-            this.checkBox13.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox13.Checked = global::ManiacEditor.Properties.Settings.Default.DisableRunSceneMenuQuit;
-            this.checkBox13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableRunSceneMenuQuit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox13.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox13.Location = new System.Drawing.Point(5, 317);
-            this.checkBox13.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(170, 21);
-            this.checkBox13.TabIndex = 125;
-            this.checkBox13.Text = "Disable Menu Quiting";
-            this.checkBox13.UseVisualStyleBackColor = false;
-            // 
-            // checkBox17
-            // 
-            this.checkBox17.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox17.Checked = global::ManiacEditor.Properties.Settings.Default.RunGameInsteadOfScene;
-            this.checkBox17.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "RunGameInsteadOfScene", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox17.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox17.Location = new System.Drawing.Point(5, 296);
-            this.checkBox17.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox17.Name = "checkBox17";
-            this.checkBox17.Size = new System.Drawing.Size(170, 22);
-            this.checkBox17.TabIndex = 109;
-            this.checkBox17.Text = "Just Run the Game";
-            this.checkBox17.UseVisualStyleBackColor = false;
-            // 
-            // checkBox18
-            // 
-            this.checkBox18.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox18.Checked = global::ManiacEditor.Properties.Settings.Default.UsePrePlusOffsets;
-            this.checkBox18.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UsePrePlusOffsets", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox18.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox18.Location = new System.Drawing.Point(5, 277);
-            this.checkBox18.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox18.Name = "checkBox18";
-            this.checkBox18.Size = new System.Drawing.Size(170, 21);
-            this.checkBox18.TabIndex = 110;
-            this.checkBox18.Text = "Use Pre-Plus Offsets";
-            this.checkBox18.UseVisualStyleBackColor = false;
-            // 
             // label54
             // 
             this.label54.BackColor = System.Drawing.Color.Transparent;
@@ -2131,18 +1496,6 @@
             this.button13.UseVisualStyleBackColor = false;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
-            // textBox5
-            // 
-            this.textBox5.BackColor = System.Drawing.Color.White;
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunPalleteEditorPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox5.ForeColor = System.Drawing.Color.Black;
-            this.textBox5.Location = new System.Drawing.Point(16, 233);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(129, 20);
-            this.textBox5.TabIndex = 118;
-            this.textBox5.Text = global::ManiacEditor.Properties.Settings.Default.RunPalleteEditorPath;
-            // 
             // label30
             // 
             this.label30.BackColor = System.Drawing.Color.Transparent;
@@ -2153,18 +1506,6 @@
             this.label30.TabIndex = 119;
             this.label30.Text = "Color Palette Editor Path:";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBox4
-            // 
-            this.textBox4.BackColor = System.Drawing.Color.White;
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunTileManiacPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox4.ForeColor = System.Drawing.Color.Black;
-            this.textBox4.Location = new System.Drawing.Point(16, 186);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(129, 20);
-            this.textBox4.TabIndex = 116;
-            this.textBox4.Text = global::ManiacEditor.Properties.Settings.Default.RunTileManiacPath;
             // 
             // label29
             // 
@@ -2177,18 +1518,6 @@
             this.label29.Text = "Tile Maniac Path:";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.White;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunAniEdPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox3.ForeColor = System.Drawing.Color.Black;
-            this.textBox3.Location = new System.Drawing.Point(16, 143);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(129, 20);
-            this.textBox3.TabIndex = 114;
-            this.textBox3.Text = global::ManiacEditor.Properties.Settings.Default.RunAniEdPath;
-            // 
             // label28
             // 
             this.label28.BackColor = System.Drawing.Color.Transparent;
@@ -2200,18 +1529,6 @@
             this.label28.Text = "RSDK Animation Editor Path:";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox2
-            // 
-            this.textBox2.BackColor = System.Drawing.Color.White;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunModLoaderPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox2.ForeColor = System.Drawing.Color.Black;
-            this.textBox2.Location = new System.Drawing.Point(16, 97);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(129, 20);
-            this.textBox2.TabIndex = 112;
-            this.textBox2.Text = global::ManiacEditor.Properties.Settings.Default.RunModLoaderPath;
-            // 
             // label19
             // 
             this.label19.BackColor = System.Drawing.Color.Transparent;
@@ -2222,19 +1539,6 @@
             this.label19.TabIndex = 113;
             this.label19.Text = "Mod Loader Path:";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunGamePath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(16, 55);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(129, 20);
-            this.textBox1.TabIndex = 110;
-            this.textBox1.Text = global::ManiacEditor.Properties.Settings.Default.RunGamePath;
             // 
             // label18
             // 
@@ -2325,21 +1629,6 @@
             this.panel3.Size = new System.Drawing.Size(184, 527);
             this.panel3.TabIndex = 98;
             // 
-            // checkBox32
-            // 
-            this.checkBox32.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox32.Checked = global::ManiacEditor.Properties.Settings.Default.preRenderTURBOMode;
-            this.checkBox32.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "preRenderTURBOMode", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox32.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox32.Location = new System.Drawing.Point(9, 462);
-            this.checkBox32.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox32.Name = "checkBox32";
-            this.checkBox32.Size = new System.Drawing.Size(160, 54);
-            this.checkBox32.TabIndex = 110;
-            this.checkBox32.Text = "Pre-Render TURBO Mode\r\n(Highly Experimental)\r\n";
-            this.checkBox32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox32.UseVisualStyleBackColor = false;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.caseBasedPreRender);
@@ -2400,21 +1689,6 @@
             this.preRenderAlways.UseVisualStyleBackColor = true;
             this.preRenderAlways.CheckedChanged += new System.EventHandler(this.preRenderAlways_CheckedChanged);
             // 
-            // checkBox20
-            // 
-            this.checkBox20.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox20.Checked = global::ManiacEditor.Properties.Settings.Default.forceBrowse;
-            this.checkBox20.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "forceBrowse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox20.Location = new System.Drawing.Point(16, 277);
-            this.checkBox20.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox20.Name = "checkBox20";
-            this.checkBox20.Size = new System.Drawing.Size(160, 54);
-            this.checkBox20.TabIndex = 97;
-            this.checkBox20.Text = "Use File Explorer instead of Scene Select for Browsing Stages.";
-            this.checkBox20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox20.UseVisualStyleBackColor = false;
-            // 
             // label4
             // 
             this.label4.BackColor = System.Drawing.Color.Transparent;
@@ -2455,34 +1729,6 @@
             this.checkBox7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox7.UseVisualStyleBackColor = false;
             // 
-            // checkBox16
-            // 
-            this.checkBox16.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox16.Checked = global::ManiacEditor.Properties.Settings.Default.DisableSaveWarnings;
-            this.checkBox16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableSaveWarnings", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox16.Location = new System.Drawing.Point(16, 235);
-            this.checkBox16.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(160, 32);
-            this.checkBox16.TabIndex = 96;
-            this.checkBox16.Text = "Disable Save Warnings";
-            this.checkBox16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox16.UseVisualStyleBackColor = false;
-            // 
-            // copyUnlock
-            // 
-            this.copyUnlock.BackColor = System.Drawing.Color.Transparent;
-            this.copyUnlock.Checked = global::ManiacEditor.Properties.Settings.Default.ForceCopyUnlock;
-            this.copyUnlock.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "forceCopyUnlock", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.copyUnlock.Location = new System.Drawing.Point(16, 32);
-            this.copyUnlock.Name = "copyUnlock";
-            this.copyUnlock.Size = new System.Drawing.Size(160, 40);
-            this.copyUnlock.TabIndex = 29;
-            this.copyUnlock.Text = "Enable Copy between Scenes***";
-            this.copyUnlock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.copyUnlock.UseVisualStyleBackColor = false;
-            // 
             // checkBox15
             // 
             this.checkBox15.BackColor = System.Drawing.Color.Transparent;
@@ -2495,20 +1741,6 @@
             this.checkBox15.Text = "Enable Dark Mode";
             this.checkBox15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox15.UseVisualStyleBackColor = false;
-            // 
-            // layerHide
-            // 
-            this.layerHide.BackColor = System.Drawing.Color.Transparent;
-            this.layerHide.Checked = global::ManiacEditor.Properties.Settings.Default.KeepLayersVisible;
-            this.layerHide.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "keepLayersVisible", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.layerHide.Location = new System.Drawing.Point(16, 80);
-            this.layerHide.Margin = new System.Windows.Forms.Padding(5);
-            this.layerHide.Name = "layerHide";
-            this.layerHide.Size = new System.Drawing.Size(160, 34);
-            this.layerHide.TabIndex = 28;
-            this.layerHide.Text = "Keep Main Layers on when Editing Extra Layers";
-            this.layerHide.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.layerHide.UseVisualStyleBackColor = false;
             // 
             // tabControl1
             // 
@@ -3750,68 +2982,6 @@
             this.panel13.Size = new System.Drawing.Size(388, 345);
             this.panel13.TabIndex = 108;
             // 
-            // checkBox45
-            // 
-            this.checkBox45.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox45.Checked = global::ManiacEditor.Properties.Settings.Default.SimplifiedWaterLevelRendering;
-            this.checkBox45.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox45.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SimplifiedWaterLevelRendering", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox45.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox45.Location = new System.Drawing.Point(186, 13);
-            this.checkBox45.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox45.Name = "checkBox45";
-            this.checkBox45.Size = new System.Drawing.Size(171, 59);
-            this.checkBox45.TabIndex = 105;
-            this.checkBox45.Text = "Simplified Water Level Rendering \r\n(Perferable for Performance Reasons)";
-            this.checkBox45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox45.UseVisualStyleBackColor = false;
-            // 
-            // checkBox31
-            // 
-            this.checkBox31.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox31.Checked = global::ManiacEditor.Properties.Settings.Default.PrioritizedObjectRendering;
-            this.checkBox31.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "PrioritizedObjectRendering", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox31.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox31.Location = new System.Drawing.Point(5, 276);
-            this.checkBox31.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox31.Name = "checkBox31";
-            this.checkBox31.Size = new System.Drawing.Size(171, 59);
-            this.checkBox31.TabIndex = 104;
-            this.checkBox31.Text = "Prioritized Entity Rendering\r\n (Useful but Performance Hungry)";
-            this.checkBox31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox31.UseVisualStyleBackColor = false;
-            // 
-            // checkBox26
-            // 
-            this.checkBox26.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox26.Checked = global::ManiacEditor.Properties.Settings.Default.UseAltEntityRenderMode;
-            this.checkBox26.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseAltEntityRenderMode", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox26.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox26.Location = new System.Drawing.Point(5, 195);
-            this.checkBox26.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox26.Name = "checkBox26";
-            this.checkBox26.Size = new System.Drawing.Size(171, 71);
-            this.checkBox26.TabIndex = 103;
-            this.checkBox26.Text = "Use Alt. Object Rendering Method \r\n(May leave blank entities, but will only load " +
-    "the objects as they are seen)";
-            this.checkBox26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox26.UseVisualStyleBackColor = false;
-            // 
-            // checkBox12
-            // 
-            this.checkBox12.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox12.Checked = global::ManiacEditor.Properties.Settings.Default.DisableRenderExlusions;
-            this.checkBox12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableRenderExlusions", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox12.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox12.Location = new System.Drawing.Point(5, 153);
-            this.checkBox12.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(171, 32);
-            this.checkBox12.TabIndex = 102;
-            this.checkBox12.Text = "Disable Always Render Entities";
-            this.checkBox12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox12.UseVisualStyleBackColor = false;
-            // 
             // label55
             // 
             this.label55.BackColor = System.Drawing.Color.Transparent;
@@ -3823,53 +2993,6 @@
             this.label55.TabIndex = 55;
             this.label55.Text = "Entity Settings:";
             this.label55.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // checkBox35
-            // 
-            this.checkBox35.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox35.Checked = global::ManiacEditor.Properties.Settings.Default.NeverLoadEntityTextures;
-            this.checkBox35.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "NeverLoadEntityTextures", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox35.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox35.Location = new System.Drawing.Point(5, 26);
-            this.checkBox35.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox35.Name = "checkBox35";
-            this.checkBox35.Size = new System.Drawing.Size(171, 33);
-            this.checkBox35.TabIndex = 30;
-            this.checkBox35.Text = "Never load Entity Textures/Annimations**\r\n";
-            this.checkBox35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox35.UseVisualStyleBackColor = false;
-            this.checkBox35.CheckedChanged += new System.EventHandler(this.checkBox35_CheckedChanged);
-            // 
-            // checkBox30
-            // 
-            this.checkBox30.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox30.Checked = global::ManiacEditor.Properties.Settings.Default.UseObjectRenderingImprovements;
-            this.checkBox30.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseObjectRenderingImprovements", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox30.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox30.Location = new System.Drawing.Point(5, 69);
-            this.checkBox30.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox30.Name = "checkBox30";
-            this.checkBox30.Size = new System.Drawing.Size(171, 32);
-            this.checkBox30.TabIndex = 98;
-            this.checkBox30.Text = "Remove Text from Objects (Will Boost Performance)**";
-            this.checkBox30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox30.UseVisualStyleBackColor = false;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox1.Checked = global::ManiacEditor.Properties.Settings.Default.AlwaysRenderObjects;
-            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AlwaysRenderObjects", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox1.ForeColor = System.Drawing.Color.Red;
-            this.checkBox1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox1.Location = new System.Drawing.Point(5, 111);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(171, 32);
-            this.checkBox1.TabIndex = 101;
-            this.checkBox1.Text = "Always Render Objects*";
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox1.UseVisualStyleBackColor = false;
             // 
             // panel12
             // 
@@ -3954,6 +3077,988 @@
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(381, 522);
             this.panel14.TabIndex = 102;
+            // 
+            // label31
+            // 
+            this.label31.BackColor = System.Drawing.Color.Transparent;
+            this.label31.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(16, 8);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(160, 13);
+            this.label31.TabIndex = 55;
+            this.label31.Text = "Varrious Settings:";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button8.ForeColor = System.Drawing.Color.Black;
+            this.button8.Location = new System.Drawing.Point(821, 587);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 22);
+            this.button8.TabIndex = 108;
+            this.button8.Text = "Save";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button6.ForeColor = System.Drawing.Color.Black;
+            this.button6.Location = new System.Drawing.Point(902, 587);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 22);
+            this.button6.TabIndex = 101;
+            this.button6.Text = "&OK";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.radioButton15);
+            this.groupBox9.Controls.Add(this.radioButton14);
+            this.groupBox9.Controls.Add(this.radioButton13);
+            this.groupBox9.Controls.Add(this.radioButton2);
+            this.groupBox9.Controls.Add(this.radioButton5);
+            this.groupBox9.Controls.Add(this.radioButton6);
+            this.groupBox9.Controls.Add(this.radioButton7);
+            this.groupBox9.Controls.Add(this.radioButton8);
+            this.groupBox9.Controls.Add(this.radioButton9);
+            this.groupBox9.Controls.Add(this.radioButton10);
+            this.groupBox9.Controls.Add(this.radioButton11);
+            this.groupBox9.Controls.Add(this.radioButton12);
+            this.groupBox9.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.groupBox9.Location = new System.Drawing.Point(338, 3);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(248, 183);
+            this.groupBox9.TabIndex = 123;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Default Menu Button Layout";
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(114, 65);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(74, 17);
+            this.radioButton2.TabIndex = 109;
+            this.radioButton2.Tag = "PC EN/JP";
+            this.radioButton2.Text = "PC EN/JP";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton5
+            // 
+            this.radioButton5.AutoSize = true;
+            this.radioButton5.Location = new System.Drawing.Point(114, 42);
+            this.radioButton5.Name = "radioButton5";
+            this.radioButton5.Size = new System.Drawing.Size(87, 17);
+            this.radioButton5.TabIndex = 108;
+            this.radioButton5.Tag = "Saturn White";
+            this.radioButton5.Text = "Saturn White";
+            this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton6
+            // 
+            this.radioButton6.AutoSize = true;
+            this.radioButton6.Location = new System.Drawing.Point(114, 19);
+            this.radioButton6.Name = "radioButton6";
+            this.radioButton6.Size = new System.Drawing.Size(86, 17);
+            this.radioButton6.TabIndex = 107;
+            this.radioButton6.Tag = "Saturn Black";
+            this.radioButton6.Text = "Saturn Black";
+            this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton7
+            // 
+            this.radioButton7.AutoSize = true;
+            this.radioButton7.Location = new System.Drawing.Point(114, 88);
+            this.radioButton7.Name = "radioButton7";
+            this.radioButton7.Size = new System.Drawing.Size(56, 17);
+            this.radioButton7.TabIndex = 106;
+            this.radioButton7.Tag = "PC FR";
+            this.radioButton7.Text = "PC FR";
+            this.radioButton7.UseVisualStyleBackColor = true;
+            this.radioButton7.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton8
+            // 
+            this.radioButton8.AutoSize = true;
+            this.radioButton8.Location = new System.Drawing.Point(5, 111);
+            this.radioButton8.Name = "radioButton8";
+            this.radioButton8.Size = new System.Drawing.Size(105, 17);
+            this.radioButton8.TabIndex = 105;
+            this.radioButton8.Tag = "Switch Joy R";
+            this.radioButton8.Text = "Switch Joycon R";
+            this.radioButton8.UseVisualStyleBackColor = true;
+            this.radioButton8.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton9
+            // 
+            this.radioButton9.AutoSize = true;
+            this.radioButton9.Location = new System.Drawing.Point(5, 88);
+            this.radioButton9.Name = "radioButton9";
+            this.radioButton9.Size = new System.Drawing.Size(103, 17);
+            this.radioButton9.TabIndex = 104;
+            this.radioButton9.Tag = "Switch Joy L";
+            this.radioButton9.Text = "Switch Joycon L";
+            this.radioButton9.UseVisualStyleBackColor = true;
+            this.radioButton9.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton10
+            // 
+            this.radioButton10.AutoSize = true;
+            this.radioButton10.Location = new System.Drawing.Point(6, 65);
+            this.radioButton10.Name = "radioButton10";
+            this.radioButton10.Size = new System.Drawing.Size(99, 17);
+            this.radioButton10.TabIndex = 103;
+            this.radioButton10.Tag = "Switch";
+            this.radioButton10.Text = "Switch (Normal)";
+            this.radioButton10.UseVisualStyleBackColor = true;
+            this.radioButton10.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton11
+            // 
+            this.radioButton11.AutoSize = true;
+            this.radioButton11.Location = new System.Drawing.Point(6, 42);
+            this.radioButton11.Name = "radioButton11";
+            this.radioButton11.Size = new System.Drawing.Size(45, 17);
+            this.radioButton11.TabIndex = 101;
+            this.radioButton11.Tag = "PS4";
+            this.radioButton11.Text = "PS4";
+            this.radioButton11.UseVisualStyleBackColor = true;
+            this.radioButton11.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton12
+            // 
+            this.radioButton12.AutoSize = true;
+            this.radioButton12.Location = new System.Drawing.Point(6, 19);
+            this.radioButton12.Name = "radioButton12";
+            this.radioButton12.Size = new System.Drawing.Size(49, 17);
+            this.radioButton12.TabIndex = 100;
+            this.radioButton12.Tag = "Xbox";
+            this.radioButton12.Text = "Xbox";
+            this.radioButton12.UseVisualStyleBackColor = true;
+            this.radioButton12.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton13
+            // 
+            this.radioButton13.AutoSize = true;
+            this.radioButton13.Location = new System.Drawing.Point(116, 111);
+            this.radioButton13.Name = "radioButton13";
+            this.radioButton13.Size = new System.Drawing.Size(52, 17);
+            this.radioButton13.TabIndex = 110;
+            this.radioButton13.Tag = "PC IT";
+            this.radioButton13.Text = "PC IT";
+            this.radioButton13.UseVisualStyleBackColor = true;
+            this.radioButton13.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton14
+            // 
+            this.radioButton14.AutoSize = true;
+            this.radioButton14.Location = new System.Drawing.Point(116, 134);
+            this.radioButton14.Name = "radioButton14";
+            this.radioButton14.Size = new System.Drawing.Size(57, 17);
+            this.radioButton14.TabIndex = 111;
+            this.radioButton14.Tag = "PC GE";
+            this.radioButton14.Text = "PC GE";
+            this.radioButton14.UseVisualStyleBackColor = true;
+            this.radioButton14.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // radioButton15
+            // 
+            this.radioButton15.AutoSize = true;
+            this.radioButton15.Location = new System.Drawing.Point(116, 157);
+            this.radioButton15.Name = "radioButton15";
+            this.radioButton15.Size = new System.Drawing.Size(56, 17);
+            this.radioButton15.TabIndex = 112;
+            this.radioButton15.Tag = "PC SP";
+            this.radioButton15.Text = "PC SP";
+            this.radioButton15.UseVisualStyleBackColor = true;
+            this.radioButton15.Click += new System.EventHandler(this.SetButtonLayoutDefault);
+            // 
+            // checkBox27
+            // 
+            this.checkBox27.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox27.Checked = global::ManiacEditor.Properties.Settings.Default.EnableRealTimeObjectMovingInGame;
+            this.checkBox27.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox27.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EnableRealTimeObjectMovingInGame", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox27.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox27.Location = new System.Drawing.Point(5, 362);
+            this.checkBox27.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox27.Name = "checkBox27";
+            this.checkBox27.Size = new System.Drawing.Size(191, 21);
+            this.checkBox27.TabIndex = 127;
+            this.checkBox27.Text = "Enable Real Time Object Moving";
+            this.checkBox27.UseVisualStyleBackColor = false;
+            // 
+            // checkBox14
+            // 
+            this.checkBox14.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox14.Checked = global::ManiacEditor.Properties.Settings.Default.DisableRunSceneAutoInput;
+            this.checkBox14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableRunSceneAutoInput", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox14.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox14.Location = new System.Drawing.Point(5, 339);
+            this.checkBox14.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox14.Name = "checkBox14";
+            this.checkBox14.Size = new System.Drawing.Size(170, 21);
+            this.checkBox14.TabIndex = 126;
+            this.checkBox14.Text = "Disable Auto Input Binding";
+            this.checkBox14.UseVisualStyleBackColor = false;
+            // 
+            // checkBox13
+            // 
+            this.checkBox13.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox13.Checked = global::ManiacEditor.Properties.Settings.Default.DisableRunSceneMenuQuit;
+            this.checkBox13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableRunSceneMenuQuit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox13.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox13.Location = new System.Drawing.Point(5, 317);
+            this.checkBox13.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox13.Name = "checkBox13";
+            this.checkBox13.Size = new System.Drawing.Size(170, 21);
+            this.checkBox13.TabIndex = 125;
+            this.checkBox13.Text = "Disable Menu Quiting";
+            this.checkBox13.UseVisualStyleBackColor = false;
+            // 
+            // checkBox17
+            // 
+            this.checkBox17.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox17.Checked = global::ManiacEditor.Properties.Settings.Default.RunGameInsteadOfScene;
+            this.checkBox17.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "RunGameInsteadOfScene", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox17.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox17.Location = new System.Drawing.Point(5, 296);
+            this.checkBox17.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox17.Name = "checkBox17";
+            this.checkBox17.Size = new System.Drawing.Size(170, 22);
+            this.checkBox17.TabIndex = 109;
+            this.checkBox17.Text = "Just Run the Game";
+            this.checkBox17.UseVisualStyleBackColor = false;
+            // 
+            // checkBox18
+            // 
+            this.checkBox18.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox18.Checked = global::ManiacEditor.Properties.Settings.Default.UsePrePlusOffsets;
+            this.checkBox18.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UsePrePlusOffsets", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox18.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox18.Location = new System.Drawing.Point(5, 277);
+            this.checkBox18.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox18.Name = "checkBox18";
+            this.checkBox18.Size = new System.Drawing.Size(170, 21);
+            this.checkBox18.TabIndex = 110;
+            this.checkBox18.Text = "Use Pre-Plus Offsets";
+            this.checkBox18.UseVisualStyleBackColor = false;
+            // 
+            // textBox5
+            // 
+            this.textBox5.BackColor = System.Drawing.Color.White;
+            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunPalleteEditorPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox5.ForeColor = System.Drawing.Color.Black;
+            this.textBox5.Location = new System.Drawing.Point(16, 233);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(129, 20);
+            this.textBox5.TabIndex = 118;
+            this.textBox5.Text = global::ManiacEditor.Properties.Settings.Default.RunPalleteEditorPath;
+            // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.Color.White;
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunTileManiacPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox4.ForeColor = System.Drawing.Color.Black;
+            this.textBox4.Location = new System.Drawing.Point(16, 186);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(129, 20);
+            this.textBox4.TabIndex = 116;
+            this.textBox4.Text = global::ManiacEditor.Properties.Settings.Default.RunTileManiacPath;
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.White;
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunAniEdPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox3.ForeColor = System.Drawing.Color.Black;
+            this.textBox3.Location = new System.Drawing.Point(16, 143);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(129, 20);
+            this.textBox3.TabIndex = 114;
+            this.textBox3.Text = global::ManiacEditor.Properties.Settings.Default.RunAniEdPath;
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.White;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunModLoaderPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox2.ForeColor = System.Drawing.Color.Black;
+            this.textBox2.Location = new System.Drawing.Point(16, 97);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(129, 20);
+            this.textBox2.TabIndex = 112;
+            this.textBox2.Text = global::ManiacEditor.Properties.Settings.Default.RunModLoaderPath;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "RunGamePath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
+            this.textBox1.Location = new System.Drawing.Point(16, 55);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(129, 20);
+            this.textBox1.TabIndex = 110;
+            this.textBox1.Text = global::ManiacEditor.Properties.Settings.Default.RunGamePath;
+            // 
+            // checkBox32
+            // 
+            this.checkBox32.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox32.Checked = global::ManiacEditor.Properties.Settings.Default.preRenderTURBOMode;
+            this.checkBox32.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "preRenderTURBOMode", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox32.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox32.Location = new System.Drawing.Point(9, 462);
+            this.checkBox32.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox32.Name = "checkBox32";
+            this.checkBox32.Size = new System.Drawing.Size(160, 54);
+            this.checkBox32.TabIndex = 110;
+            this.checkBox32.Text = "Pre-Render TURBO Mode\r\n(Highly Experimental)\r\n";
+            this.checkBox32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox32.UseVisualStyleBackColor = false;
+            // 
+            // checkBox20
+            // 
+            this.checkBox20.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox20.Checked = global::ManiacEditor.Properties.Settings.Default.forceBrowse;
+            this.checkBox20.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "forceBrowse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox20.Location = new System.Drawing.Point(16, 277);
+            this.checkBox20.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox20.Name = "checkBox20";
+            this.checkBox20.Size = new System.Drawing.Size(160, 54);
+            this.checkBox20.TabIndex = 97;
+            this.checkBox20.Text = "Use File Explorer instead of Scene Select for Browsing Stages.";
+            this.checkBox20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox20.UseVisualStyleBackColor = false;
+            // 
+            // checkBox16
+            // 
+            this.checkBox16.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox16.Checked = global::ManiacEditor.Properties.Settings.Default.DisableSaveWarnings;
+            this.checkBox16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableSaveWarnings", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox16.Location = new System.Drawing.Point(16, 235);
+            this.checkBox16.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox16.Name = "checkBox16";
+            this.checkBox16.Size = new System.Drawing.Size(160, 32);
+            this.checkBox16.TabIndex = 96;
+            this.checkBox16.Text = "Disable Save Warnings";
+            this.checkBox16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox16.UseVisualStyleBackColor = false;
+            // 
+            // copyUnlock
+            // 
+            this.copyUnlock.BackColor = System.Drawing.Color.Transparent;
+            this.copyUnlock.Checked = global::ManiacEditor.Properties.Settings.Default.ForceCopyUnlock;
+            this.copyUnlock.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "forceCopyUnlock", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.copyUnlock.Location = new System.Drawing.Point(16, 32);
+            this.copyUnlock.Name = "copyUnlock";
+            this.copyUnlock.Size = new System.Drawing.Size(160, 40);
+            this.copyUnlock.TabIndex = 29;
+            this.copyUnlock.Text = "Enable Copy between Scenes***";
+            this.copyUnlock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.copyUnlock.UseVisualStyleBackColor = false;
+            // 
+            // layerHide
+            // 
+            this.layerHide.BackColor = System.Drawing.Color.Transparent;
+            this.layerHide.Checked = global::ManiacEditor.Properties.Settings.Default.KeepLayersVisible;
+            this.layerHide.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "keepLayersVisible", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.layerHide.Location = new System.Drawing.Point(16, 80);
+            this.layerHide.Margin = new System.Windows.Forms.Padding(5);
+            this.layerHide.Name = "layerHide";
+            this.layerHide.Size = new System.Drawing.Size(160, 34);
+            this.layerHide.TabIndex = 28;
+            this.layerHide.Text = "Keep Main Layers on when Editing Extra Layers";
+            this.layerHide.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.layerHide.UseVisualStyleBackColor = false;
+            // 
+            // button22
+            // 
+            this.button22.BackColor = global::ManiacEditor.Properties.Settings.Default.GridColorDefault;
+            this.button22.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "GridColorDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button22.Location = new System.Drawing.Point(167, 146);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(23, 23);
+            this.button22.TabIndex = 143;
+            this.button22.UseVisualStyleBackColor = false;
+            this.button22.Click += new System.EventHandler(this.comboBox8_DropDown);
+            // 
+            // button21
+            // 
+            this.button21.BackColor = global::ManiacEditor.Properties.Settings.Default.WaterColorDefault;
+            this.button21.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "WaterColorDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button21.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button21.Location = new System.Drawing.Point(167, 117);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(23, 23);
+            this.button21.TabIndex = 142;
+            this.button21.UseVisualStyleBackColor = false;
+            this.button21.Click += new System.EventHandler(this.comboBox7_DropDown);
+            // 
+            // button20
+            // 
+            this.button20.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionLRDColour;
+            this.button20.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionLRDColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button20.Location = new System.Drawing.Point(167, 88);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(23, 23);
+            this.button20.TabIndex = 141;
+            this.button20.UseVisualStyleBackColor = false;
+            this.button20.Click += new System.EventHandler(this.comboBox5_DropDown);
+            // 
+            // button12
+            // 
+            this.button12.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionTOColour;
+            this.button12.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionTOColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button12.Location = new System.Drawing.Point(167, 59);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(23, 23);
+            this.button12.TabIndex = 140;
+            this.button12.UseVisualStyleBackColor = false;
+            this.button12.Click += new System.EventHandler(this.comboBox6_DropDown);
+            // 
+            // button9
+            // 
+            this.button9.BackColor = global::ManiacEditor.Properties.Settings.Default.CollisionSAColour;
+            this.button9.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::ManiacEditor.Properties.Settings.Default, "CollisionSAColour", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button9.Location = new System.Drawing.Point(167, 30);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(23, 23);
+            this.button9.TabIndex = 139;
+            this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.comboBox4_DropDown);
+            // 
+            // checkBox47
+            // 
+            this.checkBox47.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox47.Checked = global::ManiacEditor.Properties.Settings.Default.SizeWaterLevelWithBoundsDefault;
+            this.checkBox47.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SizeWaterLevelWithBoundsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox47.Location = new System.Drawing.Point(178, 102);
+            this.checkBox47.Name = "checkBox47";
+            this.checkBox47.Size = new System.Drawing.Size(101, 55);
+            this.checkBox47.TabIndex = 128;
+            this.checkBox47.Text = "Size with Bounds when Not Selected";
+            this.checkBox47.UseVisualStyleBackColor = false;
+            // 
+            // checkBox46
+            // 
+            this.checkBox46.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox46.Checked = global::ManiacEditor.Properties.Settings.Default.AlwaysShowWaterLevelDefault;
+            this.checkBox46.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AlwaysShowWaterLevelDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox46.Location = new System.Drawing.Point(178, 63);
+            this.checkBox46.Name = "checkBox46";
+            this.checkBox46.Size = new System.Drawing.Size(101, 40);
+            this.checkBox46.TabIndex = 127;
+            this.checkBox46.Text = "Always Show Water Level";
+            this.checkBox46.UseVisualStyleBackColor = false;
+            // 
+            // checkBox44
+            // 
+            this.checkBox44.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox44.Checked = global::ManiacEditor.Properties.Settings.Default.showWaterLevelDefault;
+            this.checkBox44.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showWaterLevelDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox44.Location = new System.Drawing.Point(161, 40);
+            this.checkBox44.Name = "checkBox44";
+            this.checkBox44.Size = new System.Drawing.Size(118, 32);
+            this.checkBox44.TabIndex = 126;
+            this.checkBox44.Text = "Show Water Level";
+            this.checkBox44.UseVisualStyleBackColor = false;
+            // 
+            // checkBox43
+            // 
+            this.checkBox43.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox43.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockDefault;
+            this.checkBox43.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox43.Location = new System.Drawing.Point(6, 273);
+            this.checkBox43.Name = "checkBox43";
+            this.checkBox43.Size = new System.Drawing.Size(118, 25);
+            this.checkBox43.TabIndex = 125;
+            this.checkBox43.Text = "Enable Scroll Lock";
+            this.checkBox43.UseVisualStyleBackColor = false;
+            // 
+            // checkBox40
+            // 
+            this.checkBox40.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox40.Checked = global::ManiacEditor.Properties.Settings.Default.EnablePixelModeDefault;
+            this.checkBox40.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EnablePixelModeDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox40.Location = new System.Drawing.Point(6, 150);
+            this.checkBox40.Name = "checkBox40";
+            this.checkBox40.Size = new System.Drawing.Size(153, 25);
+            this.checkBox40.TabIndex = 124;
+            this.checkBox40.Text = "Enable Pixel Count Mode";
+            this.checkBox40.UseVisualStyleBackColor = false;
+            // 
+            // checkBox39
+            // 
+            this.checkBox39.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox39.Checked = global::ManiacEditor.Properties.Settings.Default.EditEntitiesTransparencyDefault;
+            this.checkBox39.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EditEntitiesTransparencyDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox39.Location = new System.Drawing.Point(6, 114);
+            this.checkBox39.Name = "checkBox39";
+            this.checkBox39.Size = new System.Drawing.Size(153, 37);
+            this.checkBox39.TabIndex = 123;
+            this.checkBox39.Text = "Use Transparency when Editing Entities";
+            this.checkBox39.UseVisualStyleBackColor = false;
+            // 
+            // checkBox38
+            // 
+            this.checkBox38.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox38.Checked = global::ManiacEditor.Properties.Settings.Default.ShowEntityArrowPathsDefault;
+            this.checkBox38.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox38.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ShowEntityArrowPathsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox38.Location = new System.Drawing.Point(6, 78);
+            this.checkBox38.Name = "checkBox38";
+            this.checkBox38.Size = new System.Drawing.Size(118, 32);
+            this.checkBox38.TabIndex = 122;
+            this.checkBox38.Text = "Show Warp Door / Entity Arrow Paths";
+            this.checkBox38.UseVisualStyleBackColor = false;
+            // 
+            // checkBox36
+            // 
+            this.checkBox36.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox36.Checked = global::ManiacEditor.Properties.Settings.Default.ShowFullParallaxEntityRenderDefault;
+            this.checkBox36.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox36.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ShowFullParallaxEntityRenderDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox36.Location = new System.Drawing.Point(6, 32);
+            this.checkBox36.Name = "checkBox36";
+            this.checkBox36.Size = new System.Drawing.Size(118, 48);
+            this.checkBox36.TabIndex = 120;
+            this.checkBox36.Text = "Show Full Parallax Entity Render";
+            this.checkBox36.UseVisualStyleBackColor = false;
+            // 
+            // checkBox41
+            // 
+            this.checkBox41.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox41.Checked = global::ManiacEditor.Properties.Settings.Default.MovingPlatformsDefault;
+            this.checkBox41.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "MovingPlatformsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox41.Location = new System.Drawing.Point(39, 345);
+            this.checkBox41.Name = "checkBox41";
+            this.checkBox41.Size = new System.Drawing.Size(77, 17);
+            this.checkBox41.TabIndex = 122;
+            this.checkBox41.Text = "Platforms";
+            this.checkBox41.UseVisualStyleBackColor = false;
+            // 
+            // checkBox42
+            // 
+            this.checkBox42.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox42.Checked = global::ManiacEditor.Properties.Settings.Default.AnimatedSpritesDefault;
+            this.checkBox42.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox42.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AnimatedSpritesDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox42.Location = new System.Drawing.Point(39, 322);
+            this.checkBox42.Name = "checkBox42";
+            this.checkBox42.Size = new System.Drawing.Size(77, 17);
+            this.checkBox42.TabIndex = 121;
+            this.checkBox42.Text = "Sprites";
+            this.checkBox42.UseVisualStyleBackColor = false;
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox9.Checked = global::ManiacEditor.Properties.Settings.Default.useBitOperators;
+            this.checkBox9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "useBitOperators", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox9.Location = new System.Drawing.Point(86, 32);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(75, 33);
+            this.checkBox9.TabIndex = 119;
+            this.checkBox9.Text = "Use Bit Operators";
+            this.checkBox9.UseVisualStyleBackColor = false;
+            // 
+            // animationsDefault
+            // 
+            this.animationsDefault.BackColor = System.Drawing.Color.Transparent;
+            this.animationsDefault.Checked = global::ManiacEditor.Properties.Settings.Default.AnimationsDefault;
+            this.animationsDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.animationsDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AnimationsDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.animationsDefault.Location = new System.Drawing.Point(39, 273);
+            this.animationsDefault.Name = "animationsDefault";
+            this.animationsDefault.Size = new System.Drawing.Size(77, 17);
+            this.animationsDefault.TabIndex = 52;
+            this.animationsDefault.Text = "Animations";
+            this.animationsDefault.UseVisualStyleBackColor = false;
+            // 
+            // entitiesDefault
+            // 
+            this.entitiesDefault.BackColor = System.Drawing.Color.Transparent;
+            this.entitiesDefault.Checked = global::ManiacEditor.Properties.Settings.Default.EntitiesDefault;
+            this.entitiesDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.entitiesDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EntitiesDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.entitiesDefault.Location = new System.Drawing.Point(39, 250);
+            this.entitiesDefault.Name = "entitiesDefault";
+            this.entitiesDefault.Size = new System.Drawing.Size(77, 17);
+            this.entitiesDefault.TabIndex = 51;
+            this.entitiesDefault.Text = "Entities";
+            this.entitiesDefault.UseVisualStyleBackColor = false;
+            // 
+            // fgLowerDefault
+            // 
+            this.fgLowerDefault.BackColor = System.Drawing.Color.Transparent;
+            this.fgLowerDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGLowerDefault;
+            this.fgLowerDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fgLowerDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGLowerDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.fgLowerDefault.Location = new System.Drawing.Point(39, 158);
+            this.fgLowerDefault.Name = "fgLowerDefault";
+            this.fgLowerDefault.Size = new System.Drawing.Size(77, 17);
+            this.fgLowerDefault.TabIndex = 48;
+            this.fgLowerDefault.Text = "FG Lower";
+            this.fgLowerDefault.UseVisualStyleBackColor = false;
+            // 
+            // fgLowDefault
+            // 
+            this.fgLowDefault.BackColor = System.Drawing.Color.Transparent;
+            this.fgLowDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGLowDefault;
+            this.fgLowDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fgLowDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGLowDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.fgLowDefault.Location = new System.Drawing.Point(39, 181);
+            this.fgLowDefault.Name = "fgLowDefault";
+            this.fgLowDefault.Size = new System.Drawing.Size(77, 17);
+            this.fgLowDefault.TabIndex = 47;
+            this.fgLowDefault.Text = "FG Low";
+            this.fgLowDefault.UseVisualStyleBackColor = false;
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox6.Checked = global::ManiacEditor.Properties.Settings.Default.showOtherEntities;
+            this.checkBox6.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showOtherEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox6.Location = new System.Drawing.Point(8, 109);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(75, 17);
+            this.checkBox6.TabIndex = 63;
+            this.checkBox6.Text = "Other";
+            this.checkBox6.UseVisualStyleBackColor = false;
+            // 
+            // fgHighDefault
+            // 
+            this.fgHighDefault.BackColor = System.Drawing.Color.Transparent;
+            this.fgHighDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGHighDefault;
+            this.fgHighDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fgHighDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGHighDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.fgHighDefault.Location = new System.Drawing.Point(39, 204);
+            this.fgHighDefault.Name = "fgHighDefault";
+            this.fgHighDefault.Size = new System.Drawing.Size(77, 17);
+            this.fgHighDefault.TabIndex = 46;
+            this.fgHighDefault.Text = "FG High";
+            this.fgHighDefault.UseVisualStyleBackColor = false;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox5.Checked = global::ManiacEditor.Properties.Settings.Default.showBothEntities;
+            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showBothEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox5.Location = new System.Drawing.Point(8, 86);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(75, 17);
+            this.checkBox5.TabIndex = 64;
+            this.checkBox5.Text = "Both";
+            this.checkBox5.UseVisualStyleBackColor = false;
+            // 
+            // fgHigherDefault
+            // 
+            this.fgHigherDefault.BackColor = System.Drawing.Color.Transparent;
+            this.fgHigherDefault.Checked = global::ManiacEditor.Properties.Settings.Default.FGHigherDefault;
+            this.fgHigherDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fgHigherDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "FGHigherDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.fgHigherDefault.Location = new System.Drawing.Point(39, 227);
+            this.fgHigherDefault.Name = "fgHigherDefault";
+            this.fgHigherDefault.Size = new System.Drawing.Size(77, 17);
+            this.fgHigherDefault.TabIndex = 45;
+            this.fgHigherDefault.Text = "FG Higher";
+            this.fgHigherDefault.UseVisualStyleBackColor = false;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox4.Checked = global::ManiacEditor.Properties.Settings.Default.showEncoreEntities;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showEncoreEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox4.Location = new System.Drawing.Point(8, 63);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(75, 17);
+            this.checkBox4.TabIndex = 65;
+            this.checkBox4.Text = "Encore";
+            this.checkBox4.UseVisualStyleBackColor = false;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox3.Checked = global::ManiacEditor.Properties.Settings.Default.showManiaEntities;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showManiaEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox3.Location = new System.Drawing.Point(8, 40);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(75, 17);
+            this.checkBox3.TabIndex = 66;
+            this.checkBox3.Text = "Mania";
+            this.checkBox3.UseVisualStyleBackColor = false;
+            // 
+            // tileToolbarZoomDefault
+            // 
+            this.tileToolbarZoomDefault.BackColor = System.Drawing.SystemColors.Control;
+            this.tileToolbarZoomDefault.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ManiacEditor.Properties.Settings.Default, "tileToolbarDefaultZoomLevel", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.tileToolbarZoomDefault.LargeChange = 1;
+            this.tileToolbarZoomDefault.Location = new System.Drawing.Point(6, 19);
+            this.tileToolbarZoomDefault.Maximum = 3;
+            this.tileToolbarZoomDefault.Name = "tileToolbarZoomDefault";
+            this.tileToolbarZoomDefault.Size = new System.Drawing.Size(147, 45);
+            this.tileToolbarZoomDefault.TabIndex = 53;
+            this.tileToolbarZoomDefault.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.tileToolbarZoomDefault.Value = global::ManiacEditor.Properties.Settings.Default.tileToolbarDefaultZoomLevel;
+            // 
+            // SceneSelectRadio2
+            // 
+            this.SceneSelectRadio2.BackColor = System.Drawing.Color.Transparent;
+            this.SceneSelectRadio2.Checked = global::ManiacEditor.Properties.Settings.Default.SceneSelectRadioButton2On;
+            this.SceneSelectRadio2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SceneSelectRadioButton2On", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.SceneSelectRadio2.Location = new System.Drawing.Point(11, 38);
+            this.SceneSelectRadio2.Name = "SceneSelectRadio2";
+            this.SceneSelectRadio2.Size = new System.Drawing.Size(88, 17);
+            this.SceneSelectRadio2.TabIndex = 60;
+            this.SceneSelectRadio2.Text = "Files View";
+            this.SceneSelectRadio2.UseVisualStyleBackColor = false;
+            this.SceneSelectRadio2.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // SceneSelectRadio1
+            // 
+            this.SceneSelectRadio1.BackColor = System.Drawing.Color.Transparent;
+            this.SceneSelectRadio1.Checked = global::ManiacEditor.Properties.Settings.Default.SceneSelectRadioButton1On;
+            this.SceneSelectRadio1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SceneSelectRadioButton1On", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.SceneSelectRadio1.Location = new System.Drawing.Point(11, 17);
+            this.SceneSelectRadio1.Name = "SceneSelectRadio1";
+            this.SceneSelectRadio1.Size = new System.Drawing.Size(88, 17);
+            this.SceneSelectRadio1.TabIndex = 61;
+            this.SceneSelectRadio1.TabStop = true;
+            this.SceneSelectRadio1.Text = "Sorted View";
+            this.SceneSelectRadio1.UseVisualStyleBackColor = false;
+            this.SceneSelectRadio1.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            // 
+            // radioButtonY
+            // 
+            this.radioButtonY.AutoSize = true;
+            this.radioButtonY.BackColor = System.Drawing.Color.Transparent;
+            this.radioButtonY.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockY;
+            this.radioButtonY.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButtonY.Location = new System.Drawing.Point(49, 19);
+            this.radioButtonY.Name = "radioButtonY";
+            this.radioButtonY.Size = new System.Drawing.Size(32, 17);
+            this.radioButtonY.TabIndex = 91;
+            this.radioButtonY.Text = "Y";
+            this.radioButtonY.UseVisualStyleBackColor = false;
+            this.radioButtonY.CheckedChanged += new System.EventHandler(this.radioButtonY_CheckedChanged_1);
+            // 
+            // radioButtonX
+            // 
+            this.radioButtonX.AutoSize = true;
+            this.radioButtonX.BackColor = System.Drawing.Color.Transparent;
+            this.radioButtonX.Checked = global::ManiacEditor.Properties.Settings.Default.ScrollLockX;
+            this.radioButtonX.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ScrollLockX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButtonX.Location = new System.Drawing.Point(11, 19);
+            this.radioButtonX.Name = "radioButtonX";
+            this.radioButtonX.Size = new System.Drawing.Size(32, 17);
+            this.radioButtonX.TabIndex = 92;
+            this.radioButtonX.TabStop = true;
+            this.radioButtonX.Text = "X";
+            this.radioButtonX.UseVisualStyleBackColor = false;
+            this.radioButtonX.CheckedChanged += new System.EventHandler(this.radioButtonX_CheckedChanged_1);
+            // 
+            // highLayerTextbox
+            // 
+            this.highLayerTextbox.BackColor = System.Drawing.Color.White;
+            this.highLayerTextbox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "CustomLayerHigh", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.highLayerTextbox.ForeColor = System.Drawing.Color.Black;
+            this.highLayerTextbox.Location = new System.Drawing.Point(8, 208);
+            this.highLayerTextbox.Name = "highLayerTextbox";
+            this.highLayerTextbox.Size = new System.Drawing.Size(157, 20);
+            this.highLayerTextbox.TabIndex = 41;
+            this.highLayerTextbox.Text = global::ManiacEditor.Properties.Settings.Default.CustomLayerHigh;
+            // 
+            // lowLayerTextbox
+            // 
+            this.lowLayerTextbox.BackColor = System.Drawing.Color.White;
+            this.lowLayerTextbox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ManiacEditor.Properties.Settings.Default, "CustomLayerLow", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lowLayerTextbox.ForeColor = System.Drawing.Color.Black;
+            this.lowLayerTextbox.Location = new System.Drawing.Point(8, 168);
+            this.lowLayerTextbox.Name = "lowLayerTextbox";
+            this.lowLayerTextbox.Size = new System.Drawing.Size(157, 20);
+            this.lowLayerTextbox.TabIndex = 40;
+            this.lowLayerTextbox.Text = global::ManiacEditor.Properties.Settings.Default.CustomLayerLow;
+            // 
+            // solidTopDefault
+            // 
+            this.solidTopDefault.BackColor = System.Drawing.Color.Transparent;
+            this.solidTopDefault.Checked = global::ManiacEditor.Properties.Settings.Default.SolidTopDefault;
+            this.solidTopDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "solidTopDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.solidTopDefault.Location = new System.Drawing.Point(8, 33);
+            this.solidTopDefault.Name = "solidTopDefault";
+            this.solidTopDefault.Size = new System.Drawing.Size(77, 17);
+            this.solidTopDefault.TabIndex = 35;
+            this.solidTopDefault.Text = "Solid (Top)";
+            this.solidTopDefault.UseVisualStyleBackColor = false;
+            // 
+            // soildAllButTopDefault
+            // 
+            this.soildAllButTopDefault.BackColor = System.Drawing.Color.Transparent;
+            this.soildAllButTopDefault.Checked = global::ManiacEditor.Properties.Settings.Default.SolidAllButTopDefault;
+            this.soildAllButTopDefault.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SolidAllButTopDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.soildAllButTopDefault.Location = new System.Drawing.Point(8, 56);
+            this.soildAllButTopDefault.Name = "soildAllButTopDefault";
+            this.soildAllButTopDefault.Size = new System.Drawing.Size(112, 17);
+            this.soildAllButTopDefault.TabIndex = 34;
+            this.soildAllButTopDefault.Text = "Solid (All excl. top)";
+            this.soildAllButTopDefault.UseVisualStyleBackColor = false;
+            // 
+            // unknown1Default
+            // 
+            this.unknown1Default.BackColor = System.Drawing.Color.Transparent;
+            this.unknown1Default.Checked = global::ManiacEditor.Properties.Settings.Default.Unkown1Default;
+            this.unknown1Default.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "Unkown1Default", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.unknown1Default.Location = new System.Drawing.Point(8, 79);
+            this.unknown1Default.Name = "unknown1Default";
+            this.unknown1Default.Size = new System.Drawing.Size(122, 17);
+            this.unknown1Default.TabIndex = 33;
+            this.unknown1Default.Text = "Soild (Top) (Plane 2)";
+            this.unknown1Default.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.unknown1Default.UseVisualStyleBackColor = false;
+            // 
+            // unkown2Default
+            // 
+            this.unkown2Default.BackColor = System.Drawing.Color.Transparent;
+            this.unkown2Default.Checked = global::ManiacEditor.Properties.Settings.Default.Unkown2Default;
+            this.unkown2Default.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "Unkown2Default", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.unkown2Default.Location = new System.Drawing.Point(8, 102);
+            this.unkown2Default.Name = "unkown2Default";
+            this.unkown2Default.Size = new System.Drawing.Size(157, 17);
+            this.unkown2Default.TabIndex = 32;
+            this.unkown2Default.Text = "Solid (All excl. top) (Plane 2)";
+            this.unkown2Default.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.unkown2Default.UseVisualStyleBackColor = false;
+            // 
+            // checkBox45
+            // 
+            this.checkBox45.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox45.Checked = global::ManiacEditor.Properties.Settings.Default.SimplifiedWaterLevelRendering;
+            this.checkBox45.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox45.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SimplifiedWaterLevelRendering", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox45.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox45.Location = new System.Drawing.Point(186, 13);
+            this.checkBox45.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox45.Name = "checkBox45";
+            this.checkBox45.Size = new System.Drawing.Size(171, 59);
+            this.checkBox45.TabIndex = 105;
+            this.checkBox45.Text = "Simplified Water Level Rendering \r\n(Perferable for Performance Reasons)";
+            this.checkBox45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox45.UseVisualStyleBackColor = false;
+            // 
+            // checkBox31
+            // 
+            this.checkBox31.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox31.Checked = global::ManiacEditor.Properties.Settings.Default.PrioritizedObjectRendering;
+            this.checkBox31.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "PrioritizedObjectRendering", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox31.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox31.Location = new System.Drawing.Point(5, 276);
+            this.checkBox31.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox31.Name = "checkBox31";
+            this.checkBox31.Size = new System.Drawing.Size(171, 59);
+            this.checkBox31.TabIndex = 104;
+            this.checkBox31.Text = "Prioritized Entity Rendering\r\n (Useful but Performance Hungry)";
+            this.checkBox31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox31.UseVisualStyleBackColor = false;
+            // 
+            // checkBox26
+            // 
+            this.checkBox26.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox26.Checked = global::ManiacEditor.Properties.Settings.Default.UseAltEntityRenderMode;
+            this.checkBox26.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseAltEntityRenderMode", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox26.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox26.Location = new System.Drawing.Point(5, 195);
+            this.checkBox26.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox26.Name = "checkBox26";
+            this.checkBox26.Size = new System.Drawing.Size(171, 71);
+            this.checkBox26.TabIndex = 103;
+            this.checkBox26.Text = "Use Alt. Object Rendering Method \r\n(May leave blank entities, but will only load " +
+    "the objects as they are seen)";
+            this.checkBox26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox26.UseVisualStyleBackColor = false;
+            // 
+            // checkBox12
+            // 
+            this.checkBox12.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox12.Checked = global::ManiacEditor.Properties.Settings.Default.DisableRenderExlusions;
+            this.checkBox12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableRenderExlusions", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox12.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox12.Location = new System.Drawing.Point(5, 153);
+            this.checkBox12.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(171, 32);
+            this.checkBox12.TabIndex = 102;
+            this.checkBox12.Text = "Disable Always Render Entities";
+            this.checkBox12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox12.UseVisualStyleBackColor = false;
+            // 
+            // checkBox35
+            // 
+            this.checkBox35.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox35.Checked = global::ManiacEditor.Properties.Settings.Default.NeverLoadEntityTextures;
+            this.checkBox35.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "NeverLoadEntityTextures", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox35.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox35.Location = new System.Drawing.Point(5, 26);
+            this.checkBox35.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox35.Name = "checkBox35";
+            this.checkBox35.Size = new System.Drawing.Size(171, 33);
+            this.checkBox35.TabIndex = 30;
+            this.checkBox35.Text = "Never load Entity Textures/Annimations**\r\n";
+            this.checkBox35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox35.UseVisualStyleBackColor = false;
+            this.checkBox35.CheckedChanged += new System.EventHandler(this.checkBox35_CheckedChanged);
+            // 
+            // checkBox30
+            // 
+            this.checkBox30.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox30.Checked = global::ManiacEditor.Properties.Settings.Default.UseObjectRenderingImprovements;
+            this.checkBox30.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseObjectRenderingImprovements", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox30.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox30.Location = new System.Drawing.Point(5, 69);
+            this.checkBox30.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox30.Name = "checkBox30";
+            this.checkBox30.Size = new System.Drawing.Size(171, 32);
+            this.checkBox30.TabIndex = 98;
+            this.checkBox30.Text = "Remove Text from Objects (Will Boost Performance)**";
+            this.checkBox30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox30.UseVisualStyleBackColor = false;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox1.Checked = global::ManiacEditor.Properties.Settings.Default.AlwaysRenderObjects;
+            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "AlwaysRenderObjects", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox1.ForeColor = System.Drawing.Color.Red;
+            this.checkBox1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox1.Location = new System.Drawing.Point(5, 111);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(171, 32);
+            this.checkBox1.TabIndex = 101;
+            this.checkBox1.Text = "Always Render Objects*";
+            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox1.UseVisualStyleBackColor = false;
             // 
             // checkBox50
             // 
@@ -4135,18 +4240,6 @@
             this.checkBox22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox22.UseVisualStyleBackColor = false;
             // 
-            // label31
-            // 
-            this.label31.BackColor = System.Drawing.Color.Transparent;
-            this.label31.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(16, 8);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(160, 13);
-            this.label31.TabIndex = 55;
-            this.label31.Text = "Varrious Settings:";
-            this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // checkBox34
             // 
             this.checkBox34.BackColor = System.Drawing.Color.Transparent;
@@ -4162,30 +4255,119 @@
             this.checkBox34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox34.UseVisualStyleBackColor = false;
             // 
-            // button8
+            // checkBox37
             // 
-            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button8.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button8.ForeColor = System.Drawing.Color.Black;
-            this.button8.Location = new System.Drawing.Point(821, 587);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 22);
-            this.button8.TabIndex = 108;
-            this.button8.Text = "Save";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button11_Click);
+            this.checkBox37.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox37.Checked = global::ManiacEditor.Properties.Settings.Default.UseForcefulStartup;
+            this.checkBox37.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "UseForcefulStartup", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox37.Location = new System.Drawing.Point(11, 26);
+            this.checkBox37.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox37.Name = "checkBox37";
+            this.checkBox37.Size = new System.Drawing.Size(157, 46);
+            this.checkBox37.TabIndex = 57;
+            this.checkBox37.Text = "Open Scene Forcefully on Startup\r\n";
+            this.checkBox37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox37.UseVisualStyleBackColor = false;
             // 
-            // button6
+            // checkBox51
             // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button6.ForeColor = System.Drawing.Color.Black;
-            this.button6.Location = new System.Drawing.Point(902, 587);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 22);
-            this.button6.TabIndex = 101;
-            this.button6.Text = "&OK";
-            this.button6.UseVisualStyleBackColor = true;
+            this.checkBox51.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox51.Checked = global::ManiacEditor.Properties.Settings.Default.EntityFreeCam;
+            this.checkBox51.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EntityFreeCam", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox51.Location = new System.Drawing.Point(16, 233);
+            this.checkBox51.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox51.Name = "checkBox51";
+            this.checkBox51.Size = new System.Drawing.Size(152, 70);
+            this.checkBox51.TabIndex = 62;
+            this.checkBox51.Text = "Entity FreeCam Mode\r\n(Disables Layer Viewing)\r\n(Allows You to see outside of the " +
+    "normal bounds)\r\n\r\n";
+            this.checkBox51.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox51.UseVisualStyleBackColor = false;
+            // 
+            // checkBox28
+            // 
+            this.checkBox28.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox28.Checked = global::ManiacEditor.Properties.Settings.Default.DisableEntityReading;
+            this.checkBox28.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "DisableEntityReading", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox28.Location = new System.Drawing.Point(16, 189);
+            this.checkBox28.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox28.Name = "checkBox28";
+            this.checkBox28.Size = new System.Drawing.Size(152, 32);
+            this.checkBox28.TabIndex = 61;
+            this.checkBox28.Text = "Disable Entity Reading\r\n(Scene Rescue Mode)";
+            this.checkBox28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox28.UseVisualStyleBackColor = false;
+            // 
+            // checkBox19
+            // 
+            this.checkBox19.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox19.Checked = global::ManiacEditor.Properties.Settings.Default.ProhibitEntityUseOnExternalClipboard;
+            this.checkBox19.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox19.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "ProhibitEntityUseOnExternalClipboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox19.Location = new System.Drawing.Point(16, 112);
+            this.checkBox19.Name = "checkBox19";
+            this.checkBox19.Size = new System.Drawing.Size(152, 69);
+            this.checkBox19.TabIndex = 60;
+            this.checkBox19.Text = "Prohibit Entities from Using Windows Clipboard and Between Scenes Copying**";
+            this.checkBox19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox19.UseVisualStyleBackColor = false;
+            // 
+            // enableWindowsClipboard
+            // 
+            this.enableWindowsClipboard.BackColor = System.Drawing.Color.Transparent;
+            this.enableWindowsClipboard.Checked = global::ManiacEditor.Properties.Settings.Default.EnableWindowsClipboard;
+            this.enableWindowsClipboard.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "EnableWindowsClipboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.enableWindowsClipboard.Location = new System.Drawing.Point(16, 30);
+            this.enableWindowsClipboard.Margin = new System.Windows.Forms.Padding(5);
+            this.enableWindowsClipboard.Name = "enableWindowsClipboard";
+            this.enableWindowsClipboard.Size = new System.Drawing.Size(152, 32);
+            this.enableWindowsClipboard.TabIndex = 57;
+            this.enableWindowsClipboard.Text = "Enable Windows Clipboard*";
+            this.enableWindowsClipboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.enableWindowsClipboard.UseVisualStyleBackColor = false;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox2.Checked = global::ManiacEditor.Properties.Settings.Default.RemoveObjectImportLock;
+            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "RemoveObjectImportLock", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox2.Location = new System.Drawing.Point(16, 72);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(152, 32);
+            this.checkBox2.TabIndex = 59;
+            this.checkBox2.Text = "Remove Object Import Lock**";
+            this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox2.UseVisualStyleBackColor = false;
+            // 
+            // checkBox33
+            // 
+            this.checkBox33.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox33.Checked = global::ManiacEditor.Properties.Settings.Default.checkForUpdatesAuto;
+            this.checkBox33.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox33.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "checkForUpdatesAuto", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox33.Location = new System.Drawing.Point(16, 78);
+            this.checkBox33.Name = "checkBox33";
+            this.checkBox33.Size = new System.Drawing.Size(160, 40);
+            this.checkBox33.TabIndex = 56;
+            this.checkBox33.Text = "Check for Updates on Startup";
+            this.checkBox33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox33.UseVisualStyleBackColor = false;
+            // 
+            // RPCCheckBox
+            // 
+            this.RPCCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.RPCCheckBox.Checked = global::ManiacEditor.Properties.Settings.Default.ForceCopyUnlock;
+            this.RPCCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "forceCopyUnlock", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.RPCCheckBox.Location = new System.Drawing.Point(16, 32);
+            this.RPCCheckBox.Name = "RPCCheckBox";
+            this.RPCCheckBox.Size = new System.Drawing.Size(160, 40);
+            this.RPCCheckBox.TabIndex = 29;
+            this.RPCCheckBox.Text = "Enable Discord Rich Presence";
+            this.RPCCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RPCCheckBox.UseVisualStyleBackColor = false;
+            this.RPCCheckBox.CheckedChanged += new System.EventHandler(this.RPCCheckBox_CheckedChanged);
             // 
             // OptionBox
             // 
@@ -4226,7 +4408,6 @@
             this.panel6.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tileToolbarZoomDefault)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -4247,6 +4428,9 @@
             this.panel13.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel14.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tileToolbarZoomDefault)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -4557,5 +4741,18 @@
         private System.Windows.Forms.RadioButton SP;
         private System.Windows.Forms.RadioButton SC;
         public System.Windows.Forms.GroupBox groupBox8;
+        public System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.RadioButton radioButton15;
+        private System.Windows.Forms.RadioButton radioButton14;
+        private System.Windows.Forms.RadioButton radioButton13;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton5;
+        private System.Windows.Forms.RadioButton radioButton6;
+        private System.Windows.Forms.RadioButton radioButton7;
+        private System.Windows.Forms.RadioButton radioButton8;
+        private System.Windows.Forms.RadioButton radioButton9;
+        private System.Windows.Forms.RadioButton radioButton10;
+        private System.Windows.Forms.RadioButton radioButton11;
+        private System.Windows.Forms.RadioButton radioButton12;
     }
 }

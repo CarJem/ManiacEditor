@@ -201,7 +201,7 @@ namespace ManiacEditor
             }
         }
 
-        public bool PlaneFilterCheck(SceneEntity entity, int prority)
+        public static bool PlaneFilterCheck(SceneEntity entity, int prority)
         {
             if (entity.attributesMap.ContainsKey("priority"))
             {

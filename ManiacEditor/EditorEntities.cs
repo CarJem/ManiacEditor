@@ -321,57 +321,8 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-                if (entity.filteredOut && !Editor.isPreRending)
-                {
-                    //Do Nothing
-                }
-                else if (!entity.IsObjectOnScreen(d) && entity.uniqueKey != "") NotOnScreenKeys.Add(entity.uniqueKey);
-                else
-                {
-                    entity.Draw(d, entities, entity);
-                    OnScreenKeys.Add(entity.uniqueKey);
-                }
+                entity.Draw(d, entities, entity);
             }
-            TrueNotOnScreenKeys = NotOnScreenKeys.Except(OnScreenKeys).ToList();          
-            if (OptimizeAssets)
-            {
-                OptimizeEntities();
-            }
-
-            OnScreenKeys.Clear();
-            NotOnScreenKeys.Clear();
-            TrueNotOnScreenKeys.Clear();
-
-        }
-
-
-
-
-
-        public void OptimizeEntities()
-        {
-
-            foreach (var key in TrueNotOnScreenKeys)
-            {
-                foreach (var EntityObject in entities)
-                {
-                    if (EntityObject.uniqueKey == key)
-                    {
-                        EntityObject.uniqueKey = "";
-                    }
-                }
-                foreach (var pair in EditorEntity_ini.Animations)
-                {
-                    if (pair.Key == key)
-                    {
-                        foreach (var pair2 in pair.Value.Frames)
-                            pair2.Texture?.Dispose();
-                    }
-                }
-                EditorEntity_ini.Animations.Remove(key);
-
-            }
-            OptimizeAssets = false;
         }
 
         public void DrawPriority(DevicePanel d, int prority)
@@ -380,20 +331,9 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-                if (entity.filteredOut && !Editor.isPreRending)
-                {
-                    //Do Nothing
-                }
-                else
-                {
-                    entity.layerPriority = prority;
-                    entity.Draw(d, entities, entity);
-                }
-
+                entity.layerPriority = prority;
+                entity.Draw(d, entities, entity);
             }
-
-
-
         }
 
         /// <summary>

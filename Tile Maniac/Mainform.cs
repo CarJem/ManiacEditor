@@ -16,6 +16,7 @@ using System.Drawing.Imaging;
 using System.Media;
 using Color = System.Drawing.Color;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace TileManiac
 {
@@ -36,11 +37,13 @@ namespace TileManiac
 
         public string filepath; //Where is the file located?
         public string folderpath; //Where is the folder located?
+        public string bitmappath; //Where is the image located?
 
         bool showPathB = false; //should we show Path A or Path B?
 
         public bool hasModified = false; //For intergrating tools to know that we have saved/made edits to this config.
         bool imageIsModified = false;
+        bool indexedImagedLoaded = false;
 
         bool mouseHeldDown = false;
         MouseButtons mouseButtonHeld = MouseButtons.None;
@@ -62,9 +65,15 @@ namespace TileManiac
         List<Bitmap> IndexedTiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles (Preserving Color Pallete)
         int gotoVal; //What collision mask we goto when "GO!" is pressed
 
+        public static Mainform Instance;
+
         public Mainform()
         {
             InitializeComponent();
+
+            InitalizeViewer();
+
+            Instance = this;
 
             ToolTip ToolTip = new ToolTip();
 
@@ -220,6 +229,11 @@ namespace TileManiac
                 viewSettingsToolStripMenuItem.Enabled = false;
                 classicMode = true;
             }
+            else
+            {
+                tableLayoutPanel1.Enabled = true;
+                tableLayoutPanel1.Visible = true;
+            }
             switch (Properties.Settings.Default.ViewAppearanceMode)
             {
                 case 0:
@@ -244,6 +258,7 @@ namespace TileManiac
 
         public void LoadTileConfigViaIntergration(TilesConfig tilesConfig, string scenePath, int selectedTile = 0)
         {
+            indexedImagedLoaded = false;
             curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
             filepath = Path.Combine(scenePath, "TileConfig.bin");
             //tcf = tilesConfig;
@@ -252,6 +267,7 @@ namespace TileManiac
             tcfBak = new TilesConfig(Path.Combine(scenePath, "TileConfig.bin").ToString());
             string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
             LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
+            bitmappath = tileBitmapPath;
 
             CollisionList.Images.Clear();
 
@@ -310,12 +326,14 @@ namespace TileManiac
 
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
+                indexedImagedLoaded = false;
                 curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
                 filepath = dlg.FileName;
                 tcf = new RSDKv5.TilesConfig(dlg.FileName);
                 tcfBak = new RSDKv5.TilesConfig(dlg.FileName);
                 string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
                 LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
+                bitmappath = tileBitmapPath;
 
                 CollisionList.Images.Clear();
 
@@ -431,7 +449,7 @@ namespace TileManiac
                 }
                 else
                 {
-                    if (imageIsModified)
+                    if (imageIsModified && indexedImagedLoaded)
                     {
                         if (!Properties.Settings.Default.AllowDirect16x16TilesGIFEditing)
                         {
@@ -503,21 +521,26 @@ namespace TileManiac
 
         }
 
-        public void LoadTileSet(Bitmap TileSet)
+        public void LoadTileSet(Bitmap TileSet, bool indexedMode = false)
         {
-            Tiles.Clear(); // Clear the previous images, since we load the entire file!
+            if (!indexedMode) Tiles.Clear(); // Clear the previous images, since we load the entire file!
+            else IndexedTiles.Clear(); // Clear the previous images, since we load the entire file!
+
             int tsize = TileSet.Height; //Height of the image in pixels
             for (int i = 0; i < (tsize / 16); i++) //We divide by 16 to get the "height" in blocks
             {
                 Rectangle CropArea = new Rectangle(0, (i * 16), 16, 16); //we then get tile at Y: i * 16, 
                                                                          //we have to multiply i by 16 to get the "true Tile value" (1* 16 = 16, 2 * 16 = 32, etc.)
-
-                Bitmap CroppedImage = CropImage(TileSet, CropArea); // crop that image
-                Tiles.Add(CroppedImage); // add it to the tile list
-
-                //Code Not Ready Yet!
-                Bitmap CroppedImageIndexed = CropImage(TileSet, CropArea, true); // crop that indexed image
-                IndexedTiles.Add(CroppedImageIndexed); // add it to the indexed tile list
+                if (!indexedMode)
+                {
+                    Bitmap CroppedImage = CropImage(TileSet, CropArea); // crop that image
+                    Tiles.Add(CroppedImage); // add it to the tile list
+                }
+                else
+                {
+                    Bitmap CroppedImageIndexed = CropImage(TileSet, CropArea, true); // crop that indexed image
+                    IndexedTiles.Add(CroppedImageIndexed); // add it to the indexed tile list
+                }
             }
         }
 
@@ -609,10 +632,12 @@ namespace TileManiac
                 CurMaskLabel.Text = "Collision Mask " + (curColisionMask + 1) + " of " + 1024; //what collision mask are we on?
                 TilePicBox.Image = ResizeBitmap(Tiles[curColisionMask],96,96); //update the tile preview 
                 Bitmap Overlaypic = new Bitmap(16, 16);
+                Bitmap Collisionpic = new Bitmap(16, 16);
                 GetRawSlopeNUD();
                 if (!showPathB) //if we are showing Path A then refresh the values accordingly
                 {
-                    CollisionPicBox.Image = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+                    Collisionpic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+                    CollisionPicBox.Image = Collisionpic;
                     Overlaypic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0), Tiles[curColisionMask]);
                     PhysicsNUD.Value = tcf.CollisionPath1[curColisionMask].physics;
                     MomentumNUD.Value = tcf.CollisionPath1[curColisionMask].momentum;
@@ -626,7 +651,9 @@ namespace TileManiac
 
                 if (showPathB) //if we are showing Path B then refresh the values accordingly
                 {
-                    CollisionPicBox.Image = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(0, 255, 0)); Overlaypic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0), Tiles[curColisionMask]);
+                    Collisionpic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(0, 255, 0));
+                    CollisionPicBox.Image = Collisionpic;
+                    Overlaypic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0), Tiles[curColisionMask]);
                     SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].slopeAngle;
                     PhysicsNUD.Value = tcf.CollisionPath2[curColisionMask].physics;
                     MomentumNUD.Value = tcf.CollisionPath2[curColisionMask].momentum;
@@ -649,27 +676,101 @@ namespace TileManiac
                 }
                 else
                 {
-                    if (!mouseHeldDown)
-                    {
-                        if (viewAppearanceMode == 0)
-                        {
-                            tableLayoutPanel1.BackgroundImage = ResizeBitmap(Overlaypic, tableLayoutPanel1.Width, tableLayoutPanel1.Height);
-                            tableLayoutPanel1.Enabled = true;
-                            tableLayoutPanel1.Visible = true;
-                        }
-                        else if (viewAppearanceMode == 1)
-                        {
-                            tableLayoutPanel1.BackgroundImage = ResizeBitmap(new Bitmap(CollisionPicBox.Image), tableLayoutPanel1.Width, tableLayoutPanel1.Height);
-                            tableLayoutPanel1.Enabled = true;
-                            tableLayoutPanel1.Visible = true;
-                        }
-
-                    }
+                    if (viewAppearanceMode == 0) UpdateColllisionViewer(Overlaypic);
+                    else if (viewAppearanceMode == 1) UpdateColllisionViewer(Collisionpic);
+                    tableLayoutPanel1.Enabled = true;
+                    tableLayoutPanel1.Visible = true;
 
                 }
 
                 RefreshCollisionList();
             }
+        }
+
+        public void UpdateColllisionViewer(Image image)
+        {
+            Bitmap viewImage = new Bitmap(image);
+            for (int x = 0; x < tableLayoutPanel1.ColumnCount; x++)
+            {
+                for (int y = 0; y < tableLayoutPanel1.RowCount; y++)
+                {
+                    tableLayoutPanel1.GetControlFromPosition(x, y).BackColor = viewImage.GetPixel(x, y);
+                    tableLayoutPanel1.GetControlFromPosition(x, y).ForeColor = GetTextColor(viewImage.GetPixel(x, y));
+                }
+            }
+        }
+
+        public void InitalizeViewer()
+        {
+            for (int x = 0; x < tableLayoutPanel1.ColumnCount; x++)
+            {
+                for (int y = 0; y < tableLayoutPanel1.RowCount; y++)
+                {
+                    Label newLabel = new Label()
+                    {
+                        Text = GetCollisionSection(y),
+                        AutoSize = true,
+                        Dock = DockStyle.Fill,
+                        Padding = new Padding(0),
+                        Margin = new Padding(0),
+                        TextAlign = ContentAlignment.MiddleCenter
+                    };
+                    tableLayoutPanel1.Controls.Add(newLabel, x, y);
+                }
+            }
+        }
+
+        public Color GetTextColor(Color bg)
+        {
+                int nThreshold = (int)Properties.Settings.Default.DevInt1;
+                int bgDelta = Convert.ToInt32((bg.R * 0.299) + (bg.G * 0.587) +
+                                              (bg.B * 0.114));
+
+                Color foreColor = (255 - bgDelta < nThreshold) ? Color.Black : Color.White;
+                return foreColor;
+        }
+
+        public string GetCollisionSection(int y)
+        {
+            switch (y)
+            {
+                case 0:
+                    return "0";
+                case 1:
+                    return "1";
+                case 2:
+                    return "2";
+                case 3:
+                    return "3";
+                case 4:
+                    return "4";
+                case 5:
+                    return "5";
+                case 6:
+                    return "6";
+                case 7:
+                    return "7";
+                case 8:
+                    return "8";
+                case 9:
+                    return "9";
+                case 10:
+                    return "A";
+                case 11:
+                    return "B";
+                case 12:
+                    return "C";
+                case 13:
+                    return "D";
+                case 14:
+                    return "E";
+                case 15:
+                    return "F";
+                default:
+                    return "NULL";
+
+            }
+
         }
 
 
@@ -1851,13 +1952,15 @@ namespace TileManiac
 
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
+                indexedImagedLoaded = false;
                 curColisionMask = 0; //Set the current collision mask to zero (avoids rare errors)
                 filepath = dlg.FileName;
                 tcf = new RSDKv5.TilesConfig();
                 tcfBak = new RSDKv5.TilesConfig();
                 RSDKv4.CollisionMask tcfOLD = new RSDKv4.CollisionMask(dlg.FileName);
-                string t = filepath.Replace("CollisionMasks.bin", "16x16tiles.gif"); //get the path to the stage's tileset
-                LoadTileSet(new Bitmap(t)); //load each 16x16 tile into the list
+                string tileBitmapPath = filepath.Replace("CollisionMasks.bin", "16x16tiles.gif"); //get the path to the stage's tileset
+                LoadTileSet(new Bitmap(tileBitmapPath)); //load each 16x16 tile into the list
+                bitmappath = tileBitmapPath;
 
 
                 CollisionListImgA.Clear();
@@ -2266,30 +2369,54 @@ namespace TileManiac
 
         private void flipTileHorizontallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Bitmap tile = Tiles[curColisionMask];
-            tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            tile = Tiles[curColisionMask];
-            imageIsModified = true;
+            if (AllowFlipPrompt())
+            {
+                Bitmap tile = Tiles[curColisionMask];
+                tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                tile = Tiles[curColisionMask];
+                imageIsModified = true;
 
-            Bitmap indexedTile = IndexedTiles[curColisionMask];
-            indexedTile.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            indexedTile = IndexedTiles[curColisionMask];
+                Bitmap indexedTile = IndexedTiles[curColisionMask];
+                indexedTile.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                indexedTile = IndexedTiles[curColisionMask];
 
-            RefreshUI();
+                RefreshUI();
+            }
+
         }
 
         private void flipTileVerticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Bitmap tile = Tiles[curColisionMask];
-            tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            tile = Tiles[curColisionMask];
-            imageIsModified = true;
+            if (AllowFlipPrompt())
+            {
+                Bitmap tile = Tiles[curColisionMask];
+                tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                tile = Tiles[curColisionMask];
+                imageIsModified = true;
 
-            Bitmap indexedTile = IndexedTiles[curColisionMask];
-            indexedTile.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            indexedTile = IndexedTiles[curColisionMask];
+                Bitmap indexedTile = IndexedTiles[curColisionMask];
+                indexedTile.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                indexedTile = IndexedTiles[curColisionMask];
 
-            RefreshUI();
+                RefreshUI();
+            }
+        }
+
+        private bool AllowFlipPrompt()
+        {
+            if (!indexedImagedLoaded)
+            {
+                DialogResult result = MessageBox.Show("To flip the tile, we have to load an indexed version of the image first. This may take some time. Would you like to continue?", "Create Indexed Image", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    LoadTileSet(new Bitmap(bitmappath), true);
+                    indexedImagedLoaded = true;
+                    return true;
+                }
+                else return false;
+            }
+            else return true;
+
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2319,6 +2446,30 @@ namespace TileManiac
                 MessageBox.Show("No File Opened Yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void tableLayoutPanel2_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (mouseButtonHeld == MouseButtons.Left)
+            {
+                checkUncheckBox(true);
+            }
+            else if (mouseButtonHeld == MouseButtons.Right)
+            {
+                checkUncheckBox(false);
+            }
+        }
+
+        private void cb00_Click(object sender, EventArgs e)
+        {
+            if (mouseButtonHeld == MouseButtons.Left)
+            {
+                checkUncheckBox(true);
+            }
+            else if (mouseButtonHeld == MouseButtons.Right)
+            {
+                checkUncheckBox(false);
+            }
         }
     }
 }
