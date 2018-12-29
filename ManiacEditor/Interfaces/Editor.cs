@@ -471,6 +471,7 @@ namespace ManiacEditor
 
                 ApplyDefaults();
 
+
                 if (mySettings.modConfigs?.Count > 0)
                 {
                     selectConfigToolStripMenuItem.DropDownItems.Clear();
