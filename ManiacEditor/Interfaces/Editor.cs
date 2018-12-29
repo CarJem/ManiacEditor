@@ -463,12 +463,13 @@ namespace ManiacEditor
 
                 WindowState = mySettings.IsMaximized ? FormWindowState.Maximized : WindowState;
                 GamePath = mySettings.GamePath;
-                ApplyDefaults();
 
                 if (mySettings.DataDirectories?.Count > 0)
                 {
                     RefreshDataDirectories(mySettings.DataDirectories);
                 }
+
+                ApplyDefaults();
 
                 if (mySettings.modConfigs?.Count > 0)
                 {
