@@ -280,8 +280,22 @@ namespace ManiacEditor
             }
             else
             {
+                int manualPriority = GetObjectPriority(entity);
+                if (manualPriority == prority) return true;
                 return false;
             }
+        }
+
+        public static int GetObjectPriority(SceneEntity e)
+        {
+            
+            if (e.Object.Name.Name == "UIOptionPanel") return 0;
+            else if (e.Object.Name.Name == "UIChoice") return 1;
+            else if(e.Object.Name.Name == "UIButton") return 1;
+            else if (e.Object.Name.Name == "UIDiorama") return 1;
+            else if (e.Object.Name.Name == "UIKeyBinder") return 1;
+            else if (e.Object.Name.Name == "UIButtonLabel") return 1;
+            else return 0;
         }
 
 

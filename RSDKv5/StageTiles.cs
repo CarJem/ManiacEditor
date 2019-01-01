@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Drawing;
 
 namespace RSDKv5
 {
@@ -25,6 +26,19 @@ namespace RSDKv5
                 Config = new TilesConfig(Path.Combine(stage_directory, "TileConfig.bin"));
             }
 
+        }
+
+        public StageTiles()
+        {
+            Image = new GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
+            Config = new TilesConfig();
+        }
+
+        public void Write(string filename)
+        {
+            Bitmap write = Image.GetBitmap(new Rectangle(0,0,16,16384));
+            write.Save(filename);
+                
         }
 
         public void Dispose()

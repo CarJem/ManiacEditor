@@ -16,6 +16,11 @@ namespace RSDKv5
 
         }
 
+        public StageConfig()
+        {
+
+        }
+
         public StageConfig(Stream stream) : this(new Reader(stream))
         {
 

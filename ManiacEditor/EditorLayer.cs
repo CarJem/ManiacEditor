@@ -27,7 +27,6 @@ namespace ManiacEditor
 
 
         Texture[][] TileChunksTextures;
-        Dictionary<ushort, Texture> TileTexture = new Dictionary<ushort, Texture>();
 
         public PointsMap SelectedTiles;
         
@@ -762,11 +761,9 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            if (!TileTexture.ContainsKey(tile)) TileTexture.Add(tile, Editor.Instance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY));
-
             if (Properties.Settings.Default.UseFasterSelectionRendering == true) selected = false;
 
-            d.DrawBitmap(TileTexture[tile],
+            d.DrawBitmap(Editor.Instance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 
             if (Editor.Instance.showFlippedTileHelper == true)
@@ -1018,7 +1015,16 @@ namespace ManiacEditor
 
             Rectangle rect = GetTilesChunkArea(x, y);
 
-            using (Bitmap bmp = new Bitmap(rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+            Bitmap bmp2 = new Bitmap(rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
+            int factor = 32;
+            int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+            if (newSize == 0) newSize = factor;
+            while (newSize < squareSize) newSize += factor;
+
+            Bitmap bmp = new Bitmap(newSize, newSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            using (bmp)
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {

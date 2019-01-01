@@ -101,11 +101,96 @@ namespace ManiacEditor
 
         }
 
+        public void DrawGraphicsMode(DevicePanel d, bool state = false)
+        {
+            List<string> entityRenderList = EditorEntity_ini.entityRenderingObjects;
+
+            int x = entity.Position.X.High;
+            int y = entity.Position.Y.High;
+            int _ChildX = entity.Position.X.High + (childDraw ? childX : 0);
+            int _ChildY = entity.Position.Y.High + (childDraw ? childY : 0);
+            if (childDrawAddMode == false)
+            {
+                _ChildX = childX;
+                _ChildY = childY;
+            }
+            bool fliph = false;
+            bool flipv = false;
+            bool rotate = false;
+            var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
+            string name = entity.Object.Name.Name;
+
+
+            if (entityRenderList.Contains(name))
+            {
+                EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode, true);
+            }
+        }
+
         public bool ContainsPoint(Point point)
         {
             if (filteredOut) return false;
 
             return GetDimensions().Contains(point);
+        }
+
+        public void DrawUIButtonBack(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW)
+        {
+            width += 1;
+            height += 1;
+
+            bool wEven = width % 2 == 0;
+            bool hEven = height % 2 == 0;
+
+            int x2 = x;
+            int y2 = y;
+            if (width != 0) x2 -= width / 2;
+            if (height != 0) y2 -= height / 2;
+
+            d.DrawRectangle(x2, y2, x2 + width, y2 + height, System.Drawing.Color.Black);
+
+            System.Drawing.Color colur = System.Drawing.Color.Black;
+            //Left Triangle         
+            for (int i = 1; i <= (height); i++)
+            {
+                d.DrawLine(x2 - height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, x2, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+            }
+
+            int x3 = x2 + width;
+            int y3 = y2 + height;
+
+            //Right Triangle
+            for (int i = 1; i <= height; i++)
+            {
+                d.DrawLine(x3, y + (!hEven ? 1 : 0) + (height / 2) - i, x3 + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+            }
+        }
+        public void DrawTriangle(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW, int state = 0)
+        {
+
+            bool wEven = width % 2 == 0;
+            bool hEven = height % 2 == 0;
+
+            System.Drawing.Color colur = System.Drawing.Color.Black;
+            if (state == 0)
+            {
+                //Left Triangle         
+                for (int i = 1; i <= (height); i++)
+                {
+                    d.DrawLine(x - height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, x, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+                }
+            }
+            else if (state == 1)
+            {
+                //Right Triangle
+                for (int i = 1; i <= height; i++)
+                {
+                    d.DrawLine(x, y + (!hEven ? 1 : 0) + (height / 2) - i, x + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+                }
+            }
+
+
+
         }
 
         public bool IsInArea(Rectangle area)
@@ -270,8 +355,8 @@ namespace ManiacEditor
                  color2 = System.Drawing.Color.Yellow;
             }
 
-            int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
-            if (!Properties.Settings.Default.NeverLoadEntityTextures)
+            int Transparency = (Editor.Instance.EditLayer == null || Editor.Instance.isExportingImage) ? 0xff : 0x32;
+            if (!Properties.Settings.Default.NeverLoadEntityTextures && !Editor.Instance.isExportingImage)
             {
                 if (!Environment.Is64BitProcess && entity.Object.Name.Name == "SpecialRing") skipRenderforx86 = true;
                 else EditorEntity_ini.LoadNextAnimation(this);
@@ -291,21 +376,22 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
 
-
-
-
-
-            if (entityRenderList.Contains(name) && !skipRenderforx86)
+            if (entityRenderList.Contains(name) && Editor.Instance.isExportingImage)
             {
-                if (!Properties.Settings.Default.NeverLoadEntityTextures)
+                EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+            }
+            else if (entityRenderList.Contains(name) && !skipRenderforx86)
+            {
+                if (!Properties.Settings.Default.NeverLoadEntityTextures )
                 {
                     if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
                     {
-                        EditorEntity_ini.DrawOthers(d, entity, null, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                        EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
                     }
                     else if (!Properties.Settings.Default.UseAltEntityRenderMode) {
-                        EditorEntity_ini.DrawOthers(d, entity, null, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                        EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
                     }
+
 
                 }
 

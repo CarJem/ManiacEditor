@@ -294,6 +294,18 @@
       <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.9.0.1\lib\net40\Magick.NET-Q8-AnyCPU.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Direct3D.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3DX, Version=1.0.2911.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Direct3DX.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.2.2.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicLanguageRuntime.1.2.2\lib\net45\Microsoft.Dynamic.dll</HintPath>
       <Private>False</Private>
@@ -342,9 +354,15 @@
       <HintPath>..\packages\SharpDX.Desktop.4.2.0\lib\net45\SharpDX.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.2.0\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.Direct3D9.4.2.0\lib\net45\SharpDX.Direct3D9.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
@@ -436,8 +454,12 @@
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />
     <Compile Include="Entity Renders\SummaryEmerald.cs" />
+    <Compile Include="Entity Renders\UITABanner.cs" />
+    <Compile Include="Entity Renders\UIInfoLabel.cs" />
+    <Compile Include="Entity Renders\UIVsCharSelector.cs" />
+    <Compile Include="Entity Renders\UIOptionPanel.cs" />
+    <Compile Include="Entity Renders\UIKeyBinder.cs" />
     <Compile Include="Entity Renders\UIChoice.cs" />
-    <Compile Include="Entity Renders\UIButtonBack.cs" />
     <Compile Include="Entity Renders\UIButtonLabel.cs" />
     <Compile Include="Entity Renders\UIDiorama.cs" />
     <Compile Include="Entity Renders\UICharButton.cs" />
@@ -484,6 +506,12 @@
     </Compile>
     <Compile Include="Interfaces\AddAttributeBox.Designer.cs">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\NewSceneMaker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\NewSceneMaker.Designer.cs">
+      <DependentUpon>NewSceneMaker.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\StatusBox.cs">
       <SubType>Form</SubType>
@@ -834,6 +862,7 @@
     </Compile>
     <Compile Include="TextPrompt.cs" />
     <Compile Include="TextureCreator.cs" />
+    <Compile Include="TexturetoImage.cs" />
     <Compile Include="ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -867,6 +896,9 @@
     <Content Include="EditorIcons.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Global\MenuRenders.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global\SuperSpecialRing.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -877,6 +909,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Global\TransportTubes.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Global\EditorUIRender.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\LayerManagerWarning1.rtf" />
@@ -890,6 +925,9 @@
     </None>
     <EmbeddedResource Include="Interfaces\ConfigManager.resx">
       <DependentUpon>ConfigManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\NewSceneMaker.resx">
+      <DependentUpon>NewSceneMaker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\StatusBox.resx">
       <DependentUpon>StatusBox.cs</DependentUpon>

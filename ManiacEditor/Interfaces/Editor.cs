@@ -85,6 +85,7 @@ namespace ManiacEditor
         public bool ShortcutHasZoom = false; //For Shortcuts and Force Open.
         public int PlayerBeingTracked = -1;
         public int CurrentControllerButtons = 2; //For Setting the Menu Control Button Images.
+        public bool isExportingImage = false; //For Setting the right options when exporting entitites.
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -100,8 +101,12 @@ namespace ManiacEditor
         public string INILayerNameHigher = ""; //Reserved String for INI Default Layer Prefrences
         public string entitiesTextFilter = ""; //Used to hide objects that don't match the discription
         public int entityVisibilityType = 0; // Used to determine how to display entities
-        string MenuCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";
+        string LevelSelectCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";
+        string MenuCharS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!.";
+        string MenuCharS_Small = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ?.:'\"!-,&¡<>¿"; //49 out of 121
         public char[] MenuChar;
+        public char[] LevelSelectChar;
+        public char[] MenuChar_Small;
         public double ShortcutZoomValue = 0.0;
 
         //Editor Paths
@@ -314,6 +319,8 @@ namespace ManiacEditor
             _recentDataItems_Button = new List<ToolStripMenuItem>();
             EditorControls = new EditorControls();
             MenuChar = MenuCharS.ToCharArray();
+            MenuChar_Small = MenuCharS_Small.ToCharArray();
+            LevelSelectChar = LevelSelectCharS.ToCharArray();
 
             SetViewSize();
 
@@ -469,19 +476,20 @@ namespace ManiacEditor
                     RefreshDataDirectories(mySettings.DataDirectories);
                 }
 
-                ApplyDefaults();
-
-
                 if (mySettings.modConfigs?.Count > 0)
                 {
                     selectConfigToolStripMenuItem.DropDownItems.Clear();
                     for (int i = 0; i < mySettings.modConfigs.Count; i++)
                     {
                         selectConfigToolStripMenuItem.DropDownItems.Add(CreateModConfigMenuItem(i));
-                        
+
                     }
                 }
-                //mySettings.LastModConfig
+
+                ApplyDefaults();
+
+
+
                 
 
             }
@@ -522,26 +530,32 @@ namespace ManiacEditor
             showParallaxSpritesToolStripMenuItem.Checked = mySettings.ShowFullParallaxEntityRenderDefault;
             myEditorState.ShowParallaxSprites = mySettings.ShowFullParallaxEntityRenderDefault;
             prioritizedViewingToolStripMenuItem.Checked = mySettings.PrioritizedObjectRendering;
+
             foreach (ToolStripMenuItem item in menuLanguageToolStripMenuItem.DropDownItems) if (item.Tag.ToString() == mySettings.LangDefault)
                 {
                     item.Checked = true;
                     CurrentLanguage = item.Tag.ToString();
                 }
+
+            bool endSearch = false;
             foreach (ToolStripMenuItem item in menuButtonsToolStripMenuItem.DropDownItems) {
-                if (item.Tag.ToString() == mySettings.ButtonLayoutDefault)
-                {
-                    item.Checked = true;
-                    SetMenuButtons(item.Tag.ToString());
-                }
-                foreach (ToolStripMenuItem subItem in item.DropDownItems)
-                {
-                    if (item.Tag.ToString() == mySettings.ButtonLayoutDefault)
+                    if (item.Tag.ToString() == mySettings.ButtonLayoutDefault && !endSearch)
                     {
                         item.Checked = true;
                         SetMenuButtons(item.Tag.ToString());
+                        endSearch = true;
                     }
-                }
+                    foreach (ToolStripMenuItem subItem in item.DropDownItems)
+                    {
+                        if (item.Tag.ToString() == mySettings.ButtonLayoutDefault && !endSearch)
+                        {
+                            item.Checked = true;
+                            SetMenuButtons(item.Tag.ToString());
+                            endSearch = true;
+                        }
+                    }               
             }
+            
 
         }
         void UseDefaultPrefrences()
@@ -669,6 +683,11 @@ namespace ManiacEditor
             {
                 ListedPrefrences.TryGetValue("CustomMenuFontText", out value);
                 MenuChar = value.ToCharArray();
+            }
+            if (ListedPrefrences.ContainsKey("CustomLSelectFontText"))
+            {
+                ListedPrefrences.TryGetValue("CustomLSelectFontText", out value);
+                LevelSelectChar = value.ToCharArray();
             }
 
 
@@ -868,6 +887,15 @@ namespace ManiacEditor
 
 
             RunSceneButton.Enabled = enabled;
+
+            if (GameRunning)
+            {
+                SetButtonColors(RunSceneButton, Color.Blue);
+            }
+            else
+            {
+                SetButtonColors(RunSceneButton, MainThemeColor(Color.LimeGreen));
+            }
 
             SetEditButtonsState(enabled);
             UpdateTooltips();
@@ -2669,19 +2697,25 @@ namespace ManiacEditor
                 width = 10000000;
                 height = 10000000;
             }
+            else if (isExportingImage)
+            {
+                width = SceneWidth;
+                height = SceneHeight;
+            }
 
-            if (!mySettings.EntityFreeCam)
+            if (!mySettings.EntityFreeCam || !isExportingImage)
             {
                 vScrollBar1.Maximum = height;
                 hScrollBar1.Maximum = width;
             }
 
-            GraphicPanel.DrawWidth = Math.Min(width, GraphicPanel.Width);
-            GraphicPanel.DrawHeight = Math.Min(height, GraphicPanel.Height);
+                GraphicPanel.DrawWidth = Math.Min(width, GraphicPanel.Width);
+                GraphicPanel.DrawHeight = Math.Min(height, GraphicPanel.Height);
 
-            Form1_Resize(null, null);
+                Form1_Resize(null, null);
 
-            if (!mySettings.EntityFreeCam)
+
+            if (!mySettings.EntityFreeCam || !isExportingImage)
             {
                 hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
                 vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
@@ -2697,8 +2731,8 @@ namespace ManiacEditor
         {
             if (mySettings.EntityFreeCam)
             {
-                width = 10000000;
-                height = 10000000;
+                width = SceneWidth;
+                height = SceneHeight;
             }
 
 
@@ -2962,6 +2996,10 @@ namespace ManiacEditor
             CollisionLayerA.Clear();
             CollisionLayerB.Clear();
             TilesConfig = null;
+
+            MenuChar = MenuCharS.ToCharArray();
+            MenuChar_Small = MenuCharS_Small.ToCharArray();
+            LevelSelectChar = LevelSelectCharS.ToCharArray();
         }
 
         private void OpenSceneForceFully()
@@ -3393,6 +3431,7 @@ Error: {ex.Message}");
             };
             if (save.ShowDialog() != DialogResult.Cancel)
             {
+                isExportingImage = true;
                 using (Bitmap bitmap = new Bitmap(SceneWidth, SceneHeight))
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
@@ -3402,9 +3441,11 @@ Error: {ex.Message}");
                     FGLow?.Draw(g);
                     FGHigh?.Draw(g);
                     FGHigher?.Draw(g);
-                    entities?.Draw(g);
+                    //entities?.GraphicsDraw(GraphicPanel, g);
+
                     bitmap.Save(save.FileName);
                 }
+
             }
         }
 
@@ -4461,7 +4502,7 @@ Error: {ex.Message}");
         #region Main Toolstrip Buttons
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //New_Click(sender, e);
+            New_Click(sender, e);
         }
 
         private void SToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4606,6 +4647,11 @@ Error: {ex.Message}");
         {
             IntPtr hWnd = FindWindow("SonicMania", null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
+            if (sender == RunSceneButton && GameRunning)
+            {
+                RunSceneButton.ShowDropDown();
+                return;
+            }
             if (processes != null)
             {
                 // check if the window is hidden / minimized
@@ -4619,7 +4665,7 @@ Error: {ex.Message}");
                 SetForegroundWindow(processes.MainWindowHandle);
                 if (!GameRunning)
                 {
-                    RunSequence(sender, e, true);
+                    Invoke(new Action(() => RunSequence(sender, e, true)));    
                 }
             }
             else
@@ -4641,7 +4687,7 @@ Error: {ex.Message}");
                         }
                         File.WriteAllText(ConfigPath, dropDownItem.Tag.ToString());
                     }
-                    RunSequence(sender, e);
+                    Invoke(new Action(() => RunSequence(sender, e)));
                 }
 
             }
@@ -4814,15 +4860,19 @@ Error: {ex.Message}");
             if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
             if (EditorScene != null)
             {
-                if (!IsTilesEdit())
-                    Background.Draw(GraphicPanel);
-                if (IsTilesEdit())
+                if (!isExportingImage)
                 {
-                    if (mySettings.ShowEditLayerBackground == true)
+                    if (!IsTilesEdit())
+                        Background.Draw(GraphicPanel);
+                    if (IsTilesEdit())
                     {
-                        Background.DrawEdit(GraphicPanel);
+                        if (mySettings.ShowEditLayerBackground == true)
+                        {
+                            Background.DrawEdit(GraphicPanel);
+                        }
                     }
                 }
+
 
                 // Future Implementation
 
@@ -4865,6 +4915,7 @@ Error: {ex.Message}");
 
                 if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType != 1)
                 {
+                    entities.DrawPriority(GraphicPanel, -1);
                     entities.DrawPriority(GraphicPanel, 0);
                     entities.DrawPriority(GraphicPanel, 1);
                 }
@@ -5593,7 +5644,8 @@ Error: {ex.Message}");
             {
                 string maniaDir = Path.GetDirectoryName(path);
                 // Check if the mod loader is installed
-                if (File.Exists(Path.Combine(maniaDir, "d3d9.dll")))
+                string modLoaderDLL = maniaDir + "//d3d9.dll";
+                if (File.Exists(modLoaderDLL))
                     psi.WorkingDirectory = maniaDir;
                 else
                     psi.WorkingDirectory = Path.GetDirectoryName(DataDirectory);
@@ -6430,7 +6482,7 @@ Error: {ex.Message}");
             mySettings.DevForceRestartX = (short)(ShiftX / Zoom);
             mySettings.DevForeRestartY = (short)(ShiftY / Zoom);
             mySettings.DevForceRestartZoomLevel = ZoomLevel;
-            mySettings.DevForceRestartEncore = Editor.Instance.useEncoreColors;
+            mySettings.DevForceRestartEncore = Editor.Instance.encorePaletteExists;
             mySettings.DeveForceRestartLevelID = Editor.Instance.myEditorState.Level_ID;
         }
 
@@ -6554,14 +6606,16 @@ Error: {ex.Message}");
         #region GetScreen + Get Zoom
 
         public Rectangle GetScreen()
-        {   
-            if (mySettings.EntityFreeCam) return new Rectangle(CustomX, CustomY, viewPanel.Width, viewPanel.Height);
+        {
+            if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(CustomX, CustomY, viewPanel.Width, viewPanel.Height);
+            else if (isExportingImage) return new Rectangle(0, 0, SceneWidth, SceneHeight);
             else return new Rectangle(ShiftX, ShiftY, viewPanel.Width, viewPanel.Height);
         }
 
         public double GetZoom()
         {
-            return Zoom;
+            if (isExportingImage) return 1;          
+            else return Zoom;
         }
 
 
@@ -6655,6 +6709,21 @@ Error: {ex.Message}");
                 if (c is System.Windows.Forms.Button)
                 {
                     c.ForeColor = Color.Black;
+                }
+                if (c is NumericUpDown)
+                {
+                    c.ForeColor = Color.Black;
+                    c.BackColor = Color.White;
+                }
+                if (c is ComboBox)
+                {
+                    c.ForeColor = Color.Black;
+                    c.BackColor = Color.White;
+                }
+                if (c is TextBox)
+                {
+                    c.ForeColor = Color.Black;
+                    c.BackColor = Color.White;
                 }
             }
             return control;
@@ -6881,6 +6950,54 @@ Error: {ex.Message}");
                 
 
             }
+        }
+
+        private void New_Click(object sender, EventArgs e)
+        {
+            UnloadScene();
+            NewSceneMaker makerDialog = new NewSceneMaker();
+            UseExternalDarkTheme(makerDialog);
+            if (makerDialog.ShowDialog() == DialogResult.OK)
+            {
+                string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
+                SelectedZone = (new DirectoryInfo(directoryPath).Name).Replace("\\", "");
+                SelectedScene = Path.GetFileName(makerDialog.SceneFolder);
+                SceneFilename = "Scene1.bin";
+                SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
+
+                EditorScene = new EditorScene(GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height);
+                TilesConfig = new TilesConfig();
+                StageTiles = new StageTiles();
+                StageConfig = new StageConfig();
+
+                string ImagePath = directoryPath + "//16x16Tiles.gif";
+                string TilesPath = directoryPath + "//TilesConfig.bin";
+                string StagePath = directoryPath + "//StageConfig.bin";
+
+                File.Create(SceneFilepath).Dispose();
+                File.Create(ImagePath).Dispose();
+                File.Create(TilesPath).Dispose();
+                File.Create(StagePath).Dispose();
+
+                //EditorScene.Write(SceneFilepath);
+                TilesConfig.Write(TilesPath);
+                //StageConfig.Write(StagePath);
+                StageTiles.Write(ImagePath);
+
+
+                UpdateDataFolderLabel(null, null);
+
+                SetupLayerButtons();
+
+                Background = new EditorBackground();
+
+                entities = new EditorEntities(EditorScene);
+
+                SetViewSize(SceneWidth, SceneHeight);
+
+                UpdateControls(true);
+            }
+
         }
 
         private void SeeStatsToolStripMenuItem_Click(object sender, EventArgs e)

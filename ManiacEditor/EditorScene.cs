@@ -73,6 +73,20 @@ namespace ManiacEditor
             }
         }
 
+        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight)
+        {
+            Layers = new List<SceneLayer>(3);
+            Layers.Add(new SceneLayer("FG Low", (ushort)width, (ushort)height));
+            Layers.Add(new SceneLayer("FG High", (ushort)width, (ushort)height));
+            Layers.Add(new SceneLayer("Background", (ushort)BGWidth, (ushort)BGHeight));
+
+            _editorLayers = new List<EditorLayer>(Layers.Count);
+            foreach (SceneLayer layer in Layers)
+            {
+                _editorLayers.Add(new EditorLayer(layer));
+            }
+        }
+
         public EditorLayer ProduceLayer()
         {
             // lets just pick some reasonably safe defaults

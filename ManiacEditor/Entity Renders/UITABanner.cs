@@ -10,33 +10,36 @@ using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
-    public class UIVsZoneButton : EntityRenderer
+    public class UITABanner : EntityRenderer
     {
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int zoneID = (int)entity.attributesMap["zoneID"].ValueVar;
+            var editorAnimFrame = EditorEntity_ini.LoadAnimation("EditorUIRender", d, 2, 0, false, false, false);
+            var editorAnimBackground = EditorEntity_ini.LoadAnimation("SaveSelect", d, 7, -1, false, false, false);
 
-            var editorAnim = EditorEntity_ini.LoadAnimation("SaveSelect", d, 17, zoneID, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                var frame = editorAnimBackground.Frames[Animation.index];
+                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX - 107, y + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
-            var editorAnimFrame = EditorEntity_ini.LoadAnimation("EditorUIRender", d, 4, 0, false, false, false);
-            if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
+            if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)   
             {
                 var frame = editorAnimFrame.Frames[0];
                 d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
+
+
+
         }
 
         public override string GetObjectName()
         {
-            return "UIVsZoneButton";
+            return "UITABanner";
         }
     }
 }

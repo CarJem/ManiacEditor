@@ -315,6 +315,16 @@ namespace ManiacEditor
 
         }
 
+        public void GraphicsDraw(DevicePanel d, Graphics g)
+        {
+            foreach (var entity in entities)
+            {
+                entity.Draw(d, entities, entity);
+            }
+            Image canvas = d.GetImage();
+            g.DrawImage(canvas, new Point(0, 0));
+        }
+
         public void Draw(DevicePanel d)
         {
             if (FilterRefreshNeeded)

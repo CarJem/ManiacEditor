@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ManiacEditor;
 using Microsoft.Xna.Framework;
 using RSDKv5;
+using SharpDX.WIC;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -16,31 +17,36 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
 
-            //int frameID = (int)entity.attributesMap["listID"].ValueVar;
             int characterID = (int)entity.attributesMap["characterID"].ValueUInt8;
+            int characterID_text = characterID;
             if (characterID >= 3) characterID++;
             string text = "Text" + Editor.Instance.CurrentLanguage;
-            var editorAnim = EditorEntity_ini.LoadAnimation("SaveSelect", d, 0, 0 , false, false, false);
-            var editorAnimBorder = EditorEntity_ini.LoadAnimation("SaveSelect", d, 1, characterID, false, false, false);
-            var editorAnimBackground = EditorEntity_ini.LoadAnimation("SaveSelect", d, 1, characterID, false, false, false);
+            var editorAnim = EditorEntity_ini.LoadAnimation(text, d, 8, characterID_text, false, false, false);
+            var editorAnimFrame = EditorEntity_ini.LoadAnimation("EditorUIRender", d, 1, 1, false, false, false);
+            var editorAnimIcon = EditorEntity_ini.LoadAnimation("SaveSelect", d, 1, characterID, false, false, false);
+
+            d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(128, 255, 255, 255));
+
+            if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
+            {
+                var frame = editorAnimFrame.Frames[Animation.index];
+                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+            }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY + 32,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
-            if (editorAnimBorder != null && editorAnimBorder.Frames.Count != 0)
+            if (editorAnimIcon != null && editorAnimIcon.Frames.Count != 0)
             {
-                var frame = editorAnimBorder.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                var frame = editorAnimIcon.Frames[Animation.index];
+                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
+
             }
-            if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
-            {
-                var frame = editorAnimBackground.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
+
 
 
         }

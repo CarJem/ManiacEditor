@@ -29,6 +29,7 @@ namespace ManiacEditor
         // Object List for initilizing the if statement
         public static List<string> entityRenderingObjects = Editor.Instance.entityRenderingObjects;
         public static List<string> renderOnScreenExlusions = Editor.Instance.renderOnScreenExlusions;
+        public static List<string> rendersWithErrors = new List<string>();
 
         public static List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
 
@@ -301,17 +302,18 @@ namespace ManiacEditor
                 if (frameId >= 0 && frameId < animiation.Frames.Count) frame = animiation.Frames[frameId];
                 Bitmap map;
                 bool noEncoreColors = false;
-                if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes") noEncoreColors = true;
+                if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
 
                 if (!EditorEntity_ini.Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
                 {
                     string targetFile;
 
-                    if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes")
+                    if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender")
                     {
                         if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
                         else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
                         else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
+                        else if (assetName == "EditorUIRender") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "MenuRenders.gif");
                         else targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.gif");
                     }
                     else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
@@ -466,7 +468,7 @@ namespace ManiacEditor
         {
             string path, path2;
             string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : Editor.DataDirectory);
-            if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes")
+            if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
             {
                 switch (name)
                 {
@@ -480,6 +482,10 @@ namespace ManiacEditor
                         break;
                     case "TransportTubes":
                         path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.bin");
+                        if (!File.Exists(path2)) return null;
+                        break;
+                    case "EditorUIRender":
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorUIRender.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     case "SuperSpecialRing":
@@ -747,7 +753,7 @@ namespace ManiacEditor
         }
 
         // These are special
-        public static void DrawOthers(DevicePanel d, SceneEntity entity, EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode)
+        public static void DrawOthers(DevicePanel d, SceneEntity entity, EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;
@@ -757,30 +763,43 @@ namespace ManiacEditor
                 y = childY;
             }
             int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
-            if (entity.Object.Name.Name.Contains("Setup"))
+            try
             {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                if (!rendersWithErrors.Contains(entity.Object.Name.Name))
+                {
+                    if (entity.Object.Name.Name.Contains("Setup"))
+                    {
+                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
+                        if (renderer != null)
+                            renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                    }
+                    else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
+                    {
+                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
+                        if (renderer != null)
+                            renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                    }
+                    else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
+                    {
+                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
+                        if (renderer != null)
+                            renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                    }
+                    else
+                    {
+                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+                        if (renderer != null)
+                            renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                    }
+                }
+
             }
-            else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
+            catch (Exception ex)
             {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
+                rendersWithErrors.Add(entity.Object.Name.Name);
             }
-            else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
-            {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-            }
-            else
-            {
-                EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
-                if (renderer != null)
-                    renderer.Draw(d, entity, null, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-            }
+
 
         }
 

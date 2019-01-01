@@ -8,13 +8,38 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+//using Microsoft.DirectX;
 using SharpDX;
 using SharpDX.Direct3D9;
+//using Microsoft.DirectX.Direct3D;
 using SharpDX.Windows;
+
 using Font = SharpDX.Direct3D9.Font;
 using Rectangle = System.Drawing.Rectangle;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
+using Bitmap = System.Drawing.Bitmap;
+/*
+using ResultCode = SharpDX.Direct3D9.ResultCode;
+using Vector3 = SharpDX.Vector3;
+using Matrix = SharpDX.Matrix;
+using DeviceType = SharpDX.Direct3D9.DeviceType;
+using DeviceCaps = SharpDX.Direct3D9.DeviceCaps;
+using Device = SharpDX.Direct3D9.Device;
+using CreateFlags = SharpDX.Direct3D9.CreateFlags;
+using Texture = SharpDX.Direct3D9.Texture;
+using TextureFilter = SharpDX.Direct3D9.TextureFilter;
+using SwapEffect = SharpDX.Direct3D9.SwapEffect;
+using PresentParameters = SharpDX.Direct3D9.PresentParameters;
+using ClearFlags = SharpDX.Direct3D9.ClearFlags;
+using Surface = Microsoft.DirectX.Direct3D.Surface;
+using FontWeight = SharpDX.Direct3D9.FontWeight;
+using FontQuality = SharpDX.Direct3D9.FontQuality;
+using Sprite = SharpDX.Direct3D9.Sprite;
+using FontDescription = SharpDX.Direct3D9.FontDescription;
+using SpriteFlags = SharpDX.Direct3D9.SpriteFlags;
+using ImageFileFormat = SharpDX.Direct3D9.ImageFileFormat;*/
+
 
 /*
  * This file is a ported old rendering code
@@ -1115,5 +1140,15 @@ namespace ManiacEditor
             direct3d.Dispose();
             base.Dispose();
         }
+
+        public Image GetImage()
+        {
+            Surface backbuffer = _device.GetBackBuffer(0, 0);         
+            Image deviceImage = Image.FromStream(Surface.ToStream(backbuffer, ImageFileFormat.Png));
+            backbuffer.Dispose();
+            return deviceImage;
+        } 
+
+
     }
 }

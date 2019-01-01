@@ -10,26 +10,28 @@ using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
-    public class UIText : EntityRenderer
+    public class UIInfoLabel : EntityRenderer
     {
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             
             string text = entity.attributesMap["text"].ValueString;
-            bool selectable = entity.attributesMap["selectable"].ValueBool;
-            bool highlighted = entity.attributesMap["highlighted"].ValueBool;
+            int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
+            int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
             int spacingAmount = 0;
-            foreach(char symb in text)
+            e.DrawUIButtonBack(d, x, y, width, height, width, height);
+            if (width == 0) width = 1;
+            int x2 = x - (width / 4);
+            foreach (char symb in text)
             {
                 int frameID = GetFrameID(symb);
-                int listID = (highlighted ? 1 : 0);
-                var editorAnim = EditorEntity_ini.LoadAnimation("Text", d, listID, frameID, false, false, false);
+                var editorAnim = EditorEntity_ini.LoadAnimation("UIElements", d, 4, frameID, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
                     //Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                    d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + spacingAmount, y + frame.Frame.CenterY,
+                    d.DrawBitmap(frame.Texture, x2 + frame.Frame.CenterX + spacingAmount, y + frame.Frame.CenterY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     spacingAmount = spacingAmount + frame.Frame.Width;
                 }
@@ -40,7 +42,7 @@ namespace ManiacEditor.Entity_Renders
 
         public int GetFrameID(char letter)
         {
-            char[] symArray = Editor.Instance.LevelSelectChar;
+            char[] symArray = Editor.Instance.MenuChar_Small;
             int position = 0;
             foreach (char sym in symArray)
             {
@@ -52,7 +54,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override string GetObjectName()
         {
-            return "UIText";
+            return "UIInfoLabel";
         }
     }
 }
