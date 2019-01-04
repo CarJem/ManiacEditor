@@ -12,6 +12,9 @@ using System.Diagnostics;
 using RSDKv5;
 using IronPython.Modules;
 using Microsoft.Scripting.Utils;
+using ManiacEditor.Interfaces;
+using WPFGrid = Xceed.Wpf.Toolkit.PropertyGrid.PropertyGrid;
+using Xceed.Wpf.Toolkit.PropertyGrid;
 
 namespace ManiacEditor
 {
@@ -22,6 +25,9 @@ namespace ManiacEditor
         public Action<RSDKv5.SceneObject> Spawn;
 
         public bool multipleObjects = false;
+
+        public EntityPropertiesView entityPropertiesView;
+        public WPFGrid entityProperties2;
 
         private List<RSDKv5.SceneEntity> _entities;
         private List<int> _selectedEntitySlots = new List<int>();
@@ -56,6 +62,19 @@ namespace ManiacEditor
         public EntitiesToolbar(List<RSDKv5.SceneObject> sceneObjects)
         {
             InitializeComponent();
+
+            if (Settings.mySettings.ExperimentalPropertyGridView)
+            {
+                entityProperties2 = new WPFGrid();
+                entityProperties2.PropertyValueChanged += new Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventHandler(entityProperties2_PropertyValueChanged);
+                elementHost1.Child = entityProperties2;
+            }
+            else
+            {
+                elementHost1.Enabled = false;
+                elementHost1.Visible = false;
+            }
+
 
 
             RefreshObjects(sceneObjects);
@@ -227,7 +246,8 @@ namespace ManiacEditor
             
             if (selectedEntities.Count != 1)
             {
-                entityProperties.SelectedObject = null;
+                if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = null;
+                else entityProperties.SelectedObject = null;
                 currentEntity = null;
                 entitiesList.ResetText();
                 _selectedEntitySlots.Clear();
@@ -341,15 +361,16 @@ namespace ManiacEditor
                     }
                     --category_index;
                 }
-                entityProperties.SelectedObject
-                    = new LocalPropertyGridObject(objProperties);
-            
+                if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = new LocalPropertyGridObject(objProperties);
+                else entityProperties.SelectedObject = new LocalPropertyGridObject(objProperties);
+
 
         }
 
         public void UpdateCurrentEntityProperites()
         {
-            if (entityProperties.SelectedObject is LocalPropertyGridObject obj)
+            object selectedObject = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject : entityProperties.SelectedObject);
+            if (selectedObject is LocalPropertyGridObject obj)
             {
                 obj.setValue("position.x", currentEntity.Position.X.High + ((float)currentEntity.Position.X.Low / 0x10000));
                 obj.setValue("position.y", currentEntity.Position.Y.High + ((float)currentEntity.Position.Y.Low / 0x10000));
@@ -402,7 +423,8 @@ namespace ManiacEditor
 
         public void PropertiesRefresh()
         {
-            entityProperties.Refresh();
+            if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.Update();
+            else entityProperties.Refresh();
             NeedRefresh = false;
         }
         private void setEntitiyProperty(RSDKv5.SceneEntity entity, string tag, object value, object oldValue)
@@ -416,7 +438,7 @@ namespace ManiacEditor
                 if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
                 {
                     // Invalid
-                    var obj = (entityProperties.SelectedObject as LocalPropertyGridObject);
+                    var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
                     obj.setValue(tag, oldValue);
                     return;
                 }
@@ -538,7 +560,7 @@ namespace ManiacEditor
                         if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
                         {
                             // Invalid
-                            var obj = (entityProperties.SelectedObject as LocalPropertyGridObject);
+                            var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
                             obj.setValue(tag, oldValue);
                             return;
                         }
@@ -566,11 +588,26 @@ namespace ManiacEditor
         }
 
 
-        private void entityProperties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void entityProperties_PropertyValueChanged(object s, System.Windows.Forms.PropertyValueChangedEventArgs e)
         {
-            string tag = e.ChangedItem.PropertyDescriptor.Name;
-            AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.ChangedItem.Value, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
-            setEntitiyProperty(currentEntity, tag, e.ChangedItem.Value, e.OldValue);
+            if (!Settings.mySettings.ExperimentalPropertyGridView)
+            {
+                string tag = e.ChangedItem.PropertyDescriptor.Name;
+                AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.ChangedItem.Value, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
+                setEntitiyProperty(currentEntity, tag, e.ChangedItem.Value, e.OldValue);
+            }
+
+            
+        }
+
+        private void entityProperties2_PropertyValueChanged(object s, Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventArgs e)
+        {
+            if (Settings.mySettings.ExperimentalPropertyGridView)
+            {
+                string tag = e.OriginalSource.ToString();
+                AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
+                setEntitiyProperty(currentEntity, tag, e.NewValue, e.OldValue);
+            }
         }
 
         private void entitiesList_DropDown(object sender, EventArgs e)
@@ -706,7 +743,7 @@ namespace ManiacEditor
 
         private void entityProperties_MouseHover(object sender, EventArgs e)
         {
-            var obj = entityProperties.SelectedObject as LocalPropertyGridObject;
+            var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
             if (obj != null) MessageBox.Show(obj.ToString());
         }
 

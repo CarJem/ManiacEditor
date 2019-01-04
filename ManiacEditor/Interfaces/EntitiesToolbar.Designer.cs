@@ -46,6 +46,8 @@
             this.maniaFilterCheck = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goToThisEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.entityPropertiesView1 = new ManiacEditor.Interfaces.EntityPropertiesView();
             this.gbSpawn.SuspendLayout();
             this.gbEditor.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -167,6 +169,7 @@
             this.gbEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbEditor.Controls.Add(this.elementHost1);
             this.gbEditor.Controls.Add(this.MoreButton);
             this.gbEditor.Controls.Add(this.groupBox2);
             this.gbEditor.Controls.Add(this.entitiesList);
@@ -310,6 +313,18 @@
             this.goToThisEntityToolStripMenuItem.Text = "Go to this Entity";
             this.goToThisEntityToolStripMenuItem.Click += new System.EventHandler(this.goToThisEntityToolStripMenuItem_Click);
             // 
+            // elementHost1
+            // 
+            this.elementHost1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.elementHost1.Location = new System.Drawing.Point(7, 46);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(234, 236);
+            this.elementHost1.TabIndex = 5;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.entityPropertiesView1;
+            // 
             // EntitiesToolbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -348,6 +363,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem goToThisEntityToolStripMenuItem;
         public System.Windows.Forms.Button MoreButton;
+        private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private Interfaces.EntityPropertiesView entityPropertiesView1;
         //private CSharp.Winform.UI.Loading.WaitLoading waitLoading1;
     }
 }

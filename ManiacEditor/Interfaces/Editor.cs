@@ -28,6 +28,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Net.Sockets;
 using System.Windows.Forms.VisualStyles;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace ManiacEditor
 {

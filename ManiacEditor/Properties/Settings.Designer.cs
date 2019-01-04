@@ -1641,5 +1641,17 @@ namespace ManiacEditor.Properties {
                 this["ButtonLayoutDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExperimentalPropertyGridView {
+            get {
+                return ((bool)(this["ExperimentalPropertyGridView"]));
+            }
+            set {
+                this["ExperimentalPropertyGridView"] = value;
+            }
+        }
     }
 }

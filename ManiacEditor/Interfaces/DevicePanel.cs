@@ -269,7 +269,7 @@ namespace ManiacEditor
 
 
             });
-            Application.DoEvents();
+            //Application.DoEvents();
 
         }
 
