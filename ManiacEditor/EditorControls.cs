@@ -30,7 +30,6 @@ namespace ManiacEditor
 
         //Shorthanding Settings
         readonly Properties.Settings mySettings = Properties.Settings.Default;
-        readonly Properties.EditorState myEditorState = Properties.EditorState.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
         public void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {

@@ -118,8 +118,6 @@ namespace ManiacEditor
         /// </summary>
         /// <param name="parent">parent of the DevicePanel</param>
         /// 
-        // This will enable a dev warning box on start up if 'true' and if 'false' disable it.
-        bool enableDevWarning = true;
 
         public void Init(IDrawArea parent)
         {
@@ -238,24 +236,6 @@ namespace ManiacEditor
 
         public void Run()
         {
-            if (enableDevWarning == true)
-            {
-                if (Properties.Settings.Default.NeverShowThisAgain == false)
-                {
-                    using (var devWarnBox = new DevWarningBox())
-                    {
-                        devWarnBox.ShowDialog();
-                    }
-                    if (Properties.Settings.Default.ShowFirstTimeSetup)
-                    {
-                        using (var fristTimeSetup = new FirstTimeSetup())
-                        {
-                            fristTimeSetup.ShowDialog();
-                        }
-                    }
-
-                }
-            }
 
             RenderLoop.Run(this, () =>
             {

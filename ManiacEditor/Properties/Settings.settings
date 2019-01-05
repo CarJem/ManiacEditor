@@ -59,9 +59,6 @@
     <Setting Name="AnimationsDefault" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="pixelCountMode" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="tileToolbarDefaultZoomLevel" Roaming="true" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
@@ -96,18 +93,6 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SceneSelectRadioButton2On" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="scrollLock" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="ScrollLockDirection" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="ScrollLockX" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="ScrollLockY" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DisableSaveWarnings" Roaming="true" Type="System.Boolean" Scope="User">
@@ -199,9 +184,6 @@
     </Setting>
     <Setting Name="AlwaysRenderRectangles" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="LockOnSupport" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SavedPlaces" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
@@ -396,6 +378,26 @@
       <Value Profile="(Default)">Xbox</Value>
     </Setting>
     <Setting Name="ExperimentalPropertyGridView" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShowEntitySelectionBoxesDefault" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DeviceCrashedString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">The DirectX Device just ran out of memory!
+If your using the x86 version of Maniac Editor, you should upgrade to the x64 version!
+Would you like to save your progress before Maniac Editor Closes?</Value>
+    </Setting>
+    <Setting Name="ScrollLockY" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ScrollLockX" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ScrollLockDirection" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="scrollLock" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

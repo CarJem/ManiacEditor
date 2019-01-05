@@ -23,7 +23,6 @@ namespace ManiacEditor.Entity_Renders
             {
             bool fliph = false;
             bool flipv = false;
-            int dev = Properties.EditorState.Default.developerInt;
             int width = (int)entity.attributesMap["size"].ValuePosition.X.High - 1;
             int height = (int)entity.attributesMap["size"].ValuePosition.Y.High - 1;
             int x2 = (int)entity.attributesMap["targetPos"].ValuePosition.X.High - 1;

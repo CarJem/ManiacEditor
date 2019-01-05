@@ -21,7 +21,7 @@ namespace ManiacEditor
         public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
         {
             InitializeComponent();
-            if (Settings.myEditorState.AddStageConfigEntriesAllowed)
+            if (Editor.Instance.AddStageConfigEntriesAllowed)
             {
                 checkBox1.Checked = true;
             }
@@ -78,7 +78,7 @@ namespace ManiacEditor
                 objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
                 _targetSceneObjects.Add(_sourceSceneObjects.Single(sso => sso.Name.ToString().Equals(item.Text)));
 
-                if (Settings.myEditorState.AddStageConfigEntriesAllowed)
+                if (Editor.Instance.AddStageConfigEntriesAllowed)
                 {
                     if (_stageConfig != null
                         && !_stageConfig.ObjectsNames.Contains(item.Text))
@@ -101,11 +101,11 @@ namespace ManiacEditor
         {
             if (checkBox1.Checked)
             {
-                Settings.myEditorState.AddStageConfigEntriesAllowed = true;
+                Editor.Instance.AddStageConfigEntriesAllowed = true;
             }
             else
             {
-                Settings.myEditorState.AddStageConfigEntriesAllowed = false;
+                Editor.Instance.AddStageConfigEntriesAllowed = false;
             }
         }
     }

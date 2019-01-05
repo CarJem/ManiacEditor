@@ -16,6 +16,11 @@ namespace ManiacEditor
     {
         bool isEditing = false;
         string originalName = "";
+
+        string addConfigContents = null;
+        string addConfigName = null;
+
+
         public ModConfigCreator(bool edit = false, int editIndex = 0)
         {
             InitializeComponent();
@@ -49,31 +54,28 @@ namespace ManiacEditor
             }
             if (cancel == false)
             {
-                if(isEditing == false)
+                if (isEditing == false)
                 {
-                    Properties.EditorState.Default.addConfigContents = this.richTextBox1.Text;
-                    Properties.EditorState.Default.addConfigName = this.textBox1.Text;
-                    Properties.EditorState.Default.addConfig = true;
-                    string file = Environment.CurrentDirectory + "\\Config\\" + Properties.EditorState.Default.addConfigName + ".ini";
+                    addConfigContents = this.richTextBox1.Text;
+                    addConfigName = this.textBox1.Text;
+                    string file = Environment.CurrentDirectory + "\\Config\\" + addConfigName + ".ini";
                     string directory = Environment.CurrentDirectory + "\\Config";
                     DirectoryInfo di = Directory.CreateDirectory(directory);
                     File.Create(file).Close();
-                    File.WriteAllText(file, Properties.EditorState.Default.addConfigContents);
+                    File.WriteAllText(file, addConfigContents);
                     this.DialogResult = DialogResult.OK;
                 }
                 else
                 {
-                    Properties.EditorState.Default.addConfigContents = this.richTextBox1.Text;
-                    Properties.EditorState.Default.addConfigName = this.textBox1.Text;
-                    Properties.EditorState.Default.addConfigName = this.textBox1.Text;
-                    Properties.EditorState.Default.addConfig = true;
-                    String fileNew = Environment.CurrentDirectory + "\\Config\\" + Properties.EditorState.Default.addConfigName + ".ini";
-                    if (Properties.EditorState.Default.addConfigName != originalName)
+                    addConfigContents = this.richTextBox1.Text;
+                    addConfigName = this.textBox1.Text;
+                    String fileNew = Environment.CurrentDirectory + "\\Config\\" + addConfigName + ".ini";
+                    if (addConfigName != originalName)
                     {
                         String fileOld = Environment.CurrentDirectory + "\\Config\\" + originalName + ".ini";
                         File.Move(fileOld, fileNew);
                     }
-                    File.WriteAllText(fileNew, Properties.EditorState.Default.addConfigContents);
+                    File.WriteAllText(fileNew, addConfigContents);
                     this.DialogResult = DialogResult.OK;
                 }
 

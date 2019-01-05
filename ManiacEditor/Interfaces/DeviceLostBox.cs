@@ -32,7 +32,7 @@ namespace ManiacEditor
         {
             button2.Enabled = false;
             button3.Enabled = false;
-            label1.Text = Properties.EditorState.Default.deviceCrashedString;
+            label1.Text = Settings.mySettings.DeviceCrashedString;
         }
 
         private void button1_Click(object sender, EventArgs e)

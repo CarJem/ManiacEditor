@@ -124,7 +124,7 @@ namespace ManiacEditor
             if (cat != null)
             {
                 var scene = cat.Scenes.Where(t => $"{t.Zone}\\Scene{t.SceneID}.bin" == scenesTree.SelectedNode.Tag as string).FirstOrDefault();
-                Properties.EditorState.Default.Level_ID = scene.LevelID;
+                Editor.Instance.LevelID = scene.LevelID;
                 _isEncore = scene.ModeFilter;
                 _levelID = scene.LevelID;
             }

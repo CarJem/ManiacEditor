@@ -271,19 +271,6 @@ namespace ManiacEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool pixelCountMode {
-            get {
-                return ((bool)(this["pixelCountMode"]));
-            }
-            set {
-                this["pixelCountMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public int tileToolbarDefaultZoomLevel {
@@ -435,58 +422,6 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["SceneSelectRadioButton2On"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool scrollLock {
-            get {
-                return ((bool)(this["scrollLock"]));
-            }
-            set {
-                this["scrollLock"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ScrollLockDirection {
-            get {
-                return ((bool)(this["ScrollLockDirection"]));
-            }
-            set {
-                this["ScrollLockDirection"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ScrollLockX {
-            get {
-                return ((bool)(this["ScrollLockX"]));
-            }
-            set {
-                this["ScrollLockX"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ScrollLockY {
-            get {
-                return ((bool)(this["ScrollLockY"]));
-            }
-            set {
-                this["ScrollLockY"] = value;
             }
         }
         
@@ -864,18 +799,6 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["AlwaysRenderRectangles"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LockOnSupport {
-            get {
-                return ((bool)(this["LockOnSupport"]));
-            }
-            set {
-                this["LockOnSupport"] = value;
             }
         }
         
@@ -1651,6 +1574,84 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["ExperimentalPropertyGridView"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowEntitySelectionBoxesDefault {
+            get {
+                return ((bool)(this["ShowEntitySelectionBoxesDefault"]));
+            }
+            set {
+                this["ShowEntitySelectionBoxesDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("The DirectX Device just ran out of memory!\r\nIf your using the x86 version of Mani" +
+            "ac Editor, you should upgrade to the x64 version!\r\nWould you like to save your p" +
+            "rogress before Maniac Editor Closes?")]
+        public string DeviceCrashedString {
+            get {
+                return ((string)(this["DeviceCrashedString"]));
+            }
+            set {
+                this["DeviceCrashedString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool ScrollLockY {
+            get {
+                return ((bool)(this["ScrollLockY"]));
+            }
+            set {
+                this["ScrollLockY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool ScrollLockX {
+            get {
+                return ((bool)(this["ScrollLockX"]));
+            }
+            set {
+                this["ScrollLockX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool ScrollLockDirection {
+            get {
+                return ((bool)(this["ScrollLockDirection"]));
+            }
+            set {
+                this["ScrollLockDirection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool scrollLock {
+            get {
+                return ((bool)(this["scrollLock"]));
+            }
+            set {
+                this["scrollLock"] = value;
             }
         }
     }

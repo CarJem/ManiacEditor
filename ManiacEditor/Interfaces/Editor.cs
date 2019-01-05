@@ -74,6 +74,10 @@ namespace ManiacEditor
         public bool extraLayersMoveToFront = false; //Determines if we should render the extra layers in front of everything on behind everything
         public bool showFlippedTileHelper = false; //Determines if we should Show Flip Assist or Not
         public bool showingDataDirectory = false; //Determines who's turn it is when swaping the label's entry to display ethier the Data Directory and Mod Folder.
+        public bool showParallaxSprites = false; //Determines if we should show the parallax sprites
+        public bool applyEditEntitiesTransparency = false; //Determines if the other layers should be semi-transparent when editing entities.
+        public bool showEntitySelectionBoxes = false; //Determines if we should show the entity selection boxes.
+        public bool EnablePixelCountMode = false;
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -88,6 +92,13 @@ namespace ManiacEditor
         public int PlayerBeingTracked = -1;
         public int CurrentControllerButtons = 2; //For Setting the Menu Control Button Images.
         public bool isExportingImage = false; //For Setting the right options when exporting entitites.
+        public int LevelID = -1; //Self Explanatory
+        public int LastQuickButtonState = 0; //Gets the Last Quick Button State, so we can tell what action was used last
+        public bool MovingPlatformsChecked = true; //Self Explanatory
+        public bool AnnimationsChecked = true; //Self Explanatory
+        public bool PreRenderSceneSelectCheckbox = false; //Self Explanatory
+        public bool RemoveStageConfigEntriesAllowed = false; //Self Explanatory
+        public bool AddStageConfigEntriesAllowed = false; //Self Explanatory
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -206,6 +217,11 @@ namespace ManiacEditor
         public EditorUpdater Updater = new EditorUpdater();
         public TilesConfig TilesConfig;
         public EditorInGame EditorGame = new EditorInGame();
+        public StartupInformation info = new StartupInformation
+        {
+            TopLevel = false
+
+        };
 
         //Tile Maniac Instance
         public TileManiac.Mainform mainform = new Mainform();
@@ -220,7 +236,6 @@ namespace ManiacEditor
 
         //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
-        Properties.EditorState myEditorState = Properties.EditorState.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
 
@@ -325,17 +340,20 @@ namespace ManiacEditor
             LevelSelectChar = LevelSelectCharS.ToCharArray();
 
             SetViewSize();
-
-
             UpdateControls();
-
             TryLoadSettings();
+
+            GraphicPanel.Controls.Add(info);
+            info.Show();
+            Updater.CheckforUpdates(true, true);
+            info.UpdateStatusLabel(Updater.condition, Updater);
+
 
             if (mySettings.UseForcefulStartup)
             {
                 OpenSceneForceFully();
             }
-            if (shortcutLaunch)
+            else if (shortcutLaunch)
             {
                 try
                 {
@@ -356,11 +374,6 @@ namespace ManiacEditor
                     Debug.Print("Couldn't Force Open!");
                 }
 
-            }
-
-            if (!Updater.GetVersion().Contains("DEV") && mySettings.checkForUpdatesAuto)
-            {
-                Updater.CheckforUpdates();
             }
 
         }
@@ -504,8 +517,9 @@ namespace ManiacEditor
         private void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            editEntitesTransparencyToolStripMenuItem.Checked = myEditorState.editEntitiesTransparency;
-            transparentLayersForEditingEntitiesToolStripMenuItem.Checked = myEditorState.editEntitiesTransparency;
+            editEntitesTransparencyToolStripMenuItem.Checked = mySettings.EditEntitiesTransparencyDefault;
+            transparentLayersForEditingEntitiesToolStripMenuItem.Checked = mySettings.EditEntitiesTransparencyDefault;
+            applyEditEntitiesTransparency = mySettings.EditEntitiesTransparencyDefault;
 
             mySettings.scrollLock = mySettings.ScrollLockDefault;
             statusNAToolStripMenuItem.Checked = mySettings.ScrollLockDefault;
@@ -517,7 +531,7 @@ namespace ManiacEditor
 
             pixelModeButton.Checked = mySettings.EnablePixelModeDefault;
             pixelModeToolStripMenuItem.Checked = mySettings.EnablePixelModeDefault;
-            mySettings.pixelCountMode = mySettings.EnablePixelModeDefault;
+            EnablePixelCountMode = mySettings.EnablePixelModeDefault;
 
             showEntityPathArrowsToolstripItem.Checked = mySettings.ShowEntityArrowPathsDefault;
             showEntityPathArrows = mySettings.ShowEntityArrowPathsDefault;
@@ -530,8 +544,11 @@ namespace ManiacEditor
             sizeWithBoundsWhenNotSelectedToolStripMenuItem.Checked = mySettings.SizeWaterLevelWithBoundsDefault;
 
             showParallaxSpritesToolStripMenuItem.Checked = mySettings.ShowFullParallaxEntityRenderDefault;
-            myEditorState.ShowParallaxSprites = mySettings.ShowFullParallaxEntityRenderDefault;
+            showParallaxSprites = mySettings.ShowFullParallaxEntityRenderDefault;
             prioritizedViewingToolStripMenuItem.Checked = mySettings.PrioritizedObjectRendering;
+
+            showEntitySelectionBoxes = mySettings.ShowEntitySelectionBoxesDefault;
+            showEntitySelectionBoxesToolStripMenuItem.Checked = mySettings.ShowEntitySelectionBoxesDefault;
 
             foreach (ToolStripMenuItem item in menuLanguageToolStripMenuItem.DropDownItems) if (item.Tag.ToString() == mySettings.LangDefault)
                 {
@@ -580,10 +597,10 @@ namespace ManiacEditor
 
             //Default Enabled Annimation Preferences
             movingPlatformsObjectsToolStripMenuItem.Checked = mySettings.MovingPlatformsDefault;
-            myEditorState.movingPlatformsChecked = mySettings.MovingPlatformsDefault;
+            MovingPlatformsChecked = mySettings.MovingPlatformsDefault;
 
             spriteFramesToolStripMenuItem.Checked = mySettings.AnimatedSpritesDefault;
-            myEditorState.annimationsChecked = mySettings.AnimatedSpritesDefault;
+            AnnimationsChecked = mySettings.AnimatedSpritesDefault;
 
             waterColor = mySettings.WaterColorDefault;
 
@@ -616,7 +633,7 @@ namespace ManiacEditor
                 Int32.TryParse(value, out int resultingInt);
                 if (resultingInt >= -1)
                 {
-                    myEditorState.Level_ID = resultingInt;
+                    LevelID = resultingInt;
                 }
 
             }
@@ -914,7 +931,7 @@ namespace ManiacEditor
                     PreLoadSceneButton_Click(null, null);
                 }
             }
-            else if (mySettings.preRenderSceneOption == 1 && Properties.EditorState.Default.preRenderSceneSelectCheckbox && enabled && stageLoad)
+            else if (mySettings.preRenderSceneOption == 1 && Editor.Instance.PreRenderSceneSelectCheckbox && enabled && stageLoad)
             {
                 PreLoadSceneButton_Click(null, null);
             }
@@ -1235,7 +1252,7 @@ namespace ManiacEditor
             //
             // Tooltip Bar Info 
             //
-                if (mySettings.pixelCountMode == false)
+                if (EnablePixelCountMode == false)
                 {
                     positionLabel.Text = "X: " + (int)(lastX / Zoom) + " Y: " + (int)(lastY / Zoom);
                 }
@@ -1245,7 +1262,7 @@ namespace ManiacEditor
                 }
 
 
-            _levelIDLabel.Text = "Level ID: " + myEditorState.Level_ID.ToString();
+            _levelIDLabel.Text = "Level ID: " + LevelID.ToString();
             seperator1.Visible = true;
             seperator2.Visible = true;
             seperator3.Visible = true;
@@ -1255,7 +1272,7 @@ namespace ManiacEditor
             seperator7.Visible = true;
             seperator8.Visible = true;
 
-            if (mySettings.pixelCountMode == false)
+            if (EnablePixelCountMode == false)
             {
                 selectedPositionLabel.Text = "Selected Tile Position: X: " + (int)SelectedTileX + ", Y: " + (int)SelectedTileY;
                 selectedPositionLabel.ToolTipText = "The Position of the Selected Tile";
@@ -1265,7 +1282,7 @@ namespace ManiacEditor
                 selectedPositionLabel.Text = "Selected Tile Pixel Position: " + "X: " + (int)SelectedTileX * 16 + ", Y: " + (int)SelectedTileY * 16;
                 selectedPositionLabel.ToolTipText = "The Pixel Position of the Selected Tile";
             }
-            if (mySettings.pixelCountMode == false)
+            if (EnablePixelCountMode == false)
             {
                 selectionSizeLabel.Text = "Amount of Tiles in Selection: " + (SelectedTilesCount - DeselectTilesCount);
                 selectionSizeLabel.ToolTipText = "The Size of the Selection";
@@ -2395,7 +2412,7 @@ namespace ManiacEditor
             mySettings.Save();
         }
 
-        private void ResetDataDirectoryToAndResetScene(string newDataDirectory)
+        public void ResetDataDirectoryToAndResetScene(string newDataDirectory)
         {
             Editor.Instance.SceneChangeWarning(null, null);
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
@@ -2629,6 +2646,9 @@ namespace ManiacEditor
 
         private void Form1_Resize(object sender, EventArgs e)
         {
+            info.Width = mainPanel.Width;
+            info.Height = mainPanel.Height;
+
             if (splitContainer1.Panel2.Controls.Count == 1)
             {
                 splitContainer1.Panel2.Controls[0].Height = splitContainer1.Panel2.Height - 2;
@@ -2923,7 +2943,7 @@ namespace ManiacEditor
             StageConfig = null;
             StageConfigFileName = null;
             _levelIDLabel.Text = "Level ID: NULL";
-            myEditorState.Level_ID = -1;
+            LevelID = -1;
             encorePaletteExists = false;
             EncorePalette = null;
             EncoreSetupType = 0;
@@ -3002,6 +3022,8 @@ namespace ManiacEditor
             MenuChar = MenuCharS.ToCharArray();
             MenuChar_Small = MenuCharS_Small.ToCharArray();
             LevelSelectChar = LevelSelectCharS.ToCharArray();
+
+            info.Visible = true;
         }
 
         private void OpenSceneForceFully()
@@ -3122,6 +3144,8 @@ namespace ManiacEditor
                 return;
             }
 
+            info.Visible = false;
+
             UpdateDataFolderLabel(null, null);
 
             SetupLayerButtons();
@@ -3136,7 +3160,7 @@ namespace ManiacEditor
 
         }
 
-        private void OpenScenefromSceneSelect(string Result, string _DataDirectory, int LevelID, bool modLoaded)
+        private void OpenScenefromSceneSelect(string Result, string _DataDirectory, int _LevelID, bool modLoaded)
         {       
                 int searchType = 1;
                 SelectedZone = Result.Replace(Path.GetFileName(Result), "");
@@ -3144,7 +3168,7 @@ namespace ManiacEditor
                 SceneFilename = Path.Combine(_DataDirectory, "Stages", SelectedZone, SelectedScene);
                 SceneFilepath = Path.Combine(_DataDirectory, "Stages", SelectedZone);               
                 SelectedZone = SelectedZone.Replace("\\", "");
-                myEditorState.Level_ID = LevelID;
+                LevelID = _LevelID;
                 EditorScene = new EditorScene(SceneFilename, GraphicPanel);
                 //Encore Palette + Stage Tiles Initaliazation
                 EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
@@ -3237,7 +3261,7 @@ namespace ManiacEditor
             
         }
 
-        private void OpenScenefromBrowse(string Result, string _DataDirectory, int LevelID)
+        private void OpenScenefromBrowse(string Result, string _DataDirectory, int _LevelID)
         {
             int searchType = 0;
             // Selected file
@@ -3249,7 +3273,7 @@ namespace ManiacEditor
             SceneFilepath = Path.Combine(directoryPath);
             searchType = 0;
             SelectedZone = SelectedZone.Replace("\\", "");
-            myEditorState.Level_ID = LevelID;
+            LevelID = _LevelID;
             EditorScene = new EditorScene(SceneFilename, GraphicPanel);
             //Encore Palette + Stage Tiles Initaliazation
             EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
@@ -3954,15 +3978,15 @@ Error: {ex.Message}");
 
         private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (myEditorState.ShowEntitySelectionBoxes)
+            if (showEntitySelectionBoxes)
             {
                 showEntitySelectionBoxesToolStripMenuItem.Checked = false;
-                myEditorState.ShowEntitySelectionBoxes = false;
+                showEntitySelectionBoxes = false;
             }
             else
             {
                 showEntitySelectionBoxesToolStripMenuItem.Checked = true;
-                myEditorState.ShowEntitySelectionBoxes = true;
+                showEntitySelectionBoxes = true;
             }
         }
 
@@ -4011,11 +4035,11 @@ Error: {ex.Message}");
         {
             if (showParallaxSpritesToolStripMenuItem.Checked)
             {
-                myEditorState.ShowParallaxSprites = true;
+                showParallaxSprites = true;
             }
             else
             {
-                myEditorState.ShowParallaxSprites = false;
+                showParallaxSprites = false;
             }
         }
 
@@ -4211,10 +4235,10 @@ Error: {ex.Message}");
 
         private void changeLevelIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string inputValue = TextPrompt.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", myEditorState.Level_ID.ToString());
+            string inputValue = TextPrompt.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
-            myEditorState.Level_ID = output;
-            _levelIDLabel.Text = "Level ID: " + myEditorState.Level_ID.ToString();
+            LevelID = output;
+            _levelIDLabel.Text = "Level ID: " + LevelID.ToString();
         }
 
         private void MakeForDataFolderOnlyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4231,8 +4255,8 @@ Error: {ex.Message}");
             int rX = (short)(ShiftX);
             int rY = (short)(ShiftY);
             double _ZoomLevel = ZoomLevel;
-            bool isEncoreSet = Editor.Instance.useEncoreColors;
-            int levelSlotNum = Editor.Instance.myEditorState.Level_ID;
+            bool isEncoreSet = useEncoreColors;
+            int levelSlotNum = LevelID;
             CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
         }
 
@@ -4243,8 +4267,8 @@ Error: {ex.Message}");
             string modPath = ModDataDirectory;
             int rX = 0;
             int rY = 0;
-            bool isEncoreSet = Editor.Instance.useEncoreColors;
-            int levelSlotNum = Editor.Instance.myEditorState.Level_ID;
+            bool isEncoreSet = useEncoreColors;
+            int levelSlotNum = LevelID;
             CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum);
         }
 
@@ -5709,9 +5733,9 @@ Error: {ex.Message}");
                                 Thread.Sleep(1);
 
                             // Swap the Scene
-                            if (myEditorState.Level_ID != -1)
+                            if (LevelID != -1)
                             {
-                                GameMemory.WriteByte(CurrentScene_ptr, (byte)myEditorState.Level_ID);
+                                GameMemory.WriteByte(CurrentScene_ptr, (byte)LevelID);
                                 // Restart the Scene
                                 GameMemory.WriteByte(GameState_ptr, 0);
                             }
@@ -5787,14 +5811,14 @@ Error: {ex.Message}");
             {
                 pixelModeButton.Checked = true;
                 pixelModeToolStripMenuItem.Checked = true;
-                mySettings.pixelCountMode = true;
+                EnablePixelCountMode = true;
 
             }
             else
             {
                 pixelModeButton.Checked = false;
                 pixelModeToolStripMenuItem.Checked = false;
-                mySettings.pixelCountMode = false;
+                EnablePixelCountMode = false;
             }
 
         }
@@ -6129,7 +6153,7 @@ Error: {ex.Message}");
         #region Lower Right Status Bar Quick Options Button
         public void MoreSettingsButton_ButtonClick(object sender, EventArgs e)
         {
-            switch (myEditorState.lastQuickButtonState)
+            switch (LastQuickButtonState)
             {
                 case 1:
                     SwapScrollLockDirectionToolStripMenuItem_Click(sender, e);
@@ -6150,7 +6174,7 @@ Error: {ex.Message}");
 
         public void SwapScrollLockDirectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            myEditorState.lastQuickButtonState = 1;
+            LastQuickButtonState = 1;
             XToolStripMenuItem_Click(sender, e);
         }
 
@@ -6158,17 +6182,17 @@ Error: {ex.Message}");
         {
             if (sender != transparentLayersForEditingEntitiesToolStripMenuItem)
             {
-                myEditorState.lastQuickButtonState = 2;
+                LastQuickButtonState = 2;
             }
-            if (myEditorState.editEntitiesTransparency == false)
+            if (applyEditEntitiesTransparency == false)
             {
-                myEditorState.editEntitiesTransparency = true;
+                applyEditEntitiesTransparency = true;
                 transparentLayersForEditingEntitiesToolStripMenuItem.Checked = true;
                 editEntitesTransparencyToolStripMenuItem.Checked = true;
             }
             else
             {
-                myEditorState.editEntitiesTransparency = false;
+                applyEditEntitiesTransparency = false;
                 transparentLayersForEditingEntitiesToolStripMenuItem.Checked = false;
                 editEntitesTransparencyToolStripMenuItem.Checked = false;
             }
@@ -6176,7 +6200,7 @@ Error: {ex.Message}");
 
         public void ToggleEncoreManiaEntitiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            myEditorState.lastQuickButtonState = 3;
+            LastQuickButtonState = 3;
             if (mySettings.showEncoreEntities == true && mySettings.showManiaEntities == true)
             {
                 mySettings.showManiaEntities = true;
@@ -6485,7 +6509,7 @@ Error: {ex.Message}");
             mySettings.DevForeRestartY = (short)(ShiftY / Zoom);
             mySettings.DevForceRestartZoomLevel = ZoomLevel;
             mySettings.DevForceRestartEncore = Editor.Instance.encorePaletteExists;
-            mySettings.DeveForceRestartLevelID = Editor.Instance.myEditorState.Level_ID;
+            mySettings.DeveForceRestartLevelID = LevelID;
         }
 
         private void WikiToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6579,12 +6603,12 @@ Error: {ex.Message}");
             if (movingPlatformsObjectsToolStripMenuItem.Checked == false)
             {
                 movingPlatformsObjectsToolStripMenuItem.Checked = true;
-                myEditorState.movingPlatformsChecked = true;
+                MovingPlatformsChecked = true;
             }
             else
             {
                 movingPlatformsObjectsToolStripMenuItem.Checked = false;
-                myEditorState.movingPlatformsChecked = false;
+                MovingPlatformsChecked = false;
             }
 
         }
@@ -6594,12 +6618,12 @@ Error: {ex.Message}");
             if (spriteFramesToolStripMenuItem.Checked == false)
             {
                 spriteFramesToolStripMenuItem.Checked = true;
-                myEditorState.annimationsChecked = true;
+                AnnimationsChecked = true;
             }
             else
             {
                 spriteFramesToolStripMenuItem.Checked = false;
-                myEditorState.annimationsChecked = false;
+                AnnimationsChecked = false;
             }
         }
 
@@ -6639,7 +6663,7 @@ Error: {ex.Message}");
                 systemColors.SetColor(KnownColor.ControlText, darkTheme3);
                 systemColors.SetColor(KnownColor.WindowText, darkTheme3);
                 systemColors.SetColor(KnownColor.GrayText, Color.Gray);
-                systemColors.SetColor(KnownColor.InfoText, darkTheme2);
+                systemColors.SetColor(KnownColor.InfoText, darkTheme3);
                 systemColors.SetColor(KnownColor.MenuText, darkTheme3);
                 systemColors.SetColor(KnownColor.Control, darkTheme1);
                 systemColors.SetColor(KnownColor.ButtonHighlight, darkTheme3);

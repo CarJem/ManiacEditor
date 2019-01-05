@@ -132,7 +132,6 @@ namespace ManiacEditor
                     listView1.Items.Clear();
                     getPaths();
                     InitList();
-                    Properties.EditorState.Default.addConfig = false;
             }
 
         }
@@ -210,7 +209,6 @@ namespace ManiacEditor
                 listView1.Items.Clear();
                 getPaths();
                 InitList();
-                Properties.EditorState.Default.addConfig = false;
             }
         }
     }

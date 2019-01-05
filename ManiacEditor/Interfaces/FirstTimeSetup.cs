@@ -16,7 +16,6 @@ namespace ManiacEditor
     {
         //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
-        Properties.EditorState myEditorState = Properties.EditorState.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
         public FirstTimeSetup()

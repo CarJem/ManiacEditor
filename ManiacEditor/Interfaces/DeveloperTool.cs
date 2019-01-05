@@ -14,7 +14,6 @@ namespace ManiacEditor
     public partial class DeveloperTerminal : Form
     {
         // For Interger Changer; Change to the Value you want to tweak
-        int valueINI = Properties.EditorState.Default.developerInt;
 
         public DeveloperTerminal()
         {

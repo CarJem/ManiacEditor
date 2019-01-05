@@ -46,7 +46,7 @@ namespace ManiacEditor
                 dataLabelToolStripItem.BackColor = Editor.Instance.darkTheme1;
                 dataLabelToolStripItem.ForeColor = Editor.Instance.darkTheme3;
             }
-            if (Properties.EditorState.Default.preRenderSceneSelectCheckbox) preRenderCheckbox.Checked = true;
+            if (Editor.Instance.PreRenderSceneSelectCheckbox) preRenderCheckbox.Checked = true;
             if (Properties.Settings.Default.preRenderSceneOption == 1) preRenderCheckbox.Enabled = true;
             ReloadQuickPanel();
             if (config != null)
@@ -197,7 +197,7 @@ namespace ManiacEditor
             if (cat != null)
             {
                 var scene = cat.Scenes.Where(t => $"{t.Zone}\\Scene{t.SceneID}.bin" == scenesTree.SelectedNode.Tag as string).FirstOrDefault();
-                Properties.EditorState.Default.Level_ID = scene.LevelID;
+                Editor.Instance.LevelID = scene.LevelID;
                 _isEncore = scene.ModeFilter;
                 _levelID = scene.LevelID;
             }
@@ -816,9 +816,9 @@ namespace ManiacEditor
         private void preRenderCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (preRenderCheckbox.Checked == true)
-                Properties.EditorState.Default.preRenderSceneSelectCheckbox = true;
+                Editor.Instance.PreRenderSceneSelectCheckbox = true;
             else
-                Properties.EditorState.Default.preRenderSceneSelectCheckbox = false;
+                Editor.Instance.PreRenderSceneSelectCheckbox = false;
         }
 
         private void scenesTree_Click(object sender, EventArgs e)

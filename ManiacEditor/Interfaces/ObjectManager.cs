@@ -23,12 +23,11 @@ namespace ManiacEditor
 
         //Shorthanding Settings
         Properties.Settings mySettings = Properties.Settings.Default;
-        Properties.EditorState myEditorState = Properties.EditorState.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
         public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
         {
-            if (myEditorState.RemoveStageConfigEntriesAllowed)
+            if (Editor.Instance.RemoveStageConfigEntriesAllowed)
             {
                 checkBox1.Checked = true;
             }
@@ -271,7 +270,7 @@ namespace ManiacEditor
                         objectsToRemove.Entities.Clear(); // ditch instances of the object from the imported level
                         _targetSceneObjects.Remove(_targetSceneObjects.FirstOrDefault(sso => sso.Name.ToString().Equals(item.Text)));
 
-                        if (myEditorState.RemoveStageConfigEntriesAllowed)
+                        if (Editor.Instance.RemoveStageConfigEntriesAllowed)
                         {
                             if (_stageConfig != null
                                 && !_stageConfig.ObjectsNames.Contains(item.Text))
@@ -410,12 +409,12 @@ namespace ManiacEditor
         {
             if (checkBox1.Checked)
             {
-                myEditorState.RemoveStageConfigEntriesAllowed = false;
+                Editor.Instance.RemoveStageConfigEntriesAllowed = false;
                 checkBox1.Checked = false;
             }
             else
             {
-                myEditorState.RemoveStageConfigEntriesAllowed = true;
+                Editor.Instance.RemoveStageConfigEntriesAllowed = true;
                 checkBox1.Checked = true;
             }
         }

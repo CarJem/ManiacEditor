@@ -1095,7 +1095,7 @@ namespace ManiacEditor
 
                 if (Editor.Instance.EditLayer != null && Editor.Instance.EditLayer != this)
                     Transperncy = 0x32;
-                else if (Editor.Instance.EditEntities.Checked && Editor.Instance.EditLayer == null && Properties.EditorState.Default.editEntitiesTransparency)
+                else if (Editor.Instance.EditEntities.Checked && Editor.Instance.EditLayer == null && Editor.Instance.applyEditEntitiesTransparency)
                     Transperncy = 0x32;
                 else
                     Transperncy = 0xFF;

@@ -531,6 +531,12 @@
     <Compile Include="Interfaces\AddAttributeBox.Designer.cs">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\StartupInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\StartupInformation.Designer.cs">
+      <DependentUpon>StartupInformation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\EntityPropertiesView.xaml.cs">
       <DependentUpon>EntityPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -799,11 +805,6 @@
       <DependentUpon>UpdateStatusBox.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectIDHealer.cs" />
-    <Compile Include="Properties\EditorState.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>EditorState.settings</DependentUpon>
-    </Compile>
     <Compile Include="Properties\KeyBinds.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -946,12 +947,11 @@
     <None Include="Resources\OhNo.wav" />
     <None Include="README.md" />
     <None Include="Resources\ScoreTotal.wav" />
-    <None Include="Properties\EditorState.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>EditorState.Designer.cs</LastGenOutput>
-    </None>
     <EmbeddedResource Include="Interfaces\ConfigManager.resx">
       <DependentUpon>ConfigManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\StartupInformation.resx">
+      <DependentUpon>StartupInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\NewSceneMaker.resx">
       <DependentUpon>NewSceneMaker.cs</DependentUpon>

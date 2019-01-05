@@ -15,12 +15,13 @@ namespace ManiacEditor
 {
     public class EditorUpdater
     {
-        string AppveyorVersion = "";
-        string AppveyorBuildMessage = "";
-        bool badBuild = false;
-        bool unkownError = false;
-        bool runningBuild = false;
-        public void CheckforUpdates(bool manuallyTriggered = false) {
+        public string AppveyorVersion = "";
+        public string AppveyorBuildMessage = "";
+        public bool badBuild = false;
+        public bool unkownError = false;
+        public bool runningBuild = false;
+        public int condition = 0;
+        public void CheckforUpdates(bool manuallyTriggered = false, bool dontShowUpdaterBox = false) {
             // Appveyor Update Check
             int buildNumber = -1;
             string versionNum = GetVersion();
@@ -97,13 +98,22 @@ namespace ManiacEditor
                 {
                     if (badBuild == false && !curVer.Contains("RUNNING"))
                     {
-                        UpdateStatusBox box = new UpdateStatusBox(1, this);
-                        box.ShowDialog();
+                        if (!dontShowUpdaterBox)
+                        {
+                            UpdateStatusBox box = new UpdateStatusBox(1, this);
+                            box.ShowDialog();
+                        }
+                        condition = 1;
+
                     }
                     else
                     {
-                        UpdateStatusBox box = new UpdateStatusBox(0, this);
-                        box.ShowDialog();
+                        if (!dontShowUpdaterBox)
+                        {
+                            UpdateStatusBox box = new UpdateStatusBox(0, this);
+                            box.ShowDialog();
+                        }
+                        condition = 0;
                     }
                 }
 
@@ -114,19 +124,23 @@ namespace ManiacEditor
                 {
                     if (versionNum.Contains("DEV"))
                     {
-                        UpdateStatusBox box = new UpdateStatusBox(2, this);
-                        box.ShowDialog();
+                        if (!dontShowUpdaterBox)
+                        {
+                            UpdateStatusBox box = new UpdateStatusBox(2, this);
+                            box.ShowDialog();
+                        }
+                        condition = 2;
                     }
                     else
                     {
-                        UpdateStatusBox box = new UpdateStatusBox(0, this);
-                        box.ShowDialog();
+                        if (!dontShowUpdaterBox)
+                        {
+                            UpdateStatusBox box = new UpdateStatusBox(0, this);
+                            box.ShowDialog();
+                        }
+                        condition = 0;
                     }
 
-                }
-                else if (versionNum.Contains("DEV"))
-                {
-                    //Debug.Print("DEV Build is being used! Don't get updates");
                 }
             }
         }

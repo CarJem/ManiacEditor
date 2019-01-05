@@ -427,7 +427,7 @@ namespace ManiacEditor
                     }
                     else
                     { // No frame to render
-                        if (Properties.EditorState.Default.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                        if (Editor.Instance.showEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                     }
                     //Failsafe?
                     //DrawOthers(d);
@@ -435,7 +435,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (this.IsObjectOnScreen(d) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
+                    if (this.IsObjectOnScreen(d) && Editor.Instance.showEntitySelectionBoxes)
                     {
                         d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                     }
@@ -445,7 +445,7 @@ namespace ManiacEditor
 
 
 
-            if (this.IsObjectOnScreen(d) && Properties.EditorState.Default.ShowEntitySelectionBoxes)
+            if (this.IsObjectOnScreen(d) && Editor.Instance.showEntitySelectionBoxes)
             {
                 d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
                 d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
