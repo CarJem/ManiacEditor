@@ -16,14 +16,16 @@ namespace ManiacEditor.Interfaces
     {
         int playerObjectCount = 0;
         public int selectedPlayer = 0;
-        public GoToPlayerBox()
+        public Editor EditorInstance;
+        public GoToPlayerBox(Editor instance)
         {
             InitializeComponent();
-            playerObjectCount = Editor.Instance.playerObjectPosition.Count;
+            EditorInstance = instance;
+            playerObjectCount = EditorInstance.playerObjectPosition.Count;
             for (int i = 0; i < playerObjectCount-1; i++)
             {
-                Position pos = Editor.Instance.playerObjectPosition[i].Position;
-                String id = Editor.Instance.playerObjectPosition[i].SlotID.ToString();
+                Position pos = EditorInstance.playerObjectPosition[i].Position;
+                String id = EditorInstance.playerObjectPosition[i].SlotID.ToString();
                 String posText = "X: " + pos.X.High + " Y: " + pos.Y.High;
                 comboBox1.Items.Add("[" + id + "] " + posText);
             }
@@ -32,7 +34,7 @@ namespace ManiacEditor.Interfaces
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Editor.Instance.selectPlayerObject_GoTo = comboBox1.SelectedIndex;
+            EditorInstance.selectPlayerObject_GoTo = comboBox1.SelectedIndex;
             this.Close();
         }
 

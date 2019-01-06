@@ -18,6 +18,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using ImageMagick;
+using Microsoft.Scripting.Utils;
 
 namespace ManiacEditor
 {
@@ -27,9 +28,9 @@ namespace ManiacEditor
         public static List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
 
         // Object List for initilizing the if statement
-        public static List<string> entityRenderingObjects = Editor.Instance.entityRenderingObjects;
-        public static List<string> renderOnScreenExlusions = Editor.Instance.renderOnScreenExlusions;
-        public static List<string> rendersWithErrors = new List<string>();
+        public List<string> entityRenderingObjects;
+        public List<string> renderOnScreenExlusions;
+        public List<string> rendersWithErrors = new List<string>();
 
         public static List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
 
@@ -37,6 +38,15 @@ namespace ManiacEditor
         public static Dictionary<string, EditorEntity_ini.EditorTilePlatforms> TilePlatforms = new Dictionary<string, EditorEntity_ini.EditorTilePlatforms>();
         public static Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public static bool Working = false;
+
+        public Editor EditorInstance;
+
+        public EditorEntity_ini(Editor instance)
+        {
+            EditorInstance = instance;
+            entityRenderingObjects = EditorInstance.entityRenderingObjects;
+            renderOnScreenExlusions = EditorInstance.renderOnScreenExlusions;
+        }
 
         public static List<string> GetEntityInternalList(int type)
         {
@@ -134,7 +144,7 @@ namespace ManiacEditor
 
         public static string[] DataDirectoryList = null;
 
-        public static void LoadNextAnimation(EditorEntity entity)
+        public void LoadNextAnimation(EditorEntity entity)
         {
             if (AnimsToLoad.Count == 0)
                 return;
@@ -246,7 +256,7 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public static EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true)
+        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true)
         {
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
             var anim = new EditorEntity_ini.EditorAnimation();
@@ -259,8 +269,8 @@ namespace ManiacEditor
             EditorEntity_ini.Animations.Add(key, anim);
 
             // Get the path of the object's textures
-            string assetName = (Editor.Instance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? Editor.Instance.userDefinedEntityRenderSwaps[name] : name);
-            var assetInfo = GetAssetPath(assetName, (Editor.ModDataDirectory != "" ? Editor.ModDataDirectory : ""), false, (Editor.ModDataDirectory != "" ? true : false));
+            string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
+            var assetInfo = GetAssetPath(assetName, (EditorInstance.ModDataDirectory != "" ? EditorInstance.ModDataDirectory : ""), false, (EditorInstance.ModDataDirectory != "" ? true : false));
 
             string path2 = assetInfo.Item1;
             string dataFolderLocation = assetInfo.Item2;
@@ -328,7 +338,7 @@ namespace ManiacEditor
 
                         map = new Bitmap(targetFile);
                         //Encore Colors
-                        if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
+                        if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
                         EditorEntity_ini.Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
                     }
                 }
@@ -336,7 +346,7 @@ namespace ManiacEditor
                 {
                     map = EditorEntity_ini.Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
                     //Encore Colors
-                    if (Editor.Instance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
+                    if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
                 }
 
 
@@ -389,10 +399,10 @@ namespace ManiacEditor
 
         }
 
-        public static EditorTilePlatforms LoadTilePlatform(DevicePanel d, int x2, int y2, int width, int height)
+        public EditorTilePlatforms LoadTilePlatform(DevicePanel d, int x2, int y2, int width, int height)
         {
 
-            SceneLayer _layer = Editor.Instance.EditorScene?.Move.Layer;
+            SceneLayer _layer = EditorInstance.EditorScene?.Move.Layer;
             string key = $"{x2}-{y2}-{width}-{height}";
             var anim = new EditorEntity_ini.EditorTilePlatforms();
             if (EditorEntity_ini.TilePlatforms.ContainsKey(key))
@@ -444,7 +454,7 @@ namespace ManiacEditor
             }
         }
 
-        public static void DrawObjectTile(Graphics g, ushort tile, int x, int y)
+        public void DrawObjectTile(Graphics g, ushort tile, int x, int y)
         {
             ushort TileIndex = (ushort)(tile & 0x3ff);
             int TileIndexInt = (int)TileIndex;
@@ -455,19 +465,19 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(Editor.Instance.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
-        private static Rectangle GetTilePlatformArea(int x, int y, int width, int height)
+        private Rectangle GetTilePlatformArea(int x, int y, int width, int height)
         {
             return new Rectangle(x, y, width, height);
         }
 
-        public static Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
+        public  Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
         {
             string path, path2;
-            string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : Editor.DataDirectory);
+            string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : EditorInstance.DataDirectory);
             if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
             {
                 switch (name)
@@ -503,11 +513,11 @@ namespace ManiacEditor
 
                 // Checks the Stage Folder First
 
-                path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
+                path = EditorInstance.SelectedZone + "\\" + name + ".bin";
                 path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-                if (Editor.Instance.userDefinedSpritePaths != null && Editor.Instance.userDefinedSpritePaths.Count != 0)
+                if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
                 {
-                    foreach (string userDefinedPath in Editor.Instance.userDefinedSpritePaths)
+                    foreach (string userDefinedPath in EditorInstance.userDefinedSpritePaths)
                     {
                         path = userDefinedPath + "\\" + name + ".bin";
                         path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
@@ -519,7 +529,7 @@ namespace ManiacEditor
                     }
                     if (!File.Exists(path2))
                     {
-                        path = Editor.Instance.SelectedZone + "\\" + name + ".bin";
+                        path = EditorInstance.SelectedZone + "\\" + name + ".bin";
                         path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
                     }
                 }
@@ -529,18 +539,18 @@ namespace ManiacEditor
                 {
 
                     // Checks without last character
-                    path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + name + ".bin";
+                    path = path = EditorInstance.SelectedZone.Substring(0, EditorInstance.SelectedZone.Length - 1) + "\\" + name + ".bin";
                     path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
                     if (!File.Exists(path2))
                     {
                         // Checks for name without the last character and without the numbers in the entity name
                         string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-                        path = path = Editor.Instance.SelectedZone.Substring(0, Editor.Instance.SelectedZone.Length - 1) + "\\" + adjustedName + ".bin";
+                        path = path = EditorInstance.SelectedZone.Substring(0, EditorInstance.SelectedZone.Length - 1) + "\\" + adjustedName + ".bin";
                         path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
                         if (!File.Exists(path2))
                         {
                             // Checks for name without any numbers in the Zone name
-                            string adjustedZone = Regex.Replace(Editor.Instance.SelectedZone, @"[\d-]", string.Empty);
+                            string adjustedZone = Regex.Replace(EditorInstance.SelectedZone, @"[\d-]", string.Empty);
                             path = path = adjustedZone + "\\" + name + ".bin";
                             path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
                             if (!File.Exists(path2))
@@ -752,8 +762,36 @@ namespace ManiacEditor
             return _bitmap;
         }
 
+        public ColorPalette[] GetStageConfigColors()
+        {
+            var stgCfg = EditorInstance.StageConfig;
+            ColorPalette[] stageConfigColors = new ColorPalette[8];
+            for (int i = 0; i < 8; i++)
+            {
+                stageConfigColors[i] = EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                for (int x = 0; x < 16; x++)
+                {
+                    for (int y = 0; y < 16; y++)
+                    {
+                        try
+                        {
+                            stageConfigColors[i].Entries[16 * x + y] = System.Drawing.Color.FromArgb(stgCfg.Palettes[i].Colors[x][y].R, stgCfg.Palettes[i].Colors[x][y].G, stgCfg.Palettes[i].Colors[x][y].B);
+                        }
+                        catch
+                        {
+                            stageConfigColors[i].Entries[16 * x + y] = System.Drawing.Color.Black;
+                        }
+                    }
+                }
+            }
+            return stageConfigColors;
+        }
+
         // These are special
-        public static void DrawOthers(DevicePanel d, SceneEntity entity, EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
+        public void DrawOthers(DevicePanel d, SceneEntity entity, EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;
@@ -762,7 +800,7 @@ namespace ManiacEditor
                 x = childX;
                 y = childY;
             }
-            int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
+            int Transparency = (EditorInstance.EditLayer == null) ? 0xff : 0x32;
             try
             {
                 if (!rendersWithErrors.Contains(entity.Object.Name.Name))

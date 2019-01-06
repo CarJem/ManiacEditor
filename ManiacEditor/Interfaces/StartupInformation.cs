@@ -16,9 +16,11 @@ namespace ManiacEditor
     {
         bool updateAvaliable = false;
         bool sourceBuild = false;
+        public Editor EditorInstance;
 
-        public StartupInformation()
+        public StartupInformation(Editor instance)
         {
+            EditorInstance = instance;
             InitializeComponent();
         }
 
@@ -139,9 +141,9 @@ namespace ManiacEditor
         {
             var dataDirectories = Settings.mySettings.DataDirectories;
             Settings.mySettings.GamePath = Editor.GamePath;
-            if (Editor.Instance.IsDataDirectoryValid(dataDirectory))
+            if (EditorInstance.IsDataDirectoryValid(dataDirectory))
             {
-                Editor.Instance.ResetDataDirectoryToAndResetScene(dataDirectory);
+                EditorInstance.ResetDataDirectoryToAndResetScene(dataDirectory);
             }
             else
             {
@@ -150,7 +152,7 @@ namespace ManiacEditor
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
                 dataDirectories.Remove(dataDirectory);
-                Editor.Instance.RefreshDataDirectories(dataDirectories);
+                EditorInstance.RefreshDataDirectories(dataDirectories);
                 LoadRecentDataDirectories(dataDirectories);
 
             }

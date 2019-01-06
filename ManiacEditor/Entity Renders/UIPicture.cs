@@ -16,10 +16,10 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string binFile = "Icons";
-            if (Editor.Instance.EditorScene.Objects.Exists(i => i.Name.Name.Equals("MenuSetup"))) binFile = "Picture";
+            if (e.EditorInstance.EditorScene.Objects.Exists(i => i.Name.Name.Equals("MenuSetup"))) binFile = "Picture";
             int frameID = (int)entity.attributesMap["frameID"].ValueVar;
             int listID = (int)entity.attributesMap["listID"].ValueVar;
-            var editorAnim = EditorEntity_ini.LoadAnimation(binFile, d, listID, frameID, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation(binFile, d, listID, frameID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

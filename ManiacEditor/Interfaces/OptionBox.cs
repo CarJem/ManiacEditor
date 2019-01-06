@@ -19,9 +19,11 @@ namespace ManiacEditor
     {
         bool preRenderRadioGroupCheckChangeAllowed = true;
         bool collisionColorsRadioGroupCheckChangeAllowed = true;
-        public OptionBox()
+        public Editor EditorInstance;
+        public OptionBox(Editor instance)
         {
             InitializeComponent();
+            EditorInstance = instance;
 
             preRenderRadioGroupsUpdate(Properties.Settings.Default.preRenderSceneOption);
             collisionColorsRadioGroupUpdate(Properties.Settings.Default.CollisionColorsDefault);
@@ -55,7 +57,7 @@ namespace ManiacEditor
             if (Properties.Settings.Default.NightMode)
             {
                 checkBox15.Checked = true;
-                tileToolbarZoomDefault.BackColor = Editor.Instance.darkTheme1;
+                tileToolbarZoomDefault.BackColor = EditorInstance.darkTheme1;
                 tabControl1.BackColor = System.Drawing.Color.Bisque;
             }
             tabPage1.UseVisualStyleBackColor = false;
@@ -195,12 +197,12 @@ namespace ManiacEditor
             if (Properties.Settings.Default.ShowDiscordRPC == false)
             {
                 Properties.Settings.Default.ShowDiscordRPC = RPCCheckBox.Checked = true;
-                Editor.Instance.UpdateDiscord(Editor.Instance.ScenePath);
+                EditorInstance.UpdateDiscord(EditorInstance.ScenePath);
             }
             else
             {
                 Properties.Settings.Default.ShowDiscordRPC = RPCCheckBox.Checked = false;
-                Editor.Instance.UpdateDiscord();
+                EditorInstance.UpdateDiscord();
             }
         }
 
@@ -585,7 +587,7 @@ namespace ManiacEditor
             if (result == DialogResult.OK)
             {
                 Properties.Settings.Default.WaterColorDefault = colorSelect.Color;
-                Editor.Instance.waterColor = colorSelect.Color;
+                EditorInstance.waterColor = colorSelect.Color;
             }
         }
 

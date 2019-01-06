@@ -51,8 +51,8 @@ namespace ManiacEditor
         int ZoomLevel = 0; //Interger Value for Zoom Levels
         public int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
         public int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
-        internal int SelectedTileX; //Used to get a single Selected Tile's X
-        internal int SelectedTileY; //Used to get a single Selected Tile's Y
+        public int SelectedTileX = 0; //Used to get a single Selected Tile's X
+        public int SelectedTileY = 0; //Used to get a single Selected Tile's Y
         bool scrolling = false; //Determines if the User is Scrolling
         bool scrollingDragged = false, wheelClicked = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
         Point scrollPosition; //For Getting the Scroll Position
@@ -99,6 +99,7 @@ namespace ManiacEditor
         public bool PreRenderSceneSelectCheckbox = false; //Self Explanatory
         public bool RemoveStageConfigEntriesAllowed = false; //Self Explanatory
         public bool AddStageConfigEntriesAllowed = false; //Self Explanatory
+        public int InstanceID = 0; //Mega Maniac Instance ID
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -123,9 +124,9 @@ namespace ManiacEditor
         public double ShortcutZoomValue = 0.0;
 
         //Editor Paths
-        public static string DataDirectory; //Used to get the current Data Directory
-        public static string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
-        public static string ModDataDirectory = ""; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
+        public string DataDirectory; //Used to get the current Data Directory
+        public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
+        public string ModDataDirectory = ""; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
         public string SelectedZone; //Used to get the Selected zone
         string SelectedScene; //Used to get the Scene zone
         public static string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
@@ -203,25 +204,22 @@ namespace ManiacEditor
         public StageTiles StageTiles;
         public EditorScene EditorScene;
         public StageConfig StageConfig;
-        public ObjectManager objectRemover;
-        public ConfigManager configLists;
         public GameConfig GameConfig;
         public EditorControls EditorControls;
         public static EditorEntities entities;
+        //public int InstanceID = 0;
         public static Editor Instance; //Used the access this class easier
+        //public Editor ThisInstance;
         internal EditorBackground Background;
-        internal EditorLayer EditLayer;
+        public EditorLayer EditLayer;
         internal TilesToolbar TilesToolbar = null;
-        internal ChunksToolbar ChunksToolbar = null;
-        private EntitiesToolbar entitiesToolbar = null;
+        public ChunksToolbar ChunksToolbar = null;
+        public EntitiesToolbar entitiesToolbar = null;
+        public EditorEntity_ini EditorEntity_ini;
         public EditorUpdater Updater = new EditorUpdater();
         public TilesConfig TilesConfig;
-        public EditorInGame EditorGame = new EditorInGame();
-        public StartupInformation info = new StartupInformation
-        {
-            TopLevel = false
-
-        };
+        public EditorInGame EditorGame;
+        public StartupInformation info;
 
         //Tile Maniac Instance
         public TileManiac.Mainform mainform = new Mainform();
@@ -301,11 +299,12 @@ namespace ManiacEditor
         #endregion
 
         #endregion
-        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0)
+        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = 0)
         {
-            SystemEvents.PowerModeChanged += CheckDeviceState;
-
             Instance = this;
+            SystemEvents.PowerModeChanged += CheckDeviceState;
+            InstanceID = MegaManiacInstanceID;
+
             UseDarkTheme(mySettings.NightMode);
             InitializeComponent();
             SetupButtonColors();
@@ -334,16 +333,24 @@ namespace ManiacEditor
             _extraLayerSeperators = new List<ToolStripSeparator>();
             _recentDataItems = new List<ToolStripMenuItem>();
             _recentDataItems_Button = new List<ToolStripMenuItem>();
-            EditorControls = new EditorControls();
+            EditorControls = new EditorControls(this);
             MenuChar = MenuCharS.ToCharArray();
             MenuChar_Small = MenuCharS_Small.ToCharArray();
             LevelSelectChar = LevelSelectCharS.ToCharArray();
+            EditorGame = new EditorInGame(this);
+            EditorEntity_ini = new EditorEntity_ini(this);
+
+            info = new StartupInformation(this)
+            {
+                TopLevel = false
+            };
 
             SetViewSize();
             UpdateControls();
             TryLoadSettings();
 
-            GraphicPanel.Controls.Add(info);
+            splitContainer2.Panel1.Controls.Add(info);
+            //splitContainer2.Panel1MinSize = 1078;
             info.Show();
             Updater.CheckforUpdates(true, true);
             info.UpdateStatusLabel(Updater.condition, Updater);
@@ -884,7 +891,6 @@ namespace ManiacEditor
             ShowAnimations.Enabled = enabled;
             animationsSplitButton.Enabled = enabled;
             ReloadButton.Enabled = enabled;
-            PreloadSceneButton.Enabled = enabled;
             newShortcutToolStripMenuItem.Enabled = Directory.Exists(DataDirectory);
             withoutCurrentCoordinatesToolStripMenuItem.Enabled = EditorScene != null;
             withCurrentCoordinatesToolStripMenuItem.Enabled = EditorScene != null;
@@ -931,7 +937,7 @@ namespace ManiacEditor
                     PreLoadSceneButton_Click(null, null);
                 }
             }
-            else if (mySettings.preRenderSceneOption == 1 && Editor.Instance.PreRenderSceneSelectCheckbox && enabled && stageLoad)
+            else if (mySettings.preRenderSceneOption == 1 && PreRenderSceneSelectCheckbox && enabled && stageLoad)
             {
                 PreLoadSceneButton_Click(null, null);
             }
@@ -1060,9 +1066,9 @@ namespace ManiacEditor
                 if (TilesToolbar == null)
                 {
                     if (useEncoreColors)
-                        TilesToolbar = new TilesToolbar(StageTiles, SceneFilepath, EncorePalette[0]);
+                        TilesToolbar = new TilesToolbar(StageTiles, SceneFilepath, EncorePalette[0], this);
                     else
-                        TilesToolbar = new TilesToolbar(StageTiles, SceneFilepath, null);
+                        TilesToolbar = new TilesToolbar(StageTiles, SceneFilepath, null, this);
 
                     TilesToolbar.TileDoubleClick = new Action<int>(x =>
                     {
@@ -1116,7 +1122,7 @@ namespace ManiacEditor
             {
                 if (entitiesToolbar == null)
                 {
-                    entitiesToolbar = new EntitiesToolbar(EditorScene.Objects)
+                    entitiesToolbar = new EntitiesToolbar(EditorScene.Objects, this)
                     {
                         //entitiesToolbar = new EntitiesToolbar(ObjectList);
                         SelectedEntity = new Action<int>(x =>
@@ -1350,13 +1356,11 @@ namespace ManiacEditor
 
         public void ToggleEditorButtons(bool enabled)
         {
-            Editor.Instance.menuStrip1.Enabled = enabled;
-            Editor.Instance.toolStrip1.Enabled = enabled;
-            Editor.Instance.toolStrip2.Enabled = enabled;
-            Editor.Instance.toolStrip3.Enabled = enabled;
-            Editor.Instance.toolStrip4.Enabled = enabled;
-            Editor.Instance.panel3.Enabled = enabled;
-            Editor.Instance.splitContainer1.Enabled = enabled;
+            menuStrip1.Enabled = enabled;
+            toolStrip1.Enabled = enabled;
+            toolStrip2.Enabled = enabled;
+            toolStrip3.Enabled = enabled;
+            splitContainer1.Enabled = enabled;
         }
 
         #endregion
@@ -1981,7 +1985,7 @@ namespace ManiacEditor
                         try
                         {
 
-                            if (Editor.Instance.UseMagnetMode)
+                            if (UseMagnetMode)
                             {
                                 entities.MoveSelected(oldPointGrid, newPointGrid, CtrlPressed() && startDragged);
                             }
@@ -1997,7 +2001,7 @@ namespace ManiacEditor
                             dragged = false;
                             return;
                         }
-                        if (Editor.Instance.UseMagnetMode)
+                        if (UseMagnetMode)
                         {
                             draggedX += newPointGrid.X - oldPointGrid.X;
                             draggedY += newPointGrid.Y - oldPointGrid.Y;
@@ -2414,7 +2418,7 @@ namespace ManiacEditor
 
         public void ResetDataDirectoryToAndResetScene(string newDataDirectory)
         {
-            Editor.Instance.SceneChangeWarning(null, null);
+            SceneChangeWarning(null, null);
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
             {
                     AllowSceneChange = false;
@@ -2646,8 +2650,13 @@ namespace ManiacEditor
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            info.Width = mainPanel.Width;
-            info.Height = mainPanel.Height;
+            if (info != null)
+            {
+                info.Width = mainPanel.Width;
+                info.Height = mainPanel.Height;
+            }
+
+            //if (!splitContainer2.Panel1Collapsed) splitContainer2.Panel1MinSize = 1078;
 
             if (splitContainer1.Panel2.Controls.Count == 1)
             {
@@ -2660,10 +2669,10 @@ namespace ManiacEditor
             bool nvscrollbar = false;
             bool nhscrollbar = false;
 
-            if (hScrollBar1.Maximum > viewPanel.Width - 2) nhscrollbar = true;
-            if (vScrollBar1.Maximum > viewPanel.Height - 2) nvscrollbar = true;
-            if (hScrollBar1.Maximum > viewPanel.Width - (nvscrollbar ? vScrollBar1.Width : 0)) hScrollBar1.Visible = true;
-            if (vScrollBar1.Maximum > viewPanel.Height - (nhscrollbar ? hScrollBar1.Height : 0)) vScrollBar1.Visible = true;
+            if (hScrollBar1.Maximum > mainPanel.Width - 2) nhscrollbar = true;
+            if (vScrollBar1.Maximum > mainPanel.Height - 2) nvscrollbar = true;
+            if (hScrollBar1.Maximum > mainPanel.Width - (nvscrollbar ? vScrollBar1.Width : 0)) hScrollBar1.Visible = true;
+            if (vScrollBar1.Maximum > mainPanel.Height - (nhscrollbar ? hScrollBar1.Height : 0)) vScrollBar1.Visible = true;
 
             vScrollBar1.Visible = nvscrollbar;
             hScrollBar1.Visible = nhscrollbar;
@@ -2672,7 +2681,7 @@ namespace ManiacEditor
             {
                 // Docking isn't enough because we want that it will be high/wider when only one of the scroll bars is visible
                 //vScrollBar1.Location = new Point(splitContainer1.SplitterDistance - 19, 0);
-                vScrollBar1.Height = viewPanel.Height - (hScrollBar1.Visible ? hScrollBar1.Height : 0);
+                vScrollBar1.Height = mainPanel.Height - (hScrollBar1.Visible ? hScrollBar1.Height : 0);
                 vScrollBar1.LargeChange = vScrollBar1.Height;
                 ScreenHeight = vScrollBar1.Height;
                 hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
@@ -2686,7 +2695,7 @@ namespace ManiacEditor
             if (hScrollBar1.Visible)
             {
                 //hScrollBar1.Location = new Point(0, splitContainer1.Height - 18);
-                hScrollBar1.Width = viewPanel.Width - (vScrollBar1.Visible ? vScrollBar1.Width : 0);
+                hScrollBar1.Width = mainPanel.Width - (vScrollBar1.Visible ? vScrollBar1.Width : 0);
                 hScrollBar1.LargeChange = hScrollBar1.Width;
                 ScreenWidth = hScrollBar1.Width;
                 vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
@@ -2698,12 +2707,14 @@ namespace ManiacEditor
                 hScrollBar1.Value = 0;
             }
 
+            /*
             if (hScrollBar1.Visible && vScrollBar1.Visible)
             {
-                panel3.Visible = true;
+                mainPanel.Visible = true;
                 //panel3.Location = new Point(hScrollBar1.Width, vScrollBar1.Height);
             }
-            else panel3.Visible = false;
+            else mainPanel.Visible = false;
+            */
 
             while (ScreenWidth > GraphicPanel.Width)
                 ResizeGraphicPanel(GraphicPanel.Width * 2, GraphicPanel.Height);
@@ -3024,6 +3035,7 @@ namespace ManiacEditor
             LevelSelectChar = LevelSelectCharS.ToCharArray();
 
             info.Visible = true;
+            splitContainer2.Panel1Collapsed = false;
         }
 
         private void OpenSceneForceFully()
@@ -3074,11 +3086,11 @@ namespace ManiacEditor
 
                     if (!EditorLoad())
                     {
-                        select = new SceneSelect();
+                        select = new SceneSelect(null, this);
                     }
                     else
                     {
-                        select = new SceneSelect(GameConfig);
+                        select = new SceneSelect(GameConfig, this);
                     }
                     select.ShowDialog();
                     Result = select.Result;
@@ -3109,7 +3121,7 @@ namespace ManiacEditor
                 return;
             }
 
-            string _DataDirectory = (modLoaded == true ? Editor.ModDataDirectory : Editor.DataDirectory);
+            string _DataDirectory = (modLoaded == true ? ModDataDirectory : DataDirectory);
             
 
             ResultPath = Path.GetDirectoryName(Result);
@@ -3145,14 +3157,14 @@ namespace ManiacEditor
             }
 
             info.Visible = false;
-
+            splitContainer2.Panel1Collapsed = true;
             UpdateDataFolderLabel(null, null);
 
             SetupLayerButtons();
 
-            Background = new EditorBackground();
+            Background = new EditorBackground(this);
 
-            entities = new EditorEntities(EditorScene);
+            entities = new EditorEntities(EditorScene, this);
 
             SetViewSize(SceneWidth, SceneHeight);
 
@@ -3169,7 +3181,7 @@ namespace ManiacEditor
                 SceneFilepath = Path.Combine(_DataDirectory, "Stages", SelectedZone);               
                 SelectedZone = SelectedZone.Replace("\\", "");
                 LevelID = _LevelID;
-                EditorScene = new EditorScene(SceneFilename, GraphicPanel);
+                EditorScene = new EditorScene(SceneFilename, GraphicPanel, this);
                 //Encore Palette + Stage Tiles Initaliazation
                 EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
                 EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
@@ -3274,7 +3286,7 @@ namespace ManiacEditor
             searchType = 0;
             SelectedZone = SelectedZone.Replace("\\", "");
             LevelID = _LevelID;
-            EditorScene = new EditorScene(SceneFilename, GraphicPanel);
+            EditorScene = new EditorScene(SceneFilename, GraphicPanel, this);
             //Encore Palette + Stage Tiles Initaliazation
             EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
             EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
@@ -3365,7 +3377,7 @@ namespace ManiacEditor
         #region File Tab Buttons
         public void Open_Click(object sender, EventArgs e)
         {
-            Editor.Instance.SceneChangeWarning(sender, e);
+            SceneChangeWarning(sender, e);
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
             {
                 AllowSceneChange = false;
@@ -3584,7 +3596,7 @@ Error: {ex.Message}");
             try
             {
 
-                using (var ObjectRemover = new ObjectManager(EditorScene.Objects, StageConfig))
+                using (var ObjectRemover = new ObjectManager(EditorScene.Objects, StageConfig, this))
                 {
                     if (ObjectRemover.ShowDialog() != DialogResult.OK)
                         return; // nothing to do
@@ -4094,13 +4106,13 @@ Error: {ex.Message}");
         #region Scene Tab Buttons
         public void ImportObjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Editor.Instance.importingObjects = true;
+            importingObjects = true;
             try
             {
                 Scene sourceScene = GetSceneSelection();
                 if (sourceScene == null) return;
 
-                using (var objectImporter = new ObjectImporter(sourceScene.Objects, EditorScene.Objects, StageConfig))
+                using (var objectImporter = new ObjectImporter(sourceScene.Objects, EditorScene.Objects, StageConfig, this))
                 {
                     if (objectImporter.ShowDialog() != DialogResult.OK)
                         return; // nothing to do
@@ -4114,7 +4126,7 @@ Error: {ex.Message}");
             {
                 MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Editor.Instance.importingObjects = false;
+            importingObjects = false;
         }
 
         private void ImportSoundsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4286,9 +4298,9 @@ Error: {ex.Message}");
         {
             if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
             mainform.Show();
-            if (Editor.Instance.TilesConfig != null && Editor.Instance.StageTiles != null)
+            if (TilesConfig != null && StageTiles != null)
             {
-                if (!mainform.Visible || Editor.Instance.mainform.tcf == null)
+                if (!mainform.Visible || mainform.tcf == null)
                 {
                     mainform.LoadTileConfigViaIntergration(TilesConfig, SceneFilepath);
                 }
@@ -4509,7 +4521,7 @@ Error: {ex.Message}");
 
         private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var optionBox = new OptionBox())
+            using (var optionBox = new OptionBox(this))
             {
                 optionBox.ShowDialog();
             }
@@ -5186,10 +5198,10 @@ Error: {ex.Message}");
                 editTile0WithTileManiacToolStripMenuItem.Enabled = (tile < 1023);
                 moveThePlayerToHereToolStripMenuItem.Enabled = GameRunning;
                 setPlayerRespawnToHereToolStripMenuItem.Enabled = GameRunning;
-                removeCheckpointToolStripMenuItem.Enabled = GameRunning && Editor.Instance.EditorGame.CheckpointEnabled;
+                removeCheckpointToolStripMenuItem.Enabled = GameRunning && EditorGame.CheckpointEnabled;
                 assetResetToolStripMenuItem.Enabled = GameRunning;
                 restartSceneToolStripMenuItem.Enabled = GameRunning;
-                moveCheckpointToolStripMenuItem.Enabled = GameRunning && Editor.Instance.EditorGame.CheckpointEnabled;
+                moveCheckpointToolStripMenuItem.Enabled = GameRunning && EditorGame.CheckpointEnabled;
 
 
                 editTile0WithTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile);
@@ -5549,7 +5561,7 @@ Error: {ex.Message}");
                 // Entities should take care of themselves
                 DisposeTextures();
 
-                if (Editor.Instance.useEncoreColors)
+                if (useEncoreColors)
                 {
                     StageTiles?.Image.Reload(EncorePalette[0]);
                 }
@@ -5956,82 +5968,7 @@ Error: {ex.Message}");
         }
         public void BackupTool(object sender, EventArgs e)
         {
-            //Backup Types:
-            // 1: Manual Backups - Made by the user, and infinite amount
-            // 2: Emergency Backups - Made by the editor, right before a crash or something progress losing, and only is made
-            // 3: Automatic Backups - Made by the editor by user choice (toggle in options) automatically every so often
-            // 4: Stage Config Backup - For Object Manager
-            if (EditorScene == null) return;
 
-            if (IsTilesEdit())
-            {
-                // Apply changes
-                Deselect();
-            }
-
-            try
-            {
-                if (backupType == 1)
-                {
-                    String SceneFilenameBak = SceneFilename + ".bak";
-                    String SceneFilenameBakReserve = SceneFilenameBak;
-                    SceneFilenameBak += ".bin";
-                    int i = 1;
-                    while ((File.Exists(SceneFilenameBak)))
-                    {
-                        SceneFilenameBak = SceneFilenameBakReserve + i + ".bin";
-                        i++;
-                    }
-                    EditorScene.Save(SceneFilenameBak);
-                }
-                if (backupType == 2)
-                {
-                    String SceneFilenameBak = SceneFilename + ".crash.bak.bin";
-                    String SceneFilenameBakReserve = SceneFilenameBak;
-                    EditorScene.Save(SceneFilenameBak);
-                }
-                if (backupType >= 3 && backupType != 4)
-                {
-                    String SceneFilenameBak = SceneFilename + ".idk.bak";
-                    String SceneFilenameBakReserve = SceneFilenameBak;
-                    SceneFilenameBak += ".bin";
-                    int i = 1;
-                    while ((File.Exists(SceneFilenameBak)))
-                    {
-                        SceneFilenameBak = SceneFilenameBakReserve + i + ".bin";
-                        i++;
-                    }
-                    EditorScene.Save(SceneFilenameBak);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                ShowError($@"Failed to backup the scene to file '{SceneFilename}'
-Error: {ex.Message}");
-            }
-
-            try
-            {
-                if (backupType == 4)
-                {
-                    String StageConfigFileName = SceneFilepath + "\\StageConfig" + ".bak";
-                    String StageConfigFileNameReserve = StageConfigFileName;
-                    StageConfigFileName += ".bin";
-                    int i = 1;
-                    while ((File.Exists(StageConfigFileName)))
-                    {
-                        StageConfigFileName = StageConfigFileNameReserve + i + ".bin";
-                        i++;
-                    }
-                    StageConfig?.Write(StageConfigFileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowError($@"Failed to backup the StageConfig to file '{StageConfigFileName}'
-Error: {ex.Message}");
-            }
         }
 
         #endregion
@@ -6312,7 +6249,6 @@ Error: {ex.Message}");
         {
             if (MessageBox.Show(this, "It is cautioned that you save now, as there is NO WAY TO END THIS PROCESS ONCE IT STARTS and you may be forced to force the program to quit! Are you sure you want to continue?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                PreloadSceneButton.Enabled = false;
                 isPreRending = true;
                 PreLoadBox preLoadForm = new PreLoadBox
                 {
@@ -6376,7 +6312,6 @@ Error: {ex.Message}");
                 System.IO.Stream str = Properties.Resources.ScoreTotal;
                 System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
                 snd.Play();
-                PreloadSceneButton.Enabled = true;
             }
         }
 
@@ -6389,7 +6324,7 @@ Error: {ex.Message}");
 
         private void MD5GeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MD5HashGen hashmap = new MD5HashGen();
+            MD5HashGen hashmap = new MD5HashGen(this);
             hashmap.Show();
         }
 
@@ -6407,7 +6342,7 @@ Error: {ex.Message}");
             }
             else
             {
-                GoToPlayerBox goToPlayerBox = new GoToPlayerBox();
+                GoToPlayerBox goToPlayerBox = new GoToPlayerBox(this);
                 DialogResult result = goToPlayerBox.ShowDialog();
                 if (selectPlayerObject_GoTo != -1)
                 {
@@ -6456,7 +6391,7 @@ Error: {ex.Message}");
 
             for (int i = 0; i < 1024; i++)
             {
-                Editor.Instance.TilesToolbar.selectedTileLabel.Text = "Selected Tile: " + i;
+                TilesToolbar.selectedTileLabel.Text = "Selected Tile: " + i;
                 bool Unusued = IsTileUnused(i);
                 while (cooldownDone != true)
                 {
@@ -6508,7 +6443,7 @@ Error: {ex.Message}");
             mySettings.DevForceRestartX = (short)(ShiftX / Zoom);
             mySettings.DevForeRestartY = (short)(ShiftY / Zoom);
             mySettings.DevForceRestartZoomLevel = ZoomLevel;
-            mySettings.DevForceRestartEncore = Editor.Instance.encorePaletteExists;
+            mySettings.DevForceRestartEncore = encorePaletteExists;
             mySettings.DeveForceRestartLevelID = LevelID;
         }
 
@@ -6633,9 +6568,9 @@ Error: {ex.Message}");
 
         public Rectangle GetScreen()
         {
-            if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(CustomX, CustomY, viewPanel.Width, viewPanel.Height);
+            if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(CustomX, CustomY, mainPanel.Width, mainPanel.Height);
             else if (isExportingImage) return new Rectangle(0, 0, SceneWidth, SceneHeight);
-            else return new Rectangle(ShiftX, ShiftY, viewPanel.Width, viewPanel.Height);
+            else return new Rectangle(ShiftX, ShiftY, mainPanel.Width, mainPanel.Height);
         }
 
         public double GetZoom()
@@ -6817,8 +6752,6 @@ Error: {ex.Message}");
             SetButtonColors(ShowCollisionBButton, Color.DeepSkyBlue);
             SetButtonColors(FlipAssistButton, MainThemeColor());
             SetButtonColors(MoreSettingsButton, MainThemeColor());
-            SetButtonColors(PreloadSceneButton, MainThemeColor());
-            SetButtonColors(MultiSelectButton, MainThemeColor());
             if (mySettings.NightMode) MoreSettingsButton.ForeColor = Color.White;
 
         }
@@ -6991,7 +6924,7 @@ Error: {ex.Message}");
                 SceneFilename = "Scene1.bin";
                 SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
 
-                EditorScene = new EditorScene(GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height);
+                EditorScene = new EditorScene(GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, this);
                 TilesConfig = new TilesConfig();
                 StageTiles = new StageTiles();
                 StageConfig = new StageConfig();
@@ -7015,9 +6948,9 @@ Error: {ex.Message}");
 
                 SetupLayerButtons();
 
-                Background = new EditorBackground();
+                Background = new EditorBackground(this);
 
-                entities = new EditorEntities(EditorScene);
+                entities = new EditorEntities(EditorScene, this);
 
                 SetViewSize(SceneWidth, SceneHeight);
 
@@ -7028,7 +6961,7 @@ Error: {ex.Message}");
 
         private void SeeStatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var StatsBox = new StatusBox())
+            using (var StatsBox = new StatusBox(this))
             {
                 StatsBox.ShowDialog();
             }
@@ -7036,21 +6969,21 @@ Error: {ex.Message}");
 
         private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Editor.Instance.mainform.IsDisposed) Editor.Instance.mainform = new TileManiac.Mainform();
-            if (!Editor.Instance.mainform.Visible)
+            if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
+            if (!mainform.Visible)
             {
-                Editor.Instance.mainform.Show();
+                mainform.Show();
             }
-            if (Editor.Instance.TilesConfig != null && Editor.Instance.StageTiles != null)
+            if (TilesConfig != null && StageTiles != null)
             {
-                if (!Editor.Instance.mainform.Visible || Editor.Instance.mainform.tcf == null)
+                if (!mainform.Visible || mainform.tcf == null)
                 {
-                    Editor.Instance.mainform.LoadTileConfigViaIntergration(Editor.Instance.TilesConfig, Editor.Instance.SceneFilepath, SelectedTileID);
+                    mainform.LoadTileConfigViaIntergration(TilesConfig, SceneFilepath, SelectedTileID);
                 }
                 else
                 {
-                    Editor.Instance.mainform.SetCollisionIndex(SelectedTileID);
-                    Editor.Instance.mainform.Activate();
+                    mainform.SetCollisionIndex(SelectedTileID);
+                    mainform.Activate();
                 }
 
             }
@@ -7077,6 +7010,19 @@ Error: {ex.Message}");
         private void ResetDeviceButton_Click_1(object sender, EventArgs e)
         {
             if (FreezeDeviceButton.Checked)
+            {
+                GraphicPanel.bRender = false;
+            }
+            else
+            {
+                ReloadToolStripButton_Click(null, null);
+                GraphicPanel.bRender = true;
+            }
+        }
+
+        public void FreezeDevice(bool state)
+        {
+            if (state)
             {
                 GraphicPanel.bRender = false;
             }
@@ -7117,7 +7063,7 @@ Error: {ex.Message}");
         public Scene GetSceneSelection()
         {
             string selectedScene;
-            using (SceneSelect select = new SceneSelect(GameConfig))
+            using (SceneSelect select = new SceneSelect(GameConfig, this))
             {
                 select.ShowDialog();
 

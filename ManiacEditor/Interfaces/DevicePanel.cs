@@ -51,6 +51,8 @@ namespace ManiacEditor
 {
     public partial class DevicePanel : UserControl
     {
+        public Editor EditorInstance;
+
         #region Members
 
         public bool mouseMoved = false;
@@ -107,6 +109,7 @@ namespace ManiacEditor
         public DevicePanel()
         {
             InitializeComponent();
+            EditorInstance = Editor.Instance;
         }
 
         #endregion
@@ -350,8 +353,8 @@ namespace ManiacEditor
                         Debug.Print("Device Not Reset! Fixing....");
                         DisposeDeviceResources();
                         InitDeviceResources();
-                        Init(Editor.Instance);
-                        Editor.Instance.DisposeTextures();
+                        Init(EditorInstance);
+                        EditorInstance.DisposeTextures();
                         deviceLost = false;
                     }
                     catch (SharpDXException ex2)
@@ -450,21 +453,21 @@ namespace ManiacEditor
                     }
                     if (deviceExceptionResult == DialogResult.Yes) //Yes and Exit
                     {
-                        Editor.Instance.BackupSceneBeforeCrash();
+                        EditorInstance.BackupSceneBeforeCrash();
                         Environment.Exit(1);
 
                     }
                     else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                     {
                         DisposeDeviceResources();
-                        Init(Editor.Instance);
+                        Init(EditorInstance);
 
                     }
                     else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                     {
-                        Editor.Instance.BackupSceneBeforeCrash();
+                        EditorInstance.BackupSceneBeforeCrash();
                         DisposeDeviceResources();
-                        Init(Editor.Instance);
+                        Init(EditorInstance);
                     }
                     else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                     {
@@ -482,21 +485,21 @@ namespace ManiacEditor
                 }
                 if (deviceExceptionResult == DialogResult.Yes) //Yes and Exit
                 {
-                    Editor.Instance.BackupSceneBeforeCrash();
+                    EditorInstance.BackupSceneBeforeCrash();
                     Environment.Exit(1);
 
                 }
                 else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                 {
                     DisposeDeviceResources();
-                    Init(Editor.Instance);
+                    Init(EditorInstance);
 
                 }
                 else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                 {
-                    Editor.Instance.BackupSceneBeforeCrash();
+                    EditorInstance.BackupSceneBeforeCrash();
                     DisposeDeviceResources();
-                    Init(Editor.Instance);
+                    Init(EditorInstance);
                 }
                 else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                 {

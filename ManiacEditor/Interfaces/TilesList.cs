@@ -30,15 +30,18 @@ namespace ManiacEditor
 
         public Point mouseDownPos;
 
+        public Editor EditorInstance; 
+
         bool _flipHorizontal;
         bool _flipVertical;
 
         public bool FlipHorizontal { get { return _flipHorizontal; } set { _flipHorizontal = value; graphicPanel.Render(); } }
         public bool FlipVertical { get { return _flipVertical; } set { _flipVertical = value; graphicPanel.Render(); } }
 
-        public TilesList()
+        public TilesList(Editor instance)
         {
             InitializeComponent();
+            EditorInstance = instance;
 
             //if (Properties.Settings.Default.NightMode)
             //{
@@ -47,7 +50,6 @@ namespace ManiacEditor
             
             graphicPanel.Init(this);
         }
-
         private void ResizeGraphicPanel(int width = 0, int height = 0)
         {
             graphicPanel.Width = width;
@@ -185,16 +187,16 @@ namespace ManiacEditor
             if (x / tile_size / TileScale < tiles_per_line && tile_number >= 0 && tile_number < 0x400)
             {
                 SelectedTile = tile_number;
-                Editor.Instance.ToolbarSelectedTile = tile_number.ToString();
-                Editor.Instance.TilesToolbar.editTileInTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
-                if (rightClick) Editor.Instance.TilesToolbar.contextMenuStrip1.Show(TilesToolbar.MousePosition);
+                EditorInstance.ToolbarSelectedTile = tile_number.ToString();
+                EditorInstance.TilesToolbar.editTileInTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
+                if (rightClick) EditorInstance.TilesToolbar.contextMenuStrip1.Show(TilesToolbar.MousePosition);
             }
             else
             {
                 SelectedTile = -1;
             }
            graphicPanel.Render();
-           TilesToolbar.RefreshTileSelected();
+            EditorInstance.TilesToolbar.RefreshTileSelected();
         }
 
 

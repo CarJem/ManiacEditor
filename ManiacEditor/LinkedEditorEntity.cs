@@ -15,9 +15,11 @@ namespace ManiacEditor
         private ushort slotID;
         private ushort targetSlotID;
         private RSDKv5.SceneEntity currentEntity;
+        private Editor EditorInstance2;
 
-        public LinkedEditorEntity(RSDKv5.SceneEntity entity) : base(entity)
+        public LinkedEditorEntity(RSDKv5.SceneEntity entity, Editor instance) : base(entity, instance)
         {
+            EditorInstance2 = instance;
             if (entity.Object.Name.Name == "WarpDoor")
             {
                 goProperty = Entity.GetAttribute("go").ValueVar;
@@ -42,7 +44,7 @@ namespace ManiacEditor
 
         public override void Draw(DevicePanel d)
         {
-            if (Editor.Instance.showEntityPathArrows)
+            if (EditorInstance.showEntityPathArrows)
             {
                 if (currentEntity.Object.Name.Name == "WarpDoor")
                 {

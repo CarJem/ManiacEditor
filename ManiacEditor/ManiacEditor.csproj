@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{297BA354-5E1E-4701-A6A2-73784BC8C8B1}</ProjectGuid>
+    <ProjectGuid>{BA2FCF85-11E7-481A-A045-86219D9393D9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ManiacEditor</RootNamespace>
     <AssemblyName>ManiacEditor</AssemblyName>
@@ -530,6 +530,9 @@
     </Compile>
     <Compile Include="Interfaces\AddAttributeBox.Designer.cs">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\HScrollBar.xaml.cs">
+      <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\StartupInformation.cs">
       <SubType>Form</SubType>
@@ -1209,6 +1212,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Interfaces\EntityPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\HScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

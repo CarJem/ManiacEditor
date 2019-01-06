@@ -20,10 +20,10 @@ namespace ManiacEditor.Entity_Renders
             int characterID = (int)entity.attributesMap["characterID"].ValueUInt8;
             int characterID_text = characterID;
             if (characterID >= 3) characterID++;
-            string text = "Text" + Editor.Instance.CurrentLanguage;
-            var editorAnim = EditorEntity_ini.LoadAnimation(text, d, 8, characterID_text, false, false, false);
-            var editorAnimFrame = EditorEntity_ini.LoadAnimation("EditorUIRender", d, 1, 1, false, false, false);
-            var editorAnimIcon = EditorEntity_ini.LoadAnimation("SaveSelect", d, 1, characterID, false, false, false);
+            string text = "Text" + e.EditorInstance.CurrentLanguage;
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, 8, characterID_text, false, false, false);
+            var editorAnimFrame = e.EditorInstance.EditorEntity_ini.LoadAnimation("EditorUIRender", d, 1, 1, false, false, false);
+            var editorAnimIcon = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, 1, characterID, false, false, false);
 
             d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(128, 255, 255, 255));
 

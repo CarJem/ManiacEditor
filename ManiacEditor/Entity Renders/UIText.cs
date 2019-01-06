@@ -22,9 +22,9 @@ namespace ManiacEditor.Entity_Renders
             int spacingAmount = 0;
             foreach(char symb in text)
             {
-                int frameID = GetFrameID(symb);
+                int frameID = GetFrameID(symb, e.EditorInstance.LevelSelectChar);
                 int listID = (highlighted ? 1 : 0);
-                var editorAnim = EditorEntity_ini.LoadAnimation("Text", d, listID, frameID, false, false, false);
+                var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("Text", d, listID, frameID, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -38,9 +38,9 @@ namespace ManiacEditor.Entity_Renders
             
         }
 
-        public int GetFrameID(char letter)
+        public int GetFrameID(char letter, char[] arry)
         {
-            char[] symArray = Editor.Instance.LevelSelectChar;
+            char[] symArray = arry;
             int position = 0;
             foreach (char sym in symArray)
             {

@@ -43,9 +43,12 @@ namespace ManiacEditor
 
         public static int layerPrority = 0;
 
+        public Editor EditorInstance;
 
-        public EditorEntities(Scene scene)
+
+        public EditorEntities(Scene scene, Editor instance)
         {
+            EditorInstance = instance;
             //this.scene = scene;
             foreach (var obj in scene.Objects)
             {
@@ -202,7 +205,7 @@ namespace ManiacEditor
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal())
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Editor.Instance.EditorScene.Objects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, EditorInstance.EditorScene.Objects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);
@@ -374,15 +377,15 @@ namespace ManiacEditor
                     // or can we assume anything with a "Go" and "Tag" Attributes is linked to another?
                     if (sceneEntity.Object.Name.ToString().Equals("WarpDoor", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        return new LinkedEditorEntity(sceneEntity);
+                        return new LinkedEditorEntity(sceneEntity, EditorInstance);
                     }
                     else if (sceneEntity.Object.Name.ToString().Equals("TornadoPath", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        return new LinkedEditorEntity(sceneEntity);
+                        return new LinkedEditorEntity(sceneEntity, EditorInstance);
                     }
                     else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        return new LinkedEditorEntity(sceneEntity);
+                        return new LinkedEditorEntity(sceneEntity, EditorInstance);
                     }
                 
 
@@ -392,7 +395,7 @@ namespace ManiacEditor
                 Debug.WriteLine("Failed to generate a LinkedEditorEntity, will create a basic one instead.");
             }
 
-            EditorEntity entity = new EditorEntity(sceneEntity);
+            EditorEntity entity = new EditorEntity(sceneEntity, EditorInstance);
 
             if (entity.HasFilter() && DefaultFilter > -1)
             {

@@ -15,6 +15,7 @@ namespace ManiacEditor
 {
     public partial class TilesToolbar : UserControl
     {
+        public Editor EditorInstance;
         public Action<int> TileDoubleClick
         {
             get
@@ -84,14 +85,15 @@ namespace ManiacEditor
             setCheckboxes = false;
         }
 
-        public TilesToolbar(StageTiles tiles, String data_directory, String Colors)
+        public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
         {
-            InitializeComponent();
+            InitializeComponent(instance);
+            EditorInstance = instance;
 
             if (Properties.Settings.Default.NightMode)
             {
-                trackBar1.BackColor = Editor.Instance.darkTheme1;
-                tilesList.BackColor = Editor.Instance.darkTheme1;
+                trackBar1.BackColor = EditorInstance.darkTheme1;
+                tilesList.BackColor = EditorInstance.darkTheme1;
             }
 
             tileOptionsCheckboxes[0] = tileOption1;
@@ -184,28 +186,28 @@ namespace ManiacEditor
         {
 
         }
-        public static void RefreshTileSelected()
+        public void RefreshTileSelected()
         {
-            Editor.Instance.TilesToolbar.selectedTileLabel.Text = "Selected Tile: " + Editor.Instance.ToolbarSelectedTile;
+            EditorInstance.TilesToolbar.selectedTileLabel.Text = "Selected Tile: " + EditorInstance.ToolbarSelectedTile;
         }
 
         private void editTileInTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Editor.Instance.mainform.IsDisposed) Editor.Instance.mainform = new TileManiac.Mainform();
-            if (!Editor.Instance.mainform.Visible)
+            if (EditorInstance.mainform.IsDisposed) EditorInstance.mainform = new TileManiac.Mainform();
+            if (!EditorInstance.mainform.Visible)
             {
-                Editor.Instance.mainform.Show();
+                EditorInstance.mainform.Show();
             }
-            if (Editor.Instance.TilesConfig != null && Editor.Instance.StageTiles != null)
+            if (EditorInstance.TilesConfig != null && EditorInstance.StageTiles != null)
             {
-                if (!Editor.Instance.mainform.Visible || Editor.Instance.mainform.tcf == null)
+                if (!EditorInstance.mainform.Visible || EditorInstance.mainform.tcf == null)
                 {
-                    Editor.Instance.mainform.LoadTileConfigViaIntergration(Editor.Instance.TilesConfig, Editor.Instance.SceneFilepath, SelectedTile);
+                    EditorInstance.mainform.LoadTileConfigViaIntergration(EditorInstance.TilesConfig, EditorInstance.SceneFilepath, SelectedTile);
                 }
                 else
                 {
-                    Editor.Instance.mainform.SetCollisionIndex(SelectedTile);
-                    Editor.Instance.mainform.Activate();
+                    EditorInstance.mainform.SetCollisionIndex(SelectedTile);
+                    EditorInstance.mainform.Activate();
                 }
 
             }

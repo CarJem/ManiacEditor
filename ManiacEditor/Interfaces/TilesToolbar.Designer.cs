@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        private void InitializeComponent(Editor instance)
         {
             this.components = new System.ComponentModel.Container();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
@@ -44,7 +44,7 @@
             this.selectedTileLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editTileInTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tilesList = new ManiacEditor.TilesList();
+            this.tilesList = new ManiacEditor.TilesList(instance);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();

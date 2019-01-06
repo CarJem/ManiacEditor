@@ -21,13 +21,17 @@ namespace ManiacEditor
         private StageConfig _stageConfig;
         public List<String> objectCheckMemory = new List<string>();
 
+        public Editor EditorInstance;
+
         //Shorthanding Settings
         Properties.Settings mySettings = Properties.Settings.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
-        public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
+        public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Editor instance)
         {
-            if (Editor.Instance.RemoveStageConfigEntriesAllowed)
+            EditorInstance = instance;
+
+            if (EditorInstance.RemoveStageConfigEntriesAllowed)
             {
                 checkBox1.Checked = true;
             }
@@ -270,7 +274,7 @@ namespace ManiacEditor
                         objectsToRemove.Entities.Clear(); // ditch instances of the object from the imported level
                         _targetSceneObjects.Remove(_targetSceneObjects.FirstOrDefault(sso => sso.Name.ToString().Equals(item.Text)));
 
-                        if (Editor.Instance.RemoveStageConfigEntriesAllowed)
+                        if (EditorInstance.RemoveStageConfigEntriesAllowed)
                         {
                             if (_stageConfig != null
                                 && !_stageConfig.ObjectsNames.Contains(item.Text))
@@ -298,7 +302,7 @@ namespace ManiacEditor
 
         private void importObjectsToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Editor.Instance.ImportObjectsToolStripMenuItem_Click(sender, e);
+            EditorInstance.ImportObjectsToolStripMenuItem_Click(sender, e);
             ReloadList();
             // Blanks the list for some reason should consider fixing badly
         }
@@ -380,9 +384,9 @@ namespace ManiacEditor
 
         private void backupStageConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Editor.Instance.backupType = 4;
-            Editor.Instance.BackupTool(null, null);
-            Editor.Instance.backupType = 0;
+            EditorInstance.backupType = 4;
+            EditorInstance.BackupTool(null, null);
+            EditorInstance.backupType = 0;
         }
 
         private void restoreStageConfigToolStripMenuItem_Click(object sender, EventArgs e)
@@ -409,12 +413,12 @@ namespace ManiacEditor
         {
             if (checkBox1.Checked)
             {
-                Editor.Instance.RemoveStageConfigEntriesAllowed = false;
+                EditorInstance.RemoveStageConfigEntriesAllowed = false;
                 checkBox1.Checked = false;
             }
             else
             {
-                Editor.Instance.RemoveStageConfigEntriesAllowed = true;
+                EditorInstance.RemoveStageConfigEntriesAllowed = true;
                 checkBox1.Checked = true;
             }
         }
@@ -439,7 +443,7 @@ namespace ManiacEditor
 
         private void mD5GeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MD5HashGen hashmap = new MD5HashGen();
+            MD5HashGen hashmap = new MD5HashGen(EditorInstance);
             hashmap.Show();
         }
     }

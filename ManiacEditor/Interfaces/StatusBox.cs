@@ -14,8 +14,10 @@ namespace ManiacEditor
     public partial class StatusBox : Form
     {
         System.Windows.Forms.Timer t;
-        public StatusBox()
+        public Editor EditorInstance;
+        public StatusBox(Editor instance)
         {
+            EditorInstance = instance;
             InitializeComponent();
             t = new System.Windows.Forms.Timer();
             t.Interval = 10;
@@ -26,20 +28,20 @@ namespace ManiacEditor
         private void setText(object sender, EventArgs e)
         {
             string newLine = Environment.NewLine;
-            informationLabel.Text = "Data Directory: " + Editor.DataDirectory;
-            informationLabel.Text = informationLabel.Text + newLine + "Mod Data Directory: " + Editor.ModDataDirectory;
-            informationLabel.Text = informationLabel.Text + newLine + "Master Data Directory: " + Editor.MasterDataDirectory;
-            informationLabel.Text = informationLabel.Text + newLine + "Zoom Level: " + Editor.Instance.GetZoom();
-            informationLabel.Text = informationLabel.Text + newLine + "Scene Filepath: " + Editor.Instance.SceneFilepath;
-            informationLabel.Text = informationLabel.Text + newLine + "Scene Path: " + Editor.Instance.ScenePath;
-            informationLabel.Text = informationLabel.Text + newLine + "Selected Zone: " + Editor.Instance.SelectedZone;
-            informationLabel.Text = informationLabel.Text + newLine + "Scene TileConfig Path: " + Path.Combine(Editor.Instance.SceneFilepath, "TileConfig.bin").ToString(); 
+            informationLabel.Text = "Data Directory: " + EditorInstance.DataDirectory;
+            informationLabel.Text = informationLabel.Text + newLine + "Mod Data Directory: " + EditorInstance.ModDataDirectory;
+            informationLabel.Text = informationLabel.Text + newLine + "Master Data Directory: " + EditorInstance.MasterDataDirectory;
+            informationLabel.Text = informationLabel.Text + newLine + "Zoom Level: " + EditorInstance.GetZoom();
+            informationLabel.Text = informationLabel.Text + newLine + "Scene Filepath: " + EditorInstance.SceneFilepath;
+            informationLabel.Text = informationLabel.Text + newLine + "Scene Path: " + EditorInstance.ScenePath;
+            informationLabel.Text = informationLabel.Text + newLine + "Selected Zone: " + EditorInstance.SelectedZone;
+            informationLabel.Text = informationLabel.Text + newLine + "Scene TileConfig Path: " + Path.Combine(EditorInstance.SceneFilepath, "TileConfig.bin").ToString(); 
         }
 
 
         private void controlBox_Quit(object sender, EventArgs e)
         {
-            Editor.Instance.controlWindowOpen = false;
+            EditorInstance.controlWindowOpen = false;
         }
     }
 }

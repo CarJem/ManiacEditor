@@ -29,6 +29,8 @@ namespace ManiacEditor
         public EntityPropertiesView entityPropertiesView;
         public WPFGrid entityProperties2;
 
+        public Editor EditorInstance;
+
         private List<RSDKv5.SceneEntity> _entities;
         private List<int> _selectedEntitySlots = new List<int>();
         private BindingSource _bindingSceneObjectsSource = new BindingSource();
@@ -59,9 +61,11 @@ namespace ManiacEditor
 
         /*private RSDKv5.SceneObject currentObject;*/
 
-        public EntitiesToolbar(List<RSDKv5.SceneObject> sceneObjects)
+        public EntitiesToolbar(List<RSDKv5.SceneObject> sceneObjects, Editor instance)
         {
             InitializeComponent();
+
+            EditorInstance = instance;
 
             if (Settings.mySettings.ExperimentalPropertyGridView)
             {
@@ -768,7 +772,7 @@ namespace ManiacEditor
             {
                 int x = currentEntity.Position.X.High;
                 int y = currentEntity.Position.Y.High;
-                Editor.Instance.GoToPosition(x, y);
+                EditorInstance.GoToPosition(x, y);
             }
         }
     }

@@ -15,7 +15,6 @@ namespace ManiacEditor.Entity_Renders
 {
     public class EncoreRoute : EntityRenderer
     {
-        internal EditorLayer Scratch => Editor.Instance.EditorScene?.Scratch;
 
         private SceneLayer _layer;
         internal SceneLayer Layer { get => _layer; }
@@ -24,6 +23,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
+           EditorLayer Scratch = e.EditorInstance.EditorScene?.Scratch;
+
             _layer = Scratch.Layer;
             bool fliph = false;
             bool flipv = false;
@@ -37,11 +38,11 @@ namespace ManiacEditor.Entity_Renders
             {
                 bool outOfBoundsX = false;
                 bool outOfBoundsY = false;
-                if (x2 > Editor.Instance.ScratchLayer.Width)
+                if (x2 > e.EditorInstance.ScratchLayer.Width)
                 {
                     outOfBoundsX = true;
                 }
-                if (y2 > Editor.Instance.ScratchLayer.Height)
+                if (y2 > e.EditorInstance.ScratchLayer.Height)
                 {
                     outOfBoundsY = true;
                 }
@@ -78,7 +79,7 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 //Draw the Encore Route Tiles
-                DrawTileGroup(d, x / 16, y / 16, x2, y2, height, width, Transparency, entity);
+                DrawTileGroup(d, x / 16, y / 16, x2, y2, height, width, Transparency, entity, e.EditorInstance);
 
                 var frame = editorAnim.Frames[Animation.index];
 
@@ -91,7 +92,7 @@ namespace ManiacEditor.Entity_Renders
 
             }
         }
-        public void DrawTileGroup(DevicePanel d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity)
+        public void DrawTileGroup(DevicePanel d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity, Editor EditorInstance)
         {
 
             Rectangle rect = GetTileArea(x2, y2, width, height);
@@ -105,7 +106,7 @@ namespace ManiacEditor.Entity_Renders
                         // We will draw those later
                         if (this._layer.Tiles?[ty][tx] != 0xffff)
                         {
-                            DrawTile(d, this._layer.Tiles[ty][tx], (x) + tx - x2, (y) + ty - y2, false, Transperncy);
+                            DrawTile(d, this._layer.Tiles[ty][tx], (x) + tx - x2, (y) + ty - y2, false, Transperncy, EditorInstance);
                         }
                     }
                 }
@@ -117,11 +118,11 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-        public void DrawTile(DevicePanel d, ushort tile, int x, int y, bool selected, int Transperncy)
+        public void DrawTile(DevicePanel d, ushort tile, int x, int y, bool selected, int Transperncy, Editor EditorInstance)
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Editor.Instance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(EditorInstance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
         }
 

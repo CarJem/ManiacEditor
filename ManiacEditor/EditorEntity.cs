@@ -78,14 +78,18 @@ namespace ManiacEditor
         public int PositionY = 0;
         public string Name = "";
 
-        public EditorEntity(SceneEntity entity)
+
+        public Editor EditorInstance;
+
+        public EditorEntity(SceneEntity entity, Editor instance)
         {
+            EditorInstance = instance;
             this.entity = entity;
             PositionX = entity.Position.X.High;
             PositionY = entity.Position.Y.High;
             Name = entity.Object.Name.Name;
             lastFrametime = DateTime.Now;
-            EditorAnimations = new EditorAnimations();
+            EditorAnimations = new EditorAnimations(instance);
             AttributeValidater = new AttributeValidater();
 
             if (EditorEntity_ini.EntityRenderers.Count == 0)
@@ -103,7 +107,7 @@ namespace ManiacEditor
 
         public void DrawGraphicsMode(DevicePanel d, bool state = false)
         {
-            List<string> entityRenderList = EditorEntity_ini.entityRenderingObjects;
+            List<string> entityRenderList = EditorInstance.EditorEntity_ini.entityRenderingObjects;
 
             int x = entity.Position.X.High;
             int y = entity.Position.Y.High;
@@ -123,7 +127,7 @@ namespace ManiacEditor
 
             if (entityRenderList.Contains(name))
             {
-                EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode, true);
+                EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode, true);
             }
         }
 
@@ -214,7 +218,7 @@ namespace ManiacEditor
             }
 
             // Since the Editor can now update without the use of this render, I removed it
-            //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) Editor.Instance.UpdateRender();
+            //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) EditorInstance.UpdateRender();
             if (Editor.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
             {
                 int ObjectStart = 0x0086FFA0;
@@ -287,7 +291,7 @@ namespace ManiacEditor
             else
                 filteredOut = !Properties.Settings.Default.showBothEntities;
 
-            if (Editor.Instance.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Editor.Instance.entitiesTextFilter))
+            if (EditorInstance.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(EditorInstance.entitiesTextFilter))
             {
                 filteredOut = true;
             }
@@ -309,17 +313,17 @@ namespace ManiacEditor
             {
                 if (layerPriority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
                 else validPlane = true;
-                if (validPlane == false && !Editor.Instance.IsEntitiesEdit() && Editor.Instance.entityVisibilityType != 1) return;
+                if (validPlane == false && !EditorInstance.IsEntitiesEdit() && EditorInstance.entityVisibilityType != 1) return;
             }
 
             bool skipRenderforx86 = false;
-            if (entity.Object.Name.Name == "Player" && !Editor.Instance.playerObjectPosition.Contains(entity))
+            if (entity.Object.Name.Name == "Player" && !EditorInstance.playerObjectPosition.Contains(entity))
             {
-                Editor.Instance.playerObjectPosition.Add(entity);
+                EditorInstance.playerObjectPosition.Add(entity);
             }
 
-            List<string> entityRenderList = EditorEntity_ini.entityRenderingObjects;
-            List<string> onScreenExlusionList = EditorEntity_ini.renderOnScreenExlusions;
+            List<string> entityRenderList = EditorInstance.EditorEntity_ini.entityRenderingObjects;
+            List<string> onScreenExlusionList = EditorInstance.EditorEntity_ini.renderOnScreenExlusions;
             if (Properties.Settings.Default.DisableRenderExlusions)
             {
                 onScreenExlusionList = new List<string>();
@@ -355,11 +359,11 @@ namespace ManiacEditor
                  color2 = System.Drawing.Color.Yellow;
             }
 
-            int Transparency = (Editor.Instance.EditLayer == null || Editor.Instance.isExportingImage) ? 0xff : 0x32;
-            if (!Properties.Settings.Default.NeverLoadEntityTextures && !Editor.Instance.isExportingImage)
+            int Transparency = (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
+            if (!Properties.Settings.Default.NeverLoadEntityTextures && !EditorInstance.isExportingImage)
             {
                 if (!Environment.Is64BitProcess && entity.Object.Name.Name == "SpecialRing") skipRenderforx86 = true;
-                else EditorEntity_ini.LoadNextAnimation(this);
+                else EditorInstance.EditorEntity_ini.LoadNextAnimation(this);
             }
             int x = entity.Position.X.High;
             int y = entity.Position.Y.High;
@@ -376,9 +380,9 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
 
-            if (entityRenderList.Contains(name) && Editor.Instance.isExportingImage)
+            if (entityRenderList.Contains(name) && EditorInstance.isExportingImage)
             {
-                EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
             }
             else if (entityRenderList.Contains(name) && !skipRenderforx86)
             {
@@ -386,10 +390,10 @@ namespace ManiacEditor
                 {
                     if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
                     {
-                        EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                        EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
                     }
                     else if (!Properties.Settings.Default.UseAltEntityRenderMode) {
-                        EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                        EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
                     }
 
 
@@ -402,7 +406,7 @@ namespace ManiacEditor
                 {
 
                     // Special cases that always display a set frame(?)
-                    if (Editor.Instance.ShowAnimations.Enabled == true)
+                    if (EditorInstance.ShowAnimations.Enabled == true)
                     {
                         if (entity.Object.Name.Name == "StarPost")
                             index = 1;
@@ -427,7 +431,7 @@ namespace ManiacEditor
                     }
                     else
                     { // No frame to render
-                        if (Editor.Instance.showEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                        if (EditorInstance.showEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                     }
                     //Failsafe?
                     //DrawOthers(d);
@@ -435,7 +439,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (this.IsObjectOnScreen(d) && Editor.Instance.showEntitySelectionBoxes)
+                    if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes)
                     {
                         d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                     }
@@ -445,7 +449,7 @@ namespace ManiacEditor
 
 
 
-            if (this.IsObjectOnScreen(d) && Editor.Instance.showEntitySelectionBoxes)
+            if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes)
             {
                 d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
                 d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
@@ -454,11 +458,11 @@ namespace ManiacEditor
                 d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                 if (Properties.Settings.Default.UseObjectRenderingImprovements == false && entity.Object.Name.Name != "TransportTube")
                 {
-                    if (Editor.Instance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 if (entity.Object.Name.Name == "TransportTube")
                 {
-                    if (Editor.Instance.GetZoom() >= 1)
+                    if (EditorInstance.GetZoom() >= 1)
                     {
                         d.DrawText(String.Format(entity.attributesMap["dirMask"].ValueUInt8.ToString()), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Red), true);
                     }
@@ -596,7 +600,7 @@ namespace ManiacEditor
                 x = childX;
                 y = childY;
             }
-            int Transparency = (Editor.Instance.EditLayer == null) ? 0xff : 0x32;
+            int Transparency = (EditorInstance.EditLayer == null) ? 0xff : 0x32;
 
             bool isObjectVisibile = false;
 

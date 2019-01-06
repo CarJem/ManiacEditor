@@ -20,7 +20,7 @@ namespace ManiacEditor
 
         private void controlBox_Quit(object sender, EventArgs e)
         {
-            Editor.Instance.controlWindowOpen = false;
+            //Editor.Instance.controlWindowOpen = false;
         }
     }
 }

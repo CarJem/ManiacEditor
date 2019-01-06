@@ -167,16 +167,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RSDKv4\RSDKv4.csproj">
-      <Project>{1a58ba31-c9e1-4d18-876e-ec73799e7a9f}</Project>
-      <Name>RSDKv4</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RSDKv5\RSDKv5.csproj">
-      <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
-      <Name>RSDKv5</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Maniac.bmp" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +219,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RSDKv4\RSDKv4.csproj">
+      <Project>{1a58ba31-c9e1-4d18-876e-ec73799e7a9f}</Project>
+      <Name>RSDKv4</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RSDKv5\RSDKv5.csproj">
+      <Project>{d10dc6b1-eb04-46bc-8c7a-62914af396b0}</Project>
+      <Name>RSDKv5</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

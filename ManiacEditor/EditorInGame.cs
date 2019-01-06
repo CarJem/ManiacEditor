@@ -21,6 +21,8 @@ namespace ManiacEditor
         public static int Player3Base = PlayerBase + (0x458 * 2);
         public static int Player4Base = PlayerBase + (0x458 * 3);
 
+        public Editor EditorInstance;
+
         public static short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
         public static short Player1_X { get { return Editor.GameMemory.ReadShort(Player1Base + 0x02); } set { Editor.GameMemory.WriteShort(Player1Base + 0x02, value); } }
         public static short Player1_Y { get { return Editor.GameMemory.ReadShort(Player1Base + 0x06); } set { Editor.GameMemory.WriteShort(Player1Base + 0x06, value); } }
@@ -43,6 +45,12 @@ namespace ManiacEditor
 
         public static byte CurrentScene { get { return Editor.GameMemory.ReadByte(0x00E48758); } set { Editor.GameMemory.WriteByte(0x00E48758, value); } }
         public static byte GameState { get { return Editor.GameMemory.ReadByte(0x00E48776); } set { Editor.GameMemory.WriteByte(0x00E48776, value); } }
+
+
+        public EditorInGame(Editor instance)
+        {
+            EditorInstance = instance;
+        }
 
         public int GetPlayerAt(Point point)
         {
@@ -71,16 +79,16 @@ namespace ManiacEditor
             switch (player)
             {
                 case 1:
-                    X = Editor.Instance.P1_X;
+                    X = EditorInstance.P1_X;
                     break;
                 case 2:
-                    X = Editor.Instance.P2_X;
+                    X = EditorInstance.P2_X;
                     break;
                 case 3:
-                    X = Editor.Instance.P3_X;
+                    X = EditorInstance.P3_X;
                     break;
                 case 4:
-                    X = Editor.Instance.P4_X;
+                    X = EditorInstance.P4_X;
                     break;
             }
             return X;
@@ -92,16 +100,16 @@ namespace ManiacEditor
             switch (player)
             {
                 case 1:
-                    Y = Editor.Instance.P1_Y;
+                    Y = EditorInstance.P1_Y;
                     break;
                 case 2:
-                    Y = Editor.Instance.P2_Y;
+                    Y = EditorInstance.P2_Y;
                     break;
                 case 3:
-                    Y = Editor.Instance.P3_Y;
+                    Y = EditorInstance.P3_Y;
                     break;
                 case 4:
-                    Y = Editor.Instance.P4_Y;
+                    Y = EditorInstance.P4_Y;
                     break;
             }
             return Y;
@@ -144,29 +152,29 @@ namespace ManiacEditor
             switch (playerID)
             {
                 case 1:
-                    Editor.Instance.P1_X = Player1_X;
-                    Editor.Instance.P1_Y = Player1_Y;
+                    EditorInstance.P1_X = Player1_X;
+                    EditorInstance.P1_Y = Player1_Y;
                     x = Player1_X;
                     y = Player1_Y;
                     ID = Player1_State;
                     break;
                 case 2:
-                    Editor.Instance.P2_X = Player2_X;
-                    Editor.Instance.P2_Y = Player2_Y;
+                    EditorInstance.P2_X = Player2_X;
+                    EditorInstance.P2_Y = Player2_Y;
                     x = Player2_X;
                     y = Player2_Y;
                     ID = Player2_State;
                     break;
                 case 3:
-                    Editor.Instance.P3_X = Player3_X;
-                    Editor.Instance.P3_Y = Player3_Y;
+                    EditorInstance.P3_X = Player3_X;
+                    EditorInstance.P3_Y = Player3_Y;
                     x = Player3_X;
                     y = Player3_Y;
                     ID = Player3_State;
                     break;
                 case 4:
-                    Editor.Instance.P4_X = Player4_X;
-                    Editor.Instance.P4_Y = Player4_Y;
+                    EditorInstance.P4_X = Player4_X;
+                    EditorInstance.P4_Y = Player4_Y;
                     x = Player4_X;
                     y = Player4_Y;
                     ID = Player4_State;
@@ -176,7 +184,7 @@ namespace ManiacEditor
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == Editor.Instance.PlayerBeingTracked) Editor.Instance.GoToPosition(x, y);
+            if (playerID == EditorInstance.PlayerBeingTracked) EditorInstance.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -227,7 +235,7 @@ namespace ManiacEditor
                     d.DrawLine(x, y, x, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x, y + NAME_BOX_HEIGHT, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Editor.Instance.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -303,7 +311,7 @@ namespace ManiacEditor
                     d.DrawLine(x, y, x, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x, y + NAME_BOX_HEIGHT, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Editor.Instance.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {

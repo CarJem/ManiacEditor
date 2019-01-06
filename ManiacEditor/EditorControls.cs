@@ -26,7 +26,12 @@ namespace ManiacEditor
 {
     public class EditorControls
     {
-        private Editor Editor = Editor.Instance;
+        private Editor Editor;
+
+        public EditorControls(Editor instance)
+        {
+            Editor = instance;
+        }
 
         //Shorthanding Settings
         readonly Properties.Settings mySettings = Properties.Settings.Default;

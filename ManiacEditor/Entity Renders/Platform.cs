@@ -88,8 +88,8 @@ namespace ManiacEditor.Entity_Renders
                 try
                 {
                     if (targetFrameID == -1) doNotShow = true;
-                    editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
-                    if (type == 4) editorAnim = EditorEntity_ini.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
+                    editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
+                    if (type == 4) editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
                     if (editorAnim == null)
                     {
                         Debug.Print("I suck!");
@@ -111,10 +111,10 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var tensionBall = EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
-            var tensionBallCenter = EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
-            if (type == 4) tensionBall = EditorEntity_ini.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
-            if (type == 4) tensionBallCenter = EditorEntity_ini.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
+            var tensionBall = e.EditorInstance.EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
+            var tensionBallCenter = e.EditorInstance.EditorEntity_ini.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
+            if (type == 4) tensionBall = e.EditorInstance.EditorEntity_ini.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
+            if (type == 4) tensionBallCenter = e.EditorInstance.EditorEntity_ini.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
 
             if (editorAnim.Frames.Count != 0 && platformIcon != null && editorAnim != null && platformIcon.Frames.Count != 0)
             {

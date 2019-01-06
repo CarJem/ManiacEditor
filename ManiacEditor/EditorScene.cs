@@ -12,10 +12,11 @@ namespace ManiacEditor
     public class EditorScene : Scene, IDisposable
     {
         public static IList<EditorLayer> _editorLayers;
+        public Editor EditorInstance;
 
         public EditorLayer LowDetails
         {
-            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(Editor.Instance.INILayerNameLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.INILayerNameLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
         }
         public EditorLayer ForegroundLow
         {
@@ -35,7 +36,7 @@ namespace ManiacEditor
 
         public EditorLayer HighDetails
         {
-            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(Editor.Instance.INILayerNameHigher) || el.Name.Equals(Properties.Settings.Default.CustomLayerHigh) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.INILayerNameHigher) || el.Name.Equals(Properties.Settings.Default.CustomLayerHigh) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
         }
 
         
@@ -64,17 +65,19 @@ namespace ManiacEditor
             }
         }
 
-        public EditorScene(string filename, DevicePanel d) : base(filename)
+        public EditorScene(string filename, DevicePanel d, Editor instance) : base(filename)
         {
+            EditorInstance = instance;
             _editorLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
             {
-                _editorLayers.Add(new EditorLayer(layer));
+                _editorLayers.Add(new EditorLayer(layer, EditorInstance));
             }
         }
 
-        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight)
+        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, Editor instance)
         {
+            EditorInstance = instance;
             Layers = new List<SceneLayer>(3);
             Layers.Add(new SceneLayer("FG Low", (ushort)width, (ushort)height));
             Layers.Add(new SceneLayer("FG High", (ushort)width, (ushort)height));
@@ -83,7 +86,7 @@ namespace ManiacEditor
             _editorLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
             {
-                _editorLayers.Add(new EditorLayer(layer));
+                _editorLayers.Add(new EditorLayer(layer, EditorInstance));
             }
         }
 
@@ -91,7 +94,7 @@ namespace ManiacEditor
         {
             // lets just pick some reasonably safe defaults
             var sceneLayer = new SceneLayer("New Layer", 128, 128);
-            var editorLayer = new EditorLayer(sceneLayer);
+            var editorLayer = new EditorLayer(sceneLayer, EditorInstance);
             return editorLayer;
         }
 

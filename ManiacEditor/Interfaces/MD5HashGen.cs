@@ -13,10 +13,10 @@ namespace ManiacEditor
     public partial class MD5HashGen : Form
     {
 
-        public MD5HashGen()
+        public MD5HashGen(Editor instance)
         {
             InitializeComponent();
-            this.Owner = Editor.Instance;
+            this.Owner = instance;
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)

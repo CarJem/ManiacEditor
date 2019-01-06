@@ -36,17 +36,19 @@ namespace ManiacEditor
         public bool isModLoaded = false;
         Timer timer = new Timer();
         public int selectedCategoryIndex = -1;
+        public Editor EditorInstance;
 
 
-        public SceneSelect(GameConfig config = null)
+        public SceneSelect(GameConfig config = null, Editor instance = null)
         {
+            EditorInstance = instance;
             InitializeComponent();
             if (Properties.Settings.Default.NightMode)
             {
-                dataLabelToolStripItem.BackColor = Editor.Instance.darkTheme1;
-                dataLabelToolStripItem.ForeColor = Editor.Instance.darkTheme3;
+                dataLabelToolStripItem.BackColor = EditorInstance.darkTheme1;
+                dataLabelToolStripItem.ForeColor = EditorInstance.darkTheme3;
             }
-            if (Editor.Instance.PreRenderSceneSelectCheckbox) preRenderCheckbox.Checked = true;
+            if (EditorInstance.PreRenderSceneSelectCheckbox) preRenderCheckbox.Checked = true;
             if (Properties.Settings.Default.preRenderSceneOption == 1) preRenderCheckbox.Enabled = true;
             ReloadQuickPanel();
             if (config != null)
@@ -117,9 +119,9 @@ namespace ManiacEditor
 
         public void ReloadQuickPanel()
         {
-            if (Editor.DataDirectory != null)
+            if (EditorInstance.DataDirectory != null)
             {
-                dataLabelToolStripItem.Text = "Data Directory: " + Editor.DataDirectory;
+                dataLabelToolStripItem.Text = "Data Directory: " + EditorInstance.DataDirectory;
             }
             else
             {
@@ -133,7 +135,7 @@ namespace ManiacEditor
             this.recentDataDirList.ImageList = new ImageList();
             this.recentDataDirList.ImageList.Images.Add("Folder", Properties.Resources.folder);
             this.recentDataDirList.ImageList.Images.Add("File", Properties.Resources.file);
-            foreach (ToolStripMenuItem dataDir in Editor.Instance._recentDataItems)
+            foreach (ToolStripMenuItem dataDir in EditorInstance._recentDataItems)
             {
                 var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir.Text);
                 node.Tag = dataDir.Text;
@@ -142,7 +144,7 @@ namespace ManiacEditor
             }
             recentDataDirList.Nodes[0].ExpandAll();
 
-            if (Properties.Settings.Default.SavedPlaces?.Count > 0 && Editor.DataDirectory != null)
+            if (Properties.Settings.Default.SavedPlaces?.Count > 0 && EditorInstance.DataDirectory != null)
             {
                 StringCollection recentFolders = new StringCollection();
                 this.recentDataDirList.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
@@ -158,7 +160,7 @@ namespace ManiacEditor
                 recentDataDirList.Nodes[1].ExpandAll();
             }
 
-            if (Properties.Settings.Default.ModFolders?.Count > 0 && Editor.DataDirectory != null)
+            if (Properties.Settings.Default.ModFolders?.Count > 0 && EditorInstance.DataDirectory != null)
             {
                 StringCollection modFolders = new StringCollection();
                 StringCollection modFolderNames = new StringCollection();
@@ -197,7 +199,7 @@ namespace ManiacEditor
             if (cat != null)
             {
                 var scene = cat.Scenes.Where(t => $"{t.Zone}\\Scene{t.SceneID}.bin" == scenesTree.SelectedNode.Tag as string).FirstOrDefault();
-                Editor.Instance.LevelID = scene.LevelID;
+                EditorInstance.LevelID = scene.LevelID;
                 _isEncore = scene.ModeFilter;
                 _levelID = scene.LevelID;
             }
@@ -361,7 +363,7 @@ namespace ManiacEditor
                     cat.Scenes.Add(form.Scene);
                     LoadFromGameConfig(_GameConfig);
                     if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                        _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                     ReloadGameConfig();
 
                 }
@@ -387,7 +389,7 @@ namespace ManiacEditor
                         LoadFromGameConfig(_GameConfig);
 
                         if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                            _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                             ReloadGameConfig();
                     }
 
@@ -408,7 +410,7 @@ namespace ManiacEditor
                 {
                     LoadFromGameConfig(_GameConfig);
                     if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                        _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                         ReloadGameConfig();
                 }
             }
@@ -422,7 +424,7 @@ namespace ManiacEditor
                 {
                     LoadFromGameConfig(_GameConfig);
                     if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                        _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                         ReloadGameConfig();
             }
             
@@ -447,7 +449,7 @@ namespace ManiacEditor
                 cat.Scenes.RemoveAt(scene);
                 LoadFromGameConfig(_GameConfig);
                 if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                    _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                     ReloadGameConfig();
             }
         }
@@ -457,7 +459,7 @@ namespace ManiacEditor
             _GameConfig.Categories.RemoveAt(scenesTree.SelectedNode.Index);
             LoadFromGameConfig(_GameConfig);
             if (MessageBox.Show("Write Changes to File? Please make sure you didn't delete something on accident!", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                 ReloadGameConfig();
         }
 
@@ -469,7 +471,7 @@ namespace ManiacEditor
         private void LoadDataDirectory(bool unloadingMod = false)
         {
             int NodeType = 0;
-            if (Editor.Instance.importingObjects == false)
+            if (EditorInstance.importingObjects == false)
             {
                 NodeType = 0;
             }
@@ -478,9 +480,9 @@ namespace ManiacEditor
                 NodeType = -1;
             }
 
-            if (Editor.DataDirectory != null)
+            if (EditorInstance.DataDirectory != null)
             {
-                dataLabelToolStripItem.Text = "Data Directory: " + Editor.DataDirectory;
+                dataLabelToolStripItem.Text = "Data Directory: " + EditorInstance.DataDirectory;
             }
             else
             {
@@ -493,8 +495,8 @@ namespace ManiacEditor
                 String SelectedDataDirectory;
                 if (unloadingMod)
                 {
-                    SelectedDataDirectory = Editor.DataDirectory;
-                    Editor.ModDataDirectory = "";
+                    SelectedDataDirectory = EditorInstance.DataDirectory;
+                    EditorInstance.ModDataDirectory = "";
                     modFolderStatusLabel.Text = "";
                     modFolderStatusLabel.ForeColor = System.Drawing.Color.White;
                     isModLoadedwithGameConfig = false;
@@ -519,12 +521,12 @@ namespace ManiacEditor
                         catch
                         {
                             MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work you in Sonic Mania can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
-                            Editor.DataDirectory = prevDataDir;
+                            EditorInstance.DataDirectory = prevDataDir;
                             prevDataDir = null;
 
-                            if (Editor.DataDirectory != null)
+                            if (EditorInstance.DataDirectory != null)
                             {
-                                dataLabelToolStripItem.Text = "Data Directory: " + Editor.DataDirectory;
+                                dataLabelToolStripItem.Text = "Data Directory: " + EditorInstance.DataDirectory;
                             }
                             else
                             {
@@ -573,21 +575,21 @@ namespace ManiacEditor
 
         private void dataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Editor.Instance.importingObjects == false)
+            if (EditorInstance.importingObjects == false)
             {
-                string newDataDirectory = Editor.Instance.GetDataDirectory();
+                string newDataDirectory = EditorInstance.GetDataDirectory();
                 string returnDataDirectory;
 
                 if (string.IsNullOrWhiteSpace(newDataDirectory)) return;
-                if (Editor.Instance.IsDataDirectoryValid(newDataDirectory))
+                if (EditorInstance.IsDataDirectoryValid(newDataDirectory))
                 {
-                    Editor.DataDirectory = newDataDirectory;
+                    EditorInstance.DataDirectory = newDataDirectory;
                     returnDataDirectory = newDataDirectory;
-                    bool goodDataDir = Editor.Instance.SetGameConfig();
+                    bool goodDataDir = EditorInstance.SetGameConfig();
                     if (goodDataDir == true)
                     {
-                        Editor.Instance.AddRecentDataFolder(Editor.DataDirectory);
-                        Editor.Instance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+                        EditorInstance.AddRecentDataFolder(EditorInstance.DataDirectory);
+                        EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
                         ReloadQuickPanel();
                     }
 
@@ -608,7 +610,7 @@ namespace ManiacEditor
         private void clearDataDirectoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.DataDirectories.Clear();
-            Editor.Instance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+            EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
             ReloadQuickPanel();
 
 
@@ -737,7 +739,7 @@ namespace ManiacEditor
             {
                 Settings.mySettings.DataDirectories.Remove(toRemove);
             }
-            Editor.Instance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+            EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
             ReloadQuickPanel();
         }
 
@@ -750,8 +752,8 @@ namespace ManiacEditor
                 recentDataDirList.SelectedNode = e.Node;
                 if (e.Node.ImageKey == "DataFolder")
                 {
-                    prevDataDir = Editor.DataDirectory;
-                    Editor.DataDirectory = e.Node.Tag.ToString();
+                    prevDataDir = EditorInstance.DataDirectory;
+                    EditorInstance.DataDirectory = e.Node.Tag.ToString();
                     load_Click(sender, e);
                 }
                 else if (e.Node.ImageKey == "SavedPlace")
@@ -787,7 +789,7 @@ namespace ManiacEditor
                 try
                 {
                     GameConfig = new GameConfig(Path.Combine(SelectedDataDirectory, "Game", "GameConfig.bin"));
-                    Editor.ModDataDirectory = SelectedDataDirectory;
+                    EditorInstance.ModDataDirectory = SelectedDataDirectory;
                     modFolderStatusLabel.Text = "Mod Directory: " + SelectedDataDirectory;
                     modFolderStatusLabel.ForeColor = System.Drawing.Color.White;
                     isModLoadedwithGameConfig = true;
@@ -797,7 +799,7 @@ namespace ManiacEditor
                 {
                     MessageBox.Show("Your Mod must have a GameConfig included! Or there is something else wrong here... (doubtful)", "ERROR");
                     /*
-                    Editor.ModDataDirectory = SelectedDataDirectory;                  
+                    EditorInstance.ModDataDirectory = SelectedDataDirectory;                  
                     LoadDataDirectory(true);
                     modFolderStatusLabel.Text = "Mod Directory (No GameConfig Present): " + SelectedDataDirectory;
                     modFolderStatusLabel.ForeColor = System.Drawing.Color.Red;
@@ -816,9 +818,9 @@ namespace ManiacEditor
         private void preRenderCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (preRenderCheckbox.Checked == true)
-                Editor.Instance.PreRenderSceneSelectCheckbox = true;
+                EditorInstance.PreRenderSceneSelectCheckbox = true;
             else
-                Editor.Instance.PreRenderSceneSelectCheckbox = false;
+                EditorInstance.PreRenderSceneSelectCheckbox = false;
         }
 
         private void scenesTree_Click(object sender, EventArgs e)
@@ -840,7 +842,7 @@ namespace ManiacEditor
 
             LoadFromGameConfig(_GameConfig);
             if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
             ReloadGameConfig();
         }
 
@@ -858,7 +860,7 @@ namespace ManiacEditor
 
             LoadFromGameConfig(_GameConfig);
             if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
             ReloadGameConfig();
         }
 
@@ -914,7 +916,7 @@ namespace ManiacEditor
 
                 LoadFromGameConfig(_GameConfig);
                 if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                    _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                 ReloadGameConfig();
             }
         }
@@ -937,7 +939,7 @@ namespace ManiacEditor
 
                 LoadFromGameConfig(_GameConfig);
                 if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? Editor.ModDataDirectory : Editor.DataDirectory), "Game", "GameConfig.bin"));
+                    _GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
                 ReloadGameConfig();
             }
         }
@@ -949,7 +951,7 @@ namespace ManiacEditor
                 if (Settings.mySettings.DataDirectories != null)
                 {
                     Settings.mySettings.DataDirectories.Clear();
-                    Editor.Instance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+                    EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
                     ReloadQuickPanel();
                 }
 

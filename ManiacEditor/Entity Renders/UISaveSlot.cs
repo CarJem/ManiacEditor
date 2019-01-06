@@ -18,12 +18,12 @@ namespace ManiacEditor.Entity_Renders
 
             //int frameID = (int)entity.attributesMap["listID"].ValueVar;
             int type = (int)entity.attributesMap["type"].ValueVar;
-            string text = "Text" + Editor.Instance.CurrentLanguage;
-            var editorAnim = EditorEntity_ini.LoadAnimation("SaveSelect", d, 0, 0, false, false, false);
-            var editorAnimBorder = EditorEntity_ini.LoadAnimation("SaveSelect", d, 0, 1, false, false, false);
-            var editorAnimBackground = EditorEntity_ini.LoadAnimation("SaveSelect", d, 0, 2, false, false, false);
-            var editorAnimText = EditorEntity_ini.LoadAnimation(text, d, 2, 0, false, false, false);
-            var editorAnimNoSave = EditorEntity_ini.LoadAnimation(text, d, 2, 2, false, false, false);
+            string text = "Text" + e.EditorInstance.CurrentLanguage;
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, 0, 0, false, false, false);
+            var editorAnimBorder = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, 0, 1, false, false, false);
+            var editorAnimBackground = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, 0, 2, false, false, false);
+            var editorAnimText = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, 2, 0, false, false, false);
+            var editorAnimNoSave = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, 2, 2, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

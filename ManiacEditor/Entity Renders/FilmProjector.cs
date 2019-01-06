@@ -66,7 +66,7 @@ namespace ManiacEditor.Entity_Renders
                     y + frame2.Frame.CenterY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 
-                ProcessAnimation(frame3.Entry.FrameSpeed, frame3.Entry.Frames.Count, frame3.Frame.Duration);
+                ProcessAnimation(frame3.Entry.FrameSpeed, frame3.Entry.Frames.Count, frame3.Frame.Duration, 0, e.EditorInstance);
 
                 d.DrawBitmap(frame3.Texture,
                     x + 185 + frame3.Frame.CenterX - (fliph ? (frame3.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
@@ -76,10 +76,10 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
+        public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0, Editor EditorInstance = null)
         {
             // Playback
-            if (Editor.Instance.ShowAnimations.Checked && Editor.Instance.AnnimationsChecked)
+            if (EditorInstance.ShowAnimations.Checked && EditorInstance.AnnimationsChecked)
             {
                 if (speed > 0)
                 {

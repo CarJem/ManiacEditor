@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + Editor.Instance.CurrentLanguage;
+            string text = "Text" + e.EditorInstance.CurrentLanguage;
             int topListID = (int)entity.attributesMap["topListID"].ValueVar;
             int topFrameID = (int)entity.attributesMap["topFrameID"].ValueVar;
             int botListID = (int)entity.attributesMap["botListID"].ValueVar;
@@ -44,8 +44,8 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var editorAnimTop = EditorEntity_ini.LoadAnimation(text, d, topListID, topFrameID, false, false, false);
-            var editorAnimBot = EditorEntity_ini.LoadAnimation(text, d, botListID, botFrameID, false, false, false);
+            var editorAnimTop = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, topListID, topFrameID, false, false, false);
+            var editorAnimBot = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, botListID, botFrameID, false, false, false);
             if (editorAnimTop != null && editorAnimTop.Frames.Count != 0)
             {
                 var frame = editorAnimTop.Frames[Animation.index];

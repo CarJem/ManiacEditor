@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + Editor.Instance.CurrentLanguage;
+            string text = "Text" + e.EditorInstance.CurrentLanguage;
             int arrowWidth = (int)entity.attributesMap["arrowWidth"].ValueVar;
             if (arrowWidth != 0) arrowWidth /= 2;
             int frameID = (int)entity.attributesMap["frameID"].ValueVar;
@@ -23,9 +23,9 @@ namespace ManiacEditor.Entity_Renders
             bool auxIcon = entity.attributesMap["auxIcon"].ValueBool;
             int auxframeID = (int)entity.attributesMap["auxFrameID"].ValueVar;
             int auxlistID = (int)entity.attributesMap["auxListID"].ValueVar;
-            var editorAnim = EditorEntity_ini.LoadAnimation(text, d, listID, frameID, false, false, false);
-            var leftArrow = EditorEntity_ini.LoadAnimation("UIElements", d, 2, 0, false, false, false);
-            var rightArrow = EditorEntity_ini.LoadAnimation("UIElements", d, 2, 1, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, listID, frameID, false, false, false);
+            var leftArrow = e.EditorInstance.EditorEntity_ini.LoadAnimation("UIElements", d, 2, 0, false, false, false);
+            var rightArrow = e.EditorInstance.EditorEntity_ini.LoadAnimation("UIElements", d, 2, 1, false, false, false);
             int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
             int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
             double alignmentVal = 0;
@@ -39,7 +39,7 @@ namespace ManiacEditor.Entity_Renders
                     alignmentVal = (22 / 2);
                     break;
             }
-            var editorAnimIcon = EditorEntity_ini.LoadAnimation("SaveSelect", d, auxlistID, auxframeID, false, false, false);
+            var editorAnimIcon = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, auxlistID, auxframeID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

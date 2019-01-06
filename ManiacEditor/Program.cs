@@ -9,6 +9,15 @@ namespace ManiacEditor
 {
     static class Program
     {
+        public static string DataDir = "";
+        public static string ScenePath = "";
+        public static string ModPath = "";
+        public static int LevelID = -1;
+        public static int X = 0;
+        public static int Y = 0;
+        public static bool isEncoreMode = false;
+        public static bool launchAsShortcut = false;
+        public static int shortcutMode = 0;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -17,15 +26,7 @@ namespace ManiacEditor
         { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            string DataDir = "";
-            string ScenePath = "";
-            string ModPath = "";
-            int LevelID = -1;
-            int X = 0;
-            int Y = 0;
-            bool isEncoreMode = false;
-            bool launchAsShortcut = false;
-            int shortcutMode = 0;
+
             foreach (string argument in args)
             {
                     if (argument.StartsWith("DataDir="))
