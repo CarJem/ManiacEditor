@@ -29,9 +29,9 @@ namespace ManiacEditor.Entity_Renders
                     fliph = false;
                     break;
             }
-            var editorAnim = EditorEntity_ini.LoadAnimation2("SeeSaw", d, 0, 0, false, false, false);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("SeeSaw", d, 1, 0, false, false, false);
-            var editorAnim3 = EditorEntity_ini.LoadAnimation2("SeeSaw", d, 2, 0, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SeeSaw", d, 0, 0, false, false, false);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SeeSaw", d, 1, 0, false, false, false);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SeeSaw", d, 2, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

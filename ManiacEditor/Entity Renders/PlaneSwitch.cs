@@ -25,7 +25,7 @@ namespace ManiacEditor.Entity_Renders
 
             int frameDist = (flags & LeftDist) > 0 ? 1 : 0;
             int framePlane = (flags & LeftPlane) > 0 ? 2 : 0;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("PlaneSwitch", d, 0, frameDist + framePlane, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PlaneSwitch", d, 0, frameDist + framePlane, false, false, false);
 
             const int pivotOffsetX = -8, pivotOffsetY = 0;
             const int drawOffsetX = 0, drawOffsetY = -8;
@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
 
             frameDist = (flags & RightDist) > 0 ? 1 : 0;
             framePlane = (flags & RightPlane) > 0 ? 2 : 0;
-            editorAnim = EditorEntity_ini.LoadAnimation2("PlaneSwitch", d, 0, frameDist + framePlane, false, false, false);
+            editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PlaneSwitch", d, 0, frameDist + framePlane, false, false, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

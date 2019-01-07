@@ -39,13 +39,21 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.neverShowAgainCheckbox = new System.Windows.Forms.CheckBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.firstTimeSettingsPanel = new System.Windows.Forms.Panel();
+            this.modeLabel = new System.Windows.Forms.Label();
+            this.hyperOption = new System.Windows.Forms.RadioButton();
+            this.superOption = new System.Windows.Forms.RadioButton();
+            this.basicOption = new System.Windows.Forms.RadioButton();
+            this.minimalOption = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this.setPresetsButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.neverShowAgainCheckbox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -53,6 +61,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel2.SuspendLayout();
+            this.firstTimeSettingsPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,17 +173,6 @@
             this.panel1.Size = new System.Drawing.Size(291, 210);
             this.panel1.TabIndex = 7;
             // 
-            // neverShowAgainCheckbox
-            // 
-            this.neverShowAgainCheckbox.Checked = global::ManiacEditor.Properties.Settings.Default.NeverShowThisAgain;
-            this.neverShowAgainCheckbox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "NeverShowThisAgain", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.neverShowAgainCheckbox.Location = new System.Drawing.Point(5, 113);
-            this.neverShowAgainCheckbox.Name = "neverShowAgainCheckbox";
-            this.neverShowAgainCheckbox.Size = new System.Drawing.Size(104, 48);
-            this.neverShowAgainCheckbox.TabIndex = 9;
-            this.neverShowAgainCheckbox.Text = "Never Show this Again";
-            this.neverShowAgainCheckbox.UseVisualStyleBackColor = true;
-            // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -204,15 +202,121 @@
             this.button3.TabIndex = 6;
             this.button3.Text = "Understood";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.firstTimeSettingsPanel);
             this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(7, 182);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(594, 258);
             this.panel2.TabIndex = 8;
+            // 
+            // firstTimeSettingsPanel
+            // 
+            this.firstTimeSettingsPanel.Controls.Add(this.modeLabel);
+            this.firstTimeSettingsPanel.Controls.Add(this.hyperOption);
+            this.firstTimeSettingsPanel.Controls.Add(this.superOption);
+            this.firstTimeSettingsPanel.Controls.Add(this.basicOption);
+            this.firstTimeSettingsPanel.Controls.Add(this.minimalOption);
+            this.firstTimeSettingsPanel.Controls.Add(this.label2);
+            this.firstTimeSettingsPanel.Controls.Add(this.setPresetsButton);
+            this.firstTimeSettingsPanel.Location = new System.Drawing.Point(0, 0);
+            this.firstTimeSettingsPanel.Name = "firstTimeSettingsPanel";
+            this.firstTimeSettingsPanel.Size = new System.Drawing.Size(594, 258);
+            this.firstTimeSettingsPanel.TabIndex = 10;
+            // 
+            // modeLabel
+            // 
+            this.modeLabel.Location = new System.Drawing.Point(11, 218);
+            this.modeLabel.Name = "modeLabel";
+            this.modeLabel.Size = new System.Drawing.Size(406, 26);
+            this.modeLabel.TabIndex = 15;
+            this.modeLabel.Text = "Hover over an option to see what it offers...";
+            // 
+            // hyperOption
+            // 
+            this.hyperOption.AutoSize = true;
+            this.hyperOption.Location = new System.Drawing.Point(14, 154);
+            this.hyperOption.Name = "hyperOption";
+            this.hyperOption.Size = new System.Drawing.Size(53, 17);
+            this.hyperOption.TabIndex = 14;
+            this.hyperOption.Text = "Hyper";
+            this.hyperOption.UseVisualStyleBackColor = true;
+            this.hyperOption.CheckedChanged += new System.EventHandler(this.minimalOption_CheckedChanged);
+            this.hyperOption.MouseHover += new System.EventHandler(this.radioButton4_MouseHover);
+            // 
+            // superOption
+            // 
+            this.superOption.AutoSize = true;
+            this.superOption.Location = new System.Drawing.Point(14, 131);
+            this.superOption.Name = "superOption";
+            this.superOption.Size = new System.Drawing.Size(53, 17);
+            this.superOption.TabIndex = 13;
+            this.superOption.Text = "Super";
+            this.superOption.UseVisualStyleBackColor = true;
+            this.superOption.CheckedChanged += new System.EventHandler(this.minimalOption_CheckedChanged);
+            this.superOption.MouseHover += new System.EventHandler(this.radioButton3_MouseHover);
+            // 
+            // basicOption
+            // 
+            this.basicOption.AutoSize = true;
+            this.basicOption.Checked = true;
+            this.basicOption.Location = new System.Drawing.Point(14, 108);
+            this.basicOption.Name = "basicOption";
+            this.basicOption.Size = new System.Drawing.Size(51, 17);
+            this.basicOption.TabIndex = 12;
+            this.basicOption.TabStop = true;
+            this.basicOption.Text = "Basic";
+            this.basicOption.UseVisualStyleBackColor = true;
+            this.basicOption.CheckedChanged += new System.EventHandler(this.minimalOption_CheckedChanged);
+            this.basicOption.MouseHover += new System.EventHandler(this.radioButton2_MouseHover);
+            // 
+            // minimalOption
+            // 
+            this.minimalOption.AutoSize = true;
+            this.minimalOption.Location = new System.Drawing.Point(14, 85);
+            this.minimalOption.Name = "minimalOption";
+            this.minimalOption.Size = new System.Drawing.Size(60, 17);
+            this.minimalOption.TabIndex = 11;
+            this.minimalOption.Text = "Minimal";
+            this.minimalOption.UseVisualStyleBackColor = true;
+            this.minimalOption.CheckedChanged += new System.EventHandler(this.minimalOption_CheckedChanged);
+            this.minimalOption.MouseHover += new System.EventHandler(this.radioButton1_MouseHover);
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(11, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(574, 59);
+            this.label2.TabIndex = 10;
+            this.label2.Text = resources.GetString("label2.Text");
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // setPresetsButton
+            // 
+            this.setPresetsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.setPresetsButton.ForeColor = System.Drawing.Color.Black;
+            this.setPresetsButton.Location = new System.Drawing.Point(423, 221);
+            this.setPresetsButton.Name = "setPresetsButton";
+            this.setPresetsButton.Size = new System.Drawing.Size(162, 23);
+            this.setPresetsButton.TabIndex = 9;
+            this.setPresetsButton.Text = "Lets Go!";
+            this.setPresetsButton.UseVisualStyleBackColor = true;
+            this.setPresetsButton.Click += new System.EventHandler(this.setPresetsButton_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.listView1);
+            this.groupBox2.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.groupBox2.Location = new System.Drawing.Point(5, 7);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(586, 246);
+            this.groupBox2.TabIndex = 37;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Open a Data Directory";
             // 
             // listView1
             // 
@@ -230,16 +334,16 @@
             this.listView1.View = System.Windows.Forms.View.List;
             this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             // 
-            // groupBox2
+            // neverShowAgainCheckbox
             // 
-            this.groupBox2.Controls.Add(this.listView1);
-            this.groupBox2.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.groupBox2.Location = new System.Drawing.Point(5, 7);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(586, 246);
-            this.groupBox2.TabIndex = 37;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Open a Data Directory";
+            this.neverShowAgainCheckbox.Checked = global::ManiacEditor.Properties.Settings.Default.NeverShowThisAgain;
+            this.neverShowAgainCheckbox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "NeverShowThisAgain", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.neverShowAgainCheckbox.Location = new System.Drawing.Point(5, 113);
+            this.neverShowAgainCheckbox.Name = "neverShowAgainCheckbox";
+            this.neverShowAgainCheckbox.Size = new System.Drawing.Size(104, 48);
+            this.neverShowAgainCheckbox.TabIndex = 9;
+            this.neverShowAgainCheckbox.Text = "Never Show this Again";
+            this.neverShowAgainCheckbox.UseVisualStyleBackColor = true;
             // 
             // StartupInformation
             // 
@@ -267,6 +371,8 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.firstTimeSettingsPanel.ResumeLayout(false);
+            this.firstTimeSettingsPanel.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -290,5 +396,13 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.Panel firstTimeSettingsPanel;
+        private System.Windows.Forms.Label modeLabel;
+        private System.Windows.Forms.RadioButton hyperOption;
+        private System.Windows.Forms.RadioButton superOption;
+        private System.Windows.Forms.RadioButton basicOption;
+        private System.Windows.Forms.RadioButton minimalOption;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button setPresetsButton;
     }
 }

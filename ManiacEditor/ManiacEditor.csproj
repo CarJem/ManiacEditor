@@ -546,12 +546,6 @@
     <Compile Include="Interfaces\EditCategorySelectInfoForm.Designer.cs">
       <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\FirstTimeSetup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\FirstTimeSetup.Designer.cs">
-      <DependentUpon>FirstTimeSetup.cs</DependentUpon>
-    </Compile>
     <Compile Include="Discord.cs" />
     <Compile Include="Enums\DuplicateAction.cs" />
     <Compile Include="EditorAnimations.cs" />
@@ -706,12 +700,6 @@
     <Compile Include="Entity Renders\ZipLine.cs" />
     <Compile Include="Entity Renders\ZoneSetup.cs" />
     <Compile Include="Enums\FlipDirection.cs" />
-    <Compile Include="Interfaces\DevWarningBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\DevWarningBox.Designer.cs">
-      <DependentUpon>DevWarningBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="FolderSelectDialog.cs" />
     <Compile Include="Interfaces\ControlBox.cs">
       <SubType>Form</SubType>
@@ -862,7 +850,7 @@
     </Compile>
     <Compile Include="ScrollInfoLines.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SettingsReader.cs" />
+    <Compile Include="EditorSettings.cs" />
     <Compile Include="Interfaces\SoundImporter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -946,9 +934,6 @@
     <EmbeddedResource Include="Interfaces\EditCategorySelectInfoForm.resx">
       <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\FirstTimeSetup.resx">
-      <DependentUpon>FirstTimeSetup.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FindandReplaceTool.resx">
       <DependentUpon>FindandReplaceTool.cs</DependentUpon>
     </EmbeddedResource>
@@ -1009,9 +994,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ControlBox.resx">
       <DependentUpon>ControlBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\DevWarningBox.resx">
-      <DependentUpon>DevWarningBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ExitWarningBox.resx">
       <DependentUpon>ExitWarningBox.cs</DependentUpon>

@@ -88,7 +88,7 @@ namespace ManiacEditor.Entity_Renders
                 default:
                     break;
             }
-            var editorAnim = EditorEntity_ini.LoadAnimation2("PimPom", d, animID, frameID, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PimPom", d, animID, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

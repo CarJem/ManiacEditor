@@ -17,8 +17,8 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("FlowerPod", d, 0, 0, fliph, flipv, false);
-            var editorAnimHead = EditorEntity_ini.LoadAnimation2("FlowerPod", d, 1, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("FlowerPod", d, 0, 0, fliph, flipv, false);
+            var editorAnimHead = e.EditorInstance.EditorEntity_ini.LoadAnimation2("FlowerPod", d, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHead != null && editorAnimHead.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

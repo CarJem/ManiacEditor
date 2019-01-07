@@ -22,8 +22,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = EditorEntity_ini.LoadAnimation2("SDashWheel", d, 0, 0, fliph, flipv, false);
-            var editorAnimKnob = EditorEntity_ini.LoadAnimation2("SDashWheel", d, 2, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SDashWheel", d, 0, 0, fliph, flipv, false);
+            var editorAnimKnob = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SDashWheel", d, 2, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimKnob != null && editorAnimKnob.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

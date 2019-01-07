@@ -14,15 +14,22 @@ namespace ManiacEditor
     public partial class DeveloperTerminal : Form
     {
         // For Interger Changer; Change to the Value you want to tweak
+        public Editor EditorInstance;
 
-        public DeveloperTerminal()
+        public DeveloperTerminal(Editor instance)
         {
             InitializeComponent();
+            EditorInstance = instance;
         }
 
         private void DeveloperTerminal_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            EditorInstance.hScrollBar1.Width = (EditorInstance.splitContainer1.Panel2Collapsed ? EditorInstance.mainPanel.Width : EditorInstance.splitContainer1.Panel1.Width + EditorInstance.splitContainer1.SplitterWidth) - (EditorInstance.vScrollBar1.Visible ? (int)Properties.Settings.Default.devInt : (int)Properties.Settings.Default.devInt2);
         }
     }
 }

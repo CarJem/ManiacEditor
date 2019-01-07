@@ -213,6 +213,7 @@ namespace ManiacEditor
             this.numericUpDown10.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown10.TabIndex = 18;
             this.numericUpDown10.Value = global::ManiacEditor.Properties.Settings.Default.devInt10;
+            this.numericUpDown10.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown9
             // 
@@ -235,6 +236,7 @@ namespace ManiacEditor
             this.numericUpDown9.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown9.TabIndex = 17;
             this.numericUpDown9.Value = global::ManiacEditor.Properties.Settings.Default.devInt8;
+            this.numericUpDown9.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown8
             // 
@@ -257,6 +259,7 @@ namespace ManiacEditor
             this.numericUpDown8.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown8.TabIndex = 16;
             this.numericUpDown8.Value = global::ManiacEditor.Properties.Settings.Default.devInt7;
+            this.numericUpDown8.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown7
             // 
@@ -279,6 +282,7 @@ namespace ManiacEditor
             this.numericUpDown7.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown7.TabIndex = 16;
             this.numericUpDown7.Value = global::ManiacEditor.Properties.Settings.Default.devInt9;
+            this.numericUpDown7.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown6
             // 
@@ -301,6 +305,7 @@ namespace ManiacEditor
             this.numericUpDown6.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown6.TabIndex = 15;
             this.numericUpDown6.Value = global::ManiacEditor.Properties.Settings.Default.devInt6;
+            this.numericUpDown6.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown5
             // 
@@ -323,6 +328,7 @@ namespace ManiacEditor
             this.numericUpDown5.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown5.TabIndex = 14;
             this.numericUpDown5.Value = global::ManiacEditor.Properties.Settings.Default.devInt5;
+            this.numericUpDown5.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown4
             // 
@@ -345,6 +351,7 @@ namespace ManiacEditor
             this.numericUpDown4.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown4.TabIndex = 13;
             this.numericUpDown4.Value = global::ManiacEditor.Properties.Settings.Default.devInt4;
+            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown3
             // 
@@ -367,6 +374,7 @@ namespace ManiacEditor
             this.numericUpDown3.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown3.TabIndex = 12;
             this.numericUpDown3.Value = global::ManiacEditor.Properties.Settings.Default.devInt3;
+            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown2
             // 
@@ -389,6 +397,7 @@ namespace ManiacEditor
             this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown2.TabIndex = 11;
             this.numericUpDown2.Value = global::ManiacEditor.Properties.Settings.Default.devInt2;
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // numericUpDown1
             // 
@@ -411,6 +420,7 @@ namespace ManiacEditor
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 10;
             this.numericUpDown1.Value = global::ManiacEditor.Properties.Settings.Default.devInt;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // errorLabel
             // 

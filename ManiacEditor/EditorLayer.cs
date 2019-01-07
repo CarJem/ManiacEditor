@@ -764,8 +764,6 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            if (Properties.Settings.Default.UseFasterSelectionRendering == true) selected = false;
-
             d.DrawBitmap(EditorInstance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 
@@ -866,18 +864,10 @@ namespace ManiacEditor
             }
             if (selected)
             {
-                if (Properties.Settings.Default.UseFasterSelectionRendering == false)
-                {
                     d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
                     d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
                     d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
                     d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
-                }
-                else
-                {
-                    d.DrawBitmap(EditorInstance.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, (1 & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false), x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, false, Transperncy);
-                }
-
             }
         }
         public void DrawTile(Graphics g, ushort tile, int x, int y)

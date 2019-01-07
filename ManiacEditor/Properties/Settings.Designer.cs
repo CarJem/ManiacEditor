@@ -585,64 +585,12 @@ namespace ManiacEditor.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool UseFasterSelectionRendering {
-            get {
-                return ((bool)(this["UseFasterSelectionRendering"]));
-            }
-            set {
-                this["UseFasterSelectionRendering"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AlwaysRenderObjects {
-            get {
-                return ((bool)(this["AlwaysRenderObjects"]));
-            }
-            set {
-                this["AlwaysRenderObjects"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public bool AllowMoreRenderUpdates {
             get {
                 return ((bool)(this["AllowMoreRenderUpdates"]));
             }
             set {
                 this["AllowMoreRenderUpdates"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AlwaysRenderLines {
-            get {
-                return ((bool)(this["AlwaysRenderLines"]));
-            }
-            set {
-                this["AlwaysRenderLines"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AlwaysRenderTextures {
-            get {
-                return ((bool)(this["AlwaysRenderTextures"]));
-            }
-            set {
-                this["AlwaysRenderTextures"] = value;
             }
         }
         
@@ -792,18 +740,6 @@ namespace ManiacEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AlwaysRenderRectangles {
-            get {
-                return ((bool)(this["AlwaysRenderRectangles"]));
-            }
-            set {
-                this["AlwaysRenderRectangles"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection SavedPlaces {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["SavedPlaces"]));
@@ -892,18 +828,6 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["DisableRunSceneAutoInput"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt1 {
-            get {
-                return ((decimal)(this["devInt1"]));
-            }
-            set {
-                this["devInt1"] = value;
             }
         }
         
@@ -1048,18 +972,6 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["EnableRealTimeObjectMovingInGame"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool AlwaysDrawBitmaps {
-            get {
-                return ((bool)(this["AlwaysDrawBitmaps"]));
-            }
-            set {
-                this["AlwaysDrawBitmaps"] = value;
             }
         }
         
@@ -1420,18 +1332,6 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["ShowFirstTimeSetup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RellyOnRenderLoopForUpdatingOnly {
-            get {
-                return ((bool)(this["RellyOnRenderLoopForUpdatingOnly"]));
-            }
-            set {
-                this["RellyOnRenderLoopForUpdatingOnly"] = value;
             }
         }
         

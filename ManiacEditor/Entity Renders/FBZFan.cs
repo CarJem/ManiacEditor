@@ -17,9 +17,9 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("FBZFan", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("FBZFan", d, 1, -1, fliph, flipv, false);
-            var editorAnim3 = EditorEntity_ini.LoadAnimation2("FBZFan", d, 2, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("FBZFan", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("FBZFan", d, 1, -1, fliph, flipv, false);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("FBZFan", d, 2, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim.Frames.Count != 0 && editorAnim3 != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

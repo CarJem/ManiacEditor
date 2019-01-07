@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
             int frameID = (int)entity.attributesMap["frameID"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("GigaMetal", d, aniID, frameID, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("GigaMetal", d, aniID, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

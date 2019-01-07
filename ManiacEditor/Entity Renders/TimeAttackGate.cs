@@ -16,9 +16,9 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool finish = entity.attributesMap["finishLine"].ValueBool;
-            var editorAnimBase = EditorEntity_ini.LoadAnimation2("SpeedGate", d, 0, 0, false, false, false);
-            var editorAnimTop = EditorEntity_ini.LoadAnimation2("SpeedGate", d, 1, 0, false, false, false);
-            var editorAnimFins = EditorEntity_ini.LoadAnimation2("SpeedGate", d, finish ? 4 : 3, -1, false, false, false);
+            var editorAnimBase = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SpeedGate", d, 0, 0, false, false, false);
+            var editorAnimTop = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SpeedGate", d, 1, 0, false, false, false);
+            var editorAnimFins = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SpeedGate", d, finish ? 4 : 3, -1, false, false, false);
             if (editorAnimBase != null && editorAnimTop != null && editorAnimFins != null && editorAnimFins.Frames.Count != 0 && editorAnimTop.Frames.Count != 0 && editorAnimTop.Frames.Count != 0)
             {
                 var frameBase = editorAnimBase.Frames[0];

@@ -34,9 +34,9 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("Jellygnite", d, 0, 0, fliph, flipv, false);
-            var editorAnimFront = EditorEntity_ini.LoadAnimation2("Jellygnite", d, 3, 0, fliph, flipv, false);
-            var editorAnimBack = EditorEntity_ini.LoadAnimation2("Jellygnite", d, 5, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Jellygnite", d, 0, 0, fliph, flipv, false);
+            var editorAnimFront = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Jellygnite", d, 3, 0, fliph, flipv, false);
+            var editorAnimBack = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Jellygnite", d, 5, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimFront != null && editorAnimFront.Frames.Count != 0 && editorAnimBack != null && editorAnimBack.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

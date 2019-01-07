@@ -17,10 +17,10 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 1, fliph, flipv, false);
-            var editorAnim3 = EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 2, fliph, flipv, false);
-            var editorAnim4 = EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 3, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 1, fliph, flipv, false);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 2, fliph, flipv, false);
+            var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("WeatherMobile", d, 0, 3, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

@@ -11,7 +11,7 @@ namespace ManiacEditor
 {
     public class EditorScene : Scene, IDisposable
     {
-        public static IList<EditorLayer> _editorLayers;
+        public IList<EditorLayer> _editorLayers;
         public Editor EditorInstance;
 
         public EditorLayer LowDetails

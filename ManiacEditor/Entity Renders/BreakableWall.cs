@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)(entity.attributesMap["size"].ValuePosition.X.High) - 1;
             var height = (int)(entity.attributesMap["size"].ValuePosition.Y.High) - 1;
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
 
             if (width != -1 && height != -1)
             {
@@ -45,7 +45,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
@@ -65,7 +65,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Knuckles icon
             if (knux)
             {
-                editorAnim = EditorEntity_ini.LoadAnimation2("HUD", d, 2, 2, false, false, false);
+                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("HUD", d, 2, 2, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -77,7 +77,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Mighty icon
             if (mighty)
             {
-                editorAnim = EditorEntity_ini.LoadAnimation2("HUD", d, 2, 3, false, false, false);
+                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("HUD", d, 2, 3, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];

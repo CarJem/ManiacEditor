@@ -15,8 +15,10 @@ namespace ManiacEditor
     public partial class PreLoadBox : Form
     {
         public bool isVisible = false;
-        public PreLoadBox()
+        public Editor EditorInstance;
+        public PreLoadBox(Editor Instance)
         {
+            EditorInstance = Instance;
             InitializeComponent();
             backgroundWorker1.RunWorkerAsync();
         }
@@ -44,7 +46,7 @@ namespace ManiacEditor
         {
             for (bool w = false; w != true;)
                 {
-                    if (Editor.isPreRending == true)
+                    if (EditorInstance.isPreRending == true)
                     {
                     //Properties.CheatCodes.Default.Reload();
                     //backgroundWorker1.ReportProgress((Properties.CheatCodes.Default.ProgressX + Properties.CheatCodes.Default.ProgressY)/2);

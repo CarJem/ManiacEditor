@@ -32,9 +32,10 @@ namespace ManiacEditor
                 panel1.Controls.Clear();
             }
 
-            if (!Properties.Settings.Default.ShowFirstTimeSetup)
+            if (Properties.Settings.Default.ShowFirstTimeSetup)
             {
-                panel2.Controls.Clear();
+                firstTimeSettingsPanel.Controls.Clear();
+                firstTimeSettingsPanel.Visible = false;
             }
 
             if (Settings.mySettings.DataDirectories?.Count > 0)
@@ -114,22 +115,22 @@ namespace ManiacEditor
 
         private void radioButton1_MouseHover(object sender, EventArgs e)
         {
-            //modeLabel.Text = "Minimal - The very lowest you can go if you are don't have enough power.";
+            modeLabel.Text = "Minimal - The very lowest you can go if you are don't have enough power.";
         }
 
         private void radioButton2_MouseHover(object sender, EventArgs e)
         {
-            //modeLabel.Text = "Basic - A step up from minimal. Take caution x86 users!";
+            modeLabel.Text = "Basic - A step up from minimal. Take caution x86 users!";
         }
 
         private void radioButton3_MouseHover(object sender, EventArgs e)
         {
-            //modeLabel.Text = "Super - The best feature set without killing it! NOT FOR x86 USERS!";
+            modeLabel.Text = "Super - The best feature set without killing it! NOT FOR x86 USERS!";
         }
 
         private void radioButton4_MouseHover(object sender, EventArgs e)
         {
-            //modeLabel.Text = "Hyper - Kicking things into OVERDRIVE! NOT FOR x86 USERS";
+            modeLabel.Text = "Hyper - Kicking things into OVERDRIVE! NOT FOR x86 USERS";
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -140,7 +141,7 @@ namespace ManiacEditor
         private void RecentDataFolderItemClicked(string dataDirectory)
         {
             var dataDirectories = Settings.mySettings.DataDirectories;
-            Settings.mySettings.GamePath = Editor.GamePath;
+            Settings.mySettings.GamePath = EditorInstance.GamePath;
             if (EditorInstance.IsDataDirectoryValid(dataDirectory))
             {
                 EditorInstance.ResetDataDirectoryToAndResetScene(dataDirectory);
@@ -157,6 +158,55 @@ namespace ManiacEditor
 
             }
             Settings.mySettings.Save();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            panel1.Controls.Clear();
+        }
+
+        private void dontCareOption_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void setPresetsButton_Click(object sender, EventArgs e)
+        {
+            if (minimalOption.Checked) EditorSettings.ApplyPreset(0);
+            else if (basicOption.Checked) EditorSettings.ApplyPreset(1);
+            else if (superOption.Checked) EditorSettings.ApplyPreset(2);
+            else if (hyperOption.Checked) EditorSettings.ApplyPreset(3);
+
+            firstTimeSettingsPanel.Controls.Clear();
+            firstTimeSettingsPanel.Visible = false;
+            Settings.mySettings.ShowFirstTimeSetup = false;
+        }
+
+        public void ApplyPreset(int type)
+        {
+
+        }
+
+        private void minimalOption_CheckedChanged(object sender, EventArgs e)
+        {
+            /*
+            if (minimalOption.Checked) EditorSettings.ApplyPreset(0);
+            else if (basicOption.Checked) EditorSettings.ApplyPreset(1);
+            else if (superOption.Checked) EditorSettings.ApplyPreset(2);
+            else if (hyperOption.Checked) EditorSettings.ApplyPreset(3);
+
+            if (EditorSettings.isMinimalPreset()) minimalOption.ForeColor = Color.Red;
+            else minimalOption.ForeColor = Color.White;
+
+            if (EditorSettings.isBasicPreset()) basicOption.ForeColor = Color.Red;
+            else basicOption.ForeColor = Color.White;
+
+            if (EditorSettings.isSuperPreset()) superOption.ForeColor = Color.Red;
+            else superOption.ForeColor = Color.White;
+
+            if (EditorSettings.isHyperPreset()) hyperOption.ForeColor = Color.Red;
+            else hyperOption.ForeColor = Color.White;
+            */
         }
     }
 }

@@ -45,30 +45,12 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.graphicPanel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(126, 146);
             this.panel1.TabIndex = 2;
             this.panel1.Resize += new System.EventHandler(this.panel1_Resize);
-            // 
-            // graphicPanel
-            // 
-            this.graphicPanel.AllowDrop = true;
-            this.graphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.graphicPanel.Location = new System.Drawing.Point(0, 0);
-            this.graphicPanel.Name = "graphicPanel";
-            this.graphicPanel.Size = new System.Drawing.Size(126, 146);
-            this.graphicPanel.TabIndex = 2;
-            this.graphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.graphicPanel_OnRender);
-            this.graphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.graphicPanel_DragEnter);
-            this.graphicPanel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.graphicPanel_MouseDoubleClick);
-            this.graphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphicPanel_MouseDown);
-            this.graphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphicPanel_MouseMove);
-            this.graphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphicPanel_MouseUp);
-            this.graphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.graphicPanel_MouseWheel);
-            this.graphicPanel.Resize += new System.EventHandler(this.graphicPanel_Resize);
             // 
             // TilesList
             // 
@@ -88,6 +70,5 @@
 
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.Panel panel1;
-        private DevicePanel graphicPanel;
     }
 }

@@ -23,10 +23,10 @@ namespace ManiacEditor.Entity_Renders
             int offsetY = (int)Math.Sin(angle / -0.71);
 
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 1, fliph, flipv, true, rotation);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 2, fliph, flipv, true, rotation);
-            var editorAnim3 = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 3, fliph, flipv, true, rotation);
-            var editorAnim4 = EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 4, fliph, flipv, true, rotation);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 1, fliph, flipv, true, rotation);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 2, fliph, flipv, true, rotation);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 3, fliph, flipv, true, rotation);
+            var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("HonkyTonk", d, 0, 4, fliph, flipv, true, rotation);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

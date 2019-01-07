@@ -17,10 +17,10 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 0, fliph, flipv, false);
-            var editorAnimInside = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 2, fliph, flipv, false);
-            var editorAnimExclamation = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 3, fliph, flipv, false);
-            var editorAnimButton = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 1, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 0, fliph, flipv, false);
+            var editorAnimInside = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 2, fliph, flipv, false);
+            var editorAnimExclamation = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 0, 3, fliph, flipv, false);
+            var editorAnimButton = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 1, -1, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimButton != null && editorAnimButton.Frames.Count != 0 && editorAnimInside != null && editorAnimInside.Frames.Count != 0 && editorAnimExclamation != null && editorAnimExclamation.Frames.Count != 0)
             {
@@ -45,8 +45,8 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-                var mightyAnim = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 3, -1, fliph, flipv, false);
-                var rayAnim = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 4, -1, fliph, flipv, false);
+                var mightyAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 3, -1, fliph, flipv, false);
+                var rayAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 4, -1, fliph, flipv, false);
 
                 if (mightyAnim != null && mightyAnim.Frames.Count != 0 && rayAnim != null && rayAnim.Frames.Count != 0)
                 {
@@ -66,7 +66,7 @@ namespace ManiacEditor.Entity_Renders
                         rayFrame.Frame.Width, rayFrame.Frame.Height, false, Transparency);
                 }
 
-                var editorAnimGlass = EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 2, -1, fliph, flipv, false);
+                var editorAnimGlass = e.EditorInstance.EditorEntity_ini.LoadAnimation2("SchrodingersCapsule", d, 2, -1, fliph, flipv, false);
 
                 if (editorAnimGlass != null && editorAnimGlass.Frames.Count != 0)
                 {

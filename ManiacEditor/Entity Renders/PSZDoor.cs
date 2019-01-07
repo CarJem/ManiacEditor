@@ -38,9 +38,9 @@ namespace ManiacEditor.Entity_Renders
                     flipv = true;
                     break;
             }
-            var editorAnim = EditorEntity_ini.LoadAnimation2("PSZDoor", d, 0, frameID, fliph, flipv, false);
-            var cogPart2 = EditorEntity_ini.LoadAnimation2("PSZDoor", d, 0, 2, fliph, flipv, false);
-            var cogPart1 = EditorEntity_ini.LoadAnimation2("PSZDoor", d, 1, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PSZDoor", d, 0, frameID, fliph, flipv, false);
+            var cogPart2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PSZDoor", d, 0, 2, fliph, flipv, false);
+            var cogPart1 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PSZDoor", d, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && frameID >= 0 && cogPart1 != null && cogPart1.Frames.Count != 0 && cogPart2 != null && cogPart2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

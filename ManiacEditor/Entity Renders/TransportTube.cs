@@ -17,15 +17,15 @@ namespace ManiacEditor.Entity_Renders
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int dirMask = (int)entity.attributesMap["dirMask"].ValueUInt8;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("TransportTube", d, 0, 0, false, false, false);
-            var upAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 0, false, false, false);
-            var downAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 1, false, false, false);
-            var rightAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 2, false, false, false);
-            var leftAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 3, false, false, false);
-            var upleftAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 4, false, false, false);
-            var downleftAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 5, false, false, false);
-            var uprightAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 6, false, false, false);
-            var downrightAnim = EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 7, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTube", d, 0, 0, false, false, false);
+            var upAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 0, false, false, false);
+            var downAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 1, false, false, false);
+            var rightAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 2, false, false, false);
+            var leftAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 3, false, false, false);
+            var upleftAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 4, false, false, false);
+            var downleftAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 5, false, false, false);
+            var uprightAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 6, false, false, false);
+            var downrightAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TransportTubes", d, 0, 7, false, false, false);
             bool showUp = false, showDown = false, showLeft = false, showRight = false, showUpLeft = false, showDownLeft = false, showUpRight = false, showDownRight = false;
             if (type == 0)
             {

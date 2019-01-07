@@ -53,8 +53,8 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("Water", d, animID, -1, fliph, flipv, false);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Water", d, 0, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Water", d, animID, -1, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Water", d, 0, -1, fliph, flipv, false);
 
             // Base Water + Bubble Source
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && (type == 2 || type == 0))
@@ -73,7 +73,7 @@ namespace ManiacEditor.Entity_Renders
             // HCZ Big Bubbles
             else if (HCZBubbles == true)
             {
-                editorAnim = EditorEntity_ini.LoadAnimation2("BigBubble", d, 7, -1, fliph, flipv, false);
+                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("BigBubble", d, 7, -1, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -91,7 +91,7 @@ namespace ManiacEditor.Entity_Renders
             if (width != 0 && height != 0 && showBounds == true && HCZBubbles == false)
             {
                 //Draw Icon
-                editorAnim = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 8, fliph, flipv, false);
+                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 8, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -185,7 +185,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];

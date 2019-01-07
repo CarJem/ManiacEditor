@@ -54,10 +54,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, false, false, true, rotation);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, true, false, true, rotation);
-            var editorAnim3 = EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 1, -1, false, false, false, 0);
-            var editorAnim4 = EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 2, -1, false, false, true, rotation);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, false, false, true, rotation);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, true, false, true, rotation);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 1, -1, false, false, false, 0);
+            var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 2, -1, false, false, true, rotation);
 
             if (editorAnim != null && editorAnim2 != null && editorAnim3 != null && editorAnim4 != null && editorAnim.Frames.Count != 0)
                 {

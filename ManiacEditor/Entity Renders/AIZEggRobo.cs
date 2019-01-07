@@ -17,9 +17,9 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("AIZEggRobo", d, 0, -1, fliph, flipv, false);
-            var editorAnimArms = EditorEntity_ini.LoadAnimation2("AIZEggRobo", d, 1, -1, fliph, flipv, false);
-            var editorAnimLegs = EditorEntity_ini.LoadAnimation2("AIZEggRobo", d, 2, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("AIZEggRobo", d, 0, -1, fliph, flipv, false);
+            var editorAnimArms = e.EditorInstance.EditorEntity_ini.LoadAnimation2("AIZEggRobo", d, 1, -1, fliph, flipv, false);
+            var editorAnimLegs = e.EditorInstance.EditorEntity_ini.LoadAnimation2("AIZEggRobo", d, 2, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimArms != null && editorAnimArms.Frames.Count != 0 && editorAnimLegs != null && editorAnimLegs.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

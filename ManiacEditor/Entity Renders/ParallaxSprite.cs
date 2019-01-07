@@ -26,10 +26,10 @@ namespace ManiacEditor.Entity_Renders
                 Animation.parallaxSprite = GetParallaxPath(e.EditorInstance);
             }
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
             if (e.EditorInstance.showParallaxSprites)
             {
-                editorAnim = EditorEntity_ini.LoadAnimation2(Animation.parallaxSprite, d, aniID, -1, fliph, flipv, false);
+                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2(Animation.parallaxSprite, d, aniID, -1, fliph, flipv, false);
             }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

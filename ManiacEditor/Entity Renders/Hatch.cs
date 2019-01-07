@@ -23,10 +23,10 @@ namespace ManiacEditor.Entity_Renders
             int offsetX = (int)(entity.attributesMap["subOff1"].ValuePosition.X.High);
             int offsetY = (int)(entity.attributesMap["subOff1"].ValuePosition.Y.High);
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
 
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("Hatch", d, 0, 0, false, false, false);
-            var editorAnim3 = EditorEntity_ini.LoadAnimation2("Hatch", d, 0, 1, false, false, false);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Hatch", d, 0, 0, false, false, false);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Hatch", d, 0, 1, false, false, false);
             if (editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim2.Frames[0];
@@ -64,7 +64,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];

@@ -25,19 +25,19 @@ namespace ManiacEditor
     public class EditorEntity_ini
     {
         // Object Render List
-        public static List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
+        public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
 
         // Object List for initilizing the if statement
         public List<string> entityRenderingObjects;
         public List<string> renderOnScreenExlusions;
         public List<string> rendersWithErrors = new List<string>();
 
-        public static List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
+        public List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
 
-        public static Dictionary<string, EditorEntity_ini.EditorAnimation> Animations = new Dictionary<string, EditorEntity_ini.EditorAnimation>();
-        public static Dictionary<string, EditorEntity_ini.EditorTilePlatforms> TilePlatforms = new Dictionary<string, EditorEntity_ini.EditorTilePlatforms>();
-        public static Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
-        public static bool Working = false;
+        public Dictionary<string, EditorEntity_ini.EditorAnimation> Animations = new Dictionary<string, EditorEntity_ini.EditorAnimation>();
+        public Dictionary<string, EditorEntity_ini.EditorTilePlatforms> TilePlatforms = new Dictionary<string, EditorEntity_ini.EditorTilePlatforms>();
+        public Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
+        public bool Working = false;
 
         public Editor EditorInstance;
 
@@ -216,15 +216,15 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public static EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool legacyRotation = false)
+        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool legacyRotation = false)
         {
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotation}";
-            if (EditorEntity_ini.Animations.ContainsKey(key))
+            if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
             {
-                if (EditorEntity_ini.Animations[key].Ready)
+                if (EditorInstance.EditorEntity_ini.Animations[key].Ready)
                 {
                     // Use the already loaded Amination
-                    return EditorEntity_ini.Animations[key];
+                    return EditorInstance.EditorEntity_ini.Animations[key];
                 }
                 else
                     return null;
@@ -241,7 +241,7 @@ namespace ManiacEditor
                 rotateImg = rotateImg,
                 legacyRotation = legacyRotation
             };
-            EditorEntity_ini.AnimsToLoad.Add(entry);
+            EditorInstance.EditorEntity_ini.AnimsToLoad.Add(entry);
             return null;
         }
 
@@ -260,13 +260,13 @@ namespace ManiacEditor
         {
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
             var anim = new EditorEntity_ini.EditorAnimation();
-            if (EditorEntity_ini.Animations.ContainsKey(key))
+            if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
             {   
-                if (EditorEntity_ini.Animations[key].Ready) return EditorEntity_ini.Animations[key]; // Use the already loaded Amination
+                if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
                 else return null;
             }
 
-            EditorEntity_ini.Animations.Add(key, anim);
+            Animations.Add(key, anim);
 
             // Get the path of the object's textures
             string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
@@ -314,7 +314,7 @@ namespace ManiacEditor
                 bool noEncoreColors = false;
                 if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
 
-                if (!EditorEntity_ini.Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
+                if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
                 {
                     string targetFile;
 
@@ -331,22 +331,22 @@ namespace ManiacEditor
                     {
                         map = null;
                         // add a Null to our lookup, so we can avoid looking again in the future
-                        EditorEntity_ini.Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+                        Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
                     }
                     else
                     {
 
                         map = new Bitmap(targetFile);
                         //Encore Colors
-                        if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
-                        EditorEntity_ini.Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+                        if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);
+                        Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
                     }
                 }
                 else
                 {
-                    map = EditorEntity_ini.Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
+                    map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
                     //Encore Colors
-                    if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, Editor.EncorePalette[0]);
+                    if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);
                 }
 
 
@@ -404,18 +404,18 @@ namespace ManiacEditor
 
             SceneLayer _layer = EditorInstance.EditorScene?.Move.Layer;
             string key = $"{x2}-{y2}-{width}-{height}";
-            var anim = new EditorEntity_ini.EditorTilePlatforms();
-            if (EditorEntity_ini.TilePlatforms.ContainsKey(key))
+            var anim = new EditorTilePlatforms();
+            if (TilePlatforms.ContainsKey(key))
             {
-                if (EditorEntity_ini.TilePlatforms[key].Ready)
+                if (TilePlatforms[key].Ready)
                 {
                     // Use the already loaded Amination
-                    return EditorEntity_ini.TilePlatforms[key];
+                    return TilePlatforms[key];
                 }
                 else
                     return null;
             }
-            EditorEntity_ini.TilePlatforms.Add(key, anim);
+            TilePlatforms.Add(key, anim);
             Texture GroupTexture;
             Rectangle rect = GetTilePlatformArea(x2 * 16, y2 * 16, height * 16, width * 16);
             try
@@ -620,7 +620,7 @@ namespace ManiacEditor
             return Tuple.Create(path2, dataDirectory);
         }
 
-        public static Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0, bool rotate = false, bool legacyRotate = false)
+        public Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0, bool rotate = false, bool legacyRotate = false)
         {
             Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
             using (Graphics g = Graphics.FromImage(bmp2)) g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
@@ -652,7 +652,7 @@ namespace ManiacEditor
 
         }
 
-        public static Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
+        public Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
         {
             // I don't know who though it was a good idea to disable this, but it is essential for rotating textures
             img.MakeTransparent(colour);
@@ -668,7 +668,7 @@ namespace ManiacEditor
             
         }
 
-        public static Bitmap RotateImageLegacy(Bitmap img, double rotationAngle, SystemColor colour)
+        public Bitmap RotateImageLegacy(Bitmap img, double rotationAngle, SystemColor colour)
         {
             // Get a reasonable size
             int width;
@@ -713,13 +713,13 @@ namespace ManiacEditor
             return bmp;
         }
 
-        public static Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour, int width, int height)
+        public Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour, int width, int height)
         {
             source.MakeTransparent(colour);
             return source;
         }
 
-        private static Bitmap SetEncoreColors(Bitmap _bitmap, string encoreColors = null)
+        private Bitmap SetEncoreColors(Bitmap _bitmap, string encoreColors = null)
         {
             if (encoreColors == "") return _bitmap;
             Bitmap _bitmapEditMemory;
@@ -807,25 +807,25 @@ namespace ManiacEditor
                 {
                     if (entity.Object.Name.Name.Contains("Setup"))
                     {
-                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
+                        EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
                         if (renderer != null)
                             renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
                     else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
                     {
-                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
+                        EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
                         if (renderer != null)
                             renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
                     else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
                     {
-                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
+                        EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
                         if (renderer != null)
                             renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
                     else
                     {
-                        EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+                        EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
                         if (renderer != null)
                             renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
@@ -880,7 +880,7 @@ namespace ManiacEditor
         }
 
 
-        public static void ReleaseResources()
+        public void ReleaseResources()
         {
 
             foreach (var pair in Sheets)
@@ -890,7 +890,7 @@ namespace ManiacEditor
             TilePlatforms.Clear();
 
 
-            foreach (var pair in EditorEntity_ini.Animations)
+            foreach (var pair in Animations)
                 foreach (var pair2 in pair.Value.Frames)
                     pair2.Texture?.Dispose();
 

@@ -92,11 +92,11 @@ namespace ManiacEditor
             EditorAnimations = new EditorAnimations(instance);
             AttributeValidater = new AttributeValidater();
 
-            if (EditorEntity_ini.EntityRenderers.Count == 0)
+            if (EditorInstance.EditorEntity_ini.EntityRenderers.Count == 0)
             {
                 var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
                 foreach (var type in types)
-                    EditorEntity_ini.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
+                    EditorInstance.EditorEntity_ini.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
             }
         }
 
@@ -219,7 +219,7 @@ namespace ManiacEditor
 
             // Since the Editor can now update without the use of this render, I removed it
             //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) EditorInstance.UpdateRender();
-            if (Editor.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
+            if (EditorInstance.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
             {
                 int ObjectStart = 0x0086FFA0;
                 int ObjectSize = 0x458;
@@ -229,8 +229,8 @@ namespace ManiacEditor
 
                 // TODO: Find out if this is constent
                 int ObjectAddress = ObjectStart + (ObjectSize * entity.SlotID);
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, entity.Position.X.High);
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, entity.Position.Y.High);
+                EditorInstance.GameMemory.WriteInt16(ObjectAddress + 2, entity.Position.X.High);
+                EditorInstance.GameMemory.WriteInt16(ObjectAddress + 6, entity.Position.Y.High);
             }
 
 
@@ -329,13 +329,13 @@ namespace ManiacEditor
                 onScreenExlusionList = new List<string>();
             }
 
-            if (filteredOut && !Editor.isPreRending) return;
+            if (filteredOut && !EditorInstance.isPreRending) return;
 
 
-            if (Properties.Settings.Default.AlwaysRenderObjects == false && !onScreenExlusionList.Contains(entity.Object.Name.Name))
+            if (!onScreenExlusionList.Contains(entity.Object.Name.Name))
             {
                 //This causes some objects not to load ever, which is problamatic, so I made a toggle(and a list as of recently). It can also have some performance benifits
-                if (!Editor.isPreRending)
+                if (!EditorInstance.isPreRending)
                 {
                     if (!this.IsObjectOnScreen(d)) return;
                 }
@@ -401,7 +401,7 @@ namespace ManiacEditor
 
             }
             else {
-                var editorAnim = EditorEntity_ini.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
+                var editorAnim = EditorInstance.EditorEntity_ini.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
                 if (editorAnim != null && editorAnim.Frames.Count > 0)
                 {
 
@@ -604,7 +604,7 @@ namespace ManiacEditor
 
             bool isObjectVisibile = false;
 
-            EntityRenderer renderer = EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+            EntityRenderer renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
             if (renderer != null)
             {
                 isObjectVisibile = renderer.isObjectOnScreen(d, entity, null, x, y, 0);

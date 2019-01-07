@@ -81,7 +81,7 @@ namespace ManiacEditor
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
-        public static bool isPreRending = false; //Determines if we are Preloading a Scene
+        public bool isPreRending = false; //Determines if we are Preloading a Scene
         bool AllowSceneChange = false; // For the Save Warning Dialog
         bool encorePaletteExists = false; // Determines if an Encore Pallete Exists
         int SelectedTileID = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
@@ -100,12 +100,15 @@ namespace ManiacEditor
         public bool RemoveStageConfigEntriesAllowed = false; //Self Explanatory
         public bool AddStageConfigEntriesAllowed = false; //Self Explanatory
         public int InstanceID = 0; //Mega Maniac Instance ID
+        public bool CloseMegaManiacTab = false; //Tells Mega Maniac to Remove the Tab
+        public bool KickStartMegaManiacRenderLoop = false; //Used to start the render loop when starting the editor for Mega Maniac
+        public bool KickStartMegaManiacRenderLoopFinished = false; //Used to end the process of starting the render loop when starting the editor for Mega Maniac
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
         string scrollDirection = "X"; //Determines Scroll Lock Direction
         int magnetSize = 16; //Determines the Magnets Size
-        public static int EncoreSetupType; //Used to determine what kind of encore setup the stage uses
+        public int EncoreSetupType; //Used to determine what kind of encore setup the stage uses
         public string ToolbarSelectedTile; //Used to display the selected tile in the tiles toolbar
         internal bool controlWindowOpen; //Used somewhere in the Layer Manager (Unkown)
         public int selectPlayerObject_GoTo = 0; //Used to determine which player object to go to
@@ -129,7 +132,7 @@ namespace ManiacEditor
         public string ModDataDirectory = ""; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
         public string SelectedZone; //Used to get the Selected zone
         string SelectedScene; //Used to get the Scene zone
-        public static string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
+        public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
         string SceneFilename = null; //Used for fetching the scene's file name
         public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
         string StageConfigFileName = null; //Used for fetch the scene's stage config file name
@@ -166,9 +169,9 @@ namespace ManiacEditor
         internal int SceneHeight => EditorScene.Layers.Max(sl => sl.Height) * 16;
 
         //Used for "Run Scene"
-        public static ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
-        public static bool GameRunning = false; //Tells us if the game is running
-        public static string GamePath = ""; //Tells us where the game is located
+        public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
+        public bool GameRunning = false; //Tells us if the game is running
+        public string GamePath = ""; //Tells us where the game is located
         public int P1_X = 0;
         public int P1_Y = 0;
         public int P2_X = 0;
@@ -206,9 +209,9 @@ namespace ManiacEditor
         public StageConfig StageConfig;
         public GameConfig GameConfig;
         public EditorControls EditorControls;
-        public static EditorEntities entities;
+        public EditorEntities entities;
         //public int InstanceID = 0;
-        public static Editor Instance; //Used the access this class easier
+        //public static Editor Instance; //Used the access this class easier
         //public Editor ThisInstance;
         internal EditorBackground Background;
         public EditorLayer EditLayer;
@@ -220,6 +223,7 @@ namespace ManiacEditor
         public TilesConfig TilesConfig;
         public EditorInGame EditorGame;
         public StartupInformation info;
+        public ManiacEditor.DevicePanel GraphicPanel;
 
         //Tile Maniac Instance
         public TileManiac.Mainform mainform = new Mainform();
@@ -299,14 +303,15 @@ namespace ManiacEditor
         #endregion
 
         #endregion
-        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = 0)
+        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
         {
-            Instance = this;
+            //Instance = this;
             SystemEvents.PowerModeChanged += CheckDeviceState;
             InstanceID = MegaManiacInstanceID;
 
             UseDarkTheme(mySettings.NightMode);
             InitializeComponent();
+            SetupGraphicsPanel();
             SetupButtonColors();
             AllocConsole();
             HideConsoleWindow();
@@ -349,16 +354,12 @@ namespace ManiacEditor
             UpdateControls();
             TryLoadSettings();
 
-            splitContainer2.Panel1.Controls.Add(info);
-            //splitContainer2.Panel1MinSize = 1078;
-            info.Show();
-            Updater.CheckforUpdates(true, true);
-            info.UpdateStatusLabel(Updater.condition, Updater);
+            UpdateInfoPanel(true,true);
 
 
             if (mySettings.UseForcefulStartup)
             {
-                OpenSceneForceFully();
+                //OpenSceneForceFully();
             }
             else if (shortcutLaunch)
             {
@@ -382,7 +383,33 @@ namespace ManiacEditor
                 }
 
             }
+        }
 
+        public void SetupGraphicsPanel()
+        {
+            this.GraphicPanel = new ManiacEditor.DevicePanel(this);
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(-1, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(643, 449);
+            this.GraphicPanel.TabIndex = 10;
+            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+            this.viewPanel.Controls.Add(this.GraphicPanel);
         }
 
         #region Discord Rich Presence
@@ -633,7 +660,7 @@ namespace ManiacEditor
         void SetINIDefaultPrefrences()
         {
             string value;
-            Dictionary<String,String> ListedPrefrences = SettingsReader.ReturnPrefrences();
+            Dictionary<String,String> ListedPrefrences = EditorSettings.ReturnPrefrences();
             if (ListedPrefrences.ContainsKey("LevelID"))
             {   
                 ListedPrefrences.TryGetValue("LevelID", out value);
@@ -1655,7 +1682,11 @@ namespace ManiacEditor
 
         private void GraphicPanel_OnMouseMove(object sender, MouseEventArgs e)
         {
-            
+            if (InstanceID != -1 && !KickStartMegaManiacRenderLoopFinished)
+            {
+                KickStartMegaManiacRenderLoop = true;
+            }
+
             if (mySettings.allowForSmoothSelection)
             {
                 UpdateRender();
@@ -2640,23 +2671,17 @@ namespace ManiacEditor
             
 
             zooming = false;
-            //if (mySettings.AllowMoreRenderUpdates)
-            //{
-            //    UpdateRender();
-            //}
 
             UpdateControls();
         }
 
-        private void Form1_Resize(object sender, EventArgs e)
+        public void Form1_Resize(object sender, EventArgs e)
         {
             if (info != null)
             {
                 info.Width = mainPanel.Width;
                 info.Height = mainPanel.Height;
             }
-
-            //if (!splitContainer2.Panel1Collapsed) splitContainer2.Panel1MinSize = 1078;
 
             if (splitContainer1.Panel2.Controls.Count == 1)
             {
@@ -2676,12 +2701,13 @@ namespace ManiacEditor
 
             vScrollBar1.Visible = nvscrollbar;
             hScrollBar1.Visible = nhscrollbar;
+            scrollBarDividerPanel.Visible = nvscrollbar && nhscrollbar;
 
             if (vScrollBar1.Visible)
             {
                 // Docking isn't enough because we want that it will be high/wider when only one of the scroll bars is visible
-                //vScrollBar1.Location = new Point(splitContainer1.SplitterDistance - 19, 0);
-                vScrollBar1.Height = mainPanel.Height - (hScrollBar1.Visible ? hScrollBar1.Height : 0);
+                vScrollBar1.Location = new Point((splitContainer1.Panel2Collapsed ? splitContainer1.Width - 19 : splitContainer1.SplitterDistance - 19), 0);
+                vScrollBar1.Height = mainPanel.Height - (hScrollBar1.Visible ? 39 : 0);
                 vScrollBar1.LargeChange = vScrollBar1.Height;
                 ScreenHeight = vScrollBar1.Height;
                 hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
@@ -2694,8 +2720,8 @@ namespace ManiacEditor
             }
             if (hScrollBar1.Visible)
             {
-                //hScrollBar1.Location = new Point(0, splitContainer1.Height - 18);
-                hScrollBar1.Width = mainPanel.Width - (vScrollBar1.Visible ? vScrollBar1.Width : 0);
+                hScrollBar1.Location = new Point(0, splitContainer1.Height - 19);
+                hScrollBar1.Width = viewPanel.Width - (vScrollBar1.Visible ? 17 : 0);
                 hScrollBar1.LargeChange = hScrollBar1.Width;
                 ScreenWidth = hScrollBar1.Width;
                 vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
@@ -2706,15 +2732,6 @@ namespace ManiacEditor
                 ShiftX = 0;
                 hScrollBar1.Value = 0;
             }
-
-            /*
-            if (hScrollBar1.Visible && vScrollBar1.Visible)
-            {
-                mainPanel.Visible = true;
-                //panel3.Location = new Point(hScrollBar1.Width, vScrollBar1.Height);
-            }
-            else mainPanel.Visible = false;
-            */
 
             while (ScreenWidth > GraphicPanel.Width)
                 ResizeGraphicPanel(GraphicPanel.Width * 2, GraphicPanel.Height);
@@ -2961,7 +2978,7 @@ namespace ManiacEditor
             playerObjectPosition = new List<SceneEntity> { };
             INILayerNameHigher = "";
             INILayerNameLower = "";
-            SettingsReader.CleanPrefrences();
+            EditorSettings.CleanPrefrences();
             userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             userDefinedSpritePaths = new List<string>();
 
@@ -3034,8 +3051,7 @@ namespace ManiacEditor
             MenuChar_Small = MenuCharS_Small.ToCharArray();
             LevelSelectChar = LevelSelectCharS.ToCharArray();
 
-            info.Visible = true;
-            splitContainer2.Panel1Collapsed = false;
+            UpdateInfoPanel(true);
         }
 
         private void OpenSceneForceFully()
@@ -3156,8 +3172,8 @@ namespace ManiacEditor
                 return;
             }
 
-            info.Visible = false;
-            splitContainer2.Panel1Collapsed = true;
+            UpdateInfoPanel(false);
+
             UpdateDataFolderLabel(null, null);
 
             SetupLayerButtons();
@@ -3240,11 +3256,11 @@ namespace ManiacEditor
                 if (File.Exists(SceneFilepath + "\\maniac.ini"))
                 {
                     bool allowToRead = false;
-                    using (Stream stream = SettingsReader.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
+                    using (Stream stream = EditorSettings.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
                     {
                         if (stream != null)
                         {
-                            SettingsReader.GetSceneINISettings(stream);
+                            EditorSettings.GetSceneINISettings(stream);
                             allowToRead = true;
                         }
                         else
@@ -3262,7 +3278,7 @@ namespace ManiacEditor
                         catch (Exception ex)
                         {
                             MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
-                            SettingsReader.CleanPrefrences();
+                            EditorSettings.CleanPrefrences();
                         }
 
                     }
@@ -3341,11 +3357,11 @@ namespace ManiacEditor
             if (File.Exists(SceneFilepath + "\\maniac.ini"))
             {
                 bool allowToRead = false;
-                using (Stream stream = SettingsReader.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
+                using (Stream stream = EditorSettings.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
                 {
                     if (stream != null)
                     {
-                        SettingsReader.GetSceneINISettings(stream);
+                        EditorSettings.GetSceneINISettings(stream);
                         allowToRead = true;
                     }
                     else
@@ -3363,7 +3379,7 @@ namespace ManiacEditor
                     catch (Exception ex)
                     {
                         MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
-                        SettingsReader.CleanPrefrences();
+                        EditorSettings.CleanPrefrences();
                     }
 
                 }
@@ -3455,7 +3471,14 @@ Error: {ex.Message}");
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            if (InstanceID == -1)
+            {
+                Close();
+            }
+            else
+            {
+                CloseMegaManiacTab = true;
+            }
         }
 
         private void SaveAspngToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5004,10 +5027,7 @@ Error: {ex.Message}");
                         y2 = (int)(selectingY / Zoom);
                     }
 
-                    if (mySettings.UseFasterSelectionRendering == false)
-                    {
-                        GraphicPanel.DrawRectangle(x1, y1, x2, y2, Color.FromArgb(100, Color.Purple));
-                    }
+                    GraphicPanel.DrawRectangle(x1, y1, x2, y2, Color.FromArgb(100, Color.Purple));
                     GraphicPanel.DrawLine(x1, y1, x2, y1, Color.Purple);
                     GraphicPanel.DrawLine(x1, y1, x1, y2, Color.Purple);
                     GraphicPanel.DrawLine(x2, y2, x2, y1, Color.Purple);
@@ -5031,7 +5051,7 @@ Error: {ex.Message}");
             if (showGrid && EditorScene != null)
                 Background.DrawGrid(GraphicPanel);
 
-            if (Editor.GameRunning)
+            if (GameRunning)
             {
                 EditorGame.DrawGameElements(GraphicPanel);
 
@@ -6250,7 +6270,7 @@ Error: {ex.Message}");
             if (MessageBox.Show(this, "It is cautioned that you save now, as there is NO WAY TO END THIS PROCESS ONCE IT STARTS and you may be forced to force the program to quit! Are you sure you want to continue?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 isPreRending = true;
-                PreLoadBox preLoadForm = new PreLoadBox
+                PreLoadBox preLoadForm = new PreLoadBox(this)
                 {
                     TopLevel = false
                 };
@@ -6317,7 +6337,7 @@ Error: {ex.Message}");
 
         private void DeveloperTerminalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DeveloperTerminal devTerm = new DeveloperTerminal();
+            DeveloperTerminal devTerm = new DeveloperTerminal(this);
             devTerm.Show();
 
         }
@@ -6776,7 +6796,7 @@ Error: {ex.Message}");
         private void SetPlayerRespawnToHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
-            if (Editor.GameRunning)
+            if (GameRunning)
             {
                 EditorGame.UpdateCheckpoint(clicked_point);
             }
@@ -6874,11 +6894,11 @@ Error: {ex.Message}");
 
         private void MoveThePlayerToHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Editor.GameRunning)
+            if (GameRunning)
             {         
                 int ObjectAddress = 0x85E9A0;
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(lastX / Zoom));
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(lastY / Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 2, (short)(lastX / Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 6, (short)(lastY / Zoom));
             }
         }
 
@@ -7157,7 +7177,7 @@ Error: {ex.Message}");
 
         public void UpdateRender()
         {
-            if (!mySettings.RellyOnRenderLoopForUpdatingOnly && GraphicPanel.bRender)
+            if (GraphicPanel.bRender)
             {
                 GraphicPanel.Render();
             }
@@ -7165,10 +7185,35 @@ Error: {ex.Message}");
 
         public void OnMouseMoveEvent()
         {
-            if (!mySettings.RellyOnRenderLoopForUpdatingOnly && GraphicPanel.bRender)
+            if (GraphicPanel.bRender)
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }
+        }
+
+        public void UpdateInfoPanel(bool visible, bool firstLoad = false)
+        {
+            if (firstLoad)
+            {
+                splitContainer2.Panel1.Controls.Add(info);
+                info.Show();
+                splitContainer2.Panel1Collapsed = false;
+                Updater.CheckforUpdates(true, true);
+                info.UpdateStatusLabel(Updater.condition, Updater);
+            }
+            if (visible)
+            {
+                info.Visible = true;
+                splitContainer2.Panel1Collapsed = false;
+                splitContainer1.BorderStyle = BorderStyle.None;
+            }
+            else
+            {
+                info.Visible = false;
+                splitContainer2.Panel1Collapsed = true;
+                splitContainer1.BorderStyle = BorderStyle.FixedSingle;
+            }
+
         }
 
 

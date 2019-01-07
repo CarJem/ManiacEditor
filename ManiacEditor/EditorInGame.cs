@@ -23,28 +23,28 @@ namespace ManiacEditor
 
         public Editor EditorInstance;
 
-        public static short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
-        public static short Player1_X { get { return Editor.GameMemory.ReadShort(Player1Base + 0x02); } set { Editor.GameMemory.WriteShort(Player1Base + 0x02, value); } }
-        public static short Player1_Y { get { return Editor.GameMemory.ReadShort(Player1Base + 0x06); } set { Editor.GameMemory.WriteShort(Player1Base + 0x06, value); } }
+        public short Player1_State { get { return EditorInstance.GameMemory.ReadShort(Player1Base + 0xC0); } set { EditorInstance.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
+        public short Player1_X { get { return EditorInstance.GameMemory.ReadShort(Player1Base + 0x02); } set { EditorInstance.GameMemory.WriteShort(Player1Base + 0x02, value); } }
+        public short Player1_Y { get { return EditorInstance.GameMemory.ReadShort(Player1Base + 0x06); } set { EditorInstance.GameMemory.WriteShort(Player1Base + 0x06, value); } }
 
-        public static short Player4_State { get { return Editor.GameMemory.ReadShort(Player4Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player4Base + 0xC0, value); } }
-        public static short Player4_X { get { return Editor.GameMemory.ReadShort(Player4Base + 0x02); } set { Editor.GameMemory.WriteShort(Player4Base + 0x02, value); } }
-        public static short Player4_Y { get { return Editor.GameMemory.ReadShort(Player4Base + 0x06); } set { Editor.GameMemory.WriteShort(Player4Base + 0x06, value); } }
+        public short Player4_State { get { return EditorInstance.GameMemory.ReadShort(Player4Base + 0xC0); } set { EditorInstance.GameMemory.WriteShort(Player4Base + 0xC0, value); } }
+        public short Player4_X { get { return EditorInstance.GameMemory.ReadShort(Player4Base + 0x02); } set { EditorInstance.GameMemory.WriteShort(Player4Base + 0x02, value); } }
+        public short Player4_Y { get { return EditorInstance.GameMemory.ReadShort(Player4Base + 0x06); } set { EditorInstance.GameMemory.WriteShort(Player4Base + 0x06, value); } }
 
-        public static short Player3_State { get { return Editor.GameMemory.ReadShort(Player3Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player3Base + 0xC0, value); } }
-        public static short Player3_X { get { return Editor.GameMemory.ReadShort(Player3Base + 0x02); } set { Editor.GameMemory.WriteShort(Player3Base + 0x02, value); } }
-        public static short Player3_Y { get { return Editor.GameMemory.ReadShort(Player3Base + 0x06); } set { Editor.GameMemory.WriteShort(Player3Base + 0x06, value); } }
+        public short Player3_State { get { return EditorInstance.GameMemory.ReadShort(Player3Base + 0xC0); } set { EditorInstance.GameMemory.WriteShort(Player3Base + 0xC0, value); } }
+        public short Player3_X { get { return EditorInstance.GameMemory.ReadShort(Player3Base + 0x02); } set { EditorInstance.GameMemory.WriteShort(Player3Base + 0x02, value); } }
+        public short Player3_Y { get { return EditorInstance.GameMemory.ReadShort(Player3Base + 0x06); } set { EditorInstance.GameMemory.WriteShort(Player3Base + 0x06, value); } }
 
-        public static short Player2_State { get { return Editor.GameMemory.ReadShort(Player2Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player2Base + 0xC0, value); } }
-        public static short Player2_X { get { return Editor.GameMemory.ReadShort(Player2Base + 0x02); } set { Editor.GameMemory.WriteShort(Player2Base + 0x02, value); } }
-        public static short Player2_Y { get { return Editor.GameMemory.ReadShort(Player2Base + 0x06); } set { Editor.GameMemory.WriteShort(Player2Base + 0x06, value); } }
+        public short Player2_State { get { return EditorInstance.GameMemory.ReadShort(Player2Base + 0xC0); } set { EditorInstance.GameMemory.WriteShort(Player2Base + 0xC0, value); } }
+        public short Player2_X { get { return EditorInstance.GameMemory.ReadShort(Player2Base + 0x02); } set { EditorInstance.GameMemory.WriteShort(Player2Base + 0x02, value); } }
+        public short Player2_Y { get { return EditorInstance.GameMemory.ReadShort(Player2Base + 0x06); } set { EditorInstance.GameMemory.WriteShort(Player2Base + 0x06, value); } }
 
-        public static byte StarPostEnable { get { return Editor.GameMemory.ReadByte(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x34); } set { Editor.GameMemory.WriteByte(Editor.GameMemory.ReadByte(CheckpointBase) + 0x34, value); } }
-        public static int StarPostX { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x12); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x12, value); } }
-        public static int StarPostY { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x16); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x16, value); } }
+        public byte StarPostEnable { get { return EditorInstance.GameMemory.ReadByte(EditorInstance.GameMemory.ReadInt32(CheckpointBase) + 0x34); } set { EditorInstance.GameMemory.WriteByte(EditorInstance.GameMemory.ReadByte(CheckpointBase) + 0x34, value); } }
+        public int StarPostX { get { return EditorInstance.GameMemory.ReadInt32(EditorInstance.GameMemory.ReadInt32(CheckpointBase) + 0x12); } set { EditorInstance.GameMemory.WriteInt32(EditorInstance.GameMemory.ReadInt32(CheckpointBase) + 0x12, value); } }
+        public int StarPostY { get { return EditorInstance.GameMemory.ReadInt32(EditorInstance.GameMemory.ReadInt32(CheckpointBase) + 0x16); } set { EditorInstance.GameMemory.WriteInt32(EditorInstance.GameMemory.ReadInt32(CheckpointBase) + 0x16, value); } }
 
-        public static byte CurrentScene { get { return Editor.GameMemory.ReadByte(0x00E48758); } set { Editor.GameMemory.WriteByte(0x00E48758, value); } }
-        public static byte GameState { get { return Editor.GameMemory.ReadByte(0x00E48776); } set { Editor.GameMemory.WriteByte(0x00E48776, value); } }
+        public byte CurrentScene { get { return EditorInstance.GameMemory.ReadByte(0x00E48758); } set { EditorInstance.GameMemory.WriteByte(0x00E48758, value); } }
+        public byte GameState { get { return EditorInstance.GameMemory.ReadByte(0x00E48776); } set { EditorInstance.GameMemory.WriteByte(0x00E48776, value); } }
 
 
         public EditorInGame(Editor instance)
@@ -117,7 +117,7 @@ namespace ManiacEditor
 
         public void MovePlayer(Point p, double Zoom, int player)
         {
-            if (Editor.GameRunning)
+            if (EditorInstance.GameRunning)
             {
                 // TODO: Find out if this is constent
                 switch (player)
@@ -239,7 +239,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    var editorAnim = EditorEntity_ini.LoadAnimation2("HUD", d, 2, frameID, false, false, false);
+                    var editorAnim = EditorInstance.EditorEntity_ini.LoadAnimation2("HUD", d, 2, frameID, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0 && ID != 0)
                     {
                         var frame = editorAnim.Frames[0];
@@ -315,7 +315,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    var editorAnim = EditorEntity_ini.LoadAnimation2("StarPost", d, 1, 0, false, false, false);
+                    var editorAnim = EditorInstance.EditorEntity_ini.LoadAnimation2("StarPost", d, 1, 0, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[0];

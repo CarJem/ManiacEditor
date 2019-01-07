@@ -131,19 +131,7 @@
     <Setting Name="ShowEditLayerBackground" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="UseFasterSelectionRendering" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="AlwaysRenderObjects" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="AllowMoreRenderUpdates" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="AlwaysRenderLines" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="AlwaysRenderTextures" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="AlternativeRenderingMethod" Type="System.Boolean" Scope="User">
@@ -182,9 +170,6 @@
     <Setting Name="allowForSmoothSelection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="AlwaysRenderRectangles" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="SavedPlaces" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -208,9 +193,6 @@
     </Setting>
     <Setting Name="DisableRunSceneAutoInput" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="devInt1" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="devInt2" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">1</Value>
@@ -246,9 +228,6 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="EnableRealTimeObjectMovingInGame" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="AlwaysDrawBitmaps" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="PrioritizedObjectRendering" Type="System.Boolean" Scope="User">
@@ -340,9 +319,6 @@
     </Setting>
     <Setting Name="ShowFirstTimeSetup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="RellyOnRenderLoopForUpdatingOnly" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DisableDraging" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

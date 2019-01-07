@@ -19,9 +19,9 @@ namespace ManiacEditor.Entity_Renders
             //int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = EditorEntity_ini.LoadAnimation2("DNARiser", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = EditorEntity_ini.LoadAnimation2("DNARiser", d, 2, -1, fliph, flipv, false);
-            var editorAnim3 = EditorEntity_ini.LoadAnimation2("DNARiser", d, 4, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("DNARiser", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("DNARiser", d, 2, -1, fliph, flipv, false);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("DNARiser", d, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

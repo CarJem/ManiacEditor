@@ -15,12 +15,12 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 0, false, false, false);
-            var editorAnimEye = EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 1, false, false, false);
-            var editorAnimPupil = EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 2, false, false, false);
-            var editorAnimHeadJoint = EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 6, false, false, false);
-            var editorAnimNose = EditorEntity_ini.LoadAnimation2("MegaOctus", d, 1, 0, false, false, false);
-            var editorAnimBolt = EditorEntity_ini.LoadAnimation2("MegaOctus", d, 2, 0, false, false, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 0, false, false, false);
+            var editorAnimEye = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 1, false, false, false);
+            var editorAnimPupil = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 2, false, false, false);
+            var editorAnimHeadJoint = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MegaOctus", d, 0, 6, false, false, false);
+            var editorAnimNose = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MegaOctus", d, 1, 0, false, false, false);
+            var editorAnimBolt = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MegaOctus", d, 2, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimEye != null && editorAnimEye.Frames.Count != 0 && editorAnimPupil != null && editorAnimPupil.Frames.Count != 0 && editorAnimHeadJoint != null && editorAnimHeadJoint.Frames.Count != 0 && editorAnimNose != null && editorAnimNose.Frames.Count != 0 && editorAnimBolt != null && editorAnimBolt.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

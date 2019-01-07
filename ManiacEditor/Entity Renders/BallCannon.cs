@@ -92,9 +92,9 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnim = EditorEntity_ini.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation);
-            var editorAnimHolo = EditorEntity_ini.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation2);
-            var editorAnimCork = EditorEntity_ini.LoadAnimation2("BallCannon", d, CorkState, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation);
+            var editorAnimHolo = e.EditorInstance.EditorEntity_ini.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation2);
+            var editorAnimCork = e.EditorInstance.EditorEntity_ini.LoadAnimation2("BallCannon", d, CorkState, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHolo != null && editorAnimHolo.Frames.Count != 0 && editorAnimCork != null && editorAnimCork.Frames.Count != 0)
             {
                 if (type == 1)

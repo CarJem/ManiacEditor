@@ -20,10 +20,15 @@ namespace ManiacEditor
         bool preRenderRadioGroupCheckChangeAllowed = true;
         bool collisionColorsRadioGroupCheckChangeAllowed = true;
         public Editor EditorInstance;
+        Timer CheckGraphicalSettingTimer;
         public OptionBox(Editor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
+
+            CheckGraphicalSettingTimer = new Timer();
+            CheckGraphicalSettingTimer.Interval = 10;
+            CheckGraphicalSettingTimer.Tick += CheckGraphicalPresetModeState;
 
             preRenderRadioGroupsUpdate(Properties.Settings.Default.preRenderSceneOption);
             collisionColorsRadioGroupUpdate(Properties.Settings.Default.CollisionColorsDefault);
@@ -66,6 +71,49 @@ namespace ManiacEditor
             tabPage5.UseVisualStyleBackColor = false;
             tabPage6.UseVisualStyleBackColor = false;
 
+            CheckGraphicalPresetModeState(null, null);
+
+        }
+
+        private void CheckGraphicalPresetModeState(object sender, EventArgs e)
+        {
+            minimalRadioButton.Checked = false;
+            minimalRadioButton2.Checked = false;
+            basicRadioButton.Checked = false;
+            basicRadioButton2.Checked = false;
+            superRadioButton.Checked = false;
+            superRadioButton2.Checked = false;
+            hyperRadioButton.Checked = false;
+            hyperRadioButton2.Checked = false;
+            customRadioButton.Checked = false;
+            customRadioButton2.Checked = false;
+
+
+            if (EditorSettings.isMinimalPreset())
+            {
+                minimalRadioButton.Checked = true;
+                minimalRadioButton2.Checked = true;
+            }
+            else if (EditorSettings.isBasicPreset())
+            {
+                basicRadioButton.Checked = true;
+                basicRadioButton2.Checked = true;
+            }
+            else if (EditorSettings.isSuperPreset())
+            {
+                superRadioButton.Checked = true;
+                superRadioButton2.Checked = true;
+            }
+            else if (EditorSettings.isHyperPreset())
+            {
+                hyperRadioButton.Checked = true;
+                hyperRadioButton2.Checked = true;
+            }
+            else
+            {
+                customRadioButton.Checked = true;
+                customRadioButton2.Checked = true;
+            }
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -208,12 +256,12 @@ namespace ManiacEditor
 
         private void button5_Click(object sender, EventArgs e)
         {
-            SettingsReader.exportSettings();
+            EditorSettings.exportSettings();
         }
 
         private void importOptionsButton_Click(object sender, EventArgs e)
         {
-            SettingsReader.importSettings();
+            EditorSettings.importSettings();
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -713,6 +761,14 @@ namespace ManiacEditor
         {
             RadioButton button = sender as RadioButton;
             if (sender != null) Settings.mySettings.ButtonLayoutDefault = button.Tag.ToString();
+        }
+
+
+        private void SetGraphicalPresetSetting(object sender, EventArgs e)
+        {
+            RadioButton button = sender as RadioButton;
+            if (sender != null) EditorSettings.ApplyPreset(button.Tag.ToString());
+            CheckGraphicalPresetModeState(null, null);
         }
     }
 }

@@ -207,7 +207,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.seperator1 = new System.Windows.Forms.ToolStripSeparator();
             this._levelIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -336,6 +335,8 @@
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewPanel = new System.Windows.Forms.Panel();
+            this.scrollBarDividerPanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -349,6 +350,7 @@
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
+            this.viewPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -1727,6 +1729,7 @@
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
@@ -1735,9 +1738,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.hScrollBar1);
-            this.splitContainer1.Panel1.Controls.Add(this.vScrollBar1);
-            this.splitContainer1.Panel1.Controls.Add(this.GraphicPanel);
+            this.splitContainer1.Panel1.Controls.Add(this.viewPanel);
             this.splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             // 
             // splitContainer1.Panel2
@@ -1750,10 +1751,11 @@
             // 
             // hScrollBar1
             // 
-            this.hScrollBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 601);
+            this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 599);
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(954, 17);
+            this.hScrollBar1.Size = new System.Drawing.Size(952, 17);
             this.hScrollBar1.TabIndex = 11;
             this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBar1_Scroll);
             this.hScrollBar1.ValueChanged += new System.EventHandler(this.HScrollBar1_ValueChanged);
@@ -1761,38 +1763,15 @@
             // 
             // vScrollBar1
             // 
-            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar1.Location = new System.Drawing.Point(954, 0);
+            this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.vScrollBar1.Location = new System.Drawing.Point(952, 0);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 618);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 599);
             this.vScrollBar1.TabIndex = 12;
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.VScrollBar1_Scroll);
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.VScrollBar1_ValueChanged);
             this.vScrollBar1.MouseEnter += new System.EventHandler(this.VScrollBar1_Entered);
-            // 
-            // GraphicPanel
-            // 
-            this.GraphicPanel.AllowDrop = true;
-            this.GraphicPanel.AutoSize = true;
-            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.GraphicPanel.Location = new System.Drawing.Point(-1, 0);
-            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.GraphicPanel.Name = "GraphicPanel";
-            this.GraphicPanel.Size = new System.Drawing.Size(643, 449);
-            this.GraphicPanel.TabIndex = 10;
-            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
             // 
             // statusStrip1
             // 
@@ -2996,6 +2975,26 @@
             this.toolStripSeparator32.Name = "toolStripSeparator32";
             this.toolStripSeparator32.Size = new System.Drawing.Size(6, 39);
             // 
+            // viewPanel
+            // 
+            this.viewPanel.Controls.Add(this.scrollBarDividerPanel);
+            this.viewPanel.Controls.Add(this.vScrollBar1);
+            this.viewPanel.Controls.Add(this.hScrollBar1);
+            this.viewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewPanel.Location = new System.Drawing.Point(0, 0);
+            this.viewPanel.Name = "viewPanel";
+            this.viewPanel.Size = new System.Drawing.Size(969, 616);
+            this.viewPanel.TabIndex = 13;
+            // 
+            // scrollBarDividerPanel
+            // 
+            this.scrollBarDividerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.scrollBarDividerPanel.BackColor = System.Drawing.Color.White;
+            this.scrollBarDividerPanel.Location = new System.Drawing.Point(952, 599);
+            this.scrollBarDividerPanel.Name = "scrollBarDividerPanel";
+            this.scrollBarDividerPanel.Size = new System.Drawing.Size(17, 17);
+            this.scrollBarDividerPanel.TabIndex = 13;
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3028,7 +3027,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
@@ -3040,6 +3038,7 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
+            this.viewPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3053,10 +3052,8 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.Panel mainPanel;
         //private System.Windows.Forms.Panel GraphicPanel;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private ManiacEditor.DevicePanel GraphicPanel;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
@@ -3344,9 +3341,12 @@
         private System.Windows.Forms.ToolStripMenuItem sPToolStripMenuItem1;
         public System.Windows.Forms.ToolStripSplitButton RunSceneButton;
         public System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.Panel viewPanel;
+        public System.Windows.Forms.Panel mainPanel;
+        public System.Windows.Forms.VScrollBar vScrollBar1;
+        public System.Windows.Forms.HScrollBar hScrollBar1;
+        public System.Windows.Forms.Panel scrollBarDividerPanel;
     }
 }
 

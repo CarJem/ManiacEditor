@@ -17827,4 +17827,11 @@
 
 -CarJem Generations - Developer of Maniac Editor - Generations Edition</value>
   </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Welcome to Maniac Editor. 
+This appears to be your first time using the editor, so prehaps you would like to get going quickly. So here are some quick recomended settings for you to try based on your PC's performance and power.
+(You can change these options later)
+
+</value>
+  </data>
 </root>
