@@ -1,4 +1,5 @@
 ﻿using ManiacEditor.Properties;
+using Microsoft.Scripting.Utils;
 using RSDKv5;
 using SharpDX.Multimedia;
 using System;
@@ -18,6 +19,7 @@ namespace ManiacEditor
     {
         private IList<SceneObject> _sourceSceneObjects;
         private IList<SceneObject> _targetSceneObjects;
+        private IList<int> _sourceSceneObjectUID;
         private StageConfig _stageConfig;
         public List<String> objectCheckMemory = new List<string>();
 
@@ -38,6 +40,7 @@ namespace ManiacEditor
 
             InitializeComponent();
             _sourceSceneObjects = targetSceneObjects;
+            _sourceSceneObjectUID = new List<int>();
             _targetSceneObjects = targetSceneObjects;
             _stageConfig = stageConfig;
 
@@ -46,6 +49,7 @@ namespace ManiacEditor
                                                         .OrderBy(sso => sso.Name.ToString());
 
             updateSelectedText();
+            int PersonalID = 0;
             foreach (var io in importableObjects)
             {
                 /*
@@ -55,9 +59,11 @@ namespace ManiacEditor
 
                 var lvi = new ListViewItem(io.Name.ToString())
                 {
-                    Checked = false
+                    Checked = false,
+                    Tag = PersonalID.ToString()
                 };
                 lvObjects.Items.Add(lvi);
+                PersonalID++;
             }
 
             updateSelectedText();
@@ -135,13 +141,15 @@ namespace ManiacEditor
             var importableObjects = _targetSceneObjects.Where(sso => targetNames.Contains(sso.Name.ToString()))
                                                         .OrderBy(sso => sso.Name.ToString());
 
-
+            int InstanceID = 0;
             foreach (var io in importableObjects)
             {
                 var lvi = new ListViewItem(io.Name.ToString())
                 {
-                    Checked = true
+                    Checked = true,
+                    Tag = InstanceID.ToString()
                 };
+                InstanceID++;
 
                 bool alreadyChecked = false;
                 foreach (string str in objectCheckMemory)
@@ -237,7 +245,7 @@ namespace ManiacEditor
 
         private void updateSelectedText()
         {
-            label1.Text = "Amount of Objects Selected (Memory): " + objectCheckMemory.Count + " (Current): " + lvObjects.CheckedItems.Count;
+                label1.Text = "Amount of Objects Selected (Memory): " + objectCheckMemory.Count + " (Current): " + lvObjects.CheckedItems.Count;
         }
 
         private void lvObjects_CheckChanges(object sender, EventArgs e)
@@ -254,11 +262,11 @@ namespace ManiacEditor
                 bool overMax = lvObjects.CheckedItems.Count > MAX;
                 int max = (overMax ? MAX-1 : lvObjects.CheckedItems.Count);
                 for (int i = 0; i < max; i++)
-                    itemNames += "\t" + lvObjects.CheckedItems[i].Text + "\n";
+                    itemNames += "  -" + lvObjects.CheckedItems[i].Text + "(" + lvObjects.CheckedItems[i].Tag + ")" + "\n";
                 if (overMax)
-                    itemNames += "\t(+" + (lvObjects.CheckedItems.Count - (MAX-1)) + " more)\n";
+                    itemNames += "(+" + (lvObjects.CheckedItems.Count - (MAX-1)) + " more)\n";
 
-                var check = MessageBox.Show("Are you sure you want to remove the following objects from this Scene?\n" + itemNames + "This will also remove all entities of them!",
+                var check = MessageBox.Show("Are you sure you want to remove the following objects from this Scene?" + Environment.NewLine + itemNames + "This will also remove all entities of them!",
                     "Remove Objects and Entities?",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning,
@@ -266,13 +274,13 @@ namespace ManiacEditor
 
                 if (check == DialogResult.Yes)
                 {
-                    foreach (var lvci in lvObjects.CheckedItems)
+                    for (int i = 0; i < lvObjects.CheckedItems.Count; i++)
                     {
-                        var item = lvci as ListViewItem;
-                        //Debug.Print(item.Text.ToString());
-                        SceneObject objectsToRemove = _targetSceneObjects.FirstOrDefault(sso => sso.Name.ToString().Equals(item.Text));
+                        var item = lvObjects.CheckedItems[i] as ListViewItem;
+                        int.TryParse(item.Tag.ToString(), out int ID);
+                        SceneObject objectsToRemove = _targetSceneObjects[ID];
                         objectsToRemove.Entities.Clear(); // ditch instances of the object from the imported level
-                        _targetSceneObjects.Remove(_targetSceneObjects.FirstOrDefault(sso => sso.Name.ToString().Equals(item.Text)));
+                        _targetSceneObjects.Remove(objectsToRemove);
 
                         if (EditorInstance.RemoveStageConfigEntriesAllowed)
                         {
@@ -313,7 +321,8 @@ namespace ManiacEditor
             if (lvObjects.FocusedItem != null)
             {
                 Debug.Print(lvObjects.FocusedItem.Text);
-                SceneObject obj = _targetSceneObjects.First(sso => sso.Name.ToString().Equals(lvObjects.FocusedItem.Text));
+                int.TryParse(lvObjects.FocusedItem.Tag.ToString(), out int ID);
+                SceneObject obj = _targetSceneObjects[ID];
 
                 attributesTable.Items.Clear();
 

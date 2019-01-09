@@ -67,6 +67,7 @@ namespace ManiacEditor
 
         private Sprite sprite;
         private Sprite sprite2;
+        private Sprite HUD;
         Texture tx;
         Bitmap txb;
         Texture tcircle;
@@ -88,7 +89,7 @@ namespace ManiacEditor
         private Direct3D direct3d = new Direct3D();
         private Font font;
         private Font fontBold;
-        //public VertexBuffer vb;
+        public VertexBuffer vb;
         // The Form to place the DevicePanel onto
         public IDrawArea _parent = null;
         private PresentParameters presentParams;
@@ -167,12 +168,12 @@ namespace ManiacEditor
                 }
 
 
-            //vb = new VertexBuffer(typeof(CustomVertex.PositionTextured),
-            //vb = new VertexBuffer(typeof(CustomVertex.PositionTextured),
-            //    4, _device, Usage.Dynamic | Usage.WriteOnly,
-            //    CustomVertex.PositionTextured.Format, Pool.Default);
+                //vb = new VertexBuffer(typeof(CustomVertex.PositionTextured),
+                //vb = new VertexBuffer(new IntPtr(), 4, _device, Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionTextured.Format, Pool.Default);
+                //vb = new VertexBuffer(_device, 4, Usage.Dynamic | Usage.WriteOnly, VertexFormat.Position, Pool.Default);
 
-            //_device.SetStreamSource(0, vb, 0);
+                //_device.SetStreamSource(0, vb, 0, 0);
+
 
             txb = new Bitmap(1, 1);
                 using (Graphics g = Graphics.FromImage(txb))
@@ -260,6 +261,7 @@ namespace ManiacEditor
         {
             sprite = new Sprite(_device);
             sprite2 = new Sprite(_device);
+            HUD = new Sprite(_device);
 
             tx = TextureCreator.FromBitmap(_device, txb);
             tcircle = TextureCreator.FromBitmap(_device, tcircleb);
@@ -520,7 +522,7 @@ namespace ManiacEditor
                 AttemptRecovery(null);
                 return;
             }
-            
+
 
             try
             {
@@ -534,9 +536,28 @@ namespace ManiacEditor
                 _device.BeginScene();
 
                 sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
-                
+
+                if (EditorInstance.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
+                else HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
+
+
                 sprite2.Begin(SpriteFlags.AlphaBlend);
 
+
+                    var state1 = _device.GetSamplerState(0, SamplerState.MinFilter);
+                    var state2 = _device.GetSamplerState(0, SamplerState.MagFilter);
+                    var state3 = _device.GetSamplerState(0, SamplerState.MipFilter);
+
+                    // If zoomin, just do near-neighbor scaling
+                    _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
+                    _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
+                    _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
+                
+                    HUD.Begin(SpriteFlags.AlphaBlend);
+
+                    _device.SetSamplerState(0, SamplerState.MinFilter, state1);
+                    _device.SetSamplerState(0, SamplerState.MagFilter, state2);
+                    _device.SetSamplerState(0, SamplerState.MipFilter, state3);
 
                 if (zoom > 1)
                 {
@@ -547,15 +568,17 @@ namespace ManiacEditor
                 }
                 sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack | SpriteFlags.DoNotModifyRenderState);
 
+
                 // Render of scene here
                 if (OnRender != null && !deviceLost)
-            {
-                OnRender(this, new DeviceEventArgs(_device));
-            }
+                {
+                    OnRender(this, new DeviceEventArgs(_device));
+                }
 
 
 
                 sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
+                HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
 
                 Rectangle rect1 = new Rectangle(DrawWidth - screen.X, 0, Width - DrawWidth, Height);
                 rect1.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
@@ -563,9 +586,10 @@ namespace ManiacEditor
                 rect2.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
                 DrawTexture(tx, new Rectangle(0, 0, rect1.Width, rect1.Height), new Vector3(0, 0, 0), new Vector3(rect1.X, rect1.Y, 0), SystemColors.Control);
                 DrawTexture(tx, new Rectangle(0, 0, rect2.Width, rect2.Height), new Vector3(0, 0, 0), new Vector3(rect2.X, rect2.Y, 0), SystemColors.Control);
-                
+
                 sprite.End();
                 sprite2.End();
+                HUD.End();
                 //End the scene
                 _device.EndScene();
                 _device.Present();
@@ -703,12 +727,23 @@ namespace ManiacEditor
             }
             
         }
+        private void DrawHUD(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+        {
+            HUD.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+        }
 
         public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
             DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
+        }
+
+        public void DrawHUDBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
+        {
+            Rectangle screen = _parent.GetScreen();
+            double zoom = _parent.GetZoom();
+            DrawHUD(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x, y, 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
         }
 
         public void DrawCircle(int x, int y, Color color)
@@ -1082,7 +1117,12 @@ namespace ManiacEditor
                 sprite2.Dispose();
                 sprite2 = null;
             }
-            
+            if (HUD != null || type == 1)
+            {
+                HUD.Dispose();
+                HUD = null;
+            }
+
             if (_parent != null && type == 1)
             {
                 _parent.DisposeTextures();

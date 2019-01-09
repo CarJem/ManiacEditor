@@ -1395,14 +1395,27 @@ namespace TileManiac
         {
             if (!showPathB)
             {
-                tcf.CollisionPath2[curColisionMask] = tcf.CollisionPath1[curColisionMask];
-                //tcf.CollisionPath2[curColisionMask] = tc;RSDKv5.TilesConfig.ColllisionMask tc
+                tcf.CollisionPath2[curColisionMask].Collision = (byte[])tcf.CollisionPath1[curColisionMask].Collision.Clone();
+                tcf.CollisionPath2[curColisionMask].HasCollision = (bool[])tcf.CollisionPath1[curColisionMask].HasCollision.Clone();
+                tcf.CollisionPath2[curColisionMask].IsCeiling = tcf.CollisionPath1[curColisionMask].IsCeiling;
+                tcf.CollisionPath2[curColisionMask].slopeAngle = tcf.CollisionPath1[curColisionMask].slopeAngle;
+                tcf.CollisionPath2[curColisionMask].momentum = tcf.CollisionPath1[curColisionMask].momentum;
+                tcf.CollisionPath2[curColisionMask].physics = tcf.CollisionPath1[curColisionMask].physics;
+                tcf.CollisionPath2[curColisionMask].special = tcf.CollisionPath1[curColisionMask].special;
+
                 CollisionListImgB[curColisionMask] = CollisionListImgA[curColisionMask];
                 RefreshUI();
             }
             else if (showPathB)
             {
-                tcf.CollisionPath1[curColisionMask] = tcf.CollisionPath2[curColisionMask];
+                tcf.CollisionPath1[curColisionMask].Collision = (byte[])tcf.CollisionPath2[curColisionMask].Collision.Clone();
+                tcf.CollisionPath1[curColisionMask].HasCollision = (bool[])tcf.CollisionPath2[curColisionMask].HasCollision.Clone();
+                tcf.CollisionPath1[curColisionMask].IsCeiling = tcf.CollisionPath2[curColisionMask].IsCeiling;
+                tcf.CollisionPath1[curColisionMask].slopeAngle = tcf.CollisionPath2[curColisionMask].slopeAngle;
+                tcf.CollisionPath1[curColisionMask].momentum = tcf.CollisionPath2[curColisionMask].momentum;
+                tcf.CollisionPath1[curColisionMask].physics = tcf.CollisionPath2[curColisionMask].physics;
+                tcf.CollisionPath1[curColisionMask].special = tcf.CollisionPath2[curColisionMask].special;
+
                 CollisionListImgA[curColisionMask] = CollisionListImgB[curColisionMask];
                 RefreshUI();
             }
@@ -2335,7 +2348,13 @@ namespace TileManiac
             DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                tcf.CollisionPath1[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath1[curColisionMask].Clone();            
+                tcf.CollisionPath1[curColisionMask].Collision = (byte[])tcfBak.CollisionPath1[curColisionMask].Collision.Clone();
+                tcf.CollisionPath1[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath1[curColisionMask].HasCollision.Clone();
+                tcf.CollisionPath1[curColisionMask].IsCeiling = tcfBak.CollisionPath1[curColisionMask].IsCeiling;
+                tcf.CollisionPath1[curColisionMask].slopeAngle = tcfBak.CollisionPath1[curColisionMask].slopeAngle;
+                tcf.CollisionPath1[curColisionMask].momentum = tcfBak.CollisionPath1[curColisionMask].momentum;
+                tcf.CollisionPath1[curColisionMask].physics = tcfBak.CollisionPath1[curColisionMask].physics;
+                tcf.CollisionPath1[curColisionMask].special = tcfBak.CollisionPath1[curColisionMask].special;
                 RefreshUI();
             }
         }
@@ -2345,7 +2364,13 @@ namespace TileManiac
             DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                tcf.CollisionPath2[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath2[curColisionMask].Clone();
+                tcf.CollisionPath2[curColisionMask].Collision = (byte[])tcfBak.CollisionPath2[curColisionMask].Collision.Clone();
+                tcf.CollisionPath2[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath2[curColisionMask].HasCollision.Clone();
+                tcf.CollisionPath2[curColisionMask].IsCeiling = tcfBak.CollisionPath2[curColisionMask].IsCeiling;
+                tcf.CollisionPath2[curColisionMask].slopeAngle = tcfBak.CollisionPath2[curColisionMask].slopeAngle;
+                tcf.CollisionPath2[curColisionMask].momentum = tcfBak.CollisionPath2[curColisionMask].momentum;
+                tcf.CollisionPath2[curColisionMask].physics = tcfBak.CollisionPath2[curColisionMask].physics;
+                tcf.CollisionPath2[curColisionMask].special = tcfBak.CollisionPath2[curColisionMask].special;
                 RefreshUI();
             }
         }
@@ -2355,8 +2380,23 @@ namespace TileManiac
             DialogResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                tcf.CollisionPath1[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath1[curColisionMask].Clone();
-                tcf.CollisionPath2[curColisionMask] = (TilesConfig.CollisionMask)tcfBak.CollisionPath2[curColisionMask].Clone();
+                tcf.CollisionPath1[curColisionMask].Collision = (byte[])tcfBak.CollisionPath1[curColisionMask].Collision.Clone();
+                tcf.CollisionPath1[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath1[curColisionMask].HasCollision.Clone();
+                tcf.CollisionPath1[curColisionMask].IsCeiling = tcfBak.CollisionPath1[curColisionMask].IsCeiling;
+                tcf.CollisionPath1[curColisionMask].slopeAngle = tcfBak.CollisionPath1[curColisionMask].slopeAngle;
+                tcf.CollisionPath1[curColisionMask].momentum = tcfBak.CollisionPath1[curColisionMask].momentum;
+                tcf.CollisionPath1[curColisionMask].physics = tcfBak.CollisionPath1[curColisionMask].physics;
+                tcf.CollisionPath1[curColisionMask].special = tcfBak.CollisionPath1[curColisionMask].special;
+
+
+                tcf.CollisionPath2[curColisionMask].Collision = (byte[])tcfBak.CollisionPath2[curColisionMask].Collision.Clone();
+                tcf.CollisionPath2[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath2[curColisionMask].HasCollision.Clone();
+                tcf.CollisionPath2[curColisionMask].IsCeiling = tcfBak.CollisionPath2[curColisionMask].IsCeiling;
+                tcf.CollisionPath2[curColisionMask].slopeAngle = tcfBak.CollisionPath2[curColisionMask].slopeAngle;
+                tcf.CollisionPath2[curColisionMask].momentum = tcfBak.CollisionPath2[curColisionMask].momentum;
+                tcf.CollisionPath2[curColisionMask].physics = tcfBak.CollisionPath2[curColisionMask].physics;
+                tcf.CollisionPath2[curColisionMask].special = tcfBak.CollisionPath2[curColisionMask].special;
+
                 RefreshUI();
             }
         }

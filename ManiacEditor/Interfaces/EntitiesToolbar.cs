@@ -164,6 +164,8 @@ namespace ManiacEditor
             }
         }
 
+
+
         public void EntitiesList_SelectedIndexChanged(object sender, EventArgs e)
         {
             String input = entitiesList.Text.ToString();
@@ -638,19 +640,19 @@ namespace ManiacEditor
                 switch (Properties.Settings.Default.DefaultFilter[0])
                 {
                     case 'M':
-                        EditorEntities.DefaultFilter = 2;
+                        EditorInstance.entities.DefaultFilter = 2;
                         break;
                     case 'E':
-                        EditorEntities.DefaultFilter = 4;
+                        EditorInstance.entities.DefaultFilter = 4;
                         break;
                     case 'B':
-                        EditorEntities.DefaultFilter = 1;
+                        EditorInstance.entities.DefaultFilter = 1;
                         break;
                     case 'P':
-                        EditorEntities.DefaultFilter = 255;
+                        EditorInstance.entities.DefaultFilter = 255;
                         break;
                     default:
-                        EditorEntities.DefaultFilter = 0;
+                        EditorInstance.entities.DefaultFilter = 0;
                         break;
                 }
                 Spawn?.Invoke(cbSpawn.SelectedItem as RSDKv5.SceneObject);
@@ -660,22 +662,22 @@ namespace ManiacEditor
 
         private void maniaFilterCheck_CheckedChanged(object sender, EventArgs e)
         {
-            EditorEntities.FilterRefreshNeeded = true;
+            EditorInstance.entities.FilterRefreshNeeded = true;
         }
 
         private void encoreFilterCheck_CheckedChanged(object sender, EventArgs e)
         {
-            EditorEntities.FilterRefreshNeeded = true;
+            EditorInstance.entities.FilterRefreshNeeded = true;
         }
 
         private void bothFilterCheck_CheckedChanged(object sender, EventArgs e)
         {
-            EditorEntities.FilterRefreshNeeded = true;
+            EditorInstance.entities.FilterRefreshNeeded = true;
         }
 
         private void otherFilterCheck_CheckedChanged(object sender, EventArgs e)
         {
-            EditorEntities.FilterRefreshNeeded = true;
+            EditorInstance.entities.FilterRefreshNeeded = true;
         }
 
         // Temporary solution to "filter" attribute being missing in old Scenes

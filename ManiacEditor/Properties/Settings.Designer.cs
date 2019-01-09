@@ -1554,5 +1554,29 @@ namespace ManiacEditor.Properties {
                 this["scrollLock"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowStatsViewerDefault {
+            get {
+                return ((bool)(this["ShowStatsViewerDefault"]));
+            }
+            set {
+                this["ShowStatsViewerDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StatsViewerLargeTextDefault {
+            get {
+                return ((bool)(this["StatsViewerLargeTextDefault"]));
+            }
+            set {
+                this["StatsViewerLargeTextDefault"] = value;
+            }
+        }
     }
 }

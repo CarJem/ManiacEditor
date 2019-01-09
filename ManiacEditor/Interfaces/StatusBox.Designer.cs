@@ -40,6 +40,7 @@
             // 
             // informationLabel
             // 
+            this.informationLabel.BackColor = System.Drawing.Color.Transparent;
             this.informationLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.informationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.informationLabel.Location = new System.Drawing.Point(0, 0);
@@ -54,7 +55,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(768, 529);
             this.Controls.Add(this.informationLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "StatusBox";
@@ -68,6 +69,6 @@
         #endregion
 
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Label informationLabel;
+        public System.Windows.Forms.Label informationLabel;
     }
 }

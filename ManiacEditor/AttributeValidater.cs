@@ -290,6 +290,7 @@ namespace ManiacEditor
         {
             
             if (e.Object.Name.Name == "UIOptionPanel") return 0;
+            else if (e.Object.Name.Name == "UIPicture") return 1;
             else if (e.Object.Name.Name == "UIChoice") return 1;
             else if(e.Object.Name.Name == "UIButton") return 1;
             else if (e.Object.Name.Name == "UIDiorama") return 1;

@@ -16,8 +16,8 @@ namespace ManiacEditor
         protected const int NAME_BOX_WIDTH = 20;
         protected const int NAME_BOX_HEIGHT = 20;
 
-        public static bool FilterRefreshNeeded = false;
-        public static int DefaultFilter = -1;
+        public bool FilterRefreshNeeded = false;
+        public int DefaultFilter = -1;
 
         public bool OptimizeAssets = false;
 
@@ -41,20 +41,24 @@ namespace ManiacEditor
 
         public Actions.IAction LastAction;
 
-        public static int layerPrority = 0;
+        public int layerPrority = 0;
+
+        public string SetupObject = "";
 
         public Editor EditorInstance;
+
+
 
 
         public EditorEntities(Scene scene, Editor instance)
         {
             EditorInstance = instance;
-            //this.scene = scene;
             foreach (var obj in scene.Objects)
             {
                 entities.AddRange(obj.Entities.Select(x => GenerateEditorEntity(x)));
             }
             FindDuplicateIds();
+            SetupObject = GetSetupObject(scene);
             entitiesBySlot = entities.ToDictionary(x => x.Entity.SlotID);
         }
 
@@ -62,6 +66,21 @@ namespace ManiacEditor
         {
             var groupedById = entities.GroupBy(e => e.Entity.SlotID)
                                       .Where(g => g.Count()>1);
+        }
+
+        public List<string> GetObjects(List<RSDKv5.SceneObject> sceneObjects)
+        {
+            sceneObjects.Sort((x, y) => x.Name.ToString().CompareTo(y.Name.ToString()));
+            List<string> strings = sceneObjects.Select(s => s.Name.Name).ToList();
+            return strings;
+        }
+
+        public string GetSetupObject(Scene scene)
+        {
+            var objectList = GetObjects(EditorInstance.EditorScene.Objects);
+            string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
+            //MessageBox.Show(setupObject);
+            return setupObject;
         }
 
         private ushort getFreeSlot(RSDKv5.SceneEntity preferred)

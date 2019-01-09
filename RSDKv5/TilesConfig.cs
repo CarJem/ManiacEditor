@@ -18,7 +18,8 @@ namespace RSDKv5
         public CollisionMask[] CollisionPath1 = new CollisionMask[TILES_COUNT];
         public CollisionMask[] CollisionPath2 = new CollisionMask[TILES_COUNT];
 
-        [Serializable]
+
+
         public class CollisionMask : ICloneable
         {
             public object Clone()

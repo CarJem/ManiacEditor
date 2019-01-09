@@ -312,15 +312,17 @@ namespace ManiacEditor
                 if (frameId >= 0 && frameId < animiation.Frames.Count) frame = animiation.Frames[frameId];
                 Bitmap map;
                 bool noEncoreColors = false;
-                if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
+                if (assetName == "EditorAssets" || assetName == "EditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
 
+                if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = rsdkAnim.SpriteSheets.Count - 1;
                 if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
                 {
                     string targetFile;
 
-                    if (assetName == "EditorAssets" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender")
+                    if (assetName == "EditorAssets" || assetName == "HUDEditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender")
                     {
                         if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
+                        else if (assetName == "HUDEditorText") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorText.gif");
                         else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
                         else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
                         else if (assetName == "EditorUIRender") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "MenuRenders.gif");
@@ -474,16 +476,20 @@ namespace ManiacEditor
             return new Rectangle(x, y, width, height);
         }
 
-        public  Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
+        public Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
         {
             string path, path2;
             string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : EditorInstance.DataDirectory);
-            if (name == "EditorAssets" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
+            if (name == "EditorAssets" || name == "HUDEditorText" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
             {
                 switch (name)
                 {
                     case "EditorAssets":
                         path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.bin");
+                        if (!File.Exists(path2)) return null;
+                        break;
+                    case "HUDEditorText":
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorText.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     case "EditorIcons2":

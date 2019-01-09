@@ -390,6 +390,10 @@
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
     <Compile Include="EditorInGame.cs" />
     <Compile Include="EditorUpdater.cs" />
+    <Compile Include="Entity Renders\TitleBG.cs" />
+    <Compile Include="Entity Renders\TitleSonic.cs" />
+    <Compile Include="Entity Renders\TitleLogo.cs" />
+    <Compile Include="Entity Renders\Title3DSprite.cs" />
     <Compile Include="Entity Renders\AIZTornado.cs" />
     <Compile Include="Entity Renders\Armadiloid.cs" />
     <Compile Include="Entity Renders\BallCannon.cs" />
@@ -893,6 +897,9 @@
     <Content Include="EditorIcons.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Global\EditorText.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global\MenuRenders.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -909,6 +916,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Global\EditorUIRender.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Global\EditorText.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\LayerManagerWarning1.rtf" />

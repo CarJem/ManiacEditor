@@ -103,6 +103,8 @@ namespace ManiacEditor
         public bool CloseMegaManiacTab = false; //Tells Mega Maniac to Remove the Tab
         public bool KickStartMegaManiacRenderLoop = false; //Used to start the render loop when starting the editor for Mega Maniac
         public bool KickStartMegaManiacRenderLoopFinished = false; //Used to end the process of starting the render loop when starting the editor for Mega Maniac
+        public bool DebugStatsVisibleOnPanel = false;
+        public bool UseLargeDebugStats = false;
 
 
         //Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -224,6 +226,8 @@ namespace ManiacEditor
         public EditorInGame EditorGame;
         public StartupInformation info;
         public ManiacEditor.DevicePanel GraphicPanel;
+        public StatusBox statusBox;
+        public UIText DebugTextHUD = new UIText();
 
         //Tile Maniac Instance
         public TileManiac.Mainform mainform = new Mainform();
@@ -344,7 +348,7 @@ namespace ManiacEditor
             LevelSelectChar = LevelSelectCharS.ToCharArray();
             EditorGame = new EditorInGame(this);
             EditorEntity_ini = new EditorEntity_ini(this);
-
+            statusBox = new StatusBox(this);
             info = new StartupInformation(this)
             {
                 TopLevel = false
@@ -359,7 +363,7 @@ namespace ManiacEditor
 
             if (mySettings.UseForcefulStartup)
             {
-                //OpenSceneForceFully();
+                OpenSceneForceFully();
             }
             else if (shortcutLaunch)
             {
@@ -584,6 +588,12 @@ namespace ManiacEditor
             showEntitySelectionBoxes = mySettings.ShowEntitySelectionBoxesDefault;
             showEntitySelectionBoxesToolStripMenuItem.Checked = mySettings.ShowEntitySelectionBoxesDefault;
 
+            showStatsToolStripMenuItem.Checked = mySettings.ShowStatsViewerDefault;
+            useLargeTextToolStripMenuItem.Checked = mySettings.StatsViewerLargeTextDefault;
+
+            DebugStatsVisibleOnPanel = mySettings.ShowStatsViewerDefault;
+            UseLargeDebugStats = mySettings.StatsViewerLargeTextDefault;
+
             foreach (ToolStripMenuItem item in menuLanguageToolStripMenuItem.DropDownItems) if (item.Tag.ToString() == mySettings.LangDefault)
                 {
                     item.Checked = true;
@@ -741,6 +751,11 @@ namespace ManiacEditor
             {
                 ListedPrefrences.TryGetValue("CustomLSelectFontText", out value);
                 LevelSelectChar = value.ToCharArray();
+            }
+            if (ListedPrefrences.ContainsKey("CustomMenuSmallFontText"))
+            {
+                ListedPrefrences.TryGetValue("CustomMenuSmallFontText", out value);
+                MenuChar_Small = value.ToCharArray();
             }
 
 
@@ -1336,24 +1351,8 @@ namespace ManiacEditor
             {
                 scrollLockDirLabel.Text = "Scroll Lock Direction: Y";
             }
-            int ScreenMaxH;
-            int ScreenMaxV;
-            if (ZoomLevel == 0)
-            {
-                ScreenMaxH = hScrollBar1.Maximum - hScrollBar1.LargeChange;
-                ScreenMaxV = vScrollBar1.Maximum - vScrollBar1.LargeChange;
-            }
-            else
-            {
-                ScreenMaxH = hScrollBar1.Maximum - hScrollBar1.LargeChange;
-                ScreenMaxV = vScrollBar1.Maximum - vScrollBar1.LargeChange;
-            }
 
-            Process proc = Process.GetCurrentProcess();
-            long memory = proc.PrivateMemorySize64;
 
-            //hVScrollBarXYLabel.Text = "Scroll Bar Position Values: X: " + (ScreenMaxH - hScrollBar1.Value) + ", Y: " + (ScreenMaxV - vScrollBar1.Value);
-            //hVScrollBarXYLabel.Text = "Memory Used: " + memory.ToString();
             hVScrollBarXYLabel.Text = "Zoom Value: " + Zoom.ToString();
 
 
@@ -2707,8 +2706,9 @@ namespace ManiacEditor
             {
                 // Docking isn't enough because we want that it will be high/wider when only one of the scroll bars is visible
                 vScrollBar1.Location = new Point((splitContainer1.Panel2Collapsed ? splitContainer1.Width - 19 : splitContainer1.SplitterDistance - 19), 0);
-                vScrollBar1.Height = mainPanel.Height - (hScrollBar1.Visible ? 39 : 0);
+                vScrollBar1.Height = mainPanel.Height - (hScrollBar1.Visible ? 39 : 23);
                 vScrollBar1.LargeChange = vScrollBar1.Height;
+                vScrollBar1.SmallChange = vScrollBar1.Height / 4;
                 ScreenHeight = vScrollBar1.Height;
                 hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
             }
@@ -2723,6 +2723,7 @@ namespace ManiacEditor
                 hScrollBar1.Location = new Point(0, splitContainer1.Height - 19);
                 hScrollBar1.Width = viewPanel.Width - (vScrollBar1.Visible ? 17 : 0);
                 hScrollBar1.LargeChange = hScrollBar1.Width;
+                hScrollBar1.SmallChange = hScrollBar1.Width / 4;
                 ScreenWidth = hScrollBar1.Width;
                 vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
             }
@@ -3810,6 +3811,16 @@ Error: {ex.Message}");
 
         #region View Tab Buttons
 
+        private void statsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DebugStatsVisibleOnPanel = !DebugStatsVisibleOnPanel;
+        }
+
+        private void useLargeTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UseLargeDebugStats = !UseLargeDebugStats;
+        }
+
         private void SetMenuButtons(object sender, EventArgs e)
         {
             ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
@@ -4008,7 +4019,7 @@ Error: {ex.Message}");
         private void ToolStripTextBox1_TextChanged(object sender, EventArgs e)
         {
             entitiesTextFilter = toolStripTextBox1.Text;
-            EditorEntities.FilterRefreshNeeded = true;
+            entities.FilterRefreshNeeded = true;
         }
 
         private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4954,6 +4965,26 @@ Error: {ex.Message}");
                 DrawLayers();
                 */
 
+
+                if (DebugStatsVisibleOnPanel && EditorScene != null && DebugTextHUD != null && EditorEntity_ini != null)
+                {
+                    Point point = new Point((short)(15), (short)(15));
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y, statusBox.GetDataFolder(), true, 255, 15);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetModDataFolder(), true, 255, 19);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetMasterDataFolder(), true, 255, 22);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetScenePath(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 4, statusBox.GetSceneFilePath(), true, 255, 14);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetZoom(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSetupObject(), true, 255, 13);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 7, statusBox.GetSelectedZone(), true, 255, 14);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 8, statusBox.GetMemoryUsage(), true, 255, 13);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 9, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);
+
+                    //DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 11, "Use F1 and F2 to Swap Information", true, 255);
+                }
+
+
+
                 if (EditorScene.OtherLayers.Contains(EditLayer)) EditLayer.Draw(GraphicPanel);
 
                 if (!extraLayersMoveToFront)
@@ -4974,19 +5005,19 @@ Error: {ex.Message}");
                 if (ShowFGLow.Checked || EditFGLow.Checked)
                     FGLow.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType != 1)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType != 1 && entities != null)
                 {
                     entities.DrawPriority(GraphicPanel, -1);
                     entities.DrawPriority(GraphicPanel, 0);
                     entities.DrawPriority(GraphicPanel, 1);
                 }
 
-                if (!mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType == 0) entities.Draw(GraphicPanel);
+                if (!mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType == 0 && entities != null) entities.Draw(GraphicPanel);
 
                 if (ShowFGHigh.Checked || EditFGHigh.Checked)
                     FGHigh.Draw(GraphicPanel);
 
-                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType != 1)
+                if (mySettings.PrioritizedObjectRendering && !EditEntities.Checked && ShowEntities.Checked && entityVisibilityType != 1 && entities != null)
                 {
                     entities.DrawPriority(GraphicPanel, 2);
                     entities.DrawPriority(GraphicPanel, 3);
@@ -6979,14 +7010,6 @@ Error: {ex.Message}");
 
         }
 
-        private void SeeStatsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var StatsBox = new StatusBox(this))
-            {
-                StatsBox.ShowDialog();
-            }
-        }
-
         private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
@@ -7008,6 +7031,8 @@ Error: {ex.Message}");
 
             }
         }
+
+
 
         private void EnableAllButtonsToolStripMenuItem_Click(object sender, EventArgs e)
         {
