@@ -30,6 +30,8 @@ namespace ManiacEditor
 
         Texture[][] TileChunksTextures;
 
+        Texture[] ChunksTextures;
+
         public PointsMap SelectedTiles;
         
 
@@ -201,6 +203,8 @@ namespace ManiacEditor
         {
             EditorInstance = instance;
             _layer = layer;
+
+            ChunksTextures = new Texture[1028];
 
             TileChunksTextures = new Texture[DivideRoundUp(Height, TILES_CHUNK_SIZE)][];
             for (int i = 0; i < TileChunksTextures.Length; ++i)
@@ -741,6 +745,11 @@ namespace ManiacEditor
             return 0xffff;
         }
 
+        private Rectangle GetChunkArea(int x, int y)
+        {
+            return new Rectangle(x, y, 128, 128);
+        }
+
         private Rectangle GetTilesChunkArea(int x, int y)
         {
             int y_start = y * TILES_CHUNK_SIZE;
@@ -986,6 +995,12 @@ namespace ManiacEditor
 
         }
 
+        public void DrawTile(Graphics g, ushort tile)
+        {
+            g.DrawImage(EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+                new Rectangle(0, 0, TILE_SIZE, TILE_SIZE));
+        }
+
 
 
         public void Draw(Graphics g)
@@ -1039,6 +1054,39 @@ namespace ManiacEditor
             return this.TileChunksTextures[y][x];
         }
 
+        public Texture GetChunkTexture(DevicePanel d, int x, int y)
+        {
+            if (this.ChunksTextures[x] != null) return this.ChunksTextures[x];
+
+            Rectangle rect = GetChunkArea(x, y);
+
+            Bitmap bmp2 = new Bitmap(rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
+            int factor = 32;
+            int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+            if (newSize == 0) newSize = factor;
+            while (newSize < squareSize) newSize += factor;
+
+            Bitmap bmp = new Bitmap(newSize, newSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            using (bmp)
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    for (int ty = rect.Y; ty < rect.Y + rect.Height; ++ty)
+                    {
+                        for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+                        {
+                            //DrawTile(g, 2);
+                        }
+                    }
+                }
+                this.ChunksTextures[x] = TextureCreator.FromBitmap(d._device, bmp);
+            }
+
+            return this.ChunksTextures[x];
+        }
+
         private void DrawTilesChunk(DevicePanel d, int x, int y, int Transperncy)
         {
             Rectangle rect = GetTilesChunkArea(x, y);
@@ -1056,6 +1104,28 @@ namespace ManiacEditor
                     if (this._layer.Tiles[ty][tx] != 0xffff)
                     {
                         DrawTile(d, this._layer.Tiles[ty][tx], tx, ty, false, Transperncy);
+                    }
+                }
+            }
+        }
+
+        private void DrawChunk(DevicePanel d, int x, int y, int Transperncy)
+        {
+            Rectangle rect = GetChunkArea(x, y);
+
+            for (int ty = rect.Y; ty < rect.Y + rect.Height; ++ty)
+            {
+                for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+                {
+                    Point p = new Point(tx, ty);
+                    // We will draw those later
+                    if (SelectedTiles.Contains(p) || TempSelectionTiles.Contains(p))
+                    {
+                        continue;
+                    }
+                    if (this._layer.Tiles[ty][tx] != 0xffff)
+                    {
+                        DrawTile(d, 1, tx, ty, false, Transperncy);
                     }
                 }
             }

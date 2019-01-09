@@ -220,6 +220,7 @@ namespace ManiacEditor
         internal TilesToolbar TilesToolbar = null;
         public ChunksToolbar ChunksToolbar = null;
         public EntitiesToolbar entitiesToolbar = null;
+        public EditorChunk ManiacChunks = null;
         public EditorEntity_ini EditorEntity_ini;
         public EditorUpdater Updater = new EditorUpdater();
         public TilesConfig TilesConfig;
@@ -1141,9 +1142,9 @@ namespace ManiacEditor
                 if (ChunksToolbar == null)
                 {
                     if (useEncoreColors)
-                        ChunksToolbar = new ChunksToolbar(StageTiles, SceneFilepath, EncorePalette[0]);
+                        ChunksToolbar = new ChunksToolbar(StageTiles, SceneFilepath, EncorePalette[0], this);
                     else
-                        ChunksToolbar = new ChunksToolbar(StageTiles, SceneFilepath, null);
+                        ChunksToolbar = new ChunksToolbar(StageTiles, SceneFilepath, null, this);
 
                     splitContainer1.Panel2.Controls.Clear();
                     splitContainer1.Panel2.Controls.Add(ChunksToolbar);
@@ -2999,6 +3000,7 @@ namespace ManiacEditor
 
             TearDownExtraLayerButtons();
 
+            ManiacChunks = null;
             Background = null;
 
             // If copying between scenes is allowed...
@@ -3179,7 +3181,11 @@ namespace ManiacEditor
 
             SetupLayerButtons();
 
+
+
             Background = new EditorBackground(this);
+
+            ManiacChunks = new EditorChunk(this);
 
             entities = new EditorEntities(EditorScene, this);
 

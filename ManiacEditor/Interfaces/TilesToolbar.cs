@@ -16,6 +16,8 @@ namespace ManiacEditor
     public partial class TilesToolbar : UserControl
     {
         public Editor EditorInstance;
+
+        private TilesList tilesList;
         public Action<int> TileDoubleClick
         {
             get
@@ -87,8 +89,9 @@ namespace ManiacEditor
 
         public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
         {
-            InitializeComponent(instance);
+            InitializeComponent();
             EditorInstance = instance;
+            SetupTilesList(instance);
 
             if (Properties.Settings.Default.NightMode)
             {
@@ -113,6 +116,26 @@ namespace ManiacEditor
             tilesList.TileScale = 1 << trackBar1.Value;
 
             UpdateShortcuts();
+        }
+
+        public void SetupTilesList(Editor instance)
+        {
+
+            this.tilesList = new ManiacEditor.TilesList(instance);
+            this.tilesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+| System.Windows.Forms.AnchorStyles.Left)
+| System.Windows.Forms.AnchorStyles.Right)));
+            this.tilesList.BackColor = System.Drawing.SystemColors.Window;
+            this.tilesList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tilesList.FlipHorizontal = false;
+            this.tilesList.FlipVertical = false;
+            this.tilesList.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tilesList.Location = new System.Drawing.Point(3, 73);
+            this.tilesList.Name = "tilesList";
+            this.tilesList.Size = new System.Drawing.Size(249, 267);
+            this.tilesList.TabIndex = 0;
+            this.tilesList.TileScale = 2;
+            this.Controls.Add(this.tilesList);
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)

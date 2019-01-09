@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent(Editor instance)
+        private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
@@ -44,7 +44,6 @@
             this.selectedTileLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editTileInTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tilesList = new ManiacEditor.TilesList(instance);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -221,22 +220,6 @@
             this.editTileInTileManiacToolStripMenuItem.Text = "Edit Tile #{0} in Tile Maniac";
             this.editTileInTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileInTileManiacToolStripMenuItem_Click);
             // 
-            // tilesList
-            // 
-            this.tilesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tilesList.BackColor = System.Drawing.SystemColors.Window;
-            this.tilesList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tilesList.FlipHorizontal = false;
-            this.tilesList.FlipVertical = false;
-            this.tilesList.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tilesList.Location = new System.Drawing.Point(3, 73);
-            this.tilesList.Name = "tilesList";
-            this.tilesList.Size = new System.Drawing.Size(249, 267);
-            this.tilesList.TabIndex = 0;
-            this.tilesList.TileScale = 2;
-            // 
             // TilesToolbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -254,7 +237,6 @@
             this.Controls.Add(this.option2CheckBox);
             this.Controls.Add(this.option1CheckBox);
             this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.tilesList);
             this.Name = "TilesToolbar";
             this.Size = new System.Drawing.Size(255, 525);
             this.Load += new System.EventHandler(this.TilesToolbar_Load);
@@ -266,8 +248,6 @@
         }
 
         #endregion
-
-        private TilesList tilesList;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.CheckBox option1CheckBox;
         private System.Windows.Forms.CheckBox option2CheckBox;

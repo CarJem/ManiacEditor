@@ -389,6 +389,7 @@
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
     <Compile Include="EditorInGame.cs" />
+    <Compile Include="EditorChunk.cs" />
     <Compile Include="EditorUpdater.cs" />
     <Compile Include="Entity Renders\TitleBG.cs" />
     <Compile Include="Entity Renders\TitleSonic.cs" />
@@ -771,6 +772,12 @@
     <Compile Include="Interfaces\ChunksToolbar.Designer.cs">
       <DependentUpon>ChunksToolbar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ChunksList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ChunksList.Designer.cs">
+      <DependentUpon>ChunksList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\UpdateStatusBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -970,6 +977,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ChunksToolbar.resx">
       <DependentUpon>ChunksToolbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\ChunksList.resx">
+      <DependentUpon>ChunksList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UpdateStatusBox.resx">
       <DependentUpon>UpdateStatusBox.cs</DependentUpon>

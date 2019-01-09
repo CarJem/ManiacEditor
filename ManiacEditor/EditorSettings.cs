@@ -24,29 +24,10 @@ namespace ManiacEditor
 
         public static void exportSettings()
         {
-            bool stillMore = true;
-            int i = 0;
-            int optionCount = 0;
-            while (stillMore == true)
+            foreach (SettingsProperty currentProperty in Properties.Settings.Default.Properties)
             {
-                if (ConfigurationManager.AppSettings[i] != null)
-                {
-                    optionCount++;
-                }
-                else
-                {
-                    stillMore = false;
-                }
-                i++;
+                //Properties.Settings.Default[currentProperty.Name]
             }
-            MessageBox.Show(optionCount.ToString(), "hey");
-
-            /*for (int j = 0; j < optionCount; j++)
-            {
-
-            }*/
-
-
         }
         public static void importSettings()
         {

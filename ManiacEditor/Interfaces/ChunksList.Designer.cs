@@ -1,6 +1,6 @@
 ﻿namespace ManiacEditor
 {
-    partial class TilesList
+    partial class ChunksList
     {
         /// <summary> 
         /// Required designer variable.

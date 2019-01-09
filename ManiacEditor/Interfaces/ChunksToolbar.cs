@@ -15,7 +15,7 @@ namespace ManiacEditor
 {
     public partial class ChunksToolbar : UserControl
     {
-
+        private ChunksList chunksList;
         public Action<int, bool> TileOptionChanged;
 
         CheckBox[] selectTileOptionsCheckboxes = new CheckBox[6];
@@ -24,9 +24,32 @@ namespace ManiacEditor
 
        
 
-        public ChunksToolbar(StageTiles tiles, String data_directory, String Colors)
+        public ChunksToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
         {
             InitializeComponent();
+            SetupChunksList(instance);
+
+
+            RSDKv5.GIF tileGridImage = new GIF((data_directory + "\\16x16Tiles.gif"), Colors);
+            chunksList.TilesImage = tileGridImage;
+            chunksList.TileScale = 1;
+        }
+
+        public void SetupChunksList(Editor instance)
+        {
+            this.chunksList = new ManiacEditor.ChunksList(instance);
+            this.chunksList.Dock = DockStyle.Fill;
+            this.chunksList.BackColor = System.Drawing.SystemColors.Window;
+            this.chunksList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chunksList.FlipHorizontal = false;
+            this.chunksList.FlipVertical = false;
+            this.chunksList.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.chunksList.Location = new System.Drawing.Point(3, 73);
+            this.chunksList.Name = "tilesList";
+            //this.chunksList.Size = new System.Drawing.Size(249, 267);
+            //this.chunksList.TabIndex = 0;
+            this.chunksList.TileScale = 2;
+            this.tabPage1.Controls.Add(this.chunksList);
         }
 
         public new void Dispose()
