@@ -30,6 +30,7 @@ namespace ManiacEditor
         public string prevDataDir;
 
         public string Result = null;
+        public bool withinAParentForm = false;
         public int LevelID = -1;
         public bool isEncore = false;
         public bool isModLoadedwithGameConfig = false;
@@ -39,14 +40,15 @@ namespace ManiacEditor
         public Editor EditorInstance;
 
 
-        public SceneSelect(GameConfig config = null, Editor instance = null)
+        public SceneSelect(GameConfig config = null, Editor instance = null, bool parented = false)
         {
             EditorInstance = instance;
             InitializeComponent();
+            withinAParentForm = parented;
             if (Properties.Settings.Default.NightMode)
             {
-                dataLabelToolStripItem.BackColor = EditorInstance.darkTheme1;
-                dataLabelToolStripItem.ForeColor = EditorInstance.darkTheme3;
+                dataLabelToolStripItem.BackColor = Editor.darkTheme1;
+                dataLabelToolStripItem.ForeColor = Editor.darkTheme3;
             }
             if (EditorInstance.PreRenderSceneSelectCheckbox) preRenderCheckbox.Checked = true;
             if (Properties.Settings.Default.preRenderSceneOption == 1) preRenderCheckbox.Enabled = true;
@@ -210,11 +212,14 @@ namespace ManiacEditor
                 isEncore = true;
             }
             Close();
+            if (withinAParentForm) EditorInstance.OpenScene(false, Result, LevelID, isEncore, isModLoaded, EditorInstance.ModDataDirectory);
+
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
             Close();
+            if (withinAParentForm) EditorInstance.UpdateInfoPanel(true);
         }
 
         private void UpdateTree()

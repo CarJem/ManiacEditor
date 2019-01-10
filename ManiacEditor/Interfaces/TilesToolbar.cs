@@ -95,8 +95,8 @@ namespace ManiacEditor
 
             if (Properties.Settings.Default.NightMode)
             {
-                trackBar1.BackColor = EditorInstance.darkTheme1;
-                tilesList.BackColor = EditorInstance.darkTheme1;
+                trackBar1.BackColor = Editor.darkTheme1;
+                tilesList.BackColor = Editor.darkTheme1;
             }
 
             tileOptionsCheckboxes[0] = tileOption1;

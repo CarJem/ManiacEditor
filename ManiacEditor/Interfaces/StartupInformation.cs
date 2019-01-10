@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -18,18 +19,52 @@ namespace ManiacEditor
         bool sourceBuild = false;
         public Editor EditorInstance;
 
+        public string SelectedSavedPlace = "";
+        public string SelectedModFolder  = "";
+
         public StartupInformation(Editor instance)
         {
             EditorInstance = instance;
             InitializeComponent();
+            if (Settings.mySettings.NightMode)
+            {
+                linkLabel1.LinkColor = Editor.darkTheme4;
+                linkLabel2.LinkColor = Editor.darkTheme4;
+                linkLabel3.LinkColor = Editor.darkTheme4;
+                linkLabel4.LinkColor = Editor.darkTheme4;
+                linkLabel5.LinkColor = Editor.darkTheme4;
+                linkLabel6.LinkColor = Editor.darkTheme4;
+                linkLabel7.LinkColor = Editor.darkTheme4;
+                linkLabel8.LinkColor = Editor.darkTheme4;
+                button1.ForeColor = Color.Black;
+                button2.ForeColor = Color.Black;
+                button4.ForeColor = Color.Black;
+                treeView1.ForeColor = Editor.darkTheme3;
+            }
         }
 
 
         private void StartupInformation_Load(object sender, EventArgs e)
         {
+            Label comingSoon = new Label()
+            {
+                Text = "Functionality" + Environment.NewLine + "Coming Soon!",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill
+            };
+            treeView1.Controls.Add(comingSoon);
+
+
             if (Properties.Settings.Default.NeverShowThisAgain)
             {
                 panel1.Controls.Clear();
+                panel1.Visible = false;
+            }
+
+            if (!Properties.Settings.Default.UseForcefulStartup)
+            {
+                linkLabel3.Visible = false;
+                checkBox1.Visible = false;
             }
 
             if (Properties.Settings.Default.ShowFirstTimeSetup)
@@ -42,6 +77,7 @@ namespace ManiacEditor
             {
                 LoadRecentDataDirectories(Settings.mySettings.DataDirectories);
             }
+            UpdateLabel();
         }
 
         private void LoadRecentDataDirectories(StringCollection recentDataDirectories)
@@ -49,9 +85,62 @@ namespace ManiacEditor
             listView1.Items.Clear();
             listView1.SmallImageList = new ImageList();
             listView1.SmallImageList.Images.Add("Folder", Properties.Resources.folder);
+
+            treeView1.Nodes.Clear();
+            treeView1.Nodes.Add("Saved Places");
+            treeView1.Nodes.Add("Mods");
+            this.treeView1.ImageList = new ImageList();
+            this.treeView1.ImageList.Images.Add("Folder", Properties.Resources.folder);
+            this.treeView1.ImageList.Images.Add("File", Properties.Resources.file);
+
             foreach (var dataDirectory in recentDataDirectories)
             {
                 listView1.Items.Add(CreateDataDirectoryListLink(dataDirectory));
+            }
+
+            if (Properties.Settings.Default.SavedPlaces?.Count > 0)
+            {
+                StringCollection recentFolders = new StringCollection();
+                this.treeView1.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
+                int index = this.treeView1.ImageList.Images.IndexOfKey("SubFolder");
+                recentFolders = Properties.Settings.Default.SavedPlaces;
+                foreach (string folder in recentFolders)
+                {
+                    var node = treeView1.Nodes[0].Nodes.Add(folder, folder, index, index);
+                    node.Tag = folder;
+                    node.ToolTipText = folder;
+                    node.ImageKey = "SavedPlace";
+                }
+                treeView1.Nodes[0].ExpandAll();
+            }
+
+            if (Properties.Settings.Default.ModFolders?.Count > 0)
+            {
+                StringCollection modFolders = new StringCollection();
+                StringCollection modFolderNames = new StringCollection();
+                this.treeView1.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
+                int index = this.treeView1.ImageList.Images.IndexOfKey("SubFolder");
+                modFolders = Properties.Settings.Default.ModFolders;
+                modFolderNames = Properties.Settings.Default.ModFolderCustomNames;
+                foreach (string folder in modFolders)
+                {
+                    int nameIndex = modFolders.IndexOf(folder);
+                    string title;
+                    if (modFolderNames[nameIndex].Equals(""))
+                    {
+                        title = folder;
+                    }
+                    else
+                    {
+                        title = modFolderNames[nameIndex];
+                    }
+
+                    var node = treeView1.Nodes[1].Nodes.Add(folder, title, index, index);
+                    node.Tag = folder;
+                    node.ToolTipText = folder;
+                    node.ImageKey = "ModFolder";
+                }
+                treeView1.Nodes[1].ExpandAll();
             }
 
         }
@@ -138,13 +227,13 @@ namespace ManiacEditor
             RecentDataFolderItemClicked(listView1.SelectedItems[0].Tag.ToString());
         }
 
-        private void RecentDataFolderItemClicked(string dataDirectory)
+        private void RecentDataFolderItemClicked(string dataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
         {
             var dataDirectories = Settings.mySettings.DataDirectories;
             Settings.mySettings.GamePath = EditorInstance.GamePath;
             if (EditorInstance.IsDataDirectoryValid(dataDirectory))
             {
-                EditorInstance.ResetDataDirectoryToAndResetScene(dataDirectory);
+                EditorInstance.ResetDataDirectoryToAndResetScene(dataDirectory, forceBrowse, forceSceneSelect);
             }
             else
             {
@@ -163,6 +252,7 @@ namespace ManiacEditor
         private void button3_Click(object sender, EventArgs e)
         {
             panel1.Controls.Clear();
+            panel1.Visible = false;
         }
 
         private void dontCareOption_CheckedChanged(object sender, EventArgs e)
@@ -207,6 +297,81 @@ namespace ManiacEditor
             if (EditorSettings.isHyperPreset()) hyperOption.ForeColor = Color.Red;
             else hyperOption.ForeColor = Color.White;
             */
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            EditorInstance.OpenSceneForceFully();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0) RecentDataFolderItemClicked(listView1.SelectedItems[0].Tag.ToString(), false, true);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if(listView1.SelectedItems.Count > 0) RecentDataFolderItemClicked(listView1.SelectedItems[0].Tag.ToString(), true, false);
+        }
+
+        private void treeView1_DoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node != null && e.Node.ImageKey == "SavedPlace") UpdateSavedPlace(e.Node.Tag.ToString());
+            else if (e.Node != null && e.Node.ImageKey == "ModFolder") UpdateModFolder(e.Node.Tag.ToString());
+        }
+
+        private void UpdateSavedPlace(string tag)
+        {
+            SelectedSavedPlace = tag;
+            UpdateLabel();
+        }
+
+        private void UpdateModFolder(string tag)
+        {
+            SelectedModFolder = tag;
+            UpdateLabel();
+        }
+
+        private void UpdateLabel()
+        {
+            dataDirInfoLabel.Text = "Selected Saved Place: " + (SelectedSavedPlace != "" ? SelectedSavedPlace : "N/A") + Environment.NewLine + "Selected Mod: " + (SelectedModFolder != "" ? SelectedModFolder : "N/A");
+        }
+
+        private void treeView1_Layout(object sender, LayoutEventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SelectedModFolder = "";
+            SelectedSavedPlace = "";
+            UpdateLabel();
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            EditorInstance.AboutToolStripMenuItem_Click(null, null);
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            EditorInstance.OptionToolStripMenuItem_Click(null, null);
+        }
+
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
+        }
+
+        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/CarJem/ManiacEditor-GenerationsEdition");
+        }
+
+        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://ci.appveyor.com/project/CarJem/maniaceditor-generationsedition");
         }
     }
 }

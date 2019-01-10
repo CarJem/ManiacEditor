@@ -62,7 +62,7 @@ namespace ManiacEditor
             if (Properties.Settings.Default.NightMode)
             {
                 checkBox15.Checked = true;
-                tileToolbarZoomDefault.BackColor = EditorInstance.darkTheme1;
+                tileToolbarZoomDefault.BackColor = Editor.darkTheme1;
                 tabControl1.BackColor = System.Drawing.Color.Bisque;
             }
             tabPage1.UseVisualStyleBackColor = false;

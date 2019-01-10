@@ -17823,9 +17823,11 @@
 </value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>NOTICE: This is a development build and may be HIGHLY unstable! We are not responsible for any lost progress made with this editor. Make plenty of backups and stay alert, just because I test these features on my self does not mean they won't break for you! Thanks for using my Fork!
+    <value>NOTICE: 
+This is a development build and may be HIGHLY unstable! We are not responsible for any lost progress made with this editor. Make plenty of backups and stay alert, just because I test these features on my self does not mean they won't break for you! Thanks for using my Fork!
 
--CarJem Generations - Developer of Maniac Editor - Generations Edition</value>
+-CarJem Generations
+Developer of Maniac Editor - Generations Edition</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Welcome to Maniac Editor. 

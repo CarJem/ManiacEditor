@@ -20,7 +20,13 @@ namespace ManiacEditor
             buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime) + Environment.NewLine + String.Format("Architecture: {0}", GetProgramType);
             labelCopyright.Text = AssemblyCopyright;
             llAbout.Links.Clear();
-            
+
+            if (Settings.mySettings.NightMode)
+            {
+                linkLabel3.LinkColor = Editor.darkTheme4;
+                llAbout.LinkColor = Editor.darkTheme4;
+            }
+
             AddClickableLink("koolkdev", "https://github.com/koolkdev/ManiacEditor");
             AddClickableLink("Axanery", "https://www.youtube.com/channel/UCIsXoOHibP8wpjcha3bSbMQ");
             AddClickableLink("OtherworldBob", "https://github.com/OtherworldBob/ManiacEditor");
@@ -109,7 +115,7 @@ namespace ManiacEditor
             var link = new LinkLabel.Link(llAbout.Text.IndexOf(sourceText),
                                           sourceText.Length,
                                           linkTargetUrl);
-
+            if (Settings.mySettings.NightMode) llAbout.LinkColor = Editor.darkTheme4;
             llAbout.Links.Add(link);
         }
 

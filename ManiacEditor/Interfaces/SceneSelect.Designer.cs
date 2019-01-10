@@ -80,12 +80,12 @@ namespace ManiacEditor
             this.preRenderCheckbox = new System.Windows.Forms.CheckBox();
             this.modEditContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restoreOriginalNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.modFolderStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.spacer = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.restoreOriginalNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
@@ -515,7 +515,7 @@ namespace ManiacEditor
             this.restoreOriginalNameToolStripMenuItem,
             this.removeModToolStripMenuItem});
             this.modEditContext.Name = "folderEditContext";
-            this.modEditContext.Size = new System.Drawing.Size(194, 92);
+            this.modEditContext.Size = new System.Drawing.Size(194, 70);
             // 
             // setNameToolStripMenuItem
             // 
@@ -523,6 +523,13 @@ namespace ManiacEditor
             this.setNameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.setNameToolStripMenuItem.Text = "Set Name...";
             this.setNameToolStripMenuItem.Click += new System.EventHandler(this.setNameToolStripMenuItem_Click);
+            // 
+            // restoreOriginalNameToolStripMenuItem
+            // 
+            this.restoreOriginalNameToolStripMenuItem.Name = "restoreOriginalNameToolStripMenuItem";
+            this.restoreOriginalNameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.restoreOriginalNameToolStripMenuItem.Text = "Restore Original Name";
+            this.restoreOriginalNameToolStripMenuItem.Click += new System.EventHandler(this.restoreOriginalNameToolStripMenuItem_Click);
             // 
             // removeModToolStripMenuItem
             // 
@@ -566,13 +573,6 @@ namespace ManiacEditor
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(86, 20);
             this.toolStripDropDownButton1.Text = "Unload Mod";
             this.toolStripDropDownButton1.Click += new System.EventHandler(this.toolStripDropDownButton1_Click);
-            // 
-            // restoreOriginalNameToolStripMenuItem
-            // 
-            this.restoreOriginalNameToolStripMenuItem.Name = "restoreOriginalNameToolStripMenuItem";
-            this.restoreOriginalNameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.restoreOriginalNameToolStripMenuItem.Text = "Restore Original Name";
-            this.restoreOriginalNameToolStripMenuItem.Click += new System.EventHandler(this.restoreOriginalNameToolStripMenuItem_Click);
             // 
             // SceneSelect
             // 

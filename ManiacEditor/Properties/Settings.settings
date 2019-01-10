@@ -382,5 +382,8 @@ Would you like to save your progress before Maniac Editor Closes?</Value>
     <Setting Name="StatsViewerLargeTextDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="UseAutoForcefulStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

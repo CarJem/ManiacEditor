@@ -237,9 +237,11 @@ namespace ManiacEditor
         System.Windows.Forms.Timer t;
 
         //Dark Theme
-        public Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
-        public Color darkTheme2 = Color.FromArgb(255, 70, 70, 70);
-        public Color darkTheme3 = Color.White;
+        public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
+        public static Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
+        public static Color darkTheme2 = Color.FromArgb(255, 70, 70, 70);
+        public static Color darkTheme3 = Color.White;
+        public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
 
         //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
@@ -361,12 +363,12 @@ namespace ManiacEditor
 
             UpdateInfoPanel(true,true);
 
-
-            if (mySettings.UseForcefulStartup)
+            if (mySettings.UseAutoForcefulStartup)
             {
                 OpenSceneForceFully();
             }
-            else if (shortcutLaunch)
+
+            if (shortcutLaunch)
             {
                 try
                 {
@@ -1290,9 +1292,6 @@ namespace ManiacEditor
                     (undo.Peek() as ActionsGroup).AddAction(actions[0]);
                     actions.RemoveAt(0);
                 }
-
-                //UpdateControls();
-                //Potential Issue Causer
             }
         }
 
@@ -1301,14 +1300,14 @@ namespace ManiacEditor
             //
             // Tooltip Bar Info 
             //
-                if (EnablePixelCountMode == false)
-                {
-                    positionLabel.Text = "X: " + (int)(lastX / Zoom) + " Y: " + (int)(lastY / Zoom);
-                }
-                else
-                {
-                    positionLabel.Text = "X: " + (int)((lastX / Zoom) / 16) + " Y: " + (int)((lastY / Zoom) / 16);
-                }
+            if (EnablePixelCountMode == false)
+            {
+                positionLabel.Text = "X: " + (int)(lastX / Zoom) + " Y: " + (int)(lastY / Zoom);
+            }
+            else
+            {
+                positionLabel.Text = "X: " + (int)((lastX / Zoom) / 16) + " Y: " + (int)((lastY / Zoom) / 16);
+            }
 
 
             _levelIDLabel.Text = "Level ID: " + LevelID.ToString();
@@ -2447,7 +2446,7 @@ namespace ManiacEditor
             mySettings.Save();
         }
 
-        public void ResetDataDirectoryToAndResetScene(string newDataDirectory)
+        public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
         {
             SceneChangeWarning(null, null);
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
@@ -2460,12 +2459,13 @@ namespace ManiacEditor
                     bool goodGameConfig = SetGameConfig();
                     if (goodGameConfig == true)
                     {
-                        OpenScene(mySettings.forceBrowse);
-                    }
+                        if (forceBrowse) OpenScene(true);
+                        else if (forceSceneSelect) OpenScene(false);
+                        else OpenScene(mySettings.forceBrowse);
+
+                }
 
             }
-
-
         }
 
         private void RecentDataDirectoryClicked(object sender, EventArgs e)
@@ -3057,7 +3057,7 @@ namespace ManiacEditor
             UpdateInfoPanel(true);
         }
 
-        private void OpenSceneForceFully()
+        public void OpenSceneForceFully()
         {
             DataDirectory = mySettings.DevForceRestartData;
             string Result = mySettings.DevForceRestartScene;
@@ -3093,7 +3093,7 @@ namespace ManiacEditor
             OpenScene();
         }
 
-        private void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
+        public void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
         {
             SceneSelect select;
             ModDataDirectory = modDir; 
@@ -3404,6 +3404,8 @@ namespace ManiacEditor
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
             {
                 AllowSceneChange = false;
+                UnloadScene();
+
                 OpenScene(mySettings.forceBrowse);
 
             }
@@ -4551,7 +4553,7 @@ Error: {ex.Message}");
         #endregion
 
         #region Other Tab Buttons
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        public void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var aboutBox = new AboutBox())
             {
@@ -4559,7 +4561,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
+        public void OptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var optionBox = new OptionBox(this))
             {

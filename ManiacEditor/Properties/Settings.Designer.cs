@@ -1578,5 +1578,17 @@ namespace ManiacEditor.Properties {
                 this["StatsViewerLargeTextDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseAutoForcefulStartup {
+            get {
+                return ((bool)(this["UseAutoForcefulStartup"]));
+            }
+            set {
+                this["UseAutoForcefulStartup"] = value;
+            }
+        }
     }
 }
