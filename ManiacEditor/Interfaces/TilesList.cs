@@ -47,10 +47,10 @@ namespace ManiacEditor
             SetupGraphicsPanel();
             EditorInstance = instance;
 
-            //if (Properties.Settings.Default.NightMode)
-            //{
-            //    graphicPanel.DeviceBackColor = Editor.Instance.darkTheme1;
-            //}
+            if (Properties.Settings.Default.NightMode)
+            {
+                graphicPanel.DeviceBackColor = Editor.darkTheme1;
+            }
             
             graphicPanel.Init(this);
         }
@@ -98,7 +98,8 @@ namespace ManiacEditor
 
         private void graphicPanel_OnRender(object sender, DeviceEventArgs e)
         {
-
+            var lineColor = System.Drawing.Color.Black;
+            if (Settings.mySettings.NightMode) lineColor = Editor.darkTheme5;
             if (TilesImage != null) {
                 // Create a local version of the graphics object for the PictureBox.
 
@@ -133,13 +134,14 @@ namespace ManiacEditor
                 }
                 for (int i = 0; i < tiles_per_line; ++i)
                 {
-                    graphicPanel.DrawLine(i * tile_size, vScrollBar1.Value / TileScale, i * tile_size, (vScrollBar1.Value + panel1.Height) / TileScale, System.Drawing.Color.Black);
-                    graphicPanel.DrawLine(i * tile_size + tile_size - BorderSize, vScrollBar1.Value / TileScale, i * tile_size + tile_size - BorderSize, (vScrollBar1.Value + panel1.Height) / TileScale, System.Drawing.Color.Black);
+
+                    graphicPanel.DrawLine(i * tile_size, vScrollBar1.Value / TileScale, i * tile_size, (vScrollBar1.Value + panel1.Height) / TileScale, lineColor);
+                    graphicPanel.DrawLine(i * tile_size + tile_size - BorderSize, vScrollBar1.Value / TileScale, i * tile_size + tile_size - BorderSize, (vScrollBar1.Value + panel1.Height) / TileScale, lineColor);
                 }
                 for (int i = (vScrollBar1.Value / tile_size / TileScale); i < ((vScrollBar1.Value + panel1.Height) / tile_size / TileScale) + 1; ++i)
                 {
-                    graphicPanel.DrawLine(0, i * tile_size, tiles_per_line * tile_size, i * tile_size, System.Drawing.Color.Black);
-                    graphicPanel.DrawLine(0, i * tile_size + tile_size - BorderSize, tiles_per_line * tile_size, i * tile_size + tile_size - BorderSize, System.Drawing.Color.Black);
+                    graphicPanel.DrawLine(0, i * tile_size, tiles_per_line * tile_size, i * tile_size, lineColor);
+                    graphicPanel.DrawLine(0, i * tile_size + tile_size - BorderSize, tiles_per_line * tile_size, i * tile_size + tile_size - BorderSize, lineColor);
                 }
                 if (SelectedTile != -1)
                 {

@@ -90,6 +90,7 @@ namespace ManiacEditor
         public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
         {
             InitializeComponent();
+
             EditorInstance = instance;
             SetupTilesList(instance);
 
@@ -97,6 +98,7 @@ namespace ManiacEditor
             {
                 trackBar1.BackColor = Editor.darkTheme1;
                 tilesList.BackColor = Editor.darkTheme1;
+                groupBox1.ForeColor = Editor.darkTheme3;
             }
 
             tileOptionsCheckboxes[0] = tileOption1;
@@ -116,6 +118,8 @@ namespace ManiacEditor
             tilesList.TileScale = 1 << trackBar1.Value;
 
             UpdateShortcuts();
+
+            ChunksReload();
         }
 
         public void SetupTilesList(Editor instance)
@@ -126,16 +130,16 @@ namespace ManiacEditor
 | System.Windows.Forms.AnchorStyles.Left)
 | System.Windows.Forms.AnchorStyles.Right)));
             this.tilesList.BackColor = System.Drawing.SystemColors.Window;
-            this.tilesList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tilesList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tilesList.FlipHorizontal = false;
             this.tilesList.FlipVertical = false;
             this.tilesList.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tilesList.Location = new System.Drawing.Point(3, 73);
+            this.tilesList.Location = new System.Drawing.Point(0, 0);
             this.tilesList.Name = "tilesList";
-            this.tilesList.Size = new System.Drawing.Size(249, 267);
+            this.tilesList.Size = new System.Drawing.Size(247, 263);
             this.tilesList.TabIndex = 0;
             this.tilesList.TileScale = 2;
-            this.Controls.Add(this.tilesList);
+            this.tilePanel.Controls.Add(this.tilesList);
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -146,10 +150,24 @@ namespace ManiacEditor
         public void Reload(string colors = null)
         {
             tilesList.Reload(colors);
+            ChunksReload();
+        }
+
+        public void ChunksReload()
+        {
+            retroEDTileList1.Images.Clear();
+            EditorInstance.EditorChunk.DisposeTextures();
+
+            for (int i = 0; i < EditorInstance.EditorChunk.ChunkList.Count; i++)
+            {
+                retroEDTileList1.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
+            }
+            retroEDTileList1.Refresh();
         }
 
         public new void Dispose()
         {
+            retroEDTileList1.Dispose();
             tilesList.Dispose();
             base.Dispose();
         }
@@ -234,6 +252,18 @@ namespace ManiacEditor
                 }
 
             }
+
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabControl1.TabPages[0]) EditorInstance.ChunksToolButton.Checked = false;
+            else EditorInstance.ChunksToolButton.Checked = true;
+        }
+
+        private void TilesToolbar_Resize(object sender, EventArgs e)
+        {
+
 
         }
     }

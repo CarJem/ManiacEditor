@@ -32,7 +32,6 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.option1CheckBox = new System.Windows.Forms.CheckBox();
             this.option2CheckBox = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.tileOption4 = new System.Windows.Forms.CheckBox();
             this.tileOption3 = new System.Windows.Forms.CheckBox();
             this.tileOption2 = new System.Windows.Forms.CheckBox();
@@ -44,19 +43,30 @@
             this.selectedTileLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editTileInTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tilePanel = new System.Windows.Forms.Panel();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // trackBar1
             // 
             this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.BackColor = System.Drawing.SystemColors.Control;
             this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(3, 3);
+            this.trackBar1.Location = new System.Drawing.Point(0, 0);
             this.trackBar1.Maximum = 3;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(249, 45);
+            this.trackBar1.Size = new System.Drawing.Size(244, 45);
             this.trackBar1.TabIndex = 1;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar1.Value = 1;
@@ -65,7 +75,7 @@
             // 
             // option1CheckBox
             // 
-            this.option1CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.option1CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.option1CheckBox.AutoSize = true;
             this.option1CheckBox.Location = new System.Drawing.Point(12, 346);
             this.option1CheckBox.Name = "option1CheckBox";
@@ -77,7 +87,7 @@
             // 
             // option2CheckBox
             // 
-            this.option2CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.option2CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.option2CheckBox.AutoSize = true;
             this.option2CheckBox.Location = new System.Drawing.Point(134, 346);
             this.option2CheckBox.Name = "option2CheckBox";
@@ -87,44 +97,35 @@
             this.option2CheckBox.UseVisualStyleBackColor = true;
             this.option2CheckBox.CheckedChanged += new System.EventHandler(this.option2CheckBox_CheckedChanged);
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 428);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Selected Tiles:";
-            // 
             // tileOption4
             // 
-            this.tileOption4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tileOption4.Location = new System.Drawing.Point(134, 475);
+            this.tileOption4.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.tileOption4.AutoSize = true;
+            this.tileOption4.Location = new System.Drawing.Point(130, 44);
             this.tileOption4.Name = "tileOption4";
-            this.tileOption4.Size = new System.Drawing.Size(112, 36);
+            this.tileOption4.Size = new System.Drawing.Size(115, 30);
             this.tileOption4.TabIndex = 13;
-            this.tileOption4.Text = "Solid (All excl. top) (Plane 2)";
-            this.tileOption4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tileOption4.Text = "Solid (All excl. top) \r\n(Plane 2)";
             this.tileOption4.UseVisualStyleBackColor = true;
             this.tileOption4.CheckedChanged += new System.EventHandler(this.tileOption4_CheckedChanged);
             // 
             // tileOption3
             // 
-            this.tileOption3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tileOption3.Location = new System.Drawing.Point(12, 474);
+            this.tileOption3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.tileOption3.AutoSize = true;
+            this.tileOption3.Location = new System.Drawing.Point(8, 44);
             this.tileOption3.Name = "tileOption3";
-            this.tileOption3.Size = new System.Drawing.Size(77, 37);
+            this.tileOption3.Size = new System.Drawing.Size(80, 30);
             this.tileOption3.TabIndex = 12;
-            this.tileOption3.Text = "Solid (Top) (Plane 2)";
+            this.tileOption3.Text = "Solid (Top) \r\n(Plane 2)";
             this.tileOption3.UseVisualStyleBackColor = true;
             this.tileOption3.CheckedChanged += new System.EventHandler(this.tileOption3_CheckedChanged);
             // 
             // tileOption2
             // 
-            this.tileOption2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tileOption2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.tileOption2.AutoSize = true;
-            this.tileOption2.Location = new System.Drawing.Point(134, 452);
+            this.tileOption2.Location = new System.Drawing.Point(130, 22);
             this.tileOption2.Name = "tileOption2";
             this.tileOption2.Size = new System.Drawing.Size(112, 17);
             this.tileOption2.TabIndex = 11;
@@ -134,9 +135,9 @@
             // 
             // tileOption1
             // 
-            this.tileOption1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tileOption1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.tileOption1.AutoSize = true;
-            this.tileOption1.Location = new System.Drawing.Point(12, 452);
+            this.tileOption1.Location = new System.Drawing.Point(8, 20);
             this.tileOption1.Name = "tileOption1";
             this.tileOption1.Size = new System.Drawing.Size(77, 17);
             this.tileOption1.TabIndex = 10;
@@ -146,7 +147,7 @@
             // 
             // option6CheckBox
             // 
-            this.option6CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.option6CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.option6CheckBox.Checked = global::ManiacEditor.Properties.Settings.Default.Unkown2Default;
             this.option6CheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "Unkown2Default", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.option6CheckBox.Location = new System.Drawing.Point(134, 392);
@@ -154,25 +155,23 @@
             this.option6CheckBox.Size = new System.Drawing.Size(112, 31);
             this.option6CheckBox.TabIndex = 7;
             this.option6CheckBox.Text = "Solid (All excl. top) (Plane 2)";
-            this.option6CheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.option6CheckBox.UseVisualStyleBackColor = true;
             // 
             // option5CheckBox
             // 
-            this.option5CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.option5CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.option5CheckBox.Checked = global::ManiacEditor.Properties.Settings.Default.Unkown1Default;
             this.option5CheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "Unkown1Default", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.option5CheckBox.Location = new System.Drawing.Point(12, 394);
             this.option5CheckBox.Name = "option5CheckBox";
-            this.option5CheckBox.Size = new System.Drawing.Size(77, 31);
+            this.option5CheckBox.Size = new System.Drawing.Size(83, 31);
             this.option5CheckBox.TabIndex = 6;
             this.option5CheckBox.Text = "Solid (Top) (Plane 2)";
-            this.option5CheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.option5CheckBox.UseVisualStyleBackColor = true;
             // 
             // option4CheckBox
             // 
-            this.option4CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.option4CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.option4CheckBox.AutoSize = true;
             this.option4CheckBox.Checked = global::ManiacEditor.Properties.Settings.Default.SolidAllButTopDefault;
             this.option4CheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SolidAllButTopDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -185,7 +184,7 @@
             // 
             // option3CheckBox
             // 
-            this.option3CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.option3CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.option3CheckBox.AutoSize = true;
             this.option3CheckBox.Checked = global::ManiacEditor.Properties.Settings.Default.SolidTopDefault;
             this.option3CheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "SolidTopDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -220,28 +219,110 @@
             this.editTileInTileManiacToolStripMenuItem.Text = "Edit Tile #{0} in Tile Maniac";
             this.editTileInTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileInTileManiacToolStripMenuItem_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(0, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(252, 337);
+            this.tabControl1.TabIndex = 15;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.White;
+            this.tabPage1.Controls.Add(this.tilePanel);
+            this.tabPage1.Controls.Add(this.trackBar1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(244, 311);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Tiles";
+            // 
+            // tilePanel
+            // 
+            this.tilePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tilePanel.BackColor = System.Drawing.SystemColors.Control;
+            this.tilePanel.Location = new System.Drawing.Point(0, 48);
+            this.tilePanel.Name = "tilePanel";
+            this.tilePanel.Size = new System.Drawing.Size(244, 263);
+            this.tilePanel.TabIndex = 2;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage2.Controls.Add(this.retroEDTileList1);
+            this.tabPage2.ForeColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(244, 311);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Chunks";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.tileOption1);
+            this.groupBox1.Controls.Add(this.tileOption2);
+            this.groupBox1.Controls.Add(this.tileOption3);
+            this.groupBox1.Controls.Add(this.tileOption4);
+            this.groupBox1.Location = new System.Drawing.Point(4, 428);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(244, 94);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Selected Tiles";
+            // 
+            // retroEDTileList1
+            // 
+            this.retroEDTileList1.BackColor = System.Drawing.SystemColors.Window;
+            this.retroEDTileList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.retroEDTileList1.ImageHeight = 128;
+            this.retroEDTileList1.ImageSize = 128;
+            this.retroEDTileList1.ImageWidth = 128;
+            this.retroEDTileList1.Location = new System.Drawing.Point(3, 3);
+            this.retroEDTileList1.Name = "retroEDTileList1";
+            this.retroEDTileList1.ScrollValue = 0;
+            this.retroEDTileList1.SelectedIndex = -1;
+            this.retroEDTileList1.Size = new System.Drawing.Size(236, 303);
+            this.retroEDTileList1.TabIndex = 1;
+            // 
             // TilesToolbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.selectedTileLabel);
-            this.Controls.Add(this.tileOption4);
-            this.Controls.Add(this.tileOption3);
-            this.Controls.Add(this.tileOption2);
-            this.Controls.Add(this.tileOption1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.option6CheckBox);
             this.Controls.Add(this.option5CheckBox);
             this.Controls.Add(this.option4CheckBox);
             this.Controls.Add(this.option3CheckBox);
             this.Controls.Add(this.option2CheckBox);
             this.Controls.Add(this.option1CheckBox);
-            this.Controls.Add(this.trackBar1);
             this.Name = "TilesToolbar";
-            this.Size = new System.Drawing.Size(255, 525);
+            this.Size = new System.Drawing.Size(252, 525);
             this.Load += new System.EventHandler(this.TilesToolbar_Load);
+            this.Resize += new System.EventHandler(this.TilesToolbar_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,7 +336,6 @@
         private System.Windows.Forms.CheckBox option4CheckBox;
         private System.Windows.Forms.CheckBox option5CheckBox;
         private System.Windows.Forms.CheckBox option6CheckBox;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox tileOption4;
         private System.Windows.Forms.CheckBox tileOption3;
         private System.Windows.Forms.CheckBox tileOption2;
@@ -263,5 +343,11 @@
         public System.Windows.Forms.Label selectedTileLabel;
         public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         public System.Windows.Forms.ToolStripMenuItem editTileInTileManiacToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Panel tilePanel;
+        private System.Windows.Forms.TabPage tabPage2;
+        private Interfaces.RetroEDTileList retroEDTileList1;
+        public System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

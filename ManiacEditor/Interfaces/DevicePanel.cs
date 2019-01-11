@@ -245,7 +245,7 @@ namespace ManiacEditor
             {
                 // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
                     if (bRender && !deviceLost) Render();
-                    if (mouseMoved)
+                    if (mouseMoved && bRender)
                     {
                         OnMouseMove(lastEvent);
                         mouseMoved = false;
@@ -716,7 +716,10 @@ namespace ManiacEditor
 
         private void DrawTexture(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
-            sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+            if (!deviceLost)
+            {
+                sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+            }
         }
 
         private void DrawTexture2(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)

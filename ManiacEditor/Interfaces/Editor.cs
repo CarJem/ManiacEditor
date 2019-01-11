@@ -218,9 +218,7 @@ namespace ManiacEditor
         internal EditorBackground Background;
         public EditorLayer EditLayer;
         internal TilesToolbar TilesToolbar = null;
-        public ChunksToolbar ChunksToolbar = null;
         public EntitiesToolbar entitiesToolbar = null;
-        public EditorChunk ManiacChunks = null;
         public EditorEntity_ini EditorEntity_ini;
         public EditorUpdater Updater = new EditorUpdater();
         public TilesConfig TilesConfig;
@@ -229,6 +227,7 @@ namespace ManiacEditor
         public ManiacEditor.DevicePanel GraphicPanel;
         public StatusBox statusBox;
         public UIText DebugTextHUD = new UIText();
+        public EditorChunk EditorChunk;
 
         //Tile Maniac Instance
         public TileManiac.Mainform mainform = new Mainform();
@@ -242,6 +241,7 @@ namespace ManiacEditor
         public static Color darkTheme2 = Color.FromArgb(255, 70, 70, 70);
         public static Color darkTheme3 = Color.White;
         public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
+        public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
 
         //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
@@ -1106,7 +1106,7 @@ namespace ManiacEditor
                 pasteToolStripMenuItem.Enabled = false;
 
 
-            if (IsTilesEdit() && !IsChunksEdit())
+            if (IsTilesEdit())
             {
                 if (TilesToolbar == null)
                 {
@@ -1131,37 +1131,16 @@ namespace ManiacEditor
                     TilesToolbar.Height = splitContainer1.Panel2.Height - 2;
                     Form1_Resize(null, null);
                 }
+                if (IsChunksEdit()) TilesToolbar.tabControl1.SelectedIndex = 1;
+                else TilesToolbar.tabControl1.SelectedIndex = 0;
                 UpdateTilesOptions();
                 TilesToolbar.ShowShortcuts = PlaceTilesButton.Checked;
+
             }
             else
             {
                 TilesToolbar?.Dispose();
                 TilesToolbar = null;
-            }
-            if (IsTilesEdit() && IsChunksEdit())
-            {
-                if (ChunksToolbar == null)
-                {
-                    if (useEncoreColors)
-                        ChunksToolbar = new ChunksToolbar(StageTiles, SceneFilepath, EncorePalette[0], this);
-                    else
-                        ChunksToolbar = new ChunksToolbar(StageTiles, SceneFilepath, null, this);
-
-                    splitContainer1.Panel2.Controls.Clear();
-                    splitContainer1.Panel2.Controls.Add(ChunksToolbar);
-                    splitContainer1.Panel2Collapsed = false;
-                    ChunksToolbar.Width = splitContainer1.Panel2.Width - 2;
-                    ChunksToolbar.Height = splitContainer1.Panel2.Height - 2;
-                    Form1_Resize(null, null);
-                }
-                //UpdateChunkOptions();
-                //ChunksToolbar.ShowShortcuts = chunksToolStripButton.Checked;
-            }
-            else
-            {
-                ChunksToolbar?.Dispose();
-                ChunksToolbar = null;
             }
             if (IsEntitiesEdit())
             {
@@ -1204,7 +1183,7 @@ namespace ManiacEditor
                 entitiesToolbar?.Dispose();
                 entitiesToolbar = null;
             }
-            if (TilesToolbar == null && entitiesToolbar == null && ChunksToolbar == null)
+            if (TilesToolbar == null && entitiesToolbar == null)
             {
                 splitContainer1.Panel2Collapsed = true;
                 Form1_Resize(null, null);
@@ -2646,7 +2625,7 @@ namespace ManiacEditor
                 Zoom = zoom_level_d;
             }
 
-
+            
             zooming = true;
 
             int oldShiftX = ShiftX;
@@ -2677,6 +2656,8 @@ namespace ManiacEditor
 
         public void Form1_Resize(object sender, EventArgs e)
         {
+            //if (GraphicPanel != null) GraphicPanel.bRender = false;
+
             if (info != null)
             {
                 info.Width = mainPanel.Width;
@@ -2739,7 +2720,9 @@ namespace ManiacEditor
                 ResizeGraphicPanel(GraphicPanel.Width * 2, GraphicPanel.Height);
             while (ScreenHeight > GraphicPanel.Height)
                 ResizeGraphicPanel(GraphicPanel.Width, GraphicPanel.Height * 2);
-                
+
+            //if (GraphicPanel != null) GraphicPanel.bRender = true;
+
         }
 
         private void SetViewSize(int width = 0, int height = 0)
@@ -3000,8 +2983,9 @@ namespace ManiacEditor
 
             TearDownExtraLayerButtons();
 
-            ManiacChunks = null;
             Background = null;
+
+            EditorChunk = null;
 
             // If copying between scenes is allowed...
             if (mySettings.ForceCopyUnlock)
@@ -3181,11 +3165,9 @@ namespace ManiacEditor
 
             SetupLayerButtons();
 
-
+            EditorChunk = new EditorChunk(this, StageTiles);
 
             Background = new EditorBackground(this);
-
-            ManiacChunks = new EditorChunk(this);
 
             entities = new EditorEntities(EditorScene, this);
 
@@ -4638,7 +4620,6 @@ Error: {ex.Message}");
             PointerButton.Checked = false;
             PlaceTilesButton.Checked = false;
             InteractionToolButton.Checked = false;
-            ChunksToolButton.Checked = false;
             UpdateControls();
         }
 
@@ -4648,7 +4629,6 @@ Error: {ex.Message}");
             SelectToolButton.Checked = false;
             PlaceTilesButton.Checked = false;
             InteractionToolButton.Checked = false;
-            ChunksToolButton.Checked = false;
             UpdateControls();
         }
 
@@ -4658,7 +4638,6 @@ Error: {ex.Message}");
             SelectToolButton.Checked = false;
             PointerButton.Checked = false;
             InteractionToolButton.Checked = false;
-            ChunksToolButton.Checked = false;
             UpdateControls();
         }
 
@@ -4668,17 +4647,12 @@ Error: {ex.Message}");
             PlaceTilesButton.Checked = false;
             SelectToolButton.Checked = false;
             PointerButton.Checked = false;
-            ChunksToolButton.Checked = false;
             UpdateControls();
         }
 
         private void ChunkToolButton_Click(object sender, EventArgs e)
         {
             ChunksToolButton.Checked = !ChunksToolButton.Checked;
-            InteractionToolButton.Checked = false;
-            PlaceTilesButton.Checked = false;
-            SelectToolButton.Checked = false;
-            PointerButton.Checked = false;
             UpdateControls();
         }
 
@@ -7007,6 +6981,7 @@ Error: {ex.Message}");
 
                 SetupLayerButtons();
 
+
                 Background = new EditorBackground(this);
 
                 entities = new EditorEntities(EditorScene, this);
@@ -7040,7 +7015,11 @@ Error: {ex.Message}");
             }
         }
 
-
+        private void chunkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditorChunk.ConvertClipboardtoChunk(TilesClipboard);
+            TilesToolbar?.ChunksReload();
+        }
 
         private void EnableAllButtonsToolStripMenuItem_Click(object sender, EventArgs e)
         {

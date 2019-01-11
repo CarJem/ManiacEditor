@@ -35,6 +35,27 @@ namespace ManiacEditor
             return texture;
         }
 
+        public static Texture FromBitmapChunk(Device device, Bitmap bitmap)
+        {
+            Texture texture = new Texture(device, 128, 128, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
+            DataStream data;
+            DataRectangle rec = texture.LockRectangle(0, LockFlags.None, out data);
+            BitmapData bd = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, 128, 128), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+            int bufferSize = bd.Height * bd.Stride;
+
+            //create data buffer 
+            byte[] bytes = new byte[bufferSize];
+
+            // copy bitmap data into buffer
+            Marshal.Copy(bd.Scan0, bytes, 0, bytes.Length);
+            data.Write(bytes, 0, bytes.Length);
+
+            texture.UnlockRectangle(0);
+            bitmap.UnlockBits(bd);
+            return texture;
+        }
+
         public static Texture FromBitmapSlow(Device device, Bitmap bitmap)
         {
             // The fast function doesn't work for all textures, even with correct pixel format, not sure why

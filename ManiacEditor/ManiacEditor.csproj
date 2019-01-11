@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -517,6 +517,12 @@
     <Compile Include="Interfaces\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ChunksList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ChunksList.Designer.cs">
+      <DependentUpon>ChunksList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\StartupInformation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -766,18 +772,6 @@
     <Compile Include="Interfaces\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\ChunksToolbar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Interfaces\ChunksToolbar.Designer.cs">
-      <DependentUpon>ChunksToolbar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\ChunksList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Interfaces\ChunksList.Designer.cs">
-      <DependentUpon>ChunksList.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\UpdateStatusBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -974,12 +968,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\SoundLooper.resx">
       <DependentUpon>SoundLooper.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\ChunksToolbar.resx">
-      <DependentUpon>ChunksToolbar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\ChunksList.resx">
-      <DependentUpon>ChunksList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UpdateStatusBox.resx">
       <DependentUpon>UpdateStatusBox.cs</DependentUpon>
