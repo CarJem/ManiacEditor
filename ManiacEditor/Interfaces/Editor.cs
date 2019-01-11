@@ -229,8 +229,11 @@ namespace ManiacEditor
         public UIText DebugTextHUD = new UIText();
         public EditorChunk EditorChunk;
 
-        //Tile Maniac Instance
+        //Tile Maniac + ManiaPal Instance
         public TileManiac.Mainform mainform = new Mainform();
+        public ManiaPal.App app;
+        public bool isManiaPalOpen = false;
+        public Thread ManiaPalThread;
 
         //Editor Misc. Variables
         System.Windows.Forms.Timer t;
@@ -312,7 +315,6 @@ namespace ManiacEditor
         #endregion
         public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
         {
-            //Instance = this;
             SystemEvents.PowerModeChanged += CheckDeviceState;
             InstanceID = MegaManiacInstanceID;
 
@@ -328,7 +330,7 @@ namespace ManiacEditor
             }
             catch
             {
-
+                
             }
 
 
@@ -4387,54 +4389,96 @@ Error: {ex.Message}");
             }
         }
 
-        private void CToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void ColorPaletteEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            String palleteProcessName = Path.GetFileNameWithoutExtension(mySettings.RunPalleteEditorPath);
-            IntPtr hWnd = FindWindow(palleteProcessName, null); // this gives you the handle of the window you need.
-            Process processes = Process.GetProcessesByName(palleteProcessName).FirstOrDefault();
-            if (processes != null)
+            if (ManiaPal.MainWindow.Instance == null || !isManiaPalOpen)
             {
-                // check if the window is hidden / minimized
-                if (processes.MainWindowHandle == IntPtr.Zero)
+                if (app != null)
                 {
-                    // the window is hidden so try to restore it before setting focus.
-                    ShowWindow(processes.Handle, ShowWindowEnum.Restore);
+                    MessageBox.Show("ManiacPal Can Only be Opened Once for Now");
+                    isManiaPalOpen = false;
+                    return;
                 }
+                var thread = new Thread(() =>
+                {
+                    app = new ManiaPal.App();
+                    app.InitializeComponent();
+                    app.Run();
+                    app.Shutdown();
+                    isManiaPalOpen = false;
+                });
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+                while (ManiaPal.MainWindow.Instance == null)
+                    Thread.Sleep(100);
+                var MP = ManiaPal.MainWindow.Instance;
+                ToolStripMenuItem button = sender as ToolStripMenuItem;
+                MP.Dispatcher.Invoke(() =>
+                {
+                    if (button != null && button == maniaPalGameConfigToolStripMenuItem)
+                    {
+                        if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
+                    }
+                    else
+                    {
+                        if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
+                    }
 
-                // set user the focus to the window
-                SetForegroundWindow(processes.MainWindowHandle);
+                    MP.RefreshPalette(MP.CurrentPaletteSet);
+                    MP.Activate();
+                });
+                isManiaPalOpen = true;
             }
             else
             {
-                // Ask where Color Palette Program is located when not set
-                if (string.IsNullOrEmpty(mySettings.RunPalleteEditorPath))
+                ToolStripMenuItem button = sender as ToolStripMenuItem;
+                var MP = ManiaPal.MainWindow.Instance;
+                if (button != null && button == colorPaletteEditorToolStripMenuItem)
                 {
-                    var ofd = new OpenFileDialog
+                    MP.Dispatcher.Invoke(() =>
                     {
-                        Title = "Select Color Palette Program (.exe)",
-                        Filter = "Windows PE Executable|*.exe"
-                    };
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                        mySettings.RunPalleteEditorPath = ofd.FileName;
+                        MP.Activate();
+                    });
                 }
                 else
                 {
-                    if (!File.Exists(mySettings.RunPalleteEditorPath))
+                    if (button != null && button == maniaPalStageConfigToolStripMenuItem)
                     {
-                        mySettings.RunPalleteEditorPath = "";
-                        return;
+                        MP.Dispatcher.Invoke(() =>
+                        {
+                            if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
+                            MP.RefreshPalette(MP.CurrentPaletteSet);
+                            MP.Activate();
+                        });
+                    }
+
+                    if (button != null && button == maniaPalGameConfigToolStripMenuItem)
+                    {
+                        MP.Dispatcher.Invoke(() =>
+                        {
+                            if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
+                            MP.RefreshPalette(MP.CurrentPaletteSet);
+                            MP.Activate();
+                        });
                     }
                 }
 
-                if (File.Exists(mySettings.RunPalleteEditorPath))
-                    Process.Start(mySettings.RunPalleteEditorPath);
             }
+
+
         }
+
+        private void colorPaletteEditorToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+        {
+            maniaPalHint.Text = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
+            if (!maniaPalGameConfigToolStripMenuItem.Text.Contains(Environment.NewLine))
+            {
+                maniaPalGameConfigToolStripMenuItem.Text += Environment.NewLine + Environment.NewLine;
+                maniaPalStageConfigToolStripMenuItem.Text += Environment.NewLine + Environment.NewLine;
+            }
+
+        }
+
 
         private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -7020,6 +7064,8 @@ Error: {ex.Message}");
             EditorChunk.ConvertClipboardtoChunk(TilesClipboard);
             TilesToolbar?.ChunksReload();
         }
+
+
 
         private void EnableAllButtonsToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -70,6 +70,8 @@
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -198,7 +200,6 @@
             this.insanicManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateObjectIDHealerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.animationManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.maniacPalColorPaletteEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rSDKAnnimationEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorPaletteEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -342,8 +343,10 @@
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
-            this.pasteToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.maniaPalStageConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.maniaPalGameConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.maniaPalHint = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator36 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -632,6 +635,21 @@
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.PasteToolStripMenuItem_Click);
+            // 
+            // pasteToToolStripMenuItem
+            // 
+            this.pasteToToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chunkToolStripMenuItem});
+            this.pasteToToolStripMenuItem.Name = "pasteToToolStripMenuItem";
+            this.pasteToToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
+            this.pasteToToolStripMenuItem.Text = "Paste to...";
+            // 
+            // chunkToolStripMenuItem
+            // 
+            this.chunkToolStripMenuItem.Name = "chunkToolStripMenuItem";
+            this.chunkToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.chunkToolStripMenuItem.Text = "Chunk";
+            this.chunkToolStripMenuItem.Click += new System.EventHandler(this.chunkToolStripMenuItem_Click);
             // 
             // duplicateToolStripMenuItem
             // 
@@ -1643,7 +1661,6 @@
             this.insanicManiacToolStripMenuItem,
             this.duplicateObjectIDHealerToolStripMenuItem,
             this.animationManiacToolStripMenuItem,
-            this.maniacPalColorPaletteEditorToolStripMenuItem,
             this.rSDKAnnimationEditorToolStripMenuItem,
             this.colorPaletteEditorToolStripMenuItem,
             this.optionsToolStripMenuItem2});
@@ -1679,13 +1696,6 @@
             this.animationManiacToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.animationManiacToolStripMenuItem.Text = "AnimationManiac (Animation Editor)";
             // 
-            // maniacPalColorPaletteEditorToolStripMenuItem
-            // 
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Enabled = false;
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Name = "maniacPalColorPaletteEditorToolStripMenuItem";
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
-            this.maniacPalColorPaletteEditorToolStripMenuItem.Text = "ManiacPal (Color Palette Editor)";
-            // 
             // rSDKAnnimationEditorToolStripMenuItem
             // 
             this.rSDKAnnimationEditorToolStripMenuItem.Name = "rSDKAnnimationEditorToolStripMenuItem";
@@ -1695,9 +1705,15 @@
             // 
             // colorPaletteEditorToolStripMenuItem
             // 
+            this.colorPaletteEditorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.maniaPalStageConfigToolStripMenuItem,
+            this.maniaPalGameConfigToolStripMenuItem,
+            this.toolStripSeparator36,
+            this.maniaPalHint});
             this.colorPaletteEditorToolStripMenuItem.Name = "colorPaletteEditorToolStripMenuItem";
             this.colorPaletteEditorToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
-            this.colorPaletteEditorToolStripMenuItem.Text = "Color Palette Editor";
+            this.colorPaletteEditorToolStripMenuItem.Text = "ManiaPal (Color Palette Editor)";
+            this.colorPaletteEditorToolStripMenuItem.DropDownOpened += new System.EventHandler(this.colorPaletteEditorToolStripMenuItem_DropDownOpened);
             this.colorPaletteEditorToolStripMenuItem.Click += new System.EventHandler(this.ColorPaletteEditorToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem2
@@ -1721,28 +1737,28 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "Settings";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionToolStripMenuItem_Click);
             // 
             // controlsToolStripMenuItem
             // 
             this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.controlsToolStripMenuItem.Text = "Controls";
             this.controlsToolStripMenuItem.Click += new System.EventHandler(this.ControlsToolStripMenuItem_Click);
             // 
             // wikiToolStripMenuItem
             // 
             this.wikiToolStripMenuItem.Name = "wikiToolStripMenuItem";
-            this.wikiToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.wikiToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.wikiToolStripMenuItem.Text = "Wiki";
             this.wikiToolStripMenuItem.Click += new System.EventHandler(this.WikiToolStripMenuItem_Click);
             // 
@@ -3041,20 +3057,40 @@
             this.toolStripSeparator32.Name = "toolStripSeparator32";
             this.toolStripSeparator32.Size = new System.Drawing.Size(6, 39);
             // 
-            // pasteToToolStripMenuItem
+            // maniaPalStageConfigToolStripMenuItem
             // 
-            this.pasteToToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.chunkToolStripMenuItem});
-            this.pasteToToolStripMenuItem.Name = "pasteToToolStripMenuItem";
-            this.pasteToToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
-            this.pasteToToolStripMenuItem.Text = "Paste to...";
+            this.maniaPalStageConfigToolStripMenuItem.AutoSize = false;
+            this.maniaPalStageConfigToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.maniaPalStageConfigToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.maniaPalStageConfigToolStripMenuItem.Name = "maniaPalStageConfigToolStripMenuItem";
+            this.maniaPalStageConfigToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.maniaPalStageConfigToolStripMenuItem.Text = "ManiaPal (StageConfig)";
+            this.maniaPalStageConfigToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.maniaPalStageConfigToolStripMenuItem.Click += new System.EventHandler(this.ColorPaletteEditorToolStripMenuItem_Click);
             // 
-            // chunkToolStripMenuItem
+            // maniaPalGameConfigToolStripMenuItem
             // 
-            this.chunkToolStripMenuItem.Name = "chunkToolStripMenuItem";
-            this.chunkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.chunkToolStripMenuItem.Text = "Chunk";
-            this.chunkToolStripMenuItem.Click += new System.EventHandler(this.chunkToolStripMenuItem_Click);
+            this.maniaPalGameConfigToolStripMenuItem.AutoSize = false;
+            this.maniaPalGameConfigToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.maniaPalGameConfigToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.maniaPalGameConfigToolStripMenuItem.Name = "maniaPalGameConfigToolStripMenuItem";
+            this.maniaPalGameConfigToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.maniaPalGameConfigToolStripMenuItem.Text = "ManiaPal (GameConfig)";
+            this.maniaPalGameConfigToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.maniaPalGameConfigToolStripMenuItem.Click += new System.EventHandler(this.ColorPaletteEditorToolStripMenuItem_Click);
+            // 
+            // maniaPalHint
+            // 
+            this.maniaPalHint.Enabled = false;
+            this.maniaPalHint.Name = "maniaPalHint";
+            this.maniaPalHint.Overflow = System.Windows.Forms.ToolStripItemOverflow.Always;
+            this.maniaPalHint.Size = new System.Drawing.Size(201, 22);
+            this.maniaPalHint.Text = "HINT:";
+            // 
+            // toolStripSeparator36
+            // 
+            this.toolStripSeparator36.Name = "toolStripSeparator36";
+            this.toolStripSeparator36.Size = new System.Drawing.Size(198, 6);
             // 
             // Editor
             // 
@@ -3278,7 +3314,6 @@
         private System.Windows.Forms.ToolStripMenuItem importObjectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insanicManiacToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem animationManiacToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem maniacPalColorPaletteEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optimizeEntitySlotIDsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem editTile0WithTileManiacToolStripMenuItem;
@@ -3415,6 +3450,10 @@
         private System.Windows.Forms.ToolStripMenuItem useLargeTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chunkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem maniaPalStageConfigToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem maniaPalGameConfigToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem maniaPalHint;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator36;
     }
 }
 

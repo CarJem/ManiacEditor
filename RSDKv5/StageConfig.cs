@@ -9,11 +9,13 @@ namespace RSDKv5
 {
     public class StageConfig : CommonConfig
     {
+        public string FilePath;
+
         bool UseGameObjects;
 
         public StageConfig(string filename) : this(new Reader(filename))
         {
-
+            FilePath = filename;
         }
 
         public StageConfig()

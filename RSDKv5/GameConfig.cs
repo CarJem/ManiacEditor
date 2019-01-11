@@ -10,6 +10,7 @@ namespace RSDKv5
         public String GameName;
         public String GameSubname;
         public String Version;
+        public String FilePath;
 
         bool _scenesHaveModeFilter;
 
@@ -143,6 +144,7 @@ namespace RSDKv5
 
         public GameConfig(string filename)
         {
+            FilePath = filename;
             using (var reader = new Reader(filename))
                 Read(reader);
         }
