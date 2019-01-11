@@ -4391,6 +4391,10 @@ Error: {ex.Message}");
 
         private void ColorPaletteEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ToolStripMenuItem button = sender as ToolStripMenuItem;
+
+
+
             if (ManiaPal.MainWindow.Instance == null || !isManiaPalOpen)
             {
                 if (app != null)
@@ -4412,14 +4416,13 @@ Error: {ex.Message}");
                 while (ManiaPal.MainWindow.Instance == null)
                     Thread.Sleep(100);
                 var MP = ManiaPal.MainWindow.Instance;
-                ToolStripMenuItem button = sender as ToolStripMenuItem;
                 MP.Dispatcher.Invoke(() =>
                 {
-                    if (button != null && button == maniaPalGameConfigToolStripMenuItem)
+                    if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
                     {
                         if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
                     }
-                    else
+                    else if (StageConfig != null)
                     {
                         if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
                     }
@@ -4431,7 +4434,6 @@ Error: {ex.Message}");
             }
             else
             {
-                ToolStripMenuItem button = sender as ToolStripMenuItem;
                 var MP = ManiaPal.MainWindow.Instance;
                 if (button != null && button == colorPaletteEditorToolStripMenuItem)
                 {
@@ -4442,7 +4444,7 @@ Error: {ex.Message}");
                 }
                 else
                 {
-                    if (button != null && button == maniaPalStageConfigToolStripMenuItem)
+                    if (button != null && button == maniaPalStageConfigToolStripMenuItem && StageConfig != null)
                     {
                         MP.Dispatcher.Invoke(() =>
                         {
@@ -4452,7 +4454,7 @@ Error: {ex.Message}");
                         });
                     }
 
-                    if (button != null && button == maniaPalGameConfigToolStripMenuItem)
+                    if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
                     {
                         MP.Dispatcher.Invoke(() =>
                         {
