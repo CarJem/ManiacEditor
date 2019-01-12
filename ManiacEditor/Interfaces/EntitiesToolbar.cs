@@ -26,7 +26,6 @@ namespace ManiacEditor
 
         public bool multipleObjects = false;
 
-        public EntityPropertiesView entityPropertiesView;
         public WPFGrid entityProperties2;
 
         public Editor EditorInstance;
@@ -90,6 +89,7 @@ namespace ManiacEditor
             defaultFilter.Items.Add("Other (0)");
 
             UpdateFilterNames();
+
         }
 
         public void UpdateFilterNames()

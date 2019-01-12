@@ -3507,7 +3507,7 @@ Error: {ex.Message}");
         {
             try
             {
-                if (EditorScene?.Layers == null || !EditorScene.Layers.Any()) return;
+                if (EditorScene?._editorLayers == null || !EditorScene._editorLayers.Any()) return;
 
                 var dialog = new FolderSelectDialog()
                 {

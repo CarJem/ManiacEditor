@@ -47,7 +47,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goToThisEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.entityPropertiesView1 = new ManiacEditor.Interfaces.EntityPropertiesView();
             this.gbSpawn.SuspendLayout();
             this.gbEditor.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -323,7 +322,6 @@
             this.elementHost1.Size = new System.Drawing.Size(234, 236);
             this.elementHost1.TabIndex = 5;
             this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.entityPropertiesView1;
             // 
             // EntitiesToolbar
             // 
@@ -364,7 +362,7 @@
         private System.Windows.Forms.ToolStripMenuItem goToThisEntityToolStripMenuItem;
         public System.Windows.Forms.Button MoreButton;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private Interfaces.EntityPropertiesView entityPropertiesView1;
+
         //private CSharp.Winform.UI.Loading.WaitLoading waitLoading1;
     }
 }
