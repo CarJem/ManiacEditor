@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManiaPal;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -23,7 +24,7 @@ namespace ManiacEditor
         /// </summary>
         [STAThread]
         static void Main(string[] args)
-        { 
+        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

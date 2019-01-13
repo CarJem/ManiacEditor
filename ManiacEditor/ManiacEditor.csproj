@@ -519,6 +519,7 @@
     <Compile Include="Interfaces\AddAttributeBox.Designer.cs">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\EditorWPF.xaml.cs" />
     <Compile Include="Interfaces\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
@@ -930,6 +931,43 @@
     <Content Include="ManiaPal.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\ZoomOut.png" />
+    <None Include="Resources\ZoomIn.png" />
+    <None Include="Resources\WarningMonitor.gif" />
+    <None Include="Resources\Undo.png" />
+    <None Include="Resources\StampTool.png" />
+    <None Include="Resources\ShowTileID.png" />
+    <None Include="Resources\ShowGrid.png" />
+    <None Include="Resources\ShowCollisionPathB.png" />
+    <None Include="Resources\ShowCollisionPathA.png" />
+    <None Include="Resources\Settings.png" />
+    <None Include="Resources\Select.png" />
+    <None Include="Resources\Save_.png" />
+    <None Include="Resources\RunGame.png" />
+    <None Include="Resources\RotateAssist.png" />
+    <None Include="Resources\RefreshStatic2.gif" />
+    <None Include="Resources\Refresh.png" />
+    <None Include="Resources\Redo.png" />
+    <None Include="Resources\PreRender.png" />
+    <None Include="Resources\Pointer_alt.png" />
+    <None Include="Resources\Pointer.png" />
+    <None Include="Resources\PlaceTiles.png" />
+    <None Include="Resources\OpenSharedFolder.png" />
+    <None Include="Resources\OpenFolder_Alt.png" />
+    <None Include="Resources\OpenFolder.png" />
+    <None Include="Resources\OpenDocumentFolder.png" />
+    <None Include="Resources\OpenDataFolder.png" />
+    <None Include="Resources\NewFolder.png" />
+    <None Include="Resources\NewFile.png" />
+    <None Include="Resources\MultiLayerSelect.png" />
+    <None Include="Resources\MagnetTool.png" />
+    <None Include="Resources\InteractionTool.png" />
+    <None Include="Resources\InfoStatic2.gif" />
+    <None Include="Resources\FreezeDevice.png" />
+    <None Include="Resources\ErrorStatic2.gif" />
+    <None Include="Resources\ErrorMonitor.gif" />
+    <None Include="Resources\ColorPalette_alt.png" />
+    <None Include="Resources\WarningStatic2.gif" />
     <None Include="Resources\LayerManagerWarning1.rtf" />
     <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
@@ -1187,6 +1225,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Interfaces\EditorWPF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Interfaces\EntityPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

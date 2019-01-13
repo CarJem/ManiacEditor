@@ -78,6 +78,22 @@ namespace ManiacEditor
             return "Physical Memory Usage: " + finalMem.ToString() + " MB";
         }
 
+        public string GetDeviceType()
+        {
+            Process proc = Process.GetCurrentProcess();
+            long memoryWorkSet = proc.WorkingSet64;
+            double finalMem = ConvertBytesToMegabytes(memoryWorkSet);
+            return "Physical Memory Usage: " + finalMem.ToString() + " MB";
+        }
+
+        public string GetDevicePramaters()
+        {
+            Process proc = Process.GetCurrentProcess();
+            long memoryWorkSet = proc.WorkingSet64;
+            double finalMem = ConvertBytesToMegabytes(memoryWorkSet);
+            return "Physical Memory Usage: " + finalMem.ToString() + " MB";
+        }
+
         static double ConvertBytesToMegabytes(long bytes)
         {
             return (bytes / 1024f) / 1024f;
