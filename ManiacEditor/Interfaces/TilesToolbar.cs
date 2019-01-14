@@ -136,7 +136,8 @@ namespace ManiacEditor
             this.tilesList.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tilesList.Location = new System.Drawing.Point(0, 0);
             this.tilesList.Name = "tilesList";
-            this.tilesList.Size = new System.Drawing.Size(247, 263);
+            this.tilesList.Size = tilePanel.Size;
+            this.tilesList.Dock = DockStyle.Fill;
             this.tilesList.TabIndex = 0;
             this.tilesList.TileScale = 2;
             this.tilePanel.Controls.Add(this.tilesList);
@@ -257,13 +258,18 @@ namespace ManiacEditor
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedTab == tabControl1.TabPages[0]) EditorInstance.ChunksToolButton.Checked = false;
-            else EditorInstance.ChunksToolButton.Checked = true;
+            if (tabControl1.SelectedTab == tabControl1.TabPages[0]) EditorInstance.ChunksToolButton.IsChecked = false;
+            else EditorInstance.ChunksToolButton.IsChecked = true;
         }
 
         private void TilesToolbar_Resize(object sender, EventArgs e)
         {
 
+
+        }
+
+        private void selectedTileLabel_Click(object sender, EventArgs e)
+        {
 
         }
     }

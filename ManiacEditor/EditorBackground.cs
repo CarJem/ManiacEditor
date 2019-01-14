@@ -46,7 +46,7 @@ namespace ManiacEditor
             int start_x = screen.X / (BOX_SIZE * EditorLayer.TILE_SIZE);
             int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, BOX_SIZE * EditorLayer.TILE_SIZE), EditorInstance.SceneWidth);
             int start_y = screen.Y / (BOX_SIZE * EditorLayer.TILE_SIZE);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, BOX_SIZE * EditorLayer.TILE_SIZE), EditorInstance.Height);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, BOX_SIZE * EditorLayer.TILE_SIZE), EditorInstance.SceneHeight);
 
             // Draw with first color everything
             d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, color1);
@@ -75,7 +75,7 @@ namespace ManiacEditor
             int start_x = screen.X / (BOX_SIZE * EditorLayer.TILE_SIZE);
             int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, BOX_SIZE * EditorLayer.TILE_SIZE), EditorInstance.SceneWidth);
             int start_y = screen.Y / (BOX_SIZE * EditorLayer.TILE_SIZE);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, BOX_SIZE * EditorLayer.TILE_SIZE), EditorInstance.Height);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, BOX_SIZE * EditorLayer.TILE_SIZE), EditorInstance.SceneHeight);
 
             // Draw with first color everything
             d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, color1);
@@ -99,7 +99,7 @@ namespace ManiacEditor
             int start_x = screen.X / (TILE_BOX_SIZE * GRID_TILE_SIZE);
             int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILE_BOX_SIZE * GRID_TILE_SIZE), EditorInstance.SceneWidth);
             int start_y = screen.Y / (TILE_BOX_SIZE * GRID_TILE_SIZE);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILE_BOX_SIZE * GRID_TILE_SIZE), EditorInstance.Height);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILE_BOX_SIZE * GRID_TILE_SIZE), EditorInstance.SceneHeight);
 
 
                 for (int y = start_y; y < end_y; ++y)
@@ -121,7 +121,7 @@ namespace ManiacEditor
             int start_x = screen.X / (TILE_BOX_SIZE * GRID_TILE_SIZE);
             int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILE_BOX_SIZE * GRID_TILE_SIZE), EditorInstance.SceneWidth);
             int start_y = screen.Y / (TILE_BOX_SIZE * GRID_TILE_SIZE);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILE_BOX_SIZE * GRID_TILE_SIZE), EditorInstance.Height);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILE_BOX_SIZE * GRID_TILE_SIZE), EditorInstance.SceneHeight);
 
 
             d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, Color.FromArgb(100, 0, 0, 0));

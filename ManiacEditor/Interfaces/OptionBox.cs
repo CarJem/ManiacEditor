@@ -680,6 +680,7 @@ namespace ManiacEditor
                 if (result == DialogResult.OK)
                 {
                     Properties.Settings.Default.NightMode = true;
+                    Properties.Settings.Default.Save();
                     Application.Restart();
                     Environment.Exit(0);
                 }
@@ -690,6 +691,7 @@ namespace ManiacEditor
                 if (result == DialogResult.OK)
                 {
                     Properties.Settings.Default.NightMode = false;
+                    Properties.Settings.Default.Save();
                     Application.Restart();
                     Environment.Exit(0);
                 }
@@ -769,6 +771,11 @@ namespace ManiacEditor
             RadioButton button = sender as RadioButton;
             if (sender != null) EditorSettings.ApplyPreset(button.Tag.ToString());
             CheckGraphicalPresetModeState(null, null);
+        }
+
+        private void checkBox15_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

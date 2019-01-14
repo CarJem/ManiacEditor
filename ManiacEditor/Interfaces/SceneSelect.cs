@@ -137,13 +137,15 @@ namespace ManiacEditor
             this.recentDataDirList.ImageList = new ImageList();
             this.recentDataDirList.ImageList.Images.Add("Folder", Properties.Resources.folder);
             this.recentDataDirList.ImageList.Images.Add("File", Properties.Resources.file);
-            foreach (ToolStripMenuItem dataDir in EditorInstance._recentDataItems)
+            
+            foreach (System.Windows.Controls.MenuItem dataDir in EditorInstance._recentDataItems)
             {
-                var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir.Text);
-                node.Tag = dataDir.Text;
-                node.ToolTipText = dataDir.Text;
+                var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir.Tag.ToString());
+                node.Tag = dataDir.Tag.ToString();
+                node.ToolTipText = dataDir.Tag.ToString();
                 node.ImageKey = "DataFolder";
             }
+            
             recentDataDirList.Nodes[0].ExpandAll();
 
             if (Properties.Settings.Default.SavedPlaces?.Count > 0 && EditorInstance.DataDirectory != null)

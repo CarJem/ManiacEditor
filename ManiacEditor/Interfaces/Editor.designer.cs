@@ -3111,12 +3111,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 396);
             this.Name = "Editor";
             this.Text = "Maniac Editor - Generations Edition";
-            this.Activated += new System.EventHandler(this.MapEditor_Activated);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Editor_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
-            this.Resize += new System.EventHandler(this.Form1_Resize);
+
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.mainPanel.ResumeLayout(false);

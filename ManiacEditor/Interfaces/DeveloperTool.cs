@@ -29,7 +29,7 @@ namespace ManiacEditor
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            EditorInstance.hScrollBar1.Width = (EditorInstance.splitContainer1.Panel2Collapsed ? EditorInstance.mainPanel.Width : EditorInstance.splitContainer1.Panel1.Width + EditorInstance.splitContainer1.SplitterWidth) - (EditorInstance.vScrollBar1.Visible ? (int)Properties.Settings.Default.devInt : (int)Properties.Settings.Default.devInt2);
+
         }
     }
 }

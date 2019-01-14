@@ -2744,6 +2744,7 @@
             this.checkBox15.Text = "Enable Dark Mode";
             this.checkBox15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox15.UseVisualStyleBackColor = false;
+            this.checkBox15.Click += new System.EventHandler(this.checkBox15_Click);
             // 
             // layerHide
             // 

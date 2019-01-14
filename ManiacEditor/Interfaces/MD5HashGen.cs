@@ -16,7 +16,6 @@ namespace ManiacEditor
         public MD5HashGen(Editor instance)
         {
             InitializeComponent();
-            this.Owner = instance;
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)

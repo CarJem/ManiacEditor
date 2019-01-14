@@ -108,12 +108,14 @@ namespace ManiacEditor
             this.recentDataDirList.ImageList = new ImageList();
             this.recentDataDirList.ImageList.Images.Add("Folder", Properties.Resources.folder);
             this.recentDataDirList.ImageList.Images.Add("File", Properties.Resources.file);
-            foreach (ToolStripMenuItem dataDir in EditorInstance._recentDataItems)
+            
+            foreach (var dataDir in EditorInstance._recentDataItems)
             {
-                var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir.Text);
-                node.Tag = dataDir.Text;
-                node.ToolTipText = dataDir.Text;
+                var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir.Header.ToString());
+                node.Tag = dataDir.Header.ToString();
+                node.ToolTipText = dataDir.Header.ToString();
             }
+            
             recentDataDirList.Nodes[0].ExpandAll();
 
         }

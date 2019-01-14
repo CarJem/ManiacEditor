@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-//using System.Windows.Forms;
+using System.Windows.Forms;
 using ManiacEditor.Actions;
 using ManiacEditor.Enums;
 using RSDKv5;
@@ -50,6 +50,13 @@ using Path = System.IO.Path;
 using System.Windows.Controls.Primitives;
 using Rectangle = System.Drawing.Rectangle;
 using Xceed.Wpf.Toolkit;
+using SystemColors = System.Drawing.SystemColors;
+using MenuItem = System.Windows.Controls.MenuItem;
+using Control = System.Windows.Forms.Control;
+using Clipboard = System.Windows.Clipboard;
+using DataObject = System.Windows.DataObject;
+using Application = System.Windows.Application;
+using Button = System.Windows.Controls.Button;
 
 namespace ManiacEditor
 {
@@ -62,15 +69,15 @@ namespace ManiacEditor
         //Editor Editing States
         bool dragged;
         bool startDragged;
-        int lastX, lastY, draggedX, draggedY;
-        int ShiftX = 0, ShiftY = 0, ScreenWidth, ScreenHeight;
-        int CustomX = 0, CustomY = 0;
+        public int lastX, lastY, draggedX, draggedY;
+        public int ShiftX = 0, ShiftY = 0, ScreenWidth, ScreenHeight;
+        public int CustomX = 0, CustomY = 0;
         public int select_x1, select_x2, select_y1, select_y2;
         int ClickedX = -1, ClickedY = -1;
         bool draggingSelection; //Determines if we are dragging a selection
         int selectingX, selectingY;
         bool zooming; //Detects if we are zooming
-        double Zoom = 1; //Double Value for Zoom Levels
+        public double Zoom = 1; //Double Value for Zoom Levels
         int ZoomLevel = 0; //Interger Value for Zoom Levels
         public int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
         public int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
@@ -251,6 +258,8 @@ namespace ManiacEditor
         public StatusBox statusBox;
         public UIText DebugTextHUD = new UIText();
         public EditorChunk EditorChunk;
+        public System.Windows.Forms.Integration.WindowsFormsHost host;
+        public EditorView editorView;
 
         //Tile Maniac + ManiaPal Instance
         public TileManiac.Mainform mainform = new Mainform();
@@ -268,8 +277,8 @@ namespace ManiacEditor
         public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
 
         //Shorthanding Setting Files
-        Properties.Settings mySettings = Properties.Settings.Default;
-        Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
+        public Properties.Settings mySettings = Properties.Settings.Default;
+        public Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
 
         // Stuff Used for Command Line Tool to Fix Duplicate Object ID's
@@ -339,10 +348,16 @@ namespace ManiacEditor
             SystemEvents.PowerModeChanged += CheckDeviceState;
             InstanceID = MegaManiacInstanceID;
 
-            UseDarkTheme(mySettings.NightMode);
+
+            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
+
+
+            editorView = new EditorView(this);
+            //UseDarkTheme(mySettings.NightMode);
             InitializeComponent();
+            SetupEditorViewForm();
             SetupGraphicsPanel();
-            SetupButtonColors();
+            //SetupButtonColors();
             AllocConsole();
             HideConsoleWindow();
             try
@@ -358,7 +373,7 @@ namespace ManiacEditor
             RefreshCollisionColours();
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
-            this.splitContainer1.Panel2MinSize = 254;
+            this.editorView.splitContainer1.Panel2MinSize = 254;
 
             GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
             GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
@@ -413,6 +428,25 @@ namespace ManiacEditor
                 }
 
             }
+            editorView.Show();
+        }
+
+        public void SetupEditorViewForm()
+        {
+            this.editorView.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
+            this.editorView.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.VScrollBar1_Scroll);
+            this.editorView.vScrollBar1.ValueChanged += new System.EventHandler(this.VScrollBar1_ValueChanged);
+            this.editorView.vScrollBar1.MouseEnter += new System.EventHandler(this.VScrollBar1_Entered);
+            this.editorView.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBar1_Scroll);
+            this.editorView.hScrollBar1.ValueChanged += new System.EventHandler(this.HScrollBar1_ValueChanged);
+            this.editorView.hScrollBar1.MouseEnter += new System.EventHandler(this.HScrollBar1_Entered);
+            //this.editorView.Activated += new System.EventHandler(this.MapEditor_Activated);
+            //this.editorView.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Editor_FormClosing);
+            //this.editorView.Load += new System.EventHandler(this.Form1_Load);
+            this.editorView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
+            this.editorView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
+            //this.editorView.Resize += new System.EventHandler(this.Form1_Resize);
+
         }
 
         public void SetupGraphicsPanel()
@@ -439,7 +473,7 @@ namespace ManiacEditor
             this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
             this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
             this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
-            this.viewPanel.Controls.Add(this.GraphicPanel);
+            this.editorView.viewPanel.Controls.Add(this.GraphicPanel);
         }
 
         #region Discord Rich Presence
@@ -550,10 +584,9 @@ namespace ManiacEditor
                 WindowState = mySettings.IsMaximized ? System.Windows.WindowState.Maximized : WindowState;
                 GamePath = mySettings.GamePath;
 
-                if (mySettings.DataDirectories?.Count > 0)
-                {
-                    RefreshDataDirectories(mySettings.DataDirectories);
-                }
+
+                RefreshDataDirectories(mySettings.DataDirectories);
+
 
                 if (mySettings.modConfigs?.Count > 0)
                 {
@@ -623,24 +656,22 @@ namespace ManiacEditor
 
 
             var allLangItems = menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-            foreach (var item in allLangItems) if (item.Tag.ToString() == mySettings.LangDefault)
+            foreach (var item in allLangItems)
+                if (item != null)
                 {
-                    item.IsChecked = true;
-                    CurrentLanguage = item.Tag.ToString();
+                    if (item.Tag.ToString() == mySettings.LangDefault)
+                    {
+                        item.IsChecked = true;
+                        CurrentLanguage = item.Tag.ToString();
+                    }
                 }
+
 
             bool endSearch = false;
             var allButtonItems = menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allButtonItems)
             {
-                if (item.Tag.ToString() == mySettings.ButtonLayoutDefault && !endSearch)
-                {
-                    item.IsChecked = true;
-                    SetMenuButtons(item.Tag.ToString());
-                    endSearch = true;
-                }
-                var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                foreach (var subItem in allSubButtonItems)
+                if (item.Tag != null)
                 {
                     if (item.Tag.ToString() == mySettings.ButtonLayoutDefault && !endSearch)
                     {
@@ -648,7 +679,21 @@ namespace ManiacEditor
                         SetMenuButtons(item.Tag.ToString());
                         endSearch = true;
                     }
+                    var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                    foreach (var subItem in allSubButtonItems)
+                    {
+                        if (subItem.Tag != null)
+                        {
+                            if (subItem.Tag.ToString() == mySettings.ButtonLayoutDefault && !endSearch)
+                            {
+                                subItem.IsChecked = true;
+                                SetMenuButtons(subItem.Tag.ToString());
+                                endSearch = true;
+                            }
+                        }
+                    }
                 }
+
             }
 
 
@@ -742,7 +787,7 @@ namespace ManiacEditor
                 List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
                 foreach (string item in list)
                 {
-                    MessageBox.Show(item);
+                    System.Windows.MessageBox.Show(item);
                 }
                 userDefinedSpritePaths = list;
             }
@@ -756,14 +801,14 @@ namespace ManiacEditor
                     {
                         string toBeSwapped = list[i];
                         string toSet = list[i + 1];
-                        MessageBox.Show(toBeSwapped + "-> " + toSet);
+                        System.Windows.MessageBox.Show(toBeSwapped + "-> " + toSet);
                         userDefinedEntityRenderSwaps.Add(toBeSwapped, toSet);
                         i = i + 2;
                     }
                 }
                 else
                 {
-                    MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
+                    System.Windows.MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
                 }
 
 
@@ -807,14 +852,14 @@ namespace ManiacEditor
             return newItem;
         }
 
-        private void ModConfigItemClicked(object sender, EventArgs e)
+        private void ModConfigItemClicked(object sender, RoutedEventArgs e)
         {
             var modConfig_CheckedItem = (sender as MenuItem);
             SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
             mySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
         }
 
-        public void EditConfigsToolStripMenuItem_Click(object sender, EventArgs e)
+        public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ConfigManager configManager = new ConfigManager();
             configManager.ShowDialog();
@@ -885,12 +930,12 @@ namespace ManiacEditor
 
         private bool CtrlPressed()
         {
-            return ModifierKey.HasFlag(Key.Control);
+            return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Control);
         }
 
         private bool ShiftPressed()
         {
-            return ModifierKey.HasFlag(Key.Alt);
+            return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Alt);
         }
 
         public bool IsTileUnused(int tile)
@@ -988,6 +1033,7 @@ namespace ManiacEditor
 
 
             RunSceneButton.IsEnabled = enabled;
+            RunSceneDropDown.IsEnabled = enabled;
 
             if (GameRunning)
             {
@@ -1007,7 +1053,7 @@ namespace ManiacEditor
             }
             else if (mySettings.preRenderSceneOption == 2 && enabled && stageLoad)
             {
-                MessageBoxResult result = MessageBox.Show("Do you wish to Pre-Render this scene?", "Requesting to Pre-Render the Scene", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                MessageBoxResult result = System.Windows.MessageBox.Show("Do you wish to Pre-Render this scene?", "Requesting to Pre-Render the Scene", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
                 {
                     PreLoadSceneButton_Click(null, null);
@@ -1049,7 +1095,7 @@ namespace ManiacEditor
             EditFGLower.IsEnabled = enabled && FGLower != null;
             EditFGHigher.IsEnabled = enabled && FGHigher != null;
             EditEntities.IsEnabled = enabled;
-            importObjectsToolStripMenuItem.IsEnabled = enabled && StageConfig != null;
+            //importObjectsToolStripMenuItem.IsEnabled = enabled && StageConfig != null;
             entityManagerToolStripMenuItem.IsEnabled = enabled && StageConfig != null;
             importSoundsToolStripMenuItem.IsEnabled = enabled && StageConfig != null;
             layerManagerToolStripMenuItem.IsEnabled = enabled;
@@ -1065,7 +1111,7 @@ namespace ManiacEditor
             else if (enabled && _extraLayerEditButtons.Any(elb => elb.IsChecked.Value))
             {
                 var selectedExtraLayerButton = _extraLayerEditButtons.Single(elb => elb.IsChecked.Value);
-                var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Name));
+                var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Content));
 
                 EditLayer = editorLayer;
             }
@@ -1107,6 +1153,7 @@ namespace ManiacEditor
             ShowTileIDButton.IsEnabled = enabled && StageConfig != null;
             GridSizeButton.IsEnabled = enabled && StageConfig != null;
             EncorePaletteButton.IsEnabled = enabled && encorePaletteExists;
+            FlipAssistButton.IsEnabled = enabled;
 
 
 
@@ -1155,11 +1202,11 @@ namespace ManiacEditor
                         EditLayer.SetPropertySelected(option + 12, state);
 
                     });
-                    splitContainer1.Panel2.Controls.Clear();
-                    splitContainer1.Panel2.Controls.Add(TilesToolbar);
-                    splitContainer1.Panel2Collapsed = false;
-                    TilesToolbar.Width = splitContainer1.Panel2.Width - 2;
-                    TilesToolbar.Height = splitContainer1.Panel2.Height - 2;
+                    editorView.splitContainer1.Panel2.Controls.Clear();
+                    editorView.splitContainer1.Panel2.Controls.Add(TilesToolbar);
+                    editorView.splitContainer1.Panel2Collapsed = false;
+                    TilesToolbar.Width = editorView.splitContainer1.Panel2.Width - 2;
+                    TilesToolbar.Height = editorView.splitContainer1.Panel2.Height - 2;
                     Form1_Resize(null, null);
                 }
                 if (IsChunksEdit()) TilesToolbar.tabControl1.SelectedIndex = 1;
@@ -1199,11 +1246,11 @@ namespace ManiacEditor
                             UpdateControls();
                         })
                     };
-                    splitContainer1.Panel2.Controls.Clear();
-                    splitContainer1.Panel2.Controls.Add(entitiesToolbar);
-                    splitContainer1.Panel2Collapsed = false;
-                    entitiesToolbar.Width = splitContainer1.Panel2.Width - 2;
-                    entitiesToolbar.Height = splitContainer1.Panel2.Height - 2;
+                    editorView.splitContainer1.Panel2.Controls.Clear();
+                    editorView.splitContainer1.Panel2.Controls.Add(entitiesToolbar);
+                    editorView.splitContainer1.Panel2Collapsed = false;
+                    entitiesToolbar.Width = editorView.splitContainer1.Panel2.Width - 2;
+                    entitiesToolbar.Height = editorView.splitContainer1.Panel2.Height - 2;
                     Form1_Resize(null, null);
                 }
                 UpdateEntitiesToolbarList();
@@ -1216,7 +1263,7 @@ namespace ManiacEditor
             }
             if (TilesToolbar == null && entitiesToolbar == null)
             {
-                splitContainer1.Panel2Collapsed = true;
+                editorView.splitContainer1.Panel2Collapsed = true;
                 Form1_Resize(null, null);
             }
 
@@ -1227,13 +1274,13 @@ namespace ManiacEditor
         {
             if (mySettings.EntityFreeCam)
             {
-                vScrollBar1.IsEnabled = false;
-                hScrollBar1.IsEnabled = false;
+                editorView.vScrollBar1.Enabled = false;
+                editorView.hScrollBar1.Enabled = false;
             }
             else
             {
-                vScrollBar1.IsEnabled = true;
-                hScrollBar1.IsEnabled = true;
+                editorView.vScrollBar1.Enabled = true;
+                editorView.hScrollBar1.Enabled = true;
             }
             SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
         }
@@ -1267,7 +1314,7 @@ namespace ManiacEditor
                                 break;
                             }
                         }
-                        TilesToolbar.SetTileOptionState(i, unk ? TilesToolbar.TileOptionState.Indeterminate : set ? TilesToolbar.TileOptionState.IsChecked : TilesToolbar.TileOptionState.Unchcked);
+                        TilesToolbar.SetTileOptionState(i, unk ? TilesToolbar.TileOptionState.Indeterminate : set ? TilesToolbar.TileOptionState.Checked : TilesToolbar.TileOptionState.Unchcked);
                     }
                 }
                 else
@@ -1328,7 +1375,7 @@ namespace ManiacEditor
             seperator5.Visibility = Visibility.Visible;
             seperator6.Visibility = Visibility.Visible;
             seperator7.Visibility = Visibility.Visible;
-            seperator8.Visibility = Visibility.Visible;
+            //seperator8.Visibility = Visibility.Visible;
 
             if (EnablePixelCountMode == false)
             {
@@ -1377,7 +1424,7 @@ namespace ManiacEditor
             UpdateTooltipForStacks(RedoButton, redo);
         }
 
-        private void UpdateTooltipForStacks(ToggleButton tsb, Stack<IAction> actionStack)
+        private void UpdateTooltipForStacks(Button tsb, Stack<IAction> actionStack)
         {
             if (actionStack?.Count > 0)
             {
@@ -1394,9 +1441,9 @@ namespace ManiacEditor
         {
             menuStrip1.IsEnabled = enabled;
             toolStrip1.IsEnabled = enabled;
-            toolStrip2.IsEnabled = enabled;
-            toolStrip3.IsEnabled = enabled;
-            splitContainer1.IsEnabled = enabled;
+            //toolStrip2.IsEnabled = enabled;
+            //toolStrip3.IsEnabled = enabled;
+            editorView.splitContainer1.Enabled = enabled;
         }
 
         #endregion
@@ -1531,7 +1578,7 @@ namespace ManiacEditor
                 if (listLocations != null || listLocations.Count != 0)
                 {
                     var message = string.Join(Environment.NewLine, listLocations);
-                    MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
+                    System.Windows.MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
                     if (copyResults && message != null)
                     {
                         Clipboard.SetText(message);
@@ -1539,7 +1586,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    MessageBox.Show("Found Nothing", "Results");
+                    System.Windows.MessageBox.Show("Found Nothing", "Results");
                 }
                 FindReplaceClipboard.Clear();
                 Deselect();
@@ -1670,26 +1717,12 @@ namespace ManiacEditor
 
         }
 
-        public void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (IsTilesEdit())
-            {
-                EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-                UpdateEditLayerActions();
-            }
-            else if (IsEntitiesEdit())
-            {
-                entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-            }
-            SetSelectOnlyButtonsState();
-            ClickedX = -1;
-            ClickedY = -1;
-        }
+
         #endregion
 
         #region Mouse Actions
 
-        private void GraphicPanel_OnMouseMove(object sender, MouseEventArgs e)
+        private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (InstanceID != -1 && !KickStartMegaManiacRenderLoopFinished)
             {
@@ -1791,37 +1824,37 @@ namespace ManiacEditor
 
                 }
 
-                int xMove = (hScrollBar1.IsVisible) ? e.X - ShiftX - scrollPosition.X : 0;
-                int yMove = (vScrollBar1.IsVisible) ? e.Y - ShiftY - scrollPosition.Y : 0;
+                int xMove = (editorView.hScrollBar1.Visible) ? e.X - ShiftX - scrollPosition.X : 0;
+                int yMove = (editorView.vScrollBar1.Visible) ? e.Y - ShiftY - scrollPosition.Y : 0;
 
                 if (Math.Abs(xMove) < 15) xMove = 0;
                 if (Math.Abs(yMove) < 15) yMove = 0;
 
                 if (xMove > 0)
                 {
-                    if (yMove > 0) Cursor = Cursors.ScrollSE;
-                    else if (yMove < 0) Cursor = Cursors.ScrollNE;
-                    else Cursor = Cursors.ScrollE;
+                    //if (yMove > 0) Cursor = Cursors.ScrollSE;
+                    //else if (yMove < 0) Cursor = Cursors.ScrollNE;
+                    //else Cursor = Cursors.ScrollE;
 
                 }
                 else if (xMove < 0)
                 {
-                    if (yMove > 0) Cursor = Cursors.ScrollSW;
-                    else if (yMove < 0) Cursor = Cursors.ScrollNW;
-                    else Cursor = Cursors.ScrollW;
+                    //if (yMove > 0) Cursor = Cursors.ScrollSW;
+                    //else if (yMove < 0) Cursor = Cursors.ScrollNW;
+                    //else Cursor = Cursors.ScrollW;
 
                 }
                 else
                 {
 
-                    if (yMove > 0) Cursor = Cursors.ScrollS;
-                    else if (yMove < 0) Cursor = Cursors.ScrollN;
-                    else
-                    {
-                        if (vScrollBar1.IsVisible && hScrollBar1.IsVisible) Cursor = Cursors.NoMove2D;
-                        else if (vScrollBar1.IsVisible) Cursor = Cursors.NoMoveVert;
-                        else if (hScrollBar1.IsVisible) Cursor = Cursors.NoMoveHoriz;
-                    }
+                    //if (yMove > 0) Cursor = Cursors.ScrollS;
+                    //else if (yMove < 0) Cursor = Cursors.ScrollN;
+                    //else
+                    //{
+                    //    if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible) Cursor = Cursors.NoMove2D;
+                    //    else if (editorView.vScrollBar1.Visible) Cursor = Cursors.NoMoveVert;
+                    //    else if (editorView.hScrollBar1.Visible) Cursor = Cursors.NoMoveHoriz;
+                    //}
 
                 }
 
@@ -1834,20 +1867,20 @@ namespace ManiacEditor
 
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
-                if (x > hScrollBar1.Maximum - hScrollBar1.LargeChange) x = (int)hScrollBar1.Maximum - (int)hScrollBar1.LargeChange;
-                if (y > vScrollBar1.Maximum - vScrollBar1.LargeChange) y = (int)vScrollBar1.Maximum - (int)vScrollBar1.LargeChange;
+                if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
+                if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
 
 
                 if (x != position.X || y != position.Y)
                 {
 
-                    if (vScrollBar1.IsVisible)
+                    if (editorView.vScrollBar1.Visible)
                     {
-                        vScrollBar1.Value = y;
+                        editorView.vScrollBar1.Value = y;
                     }
-                    if (hScrollBar1.IsVisible)
+                    if (editorView.hScrollBar1.Visible)
                     {
-                        hScrollBar1.Value = x;
+                        editorView.hScrollBar1.Value = x;
                     }
 
                     OnMouseMoveEvent();
@@ -1862,7 +1895,7 @@ namespace ManiacEditor
                 if (IsTilesEdit() && PlaceTilesButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-                    if (e.LeftButton == MouseButtonState.Pressed)
+                    if (e.Button == MouseButtons.Left)
                     {
                         // Place tile
                         if (TilesToolbar.SelectedTile != -1)
@@ -1877,7 +1910,7 @@ namespace ManiacEditor
                             }
                         }
                     }
-                    else if (e.RightButton == MouseButtonState.Pressed)
+                    else if (e.Button == MouseButtons.Right)
                     {
                         // Remove tile
                         if (!EditLayer.IsPointSelected(p))
@@ -1891,8 +1924,8 @@ namespace ManiacEditor
                 if (draggingSelection || dragged)
                 {
                     Point position = new Point(ShiftX, ShiftY); ;
-                    int ScreenMaxX = position.X + splitContainer1.Panel1.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth;
-                    int ScreenMaxY = position.Y + splitContainer1.Panel1.Height - System.Windows.Forms.SystemInformation.HorizontalScrollBarHeight;
+                    int ScreenMaxX = position.X + editorView.splitContainer1.Panel1.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth;
+                    int ScreenMaxY = position.Y + editorView.splitContainer1.Panel1.Height - System.Windows.Forms.SystemInformation.HorizontalScrollBarHeight;
                     int ScreenMinX = position.X;
                     int ScreenMinY = position.Y;
 
@@ -1918,18 +1951,18 @@ namespace ManiacEditor
 
                     if (x < 0) x = 0;
                     if (y < 0) y = 0;
-                    if (x > hScrollBar1.Maximum - hScrollBar1.LargeChange) x = (int)hScrollBar1.Maximum - (int)hScrollBar1.LargeChange;
-                    if (y > vScrollBar1.Maximum - vScrollBar1.LargeChange) y = (int)vScrollBar1.Maximum - (int)vScrollBar1.LargeChange;
+                    if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
+                    if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
 
                     if (x != position.X || y != position.Y)
                     {
-                        if (vScrollBar1.IsVisible)
+                        if (editorView.vScrollBar1.Visible)
                         {
-                            vScrollBar1.Value = y;
+                            editorView.vScrollBar1.Value = y;
                         }
-                        if (hScrollBar1.IsVisible)
+                        if (editorView.hScrollBar1.Visible)
                         {
-                            hScrollBar1.Value = x;
+                            editorView.hScrollBar1.Value = x;
                         }
                         OnMouseMoveEvent();
                         UpdateRender();
@@ -2037,7 +2070,7 @@ namespace ManiacEditor
                         }
                         catch (EditorEntities.TooManyEntitiesException)
                         {
-                            MessageBox.Show("Too many entities! (limit: 2048)");
+                            System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
                             dragged = false;
                             return;
                         }
@@ -2069,10 +2102,10 @@ namespace ManiacEditor
 
         }
 
-        private void GraphicPanel_OnMouseDown(object sender, MouseEventArgs e)
+        private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             GraphicPanel.Focus();
-            if (e.LeftButton)
+            if (e.Button == MouseButtons.Left)
             {
                 if (IsEditing() && !dragged)
                 {
@@ -2132,10 +2165,10 @@ namespace ManiacEditor
                 if (scrolling)
                 {
                     scrolling = false;
-                    Cursor = Cursors.Default;
+                    //Cursor = Cursors.Default;
                 }
             }
-            else if (e.LeftButton == MouseButtonState.Pressed)
+            else if (e.Button == MouseButtons.Right)
             {
                 if (IsTilesEdit() && PlaceTilesButton.IsChecked.Value)
                 {
@@ -2148,23 +2181,23 @@ namespace ManiacEditor
                     DeleteSelected();
                 }
             }
-            else if (e.MiddleButton == MouseButtonState.Pressed)
+            else if (e.Button == MouseButtons.Middle)
             {
                 wheelClicked = true;
                 scrolling = true;
                 scrollingDragged = false;
                 scrollPosition = new Point(e.X - ShiftX, e.Y - ShiftY);
-                if (vScrollBar1.IsVisible && hScrollBar1.IsVisible)
+                if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible)
                 {
-                    Cursor = Cursors.NoMove2D;
+                    //Cursor = Cursors.NoMove2D;
                 }
-                else if (vScrollBar1.IsVisible)
+                else if (editorView.vScrollBar1.Visible)
                 {
-                    Cursor = Cursors.NoMoveVert;
+                    //Cursor = Cursors.NoMoveVert;
                 }
-                else if (hScrollBar1.IsVisible)
+                else if (editorView.hScrollBar1.Visible)
                 {
-                    Cursor = Cursors.NoMoveHoriz;
+                    //Cursor = Cursors.NoMoveHoriz;
                 }
                 else
                 {
@@ -2173,9 +2206,9 @@ namespace ManiacEditor
             }
         }
 
-        private void GraphicPanel_OnMouseUp(object sender, MouseEventArgs e)
+        private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Released)
+            if (e.Button == MouseButtons.Left)
             {
                 if (IsEditing())
                 {
@@ -2252,19 +2285,19 @@ namespace ManiacEditor
                     }
                 }
             }
-            else if (e.MiddleButton == MouseButtonState.Released)
+            else if (e.Button == MouseButtons.Middle)
             {
                 wheelClicked = false;
                 if (scrollingDragged)
                 {
                     scrolling = false;
-                    Cursor = Cursors.Default;
+                    //Cursor = Cursors.Default;
                 }
             }
             UpdateControls();
         }
 
-        private void GraphicPanel_MouseWheel(object sender, MouseEventArgs e)
+        private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             GraphicPanel.Focus();
             if (CtrlPressed())
@@ -2290,80 +2323,80 @@ namespace ManiacEditor
             }
             else
             {
-                if (vScrollBar1.IsVisible || hScrollBar1.IsVisible)
+                if (editorView.vScrollBar1.Visible || editorView.hScrollBar1.Visible)
                 {
                     if (scrollDirection == "Y" && !mySettings.scrollLock)
                     {
-                        if (vScrollBar1.IsVisible)
+                        if (editorView.vScrollBar1.Visible)
                         {
-                            int y = vScrollBar1.Value - e.Delta;
+                            int y = editorView.vScrollBar1.Value - e.Delta;
                             if (y < 0) y = 0;
-                            if (y > vScrollBar1.Maximum - vScrollBar1.LargeChange) y = (int)vScrollBar1.Maximum - (int)vScrollBar1.LargeChange;
-                            vScrollBar1.Value = y;
+                            if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                            editorView.vScrollBar1.Value = y;
                         }
                         else
                         {
-                            int x = hScrollBar1.Value - e.Delta * 2;
+                            int x = editorView.hScrollBar1.Value - e.Delta * 2;
                             if (x < 0) x = 0;
-                            if (x > hScrollBar1.Maximum - hScrollBar1.LargeChange) x = (int)hScrollBar1.Maximum - (int)hScrollBar1.LargeChange;
-                            hScrollBar1.Value = x;
+                            if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
+                            editorView.hScrollBar1.Value = x;
                         }
                     }
                     else if (scrollDirection == "X" && !mySettings.scrollLock)
                     {
-                        if (hScrollBar1.IsVisible)
+                        if (editorView.hScrollBar1.Visible)
                         {
-                            int x = hScrollBar1.Value - e.Delta * 2;
+                            int x = editorView.hScrollBar1.Value - e.Delta * 2;
                             if (x < 0) x = 0;
-                            if (x > hScrollBar1.Maximum - hScrollBar1.LargeChange) x = (int)hScrollBar1.Maximum - (int)hScrollBar1.LargeChange;
-                            hScrollBar1.Value = x;
+                            if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
+                            editorView.hScrollBar1.Value = x;
                         }
                         else
                         {
-                            int y = vScrollBar1.Value - e.Delta;
+                            int y = editorView.vScrollBar1.Value - e.Delta;
                             if (y < 0) y = 0;
-                            if (y > vScrollBar1.Maximum - vScrollBar1.LargeChange) y = (int)vScrollBar1.Maximum - (int)vScrollBar1.LargeChange;
-                            vScrollBar1.Value = y;
+                            if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                            editorView.vScrollBar1.Value = y;
                         }
                     }
                     else if (scrollDirection == "Locked" || mySettings.scrollLock == true)
                     {
                         if (mySettings.ScrollLockDirection == false)
                         {
-                            if (vScrollBar1.IsVisible)
+                            if (editorView.vScrollBar1.Visible)
                             {
-                                int y = vScrollBar1.Value - e.Delta * 2;
+                                int y = editorView.vScrollBar1.Value - e.Delta * 2;
                                 if (y < 0) y = 0;
-                                if (y > vScrollBar1.Maximum - vScrollBar1.LargeChange) y = (int)vScrollBar1.Maximum - (int)vScrollBar1.LargeChange;
+                                if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
                                 if (y <= -1) y = 0;
-                                vScrollBar1.Value = y;
+                                editorView.vScrollBar1.Value = y;
                             }
                             else
                             {
-                                int x = vScrollBar1.Value - e.Delta * 2;
+                                int x = editorView.vScrollBar1.Value - e.Delta * 2;
                                 if (x < 0) x = 0;
-                                if (x > vScrollBar1.Maximum - vScrollBar1.LargeChange) x = (int)vScrollBar1.Maximum - (int)vScrollBar1.LargeChange;
+                                if (x > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) x = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
                                 if (x <= -1) x = 0;
-                                vScrollBar1.Value = x;
+                                editorView.vScrollBar1.Value = x;
                             }
                         }
                         else
                         {
-                            if (hScrollBar1.IsVisible)
+                            if (editorView.hScrollBar1.Visible)
                             {
-                                int x = hScrollBar1.Value - e.Delta * 2;
+                                int x = editorView.hScrollBar1.Value - e.Delta * 2;
                                 if (x < 0) x = 0;
-                                if (x > hScrollBar1.Maximum - hScrollBar1.LargeChange) x = (int)hScrollBar1.Maximum - (int)hScrollBar1.LargeChange;
+                                if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
                                 if (x <= -1) x = 0;
-                                hScrollBar1.Value = x;
+                                editorView.hScrollBar1.Value = x;
                             }
                             else
                             {
-                                int y = vScrollBar1.Value - e.Delta;
+                                int y = editorView.vScrollBar1.Value - e.Delta;
                                 if (y < 0) y = 0;
-                                if (y > vScrollBar1.Maximum - vScrollBar1.LargeChange) y = (int)vScrollBar1.Maximum - (int)vScrollBar1.LargeChange;
+                                if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
                                 if (y <= -1) y = 0;
-                                vScrollBar1.Value = y;
+                                editorView.vScrollBar1.Value = y;
                             }
                         }
 
@@ -2397,11 +2430,9 @@ namespace ManiacEditor
 
         private MenuItem CreateDataDirectoryMenuLink(string target)
         {
-            MenuItem newItem = new MenuItem()
-            {
-                Header = target,
-                Tag = target
-            };
+            MenuItem newItem = new MenuItem();
+            newItem.Header = target;
+            newItem.Tag = target;
             newItem.Click += RecentDataDirectoryClicked;
             return newItem;
         }
@@ -2423,7 +2454,7 @@ namespace ManiacEditor
                 }
                 catch
                 {
-                    MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
+                    System.Windows.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
                     return false;
                 }
 
@@ -2436,7 +2467,7 @@ namespace ManiacEditor
             return File.Exists(Path.Combine(directoryToCheck, "Game", "GameConfig.bin"));
         }
 
-        private void RecentDataDirectoryClicked(object sender, EventArgs e, String dataDirectory)
+        private void RecentDataDirectoryClicked(object sender, RoutedEventArgs e, String dataDirectory)
         {
             var dataDirectories = mySettings.DataDirectories;
             mySettings.GamePath = GamePath;
@@ -2446,7 +2477,7 @@ namespace ManiacEditor
             }
             else
             {
-                MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
+                System.Windows.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
                                 "Invalid Data Directory!",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -2479,7 +2510,7 @@ namespace ManiacEditor
             }
         }
 
-        private void RecentDataDirectoryClicked(object sender, EventArgs e)
+        private void RecentDataDirectoryClicked(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuItem;
             string dataDirectory = menuItem.Tag.ToString();
@@ -2491,7 +2522,7 @@ namespace ManiacEditor
             }
             else
             {
-                MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
+                System.Windows.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
                                 "Invalid Data Directory!",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -2508,34 +2539,44 @@ namespace ManiacEditor
         /// <param name="settings">The settings file containing the </param>
         public void RefreshDataDirectories(StringCollection recentDataDirectories)
         {
-            recentDataDirectoriesToolStripMenuItem.Visible = false;
-            CleanUpRecentList();
-
-            var startRecentItems = fileToolStripMenuItem.Items.IndexOf(recentDataDirectoriesToolStripMenuItem);
-            var startRecentItemsButton = RecentDataDirectories_DropDown.Items.IndexOf(noRecentDataDirectoriesToolStripMenuItem);
-
-            foreach (var dataDirectory in recentDataDirectories)
+            if (mySettings.DataDirectories?.Count > 0)
             {
-                _recentDataItems.Add(CreateDataDirectoryMenuLink(dataDirectory));
-                _recentDataItems_Button.Add(CreateDataDirectoryMenuLink(dataDirectory));
+                recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
+                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
+                CleanUpRecentList();
 
+                var startRecentItems = fileToolStripMenuItem.Items.IndexOf(recentDataDirectoriesToolStripMenuItem);
+                var startRecentItemsButton = RecentDataDirectories_DropDown.Children.IndexOf(noRecentDataDirectoriesToolStripMenuItem);
+
+                foreach (var dataDirectory in recentDataDirectories)
+                {
+                    _recentDataItems.Add(CreateDataDirectoryMenuLink(dataDirectory));
+                    _recentDataItems_Button.Add(CreateDataDirectoryMenuLink(dataDirectory));
+
+                }
+
+
+                foreach (var menuItem in _recentDataItems.Reverse())
+                {
+                    fileToolStripMenuItem.Items.Insert(startRecentItems, menuItem);
+                }
+
+                foreach (var menuItem in _recentDataItems_Button.Reverse())
+                {
+                    RecentDataDirectories_DropDown.Children.Insert(startRecentItemsButton, menuItem);
+                }
+            }
+            else
+            {
+                recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
+                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
             }
 
-
-            foreach (var menuItem in _recentDataItems.Reverse())
-            {
-                fileToolStripMenuItem.Items.Insert(startRecentItems, menuItem);
-            }
-
-            foreach (var menuItem in _recentDataItems_Button.Reverse())
-            {
-                RecentDataDirectories_DropDown.Items.Insert(startRecentItemsButton, menuItem);
-            }
 
 
         }
 
-        private void UpdateDataFolderLabel(object sender, EventArgs e)
+        private void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
         {
             string modFolderTag = "Mod Directory: {0} [Mod-Loaded]";
             string dataFolderTag_Normal = "Data Directory: {0}";
@@ -2575,7 +2616,7 @@ namespace ManiacEditor
             foreach (var menuItem in _recentDataItems_Button)
             {
                 menuItem.Click -= RecentDataDirectoryClicked;
-                RecentDataDirectories_DropDown.Items.Remove(menuItem);
+                RecentDataDirectories_DropDown.Children.Remove(menuItem);
             }
             _recentDataItems.Clear();
             _recentDataItems_Button.Clear();
@@ -2667,17 +2708,17 @@ namespace ManiacEditor
                 SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 
 
-            if (hScrollBar1.Visible)
+            if (editorView.hScrollBar1.Visible)
             {
                 ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Zoom - zoom_point.X);
-                ShiftX = Math.Min(hScrollBar1.Maximum - hScrollBar1.LargeChange, Math.Max(0, ShiftX));
-                hScrollBar1.Value = ShiftX;
+                ShiftX = (int)Math.Min(editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange, Math.Max(0, ShiftX));
+                editorView.hScrollBar1.Value = ShiftX;
             }
-            if (vScrollBar1.Visible)
+            if (editorView.vScrollBar1.Visible)
             {
                 ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Zoom - zoom_point.Y);
-                ShiftY = Math.Min(vScrollBar1.Maximum - vScrollBar1.LargeChange, Math.Max(0, ShiftY));
-                vScrollBar1.Value = ShiftY;
+                ShiftY = (int)Math.Min(editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange, Math.Max(0, ShiftY));
+                editorView.vScrollBar1.Value = ShiftY;
             }
 
 
@@ -2686,20 +2727,20 @@ namespace ManiacEditor
             UpdateControls();
         }
 
-        public void Form1_Resize(object sender, EventArgs e)
+        public void Form1_Resize(object sender, RoutedEventArgs e)
         {
             //if (GraphicPanel != null) GraphicPanel.bRender = false;
 
             if (info != null)
             {
-                info.Width = mainPanel.Width;
-                info.Height = mainPanel.Height;
+                info.Width = editorView.mainPanel.Width;
+                info.Height = editorView.mainPanel.Height;
             }
 
-            if (splitContainer1.Panel2.Controls.Count == 1)
+            if (editorView.splitContainer1.Panel2.Controls.Count == 1)
             {
-                splitContainer1.Panel2.Controls[0].Height = splitContainer1.Panel2.Height - 2;
-                splitContainer1.Panel2.Controls[0].Width = splitContainer1.Panel2.Width - 2;
+                editorView.splitContainer1.Panel2.Controls[0].Height = editorView.splitContainer1.Panel2.Height - 2;
+                editorView.splitContainer1.Panel2.Controls[0].Width = editorView.splitContainer1.Panel2.Width - 2;
             }
 
             // TODO: It hides right now few pixels at the edge
@@ -2707,46 +2748,50 @@ namespace ManiacEditor
             bool nvscrollbar = false;
             bool nhscrollbar = false;
 
-            if (hScrollBar1.Maximum > mainPanel.Width - 2) nhscrollbar = true;
-            if (vScrollBar1.Maximum > mainPanel.Height - 2) nvscrollbar = true;
-            if (hScrollBar1.Maximum > mainPanel.Width - (nvscrollbar ? vScrollBar1.Width : 0)) hScrollBar1.Visible = true;
-            if (vScrollBar1.Maximum > mainPanel.Height - (nhscrollbar ? hScrollBar1.Height : 0)) vScrollBar1.Visible = true;
+            if (editorView.hScrollBar1.Maximum > editorView.mainPanel.Width - 2) nhscrollbar = true;
+            if (editorView.vScrollBar1.Maximum > editorView.mainPanel.Height - 2) nvscrollbar = true;
+            if (editorView.hScrollBar1.Maximum > editorView.mainPanel.Width - (nvscrollbar ? editorView.vScrollBar1.Width : 0)) editorView.hScrollBar1.Visible = true;
+            if (editorView.vScrollBar1.Maximum > editorView.mainPanel.Height - (nhscrollbar ? editorView.hScrollBar1.Height : 0)) editorView.vScrollBar1.Visible = true;
 
-            vScrollBar1.Visible = nvscrollbar;
-            hScrollBar1.Visible = nhscrollbar;
-            scrollBarDividerPanel.Visible = nvscrollbar && nhscrollbar;
+            editorView.vScrollBar1.Visible = nvscrollbar;
+            editorView.hScrollBar1.Visible = nhscrollbar;
+            editorView.scrollBarDividerPanel.Visible = nvscrollbar && nhscrollbar;
 
-            if (vScrollBar1.Visible)
+            if (editorView.vScrollBar1.Visible)
             {
                 // Docking isn't enough because we want that it will be high/wider when only one of the scroll bars is visible
-                vScrollBar1.Location = new Point((splitContainer1.Panel2Collapsed ? splitContainer1.Width - 19 : splitContainer1.SplitterDistance - 19), 0);
-                vScrollBar1.Height = mainPanel.Height - (hScrollBar1.Visible ? 39 : 23);
-                vScrollBar1.LargeChange = vScrollBar1.Height;
-                vScrollBar1.SmallChange = vScrollBar1.Height / 4;
-                ScreenHeight = vScrollBar1.Height;
-                hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
+                editorView.vScrollBar1.Location = new Point((editorView.splitContainer1.Panel2Collapsed ? editorView.splitContainer1.Width - 19 : editorView.splitContainer1.SplitterDistance - 19), 0);
+                editorView.vScrollBar1.Height = editorView.mainPanel.Height - (editorView.hScrollBar1.Visible ? 18 : 18);
+                editorView.vScrollBar1.LargeChange = editorView.vScrollBar1.Height;
+                editorView.vScrollBar1.SmallChange = editorView.vScrollBar1.Height / 4;
+                ScreenHeight = editorView.vScrollBar1.Height;
+                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange));
             }
             else
             {
                 ScreenHeight = GraphicPanel.Height;
                 ShiftY = 0;
-                vScrollBar1.Value = 0;
+                editorView.vScrollBar1.Value = 0;
             }
-            if (hScrollBar1.Visible)
+            if (editorView.hScrollBar1.Visible)
             {
-                hScrollBar1.Location = new Point(0, splitContainer1.Height - 19);
-                hScrollBar1.Width = viewPanel.Width - (vScrollBar1.Visible ? 17 : 0);
-                hScrollBar1.LargeChange = hScrollBar1.Width;
-                hScrollBar1.SmallChange = hScrollBar1.Width / 4;
-                ScreenWidth = hScrollBar1.Width;
-                vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
+                editorView.hScrollBar1.Location = new Point(0, editorView.splitContainer1.Height - 19);
+                editorView.hScrollBar1.Width = editorView.viewPanel.Width - (editorView.vScrollBar1.Visible ? 17 : 0);
+                editorView.hScrollBar1.LargeChange = editorView.hScrollBar1.Width;
+                editorView.hScrollBar1.SmallChange = editorView.hScrollBar1.Width / 4;
+                ScreenWidth = editorView.hScrollBar1.Width;
+                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange));
             }
             else
             {
                 ScreenWidth = GraphicPanel.Width;
                 ShiftX = 0;
-                hScrollBar1.Value = 0;
+                editorView.hScrollBar1.Value = 0;
             }
+
+            int DividorX = editorView.viewPanel.Width - editorView.scrollBarDividerPanel.Width;
+            int DividorY = editorView.viewPanel.Height - editorView.scrollBarDividerPanel.Height;
+            editorView.scrollBarDividerPanel.Location = new Point(DividorX, DividorY);
 
 
             /*
@@ -2776,8 +2821,8 @@ namespace ManiacEditor
 
             if (!mySettings.EntityFreeCam || !isExportingImage)
             {
-                vScrollBar1.Maximum = height;
-                hScrollBar1.Maximum = width;
+                editorView.vScrollBar1.Maximum = height;
+                editorView.hScrollBar1.Maximum = width;
             }
 
             GraphicPanel.DrawWidth = Math.Min(width, GraphicPanel.Width);
@@ -2788,8 +2833,8 @@ namespace ManiacEditor
 
             if (!mySettings.EntityFreeCam || !isExportingImage)
             {
-                hScrollBar1.Value = Math.Max(0, Math.Min(hScrollBar1.Value, hScrollBar1.Maximum - hScrollBar1.LargeChange));
-                vScrollBar1.Value = Math.Max(0, Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange));
+                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange));
+                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange));
             }
         }
 
@@ -2813,8 +2858,8 @@ namespace ManiacEditor
 
             GraphicPanel.ResetDevice();
 
-            GraphicPanel.DrawWidth = Math.Min(hScrollBar1.Maximum, GraphicPanel.Width);
-            GraphicPanel.DrawHeight = Math.Min(vScrollBar1.Maximum, GraphicPanel.Height);
+            GraphicPanel.DrawWidth = Math.Min(editorView.hScrollBar1.Maximum, GraphicPanel.Width);
+            GraphicPanel.DrawHeight = Math.Min(editorView.vScrollBar1.Maximum, GraphicPanel.Height);
             */
         }
 
@@ -2828,12 +2873,12 @@ namespace ManiacEditor
             //EDIT BUTTONS
             foreach (EditorLayer el in EditorScene.OtherLayers)
             {
-                MenuItem tsb = new MenuItem() {
-                    Header = el.Name
+                ToggleButton tsb = new ToggleButton() {
+                    Content = el.Name
                 };
                 toolStrip1.Items.Add(tsb);
-                tsb.Foreground = Color.LawnGreen;
-                tsb.IsCheckable = true;
+                tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
+                tsb.IsChecked = false;
                 tsb.Click += AdHocLayerEdit;
 
                 _extraLayerEditButtons.Add(tsb);
@@ -2847,14 +2892,14 @@ namespace ManiacEditor
             //VIEW BUTTONS
             foreach (EditorLayer el in EditorScene.OtherLayers)
             {
-                MenuItem tsb = new MenuItem()
+                ToggleButton tsb = new ToggleButton()
                 {
-                    Header = el.Name
+                    Content = el.Name
                 };
                 //toolStrip1.Items.Add(tsb);
                 toolStrip1.Items.Insert(toolStrip1.Items.IndexOf(extraViewLayersSeperator), tsb);
-                tsb.Foreground = Color.FromArgb(0x33AD35);
-                tsb.IsCheckable = true;
+                tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
+                tsb.IsChecked = false;
 
                 _extraLayerViewButtons.Add(tsb);
             }
@@ -2895,19 +2940,19 @@ namespace ManiacEditor
         /// <param name="layer">The layer of the scene from which to extract a name.</param>
         /// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
         /// <param name="editButton">The button which controls editing the layer.</param>
-        private void UpdateDualButtonsControlsForLayer(EditorLayer layer, ToggleButton visibilityButton, MenuItem editButton)
+        private void UpdateDualButtonsControlsForLayer(EditorLayer layer, ToggleButton visibilityButton, ToggleButton editButton)
         {
             bool layerValid = layer != null;
             visibilityButton.IsChecked = layerValid;
             if (layerValid)
             {
                 string name = layer.Name;
-                visibilityButton.Name = name;
-                editButton.Header = name;
+                //visibilityButton.Name = name;
+                editButton.Content = name.ToString();
             }
         }
 
-        private void AdHocLayerEdit(object sender, EventArgs e)
+        private void AdHocLayerEdit(object sender, RoutedEventArgs e)
         {
             ToggleButton tsb = sender as ToggleButton;
             Deselect(false);
@@ -2959,7 +3004,7 @@ namespace ManiacEditor
             ObjectIDHealer healer = new ObjectIDHealer();
             ShowConsoleWindow();
             healer.startHealing(open.FileName);
-            Application.DoEvents();
+            //Application.DoEvents();
             HideConsoleWindow();
 
         }
@@ -3170,7 +3215,16 @@ namespace ManiacEditor
             string _DataDirectory = (modLoaded == true ? ModDataDirectory : DataDirectory);
 
 
-            ResultPath = Path.GetDirectoryName(Result);
+            try
+            {
+                ResultPath = Path.GetDirectoryName(Result);
+            }
+            catch
+            {
+                ResultPath = Result;
+            }
+
+
             UnloadScene();
             UseDefaultPrefrences();
             bool goodGameConfig = SetGameConfig();
@@ -3198,7 +3252,7 @@ namespace ManiacEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Load failed. Error: " + ex.ToString() + " " + Result);
+                System.Windows.MessageBox.Show("Load failed. Error: " + ex.ToString() + " " + Result);
                 return;
             }
 
@@ -3309,7 +3363,7 @@ namespace ManiacEditor
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
+                        System.Windows.MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
                         EditorSettings.CleanPrefrences();
                     }
 
@@ -3410,7 +3464,7 @@ namespace ManiacEditor
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
+                        System.Windows.MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
                         EditorSettings.CleanPrefrences();
                     }
 
@@ -3423,7 +3477,7 @@ namespace ManiacEditor
         #endregion
 
         #region File Tab Buttons
-        public void Open_Click(object sender, EventArgs e)
+        public void Open_Click(object sender, RoutedEventArgs e)
         {
             SceneChangeWarning(sender, e);
             if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
@@ -3441,12 +3495,12 @@ namespace ManiacEditor
 
         }
 
-        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Open_Click(sender, e);
         }
 
-        public void OpenDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        public void OpenDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SceneChangeWarning(sender, e);
             if (AllowSceneChange == true || IsSceneLoaded() == false)
@@ -3459,7 +3513,7 @@ namespace ManiacEditor
                 if (IsDataDirectoryValid(newDataDirectory))
                     ResetDataDirectoryToAndResetScene(newDataDirectory);
                 else
-                    MessageBox.Show($@"{newDataDirectory} is not
+                    System.Windows.MessageBox.Show($@"{newDataDirectory} is not
 a valid Data Directory.",
                                     "Invalid Data Directory!",
                                     MessageBoxButton.OK,
@@ -3472,7 +3526,7 @@ a valid Data Directory.",
 
         }
 
-        public void Save_Click(object sender, EventArgs e)
+        public void Save_Click(object sender, RoutedEventArgs e)
         {
             if (EditorScene == null) return;
 
@@ -3503,11 +3557,12 @@ Error: {ex.Message}");
             }
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (InstanceID == -1)
             {
-                Close();
+                this.Close();
+                //Close();
             }
             else
             {
@@ -3515,7 +3570,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void SaveAspngToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (EditorScene == null) return;
 
@@ -3544,7 +3599,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ExportEachLayerAspngToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExportEachLayerAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -3573,12 +3628,12 @@ Error: {ex.Message}");
                     using (var g = Graphics.FromImage(bitmap))
                     {
                         editorLayer.Draw(g);
-                        bitmap.Save(fileName, ImageFormat.Png);
+                        bitmap.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
                         ++fileCount;
                     }
                 }
 
-                MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
+                System.Windows.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
                                 MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -3587,7 +3642,7 @@ Error: {ex.Message}");
             }
         }
 
-        public void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        public void SaveAsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (EditorScene == null) return;
 
@@ -3611,12 +3666,12 @@ Error: {ex.Message}");
             }
         }
 
-        private void BackupToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BackupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             BackupTool(null, null);
         }
 
-        private void BackupRecoverButton_Click(object sender, EventArgs e)
+        private void BackupRecoverButton_Click(object sender, RoutedEventArgs e)
         {
             string Result = null, ResultOriginal = null, ResultOld = null;
             OpenFileDialog open = new OpenFileDialog
@@ -3648,7 +3703,7 @@ Error: {ex.Message}");
 
         }
 
-        private void RemoveObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ObjectManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -3665,24 +3720,24 @@ Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to import Objects. " + ex.Message);
+                System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
         }
 
-        private void UnloadSceneToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             UnloadScene();
         }
 
         #region Backup SubMenu
-        private void StageConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        private void StageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             backupType = 4;
             BackupToolStripMenuItem_Click(null, null);
             backupType = 0;
         }
 
-        private void NormalToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NormalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             backupType = 1;
             BackupToolStripMenuItem_Click(null, null);
@@ -3693,24 +3748,51 @@ Error: {ex.Message}");
         #endregion
 
         #region Edit Tab Buttons
-        public void FlipHorizontalToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void chunkToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (TilesClipboard != null)
+            {
+                EditorChunk.ConvertClipboardtoChunk(TilesClipboard);
+                TilesToolbar?.ChunksReload();
+            }
+
+        }
+
+        public void SelectAllToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsTilesEdit())
+            {
+                EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+                UpdateEditLayerActions();
+            }
+            else if (IsEntitiesEdit())
+            {
+                entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+            }
+            SetSelectOnlyButtonsState();
+            ClickedX = -1;
+            ClickedY = -1;
+        }
+
+        public void FlipHorizontalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditLayer?.FlipPropertySelected(FlipDirection.Horizontal);
             UpdateEditLayerActions();
         }
 
-        public void FlipHorizontalIndividualToolStripMenuItem_Click(object sender, EventArgs e)
+        public void FlipHorizontalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditLayer?.FlipPropertySelected(FlipDirection.Horizontal, true);
             UpdateEditLayerActions();
         }
 
-        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             DeleteSelected();
         }
 
-        public void CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        public void CopyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (IsTilesEdit())
                 CopyTilesToClipboard();
@@ -3723,7 +3805,7 @@ Error: {ex.Message}");
             UpdateControls();
         }
 
-        public void DuplicateToolStripMenuItem_Click(object sender, EventArgs e)
+        public void DuplicateToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (IsTilesEdit())
             {
@@ -3739,7 +3821,7 @@ Error: {ex.Message}");
                 }
                 catch (EditorEntities.TooManyEntitiesException)
                 {
-                    MessageBox.Show("Too many entities! (limit: 2048)");
+                    System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
                     return;
                 }
                 UpdateEntitiesToolbarList();
@@ -3747,17 +3829,17 @@ Error: {ex.Message}");
             }
         }
 
-        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UndoToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditorUndo();
         }
 
-        private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RedoToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditorRedo();
         }
 
-        public void CutToolStripMenuItem_Click(object sender, EventArgs e)
+        public void CutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (IsTilesEdit())
             {
@@ -3777,7 +3859,7 @@ Error: {ex.Message}");
             }
         }
 
-        public void PasteToolStripMenuItem_Click(object sender, EventArgs e)
+        public void PasteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (IsTilesEdit())
             {
@@ -3818,7 +3900,7 @@ Error: {ex.Message}");
                     }
                     catch (EditorEntities.TooManyEntitiesException)
                     {
-                        MessageBox.Show("Too many entities! (limit: 2048)");
+                        System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
                         return;
                     }
                     UpdateEntitiesToolbarList();
@@ -3827,13 +3909,13 @@ Error: {ex.Message}");
             }
         }
 
-        public void FlipVerticalToolStripMenuItem_Click(object sender, EventArgs e)
+        public void FlipVerticalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditLayer?.FlipPropertySelected(FlipDirection.Veritcal);
             UpdateEditLayerActions();
         }
 
-        public void FlipVerticalIndividualToolStripMenuItem_Click(object sender, EventArgs e)
+        public void FlipVerticalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditLayer?.FlipPropertySelected(FlipDirection.Veritcal, true);
             UpdateEditLayerActions();
@@ -3844,17 +3926,17 @@ Error: {ex.Message}");
 
         #region View Tab Buttons
 
-        private void statsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             DebugStatsVisibleOnPanel = !DebugStatsVisibleOnPanel;
         }
 
-        private void useLargeTextToolStripMenuItem_Click(object sender, EventArgs e)
+        private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             UseLargeDebugStats = !UseLargeDebugStats;
         }
 
-        private void SetMenuButtons(object sender, EventArgs e)
+        private void SetMenuButtons(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             if (menuItem != null)
@@ -3961,7 +4043,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked)
             {
@@ -3974,13 +4056,13 @@ Error: {ex.Message}");
 
         }
 
-        private void prioritizedViewingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (prioritizedViewingToolStripMenuItem.IsChecked) mySettings.PrioritizedObjectRendering = true;
             else mySettings.PrioritizedObjectRendering = false;
         }
 
-        private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SetEncorePalete(sender);
         }
@@ -4017,7 +4099,7 @@ Error: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
+                    System.Windows.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
                 }
             }
             else if (path != "")
@@ -4033,13 +4115,13 @@ Error: {ex.Message}");
                 }
                 else
                 {
-                    MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
+                    System.Windows.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
                 }
             }
 
         }
 
-        private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (moveExtraLayersToFrontToolStripMenuItem.IsChecked)
             {
@@ -4051,13 +4133,13 @@ Error: {ex.Message}");
             }
         }
 
-        private void ToolStripTextBox1_TextChanged(object sender, EventArgs e)
+        private void ToolStripTextBox1_TextChanged(object sender, RoutedEventArgs e)
         {
             entitiesTextFilter = toolStripTextBox1.Text;
             entities.FilterRefreshNeeded = true;
         }
 
-        private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (showEntitySelectionBoxes)
             {
@@ -4071,7 +4153,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowWaterLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (showWaterLevelToolStripMenuItem.IsChecked)
             {
@@ -4083,7 +4165,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void WaterLevelAlwaysShowItem_Click(object sender, EventArgs e)
+        private void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e)
         {
             if (waterLevelAlwaysShowItem.IsChecked)
             {
@@ -4095,7 +4177,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked)
             {
@@ -4107,12 +4189,12 @@ Error: {ex.Message}");
             }
         }
 
-        private void ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ToggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e);
         }
 
-        private void ShowParallaxSpritesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (showParallaxSpritesToolStripMenuItem.IsChecked)
             {
@@ -4124,7 +4206,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void XToolStripMenuItem_Click(object sender, EventArgs e)
+        private void XToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (mySettings.ScrollLockDirection)
             {
@@ -4142,7 +4224,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void YToolStripMenuItem_Click(object sender, EventArgs e)
+        private void YToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (mySettings.ScrollLockDirection)
             {
@@ -4158,7 +4240,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowEntityPathToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (showEntityPathArrowsToolstripItem.IsChecked)
             {
@@ -4173,7 +4255,7 @@ Error: {ex.Message}");
         #endregion
 
         #region Scene Tab Buttons
-        public void ImportObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             importingObjects = true;
             try
@@ -4193,12 +4275,12 @@ Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to import Objects. " + ex.Message);
+                System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
             importingObjects = false;
         }
 
-        private void ImportSoundsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -4217,7 +4299,7 @@ Error: {ex.Message}");
                         }
                         catch
                         {
-                            MessageBox.Show("Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
+                            System.Windows.MessageBox.Show("Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
                             return;
                         }
 
@@ -4235,11 +4317,11 @@ Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to import sounds. " + ex.Message);
+                System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
             }
         }
 
-        private void LayerManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LayerManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Deselect(true);
 
@@ -4254,7 +4336,7 @@ Error: {ex.Message}");
             UpdateControls();
         }
 
-        private void PrimaryColorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PrimaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
@@ -4278,7 +4360,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void SecondaryColorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SecondaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
@@ -4306,7 +4388,7 @@ Error: {ex.Message}");
 
         #region Tools Tab Buttons
 
-        private void OptimizeEntitySlotIDsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OptimizeEntitySlotIDsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (EditorScene != null)
             {
@@ -4314,7 +4396,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void changeLevelIDToolStripMenuItem_Click(object sender, EventArgs e)
+        private void changeLevelIDToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string inputValue = TextPrompt.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
@@ -4322,13 +4404,13 @@ Error: {ex.Message}");
             _levelIDLabel.Content = "Level ID: " + LevelID.ToString();
         }
 
-        private void MakeForDataFolderOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MakeForDataFolderOnlyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string dataDir = DataDirectory;
             CreateShortcut(dataDir);
         }
 
-        private void WithCurrentCoordinatesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void WithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string dataDir = DataDirectory;
             string scenePath = ScenePath;
@@ -4341,7 +4423,7 @@ Error: {ex.Message}");
             CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
         }
 
-        private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string dataDir = DataDirectory;
             string scenePath = ScenePath;
@@ -4353,7 +4435,7 @@ Error: {ex.Message}");
             CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum);
         }
 
-        private void SoundLooperToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SoundLooper form = new SoundLooper();
             form.ShowDialog();
@@ -4363,7 +4445,7 @@ Error: {ex.Message}");
 
         #region Apps Tab Buttons
 
-        private void TileManiacToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
             mainform.Show();
@@ -4381,12 +4463,12 @@ Error: {ex.Message}");
             }
 
         }
-        private void InsanicManiacToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Sanic2Maniac sanic = new Sanic2Maniac();
             sanic.Show();
         }
-        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             String aniProcessName = Path.GetFileNameWithoutExtension(mySettings.RunAniEdPath);
             IntPtr hWnd = FindWindow(aniProcessName, null); // this gives you the handle of the window you need.
@@ -4432,7 +4514,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem button = sender as MenuItem;
 
@@ -4498,7 +4580,7 @@ Error: {ex.Message}");
 
         }
 
-        private void colorPaletteEditorToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+        private void colorPaletteEditorToolStripMenuItem_DropDownOpened(object sender, RoutedEventArgs e)
         {
             maniaPalHint.Header = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
             if (!maniaPalGameConfigToolStripMenuItem.Header.ToString().Contains(Environment.NewLine))
@@ -4510,9 +4592,9 @@ Error: {ex.Message}");
         }
 
 
-        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            MessageBoxResult result = System.Windows.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
             if (result == MessageBoxResult.OK)
             {
                 RepairScene();
@@ -4522,7 +4604,7 @@ Error: {ex.Message}");
         #endregion
 
         #region Folders Tab Buttons
-        private void OpenSceneFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (SceneFilename != null && SceneFilename != "" && File.Exists(SceneFilename))
             {
@@ -4531,12 +4613,12 @@ Error: {ex.Message}");
             }
             else
             {
-                MessageBox.Show("Scene File does not exist or simply isn't loaded!", "ERROR");
+                System.Windows.MessageBox.Show("Scene File does not exist or simply isn't loaded!", "ERROR");
             }
 
         }
 
-        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string DataDirectory_mod = DataDirectory.Replace('/', '\\');
             if (DataDirectory_mod != null && DataDirectory_mod != "" && Directory.Exists(DataDirectory_mod))
@@ -4545,12 +4627,12 @@ Error: {ex.Message}");
             }
             else
             {
-                MessageBox.Show("Data Directory does not exist or simply isn't loaded!", "ERROR");
+                System.Windows.MessageBox.Show("Data Directory does not exist or simply isn't loaded!", "ERROR");
             }
 
         }
 
-        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (mySettings.RunGamePath != null && mySettings.RunGamePath != "" && File.Exists(mySettings.RunGamePath))
             {
@@ -4560,12 +4642,12 @@ Error: {ex.Message}");
             }
             else
             {
-                MessageBox.Show("Game Folder does not exist or isn't set!", "ERROR");
+                System.Windows.MessageBox.Show("Game Folder does not exist or isn't set!", "ERROR");
             }
 
         }
 
-        private void OpenModDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenModDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (ModDataDirectory != "")
             {
@@ -4574,42 +4656,49 @@ Error: {ex.Message}");
             }
             else
             {
-                MessageBox.Show("Mod Data Directory Not Loaded!", "ERROR");
+                System.Windows.MessageBox.Show("Mod Data Directory Not Loaded!", "ERROR");
             }
 
 
         }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e)
         {
             if (Settings.mySettings.SavedPlaces != null && Settings.mySettings.SavedPlaces.Count > 0)
             {
-                openASavedPlaceToolStripMenuItem.Items.RemoveAt(0);
+                openASavedPlaceToolStripMenuItem.Items.Clear();
+                var allItems = openASavedPlaceToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                 foreach (string savedPlace in Settings.mySettings.SavedPlaces)
                 {
-                    openASavedPlaceToolStripMenuItem.Items.Add(savedPlace, null, OpenASavedPlaceTrigger);
+                    var savedPlaceItem = new MenuItem()
+                    {
+                        Header = savedPlace,
+                        Tag = savedPlace
+                    };
+                    savedPlaceItem.Click += OpenASavedPlaceTrigger;
+                    openASavedPlaceToolStripMenuItem.Items.Add(savedPlaceItem);
                 }
             }
 
         }
 
-        private void OpenASavedPlaceTrigger(object sender, EventArgs e)
+        private void OpenASavedPlaceTrigger(object sender, RoutedEventArgs e)
         {
             ToolStripDropDownItem item = sender as ToolStripDropDownItem;
             string savedPlaceDir = item.Text.Replace('/', '\\');
             Process.Start("explorer.exe", "/select, " + savedPlaceDir);
         }
 
-        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
+        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e)
         {
             openASavedPlaceToolStripMenuItem.Items.Clear();
             openASavedPlaceToolStripMenuItem.Items.Add("No Saved Places");
-            openASavedPlaceToolStripMenuItem.DropDownItems[0].IsEnabled = false;
+            //openASavedPlaceToolStripMenuItem.DropDownItems[0].IsEnabled = false;
         }
 
         #endregion
 
         #region Other Tab Buttons
-        public void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             using (var aboutBox = new AboutBox())
             {
@@ -4617,7 +4706,12 @@ Error: {ex.Message}");
             }
         }
 
-        public void OptionToolStripMenuItem_Click(object sender, EventArgs e)
+        private void WikiToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
+        }
+
+        public void OptionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             using (var optionBox = new OptionBox(this))
             {
@@ -4625,7 +4719,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ControlsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
 
             using (var ControlBox = new ControlBox())
@@ -4636,17 +4730,17 @@ Error: {ex.Message}");
         #endregion
 
         #region Main Toolstrip Buttons
-        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             New_Click(sender, e);
         }
 
-        private void SToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Save_Click(sender, e);
         }
 
-        private void MagnetMode_Click(object sender, EventArgs e)
+        private void MagnetMode_Click(object sender, RoutedEventArgs e)
         {
             if (UseMagnetMode)
             {
@@ -4660,17 +4754,17 @@ Error: {ex.Message}");
             }
         }
 
-        private void UndoButton_Click(object sender, EventArgs e)
+        private void UndoButton_Click(object sender, RoutedEventArgs e)
         {
             EditorUndo();
         }
 
-        private void RedoButton_Click(object sender, EventArgs e)
+        private void RedoButton_Click(object sender, RoutedEventArgs e)
         {
             EditorRedo();
         }
 
-        private void ZoomInButton_Click(object sender, EventArgs e)
+        private void ZoomInButton_Click(object sender, RoutedEventArgs e)
         {
             ZoomLevel += 1;
             if (ZoomLevel >= 5) ZoomLevel = 5;
@@ -4679,7 +4773,7 @@ Error: {ex.Message}");
             SetZoomLevel(ZoomLevel, new Point(0, 0));
         }
 
-        private void ZoomOutButton_Click(object sender, EventArgs e)
+        private void ZoomOutButton_Click(object sender, RoutedEventArgs e)
         {
             ZoomLevel -= 1;
             if (ZoomLevel >= 5) ZoomLevel = 5;
@@ -4688,49 +4782,49 @@ Error: {ex.Message}");
             SetZoomLevel(ZoomLevel, new Point(0, 0));
         }
 
-        private void SelectTool_Click(object sender, EventArgs e)
+        private void SelectTool_Click(object sender, RoutedEventArgs e)
         {
-            SelectToolButton.IsChecked = !SelectToolButton.IsChecked;
+            //SelectToolButton.IsChecked = !SelectToolButton.IsChecked;
             PointerButton.IsChecked = false;
             PlaceTilesButton.IsChecked = false;
             InteractionToolButton.IsChecked = false;
             UpdateControls();
         }
 
-        private void PointerButton_Click(object sender, EventArgs e)
+        private void PointerButton_Click(object sender, RoutedEventArgs e)
         {
-            PointerButton.IsChecked = !PointerButton.IsChecked;
+            //PointerButton.IsChecked = !PointerButton.IsChecked;
             SelectToolButton.IsChecked = false;
             PlaceTilesButton.IsChecked = false;
             InteractionToolButton.IsChecked = false;
             UpdateControls();
         }
 
-        private void PlaceTilesButton_Click(object sender, EventArgs e)
+        private void PlaceTilesButton_Click(object sender, RoutedEventArgs e)
         {
-            PlaceTilesButton.IsChecked = !PlaceTilesButton.IsChecked;
+            //PlaceTilesButton.IsChecked = !PlaceTilesButton.IsChecked;
             SelectToolButton.IsChecked = false;
             PointerButton.IsChecked = false;
             InteractionToolButton.IsChecked = false;
             UpdateControls();
         }
 
-        private void InteractionToolButton_Click(object sender, EventArgs e)
+        private void InteractionToolButton_Click(object sender, RoutedEventArgs e)
         {
-            InteractionToolButton.IsChecked = !InteractionToolButton.IsChecked;
+            //InteractionToolButton.IsChecked = !InteractionToolButton.IsChecked;
             PlaceTilesButton.IsChecked = false;
             SelectToolButton.IsChecked = false;
             PointerButton.IsChecked = false;
             UpdateControls();
         }
 
-        private void ChunkToolButton_Click(object sender, EventArgs e)
+        private void ChunkToolButton_Click(object sender, RoutedEventArgs e)
         {
             ChunksToolButton.IsChecked = !ChunksToolButton.IsChecked;
             UpdateControls();
         }
 
-        private void ReloadToolStripButton_Click(object sender, EventArgs e)
+        private void ReloadToolStripButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -4767,17 +4861,17 @@ Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
-        private void RunScene_Click(object sender, EventArgs e)
+        private void RunScene_Click(object sender, RoutedEventArgs e)
         {
             IntPtr hWnd = FindWindow("SonicMania", null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
             if (sender == RunSceneButton && GameRunning)
             {
-                RunSceneButton.ShowDropDown();
+                //RunSceneButton.ShowDropDown();
                 return;
             }
             if (processes != null)
@@ -4793,7 +4887,7 @@ Error: {ex.Message}");
                 SetForegroundWindow(processes.MainWindowHandle);
                 if (!GameRunning)
                 {
-                    Invoke(new Action(() => RunSequence(sender, e, true)));
+                    //Invoke(new Action(() => RunSequence(sender, e, true)));
                 }
             }
             else
@@ -4816,13 +4910,13 @@ Error: {ex.Message}");
                         }
                         File.WriteAllText(ConfigPath, dropDownItem.Tag.ToString());
                     }
-                    Invoke(new Action(() => RunSequence(sender, e)));
+                    //Invoke(new Action(() => RunSequence(sender, e)));
                 }
 
             }
         }
 
-        private void RunSceneButton_DropDownOpening(object sender, EventArgs e)
+        private void RunSceneButton_DropDownOpening(object sender, RoutedEventArgs e)
         {
             trackThePlayerToolStripMenuItem.IsEnabled = GameRunning;
             assetResetToolStripMenuItem1.IsEnabled = GameRunning;
@@ -4831,9 +4925,9 @@ Error: {ex.Message}");
             selectConfigToolStripMenuItem.IsEnabled = !GameRunning;
         }
 
-        private void ShowTileIDButton_Click(object sender, EventArgs e)
+        private void ShowTileIDButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ShowTileIDButton.IsChecked == false)
+            if (showTileID == false)
             {
                 ShowTileIDButton.IsChecked = true;
                 ReloadSpecificTextures(sender, e);
@@ -4847,9 +4941,9 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowGridButton_Click(object sender, EventArgs e)
+        private void ShowGridButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ShowGridButton.IsChecked == false)
+            if (showGrid == false)
             {
                 ShowGridButton.IsChecked = true;
                 showGrid = true;
@@ -4863,9 +4957,9 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowCollisionAButton_Click(object sender, EventArgs e)
+        private void ShowCollisionAButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ShowCollisionAButton.IsChecked == false)
+            if (showCollisionA == false)
             {
                 ShowCollisionAButton.IsChecked = true;
                 showCollisionA = true;
@@ -4883,9 +4977,9 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowCollisionBButton_Click(object sender, EventArgs e)
+        private void ShowCollisionBButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ShowCollisionBButton.IsChecked == false)
+            if (showCollisionB == false)
             {
                 ShowCollisionBButton.IsChecked = true;
                 showCollisionB = true;
@@ -4903,7 +4997,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void OpenDataDirectoryMenuButton(object sender, EventArgs e)
+        private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e)
         {
             if (_recentDataItems != null)
             {
@@ -4914,30 +5008,40 @@ Error: {ex.Message}");
                 }
             }
         }
-
-        private void ShowFlippedTileHelper_Click(object sender, EventArgs e)
+        private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e)
         {
-            if (FlipAssistButton.IsChecked == false)
+            if (GraphicPanel.bRender)
             {
-                FlipAssistButton.IsChecked = true;
+                GraphicPanel.bRender = false;
+            }
+            else
+            {
+                ReloadToolStripButton_Click(null, null);
+                GraphicPanel.bRender = true;
+            }
+        }
+
+        private void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e)
+        {
+            if (showFlippedTileHelper == false)
+            {
                 ReloadSpecificTextures(sender, e);
                 showFlippedTileHelper = true;
 
             }
             else
             {
-                FlipAssistButton.IsChecked = false;
                 ReloadSpecificTextures(sender, e);
                 showFlippedTileHelper = false;
             }
         }
 
-        private void ResetDeviceButton_Click(object sender, EventArgs e)
+        private void ResetDeviceButton_Click(object sender, RoutedEventArgs e)
         {
             GraphicPanel.AttemptRecovery(null);
         }
 
-        private void EnableEncorePalette_Click(object sender, EventArgs e)
+        private void EnableEncorePalette_Click(object sender, RoutedEventArgs e)
         {
             DisposeTextures();
             if (useEncoreColors == true)
@@ -5139,10 +5243,11 @@ Error: {ex.Message}");
             bool deviceLost = GraphicPanel.getDeviceLostState();
             if (scrolling)
             {
-                if (vScrollBar1.Visible && hScrollBar1.Visible && !deviceLost) GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
-                else if (vScrollBar1.Visible && !deviceLost) GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
-                else if (hScrollBar1.Visible && !deviceLost) GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
+                if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible && !deviceLost) GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
+                else if (editorView.vScrollBar1.Visible && !deviceLost) GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
+                else if (editorView.hScrollBar1.Visible && !deviceLost) GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
             }
+
             if (showGrid && EditorScene != null)
                 Background.DrawGrid(GraphicPanel);
 
@@ -5184,9 +5289,9 @@ Error: {ex.Message}");
             _extraViewLayer.Draw(GraphicPanel);
         }
 
-        public void Form1_Load(object sender, EventArgs e)
+        public void Form1_Load(object sender, RoutedEventArgs e)
         {
-            GraphicPanel.Init(this);
+
         }
 
         public void Run()
@@ -5196,26 +5301,26 @@ Error: {ex.Message}");
             GraphicPanel.Run();
         }
 
-        private void GraphicPanel_DragEnter(object sender, DragEventArgs e)
+        private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
             if (!mySettings.DisableDraging)
             {
                 if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
                 {
                     Point rel = GraphicPanel.PointToScreen(Point.Empty);
-                    e.Effect = DragDropEffects.Move;
+                    e.Effect = System.Windows.Forms.DragDropEffects.Move;
                     //(ushort)((Int32)e.Data.GetData(e.Data.GetFormats()[0])
                     EditLayer?.StartDragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
                     UpdateEditLayerActions();
                 }
                 else
                 {
-                    e.Effect = DragDropEffects.None;
+                    e.Effect = System.Windows.Forms.DragDropEffects.None;
                 }
             }
         }
 
-        private void GraphicPanel_DragOver(object sender, DragEventArgs e)
+        private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
             if (!mySettings.DisableDraging)
             {
@@ -5238,7 +5343,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void GraphicPanel_DragDrop(object sender, DragEventArgs e)
+        private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             if (!mySettings.DisableDraging)
             {
@@ -5246,27 +5351,27 @@ Error: {ex.Message}");
             }
         }
 
-        public void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
+        public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             EditorControls.GraphicPanel_OnKeyDown(sender, e);
         }
 
-        public void GraphicPanel_OnKeyUp(object sender, KeyEventArgs e)
+        public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             EditorControls.GraphicPanel_OnKeyUp(sender, e);
         }
 
-        private void MapEditor_Activated(object sender, EventArgs e)
+        private void MapEditor_Activated(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             GraphicPanel.Focus();
             if (mainform.hasModified)
             {
-                ReloadToolStripButton_Click(sender, e);
+                ReloadToolStripButton_Click(sender, null);
             }
 
         }
 
-        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
+        private void MapEditor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (!GraphicPanel.Focused && e.Control)
             {
@@ -5274,7 +5379,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void Editor_FormClosing(object sender, FormClosingEventArgs e)
+        private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (app != null)
             {
@@ -5297,9 +5402,10 @@ Error: {ex.Message}");
             {
                 Debug.Write("Failed to write settings: " + ex);
             }
+            this.Close();
         }
 
-        private void MapEditor_KeyUp(object sender, KeyEventArgs e)
+        private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (!GraphicPanel.Focused && e.Control)
             {
@@ -5312,12 +5418,12 @@ Error: {ex.Message}");
             Form1_Resize(null, null);
         }
 
-        private void GraphicPanel_MouseClick(object sender, MouseEventArgs e)
+        private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             GraphicPanel.Focus();
-            if (e.RightButton == MouseButtonState.Released && IsTilesEdit() && InteractionToolButton.IsChecked.Value)
+            if (e.Button == MouseButtons.Right && IsTilesEdit() && InteractionToolButton.IsChecked.Value)
             {
-                Point clicked_point_tile = new Point((int)(e.GetPosition(this).X / Zoom), (int)(e.GetPosition(this).Y / Zoom));
+                Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                 int tile = (ushort)(EditLayer?.GetTileAt(clicked_point_tile) & 0x3ff);
                 SelectedTileID = tile;
                 editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
@@ -5330,9 +5436,10 @@ Error: {ex.Message}");
 
 
                 editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile);
-                contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
+                ViewPanelContextMenu.Placement = PlacementMode.Mouse;
+                ViewPanelContextMenu.IsOpen = true;
             }
-            else if (e.Button == MouseButtons.Right && InteractionToolButton.IsChecked)
+            else if (e.Button == MouseButtons.Right && InteractionToolButton.IsChecked.Value)
             {
                 Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                 string tile = "NULL";
@@ -5349,14 +5456,15 @@ Error: {ex.Message}");
                 moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
 
                 editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile);
-                contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
+                ViewPanelContextMenu.Placement = PlacementMode.Mouse;
+                ViewPanelContextMenu.IsOpen = true;
             }
 
             //Stuff that Doesn't work yet that I'm not ready to ship
 
         }
 
-        private void ViewPanel_Click(object sender, EventArgs e)
+        private void ViewPanel_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -5378,33 +5486,45 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowFGLow_Click(object sender, EventArgs e)
+        private void ShowFGLow_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerShowButton_Click(ShowFGLow, "Layer FG Low");
         }
 
-        private void ShowFGHigh_Click(object sender, EventArgs e)
+        private void ShowFGHigh_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerShowButton_Click(ShowFGHigh, "Layer FG High");
         }
 
-        private void ShowFGHigher_Click(object sender, EventArgs e)
+        private void ShowFGHigher_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerShowButton_Click(ShowFGHigher, "Layer FG Higher");
         }
 
-        private void ShowFGLower_Click(object sender, EventArgs e)
+        private void ShowFGLower_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerShowButton_Click(ShowFGLower, "Layer FG Lower");
         }
 
-        private void ShowEntities_Click(object sender, EventArgs e)
+        private void ShowEntities_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerShowButton_Click(ShowEntities, "Entities");
         }
 
         private void ShowAnimations_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerShowButton_Click(ShowAnimations, "Animations");
         }
 
@@ -5432,28 +5552,38 @@ Error: {ex.Message}");
             UpdateControls();
         }
 
-        private void EditFGLow_Click(object sender, EventArgs e)
+        private void EditFGLow_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerEditButton_Click(EditFGLow);
         }
 
-        private void EditFGHigh_Click(object sender, EventArgs e)
+        private void EditFGHigh_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerEditButton_Click(EditFGHigh);
         }
 
-        private void EditFGLower_Click(object sender, EventArgs e)
+        private void EditFGLower_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerEditButton_Click(EditFGLower);
         }
 
-        private void EditFGHigher_Click(object sender, EventArgs e)
+        private void EditFGHigher_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerEditButton_Click(EditFGHigher);
         }
 
-        private void EditEntities_Click(object sender, EventArgs e)
+        private void EditEntities_Click(object sender, RoutedEventArgs e)
         {
+            ToggleButton toggle = sender as ToggleButton;
+            toggle.IsChecked = !toggle.IsChecked.Value;
             LayerEditButton_Click(EditEntities);
         }
         #endregion
@@ -5563,7 +5693,7 @@ Error: {ex.Message}");
             }
         }
 
-        public void MoveEntityOrTiles(object sender, KeyEventArgs e)
+        public void MoveEntityOrTiles(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             int x = 0, y = 0;
             if (MagnetMode.IsChecked == false)
@@ -5577,46 +5707,46 @@ Error: {ex.Message}");
             }
             if (UseMagnetMode)
             {
-                switch (e.Key)
+                switch (e.KeyData)
                 {
-                    case Key.Up: y = (useMagnetYAxis ? -magnetSize : -1); break;
-                    case Key.Down: y = (useMagnetYAxis ? magnetSize : 1); break;
-                    case Key.Left: x = (useMagnetXAxis ? -magnetSize : -1); break;
-                    case Key.Right: x = (useMagnetXAxis ? magnetSize : 1); break;
+                    case Keys.Up: y = (useMagnetYAxis ? -magnetSize : -1); break;
+                    case Keys.Down: y = (useMagnetYAxis ? magnetSize : 1); break;
+                    case Keys.Left: x = (useMagnetXAxis ? -magnetSize : -1); break;
+                    case Keys.Right: x = (useMagnetXAxis ? magnetSize : 1); break;
                 }
             }
             if (mySettings.EnableFasterNudge)
             {
                 if (UseMagnetMode)
                 {
-                    switch (e.Key)
+                    switch (e.KeyData)
                     {
-                        case Key.Up: y = (useMagnetYAxis ? -magnetSize * mySettings.FasterNudgeValue : -1 - mySettings.FasterNudgeValue); break;
-                        case Key.Down: y = (useMagnetYAxis ? magnetSize * mySettings.FasterNudgeValue : 1 + mySettings.FasterNudgeValue); break;
-                        case Key.Left: x = (useMagnetXAxis ? -magnetSize * mySettings.FasterNudgeValue : -1 - mySettings.FasterNudgeValue); break;
-                        case Key.Right: x = (useMagnetXAxis ? magnetSize * mySettings.FasterNudgeValue : 1 + mySettings.FasterNudgeValue); break;
+                        case Keys.Up: y = (useMagnetYAxis ? -magnetSize * mySettings.FasterNudgeValue : -1 - mySettings.FasterNudgeValue); break;
+                        case Keys.Down: y = (useMagnetYAxis ? magnetSize * mySettings.FasterNudgeValue : 1 + mySettings.FasterNudgeValue); break;
+                        case Keys.Left: x = (useMagnetXAxis ? -magnetSize * mySettings.FasterNudgeValue : -1 - mySettings.FasterNudgeValue); break;
+                        case Keys.Right: x = (useMagnetXAxis ? magnetSize * mySettings.FasterNudgeValue : 1 + mySettings.FasterNudgeValue); break;
                     }
                 }
                 else
                 {
-                    switch (e.Key)
+                    switch (e.KeyData)
                     {
-                        case Key.Up: y = -1 - mySettings.FasterNudgeValue; break;
-                        case Key.Down: y = 1 + mySettings.FasterNudgeValue; break;
-                        case Key.Left: x = -1 - mySettings.FasterNudgeValue; break;
-                        case Key.Right: x = 1 + mySettings.FasterNudgeValue; break;
+                        case Keys.Up: y = -1 - mySettings.FasterNudgeValue; break;
+                        case Keys.Down: y = 1 + mySettings.FasterNudgeValue; break;
+                        case Keys.Left: x = -1 - mySettings.FasterNudgeValue; break;
+                        case Keys.Right: x = 1 + mySettings.FasterNudgeValue; break;
                     }
                 }
 
             }
             if (UseMagnetMode == false && mySettings.EnableFasterNudge == false)
             {
-                switch (e.Key)
+                switch (e.KeyData)
                 {
-                    case Key.Up: y = -1; break;
-                    case Key.Down: y = 1; break;
-                    case Key.Left: x = -1; break;
-                    case Key.Right: x = 1; break;
+                    case Keys.Up: y = -1; break;
+                    case Keys.Down: y = 1; break;
+                    case Keys.Left: x = -1; break;
+                    case Keys.Right: x = 1; break;
                 }
 
             }
@@ -5660,8 +5790,8 @@ Error: {ex.Message}");
 
         public void MoveCameraFreely(object sender, KeyEventArgs e)
         {
-            hScrollBar1.MaximumSize = new Size(100000000, 100000000);
-            vScrollBar1.MaximumSize = new Size(100000000, 100000000);
+            editorView.hScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
+            editorView.vScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
             if (CtrlPressed() && ShiftPressed())
             {
                 switch (e.Key)
@@ -5678,7 +5808,7 @@ Error: {ex.Message}");
         #endregion
 
         #region Asset Reloading
-        private void ReloadSpecificTextures(object sender, EventArgs e)
+        private void ReloadSpecificTextures(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -5698,7 +5828,7 @@ Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
@@ -5758,191 +5888,14 @@ Error: {ex.Message}");
         #region Run Mania Methods
 
         // TODO: Perfect Scene Autobooting
-        private void RunSequence(object sender, EventArgs e, bool attachMode = false)
-        {
-            // Ask where Sonic Mania is located when not set
-            string path = "steam://run/584400";
-            bool ready = false;
-            if (mySettings.UsePrePlusOffsets)
-            {
-                if (string.IsNullOrEmpty(mySettings.RunGamePath))
-                {
-                    var ofd = new OpenFileDialog
-                    {
-                        Title = "Select SonicMania.exe",
-                        Filter = "Windows PE Executable|*.exe"
-                    };
-                    if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        mySettings.RunGamePath = ofd.FileName;
-                }
-                else
-                {
-                    if (!File.Exists(mySettings.RunGamePath))
-                    {
-                        mySettings.RunGamePath = "";
-                        return;
-                    }
-                }
-                path = mySettings.RunGamePath;
-            }
-            ProcessStartInfo psi;
+        
 
-            if (mySettings.RunGameInsteadOfScene)
-            {
-                psi = new ProcessStartInfo(path);
-            }
-            else
-            {
-                if (mySettings.UsePrePlusOffsets == true)
-                {
-                    psi = new ProcessStartInfo(path, $"stage={SelectedZone};scene={SelectedScene[5]};");
-                }
-                else
-                {
-                    psi = new ProcessStartInfo(path);
-                }
-
-            }
-            if (path != "" || attachMode)
-            {
-                string maniaDir = Path.GetDirectoryName(path);
-                // Check if the mod loader is installed
-                string modLoaderDLL = maniaDir + "//d3d9.dll";
-                if (File.Exists(modLoaderDLL))
-                    psi.WorkingDirectory = maniaDir;
-                else
-                    psi.WorkingDirectory = Path.GetDirectoryName(DataDirectory);
-                Process p;
-                if (!attachMode)
-                {
-                    p = Process.Start(psi);
-                }
-                else
-                {
-                    var mania = Process.GetProcessesByName("SonicMania.exe");
-                    p = mania.FirstOrDefault();
-                }
-                GameRunning = true;
-
-                int CurrentScene_ptr = 0x00E48758;          // &CurrentScene
-                int GameState_ptr = 0x00E48776;             // &GameState
-                int IsGameRunning_ptr = 0x0065D1C8;
-                int Player1_ControllerID_ptr = 0x0085EB44;  // &Player1.ControllerID
-                int Player2_ControllerID_ptr = 0x0085EF9C;  // &Player2.ControllerID
-                if (mySettings.UsePrePlusOffsets)
-                {
-                    CurrentScene_ptr = 0x00CCF6F8;
-                    // TODO: Get Pre Plus GameState address
-                    IsGameRunning_ptr = 0x00628094;
-                    Player1_ControllerID_ptr = 0x00A4C860;
-                }
-
-                if (mySettings.UsePrePlusOffsets)
-                {
-                    UpdateControls();
-                    UseCheatCodes(p);
-                    ready = true;
-                }
-                else
-                {
-
-                    // For Mania Plus, The best way to boot the game is by using the steam command.
-                    // After Calling the Steam command, We need to wait until Steam responds and Starts the game.
-                    // Once the game process starts up, We quickly attach to it and apply all the needed patches
-
-                    // Wait for Steam to complete startup
-                    new Thread(() =>
-                    {
-                        Process[] Procs;
-                        while ((Procs = Process.GetProcessesByName("SonicMania")).Length == 0)
-                            Thread.Sleep(1);
-                        Invoke(new Action(() =>
-                        {
-                            p = Procs[0];
-                            // Attach and Apply Cheats
-                            UseCheatCodes(p);
-                            UpdateControls();
-                            ready = true;
-
-
-                            // Wait until there is a Running Scene.
-                            while (GameMemory.ReadByte(GameState_ptr) != 0x01)
-                                Thread.Sleep(1);
-
-                            // Swap the Scene
-                            if (LevelID != -1)
-                            {
-                                GameMemory.WriteByte(CurrentScene_ptr, (byte)LevelID);
-                                // Restart the Scene
-                                GameMemory.WriteByte(GameState_ptr, 0);
-                            }
-
-
-
-                        }));
-                    }).Start();
-                }
-
-
-                new Thread(() =>
-                {
-                    while (!ready)
-                        Thread.Sleep(10);
-                    /* Level != Main Menu*/
-                    while (GameMemory.ReadByte(CurrentScene_ptr) != 0x02 || Properties.Settings.Default.DisableRunSceneMenuQuit == true)
-                    {
-                        // Check if the user closed the game
-                        if (p.HasExited || !GameRunning)
-                        {
-                            GameRunning = false;
-                            if (Visible)
-                            {
-                                Invoke(new Action(() => UpdateControls()));
-                            }
-                            return;
-                        }
-                        UseCheatCodes(p);
-                        // Makes sure the process is attached and patches are applied
-                        // Set Player 1 Controller Set to 1 (If we set it to AnyController (0x00) we can't use Debug Mode In-Game)
-                        if (GameMemory.ReadByte(Player1_ControllerID_ptr) != 0x00 && Properties.Settings.Default.DisableRunSceneAutoInput == false)
-                        {
-                            GameMemory.WriteByte(Player1_ControllerID_ptr, 0x00); //setting this to 0x00 causes the inability to use debug mode
-                            GameMemory.WriteByte(Player2_ControllerID_ptr, 0xFF);
-                        }
-                        Thread.Sleep(300);
-                    }
-                    // User is on the Main Menu
-                    // Close the game
-                    GameMemory.WriteByte(IsGameRunning_ptr, 0);
-                    GameRunning = false;
-                    Invoke(new Action(() => UpdateControls()));
-                }).Start();
-            }
-        }
-
-        public void UseCheatCodes(Process p)
-        {
-            if (mySettings.UsePrePlusOffsets)
-            {
-                // Patches
-                GameMemory.Attach(p);
-            }
-            else
-            {
-                GameMemory.Attach(p);
-
-                // Mania Plus Patches
-                GameMemory.WriteByte(0x00E48768, 0x01); // Enable Debug
-                GameMemory.WriteByte(0x006F1806, 0x01); // Allow DevMenu
-                GameMemory.WriteByte(0x005FDD00, 0xEB); // Disable Background Pausing
-            }
-        }
 
         #endregion
 
         #region Lower Right Status Bar Buttons
 
-        private void PixelModeButton_Click(object sender, EventArgs e)
+        private void PixelModeButton_Click(object sender, RoutedEventArgs e)
         {
             if (pixelModeButton.IsChecked == false || pixelModeToolStripMenuItem.IsChecked == false)
             {
@@ -5960,7 +5913,7 @@ Error: {ex.Message}");
 
         }
 
-        public void ScrollLockButton_Click(object sender, EventArgs e)
+        public void ScrollLockButton_Click(object sender, RoutedEventArgs e)
         {
             if (mySettings.scrollLock == false)
             {
@@ -5990,7 +5943,7 @@ Error: {ex.Message}");
 
         }
 
-        public void NudgeFasterButton_Click(object sender, EventArgs e)
+        public void NudgeFasterButton_Click(object sender, RoutedEventArgs e)
         {
             if (nudgeFasterButton.IsChecked == false)
             {
@@ -6010,13 +5963,13 @@ Error: {ex.Message}");
 
         #region Scrollbar Methods
 
-        private void VScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        private void VScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
             ShiftY = e.NewValue;
             UpdateRender();
         }
 
-        private void HScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        private void HScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
             ShiftX = e.NewValue;
             UpdateRender();
@@ -6035,7 +5988,7 @@ Error: {ex.Message}");
 
         private void HScrollBar1_ValueChanged(object sender, EventArgs e)
         {
-            ShiftX = hScrollBar1.Value;
+            ShiftX = editorView.hScrollBar1.Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
             if (draggingSelection)
             {
@@ -6091,7 +6044,7 @@ Error: {ex.Message}");
             BackupToolStripMenuItem_Click(null, null);
             backupType = 0;
         }
-        public void BackupTool(object sender, EventArgs e)
+        public void BackupTool(object sender, RoutedEventArgs e)
         {
 
         }
@@ -6099,17 +6052,17 @@ Error: {ex.Message}");
         #endregion
 
         #region Run Scene Button Methods/Buttons
-        private void OpenDataDirectoryButton_DropDownOpened(object sender, EventArgs e)
+        private void OpenDataDirectoryButton_DropDownOpened(object sender, RoutedEventArgs e)
         {
-            RecentDataDirectories.AutoToolTip = false;
+            //RecentDataDirectories.AutoToolTip = false;
         }
 
-        private void OpenDataDirectoryButton_DropDownClosed(object sender, EventArgs e)
+        private void OpenDataDirectoryButton_DropDownClosed(object sender, RoutedEventArgs e)
         {
-            RecentDataDirectories.AutoToolTip = true;
+            //RecentDataDirectories.AutoToolTip = true;
         }
 
-        private void OpenModManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenModManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             String modProcessName = Path.GetFileNameWithoutExtension(mySettings.RunModLoaderPath);
             IntPtr hWnd = FindWindow(modProcessName, null); // this gives you the handle of the window you need.
@@ -6175,14 +6128,14 @@ Error: {ex.Message}");
                 Background.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
             }
         }
-        private void X16ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void X16ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Background.GRID_TILE_SIZE = 16;
             ResetGridOptions();
             x16ToolStripMenuItem.IsChecked = true;
         }
 
-        private void X128ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void X128ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Background.GRID_TILE_SIZE = 128;
             ResetGridOptions();
@@ -6197,14 +6150,14 @@ Error: {ex.Message}");
             customToolStripMenuItem.IsChecked = false;
         }
 
-        private void X256ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void X256ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Background.GRID_TILE_SIZE = 256;
             ResetGridOptions();
             x256ToolStripMenuItem.IsChecked = true;
         }
 
-        private void CustomToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CustomToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Background.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
             ResetGridOptions();
@@ -6213,7 +6166,7 @@ Error: {ex.Message}");
         #endregion
 
         #region Lower Right Status Bar Quick Options Button
-        public void MoreSettingsButton_ButtonClick(object sender, EventArgs e)
+        public void MoreSettingsButton_ButtonClick(object sender, RoutedEventArgs e)
         {
             switch (LastQuickButtonState)
             {
@@ -6234,13 +6187,13 @@ Error: {ex.Message}");
             }
         }
 
-        public void SwapScrollLockDirectionToolStripMenuItem_Click(object sender, EventArgs e)
+        public void SwapScrollLockDirectionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             LastQuickButtonState = 1;
             XToolStripMenuItem_Click(sender, e);
         }
 
-        public void EditEntitesTransparencyToolStripMenuItem_Click(object sender, EventArgs e)
+        public void EditEntitesTransparencyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (sender != transparentLayersForEditingEntitiesToolStripMenuItem)
             {
@@ -6260,7 +6213,7 @@ Error: {ex.Message}");
             }
         }
 
-        public void ToggleEncoreManiaEntitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        public void ToggleEncoreManiaEntitiesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             LastQuickButtonState = 3;
             if (mySettings.showEncoreEntities == true && mySettings.showManiaEntities == true)
@@ -6284,28 +6237,28 @@ Error: {ex.Message}");
 
         #region Magnet Mode Methods/Buttons
 
-        private void X8ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void X8ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             magnetSize = 8;
             ResetMagnetModeOptions();
             x8ToolStripMenuItem.IsChecked = true;
         }
 
-        private void X16ToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void X16ToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
         {
             magnetSize = 16;
             ResetMagnetModeOptions();
             x16ToolStripMenuItem1.IsChecked = true;
         }
 
-        private void X32ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void X32ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             magnetSize = 32;
             ResetMagnetModeOptions();
             x32ToolStripMenuItem.IsChecked = true;
         }
 
-        private void X64ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void X64ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             magnetSize = 64;
             ResetMagnetModeOptions();
@@ -6320,7 +6273,7 @@ Error: {ex.Message}");
             x64ToolStripMenuItem.IsChecked = false;
         }
 
-        private void EnableXAxisToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EnableXAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (enableXAxisToolStripMenuItem.IsChecked)
             {
@@ -6334,7 +6287,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void EnableYAxisToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EnableYAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (enableYAxisToolStripMenuItem.IsChecked)
             {
@@ -6352,7 +6305,7 @@ Error: {ex.Message}");
 
         #region Developer Stuff
 
-        public void GoToToolStripMenuItem_Click(object sender, EventArgs e)
+        public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             GoToPositionBox form = new GoToPositionBox();
             System.Windows.Forms.DialogResult Result = form.ShowDialog();
@@ -6370,9 +6323,9 @@ Error: {ex.Message}");
 
         }
 
-        public void PreLoadSceneButton_Click(object sender, EventArgs e)
+        public void PreLoadSceneButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(this, "It is cautioned that you save now, as there is NO WAY TO END THIS PROCESS ONCE IT STARTS and you may be forced to force the program to quit! Are you sure you want to continue?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+            if (System.Windows.MessageBox.Show(this, "It is cautioned that you save now, as there is NO WAY TO END THIS PROCESS ONCE IT STARTS and you may be forced to force the program to quit! Are you sure you want to continue?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
             {
                 isPreRending = true;
                 PreLoadBox preLoadForm = new PreLoadBox(this)
@@ -6389,16 +6342,16 @@ Error: {ex.Message}");
                     ScrollAmount = 500;
                 }
 
-                hScrollBar1.Value = 0;
-                vScrollBar1.Value = 0;
-                int ScreenMaxH = hScrollBar1.Maximum - hScrollBar1.LargeChange;
-                int ScreenMaxV = vScrollBar1.Maximum - vScrollBar1.LargeChange;
+                editorView.hScrollBar1.Value = 0;
+                editorView.vScrollBar1.Value = 0;
+                int ScreenMaxH = (int)(editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange);
+                int ScreenMaxV = (int)(editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange);
 
                 for (int y = 0; y < ScreenMaxV;)
                 {
                     for (int x = 0; x < ScreenMaxH;)
                     {
-                        hScrollBar1.Value = x;
+                        editorView.hScrollBar1.Value = x;
                         int x_test = x + ScrollAmount;
                         if (x_test >= ScreenMaxH)
                         {
@@ -6408,12 +6361,12 @@ Error: {ex.Message}");
                         {
                             x = x + ScrollAmount;
                         }
-                        Application.DoEvents();
+                        //Application.DoEvents();
                         //preLoadForm.SetProgressBarStatus(ScreenMaxH - x, ScreenMaxV - y);
                         // Enable when the previous TODO above is Fixed
 
                     }
-                    vScrollBar1.Value = y;
+                    editorView.vScrollBar1.Value = y;
                     int y_test = y + ScrollAmount;
                     if (y_test >= ScreenMaxV)
                     {
@@ -6423,10 +6376,10 @@ Error: {ex.Message}");
                     {
                         y = y + ScrollAmount;
                     }
-                    Application.DoEvents();
+                    //Application.DoEvents();
                 }
-                hScrollBar1.Value = 0;
-                vScrollBar1.Value = 0;
+                editorView.hScrollBar1.Value = 0;
+                editorView.vScrollBar1.Value = 0;
 
                 // get the form reference back and close it
                 isPreRending = false;
@@ -6440,20 +6393,20 @@ Error: {ex.Message}");
             }
         }
 
-        private void DeveloperTerminalToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeveloperTerminalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             DeveloperTerminal devTerm = new DeveloperTerminal(this);
             devTerm.Show();
 
         }
 
-        private void MD5GeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MD5HashGen hashmap = new MD5HashGen(this);
             hashmap.Show();
         }
 
-        private void PlayerSpawnToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PlayerSpawnToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             selectPlayerObject_GoTo = -1;
             if (playerObjectPosition.Count == 0) return;
@@ -6479,7 +6432,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void FindToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void FindToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
         {
             FindandReplaceTool form = new FindandReplaceTool();
             System.Windows.Forms.DialogResult result = form.ShowDialog();
@@ -6509,7 +6462,7 @@ Error: {ex.Message}");
 
         }
 
-        private void FindUnusedTiles(object sender, EventArgs e)
+        private void FindUnusedTiles(object sender, RoutedEventArgs e)
         {
             ToggleEditorButtons(false);
             List<int> UnusedTiles = new List<int> { };
@@ -6520,29 +6473,29 @@ Error: {ex.Message}");
                 bool Unusued = IsTileUnused(i);
                 while (cooldownDone != true)
                 {
-                    Application.DoEvents();
+                    //Application.DoEvents();
                 }
                 cooldownDone = false;
                 if (Unusued)
                 {
                     UnusedTiles.Add(i);
                 }
-                Application.DoEvents();
+                //Application.DoEvents();
             }
             if (UnusedTiles.Count != 0)
             {
                 var message = string.Join(Environment.NewLine, UnusedTiles);
-                MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
+                System.Windows.MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
             }
             else
             {
-                MessageBox.Show("Found Nothing", "Results");
+                System.Windows.MessageBox.Show("Found Nothing", "Results");
             }
             ToggleEditorButtons(true);
 
         }
 
-        private void ConsoleWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             consoleWindowToolStripMenuItem.IsChecked = !consoleWindowToolStripMenuItem.IsChecked;
 
@@ -6556,7 +6509,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             mySettings.DevForceRestartData = DataDirectory;
             mySettings.DevForceRestartScene = ScenePath;
@@ -6567,13 +6520,8 @@ Error: {ex.Message}");
             mySettings.DeveForceRestartLevelID = LevelID;
         }
 
-        private void WikiToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
-        }
-
         //TO-MOVE
-        private void EditEntitiesOptionToolStrip_DropDownOpening(object sender, EventArgs e)
+        private void EditEntitiesOptionToolStrip_DropDownOpening(object sender, RoutedEventArgs e)
         {
 
         }
@@ -6586,7 +6534,7 @@ Error: {ex.Message}");
 
         #region Collision Toolstrip Menu Item Entries
 
-        private void DefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DefaultToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (defaultToolStripMenuItem.IsChecked)
             {
@@ -6607,7 +6555,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void InvertedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InvertedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (invertedToolStripMenuItem.IsChecked)
             {
@@ -6628,7 +6576,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void CustomToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void CustomToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
         {
             if (customToolStripMenuItem1.IsChecked)
             {
@@ -6653,7 +6601,7 @@ Error: {ex.Message}");
 
         #region Annimations Button Toolstrip Items
 
-        private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (movingPlatformsObjectsToolStripMenuItem.IsChecked == false)
             {
@@ -6668,7 +6616,7 @@ Error: {ex.Message}");
 
         }
 
-        private void SpriteFramesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (spriteFramesToolStripMenuItem.IsChecked == false)
             {
@@ -6688,9 +6636,9 @@ Error: {ex.Message}");
 
         public Rectangle GetScreen()
         {
-            if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(CustomX, CustomY, mainPanel.Width, mainPanel.Height);
+            if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(CustomX, CustomY, editorView.mainPanel.Width, editorView.mainPanel.Height);
             else if (isExportingImage) return new Rectangle(0, 0, SceneWidth, SceneHeight);
-            else return new Rectangle(ShiftX, ShiftY, mainPanel.Width, mainPanel.Height);
+            else return new Rectangle(ShiftX, ShiftY, editorView.mainPanel.Width, editorView.mainPanel.Height);
         }
 
         public double GetZoom()
@@ -6774,12 +6722,12 @@ Error: {ex.Message}");
                 {
                     foreach (Control c2 in c.Controls)
                     {
-                        if (c2 is NumericUpDown)
+                        if (c2 is System.Windows.Forms.NumericUpDown)
                         {
                             c2.ForeColor = Color.Black;
                             c2.BackColor = Color.White;
                         }
-                        if (c2 is ComboBox)
+                        if (c2 is System.Windows.Forms.ComboBox)
                         {
                             c2.ForeColor = Color.Black;
                             c2.BackColor = Color.White;
@@ -6796,12 +6744,12 @@ Error: {ex.Message}");
                     c.ForeColor = Color.Black;
                     c.BackColor = Color.White;
                 }
-                if (c is ComboBox)
+                if (c is System.Windows.Forms.ComboBox)
                 {
                     c.ForeColor = Color.Black;
                     c.BackColor = Color.White;
                 }
-                if (c is TextBox)
+                if (c is System.Windows.Forms.TextBox)
                 {
                     c.ForeColor = Color.Black;
                     c.BackColor = Color.White;
@@ -6810,15 +6758,29 @@ Error: {ex.Message}");
             return control;
         }
 
+        public Bitmap GetButtonImage(object sender)
+        {
+            Bitmap bmpOut = null;
+            ToggleButton userControl = sender as ToggleButton;
+            if (userControl == null) return null;
+
+            var d = new DataObject(System.Windows.DataFormats.Bitmap, userControl.Content, true);
+            bmpOut = d.GetData("System.Drawing.Bitmap") as System.Drawing.Bitmap;
+
+            if (bmpOut == null) return null;
+
+            return bmpOut;
+        }
+
         public void SetButtonColors(object sender, Color OverallColor)
         {
             //Set the Overall Color for the Black Editor Buttons
+            Bitmap pic = GetButtonImage(sender);
             ToggleButton button;
-            SplitButton splitButton;
-            if (sender is ToggleButton)
+            if (pic != null && sender is ToggleButton)
             {
                 button = sender as ToggleButton;
-                Bitmap pic = new Bitmap(button.Content as Bitmap);
+
                 for (int y = 0; (y <= (pic.Height - 1)); y++)
                 {
                     for (int x = 0; (x <= (pic.Width - 1)); x++)
@@ -6830,6 +6792,7 @@ Error: {ex.Message}");
                 }
                 button.Content = pic;
             }
+            /*
             else if (sender is SplitButton)
             {
                 splitButton = sender as SplitButton;
@@ -6845,6 +6808,7 @@ Error: {ex.Message}");
                 }
                 splitButton.Content = pic;
             }
+            */
         }
 
         public void SetupButtonColors()
@@ -6871,8 +6835,8 @@ Error: {ex.Message}");
             SetButtonColors(ShowCollisionAButton, Color.DeepSkyBlue);
             SetButtonColors(ShowCollisionBButton, Color.DeepSkyBlue);
             SetButtonColors(FlipAssistButton, MainThemeColor());
-            SetButtonColors(MoreSettingsButton, MainThemeColor());
-            if (mySettings.NightMode) MoreSettingsButton.ForeColor = Color.White;
+            //SetButtonColors(MoreSettingsButton, MainThemeColor());
+            //if (mySettings.NightMode) MoreSettingsButton.ForeColor = Color.White;
 
         }
 
@@ -6893,7 +6857,7 @@ Error: {ex.Message}");
 
         #region Game Manipulation Stuff
 
-        private void SetPlayerRespawnToHereToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SetPlayerRespawnToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
             if (GameRunning)
@@ -6902,7 +6866,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void MoveThisPlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MoveThisPlayerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
             if (EditorGame.GetPlayerAt(clicked_point) != -1)
@@ -6912,46 +6876,46 @@ Error: {ex.Message}");
             }
         }
 
-        private void Player1ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Player1ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             playerSelected = true;
             selectedPlayer = 0;
         }
 
-        private void Player2ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Player2ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             playerSelected = true;
             selectedPlayer = 1;
         }
 
-        private void Player3ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Player3ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             playerSelected = true;
             selectedPlayer = 2;
         }
 
-        private void Player4ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Player4ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             playerSelected = true;
             selectedPlayer = 3;
         }
 
-        private void MoveCheckpointToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             checkpointSelected = true;
         }
 
-        private void RemoveCheckpointToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RemoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditorGame.UpdateCheckpoint(new Point(0, 0), false);
         }
 
-        private void AssetResetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AssetResetToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditorGame.AssetReset();
         }
 
-        private void RestartSceneToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RestartSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditorGame.RestartScene();
         }
@@ -6992,7 +6956,7 @@ Error: {ex.Message}");
             shortcut.Save();
         }
 
-        private void MoveThePlayerToHereToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MoveThePlayerToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (GameRunning)
             {
@@ -7002,19 +6966,21 @@ Error: {ex.Message}");
             }
         }
 
-        private void LangToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LangToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ToolStripMenuItem item in menuLanguageToolStripMenuItem.DropDownItems) item.IsChecked = false;
-            ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+            var allLangItems = menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            foreach (var item in allLangItems) item.IsChecked = false;
+            MenuItem menuItem = sender as MenuItem;
             CurrentLanguage = menuItem.Tag.ToString();
             menuItem.IsChecked = true;
         }
 
-        private void TrackPlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TrackPlayerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            MenuItem item = sender as MenuItem;
             if (item != null)
             {
+
                 if (!item.IsChecked)
                 {
                     item.IsChecked = true;
@@ -7031,7 +6997,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void New_Click(object sender, EventArgs e)
+        private void New_Click(object sender, RoutedEventArgs e)
         {
             UnloadScene();
             NewSceneMaker makerDialog = new NewSceneMaker();
@@ -7080,7 +7046,7 @@ Error: {ex.Message}");
 
         }
 
-        private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
             if (!mainform.Visible)
@@ -7102,44 +7068,57 @@ Error: {ex.Message}");
             }
         }
 
-        private void chunkToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+
+
+        private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            EditorChunk.ConvertClipboardtoChunk(TilesClipboard);
-            TilesToolbar?.ChunksReload();
+            
         }
 
-
-
-        private void EnableAllButtonsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Editor_Resize(object sender, SizeChangedEventArgs e)
         {
-            for (int i = 0; i < mainToolStrip.Items.Count; i++)
-            {
-                mainToolStrip.Items[i].IsEnabled = true;
-            }
+            Form1_Resize(this, null);
+        }
 
+        private void TrackThePlayerToolStripMenuItem_Hover(object sender, RoutedEventArgs e)
+        {
+            trackThePlayerToolStripMenuItem.IsSubmenuOpen = true;
+        }
+
+        private void ModConfigFilesToolStripMenuItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            selectConfigToolStripMenuItem.IsSubmenuOpen = true;
+        }
+
+        private void ParentGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Create the interop host control.
+            host = new System.Windows.Forms.Integration.WindowsFormsHost();
+
+            // Create the MaskedTextBox control.
+
+            // Assign the MaskedTextBox control as the host control's child.
+            host.Child = editorView;
+
+            // Add the interop host control to the Grid
+            // control's collection of child controls.
+            this.ViewPanelForm.Children.Add(host);
+
+            GraphicPanel.Init(editorView);
         }
 
         private void ShowError(string message, string title = "Error!")
         {
-            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
             /*using (var customMsgBox = new CustomMsgBox(message, title, 1, 1))
             {
                 customMsgBox.ShowDialog();
             }*/
         }
 
-        private void ResetDeviceButton_Click_1(object sender, EventArgs e)
-        {
-            if (FreezeDeviceButton.IsChecked.Value)
-            {
-                GraphicPanel.bRender = false;
-            }
-            else
-            {
-                ReloadToolStripButton_Click(null, null);
-                GraphicPanel.bRender = true;
-            }
-        }
+
 
         public void FreezeDevice(bool state)
         {
@@ -7173,7 +7152,7 @@ Error: {ex.Message}");
                 return false;
             }
 
-            var result = MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
+            var result = System.Windows.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
                                          MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes) return true;
@@ -7205,7 +7184,7 @@ Error: {ex.Message}");
             return new Scene(selectedScene);
         }
 
-        private void SceneChangeWarning(object sender, EventArgs e)
+        private void SceneChangeWarning(object sender, RoutedEventArgs e)
         {
             if (IsSceneLoaded() == true && mySettings.DisableSaveWarnings == false)
             {
@@ -7296,23 +7275,23 @@ Error: {ex.Message}");
         {
             if (firstLoad)
             {
-                splitContainer2.Panel1.Controls.Add(info);
+                editorView.splitContainer2.Panel1.Controls.Add(info);
                 info.Show();
-                splitContainer2.Panel1Collapsed = false;
+                editorView.splitContainer2.Panel1Collapsed = false;
                 Updater.CheckforUpdates(true, true);
                 info.UpdateStatusLabel(Updater.condition, Updater);
             }
             if (visible)
             {
                 info.Visible = true;
-                splitContainer2.Panel1Collapsed = false;
-                splitContainer1.BorderStyle = BorderStyle.None;
+                editorView.splitContainer2.Panel1Collapsed = false;
+                editorView.splitContainer1.BorderStyle = BorderStyle.None;
             }
             else
             {
                 info.Visible = false;
-                splitContainer2.Panel1Collapsed = true;
-                splitContainer1.BorderStyle = BorderStyle.FixedSingle;
+                editorView.splitContainer2.Panel1Collapsed = true;
+                editorView.splitContainer1.BorderStyle = BorderStyle.FixedSingle;
             }
 
         }

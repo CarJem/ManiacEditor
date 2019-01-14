@@ -406,7 +406,7 @@ namespace ManiacEditor
                 {
 
                     // Special cases that always display a set frame(?)
-                    if (EditorInstance.ShowAnimations.Enabled == true)
+                    if (EditorInstance.ShowAnimations.IsEnabled == true)
                     {
                         if (entity.Object.Name.Name == "StarPost")
                             index = 1;

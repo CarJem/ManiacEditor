@@ -310,7 +310,7 @@ namespace ManiacEditor
 
         private void importObjectsToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            EditorInstance.ImportObjectsToolStripMenuItem_Click(sender, e);
+            EditorInstance.ImportObjectsToolStripMenuItem_Click(sender, null);
             ReloadList();
             // Blanks the list for some reason should consider fixing badly
         }

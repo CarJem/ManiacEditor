@@ -41,29 +41,29 @@ namespace ManiacEditor
             // Faster Nudge Toggle
             if (e.Control && e.KeyCode == myKeyBinds.NudgeFaster)
             {
-                Editor.NudgeFasterButton_Click(sender, e);
+                Editor.NudgeFasterButton_Click(sender, null);
             }
             // Scroll Lock Toggle
             else if (e.Control && e.KeyCode == myKeyBinds.ScrollLock)
             {
-                Editor.ScrollLockButton_Click(sender, e);
+                Editor.ScrollLockButton_Click(sender, null);
             }
             // Switch Scroll Lock Type
             else if (e.Control && e.KeyCode == myKeyBinds.ScrollLockTypeSwitch)
             {
-                Editor.SwapScrollLockDirectionToolStripMenuItem_Click(sender, e);
+                Editor.SwapScrollLockDirectionToolStripMenuItem_Click(sender, null);
 
             }
             // Tiles Toolbar Flip Vertical
             else if (e.KeyCode == Keys.ShiftKey)
             {
-                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.IsChecked.Value)
                     Editor.TilesToolbar.SetSelectTileOption(1, true);
             }
             // Tiles Toolbar Flip Horizontal
             else if (e.KeyCode == Keys.ControlKey)
             {
-                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.IsChecked.Value)
                     Editor.TilesToolbar.SetSelectTileOption(0, true);
             }
             // Open Click (Alt: Open Data Dir)
@@ -126,12 +126,12 @@ namespace ManiacEditor
             //Paste
             if (e.Control && e.KeyCode == Keys.V)
             {
-                Editor.PasteToolStripMenuItem_Click(sender, e);
+                Editor.PasteToolStripMenuItem_Click(sender, null);
             }
             //Select All
             if (e.Control && e.KeyCode == Keys.A)
             {
-                Editor.SelectAllToolStripMenuItem_Click(sender, e);
+                Editor.SelectAllToolStripMenuItem_Click(sender, null);
             }
             // Selected Key Shortcuts   
             if (Editor.IsSelected())
@@ -159,29 +159,29 @@ namespace ManiacEditor
                 //Cut 
                 if (e.KeyCode == Keys.X)
                 {
-                    Editor.CutToolStripMenuItem_Click(sender, e);
+                    Editor.CutToolStripMenuItem_Click(sender, null);
                 }
                 //Copy
                 else if (e.KeyCode == Keys.C)
                 {
-                    Editor.CopyToolStripMenuItem_Click(sender, e);
+                    Editor.CopyToolStripMenuItem_Click(sender, null);
                 }
                 //Duplicate
                 else if (e.KeyCode == Keys.D)
                 {
-                    Editor.DuplicateToolStripMenuItem_Click(sender, e);
+                    Editor.DuplicateToolStripMenuItem_Click(sender, null);
                 }
                 // Flip Vertical Individual
                 else if (e.KeyCode == Keys.F)
                 {
                     if (Editor.IsTilesEdit())
-                        Editor.FlipVerticalIndividualToolStripMenuItem_Click(sender, e);
+                        Editor.FlipVerticalIndividualToolStripMenuItem_Click(sender, null);
                 }
                 // Flip Horizontal Individual
                 else if (e.KeyCode == Keys.M)
                 {
                     if (Editor.IsTilesEdit())
-                        Editor.FlipHorizontalIndividualToolStripMenuItem_Click(sender, e);
+                        Editor.FlipHorizontalIndividualToolStripMenuItem_Click(sender, null);
                 }
             }
             else
@@ -190,7 +190,7 @@ namespace ManiacEditor
                 if (e.KeyCode == Keys.F)
                 {
                     if (Editor.IsTilesEdit())
-                        Editor.FlipVerticalToolStripMenuItem_Click(sender, e);
+                        Editor.FlipVerticalToolStripMenuItem_Click(sender, null);
                     else if (Editor.IsEntitiesEdit())
                         Editor.FlipEntities(FlipDirection.Veritcal);
                 }
@@ -199,7 +199,7 @@ namespace ManiacEditor
                 else if (e.KeyCode == Keys.M)
                 {
                     if (Editor.IsTilesEdit())
-                        Editor.FlipHorizontalToolStripMenuItem_Click(sender, e);
+                        Editor.FlipHorizontalToolStripMenuItem_Click(sender, null);
                     else if (Editor.IsEntitiesEdit())
                         Editor.FlipEntities(FlipDirection.Horizontal);
                 }
@@ -211,13 +211,13 @@ namespace ManiacEditor
             // Tiles Toolbar Flip Horizontal
             if (e.KeyCode == Keys.ControlKey)
             {
-                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.IsChecked.Value)
                     Editor.TilesToolbar.SetSelectTileOption(0, false);
             }
             // Tiles Toolbar Flip Vertical
             else if (e.KeyCode == Keys.ShiftKey)
             {
-                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.Checked)
+                if (Editor.IsTilesEdit() && Editor.PlaceTilesButton.IsChecked.Value)
                     Editor.TilesToolbar.SetSelectTileOption(1, false);
             }
         }

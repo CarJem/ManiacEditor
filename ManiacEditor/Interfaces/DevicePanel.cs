@@ -303,9 +303,11 @@ namespace ManiacEditor
         /// </summary>
         public void AttemptRecovery(SharpDXException ex)
         {
-            Process proc = Process.GetCurrentProcess();
-            long memory = proc.PrivateMemorySize64;
+            //Process proc = Process.GetCurrentProcess();
+            //long memory = proc.PrivateMemorySize64;
+            //long memory = 0;
 
+            /*
             if (!Environment.Is64BitProcess && memory >= 1500000000)
             {
                 Debug.Print("Out of Video Memory!");
@@ -370,7 +372,7 @@ namespace ManiacEditor
             }
 
 
-
+*/
         }
 
 
@@ -461,14 +463,14 @@ namespace ManiacEditor
                     else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                     {
                         DisposeDeviceResources();
-                        Init(EditorInstance);
+                        Init(EditorInstance.editorView);
 
                     }
                     else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                     {
                         EditorInstance.BackupSceneBeforeCrash();
                         DisposeDeviceResources();
-                        Init(EditorInstance);
+                        Init(EditorInstance.editorView);
                     }
                     else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                     {
@@ -493,14 +495,14 @@ namespace ManiacEditor
                 else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                 {
                     DisposeDeviceResources();
-                    Init(EditorInstance);
+                    Init(EditorInstance.editorView);
 
                 }
                 else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                 {
                     EditorInstance.BackupSceneBeforeCrash();
                     DisposeDeviceResources();
-                    Init(EditorInstance);
+                    Init(EditorInstance.editorView);
                 }
                 else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                 {

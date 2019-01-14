@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
 
-                if (e.EditorInstance.ShowAnimations.Checked == true && e.EditorInstance.AnnimationsChecked)
+                if (e.EditorInstance.ShowAnimations.IsChecked.Value == true && e.EditorInstance.AnnimationsChecked)
                 {
 
                     d.DrawBitmap(frame6.Texture,

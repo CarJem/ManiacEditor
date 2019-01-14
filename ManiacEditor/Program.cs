@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Forms.VisualStyles;
 
 namespace ManiacEditor
@@ -25,8 +25,15 @@ namespace ManiacEditor
         [STAThread]
         static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            if (null == System.Windows.Application.Current)
+            {
+                new System.Windows.Application()
+                {
+                    ShutdownMode = ShutdownMode.OnLastWindowClose
+                };
+            }
 
             foreach (string argument in args)
             {
@@ -113,8 +120,8 @@ Missing file: {fnfe.FileName}");
         {
             MessageBox.Show(message,
                             "Unable to start.",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
         }
 
         private static string GetExecutingDirectoryName()
