@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BA2FCF85-11E7-481A-A045-86219D9393D9}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>ManiacEditor</RootNamespace>
     <AssemblyName>ManiacEditor</AssemblyName>
@@ -27,6 +27,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <ProjectGuid>{BA2FCF85-11E7-481A-A045-86219D9393D9}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -364,8 +365,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -488,6 +491,7 @@
     <Compile Include="Entity Renders\Vultron.cs" />
     <Compile Include="Entity Renders\YoyoPulley.cs" />
     <Compile Include="Enums\Settings.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -505,6 +509,9 @@
     <Compile Include="AttributeValidater.cs" />
     <Compile Include="ColorConsole.cs" />
     <Compile Include="ColorsCaching.cs" />
+    <Compile Include="Interfaces\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\ConfigManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -524,7 +531,7 @@
     <Compile Include="Interfaces\EditorView.Designer.cs">
       <DependentUpon>EditorView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\EditorWPF.xaml.cs" />
+    <Compile Include="Interfaces\Editor.xaml.cs" />
     <Compile Include="Interfaces\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
@@ -894,79 +901,80 @@
     <Compile Include="IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Resource Include="64x64.ico" />
     <Content Include="Config\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\EditorIcons2.gif">
+    <Content Include="Resources\Global\EditorIcons2.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="EditorIcons.dll">
+    <Content Include="Resources\App Icons\EditorIcons.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\EditorText.gif">
+    <Content Include="Resources\Global\EditorText.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\MenuRenders.gif">
+    <Content Include="Resources\Global\MenuRenders.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SuperSpecialRing.gif">
+    <Content Include="Resources\Global\SuperSpecialRing.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\EditorIcons2.bin">
+    <Content Include="Resources\Global\EditorIcons2.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\TransportTubes.gif">
+    <Content Include="Resources\Global\TransportTubes.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\TransportTubes.bin">
+    <Content Include="Resources\Global\TransportTubes.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\EditorUIRender.bin">
+    <Content Include="Resources\Global\EditorUIRender.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\EditorText.bin">
+    <Content Include="Resources\Global\EditorText.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ManiaPal.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\ZoomOut.png" />
-    <Resource Include="Resources\ZoomIn.png" />
-    <Resource Include="Resources\WarningMonitor.gif" />
-    <Resource Include="Resources\Undo.png" />
-    <Resource Include="Resources\StampTool.png" />
-    <Resource Include="Resources\ShowTileID.png" />
-    <Resource Include="Resources\ShowGrid.png" />
-    <Resource Include="Resources\ShowCollisionPathB.png" />
-    <Resource Include="Resources\ShowCollisionPathA.png" />
-    <Resource Include="Resources\Settings.png" />
-    <Resource Include="Resources\Select.png" />
-    <Resource Include="Resources\Save_.png" />
-    <Resource Include="Resources\RunGame.png" />
-    <Resource Include="Resources\RotateAssist.png" />
-    <Resource Include="Resources\RefreshStatic2.gif" />
-    <Resource Include="Resources\Refresh.png" />
-    <Resource Include="Resources\Redo.png" />
-    <Resource Include="Resources\PreRender.png" />
-    <Resource Include="Resources\Pointer_alt.png" />
-    <Resource Include="Resources\Pointer.png" />
-    <Resource Include="Resources\PlaceTiles.png" />
-    <Resource Include="Resources\OpenSharedFolder.png" />
-    <Resource Include="Resources\OpenFolder_Alt.png" />
-    <Resource Include="Resources\OpenFolder.png" />
-    <Resource Include="Resources\OpenDocumentFolder.png" />
-    <Resource Include="Resources\OpenDataFolder.png" />
-    <Resource Include="Resources\NewFolder.png" />
-    <Resource Include="Resources\NewFile.png" />
-    <Resource Include="Resources\MultiLayerSelect.png" />
-    <Resource Include="Resources\MagnetTool.png" />
-    <Resource Include="Resources\InteractionTool.png" />
-    <Resource Include="Resources\InfoStatic2.gif" />
-    <Resource Include="Resources\FreezeDevice.png" />
-    <Resource Include="Resources\ErrorStatic2.gif" />
-    <Resource Include="Resources\ErrorMonitor.gif" />
-    <Resource Include="Resources\ColorPalette_alt.png" />
-    <Resource Include="Resources\WarningStatic2.gif" />
+    <Resource Include="Resources\Icons\ZoomOut.png" />
+    <Resource Include="Resources\Icons\ZoomIn.png" />
+    <Resource Include="Resources\Monitors\WarningMonitor.gif" />
+    <Resource Include="Resources\Icons\Undo.png" />
+    <Resource Include="Resources\Icons\StampTool.png" />
+    <Resource Include="Resources\Icons\ShowTileID.png" />
+    <Resource Include="Resources\Icons\ShowGrid.png" />
+    <Resource Include="Resources\Icons\ShowCollisionPathB.png" />
+    <Resource Include="Resources\Icons\ShowCollisionPathA.png" />
+    <Resource Include="Resources\Icons\Settings.png" />
+    <Resource Include="Resources\Icons\Select.png" />
+    <Resource Include="Resources\Icons\Save_.png" />
+    <Resource Include="Resources\Icons\RunGame.png" />
+    <Resource Include="Resources\Icons\RotateAssist.png" />
+    <Resource Include="Resources\Monitors\RefreshStatic2.gif" />
+    <Resource Include="Resources\Icons\Refresh.png" />
+    <Resource Include="Resources\Icons\Redo.png" />
+    <Resource Include="Resources\Icons\PreRender.png" />
+    <Resource Include="Resources\Icons\Pointer_alt.png" />
+    <Resource Include="Resources\Icons\Pointer.png" />
+    <Resource Include="Resources\Icons\PlaceTiles.png" />
+    <Resource Include="Resources\Icons\OpenSharedFolder.png" />
+    <Resource Include="Resources\Icons\OpenFolder_Alt.png" />
+    <Resource Include="Resources\Icons\OpenFolder.png" />
+    <Resource Include="Resources\Icons\OpenDocumentFolder.png" />
+    <Resource Include="Resources\Icons\OpenDataFolder.png" />
+    <Resource Include="Resources\Icons\NewFolder.png" />
+    <Resource Include="Resources\Icons\NewFile.png" />
+    <Resource Include="Resources\Icons\MultiLayerSelect.png" />
+    <Resource Include="Resources\Icons\MagnetTool.png" />
+    <Resource Include="Resources\Icons\InteractionTool.png" />
+    <Resource Include="Resources\Monitors\InfoStatic2.gif" />
+    <Resource Include="Resources\Icons\FreezeDevice.png" />
+    <Resource Include="Resources\Monitors\ErrorStatic2.gif" />
+    <Resource Include="Resources\Monitors\ErrorMonitor.gif" />
+    <Resource Include="Resources\Icons\ColorPalette_alt.png" />
+    <Resource Include="Resources\Monitors\WarningStatic2.gif" />
     <None Include="Resources\LayerManagerWarning1.rtf" />
     <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
@@ -1023,7 +1031,7 @@
     <EmbeddedResource Include="Resources\objectRenderList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="Global\SuperSpecialRing.bin">
+    <Content Include="Resources\Global\SuperSpecialRing.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\KeyBinds.settings">
@@ -1095,7 +1103,7 @@
     <None Include="discord-rpc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Global\EditorAssets.bin">
+    <Content Include="Resources\Global\EditorAssets.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">
@@ -1130,63 +1138,63 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\file.ico">
+    <None Include="Resources\App Icons\file.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\folder.ico">
+    <None Include="Resources\App Icons\folder.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Global\EditorAssets.gif">
+    <Content Include="Resources\Global\EditorAssets.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="128x128.ico" />
-    <Content Include="16x16Tiles_Edit.gif">
+    <Content Include="Resources\App Icons\128x128.ico" />
+    <Content Include="Resources\Tile Overlays\16x16Tiles_Edit.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="16x16Tiles_ID.gif">
+    <Content Include="Resources\Tile Overlays\16x16Tiles_ID.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="64x64.ico" />
-    <Content Include="Global\SpecialRing1.gif">
+    <Content Include="Resources\App Icons\64x64.ico" />
+    <Content Include="Resources\Global\SpecialRing1.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing10.gif">
+    <Content Include="Resources\Global\SpecialRing10.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing11.gif">
+    <Content Include="Resources\Global\SpecialRing11.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing12.gif">
+    <Content Include="Resources\Global\SpecialRing12.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing2.gif">
+    <Content Include="Resources\Global\SpecialRing2.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing3.gif">
+    <Content Include="Resources\Global\SpecialRing3.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing4.gif">
+    <Content Include="Resources\Global\SpecialRing4.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing5.gif">
+    <Content Include="Resources\Global\SpecialRing5.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing6.gif">
+    <Content Include="Resources\Global\SpecialRing6.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing7.gif">
+    <Content Include="Resources\Global\SpecialRing7.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing8.gif">
+    <Content Include="Resources\Global\SpecialRing8.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Global\SpecialRing9.gif">
+    <Content Include="Resources\Global\SpecialRing9.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -1224,11 +1232,11 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Interfaces\App.xaml">
+    <ApplicationDefinition Include="Interfaces\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interfaces\EditorWPF.xaml">
+    </ApplicationDefinition>
+    <Page Include="Interfaces\Editor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1240,6 +1248,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Themes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

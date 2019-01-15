@@ -245,7 +245,7 @@ namespace ManiacEditor
         //public int InstanceID = 0;
         //public static Editor Instance; //Used the access this class easier
         //public Editor ThisInstance;
-        internal EditorBackground Background;
+        internal EditorBackground EditorBackground;
         public EditorLayer EditLayer;
         internal TilesToolbar TilesToolbar = null;
         public EntitiesToolbar entitiesToolbar = null;
@@ -267,6 +267,7 @@ namespace ManiacEditor
 
         //Editor Misc. Variables
         System.Windows.Forms.Timer t;
+        System.Windows.Forms.Timer SplitButtonDelayMenuOpening;
 
         //Dark Theme
         public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
@@ -1289,9 +1290,25 @@ namespace ManiacEditor
 
         #region Refresh UI
 
+
+
         private void UpdateEntitiesToolbarList()
         {
             entitiesToolbar.Entities = entities.Entities.Select(x => x.Entity).ToList();
+        }
+
+        private void DropDownMenuUpdater(object sender, EventArgs e)
+        {
+            
+            if (this.selectConfigToolStripMenuItem != null)
+                if (this.selectConfigToolStripMenuItem.IsFocused)
+                    selectConfigToolStripMenuItem.IsSubmenuOpen = true;
+
+            if (this.trackThePlayerToolStripMenuItem != null)
+                if (this.trackThePlayerToolStripMenuItem.IsFocused)
+                    this.trackThePlayerToolStripMenuItem.IsSubmenuOpen = true;
+                    
+
         }
 
         private void UpdateTilesOptions()
@@ -1439,8 +1456,8 @@ namespace ManiacEditor
 
         public void ToggleEditorButtons(bool enabled)
         {
-            menuStrip1.IsEnabled = enabled;
-            toolStrip1.IsEnabled = enabled;
+            MenuBar.IsEnabled = enabled;
+            LayerToolbar.IsEnabled = enabled;
             //toolStrip2.IsEnabled = enabled;
             //toolStrip3.IsEnabled = enabled;
             editorView.splitContainer1.Enabled = enabled;
@@ -2542,7 +2559,7 @@ namespace ManiacEditor
             if (mySettings.DataDirectories?.Count > 0)
             {
                 recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
-                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
+                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
                 CleanUpRecentList();
 
                 var startRecentItems = fileToolStripMenuItem.Items.IndexOf(recentDataDirectoriesToolStripMenuItem);
@@ -2876,7 +2893,7 @@ namespace ManiacEditor
                 ToggleButton tsb = new ToggleButton() {
                     Content = el.Name
                 };
-                toolStrip1.Items.Add(tsb);
+                LayerToolbar.Items.Add(tsb);
                 tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
                 tsb.IsChecked = false;
                 tsb.Click += AdHocLayerEdit;
@@ -2886,7 +2903,7 @@ namespace ManiacEditor
 
             //EDIT BUTTONS SEPERATOR
             Separator tss = new Separator();
-            toolStrip1.Items.Add(tss);
+            LayerToolbar.Items.Add(tss);
             _extraLayerSeperators.Add(tss);
 
             //VIEW BUTTONS
@@ -2897,7 +2914,7 @@ namespace ManiacEditor
                     Content = el.Name
                 };
                 //toolStrip1.Items.Add(tsb);
-                toolStrip1.Items.Insert(toolStrip1.Items.IndexOf(extraViewLayersSeperator), tsb);
+                LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
                 tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
                 tsb.IsChecked = false;
 
@@ -2915,20 +2932,20 @@ namespace ManiacEditor
             foreach (var elb in _extraLayerEditButtons)
             {
                 elb.Click -= AdHocLayerEdit;
-                toolStrip1.Items.Remove(elb);
+                LayerToolbar.Items.Remove(elb);
             }
             _extraLayerEditButtons.Clear();
 
             foreach (var elb in _extraLayerViewButtons)
             {
-                toolStrip1.Items.Remove(elb);
+                LayerToolbar.Items.Remove(elb);
             }
             _extraLayerViewButtons.Clear();
 
 
             foreach (var els in _extraLayerSeperators)
             {
-                toolStrip1.Items.Remove(els);
+                LayerToolbar.Items.Remove(els);
             }
             _extraLayerSeperators.Clear();
 
@@ -3061,6 +3078,14 @@ namespace ManiacEditor
             };
             t.Tick += new EventHandler(UpdateStatusPanel);
             t.Start();
+
+            SplitButtonDelayMenuOpening = new System.Windows.Forms.Timer
+            {
+                Interval = 500
+            };
+            SplitButtonDelayMenuOpening.Tick += new EventHandler(DropDownMenuUpdater);
+            SplitButtonDelayMenuOpening.Start();
+
 
             SelectedScene = null;
             SelectedZone = null;
@@ -3264,7 +3289,7 @@ namespace ManiacEditor
 
             EditorChunk = new EditorChunk(this, StageTiles);
 
-            Background = new EditorBackground(this);
+            EditorBackground = new EditorBackground(this);
 
             entities = new EditorEntities(EditorScene, this);
 
@@ -3561,8 +3586,9 @@ Error: {ex.Message}");
         {
             if (InstanceID == -1)
             {
-                this.Close();
-                //Close();
+                //Application.Current.Shutdown();
+                //this.Close();
+                Close();
             }
             else
             {
@@ -4871,7 +4897,7 @@ Error: {ex.Message}");
             Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
             if (sender == RunSceneButton && GameRunning)
             {
-                //RunSceneButton.ShowDropDown();
+                RunSceneDropDown.IsOpen = true;
                 return;
             }
             if (processes != null)
@@ -4887,7 +4913,7 @@ Error: {ex.Message}");
                 SetForegroundWindow(processes.MainWindowHandle);
                 if (!GameRunning)
                 {
-                    //Invoke(new Action(() => RunSequence(sender, e, true)));
+                    Dispatcher.Invoke(new Action(() => RunSequence(sender, e, true)));
                 }
             }
             else
@@ -4910,7 +4936,7 @@ Error: {ex.Message}");
                         }
                         File.WriteAllText(ConfigPath, dropDownItem.Tag.ToString());
                     }
-                    //Invoke(new Action(() => RunSequence(sender, e)));
+                    Dispatcher.Invoke(new Action(() => RunSequence(sender, e)));
                 }
 
             }
@@ -5096,12 +5122,12 @@ Error: {ex.Message}");
                 if (!isExportingImage)
                 {
                     if (!IsTilesEdit())
-                        Background.Draw(GraphicPanel);
+                        EditorBackground.Draw(GraphicPanel);
                     if (IsTilesEdit())
                     {
                         if (mySettings.ShowEditLayerBackground == true)
                         {
-                            Background.DrawEdit(GraphicPanel);
+                            EditorBackground.DrawEdit(GraphicPanel);
                         }
                     }
                 }
@@ -5249,7 +5275,7 @@ Error: {ex.Message}");
             }
 
             if (showGrid && EditorScene != null)
-                Background.DrawGrid(GraphicPanel);
+                EditorBackground.DrawGrid(GraphicPanel);
 
             if (GameRunning)
             {
@@ -5402,7 +5428,6 @@ Error: {ex.Message}");
             {
                 Debug.Write("Failed to write settings: " + ex);
             }
-            this.Close();
         }
 
         private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -5888,8 +5913,185 @@ Error: {ex.Message}");
         #region Run Mania Methods
 
         // TODO: Perfect Scene Autobooting
-        
+        private void RunSequence(object sender, EventArgs e, bool attachMode = false)
+        {
+            // Ask where Sonic Mania is located when not set
+            string path = "steam://run/584400";
+            bool ready = false;
+            if (mySettings.UsePrePlusOffsets)
+            {
+                if (string.IsNullOrEmpty(mySettings.RunGamePath))
+                {
+                    var ofd = new OpenFileDialog
+                    {
+                        Title = "Select SonicMania.exe",
+                        Filter = "Windows PE Executable|*.exe"
+                    };
+                    if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        mySettings.RunGamePath = ofd.FileName;
+                }
+                else
+                {
+                    if (!File.Exists(mySettings.RunGamePath))
+                    {
+                        mySettings.RunGamePath = "";
+                        return;
+                    }
+                }
+                path = mySettings.RunGamePath;
+            }
+            ProcessStartInfo psi;
 
+            if (mySettings.RunGameInsteadOfScene)
+            {
+                psi = new ProcessStartInfo(path);
+            }
+            else
+            {
+                if (mySettings.UsePrePlusOffsets == true)
+                {
+                    psi = new ProcessStartInfo(path, $"stage={SelectedZone};scene={SelectedScene[5]};");
+                }
+                else
+                {
+                    psi = new ProcessStartInfo(path);
+                }
+
+            }
+            if (path != "" || attachMode)
+            {
+                string maniaDir = Path.GetDirectoryName(path);
+                // Check if the mod loader is installed
+                string modLoaderDLL = maniaDir + "//d3d9.dll";
+                if (File.Exists(modLoaderDLL))
+                    psi.WorkingDirectory = maniaDir;
+                else
+                    psi.WorkingDirectory = Path.GetDirectoryName(DataDirectory);
+                Process p;
+                if (!attachMode)
+                {
+                    p = Process.Start(psi);
+                }
+                else
+                {
+                    var mania = Process.GetProcessesByName("SonicMania.exe");
+                    p = mania.FirstOrDefault();
+                }
+                GameRunning = true;
+
+                int CurrentScene_ptr = 0x00E48758;          // &CurrentScene
+                int GameState_ptr = 0x00E48776;             // &GameState
+                int IsGameRunning_ptr = 0x0065D1C8;
+                int Player1_ControllerID_ptr = 0x0085EB44;  // &Player1.ControllerID
+                int Player2_ControllerID_ptr = 0x0085EF9C;  // &Player2.ControllerID
+                if (mySettings.UsePrePlusOffsets)
+                {
+                    CurrentScene_ptr = 0x00CCF6F8;
+                    // TODO: Get Pre Plus GameState address
+                    IsGameRunning_ptr = 0x00628094;
+                    Player1_ControllerID_ptr = 0x00A4C860;
+                }
+
+                if (mySettings.UsePrePlusOffsets)
+                {
+                    UpdateControls();
+                    UseCheatCodes(p);
+                    ready = true;
+                }
+                else
+                {
+
+                    // For Mania Plus, The best way to boot the game is by using the steam command.
+                    // After Calling the Steam command, We need to wait until Steam responds and Starts the game.
+                    // Once the game process starts up, We quickly attach to it and apply all the needed patches
+
+                    // Wait for Steam to complete startup
+                    new Thread(() =>
+                    {
+                        Process[] Procs;
+                        while ((Procs = Process.GetProcessesByName("SonicMania")).Length == 0)
+                            Thread.Sleep(1);
+                        Dispatcher.Invoke(new Action(() =>
+                        {
+                            p = Procs[0];
+                            // Attach and Apply Cheats
+                            UseCheatCodes(p);
+                            UpdateControls();
+                            ready = true;
+
+
+                            // Wait until there is a Running Scene.
+                            while (GameMemory.ReadByte(GameState_ptr) != 0x01)
+                                Thread.Sleep(1);
+
+                            // Swap the Scene
+                            if (LevelID != -1)
+                            {
+                                GameMemory.WriteByte(CurrentScene_ptr, (byte)LevelID);
+                                // Restart the Scene
+                                GameMemory.WriteByte(GameState_ptr, 0);
+                            }
+
+
+
+                        }));
+                    }).Start();
+                }
+
+
+                new Thread(() =>
+                {
+                    while (!ready)
+                        Thread.Sleep(10);
+                    /* Level != Main Menu*/
+                    while (GameMemory.ReadByte(CurrentScene_ptr) != 0x02 || Properties.Settings.Default.DisableRunSceneMenuQuit == true)
+                    {
+                        // Check if the user closed the game
+                        if (p.HasExited || !GameRunning)
+                        {
+                            GameRunning = false;
+                            if (IsVisible)
+                            {
+                                Dispatcher.Invoke(new Action(() => UpdateControls()));
+                            }
+                            return;
+                        }
+                        UseCheatCodes(p);
+                        // Makes sure the process is attached and patches are applied
+                        // Set Player 1 Controller Set to 1 (If we set it to AnyController (0x00) we can't use Debug Mode In-Game)
+                        if (GameMemory.ReadByte(Player1_ControllerID_ptr) != 0x00 && Properties.Settings.Default.DisableRunSceneAutoInput == false)
+                        {
+                            GameMemory.WriteByte(Player1_ControllerID_ptr, 0x00); //setting this to 0x00 causes the inability to use debug mode
+                            GameMemory.WriteByte(Player2_ControllerID_ptr, 0xFF);
+                        }
+                        Thread.Sleep(300);
+                    }
+                    // User is on the Main Menu
+                    // Close the game
+                    GameMemory.WriteByte(IsGameRunning_ptr, 0);
+                    GameRunning = false;
+                    Dispatcher.Invoke(new Action(() => UpdateControls()));
+                }).Start();
+            }
+        }
+
+        public void UseCheatCodes(Process p)
+        {
+            if (mySettings.UsePrePlusOffsets)
+            {
+                // Patches
+                GameMemory.Attach(p);
+            }
+            else
+            {
+                GameMemory.Attach(p);
+
+                // Mania Plus Patches
+                GameMemory.WriteByte(0x00E48768, 0x01); // Enable Debug
+                GameMemory.WriteByte(0x006F1806, 0x01); // Allow DevMenu
+                GameMemory.WriteByte(0x005FDD00, 0xEB); // Disable Background Pausing
+            }
+        }
 
         #endregion
 
@@ -5897,7 +6099,7 @@ Error: {ex.Message}");
 
         private void PixelModeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (pixelModeButton.IsChecked == false || pixelModeToolStripMenuItem.IsChecked == false)
+            if (EnablePixelCountMode == false)
             {
                 pixelModeButton.IsChecked = true;
                 pixelModeToolStripMenuItem.IsChecked = true;
@@ -5945,7 +6147,7 @@ Error: {ex.Message}");
 
         public void NudgeFasterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (nudgeFasterButton.IsChecked == false)
+            if (mySettings.EnableFasterNudge == false)
             {
                 nudgeFasterButton.IsChecked = true;
                 nudgeSelectionFasterToolStripMenuItem.IsChecked = true;
@@ -6113,31 +6315,31 @@ Error: {ex.Message}");
         {
             if (x16ToolStripMenuItem.IsChecked == true)
             {
-                Background.GRID_TILE_SIZE = 16;
+                EditorBackground.GRID_TILE_SIZE = 16;
             }
             if (x128ToolStripMenuItem.IsChecked == true)
             {
-                Background.GRID_TILE_SIZE = 128;
+                EditorBackground.GRID_TILE_SIZE = 128;
             }
             if (x256ToolStripMenuItem.IsChecked == true)
             {
-                Background.GRID_TILE_SIZE = 256;
+                EditorBackground.GRID_TILE_SIZE = 256;
             }
             if (customToolStripMenuItem.IsChecked == true)
             {
-                Background.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
+                EditorBackground.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
             }
         }
         private void X16ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Background.GRID_TILE_SIZE = 16;
+            EditorBackground.GRID_TILE_SIZE = 16;
             ResetGridOptions();
             x16ToolStripMenuItem.IsChecked = true;
         }
 
         private void X128ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Background.GRID_TILE_SIZE = 128;
+            EditorBackground.GRID_TILE_SIZE = 128;
             ResetGridOptions();
             x128ToolStripMenuItem.IsChecked = true;
         }
@@ -6152,14 +6354,14 @@ Error: {ex.Message}");
 
         private void X256ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Background.GRID_TILE_SIZE = 256;
+            EditorBackground.GRID_TILE_SIZE = 256;
             ResetGridOptions();
             x256ToolStripMenuItem.IsChecked = true;
         }
 
         private void CustomToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Background.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
+            EditorBackground.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
             ResetGridOptions();
             customToolStripMenuItem.IsChecked = true;
         }
@@ -7035,7 +7237,7 @@ Error: {ex.Message}");
                 SetupLayerButtons();
 
 
-                Background = new EditorBackground(this);
+                EditorBackground = new EditorBackground(this);
 
                 entities = new EditorEntities(EditorScene, this);
 
@@ -7074,7 +7276,10 @@ Error: {ex.Message}");
 
         private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            
+            object[] MTB = MainToolbarButtons.Items.Cast<object>().ToArray();
+            object[] LT = LayerToolbar.Items.Cast<object>().ToArray();
+            ManiacEditor.Extensions.EnableButtonList(MTB);
+            ManiacEditor.Extensions.EnableButtonList(LT);
         }
 
         private void Editor_Resize(object sender, SizeChangedEventArgs e)
@@ -7082,14 +7287,8 @@ Error: {ex.Message}");
             Form1_Resize(this, null);
         }
 
-        private void TrackThePlayerToolStripMenuItem_Hover(object sender, RoutedEventArgs e)
+        private void EditorViewWPF_Closed(object sender, EventArgs e)
         {
-            trackThePlayerToolStripMenuItem.IsSubmenuOpen = true;
-        }
-
-        private void ModConfigFilesToolStripMenuItem_MouseEnter(object sender, MouseEventArgs e)
-        {
-            selectConfigToolStripMenuItem.IsSubmenuOpen = true;
         }
 
         private void ParentGrid_Loaded(object sender, RoutedEventArgs e)

@@ -59,6 +59,7 @@ namespace ManiacEditor
             }
             FindDuplicateIds();
             SetupObject = GetSetupObject(scene);
+            SetupObject = "";
             entitiesBySlot = entities.ToDictionary(x => x.Entity.SlotID);
         }
 
@@ -77,10 +78,18 @@ namespace ManiacEditor
 
         public string GetSetupObject(Scene scene)
         {
-            var objectList = GetObjects(EditorInstance.EditorScene.Objects);
-            string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
-            //MessageBox.Show(setupObject);
-            return setupObject;
+            try
+            {
+                var objectList = GetObjects(EditorInstance.EditorScene.Objects);
+                string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
+                MessageBox.Show(setupObject);
+                return setupObject;
+            }
+            catch
+            {
+                return "";
+            }
+
         }
 
         private ushort getFreeSlot(RSDKv5.SceneEntity preferred)

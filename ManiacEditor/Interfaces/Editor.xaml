@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
-        Title="Maniac Editor - Generations Editon" Height="817.333" Width="1462.5" Loaded="ParentGrid_Loaded" Closing="Editor_FormClosing" SizeChanged="Form1_Resize">
+        Title="Maniac Editor - Generations Editon" Height="817.333" Width="1462.5" Loaded="ParentGrid_Loaded" Closing="Editor_FormClosing" SizeChanged="Form1_Resize" Closed="EditorViewWPF_Closed">
 
 
     <Grid x:Name="ParentGrid" SizeChanged="Editor_Resize">
         <Grid.RowDefinitions>
             <RowDefinition Height="533*"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180*"/>
@@ -23,17 +23,17 @@
 
 
 
-        <Border BorderBrush="Black" BorderThickness="2" Grid.ColumnSpan="4" Margin="10,114,10,45" Grid.RowSpan="2">
+        <Border Grid.ColumnSpan="4" Margin="10,114,10,45" Grid.RowSpan="2">
             <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Grid.ContextMenu>
                     <ContextMenu x:Name="ViewPanelContextMenu">
-                        <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac"></MenuItem>
-                        <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here"></MenuItem>
-                        <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position"></MenuItem>
-                        <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings"></MenuItem>
-                        <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset"></MenuItem>
-                        <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene"></MenuItem>
-                        <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position"></MenuItem>
+                        <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="EditTileWithTileManiacToolStripMenuItem_Click"></MenuItem>
+                        <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHereToolStripMenuItem_Click"></MenuItem>
+                        <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHereToolStripMenuItem_Click"></MenuItem>
+                        <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpointToolStripMenuItem_Click"></MenuItem>
+                        <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetResetToolStripMenuItem_Click"></MenuItem>
+                        <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartSceneToolStripMenuItem_Click"></MenuItem>
+                        <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpointToolStripMenuItem_Click"></MenuItem>
                     </ContextMenu>
                 </Grid.ContextMenu>
             </Grid>
@@ -43,7 +43,7 @@
 
 
 
-        <Menu x:Name="menuStrip1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="4" Margin="0,0,0.449,0">
+        <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="4" Margin="0,0,0.449,0">
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0">
                 <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewToolStripMenuItem_Click"></MenuItem>
                 <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="Open_Click"></MenuItem>
@@ -246,15 +246,15 @@
             </MenuItem>
         </Menu>
         <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.ColumnSpan="4" Margin="0,24,0,0" Background="WhiteSmoke" IsLocked="True">
-            <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" Background="WhiteSmoke">
+            <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" Background="WhiteSmoke" x:Name="MainToolbarButtons">
                 <ToggleButton x:Name="New" Width="26" Height="36" Margin="0,0,0,0" Padding="0,0,0,0" Click="NewToolStripMenuItem_Click" IsEnabled="False">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/NewFile.png" Stretch="Uniform"/>
+                        <Image Source="pack://application:,,,/Resources/icons/NewFile.png" Stretch="Uniform"/>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="Open" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/OpenFolder_Alt.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/OpenFolder_Alt.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="RecentDataDirectories" Width="43" Height="37" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="WhiteSmoke" BorderThickness="0" Click="OpenDataDirectoryMenuButton">
@@ -264,29 +264,29 @@
                         </StackPanel>
                     </wpfTool:SplitButton.DropDownContent>
                     <wpfTool:SplitButton.Content>
-                        <Image Source="pack://application:,,,/Resources/OpenDocumentFolder.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/OpenDocumentFolder.png" Stretch="Uniform" />
                     </wpfTool:SplitButton.Content>
                 </wpfTool:SplitButton>
                 <Button x:Name="Save" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="SToolStripMenuItem_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/Save_.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/Save_.png" Stretch="Uniform" />
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <Button x:Name="ZoomInButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ZoomInButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/ZoomIn.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/ZoomIn.png" Stretch="Uniform" />
                     </Button.Content>
                 </Button>
                 <Button x:Name="ZoomOutButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ZoomOutButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/ZoomOut.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/ZoomOut.png" Stretch="Uniform" />
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <ToggleButton x:Name="RunSceneButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="RunScene_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/RunGame.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/RunGame.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="RunSceneDropDown" Width="18" Height="37.8" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="Transparent" BorderThickness="0">
@@ -294,7 +294,7 @@
                         <StackPanel>
                             <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus"></MenuItem>
                             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                            <MenuItem x:Name="trackThePlayerToolStripMenuItem" Header="Track the Player..." MouseEnter="TrackThePlayerToolStripMenuItem_Hover">
+                            <MenuItem x:Name="trackThePlayerToolStripMenuItem" Header="Track the Player...">
                                 <MenuItem x:Name="trackP1ToolStripMenuItem" Header="Track P1"></MenuItem>
                                 <MenuItem x:Name="trackP2ToolStripMenuItem" Header="Track P2"></MenuItem>
                                 <MenuItem x:Name="trackP3ToolStripMenuItem" Header="Track P3"></MenuItem>
@@ -304,54 +304,54 @@
                             <MenuItem x:Name="assetResetToolStripMenuItem1" Header="Asset Reset"></MenuItem>
                             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                             <MenuItem x:Name="openModManagerToolStripMenuItem" Header="Open Mod Manager"></MenuItem>
-                            <MenuItem x:Name="selectConfigToolStripMenuItem" Header="Select Config..." MouseEnter="ModConfigFilesToolStripMenuItem_MouseEnter">
+                            <MenuItem x:Name="selectConfigToolStripMenuItem" Header="Select Config...">
                                 <MenuItem x:Name="noConfigFilesToolStripMenuItem" Header="No Config Files" IsEnabled="False"></MenuItem>
                             </MenuItem>
-                            <MenuItem x:Name="editConfigsToolStripMenuItem1" Header="Edit Configs"></MenuItem>
+                            <MenuItem x:Name="editConfigsToolStripMenuItem1" Header="Edit Configs" Click="EditConfigsToolStripMenuItem_Click"></MenuItem>
                         </StackPanel>
                     </wpfTool:SplitButton.DropDownContent>
                 </wpfTool:SplitButton>
                 <Separator></Separator>
                 <Button x:Name="UndoButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="UndoButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/Undo.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/Undo.png" Stretch="Uniform" />
                     </Button.Content>
                 </Button>
                 <Button x:Name="RedoButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="RedoButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/Redo.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/Redo.png" Stretch="Uniform" />
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <Button x:Name="ReloadButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/Refresh.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/Refresh.png" Stretch="Uniform" />
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <ToggleButton x:Name="PointerButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="PointerButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/Pointer_alt.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/Pointer_alt.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="SelectToolButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="SelectTool_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/Select.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/Select.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="PlaceTilesButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="PlaceTilesButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/PlaceTiles.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/PlaceTiles.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="InteractionToolButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="InteractionToolButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/InteractionTool.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/InteractionTool.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="MagnetMode" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="MagnetMode_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/MagnetTool.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/MagnetTool.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="MagnetModeSplitButton" Width="18" Height="38" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="WhiteSmoke" BorderThickness="0">
@@ -370,28 +370,28 @@
                 </wpfTool:SplitButton>
                 <ToggleButton x:Name="ChunksToolButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ChunkToolButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/StampTool.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/StampTool.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <Separator></Separator>
                 <ToggleButton x:Name="EncorePaletteButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="EnableEncorePalette_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/ColorPalette_alt.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/ColorPalette_alt.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="ShowTileIDButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowTileIDButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/ShowTileID.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/ShowTileID.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="FlipAssistButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/RotateAssist.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/RotateAssist.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="ShowGridButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowGridButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/ShowGrid.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/ShowGrid.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="GridSizeButton" Width="18" Height="38" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="WhiteSmoke" BorderThickness="0" Click="ShowGridButton_Click">
@@ -408,18 +408,18 @@
                 <Separator></Separator>
                 <ToggleButton x:Name="ShowCollisionAButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowCollisionAButton_Click">
                     <ToggleButton.Content>
-                        <Image x:Name="___No_Name_" Source="pack://application:,,,/Resources/ShowCollisionPathA.png" Stretch="Uniform" />
+                        <Image x:Name="___No_Name_" Source="pack://application:,,,/Resources/icons/ShowCollisionPathA.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="ShowCollisionBButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowCollisionBButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/ShowCollisionPathB.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/ShowCollisionPathB.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <Separator></Separator>
                 <ToggleButton x:Name="FreezeDeviceButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ResetDeviceButton_Click_1">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/FreezeDevice.png" Stretch="Uniform" />
+                        <Image Source="pack://application:,,,/Resources/icons/FreezeDevice.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToolBar.Resources>
@@ -428,7 +428,7 @@
                     </Style>
                 </ToolBar.Resources>
             </ToolBar>
-            <ToolBar x:Name="toolStrip1" HorizontalAlignment="Stretch" Band="1" BandIndex="0" Background="WhiteSmoke">
+            <ToolBar x:Name="LayerToolbar" HorizontalAlignment="Stretch" Band="1" BandIndex="0" Background="WhiteSmoke">
                 <ToggleButton Height="22" Margin="0,6" Background="Transparent" Content="Layers:"/>
                 <Separator Margin="0,2"/>
                 <ToggleButton x:Name="ShowFGLower" Height="22" Margin="0,6" Background="Transparent" Content="FG Lower" Click="ShowFGLower_Click"/>
@@ -460,7 +460,7 @@
             </ToolBar>
         </ToolBarTray>
 
-        <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Height="30" Grid.Row="1" BorderThickness="0">
+        <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Height="35" Grid.Row="1" BorderThickness="0">
             <Label x:Name="positionLabel"/>
             <Separator x:Name="seperator1" Visibility="Collapsed"></Separator>
             <Label x:Name="selectedPositionLabel"></Label>
@@ -469,21 +469,37 @@
             <Separator x:Name="seperator3" Visibility="Collapsed"></Separator>
             <Label x:Name="selectionBoxSizeLabel"></Label>
             <Separator x:Name="seperator4" Visibility="Collapsed"></Separator>
-            <Label x:Name="scrollLockDirLabel"></Label>
-            <Separator x:Name="seperator5" Visibility="Collapsed"></Separator>
             <Label x:Name="hVScrollBarXYLabel"></Label>
             <Separator x:Name="seperator6" Visibility="Collapsed"></Separator>
             <Separator x:Name="seperator8" Visibility="Collapsed"></Separator>
+            <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <wpfTool:SplitButton BorderBrush="Transparent" Background="Transparent" Click="MoreSettingsButton_ButtonClick">
+                    <wpfTool:SplitButton.Content>
+                        <Image Source="pack://application:,,,/Resources/icons/Settings.png" Stretch="Uniform" />
+                    </wpfTool:SplitButton.Content>
+                    <wpfTool:SplitButton.DropDownContent>
+                        <StackPanel>
+                            <MenuItem x:Name="editEntitesTransparencyToolStripMenuItem" Header="Edit Entites Transparency" Click="EditEntitesTransparencyToolStripMenuItem_Click"></MenuItem>
+                            <MenuItem x:Name="toggleEncoreManiaEntitiesToolStripMenuItem" Header="Toggle Encore/Mania Entities" Click="ToggleEncoreManiaEntitiesToolStripMenuItem_Click"></MenuItem>
+                            <MenuItem x:Name="swapScrollLockDirectionToolStripMenuItem" Header="Swap Scroll Lock Direction" Click="SwapScrollLockDirectionToolStripMenuItem_Click"></MenuItem>
+                        </StackPanel>
+                    </wpfTool:SplitButton.DropDownContent>
+                </wpfTool:SplitButton>
+            </StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Margin" Value="0,0,10,0"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <ToggleButton x:Name="pixelModeButton" Content="Pixel Count Mode" Click="PixelModeButton_Click"></ToggleButton>
+                    <ToggleButton x:Name="nudgeFasterButton" Content="Nudge Faster" Click="NudgeFasterButton_Click"></ToggleButton>
+                    <ToggleButton x:Name="scrollLockButton" Content="Scroll Lock" Click="ScrollLockButton_Click"></ToggleButton>
+                </StackPanel>
 
-            <MenuItem Header="Unfinished Content" Margin="11,0,0,0" FlowDirection="RightToLeft" Padding="0" Visibility="Collapsed">
-                <ToggleButton x:Name="pixelModeButton" Content="Pixel Count Mode"></ToggleButton>
-                <ToggleButton x:Name="nudgeFasterButton" Content="Nudge Faster"></ToggleButton>
-                <ToggleButton x:Name="scrollLockButton" Content="Scroll Lock"></ToggleButton>
+            </StatusBarItem>
 
-                <ToggleButton x:Name="editEntitesTransparencyToolStripMenuItem" Content="Edit Entites Transparency"></ToggleButton>
-                <ToggleButton x:Name="toggleEncoreManiaEntitiesToolStripMenuItem" Content="Toggle Encore/Mania Entities"></ToggleButton>
-                <ToggleButton x:Name="swapScrollLockDirectionToolStripMenuItem" Content="Swap Scroll Lock Direction"></ToggleButton>
-            </MenuItem>
 
 
 
@@ -495,10 +511,17 @@
 
 
         </StatusBar>
-        <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="2" Grid.ColumnSpan="4" Height="30">
+        <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="2" Grid.ColumnSpan="4" Height="35">
             <Label x:Name="_levelIDLabel"></Label>
             <Separator x:Name="seperator7" Visibility="Collapsed"></Separator>
             <Label x:Name="_baseDataDirectoryLabel" Tag=" "></Label>
+
+            <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Label x:Name="scrollLockDirLabel"></Label>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Separator x:Name="seperator5" Visibility="Collapsed"></Separator>
+            </StatusBarItem>
         </StatusBar>
 
 
@@ -508,12 +531,21 @@
 
     </Grid>
     <Window.Resources>
-        <Style TargetType="{x:Type Image}">
+        <ResourceDictionary>
+            <Style TargetType="{x:Type Image}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Opacity" Value="0.5" />
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="SubMenuOnFocus" TargetType="{x:Type MenuItem}">
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="true">
+                    <Setter Property="IsSubmenuOpen" Value="True" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        </ResourceDictionary>
     </Window.Resources>
 </Window>

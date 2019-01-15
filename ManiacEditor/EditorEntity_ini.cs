@@ -321,12 +321,12 @@ namespace ManiacEditor
 
                     if (assetName == "EditorAssets" || assetName == "HUDEditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender")
                     {
-                        if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.gif");
-                        else if (assetName == "HUDEditorText") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorText.gif");
-                        else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.gif");
-                        else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.gif");
-                        else if (assetName == "EditorUIRender") targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "MenuRenders.gif");
-                        else targetFile = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.gif");
+                        if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.gif");
+                        else if (assetName == "HUDEditorText") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.gif");
+                        else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.gif");
+                        else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.gif");
+                        else if (assetName == "EditorUIRender") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "MenuRenders.gif");
+                        else targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.gif");
                     }
                     else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
                     if (!File.Exists(targetFile))
@@ -485,27 +485,27 @@ namespace ManiacEditor
                 switch (name)
                 {
                     case "EditorAssets":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorAssets.bin");
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     case "HUDEditorText":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorText.bin");
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     case "EditorIcons2":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorIcons2.bin");
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     case "TransportTubes":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "TransportTubes.bin");
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     case "EditorUIRender":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "EditorUIRender.bin");
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorUIRender.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     case "SuperSpecialRing":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Global\\", "SuperSpecialRing.bin");
+                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.bin");
                         if (!File.Exists(path2)) return null;
                         break;
                     default:
@@ -568,7 +568,7 @@ namespace ManiacEditor
                                 if (!File.Exists(path2))
                                 {
                                     // Checks Global
-                                    path = "Global\\" + name + ".bin";
+                                    path = "Resources\\Global\\" + name + ".bin";
                                     path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
                                     if (!File.Exists(path2))
                                     {
