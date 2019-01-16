@@ -20,5 +20,18 @@ namespace ManiacEditor
     public partial class App : Application
     {
 
+        public App()
+        {
+            this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        }
+
+        public void Load(string DataDir, string ScenePath, string ModPath, int LevelID, bool launchAsShortcut, int shortcutMode, bool isEncoreMode, int X, int Y)
+        {
+            var UI = new ManiacEditor.Editor(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
+            UI.Dispatcher.Invoke(() =>
+            {
+                UI.Run();              
+            });
+        }
     }
 }

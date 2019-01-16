@@ -398,6 +398,7 @@
     <Compile Include="EditorInGame.cs" />
     <Compile Include="EditorChunk.cs" />
     <Compile Include="EditorUpdater.cs" />
+    <Compile Include="EndException.cs" />
     <Compile Include="Entity Renders\TitleBG.cs" />
     <Compile Include="Entity Renders\TitleSonic.cs" />
     <Compile Include="Entity Renders\TitleLogo.cs" />

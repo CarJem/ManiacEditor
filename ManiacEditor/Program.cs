@@ -24,7 +24,7 @@ namespace ManiacEditor
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -105,9 +105,8 @@ Missing file: {fnfe.FileName}");
 
             if (allowedToLoad)
             {
-                var application = new System.Windows.Application();
-                var ui = new ManiacEditor.Editor(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
-                application.Run(ui);
+                var application = new ManiacEditor.App();
+                application.Load(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
             }
         }
 

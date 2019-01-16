@@ -13,32 +13,11 @@ using SharpDX;
 using SharpDX.Direct3D9;
 //using Microsoft.DirectX.Direct3D;
 using SharpDX.Windows;
-
 using Font = SharpDX.Direct3D9.Font;
 using Rectangle = System.Drawing.Rectangle;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 using Bitmap = System.Drawing.Bitmap;
-/*
-using ResultCode = SharpDX.Direct3D9.ResultCode;
-using Vector3 = SharpDX.Vector3;
-using Matrix = SharpDX.Matrix;
-using DeviceType = SharpDX.Direct3D9.DeviceType;
-using DeviceCaps = SharpDX.Direct3D9.DeviceCaps;
-using Device = SharpDX.Direct3D9.Device;
-using CreateFlags = SharpDX.Direct3D9.CreateFlags;
-using Texture = SharpDX.Direct3D9.Texture;
-using TextureFilter = SharpDX.Direct3D9.TextureFilter;
-using SwapEffect = SharpDX.Direct3D9.SwapEffect;
-using PresentParameters = SharpDX.Direct3D9.PresentParameters;
-using ClearFlags = SharpDX.Direct3D9.ClearFlags;
-using Surface = Microsoft.DirectX.Direct3D.Surface;
-using FontWeight = SharpDX.Direct3D9.FontWeight;
-using FontQuality = SharpDX.Direct3D9.FontQuality;
-using Sprite = SharpDX.Direct3D9.Sprite;
-using FontDescription = SharpDX.Direct3D9.FontDescription;
-using SpriteFlags = SharpDX.Direct3D9.SpriteFlags;
-using ImageFileFormat = SharpDX.Direct3D9.ImageFileFormat;*/
 
 
 /*
@@ -55,12 +34,14 @@ namespace ManiacEditor
 
         #region Members
 
+        public bool EndLoop = false;
         public bool mouseMoved = false;
         public bool renderInProgress = false;
         DialogResult deviceExceptionResult;
 
         public int DrawWidth;
         public int DrawHeight;
+
 
         public int ScreenPosWidth;
         public int ScreenPosHeight;
@@ -237,23 +218,21 @@ namespace ManiacEditor
             }
         }
 
+
+
         public void Run()
         {
+            RenderLoop.Run(this, new RenderLoop.RenderCallback(Callback), false);
+        }
 
-            RenderLoop.Run(this, () =>
+        private void Callback()
+        {
+            if (bRender && !deviceLost) Render();
+            if (mouseMoved)
             {
-                // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
-                    if (bRender && !deviceLost) Render();
-                    if (mouseMoved)
-                    {
-                        OnMouseMove(lastEvent);
-                        mouseMoved = false;
-                    }
-
-
-            });
-            //Application.DoEvents();
-
+                OnMouseMove(lastEvent);
+                mouseMoved = false;
+            }
         }
 
         public void InitDeviceResources()
@@ -303,15 +282,15 @@ namespace ManiacEditor
         /// </summary>
         public void AttemptRecovery(SharpDXException ex)
         {
-            //Process proc = Process.GetCurrentProcess();
-            //long memory = proc.PrivateMemorySize64;
+            Process proc = Process.GetCurrentProcess();
+            long memory = proc.PrivateMemorySize64;
             //long memory = 0;
 
-            /*
+            
             if (!Environment.Is64BitProcess && memory >= 1500000000)
             {
                 Debug.Print("Out of Video Memory!");
-                //DeviceExceptionDialog(1, ex, null);
+                DeviceExceptionDialog(1, ex, null);
             }
             else
             {
@@ -327,7 +306,7 @@ namespace ManiacEditor
                     }
                     catch (SharpDXException ex2)
                     {
-                        //DeviceExceptionDialog(0, ex, ex2);
+                        DeviceExceptionDialog(0, ex, ex2);
                     }
                 }
                 else if (result == ResultCode.DeviceRemoved)
@@ -340,13 +319,13 @@ namespace ManiacEditor
                     }
                     catch (SharpDXException ex2)
                     {
-                        //DeviceExceptionDialog(0, ex, ex2);
+                        DeviceExceptionDialog(0, ex, ex2);
                     }
                 }
                 else if (result == ResultCode.OutOfVideoMemory)
                 {
                     Debug.Print("Out of Video Memory!");
-                    //DeviceExceptionDialog(1, ex, null);
+                    DeviceExceptionDialog(1, ex, null);
                 }
                 else if (result == ResultCode.DeviceNotReset)
                 {
@@ -356,23 +335,23 @@ namespace ManiacEditor
                         Debug.Print("Device Not Reset! Fixing....");
                         DisposeDeviceResources();
                         InitDeviceResources();
-                        Init(EditorInstance);
+                        Init(EditorInstance.editorView);
                         EditorInstance.DisposeTextures();
                         deviceLost = false;
                     }
                     catch (SharpDXException ex2)
                     {
-                        //DeviceExceptionDialog(0, ex, ex2);
+                        DeviceExceptionDialog(0, ex, ex2);
                     }
                 }
                 else
                 {
-                    //DeviceExceptionDialog(0, ex, null);
+                    DeviceExceptionDialog(0, ex, null);
                 }
             }
 
 
-*/
+
         }
 
 
@@ -514,7 +493,7 @@ namespace ManiacEditor
         /// <summary>
         /// Rendering-method
         /// </summary>
-        public void Render2()
+        public void Render()
         {
             if (deviceLost) AttemptRecovery(null);
             
@@ -524,6 +503,8 @@ namespace ManiacEditor
                 return;
             }
 
+            if (Parent == null) return;
+
 
             try
             {
@@ -538,11 +519,27 @@ namespace ManiacEditor
 
                 sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
 
-                //if (EditorInstance.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
-                //else HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
+                if (EditorInstance.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
+                else HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
 
 
                 sprite2.Begin(SpriteFlags.AlphaBlend);
+
+
+                var state1 = _device.GetSamplerState(0, SamplerState.MinFilter);
+                var state2 = _device.GetSamplerState(0, SamplerState.MagFilter);
+                var state3 = _device.GetSamplerState(0, SamplerState.MipFilter);
+
+                // If zoomin, just do near-neighbor scaling
+                _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
+                _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
+                _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
+
+                HUD.Begin(SpriteFlags.AlphaBlend);
+
+                _device.SetSamplerState(0, SamplerState.MinFilter, state1);
+                _device.SetSamplerState(0, SamplerState.MagFilter, state2);
+                _device.SetSamplerState(0, SamplerState.MipFilter, state3);
 
                 if (zoom > 1)
                 {
@@ -552,8 +549,6 @@ namespace ManiacEditor
                     _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                 }
                 sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack | SpriteFlags.DoNotModifyRenderState);
-
-                //HUD.Begin(SpriteFlags.AlphaBlend);
 
 
                 // Render of scene here
@@ -565,7 +560,7 @@ namespace ManiacEditor
 
 
                 sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
-                //HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
+                HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
 
                 Rectangle rect1 = new Rectangle(DrawWidth - screen.X, 0, Width - DrawWidth, Height);
                 rect1.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
@@ -576,13 +571,13 @@ namespace ManiacEditor
 
                 sprite.End();
                 sprite2.End();
-                //HUD.End();
+                HUD.End();
                 //End the scene
                 _device.EndScene();
                 _device.Present();
+                if (EndLoop) throw new ValidException("Loop Still Running On Shutdown. This is a normal error, if you see this you are a developer or are looking at logs");
 
-
-        }
+            }
         catch (SharpDXException ex)
         {
                 deviceLost = true;
@@ -592,72 +587,6 @@ namespace ManiacEditor
 
 
 }
-
-        public void Render()
-        {
-            if (deviceLost) AttemptRecovery(null);
-
-            if (_device == null)
-            {
-                AttemptRecovery(null);
-                return;
-            }
-
-
-            try
-            {
-                Rectangle screen = _parent.GetScreen();
-                double zoom = _parent.GetZoom();
-
-                //Clear the backbuffer
-                _device.Clear(ClearFlags.Target, new SharpDX.Color(_deviceBackColor.R, _deviceBackColor.B, _deviceBackColor.G, _deviceBackColor.A), 1.0f, 0);
-
-                //Begin the scene
-                _device.BeginScene();
-
-                sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
-
-                sprite2.Begin(SpriteFlags.AlphaBlend);
-
-
-                if (zoom > 1)
-                {
-                    // If zoomin, just do near-neighbor scaling
-                    _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
-                    _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
-                    _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
-                }
-                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack | SpriteFlags.DoNotModifyRenderState);
-
-                // Render of scene here
-                if (OnRender != null && !deviceLost)
-                {
-                    OnRender(this, new DeviceEventArgs(_device));
-                }
-
-
-
-                sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
-
-                Rectangle rect1 = new Rectangle(DrawWidth - screen.X, 0, Width - DrawWidth, Height);
-                rect1.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
-                Rectangle rect2 = new Rectangle(0, DrawHeight - screen.Y, DrawWidth, Height - DrawHeight);
-                rect2.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
-                DrawTexture(tx, new Rectangle(0, 0, rect1.Width, rect1.Height), new Vector3(0, 0, 0), new Vector3(rect1.X, rect1.Y, 0), SystemColors.Control);
-                DrawTexture(tx, new Rectangle(0, 0, rect2.Width, rect2.Height), new Vector3(0, 0, 0), new Vector3(rect2.X, rect2.Y, 0), SystemColors.Control);
-
-                sprite.End();
-                sprite2.End();
-                //End the scene
-                _device.EndScene();
-                _device.Present();
-            }
-            catch (SharpDXException ex)
-            {
-                deviceLost = true;
-                AttemptRecovery(ex);
-            }
-        }
 
         #endregion
 
@@ -785,7 +714,7 @@ namespace ManiacEditor
         }
         private void DrawHUD(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
-            //HUD.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+            HUD.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
         }
 
         public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
@@ -1205,6 +1134,14 @@ namespace ManiacEditor
         {
             DisposeDeviceResources();
             _parent.DisposeTextures();
+            _device.Dispose();
+            direct3d.Dispose();
+            base.Dispose();
+        }
+
+        public void UnloadingDispose()
+        {
+            DisposeDeviceResources();
             _device.Dispose();
             direct3d.Dispose();
             base.Dispose();

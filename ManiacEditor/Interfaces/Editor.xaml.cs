@@ -429,7 +429,6 @@ namespace ManiacEditor
                 }
 
             }
-            editorView.Show();
         }
 
         public void SetupEditorViewForm()
@@ -3586,8 +3585,6 @@ Error: {ex.Message}");
         {
             if (InstanceID == -1)
             {
-                //Application.Current.Shutdown();
-                //this.Close();
                 Close();
             }
             else
@@ -3955,11 +3952,13 @@ Error: {ex.Message}");
         private void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             DebugStatsVisibleOnPanel = !DebugStatsVisibleOnPanel;
+            showStatsToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
         }
 
         private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             UseLargeDebugStats = !UseLargeDebugStats;
+            useLargeTextToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
         }
 
         private void SetMenuButtons(object sender, RoutedEventArgs e)
@@ -5315,15 +5314,11 @@ Error: {ex.Message}");
             _extraViewLayer.Draw(GraphicPanel);
         }
 
-        public void Form1_Load(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         public void Run()
         {
             Show();
             Focus();
+            editorView.Show();
             GraphicPanel.Run();
         }
 
@@ -5407,6 +5402,7 @@ Error: {ex.Message}");
 
         private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            
             if (app != null)
             {
                 var MP = ManiaPal.App.Current;
@@ -5428,6 +5424,9 @@ Error: {ex.Message}");
             {
                 Debug.Write("Failed to write settings: " + ex);
             }
+            GraphicPanel.EndLoop = true;
+            ManiacEditor.App.Current.Shutdown();
+
         }
 
         private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)

@@ -82,7 +82,7 @@ namespace ManiacEditor
             {
                 var objectList = GetObjects(EditorInstance.EditorScene.Objects);
                 string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
-                MessageBox.Show(setupObject);
+                //MessageBox.Show(setupObject);
                 return setupObject;
             }
             catch
