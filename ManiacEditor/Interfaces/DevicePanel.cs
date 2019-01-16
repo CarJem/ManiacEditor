@@ -34,7 +34,6 @@ namespace ManiacEditor
 
         #region Members
 
-        public bool EndLoop = false;
         public bool mouseMoved = false;
         public bool renderInProgress = false;
         DialogResult deviceExceptionResult;
@@ -225,7 +224,17 @@ namespace ManiacEditor
             RenderLoop.Run(this, new RenderLoop.RenderCallback(Callback), false);
         }
 
-        private void Callback()
+        public void Callback()
+        {
+            if (bRender && !deviceLost) Render();
+            if (mouseMoved)
+            {
+                OnMouseMove(lastEvent);
+                mouseMoved = false;
+            }
+        }
+
+        public void Callback(object sender, EventArgs e)
         {
             if (bRender && !deviceLost) Render();
             if (mouseMoved)
@@ -575,7 +584,6 @@ namespace ManiacEditor
                 //End the scene
                 _device.EndScene();
                 _device.Present();
-                if (EndLoop) throw new ValidException("Loop Still Running On Shutdown. This is a normal error, if you see this you are a developer or are looking at logs");
 
             }
         catch (SharpDXException ex)

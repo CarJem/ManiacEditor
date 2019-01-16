@@ -254,7 +254,6 @@ namespace ManiacEditor
         public TilesConfig TilesConfig;
         public EditorInGame EditorGame;
         public StartupInformation info;
-        public ManiacEditor.DevicePanel GraphicPanel;
         public StatusBox statusBox;
         public UIText DebugTextHUD = new UIText();
         public EditorChunk EditorChunk;
@@ -357,8 +356,6 @@ namespace ManiacEditor
             //UseDarkTheme(mySettings.NightMode);
             InitializeComponent();
             SetupEditorViewForm();
-            SetupGraphicsPanel();
-            //SetupButtonColors();
             AllocConsole();
             HideConsoleWindow();
             try
@@ -376,8 +373,8 @@ namespace ManiacEditor
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
             this.editorView.splitContainer1.Panel2MinSize = 254;
 
-            GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
-            GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
+            editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
+            editorView.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
 
             _extraLayerEditButtons = new List<ToggleButton>();
             _extraLayerViewButtons = new List<ToggleButton>();
@@ -446,34 +443,25 @@ namespace ManiacEditor
             this.editorView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
             this.editorView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
             //this.editorView.Resize += new System.EventHandler(this.Form1_Resize);
+            SetupGraphicPanel();
 
         }
 
-        public void SetupGraphicsPanel()
+        public void SetupGraphicPanel()
         {
-            this.GraphicPanel = new ManiacEditor.DevicePanel(this);
-            this.GraphicPanel.AllowDrop = true;
-            this.GraphicPanel.AutoSize = true;
-            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
-            this.GraphicPanel.Location = new System.Drawing.Point(-1, 0);
-            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.GraphicPanel.Name = "GraphicPanel";
-            this.GraphicPanel.Size = new System.Drawing.Size(643, 449);
-            this.GraphicPanel.TabIndex = 10;
-            this.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-            this.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-            this.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            this.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            this.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            this.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            this.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            this.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            this.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            this.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            this.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            this.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
-            this.editorView.viewPanel.Controls.Add(this.GraphicPanel);
+            this.editorView.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+            this.editorView.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+            this.editorView.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            this.editorView.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            this.editorView.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            this.editorView.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            this.editorView.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            this.editorView.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            this.editorView.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            this.editorView.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            this.editorView.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            this.editorView.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            this.editorView.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
         }
 
         #region Discord Rich Presence
@@ -1033,15 +1021,16 @@ namespace ManiacEditor
 
 
             RunSceneButton.IsEnabled = enabled;
+            RunSceneButton.IsChecked = GameRunning;
             RunSceneDropDown.IsEnabled = enabled;
 
             if (GameRunning)
             {
-                SetButtonColors(RunSceneButton, Color.Blue);
+                //SetButtonColors(RunSceneButton, Color.Blue);
             }
             else
             {
-                SetButtonColors(RunSceneButton, MainThemeColor(Color.LimeGreen));
+                //SetButtonColors(RunSceneButton, MainThemeColor(Color.LimeGreen));
             }
 
             SetEditButtonsState(enabled);
@@ -1063,6 +1052,8 @@ namespace ManiacEditor
             {
                 PreLoadSceneButton_Click(null, null);
             }
+
+            UpdateButtonColors();
         }
 
         private void SetSelectOnlyButtonsState(bool enabled = true)
@@ -2120,7 +2111,7 @@ namespace ManiacEditor
 
         private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            GraphicPanel.Focus();
+            editorView.GraphicPanel.Focus();
             if (e.Button == MouseButtons.Left)
             {
                 if (IsEditing() && !dragged)
@@ -2315,7 +2306,7 @@ namespace ManiacEditor
 
         private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            GraphicPanel.Focus();
+            editorView.GraphicPanel.Focus();
             if (CtrlPressed())
             {
                 int maxZoom;
@@ -2745,7 +2736,7 @@ namespace ManiacEditor
 
         public void Form1_Resize(object sender, RoutedEventArgs e)
         {
-            //if (GraphicPanel != null) GraphicPanel.bRender = false;
+            //if (editorView.GraphicPanel != null) editorView.GraphicPanel.bRender = false;
 
             if (info != null)
             {
@@ -2785,7 +2776,7 @@ namespace ManiacEditor
             }
             else
             {
-                ScreenHeight = GraphicPanel.Height;
+                ScreenHeight = editorView.GraphicPanel.Height;
                 ShiftY = 0;
                 editorView.vScrollBar1.Value = 0;
             }
@@ -2800,7 +2791,7 @@ namespace ManiacEditor
             }
             else
             {
-                ScreenWidth = GraphicPanel.Width;
+                ScreenWidth = editorView.GraphicPanel.Width;
                 ShiftX = 0;
                 editorView.hScrollBar1.Value = 0;
             }
@@ -2811,14 +2802,14 @@ namespace ManiacEditor
 
 
             /*
-            while (ScreenWidth > GraphicPanel.Width)
-                ResizeGraphicPanel(GraphicPanel.Width * 2, GraphicPanel.Height);
-            while (ScreenHeight > GraphicPanel.Height)
-                ResizeGraphicPanel(GraphicPanel.Width, GraphicPanel.Height * 2);
+            while (ScreenWidth > editorView.GraphicPanel.Width)
+                ResizeGraphicPanel(editorView.GraphicPanel.Width * 2, editorView.GraphicPanel.Height);
+            while (ScreenHeight > editorView.GraphicPanel.Height)
+                ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height * 2);
                 */
 
 
-            //if (GraphicPanel != null) GraphicPanel.bRender = true;
+            //if (editorView.GraphicPanel != null) editorView.GraphicPanel.bRender = true;
 
         }
 
@@ -2841,8 +2832,8 @@ namespace ManiacEditor
                 editorView.hScrollBar1.Maximum = width;
             }
 
-            GraphicPanel.DrawWidth = Math.Min(width, GraphicPanel.Width);
-            GraphicPanel.DrawHeight = Math.Min(height, GraphicPanel.Height);
+            editorView.GraphicPanel.DrawWidth = Math.Min(width, editorView.GraphicPanel.Width);
+            editorView.GraphicPanel.DrawHeight = Math.Min(height, editorView.GraphicPanel.Height);
 
             Form1_Resize(null, null);
 
@@ -2869,13 +2860,13 @@ namespace ManiacEditor
             }*/
 
             /*
-            GraphicPanel.Width = width;
-            GraphicPanel.Height = height;
+            editorView.GraphicPanel.Width = width;
+            editorView.GraphicPanel.Height = height;
 
-            GraphicPanel.ResetDevice();
+            editorView.GraphicPanel.ResetDevice();
 
-            GraphicPanel.DrawWidth = Math.Min(editorView.hScrollBar1.Maximum, GraphicPanel.Width);
-            GraphicPanel.DrawHeight = Math.Min(editorView.vScrollBar1.Maximum, GraphicPanel.Height);
+            editorView.GraphicPanel.DrawWidth = Math.Min(editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
+            editorView.GraphicPanel.DrawHeight = Math.Min(editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
             */
         }
 
@@ -3307,7 +3298,7 @@ namespace ManiacEditor
             SceneFilepath = Path.Combine(_DataDirectory, "Stages", SelectedZone);
             SelectedZone = SelectedZone.Replace("\\", "");
             LevelID = _LevelID;
-            EditorScene = new EditorScene(SceneFilename, GraphicPanel, this);
+            EditorScene = new EditorScene(SceneFilename, editorView.GraphicPanel, this);
             //Encore Palette + Stage Tiles Initaliazation
             EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
             EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
@@ -3412,7 +3403,7 @@ namespace ManiacEditor
             searchType = 0;
             SelectedZone = SelectedZone.Replace("\\", "");
             LevelID = _LevelID;
-            EditorScene = new EditorScene(SceneFilename, GraphicPanel, this);
+            EditorScene = new EditorScene(SceneFilename, editorView.GraphicPanel, this);
             //Encore Palette + Stage Tiles Initaliazation
             EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
             EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
@@ -3614,7 +3605,7 @@ Error: {ex.Message}");
                     FGLow?.Draw(g);
                     FGHigh?.Draw(g);
                     FGHigher?.Draw(g);
-                    //entities?.GraphicsDraw(GraphicPanel, g);
+                    //entities?.GraphicsDraw(editorView.GraphicPanel, g);
 
                     bitmap.Save(save.FileName);
                 }
@@ -5035,14 +5026,14 @@ Error: {ex.Message}");
         }
         private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e)
         {
-            if (GraphicPanel.bRender)
+            if (editorView.GraphicPanel.bRender)
             {
-                GraphicPanel.bRender = false;
+                editorView.GraphicPanel.bRender = false;
             }
             else
             {
                 ReloadToolStripButton_Click(null, null);
-                GraphicPanel.bRender = true;
+                editorView.GraphicPanel.bRender = true;
             }
         }
 
@@ -5063,7 +5054,7 @@ Error: {ex.Message}");
 
         private void ResetDeviceButton_Click(object sender, RoutedEventArgs e)
         {
-            GraphicPanel.AttemptRecovery(null);
+            editorView.GraphicPanel.AttemptRecovery(null);
         }
 
         private void EnableEncorePalette_Click(object sender, RoutedEventArgs e)
@@ -5121,12 +5112,12 @@ Error: {ex.Message}");
                 if (!isExportingImage)
                 {
                     if (!IsTilesEdit())
-                        EditorBackground.Draw(GraphicPanel);
+                        EditorBackground.Draw(editorView.GraphicPanel);
                     if (IsTilesEdit())
                     {
                         if (mySettings.ShowEditLayerBackground == true)
                         {
-                            EditorBackground.DrawEdit(GraphicPanel);
+                            EditorBackground.DrawEdit(editorView.GraphicPanel);
                         }
                     }
                 }
@@ -5155,29 +5146,24 @@ Error: {ex.Message}");
                 if (DebugStatsVisibleOnPanel && EditorScene != null && DebugTextHUD != null && EditorEntity_ini != null)
                 {
                     Point point = new Point((short)(15), (short)(15));
-                    /*
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y, statusBox.GetDataFolder(), true, 255, 15);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetModDataFolder(), true, 255, 19);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetMasterDataFolder(), true, 255, 22);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetScenePath(), true, 255, 11);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 4, statusBox.GetSceneFilePath(), true, 255, 14);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetZoom(), true, 255, 11);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSetupObject(), true, 255, 13);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 7, statusBox.GetSelectedZone(), true, 255, 14);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 8, statusBox.GetMemoryUsage(), true, 255, 13);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 9, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);
-                    */
-
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 0, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);
+                    
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y, statusBox.GetDataFolder(), true, 255, 15);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetModDataFolder(), true, 255, 19);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetMasterDataFolder(), true, 255, 22);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetScenePath(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 4, statusBox.GetSceneFilePath(), true, 255, 14);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetZoom(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSetupObject(), true, 255, 13);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 7, statusBox.GetSelectedZone(), true, 255, 14);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, statusBox.GetMemoryUsage(), true, 255, 13);
+                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 9, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);                   
 
                     //DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 11, "Use F1 and F2 to Swap Information", true, 255);
                 }
 
 
 
-                if (EditorScene.OtherLayers.Contains(EditLayer)) EditLayer.Draw(GraphicPanel);
+                if (EditorScene.OtherLayers.Contains(EditLayer)) EditLayer.Draw(editorView.GraphicPanel);
 
                 if (!extraLayersMoveToFront)
                 {
@@ -5186,37 +5172,37 @@ Error: {ex.Message}");
                         if (elb.IsChecked.Value)
                         {
                             var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Content));
-                            _extraViewLayer.Draw(GraphicPanel);
+                            _extraViewLayer.Draw(editorView.GraphicPanel);
                         }
                     }
                 }
 
                 if (ShowFGLower.IsChecked.Value || EditFGLower.IsChecked.Value)
-                    FGLower.Draw(GraphicPanel);
+                    FGLower.Draw(editorView.GraphicPanel);
 
                 if (ShowFGLow.IsChecked.Value || EditFGLow.IsChecked.Value)
-                    FGLow.Draw(GraphicPanel);
+                    FGLow.Draw(editorView.GraphicPanel);
 
                 if (mySettings.PrioritizedObjectRendering && !EditEntities.IsChecked.Value && ShowEntities.IsChecked.Value && entityVisibilityType != 1 && entities != null)
                 {
-                    entities.DrawPriority(GraphicPanel, -1);
-                    entities.DrawPriority(GraphicPanel, 0);
-                    entities.DrawPriority(GraphicPanel, 1);
+                    entities.DrawPriority(editorView.GraphicPanel, -1);
+                    entities.DrawPriority(editorView.GraphicPanel, 0);
+                    entities.DrawPriority(editorView.GraphicPanel, 1);
                 }
 
-                if (!mySettings.PrioritizedObjectRendering && !EditEntities.IsChecked.Value && ShowEntities.IsChecked.Value && entityVisibilityType == 0 && entities != null) entities.Draw(GraphicPanel);
+                if (!mySettings.PrioritizedObjectRendering && !EditEntities.IsChecked.Value && ShowEntities.IsChecked.Value && entityVisibilityType == 0 && entities != null) entities.Draw(editorView.GraphicPanel);
 
                 if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsChecked.Value)
-                    FGHigh.Draw(GraphicPanel);
+                    FGHigh.Draw(editorView.GraphicPanel);
 
                 if (mySettings.PrioritizedObjectRendering && !EditEntities.IsChecked.Value && ShowEntities.IsChecked.Value && entityVisibilityType != 1 && entities != null)
                 {
-                    entities.DrawPriority(GraphicPanel, 2);
-                    entities.DrawPriority(GraphicPanel, 3);
+                    entities.DrawPriority(editorView.GraphicPanel, 2);
+                    entities.DrawPriority(editorView.GraphicPanel, 3);
                 }
 
                 if (ShowFGHigher.IsChecked.Value || EditFGHigher.IsChecked.Value)
-                    FGHigher.Draw(GraphicPanel);
+                    FGHigher.Draw(editorView.GraphicPanel);
 
                 if (extraLayersMoveToFront)
                 {
@@ -5225,12 +5211,12 @@ Error: {ex.Message}");
                         if (elb.IsChecked.Value)
                         {
                             var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Content));
-                            _extraViewLayer.Draw(GraphicPanel);
+                            _extraViewLayer.Draw(editorView.GraphicPanel);
                         }
                     }
                 }
 
-                if (EditEntities.IsChecked.Value || (entityVisibilityType == 1 && ShowEntities.IsChecked.Value)) entities.Draw(GraphicPanel);
+                if (EditEntities.IsChecked.Value || (entityVisibilityType == 1 && ShowEntities.IsChecked.Value)) entities.Draw(editorView.GraphicPanel);
 
 
             }
@@ -5251,11 +5237,11 @@ Error: {ex.Message}");
                         y2 = (int)(selectingY / Zoom);
                     }
 
-                    GraphicPanel.DrawRectangle(x1, y1, x2, y2, Color.FromArgb(100, Color.Purple));
-                    GraphicPanel.DrawLine(x1, y1, x2, y1, Color.Purple);
-                    GraphicPanel.DrawLine(x1, y1, x1, y2, Color.Purple);
-                    GraphicPanel.DrawLine(x2, y2, x2, y1, Color.Purple);
-                    GraphicPanel.DrawLine(x2, y2, x1, y2, Color.Purple);
+                    editorView.GraphicPanel.DrawRectangle(x1, y1, x2, y2, Color.FromArgb(100, Color.Purple));
+                    editorView.GraphicPanel.DrawLine(x1, y1, x2, y1, Color.Purple);
+                    editorView.GraphicPanel.DrawLine(x1, y1, x1, y2, Color.Purple);
+                    editorView.GraphicPanel.DrawLine(x2, y2, x2, y1, Color.Purple);
+                    editorView.GraphicPanel.DrawLine(x2, y2, x1, y2, Color.Purple);
                 }
             }
             if (!draggingSelection)
@@ -5265,20 +5251,20 @@ Error: {ex.Message}");
                 select_y1 = 0;
                 select_y2 = 0;
             }
-            bool deviceLost = GraphicPanel.getDeviceLostState();
+            bool deviceLost = editorView.GraphicPanel.getDeviceLostState();
             if (scrolling)
             {
-                if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible && !deviceLost) GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
-                else if (editorView.vScrollBar1.Visible && !deviceLost) GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
-                else if (editorView.hScrollBar1.Visible && !deviceLost) GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
+                if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible && !deviceLost) editorView.GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
+                else if (editorView.vScrollBar1.Visible && !deviceLost) editorView.GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
+                else if (editorView.hScrollBar1.Visible && !deviceLost) editorView.GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
             }
 
             if (showGrid && EditorScene != null)
-                EditorBackground.DrawGrid(GraphicPanel);
+                EditorBackground.DrawGrid(editorView.GraphicPanel);
 
             if (GameRunning)
             {
-                EditorGame.DrawGameElements(GraphicPanel);
+                EditorGame.DrawGameElements(editorView.GraphicPanel);
 
                 if (playerSelected)
                 {
@@ -5311,7 +5297,7 @@ Error: {ex.Message}");
         public void DrawLayers(int drawOrder = 0)
         {
             var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.UnknownByte2.Equals(drawOrder));
-            _extraViewLayer.Draw(GraphicPanel);
+            _extraViewLayer.Draw(editorView.GraphicPanel);
         }
 
         public void Run()
@@ -5319,7 +5305,8 @@ Error: {ex.Message}");
             Show();
             Focus();
             editorView.Show();
-            GraphicPanel.Run();
+            editorView.GraphicPanel.Run();
+
         }
 
         private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
@@ -5328,7 +5315,7 @@ Error: {ex.Message}");
             {
                 if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
                 {
-                    Point rel = GraphicPanel.PointToScreen(Point.Empty);
+                    Point rel = editorView.GraphicPanel.PointToScreen(Point.Empty);
                     e.Effect = System.Windows.Forms.DragDropEffects.Move;
                     //(ushort)((Int32)e.Data.GetData(e.Data.GetFormats()[0])
                     EditLayer?.StartDragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
@@ -5347,7 +5334,7 @@ Error: {ex.Message}");
             {
                 if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
                 {
-                    Point rel = GraphicPanel.PointToScreen(Point.Empty);
+                    Point rel = editorView.GraphicPanel.PointToScreen(Point.Empty);
                     EditLayer?.DragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
                     UpdateRender();
 
@@ -5384,7 +5371,7 @@ Error: {ex.Message}");
 
         private void MapEditor_Activated(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            GraphicPanel.Focus();
+            editorView.GraphicPanel.Focus();
             if (mainform.hasModified)
             {
                 ReloadToolStripButton_Click(sender, null);
@@ -5394,7 +5381,7 @@ Error: {ex.Message}");
 
         private void MapEditor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (!GraphicPanel.Focused && e.Control)
+            if (!editorView.GraphicPanel.Focused && e.Control)
             {
                 EditorControls.GraphicPanel_OnKeyDown(sender, e);
             }
@@ -5424,14 +5411,12 @@ Error: {ex.Message}");
             {
                 Debug.Write("Failed to write settings: " + ex);
             }
-            GraphicPanel.EndLoop = true;
-            ManiacEditor.App.Current.Shutdown();
-
+            host.Child.Dispose();
         }
 
         private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (!GraphicPanel.Focused && e.Control)
+            if (!editorView.GraphicPanel.Focused && e.Control)
             {
                 EditorControls.GraphicPanel_OnKeyUp(sender, e);
             }
@@ -5444,7 +5429,7 @@ Error: {ex.Message}");
 
         private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            GraphicPanel.Focus();
+            editorView.GraphicPanel.Focus();
             if (e.Button == MouseButtons.Right && IsTilesEdit() && InteractionToolButton.IsChecked.Value)
             {
                 Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
@@ -6533,7 +6518,7 @@ Error: {ex.Message}");
                 {
                     TopLevel = false
                 };
-                GraphicPanel.Controls.Add(preLoadForm);
+                editorView.GraphicPanel.Controls.Add(preLoadForm);
                 preLoadForm.Show();
                 ToggleEditorButtons(false);
 
@@ -6975,44 +6960,66 @@ Error: {ex.Message}");
 
         public void SetButtonColors(object sender, Color OverallColor)
         {
-            //Set the Overall Color for the Black Editor Buttons
-            Bitmap pic = GetButtonImage(sender);
-            ToggleButton button;
-            if (pic != null && sender is ToggleButton)
+            if (sender is ToggleButton)
             {
-                button = sender as ToggleButton;
+                
+                var item = (sender as ToggleButton);
+                if (item == null) return;
+                if (item.Content == null) return;
+                var objContent = (sender as ToggleButton).Content;
+                if (objContent == null) return;
+                if (objContent is System.Windows.Shapes.Rectangle)
+                {
+                    System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
+                    Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
+                    System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
+                    content.Fill = new SolidColorBrush(ConvertedColor);
 
-                for (int y = 0; (y <= (pic.Height - 1)); y++)
-                {
-                    for (int x = 0; (x <= (pic.Width - 1)); x++)
-                    {
-                        Color inv = pic.GetPixel(x, y);
-                        inv = Color.FromArgb(inv.A, OverallColor.R, OverallColor.G, OverallColor.B);
-                        pic.SetPixel(x, y, inv);
-                    }
                 }
-                button.Content = pic;
+                
+
             }
-            /*
-            else if (sender is SplitButton)
+
+            if (sender is Button)
             {
-                splitButton = sender as SplitButton;
-                Bitmap pic = new Bitmap(splitButton.Content as Bitmap);
-                for (int y = 0; (y <= (pic.Height - 1)); y++)
+
+                var item = (sender as Button);
+                if (item == null) return;
+                if (item.Content == null) return;
+                var objContent = (sender as Button).Content;
+                if (objContent == null) return;
+                if (objContent is System.Windows.Shapes.Rectangle)
                 {
-                    for (int x = 0; (x <= (pic.Width - 1)); x++)
-                    {
-                        Color inv = pic.GetPixel(x, y);
-                        inv = Color.FromArgb(inv.A, OverallColor.R, OverallColor.G, OverallColor.B);
-                        pic.SetPixel(x, y, inv);
-                    }
+                    System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
+                    Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
+                    System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
+                    content.Fill = new SolidColorBrush(ConvertedColor);
+
                 }
-                splitButton.Content = pic;
+
+
             }
-            */
+
+            if (sender is SplitButton)
+            {   /*         
+                var item = (sender as SplitButton);
+                if (item == null) return;
+                if (item.Content == null) return;
+                var objContent = (sender as SplitButton).Content;
+                if (objContent == null) return;
+                if (objContent is System.Windows.Shapes.Rectangle)
+                {
+                    System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
+                    Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
+                    System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
+                    content.Fill = new SolidColorBrush(ConvertedColor);
+
+                }
+                */
+            }
         }
 
-        public void SetupButtonColors()
+        public void UpdateButtonColors()
         {
             SetButtonColors(New, MainThemeColor());
             SetButtonColors(Open, MainThemeColor(Color.FromArgb(0xFFE793), Color.FromArgb(0xFAD962)));
@@ -7036,6 +7043,7 @@ Error: {ex.Message}");
             SetButtonColors(ShowCollisionAButton, Color.DeepSkyBlue);
             SetButtonColors(ShowCollisionBButton, Color.DeepSkyBlue);
             SetButtonColors(FlipAssistButton, MainThemeColor());
+            SetButtonColors(RunSceneButton, Color.Green);
             //SetButtonColors(MoreSettingsButton, MainThemeColor());
             //if (mySettings.NightMode) MoreSettingsButton.ForeColor = Color.White;
 
@@ -7211,7 +7219,7 @@ Error: {ex.Message}");
                 SceneFilename = "Scene1.bin";
                 SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
 
-                EditorScene = new EditorScene(GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, this);
+                EditorScene = new EditorScene(editorView.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, this);
                 TilesConfig = new TilesConfig();
                 StageTiles = new StageTiles();
                 StageConfig = new StageConfig();
@@ -7286,10 +7294,6 @@ Error: {ex.Message}");
             Form1_Resize(this, null);
         }
 
-        private void EditorViewWPF_Closed(object sender, EventArgs e)
-        {
-        }
-
         private void ParentGrid_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the interop host control.
@@ -7304,7 +7308,7 @@ Error: {ex.Message}");
             // control's collection of child controls.
             this.ViewPanelForm.Children.Add(host);
 
-            GraphicPanel.Init(editorView);
+            editorView.GraphicPanel.Init(editorView);
         }
 
         private void ShowError(string message, string title = "Error!")
@@ -7322,18 +7326,18 @@ Error: {ex.Message}");
         {
             if (state)
             {
-                GraphicPanel.bRender = false;
+                editorView.GraphicPanel.bRender = false;
             }
             else
             {
                 ReloadToolStripButton_Click(null, null);
-                GraphicPanel.bRender = true;
+                editorView.GraphicPanel.bRender = true;
             }
         }
 
         private void SetDeviceSleepState(bool state)
         {
-            GraphicPanel.bRender = state;
+            editorView.GraphicPanel.bRender = state;
             if (state == true)
             {
                 ReloadToolStripButton_Click(null, null);
@@ -7417,7 +7421,7 @@ Error: {ex.Message}");
         {
             if (CenterCoords)
             {
-                Rectangle r = GraphicPanel.GetScreen();
+                Rectangle r = editorView.GraphicPanel.GetScreen();
                 int x2 = (int)(r.Width * Zoom);
                 int y2 = (int)(r.Height * Zoom);
 
@@ -7455,17 +7459,25 @@ Error: {ex.Message}");
 
         public void UpdateRender()
         {
-            if (GraphicPanel.bRender)
+            if (editorView.GraphicPanel.bRender)
             {
-                GraphicPanel.Render();
+                editorView.GraphicPanel.Render();
+            }
+        }
+
+        public void RenderLoopCallback(object sender, EventArgs e)
+        {
+            if (editorView.GraphicPanel != null)
+            {
+                editorView.GraphicPanel.Callback();
             }
         }
 
         public void OnMouseMoveEvent()
         {
-            if (GraphicPanel.bRender)
+            if (editorView.GraphicPanel.bRender)
             {
-                GraphicPanel.OnMouseMoveEventCreate();
+                editorView.GraphicPanel.OnMouseMoveEventCreate();
             }
         }
 

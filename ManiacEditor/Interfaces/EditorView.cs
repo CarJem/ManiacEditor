@@ -13,11 +13,26 @@ namespace ManiacEditor.Interfaces
     public partial class EditorView : UserControl, IDrawArea
     {
         public Editor EditorInstance;
+        public ManiacEditor.DevicePanel GraphicPanel;
         public EditorView(Editor instance)
         {
             EditorInstance = instance;
             InitializeComponent();
-            //var allLangItems = menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            SetupGraphicsPanel();
+        }
+
+        public void SetupGraphicsPanel()
+        {
+            this.GraphicPanel = new ManiacEditor.DevicePanel(EditorInstance);
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(-1, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(643, 449);
+            this.GraphicPanel.TabIndex = 10;
+            this.viewPanel.Controls.Add(this.GraphicPanel);
         }
 
         public double GetZoom()

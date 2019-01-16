@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
-        Title="Maniac Editor - Generations Editon" Height="817.333" Width="1462.5" Loaded="ParentGrid_Loaded" Closing="Editor_FormClosing" SizeChanged="Form1_Resize" Closed="EditorViewWPF_Closed">
+        Title="Maniac Editor - Generations Editon" Height="817.333" Width="1462.5" Loaded="ParentGrid_Loaded" Closing="Editor_FormClosing" SizeChanged="Form1_Resize">
 
 
-    <Grid x:Name="ParentGrid" SizeChanged="Editor_Resize">
+    <Grid x:Name="ParentGrid" SizeChanged="Editor_Resize" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="533*"/>
             <RowDefinition Height="35"/>
@@ -23,7 +23,7 @@
 
 
 
-        <Border Grid.ColumnSpan="4" Margin="10,114,10,45" Grid.RowSpan="2">
+        <Border Grid.ColumnSpan="4" Margin="10,114,10,45" Grid.RowSpan="2" BorderBrush="Transparent" BorderThickness="1">
             <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Grid.ContextMenu>
                     <ContextMenu x:Name="ViewPanelContextMenu">
@@ -249,13 +249,22 @@
             <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" Background="WhiteSmoke" x:Name="MainToolbarButtons">
                 <ToggleButton x:Name="New" Width="26" Height="36" Margin="0,0,0,0" Padding="0,0,0,0" Click="NewToolStripMenuItem_Click" IsEnabled="False">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/NewFile.png" Stretch="Uniform"/>
+                        <Rectangle Width="26" Height="26" Fill="Black">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/NewFile.png" Stretch="Uniform"></ImageBrush>
+                                </Rectangle.OpacityMask>
+                        </Rectangle>
+
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="Open" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0">
-                    <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/OpenFolder_Alt.png" Stretch="Uniform" />
-                    </ToggleButton.Content>
+                    <StackPanel>
+                        <Rectangle Width="26" Height="26" Fill="Black">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/OpenFolder_Alt.png" Stretch="Uniform"></ImageBrush>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </StackPanel>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="RecentDataDirectories" Width="43" Height="37" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="WhiteSmoke" BorderThickness="0" Click="OpenDataDirectoryMenuButton">
                     <wpfTool:SplitButton.DropDownContent>
@@ -264,29 +273,49 @@
                         </StackPanel>
                     </wpfTool:SplitButton.DropDownContent>
                     <wpfTool:SplitButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/OpenDocumentFolder.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/OpenDocumentFolder.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </wpfTool:SplitButton.Content>
                 </wpfTool:SplitButton>
                 <Button x:Name="Save" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="SToolStripMenuItem_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/Save_.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Save_.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <Button x:Name="ZoomInButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ZoomInButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/ZoomIn.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ZoomIn.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </Button.Content>
                 </Button>
                 <Button x:Name="ZoomOutButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ZoomOutButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/ZoomOut.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ZoomOut.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <ToggleButton x:Name="RunSceneButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="RunScene_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/RunGame.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/RunGame.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="RunSceneDropDown" Width="18" Height="37.8" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="Transparent" BorderThickness="0">
@@ -314,44 +343,76 @@
                 <Separator></Separator>
                 <Button x:Name="UndoButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="UndoButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/Undo.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Undo.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </Button.Content>
                 </Button>
                 <Button x:Name="RedoButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="RedoButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/Redo.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Redo.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <Button x:Name="ReloadButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/Refresh.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Refresh.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </Button.Content>
                 </Button>
                 <Separator></Separator>
                 <ToggleButton x:Name="PointerButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="PointerButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/Pointer_alt.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Pointer_alt.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="SelectToolButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="SelectTool_Click">
+                <ToggleButton x:Name="SelectToolButton" Width="30" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="SelectTool_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/Select.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Select.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="PlaceTilesButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="PlaceTilesButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/PlaceTiles.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/PlaceTiles.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="InteractionToolButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="InteractionToolButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/InteractionTool.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/InteractionTool.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="MagnetMode" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="MagnetMode_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/MagnetTool.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/MagnetTool.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="MagnetModeSplitButton" Width="18" Height="38" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="WhiteSmoke" BorderThickness="0">
@@ -370,7 +431,11 @@
                 </wpfTool:SplitButton>
                 <ToggleButton x:Name="ChunksToolButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ChunkToolButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/StampTool.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/StampTool.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <Separator></Separator>
@@ -380,18 +445,28 @@
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="ShowTileIDButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowTileIDButton_Click">
-                    <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/ShowTileID.png" Stretch="Uniform" />
-                    </ToggleButton.Content>
+                    <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowTileID.png" Stretch="Uniform" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
                 </ToggleButton>
-                <ToggleButton x:Name="FlipAssistButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
+                <ToggleButton x:Name="FlipAssistButton" Width="36" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/RotateAssist.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/RotateAssist.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="ShowGridButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowGridButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/ShowGrid.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowGrid.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <wpfTool:SplitButton x:Name="GridSizeButton" Width="18" Height="38" Padding="0,0,0,0" Background="WhiteSmoke" BorderBrush="WhiteSmoke" BorderThickness="0" Click="ShowGridButton_Click">
@@ -408,18 +483,30 @@
                 <Separator></Separator>
                 <ToggleButton x:Name="ShowCollisionAButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowCollisionAButton_Click">
                     <ToggleButton.Content>
-                        <Image x:Name="___No_Name_" Source="pack://application:,,,/Resources/icons/ShowCollisionPathA.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowCollisionPathA.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToggleButton x:Name="ShowCollisionBButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ShowCollisionBButton_Click">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/ShowCollisionPathB.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowCollisionPathB.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <Separator></Separator>
                 <ToggleButton x:Name="FreezeDeviceButton" Width="26" Height="36" Margin="0,0,2,0" Padding="0,0,0,0" Click="ResetDeviceButton_Click_1">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/FreezeDevice.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="0">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/FreezeDevice.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
                 <ToolBar.Resources>
@@ -475,7 +562,11 @@
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <wpfTool:SplitButton BorderBrush="Transparent" Background="Transparent" Click="MoreSettingsButton_ButtonClick">
                     <wpfTool:SplitButton.Content>
-                        <Image Source="pack://application:,,,/Resources/icons/Settings.png" Stretch="Uniform" />
+                        <Rectangle Width="26" Height="26" Fill="Black" Margin="-2">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Settings.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                     </wpfTool:SplitButton.Content>
                     <wpfTool:SplitButton.DropDownContent>
                         <StackPanel>
@@ -523,12 +614,6 @@
                 <Separator x:Name="seperator5" Visibility="Collapsed"></Separator>
             </StatusBarItem>
         </StatusBar>
-
-
-
-
-
-
     </Grid>
     <Window.Resources>
         <ResourceDictionary>
