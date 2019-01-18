@@ -252,7 +252,7 @@
         </Menu>
         <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.ColumnSpan="5" Margin="0,24,0,0" Background="{DynamicResource ToolbarBackground}" IsLocked="True" x:Name="ToolbarTray">
             <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}">
-                <ToggleButton x:Name="New"  Margin="0,0,0,0" Padding="0,0,0,0" Click="NewToolStripMenuItem_Click" IsEnabled="False" BorderBrush="Black">
+                <ToggleButton x:Name="New"  Margin="0,0,0,0" Padding="0,0,0,0" Click="NewToolStripMenuItem_Click" IsEnabled="False" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black">
                             <Rectangle.OpacityMask>
@@ -261,7 +261,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <Button x:Name="Open"  Margin="0,0,0,0" Padding="0,0,0,0" BorderBrush="Black">
+                <Button x:Name="Open"  Margin="0,0,0,0" Padding="0,0,0,0" >
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black">
                             <Rectangle.OpacityMask>
@@ -270,7 +270,7 @@
                         </Rectangle>
                     </Button.Content>
                 </Button>
-                <Button x:Name="RecentDataDirectories" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="OpenDataDirectoryMenuButton">
+                <Button x:Name="RecentDataDirectories"  Margin="0,0,0,0" Padding="0,0,0,0" Click="OpenDataDirectoryMenuButton">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black">
                             <Rectangle.OpacityMask>
@@ -279,7 +279,7 @@
                         </Rectangle>
                     </Button.Content>
                 </Button>
-                <Button Background="Transparent" VerticalContentAlignment="Center" BorderBrush="Black" HorizontalAlignment="Center"  x:Name="RecentDataDirectoriesDropDownButton" Click="RecentDataDirectoriesDropDownButton_Click" OverridesDefaultStyle="True">
+                <Button Background="Transparent" VerticalContentAlignment="Center"  HorizontalAlignment="Center"  x:Name="RecentDataDirectoriesDropDownButton" Click="RecentDataDirectoriesDropDownButton_Click" OverridesDefaultStyle="True">
                     <Button.Content>
                         <Rectangle Width="22" Height="36" Fill="Black" Margin="0" IsEnabled="False">
                             <Rectangle.OpacityMask>
@@ -294,7 +294,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <Button x:Name="Save"  Margin="0,0,0,0" BorderBrush="Black" Padding="0,0,0,0" Click="SToolStripMenuItem_Click">
+                <Button x:Name="Save"  Margin="0,0,0,0"  Padding="0,0,0,0" Click="SToolStripMenuItem_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -304,7 +304,7 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <Button x:Name="ZoomInButton" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInButton_Click">
+                <Button x:Name="ZoomInButton"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -313,7 +313,7 @@
                         </Rectangle>
                     </Button.Content>
                 </Button>
-                <Button x:Name="ZoomOutButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutButton_Click">
+                <Button x:Name="ZoomOutButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -323,7 +323,7 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="RunSceneButton" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="RunScene_Click">
+                <ToggleButton x:Name="RunSceneButton"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RunScene_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -333,7 +333,7 @@
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <Button Background="Transparent" BorderBrush="Black" VerticalContentAlignment="Center" HorizontalAlignment="Center"  IsEnabled="False"  x:Name="RunSceneButtonDropDownButton" Click="RunSceneButtonDropDownButton_Click">
+                <Button Background="Transparent"  VerticalContentAlignment="Center" HorizontalAlignment="Center"  IsEnabled="False"  x:Name="RunSceneButtonDropDownButton" Click="RunSceneButtonDropDownButton_Click">
                     <Button.Content>
                         <Rectangle Width="22" Height="36" Fill="Black" Margin="0" IsEnabled="False">
                             <Rectangle.OpacityMask>
@@ -363,7 +363,7 @@
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <Button x:Name="UndoButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoButton_Click">
+                <Button x:Name="UndoButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -372,7 +372,7 @@
                         </Rectangle>
                     </Button.Content>
                 </Button>
-                <Button x:Name="RedoButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoButton_Click">
+                <Button x:Name="RedoButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -382,7 +382,7 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <Button x:Name="ReloadButton" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click">
+                <Button x:Name="ReloadButton"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -392,7 +392,7 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="PointerButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="PointerButton_Click">
+                <ToggleButton x:Name="PointerButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="PointerButton_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -401,7 +401,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="SelectToolButton" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="SelectTool_Click">
+                <ToggleButton x:Name="SelectToolButton"   Margin="0,0,0,0" Padding="0,0,0,0" Click="SelectTool_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -410,7 +410,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="PlaceTilesButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="PlaceTilesButton_Click">
+                <ToggleButton x:Name="PlaceTilesButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="PlaceTilesButton_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -419,7 +419,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="InteractionToolButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="InteractionToolButton_Click">
+                <ToggleButton x:Name="InteractionToolButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="InteractionToolButton_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -428,7 +428,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="MagnetMode" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="MagnetMode_Click">
+                <ToggleButton x:Name="MagnetMode"  Margin="0,0,0,0" Padding="0,0,0,0" Click="MagnetMode_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -437,7 +437,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <Button Background="Transparent" BorderBrush="Black" VerticalContentAlignment="Center" HorizontalAlignment="Center"  IsEnabled="False"  x:Name="MagnetModeSplitButton" Click="MagnetModeSplitButton_Click">
+                <Button Background="Transparent"  VerticalContentAlignment="Center" HorizontalAlignment="Center"  IsEnabled="False"  x:Name="MagnetModeSplitButton" Click="MagnetModeSplitButton_Click">
                     <Button.Content>
                         <Rectangle Width="22" Height="36" Fill="Black" Margin="0" IsEnabled="False">
                             <Rectangle.OpacityMask>
@@ -458,7 +458,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <ToggleButton x:Name="ChunksToolButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ChunkToolButton_Click">
+                <ToggleButton x:Name="ChunksToolButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ChunkToolButton_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" >
                             <Rectangle.OpacityMask>
@@ -468,19 +468,19 @@
                     </ToggleButton.Content>
                 </ToggleButton>
                 <Separator/>
-                <ToggleButton x:Name="EncorePaletteButton" BorderBrush="Black" Width="26" Height="37" Margin="0" Padding="0,0,0,0" Click="EnableEncorePalette_Click">
+                <ToggleButton x:Name="EncorePaletteButton"  Width="26" Height="37" Margin="0" Padding="0,0,0,0" Click="EnableEncorePalette_Click">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/Resources/icons/ColorPalette_alt.png" Stretch="Uniform" />
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="ShowTileIDButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowTileIDButton_Click">
+                <ToggleButton x:Name="ShowTileIDButton" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowTileIDButton_Click">
                     <Rectangle x:Name="Margin" Width="26" Height="37" Fill="Black" Margin="-2,-1">
                         <Rectangle.OpacityMask>
                             <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowTileID.png" Stretch="Uniform" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </ToggleButton>
-                <ToggleButton x:Name="FlipAssistButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
+                <ToggleButton x:Name="FlipAssistButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-1">
                             <Rectangle.OpacityMask>
@@ -489,7 +489,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="ShowGridButton" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowGridButton_Click">
+                <ToggleButton x:Name="ShowGridButton"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowGridButton_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-1">
                             <Rectangle.OpacityMask>
@@ -498,7 +498,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <Button BorderBrush="Black" Background="Transparent" VerticalContentAlignment="Center" HorizontalAlignment="Center"  IsEnabled="False"  x:Name="GridSizeButton" Click="GridSizeButton_Click">
+                <Button  Background="Transparent" VerticalContentAlignment="Center" HorizontalAlignment="Center"  IsEnabled="False"  x:Name="GridSizeButton" Click="GridSizeButton_Click">
                     <Button.Content>
                         <Rectangle Width="22" Height="36" Fill="Black" Margin="0" IsEnabled="False">
                             <Rectangle.OpacityMask>
@@ -517,7 +517,7 @@
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="ShowCollisionAButton" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAButton_Click" BorderBrush="Black">
+                <ToggleButton x:Name="ShowCollisionAButton" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAButton_Click" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-1">
                             <Rectangle.OpacityMask>
@@ -526,7 +526,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="ShowCollisionBButton" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBButton_Click" BorderBrush="Black">
+                <ToggleButton x:Name="ShowCollisionBButton" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBButton_Click" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-1">
                             <Rectangle.OpacityMask>
@@ -536,7 +536,7 @@
                     </ToggleButton.Content>
                 </ToggleButton>
                 <Separator/>
-                <ToggleButton x:Name="FreezeDeviceButton" Margin="0,0,0,0" Padding="0,0,0,0" Click="ResetDeviceButton_Click_1" BorderBrush="Black">
+                <ToggleButton x:Name="FreezeDeviceButton" Margin="0,0,0,0" Padding="0,0,0,0" Click="ResetDeviceButton_Click_1" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-1">
                             <Rectangle.OpacityMask>
