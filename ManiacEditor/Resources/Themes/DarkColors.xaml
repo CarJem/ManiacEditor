@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="NormalBackground" Color="#282828"/>
+    <SolidColorBrush x:Key="MenuBar" Color="#282828"/>
+    <SolidColorBrush x:Key="ToolbarBackground" Color="#282828"/>
+    <SolidColorBrush x:Key="StatusBarBackground" Color="#464646"/>
+    <SolidColorBrush x:Key="NormalText" Color="White"/>
+    <SolidColorBrush x:Key="DisabledText" Color="Gray"/>
+    <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
+    <SolidColorBrush x:Key="ContextMenuBackground" Color="#282828"/>
+    <SolidColorBrush x:Key="ContextMenuBorder" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ContextMenuSelectedColor" Color="Blue"/>
+    <SolidColorBrush x:Key="ContextMenuSelectedColorBack" Color="#232370"/>
+    <SolidColorBrush x:Key="ContextMenuCheckboxColor" Color="Black"/>
+</ResourceDictionary>

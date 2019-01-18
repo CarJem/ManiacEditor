@@ -341,6 +341,7 @@
     <Reference Include="PresentationFramework">
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
       <Private>True</Private>
@@ -875,6 +876,7 @@
     <Compile Include="Interfaces\SoundImporter.Designer.cs">
       <DependentUpon>SoundImporter.cs</DependentUpon>
     </Compile>
+    <Compile Include="SkinResourceDictionary.cs" />
     <Compile Include="TextPrompt.cs" />
     <Compile Include="TextureCreator.cs" />
     <Compile Include="TexturetoImage.cs" />
@@ -1155,6 +1157,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\App Icons\128x128.ico" />
+    <Resource Include="Resources\Icons\DropDownArrow.png" />
     <Content Include="Resources\Tile Overlays\16x16Tiles_Edit.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1237,6 +1240,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\Editor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1249,9 +1256,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Themes\DarkSizes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\LightSizes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\LightColors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\DarkColors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Themes\MyBorderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Themes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

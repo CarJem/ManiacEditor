@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ManiacEditor">
     <Application.Resources>
-
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
+                                              DarkSource="/ManiacEditor;component/Resources/Themes/DarkColors.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Resources/Themes/MyBorderStyle.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/ContextMenu.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

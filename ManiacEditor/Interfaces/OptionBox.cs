@@ -674,6 +674,7 @@ namespace ManiacEditor
 
         private void OptionBox_FormClosing(object sender, FormClosingEventArgs e)
         {
+            /*
             if (checkBox15.Checked && !Properties.Settings.Default.NightMode)
             {
                 DialogResult result = MessageBox.Show("To apply this setting correctly, you will have to restart the editor, would you like to that now?", "Restart to Apply", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
@@ -695,6 +696,23 @@ namespace ManiacEditor
                     Application.Restart();
                     Environment.Exit(0);
                 }
+            }
+            */
+            if (checkBox15.Checked && !Properties.Settings.Default.NightMode)
+            {
+                Properties.Settings.Default.NightMode = true;
+                Properties.Settings.Default.Save();
+                App.ChangeSkin(Skin.Dark);
+                App.SkinChanged = true;
+
+            }
+            else if (!checkBox15.Checked && Properties.Settings.Default.NightMode)
+            {
+                Properties.Settings.Default.NightMode = false;
+                Properties.Settings.Default.Save();
+                App.ChangeSkin(Skin.Light);
+                App.SkinChanged = true;
+
             }
         }
 

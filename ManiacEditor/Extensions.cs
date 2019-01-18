@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Threading;
 using ManiacEditor;
 using Microsoft.Xna.Framework;
 using RSDKv5;
@@ -43,6 +44,18 @@ namespace ManiacEditor
                 }
 
             }
+        }
+    }
+
+    public static class ExtensionMethods
+    {
+
+        private static Action EmptyDelegate = delegate () { };
+
+
+        public static void Refresh(this UIElement uiElement)
+        {
+            uiElement.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
         }
     }
 }

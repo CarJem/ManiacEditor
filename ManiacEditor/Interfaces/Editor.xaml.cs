@@ -107,7 +107,8 @@ namespace ManiacEditor
         public bool showParallaxSprites = false; //Determines if we should show the parallax sprites
         public bool applyEditEntitiesTransparency = false; //Determines if the other layers should be semi-transparent when editing entities.
         public bool showEntitySelectionBoxes = false; //Determines if we should show the entity selection boxes.
-        public bool EnablePixelCountMode = false;
+        public bool EnablePixelCountMode = false; //Count the selection in pixels per tile or not
+		public bool isConsoleWindowOpen = false; //Show the Console Window or not
 
         //Editor Status States (Like are we pre-loading a scene)
         public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -345,7 +346,8 @@ namespace ManiacEditor
         #endregion
         public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
         {
-            SystemEvents.PowerModeChanged += CheckDeviceState;
+
+			SystemEvents.PowerModeChanged += CheckDeviceState;
             InstanceID = MegaManiacInstanceID;
 
 
@@ -354,6 +356,7 @@ namespace ManiacEditor
 
             editorView = new EditorView(this);
             //UseDarkTheme(mySettings.NightMode);
+            UseDarkTheme_WPF(mySettings.NightMode);
             InitializeComponent();
             SetupEditorViewForm();
             AllocConsole();
@@ -1022,7 +1025,7 @@ namespace ManiacEditor
 
             RunSceneButton.IsEnabled = enabled;
             RunSceneButton.IsChecked = GameRunning;
-            RunSceneDropDown.IsEnabled = enabled;
+            RunSceneButtonDropDownButton.IsEnabled = enabled;
 
             if (GameRunning)
             {
@@ -2553,7 +2556,7 @@ namespace ManiacEditor
                 CleanUpRecentList();
 
                 var startRecentItems = fileToolStripMenuItem.Items.IndexOf(recentDataDirectoriesToolStripMenuItem);
-                var startRecentItemsButton = RecentDataDirectories_DropDown.Children.IndexOf(noRecentDataDirectoriesToolStripMenuItem);
+                var startRecentItemsButton = RecentDataDirectories_DropDown.Items.IndexOf(noRecentDataDirectoriesToolStripMenuItem);
 
                 foreach (var dataDirectory in recentDataDirectories)
                 {
@@ -2570,7 +2573,7 @@ namespace ManiacEditor
 
                 foreach (var menuItem in _recentDataItems_Button.Reverse())
                 {
-                    RecentDataDirectories_DropDown.Children.Insert(startRecentItemsButton, menuItem);
+                    RecentDataDirectories_DropDown.Items.Insert(startRecentItemsButton, menuItem);
                 }
             }
             else
@@ -2623,7 +2626,7 @@ namespace ManiacEditor
             foreach (var menuItem in _recentDataItems_Button)
             {
                 menuItem.Click -= RecentDataDirectoryClicked;
-                RecentDataDirectories_DropDown.Children.Remove(menuItem);
+                RecentDataDirectories_DropDown.Items.Remove(menuItem);
             }
             _recentDataItems.Clear();
             _recentDataItems_Button.Clear();
@@ -2886,7 +2889,8 @@ namespace ManiacEditor
                 LayerToolbar.Items.Add(tsb);
                 tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
                 tsb.IsChecked = false;
-                tsb.Click += AdHocLayerEdit;
+				tsb.Style = (Style)FindResource("Flat");
+				tsb.Click += AdHocLayerEdit;
 
                 _extraLayerEditButtons.Add(tsb);
             }
@@ -2905,7 +2909,8 @@ namespace ManiacEditor
                 };
                 //toolStrip1.Items.Add(tsb);
                 LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
-                tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
+				tsb.Style = (Style)FindResource("Flat");
+				tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
                 tsb.IsChecked = false;
 
                 _extraLayerViewButtons.Add(tsb);
@@ -4061,7 +4066,7 @@ Error: {ex.Message}");
 
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked)
+            if (entityVisibilityType == 0)
             {
                 entityVisibilityType = 1;
             }
@@ -4074,7 +4079,7 @@ Error: {ex.Message}");
 
         private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (prioritizedViewingToolStripMenuItem.IsChecked) mySettings.PrioritizedObjectRendering = true;
+            if (!mySettings.PrioritizedObjectRendering) mySettings.PrioritizedObjectRendering = true;
             else mySettings.PrioritizedObjectRendering = false;
         }
 
@@ -4139,13 +4144,15 @@ Error: {ex.Message}");
 
         private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (moveExtraLayersToFrontToolStripMenuItem.IsChecked)
+            if (!extraLayersMoveToFront)
             {
-                extraLayersMoveToFront = true;
+				moveExtraLayersToFrontToolStripMenuItem.IsChecked = true;
+				extraLayersMoveToFront = true;
             }
             else
             {
-                extraLayersMoveToFront = false;
+				moveExtraLayersToFrontToolStripMenuItem.IsChecked = false;
+				extraLayersMoveToFront = false;
             }
         }
 
@@ -4171,37 +4178,44 @@ Error: {ex.Message}");
 
         private void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (showWaterLevelToolStripMenuItem.IsChecked)
+            if (!showWaterLevel)
             {
-                showWaterLevel = true;
+				showWaterLevelToolStripMenuItem.IsChecked = true;
+				showWaterLevel = true;
             }
             else
             {
-                showWaterLevel = false;
+				showWaterLevelToolStripMenuItem.IsChecked = false;
+				showWaterLevel = false;
             }
         }
 
         private void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e)
         {
-            if (waterLevelAlwaysShowItem.IsChecked)
+
+			if (!alwaysShowWaterLevel)
             {
+				waterLevelAlwaysShowItem.IsChecked = true;
                 alwaysShowWaterLevel = true;
             }
             else
             {
-                alwaysShowWaterLevel = false;
+				waterLevelAlwaysShowItem.IsChecked = false;
+				alwaysShowWaterLevel = false;
             }
         }
 
         private void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked)
+            if (!sizeWaterLevelwithBounds)
             {
+				sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
                 sizeWaterLevelwithBounds = true;
             }
             else
             {
-                sizeWaterLevelwithBounds = false;
+				sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
+				sizeWaterLevelwithBounds = false;
             }
         }
 
@@ -4212,13 +4226,15 @@ Error: {ex.Message}");
 
         private void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (showParallaxSpritesToolStripMenuItem.IsChecked)
+            if (showParallaxSprites)
             {
-                showParallaxSprites = true;
+				showEntityPathArrowsToolstripItem.IsChecked = false;
+                showParallaxSprites = false;
             }
             else
-            {
-                showParallaxSprites = false;
+			{
+				showEntityPathArrowsToolstripItem.IsChecked = false;
+				showParallaxSprites = true;
             }
         }
 
@@ -4258,13 +4274,15 @@ Error: {ex.Message}");
 
         private void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (showEntityPathArrowsToolstripItem.IsChecked)
+            if (!showEntityPathArrows)
             {
-                showEntityPathArrows = true;
+				showEntityPathArrowsToolstripItem.IsChecked = true;
+				showEntityPathArrows = true;
             }
             else
             {
-                showEntityPathArrows = false;
+				showEntityPathArrowsToolstripItem.IsChecked = false;
+				showEntityPathArrows = false;
             }
         }
 
@@ -6129,7 +6147,8 @@ Error: {ex.Message}");
 
         }
 
-        public void NudgeFasterButton_Click(object sender, RoutedEventArgs e)
+
+		public void NudgeFasterButton_Click(object sender, RoutedEventArgs e)
         {
             if (mySettings.EnableFasterNudge == false)
             {
@@ -6461,7 +6480,7 @@ Error: {ex.Message}");
 
         private void EnableXAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (enableXAxisToolStripMenuItem.IsChecked)
+            if (useMagnetXAxis)
             {
                 enableXAxisToolStripMenuItem.IsChecked = false;
                 useMagnetXAxis = false;
@@ -6475,7 +6494,7 @@ Error: {ex.Message}");
 
         private void EnableYAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (enableYAxisToolStripMenuItem.IsChecked)
+            if (useMagnetYAxis)
             {
                 enableYAxisToolStripMenuItem.IsChecked = false;
                 useMagnetYAxis = false;
@@ -6683,15 +6702,15 @@ Error: {ex.Message}");
 
         private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            consoleWindowToolStripMenuItem.IsChecked = !consoleWindowToolStripMenuItem.IsChecked;
-
-            if (consoleWindowToolStripMenuItem.IsChecked)
+            if (!isConsoleWindowOpen)
             {
-                ShowConsoleWindow();
+				isConsoleWindowOpen = true;
+				ShowConsoleWindow();
             }
-            else if (!consoleWindowToolStripMenuItem.IsChecked)
+            else
             {
-                HideConsoleWindow();
+				isConsoleWindowOpen = false;
+				HideConsoleWindow();
             }
         }
 
@@ -6722,7 +6741,7 @@ Error: {ex.Message}");
 
         private void DefaultToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (defaultToolStripMenuItem.IsChecked)
+            if (collisionPreset == 0)
             {
                 invertedToolStripMenuItem.IsChecked = false;
                 customToolStripMenuItem.IsChecked = false;
@@ -6743,7 +6762,7 @@ Error: {ex.Message}");
 
         private void InvertedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (invertedToolStripMenuItem.IsChecked)
+            if (collisionPreset == 1)
             {
                 defaultToolStripMenuItem.IsChecked = false;
                 customToolStripMenuItem.IsChecked = false;
@@ -6764,7 +6783,7 @@ Error: {ex.Message}");
 
         private void CustomToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
         {
-            if (customToolStripMenuItem1.IsChecked)
+            if (collisionPreset == 2)
             {
                 defaultToolStripMenuItem.IsChecked = false;
                 invertedToolStripMenuItem.IsChecked = false;
@@ -6789,7 +6808,7 @@ Error: {ex.Message}");
 
         private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (movingPlatformsObjectsToolStripMenuItem.IsChecked == false)
+            if (MovingPlatformsChecked == false)
             {
                 movingPlatformsObjectsToolStripMenuItem.IsChecked = true;
                 MovingPlatformsChecked = true;
@@ -6804,7 +6823,7 @@ Error: {ex.Message}");
 
         private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (spriteFramesToolStripMenuItem.IsChecked == false)
+            if (AnnimationsChecked == false)
             {
                 spriteFramesToolStripMenuItem.IsChecked = true;
                 AnnimationsChecked = true;
@@ -6898,6 +6917,20 @@ Error: {ex.Message}");
                 systemColors.SetColor(KnownColor.MenuBar, SystemColors.MenuBar);
             }
 
+        }
+
+        public void UseDarkTheme_WPF(bool state = false)
+        {
+            if (state)
+            {
+                App.ChangeSkin(Skin.Dark);
+                UseDarkTheme(true);
+            }         
+            else
+            {
+                App.ChangeSkin(Skin.Light);
+                UseDarkTheme(false);
+            }
         }
 
         public Control UseExternalDarkTheme(Control control)
@@ -7022,8 +7055,8 @@ Error: {ex.Message}");
         public void UpdateButtonColors()
         {
             SetButtonColors(New, MainThemeColor());
-            SetButtonColors(Open, MainThemeColor(Color.FromArgb(0xFFE793), Color.FromArgb(0xFAD962)));
-            SetButtonColors(RecentDataDirectories, MainThemeColor(Color.FromArgb(0xFFE793), Color.FromArgb(0xFAD962)));
+            SetButtonColors(Open, MainThemeColor(Color.FromArgb(255, 231, 147), Color.FromArgb(250, 217, 98)));
+            SetButtonColors(RecentDataDirectories, MainThemeColor(Color.FromArgb(255,231,147), Color.FromArgb(250, 217, 98)));
             SetButtonColors(Save, Color.RoyalBlue);
             SetButtonColors(ZoomInButton, Color.SlateBlue);
             SetButtonColors(ZoomOutButton, Color.SlateBlue);
@@ -7044,10 +7077,16 @@ Error: {ex.Message}");
             SetButtonColors(ShowCollisionBButton, Color.DeepSkyBlue);
             SetButtonColors(FlipAssistButton, MainThemeColor());
             SetButtonColors(RunSceneButton, Color.Green);
-            //SetButtonColors(MoreSettingsButton, MainThemeColor());
-            //if (mySettings.NightMode) MoreSettingsButton.ForeColor = Color.White;
+            SetButtonColors(animationsSplitButton, MainThemeColor());
+            SetButtonColors(MagnetModeSplitButton, MainThemeColor());
+            SetButtonColors(MagnetModeSplitButton, MainThemeColor());
+            SetButtonColors(GridSizeButton, MainThemeColor());
+            SetButtonColors(RunSceneButtonDropDownButton, MainThemeColor());
+            SetButtonColors(RecentDataDirectoriesDropDownButton, MainThemeColor());
+			//SetButtonColors(MoreSettingsButton, MainThemeColor());
+			//if (mySettings.NightMode) MoreSettingsButton.ForeColor = Color.White;
 
-        }
+		}
 
         public Color MainThemeColor(Color? CDC = null, Color? CWC = null)
         {
@@ -7304,6 +7343,8 @@ Error: {ex.Message}");
             // Assign the MaskedTextBox control as the host control's child.
             host.Child = editorView;
 
+            host.Foreground = (SolidColorBrush)FindResource("NormalText");
+
             // Add the interop host control to the Grid
             // control's collection of child controls.
             this.ViewPanelForm.Children.Add(host);
@@ -7311,7 +7352,32 @@ Error: {ex.Message}");
             editorView.GraphicPanel.Init(editorView);
         }
 
-        private void ShowError(string message, string title = "Error!")
+        private void RecentDataDirectoriesDropDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            RecentDataDirectoriesDropDownButton.ContextMenu.IsOpen = true;
+        }
+
+		private void RunSceneButtonDropDownButton_Click(object sender, RoutedEventArgs e)
+		{
+			RunSceneButtonDropDownButton.ContextMenu.IsOpen = true;
+		}
+
+		private void AnimationsSplitButton_Click(object sender, RoutedEventArgs e)
+		{
+			animationsSplitButton.ContextMenu.IsOpen = true;
+		}
+
+		private void MagnetModeSplitButton_Click(object sender, RoutedEventArgs e)
+		{
+			MagnetModeSplitButton.ContextMenu.IsOpen = true;
+		}
+
+		private void GridSizeButton_Click(object sender, RoutedEventArgs e)
+		{
+			GridSizeButton.ContextMenu.IsOpen = true;
+		}
+
+		private void ShowError(string message, string title = "Error!")
         {
             System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
             /*using (var customMsgBox = new CustomMsgBox(message, title, 1, 1))

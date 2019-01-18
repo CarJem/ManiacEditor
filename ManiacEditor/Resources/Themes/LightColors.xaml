@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ManiacEditor.Resources.Themes">
+    <SolidColorBrush x:Key="NormalBackground" Color="White"/>
+    <SolidColorBrush x:Key="MenuBar" Color="{DynamicResource LightMenuBar}"/>
+    <SolidColorBrush x:Key="ToolbarBackground" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="NormalText" Color="Black"/>
+    <SolidColorBrush x:Key="DisabledText" Color="Gray"/>
+    <SolidColorBrush x:Key="StatusBarBackground" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ContextMenuBackground" Color="White"/>
+    <SolidColorBrush x:Key="ContextMenuBorder" Color="Black"/>
+    <SolidColorBrush x:Key="ContextMenuSelectedColor" Color="Blue"/>
+    <SolidColorBrush x:Key="ContextMenuSelectedColorBack" Color="#B3D7F3"/>
+    <SolidColorBrush x:Key="ContextMenuCheckboxColor" Color="Black"/>
+    <Color x:Key="LightMenuBar">#FFF0F0F0</Color>
+</ResourceDictionary>
