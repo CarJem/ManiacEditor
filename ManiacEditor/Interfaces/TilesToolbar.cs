@@ -68,20 +68,27 @@ namespace ManiacEditor
             switch (state)
             {
                 case TileOptionState.Disabled:
-                    tileOptionsCheckboxes[option].Enabled = false;
-                    tileOptionsCheckboxes[option].Checked = false;
+                    tileOptionsCheckboxes[option].AutoCheck = false;
+					tileOptionsCheckboxes[option].ForeColor = SystemColors.GrayText;
+					tileOptionsCheckboxes[option].Checked = false;
                     break;
                 case TileOptionState.Checked:
                     tileOptionsCheckboxes[option].Enabled = true;
-                    tileOptionsCheckboxes[option].CheckState = CheckState.Checked;
+					tileOptionsCheckboxes[option].AutoCheck = true;
+					tileOptionsCheckboxes[option].ForeColor = SystemColors.ControlText;
+					tileOptionsCheckboxes[option].CheckState = CheckState.Checked;
                     break;
                 case TileOptionState.Unchcked:
                     tileOptionsCheckboxes[option].Enabled = true;
-                    tileOptionsCheckboxes[option].CheckState = CheckState.Unchecked;
+					tileOptionsCheckboxes[option].AutoCheck = true;
+					tileOptionsCheckboxes[option].ForeColor = SystemColors.ControlText;
+					tileOptionsCheckboxes[option].CheckState = CheckState.Unchecked;
                     break;
                 case TileOptionState.Indeterminate:
                     tileOptionsCheckboxes[option].Enabled = true;
-                    tileOptionsCheckboxes[option].CheckState = CheckState.Indeterminate;
+					tileOptionsCheckboxes[option].AutoCheck = true;
+					tileOptionsCheckboxes[option].ForeColor = SystemColors.ControlText;
+					tileOptionsCheckboxes[option].CheckState = CheckState.Indeterminate;
                     break;
             }
             setCheckboxes = false;

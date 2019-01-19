@@ -59,7 +59,6 @@ namespace ManiacEditor
             }
             FindDuplicateIds();
             SetupObject = GetSetupObject(scene);
-            SetupObject = "";
             entitiesBySlot = entities.ToDictionary(x => x.Entity.SlotID);
         }
 

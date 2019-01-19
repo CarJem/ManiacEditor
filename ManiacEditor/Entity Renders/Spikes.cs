@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             var value = entity.attributesMap["type"];
             bool fliph = false;
             bool flipv = false;
-            bool isFBZ = e.EditorInstance.SelectedZone.Contains("FBZ\\");
+			bool isFBZ = (e.EditorInstance.entities.SetupObject == "FBZSetup" ? true : false);
             int animID = 0;
 
             // Down

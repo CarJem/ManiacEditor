@@ -896,40 +896,29 @@ namespace ManiacEditor
             {
                 if (SolidLrbA || SolidTopA)
                 {
-                    //Get a bitmap of the collision
-                    Bitmap cm = EditorInstance.CollisionLayerA[TileIndexInt].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
+					//Get a bitmap of the collision
+					Bitmap cm = EditorInstance.CollisionLayerA[TileIndex].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
 
-                    if (SolidTopA && !SolidLrbA)
-                    {
-                        for (int ix = 0; ix < cm.Width; ix++)
-                        {
-                            for (int iy = 0; iy < cm.Height; iy++)
-                            {
-                                //System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                //if (gotColor == EditorInstance.CollisionAllSolid)
-                                //{
-                                    cm.SetPixel(ix, iy, EditorInstance.CollisionTopOnlySolid);
-                                //}
-                            }
-                        }
-                    }//Change Colour if Solidity = Top
+					System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
+					System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
+					System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
 
-                    if (SolidLrbA && !SolidTopA)
-                    {
-                        for (int ix = 0; ix < cm.Width; ix++)
-                        {
-                            for (int iy = 0; iy < cm.Height; iy++)
-                            {
-                                //System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                //if (gotColor == EditorInstance.CollisionAllSolid)
-                                //{
-                                    cm.SetPixel(ix, iy, EditorInstance.CollisionLRDSolid);
-                                //}
-                            }
-                        }
-                    } //Change Colour if Solidity = All But Top
+					if (SolidTopA && SolidLrbA)
+					{
+						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
+					}
 
-                    if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
+					if (SolidTopA && !SolidLrbA)
+					{
+						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
+					}
+
+					if (SolidLrbA && !SolidTopA)
+					{
+						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
+					}
+
+					if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
 
                     if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
 
@@ -943,37 +932,26 @@ namespace ManiacEditor
                     //Get a bitmap of the collision
                     Bitmap cm = EditorInstance.CollisionLayerB[TileIndex].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
 
-                    if (SolidTopB && !SolidLrbB)
+					System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
+					System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
+					System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
+
+					if (SolidTopB && SolidLrbB)
+					{
+						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
+					}
+
+					if (SolidTopB && !SolidLrbB)
                     {
-                        for (int ix = 0; ix < cm.Width; ix++)
-                        {
-                            for (int iy = 0; iy < cm.Height; iy++)
-                            {
-                                System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == EditorInstance.CollisionAllSolid)
-                                {
-                                    cm.SetPixel(ix, iy, EditorInstance.CollisionTopOnlySolid);
-                                }
-                            }
-                        }
-                    }//Change Colour if Solidity = Top
+						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
+					}
 
                     if (SolidLrbB && !SolidTopB)
                     {
-                        for (int ix = 0; ix < cm.Width; ix++)
-                        {
-                            for (int iy = 0; iy < cm.Height; iy++)
-                            {
-                                System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                                if (gotColor == EditorInstance.CollisionAllSolid)
-                                {
-                                    cm.SetPixel(ix, iy, EditorInstance.CollisionLRDSolid);
-                                }
-                            }
-                        }
-                    } //Change Colour if Solidity = All But Top
+						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
+					}
 
-                    if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
+					if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
 
                     if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
 

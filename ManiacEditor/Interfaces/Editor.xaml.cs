@@ -136,10 +136,11 @@ namespace ManiacEditor
         public bool KickStartMegaManiacRenderLoopFinished = false; //Used to end the process of starting the render loop when starting the editor for Mega Maniac
         public bool DebugStatsVisibleOnPanel = false;
         public bool UseLargeDebugStats = false;
+		public bool collisionOpacityChanged = false;
 
 
-        //Editor Variable States (Like Scroll Lock is in the X Direction)
-        string scrollDirection = "X"; //Determines Scroll Lock Direction
+		//Editor Variable States (Like Scroll Lock is in the X Direction)
+		string scrollDirection = "X"; //Determines Scroll Lock Direction
         int magnetSize = 16; //Determines the Magnets Size
         public int EncoreSetupType; //Used to determine what kind of encore setup the stage uses
         public string ToolbarSelectedTile; //Used to display the selected tile in the tiles toolbar
@@ -264,6 +265,7 @@ namespace ManiacEditor
         //Tile Maniac + ManiaPal Instance
         public TileManiac.Mainform mainform = new Mainform();
         public static ManiaPal.App app;
+		public static ManiaPal.MainWindow ManiaPalInstance;
 
         //Editor Misc. Variables
         System.Windows.Forms.Timer t;
@@ -1001,7 +1003,7 @@ namespace ManiacEditor
             ShowFGLower.IsEnabled = enabled && FGLower != null;
             ShowEntities.IsEnabled = enabled;
             ShowAnimations.IsEnabled = enabled;
-            animationsSplitButton.IsEnabled = enabled;
+            animationsSplitButton_Dropdown.IsEnabled = enabled;
             ReloadButton.IsEnabled = enabled;
             newShortcutToolStripMenuItem.IsEnabled = Directory.Exists(DataDirectory);
             withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = EditorScene != null;
@@ -1025,7 +1027,7 @@ namespace ManiacEditor
 
             RunSceneButton.IsEnabled = enabled;
             RunSceneButton.IsChecked = GameRunning;
-            RunSceneButtonDropDownButton.IsEnabled = enabled;
+            RunSceneDropDown.IsEnabled = enabled;
 
             if (GameRunning)
             {
@@ -4068,20 +4070,32 @@ Error: {ex.Message}");
         {
             if (entityVisibilityType == 0)
             {
+				showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked = true;
                 entityVisibilityType = 1;
             }
             else
             {
-                entityVisibilityType = 0;
+				showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked = false;
+				entityVisibilityType = 0;
             }
 
         }
 
         private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!mySettings.PrioritizedObjectRendering) mySettings.PrioritizedObjectRendering = true;
-            else mySettings.PrioritizedObjectRendering = false;
-        }
+			if (!mySettings.PrioritizedObjectRendering)
+			{
+				mySettings.PrioritizedObjectRendering = true;
+				prioritizedViewingToolStripMenuItem.IsChecked = true;
+			}
+			else
+			{
+				mySettings.PrioritizedObjectRendering = false;
+				prioritizedViewingToolStripMenuItem.IsChecked = false;
+			}
+
+		}
+
 
         private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -4499,7 +4513,7 @@ Error: {ex.Message}");
         }
         private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Sanic2Maniac sanic = new Sanic2Maniac();
+            Sanic2Maniac sanic = new Sanic2Maniac(null, this);
             sanic.Show();
         }
         private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -4552,37 +4566,39 @@ Error: {ex.Message}");
         {
             MenuItem button = sender as MenuItem;
 
-            if (ManiaPal.MainWindow.Instance == null)
-            {
+			if (ManiaPal.MainWindow.Instance == null) return; //This is currently broken, so just return at the moment.
 
-                var thread = new Thread(() =>
-                {
-                    ManiaPal.App.HideInstead = true;
-                    app = new ManiaPal.App();
-                    app.InitializeComponent();
-                    app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
-                    app.Run();
-                });
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
-                while (ManiaPal.MainWindow.Instance == null)
-                    Thread.Sleep(100);
-                var MP = ManiaPal.MainWindow.Instance;
-                MP.Dispatcher.Invoke(() =>
-                {
-                    if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
-                    {
-                        if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
-                    }
-                    else if (StageConfig != null)
-                    {
-                        if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
-                    }
+			//if (ManiaPalInstance != null && !ManiaPalInstance.IsVisible) return;
 
-                    MP.RefreshPalette(MP.CurrentPaletteSet);
-                    MP.Activate();
-                });
-            }
+			if (ManiaPal.MainWindow.Instance == null)
+			{
+				var thread = new Thread(() =>
+				{
+					//ManiaPal.App.HideInstead = true;
+					ManiaPalInstance = new ManiaPal.MainWindow();
+					ManiaPalInstance.ShowDialog();
+				});
+				thread.SetApartmentState(ApartmentState.STA);
+				thread.Start();
+
+				while (ManiaPal.MainWindow.Instance == null)
+					Thread.Sleep(100);
+				var MP = ManiaPal.MainWindow.Instance;
+				MP.Dispatcher.Invoke(() =>
+				{
+					if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
+					{
+						if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
+					}
+					else if (StageConfig != null)
+					{
+						if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
+					}
+
+					MP.RefreshPalette(MP.CurrentPaletteSet);
+					MP.Activate();
+				});
+			}
             else
             {
                 var MP = ManiaPal.MainWindow.Instance;
@@ -4590,6 +4606,7 @@ Error: {ex.Message}");
                 {
                     MP.Visibility = System.Windows.Visibility.Visible;
                 });
+
 
                 if (button != null && button == maniaPalStageConfigToolStripMenuItem && StageConfig != null)
                 {
@@ -4717,8 +4734,8 @@ Error: {ex.Message}");
 
         private void OpenASavedPlaceTrigger(object sender, RoutedEventArgs e)
         {
-            ToolStripDropDownItem item = sender as ToolStripDropDownItem;
-            string savedPlaceDir = item.Text.Replace('/', '\\');
+			MenuItem item = sender as MenuItem;
+            string savedPlaceDir = item.Header.ToString().Replace('/', '\\');
             Process.Start("explorer.exe", "/select, " + savedPlaceDir);
         }
 
@@ -4854,7 +4871,7 @@ Error: {ex.Message}");
 
         private void ChunkToolButton_Click(object sender, RoutedEventArgs e)
         {
-            ChunksToolButton.IsChecked = !ChunksToolButton.IsChecked;
+            //ChunksToolButton.IsChecked = !ChunksToolButton.IsChecked;
             UpdateControls();
         }
 
@@ -4905,7 +4922,7 @@ Error: {ex.Message}");
             Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
             if (sender == RunSceneButton && GameRunning)
             {
-                RunSceneDropDown.IsOpen = true;
+                RunSceneDropDown.IsSubmenuOpen = true;
                 return;
             }
             if (processes != null)
@@ -5408,12 +5425,12 @@ Error: {ex.Message}");
         private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             
-            if (app != null)
+            if (ManiaPalInstance != null)
             {
-                var MP = ManiaPal.App.Current;
+                var MP = ManiaPal.MainWindow.Instance;
                 MP.Dispatcher.Invoke(() =>
                 {
-                    MP.Shutdown();
+                    MP.Close();
                 });
             }
 
@@ -6741,11 +6758,12 @@ Error: {ex.Message}");
 
         private void DefaultToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (collisionPreset == 0)
+            if (collisionPreset != 0)
             {
                 invertedToolStripMenuItem.IsChecked = false;
-                customToolStripMenuItem.IsChecked = false;
-                collisionPreset = 0;
+				customToolStripMenuItem1.IsChecked = false;
+				defaultToolStripMenuItem.IsChecked = true;
+				collisionPreset = 0;
                 ReloadSpecificTextures(sender, e);
                 RefreshCollisionColours(true);
             }
@@ -6753,7 +6771,7 @@ Error: {ex.Message}");
             {
                 defaultToolStripMenuItem.IsChecked = true;
                 invertedToolStripMenuItem.IsChecked = false;
-                customToolStripMenuItem.IsChecked = false;
+				customToolStripMenuItem1.IsChecked = false;
                 collisionPreset = 0;
                 ReloadSpecificTextures(sender, e);
                 RefreshCollisionColours(true);
@@ -6762,11 +6780,12 @@ Error: {ex.Message}");
 
         private void InvertedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (collisionPreset == 1)
+            if (collisionPreset != 1)
             {
                 defaultToolStripMenuItem.IsChecked = false;
-                customToolStripMenuItem.IsChecked = false;
-                collisionPreset = 1;
+				customToolStripMenuItem1.IsChecked = false;
+				invertedToolStripMenuItem.IsChecked = true;
+				collisionPreset = 1;
                 ReloadSpecificTextures(sender, e);
                 RefreshCollisionColours(true);
             }
@@ -6774,7 +6793,7 @@ Error: {ex.Message}");
             {
                 defaultToolStripMenuItem.IsChecked = true;
                 invertedToolStripMenuItem.IsChecked = false;
-                customToolStripMenuItem.IsChecked = false;
+				customToolStripMenuItem1.IsChecked = false;
                 collisionPreset = 0;
                 ReloadSpecificTextures(sender, e);
                 RefreshCollisionColours(true);
@@ -6783,11 +6802,12 @@ Error: {ex.Message}");
 
         private void CustomToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
         {
-            if (collisionPreset == 2)
+            if (collisionPreset != 2)
             {
                 defaultToolStripMenuItem.IsChecked = false;
                 invertedToolStripMenuItem.IsChecked = false;
-                collisionPreset = 2;
+				customToolStripMenuItem1.IsChecked = true; 
+				collisionPreset = 2;
                 ReloadSpecificTextures(sender, e);
                 RefreshCollisionColours(true);
             }
@@ -6795,7 +6815,7 @@ Error: {ex.Message}");
             {
                 defaultToolStripMenuItem.IsChecked = true;
                 invertedToolStripMenuItem.IsChecked = false;
-                customToolStripMenuItem.IsChecked = false;
+				customToolStripMenuItem1.IsChecked = false;
                 collisionPreset = 0;
                 ReloadSpecificTextures(sender, e);
                 RefreshCollisionColours(true);
@@ -7033,7 +7053,27 @@ Error: {ex.Message}");
 
             }
 
-            if (sender is SplitButton)
+			if (sender is MenuItem)
+			{
+
+				var item = (sender as MenuItem);
+				if (item == null) return;
+				if (item.Header == null) return;
+				var objContent = (sender as MenuItem).Header;
+				if (objContent == null) return;
+				if (objContent is System.Windows.Shapes.Rectangle)
+				{
+					System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
+					Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
+					System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
+					content.Fill = new SolidColorBrush(ConvertedColor);
+
+				}
+
+
+			}
+
+			if (sender is SplitButton)
             {   /*         
                 var item = (sender as SplitButton);
                 if (item == null) return;
@@ -7077,12 +7117,13 @@ Error: {ex.Message}");
             SetButtonColors(ShowCollisionBButton, Color.DeepSkyBlue);
             SetButtonColors(FlipAssistButton, MainThemeColor());
             SetButtonColors(RunSceneButton, Color.Green);
-            SetButtonColors(animationsSplitButton, MainThemeColor());
-            SetButtonColors(MagnetModeSplitButton, MainThemeColor());
             SetButtonColors(MagnetModeSplitButton, MainThemeColor());
             SetButtonColors(GridSizeButton, MainThemeColor());
-            SetButtonColors(RunSceneButtonDropDownButton, MainThemeColor());
-            SetButtonColors(RecentDataDirectoriesDropDownButton, MainThemeColor());
+            SetButtonColors(RunSceneDropDown, MainThemeColor());
+            SetButtonColors(RecentDataDirectories_DropDown, MainThemeColor());
+			SetButtonColors(MagnetModeSplitDropDown, MainThemeColor());
+			SetButtonColors(GridSizeButton, MainThemeColor());
+			SetButtonColors(animationsSplitButton_Dropdown, MainThemeColor()); 
 			//SetButtonColors(MoreSettingsButton, MainThemeColor());
 			//if (mySettings.NightMode) MoreSettingsButton.ForeColor = Color.White;
 
@@ -7231,6 +7272,7 @@ Error: {ex.Message}");
 
                 if (!item.IsChecked)
                 {
+					UncheckAllPlayers();
                     item.IsChecked = true;
                     int.TryParse(item.Tag.ToString(), out int player);
                     PlayerBeingTracked = player;
@@ -7245,7 +7287,16 @@ Error: {ex.Message}");
             }
         }
 
-        private void New_Click(object sender, RoutedEventArgs e)
+		private void UncheckAllPlayers()
+		{
+			trackP1ToolStripMenuItem.IsChecked = false;
+			trackP2ToolStripMenuItem.IsChecked = false;
+			trackP3ToolStripMenuItem.IsChecked = false;
+			trackP4ToolStripMenuItem.IsChecked = false;
+		}
+
+
+		private void New_Click(object sender, RoutedEventArgs e)
         {
             UnloadScene();
             NewSceneMaker makerDialog = new NewSceneMaker();
@@ -7352,29 +7403,41 @@ Error: {ex.Message}");
             editorView.GraphicPanel.Init(editorView);
         }
 
-        private void RecentDataDirectoriesDropDownButton_Click(object sender, RoutedEventArgs e)
-        {
-            RecentDataDirectoriesDropDownButton.ContextMenu.IsOpen = true;
-        }
 
-		private void RunSceneButtonDropDownButton_Click(object sender, RoutedEventArgs e)
+
+		private void CollisionOpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			RunSceneButtonDropDownButton.ContextMenu.IsOpen = true;
+			collisionOpacityChanged = true;
 		}
 
-		private void AnimationsSplitButton_Click(object sender, RoutedEventArgs e)
+		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
 		{
-			animationsSplitButton.ContextMenu.IsOpen = true;
+			if (collisionOpacityChanged)
+			{
+				collisionOpacityChanged = false;
+				ReloadSpecificTextures(sender, e);
+				RefreshCollisionColours(true);
+			}
 		}
 
-		private void MagnetModeSplitButton_Click(object sender, RoutedEventArgs e)
+		private void CollisionOpacitySlider_DragCompleted(object sender, DragCompletedEventArgs e)
 		{
-			MagnetModeSplitButton.ContextMenu.IsOpen = true;
+			if (collisionOpacityChanged)
+			{
+				collisionOpacityChanged = false;
+				ReloadSpecificTextures(sender, e);
+				RefreshCollisionColours(true);
+			}
 		}
 
-		private void GridSizeButton_Click(object sender, RoutedEventArgs e)
+		private void CollisionOpacitySlider_LostFocus(object sender, RoutedEventArgs e)
 		{
-			GridSizeButton.ContextMenu.IsOpen = true;
+			if (collisionOpacityChanged)
+			{
+				collisionOpacityChanged = false;
+				ReloadSpecificTextures(sender, e);
+				RefreshCollisionColours(true);
+			}
 		}
 
 		private void ShowError(string message, string title = "Error!")

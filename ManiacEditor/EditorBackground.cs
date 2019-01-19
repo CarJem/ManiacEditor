@@ -96,6 +96,8 @@ namespace ManiacEditor
         {
             Rectangle screen = d.GetScreen();
 
+			Color GridColor = Color.FromArgb((int)EditorInstance.gridOpacitySlider.Value, Properties.Settings.Default.GridColorDefault.R, Properties.Settings.Default.GridColorDefault.B, Properties.Settings.Default.GridColorDefault.G);
+
             int start_x = screen.X / (TILE_BOX_SIZE * GRID_TILE_SIZE);
             int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILE_BOX_SIZE * GRID_TILE_SIZE), EditorInstance.SceneWidth);
             int start_y = screen.Y / (TILE_BOX_SIZE * GRID_TILE_SIZE);
@@ -106,10 +108,10 @@ namespace ManiacEditor
                 {
                     for (int x = start_x; x < end_x; ++x)
                     {
-                            d.DrawLine(x * GRID_TILE_SIZE, y * GRID_TILE_SIZE, x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE, Properties.Settings.Default.GridColorDefault);
-                            d.DrawLine(x * GRID_TILE_SIZE, y * GRID_TILE_SIZE, x * GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, Properties.Settings.Default.GridColorDefault);
-                            d.DrawLine(x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE, Properties.Settings.Default.GridColorDefault);
-                            d.DrawLine(x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, x * GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, Properties.Settings.Default.GridColorDefault);
+                            d.DrawLine(x * GRID_TILE_SIZE, y * GRID_TILE_SIZE, x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE, GridColor);
+                            d.DrawLine(x * GRID_TILE_SIZE, y * GRID_TILE_SIZE, x * GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, GridColor);
+                            d.DrawLine(x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE, GridColor);
+                            d.DrawLine(x * GRID_TILE_SIZE + GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, x * GRID_TILE_SIZE, y * GRID_TILE_SIZE + GRID_TILE_SIZE, GridColor);
                     }
                 }
         }

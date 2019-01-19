@@ -792,6 +792,7 @@
     <Compile Include="Interfaces\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\Toolbar.cs" />
     <Compile Include="Interfaces\UpdateStatusBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1241,6 +1242,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="ContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\Controls\Toolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

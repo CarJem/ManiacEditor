@@ -23,7 +23,6 @@ namespace ManiacEditor.Interfaces
 		UInt32 currentStartPosition = 0;
 		VorbisWaveReader audioStream = null;
 		int loopOffset = 16;
-		bool manuallyStopped = false;
 		WaveOut waveOut = null;
 		System.Windows.Forms.Timer updatePositionTimer;
 		public SoundLooper()
@@ -129,11 +128,9 @@ namespace ManiacEditor.Interfaces
 		{
 			if (audioStream != null && waveOut != null)
 			{
-					manuallyStopped = true;
 					waveOut.Stop();
 					waveOut.Dispose();
-					waveOut = null;
-					manuallyStopped = false;			
+					waveOut = null;		
 			}
 		}
 
