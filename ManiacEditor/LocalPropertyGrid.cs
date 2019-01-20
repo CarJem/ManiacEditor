@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Dynamic;
-using System.Drawing.Design;
-using System.Windows.Forms.Design;
 
 namespace ManiacEditor
 {
@@ -45,7 +40,7 @@ namespace ManiacEditor
             var properties = _properties
                .Select(pair => new DynamicPropertyDescriptor(this,
                    pair.Key, pair.Value.Value.GetType(), pair.Value));
-            return new PropertyDescriptorCollection(properties.ToArray());
+			return new PropertyDescriptorCollection(properties.ToArray());
         }
         public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {

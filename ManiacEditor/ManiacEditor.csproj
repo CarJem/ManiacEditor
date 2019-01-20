@@ -984,6 +984,9 @@
     <None Include="Resources\OhNo.wav" />
     <None Include="README.md" />
     <None Include="Resources\ScoreTotal.wav" />
+    <EmbeddedResource Include="Interfaces\ChunksList.resx">
+      <DependentUpon>ChunksList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ConfigManager.resx">
       <DependentUpon>ConfigManager.cs</DependentUpon>
     </EmbeddedResource>

@@ -71,7 +71,9 @@ namespace ManiacEditor
                 entityProperties2 = new WPFGrid();
                 entityProperties2.PropertyValueChanged += new Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventHandler(entityProperties2_PropertyValueChanged);
                 elementHost1.Child = entityProperties2;
-            }
+				entityProperties2.IsCategorized = true;
+
+			}
             else
             {
                 elementHost1.Enabled = false;
@@ -197,11 +199,12 @@ namespace ManiacEditor
         }
 
         private void AddProperty(LocalProperties properties, int category_index, string category, string name, string value_type, object value, bool read_only=false) {
-            properties.Add(String.Format("{0}.{1}", category, name), new LocalProperty(name, value_type, category_index, category, name, true, read_only, value, ""));
-            
-        }
+			properties.Add(String.Format("{0}.{1}", category, name), new LocalProperty(name, value_type, category_index, category, name, true, read_only, value, ""));
+			//properties.Add(String.Format("{0}.{1}", category, name), new LocalProperty(name, value_type, ""));
 
-        private System.Drawing.Color SetForeColor()
+		}
+
+		private System.Drawing.Color SetForeColor()
         {
             System.Drawing.Color ForeColor;
             if (currentEntity.attributesMap.ContainsKey("filter") && currentEntity.attributesMap["filter"].Type == AttributeTypes.UINT8)

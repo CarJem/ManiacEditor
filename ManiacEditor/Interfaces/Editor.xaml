@@ -29,7 +29,7 @@
 
 
         <Border Grid.ColumnSpan="5" Margin="10,114,10,10" BorderBrush="Transparent" BorderThickness="1">
-            <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" OverridesDefaultStyle="True">
+            <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Grid.ContextMenu>
                     <ContextMenu x:Name="ViewPanelContextMenu">
                         <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="EditTileWithTileManiacToolStripMenuItem_Click"></MenuItem>
@@ -43,6 +43,8 @@
                 </Grid.ContextMenu>
             </Grid>
         </Border>
+
+
 
 
 
@@ -116,10 +118,15 @@
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem IsEnabled="False" Header="Display Options:"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <StackPanel Orientation="Horizontal">
-                        <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
-                        <Slider LostFocus="CollisionOpacitySlider_LostFocus" Thumb.DragCompleted="CollisionOpacitySlider_DragCompleted" x:Name="collisionOpacitySlider" Value="255" Maximum="255" Width="100" VerticalAlignment="Center" ValueChanged="CollisionOpacitySlider_ValueChanged"></Slider>
-                    </StackPanel>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
+                                <Slider LostFocus="CollisionOpacitySlider_LostFocus" Thumb.DragCompleted="CollisionOpacitySlider_DragCompleted" x:Name="collisionOpacitySlider" Value="255" Maximum="255" Width="100" VerticalAlignment="Center" ValueChanged="CollisionOpacitySlider_ValueChanged"></Slider>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
 
                 </MenuItem>
                 <MenuItem x:Name="statsViewerToolStripMenuItem" Header="Stat Viewer...">
@@ -261,7 +268,7 @@
         </Menu>
         <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.ColumnSpan="5" Margin="0,24,0,0" Background="{DynamicResource ToolbarBackground}" IsLocked="True" x:Name="ToolbarTray">
             <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}">
-                <ToggleButton x:Name="New" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="NewToolStripMenuItem_Click" IsEnabled="False" >
+                <ToggleButton x:Name="New" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="NewToolStripMenuItem_Click" IsEnabled="False" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-2,0,0">
                             <Rectangle.OpacityMask>
@@ -270,7 +277,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <Button x:Name="Open" Width="32" BorderBrush="Black" Click="OpenToolStripMenuItem_Click" Margin="0,0,0,0" Padding="0,0,0,0" >
+                <Button x:Name="Open" Width="32"  Click="OpenToolStripMenuItem_Click" Margin="0,0,0,0" Padding="0,0,0,0" >
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                             <Rectangle.OpacityMask>
@@ -279,7 +286,7 @@
                         </Rectangle>
                     </Button.Content>
                 </Button>
-                <Button x:Name="RecentDataDirectories" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="OpenDataDirectoryMenuButton">
+                <Button x:Name="RecentDataDirectories" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="OpenDataDirectoryMenuButton">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                             <Rectangle.OpacityMask>
@@ -307,7 +314,7 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Button x:Name="Save" Width="32" BorderBrush="Black"  Margin="0,0,0,0"  Padding="0,0,0,0" Click="SToolStripMenuItem_Click">
+                <Button x:Name="Save" Width="32"   Margin="0,0,0,0"  Padding="0,0,0,0" Click="SToolStripMenuItem_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                             <Rectangle.OpacityMask>
@@ -317,7 +324,7 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <Button x:Name="ZoomInButton" Width="32" BorderBrush="Black"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInButton_Click">
+                <Button x:Name="ZoomInButton" Width="32"    Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                             <Rectangle.OpacityMask>
@@ -326,7 +333,7 @@
                         </Rectangle>
                     </Button.Content>
                 </Button>
-                <Button x:Name="ZoomOutButton" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutButton_Click">
+                <Button x:Name="ZoomOutButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                             <Rectangle.OpacityMask>
@@ -336,7 +343,7 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="RunSceneButton" Width="32"  Height="34" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="RunScene_Click">
+                <ToggleButton x:Name="RunSceneButton" Width="32"  Height="34"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RunScene_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1">
                             <Rectangle.OpacityMask>
@@ -361,15 +368,15 @@
                                     <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus"/>
                                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                                     <MenuItem x:Name="trackThePlayerToolStripMenuItem" Header="Track the Player...">
-                                        <MenuItem x:Name="trackP1ToolStripMenuItem" Header="Track P1" Tag="1"/>
-                                        <MenuItem x:Name="trackP2ToolStripMenuItem" Header="Track P2" Tag="2"/>
-                                        <MenuItem x:Name="trackP3ToolStripMenuItem" Header="Track P3" Tag="3"/>
-                                        <MenuItem x:Name="trackP4ToolStripMenuItem" Header="Track P4" Tag="4"/>
+                                        <MenuItem x:Name="trackP1ToolStripMenuItem" Header="Track P1" Tag="1" Click="TrackPlayerToolStripMenuItem_Click"/>
+                                        <MenuItem x:Name="trackP2ToolStripMenuItem" Header="Track P2" Tag="2" Click="TrackPlayerToolStripMenuItem_Click"/>
+                                        <MenuItem x:Name="trackP3ToolStripMenuItem" Header="Track P3" Tag="3" Click="TrackPlayerToolStripMenuItem_Click"/>
+                                        <MenuItem x:Name="trackP4ToolStripMenuItem" Header="Track P4" Tag="4" Click="TrackPlayerToolStripMenuItem_Click"/>
                                     </MenuItem>
-                                    <MenuItem x:Name="restartSceneToolStripMenuItem1" Header="Restart Scene"/>
-                                    <MenuItem x:Name="assetResetToolStripMenuItem1" Header="Asset Reset"/>
+                                    <MenuItem x:Name="restartSceneToolStripMenuItem1" Header="Restart Scene" Click="RestartSceneToolStripMenuItem_Click"/>
+                                    <MenuItem x:Name="assetResetToolStripMenuItem1" Header="Asset Reset" Click="AssetResetToolStripMenuItem_Click"/>
                                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                    <MenuItem x:Name="openModManagerToolStripMenuItem" Header="Open Mod Manager"/>
+                                    <MenuItem x:Name="openModManagerToolStripMenuItem" Header="Open Mod Manager" Click="OpenModManagerToolStripMenuItem_Click"/>
                                     <MenuItem x:Name="selectConfigToolStripMenuItem" Header="Select Config...">
                                         <MenuItem x:Name="noConfigFilesToolStripMenuItem" Header="No Config Files" IsEnabled="False"/>
                                     </MenuItem>
@@ -380,18 +387,18 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <Button x:Name="UndoButton" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoButton_Click">
+                <Button x:Name="UndoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoButton_Click" Tag="Undo {0} (Ctrl + Z)">
                     <Button.Content>
-                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0" x:Name="UndoRect">
                             <Rectangle.OpacityMask>
                                 <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Undo.png" Stretch="Uniform" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Button.Content>
                 </Button>
-                <Button x:Name="RedoButton" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoButton_Click">
+                <Button x:Name="RedoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoButton_Click" Tag="Redo {0} (Ctrl + Y)">
                     <Button.Content>
-                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                        <Rectangle x:Name="RedoRect" Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
                                 <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Redo.png" Stretch="Uniform" />
                             </Rectangle.OpacityMask>
@@ -399,7 +406,7 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <Button x:Name="ReloadButton" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click">
+                <Button x:Name="ReloadButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click">
                     <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                             <Rectangle.OpacityMask>
@@ -409,78 +416,81 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="PointerButton" Width="32" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="PointerButton_Click">
-                    <ToggleButton.Content>
-                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Pointer_alt.png" Stretch="Uniform" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton x:Name="SelectToolButton" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="SelectTool_Click">
-                    <ToggleButton.Content>
-                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Select.png" Stretch="Uniform" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton x:Name="PlaceTilesButton" Width="32" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="PlaceTilesButton_Click">
-                    <ToggleButton.Content>
-                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/PlaceTiles.png" Stretch="Uniform" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton x:Name="InteractionToolButton" Width="32" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="InteractionToolButton_Click">
-                    <ToggleButton.Content>
-                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/InteractionTool.png" Stretch="Uniform" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton x:Name="MagnetMode" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="MagnetMode_Click">
-                    <ToggleButton.Content>
-                        <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/MagnetTool.png" Stretch="Uniform" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <Button x:Name="MagnetModeSplitButton" BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
-                    <Button.Content>
-                        <StackPanel Background="{DynamicResource ToolbarBackground}">
-                            <Menu Background="{DynamicResource ToolbarBackground}" Height="36">
-                                <MenuItem x:Name="MagnetModeSplitDropDown" Width="22" Height="22" Foreground="{DynamicResource NormalText}">
-                                    <MenuItem.Header>
-                                        <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
-                                            <Rectangle.OpacityMask>
-                                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Header>
-                                    <MenuItem x:Name="gridAlignmentSizeToolStripMenuItem" Header="Grid Alignment Size:" IsEnabled="False"></MenuItem>
-                                    <MenuItem x:Name="x8ToolStripMenuItem" Header="8x8" Click="X8ToolStripMenuItem_Click"></MenuItem>
-                                    <MenuItem x:Name="x16ToolStripMenuItem1" Header="16x16" Click="X16ToolStripMenuItem1_Click" IsChecked="true"></MenuItem>
-                                    <MenuItem x:Name="x32ToolStripMenuItem" Header="32x32" Click="X32ToolStripMenuItem_Click"></MenuItem>
-                                    <MenuItem x:Name="x64ToolStripMenuItem" Header="64x64" Click="X64ToolStripMenuItem_Click"></MenuItem>
-                                    <MenuItem x:Name="optionsToolStripMenuItem1" Header="Options: " IsEnabled="False"></MenuItem>
-                                    <MenuItem x:Name="enableXAxisToolStripMenuItem" Header="Enable X Axis" Click="EnableXAxisToolStripMenuItem_Click"></MenuItem>
-                                    <MenuItem x:Name="enableYAxisToolStripMenuItem" Header="Enable Y Axis" Click="EnableYAxisToolStripMenuItem_Click"></MenuItem>
-                                </MenuItem>
-                            </Menu>
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
 
-                <ToggleButton x:Name="ChunksToolButton" BorderBrush="Black" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ChunkToolButton_Click">
+
+
+                            <ToggleButton x:Name="PointerButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="PointerButton_Click">
+                                <ToggleButton.Content>
+                                    <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Pointer_alt.png" Stretch="Uniform" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <ToggleButton x:Name="SelectToolButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="SelectTool_Click">
+                                <ToggleButton.Content>
+                                    <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Select.png" Stretch="Uniform" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <ToggleButton x:Name="PlaceTilesButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="PlaceTilesButton_Click">
+                                <ToggleButton.Content>
+                                    <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/PlaceTiles.png" Stretch="Uniform" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <ToggleButton x:Name="InteractionToolButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="InteractionToolButton_Click">
+                                <ToggleButton.Content>
+                                    <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/InteractionTool.png" Stretch="Uniform" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <ToggleButton x:Name="MagnetMode" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="MagnetMode_Click">
+                                <ToggleButton.Content>
+                                    <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/MagnetTool.png" Stretch="Uniform" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <Button x:Name="MagnetModeSplitButton" BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
+                                <Button.Content>
+                                    <StackPanel Background="{DynamicResource ToolbarBackground}">
+                                        <Menu Background="{DynamicResource ToolbarBackground}" Height="36">
+                                            <MenuItem x:Name="MagnetModeSplitDropDown" Width="22" Height="22" Foreground="{DynamicResource NormalText}">
+                                                <MenuItem.Header>
+                                                    <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
+                                                        <Rectangle.OpacityMask>
+                                                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Header>
+                                                <MenuItem x:Name="gridAlignmentSizeToolStripMenuItem" Header="Grid Alignment Size:" IsEnabled="False"></MenuItem>
+                                                <MenuItem x:Name="x8ToolStripMenuItem" Header="8x8" Click="X8ToolStripMenuItem_Click"></MenuItem>
+                                                <MenuItem x:Name="x16ToolStripMenuItem1" Header="16x16" Click="X16ToolStripMenuItem1_Click" IsChecked="true"></MenuItem>
+                                                <MenuItem x:Name="x32ToolStripMenuItem" Header="32x32" Click="X32ToolStripMenuItem_Click"></MenuItem>
+                                                <MenuItem x:Name="x64ToolStripMenuItem" Header="64x64" Click="X64ToolStripMenuItem_Click"></MenuItem>
+                                                <MenuItem x:Name="optionsToolStripMenuItem1" Header="Options: " IsEnabled="False"></MenuItem>
+                                                <MenuItem x:Name="enableXAxisToolStripMenuItem" Header="Enable X Axis" Click="EnableXAxisToolStripMenuItem_Click"></MenuItem>
+                                                <MenuItem x:Name="enableYAxisToolStripMenuItem" Header="Enable Y Axis" Click="EnableYAxisToolStripMenuItem_Click"></MenuItem>
+                                            </MenuItem>
+                                        </Menu>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+
+                <ToggleButton x:Name="ChunksToolButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ChunkToolButton_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" >
                             <Rectangle.OpacityMask>
@@ -489,20 +499,22 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
+
+
                 <Separator/>
-                <ToggleButton x:Name="EncorePaletteButton" Width="32" Height="34" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="EnableEncorePalette_Click" >
+                <ToggleButton x:Name="EncorePaletteButton" Width="32" Height="34"  Margin="0,0,0,0" Padding="0,0,0,0" Click="EnableEncorePalette_Click" >
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/Resources/icons/ColorPalette_alt.png" Stretch="Uniform"  Height="34" Width="26" />
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="ShowTileIDButton" BorderBrush="Black" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowTileIDButton_Click">
+                <ToggleButton x:Name="ShowTileIDButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowTileIDButton_Click">
                     <Rectangle Width="26" Height="37" Fill="Black" Margin="-2,-2">
                         <Rectangle.OpacityMask>
                             <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowTileID.png" Stretch="Uniform" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </ToggleButton>
-                <ToggleButton x:Name="FlipAssistButton" BorderBrush="Black" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
+                <ToggleButton x:Name="FlipAssistButton"  Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="-1,-1">
                             <Rectangle.OpacityMask>
@@ -511,7 +523,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="ShowGridButton" Width="32" BorderBrush="Black"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowGridButton_Click">
+                <ToggleButton x:Name="ShowGridButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowGridButton_Click">
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-1">
                             <Rectangle.OpacityMask>
@@ -538,17 +550,22 @@
                                     <MenuItem x:Name="x256ToolStripMenuItem" Header="256x256" Click="X256ToolStripMenuItem_Click"></MenuItem>
                                     <MenuItem x:Name="customToolStripMenuItem" Header="Custom..." Click="CustomToolStripMenuItem_Click"></MenuItem>
                                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
-                                        <Slider x:Name="gridOpacitySlider" Value="255" Maximum="255" Width="100" VerticalAlignment="Center"></Slider>
-                                    </StackPanel>
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
+                                                <Slider x:Name="gridOpacitySlider" Value="255" Maximum="255" Width="100" VerticalAlignment="Center"></Slider>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
                                 </MenuItem>
                             </Menu>
                         </StackPanel>
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="ShowCollisionAButton" Width="32" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAButton_Click" >
+                <ToggleButton x:Name="ShowCollisionAButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAButton_Click" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
                             <Rectangle.OpacityMask>
@@ -557,7 +574,7 @@
                         </Rectangle>
                     </ToggleButton.Content>
                 </ToggleButton>
-                <ToggleButton x:Name="ShowCollisionBButton" Width="32" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBButton_Click" >
+                <ToggleButton x:Name="ShowCollisionBButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBButton_Click" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
                             <Rectangle.OpacityMask>
@@ -567,7 +584,7 @@
                     </ToggleButton.Content>
                 </ToggleButton>
                 <Separator/>
-                <ToggleButton x:Name="FreezeDeviceButton" Width="32" BorderBrush="Black" Margin="0,0,0,0" Padding="0,0,0,0" Click="ResetDeviceButton_Click_1" >
+                <ToggleButton x:Name="FreezeDeviceButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ResetDeviceButton_Click_1" >
                     <ToggleButton.Content>
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
                             <Rectangle.OpacityMask>

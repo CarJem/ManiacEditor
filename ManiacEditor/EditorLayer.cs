@@ -174,7 +174,7 @@ namespace ManiacEditor
                 return PointsChunks[y][x];
             }
 
-            public List<Point> PopAll()
+			public List<Point> PopAll()
             {
                 List<Point> points = GetAll();
                 Clear();
@@ -389,7 +389,18 @@ namespace ManiacEditor
             }
         }
 
-        public void MoveSelectedQuonta(Point change)
+		public Point GetChunkCoordinates(int x, int y)
+		{
+			Point ChunkCoordinate = new Point();
+			if (x != 0) ChunkCoordinate.X = x / 128;
+			else ChunkCoordinate.X = 0;
+			if (y != 0) ChunkCoordinate.Y = y / 128;
+			else ChunkCoordinate.Y = 0;
+
+			return ChunkCoordinate;
+		}
+
+		public void MoveSelectedQuonta(Point change)
         {
             MoveSelected(Point.Empty, new Point(change.X * TILE_SIZE, change.Y * TILE_SIZE), false);
         }
@@ -745,7 +756,9 @@ namespace ManiacEditor
             return 0xffff;
         }
 
-        private Rectangle GetChunkArea(int x, int y)
+
+
+		private Rectangle GetChunkArea(int x, int y)
         {
             return new Rectangle(x, y, 128, 128);
         }

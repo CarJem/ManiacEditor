@@ -88,7 +88,7 @@ namespace ManiacEditor
         /// </summary>
         public string Name { get { return _name; } set { _name = value; } }
         public string Type { get { return _type; } set { _type = value; } }
-        public Boolean Display { get { return _display; } set { _display = value; } }
+		public Boolean Display { get { return _display; } set { _display = value; } }
         public Boolean Readonly { get { return _readonly; } set { _readonly = value; } }
         public string DisplayName { get { return _displayName; } set { _displayName = value; } }
         public string Description { get { return _description; } set { _description = value; } }

@@ -47,9 +47,9 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tilePanel = new System.Windows.Forms.Panel();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
 			this.contextMenuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -273,6 +273,20 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Chunks";
 			// 
+			// retroEDTileList1
+			// 
+			this.retroEDTileList1.BackColor = System.Drawing.SystemColors.Window;
+			this.retroEDTileList1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.retroEDTileList1.ImageHeight = 128;
+			this.retroEDTileList1.ImageSize = 128;
+			this.retroEDTileList1.ImageWidth = 128;
+			this.retroEDTileList1.Location = new System.Drawing.Point(3, 3);
+			this.retroEDTileList1.Name = "retroEDTileList1";
+			this.retroEDTileList1.ScrollValue = 0;
+			this.retroEDTileList1.SelectedIndex = -1;
+			this.retroEDTileList1.Size = new System.Drawing.Size(234, 303);
+			this.retroEDTileList1.TabIndex = 1;
+			// 
 			// groupBox1
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -297,20 +311,6 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(96, 19);
 			this.panel1.TabIndex = 16;
-			// 
-			// retroEDTileList1
-			// 
-			this.retroEDTileList1.BackColor = System.Drawing.SystemColors.Window;
-			this.retroEDTileList1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.retroEDTileList1.ImageHeight = 128;
-			this.retroEDTileList1.ImageSize = 128;
-			this.retroEDTileList1.ImageWidth = 128;
-			this.retroEDTileList1.Location = new System.Drawing.Point(3, 3);
-			this.retroEDTileList1.Name = "retroEDTileList1";
-			this.retroEDTileList1.ScrollValue = 0;
-			this.retroEDTileList1.SelectedIndex = -1;
-			this.retroEDTileList1.Size = new System.Drawing.Size(234, 303);
-			this.retroEDTileList1.TabIndex = 1;
 			// 
 			// TilesToolbar
 			// 
@@ -362,10 +362,10 @@
         public System.Windows.Forms.ToolStripMenuItem editTileInTileManiacToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private Interfaces.RetroEDTileList retroEDTileList1;
         public System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Panel tilePanel;
-    }
+		public Interfaces.RetroEDTileList retroEDTileList1;
+	}
 }

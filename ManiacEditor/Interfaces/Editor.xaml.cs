@@ -57,6 +57,7 @@ using Clipboard = System.Windows.Clipboard;
 using DataObject = System.Windows.DataObject;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
+using Cursors = System.Windows.Input.Cursors;
 
 namespace ManiacEditor
 {
@@ -269,7 +270,6 @@ namespace ManiacEditor
 
         //Editor Misc. Variables
         System.Windows.Forms.Timer t;
-        System.Windows.Forms.Timer SplitButtonDelayMenuOpening;
 
         //Dark Theme
         public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
@@ -357,10 +357,10 @@ namespace ManiacEditor
 
 
             editorView = new EditorView(this);
-            //UseDarkTheme(mySettings.NightMode);
             UseDarkTheme_WPF(mySettings.NightMode);
             InitializeComponent();
-            SetupEditorViewForm();
+			SetupEditorViewForm();
+			SetupTooltips();
             AllocConsole();
             HideConsoleWindow();
             try
@@ -442,7 +442,7 @@ namespace ManiacEditor
             this.editorView.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBar1_Scroll);
             this.editorView.hScrollBar1.ValueChanged += new System.EventHandler(this.HScrollBar1_ValueChanged);
             this.editorView.hScrollBar1.MouseEnter += new System.EventHandler(this.HScrollBar1_Entered);
-            //this.editorView.Activated += new System.EventHandler(this.MapEditor_Activated);
+            this.Activated += new System.EventHandler(this.MapEditor_Activated);
             //this.editorView.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Editor_FormClosing);
             //this.editorView.Load += new System.EventHandler(this.Form1_Load);
             this.editorView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
@@ -450,9 +450,10 @@ namespace ManiacEditor
             //this.editorView.Resize += new System.EventHandler(this.Form1_Resize);
             SetupGraphicPanel();
 
+
         }
 
-        public void SetupGraphicPanel()
+		public void SetupGraphicPanel()
         {
             this.editorView.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
             this.editorView.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
@@ -464,10 +465,23 @@ namespace ManiacEditor
             this.editorView.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
             this.editorView.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
             this.editorView.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            this.editorView.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+			this.editorView.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
             this.editorView.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
             this.editorView.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
         }
+
+		public void SetupTooltips()
+		{
+			New.ToolTip = "New Scene (Ctrl + N)";
+			Open.ToolTip = "Open Scene (Ctrl + O)";
+			RecentDataDirectories.ToolTip = "Open Recent Data Folder";
+			Save.ToolTip = "Save Scene (Ctrl + S)";
+			ZoomInButton.ToolTip = "";
+			ZoomOutButton.ToolTip = "";
+			RunSceneButton.ToolTip = "";
+			ReloadButton.ToolTip = "Reload Assets and Textures";
+			PointerButton.ToolTip = "Pointer Tool";
+		}
 
         #region Discord Rich Presence
 
@@ -882,7 +896,7 @@ namespace ManiacEditor
 
         public bool IsEditing()
         {
-            return IsTilesEdit() || IsEntitiesEdit();
+			return IsTilesEdit() || IsEntitiesEdit() || IsChunksEdit();
         }
 
         public bool IsSceneLoaded()
@@ -1138,12 +1152,26 @@ namespace ManiacEditor
             findAndReplaceToolStripMenuItem.IsEnabled = enabled && EditLayer != null;
 
             PointerButton.IsEnabled = enabled && IsTilesEdit();
-            SelectToolButton.IsEnabled = enabled && IsTilesEdit();
-            PlaceTilesButton.IsEnabled = enabled && IsTilesEdit();
+            SelectToolButton.IsEnabled = enabled && IsTilesEdit() && !IsChunksEdit();
+			PlaceTilesButton.IsEnabled = enabled && IsTilesEdit();
             InteractionToolButton.IsEnabled = enabled;
             ChunksToolButton.IsEnabled = enabled && IsTilesEdit();
 
-            ShowGridButton.IsEnabled = enabled && StageConfig != null;
+			PointerButton.IsChecked = (bool)PointerButton.IsChecked || (!(bool)PointerButton.IsChecked && !(bool)SelectToolButton.IsChecked && !(bool)PlaceTilesButton.IsChecked);
+			if ((bool)SelectToolButton.IsChecked && IsChunksEdit())
+			{
+				SelectToolButton.IsChecked = false;
+				PlaceTilesButton.IsChecked = true;
+			}
+			PlaceTilesButton.IsChecked = PlaceTilesButton.IsChecked;
+			InteractionToolButton.IsChecked = InteractionToolButton.IsChecked;
+			ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !IsEntitiesEdit();
+
+
+
+
+
+			ShowGridButton.IsEnabled = enabled && StageConfig != null;
             ShowCollisionAButton.IsEnabled = enabled && StageConfig != null;
             ShowCollisionBButton.IsEnabled = enabled && StageConfig != null;
             ShowTileIDButton.IsEnabled = enabled && StageConfig != null;
@@ -1438,14 +1466,17 @@ namespace ManiacEditor
 
         private void UpdateTooltipForStacks(Button tsb, Stack<IAction> actionStack)
         {
-            if (actionStack?.Count > 0)
+
+			if (actionStack?.Count > 0)
             {
                 IAction action = actionStack.Peek();
-                tsb.ToolTip = string.Format(tsb.Content.ToString(), action.Description + " ");
-            }
+				System.Windows.Controls.ToolTip tooltip = new System.Windows.Controls.ToolTip { Content = string.Format(tsb.Tag.ToString(), action.Description + " ") };
+				tsb.ToolTip = tooltip;
+			}
             else
             {
-                tsb.ToolTip = string.Format(tsb.Content.ToString(), string.Empty);
+				System.Windows.Controls.ToolTip tooltip = new System.Windows.Controls.ToolTip { Content = string.Format(tsb.Tag.ToString(), string.Empty) };
+				tsb.ToolTip = tooltip;
             }
         }
 
@@ -1468,7 +1499,6 @@ namespace ManiacEditor
                 [new Point(0, 0)] = (ushort)tile
             };
             EditLayer.PasteFromClipboard(position, tiles);
-            UpdateEditLayerActions();
         }
 
         public void EditorTileReplaceTest(int findValue, int replaceValue, int applyState, bool copyResults, bool perserveColllision)
@@ -1844,29 +1874,29 @@ namespace ManiacEditor
 
                 if (xMove > 0)
                 {
-                    //if (yMove > 0) Cursor = Cursors.ScrollSE;
-                    //else if (yMove < 0) Cursor = Cursors.ScrollNE;
-                    //else Cursor = Cursors.ScrollE;
+                    if (yMove > 0) Cursor = Cursors.ScrollSE;
+                    else if (yMove < 0) Cursor = Cursors.ScrollNE;
+                    else Cursor = Cursors.ScrollE;
 
                 }
                 else if (xMove < 0)
                 {
-                    //if (yMove > 0) Cursor = Cursors.ScrollSW;
-                    //else if (yMove < 0) Cursor = Cursors.ScrollNW;
-                    //else Cursor = Cursors.ScrollW;
+                    if (yMove > 0) Cursor = Cursors.ScrollSW;
+                    else if (yMove < 0) Cursor = Cursors.ScrollNW;
+                    else Cursor = Cursors.ScrollW;
 
                 }
                 else
                 {
 
-                    //if (yMove > 0) Cursor = Cursors.ScrollS;
-                    //else if (yMove < 0) Cursor = Cursors.ScrollN;
-                    //else
-                    //{
-                    //    if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible) Cursor = Cursors.NoMove2D;
-                    //    else if (editorView.vScrollBar1.Visible) Cursor = Cursors.NoMoveVert;
-                    //    else if (editorView.hScrollBar1.Visible) Cursor = Cursors.NoMoveHoriz;
-                    //}
+                    if (yMove > 0) Cursor = Cursors.ScrollS;
+                    else if (yMove < 0) Cursor = Cursors.ScrollN;
+                    else
+                    {
+                        if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible) Cursor = Cursors.ScrollAll;
+                        else if (editorView.vScrollBar1.Visible) Cursor = Cursors.ScrollNS;
+                        else if (editorView.hScrollBar1.Visible) Cursor = Cursors.ScrollWE;
+                    }
 
                 }
 
@@ -1904,7 +1934,7 @@ namespace ManiacEditor
             }
             if (IsEditing())
             {
-                if (IsTilesEdit() && PlaceTilesButton.IsChecked.Value)
+                if (IsTilesEdit() && !IsChunksEdit() && PlaceTilesButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                     if (e.Button == MouseButtons.Left)
@@ -1933,7 +1963,10 @@ namespace ManiacEditor
 
                     }
                 }
-                if (draggingSelection || dragged)
+
+
+
+				if (draggingSelection || dragged)
                 {
                     Point position = new Point(ShiftX, ShiftY); ;
                     int ScreenMaxX = position.X + editorView.splitContainer1.Panel1.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth;
@@ -2121,7 +2154,7 @@ namespace ManiacEditor
             {
                 if (IsEditing() && !dragged)
                 {
-                    if (IsTilesEdit() && !InteractionToolButton.IsChecked.Value)
+                    if (IsTilesEdit() && !InteractionToolButton.IsChecked.Value && !IsChunksEdit())
                     {
                         if (PlaceTilesButton.IsChecked.Value)
                         {
@@ -2137,7 +2170,22 @@ namespace ManiacEditor
                             ClickedY = e.Y;
                         }
                     }
-                    else if (IsEntitiesEdit())
+					if (IsChunksEdit())
+					{
+						Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+						Point pC = EditLayer.GetChunkCoordinates(p.X, p.Y);
+
+
+						int selectedIndex = TilesToolbar.retroEDTileList1.SelectedIndex;
+						// Place Stamp
+						if (selectedIndex != -1)
+						{
+							EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
+						}
+						
+
+					}
+					else if (IsEntitiesEdit())
                     {
                         Point clicked_point = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                         if (entities.GetEntityAt(clicked_point)?.Selected ?? false)
@@ -2177,12 +2225,12 @@ namespace ManiacEditor
                 if (scrolling)
                 {
                     scrolling = false;
-                    //Cursor = Cursors.Default;
+                    Cursor = Cursors.Arrow;
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (IsTilesEdit() && PlaceTilesButton.IsChecked.Value)
+                if (IsTilesEdit() && PlaceTilesButton.IsChecked.Value && !IsChunksEdit())
                 {
                     // Remove tile
                     Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
@@ -2192,25 +2240,40 @@ namespace ManiacEditor
                     }
                     DeleteSelected();
                 }
-            }
-            else if (e.Button == MouseButtons.Middle)
+				else if (IsChunksEdit())
+				{
+					Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+					Point pC = EditLayer.GetChunkCoordinates(p.X, p.Y);
+
+
+					// Remove Stamp Sized Area
+					EditorChunk.PasteStamp(pC, 0, EditLayer, true);
+				
+
+				}
+			}
+            else if (e.Button == MouseButtons.Middle || Mouse.MiddleButton == MouseButtonState.Pressed)
             {
-                wheelClicked = true;
+				wheelClicked = true;
                 scrolling = true;
                 scrollingDragged = false;
                 scrollPosition = new Point(e.X - ShiftX, e.Y - ShiftY);
                 if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible)
                 {
-                    //Cursor = Cursors.NoMove2D;
-                }
+					//Cursor = System.Windows.Forms.Cursors.NoMove2D;
+					Cursor = Cursors.ScrollAll;
+
+				}
                 else if (editorView.vScrollBar1.Visible)
                 {
-                    //Cursor = Cursors.NoMoveVert;
-                }
+					//Cursor = System.Windows.Forms.Cursors.NoMoveHoriz;
+					Cursor = Cursors.ScrollWE;
+				}
                 else if (editorView.hScrollBar1.Visible)
                 {
-                    //Cursor = Cursors.NoMoveHoriz;
-                }
+					//Cursor = System.Windows.Forms.Cursors.NoMoveVert;
+					Cursor = Cursors.ScrollNS;
+				}
                 else
                 {
                     scrolling = false;
@@ -2297,13 +2360,13 @@ namespace ManiacEditor
                     }
                 }
             }
-            else if (e.Button == MouseButtons.Middle)
+			else if (e.Button == MouseButtons.Middle || Mouse.MiddleButton == MouseButtonState.Pressed)
             {
                 wheelClicked = false;
                 if (scrollingDragged)
                 {
                     scrolling = false;
-                    //Cursor = Cursors.Default;
+                    Cursor = Cursors.Arrow;
                 }
             }
             UpdateControls();
@@ -2741,7 +2804,6 @@ namespace ManiacEditor
 
         public void Form1_Resize(object sender, RoutedEventArgs e)
         {
-            //if (editorView.GraphicPanel != null) editorView.GraphicPanel.bRender = false;
 
             if (info != null)
             {
@@ -2806,15 +2868,12 @@ namespace ManiacEditor
             editorView.scrollBarDividerPanel.Location = new Point(DividorX, DividorY);
 
 
-            /*
+            
             while (ScreenWidth > editorView.GraphicPanel.Width)
-                ResizeGraphicPanel(editorView.GraphicPanel.Width * 2, editorView.GraphicPanel.Height);
+                ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height);
             while (ScreenHeight > editorView.GraphicPanel.Height)
-                ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height * 2);
-                */
-
-
-            //if (editorView.GraphicPanel != null) editorView.GraphicPanel.bRender = true;
+                ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height);
+                
 
         }
 
@@ -3076,13 +3135,6 @@ namespace ManiacEditor
             t.Tick += new EventHandler(UpdateStatusPanel);
             t.Start();
 
-            SplitButtonDelayMenuOpening = new System.Windows.Forms.Timer
-            {
-                Interval = 500
-            };
-            SplitButtonDelayMenuOpening.Tick += new EventHandler(DropDownMenuUpdater);
-            SplitButtonDelayMenuOpening.Start();
-
 
             SelectedScene = null;
             SelectedZone = null;
@@ -3284,9 +3336,16 @@ namespace ManiacEditor
 
             SetupLayerButtons();
 
-            EditorChunk = new EditorChunk(this, StageTiles);
+			Stamps StageStamps = new Stamps();
 
-            EditorBackground = new EditorBackground(this);
+			if (File.Exists(SceneFilepath + "\\ManiacStamps.bin"))
+			{
+				StageStamps = new Stamps(SceneFilepath + "\\ManiacStamps.bin");
+			}
+
+			EditorChunk = new EditorChunk(this, StageTiles, StageStamps);
+
+			EditorBackground = new EditorBackground(this);
 
             entities = new EditorEntities(EditorScene, this);
 
@@ -3361,7 +3420,8 @@ namespace ManiacEditor
             ScenePath = Result;
             UpdateDiscord("Editing " + Result);
 
-            if (File.Exists(SceneFilepath + "\\maniac.ini"))
+
+			if (File.Exists(SceneFilepath + "\\maniac.ini"))
             {
                 bool allowToRead = false;
                 using (Stream stream = EditorSettings.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
@@ -3462,7 +3522,7 @@ namespace ManiacEditor
             ScenePath = Result;
             UpdateDiscord("Editing " + Result);
 
-            if (File.Exists(SceneFilepath + "\\maniac.ini"))
+			if (File.Exists(SceneFilepath + "\\maniac.ini"))
             {
                 bool allowToRead = false;
                 using (Stream stream = EditorSettings.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
@@ -3577,7 +3637,17 @@ Error: {ex.Message}");
                 ShowError($@"Failed to save the StageConfig to file '{StageConfigFileName}'
 Error: {ex.Message}");
             }
-        }
+
+			try
+			{
+				EditorChunk.StageStamps?.Write(SceneFilepath + "//ManiacStamps.bin");
+			}
+			catch (Exception ex)
+			{
+				ShowError($@"Failed to save StageStamps to file '{SceneFilepath + "ManiacStamps.bin"}'
+Error: {ex.Message}");
+			}
+		}
 
         private void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -5404,7 +5474,7 @@ Error: {ex.Message}");
             EditorControls.GraphicPanel_OnKeyUp(sender, e);
         }
 
-        private void MapEditor_Activated(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void MapEditor_Activated(object sender, EventArgs e)
         {
             editorView.GraphicPanel.Focus();
             if (mainform.hasModified)
@@ -5482,7 +5552,7 @@ Error: {ex.Message}");
                 editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile);
                 ViewPanelContextMenu.Placement = PlacementMode.Mouse;
                 ViewPanelContextMenu.IsOpen = true;
-            }
+			}
             else if (e.Button == MouseButtons.Right && InteractionToolButton.IsChecked.Value)
             {
                 Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
@@ -5502,14 +5572,10 @@ Error: {ex.Message}");
                 editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile);
                 ViewPanelContextMenu.Placement = PlacementMode.Mouse;
                 ViewPanelContextMenu.IsOpen = true;
-            }
+
+			}
 
             //Stuff that Doesn't work yet that I'm not ready to ship
-
-        }
-
-        private void ViewPanel_Click(object sender, RoutedEventArgs e)
-        {
 
         }
 
@@ -7439,6 +7505,8 @@ Error: {ex.Message}");
 				RefreshCollisionColours(true);
 			}
 		}
+
+
 
 		private void ShowError(string message, string title = "Error!")
         {

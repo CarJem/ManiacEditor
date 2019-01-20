@@ -166,7 +166,7 @@ namespace ManiacEditor
             retroEDTileList1.Images.Clear();
             EditorInstance.EditorChunk.DisposeTextures();
 
-            for (int i = 0; i < EditorInstance.EditorChunk.ChunkList.Count; i++)
+            for (int i = 0; i < EditorInstance.EditorChunk.StageStamps.StampList.Count; i++)
             {
                 retroEDTileList1.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
             }
@@ -277,7 +277,7 @@ namespace ManiacEditor
 
         private void selectedTileLabel_Click(object sender, EventArgs e)
         {
-
+		
         }
     }
 

@@ -375,5 +375,5 @@ namespace ManiacEditor.Interfaces
             ScrollValue -= e.Delta / SystemInformation.MouseWheelScrollDelta * SystemInformation.MouseWheelScrollLines * 16;
             Invalidate();
         }
-    }
+	}
 }
