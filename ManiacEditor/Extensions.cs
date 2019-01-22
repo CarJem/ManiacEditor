@@ -14,6 +14,8 @@ using ManiacEditor;
 using Microsoft.Xna.Framework;
 using RSDKv5;
 using Xceed.Wpf.Toolkit;
+using System.Collections.Specialized;
+using System.Configuration;
 
 namespace ManiacEditor
 {
@@ -46,6 +48,20 @@ namespace ManiacEditor
 
             }
         }
+
+		public static bool KeyBindsSettingExists(string name)
+		{
+			bool found = false;
+			foreach (SettingsProperty currentProperty in Properties.KeyBinds.Default.Properties)
+			{
+				if (name == currentProperty.Name.ToString())
+				{
+					found = true;
+				}
+
+			}
+			return found;
+		}
 
 		public static string ReplaceLastOccurrence(string Source, string Find, string Replace)
 		{

@@ -26,7 +26,7 @@ namespace ManiacEditor.Entity_Renders
             var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, listID, frameID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && !invisible)
             {
-                var frame = editorAnim.Frames[Animation.index];
+                var frame = editorAnim.Frames[0];
                 switch (align)
                 {
                     case 0:

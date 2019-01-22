@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Specialized;
 using System.Windows.Forms.PropertyGridInternal;
 using Cyotek.Windows.Forms;
 using ManiacEditor.Interfaces;
@@ -57,7 +59,6 @@ namespace ManiacEditor
                 }
             }
 
-            initilizeKeyDefaults();
 
             if (Properties.Settings.Default.NightMode)
             {
@@ -72,6 +73,8 @@ namespace ManiacEditor
             tabPage6.UseVisualStyleBackColor = false;
 
             CheckGraphicalPresetModeState(null, null);
+
+			SetKeybindTextboxes();
 
         }
 
@@ -485,53 +488,6 @@ namespace ManiacEditor
 
         }
 
-        private void initilizeKeyDefaults()
-        {
-            scrollLockAxisKeyBox.Text = Properties.KeyBinds.Default.ScrollLockTypeSwitch.ToString();
-            nudgeFasterKeyBox.Text = Properties.KeyBinds.Default.NudgeFaster.ToString();
-            scrollLockKeyBox.Text = Properties.KeyBinds.Default.ScrollLock.ToString();
-        }
-
-        private void nudgeFaster_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!(e.Alt || e.Control || e.Shift))
-            {
-                Keys keyData = e.KeyCode;
-                Properties.KeyBinds.Default.NudgeFaster = keyData;
-                nudgeFasterKeyBox.Text = "";
-                nudgeFasterKeyBox.Text = Properties.KeyBinds.Default.NudgeFaster.ToString();
-                Properties.KeyBinds.Default.Save();
-            }
-
-            
-        }
-
-        private void scrollLock_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!(e.Alt || e.Control || e.Shift))
-            {
-                Keys keyData = e.KeyCode;
-                Properties.KeyBinds.Default.ScrollLock = keyData;
-                scrollLockKeyBox.Text = "";
-                scrollLockKeyBox.Text = Properties.KeyBinds.Default.ScrollLock.ToString();
-                Properties.KeyBinds.Default.Save();
-            }
-
-        }
-
-        private void scrollLockType_KeyDown(object sender, KeyEventArgs e)
-        {
-                if (!(e.Alt || e.Control || e.Shift))
-                {
-                    Keys keyData = e.KeyCode;
-                    Properties.KeyBinds.Default.ScrollLockTypeSwitch = keyData;
-                    scrollLockAxisKeyBox.Text = "";
-                    scrollLockAxisKeyBox.Text = Properties.KeyBinds.Default.ScrollLockTypeSwitch.ToString();
-                    Properties.KeyBinds.Default.Save();
-            }
-
-        }
-
         private void preRenderAlways_CheckedChanged(object sender, EventArgs e)
         {
             preRenderRadioGroupsUpdate(3);
@@ -716,22 +672,17 @@ namespace ManiacEditor
             }
         }
 
-        private void textBox43_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            bool state = true;
-            if (state)
-            {
-                KeybindTool keybinder = new KeybindTool();
-                if (keybinder.ShowDialog() == DialogResult.OK)
-                {
-                    string name = sender.ToString();
-                }
-            }
 
 
-        }
+		public object this[string propertyName]
+		{
+			get { return this.GetType().GetProperty(propertyName).GetValue(this, null); }
+			set { this.GetType().GetProperty(propertyName).SetValue(this, value, null); }
+		}
 
-        private void checkBox24_CheckedChanged(object sender, EventArgs e)
+		public string Bar { get; set; }
+
+		private void checkBox24_CheckedChanged(object sender, EventArgs e)
         {
 
         }
@@ -795,5 +746,93 @@ namespace ManiacEditor
         {
             
         }
-    }
+
+		private void textBox43_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if (!(sender is TextBox)) return;
+			TextBox KeyBind = sender as TextBox;
+			bool state = true;
+			if (state)
+			{
+				string keybindName = KeyBind.Tag.ToString();
+
+				List<string> keyBindList = new List<string>();
+				List<string> keyBindModList = new List<string>();
+
+
+
+				KeybindTool keybinder = new KeybindTool(keybindName);
+				if (keybinder.ShowDialog() == DialogResult.OK)
+				{
+					Keys keyBindtoSet = keybinder.CurrentBindingKey;
+					string modifiersName = keybindName + "_Mod";
+
+					string modifierCode = "";
+
+					if (keybinder.ctrlChecked) modifierCode += "C";
+					if (keybinder.altChecked) modifierCode += "A";
+					if (keybinder.tabChecked) modifierCode += "T";
+					if (keybinder.shiftChecked) modifierCode += "S";
+
+					Settings.myKeyBinds[keybindName] = keyBindtoSet;
+					Settings.myKeyBinds[modifiersName] = modifierCode;
+
+					MessageBox.Show(keybindName + Environment.NewLine + "Key: " + Settings.myKeyBinds[keybindName].ToString() + Environment.NewLine + "Modifier Code: " + Settings.myKeyBinds[modifiersName].ToString());
+
+
+				}
+			}
+			SetKeybindTextboxes();
+
+		}
+
+		private void SetKeybindTextboxes()
+		{
+			foreach (TextBox t in tabControl1.TabPages[2].Controls.OfType<TextBox>())
+			{
+				if (t.Tag != null) t.Text = KeyBindPraser(t.Tag.ToString());
+			}
+		}
+
+
+
+
+
+		private string KeyBindPraser(string keyRefrence)
+		{
+			List<string> keyBindList = new List<string>();
+			List<string> keyBindModList = new List<string>();
+
+			if (!Extensions.KeyBindsSettingExists(keyRefrence)) return "N/A";
+
+			var keybindDict = Settings.myKeyBinds[keyRefrence] as StringCollection;
+			if (keybindDict != null)
+			{
+				keyBindList = keybindDict.Cast<string>().ToList();
+			}
+			else
+			{
+				return "N/A";
+			}
+
+			if (keyBindList == null)
+			{
+				return "N/A";
+			}
+
+			if (keyBindList.Count > 1)
+			{
+				return string.Format("{0} Keybinds", keyBindList.Count);
+			}
+			else if ((keyBindList.Count == 1)) {
+				return keyBindList[0];
+			}
+			else
+			{
+				return "N/A";
+			}
+
+		}
+
+	}
 }

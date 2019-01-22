@@ -310,8 +310,8 @@ namespace ManiacEditor
                 var animiation = rsdkAnim.Animations[AnimId];
                 var frame = animiation.Frames[i];
                 if (frameId >= 0 && frameId < animiation.Frames.Count) frame = animiation.Frames[frameId];
-                Bitmap map;
-                bool noEncoreColors = false;
+				Bitmap map = null;
+				bool noEncoreColors = false;
                 if (assetName == "EditorAssets" || assetName == "EditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
 
                 if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = rsdkAnim.SpriteSheets.Count - 1;
@@ -337,19 +337,25 @@ namespace ManiacEditor
                     }
                     else
                     {
+						using (Stream stream = File.OpenRead(targetFile))
+						{
+							Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
+							map = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
+							//Encore Colors
+							if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+							Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+							disposable.Dispose();
+						}
 
-                        map = new Bitmap(targetFile);
-                        //Encore Colors
-                        if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);
-                        Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+
                     }
                 }
-                else
+                else if (Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]] != null)
                 {
-                    map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
-                    //Encore Colors
-                    if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);
-                }
+						map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
+						//Encore Colors
+						if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);		
+				}
 
 
                 if (frame.Width == 0 || frame.Height == 0) continue;
@@ -357,12 +363,11 @@ namespace ManiacEditor
                 // can't load the animation, it probably doesn't exist in the User's Sprites folder
                 if (map == null) return null;
 
-                // We are storing the first colour from the palette so we can use it to make sprites transparent
-                var colour = map.Palette.Entries[0];
-                // Slow
+				// We are storing the first colour from the palette so we can use it to make sprites transparent
+				var colour = map.Palette.Entries[0];
 
-
-                map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
+				// Slow
+				map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
                 if (rotateImg != 0 && legacyRotate)
                 {
                     map = RotateImageLegacy(map, rotateImg, colour);
@@ -370,14 +375,15 @@ namespace ManiacEditor
                     frame.Width = frame.Height + frame.Width + 32;
                 }
 
+                map = RemoveColourImage(map, colour, map.Width, map.Height);
 
+				Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
+				map.Dispose();
 
-                RemoveColourImage(map, colour, map.Width, map.Height);
-
-                Texture texture = null;
+				Texture texture = null;
                 if (loadImageToDX)
                 {
-                    texture = TextureCreator.FromBitmap(d._device, map);
+                    texture = TextureCreator.FromBitmap(d._device, finalMap);
                 }
                 
                 var editorFrame = new EditorEntity_ini.EditorAnimation.EditorFrame()
@@ -385,19 +391,20 @@ namespace ManiacEditor
                     Texture = texture,
                     Frame = frame,
                     Entry = rsdkAnim.Animations[AnimId],
-                    ImageWidth = map.Size.Width,
-                    ImageHeight = map.Size.Height
+                    ImageWidth = finalMap.Size.Width,
+                    ImageHeight = finalMap.Size.Height
                     
                     
                 };
-                if (loadImageToDX == false) editorFrame._Bitmap = map;
+                if (loadImageToDX == false) editorFrame._Bitmap = finalMap;
                 anim.Frames.Add(editorFrame);
                 if (frameId != -1) break;
             }
             anim.ImageLoaded = true;
             if (loadImageToDX) anim.Ready = true;
             Working = false;
-            return anim;
+			
+			return anim;
 
         }
 
@@ -769,7 +776,8 @@ namespace ManiacEditor
                 }
 
             }
-            _bitmap = _bitmapEditMemory;
+			_bitmap = (Bitmap)_bitmapEditMemory.Clone();
+			_bitmapEditMemory.Dispose();
             return _bitmap;
         }
 

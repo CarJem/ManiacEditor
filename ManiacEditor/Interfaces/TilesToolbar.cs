@@ -221,14 +221,14 @@ namespace ManiacEditor
         {
             if (show)
             {
-                option1CheckBox.Text = "Flip Horizontal (Ctrl)";
-                option2CheckBox.Text = "Flip Vertical (Shift)";
-            }
+                option1CheckBox.Text = "Flip Horizontal " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipHTiles", true);
+				option2CheckBox.Text = "Flip Vertical " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipVTiles", true);
+			}
             else
             {
-                option1CheckBox.Text = "Flip Horizontal";
-                option2CheckBox.Text = "Flip Vertical";
-            }
+                option1CheckBox.Text = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipH"));
+				option2CheckBox.Text = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipV"));
+			}
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)

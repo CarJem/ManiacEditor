@@ -360,7 +360,6 @@ namespace ManiacEditor
             UseDarkTheme_WPF(mySettings.NightMode);
             InitializeComponent();
 			SetupEditorViewForm();
-			SetupTooltips();
             AllocConsole();
             HideConsoleWindow();
             try
@@ -386,7 +385,6 @@ namespace ManiacEditor
             _extraLayerSeperators = new List<Separator>();
             _recentDataItems = new List<MenuItem>();
             _recentDataItems_Button = new List<MenuItem>();
-            EditorControls = new EditorControls(this);
             MenuChar = MenuCharS.ToCharArray();
             MenuChar_Small = MenuCharS_Small.ToCharArray();
             LevelSelectChar = LevelSelectCharS.ToCharArray();
@@ -402,7 +400,9 @@ namespace ManiacEditor
             UpdateControls();
             TryLoadSettings();
 
-            UpdateInfoPanel(true, true);
+			EditorControls = new EditorControls(this);
+
+			UpdateInfoPanel(true, true);
 
             if (mySettings.UseAutoForcefulStartup)
             {
@@ -443,11 +443,8 @@ namespace ManiacEditor
             this.editorView.hScrollBar1.ValueChanged += new System.EventHandler(this.HScrollBar1_ValueChanged);
             this.editorView.hScrollBar1.MouseEnter += new System.EventHandler(this.HScrollBar1_Entered);
             this.Activated += new System.EventHandler(this.MapEditor_Activated);
-            //this.editorView.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Editor_FormClosing);
-            //this.editorView.Load += new System.EventHandler(this.Form1_Load);
             this.editorView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
             this.editorView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
-            //this.editorView.Resize += new System.EventHandler(this.Form1_Resize);
             SetupGraphicPanel();
 
 
@@ -470,18 +467,7 @@ namespace ManiacEditor
             this.editorView.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
         }
 
-		public void SetupTooltips()
-		{
-			New.ToolTip = "New Scene (Ctrl + N)";
-			Open.ToolTip = "Open Scene (Ctrl + O)";
-			RecentDataDirectories.ToolTip = "Open Recent Data Folder";
-			Save.ToolTip = "Save Scene (Ctrl + S)";
-			ZoomInButton.ToolTip = "";
-			ZoomOutButton.ToolTip = "";
-			RunSceneButton.ToolTip = "";
-			ReloadButton.ToolTip = "Reload Assets and Textures";
-			PointerButton.ToolTip = "Pointer Tool";
-		}
+
 
         #region Discord Rich Presence
 
@@ -914,7 +900,7 @@ namespace ManiacEditor
 
         public bool IsChunksEdit()
         {
-            return ChunksToolButton.IsChecked.Value;
+            return ChunksToolButton.IsChecked.Value && EditLayer != null;
         }
 
         public bool IsEntitiesEdit()
@@ -1462,7 +1448,13 @@ namespace ManiacEditor
         {
             UpdateTooltipForStacks(UndoButton, undo);
             UpdateTooltipForStacks(RedoButton, redo);
-        }
+			if (EditorControls != null)
+			{
+				EditorControls.UpdateMenuItems();
+				EditorControls.UpdateTooltips();
+			}
+
+		}
 
         private void UpdateTooltipForStacks(Button tsb, Stack<IAction> actionStack)
         {
@@ -1963,6 +1955,34 @@ namespace ManiacEditor
 
                     }
                 }
+				else if (IsChunksEdit() && EditLayer != null)
+                {
+					Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+					Point pC = EditLayer.GetChunkCoordinates(p.X, p.Y);
+
+					if (e.Button == MouseButtons.Left)
+                    {
+						int selectedIndex = TilesToolbar.retroEDTileList1.SelectedIndex;
+						// Place Stamp
+						if (selectedIndex != -1)
+						{
+							if (!EditorChunk.DoesChunkMatch(pC, EditorChunk.StageStamps.StampList[selectedIndex], EditLayer))
+							{
+								EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
+							}
+
+						}
+					}
+
+					else if (e.Button == MouseButtons.Right)
+					{
+						if (!EditorChunk.IsChunkEmpty(pC, EditLayer))
+						{
+							// Remove Stamp Sized Area
+							EditorChunk.PasteStamp(pC, 0, EditLayer, true);
+						}				
+					}
+				}
 
 
 
@@ -2170,7 +2190,7 @@ namespace ManiacEditor
                             ClickedY = e.Y;
                         }
                     }
-					if (IsChunksEdit())
+					if (IsChunksEdit() && IsSceneLoaded())
 					{
 						Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
 						Point pC = EditLayer.GetChunkCoordinates(p.X, p.Y);
@@ -2180,7 +2200,11 @@ namespace ManiacEditor
 						// Place Stamp
 						if (selectedIndex != -1)
 						{
-							EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
+							if (!EditorChunk.DoesChunkMatch(pC, EditorChunk.StageStamps.StampList[selectedIndex], EditLayer))
+							{
+								EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
+							}
+
 						}
 						
 
@@ -2245,9 +2269,11 @@ namespace ManiacEditor
 					Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
 					Point pC = EditLayer.GetChunkCoordinates(p.X, p.Y);
 
-
-					// Remove Stamp Sized Area
-					EditorChunk.PasteStamp(pC, 0, EditLayer, true);
+					if (!EditorChunk.IsChunkEmpty(pC, EditLayer))
+					{
+						// Remove Stamp Sized Area
+						EditorChunk.PasteStamp(pC, 0, EditLayer, true);
+					}
 				
 
 				}
@@ -2899,7 +2925,7 @@ namespace ManiacEditor
             editorView.GraphicPanel.DrawWidth = Math.Min(width, editorView.GraphicPanel.Width);
             editorView.GraphicPanel.DrawHeight = Math.Min(height, editorView.GraphicPanel.Height);
 
-            Form1_Resize(null, null);
+            Form1_Resize(editorView, null);
 
 
             if (!mySettings.EntityFreeCam || !isExportingImage)
@@ -3815,7 +3841,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        public void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             UnloadScene();
         }
@@ -4023,7 +4049,12 @@ Error: {ex.Message}");
             showStatsToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
         }
 
-        private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		private void ResetZoomLevelToolstripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			SetZoomLevel(0, new Point(0, 0));
+		}
+
+		private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             UseLargeDebugStats = !UseLargeDebugStats;
             useLargeTextToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
@@ -4945,7 +4976,7 @@ Error: {ex.Message}");
             UpdateControls();
         }
 
-        private void ReloadToolStripButton_Click(object sender, RoutedEventArgs e)
+        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -5046,7 +5077,7 @@ Error: {ex.Message}");
             selectConfigToolStripMenuItem.IsEnabled = !GameRunning;
         }
 
-        private void ShowTileIDButton_Click(object sender, RoutedEventArgs e)
+        public void ShowTileIDButton_Click(object sender, RoutedEventArgs e)
         {
             if (showTileID == false)
             {
@@ -5062,7 +5093,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowGridButton_Click(object sender, RoutedEventArgs e)
+        public void ShowGridButton_Click(object sender, RoutedEventArgs e)
         {
             if (showGrid == false)
             {
@@ -5078,7 +5109,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowCollisionAButton_Click(object sender, RoutedEventArgs e)
+        public void ShowCollisionAButton_Click(object sender, RoutedEventArgs e)
         {
             if (showCollisionA == false)
             {
@@ -5098,7 +5129,7 @@ Error: {ex.Message}");
             }
         }
 
-        private void ShowCollisionBButton_Click(object sender, RoutedEventArgs e)
+        public void ShowCollisionBButton_Click(object sender, RoutedEventArgs e)
         {
             if (showCollisionB == false)
             {
@@ -5469,12 +5500,22 @@ Error: {ex.Message}");
             EditorControls.GraphicPanel_OnKeyDown(sender, e);
         }
 
-        public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+		private void EditorViewWPF_KeyDown(object sender, KeyEventArgs e)
+		{
+			EditorControls.GraphicPanel_OnKeyDown(sender, KeyEventExts.ToWinforms(e));
+		}
+
+		public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             EditorControls.GraphicPanel_OnKeyUp(sender, e);
         }
 
-        private void MapEditor_Activated(object sender, EventArgs e)
+		private void EditorViewWPF_KeyUp(object sender, KeyEventArgs e)
+		{
+			EditorControls.GraphicPanel_OnKeyUp(sender, KeyEventExts.ToWinforms(e));
+		}
+
+		private void MapEditor_Activated(object sender, EventArgs e)
         {
             editorView.GraphicPanel.Focus();
             if (mainform.hasModified)
@@ -5486,7 +5527,7 @@ Error: {ex.Message}");
 
         private void MapEditor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (!editorView.GraphicPanel.Focused && e.Control)
+            if (!editorView.GraphicPanel.Focused)
             {
                 EditorControls.GraphicPanel_OnKeyDown(sender, e);
             }
@@ -5521,7 +5562,7 @@ Error: {ex.Message}");
 
         private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (!editorView.GraphicPanel.Focused && e.Control)
+            if (!editorView.GraphicPanel.Focused)
             {
                 EditorControls.GraphicPanel_OnKeyUp(sender, e);
             }

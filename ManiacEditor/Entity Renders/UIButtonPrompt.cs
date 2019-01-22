@@ -26,18 +26,19 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim2.Frames[Animation.index];
                 d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
             }
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimButton != null && editorAnimButton.Frames.Count != 0)
+            if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
-                var frameBackground = editorAnimButton.Frames[Animation.index];
                 d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(frameBackground.Texture, x + frameBackground.Frame.CenterX, y + frameBackground.Frame.CenterY,
-                    frameBackground.Frame.Width, frameBackground.Frame.Height, false, Transparency);
-
             }
+			if (editorAnimButton != null && editorAnimButton.Frames.Count != 0)
+			{
+				var frameBackground = editorAnimButton.Frames[Animation.index];
+				d.DrawBitmap(frameBackground.Texture, x + frameBackground.Frame.CenterX, y + frameBackground.Frame.CenterY,
+					frameBackground.Frame.Width, frameBackground.Frame.Height, false, Transparency);
+			}
 
 
         }

@@ -79,11 +79,12 @@
 			// 
 			this.option1CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.option1CheckBox.AutoSize = true;
-			this.option1CheckBox.Location = new System.Drawing.Point(11, 346);
+			this.option1CheckBox.Location = new System.Drawing.Point(11, 335);
 			this.option1CheckBox.Name = "option1CheckBox";
-			this.option1CheckBox.Size = new System.Drawing.Size(116, 17);
+			this.option1CheckBox.Size = new System.Drawing.Size(92, 30);
 			this.option1CheckBox.TabIndex = 2;
-			this.option1CheckBox.Text = "Flip Horizontal (Ctrl)";
+			this.option1CheckBox.Text = "Flip Horizontal\r\n (Ctrl)";
+			this.option1CheckBox.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.option1CheckBox.UseVisualStyleBackColor = true;
 			this.option1CheckBox.CheckedChanged += new System.EventHandler(this.option1CheckBox_CheckedChanged);
 			// 
@@ -91,11 +92,11 @@
 			// 
 			this.option2CheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.option2CheckBox.AutoSize = true;
-			this.option2CheckBox.Location = new System.Drawing.Point(133, 346);
+			this.option2CheckBox.Location = new System.Drawing.Point(133, 335);
 			this.option2CheckBox.Name = "option2CheckBox";
-			this.option2CheckBox.Size = new System.Drawing.Size(110, 17);
+			this.option2CheckBox.Size = new System.Drawing.Size(80, 30);
 			this.option2CheckBox.TabIndex = 3;
-			this.option2CheckBox.Text = "Flip Vertical (Shift)";
+			this.option2CheckBox.Text = "Flip Vertical\r\n (Shift)";
 			this.option2CheckBox.UseVisualStyleBackColor = true;
 			this.option2CheckBox.CheckedChanged += new System.EventHandler(this.option2CheckBox_CheckedChanged);
 			// 
@@ -233,7 +234,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 3);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(250, 337);
+			this.tabControl1.Size = new System.Drawing.Size(250, 324);
 			this.tabControl1.TabIndex = 15;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
@@ -245,7 +246,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(242, 311);
+			this.tabPage1.Size = new System.Drawing.Size(242, 298);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Tiles";
 			// 
@@ -257,7 +258,7 @@
 			this.tilePanel.BackColor = System.Drawing.SystemColors.Control;
 			this.tilePanel.Location = new System.Drawing.Point(0, 45);
 			this.tilePanel.Name = "tilePanel";
-			this.tilePanel.Size = new System.Drawing.Size(241, 266);
+			this.tilePanel.Size = new System.Drawing.Size(241, 253);
 			this.tilePanel.TabIndex = 2;
 			// 
 			// tabPage2

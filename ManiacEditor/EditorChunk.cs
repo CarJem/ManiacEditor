@@ -140,28 +140,34 @@ namespace ManiacEditor
 			{
 				for (int y = 0; y < chunkSize; y++)
 				{
-					if (CompareChunk.TileMap[x, y] == EditLayer.GetTileAt(new Point(TileCoord.X + x, TileCoord.Y + y))) continue;
-					else return false;
+					Point p = new Point((TileCoord.X / 16) + x, (TileCoord.Y / 16) + y);
+					if (CompareChunk.TileMap[x, y] == EditLayer.GetTileAt(p.X, p.Y)) continue;
+					else
+					{
+						return false;
+					}
+
 				}
 			}
 			return true;
-
 		}
 
-		public bool DoesChunkMatch(Point point, ushort[,] CompareChunk, EditorLayer EditLayer, int chunkSize = 8)
+		public bool IsChunkEmpty(Point point, EditorLayer EditLayer, int chunkSize = 8)
 		{
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
 			for (int x = 0; x < chunkSize; x++)
 			{
 				for (int y = 0; y < chunkSize; y++)
 				{
-					if (CompareChunk[x, y] == EditLayer.GetTileAt(new Point(TileCoord.X + x, TileCoord.Y + y))) continue;
+					Point p = new Point((TileCoord.X / 16) + x, (TileCoord.Y / 16) + y);
+					if (EditLayer.GetTileAt(p.X, p.Y) == 0xffff) continue;
 					else return false;
+
 				}
 			}
 			return true;
-
 		}
+		
 
 		public Dictionary<Point, ushort> ConvertChunktoClipboard(Stamps.TileChunk Chunk)
 		{

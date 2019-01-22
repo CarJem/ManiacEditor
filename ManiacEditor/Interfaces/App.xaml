@@ -1,6 +1,7 @@
 ﻿<Application x:Class="ManiacEditor.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Editor.xaml"
              xmlns:local="clr-namespace:ManiacEditor">
     <Application.Resources>
         <ResourceDictionary>

@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
        
-        Title="Maniac Editor - Generations Editon" Height="817.333" Width="1462.5" Loaded="ParentGrid_Loaded" Closing="Editor_FormClosing" SizeChanged="Form1_Resize">
+        Title="Maniac Editor - Generations Editon" Height="817.333" Width="1462.5" Loaded="ParentGrid_Loaded" Closing="Editor_FormClosing" SizeChanged="Form1_Resize" MinWidth="1460" MinHeight="815" KeyDown="EditorViewWPF_KeyDown" KeyUp="EditorViewWPF_KeyUp">
 
 
 
@@ -52,12 +52,12 @@
 
         <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0">
-                <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewToolStripMenuItem_Click" InputGestureText="Ctrl+N" IsEnabled="False"/>
-                <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="Open_Click" InputGestureText="Ctrl+O"/>
-                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryToolStripMenuItem_Click" InputGestureText="Ctrl+Alt+O"/>
+                <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewToolStripMenuItem_Click" IsEnabled="False"/>
+                <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="Open_Click"/>
+                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryToolStripMenuItem_Click"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="Save_Click" InputGestureText="Ctrl+S"/>
-                <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As" Click="SaveAsToolStripMenuItem_Click" InputGestureText="Ctrl+Alt+S"/>
+                <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="Save_Click"/>
+                <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As" Click="SaveAsToolStripMenuItem_Click"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="unloadSceneToolStripMenuItem" Header="Unload Scene" Click="UnloadSceneToolStripMenuItem_Click"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
@@ -78,28 +78,28 @@
                 <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitToolStripMenuItem_Click"/>
             </MenuItem>
             <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center" Margin="0,2,0,0" >
-                <MenuItem x:Name="undoToolStripMenuItem" Header="Undo" Click="UndoToolStripMenuItem_Click" InputGestureText="Ctrl+Z"/>
-                <MenuItem x:Name="redoToolStripMenuItem" Header="Redo" Click="RedoToolStripMenuItem_Click" InputGestureText="Ctrl+Y"/>
+                <MenuItem x:Name="undoToolStripMenuItem" Header="Undo" Click="UndoToolStripMenuItem_Click"/>
+                <MenuItem x:Name="redoToolStripMenuItem" Header="Redo" Click="RedoToolStripMenuItem_Click"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="cutToolStripMenuItem" Header="Cut" Click="CutToolStripMenuItem_Click" InputGestureText="Ctrl+X"/>
-                <MenuItem x:Name="copyToolStripMenuItem" Header="Copy" Click="CopyToolStripMenuItem_Click" InputGestureText="Ctrl+C"/>
-                <MenuItem x:Name="pasteToolStripMenuItem" Header="Paste" Click="PasteToolStripMenuItem_Click" InputGestureText="Ctrl+V"/>
+                <MenuItem x:Name="cutToolStripMenuItem" Header="Cut" Click="CutToolStripMenuItem_Click"/>
+                <MenuItem x:Name="copyToolStripMenuItem" Header="Copy" Click="CopyToolStripMenuItem_Click"/>
+                <MenuItem x:Name="pasteToolStripMenuItem" Header="Paste" Click="PasteToolStripMenuItem_Click"/>
                 <MenuItem x:Name="pasteToToolStripMenuItem" Header="Paste to">
                     <MenuItem x:Name="chunkToolStripMenuItem" Header="Chunk" Click="chunkToolStripMenuItem_Click"/>
                 </MenuItem>
-                <MenuItem x:Name="duplicateToolStripMenuItem" Header="Duplicate" Click="DuplicateToolStripMenuItem_Click" InputGestureText="Ctrl+D"/>
-                <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllToolStripMenuItem_Click" InputGestureText="Ctrl+A"/>
-                <MenuItem x:Name="deleteToolStripMenuItem" Header="Delete" Click="DeleteToolStripMenuItem_Click" InputGestureText="Del"/>
+                <MenuItem x:Name="duplicateToolStripMenuItem" Header="Duplicate" Click="DuplicateToolStripMenuItem_Click"/>
+                <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllToolStripMenuItem_Click"/>
+                <MenuItem x:Name="deleteToolStripMenuItem" Header="Delete" Click="DeleteToolStripMenuItem_Click"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="labelItem" IsEnabled="False" Header="Flip Actions:"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="flipHorizontalToolStripMenuItem" Header="Flip Horizontal" Click="FlipHorizontalToolStripMenuItem_Click" InputGestureText="M"/>
-                <MenuItem x:Name="flipVerticalToolStripMenuItem" Header="Flip Vertical" Click="FlipVerticalToolStripMenuItem_Click" InputGestureText="F"/>
+                <MenuItem x:Name="flipHorizontalToolStripMenuItem" Header="Flip Horizontal" Click="FlipHorizontalToolStripMenuItem_Click"/>
+                <MenuItem x:Name="flipVerticalToolStripMenuItem" Header="Flip Vertical" Click="FlipVerticalToolStripMenuItem_Click"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="labelItem2" IsEnabled="False" Header="Tile Only Flip Actions:"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horizontal Individual" Click="FlipHorizontalIndividualToolStripMenuItem_Click" InputGestureText="Ctrl+M"/>
-                <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualToolStripMenuItem_Click" InputGestureText="Ctrl+F"/>
+                <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horizontal Individual" Click="FlipHorizontalIndividualToolStripMenuItem_Click"/>
+                <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualToolStripMenuItem_Click"/>
             </MenuItem>
             <MenuItem x:Name="viewToolStripMenuItem" Header="View" VerticalContentAlignment="Center" Margin="0,2,0,0">
                 <MenuItem x:Name="showEntitySelectionBoxesToolStripMenuItem" Header="Show Entity Selection Boxes" Click="ShowEntitySelectionBoxesToolStripMenuItem_Click"/>
@@ -197,7 +197,9 @@
                         <MenuItem x:Name="yToolStripMenuItem" Header="Y" Click="YToolStripMenuItem_Click"/>
                     </MenuItem>
                 </MenuItem>
+                <MenuItem x:Name="swapScrollLockDirMenuToolstripButton" Header="Swap Scroll Lock Direction"  Click="XToolStripMenuItem_Click"/>
                 <MenuItem x:Name="nudgeSelectionFasterToolStripMenuItem" Header="Nudge Selection Faster" Click="NudgeFasterButton_Click"/>
+                <MenuItem x:Name="resetZoomLevelToolstripMenuItem" Header="Reset Zoom Level" Click="ResetZoomLevelToolstripMenuItem_Click"/>
                 <MenuItem x:Name="goToToolStripMenuItem1" Header="Go to..">
                     <MenuItem x:Name="specificPlaceToolStripMenuItem" Header="Specific Place" Click="GoToToolStripMenuItem_Click"/>
                     <MenuItem x:Name="playerSpawnToolStripMenuItem" Header="Player Spawn" Click="PlayerSpawnToolStripMenuItem_Click"/>

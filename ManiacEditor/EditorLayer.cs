@@ -756,6 +756,17 @@ namespace ManiacEditor
             return 0xffff;
         }
 
+		public ushort GetTileAt(int x, int y)
+		{
+			Point point = new Point(x, y);
+			if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
+			{
+				if (SelectedTilesValue.ContainsKey(point)) return SelectedTilesValue[point];
+				else return _layer.Tiles[point.Y][point.X];
+			}
+			return 0xffff;
+		}
+
 
 
 		private Rectangle GetChunkArea(int x, int y)
