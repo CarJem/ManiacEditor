@@ -101,7 +101,7 @@
     <Setting Name="ResetZoomLevel" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;Ctrl+D0&lt;/string&gt;
+  &lt;string&gt;Ctrl+NumPad0&lt;/string&gt;
   &lt;string&gt;Ctrl+0&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>

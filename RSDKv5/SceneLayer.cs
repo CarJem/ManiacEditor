@@ -10,26 +10,59 @@ namespace RSDKv5
     [Serializable]
     public class SceneLayer
     {
+        /// <summary>
+        /// ok taxman retar
+        /// </summary>
         byte IgnoredByte;
         private string _name;
 
-        public byte IsScrollingVertical;
-        public byte UnknownByte2;
+        /// <summary>
+        /// a special byte that tells the game if this layer has any special properties
+        /// </summary>
+        public byte Behaviour;
+        /// <summary>
+        /// what drawlayer this layer is on
+        /// </summary>
+        public byte DrawingOrder;
 
         private ushort _width;
         private ushort _height;
 
-        public short UnknownWord1;
-        public short UnknownWord2;
+        /// <summary>
+        /// the Speed of the layer when the player is moving
+        /// </summary>
+        public short RelativeSpeed;
+        /// <summary>
+        /// the Speed of the layer when the player isn't moving
+        /// </summary>
+        public short ConstantSpeed;
 
+        /// <summary>
+        /// the line scroll data
+        /// </summary>
         public List<ScrollInfo> ScrollingInfo = new List<ScrollInfo>();
 
+        /// <summary>
+        /// the line scroll indexes
+        /// </summary>
         public byte[] ScrollIndexes;
 
+        /// <summary>
+        /// the tile array for the map
+        /// </summary>
         public ushort[][] Tiles;
 
+        /// <summary>
+        /// the layer's name
+        /// </summary>
         public string Name { get => _name; set => _name = value; }
+        /// <summary>
+        /// the layer's width (in tiles)
+        /// </summary>
         public ushort Width { get => _width; private set => _width = value; }
+        /// <summary>
+        /// the layer's height (in tiles)
+        /// </summary>
         public ushort Height { get => _height; private set => _height = value; }
 
         public SceneLayer(string name, ushort width, ushort height)
@@ -56,14 +89,14 @@ namespace RSDKv5
 
             Name = reader.ReadRSDKString();
 
-            IsScrollingVertical = reader.ReadByte();
-            UnknownByte2 = reader.ReadByte();
+            Behaviour = reader.ReadByte();
+            DrawingOrder = reader.ReadByte();
 
             Width = reader.ReadUInt16();
             Height = reader.ReadUInt16();
 
-            UnknownWord1 = reader.ReadInt16();
-            UnknownWord2 = reader.ReadInt16();
+            RelativeSpeed = reader.ReadInt16();
+            ConstantSpeed = reader.ReadInt16();
 
             ushort scrolling_info_count = reader.ReadUInt16();
             for (int i = 0; i < scrolling_info_count; ++i)
@@ -89,14 +122,14 @@ namespace RSDKv5
 
             writer.WriteRSDKString(Name);
 
-            writer.Write(IsScrollingVertical);
-            writer.Write(UnknownByte2);
+            writer.Write(Behaviour);
+            writer.Write(DrawingOrder);
 
             writer.Write(Width);
             writer.Write(Height);
 
-            writer.Write(UnknownWord1);
-            writer.Write(UnknownWord2);
+            writer.Write(RelativeSpeed);
+            writer.Write(ConstantSpeed);
 
             writer.Write((ushort)ScrollingInfo.Count);
             foreach (ScrollInfo info in ScrollingInfo)

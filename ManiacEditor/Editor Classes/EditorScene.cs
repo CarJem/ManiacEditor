@@ -61,7 +61,7 @@ namespace ManiacEditor
         {
             get
             {
-                return _editorLayers.Where(el => el.Layer.UnknownByte2.Equals(1));
+                return _editorLayers.Where(el => el.Layer.DrawingOrder.Equals(1));
             }
         }
 

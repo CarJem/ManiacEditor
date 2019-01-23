@@ -20,6 +20,8 @@ using System.Collections.Specialized;
 using System.Windows.Forms.PropertyGridInternal;
 using Cyotek.Windows.Forms;
 using ManiacEditor.Interfaces;
+using Keys = System.Windows.Forms.Keys;
+using KeysConverter = System.Windows.Forms.KeysConverter;
 
 namespace ManiacEditor.Interfaces
 {
@@ -45,8 +47,6 @@ namespace ManiacEditor.Interfaces
 			collisionColorsRadioGroupUpdate(Properties.Settings.Default.CollisionColorsDefault);
 			preRenderRadioGroupCheckChangeAllowed = true;
 			collisionColorsRadioGroupCheckChangeAllowed = true;
-			//this.label21.Text = Properties.Settings.Default.FasterNudgeValue.ToString();
-			//this.gridSizeValueLabel.Text = Properties.Settings.Default.CustomGridSizeValue.ToString();
 			if (Properties.Settings.Default.x16Default) uncheckOtherGridDefaults(1);
 			if (Properties.Settings.Default.x128Default) uncheckOtherGridDefaults(2);
 			if (Properties.Settings.Default.x256Default) uncheckOtherGridDefaults(3);
@@ -81,14 +81,7 @@ namespace ManiacEditor.Interfaces
 			if (Properties.Settings.Default.NightMode)
 			{
 				DarkModeCheckBox.IsChecked = true;
-				//tileToolbarZoomDefault.BackColor = Editor.darkTheme1;
-				//tabControl1.BackColor = System.Drawing.Color.Bisque;
 			}
-			//tabPage1.UseVisualStyleBackColor = false;
-			//tabPage2.UseVisualStyleBackColor = false;
-			//tabPage4.UseVisualStyleBackColor = false;
-			//tabPage5.UseVisualStyleBackColor = false;
-			//tabPage6.UseVisualStyleBackColor = false;
 
 			CheckGraphicalPresetModeState(null, null);
 
@@ -149,73 +142,87 @@ namespace ManiacEditor.Interfaces
 
 		private void radioButton1_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			if (SceneSelectRadio2.IsChecked == true)
+			if (SceneSelectRadio2 != null)
 			{
-				Properties.Settings.Default.IsFilesViewDefault = true;
-				Properties.Settings.Default.SceneSelectRadioButton1On = false;
-				Properties.Settings.Default.SceneSelectRadioButton2On = true;
-			}
-			else
-			{
-				Properties.Settings.Default.IsFilesViewDefault = false;
-				Properties.Settings.Default.SceneSelectRadioButton1On = true;
-				Properties.Settings.Default.SceneSelectRadioButton2On = false;
+				if (SceneSelectRadio2.IsChecked == true)
+				{
+					Properties.Settings.Default.IsFilesViewDefault = true;
+					Properties.Settings.Default.SceneSelectRadioButton1On = false;
+					Properties.Settings.Default.SceneSelectRadioButton2On = true;
+				}
+				else
+				{
+					Properties.Settings.Default.IsFilesViewDefault = false;
+					Properties.Settings.Default.SceneSelectRadioButton1On = true;
+					Properties.Settings.Default.SceneSelectRadioButton2On = false;
 
+				}
 			}
 		}
 
 		private void radioButton2_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			if (SceneSelectRadio2.IsChecked == true)
+			if (SceneSelectRadio2 != null)
 			{
-				Properties.Settings.Default.IsFilesViewDefault = true;
-				Properties.Settings.Default.SceneSelectRadioButton1On = false;
-				Properties.Settings.Default.SceneSelectRadioButton2On = true;
-			}
-			else
-			{
-				Properties.Settings.Default.IsFilesViewDefault = false;
-				Properties.Settings.Default.SceneSelectRadioButton1On = true;
-				Properties.Settings.Default.SceneSelectRadioButton2On = false;
+				if (SceneSelectRadio2.IsChecked == true)
+				{
+					Properties.Settings.Default.IsFilesViewDefault = true;
+					Properties.Settings.Default.SceneSelectRadioButton1On = false;
+					Properties.Settings.Default.SceneSelectRadioButton2On = true;
+				}
+				else
+				{
+					Properties.Settings.Default.IsFilesViewDefault = false;
+					Properties.Settings.Default.SceneSelectRadioButton1On = true;
+					Properties.Settings.Default.SceneSelectRadioButton2On = false;
 
+				}
 			}
+
 		}
 
 		private void radioButtonY_CheckedChanged_1(object sender, RoutedEventArgs e)
 		{
-			if (radioButtonY.IsChecked == true)
+			if (radioButtonY != null)
 			{
-				Properties.Settings.Default.ScrollLockDirection = true;
-				Properties.Settings.Default.ScrollLockX = false;
-				Properties.Settings.Default.ScrollLockY = true;
-			}
-			else
-			{
-				Properties.Settings.Default.ScrollLockDirection = false;
-				Properties.Settings.Default.ScrollLockX = true;
-				Properties.Settings.Default.ScrollLockY = false;
+				if (radioButtonY.IsChecked == true)
+				{
+					Properties.Settings.Default.ScrollLockDirection = true;
+					Properties.Settings.Default.ScrollLockX = false;
+					Properties.Settings.Default.ScrollLockY = true;
+				}
+				else
+				{
+					Properties.Settings.Default.ScrollLockDirection = false;
+					Properties.Settings.Default.ScrollLockX = true;
+					Properties.Settings.Default.ScrollLockY = false;
 
+				}
 			}
 		}
 
 		private void radioButtonX_CheckedChanged_1(object sender, RoutedEventArgs e)
 		{
-			if (radioButtonY.IsChecked == true)
+			if (radioButtonY != null)
 			{
-				Properties.Settings.Default.ScrollLockDirection = true;
-				Properties.Settings.Default.ScrollLockX = false;
-				Properties.Settings.Default.ScrollLockY = true;
-			}
-			else
-			{
-				Properties.Settings.Default.ScrollLockDirection = false;
-				Properties.Settings.Default.ScrollLockX = true;
-				Properties.Settings.Default.ScrollLockY = false;
+				if (radioButtonY.IsChecked == true)
+				{
+					Properties.Settings.Default.ScrollLockDirection = true;
+					Properties.Settings.Default.ScrollLockX = false;
+					Properties.Settings.Default.ScrollLockY = true;
+				}
+				else
+				{
+					Properties.Settings.Default.ScrollLockDirection = false;
+					Properties.Settings.Default.ScrollLockX = true;
+					Properties.Settings.Default.ScrollLockY = false;
 
+				}
 			}
+
 		}
 
-		private void button4_Click(object sender, RoutedEventArgs e)
+		private void ResetSettingsToDefault(object sender, RoutedEventArgs e)
 		{
 			if (MessageBox.Show("Are you sure you want to wipe your settings?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
@@ -227,48 +234,16 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
-		private void nudgeValueDownMoreButton_Click(object sender, RoutedEventArgs e)
+		private void ResetControlsToDefault(object sender, RoutedEventArgs e)
 		{
-			if (Properties.Settings.Default.FasterNudgeValue <= 100 && Properties.Settings.Default.FasterNudgeValue >= 0)
-				Properties.Settings.Default.FasterNudgeValue -= 5;
-			if (Properties.Settings.Default.FasterNudgeValue <= 0)
-				Properties.Settings.Default.FasterNudgeValue = 1;
-			if (Properties.Settings.Default.FasterNudgeValue > 100)
-				Properties.Settings.Default.FasterNudgeValue = 100;
-			//this.label21.Text = Properties.Settings.Default.FasterNudgeValue.ToString();
-		}
+			if (MessageBox.Show("Are you sure you want to reset your control configuration?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				Properties.KeyBinds.Default.Reset();
+			}
+			else
+			{
 
-		private void nudgeValueDownButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (Properties.Settings.Default.FasterNudgeValue <= 100 && Properties.Settings.Default.FasterNudgeValue >= 0)
-				Properties.Settings.Default.FasterNudgeValue -= 1;
-			if (Properties.Settings.Default.FasterNudgeValue <= 0)
-				Properties.Settings.Default.FasterNudgeValue = 1;
-			if (Properties.Settings.Default.FasterNudgeValue > 100)
-				Properties.Settings.Default.FasterNudgeValue = 100;
-			//this.label21.Text = Properties.Settings.Default.FasterNudgeValue.ToString();
-		}
-
-		private void nudgeValueUpButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (Properties.Settings.Default.FasterNudgeValue != 100 && Properties.Settings.Default.FasterNudgeValue >= 0)
-				Properties.Settings.Default.FasterNudgeValue += 1;
-			if (Properties.Settings.Default.FasterNudgeValue <= 0)
-				Properties.Settings.Default.FasterNudgeValue = 1;
-			if (Properties.Settings.Default.FasterNudgeValue > 100)
-				Properties.Settings.Default.FasterNudgeValue = 100;
-			//this.label21.Text = Properties.Settings.Default.FasterNudgeValue.ToString();
-		}
-
-		private void nudgeValueUpMoreButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (Properties.Settings.Default.FasterNudgeValue != 100 && Properties.Settings.Default.FasterNudgeValue >= 0)
-				Properties.Settings.Default.FasterNudgeValue += 5;
-			if (Properties.Settings.Default.FasterNudgeValue <= 0)
-				Properties.Settings.Default.FasterNudgeValue = 1;
-			if (Properties.Settings.Default.FasterNudgeValue > 100)
-				Properties.Settings.Default.FasterNudgeValue = 100;
-			//this.label21.Text = Properties.Settings.Default.FasterNudgeValue.ToString();
+			}
 		}
 
 		private void RPCCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
@@ -357,55 +332,6 @@ namespace ManiacEditor.Interfaces
 				Properties.Settings.Default.RunPalleteEditorPath = ofd.FileName;
 		}
 
-		private void OptionBox_Load(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void gridSizeDownMore_Click(object sender, RoutedEventArgs e)
-		{
-			if (Properties.Settings.Default.CustomGridSizeValue <= 500 && Properties.Settings.Default.CustomGridSizeValue >= 0)
-				Properties.Settings.Default.CustomGridSizeValue -= 5;
-			if (Properties.Settings.Default.CustomGridSizeValue <= 0)
-				Properties.Settings.Default.CustomGridSizeValue = 1;
-			if (Properties.Settings.Default.CustomGridSizeValue > 500)
-				Properties.Settings.Default.CustomGridSizeValue = 500;
-			//this.gridSizeValueLabel.Text = Properties.Settings.Default.CustomGridSizeValue.ToString();
-		}
-
-		private void gridSizeDown_Click(object sender, RoutedEventArgs e)
-		{
-			if (Properties.Settings.Default.CustomGridSizeValue <= 500 && Properties.Settings.Default.CustomGridSizeValue >= 0)
-				Properties.Settings.Default.CustomGridSizeValue -= 1;
-			if (Properties.Settings.Default.CustomGridSizeValue <= 0)
-				Properties.Settings.Default.CustomGridSizeValue = 1;
-			if (Properties.Settings.Default.CustomGridSizeValue > 500)
-				Properties.Settings.Default.CustomGridSizeValue = 500;
-			//this.gridSizeValueLabel.Text = Properties.Settings.Default.CustomGridSizeValue.ToString();
-		}
-
-		private void gridSizeUp_Click(object sender, RoutedEventArgs e)
-		{
-			if (Properties.Settings.Default.CustomGridSizeValue != 500 && Properties.Settings.Default.CustomGridSizeValue >= 0)
-				Properties.Settings.Default.CustomGridSizeValue += 1;
-			if (Properties.Settings.Default.CustomGridSizeValue <= 0)
-				Properties.Settings.Default.CustomGridSizeValue = 1;
-			if (Properties.Settings.Default.CustomGridSizeValue > 500)
-				Properties.Settings.Default.CustomGridSizeValue = 500;
-			//this.gridSizeValueLabel.Text = Properties.Settings.Default.CustomGridSizeValue.ToString();
-		}
-
-		private void gridSizeUpMore_Click(object sender, RoutedEventArgs e)
-		{
-			if (Properties.Settings.Default.CustomGridSizeValue != 500 && Properties.Settings.Default.CustomGridSizeValue >= 0)
-				Properties.Settings.Default.CustomGridSizeValue += 5;
-			if (Properties.Settings.Default.CustomGridSizeValue <= 0)
-				Properties.Settings.Default.CustomGridSizeValue = 1;
-			if (Properties.Settings.Default.CustomGridSizeValue > 500)
-				Properties.Settings.Default.CustomGridSizeValue = 500;
-			//this.label21.Text = Properties.Settings.Default.CustomGridSizeValue.ToString();
-		}
-
 		private void uncheckOtherGridDefaults(int i)
 		{
 			switch (i)
@@ -491,11 +417,6 @@ namespace ManiacEditor.Interfaces
 			{
 				uncheckOtherGridDefaults(3);
 			}
-		}
-
-		private void groupBox1_Enter(object sender, RoutedEventArgs e)
-		{
-
 		}
 
 		private void preRenderAlways_CheckedChanged(object sender, RoutedEventArgs e)
@@ -685,48 +606,6 @@ namespace ManiacEditor.Interfaces
 			set { this.GetType().GetProperty(propertyName).SetValue(this, value, null); }
 		}
 
-		public string Bar { get; set; }
-
-		private void checkBox24_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void checkBox25_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void checkBox11_CheckedChanged_1(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void checkBox50_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void checkBox48_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void checkBox35_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void tabPage4_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void groupBox8_Enter(object sender, RoutedEventArgs e)
-		{
-
-		}
-
 		private void radioButton12_Click(object sender, RoutedEventArgs e)
 		{
 			RadioButton button = sender as RadioButton;
@@ -747,44 +626,30 @@ namespace ManiacEditor.Interfaces
 			CheckGraphicalPresetModeState(null, null);
 		}
 
-		private void checkBox15_Click(object sender, RoutedEventArgs e)
+		private void EditKeyCombo(object sender, RoutedEventArgs e)
 		{
-
-		}
-
-		private void textBox43_MouseDoubleClick(object sender, MouseEventArgs e)
-		{
-			if (!(sender is TextBox)) return;
-			TextBox KeyBind = sender as TextBox;
+			if (!(sender is Button)) return;
+			Button KeyBind = sender as Button;
 			bool state = true;
 			if (state)
 			{
 				string keybindName = KeyBind.Tag.ToString();
 
-				List<string> keyBindList = new List<string>();
-				List<string> keyBindModList = new List<string>();
+				StringCollection keyBindList = Settings.myKeyBinds[keybindName] as StringCollection;
 
-
-
-				KeybindTool keybinder = new KeybindTool(keybindName);
-				if (keybinder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				KeyBindConfigurator keybinder = new KeyBindConfigurator(keybindName);
+				keybinder.ShowDialog();
+				if (keybinder.DialogResult == true)
 				{
+					KeysConverter kc = new KeysConverter();
 					System.Windows.Forms.Keys keyBindtoSet = keybinder.CurrentBindingKey;
-					string modifiersName = keybindName + "_Mod";
+					int keyIndex = keybinder.ListIndex;
 
-					string modifierCode = "";
-
-					if (keybinder.ctrlChecked) modifierCode += "C";
-					if (keybinder.altChecked) modifierCode += "A";
-					if (keybinder.tabChecked) modifierCode += "T";
-					if (keybinder.shiftChecked) modifierCode += "S";
-
-					Settings.myKeyBinds[keybindName] = keyBindtoSet;
-					Settings.myKeyBinds[modifiersName] = modifierCode;
-
-					MessageBox.Show(keybindName + Environment.NewLine + "Key: " + Settings.myKeyBinds[keybindName].ToString() + Environment.NewLine + "Modifier Code: " + Settings.myKeyBinds[modifiersName].ToString());
-
-
+					var keybindDict = Settings.myKeyBinds[keybindName] as StringCollection;
+					String KeyString = kc.ConvertToString(keyBindtoSet);
+					keybindDict.RemoveAt(keyIndex);
+					keybindDict.Add(KeyString);
+					Settings.myKeyBinds[keybindName] = keybindDict;
 				}
 			}
 			SetKeybindTextboxes();
@@ -793,18 +658,47 @@ namespace ManiacEditor.Interfaces
 
 		private void SetKeybindTextboxes()
 		{
-			foreach (TextBox t in Extensions.FindVisualChildren<TextBox>(ControlTab))
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(NewControls))
 			{
-				if (t.Tag != null) t.Text = KeyBindPraser(t.Tag.ToString());
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(EditControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(ViewControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(ToolsControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(MenuItemControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+				}
 			}
 		}
 
-
-
-
-
 		private string KeyBindPraser(string keyRefrence)
 		{
+			if (keyRefrence == "NULL") return "N/A";
+
 			List<string> keyBindList = new List<string>();
 			List<string> keyBindModList = new List<string>();
 
@@ -840,6 +734,9 @@ namespace ManiacEditor.Interfaces
 
 		}
 
-
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			this.DialogResult = true;
+		}
 	}
 }

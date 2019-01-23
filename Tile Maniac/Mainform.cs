@@ -24,7 +24,7 @@ namespace TileManiac
     {
         bool lockRadioButtons = false; //for locking radio button updates when switching single select options
 
-        RSDKv5.TilesConfig.CollisionMask TileClipboard;
+        RSDKv5.TileConfig.CollisionMask TileClipboard;
 
         List<Bitmap> ColImges = new List<Bitmap>(); //List of images, saves memory
         List<Bitmap> ColImgesNoCol = new List<Bitmap>(); //List of images, saves memory
@@ -58,8 +58,8 @@ namespace TileManiac
 
         bool changingModes = false; //To prevent updating the radio buttons until after we change the viewer mode
 
-        public RSDKv5.TilesConfig tcf; //The ColllisionMask Data
-        public RSDKv5.TilesConfig tcfBak; //Backup ColllisionMask Data
+        public RSDKv5.TileConfig tcf; //The ColllisionMask Data
+        public RSDKv5.TileConfig tcfBak; //Backup ColllisionMask Data
 
         List<Bitmap> Tiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles
         List<Bitmap> IndexedTiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles (Preserving Color Pallete)
@@ -256,15 +256,15 @@ namespace TileManiac
             }
         }
 
-        public void LoadTileConfigViaIntergration(TilesConfig tilesConfig, string scenePath, int selectedTile = 0)
+        public void LoadTileConfigViaIntergration(TileConfig tilesConfig, string scenePath, int selectedTile = 0)
         {
             indexedImagedLoaded = false;
             curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
             filepath = Path.Combine(scenePath, "TileConfig.bin");
             //tcf = tilesConfig;
             //tcfBak = tilesConfig;
-            tcf = new TilesConfig(Path.Combine(scenePath, "TileConfig.bin").ToString());
-            tcfBak = new TilesConfig(Path.Combine(scenePath, "TileConfig.bin").ToString());
+            tcf = new TileConfig(Path.Combine(scenePath, "TileConfig.bin").ToString());
+            tcfBak = new TileConfig(Path.Combine(scenePath, "TileConfig.bin").ToString());
             string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
             LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
             bitmappath = tileBitmapPath;
@@ -329,8 +329,8 @@ namespace TileManiac
                 indexedImagedLoaded = false;
                 curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
                 filepath = dlg.FileName;
-                tcf = new RSDKv5.TilesConfig(dlg.FileName);
-                tcfBak = new RSDKv5.TilesConfig(dlg.FileName);
+                tcf = new RSDKv5.TileConfig(dlg.FileName);
+                tcfBak = new RSDKv5.TileConfig(dlg.FileName);
                 string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
                 LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
                 bitmappath = tileBitmapPath;
@@ -1838,7 +1838,7 @@ namespace TileManiac
             {
                 if (Clipboard.ContainsData("TileManiacCollision"))
                 {
-                    var copyData = Clipboard.GetData("TileManiacCollision") as TilesConfig.CollisionMask;
+                    var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
                     if (copyData != null)
                     {
                         tcf.CollisionPath1[curColisionMask] = copyData;
@@ -1856,7 +1856,7 @@ namespace TileManiac
             {
                 if (Clipboard.ContainsData("TileManiacCollision"))
                 {
-                    var copyData = Clipboard.GetData("TileManiacCollision") as TilesConfig.CollisionMask;
+                    var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
                     if (copyData != null)
                     {
                         tcf.CollisionPath2[curColisionMask] = copyData;
@@ -1926,9 +1926,9 @@ namespace TileManiac
             {
                 RSDKv5.Reader Reader1 = new RSDKv5.Reader(dlg.FileName);
                 RSDKv5.Reader Reader2 = new RSDKv5.Reader(dlg.FileName);
-                tcf.CollisionPath1[curColisionMask] = new RSDKv5.TilesConfig.CollisionMask(Reader1);
+                tcf.CollisionPath1[curColisionMask] = new RSDKv5.TileConfig.CollisionMask(Reader1);
                 Reader1.Close();
-                tcf.CollisionPath2[curColisionMask] = new RSDKv5.TilesConfig.CollisionMask(Reader2);
+                tcf.CollisionPath2[curColisionMask] = new RSDKv5.TileConfig.CollisionMask(Reader2);
                 Reader2.Close();
             }
             RefreshUI();
@@ -1968,8 +1968,8 @@ namespace TileManiac
                 indexedImagedLoaded = false;
                 curColisionMask = 0; //Set the current collision mask to zero (avoids rare errors)
                 filepath = dlg.FileName;
-                tcf = new RSDKv5.TilesConfig();
-                tcfBak = new RSDKv5.TilesConfig();
+                tcf = new RSDKv5.TileConfig();
+                tcfBak = new RSDKv5.TileConfig();
                 RSDKv4.CollisionMask tcfOLD = new RSDKv4.CollisionMask(dlg.FileName);
                 string tileBitmapPath = filepath.Replace("CollisionMasks.bin", "16x16tiles.gif"); //get the path to the stage's tileset
                 LoadTileSet(new Bitmap(tileBitmapPath)); //load each 16x16 tile into the list

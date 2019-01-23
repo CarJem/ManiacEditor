@@ -10,14 +10,29 @@ namespace RSDKv5
     [Serializable]
     public class SceneEntity
     {
+        /// <summary>
+        /// what slotID this entity is in the level
+        /// </summary>
         public ushort SlotID;
+        /// <summary>
+        /// the entities' position
+        /// </summary>
         public Position Position;
 
+        /// <summary>
+        /// the entity type global data
+        /// </summary>
         public SceneObject Object;
         
         private string extObjName = null;
 
+        /// <summary>
+        /// a list of all the attribute values for this entity
+        /// </summary>
         public List<AttributeValue> Attributes = new List<AttributeValue>();
+        /// <summary>
+        /// the attribute values list sorted by the attribute names
+        /// </summary>
         public Dictionary<string, AttributeValue> attributesMap = new Dictionary<string, AttributeValue>();
 
         public SceneEntity(SceneObject obj, ushort slotID)

@@ -7,14 +7,32 @@ namespace RSDKv5
 {
     public class GameConfig : CommonConfig
     {
+        /// <summary>
+        /// the name of the game (also window name)
+        /// </summary>
         public String GameName;
+        /// <summary>
+        /// the game's subname (used for dev menu)
+        /// </summary>
         public String GameSubname;
+        /// <summary>
+        /// what version the game is on
+        /// </summary>
         public String Version;
         public String FilePath;
 
-        bool _scenesHaveModeFilter;
+        /// <summary>
+        /// is this file a plus file?
+        /// </summary>
+        public bool _scenesHaveModeFilter;
 
+        /// <summary>
+        /// the starting category to load from
+        /// </summary>
         public byte StartSceneCategoryIndex;
+        /// <summary>
+        /// the starting scene to load from
+        /// </summary>
         public ushort StartSceneIndex;
         public static int CurrentLevelID = 0;
 
@@ -27,12 +45,30 @@ namespace RSDKv5
 
         public class SceneInfo
         {
+            /// <summary>
+            /// the name of this scene (used for dev menu)
+            /// </summary>
             public string Name;
+            /// <summary>
+            /// the folder this scene is located in
+            /// </summary>
             public string Zone;
+            /// <summary>
+            /// the SceneID (e.g. Scene1 or SceneA or Scene3)
+            /// </summary>
             public string SceneID;
+            /// <summary>
+            /// what "mode" of the stage is (normal, encore, etc)
+            /// </summary>
             public byte ModeFilter;
-            public int LevelID; //For GameConfig Position; Used for Auto Booting
-            public int Index; //For GameConfig Position; Used for Auto Booting
+            /// <summary>
+            /// For GameConfig Position; Used for Auto Booting
+            /// </summary>
+            public int LevelID;
+            /// <summary>
+            /// For GameConfig Position; Used for Auto Booting
+            /// </summary>
+            public int Index;
 
             public SceneInfo()
             {
@@ -64,11 +100,18 @@ namespace RSDKv5
 
         public class Category
         {
+            /// <summary>
+            /// the category name (used for dev menu)
+            /// </summary>
             public string Name;
+            /// <summary>
+            /// a list of the scenes in the category
+            /// </summary>
             public List<SceneInfo> Scenes = new List<SceneInfo>();
 
-            public Category()
+            public Category(bool scenemodeFilter = true)
             {
+                Name = "New Category";
             }
 
             internal Category(Reader reader, bool scenesHaveModeFilter)
@@ -99,48 +142,53 @@ namespace RSDKv5
 
         public class ConfigurableMemoryEntry
         {
+            /// <summary>
+            /// the index of the memory entry
+            /// </summary>
             public uint Index;
-            public int[] Data;
-            public List<Byte> Bytes = new List<Byte>();
+            /// <summary>
+            /// the data in the memory entry
+            /// </summary>
+            public uint[] Data;
+
+            public ConfigurableMemoryEntry()
+            {
+
+            }
 
             internal ConfigurableMemoryEntry(Reader reader)
             {
-                while (!reader.IsEof)
-                {
-                    Bytes.Add(reader.ReadByte());
-                }
-
-                /*
                 Index = reader.ReadUInt32();
                 uint Count = reader.ReadUInt32();
-                Data = new int[Count];
+                Data = new uint[Count];
                 for (int i = 0; i < Count; ++i)
                 {
-                    Data[i] = reader.ReadInt32();
+                    Data[i] = reader.ReadUInt32();
                 }
-                */
-
             }
 
             internal void Write(Writer writer)
             {
-                foreach (Byte val in Bytes)
-                {
-                    writer.Write(val);
-                }
-
-                /*
                 writer.Write(Index);
                 writer.Write((uint)Data.Length);
                 foreach (uint val in Data)
                     writer.Write(val);
-                    */
             }
         }
 
+        /// <summary>
+        /// a list of all the categories
+        /// </summary>
         public List<Category> Categories = new List<Category>();
 
+        /// <summary>
+        /// a list of all the config memory data
+        /// </summary>
         public List<ConfigurableMemoryEntry> ConfigMemory = new List<ConfigurableMemoryEntry>();
+
+        public GameConfig()
+        {
+        }
 
         public GameConfig(string filename)
         {
@@ -155,7 +203,7 @@ namespace RSDKv5
                 Read(reader);
         }
 
-        private void Read(Reader reader)
+        public GameConfig(Reader reader, bool closeReader = false)
         {
             ReadMagic(reader);
 
@@ -180,15 +228,60 @@ namespace RSDKv5
             }
             CurrentLevelID = 0;
 
+            try
+            {
+                byte config_memory_count = reader.ReadByte();
 
-            //byte config_memory_count = reader.ReadByte();
-            ConfigMemory.Add(new ConfigurableMemoryEntry(reader));
+                for (int i = 0; i < config_memory_count; ++i)
+                    ConfigMemory.Add(new ConfigurableMemoryEntry(reader));
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error reading config memory! you potentially have a bad gameconfig!");
+                Console.WriteLine("Error: " + ex.Message);
+            }
 
-            /*
-            for (int i = 0; i < config_memory_count; ++i)
-                ConfigMemory.Add(new ConfigurableMemoryEntry(reader));
-                */
-                
+            if (closeReader) reader.Close();
+        }
+
+        public void Read(Reader reader, bool closeReader = false)
+        {
+            ReadMagic(reader);
+
+            GameName = reader.ReadRSDKString();
+            GameSubname = reader.ReadRSDKString();
+            Version = reader.ReadRSDKString();
+
+            InterpretVersion();
+
+            StartSceneCategoryIndex = reader.ReadByte();
+            StartSceneIndex = reader.ReadUInt16();
+
+            ReadCommonConfig(reader);
+
+            ushort TotalScenes = reader.ReadUInt16();
+            byte categories_count = reader.ReadByte();
+
+            CurrentLevelID = 0;
+            for (int i = 0; i < categories_count; ++i)
+            {
+                Categories.Add(new Category(reader, _scenesHaveModeFilter));
+            }
+            CurrentLevelID = 0;
+
+            try
+            {
+                byte config_memory_count = reader.ReadByte();
+
+                for (int i = 0; i < config_memory_count; ++i)
+                    ConfigMemory.Add(new ConfigurableMemoryEntry(reader));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error reading config memory! you potentially have a bad gameconfig!");
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            if (closeReader) reader.Close();
         }
 
         private void InterpretVersion()
@@ -213,7 +306,7 @@ namespace RSDKv5
                 Write(writer);
         }
 
-        internal void Write(Writer writer)
+        public void Write(Writer writer)
         {
             WriteMagic(writer);
 

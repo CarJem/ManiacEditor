@@ -12,20 +12,54 @@ namespace RSDKv5
     [Serializable]
     public class AttributeValue
     {
+        /// <summary>
+        /// the uint8 value of the attribute
+        /// </summary>
         byte value_uint8;
+        /// <summary>
+        /// the uint16 value of the attribute
+        /// </summary>
         ushort value_uint16;
+        /// <summary>
+        /// the uint32 value of the attribute
+        /// </summary>
         uint value_uint32;
+        /// <summary>
+        /// the int8 value of the attribute
+        /// </summary>
         sbyte value_int8;
+        /// <summary>
+        /// the int16 value of the attribute
+        /// </summary>
         short value_int16;
+        /// <summary>
+        /// the int32 value of the attribute
+        /// </summary>
         int value_int32;
+        /// <summary>
+        /// the var value of the attribute
+        /// </summary>
         uint value_var;
+        /// <summary>
+        /// the bool value of the attribute
+        /// </summary>
         bool value_bool;
+        /// <summary>
+        /// the string value of the attribute
+        /// </summary>
         string value_string = string.Empty; // default to empty string, null causes many problems
+        /// <summary>
+        /// the position value of the attribute
+        /// </summary>
         Position value_position;
-        Position no_position = new Position(0, 0);
+        /// <summary>
+        /// the colour value of the attribute
+        /// </summary>
         Color value_color;
 
         public readonly AttributeTypes Type;
+
+        Position no_position = new Position(0, 0);
 
         private void CheckType(AttributeTypes type)
         {

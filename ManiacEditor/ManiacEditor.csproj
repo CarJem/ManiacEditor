@@ -507,6 +507,9 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Interfaces\KeyBindConfigurator.xaml.cs">
+      <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
     </Compile>
@@ -1251,6 +1254,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interfaces\KeyBindConfigurator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\MainEditor\Editor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1266,14 +1273,6 @@
     <Page Include="Interfaces\OptionsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Themes\DarkSizes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Themes\LightSizes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Themes\LightColors.xaml">
       <Generator>MSBuild:Compile</Generator>

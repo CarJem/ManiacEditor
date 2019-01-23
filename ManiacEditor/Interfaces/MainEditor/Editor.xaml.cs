@@ -254,7 +254,7 @@ namespace ManiacEditor
         public EntitiesToolbar entitiesToolbar = null;
         public EditorEntity_ini EditorEntity_ini;
         public EditorUpdater Updater = new EditorUpdater();
-        public TilesConfig TilesConfig;
+        public TileConfig TilesConfig;
         public EditorInGame EditorGame;
         public StartupInformation info;
         public StatusBox statusBox;
@@ -3413,7 +3413,7 @@ namespace ManiacEditor
             if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
             {
 
-                TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
+                TilesConfig = new TileConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
                 for (int i = 0; i < 1024; i++)
                 {
                     CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
@@ -3521,7 +3521,7 @@ namespace ManiacEditor
             if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
             {
 
-                TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
+                TilesConfig = new TileConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
                 for (int i = 0; i < 1024; i++)
                 {
                     CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
@@ -5001,7 +5001,7 @@ Error: {ex.Message}");
                     TilesToolbar?.Reload();
                 }
 
-                TilesConfig = new TilesConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
+                TilesConfig = new TileConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
 
                 CollisionLayerA.Clear();
                 CollisionLayerB.Clear();
@@ -5436,7 +5436,7 @@ Error: {ex.Message}");
 
         public void DrawLayers(int drawOrder = 0)
         {
-            var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.UnknownByte2.Equals(drawOrder));
+            var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
             _extraViewLayer.Draw(editorView.GraphicPanel);
         }
 
@@ -7421,7 +7421,7 @@ Error: {ex.Message}");
                 SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
 
                 EditorScene = new EditorScene(editorView.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, this);
-                TilesConfig = new TilesConfig();
+                TilesConfig = new TileConfig();
                 StageTiles = new StageTiles();
                 StageConfig = new StageConfig();
 

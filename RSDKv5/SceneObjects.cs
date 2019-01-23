@@ -10,12 +10,21 @@ namespace RSDKv5
     [Serializable]
     public class SceneObject
     {
+        /// <summary>
+        /// the name of this type of object
+        /// </summary>
         public NameIdentifier Name
         {
             get;
             private set;
         }
+        /// <summary>
+        /// the names and types of each attribute of this object
+        /// </summary>
         public readonly List<AttributeInfo> Attributes = new List<AttributeInfo>();
+        /// <summary>
+        /// a list of entities using this type
+        /// </summary>
         public List<SceneEntity> Entities = new List<SceneEntity>();
 
 

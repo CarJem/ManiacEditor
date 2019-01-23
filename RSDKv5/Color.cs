@@ -12,7 +12,22 @@ namespace RSDKv5
     public struct Color
     {
 
-        public byte R, G, B, A;
+        /// <summary>
+        /// Colour Red Value
+        /// </summary>
+        public byte R;
+        /// <summary>
+        /// Colour Green Value
+        /// </summary>
+        public byte G;
+        /// <summary>
+        /// Colour Blue Value
+        /// </summary>
+        public byte B;
+        /// <summary>
+        /// Colour Alpha Value
+        /// </summary>
+        public byte A;
 
         public static Color EMPTY = new Color(0, 0, 0, 0);
 

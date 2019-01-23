@@ -64,28 +64,28 @@ namespace ManiacEditor
             }
         }
 
-        public byte ScrollingVertical
-        {
-            get => _layer.IsScrollingVertical;
-            set => _layer.IsScrollingVertical = value;
+        public byte Behaviour
+		{
+            get => _layer.Behaviour;
+            set => _layer.Behaviour = value;
         }
 
-        public byte UnknownByte2
-        {
-            get => _layer.UnknownByte2;
-            set => _layer.UnknownByte2 = value;
+        public byte DrawingOrder
+		{
+            get => _layer.DrawingOrder;
+            set => _layer.DrawingOrder = value;
         }
 
-        public short UnknownWord1
-        {
-            get => _layer.UnknownWord1;
-            set => _layer.UnknownWord1 = value;
+        public short RelativeSpeed
+		{
+            get => _layer.RelativeSpeed;
+            set => _layer.RelativeSpeed = value;
         }
 
-        public short UnknownWord2
-        {
-            get => _layer.UnknownWord2;
-            set => _layer.UnknownWord2 = value;
+        public short ConstantSpeed
+		{
+            get => _layer.ConstantSpeed;
+            set => _layer.ConstantSpeed = value;
         }
 
         public ushort Height { get => _layer.Height; }

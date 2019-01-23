@@ -25,8 +25,14 @@ namespace RSDKv5
     [Serializable]
     public class AttributeInfo
     {
+        /// <summary>
+        /// the name of the attribute
+        /// </summary>
         public readonly NameIdentifier Name;
         public readonly NameIdentifier ManiacEditorObject;
+        /// <summary>
+        /// the type of the attribute
+        /// </summary>
         public readonly AttributeTypes Type;
 
         public AttributeInfo(NameIdentifier name, AttributeTypes type)

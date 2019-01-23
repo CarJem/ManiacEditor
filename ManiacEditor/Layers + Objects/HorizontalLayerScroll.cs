@@ -41,10 +41,10 @@ namespace ManiacEditor
         /// <remarks>This is NOT persisted to any RSDKv5 backing field!</remarks>
         public byte Id { get => _id; set => _id = value; }
 
-        public byte UnknownByte1 { get => _scrollInfo.UnknownByte1; set => _scrollInfo.UnknownByte1 = value; }
-        public byte UnknownByte2 { get => _scrollInfo.UnknownByte2; set => _scrollInfo.UnknownByte2 = value; }
-        public short UnknownWord1 { get => _scrollInfo.UnknownWord1; set => _scrollInfo.UnknownWord1 = value; }
-        public short UnknownWord2 { get => _scrollInfo.UnknownWord2; set => _scrollInfo.UnknownWord2 = value; }
+        public byte Behavior { get => _scrollInfo.Behaviour; set => _scrollInfo.Behaviour = value; }
+        public byte DrawOrder { get => _scrollInfo.DrawOrder; set => _scrollInfo.DrawOrder = value; }
+        public short RelativeSpeed { get => _scrollInfo.RelativeSpeed; set => _scrollInfo.RelativeSpeed = value; }
+        public short ConstantSpeed { get => _scrollInfo.ConstantSpeed; set => _scrollInfo.ConstantSpeed = value; }
 
         public IList<ScrollInfoLines> LinesMapList { get => _linesMapList; }
         public ScrollInfo ScrollInfo { get => _scrollInfo; }

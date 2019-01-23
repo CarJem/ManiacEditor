@@ -255,9 +255,9 @@ namespace TileManiac
     {
         const int TILES_COUNT = 0x400;
 
-        public RSDKv5.TilesConfig.CollisionMask[] PathA = new RSDKv5.TilesConfig.CollisionMask[TILES_COUNT]; 
-        public RSDKv5.TilesConfig.CollisionMask[] PathB = new RSDKv5.TilesConfig.CollisionMask[TILES_COUNT];
-        public BackupTiles(RSDKv5.TilesConfig _tcf)
+        public RSDKv5.TileConfig.CollisionMask[] PathA = new RSDKv5.TileConfig.CollisionMask[TILES_COUNT]; 
+        public RSDKv5.TileConfig.CollisionMask[] PathB = new RSDKv5.TileConfig.CollisionMask[TILES_COUNT];
+        public BackupTiles(RSDKv5.TileConfig _tcf)
         {
             PathA = _tcf.CollisionPath1;
             PathB = _tcf.CollisionPath2;

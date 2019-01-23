@@ -31,7 +31,8 @@ namespace ManiacEditor.Interfaces
             InitializeComponent();
             UpdateResultLabel();
 			SetupExistingKeybinds(keyRefrence);
-        }
+			SetupListBox();
+		}
 
 		private void SetupExistingKeybinds(string keyRefrence)
 		{
@@ -47,11 +48,10 @@ namespace ManiacEditor.Interfaces
 			UpdateResultLabel();
 		}
 
+		private void SetupListBox()
+		{
 
-		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+		}
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {

@@ -10,12 +10,24 @@ namespace RSDKv5
 {
     public class Scene
     {   
+        /// <summary>
+        /// the file's signature
+        /// </summary>
         public static readonly byte[] MAGIC = new byte[] { (byte)'S', (byte)'C', (byte)'N', (byte)'\0' };
         public static bool readTilesOnly;
 
+        /// <summary>
+        /// metadata stuff for RSDK Scene editor
+        /// </summary>
         public SceneEditorMetadata EditorMetadata;
 
+        /// <summary>
+        /// the layers in this scene
+        /// </summary>
         public List<SceneLayer> Layers = new List<SceneLayer>();
+        /// <summary>
+        /// the object types in this scene
+        /// </summary>
         public List<SceneObject> Objects = new List<SceneObject>();
 
 
@@ -31,7 +43,7 @@ namespace RSDKv5
 
         private Scene(Reader reader)
         {
-            if (readTilesOnly == false)
+            if (!readTilesOnly)
             {
                 // Load scene
                 if (!reader.ReadBytes(4).SequenceEqual(MAGIC))

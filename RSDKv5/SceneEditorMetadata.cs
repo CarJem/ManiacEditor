@@ -8,12 +8,21 @@ namespace RSDKv5
 {
     public class SceneEditorMetadata
     {
-        byte UnknownByte; // 2/3/4
+        public byte UnknownByte; // 2/3/4
+        /// <summary>
+        /// Background colour 1
+        /// </summary>
         public Color BackgroundColor1;
+        /// <summary>
+        /// Background colour 2
+        /// </summary>
         public Color BackgroundColor2;
-        byte[] UnknownBytes; // Const: 01010400010400
-        string BinName;
-        byte UnknownByte2;
+        public byte[] UnknownBytes; // Const: 01010400010400
+        /// <summary>
+        /// the name of the stamps file
+        /// </summary>
+        public string BinName;
+        public byte UnknownByte2;
 
         public SceneEditorMetadata()
         {
@@ -21,6 +30,7 @@ namespace RSDKv5
             BackgroundColor1 = Color.EMPTY;
             BackgroundColor2 = Color.EMPTY;
             UnknownBytes = new byte[] { 0x1, 0x1, 0x4, 0x0, 0x1, 0x4, 0x0 };
+            BinName = "stamps.bin";
         }
 
         internal SceneEditorMetadata(Reader reader)
