@@ -21,7 +21,7 @@ namespace ManiacEditor
 
     public partial class App : Application
     {
-        public static Skin Skin { get; set; } = Skin.Light;
+        public static Skin Skin { get; set; } = Skin.Dark;
 
         public static bool SkinChanged { get; set; } = false;
 

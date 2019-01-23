@@ -717,7 +717,7 @@
                 <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
                                               DarkSource="/ManiacEditor;component/Resources/Themes/DarkColors.xaml" />
                 <ResourceDictionary Source="/ManiacEditor;component/Resources/Themes/MyBorderStyle.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ContextMenu.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Image}">

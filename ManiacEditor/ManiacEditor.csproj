@@ -57,7 +57,7 @@
     <StartupObject>ManiacEditor.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>64x64.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\App Icons\64x64_2.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'x64 Release|AnyCPU'">
     <OutputPath>bin\Release%28x64%29\</OutputPath>
@@ -396,10 +396,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
-    <Compile Include="BitmapConversion.cs" />
-    <Compile Include="EditorInGame.cs" />
-    <Compile Include="EditorChunk.cs" />
-    <Compile Include="EditorUpdater.cs" />
+    <Compile Include="Editor Classes\EditorInGame.cs" />
+    <Compile Include="Editor Classes\EditorChunk.cs" />
+    <Compile Include="Editor Classes\EditorUpdater.cs" />
     <Compile Include="Entity Renders\TitleBG.cs" />
     <Compile Include="Entity Renders\TitleSonic.cs" />
     <Compile Include="Entity Renders\TitleLogo.cs" />
@@ -492,8 +491,8 @@
     <Compile Include="Entity Renders\Valve.cs" />
     <Compile Include="Entity Renders\Vultron.cs" />
     <Compile Include="Entity Renders\YoyoPulley.cs" />
-    <Compile Include="Enums\Settings.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Enums + Shorthandings\Settings.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Interfaces\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -508,10 +507,13 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
-    <Compile Include="AttributeValidater.cs" />
-    <Compile Include="ColorConsole.cs" />
-    <Compile Include="ColorsCaching.cs" />
-    <Compile Include="Interfaces\App.xaml.cs">
+    <Compile Include="Interfaces\OptionsMenu.xaml.cs">
+      <DependentUpon>OptionsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layers + Objects\AttributeValidater.cs" />
+    <Compile Include="Object ID Repair Tool\ColorConsole.cs" />
+    <Compile Include="Object ID Repair Tool\ColorsCaching.cs" />
+    <Compile Include="Interfaces\MainEditor\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ConfigManager.cs">
@@ -520,27 +522,27 @@
     <Compile Include="Interfaces\ConfigManager.Designer.cs">
       <DependentUpon>ConfigManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="DeviceEventArgs.cs" />
+    <Compile Include="Graphics\DeviceEventArgs.cs" />
     <Compile Include="Interfaces\AddAttributeBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\AddAttributeBox.Designer.cs">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\EditorView.cs">
+    <Compile Include="Interfaces\MainEditor\EditorView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\EditorView.Designer.cs">
+    <Compile Include="Interfaces\MainEditor\EditorView.Designer.cs">
       <DependentUpon>EditorView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Editor.xaml.cs" />
-    <Compile Include="Interfaces\HScrollBar.xaml.cs">
+    <Compile Include="Interfaces\MainEditor\Editor.xaml.cs" />
+    <Compile Include="Interfaces\Controls\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\ChunksList.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\ChunksList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\ChunksList.Designer.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\ChunksList.Designer.cs">
       <DependentUpon>ChunksList.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\StartupInformation.cs">
@@ -549,7 +551,7 @@
     <Compile Include="Interfaces\StartupInformation.Designer.cs">
       <DependentUpon>StartupInformation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\EntityPropertiesView.xaml.cs">
+    <Compile Include="Interfaces\Controls\EntityPropertiesView.xaml.cs">
       <DependentUpon>EntityPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\NewSceneMaker.cs">
@@ -570,29 +572,29 @@
     <Compile Include="Interfaces\DeviceLostBox.Designer.cs">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditorControls.cs" />
+    <Compile Include="Editor Classes\EditorControls.cs" />
     <Compile Include="Interfaces\EditCategorySelectInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\EditCategorySelectInfoForm.Designer.cs">
       <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Discord.cs" />
-    <Compile Include="Enums\DuplicateAction.cs" />
-    <Compile Include="EditorAnimations.cs" />
-    <Compile Include="EditorBackground.cs" />
-    <Compile Include="EditorEntity_ini.cs" />
-    <Compile Include="EditorScene.cs" />
+    <Compile Include="Extensions\Discord.cs" />
+    <Compile Include="Enums + Shorthandings\DuplicateAction.cs" />
+    <Compile Include="Editor Classes\EditorAnimations.cs" />
+    <Compile Include="Editor Classes\EditorBackground.cs" />
+    <Compile Include="Editor Classes\EditorEntity_ini.cs" />
+    <Compile Include="Editor Classes\EditorScene.cs" />
     <Compile Include="Interfaces\EditSceneSelectInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\EditSceneSelectInfoForm.Designer.cs">
       <DependentUpon>EditSceneSelectInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\EntitiesToolbar.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\EntitiesToolbar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\EntitiesToolbar.Designer.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\EntitiesToolbar.Designer.cs">
       <DependentUpon>EntitiesToolbar.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity Renders\AIZEggRobo.cs" />
@@ -730,8 +732,8 @@
     <Compile Include="Entity Renders\Woodrow.cs" />
     <Compile Include="Entity Renders\ZipLine.cs" />
     <Compile Include="Entity Renders\ZoneSetup.cs" />
-    <Compile Include="Enums\FlipDirection.cs" />
-    <Compile Include="FolderSelectDialog.cs" />
+    <Compile Include="Enums + Shorthandings\FlipDirection.cs" />
+    <Compile Include="Extensions\FolderSelectDialog.cs" />
     <Compile Include="Interfaces\ControlBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -792,15 +794,14 @@
     <Compile Include="Interfaces\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Toolbar.cs" />
     <Compile Include="Interfaces\UpdateStatusBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\UpdateStatusBox.Designer.cs">
       <DependentUpon>UpdateStatusBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyEventExt.cs" />
-    <Compile Include="ObjectIDHealer.cs" />
+    <Compile Include="WPF + Winform Stuff\KeyEventExt.cs" />
+    <Compile Include="Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -818,8 +819,8 @@
     <Compile Include="Interfaces\DeveloperTool.Designer.cs">
       <DependentUpon>DeveloperTool.cs</DependentUpon>
     </Compile>
-    <Compile Include="HorizontalLayerScroll.cs" />
-    <Compile Include="IDrawArea.cs" />
+    <Compile Include="Layers + Objects\HorizontalLayerScroll.cs" />
+    <Compile Include="Graphics\IDrawArea.cs" />
     <Compile Include="Interfaces\ImageViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -832,12 +833,12 @@
     <Compile Include="Interfaces\LayerManager.Designer.cs">
       <DependentUpon>LayerManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="LinkedEditorEntity.cs" />
-    <Compile Include="LocalProperty.cs" />
-    <Compile Include="LocalPropertyGrid.cs" />
-    <Compile Include="EditorEntities.cs" />
-    <Compile Include="EditorEntity.cs" />
-    <Compile Include="EditorLayer.cs" />
+    <Compile Include="Layers + Objects\LinkedEditorEntity.cs" />
+    <Compile Include="PropertyGrid\LocalProperty.cs" />
+    <Compile Include="PropertyGrid\LocalPropertyGrid.cs" />
+    <Compile Include="Editor Classes\EditorEntities.cs" />
+    <Compile Include="Editor Classes\EditorEntity.cs" />
+    <Compile Include="Editor Classes\EditorLayer.cs" />
     <Compile Include="Interfaces\ObjectManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -856,45 +857,43 @@
     <Compile Include="Interfaces\PreLoadBox.Designer.cs">
       <DependentUpon>PreLoadBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProcessMemory.cs" />
+    <Compile Include="Memory Editing\ProcessMemory.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Reflector.cs" />
+    <Compile Include="Extensions\Reflector.cs" />
     <Compile Include="Interfaces\SceneSelect.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\SceneSelect.Designer.cs">
       <DependentUpon>SceneSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScrollInfoLines.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="EditorSettings.cs" />
+    <Compile Include="Layers + Objects\ScrollInfoLines.cs" />
+    <Compile Include="Editor Classes\EditorSettings.cs" />
     <Compile Include="Interfaces\SoundImporter.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\SoundImporter.Designer.cs">
       <DependentUpon>SoundImporter.cs</DependentUpon>
     </Compile>
-    <Compile Include="SkinResourceDictionary.cs" />
-    <Compile Include="TextPrompt.cs" />
-    <Compile Include="TextureCreator.cs" />
-    <Compile Include="TexturetoImage.cs" />
-    <Compile Include="ThumbnailFlowLayoutPanel.cs">
+    <Compile Include="WPF + Winform Stuff\SkinResourceDictionary.cs" />
+    <Compile Include="WPF + Winform Stuff\TextPrompt.cs" />
+    <Compile Include="Graphics\TextureCreator.cs" />
+    <Compile Include="WPF + Winform Stuff\ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Interfaces\TilesList.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\TilesList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\TilesList.Designer.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\TilesList.Designer.cs">
       <DependentUpon>TilesList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\TilesToolbar.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\TilesToolbar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\TilesToolbar.Designer.cs">
+    <Compile Include="Interfaces\MainEditor\Toolbars\TilesToolbar.Designer.cs">
       <DependentUpon>TilesToolbar.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\DevicePanel.cs">
@@ -903,10 +902,10 @@
     <Compile Include="Interfaces\DevicePanel.designer.cs">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="IDrawable.cs" />
+    <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Resource Include="64x64.ico" />
+    <Resource Include="Resources\App Icons\64x64_2.ico" />
     <Content Include="Config\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -983,15 +982,14 @@
     <None Include="Resources\LayerManagerWarning1.rtf" />
     <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
-    <None Include="README.md" />
     <None Include="Resources\ScoreTotal.wav" />
-    <EmbeddedResource Include="Interfaces\ChunksList.resx">
+    <EmbeddedResource Include="Interfaces\MainEditor\Toolbars\ChunksList.resx">
       <DependentUpon>ChunksList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ConfigManager.resx">
       <DependentUpon>ConfigManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\EditorView.resx">
+    <EmbeddedResource Include="Interfaces\MainEditor\EditorView.resx">
       <DependentUpon>EditorView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\StartupInformation.resx">
@@ -1061,7 +1059,7 @@
     <EmbeddedResource Include="Interfaces\EditSceneSelectInfoForm.resx">
       <DependentUpon>EditSceneSelectInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\EntitiesToolbar.resx">
+    <EmbeddedResource Include="Interfaces\MainEditor\Toolbars\EntitiesToolbar.resx">
       <DependentUpon>EntitiesToolbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ControlBox.resx">
@@ -1097,10 +1095,10 @@
     <EmbeddedResource Include="Interfaces\SoundImporter.resx">
       <DependentUpon>SoundImporter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\TilesList.resx">
+    <EmbeddedResource Include="Interfaces\MainEditor\Toolbars\TilesList.resx">
       <DependentUpon>TilesList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\TilesToolbar.resx">
+    <EmbeddedResource Include="Interfaces\MainEditor\Toolbars\TilesToolbar.resx">
       <DependentUpon>TilesToolbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -1108,7 +1106,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="discord-rpc.dll">
+    <None Include="Extensions\discord-rpc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Resources\Global\EditorAssets.bin">
@@ -1241,11 +1239,11 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="Interfaces\App.xaml">
+    <ApplicationDefinition Include="Interfaces\MainEditor\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ContextMenu.xaml">
+    <Page Include="Interfaces\Controls\ContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1253,15 +1251,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Editor.xaml">
+    <Page Include="Interfaces\MainEditor\Editor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\EntityPropertiesView.xaml">
+    <Page Include="Interfaces\Controls\EntityPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\HScrollBar.xaml">
+    <Page Include="Interfaces\Controls\HScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\OptionsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

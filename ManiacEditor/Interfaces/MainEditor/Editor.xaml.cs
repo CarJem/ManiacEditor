@@ -4865,10 +4865,14 @@ Error: {ex.Message}");
 
         public void OptionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
+			/*
             using (var optionBox = new OptionBox(this))
             {
                 optionBox.ShowDialog();
             }
+			*/
+			var optionMenu = new OptionsMenu(this);
+			optionMenu.ShowDialog();
         }
 
         private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
