@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace ManiacEditor
 {
-    public partial class StatusBox : Form
+    public partial class StatusBox
     {
         string newLine = Environment.NewLine;
         System.Windows.Forms.Timer t;
@@ -22,7 +22,6 @@ namespace ManiacEditor
         public StatusBox(Editor instance)
         {
             EditorInstance = instance;
-            InitializeComponent();
             t = new System.Windows.Forms.Timer();
             t.Interval = 10;
             t.Tick += new EventHandler(setText);
@@ -38,7 +37,7 @@ namespace ManiacEditor
 
         private void ApplyText()
         {
-            informationLabel.Text = GetStatsText();
+            //informationLabel.Text = GetStatsText();
         }
 
 

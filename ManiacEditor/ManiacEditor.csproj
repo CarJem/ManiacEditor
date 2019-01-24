@@ -513,6 +513,9 @@
     <Compile Include="Interfaces\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\SceneSelect.xaml.cs">
+      <DependentUpon>SceneSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Layers + Objects\AttributeValidater.cs" />
     <Compile Include="Object ID Repair Tool\ColorConsole.cs" />
     <Compile Include="Object ID Repair Tool\ColorsCaching.cs" />
@@ -563,12 +566,7 @@
     <Compile Include="Interfaces\NewSceneMaker.Designer.cs">
       <DependentUpon>NewSceneMaker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\StatusBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\StatusBox.Designer.cs">
-      <DependentUpon>StatusBox.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Editor Classes\EditorStats.cs" />
     <Compile Include="Interfaces\DeviceLostBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -767,10 +765,10 @@
     <Compile Include="Interfaces\GoToPositionBox.Designer.cs">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\KeybindTool.cs">
+    <Compile Include="Interfaces\PhaseOut\KeybindTool.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\KeybindTool.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\KeybindTool.Designer.cs">
       <DependentUpon>KeybindTool.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\MD5HashGen.cs">
@@ -848,10 +846,10 @@
     <Compile Include="Interfaces\ObjectManager.Designer.cs">
       <DependentUpon>ObjectManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\OptionBox.cs">
+    <Compile Include="Interfaces\PhaseOut\OptionBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\OptionBox.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\OptionBox.Designer.cs">
       <DependentUpon>OptionBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\PreLoadBox.cs">
@@ -867,10 +865,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Extensions\Reflector.cs" />
-    <Compile Include="Interfaces\SceneSelect.cs">
+    <Compile Include="Interfaces\PhaseOut\SceneSelect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\SceneSelect.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\SceneSelect.Designer.cs">
       <DependentUpon>SceneSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Layers + Objects\ScrollInfoLines.cs" />
@@ -1001,9 +999,6 @@
     <EmbeddedResource Include="Interfaces\NewSceneMaker.resx">
       <DependentUpon>NewSceneMaker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\StatusBox.resx">
-      <DependentUpon>StatusBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -1019,7 +1014,7 @@
     <EmbeddedResource Include="Interfaces\GoToPositionBox.resx">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\KeybindTool.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\KeybindTool.resx">
       <DependentUpon>KeybindTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\MD5HashGen.resx">
@@ -1086,13 +1081,13 @@
     <EmbeddedResource Include="Interfaces\DeveloperTool.resx">
       <DependentUpon>DeveloperTool.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\OptionBox.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\OptionBox.resx">
       <DependentUpon>OptionBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\PreLoadBox.resx">
       <DependentUpon>PreLoadBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\SceneSelect.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\SceneSelect.resx">
       <DependentUpon>SceneSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\SoundImporter.resx">
@@ -1271,6 +1266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\OptionsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\SceneSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

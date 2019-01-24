@@ -3267,7 +3267,7 @@ namespace ManiacEditor
 
         public void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
         {
-            SceneSelect select;
+			ManiacEditor.Interfaces.SceneSelect select;
             ModDataDirectory = modDir;
             string ResultPath = null;
             if (Result == null)
@@ -3277,11 +3277,11 @@ namespace ManiacEditor
 
                     if (!EditorLoad())
                     {
-                        select = new SceneSelect(null, this);
+                        select = new ManiacEditor.Interfaces.SceneSelect(null, this);
                     }
                     else
                     {
-                        select = new SceneSelect(GameConfig, this);
+                        select = new ManiacEditor.Interfaces.SceneSelect(GameConfig, this);
                     }
                     select.ShowDialog();
                     Result = select.Result;
@@ -7607,15 +7607,13 @@ Error: {ex.Message}");
         public Scene GetSceneSelection()
         {
             string selectedScene;
-            using (SceneSelect select = new SceneSelect(GameConfig, this))
-            {
-                select.ShowDialog();
 
-                if (select.Result == null)
-                    return null;
+			ManiacEditor.Interfaces.SceneSelect select = new ManiacEditor.Interfaces.SceneSelect(GameConfig, this);
+			select.ShowDialog();
+            if (select.Result == null)
+                return null;
+            selectedScene = select.Result;
 
-                selectedScene = select.Result;
-            }
             if (!File.Exists(selectedScene))
             {
                 string[] splitted = selectedScene.Split('\\');
