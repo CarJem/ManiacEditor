@@ -337,6 +337,12 @@
       <HintPath>..\packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\packages\OpenTK.Next.1.2.2336.6514-pre\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl">
+      <HintPath>..\packages\OpenTK.Next.GLControl.1.2.2336.6514-pre\lib\net20\OpenTK.GLControl.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework">
       <Private>False</Private>
@@ -396,6 +402,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
@@ -469,8 +476,13 @@
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />
     <Compile Include="Entity Renders\SummaryEmerald.cs" />
+    <Compile Include="Entity Renders\UIWinSize.cs" />
+    <Compile Include="Entity Renders\UIResPicker.cs" />
+    <Compile Include="Entity Renders\UIVsRoundPicker.cs" />
     <Compile Include="Entity Renders\UITABanner.cs" />
     <Compile Include="Entity Renders\UIInfoLabel.cs" />
+    <Compile Include="Entity Renders\UIMedallionPanel.cs" />
+    <Compile Include="Entity Renders\UIVsResults.cs" />
     <Compile Include="Entity Renders\UIVsCharSelector.cs" />
     <Compile Include="Entity Renders\UIOptionPanel.cs" />
     <Compile Include="Entity Renders\UIKeyBinder.cs" />
@@ -493,6 +505,13 @@
     <Compile Include="Entity Renders\YoyoPulley.cs" />
     <Compile Include="Enums + Shorthandings\Settings.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="GL Preperations\IndexBuffer.cs" />
+    <Compile Include="GL Preperations\Indices.cs" />
+    <Compile Include="GL Preperations\TexCoords.cs" />
+    <Compile Include="GL Preperations\Texture2D.cs" />
+    <Compile Include="GL Preperations\VBCreator.cs" />
+    <Compile Include="GL Preperations\VertexBuffer.cs" />
+    <Compile Include="GL Preperations\Vertices.cs" />
     <Compile Include="Interfaces\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -507,6 +526,10 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Interfaces\GLViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interfaces\GLViewControl.Designer.cs" />
     <Compile Include="Interfaces\KeyBindConfigurator.xaml.cs">
       <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
     </Compile>
@@ -584,7 +607,7 @@
     <Compile Include="Enums + Shorthandings\DuplicateAction.cs" />
     <Compile Include="Editor Classes\EditorAnimations.cs" />
     <Compile Include="Editor Classes\EditorBackground.cs" />
-    <Compile Include="Editor Classes\EditorEntity_ini.cs" />
+    <Compile Include="Editor Classes\EditorEntityFramework.cs" />
     <Compile Include="Editor Classes\EditorScene.cs" />
     <Compile Include="Interfaces\EditSceneSelectInfoForm.cs">
       <SubType>Form</SubType>

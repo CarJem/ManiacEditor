@@ -221,28 +221,19 @@ namespace ManiacEditor
 
         public void Run()
         {
-            RenderLoop.Run(this, new RenderLoop.RenderCallback(Callback), false);
-        }
+			RenderLoop.Run(this, () =>
+			{
+				// Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
+				if (bRender && !deviceLost) Render();
+				if (mouseMoved)
+				{
+					OnMouseMove(lastEvent);
+					mouseMoved = false;
+				}
 
-        public void Callback()
-        {
-            if (bRender && !deviceLost) Render();
-            if (mouseMoved)
-            {
-                OnMouseMove(lastEvent);
-                mouseMoved = false;
-            }
-        }
 
-        public void Callback(object sender, EventArgs e)
-        {
-            if (bRender && !deviceLost) Render();
-            if (mouseMoved)
-            {
-                OnMouseMove(lastEvent);
-                mouseMoved = false;
-            }
-        }
+			}, false);
+		}
 
         public void InitDeviceResources()
         {

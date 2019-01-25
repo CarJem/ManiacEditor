@@ -252,13 +252,13 @@ namespace ManiacEditor.Interfaces
 			{
 				RPCCheckBox.IsChecked = true;
 				Properties.Settings.Default.ShowDiscordRPC = true;
-				EditorInstance.UpdateDiscord(EditorInstance.ScenePath);
+				EditorInstance.Discord.UpdateDiscord(EditorInstance.Discord.ScenePath);
 			}
 			else
 			{
 				RPCCheckBox.IsChecked = false;
 				Properties.Settings.Default.ShowDiscordRPC = false;
-				EditorInstance.UpdateDiscord();
+				EditorInstance.Discord.UpdateDiscord();
 			}
 		}
 

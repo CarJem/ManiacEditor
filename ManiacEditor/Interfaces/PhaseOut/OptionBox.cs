@@ -248,12 +248,12 @@ namespace ManiacEditor
             if (Properties.Settings.Default.ShowDiscordRPC == false)
             {
                 Properties.Settings.Default.ShowDiscordRPC = RPCCheckBox.Checked = true;
-                EditorInstance.UpdateDiscord(EditorInstance.ScenePath);
+                EditorInstance.Discord.UpdateDiscord(EditorInstance.Discord.ScenePath);
             }
             else
             {
                 Properties.Settings.Default.ShowDiscordRPC = RPCCheckBox.Checked = false;
-                EditorInstance.UpdateDiscord();
+                EditorInstance.Discord.UpdateDiscord();
             }
         }
 

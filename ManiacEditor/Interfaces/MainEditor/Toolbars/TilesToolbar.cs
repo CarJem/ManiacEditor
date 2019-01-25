@@ -97,9 +97,9 @@ namespace ManiacEditor
         public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
         {
             InitializeComponent();
+			SetupTilesList(instance);
 
-            EditorInstance = instance;
-            SetupTilesList(instance);
+			EditorInstance = instance;
 
             if (Properties.Settings.Default.NightMode)
             {

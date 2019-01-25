@@ -118,8 +118,6 @@ namespace ManiacEditor
             string EncorePallete6 = "";
             //Encore Palette File Loading
             string ZoneName = SelectedZone.Replace("\\", "");
-            //EncorePallete = Path.Combine(DataDirectory, "Palettes", "Encore" + actFile);
-            //Debug.Print(EncorePallete);
             if (ZoneName == "GHZ")
             {
                 EncorePallete1 = Path.Combine(DataDirectory, "Palettes", "EncoreGHZ.act");

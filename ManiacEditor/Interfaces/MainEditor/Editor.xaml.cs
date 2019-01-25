@@ -227,11 +227,6 @@ namespace ManiacEditor
         public Dictionary<Point, ushort> TilesClipboardEditable;
         private List<EditorEntity> entitiesClipboard;
 
-        //Used For Discord Rich Pressence
-        public SharpPresence.Discord.RichPresence RPCcontrol = new SharpPresence.Discord.RichPresence();
-        public SharpPresence.Discord.EventHandlers RPCEventHandler = new SharpPresence.Discord.EventHandlers();
-        public string ScenePath = "";
-
         //Collision Colours
         public Color CollisionAllSolid = Color.FromArgb(255, 255, 255, 255);
         public Color CollisionTopOnlySolid = Color.FromArgb(255, 255, 255, 255);
@@ -253,7 +248,7 @@ namespace ManiacEditor
         internal TilesToolbar TilesToolbar = null;
         public EntitiesToolbar entitiesToolbar = null;
         public EditorEntity_ini EditorEntity_ini;
-        public EditorUpdater Updater = new EditorUpdater();
+		public EditorUpdater Updater;
         public TileConfig TilesConfig;
         public EditorInGame EditorGame;
         public StartupInformation info;
@@ -262,9 +257,10 @@ namespace ManiacEditor
         public EditorChunk EditorChunk;
         public System.Windows.Forms.Integration.WindowsFormsHost host;
         public EditorView editorView;
+		public EditorDiscordRP Discord; 
 
-        //Tile Maniac + ManiaPal Instance
-        public TileManiac.Mainform mainform = new Mainform();
+		//Tile Maniac + ManiaPal Instance
+		public TileManiac.Mainform mainform = new Mainform();
         public static ManiaPal.App app;
 		public static ManiaPal.MainWindow ManiaPalInstance;
 
@@ -284,9 +280,12 @@ namespace ManiacEditor
         public Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
 
-        // Stuff Used for Command Line Tool to Fix Duplicate Object ID's
-        #region DLL Import Stuff
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+		//GL Variables
+		public const double LAYER_DEPTH = 0.1;
+
+		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's
+		#region DLL Import Stuff
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
         [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
         private static extern bool ShowWindow(IntPtr hWnd, ShowWindowEnum flags);
 
@@ -343,116 +342,64 @@ namespace ManiacEditor
 
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;
-        #endregion
+		#endregion
 
-        #endregion
-        public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool shortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
+		#endregion
+
+		#region Editor Initalizing Methods
+		public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
         {
 
 			SystemEvents.PowerModeChanged += CheckDeviceState;
             InstanceID = MegaManiacInstanceID;
 
-
-            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
-
-
-            editorView = new EditorView(this);
             UseDarkTheme_WPF(mySettings.NightMode);
             InitializeComponent();
-			SetupEditorViewForm();
-            AllocConsole();
-            HideConsoleWindow();
-            try
-            {
-                InitDiscord();
-            }
-            catch
-            {
-
-            }
+			InitilizeEditor();
 
 
-            RefreshCollisionColours();
+			try
+			{
+				Discord.InitDiscord();
+			}
+			catch (Exception ex)
+			{
+				Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
+			}
 
-            this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
-            this.editorView.splitContainer1.Panel2MinSize = 254;
+			if (mySettings.UseAutoForcefulStartup) OpenSceneForceFully();
 
-            editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
-            editorView.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
-
-            _extraLayerEditButtons = new List<ToggleButton>();
-            _extraLayerViewButtons = new List<ToggleButton>();
-            _extraLayerSeperators = new List<Separator>();
-            _recentDataItems = new List<MenuItem>();
-            _recentDataItems_Button = new List<MenuItem>();
-            MenuChar = MenuCharS.ToCharArray();
-            MenuChar_Small = MenuCharS_Small.ToCharArray();
-            LevelSelectChar = LevelSelectCharS.ToCharArray();
-            EditorGame = new EditorInGame(this);
-            EditorEntity_ini = new EditorEntity_ini(this);
-            statusBox = new StatusBox(this);
-            info = new StartupInformation(this)
-            {
-                TopLevel = false
-            };
-
-            SetViewSize();
-            UpdateControls();
-            TryLoadSettings();
-
-			EditorControls = new EditorControls(this);
-
-			UpdateInfoPanel(true, true);
-
-            if (mySettings.UseAutoForcefulStartup)
-            {
-                OpenSceneForceFully();
-            }
-
-            if (shortcutLaunch)
+			if (ShortcutLaunch)
             {
                 try
                 {
-                    if (dataDir != "")
-                    {
-                        if (scenePath != "")
-                        {
-                            OpenSceneForceFully(dataDir, scenePath, modPath, levelID, isEncoreMode, X, Y);
-                        }
-                        else
-                        {
-                            OpenSceneForceFully(dataDir);
-                        }
-                    }
-                }
+                    if (dataDir != "" && scenePath != "") OpenSceneForceFully(dataDir, scenePath, modPath, levelID, isEncoreMode, X, Y);
+
+					else if (dataDir != "") OpenSceneForceFully(dataDir);
+				}
                 catch
                 {
                     Debug.Print("Couldn't Force Open!");
                 }
-
             }
         }
 
-        public void SetupEditorViewForm()
+		public void InitilizeEditor()
         {
-            this.editorView.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
-            this.editorView.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.VScrollBar1_Scroll);
-            this.editorView.vScrollBar1.ValueChanged += new System.EventHandler(this.VScrollBar1_ValueChanged);
-            this.editorView.vScrollBar1.MouseEnter += new System.EventHandler(this.VScrollBar1_Entered);
-            this.editorView.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBar1_Scroll);
-            this.editorView.hScrollBar1.ValueChanged += new System.EventHandler(this.HScrollBar1_ValueChanged);
-            this.editorView.hScrollBar1.MouseEnter += new System.EventHandler(this.HScrollBar1_Entered);
-            this.Activated += new System.EventHandler(this.MapEditor_Activated);
-            this.editorView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
-            this.editorView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
-            SetupGraphicPanel();
+			editorView = new EditorView(this);
 
+			this.editorView.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
+			this.editorView.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.VScrollBar1_Scroll);
+			this.editorView.vScrollBar1.ValueChanged += new System.EventHandler(this.VScrollBar1_ValueChanged);
+			this.editorView.vScrollBar1.MouseEnter += new System.EventHandler(this.VScrollBar1_Entered);
+			this.editorView.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBar1_Scroll);
+			this.editorView.hScrollBar1.ValueChanged += new System.EventHandler(this.HScrollBar1_ValueChanged);
+			this.editorView.hScrollBar1.MouseEnter += new System.EventHandler(this.HScrollBar1_Entered);
+			this.Activated += new System.EventHandler(this.MapEditor_Activated);
+			this.editorView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
+			this.editorView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
 
-        }
-
-		public void SetupGraphicPanel()
-        {
-            this.editorView.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+			this.editorView.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
             this.editorView.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
             this.editorView.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
             this.editorView.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
@@ -465,97 +412,42 @@ namespace ManiacEditor
 			this.editorView.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
             this.editorView.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
             this.editorView.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
-        }
+
+			_extraLayerEditButtons = new List<ToggleButton>();
+			_extraLayerViewButtons = new List<ToggleButton>();
+			_extraLayerSeperators = new List<Separator>();
+			_recentDataItems = new List<MenuItem>();
+			_recentDataItems_Button = new List<MenuItem>();
+			MenuChar = MenuCharS.ToCharArray();
+			MenuChar_Small = MenuCharS_Small.ToCharArray();
+			LevelSelectChar = LevelSelectCharS.ToCharArray();
+			EditorGame = new EditorInGame(this);
+			EditorEntity_ini = new EditorEntity_ini(this);
+			statusBox = new StatusBox(this);
+			EditorControls = new EditorControls(this);
+			info = new StartupInformation(this);
+			Discord = new EditorDiscordRP(this);
+			Updater = new EditorUpdater();
+
+			this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
+			this.editorView.splitContainer1.Panel2MinSize = 254;
+			editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
+			editorView.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
+
+			AllocConsole();
+			HideConsoleWindow();
+			RefreshCollisionColours();
+			SetViewSize();
+			UpdateControls();
+			TryLoadSettings();
+			UpdateInfoPanel(true, true);
+		}
+
+		#endregion
+
+		#region Discord Rich Presence
 
 
-
-        #region Discord Rich Presence
-
-        public void InitDiscord()
-        {
-            if (!Environment.Is64BitProcess)
-            {
-                SharpPresence.Discord.Initialize("484279851830870026", RPCEventHandler);
-
-                if (mySettings.ShowDiscordRPC)
-                {
-                    RPCcontrol.state = "Maniac Editor";
-                    RPCcontrol.details = "Idle";
-
-                    RPCcontrol.largeImageKey = "maniac";
-                    RPCcontrol.largeImageText = "maniac-small";
-
-                    TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-                    int secondsSinceEpoch = (int)t.TotalSeconds;
-
-                    RPCcontrol.startTimestamp = secondsSinceEpoch;
-
-                    SharpPresence.Discord.RunCallbacks();
-                    SharpPresence.Discord.UpdatePresence(RPCcontrol);
-                }
-                else
-                {
-                    RPCcontrol.state = "Maniac Editor";
-                    RPCcontrol.details = "";
-
-                    RPCcontrol.largeImageKey = "maniac";
-                    RPCcontrol.largeImageText = "Maniac Editor";
-
-                    TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-                    int secondsSinceEpoch = (int)t.TotalSeconds;
-
-                    RPCcontrol.startTimestamp = secondsSinceEpoch;
-
-                    SharpPresence.Discord.RunCallbacks();
-                    SharpPresence.Discord.UpdatePresence(RPCcontrol);
-                }
-            }
-
-        }
-
-        public void UpdateDiscord(string Details = null)
-        {
-            if (!Environment.Is64BitProcess)
-            {
-                try
-                {
-                    if (mySettings.ShowDiscordRPC)
-                    {
-                        SharpPresence.Discord.RunCallbacks();
-                        if (Details != null)
-                        {
-                            RPCcontrol.details = Details;
-                        }
-                        else
-                        {
-                            RPCcontrol.details = "Idle";
-                        }
-                        SharpPresence.Discord.UpdatePresence(RPCcontrol);
-                    }
-                    else
-                    {
-                        RPCcontrol.state = "Maniac Editor";
-                        RPCcontrol.details = "";
-
-                        RPCcontrol.largeImageKey = "maniac";
-                        RPCcontrol.largeImageText = "Maniac Editor";
-
-                        SharpPresence.Discord.RunCallbacks();
-                        SharpPresence.Discord.UpdatePresence(RPCcontrol);
-                    }
-                }
-                catch
-                {
-
-                }
-            }
-        }
-
-        public void DisposeDiscord()
-        {
-            RPCcontrol.startTimestamp = 0;
-            SharpPresence.Discord.Shutdown();
-        }
         #endregion
 
         #region Defaults and Presets
@@ -737,99 +629,7 @@ namespace ManiacEditor
             RefreshCollisionColours();
 
         }
-        void SetINIDefaultPrefrences()
-        {
-            string value;
-            Dictionary<String, String> ListedPrefrences = EditorSettings.ReturnPrefrences();
-            if (ListedPrefrences.ContainsKey("LevelID"))
-            {
-                ListedPrefrences.TryGetValue("LevelID", out value);
-                Int32.TryParse(value, out int resultingInt);
-                if (resultingInt >= -1)
-                {
-                    LevelID = resultingInt;
-                }
 
-            }
-            if (ListedPrefrences.ContainsKey("FGLower"))
-            {
-                ListedPrefrences.TryGetValue("FGLower", out value);
-                INILayerNameLower = value;
-            }
-            if (ListedPrefrences.ContainsKey("FGHigher"))
-            {
-                ListedPrefrences.TryGetValue("FGHigher", out value);
-                INILayerNameHigher = value;
-            }
-            if (ListedPrefrences.ContainsKey("WaterColor"))
-            {
-                ListedPrefrences.TryGetValue("WaterColor", out value);
-                Color color = System.Drawing.ColorTranslator.FromHtml(value);
-
-                if (ListedPrefrences.ContainsKey("WaterColorAlpha"))
-                {
-                    ListedPrefrences.TryGetValue("WaterColorAlpha", out string value2);
-                    Int32.TryParse(value2, out int alpha);
-                    color = Color.FromArgb(alpha, color.R, color.G, color.B);
-                }
-                waterColor = color;
-            }
-            if (ListedPrefrences.ContainsKey("SpritePaths"))
-            {
-                ListedPrefrences.TryGetValue("SpritePaths", out value);
-                List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
-                foreach (string item in list)
-                {
-                    System.Windows.MessageBox.Show(item);
-                }
-                userDefinedSpritePaths = list;
-            }
-            if (ListedPrefrences.ContainsKey("SwapEntityRenderNames"))
-            {
-                ListedPrefrences.TryGetValue("SwapEntityRenderNames", out value);
-                List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
-                if (list.Count % 2 == 0 && list.Count != 0)
-                {
-                    for (int i = 0; i < list.Count;)
-                    {
-                        string toBeSwapped = list[i];
-                        string toSet = list[i + 1];
-                        System.Windows.MessageBox.Show(toBeSwapped + "-> " + toSet);
-                        userDefinedEntityRenderSwaps.Add(toBeSwapped, toSet);
-                        i = i + 2;
-                    }
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
-                }
-
-
-            }
-            if (ListedPrefrences.ContainsKey("EncoreACTFile"))
-            {
-                ListedPrefrences.TryGetValue("EncoreACTFile", out value);
-                value = value.Replace("\"", "");
-                SetEncorePalete(null, value);
-            }
-            if (ListedPrefrences.ContainsKey("CustomMenuFontText"))
-            {
-                ListedPrefrences.TryGetValue("CustomMenuFontText", out value);
-                MenuChar = value.ToCharArray();
-            }
-            if (ListedPrefrences.ContainsKey("CustomLSelectFontText"))
-            {
-                ListedPrefrences.TryGetValue("CustomLSelectFontText", out value);
-                LevelSelectChar = value.ToCharArray();
-            }
-            if (ListedPrefrences.ContainsKey("CustomMenuSmallFontText"))
-            {
-                ListedPrefrences.TryGetValue("CustomMenuSmallFontText", out value);
-                MenuChar_Small = value.ToCharArray();
-            }
-
-
-        }
         #endregion
 
         #region Mod Config List Stuff
@@ -1029,15 +829,6 @@ namespace ManiacEditor
             RunSceneButton.IsChecked = GameRunning;
             RunSceneDropDown.IsEnabled = enabled;
 
-            if (GameRunning)
-            {
-                //SetButtonColors(RunSceneButton, Color.Blue);
-            }
-            else
-            {
-                //SetButtonColors(RunSceneButton, MainThemeColor(Color.LimeGreen));
-            }
-
             SetEditButtonsState(enabled);
             UpdateTooltips();
 
@@ -1091,7 +882,6 @@ namespace ManiacEditor
             EditFGLower.IsEnabled = enabled && FGLower != null;
             EditFGHigher.IsEnabled = enabled && FGHigher != null;
             EditEntities.IsEnabled = enabled;
-            //importObjectsToolStripMenuItem.IsEnabled = enabled && StageConfig != null;
             entityManagerToolStripMenuItem.IsEnabled = enabled && StageConfig != null;
             importSoundsToolStripMenuItem.IsEnabled = enabled && StageConfig != null;
             layerManagerToolStripMenuItem.IsEnabled = enabled;
@@ -1111,15 +901,6 @@ namespace ManiacEditor
 
                 EditLayer = editorLayer;
             }
-            /*
-            else if (enabled && _extraLayerViewButtons.Any(elb => elb.IsChecked))
-            {
-                var selectedExtraLayerButton = _extraLayerViewButtons.Single(elb => elb.IsChecked);
-                var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Text));
-
-                EditLayer = editorLayer;
-            }
-            */
             else EditLayer = null;
 
             undoToolStripMenuItem.IsEnabled = enabled && undo.Count > 0;
@@ -1765,7 +1546,7 @@ namespace ManiacEditor
 
             if (mySettings.allowForSmoothSelection)
             {
-                UpdateRender();
+                editorView.GraphicPanel.Render();
             }
 
             if (playerSelected)
@@ -1917,11 +1698,11 @@ namespace ManiacEditor
                         editorView.hScrollBar1.Value = x;
                     }
 
-                    OnMouseMoveEvent();
+                    editorView.GraphicPanel.OnMouseMoveEventCreate();
 
                 }
 
-                UpdateRender();
+                editorView.GraphicPanel.Render();
 
             }
             if (IsEditing())
@@ -2029,8 +1810,8 @@ namespace ManiacEditor
                         {
                             editorView.hScrollBar1.Value = x;
                         }
-                        OnMouseMoveEvent();
-                        UpdateRender();
+                                        editorView.GraphicPanel.OnMouseMoveEventCreate();
+                        editorView.GraphicPanel.Render();
 
 
 
@@ -3103,7 +2884,6 @@ namespace ManiacEditor
             ObjectIDHealer healer = new ObjectIDHealer();
             ShowConsoleWindow();
             healer.startHealing(open.FileName);
-            //Application.DoEvents();
             HideConsoleWindow();
 
         }
@@ -3111,26 +2891,8 @@ namespace ManiacEditor
         {
             if (DataDirectory == null)
             {
-                // Old Code to be Removed Soon
-                /*do
-                {
-                    MessageBox.Show("Please select the \"Data\" folder", "Message");
-                    string newDataDirectory = GetDataDirectory();
-
-                    // allow user to quit gracefully
-                    if (string.IsNullOrWhiteSpace(newDataDirectory)) return false;
-                    if (IsDataDirectoryValid(newDataDirectory))
-                    {
-                        DataDirectory = newDataDirectory;
-                    }
-                }
-                while (null == DataDirectory);
-
-                SetGameConfig();
-                AddRecentDataFolder(DataDirectory);*/
                 return false;
             }
-            // Clears all the Textures
             EditorEntity_ini.ReleaseResources();
             return true;
         }
@@ -3278,12 +3040,13 @@ namespace ManiacEditor
                     if (!EditorLoad())
                     {
                         select = new ManiacEditor.Interfaces.SceneSelect(null, this);
-                    }
+						select.ShowDialog();
+					}
                     else
                     {
                         select = new ManiacEditor.Interfaces.SceneSelect(GameConfig, this);
-                    }
-                    select.ShowDialog();
+						select.ShowDialog();
+					}
                     Result = select.Result;
                     LevelID = select.LevelID;
                     isEncore = select.isEncore;
@@ -3443,8 +3206,8 @@ namespace ManiacEditor
             {
                 ObjectList.Add(StageConfig.ObjectsNames[i]);
             }
-            ScenePath = Result;
-            UpdateDiscord("Editing " + Result);
+            Discord.ScenePath = Result;
+			Discord.UpdateDiscord("Editing " + Result);
 
 
 			if (File.Exists(SceneFilepath + "\\maniac.ini"))
@@ -3467,7 +3230,7 @@ namespace ManiacEditor
                 {
                     try
                     {
-                        SetINIDefaultPrefrences();
+                        EditorSettings.SetINIDefaultPrefrences(this);
                     }
                     catch (Exception ex)
                     {
@@ -3545,8 +3308,8 @@ namespace ManiacEditor
             {
                 ObjectList.Add(StageConfig.ObjectsNames[i]);
             }
-            ScenePath = Result;
-            UpdateDiscord("Editing " + Result);
+			Discord.ScenePath = Result;
+			Discord.UpdateDiscord("Editing " + Result);
 
 			if (File.Exists(SceneFilepath + "\\maniac.ini"))
             {
@@ -3568,8 +3331,8 @@ namespace ManiacEditor
                 {
                     try
                     {
-                        SetINIDefaultPrefrences();
-                    }
+						EditorSettings.SetINIDefaultPrefrences(this);
+					}
                     catch (Exception ex)
                     {
                         System.Windows.MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
@@ -4200,10 +3963,10 @@ Error: {ex.Message}");
 
         private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            SetEncorePalete(sender);
+            SetEncorePallete(sender);
         }
 
-        private void SetEncorePalete(object sender = null, string path = "")
+        public void SetEncorePallete(object sender = null, string path = "")
         {
             if (sender != null)
             {
@@ -4562,7 +4325,7 @@ Error: {ex.Message}");
         private void WithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string dataDir = DataDirectory;
-            string scenePath = ScenePath;
+            string scenePath = Discord.ScenePath;
             string modPath = ModDataDirectory;
             int rX = (short)(ShiftX);
             int rY = (short)(ShiftY);
@@ -4575,7 +4338,7 @@ Error: {ex.Message}");
         private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string dataDir = DataDirectory;
-            string scenePath = ScenePath;
+            string scenePath = Discord.ScenePath;
             string modPath = ModDataDirectory;
             int rX = 0;
             int rY = 0;
@@ -5295,8 +5058,8 @@ Error: {ex.Message}");
                     DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetZoom(), true, 255, 11);
                     DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSetupObject(), true, 255, 13);
                     DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 7, statusBox.GetSelectedZone(), true, 255, 14);
-                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, statusBox.GetMemoryUsage(), true, 255, 13);
-                    DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 9, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);                   
+                    //DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, statusBox.GetMemoryUsage(), true, 255, 13);
+                    //DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 9, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);                   
 
                     //DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 11, "Use F1 and F2 to Swap Information", true, 255);
                 }
@@ -5476,7 +5239,7 @@ Error: {ex.Message}");
                 {
                     Point rel = editorView.GraphicPanel.PointToScreen(Point.Empty);
                     EditLayer?.DragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
-                    UpdateRender();
+                    editorView.GraphicPanel.Render();
 
                 }
             }
@@ -5487,7 +5250,7 @@ Error: {ex.Message}");
             if (!mySettings.DisableDraging)
             {
                 EditLayer?.EndDragOver(true);
-                UpdateRender();
+                editorView.GraphicPanel.Render();
             }
         }
 
@@ -6299,22 +6062,22 @@ Error: {ex.Message}");
         private void VScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
             ShiftY = e.NewValue;
-            UpdateRender();
+            editorView.GraphicPanel.Render();
         }
 
         private void HScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
             ShiftX = e.NewValue;
-            UpdateRender();
+            editorView.GraphicPanel.Render();
         }
 
         private void VScrollBar1_ValueChanged(object sender, EventArgs e)
         {
             ShiftY = (sender as VScrollBar).Value;
-            if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
+            if (!(zooming || draggingSelection || dragged || scrolling)) editorView.GraphicPanel.Render();
             if (draggingSelection)
             {
-                OnMouseMoveEvent();
+                                editorView.GraphicPanel.OnMouseMoveEventCreate();
             }
 
         }
@@ -6322,10 +6085,10 @@ Error: {ex.Message}");
         private void HScrollBar1_ValueChanged(object sender, EventArgs e)
         {
             ShiftX = editorView.hScrollBar1.Value;
-            if (!(zooming || draggingSelection || dragged || scrolling)) UpdateRender();
+            if (!(zooming || draggingSelection || dragged || scrolling)) editorView.GraphicPanel.Render();
             if (draggingSelection)
             {
-                OnMouseMoveEvent();
+                                editorView.GraphicPanel.OnMouseMoveEventCreate();
             }
 
         }
@@ -6694,9 +6457,6 @@ Error: {ex.Message}");
                         {
                             x = x + ScrollAmount;
                         }
-                        //Application.DoEvents();
-                        //preLoadForm.SetProgressBarStatus(ScreenMaxH - x, ScreenMaxV - y);
-                        // Enable when the previous TODO above is Fixed
 
                     }
                     editorView.vScrollBar1.Value = y;
@@ -6709,7 +6469,6 @@ Error: {ex.Message}");
                     {
                         y = y + ScrollAmount;
                     }
-                    //Application.DoEvents();
                 }
                 editorView.hScrollBar1.Value = 0;
                 editorView.vScrollBar1.Value = 0;
@@ -6845,7 +6604,7 @@ Error: {ex.Message}");
         private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             mySettings.DevForceRestartData = DataDirectory;
-            mySettings.DevForceRestartScene = ScenePath;
+            mySettings.DevForceRestartScene = Discord.ScenePath;
             mySettings.DevForceRestartX = (short)(ShiftX / Zoom);
             mySettings.DevForeRestartY = (short)(ShiftY / Zoom);
             mySettings.DevForceRestartZoomLevel = ZoomLevel;
@@ -7695,30 +7454,6 @@ Error: {ex.Message}");
                 ShortcutZoomValue = 0.0;
             }
 
-        }
-
-        public void UpdateRender()
-        {
-            if (editorView.GraphicPanel.bRender)
-            {
-                editorView.GraphicPanel.Render();
-            }
-        }
-
-        public void RenderLoopCallback(object sender, EventArgs e)
-        {
-            if (editorView.GraphicPanel != null)
-            {
-                editorView.GraphicPanel.Callback();
-            }
-        }
-
-        public void OnMouseMoveEvent()
-        {
-            if (editorView.GraphicPanel.bRender)
-            {
-                editorView.GraphicPanel.OnMouseMoveEventCreate();
-            }
         }
 
         public void UpdateInfoPanel(bool visible, bool firstLoad = false)

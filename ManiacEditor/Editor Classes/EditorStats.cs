@@ -117,7 +117,7 @@ namespace ManiacEditor
 
         public string GetScenePath()
         {
-            if (EditorInstance.ScenePath != null && EditorInstance.ScenePath != "") return "Scene Path: " + EditorInstance.ScenePath;
+            if (EditorInstance.Discord.ScenePath != null && EditorInstance.Discord.ScenePath != "") return "Scene Path: " + EditorInstance.Discord.ScenePath;
             else return "Scene Path: N/A";
         }
 

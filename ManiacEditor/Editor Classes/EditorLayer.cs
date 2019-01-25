@@ -805,91 +805,7 @@ namespace ManiacEditor
                 d.DrawBitmap(EditorInstance.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
                 x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
             }
-
-            /* WIP Test for Selected Collision Viewing
-            if (EditorInstance.showCollisionA == true)
-            {
-                Bitmap cm = EditorInstance.CollisionLayerA[TileIndexInt].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
-
-                if (SolidTopA && !SolidLrbA)
-                {
-                    for (int ix = 0; ix < cm.Width; ix++)
-                    {
-                        for (int iy = 0; iy < cm.Height; iy++)
-                        {
-                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                            if (gotColor == EditorInstance.CollisionAllSolid)
-                            {
-                                cm.SetPixel(ix, iy, EditorInstance.CollisionTopOnlySolid);
-                            }
-                        }
-                    }
-                }//Change Colour if Solidity = Top
-
-                if (SolidLrbA && !SolidTopA)
-                {
-                    for (int ix = 0; ix < cm.Width; ix++)
-                    {
-                        for (int iy = 0; iy < cm.Height; iy++)
-                        {
-                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                            if (gotColor == EditorInstance.CollisionAllSolid)
-                            {
-                                cm.SetPixel(ix, iy, EditorInstance.CollisionLRDSolid);
-                            }
-                        }
-                    }
-                } //Change Colour if Solidity = All But Top
-
-                if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
-
-                if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
-
-                Texture collisionA = TextureCreator.FromBitmap(d._device, cm);  
-                d.DrawBitmap(collisionA, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
-            }
-            if (EditorInstance.showCollisionB == true)
-            {
-                Bitmap cm = EditorInstance.CollisionLayerB[TileIndexInt].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
-                if (SolidTopA && !SolidLrbA)
-                {
-                    for (int ix = 0; ix < cm.Width; ix++)
-                    {
-                        for (int iy = 0; iy < cm.Height; iy++)
-                        {
-                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                            if (gotColor == EditorInstance.CollisionAllSolid)
-                            {
-                                cm.SetPixel(ix, iy, EditorInstance.CollisionTopOnlySolid);
-                            }
-                        }
-                    }
-                }//Change Colour if Solidity = Top
-
-                if (SolidLrbA && !SolidTopA)
-                {
-                    for (int ix = 0; ix < cm.Width; ix++)
-                    {
-                        for (int iy = 0; iy < cm.Height; iy++)
-                        {
-                            System.Drawing.Color gotColor = cm.GetPixel(ix, iy);
-                            if (gotColor == EditorInstance.CollisionAllSolid)
-                            {
-                                cm.SetPixel(ix, iy, EditorInstance.CollisionLRDSolid);
-                            }
-                        }
-                    }
-                } //Change Colour if Solidity = All But Top
-
-                if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
-
-                if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
-
-
-                Texture collisionB = TextureCreator.FromBitmap(d._device, cm);
-                d.DrawBitmap(collisionB, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
-            }
-            */
+            
             if (EditorInstance.showTileID == true)
             {
                 d.DrawBitmap(EditorInstance.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
@@ -1198,17 +1114,17 @@ namespace ManiacEditor
             }
             else
             {
-                Rectangle screen = d.GetScreen();
+            Rectangle screen = d.GetScreen();
 
-                int start_x = 0;
-                int end_x = EditorInstance.SceneWidth;
-                int start_y = 0;
-                int end_y = EditorInstance.SceneHeight;
+            int start_x = 0;
+            int end_x = EditorInstance.SceneWidth;
+            int start_y = 0;
+            int end_y = EditorInstance.SceneHeight;
 
-                d.DrawLine(start_x, start_y, end_x, start_y, System.Drawing.Color.White); //Top
-                d.DrawLine(start_x, end_y, end_x, end_y, System.Drawing.Color.White); //Bottom
-                d.DrawLine(start_x, start_y, start_x, end_y, System.Drawing.Color.White); //Left
-                d.DrawLine(end_x, start_y, end_x, end_y, System.Drawing.Color.White); //Left
+            d.DrawLine(start_x, start_y, end_x, start_y, System.Drawing.Color.White); //Top
+            d.DrawLine(start_x, end_y, end_x, end_y, System.Drawing.Color.White); //Bottom
+            d.DrawLine(start_x, start_y, start_x, end_y, System.Drawing.Color.White); //Left
+            d.DrawLine(end_x, start_y, end_x, end_y, System.Drawing.Color.White); //Left
 
 
             }

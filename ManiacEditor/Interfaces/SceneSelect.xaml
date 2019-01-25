@@ -69,7 +69,7 @@
 
         <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="30" Grid.Row="4" Grid.ColumnSpan="2" Background="{DynamicResource StatusBarBackground}">
             <StackPanel Orientation="Horizontal">
-                <Label x:Name="modFolderStatusLabel" Content="Mod Directory: NULL" Grid.ColumnSpan="2"></Label>
+                <Label x:Name="modFolderStatusLabel" Content="" Grid.ColumnSpan="2"></Label>
             </StackPanel>
             <StatusBarItem HorizontalAlignment="Right">
                 <Button Click="toolStripDropDownButton1_Click" Style="{DynamicResource Flat2}" Content="Unload Mod" Background="{DynamicResource StatusBarBackground}" Foreground="{DynamicResource NormalText}" BorderThickness="0" Height="26"></Button>

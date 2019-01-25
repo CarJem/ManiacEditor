@@ -289,7 +289,7 @@ namespace ManiacEditor
         public static int GetObjectPriority(SceneEntity e)
         {
             
-            if (e.Object.Name.Name == "UIOptionPanel") return 0;
+            if (e.Object.Name.Name == "UIOptionPanel") return -1;
             else if (e.Object.Name.Name == "UIPicture") return 1;
             else if (e.Object.Name.Name == "UIChoice") return 1;
             else if(e.Object.Name.Name == "UIButton") return 1;

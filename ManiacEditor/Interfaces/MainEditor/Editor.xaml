@@ -51,7 +51,7 @@
 
 
         <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
-            <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0">
+            <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewToolStripMenuItem_Click" IsEnabled="False"/>
                 <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="Open_Click"/>
                 <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryToolStripMenuItem_Click"/>
@@ -77,7 +77,7 @@
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitToolStripMenuItem_Click"/>
             </MenuItem>
-            <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center" Margin="0,2,0,0" >
+            <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="undoToolStripMenuItem" Header="Undo" Click="UndoToolStripMenuItem_Click"/>
                 <MenuItem x:Name="redoToolStripMenuItem" Header="Redo" Click="RedoToolStripMenuItem_Click"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
@@ -101,7 +101,7 @@
                 <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horizontal Individual" Click="FlipHorizontalIndividualToolStripMenuItem_Click"/>
                 <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualToolStripMenuItem_Click"/>
             </MenuItem>
-            <MenuItem x:Name="viewToolStripMenuItem" Header="View" VerticalContentAlignment="Center" Margin="0,2,0,0">
+            <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="showEntitySelectionBoxesToolStripMenuItem" Header="Show Entity Selection Boxes" Click="ShowEntitySelectionBoxesToolStripMenuItem_Click"/>
                 <MenuItem x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Header="Toggle Encore/Mania Object Visibility" Click="ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click"/>
                 <MenuItem x:Name="pixelModeToolStripMenuItem" Header="Enable Pixel Count Mode" Click="PixelModeButton_Click"/>
@@ -188,7 +188,7 @@
                     </MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem x:Name="toolsToolStripMenuItem1" Header="Tools" VerticalContentAlignment="Center" Margin="0,2,0,0" >
+            <MenuItem x:Name="toolsToolStripMenuItem1" Header="Tools" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="findAndReplaceToolStripMenuItem" Header="Find and Replace..." Click="FindToolStripMenuItem1_Click"/>
                 <MenuItem x:Name="scrollLockToolStripMenuItem" Header="Scroll Lock...">
                     <MenuItem x:Name="statusNAToolStripMenuItem" Header="Enabled" Click="ScrollLockButton_Click"/>
@@ -218,17 +218,17 @@
                     <MenuItem x:Name="makeForDataFolderOnlyToolStripMenuItem" Header="Make for Data Folder Only" Click="MakeForDataFolderOnlyToolStripMenuItem_Click"/>
                 </MenuItem>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="developerToolStripMenuItem1" Header="Developer">
-                    <MenuItem x:Name="developerInterfaceToolStripMenuItem" Header="Developer Interface"/>
+                <MenuItem x:Name="developerToolStripMenuItem1" Header="Developer Tools">
+                    <MenuItem x:Name="developerInterfaceToolStripMenuItem" Header="Developer Interface" Click="DeveloperTerminalToolStripMenuItem_Click"/>
                     <MenuItem x:Name="soundLooperToolStripMenuItem" Header="Sound Looper" Click="SoundLooperToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="mD5GeneratorToolStripMenuItem" Header="MD5 Generator"/>
-                    <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles"/>
-                    <MenuItem x:Name="consoleWindowToolStripMenuItem" Header="Console Window"/>
-                    <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Header="Save for Force Open on Startup"/>
+                    <MenuItem x:Name="mD5GeneratorToolStripMenuItem" Header="MD5 Generator" Click="MD5GeneratorToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles" Click="FindUnusedTiles"/>
+                    <MenuItem x:Name="consoleWindowToolStripMenuItem" Header="Console Window" Click="ConsoleWindowToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Header="Save for Force Open on Startup" Click="SaveForForceOpenOnStartupToolStripMenuItem_Click"/>
                     <MenuItem x:Name="enableAllButtonsToolStripMenuItem" Header="Enable all Main Toolstrip Buttons" Click="EnableAllButtonsToolStripMenuItem_Click"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem x:Name="sceneToolStripMenuItem" Header="Scene" VerticalContentAlignment="Center" Margin="0,2,0,0" >
+            <MenuItem x:Name="sceneToolStripMenuItem" Header="Scene" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}" >
                 <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager" Click="ObjectManagerToolStripMenuItem_Click"/>
                 <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Import Sounds" Click="ImportSoundsToolStripMenuItem_Click"/>
                 <MenuItem x:Name="layerManagerToolStripMenuItem" Header="Layer Manager" Click="LayerManagerToolStripMenuItem_Click"/>
@@ -237,7 +237,7 @@
                     <MenuItem x:Name="secondaryColorToolStripMenuItem" Header="Secondary Color..." Click="SecondaryColorToolStripMenuItem_Click"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem x:Name="sceneToolStripMenuItem1" Header="Folders" VerticalContentAlignment="Center" Margin="0,2,0,0" >
+            <MenuItem x:Name="sceneToolStripMenuItem1" Header="Folders" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="openSceneFolderToolStripMenuItem" Header="Open Scene Folder" Click="OpenSceneFolderToolStripMenuItem_Click"/>
                 <MenuItem x:Name="openDataDirectoryFolderToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryFolderToolStripMenuItem_Click"/>
                 <MenuItem x:Name="openSonicManiaFolderToolStripMenuItem" Header="Open Sonic Mania Folder" Click="OpenSonicManiaFolderToolStripMenuItem_Click"/>
@@ -247,7 +247,7 @@
                     <MenuItem x:Name="noSavedPlacesToolStripMenuItem" Header="No Saved Places" IsEnabled="False"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem x:Name="toolsToolStripMenuItem" Header="Apps" VerticalContentAlignment="Center" Margin="0,2,0,0" >
+            <MenuItem x:Name="toolsToolStripMenuItem" Header="Apps" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Tile Maniac (Collision Editor)" Click="TileManiacToolStripMenuItem_Click"/>
                 <MenuItem x:Name="insanicManiacToolStripMenuItem" Header="Insanic Maniac (Game Config Editor)" Click="InsanicManiacToolStripMenuItem_Click"/>
                 <MenuItem x:Name="duplicateObjectIDHealerToolStripMenuItem" Header="Fixer Maniac (Duplicate Object ID Fixer)" Click="DuplicateObjectIDHealerToolStripMenuItem_Click"/>
@@ -261,7 +261,7 @@
                 </MenuItem>
                 <MenuItem x:Name="optionsToolStripMenuItem2" Header="Options" IsEnabled="False"/>
             </MenuItem>
-            <MenuItem x:Name="helpToolStripMenuItem" Header="Other" VerticalContentAlignment="Center" Margin="0,2,0,0" >
+            <MenuItem x:Name="helpToolStripMenuItem" Header="Other" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="aboutToolStripMenuItem" Header="About" Click="AboutToolStripMenuItem_Click"/>
                 <MenuItem x:Name="optionsToolStripMenuItem" Header="Settings" Click="OptionToolStripMenuItem_Click"/>
                 <MenuItem x:Name="controlsToolStripMenuItem" Header="Controls" Click="ControlsToolStripMenuItem_Click"/>
@@ -359,7 +359,7 @@
                     <Button.Content>
                         <StackPanel Background="{DynamicResource ToolbarBackground}">
                             <Menu Background="{DynamicResource ToolbarBackground}" Height="36">
-                                <MenuItem x:Name="RunSceneDropDown" Width="22" Height="22" Foreground="{DynamicResource NormalText}">
+                                <MenuItem x:Name="RunSceneDropDown" Width="22" Height="22" Foreground="{DynamicResource NormalText}" Style="{DynamicResource MenuItemStyle1}">
                                     <MenuItem.Header>
                                         <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
                                             <Rectangle.OpacityMask>

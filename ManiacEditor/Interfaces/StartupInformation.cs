@@ -41,7 +41,8 @@ namespace ManiacEditor
                 button4.ForeColor = Color.Black;
                 treeView1.ForeColor = Editor.darkTheme3;
             }
-        }
+			this.TopLevel = false;
+		}
 
 
         private void StartupInformation_Load(object sender, EventArgs e)
