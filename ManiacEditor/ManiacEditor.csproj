@@ -297,6 +297,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\ManiaPal.exe</HintPath>
     </Reference>
+    <Reference Include="MathConverter, Version=1.2.1.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathConverter.1.2.1.5\lib\net40-client\MathConverter.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.2.2.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicLanguageRuntime.1.2.2\lib\net45\Microsoft.Dynamic.dll</HintPath>
       <Private>False</Private>
@@ -332,6 +335,9 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="nrtftree-library, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\nrtftree-library.0.4.0\lib\net461\nrtftree-library.dll</HintPath>
     </Reference>
     <Reference Include="NVorbis, Version=0.8.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
@@ -526,12 +532,24 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Interfaces\DeveloperInterface.xaml.cs">
+      <DependentUpon>DeveloperInterface.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\GLViewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\GLViewControl.Designer.cs" />
+    <Compile Include="Interfaces\GoToPlayerWindow.xaml.cs">
+      <DependentUpon>GoToPlayerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\GoToPositionWindow.xaml.cs">
+      <DependentUpon>GoToPositionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\KeyBindConfigurator.xaml.cs">
       <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\LayerEditor.xaml.cs">
+      <DependentUpon>LayerEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
@@ -758,10 +776,10 @@
     <Compile Include="Entity Renders\ZoneSetup.cs" />
     <Compile Include="Enums + Shorthandings\FlipDirection.cs" />
     <Compile Include="Extensions\FolderSelectDialog.cs" />
-    <Compile Include="Interfaces\ControlBox.cs">
+    <Compile Include="Interfaces\PhaseOut\ControlBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\ControlBox.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\ControlBox.Designer.cs">
       <DependentUpon>ControlBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ExitWarningBox.cs">
@@ -776,16 +794,16 @@
     <Compile Include="Interfaces\FindandReplaceTool.Designer.cs">
       <DependentUpon>FindandReplaceTool.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\GoToPlayerBox.cs">
+    <Compile Include="Interfaces\PhaseOut\GoToPlayerBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\GoToPlayerBox.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\GoToPlayerBox.Designer.cs">
       <DependentUpon>GoToPlayerBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\GoToPositionBox.cs">
+    <Compile Include="Interfaces\PhaseOut\GoToPositionBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\GoToPositionBox.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\GoToPositionBox.Designer.cs">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\PhaseOut\KeybindTool.cs">
@@ -837,10 +855,10 @@
     <Compile Include="Interfaces\ObjectImporter.designer.cs">
       <DependentUpon>ObjectImporter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\DeveloperTool.cs">
+    <Compile Include="Interfaces\PhaseOut\DeveloperTool.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\DeveloperTool.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\DeveloperTool.Designer.cs">
       <DependentUpon>DeveloperTool.cs</DependentUpon>
     </Compile>
     <Compile Include="Layers + Objects\HorizontalLayerScroll.cs" />
@@ -851,10 +869,10 @@
     <Compile Include="Interfaces\ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\LayerManager.cs">
+    <Compile Include="Interfaces\PhaseOut\LayerManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\LayerManager.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\LayerManager.Designer.cs">
       <DependentUpon>LayerManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Layers + Objects\LinkedEditorEntity.cs" />
@@ -1031,10 +1049,10 @@
     <EmbeddedResource Include="Interfaces\FindandReplaceTool.resx">
       <DependentUpon>FindandReplaceTool.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\GoToPlayerBox.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\GoToPlayerBox.resx">
       <DependentUpon>GoToPlayerBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\GoToPositionBox.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\GoToPositionBox.resx">
       <DependentUpon>GoToPositionBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\PhaseOut\KeybindTool.resx">
@@ -1083,7 +1101,7 @@
     <EmbeddedResource Include="Interfaces\MainEditor\Toolbars\EntitiesToolbar.resx">
       <DependentUpon>EntitiesToolbar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\ControlBox.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\ControlBox.resx">
       <DependentUpon>ControlBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ExitWarningBox.resx">
@@ -1092,7 +1110,7 @@
     <EmbeddedResource Include="Interfaces\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\LayerManager.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\LayerManager.resx">
       <DependentUpon>LayerManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\ObjectImporter.resx">
@@ -1101,7 +1119,7 @@
     <EmbeddedResource Include="Interfaces\ObjectManager.resx">
       <DependentUpon>ObjectManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\DeveloperTool.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\DeveloperTool.resx">
       <DependentUpon>DeveloperTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\PhaseOut\OptionBox.resx">
@@ -1264,6 +1282,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ContextMenuPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\Controls\ContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1272,7 +1294,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interfaces\DeveloperInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\GoToPlayerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\GoToPositionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\KeyBindConfigurator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\LayerEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1293,6 +1331,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\SceneSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManiacWPFStyleResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,7 +1,7 @@
 ﻿namespace ManiacEditor.Interfaces
 {
-    partial class GoToPlayerBox
-    {
+    partial class GoToPlayerBoxForm
+	{
         /// <summary>
         /// Required designer variable.
         /// </summary>

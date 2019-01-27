@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:ManiacEditor.Resources.Themes">
     <SolidColorBrush x:Key="NormalBackground" Color="White"/>
+    <SolidColorBrush x:Key="TextBoxBackground" Color="White"/>
     <SolidColorBrush x:Key="MenuBar" Color="{DynamicResource LightMenuBar}"/>
     <SolidColorBrush x:Key="ToolbarBackground" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="NormalText" Color="Black"/>
@@ -13,4 +14,41 @@
     <SolidColorBrush x:Key="ContextMenuSelectedColorBack" Color="#B3D7F3"/>
     <SolidColorBrush x:Key="ContextMenuCheckboxColor" Color="Black"/>
     <Color x:Key="LightMenuBar">#FFF0F0F0</Color>
+    
+    <SolidColorBrush x:Key="Maniac_OptionMark_Static_Background" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Static_Border" Color="#FF707070"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_MouseOver_Background" Color="#FFF3F9FF"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_MouseOver_Border" Color="#FF5593FF"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_MouseOver_Glyph" Color="#FF212121"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Disabled_Background" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Disabled_Border" Color="#FFBCBCBC"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Disabled_Glyph" Color="#FF707070"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Pressed_Background" Color="#FFD9ECFF"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Pressed_Border" Color="#FF3C77DD"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Pressed_Glyph" Color="#FF212121"/>
+    <SolidColorBrush x:Key="Maniac_OptionMark_Static_Glyph" Color="#FF212121"/>
+
+    <SolidColorBrush x:Key="Maniac_RadioButton_Static_Background" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Static_Border" Color="#FF707070"/>
+
+    <SolidColorBrush x:Key="Maniac_RadioButton_MouseOver_Background" Color="#FFF3F9FF"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_MouseOver_Border" Color="#FF5593FF"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_MouseOver_Glyph" Color="#FF212121"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Disabled_Background" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Disabled_Border" Color="#FFBCBCBC"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Disabled_Glyph" Color="#FF707070"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Pressed_Background" Color="#FFD9ECFF"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Pressed_Border" Color="#FF3C77DD"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Pressed_Glyph" Color="#FF212121"/>
+    <SolidColorBrush x:Key="Maniac_RadioButton_Static_Glyph" Color="#FF212121"/>
+
+    <SolidColorBrush x:Key="ButtonBackground" Color="#FFDDDDDD"/>
+    <SolidColorBrush x:Key="ButtonBorder" Color="#FF707070"/>
+    <SolidColorBrush x:Key="Maniac_ButtonMouseOver_Background" Color="#FFBEE6FD"/>
+    <SolidColorBrush x:Key="Maniac_ButtonMouseOver_Border" Color="#FF3C7FB1"/>
+    <SolidColorBrush x:Key="Maniac_ButtonPressed_Background" Color="#FFC4E5F6"/>
+    <SolidColorBrush x:Key="Maniac_ButtonPressed_Border" Color="#FF2C628B"/>
+    <SolidColorBrush x:Key="Maniac_ButtonDisabled_Background" Color="#FFF4F4F4"/>
+    <SolidColorBrush x:Key="Maniac_ButtonDisabled_Border" Color="#FFADB2B5"/>
+    <SolidColorBrush x:Key="Maniac_ButtonDisabled_Foreground" Color="{Binding Source={StaticResource DisabledText}, Path=Color}"/>
 </ResourceDictionary>

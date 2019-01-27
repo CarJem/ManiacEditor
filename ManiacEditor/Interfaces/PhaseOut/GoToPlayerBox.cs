@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace ManiacEditor.Interfaces
 {
-    public partial class GoToPlayerBox : Form
+    public partial class GoToPlayerBoxForm : Form
     {
         int playerObjectCount = 0;
         public int selectedPlayer = 0;
         public Editor EditorInstance;
-        public GoToPlayerBox(Editor instance)
+        public GoToPlayerBoxForm(Editor instance)
         {
             InitializeComponent();
             EditorInstance = instance;

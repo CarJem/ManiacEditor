@@ -39,6 +39,14 @@
                         <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetResetToolStripMenuItem_Click"></MenuItem>
                         <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartSceneToolStripMenuItem_Click"></MenuItem>
                         <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpointToolStripMenuItem_Click"></MenuItem>
+                        <ContextMenu.Template>
+                            <ControlTemplate>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </ContextMenu.Template>
                     </ContextMenu>
                 </Grid.ContextMenu>
             </Grid>

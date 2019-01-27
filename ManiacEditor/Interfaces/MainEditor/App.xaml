@@ -10,6 +10,7 @@
                                               DarkSource="/ManiacEditor;component/Resources/Themes/DarkColors.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Resources/Themes/MyBorderStyle.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/ManiacWPFStyleResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

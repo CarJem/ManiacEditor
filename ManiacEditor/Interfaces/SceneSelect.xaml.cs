@@ -95,11 +95,12 @@ namespace ManiacEditor.Interfaces
 			InitializeComponent();
 			SetupWinFormTreeStuff();
 			withinAParentForm = parented;
-			if (Properties.Settings.Default.NightMode)
-			{
-				//dataLabelToolStripItem.BackColor = Editor.darkTheme1;
-				//dataLabelToolStripItem.ForeColor = Editor.darkTheme3;
-			}
+
+			RemoveAllDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
+			RemoveAllDropDown.Background = (SolidColorBrush)FindResource("NormalBackground");
+			AddItemDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
+			AddItemDropDown.Background = (SolidColorBrush)FindResource("NormalBackground");
+
 			if (EditorInstance.PreRenderSceneSelectCheckbox) preRenderCheckbox.IsChecked = true;
 			if (Properties.Settings.Default.preRenderSceneOption == 1) preRenderCheckbox.IsEnabled = true;
 			ReloadQuickPanel();
@@ -114,6 +115,16 @@ namespace ManiacEditor.Interfaces
 			timer.Start();
 
 			scenesTree.Visible = true;
+
+			if (Settings.mySettings.NightMode)
+			{
+				scenesTree.BackColor = Editor.darkTheme1;
+				scenesTree.ForeColor = Editor.darkTheme3;
+
+				recentDataDirList.BackColor = Editor.darkTheme1;
+				recentDataDirList.ForeColor = Editor.darkTheme3;
+			}
+
 		}
 
 		public void SetupWinFormTreeStuff()
@@ -895,6 +906,7 @@ namespace ManiacEditor.Interfaces
 
 		private void addButton_Click(object sender, RoutedEventArgs e)
 		{
+			addButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
 			addButton.ContextMenu.IsOpen = true;
 		}
 
@@ -1407,6 +1419,7 @@ namespace ManiacEditor.Interfaces
 
 		private void OptionsButton_Click(object sender, RoutedEventArgs e)
 		{
+			optionsButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
 			optionsButton.ContextMenu.IsOpen = true;
 		}
 	}

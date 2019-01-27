@@ -239,7 +239,8 @@ namespace ManiacEditor
         public StageConfig StageConfig;
         public GameConfig GameConfig;
         public EditorControls EditorControls;
-        public EditorEntities entities;
+		public ManiacEditor.Interfaces.DeveloperTerminal DevController;
+		public EditorEntities entities;
         //public int InstanceID = 0;
         //public static Editor Instance; //Used the access this class easier
         //public Editor ThisInstance;
@@ -428,11 +429,15 @@ namespace ManiacEditor
 			info = new StartupInformation(this);
 			Discord = new EditorDiscordRP(this);
 			Updater = new EditorUpdater();
+			DevController = new ManiacEditor.Interfaces.DeveloperTerminal(this);
 
 			this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
 			this.editorView.splitContainer1.Panel2MinSize = 254;
 			editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
 			editorView.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
+
+			ViewPanelContextMenu.Foreground = (SolidColorBrush)FindResource("NormalText");
+			ViewPanelContextMenu.Background = (SolidColorBrush)FindResource("NormalBackground");
 
 			AllocConsole();
 			HideConsoleWindow();
@@ -4237,11 +4242,8 @@ Error: {ex.Message}");
         {
             Deselect(true);
 
-            using (var lm = new LayerManager(EditorScene))
-            {
-                lm.ShowDialog();
-            }
-            controlWindowOpen = true;
+			var lm = new LayerManager(EditorScene);
+            lm.ShowDialog();
 
             SetupLayerButtons();
             ResetViewSize();
@@ -6404,8 +6406,7 @@ Error: {ex.Message}");
         public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             GoToPositionBox form = new GoToPositionBox();
-            System.Windows.Forms.DialogResult Result = form.ShowDialog();
-            if (Result == System.Windows.Forms.DialogResult.OK)
+            if (form.ShowDialog().Value == true)
             {
                 int x = form.goTo_X;
                 int y = form.goTo_Y;
@@ -6487,9 +6488,7 @@ Error: {ex.Message}");
 
         private void DeveloperTerminalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            DeveloperTerminal devTerm = new DeveloperTerminal(this);
-            devTerm.Show();
-
+			DevController.Show();
         }
 
         private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -6513,7 +6512,7 @@ Error: {ex.Message}");
             else
             {
                 GoToPlayerBox goToPlayerBox = new GoToPlayerBox(this);
-                System.Windows.Forms.DialogResult result = goToPlayerBox.ShowDialog();
+                goToPlayerBox.ShowDialog();
                 if (selectPlayerObject_GoTo != -1)
                 {
                     int objectIndex = selectPlayerObject_GoTo;

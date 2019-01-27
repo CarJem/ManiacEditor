@@ -22,14 +22,14 @@
 
                     <GroupBox Header="Various Settings" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="509" Margin="10,10,0,0">
                         <StackPanel>
-                            <CheckBox Content="Enable Copy between Scenes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0" IsChecked="{maniac:SettingBinding ForceCopyUnlock}"/>
-                            <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
-                            <CheckBox Content="Enable Auto-Backup" HorizontalAlignment="Left" IsEnabled="False" VerticalAlignment="Top" Margin="10,4,0,0"/>
-                            <CheckBox Content="Enable Asset Expansion Packs" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0"/>
-                            <CheckBox Content="Use File Explorer instead of Scene Select for Browsing Stages." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0" IsChecked="{maniac:SettingBinding forceBrowse}"/>
-                            <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
-                            <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme (Requires Manual Restart)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0"/>
-                            <CheckBox Content="Pre-Render TURBO Mode (Highly Experimental)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0" IsChecked="{maniac:SettingBinding preRenderTURBOMode}"/>
+                            <CheckBox Content="Enable Copy between Scenes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding ForceCopyUnlock}"/>
+                            <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
+                            <CheckBox Content="Enable Auto-Backup" HorizontalAlignment="Left" IsEnabled="False" VerticalAlignment="Top" Margin="10,2,0,0"/>
+                            <CheckBox Content="Enable Asset Expansion Packs" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+                            <CheckBox Content="Use File Explorer instead of Scene Select for Browsing Stages." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding forceBrowse}"/>
+                            <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
+                            <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme (Requires Manual Restart)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+                            <CheckBox Content="Pre-Render TURBO Mode (Highly Experimental)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding preRenderTURBOMode}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Auto Pre-Render Settings" Height="105" VerticalAlignment="Top" Margin="10,194,0,0" HorizontalAlignment="Left" Width="222">
@@ -81,11 +81,11 @@
                     </GroupBox>
                     <GroupBox Header="Run Scene/Game Options" HorizontalAlignment="Left" Height="154" VerticalAlignment="Top" Width="222" Margin="10,304,0,0">
                         <StackPanel>
-                            <CheckBox Content="Use Pre-Plus Offsets" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0" IsChecked="{maniac:SettingBinding UsePrePlusOffsets}"/>
-                            <CheckBox Content="Just Run the Game" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0" IsChecked="{maniac:SettingBinding RunGameInsteadOfScene}"/>
-                            <CheckBox Content="Disable Menu Quitting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneMenuQuit}"/>
-                            <CheckBox Content="Disable Auto Input Binding" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneAutoInput}"/>
-                            <CheckBox Content="Enable Real Time Object Moving" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0" IsChecked="{maniac:SettingBinding EnableRealTimeObjectMovingInGame}"/>
+                            <CheckBox Content="Use Pre-Plus Offsets" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding UsePrePlusOffsets}"/>
+                            <CheckBox Content="Just Run the Game" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding RunGameInsteadOfScene}"/>
+                            <CheckBox Content="Disable Menu Quitting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneMenuQuit}"/>
+                            <CheckBox Content="Disable Auto Input Binding" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneAutoInput}"/>
+                            <CheckBox Content="Enable Real Time Object Moving" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding EnableRealTimeObjectMovingInGame}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Performance Defaults" HorizontalAlignment="Left" Height="178" VerticalAlignment="Top" Width="309" Margin="524,10,0,0">
@@ -3546,6 +3546,7 @@
                 <maniac:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
                                               DarkSource="/ManiacEditor;component/Resources/Themes/DarkColors.xaml" />
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/ManiacWPFStyleResources.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Image}">
@@ -3562,31 +3563,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            <Style TargetType="{x:Type CheckBox}">
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Foreground" Value="{DynamicResource DisabledText}" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-            <Style TargetType="{x:Type RadioButton}">
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Foreground" Value="{DynamicResource DisabledText}" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
             <Style TargetType="{x:Type Label}">
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Foreground" Value="{DynamicResource DisabledText}" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-            <Style TargetType="{x:Type GroupBox}">
                 <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
                 <Style.Triggers>
                     <Trigger Property="IsEnabled" Value="False">
@@ -3662,6 +3639,61 @@
                 </Setter>
             </Style>
 
+            <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+            <Style TargetType="{x:Type GroupBox}">
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
+                <Setter Property="Margin" Value="4"></Setter>
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupBox}">
+                            <Grid SnapsToDevicePixels="true">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="6" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="6" />
+                                </Grid.RowDefinitions>
+                                <Border CornerRadius="4" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Transparent" Background="{TemplateBinding Background}" />
+                                <Border Name="Header" Padding="3,1,3,0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                                    <ContentPresenter ContentSource="Header" RecognizesAccessKey="true" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Border>
+                                <ContentPresenter Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <Border Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4"  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="0">
+                                    <Border.OpacityMask>
+                                        <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
+                                            <Binding ElementName="Header" Path="ActualWidth" />
+                                            <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                            <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                        </MultiBinding>
+                                    </Border.OpacityMask>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
+            </Style>
+            <Style TargetType="{x:Type xctk:IntegerUpDown}">
+                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
+            </Style>
+            <Style TargetType="{x:Type ListBox}">
+                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
+            </Style>
             <Style TargetType="TabItem">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -3685,6 +3717,8 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+
         </ResourceDictionary>
     </Window.Resources>
 </Window>

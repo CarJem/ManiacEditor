@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace ManiacEditor
 {
-    public partial class GoToPositionBox : Form
+    public partial class GoToPositionBoxForm : Form
     {
         public bool tilesMode = false;
         public int goTo_X = 0;
         public int goTo_Y = 0;
-        public GoToPositionBox()
+        public GoToPositionBoxForm()
         {
             InitializeComponent();
         }

@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace ManiacEditor
 {
-    public partial class DeveloperTerminal : Form
+    public partial class DeveloperTerminalForm : Form
     {
         // For Interger Changer; Change to the Value you want to tweak
         public Editor EditorInstance;
 
-        public DeveloperTerminal(Editor instance)
+        public DeveloperTerminalForm(Editor instance)
         {
             InitializeComponent();
             EditorInstance = instance;

@@ -50,7 +50,12 @@ namespace ManiacEditor
             get { return _editorLayers; }
         }
 
-        public IEnumerable<EditorLayer> OtherLayers
+		public IList<EditorLayer> AllLayersList
+		{
+			get { return _editorLayers; }
+		}
+
+		public IEnumerable<EditorLayer> OtherLayers
         {
             get
             {

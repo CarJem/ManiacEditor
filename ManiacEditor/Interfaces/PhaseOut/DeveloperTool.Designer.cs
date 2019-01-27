@@ -2,7 +2,7 @@
 
 namespace ManiacEditor
 {
-    partial class DeveloperTerminal
+    partial class DeveloperTerminalForm
     {
         /// <summary>
         /// Required designer variable.

@@ -4,13 +4,15 @@ using System.Drawing;
 using System.Windows.Forms;
 using ManiacEditor.Properties;
 using Microsoft.Xna.Framework;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace ManiacEditor
 {
     /// <summary>
     /// A form for managing Editor Layers of a Sonic Mania Scene at a high level.
     /// </summary>
-    public partial class LayerManager : Form
+    public partial class LayerManagerForm : Form
     {
         private EditorScene _editorScene;
         private IEnumerable<EditorLayer> Layers
@@ -21,7 +23,6 @@ namespace ManiacEditor
         private bool _layerArrangementChanged = false;
         bool initilzing = true;
 
-
         //Previous Values for Specific Varriables
         int nudStartLineTemp = 0;
         int nudLineCountTemp = 0;
@@ -29,13 +30,18 @@ namespace ManiacEditor
         //Clipboards
         private EditorLayer LayerClipboard;
 
-        private BindingSource _bsHorizontal;
+		private Editor Instance;
+
+
+		private BindingSource _bsHorizontal;
         private BindingSource _bsHorizontalMap;
 
         // I clearly have no understanding of WinForms Data Binding
-        public LayerManager(EditorScene editorScene)
+        public LayerManagerForm(EditorScene editorScene, Editor instance)
         {
-            InitializeComponent();
+			Instance = instance;
+
+			InitializeComponent();
             if (Settings.mySettings.NightMode)
             {
                 rtbWarn.Rtf = Resources.LayerManagerWarningDarkTheme;
@@ -49,6 +55,7 @@ namespace ManiacEditor
             bsLayers.DataSource = Layers;
             lbLayers.DisplayMember = "Name";
 
+			
             lblRawWidthValue.DataBindings.Add(CreateTextBinding("Width", FormatBasicNumber));
             lblRawHeightValue.DataBindings.Add(CreateTextBinding("Height", FormatBasicNumber));
 
@@ -60,27 +67,28 @@ namespace ManiacEditor
 
             tbName.DataBindings.Add(CreateBinding("Text", bsLayers, "Name"));
 
-            nudVerticalScroll.DataBindings.Add(CreateBinding("Value", bsLayers, "ScrollingVertical"));
-            nudUnknownByte2.DataBindings.Add(CreateBinding("Value", bsLayers, "UnknownByte2"));
-            nudUnknownWord1.DataBindings.Add(CreateBinding("Value", bsLayers, "UnknownWord1"));
-            nudUnknownWord2.DataBindings.Add(CreateBinding("Value", bsLayers, "UnknownWord2"));
+            nudVerticalScroll.DataBindings.Add(CreateBinding("Value", bsLayers, "Behaviour"));
+            nudUnknownByte2.DataBindings.Add(CreateBinding("Value", bsLayers, "DrawingOrder"));
+            nudUnknownWord1.DataBindings.Add(CreateBinding("Value", bsLayers, "RelativeSpeed"));
+            nudUnknownWord2.DataBindings.Add(CreateBinding("Value", bsLayers, "ConstantSpeed"));
 
             _bsHorizontal = new BindingSource(bsLayers, "HorizontalLayerScroll");
             lbHorizontalRules.DataSource = _bsHorizontal;
             lbHorizontalRules.DisplayMember = "Id";
 
-            nudHorizontalEffect.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "UnknownByte1"));
-            nudHorizByte2.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "UnknownByte2"));
-            nudHorizVal1.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "UnknownWord1"));
-            nudHorizVal2.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "UnknownWord2"));
+            nudHorizontalEffect.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "Behavior"));
+            nudHorizByte2.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "DrawOrder"));
+            nudHorizVal1.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "RelativeSpeed"));
+            nudHorizVal2.DataBindings.Add(CreateBinding("Value", _bsHorizontal, "ConstantSpeed"));
 
             _bsHorizontalMap = new BindingSource(_bsHorizontal, "LinesMapList");
             lbMappings.DataSource = _bsHorizontalMap;
             nudStartLine.DataBindings.Add(CreateBinding("Value", _bsHorizontalMap, "StartIndex"));
             nudLineCount.DataBindings.Add(CreateBinding("Value", _bsHorizontalMap, "LineCount"));
-        }
+			
+		}
 
-        private Binding CreateTextBinding(string property, ConvertEventHandler formatHandler)
+		private Binding CreateTextBinding(string property, ConvertEventHandler formatHandler)
         {
             var b = new Binding("Text", bsLayers, property, true, DataSourceUpdateMode.OnPropertyChanged, "unknown", property + ": {0:N0}");
             b.Format += formatHandler;
@@ -408,5 +416,5 @@ Are you sure you want to delete this mapping?",
 
             }
         }
-    }
+	}
 }

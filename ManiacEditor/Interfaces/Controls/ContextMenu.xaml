@@ -90,7 +90,7 @@
     <!--Templates (MenuItem)-->
     <ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
         <Border x:Name="InnerTextBorder" Panel.ZIndex="-1" BorderThickness = "1">
-            <Grid SnapsToDevicePixels="True">
+            <Grid SnapsToDevicePixels="True" Background="{TemplateBinding Background}">
                 <Rectangle x:Name="Bg" Fill="{TemplateBinding Background}" RadiusY="0" RadiusX="0" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -276,7 +276,8 @@
             </Trigger>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Stroke" TargetName="InnerBorder" Value="{DynamicResource ContextMenuSelectedColor}"/>
-                <Setter Property="Fill" TargetName="Bg" Value="{DynamicResource ContextMenuSelectedColorBack}"/>
+                <Setter Property="Fill" TargetName="Bg" Value="{DynamicResource 
+                    SelectedColorBack}"/>
             </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
@@ -383,13 +384,7 @@
 
 
 
-    <ControlTemplate x:Key="TopLevelItemTemplateKeyw" TargetType="{x:Type MenuItem}">
-        <Border Name="Border" >
-            <Grid>
-                <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
-            </Grid>
-        </Border>
-    </ControlTemplate>
+
 
 
 

@@ -2,8 +2,8 @@
 
 namespace ManiacEditor
 {
-    partial class GoToPositionBox
-    {
+    partial class GoToPositionBoxForm
+	{
         /// <summary>
         /// Required designer variable.
         /// </summary>
