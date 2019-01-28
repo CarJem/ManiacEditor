@@ -57,7 +57,7 @@
     <StartupObject>ManiacEditor.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\App Icons\64x64_2.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\App Icons\Neo\128x128.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'x64 Release|AnyCPU'">
     <OutputPath>bin\Release%28x64%29\</OutputPath>
@@ -354,6 +354,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
       <Private>True</Private>
@@ -518,10 +519,19 @@
     <Compile Include="GL Preperations\VBCreator.cs" />
     <Compile Include="GL Preperations\VertexBuffer.cs" />
     <Compile Include="GL Preperations\Vertices.cs" />
-    <Compile Include="Interfaces\AboutBox.cs">
+    <Compile Include="Interfaces\EditSceneSelectInfoWindow.xaml.cs">
+      <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\SoundImporter.xaml.cs">
+      <DependentUpon>SoundImporter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\ObjectImporter.xaml.cs">
+      <DependentUpon>ObjectImporter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\PhaseOut\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\AboutBox.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Actions\ActionAddDeleteEntities.cs" />
@@ -532,6 +542,9 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Interfaces\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\DeveloperInterface.xaml.cs">
       <DependentUpon>DeveloperInterface.xaml</DependentUpon>
     </Compile>
@@ -551,11 +564,20 @@
     <Compile Include="Interfaces\LayerEditor.xaml.cs">
       <DependentUpon>LayerEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ObjectManager.xaml.cs">
+      <DependentUpon>ObjectManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\AddAttributeWindow.xaml.cs">
+      <DependentUpon>AddAttributeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\SceneSelect.xaml.cs">
       <DependentUpon>SceneSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\SceneSelectEditCategoryLabelWindow.xaml.cs">
+      <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layers + Objects\AttributeValidater.cs" />
     <Compile Include="Object ID Repair Tool\ColorConsole.cs" />
@@ -570,10 +592,10 @@
       <DependentUpon>ConfigManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphics\DeviceEventArgs.cs" />
-    <Compile Include="Interfaces\AddAttributeBox.cs">
+    <Compile Include="Interfaces\PhaseOut\AddAttributeBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\AddAttributeBox.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\AddAttributeBox.Designer.cs">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\MainEditor\EditorView.cs">
@@ -615,10 +637,10 @@
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor Classes\EditorControls.cs" />
-    <Compile Include="Interfaces\EditCategorySelectInfoForm.cs">
+    <Compile Include="Interfaces\PhaseOut\EditCategorySelectInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\EditCategorySelectInfoForm.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\EditCategorySelectInfoForm.Designer.cs">
       <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensions\Discord.cs" />
@@ -627,10 +649,10 @@
     <Compile Include="Editor Classes\EditorBackground.cs" />
     <Compile Include="Editor Classes\EditorEntityFramework.cs" />
     <Compile Include="Editor Classes\EditorScene.cs" />
-    <Compile Include="Interfaces\EditSceneSelectInfoForm.cs">
+    <Compile Include="Interfaces\PhaseOut\EditSceneSelectInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\EditSceneSelectInfoForm.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\EditSceneSelectInfoForm.Designer.cs">
       <DependentUpon>EditSceneSelectInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\MainEditor\Toolbars\EntitiesToolbar.cs">
@@ -849,10 +871,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>KeyBinds.settings</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\ObjectImporter.cs">
+    <Compile Include="Interfaces\PhaseOut\ObjectImporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\ObjectImporter.designer.cs">
+    <Compile Include="Interfaces\PhaseOut\ObjectImporter.designer.cs">
       <DependentUpon>ObjectImporter.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\PhaseOut\DeveloperTool.cs">
@@ -881,10 +903,10 @@
     <Compile Include="Editor Classes\EditorEntities.cs" />
     <Compile Include="Editor Classes\EditorEntity.cs" />
     <Compile Include="Editor Classes\EditorLayer.cs" />
-    <Compile Include="Interfaces\ObjectManager.cs">
+    <Compile Include="Interfaces\PhaseOut\ObjectManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\ObjectManager.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\ObjectManager.Designer.cs">
       <DependentUpon>ObjectManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\PhaseOut\OptionBox.cs">
@@ -914,10 +936,10 @@
     </Compile>
     <Compile Include="Layers + Objects\ScrollInfoLines.cs" />
     <Compile Include="Editor Classes\EditorSettings.cs" />
-    <Compile Include="Interfaces\SoundImporter.cs">
+    <Compile Include="Interfaces\PhaseOut\SoundImporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interfaces\SoundImporter.Designer.cs">
+    <Compile Include="Interfaces\PhaseOut\SoundImporter.Designer.cs">
       <DependentUpon>SoundImporter.cs</DependentUpon>
     </Compile>
     <Compile Include="WPF + Winform Stuff\SkinResourceDictionary.cs" />
@@ -949,6 +971,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Resource Include="Resources\App Icons\64x64_2.ico" />
     <Content Include="Config\README.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\AboutImage.png" />
+    <Resource Include="Resources\App Icons\Neo\128x128.ico" />
+    <Resource Include="Resources\App Icons\Neo\64x64.ico" />
+    <Content Include="ManiacEditor.VisualElementsManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Global\EditorIcons2.gif">
@@ -1043,7 +1071,7 @@
     <EmbeddedResource Include="Interfaces\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\EditCategorySelectInfoForm.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\EditCategorySelectInfoForm.resx">
       <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FindandReplaceTool.resx">
@@ -1086,16 +1114,16 @@
     <EmbeddedResource Include="Resources\onScreenRenderExclusions.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\AboutBox.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\AddAttributeBox.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\AddAttributeBox.resx">
       <DependentUpon>AddAttributeBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\DeviceLostBox.resx">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\EditSceneSelectInfoForm.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\EditSceneSelectInfoForm.resx">
       <DependentUpon>EditSceneSelectInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\MainEditor\Toolbars\EntitiesToolbar.resx">
@@ -1113,10 +1141,10 @@
     <EmbeddedResource Include="Interfaces\PhaseOut\LayerManager.resx">
       <DependentUpon>LayerManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\ObjectImporter.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\ObjectImporter.resx">
       <DependentUpon>ObjectImporter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\ObjectManager.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\ObjectManager.resx">
       <DependentUpon>ObjectManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\PhaseOut\DeveloperTool.resx">
@@ -1131,7 +1159,7 @@
     <EmbeddedResource Include="Interfaces\PhaseOut\SceneSelect.resx">
       <DependentUpon>SceneSelect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\SoundImporter.resx">
+    <EmbeddedResource Include="Interfaces\PhaseOut\SoundImporter.resx">
       <DependentUpon>SoundImporter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\MainEditor\Toolbars\TilesList.resx">
@@ -1200,6 +1228,7 @@
   <ItemGroup>
     <Content Include="Resources\App Icons\128x128.ico" />
     <Resource Include="Resources\Icons\DropDownArrow.png" />
+    <Resource Include="Resources\NeoAboutImage.png" />
     <Content Include="Resources\Tile Overlays\16x16Tiles_Edit.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1286,6 +1315,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interfaces\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\Controls\ContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1295,6 +1328,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\DeveloperInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\EditSceneSelectInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1326,7 +1363,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interfaces\SoundImporter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interfaces\ObjectImporter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\ObjectManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\OptionsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\AddAttributeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1334,7 +1387,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ManiacWPFStyleResources.xaml">
+    <Page Include="Interfaces\Controls\ManiacWPFStyleResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\SceneSelectEditCategoryLabelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -368,7 +368,7 @@ namespace ManiacEditor
 				Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
 			}
 
-			if (mySettings.UseAutoForcefulStartup) OpenSceneForceFully();
+			if (mySettings.UseAutoForcefulStartup && mySettings.UseForcefulStartup) OpenSceneForceFully();
 
 			if (ShortcutLaunch)
             {
@@ -2998,15 +2998,23 @@ namespace ManiacEditor
 
         public void OpenSceneForceFully()
         {
-            DataDirectory = mySettings.DevForceRestartData;
-            string Result = mySettings.DevForceRestartScene;
-            int LevelID = mySettings.DeveForceRestartLevelID;
-            bool isEncore = mySettings.DevForceRestartEncore;
-            int x = mySettings.DevForceRestartX;
-            int y = mySettings.DevForeRestartY;
-            TempWarpCoords = new Point(x, y);
-            ForceWarp = true;
-            OpenScene(false, Result, LevelID, isEncore);
+			if (mySettings.DeveloperForceOpenMode != 1)
+			{
+				DataDirectory = mySettings.DevForceRestartData;
+				string Result = mySettings.DevForceRestartScene;
+				int LevelID = mySettings.DeveForceRestartLevelID;
+				bool isEncore = mySettings.DevForceRestartEncore;
+				int x = mySettings.DevForceRestartX;
+				int y = mySettings.DevForeRestartY;
+				TempWarpCoords = new Point(x, y);
+				ForceWarp = true;
+				OpenScene(false, Result, LevelID, isEncore);
+			}
+			else
+			{
+				OpenSceneForceFully(mySettings.DevForceRestartData);
+			}
+
 
 
         }
@@ -3593,15 +3601,16 @@ Error: {ex.Message}");
             try
             {
 
-                using (var ObjectRemover = new ObjectManager(EditorScene.Objects, StageConfig, this))
-                {
-                    if (ObjectRemover.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+				var objectManager = new ManiacEditor.Interfaces.ObjectManager(EditorScene.Objects, StageConfig, this);
+				objectManager.Owner = Window.GetWindow(this);
+				objectManager.ShowDialog();
+
+					if (objectManager.DialogResult.Value != true)
                         return; // nothing to do
 
                     // user clicked Import, get to it!
                     UpdateControls();
                     entitiesToolbar?.RefreshObjects(EditorScene.Objects);
-                }
             }
             catch (Exception ex)
             {
@@ -4172,23 +4181,24 @@ Error: {ex.Message}");
         #endregion
 
         #region Scene Tab Buttons
-        public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null)
         {
             importingObjects = true;
             try
             {
                 Scene sourceScene = GetSceneSelection();
                 if (sourceScene == null) return;
+				var objectImporter = new ManiacEditor.Interfaces.ObjectImporter(sourceScene.Objects, EditorScene.Objects, StageConfig, this);
+				if (window != null) objectImporter.Owner = window;
+				objectImporter.ShowDialog();
 
-                using (var objectImporter = new ObjectImporter(sourceScene.Objects, EditorScene.Objects, StageConfig, this))
-                {
-                    if (objectImporter.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                        return; // nothing to do
+                if (objectImporter.DialogResult != true)
+                    return; // nothing to do
 
-                    // user clicked Import, get to it!
-                    UpdateControls();
-                    entitiesToolbar?.RefreshObjects(EditorScene.Objects);
-                }
+                // user clicked Import, get to it!
+                UpdateControls();
+                entitiesToolbar?.RefreshObjects(EditorScene.Objects);
+                
             }
             catch (Exception ex)
             {
@@ -4197,7 +4207,11 @@ Error: {ex.Message}");
             importingObjects = false;
         }
 
-        private void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			ImportSoundsToolStripMenuItem_Click(sender, e, GetWindow(this));
+		}
+		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null)
         {
             try
             {
@@ -4224,13 +4238,15 @@ Error: {ex.Message}");
                 }
                 if (null == sourceStageConfig) return;
 
-                using (var soundImporter = new SoundImporter(sourceStageConfig, StageConfig))
-                {
-                    if (soundImporter.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                        return; // nothing to do
+				var soundImporter = new ManiacEditor.Interfaces.SoundImporter(sourceStageConfig, StageConfig);
+				soundImporter.ShowDialog();
 
-                    // changing the sound list doesn't require us to do anything either
-                }
+				if (soundImporter.DialogResult != true)
+					return; // nothing to do
+
+
+				// changing the sound list doesn't require us to do anything either
+			
             }
             catch (Exception ex)
             {
@@ -4243,7 +4259,8 @@ Error: {ex.Message}");
             Deselect(true);
 
 			var lm = new LayerManager(EditorScene);
-            lm.ShowDialog();
+			lm.Owner = Window.GetWindow(this);
+			lm.ShowDialog();
 
             SetupLayerButtons();
             ResetViewSize();
@@ -4617,10 +4634,9 @@ Error: {ex.Message}");
         #region Other Tab Buttons
         public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            using (var aboutBox = new AboutBox())
-            {
-                aboutBox.ShowDialog();
-            }
+			var aboutBox = new AboutWindow();
+			aboutBox.Owner = Window.GetWindow(this);
+			aboutBox.ShowDialog();
         }
 
         private void WikiToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -4637,6 +4653,7 @@ Error: {ex.Message}");
             }
 			*/
 			var optionMenu = new OptionsMenu(this);
+			optionMenu.Owner = Window.GetWindow(this);
 			optionMenu.ShowDialog();
         }
 
@@ -7367,6 +7384,7 @@ Error: {ex.Message}");
             string selectedScene;
 
 			ManiacEditor.Interfaces.SceneSelect select = new ManiacEditor.Interfaces.SceneSelect(GameConfig, this);
+			select.Owner = Window.GetWindow(this);
 			select.ShowDialog();
             if (select.Result == null)
                 return null;

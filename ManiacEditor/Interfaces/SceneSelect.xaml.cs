@@ -699,9 +699,10 @@ namespace ManiacEditor.Interfaces
 
 		private void addToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new EditSceneSelectInfoForm();
+			var form = new EditSceneSelectInfoWindow();
+			form.Owner = Window.GetWindow(this);
 			form.ShowDialog();
-			if (form.DialogResult == System.Windows.Forms.DialogResult.Yes)
+			if (form.DialogResult == true)
 			{
 				var cat = _GameConfig.Categories.Where(t => t.Name == scenesTree.SelectedNode.Text).FirstOrDefault();
 				if (cat != null)
@@ -718,17 +719,20 @@ namespace ManiacEditor.Interfaces
 
 		private void addCategoryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new EditSceneSelectInfoForm();
+			var form = new EditSceneSelectInfoWindow();
+			form.Owner = Window.GetWindow(this);
 			form.ShowDialog();
-			if (form.DialogResult == System.Windows.Forms.DialogResult.Yes)
+			if (form.DialogResult == true)
 			{
 				var scenes = new List<RSDKv5.GameConfig.SceneInfo>();
 				scenes.Add(form.Scene);
 
-				var form2 = new EditCategorySelectInfoForm();
+				var form2 = new SceneSelectEditCategoryLabelWindow();
+				form2.Owner = Window.GetWindow(this);
 				form2.Scenes = scenes;
+				form2.ShowDialog();
 
-				if (form2.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
+				if (form2.DialogResult == true)
 				{
 					if (form2.Category != null)
 					{
@@ -752,8 +756,10 @@ namespace ManiacEditor.Interfaces
 			if (cat != null)
 			{
 				var scene = cat.Scenes.Where(t => t.Index == scenesTree.SelectedNode.Index).FirstOrDefault();
-				var form = new EditSceneSelectInfoForm(scene);
-				if (form.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
+				var form = new EditSceneSelectInfoWindow(scene);
+				form.Owner = Window.GetWindow(this);
+				form.ShowDialog();
+				if (form.DialogResult == true)
 				{
 					LoadFromGameConfig(_GameConfig);
 					if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -766,9 +772,9 @@ namespace ManiacEditor.Interfaces
 		private void editCategoryMenuItem_Click(object sender, EventArgs e)
 		{
 			var Category = _GameConfig.Categories[scenesTree.SelectedNode.Index];
-			var form = new EditCategorySelectInfoForm(Category, Category.Scenes);
+			var form = new SceneSelectEditCategoryLabelWindow(Category, Category.Scenes);
 			form.ShowDialog();
-			if (form.DialogResult == System.Windows.Forms.DialogResult.Yes)
+			if (form.DialogResult == true)
 			{
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)

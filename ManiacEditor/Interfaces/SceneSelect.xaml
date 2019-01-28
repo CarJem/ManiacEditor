@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ManiacEditor.Interfaces"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Title="Select a Scene..." Height="580" Width="1168" Background="{DynamicResource NormalBackground}" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Select a Scene..." Height="580" Width="1168" Background="{DynamicResource NormalBackground}" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -100,7 +100,7 @@
                 <maniac:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
                                               DarkSource="/ManiacEditor;component/Resources/Themes/DarkColors.xaml" />
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ContextMenu.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/ManiacWPFStyleResources.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ManiacWPFStyleResources.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Image}">

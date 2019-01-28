@@ -13,7 +13,7 @@
     <SolidColorBrush x:Key="ContextMenuSelectedColor" Color="Blue"/>
     <SolidColorBrush x:Key="ContextMenuSelectedColorBack" Color="#232370"/>
     <SolidColorBrush x:Key="ContextMenuCheckboxColor" Color="Black"/>
-    
+
     <SolidColorBrush x:Key="Maniac_OptionMark_Static_Background" Color="#404040"/>
     <SolidColorBrush x:Key="Maniac_OptionMark_Static_Border" Color="#FF5D5D5D"/>
     <SolidColorBrush x:Key="Maniac_OptionMark_MouseOver_Background" Color="#FF555555"/>
@@ -50,5 +50,7 @@
     <SolidColorBrush x:Key="Maniac_ButtonDisabled_Background" Color="#FF343434"/>
     <SolidColorBrush x:Key="Maniac_ButtonDisabled_Border" Color="#FF4B4B4B"/>
     <SolidColorBrush x:Key="Maniac_ButtonDisabled_Foreground" Color="{Binding Source={StaticResource DisabledText}, Path=Color}"/>
-    
+
+
+
 </ResourceDictionary>
