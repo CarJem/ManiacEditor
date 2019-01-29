@@ -519,6 +519,12 @@
     <Compile Include="GL Preperations\VBCreator.cs" />
     <Compile Include="GL Preperations\VertexBuffer.cs" />
     <Compile Include="GL Preperations\Vertices.cs" />
+    <Compile Include="Interfaces\Controls\TilesTabControl.xaml.cs">
+      <DependentUpon>TilesTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\Controls\VScrollBar.xaml.cs">
+      <DependentUpon>VScrollBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
     </Compile>
@@ -978,6 +984,7 @@
     <Resource Include="Resources\App Icons\Neo\64x64.ico" />
     <Content Include="ManiacEditor.VisualElementsManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Global\EditorIcons2.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1322,6 +1329,14 @@
     <Page Include="Interfaces\Controls\ContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\Controls\TilesTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\Controls\VScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Interfaces\Controls\Toolbar.xaml">
       <SubType>Designer</SubType>

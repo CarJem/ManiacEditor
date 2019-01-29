@@ -281,6 +281,7 @@
                                               DarkSource="/ManiacEditor;component/Resources/Themes/DarkColors.xaml" />
                 <ResourceDictionary Source="/ManiacEditor;component/Resources/Themes/MyBorderStyle.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ManiacWPFStyleResources.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Image}">
@@ -345,11 +346,6 @@
             </Style>
             <Style TargetType="{x:Type wpfTool:IntegerUpDown}">
                 <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
-            </Style>
-            <Style TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
                 <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
             </Style>

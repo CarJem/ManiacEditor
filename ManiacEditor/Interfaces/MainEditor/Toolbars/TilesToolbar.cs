@@ -18,7 +18,11 @@ namespace ManiacEditor
         public Editor EditorInstance;
 
         private TilesList tilesList;
-        public Action<int> TileDoubleClick
+		private System.Windows.Forms.TrackBar trackBar1;
+		public System.Windows.Forms.Panel tilePanel;
+		public Interfaces.RetroEDTileList retroEDTileList1;
+		public ManiacEditor.Interfaces.Controls.TilesTabControl TabControl;
+		public Action<int> TileDoubleClick
         {
             get
             {
@@ -131,8 +135,71 @@ namespace ManiacEditor
 
         public void SetupTilesList(Editor instance)
         {
+			TabControl = new Interfaces.Controls.TilesTabControl();
+			elementHost1.Child = TabControl;
 
-            this.tilesList = new ManiacEditor.TilesList(instance);
+			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
+			this.tilePanel = new System.Windows.Forms.Panel();
+			// 
+			// retroEDTileList1
+			// 
+			this.retroEDTileList1.BackColor = System.Drawing.SystemColors.Window;
+			this.retroEDTileList1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.retroEDTileList1.ImageHeight = 128;
+			this.retroEDTileList1.ImageSize = 128;
+			this.retroEDTileList1.ImageWidth = 128;
+			this.retroEDTileList1.Location = new System.Drawing.Point(3, 3);
+			this.retroEDTileList1.Name = "retroEDTileList1";
+			this.retroEDTileList1.ScrollValue = 0;
+			this.retroEDTileList1.SelectedIndex = -1;
+			this.retroEDTileList1.Size = new System.Drawing.Size(234, 290);
+			this.retroEDTileList1.TabIndex = 1;
+
+			// 
+			// trackBar1
+			// 
+			this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.trackBar1.BackColor = System.Drawing.SystemColors.Control;
+			this.trackBar1.LargeChange = 1;
+			this.trackBar1.Location = new System.Drawing.Point(0, 0);
+			this.trackBar1.Maximum = 3;
+			this.trackBar1.Name = "trackBar1";
+			this.trackBar1.Size = new System.Drawing.Size(242, 45);
+			this.trackBar1.TabIndex = 1;
+			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.trackBar1.Value = 1;
+			this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+			this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+			this.trackBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+
+			// 
+			// tilePanel
+			// 
+			this.tilePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tilePanel.BackColor = System.Drawing.SystemColors.Control;
+			this.tilePanel.Location = new System.Drawing.Point(0, 45);
+			this.tilePanel.Name = "tilePanel";
+			this.tilePanel.Size = new System.Drawing.Size(241, 253);
+			this.tilePanel.TabIndex = 2;
+			this.tilePanel.Dock = DockStyle.Fill;
+			System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
+			System.Windows.Forms.Integration.WindowsFormsHost host2 = new System.Windows.Forms.Integration.WindowsFormsHost();
+			System.Windows.Forms.Integration.WindowsFormsHost host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
+
+			host.Child = tilePanel;
+			host2.Child = trackBar1;
+			host3.Child = retroEDTileList1;
+
+			TabControl.TileSlider.Children.Add(host2);
+			TabControl.TileViewer.Children.Add(host);
+
+			TabControl.ChunksPage.Children.Add(host3);
+
+			this.tilesList = new ManiacEditor.TilesList(instance);
             this.tilesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 | System.Windows.Forms.AnchorStyles.Left)
 | System.Windows.Forms.AnchorStyles.Right)));
@@ -265,7 +332,7 @@ namespace ManiacEditor
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedTab == tabControl1.TabPages[0]) EditorInstance.ChunksToolButton.IsChecked = false;
+            if (TabControl.TabIndex == 0) EditorInstance.ChunksToolButton.IsChecked = false;
             else EditorInstance.ChunksToolButton.IsChecked = true;
         }
 

@@ -390,12 +390,12 @@ namespace ManiacEditor
 			editorView = new EditorView(this);
 
 			this.editorView.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
-			this.editorView.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.VScrollBar1_Scroll);
-			this.editorView.vScrollBar1.ValueChanged += new System.EventHandler(this.VScrollBar1_ValueChanged);
-			this.editorView.vScrollBar1.MouseEnter += new System.EventHandler(this.VScrollBar1_Entered);
-			this.editorView.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBar1_Scroll);
-			this.editorView.hScrollBar1.ValueChanged += new System.EventHandler(this.HScrollBar1_ValueChanged);
-			this.editorView.hScrollBar1.MouseEnter += new System.EventHandler(this.HScrollBar1_Entered);
+			this.editorView.vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
+			this.editorView.vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
+			this.editorView.vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
+			this.editorView.hScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.HScrollBar1_Scroll);
+			this.editorView.hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
+			this.editorView.hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
 			this.Activated += new System.EventHandler(this.MapEditor_Activated);
 			this.editorView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
 			this.editorView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
@@ -1005,8 +1005,8 @@ namespace ManiacEditor
                     TilesToolbar.Height = editorView.splitContainer1.Panel2.Height - 2;
                     Form1_Resize(null, null);
                 }
-                if (IsChunksEdit()) TilesToolbar.tabControl1.SelectedIndex = 1;
-                else TilesToolbar.tabControl1.SelectedIndex = 0;
+                if (IsChunksEdit()) TilesToolbar.TabControl.TabIndex = 1;
+                else TilesToolbar.TabControl.TabIndex = 0;
                 UpdateTilesOptions();
                 TilesToolbar.ShowShortcuts = PlaceTilesButton.IsChecked.Value;
 
@@ -1070,13 +1070,13 @@ namespace ManiacEditor
         {
             if (mySettings.EntityFreeCam)
             {
-                editorView.vScrollBar1.Enabled = false;
-                editorView.hScrollBar1.Enabled = false;
+                editorView.vScrollBar1.IsEnabled = false;
+                editorView.hScrollBar1.IsEnabled = false;
             }
             else
             {
-                editorView.vScrollBar1.Enabled = true;
-                editorView.hScrollBar1.Enabled = true;
+                editorView.vScrollBar1.IsEnabled = true;
+                editorView.hScrollBar1.IsEnabled = true;
             }
             SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
         }
@@ -1187,9 +1187,10 @@ namespace ManiacEditor
             seperator5.Visibility = Visibility.Visible;
             seperator6.Visibility = Visibility.Visible;
             seperator7.Visibility = Visibility.Visible;
-            //seperator8.Visibility = Visibility.Visible;
+            seperator8.Visibility = Visibility.Visible;
+			seperator9.Visibility = Visibility.Visible;
 
-            if (EnablePixelCountMode == false)
+			if (EnablePixelCountMode == false)
             {
                 selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)SelectedTileX + ", Y: " + (int)SelectedTileY;
                 selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
@@ -1223,12 +1224,14 @@ namespace ManiacEditor
 
 
             hVScrollBarXYLabel.Content = "Zoom Value: " + Zoom.ToString();
+			hScrollBarValueLabel.Content = "Horz. ScrollBar Value: " + editorView.hScrollBar1.Value + " Horz. ScrollBar Max: " + editorView.hScrollBar1.Maximum;
+			vScrollBarValueLabel.Content = "Vert. ScrollBar Value: " + editorView.vScrollBar1.Value + " Vert. ScrollBar Max: " + editorView.vScrollBar1.Maximum;
 
 
-            //
-            // End of Tooltip Bar Info Section
-            //
-        }
+			//
+			// End of Tooltip Bar Info Section
+			//
+		}
 
         private void UpdateTooltips()
         {
@@ -1644,8 +1647,8 @@ namespace ManiacEditor
 
                 }
 
-                int xMove = (editorView.hScrollBar1.Visible) ? e.X - ShiftX - scrollPosition.X : 0;
-                int yMove = (editorView.vScrollBar1.Visible) ? e.Y - ShiftY - scrollPosition.Y : 0;
+                int xMove = (editorView.hScrollBar1.IsVisible) ? e.X - ShiftX - scrollPosition.X : 0;
+                int yMove = (editorView.vScrollBar1.IsVisible) ? e.Y - ShiftY - scrollPosition.Y : 0;
 
                 if (Math.Abs(xMove) < 15) xMove = 0;
                 if (Math.Abs(yMove) < 15) yMove = 0;
@@ -1671,9 +1674,9 @@ namespace ManiacEditor
                     else if (yMove < 0) Cursor = Cursors.ScrollN;
                     else
                     {
-                        if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible) Cursor = Cursors.ScrollAll;
-                        else if (editorView.vScrollBar1.Visible) Cursor = Cursors.ScrollNS;
-                        else if (editorView.hScrollBar1.Visible) Cursor = Cursors.ScrollWE;
+                        if (editorView.vScrollBar1.IsVisible && editorView.hScrollBar1.IsVisible) Cursor = Cursors.ScrollAll;
+                        else if (editorView.vScrollBar1.IsVisible) Cursor = Cursors.ScrollNS;
+                        else if (editorView.hScrollBar1.IsVisible) Cursor = Cursors.ScrollWE;
                     }
 
                 }
@@ -1687,18 +1690,18 @@ namespace ManiacEditor
 
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
-                if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
-                if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                if (x > editorView.hScrollBar1.Maximum) x = (int)editorView.hScrollBar1.Maximum;
+                if (y > editorView.vScrollBar1.Maximum) y = (int)editorView.vScrollBar1.Maximum;
 
 
                 if (x != position.X || y != position.Y)
                 {
 
-                    if (editorView.vScrollBar1.Visible)
+                    if (editorView.vScrollBar1.IsVisible)
                     {
                         editorView.vScrollBar1.Value = y;
                     }
-                    if (editorView.hScrollBar1.Visible)
+                    if (editorView.hScrollBar1.IsVisible)
                     {
                         editorView.hScrollBar1.Value = x;
                     }
@@ -1775,8 +1778,8 @@ namespace ManiacEditor
 				if (draggingSelection || dragged)
                 {
                     Point position = new Point(ShiftX, ShiftY); ;
-                    int ScreenMaxX = position.X + editorView.splitContainer1.Panel1.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth;
-                    int ScreenMaxY = position.Y + editorView.splitContainer1.Panel1.Height - System.Windows.Forms.SystemInformation.HorizontalScrollBarHeight;
+                    int ScreenMaxX = position.X + editorView.splitContainer1.Panel1.Width - (int)editorView.vScrollBar1Host.Width;
+                    int ScreenMaxY = position.Y + editorView.splitContainer1.Panel1.Height - (int)editorView.hScrollBar1Host.Height;
                     int ScreenMinX = position.X;
                     int ScreenMinY = position.Y;
 
@@ -1802,16 +1805,16 @@ namespace ManiacEditor
 
                     if (x < 0) x = 0;
                     if (y < 0) y = 0;
-                    if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
-                    if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                    if (x > editorView.hScrollBar1.Maximum) x = (int)editorView.hScrollBar1.Maximum;
+                    if (y > editorView.vScrollBar1.Maximum) y = (int)editorView.vScrollBar1.Maximum;
 
                     if (x != position.X || y != position.Y)
                     {
-                        if (editorView.vScrollBar1.Visible)
+                        if (editorView.vScrollBar1.IsVisible)
                         {
                             editorView.vScrollBar1.Value = y;
                         }
-                        if (editorView.hScrollBar1.Visible)
+                        if (editorView.hScrollBar1.IsVisible)
                         {
                             editorView.hScrollBar1.Value = x;
                         }
@@ -2070,18 +2073,18 @@ namespace ManiacEditor
                 scrolling = true;
                 scrollingDragged = false;
                 scrollPosition = new Point(e.X - ShiftX, e.Y - ShiftY);
-                if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible)
+                if (editorView.vScrollBar1.IsVisible && editorView.hScrollBar1.IsVisible)
                 {
 					//Cursor = System.Windows.Forms.Cursors.NoMove2D;
 					Cursor = Cursors.ScrollAll;
 
 				}
-                else if (editorView.vScrollBar1.Visible)
+                else if (editorView.vScrollBar1.IsVisible)
                 {
 					//Cursor = System.Windows.Forms.Cursors.NoMoveHoriz;
 					Cursor = Cursors.ScrollWE;
 				}
-                else if (editorView.hScrollBar1.Visible)
+                else if (editorView.hScrollBar1.IsVisible)
                 {
 					//Cursor = System.Windows.Forms.Cursors.NoMoveVert;
 					Cursor = Cursors.ScrollNS;
@@ -2210,39 +2213,39 @@ namespace ManiacEditor
             }
             else
             {
-                if (editorView.vScrollBar1.Visible || editorView.hScrollBar1.Visible)
+                if (editorView.vScrollBar1.IsVisible || editorView.hScrollBar1.IsVisible)
                 {
                     if (scrollDirection == "Y" && !mySettings.scrollLock)
                     {
-                        if (editorView.vScrollBar1.Visible)
+                        if (editorView.vScrollBar1.IsVisible)
                         {
-                            int y = editorView.vScrollBar1.Value - e.Delta;
+                            int y = (int)editorView.vScrollBar1.Value - e.Delta;
                             if (y < 0) y = 0;
-                            if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                            if (y > editorView.vScrollBar1.Maximum) y = (int)editorView.vScrollBar1.Maximum;
                             editorView.vScrollBar1.Value = y;
                         }
                         else
                         {
-                            int x = editorView.hScrollBar1.Value - e.Delta * 2;
+                            int x = (int)editorView.hScrollBar1.Value - e.Delta * 2;
                             if (x < 0) x = 0;
-                            if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
+                            if (x > editorView.hScrollBar1.Maximum) x = (int)editorView.hScrollBar1.Maximum;
                             editorView.hScrollBar1.Value = x;
                         }
                     }
                     else if (scrollDirection == "X" && !mySettings.scrollLock)
                     {
-                        if (editorView.hScrollBar1.Visible)
+                        if (editorView.hScrollBar1.IsVisible)
                         {
-                            int x = editorView.hScrollBar1.Value - e.Delta * 2;
+                            int x = (int)editorView.hScrollBar1.Value - e.Delta * 2;
                             if (x < 0) x = 0;
-                            if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
+                            if (x > editorView.hScrollBar1.Maximum) x = (int)editorView.hScrollBar1.Maximum;
                             editorView.hScrollBar1.Value = x;
                         }
                         else
                         {
-                            int y = editorView.vScrollBar1.Value - e.Delta;
+                            int y = (int)editorView.vScrollBar1.Value - e.Delta;
                             if (y < 0) y = 0;
-                            if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                            if (y > editorView.vScrollBar1.Maximum) y = (int)editorView.vScrollBar1.Maximum;
                             editorView.vScrollBar1.Value = y;
                         }
                     }
@@ -2250,38 +2253,38 @@ namespace ManiacEditor
                     {
                         if (mySettings.ScrollLockDirection == false)
                         {
-                            if (editorView.vScrollBar1.Visible)
+                            if (editorView.vScrollBar1.IsVisible)
                             {
-                                int y = editorView.vScrollBar1.Value - e.Delta * 2;
+                                int y = (int)editorView.vScrollBar1.Value - e.Delta * 2;
                                 if (y < 0) y = 0;
-                                if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                                if (y > editorView.vScrollBar1.Maximum) y = (int)editorView.vScrollBar1.Maximum;
                                 if (y <= -1) y = 0;
                                 editorView.vScrollBar1.Value = y;
                             }
                             else
                             {
-                                int x = editorView.vScrollBar1.Value - e.Delta * 2;
+                                int x = (int)editorView.vScrollBar1.Value - e.Delta * 2;
                                 if (x < 0) x = 0;
-                                if (x > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) x = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                                if (x > editorView.vScrollBar1.Maximum) x = (int)editorView.vScrollBar1.Maximum;
                                 if (x <= -1) x = 0;
                                 editorView.vScrollBar1.Value = x;
                             }
                         }
                         else
                         {
-                            if (editorView.hScrollBar1.Visible)
+                            if (editorView.hScrollBar1.IsVisible)
                             {
-                                int x = editorView.hScrollBar1.Value - e.Delta * 2;
+                                int x = (int)editorView.hScrollBar1.Value - e.Delta * 2;
                                 if (x < 0) x = 0;
-                                if (x > editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange) x = (int)editorView.hScrollBar1.Maximum - (int)editorView.hScrollBar1.LargeChange;
+                                if (x > editorView.hScrollBar1.Maximum) x = (int)editorView.hScrollBar1.Maximum;
                                 if (x <= -1) x = 0;
                                 editorView.hScrollBar1.Value = x;
                             }
                             else
                             {
-                                int y = editorView.vScrollBar1.Value - e.Delta;
+                                int y = (int)editorView.vScrollBar1.Value - e.Delta;
                                 if (y < 0) y = 0;
-                                if (y > editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange) y = (int)editorView.vScrollBar1.Maximum - (int)editorView.vScrollBar1.LargeChange;
+                                if (y > editorView.vScrollBar1.Maximum) y = (int)editorView.vScrollBar1.Maximum;
                                 if (y <= -1) y = 0;
                                 editorView.vScrollBar1.Value = y;
                             }
@@ -2595,16 +2598,16 @@ namespace ManiacEditor
                 SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 
 
-            if (editorView.hScrollBar1.Visible)
+            if (editorView.hScrollBar1.IsVisible)
             {
                 ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Zoom - zoom_point.X);
-                ShiftX = (int)Math.Min(editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange, Math.Max(0, ShiftX));
+                ShiftX = (int)Math.Min(editorView.hScrollBar1.Maximum, Math.Max(0, ShiftX));
                 editorView.hScrollBar1.Value = ShiftX;
             }
-            if (editorView.vScrollBar1.Visible)
+            if (editorView.vScrollBar1.IsVisible)
             {
                 ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Zoom - zoom_point.Y);
-                ShiftY = (int)Math.Min(editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange, Math.Max(0, ShiftY));
+                ShiftY = (int)Math.Min(editorView.vScrollBar1.Maximum, Math.Max(0, ShiftY));
                 editorView.vScrollBar1.Value = ShiftY;
             }
 
@@ -2631,27 +2634,24 @@ namespace ManiacEditor
 
             // TODO: It hides right now few pixels at the edge
 
-            bool nvscrollbar = false;
-            bool nhscrollbar = false;
+            Visibility nvscrollbar = Visibility.Visible;
+			Visibility nhscrollbar = Visibility.Visible;
 
-            if (editorView.hScrollBar1.Maximum > editorView.mainPanel.Width - 2) nhscrollbar = true;
-            if (editorView.vScrollBar1.Maximum > editorView.mainPanel.Height - 2) nvscrollbar = true;
-            if (editorView.hScrollBar1.Maximum > editorView.mainPanel.Width - (nvscrollbar ? editorView.vScrollBar1.Width : 0)) editorView.hScrollBar1.Visible = true;
-            if (editorView.vScrollBar1.Maximum > editorView.mainPanel.Height - (nhscrollbar ? editorView.hScrollBar1.Height : 0)) editorView.vScrollBar1.Visible = true;
+			if (editorView.hScrollBar1.Maximum == 0) nhscrollbar = Visibility.Hidden;
+			if (editorView.vScrollBar1.Maximum == 0) nvscrollbar = Visibility.Hidden;
 
-            editorView.vScrollBar1.Visible = nvscrollbar;
-            editorView.hScrollBar1.Visible = nhscrollbar;
-            editorView.scrollBarDividerPanel.Visible = nvscrollbar && nhscrollbar;
+			editorView.vScrollBar1.Visibility = nvscrollbar;
+			editorView.vScrollBar1Host.Child.Visibility = nvscrollbar;
+			editorView.hScrollBar1Host.Child.Visibility = nhscrollbar;
+			editorView.hScrollBar1.Visibility = nhscrollbar;
 
-            if (editorView.vScrollBar1.Visible)
+			if (editorView.vScrollBar1.IsVisible)
             {
-                // Docking isn't enough because we want that it will be high/wider when only one of the scroll bars is visible
-                editorView.vScrollBar1.Location = new Point((editorView.splitContainer1.Panel2Collapsed ? editorView.splitContainer1.Width - 19 : editorView.splitContainer1.SplitterDistance - 19), 0);
-                editorView.vScrollBar1.Height = editorView.mainPanel.Height - (editorView.hScrollBar1.Visible ? 18 : 18);
-                editorView.vScrollBar1.LargeChange = editorView.vScrollBar1.Height;
-                editorView.vScrollBar1.SmallChange = editorView.vScrollBar1.Height / 4;
-                ScreenHeight = editorView.vScrollBar1.Height;
-                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange));
+				editorView.vScrollBar1.ViewportSize = SceneHeight;
+				editorView.vScrollBar1.LargeChange = editorView.vScrollBar1Host.Height;
+                editorView.vScrollBar1.SmallChange = editorView.vScrollBar1Host.Height / 4;
+                ScreenHeight = (int)editorView.vScrollBar1Host.Height;
+                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
             }
             else
             {
@@ -2659,14 +2659,13 @@ namespace ManiacEditor
                 ShiftY = 0;
                 editorView.vScrollBar1.Value = 0;
             }
-            if (editorView.hScrollBar1.Visible)
+            if (editorView.hScrollBar1.IsVisible)
             {
-                editorView.hScrollBar1.Location = new Point(0, editorView.splitContainer1.Height - 19);
-                editorView.hScrollBar1.Width = editorView.viewPanel.Width - (editorView.vScrollBar1.Visible ? 17 : 0);
-                editorView.hScrollBar1.LargeChange = editorView.hScrollBar1.Width;
-                editorView.hScrollBar1.SmallChange = editorView.hScrollBar1.Width / 4;
-                ScreenWidth = editorView.hScrollBar1.Width;
-                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange));
+				editorView.hScrollBar1.ViewportSize = SceneWidth;
+				editorView.hScrollBar1.LargeChange = editorView.hScrollBar1Host.Width;
+                editorView.hScrollBar1.SmallChange = editorView.hScrollBar1Host.Width / 4;
+                ScreenWidth = (int)editorView.hScrollBar1Host.Width;
+                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
             }
             else
             {
@@ -2674,10 +2673,6 @@ namespace ManiacEditor
                 ShiftX = 0;
                 editorView.hScrollBar1.Value = 0;
             }
-
-            int DividorX = editorView.viewPanel.Width - editorView.scrollBarDividerPanel.Width;
-            int DividorY = editorView.viewPanel.Height - editorView.scrollBarDividerPanel.Height;
-            editorView.scrollBarDividerPanel.Location = new Point(DividorX, DividorY);
 
 
             
@@ -2691,6 +2686,7 @@ namespace ManiacEditor
 
         private void SetViewSize(int width = 0, int height = 0)
         {
+
             if (mySettings.EntityFreeCam)
             {
                 width = 10000000;
@@ -2702,11 +2698,12 @@ namespace ManiacEditor
                 height = SceneHeight;
             }
 
+			
             if (!mySettings.EntityFreeCam || !isExportingImage)
             {
-                editorView.vScrollBar1.Maximum = height;
-                editorView.hScrollBar1.Maximum = width;
-            }
+				editorView.vScrollBar1.Maximum = height - (int)editorView.vScrollBar1.LargeChange;
+				editorView.hScrollBar1.Maximum = width - (int)editorView.hScrollBar1.LargeChange;
+			}
 
             editorView.GraphicPanel.DrawWidth = Math.Min(width, editorView.GraphicPanel.Width);
             editorView.GraphicPanel.DrawHeight = Math.Min(height, editorView.GraphicPanel.Height);
@@ -2716,8 +2713,8 @@ namespace ManiacEditor
 
             if (!mySettings.EntityFreeCam || !isExportingImage)
             {
-                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange));
-                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange));
+                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
+                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
             }
         }
 
@@ -2733,16 +2730,16 @@ namespace ManiacEditor
             {
                 width = SceneWidth;
                 height = SceneHeight;
-            }*/
+            }
 
-            /*
+            
             editorView.GraphicPanel.Width = width;
             editorView.GraphicPanel.Height = height;
 
             editorView.GraphicPanel.ResetDevice();
 
-            editorView.GraphicPanel.DrawWidth = Math.Min(editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
-            editorView.GraphicPanel.DrawHeight = Math.Min(editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
+            editorView.GraphicPanel.DrawWidth = (int)Math.Min(editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
+            editorView.GraphicPanel.DrawHeight = (int)Math.Min(editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
             */
         }
 
@@ -3000,6 +2997,10 @@ namespace ManiacEditor
         {
 			if (mySettings.DeveloperForceOpenMode != 1)
 			{
+				OpenSceneForceFully(mySettings.DevForceRestartData);
+			}
+			else
+			{
 				DataDirectory = mySettings.DevForceRestartData;
 				string Result = mySettings.DevForceRestartScene;
 				int LevelID = mySettings.DeveForceRestartLevelID;
@@ -3009,10 +3010,6 @@ namespace ManiacEditor
 				TempWarpCoords = new Point(x, y);
 				ForceWarp = true;
 				OpenScene(false, Result, LevelID, isEncore);
-			}
-			else
-			{
-				OpenSceneForceFully(mySettings.DevForceRestartData);
 			}
 
 
@@ -4770,6 +4767,7 @@ Error: {ex.Message}");
                 // Entities should take care of themselves
                 DisposeTextures();
                 EditorEntity_ini.ReleaseResources();
+				//EditorEntity_ini.rendersWithErrors.Clear();
 
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (useEncoreColors == true)
@@ -5176,9 +5174,9 @@ Error: {ex.Message}");
             bool deviceLost = editorView.GraphicPanel.getDeviceLostState();
             if (scrolling)
             {
-                if (editorView.vScrollBar1.Visible && editorView.hScrollBar1.Visible && !deviceLost) editorView.GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
-                else if (editorView.vScrollBar1.Visible && !deviceLost) editorView.GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
-                else if (editorView.hScrollBar1.Visible && !deviceLost) editorView.GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
+                if (editorView.vScrollBar1.IsVisible && editorView.hScrollBar1.IsVisible && !deviceLost) editorView.GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
+                else if (editorView.vScrollBar1.IsVisible && !deviceLost) editorView.GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
+                else if (editorView.hScrollBar1.IsVisible && !deviceLost) editorView.GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
             }
 
             if (showGrid && EditorScene != null)
@@ -5727,8 +5725,8 @@ Error: {ex.Message}");
 
         public void MoveCameraFreely(object sender, KeyEventArgs e)
         {
-            editorView.hScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
-            editorView.vScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
+            //editorView.hScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
+            //editorView.vScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
             if (CtrlPressed() && ShiftPressed())
             {
                 switch (e.Key)
@@ -6078,36 +6076,36 @@ Error: {ex.Message}");
 
         #region Scrollbar Methods
 
-        private void VScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
+        private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
-            ShiftY = e.NewValue;
+            ShiftY = (int)e.NewValue;
             editorView.GraphicPanel.Render();
         }
 
-        private void HScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
+        private void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
-            ShiftX = e.NewValue;
+            ShiftX = (int)e.NewValue;
             editorView.GraphicPanel.Render();
         }
 
-        private void VScrollBar1_ValueChanged(object sender, EventArgs e)
+        private void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
-            ShiftY = (sender as VScrollBar).Value;
+            ShiftY = (int)editorView.vScrollBar1.Value;
             if (!(zooming || draggingSelection || dragged || scrolling)) editorView.GraphicPanel.Render();
             if (draggingSelection)
             {
-                                editorView.GraphicPanel.OnMouseMoveEventCreate();
+                editorView.GraphicPanel.OnMouseMoveEventCreate();
             }
 
         }
 
-        private void HScrollBar1_ValueChanged(object sender, EventArgs e)
+        private void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
-            ShiftX = editorView.hScrollBar1.Value;
-            if (!(zooming || draggingSelection || dragged || scrolling)) editorView.GraphicPanel.Render();
+            ShiftX = (int)editorView.hScrollBar1.Value;
+			if (!(zooming || draggingSelection || dragged || scrolling)) editorView.GraphicPanel.Render();
             if (draggingSelection)
             {
-                                editorView.GraphicPanel.OnMouseMoveEventCreate();
+                editorView.GraphicPanel.OnMouseMoveEventCreate();
             }
 
         }
@@ -6439,72 +6437,13 @@ Error: {ex.Message}");
 
         public void PreLoadSceneButton_Click(object sender, RoutedEventArgs e)
         {
-            if (System.Windows.MessageBox.Show(this, "It is cautioned that you save now, as there is NO WAY TO END THIS PROCESS ONCE IT STARTS and you may be forced to force the program to quit! Are you sure you want to continue?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
-            {
-                isPreRending = true;
-                PreLoadBox preLoadForm = new PreLoadBox(this)
-                {
-                    TopLevel = false
-                };
-                editorView.GraphicPanel.Controls.Add(preLoadForm);
-                preLoadForm.Show();
-                ToggleEditorButtons(false);
-
-                int ScrollAmount = 100;
-                if (mySettings.preRenderTURBOMode)
-                {
-                    ScrollAmount = 500;
-                }
-
-                editorView.hScrollBar1.Value = 0;
-                editorView.vScrollBar1.Value = 0;
-                int ScreenMaxH = (int)(editorView.hScrollBar1.Maximum - editorView.hScrollBar1.LargeChange);
-                int ScreenMaxV = (int)(editorView.vScrollBar1.Maximum - editorView.vScrollBar1.LargeChange);
-
-                for (int y = 0; y < ScreenMaxV;)
-                {
-                    for (int x = 0; x < ScreenMaxH;)
-                    {
-                        editorView.hScrollBar1.Value = x;
-                        int x_test = x + ScrollAmount;
-                        if (x_test >= ScreenMaxH)
-                        {
-                            x = x + x_test - ScreenMaxH;
-                        }
-                        else
-                        {
-                            x = x + ScrollAmount;
-                        }
-
-                    }
-                    editorView.vScrollBar1.Value = y;
-                    int y_test = y + ScrollAmount;
-                    if (y_test >= ScreenMaxV)
-                    {
-                        y = y + y_test - ScreenMaxV;
-                    }
-                    else
-                    {
-                        y = y + ScrollAmount;
-                    }
-                }
-                editorView.hScrollBar1.Value = 0;
-                editorView.vScrollBar1.Value = 0;
-
-                // get the form reference back and close it
-                isPreRending = false;
-                preLoadForm.Close();
-                ToggleEditorButtons(true);
-
-                // Play a sound to tell the user we are finished
-                System.IO.Stream str = Properties.Resources.ScoreTotal;
-                System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
-                snd.Play();
-            }
+			//Disabled By Checking for Result OK
+			entities.PreLoadDraw(editorView.GraphicPanel);
         }
 
         private void DeveloperTerminalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
+			DevController.Owner = Window.GetWindow(this);
 			DevController.Show();
         }
 

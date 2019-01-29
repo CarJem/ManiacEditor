@@ -364,7 +364,19 @@ namespace ManiacEditor
             }
         }
 
-        public void DrawPriority(DevicePanel d, int prority)
+		public void PreLoadDraw(DevicePanel d)
+		{
+			EditorInstance.isPreRending = true;
+			if (FilterRefreshNeeded)
+				UpdateViewFilters();
+			foreach (var entity in entities)
+			{
+				entity.Draw(d, entities, entity);
+			}
+			EditorInstance.isPreRending = false;
+		}
+
+		public void DrawPriority(DevicePanel d, int prority)
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();

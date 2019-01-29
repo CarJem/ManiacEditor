@@ -853,8 +853,12 @@ namespace ManiacEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
-                rendersWithErrors.Add(entity.Object.Name.Name);
+				if (!EditorInstance.isPreRending)
+				{
+					MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
+					rendersWithErrors.Add(entity.Object.Name.Name);
+				}
+
             }
 
 

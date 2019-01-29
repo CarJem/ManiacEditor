@@ -41,6 +41,7 @@
 			this.vScrollBar1.Size = new System.Drawing.Size(17, 150);
 			this.vScrollBar1.SmallChange = 16;
 			this.vScrollBar1.TabIndex = 0;
+			this.vScrollBar1.Visible = false;
 			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
 			// 
 			// hScrollBar1
@@ -76,9 +77,9 @@
 
         }
 
-        #endregion
+		#endregion
 
-        private System.Windows.Forms.VScrollBar vScrollBar1;
+		private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;
     }
 }

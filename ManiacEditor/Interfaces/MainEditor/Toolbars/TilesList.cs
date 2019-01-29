@@ -16,8 +16,10 @@ namespace ManiacEditor
         public GIF TilesImage = null;
 
         private DevicePanel graphicPanel;
+		private ManiacEditor.Interfaces.VScrollBar vScrollBar1;
 
-        const int TILE_SIZE = 16;
+
+		const int TILE_SIZE = 16;
 
         public String SelectedTileNumber;
 
@@ -72,7 +74,11 @@ namespace ManiacEditor
             this.graphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.graphicPanel_MouseWheel);
             this.graphicPanel.Resize += new System.EventHandler(this.graphicPanel_Resize);
             this.panel1.Controls.Add(this.graphicPanel);
-        }
+
+			vScrollBar1 = new Interfaces.VScrollBar();
+			vScrollBar1Host.Child = vScrollBar1;
+			this.vScrollBar1.scroller.ValueChanged += new System.Windows.RoutedPropertyChangedEventHandler<double>(this.vScrollBar1_ValueChanged);
+		}
         private void ResizeGraphicPanel(int width = 0, int height = 0)
         {
             graphicPanel.Width = width;
@@ -108,7 +114,7 @@ namespace ManiacEditor
                 int tiles_per_line = panel1.Width / tile_size / TileScale;
 
                 // Draw a string on the PictureBox.
-                for (int i = (vScrollBar1.Value / tile_size / TileScale) * tiles_per_line; i < ((vScrollBar1.Value + panel1.Height) / tile_size / TileScale) * tiles_per_line + tiles_per_line; ++i)
+                for (int i = ((int)vScrollBar1.scroller.Value / tile_size / TileScale) * tiles_per_line; i < (((int)vScrollBar1.scroller.Value + panel1.Height) / tile_size / TileScale) * tiles_per_line + tiles_per_line; ++i)
                 {
                     if (i < 0x400)
                     {
@@ -135,10 +141,10 @@ namespace ManiacEditor
                 for (int i = 0; i < tiles_per_line; ++i)
                 {
 
-                    graphicPanel.DrawLine(i * tile_size, vScrollBar1.Value / TileScale, i * tile_size, (vScrollBar1.Value + panel1.Height) / TileScale, lineColor);
-                    graphicPanel.DrawLine(i * tile_size + tile_size - BorderSize, vScrollBar1.Value / TileScale, i * tile_size + tile_size - BorderSize, (vScrollBar1.Value + panel1.Height) / TileScale, lineColor);
+                    graphicPanel.DrawLine(i * tile_size, (int)vScrollBar1.scroller.Value / TileScale, i * tile_size, ((int)vScrollBar1.scroller.Value + panel1.Height) / TileScale, lineColor);
+                    graphicPanel.DrawLine(i * tile_size + tile_size - BorderSize, (int)vScrollBar1.scroller.Value / TileScale, i * tile_size + tile_size - BorderSize, ((int)vScrollBar1.scroller.Value + panel1.Height) / TileScale, lineColor);
                 }
-                for (int i = (vScrollBar1.Value / tile_size / TileScale); i < ((vScrollBar1.Value + panel1.Height) / tile_size / TileScale) + 1; ++i)
+                for (int i = ((int)vScrollBar1.scroller.Value / tile_size / TileScale); i < (((int)vScrollBar1.scroller.Value + panel1.Height) / tile_size / TileScale) + 1; ++i)
                 {
                     graphicPanel.DrawLine(0, i * tile_size, tiles_per_line * tile_size, i * tile_size, lineColor);
                     graphicPanel.DrawLine(0, i * tile_size + tile_size - BorderSize, tiles_per_line * tile_size, i * tile_size + tile_size - BorderSize, lineColor);
@@ -157,7 +163,7 @@ namespace ManiacEditor
 
         public Rectangle GetScreen()
         {
-            return new Rectangle(0, vScrollBar1.Value, graphicPanel.DrawWidth, graphicPanel.DrawHeight);
+            return new Rectangle(0, (int)vScrollBar1.scroller.Value, graphicPanel.DrawWidth, graphicPanel.DrawHeight);
         }
 
         public double GetZoom()
@@ -172,25 +178,33 @@ namespace ManiacEditor
 
         private void AdjustControls()
         {
-            int tile_size = (TILE_SIZE + BorderSize * 2);
-            int tiles_per_line = panel1.Width / tile_size / TileScale;
+			try
+			{
+				int tile_size = (TILE_SIZE + BorderSize * 2);
+				int tiles_per_line = panel1.Width / tile_size / TileScale;
 
-            vScrollBar1.Maximum = ((0x400 + tiles_per_line + 1) / tiles_per_line) * tile_size * TileScale;
-            vScrollBar1.LargeChange = Math.Min(panel1.Height, vScrollBar1.Maximum);
-            if (vScrollBar1.LargeChange == vScrollBar1.Maximum)
-                vScrollBar1.Enabled = false;
-            else
-                vScrollBar1.Enabled = true;
-            vScrollBar1.SmallChange = tile_size * TileScale * (panel1.Height / tile_size / TileScale);
-            vScrollBar1.Value = Math.Min(vScrollBar1.Value, vScrollBar1.Maximum - vScrollBar1.LargeChange);
+				vScrollBar1.scroller.Maximum = ((0x400 + tiles_per_line + 1) / tiles_per_line) * tile_size * TileScale - vScrollBar1.scroller.LargeChange;
+				vScrollBar1.scroller.LargeChange = Math.Min(panel1.Height, vScrollBar1.scroller.Maximum);
+				if (vScrollBar1.scroller.LargeChange == vScrollBar1.scroller.Maximum)
+					vScrollBar1.scroller.IsEnabled = false;
+				else
+					vScrollBar1.scroller.IsEnabled = true;
+				vScrollBar1.scroller.SmallChange = tile_size * TileScale * (panel1.Height / tile_size / TileScale);
+				vScrollBar1.scroller.Value = Math.Min(vScrollBar1.scroller.Value, vScrollBar1.scroller.Maximum);
 
-            graphicPanel.DrawWidth = panel1.Width;
-            graphicPanel.DrawHeight = Math.Max(vScrollBar1.Maximum, panel1.Height);
-            while (panel1.Width > graphicPanel.Width)
-                graphicPanel.Width *= 2;
-            while (panel1.Height > graphicPanel.Height)
-                graphicPanel.Height *= 2;
-            graphicPanel.Render();
+				graphicPanel.DrawWidth = panel1.Width;
+				graphicPanel.DrawHeight = (int)Math.Max(vScrollBar1.scroller.Maximum, panel1.Height);
+				while (panel1.Width > graphicPanel.Width)
+					graphicPanel.Width *= 2;
+				while (panel1.Height > graphicPanel.Height)
+					graphicPanel.Height *= 2;
+				graphicPanel.Render();
+			}
+			catch
+			{
+				
+			}
+
         }
 
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
@@ -200,7 +214,7 @@ namespace ManiacEditor
 
         private void graphicPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            vScrollBar1.Value = Math.Max(Math.Min(vScrollBar1.Value - (e.Delta * vScrollBar1.SmallChange / 120), vScrollBar1.Maximum - vScrollBar1.LargeChange), 0);
+            vScrollBar1.scroller.Value = Math.Max(Math.Min(vScrollBar1.scroller.Value - (e.Delta * vScrollBar1.scroller.SmallChange / 120), vScrollBar1.scroller.Maximum), 0);
         }
 
         private void ClickTile(int x, int y, bool rightClick = false, MouseEventArgs e = null)

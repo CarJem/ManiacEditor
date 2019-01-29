@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
 			this.option1CheckBox = new System.Windows.Forms.CheckBox();
 			this.option2CheckBox = new System.Windows.Forms.CheckBox();
 			this.tileOption4 = new System.Windows.Forms.CheckBox();
@@ -43,37 +42,13 @@
 			this.selectedTileLabel = new System.Windows.Forms.Label();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.editTileInTileManiacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tilePanel = new System.Windows.Forms.Panel();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
 			this.contextMenuStrip1.SuspendLayout();
-			this.tabControl1.SuspendLayout();
-			this.tabPage1.SuspendLayout();
-			this.tabPage2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// trackBar1
-			// 
-			this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.trackBar1.BackColor = System.Drawing.SystemColors.Control;
-			this.trackBar1.LargeChange = 1;
-			this.trackBar1.Location = new System.Drawing.Point(0, 0);
-			this.trackBar1.Maximum = 3;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(242, 45);
-			this.trackBar1.TabIndex = 1;
-			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.trackBar1.Value = 1;
-			this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-			this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
 			// 
 			// option1CheckBox
 			// 
@@ -224,70 +199,6 @@
 			this.editTileInTileManiacToolStripMenuItem.Text = "Edit Tile #{0} in Tile Maniac";
 			this.editTileInTileManiacToolStripMenuItem.Click += new System.EventHandler(this.editTileInTileManiacToolStripMenuItem_Click);
 			// 
-			// tabControl1
-			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Location = new System.Drawing.Point(0, 3);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(250, 324);
-			this.tabControl1.TabIndex = 15;
-			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-			// 
-			// tabPage1
-			// 
-			this.tabPage1.BackColor = System.Drawing.Color.White;
-			this.tabPage1.Controls.Add(this.tilePanel);
-			this.tabPage1.Controls.Add(this.trackBar1);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(242, 298);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "Tiles";
-			// 
-			// tilePanel
-			// 
-			this.tilePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.tilePanel.BackColor = System.Drawing.SystemColors.Control;
-			this.tilePanel.Location = new System.Drawing.Point(0, 45);
-			this.tilePanel.Name = "tilePanel";
-			this.tilePanel.Size = new System.Drawing.Size(241, 253);
-			this.tilePanel.TabIndex = 2;
-			// 
-			// tabPage2
-			// 
-			this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-			this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tabPage2.Controls.Add(this.retroEDTileList1);
-			this.tabPage2.ForeColor = System.Drawing.SystemColors.Control;
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(242, 311);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "Chunks";
-			// 
-			// retroEDTileList1
-			// 
-			this.retroEDTileList1.BackColor = System.Drawing.SystemColors.Window;
-			this.retroEDTileList1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.retroEDTileList1.ImageHeight = 128;
-			this.retroEDTileList1.ImageSize = 128;
-			this.retroEDTileList1.ImageWidth = 128;
-			this.retroEDTileList1.Location = new System.Drawing.Point(3, 3);
-			this.retroEDTileList1.Name = "retroEDTileList1";
-			this.retroEDTileList1.ScrollValue = 0;
-			this.retroEDTileList1.SelectedIndex = -1;
-			this.retroEDTileList1.Size = new System.Drawing.Size(234, 303);
-			this.retroEDTileList1.TabIndex = 1;
-			// 
 			// groupBox1
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -313,30 +224,37 @@
 			this.panel1.Size = new System.Drawing.Size(96, 19);
 			this.panel1.TabIndex = 16;
 			// 
+			// elementHost1
+			// 
+			this.elementHost1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.elementHost1.Location = new System.Drawing.Point(0, 0);
+			this.elementHost1.Name = "elementHost1";
+			this.elementHost1.Size = new System.Drawing.Size(250, 329);
+			this.elementHost1.TabIndex = 17;
+			this.elementHost1.Text = "elementHost1";
+			this.elementHost1.Child = null;
+			// 
 			// TilesToolbar
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.option6CheckBox);
 			this.Controls.Add(this.option5CheckBox);
 			this.Controls.Add(this.option4CheckBox);
 			this.Controls.Add(this.option3CheckBox);
 			this.Controls.Add(this.option2CheckBox);
 			this.Controls.Add(this.option1CheckBox);
+			this.Controls.Add(this.elementHost1);
 			this.MinimumSize = new System.Drawing.Size(250, 500);
 			this.Name = "TilesToolbar";
 			this.Size = new System.Drawing.Size(250, 525);
 			this.Load += new System.EventHandler(this.TilesToolbar_Load);
 			this.Resize += new System.EventHandler(this.TilesToolbar_Resize);
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
 			this.contextMenuStrip1.ResumeLayout(false);
-			this.tabControl1.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
-			this.tabPage2.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.panel1.ResumeLayout(false);
@@ -347,8 +265,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.CheckBox option1CheckBox;
+		private System.Windows.Forms.CheckBox option1CheckBox;
         private System.Windows.Forms.CheckBox option2CheckBox;
         private System.Windows.Forms.CheckBox option3CheckBox;
         private System.Windows.Forms.CheckBox option4CheckBox;
@@ -361,12 +278,8 @@
         public System.Windows.Forms.Label selectedTileLabel;
         public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         public System.Windows.Forms.ToolStripMenuItem editTileInTileManiacToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        public System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel1;
-        public System.Windows.Forms.Panel tilePanel;
-		public Interfaces.RetroEDTileList retroEDTileList1;
+		private System.Windows.Forms.Integration.ElementHost elementHost1;
 	}
 }

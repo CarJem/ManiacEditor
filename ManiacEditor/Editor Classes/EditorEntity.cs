@@ -36,6 +36,7 @@ namespace ManiacEditor
         public bool Selected;
 
         public bool rotateImageLegacyMode = false;
+		public bool PreLoadDrawing = false;
 
         //public static EditorEntity Instance;
         public EditorAnimations EditorAnimations;
@@ -386,7 +387,7 @@ namespace ManiacEditor
             }
             else if (entityRenderList.Contains(name) && !skipRenderforx86)
             {
-                if (!Properties.Settings.Default.NeverLoadEntityTextures )
+                if (!Properties.Settings.Default.NeverLoadEntityTextures)
                 {
                     if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
                     {
@@ -397,7 +398,7 @@ namespace ManiacEditor
                     }
 
 
-                }
+				}
 
             }
             else {
@@ -449,7 +450,7 @@ namespace ManiacEditor
 
 
 
-            if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes)
+            if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes && !EditorInstance.isPreRending)
             {
                 d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
                 d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
@@ -473,10 +474,7 @@ namespace ManiacEditor
 
 
         }
-
-
-
-        public EditorEntity_ini.EditorAnimation.EditorFrame GetFrameFromAttribute(EditorEntity_ini.EditorAnimation anim, AttributeValue attribute, string key = "frameID")
+		public EditorEntity_ini.EditorAnimation.EditorFrame GetFrameFromAttribute(EditorEntity_ini.EditorAnimation anim, AttributeValue attribute, string key = "frameID")
         {
             int frameID = -1;
             switch (attribute.Type)
@@ -604,15 +602,23 @@ namespace ManiacEditor
 
             bool isObjectVisibile = false;
 
-            EntityRenderer renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
-            if (renderer != null)
-            {
-                isObjectVisibile = renderer.isObjectOnScreen(d, entity, null, x, y, 0);
-            }
-            else
-            {
-                isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
-            }
+			if (!EditorInstance.isPreRending)
+			{
+				EntityRenderer renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+				if (renderer != null)
+				{
+					isObjectVisibile = renderer.isObjectOnScreen(d, entity, null, x, y, 0);
+				}
+				else
+				{
+					isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
+				}
+			}
+			else
+			{
+				isObjectVisibile = true;
+			}
+
 
             return isObjectVisibile;
 

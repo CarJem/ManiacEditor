@@ -252,13 +252,14 @@
 			// otherFilterCheck
 			// 
 			this.otherFilterCheck.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.otherFilterCheck.AutoSize = true;
 			this.otherFilterCheck.Checked = global::ManiacEditor.Properties.Settings.Default.showOtherEntities;
 			this.otherFilterCheck.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.otherFilterCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showOtherEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
 			this.otherFilterCheck.Location = new System.Drawing.Point(131, 45);
 			this.otherFilterCheck.Margin = new System.Windows.Forms.Padding(5);
 			this.otherFilterCheck.Name = "otherFilterCheck";
-			this.otherFilterCheck.Size = new System.Drawing.Size(108, 18);
+			this.otherFilterCheck.Size = new System.Drawing.Size(108, 17);
 			this.otherFilterCheck.TabIndex = 33;
 			this.otherFilterCheck.Text = "Others ( 0b1000 )";
 			this.otherFilterCheck.UseVisualStyleBackColor = true;
@@ -267,13 +268,14 @@
 			// bothFilterCheck
 			// 
 			this.bothFilterCheck.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.bothFilterCheck.AutoSize = true;
 			this.bothFilterCheck.Checked = global::ManiacEditor.Properties.Settings.Default.showBothEntities;
 			this.bothFilterCheck.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.bothFilterCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showBothEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
 			this.bothFilterCheck.Location = new System.Drawing.Point(8, 45);
 			this.bothFilterCheck.Margin = new System.Windows.Forms.Padding(5);
 			this.bothFilterCheck.Name = "bothFilterCheck";
-			this.bothFilterCheck.Size = new System.Drawing.Size(120, 18);
+			this.bothFilterCheck.Size = new System.Drawing.Size(118, 17);
 			this.bothFilterCheck.TabIndex = 32;
 			this.bothFilterCheck.Text = "Common ( 0b0001 )";
 			this.bothFilterCheck.UseVisualStyleBackColor = true;
@@ -282,13 +284,14 @@
 			// encoreFilterCheck
 			// 
 			this.encoreFilterCheck.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.encoreFilterCheck.AutoSize = true;
 			this.encoreFilterCheck.Checked = global::ManiacEditor.Properties.Settings.Default.showEncoreEntities;
 			this.encoreFilterCheck.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.encoreFilterCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showEncoreEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
 			this.encoreFilterCheck.Location = new System.Drawing.Point(131, 21);
 			this.encoreFilterCheck.Margin = new System.Windows.Forms.Padding(5);
 			this.encoreFilterCheck.Name = "encoreFilterCheck";
-			this.encoreFilterCheck.Size = new System.Drawing.Size(114, 18);
+			this.encoreFilterCheck.Size = new System.Drawing.Size(111, 17);
 			this.encoreFilterCheck.TabIndex = 31;
 			this.encoreFilterCheck.Text = "Encore ( 0b0100 )";
 			this.encoreFilterCheck.UseVisualStyleBackColor = true;
@@ -297,13 +300,14 @@
 			// maniaFilterCheck
 			// 
 			this.maniaFilterCheck.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.maniaFilterCheck.AutoSize = true;
 			this.maniaFilterCheck.Checked = global::ManiacEditor.Properties.Settings.Default.showManiaEntities;
 			this.maniaFilterCheck.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.maniaFilterCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ManiacEditor.Properties.Settings.Default, "showManiaEntities", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
 			this.maniaFilterCheck.Location = new System.Drawing.Point(8, 21);
 			this.maniaFilterCheck.Margin = new System.Windows.Forms.Padding(5);
 			this.maniaFilterCheck.Name = "maniaFilterCheck";
-			this.maniaFilterCheck.Size = new System.Drawing.Size(108, 18);
+			this.maniaFilterCheck.Size = new System.Drawing.Size(106, 17);
 			this.maniaFilterCheck.TabIndex = 30;
 			this.maniaFilterCheck.Text = "Mania ( 0b0010 )";
 			this.maniaFilterCheck.UseVisualStyleBackColor = true;
@@ -337,6 +341,7 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

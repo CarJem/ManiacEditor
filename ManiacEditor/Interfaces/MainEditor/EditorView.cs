@@ -14,12 +14,24 @@ namespace ManiacEditor.Interfaces
     {
         public Editor EditorInstance;
         public ManiacEditor.DevicePanel GraphicPanel;
-        public EditorView(Editor instance)
+
+		public HScrollBar hScrollBar;
+		public VScrollBar vScrollBar;
+
+		public System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar.scroller; }
+		public System.Windows.Controls.Primitives.ScrollBar hScrollBar1 { get => hScrollBar.scroller; }
+
+		public EditorView(Editor instance)
         {
             EditorInstance = instance;
             InitializeComponent();
             SetupGraphicsPanel();
-        }
+
+			hScrollBar = new HScrollBar();
+			vScrollBar = new VScrollBar();
+			hScrollBar1Host.Child = hScrollBar;
+			vScrollBar1Host.Child = vScrollBar;
+		}
 
         public void SetupGraphicsPanel()
         {
@@ -62,5 +74,10 @@ namespace ManiacEditor.Interfaces
                 el.DisposeTextures();
             }
         }
-    }
+
+		private void EditorView_Load(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

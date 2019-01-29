@@ -28,19 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.vScrollBar1Host = new System.Windows.Forms.Integration.ElementHost();
+			this.panel1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // vScrollBar1
             // 
-            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar1.Location = new System.Drawing.Point(126, 0);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(20, 146);
-            this.vScrollBar1.TabIndex = 0;
-            this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
+            this.vScrollBar1Host.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBar1Host.Location = new System.Drawing.Point(126, 0);
+            this.vScrollBar1Host.Name = "vScrollBar1";
+            this.vScrollBar1Host.Size = new System.Drawing.Size(20, 146);
+            this.vScrollBar1Host.TabIndex = 0;
             // 
             // panel1
             // 
@@ -57,17 +56,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.vScrollBar1);
+            this.Controls.Add(this.vScrollBar1Host);
             this.Name = "TilesList";
             this.Size = new System.Drawing.Size(146, 146);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.Integration.ElementHost vScrollBar1Host;
         private System.Windows.Forms.Panel panel1;
     }
 }

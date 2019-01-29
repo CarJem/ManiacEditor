@@ -664,7 +664,10 @@
             <Separator x:Name="seperator4" Visibility="Collapsed"/>
             <Label x:Name="hVScrollBarXYLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator6" Visibility="Collapsed"/>
+            <Label x:Name="hScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator8" Visibility="Collapsed"/>
+            <Label x:Name="vScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
+            <Separator x:Name="seperator9" Visibility="Collapsed"/>
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <wpfTool:SplitButton Click="MoreSettingsButton_ButtonClick">
                     <wpfTool:SplitButton.Content>

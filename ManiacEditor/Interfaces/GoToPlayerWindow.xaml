@@ -15,7 +15,7 @@
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ComboBox x:Name="ComboBox1" Grid.Row="1" Grid.Column="0" Margin="5,5,5,10"></ComboBox>
+        <ComboBox Foreground="{DynamicResource NormalText}" Template="{DynamicResource ComboBoxControlTemplate1}" x:Name="ComboBox1" Grid.Row="1" Grid.Column="0" Margin="5,5,5,10"></ComboBox>
         <Button Content="OK!" Grid.Row="1" Grid.Column="1" Margin="0,5,5,10" Click="button1_Click"></Button>
         <Label Content="Pick a Player Object (Sorted by Slot ID)" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
     </Grid>
@@ -25,6 +25,7 @@
                 <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
                                               DarkSource="/ManiacEditor;component/Resources/Themes/DarkColors.xaml" />
                 <ResourceDictionary Source="/ManiacEditor;component/Resources/Themes/MyBorderStyle.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ManiacWPFStyleResources.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/ContextMenu.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Controls/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -40,13 +41,6 @@
             </Style>
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
-            </Style>
-            <Style TargetType="{x:Type ComboBox}">
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Background" Value="{DynamicResource ToolbarBackground}" />
-                    </Trigger>
-                </Style.Triggers>
             </Style>
             <Style x:Key="DisabledToggleButton" TargetType="{x:Type ToggleButton}">
                 <Style.Triggers>
