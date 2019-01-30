@@ -30,11 +30,16 @@ namespace ManiacEditor
 
         public Editor EditorInstance;
 
+		private object nuller = null;
+
         private List<RSDKv5.SceneEntity> _entities;
         private List<int> _selectedEntitySlots = new List<int>();
         private BindingSource _bindingSceneObjectsSource = new BindingSource();
+		private Timer timer;
 
-        private RSDKv5.SceneEntity currentEntity;
+		public LocalPropertyGridObject SelectedObj { get; set; }
+
+		private RSDKv5.SceneEntity currentEntity;
 
         public List<RSDKv5.SceneEntity> Entities
         {
@@ -70,19 +75,28 @@ namespace ManiacEditor
             {
                 entityProperties2 = new WPFGrid();
                 entityProperties2.PropertyValueChanged += new Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventHandler(entityProperties2_PropertyValueChanged);
-                elementHost1.Child = entityProperties2;
+				elementHost1.Child = entityProperties2;
 				entityProperties2.IsCategorized = true;
-
+				entityProperties2.ShowSummary = false;
+				entityProperties2.ShowTitle = false;
+				entityProperties2.ShowSearchBox = false;
+				entityProperties2.ShowSortOptions = false;
+				entityProperties2.SelectedObject = SelectedObj;
 			}
             else
             {
                 elementHost1.Enabled = false;
                 elementHost1.Visible = false;
-            }
+				entityProperties.SelectedObject = SelectedObj;
+			}
+
+			timer = new Timer();
+			timer.Interval = 5;
+			timer.Tick += Timer_Tick;
+			timer.Start();
 
 
-
-            RefreshObjects(sceneObjects);
+			RefreshObjects(sceneObjects);
 
             defaultFilter.Items.Add("Mania (2)");
             defaultFilter.Items.Add("Encore (4)");
@@ -91,10 +105,21 @@ namespace ManiacEditor
             defaultFilter.Items.Add("Other (0)");
 
             UpdateFilterNames();
+		}
 
-        }
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			if (NeedRefresh && entityProperties2 != null)
+			{
+				if (SelectedObj == null) {
+					entityProperties2.PropertyDefinitions.Clear();
+				}
+				PropertiesRefresh();
 
-        public void UpdateFilterNames()
+			}
+		}
+
+		public void UpdateFilterNames()
         {
             if (Properties.Settings.Default.useBitOperators)
             {
@@ -199,7 +224,7 @@ namespace ManiacEditor
         }
 
         private void AddProperty(LocalProperties properties, int category_index, string category, string name, string value_type, object value, bool read_only=false) {
-			properties.Add(String.Format("{0}.{1}", category, name), new LocalProperty(name, value_type, category_index, category, name, true, read_only, value, ""));
+			properties.Add(String.Format("{0},{1}", category, name), new LocalProperty(name, value_type, category_index, category, name, true, read_only, value, ""));
 			//properties.Add(String.Format("{0}.{1}", category, name), new LocalProperty(name, value_type, ""));
 
 		}
@@ -236,8 +261,8 @@ namespace ManiacEditor
 
         private void UpdateEntitiesProperties(List<RSDKv5.SceneEntity> selectedEntities)
         {
-            //TODO: Allow to change multiple entities
-            /*bool first_entity = true;
+			//TODO: Allow to change multiple entities
+			/*bool first_entity = true;
             RSDKv5.SceneObject commonObject = null;
 
             foreach (var entity in selectedEntities)
@@ -249,15 +274,14 @@ namespace ManiacEditor
             if (commonObject != currentObject)
             {
                 currentObject = commonObject;*/
-
             multipleObjects = false;
             bool isCommonObjects = false;
             
             if (selectedEntities.Count != 1)
             {
-                if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = null;
-                else entityProperties.SelectedObject = null;
-                currentEntity = null;
+				if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = null;
+				else entityProperties.SelectedObject = null;
+				currentEntity = null;
                 entitiesList.ResetText();
                 _selectedEntitySlots.Clear();
                 if (selectedEntities.Count > 1)
@@ -296,10 +320,10 @@ namespace ManiacEditor
                     return;
                 }
 
-            }
+			}
 
 
-                RSDKv5.SceneEntity entity = selectedEntities[0];
+				RSDKv5.SceneEntity entity = selectedEntities[0];
 
                 if (entity == currentEntity) return;
                 currentEntity = entity;
@@ -370,75 +394,74 @@ namespace ManiacEditor
                     }
                     --category_index;
                 }
-                if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = new LocalPropertyGridObject(objProperties);
-                else entityProperties.SelectedObject = new LocalPropertyGridObject(objProperties);
+			if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = new LocalPropertyGridObject(objProperties);
+			else entityProperties.SelectedObject = new LocalPropertyGridObject(objProperties);
 
 
-        }
+		}
 
-        public void UpdateCurrentEntityProperites()
-        {
-            object selectedObject = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject : entityProperties.SelectedObject);
-            if (selectedObject is LocalPropertyGridObject obj)
-            {
-                obj.setValue("position.x", currentEntity.Position.X.High + ((float)currentEntity.Position.X.Low / 0x10000));
-                obj.setValue("position.y", currentEntity.Position.Y.High + ((float)currentEntity.Position.Y.Low / 0x10000));
-                foreach (var attribute in currentEntity.Object.Attributes)
-                {
-                    string attribute_name = attribute.Name.ToString();
-                    var attribute_value = currentEntity.GetAttribute(attribute_name);
-                    switch (attribute.Type)
-                    {
-                        case RSDKv5.AttributeTypes.UINT8:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "uint8"), attribute_value.ValueUInt8);
-                            break;
-                        case RSDKv5.AttributeTypes.UINT16:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "uint16"), attribute_value.ValueUInt16);
-                            break;
-                        case RSDKv5.AttributeTypes.UINT32:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "uint32"), attribute_value.ValueUInt32);
-                            break;
-                        case RSDKv5.AttributeTypes.INT8:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "int8"), attribute_value.ValueInt8);
-                            break;
-                        case RSDKv5.AttributeTypes.INT16:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "int16"), attribute_value.ValueInt16);
-                            break;
-                        case RSDKv5.AttributeTypes.INT32:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "int32"), attribute_value.ValueInt32);
-                            break;
-                        case RSDKv5.AttributeTypes.VAR:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "var"), attribute_value.ValueVar);
-                            break;
-                        case RSDKv5.AttributeTypes.BOOL:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "bool"), attribute_value.ValueBool);
-                            break;
-                        case RSDKv5.AttributeTypes.STRING:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "string"), attribute_value.ValueString);
-                            break;
-                        case RSDKv5.AttributeTypes.POSITION:
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "x"), attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "y"), attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
-                            break;
-                        case RSDKv5.AttributeTypes.COLOR:
-                            var color = attribute_value.ValueColor;
-                            obj.setValue(String.Format("{0}.{1}", attribute_name, "color"), System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
-                            break;
-                    }
-                }
-                NeedRefresh = true;
-            }
-        }
+		public void UpdateCurrentEntityProperites()
+		{
+			LocalPropertyGridObject obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject : entityProperties.SelectedObject) as LocalPropertyGridObject;
+			if (obj == null) return;
+
+			obj.setValue("position,x", currentEntity.Position.X.High + ((float)currentEntity.Position.X.Low / 0x10000));
+			obj.setValue("position,y", currentEntity.Position.Y.High + ((float)currentEntity.Position.Y.Low / 0x10000));
+			foreach (var attribute in currentEntity.Object.Attributes)
+			{
+				string attribute_name = attribute.Name.ToString();
+				var attribute_value = currentEntity.GetAttribute(attribute_name);
+				switch (attribute.Type)
+				{
+					case RSDKv5.AttributeTypes.UINT8:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "uint8"), attribute_value.ValueUInt8);
+						break;
+					case RSDKv5.AttributeTypes.UINT16:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "uint16"), attribute_value.ValueUInt16);
+						break;
+					case RSDKv5.AttributeTypes.UINT32:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "uint32"), attribute_value.ValueUInt32);
+						break;
+					case RSDKv5.AttributeTypes.INT8:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "int8"), attribute_value.ValueInt8);
+						break;
+					case RSDKv5.AttributeTypes.INT16:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "int16"), attribute_value.ValueInt16);
+						break;
+					case RSDKv5.AttributeTypes.INT32:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "int32"), attribute_value.ValueInt32);
+						break;
+					case RSDKv5.AttributeTypes.VAR:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "var"), attribute_value.ValueVar);
+						break;
+					case RSDKv5.AttributeTypes.BOOL:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "bool"), attribute_value.ValueBool);
+						break;
+					case RSDKv5.AttributeTypes.STRING:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "string"), attribute_value.ValueString);
+						break;
+					case RSDKv5.AttributeTypes.POSITION:
+						obj.setValue(String.Format("{0},{1}", attribute_name, "x"), attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
+						obj.setValue(String.Format("{0},{1}", attribute_name, "y"), attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
+						break;
+					case RSDKv5.AttributeTypes.COLOR:
+						var color = attribute_value.ValueColor;
+						obj.setValue(String.Format("{0},{1}", attribute_name, "color"), System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+						break;
+				}
+			}
+			NeedRefresh = true;
+		}
 
         public void PropertiesRefresh()
         {
-            if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.Update();
-            else entityProperties.Refresh();
-            NeedRefresh = false;
-        }
+			if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.Update();
+			else entityProperties.Refresh();
+			NeedRefresh = false;
+		}
         private void setEntitiyProperty(RSDKv5.SceneEntity entity, string tag, object value, object oldValue)
         {
-            string[] parts = tag.Split('.');
+            string[] parts = tag.Split(',');
             string category = parts[0];
             string name = parts[1];
             if (category == "position")
@@ -446,9 +469,9 @@ namespace ManiacEditor
                 float fvalue = (float)value;
                 if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
                 {
-                    // Invalid
-                    var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
-                    obj.setValue(tag, oldValue);
+					// Invalid
+					var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
+					obj.setValue(tag, oldValue);
                     return;
                 }
                 var pos = entity.Position;
@@ -568,9 +591,9 @@ namespace ManiacEditor
                         float fvalue = (float)value;
                         if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
                         {
-                            // Invalid
-                            var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
-                            obj.setValue(tag, oldValue);
+							// Invalid
+							var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
+							obj.setValue(tag, oldValue);
                             return;
                         }
                         var pos = attribute.ValuePosition;
@@ -594,30 +617,30 @@ namespace ManiacEditor
                         break;
                 }
             }
-        }
+		}
 
 
         private void entityProperties_PropertyValueChanged(object s, System.Windows.Forms.PropertyValueChangedEventArgs e)
         {
-            if (!Settings.mySettings.ExperimentalPropertyGridView)
-            {
-                string tag = e.ChangedItem.PropertyDescriptor.Name;
-                AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.ChangedItem.Value, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
-                setEntitiyProperty(currentEntity, tag, e.ChangedItem.Value, e.OldValue);
-            }
+			if (!Settings.mySettings.ExperimentalPropertyGridView)
+			{
+				string tag = e.ChangedItem.PropertyDescriptor.Name;
+				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.ChangedItem.Value, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
+				setEntitiyProperty(currentEntity, tag, e.ChangedItem.Value, e.OldValue);
+			}
+		}
 
-            
-        }
+
 
         private void entityProperties2_PropertyValueChanged(object s, Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventArgs e)
         {
-            if (Settings.mySettings.ExperimentalPropertyGridView)
-            {
-                string tag = e.OriginalSource.ToString();
-                AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
-                setEntitiyProperty(currentEntity, tag, e.NewValue, e.OldValue);
-            }
-        }
+			if (Settings.mySettings.ExperimentalPropertyGridView)
+			{
+				string tag = e.OriginalSource.ToString();
+				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
+				setEntitiyProperty(currentEntity, tag, e.NewValue, e.OldValue);
+			}
+		}
 
         private void entitiesList_DropDown(object sender, EventArgs e)
         {
@@ -752,8 +775,8 @@ namespace ManiacEditor
 
         private void entityProperties_MouseHover(object sender, EventArgs e)
         {
-            var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
-            if (obj != null) MessageBox.Show(obj.ToString());
+			var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
+			if (obj != null) MessageBox.Show(obj.ToString());
         }
 
         private void entityProperties_Click(object sender, EventArgs e)
@@ -780,5 +803,15 @@ namespace ManiacEditor
                 EditorInstance.GoToPosition(x, y);
             }
         }
-    }
+
+		private void EntitiesToolbar_Leave(object sender, EventArgs e)
+		{
+
+		}
+
+		private void EntitiesToolbar_Enter(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

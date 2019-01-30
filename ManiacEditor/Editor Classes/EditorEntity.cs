@@ -30,6 +30,8 @@ namespace ManiacEditor
         protected const int NAME_BOX_WIDTH  = 20;
         protected const int NAME_BOX_HEIGHT = 20;
 
+		private bool is64Bit = false;
+
         protected const int NAME_BOX_HALF_WIDTH  = NAME_BOX_WIDTH  / 2;
         protected const int NAME_BOX_HALF_HEIGHT = NAME_BOX_HEIGHT / 2;
 
@@ -92,8 +94,11 @@ namespace ManiacEditor
             lastFrametime = DateTime.Now;
             EditorAnimations = new EditorAnimations(instance);
             AttributeValidater = new AttributeValidater();
+			is64Bit = Environment.Is64BitProcess;
 
-            if (EditorInstance.EditorEntity_ini.EntityRenderers.Count == 0)
+
+
+			if (EditorInstance.EditorEntity_ini.EntityRenderers.Count == 0)
             {
                 var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
                 foreach (var type in types)
@@ -363,7 +368,7 @@ namespace ManiacEditor
             int Transparency = (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
             if (!Properties.Settings.Default.NeverLoadEntityTextures && !EditorInstance.isExportingImage)
             {
-                if (!Environment.Is64BitProcess && entity.Object.Name.Name == "SpecialRing") skipRenderforx86 = true;
+                if (!is64Bit && entity.Object.Name.Name == "SpecialRing") skipRenderforx86 = true;
                 else EditorInstance.EditorEntity_ini.LoadNextAnimation(this);
             }
             int x = entity.Position.X.High;

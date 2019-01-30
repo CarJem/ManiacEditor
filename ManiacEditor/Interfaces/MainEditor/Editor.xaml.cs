@@ -40,7 +40,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Xceed.Wpf;
+using Xceed.Wpf.Toolkit;
 using ManiacEditor;
 using Point = System.Drawing.Point;
 using DragEventArgs = System.Windows.DragEventArgs;
@@ -49,7 +49,6 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Path = System.IO.Path;
 using System.Windows.Controls.Primitives;
 using Rectangle = System.Drawing.Rectangle;
-using Xceed.Wpf.Toolkit;
 using SystemColors = System.Drawing.SystemColors;
 using MenuItem = System.Windows.Controls.MenuItem;
 using Control = System.Windows.Forms.Control;
@@ -1239,8 +1238,12 @@ namespace ManiacEditor
             UpdateTooltipForStacks(RedoButton, redo);
 			if (EditorControls != null)
 			{
-				EditorControls.UpdateMenuItems();
-				EditorControls.UpdateTooltips();
+				if (this.IsVisible)
+				{
+					EditorControls.UpdateMenuItems();
+					EditorControls.UpdateTooltips();
+				}
+
 			}
 
 		}

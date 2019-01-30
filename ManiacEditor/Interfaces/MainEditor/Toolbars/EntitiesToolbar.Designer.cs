@@ -336,6 +336,8 @@
 			this.Controls.Add(this.gbSpawn);
 			this.Name = "EntitiesToolbar";
 			this.Size = new System.Drawing.Size(256, 487);
+			this.Enter += new System.EventHandler(this.EntitiesToolbar_Enter);
+			this.Leave += new System.EventHandler(this.EntitiesToolbar_Leave);
 			this.gbSpawn.ResumeLayout(false);
 			this.gbEditor.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
         Title="Layer Manager" Loaded="LayerManager_Load" Height="510" Width="1015" ResizeMode="NoResize" Background="{DynamicResource NormalBackground}" Foreground="{DynamicResource NormalText}" WindowStartupLocation="CenterScreen">

@@ -31,8 +31,8 @@ namespace ManiacEditor
         public EditorControls(Editor instance)
         {
             Editor = instance;
-			UpdateTooltips();
-			UpdateMenuItems();
+			//UpdateTooltips();
+			//UpdateMenuItems();
 		}
 
 
@@ -298,6 +298,8 @@ namespace ManiacEditor
 			List<string> keyBindModList = new List<string>();
 
 			if (!Extensions.KeyBindsSettingExists(keyRefrence)) return "N/A";
+
+			if (Settings.myKeyBinds == null) return "N/A";
 
 			var keybindDict = Settings.myKeyBinds[keyRefrence] as StringCollection;
 			if (keybindDict != null)

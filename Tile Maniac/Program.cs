@@ -16,7 +16,6 @@ namespace TileManiac
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Mainform_old());
             Application.Run(new Mainform());
         }
     }

@@ -173,7 +173,7 @@ namespace ManiacEditor
             /// <returns></returns>
             public override object GetValue(object component)
             {
-                return _propertyGridObject._properties[Name].Value;
+				return _propertyGridObject._properties[Name].Value;
             }
             /// <summary>
             /// reset the property value

@@ -86,10 +86,10 @@ namespace ManiacEditor.Interfaces
 
 		public SceneSelect(GameConfig config = null, Editor instance = null, bool parented = false)
 		{
-			Settings.mySettings.ModFolders.Remove(null);
-			Settings.mySettings.DataDirectories.Remove(null);
-			Settings.mySettings.SavedPlaces.Remove(null);
-			Settings.mySettings.ModFolderCustomNames.Remove(null);
+			if (Settings.mySettings.ModFolders != null) Settings.mySettings.ModFolders.Remove(null);
+			if (Settings.mySettings.DataDirectories != null)  Settings.mySettings.DataDirectories.Remove(null);
+			if (Settings.mySettings.SavedPlaces != null)  Settings.mySettings.SavedPlaces.Remove(null);
+			if (Settings.mySettings.ModFolderCustomNames != null) Settings.mySettings.ModFolderCustomNames.Remove(null);
 
 			EditorInstance = instance;
 			InitializeComponent();

@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ManiacEditor"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
@@ -57,7 +56,7 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Column="1" Header="Property Grid" Height="330">
-            <xctk:PropertyGrid x:Name="propertyGrid" Margin="4"></xctk:PropertyGrid>
+            <wpfTool:PropertyGrid x:Name="propertyGrid" Margin="4"></wpfTool:PropertyGrid>
         </GroupBox>
 
     </Grid>

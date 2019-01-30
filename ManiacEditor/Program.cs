@@ -89,7 +89,7 @@ namespace ManiacEditor
             {
                 using (var stream = GetObjectsIniResource())
                 {
-                    RSDKv5.Objects.InitObjects(stream);
+                   RSDKv5.Objects.InitObjects(stream);
                     allowedToLoad = true;
                 }
             }
