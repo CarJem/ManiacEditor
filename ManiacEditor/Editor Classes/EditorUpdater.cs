@@ -18,7 +18,9 @@ namespace ManiacEditor
         public string AppveyorVersion = "";
         public string AppveyorBuildMessage = "";
         public bool badBuild = false;
-        public bool unkownError = false;
+		public bool _404StyleError = false;
+		public bool DeveloperError = false;
+		public bool unkownError = false;
         public bool runningBuild = false;
         public int condition = 0;
         public void CheckforUpdates(bool manuallyTriggered = false, bool dontShowUpdaterBox = false) {
@@ -26,57 +28,71 @@ namespace ManiacEditor
             int buildNumber = -1;
             string versionNum = GetVersion();
             string versionNum2 = "0.0.0.0";
-            //Debug.Print(versionNum);
-            using (WebClient client = new WebClient())
+			//Debug.Print(versionNum);
+			if (versionNum.Contains("DEV"))
+			{
+				DeveloperError = true;
+				condition = 2;
+				AppveyorBuildMessage = "Your using the source. No need to update!";
+				return;
+			}
+
+			using (WebClient client = new WebClient())
             {
                 try
                 {
-                    string appveyorDetails = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
-                    //Debug.Print(appveyorDetails);
-                    if (appveyorDetails.Contains("buildNumber"))
-                    {
-                        string regex = "[0-9]*";
-                        string stuff = Regex.Match(appveyorDetails, "\"buildNumber\":" + regex).ToString();
-                        string buildNumberString = new String(stuff.Where(Char.IsDigit).ToArray());
-                        buildNumber = Int32.Parse(buildNumberString);
-                        //Debug.Print(buildNumber.ToString());
+					string appveyorDetails = client.DownloadString("https://ci.appveyor.com/api/projects/CarJem/maniaceditor-generationsedition");
+					//Debug.Print(appveyorDetails);
 
-                        string regex3 = "\"message\":.*,\"branch\"";
-                        string stuff3 = Regex.Match(appveyorDetails, regex3).ToString();
-                        stuff3 = stuff3.Replace("\"message\":", "");
-                        stuff3 = stuff3.Replace(",\"branch\"", "");
-                        AppveyorBuildMessage = stuff3;
-                        //Debug.Print(stuff3.ToString());
+					if (appveyorDetails.Contains("buildNumber"))
+					{
+						string regex = "[0-9]*";
+						string stuff = Regex.Match(appveyorDetails, "\"buildNumber\":" + regex).ToString();
+						string buildNumberString = new String(stuff.Where(Char.IsDigit).ToArray());
+						buildNumber = Int32.Parse(buildNumberString);
+						//Debug.Print(buildNumber.ToString());
 
-                        // Unable to retrive version number at the moment so disable this stuff
-                        string regex2 = "\"version\":";
-                        versionNum2 = Regex.Match(appveyorDetails, regex2 + "\"[^\"]*\"").Value.ToString();
-                        versionNum2 = versionNum2.Replace(regex2, "");
-                        versionNum2 = versionNum2.Replace("\"", "");
-                        //Debug.Print(versionNum2);
-                        AppveyorVersion = versionNum2;
+						string regex3 = "\"message\":.*,\"branch\"";
+						string stuff3 = Regex.Match(appveyorDetails, regex3).ToString();
+						stuff3 = stuff3.Replace("\"message\":", "");
+						stuff3 = stuff3.Replace(",\"branch\"", "");
+						AppveyorBuildMessage = stuff3;
+						//Debug.Print(stuff3.ToString());
 
-                        if (appveyorDetails.Contains("\"status\":\"success\""))
-                        {
-                            badBuild = false;
-                        }
-                        else if (appveyorDetails.Contains("\"status\":\"failed\""))
-                        {
-                            badBuild = true;
-                        }
-                        else if (appveyorDetails.Contains("\"status\":\"running\""))
-                        {
-                            runningBuild = true;
-                        }
-                        else
-                        {
-                            unkownError = true;
-                        }
-                    }
-                }
+						// Unable to retrive version number at the moment so disable this stuff
+						string regex2 = "\"version\":";
+						versionNum2 = Regex.Match(appveyorDetails, regex2 + "\"[^\"]*\"").Value.ToString();
+						versionNum2 = versionNum2.Replace(regex2, "");
+						versionNum2 = versionNum2.Replace("\"", "");
+						//Debug.Print(versionNum2);
+						AppveyorVersion = versionNum2;
+
+						if (appveyorDetails.Contains("\"status\":\"success\""))
+						{
+							badBuild = false;
+						}
+						else if (appveyorDetails.Contains("\"status\":\"failed\""))
+						{
+							badBuild = true;
+						}
+						else if (appveyorDetails.Contains("\"status\":\"running\""))
+						{
+							runningBuild = true;
+						}
+						else
+						{
+							unkownError = true;
+						}
+					}
+					else
+					{
+						_404StyleError = true;
+						AppveyorBuildMessage = "Make sure you are connected to the internet or click these links.";
+					}
+				}
                 catch
                 {
-                    //Debug.Print("Unable to get version from Appveyor, skiping update check.");
+                    Debug.Print("Unable to get version from Appveyor, skiping update check.");
                 }
 
             }
@@ -173,10 +189,18 @@ namespace ManiacEditor
             {
                 return AppveyorVersion + (" (UNKOWN ERROR)");
             }
-            else
+			else if (AppveyorVersion != "")
             {
                 return AppveyorVersion;
             }
+			else if (DeveloperError)
+			{
+				return "N/A";
+			}
+			else
+			{
+				return "Unable to Fetch/Prase Updates.";
+			}
 
         }
 

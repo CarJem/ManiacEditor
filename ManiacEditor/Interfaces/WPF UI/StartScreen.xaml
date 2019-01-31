@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="ManiacEditor.Interfaces.StartScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManiacEditor.Interfaces"
+             xmlns:maniac="clr-namespace:ManiacEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="493" Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="260"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid Background="{DynamicResource StatusBarBackground}">
+                <Image Source="pack://application:,,,/Resources/MELogo.png" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform" HorizontalAlignment="Center"></Image>
+            </Grid>
+        </Border>
+        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid Background="{DynamicResource StatusBarBackground}">
+                <GroupBox Header="Updates" Foreground="{DynamicResource NormalText}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="130"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.ColumnSpan="2">
+                            <TextBlock x:Name="updateInfoLabel" Text="Checking For Updates..." TextWrapping="WrapWithOverflow"></TextBlock>
+                        </Label>
+                        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"><Hyperlink Click="linkLabel1_LinkClicked" ><Run Text="Get Dev Builds..."/></Hyperlink></TextBlock>
+                        <TextBlock  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"><Hyperlink Click="linkLabel2_LinkClicked"><Run Text="Get Releases..."/></Hyperlink></TextBlock>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Border>
+        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="1">
+            <Grid>
+                <Grid Background="{DynamicResource StatusBarBackground}">
+                    <StackPanel Margin="4">
+                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel4_LinkClicked" ><Run Text="About"/></Hyperlink></TextBlock>
+                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel5_LinkClicked"><Run Text="Settings"/></Hyperlink></TextBlock>
+                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel6_LinkClicked"><Run Text="Wiki"/></Hyperlink></TextBlock>
+                        <TextBlock></TextBlock>
+                        <TextBlock></TextBlock>
+                        <TextBlock x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
+                        <TextBlock x:Name="devCheck"><TextBlock Text="        "/><CheckBox IsChecked="{maniac:SettingBinding UsePrePlusOffsets}"><TextBlock><Hyperlink ><Run Text="Automatically Open"/></Hyperlink></TextBlock></CheckBox></TextBlock>
+                        <TextBlock></TextBlock>
+                        <TextBlock></TextBlock>
+                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel7_LinkClicked"><Run Text="Github"/></Hyperlink></TextBlock>
+                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel8_LinkClicked"><Run Text="Appveyor"/></Hyperlink></TextBlock>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="DeveloperNoteOverlay" Visibility="Hidden" Background="{DynamicResource StatusBarBackground}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="220"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0">
+                        <TextBlock Foreground="Red" TextWrapping="WrapWithOverflow" Text="NOTICE: &#xD;&#xA;This is a development build and may be HIGHLY unstable! We are not responsible for any lost progress made with this editor. Make plenty of backups and stay alert, just because I test these features on my self does not mean they won't break for you! Thanks for using my Fork!&#xD;&#xA;&#xD;&#xA;-CarJem Generations&#xD;&#xA;Developer of Maniac Editor - Generations Edition"></TextBlock>
+                    </Label>
+                    <Button Grid.Row="1" Content="Understood" Width="70" x:Name="DeveloperNoteAcceptedButton" Click="DeveloperNoteAcceptedButton_Click"></Button>
+                    <Label Grid.Row="2" Foreground="{DynamicResource DisabledText}" Content="(this will not show up again)" HorizontalContentAlignment="Center"></Label>
+                </Grid>
+            </Grid>
+        </Border>
+        <Border Margin="4"  BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+            <Grid>
+                <Grid Background="{DynamicResource StartScreenBackground}" x:Name="SceneSelectHost"/>
+                <Grid x:Name="FirstTimeOverlay" Background="{DynamicResource StatusBarBackground}" Visibility="Hidden">
+                    <Grid>
+                        <StackPanel Margin="10">
+                            <Label HorizontalAlignment="Center">
+                                <TextBlock Text="Welcome to Maniac Editor. &#xD;&#xA;This appears to be your first time using the editor, so perhaps you would like to get going quickly. So here are some quick recommended settings for you to try based on your PC's performance and power.&#xD;&#xA;(You can change these options later)&#xD;&#xA;&#xD;&#xA;" TextAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                            </Label>
+                            <RadioButton x:Name="minimalRadioButton" Content="Minimal" Margin="3" GotFocus="MinimalRadioButton_GotFocus"></RadioButton>
+                            <RadioButton x:Name="basicRadioButton" Content="Basic" Margin="3" GotFocus="BasicRadioButton_GotFocus"></RadioButton>
+                            <RadioButton x:Name="superRadioButton" Content="Super" Margin="3" GotFocus="SuperRadioButton_GotFocus"></RadioButton>
+                            <RadioButton x:Name="hyperRadioButton" Content="Hyper" Margin="3" GotFocus ="HyperRadioButton_GotFocus"></RadioButton>
+
+                            <TextBlock></TextBlock>
+                            <Label x:Name="modeLabel" Content="Select an option to see what it offers..."></Label>
+                            <Button x:Name="QuickSettingSetButton" Content="Lets Go!" Click="QuickSettingSetButton_Click"></Button>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Border>
+    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <maniac:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
+                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Themes/MyBorderStyle.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
+            </Style>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+</UserControl>
