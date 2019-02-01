@@ -50,12 +50,12 @@ namespace ManiacEditor.Entity_Renders
                 {
                     if (outOfBoundsY)
                     {
-                        MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                         entity.attributesMap["offset"].ValuePosition = new Position((short)x2, 0);
                     }
                     else
                     {
-                        MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                         entity.attributesMap["size"].ValuePosition = new Position((short)width, 0);
                     }
                 }
@@ -63,7 +63,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     if (outOfBoundsX)
                     {
-                        MessageBox.Show("Layer Out of Bounds!    " + "\n" + "X2: " + x2 + "\n" + "Width: " + width + "\n" + "Combined: " + (x2 + width) + "\n" + "Layer Width: " + Scratch.Layer.Width, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Layer Out of Bounds!    " + "\n" + "X2: " + x2 + "\n" + "Width: " + width + "\n" + "Combined: " + (x2 + width) + "\n" + "Layer Width: " + Scratch.Layer.Width, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                         entity.attributesMap["offset"].ValuePosition = new Position(0, (short)y2);
                     }
                     else

@@ -29,17 +29,11 @@
         private void InitializeComponent()
         {
 			this.mainPanel = new System.Windows.Forms.Panel();
-			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.viewPanel = new System.Windows.Forms.Panel();
-			this.vScrollBar1Host = new System.Windows.Forms.Integration.ElementHost();
 			this.hScrollBar1Host = new System.Windows.Forms.Integration.ElementHost();
-			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+			this.vScrollBar1Host = new System.Windows.Forms.Integration.ElementHost();
 			this.mainPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-			this.splitContainer2.Panel1.SuspendLayout();
-			this.splitContainer2.Panel2.SuspendLayout();
-			this.splitContainer2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -49,7 +43,7 @@
 			// mainPanel
 			// 
 			this.mainPanel.AutoSize = true;
-			this.mainPanel.Controls.Add(this.splitContainer2);
+			this.mainPanel.Controls.Add(this.splitContainer1);
 			this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mainPanel.Location = new System.Drawing.Point(0, 0);
 			this.mainPanel.Margin = new System.Windows.Forms.Padding(0);
@@ -57,29 +51,11 @@
 			this.mainPanel.Size = new System.Drawing.Size(1389, 697);
 			this.mainPanel.TabIndex = 11;
 			// 
-			// splitContainer2
-			// 
-			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer2.Name = "splitContainer2";
-			// 
-			// splitContainer2.Panel1
-			// 
-			this.splitContainer2.Panel1.Controls.Add(this.elementHost1);
-			this.splitContainer2.Panel1Collapsed = true;
-			// 
-			// splitContainer2.Panel2
-			// 
-			this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-			this.splitContainer2.Size = new System.Drawing.Size(1389, 697);
-			this.splitContainer2.SplitterDistance = 1252;
-			this.splitContainer2.TabIndex = 6;
-			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
 			this.splitContainer1.Name = "splitContainer1";
@@ -93,29 +69,19 @@
 			// 
 			this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.splitContainer1.Size = new System.Drawing.Size(1389, 697);
-			this.splitContainer1.SplitterDistance = 1281;
+			this.splitContainer1.SplitterDistance = 1269;
 			this.splitContainer1.TabIndex = 5;
 			// 
 			// viewPanel
 			// 
+			this.viewPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.viewPanel.Controls.Add(this.vScrollBar1Host);
 			this.viewPanel.Controls.Add(this.hScrollBar1Host);
 			this.viewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.viewPanel.Location = new System.Drawing.Point(0, 0);
 			this.viewPanel.Name = "viewPanel";
-			this.viewPanel.Size = new System.Drawing.Size(1279, 695);
+			this.viewPanel.Size = new System.Drawing.Size(1267, 695);
 			this.viewPanel.TabIndex = 13;
-			// 
-			// vScrollBar1Host
-			// 
-			this.vScrollBar1Host.AutoSize = true;
-			this.vScrollBar1Host.Dock = System.Windows.Forms.DockStyle.Right;
-			this.vScrollBar1Host.Location = new System.Drawing.Point(1278, 0);
-			this.vScrollBar1Host.Margin = new System.Windows.Forms.Padding(0);
-			this.vScrollBar1Host.Name = "vScrollBar1Host";
-			this.vScrollBar1Host.Size = new System.Drawing.Size(1, 694);
-			this.vScrollBar1Host.TabIndex = 12;
-			this.vScrollBar1Host.Child = null;
 			// 
 			// hScrollBar1Host
 			// 
@@ -124,19 +90,20 @@
 			this.hScrollBar1Host.Location = new System.Drawing.Point(0, 694);
 			this.hScrollBar1Host.Margin = new System.Windows.Forms.Padding(0);
 			this.hScrollBar1Host.Name = "hScrollBar1Host";
-			this.hScrollBar1Host.Size = new System.Drawing.Size(1279, 1);
+			this.hScrollBar1Host.Size = new System.Drawing.Size(1267, 1);
 			this.hScrollBar1Host.TabIndex = 11;
 			this.hScrollBar1Host.Child = null;
 			// 
-			// elementHost1
+			// vScrollBar1Host
 			// 
-			this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.elementHost1.Location = new System.Drawing.Point(0, 0);
-			this.elementHost1.Name = "elementHost1";
-			this.elementHost1.Size = new System.Drawing.Size(1252, 697);
-			this.elementHost1.TabIndex = 13;
-			this.elementHost1.Text = "elementHost1";
-			this.elementHost1.Child = null;
+			this.vScrollBar1Host.AutoSize = true;
+			this.vScrollBar1Host.Dock = System.Windows.Forms.DockStyle.Right;
+			this.vScrollBar1Host.Location = new System.Drawing.Point(1266, 0);
+			this.vScrollBar1Host.Margin = new System.Windows.Forms.Padding(0);
+			this.vScrollBar1Host.Name = "vScrollBar1Host";
+			this.vScrollBar1Host.Size = new System.Drawing.Size(1, 694);
+			this.vScrollBar1Host.TabIndex = 12;
+			this.vScrollBar1Host.Child = null;
 			// 
 			// EditorView
 			// 
@@ -147,10 +114,6 @@
 			this.Size = new System.Drawing.Size(1389, 697);
 			this.Load += new System.EventHandler(this.EditorView_Load);
 			this.mainPanel.ResumeLayout(false);
-			this.splitContainer2.Panel1.ResumeLayout(false);
-			this.splitContainer2.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-			this.splitContainer2.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
@@ -164,11 +127,9 @@
         #endregion
 
         public System.Windows.Forms.Panel mainPanel;
-        public System.Windows.Forms.SplitContainer splitContainer1;
+		public System.Windows.Forms.SplitContainer splitContainer1;
+		public System.Windows.Forms.Panel viewPanel;
 		public System.Windows.Forms.Integration.ElementHost vScrollBar1Host;
 		public System.Windows.Forms.Integration.ElementHost hScrollBar1Host;
-        public System.Windows.Forms.SplitContainer splitContainer2;
-        public System.Windows.Forms.Panel viewPanel;
-		public System.Windows.Forms.Integration.ElementHost elementHost1;
 	}
 }

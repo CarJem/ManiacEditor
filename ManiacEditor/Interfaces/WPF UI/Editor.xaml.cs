@@ -58,6 +58,7 @@ using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Cursors = System.Windows.Input.Cursors;
 
+
 namespace ManiacEditor
 {
 	/// <summary>
@@ -113,7 +114,6 @@ namespace ManiacEditor
 		//Editor Status States (Like are we pre-loading a scene)
 		public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
 		public bool isPreRending = false; //Determines if we are Preloading a Scene
-		bool AllowSceneChange = false; // For the Save Warning Dialog
 		bool encorePaletteExists = false; // Determines if an Encore Pallete Exists
 		int SelectedTileID = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
 		public string CurrentLanguage = "EN"; //Current Selected Language
@@ -668,7 +668,8 @@ namespace ManiacEditor
 
 		public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ConfigManager configManager = new ConfigManager();
+			Interfaces.WPF_UI.ConfigManager configManager = new Interfaces.WPF_UI.ConfigManager();
+			configManager.Owner = GetWindow(this);
 			configManager.ShowDialog();
 
 			// TODO: Fix NullReferenceException on mySettings.modConfigs
@@ -2398,24 +2399,21 @@ namespace ManiacEditor
 
 		public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
 		{
-			SceneChangeWarning(null, null);
-			if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
+			if (AllowSceneUnloading() != true) return;
+			UnloadScene();
+			UseDefaultPrefrences();
+			DataDirectory = newDataDirectory;
+			AddRecentDataFolder(newDataDirectory);
+			bool goodGameConfig = SetGameConfig();
+			if (goodGameConfig == true)
 			{
-				AllowSceneChange = false;
-				UnloadScene();
-				UseDefaultPrefrences();
-				DataDirectory = newDataDirectory;
-				AddRecentDataFolder(newDataDirectory);
-				bool goodGameConfig = SetGameConfig();
-				if (goodGameConfig == true)
-				{
-					if (forceBrowse) OpenScene(true);
-					else if (forceSceneSelect) OpenScene(false);
-					else OpenScene(mySettings.forceBrowse);
-
-				}
+				if (forceBrowse) OpenScene(true);
+				else if (forceSceneSelect) OpenScene(false);
+				else OpenScene(mySettings.forceBrowse);
 
 			}
+
+			
 		}
 
 		private void RecentDataDirectoryClicked(object sender, RoutedEventArgs e)
@@ -3367,19 +3365,10 @@ namespace ManiacEditor
 		#region File Tab Buttons
 		public void Open_Click(object sender, RoutedEventArgs e)
 		{
-			SceneChangeWarning(sender, e);
-			if (AllowSceneChange == true || IsSceneLoaded() == false || mySettings.DisableSaveWarnings == true)
-			{
-				AllowSceneChange = false;
-				UnloadScene();
+			if (AllowSceneUnloading() != true) return;
+			UnloadScene();
 
-				OpenScene(mySettings.forceBrowse);
-
-			}
-			else
-			{
-				return;
-			}
+			OpenScene(mySettings.forceBrowse);
 
 		}
 
@@ -3390,10 +3379,8 @@ namespace ManiacEditor
 
 		public void OpenDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			SceneChangeWarning(sender, e);
-			if (AllowSceneChange == true || IsSceneLoaded() == false)
-			{
-				AllowSceneChange = false;
+				if (AllowSceneUnloading() != true) return;
+
 				string newDataDirectory = GetDataDirectory();
 				if (null == newDataDirectory) return;
 				if (newDataDirectory.Equals(DataDirectory)) return;
@@ -3406,11 +3393,6 @@ a valid Data Directory.",
 									"Invalid Data Directory!",
 									MessageBoxButton.OK,
 									MessageBoxImage.Error);
-			}
-			else
-			{
-				return;
-			}
 
 		}
 
@@ -4400,8 +4382,8 @@ Error: {ex.Message}");
 		}
 		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Sanic2Maniac sanic = new Sanic2Maniac(null, this);
-			sanic.Show();
+			//Sanic2Maniac sanic = new Sanic2Maniac(null, this);
+			//sanic.Show();
 		}
 		private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -4663,11 +4645,10 @@ Error: {ex.Message}");
 
 		private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-
-			using (var ControlBox = new ControlBox())
-			{
-				ControlBox.ShowDialog();
-			}
+			var optionMenu = new OptionsMenu(this);
+			optionMenu.Owner = Window.GetWindow(this);
+			optionMenu.MainTabControl.SelectedIndex = 2;
+			optionMenu.ShowDialog();
 		}
 		#endregion
 
@@ -7347,22 +7328,26 @@ Error: {ex.Message}");
 			return new Scene(selectedScene);
 		}
 
-		private void SceneChangeWarning(object sender, RoutedEventArgs e)
+		private bool AllowSceneUnloading()
 		{
-			if (IsSceneLoaded() == true && mySettings.DisableSaveWarnings == false)
+			bool AllowSceneChange = false;
+			if (IsSceneLoaded() == false)
 			{
-				System.Windows.Forms.DialogResult exitBoxResult;
-				using (var exitBox = new ExitWarningBox())
+				AllowSceneChange = true;
+				return AllowSceneChange;
+			}
+			else if (IsSceneLoaded() == true && mySettings.DisableSaveWarnings == false)
+			{
+				var exitBox = new UnloadingSceneWarning();
+				exitBox.Owner = GetWindow(this);
+				exitBox.ShowDialog();
+				var exitBoxResult = exitBox.WindowResult;
+				if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.Yes)
 				{
-					exitBox.ShowDialog();
-					exitBoxResult = exitBox.DialogResult;
-				}
-				if (exitBoxResult == System.Windows.Forms.DialogResult.Yes)
-				{
-					Save_Click(sender, e);
+					Save_Click(null, null);
 					AllowSceneChange = true;
 				}
-				else if (exitBoxResult == System.Windows.Forms.DialogResult.No)
+				else if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.No)
 				{
 					AllowSceneChange = true;
 				}
@@ -7375,6 +7360,8 @@ Error: {ex.Message}");
 			{
 				AllowSceneChange = true;
 			}
+			return AllowSceneChange;
+			
 
 		}
 

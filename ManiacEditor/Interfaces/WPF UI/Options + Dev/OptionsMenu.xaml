@@ -10,11 +10,15 @@
         mc:Ignorable="d"
         Title="Maniac Editor Options" Height="569" Width="1138" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="OptionBox_FormClosing" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="156*"/>
+            <ColumnDefinition Width="127*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Margin="0,0,0,0" BorderBrush="{DynamicResource DisabledText}" Background="{DynamicResource NormalBackground}">
+        <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,0,0" BorderBrush="{DynamicResource DisabledText}" Background="{DynamicResource NormalBackground}">
 
             <TabItem Header="Common" Foreground="{DynamicResource NormalText}">
                 <Grid Background="{DynamicResource NormalBackground}">
@@ -3431,6 +3435,45 @@
                                 </StackPanel>
                             </StackPanel>
                         </TabItem>
+                        <TabItem Header="Non-Bindable Controls" Foreground="{DynamicResource NormalText}">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel  Visibility="Visible">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label>
+                                            <TextBlock Text="Toggle Scroller (While Mouse within Editor View)"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Right Click" Height="26" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Draw Tool / Stamp Tool Mode: Remove Tiles&#x0d;Selection Tool Mode: Select Tiles&#x0d;Interaction Tool Mode: Show Tool Context Menu &#x0d;Tiles Toolbar Tile: Show Tile Context Menu &#x0d;Chunk Panel: Show Chunk Context Menu"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Left Click" Height="26" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Place Tiles Tool / Stamp Tool Mode: Place Tiles&#x0d;Selection Tool Mode: Select Tiles/Entities&#x0d;Pointer Tool Mode: Select Tiles/Entities"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <Label Content="Selection Tool Controls:"></Label>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Content="Right Click + Ctrl&#x0d;(While Dragging)" Height="52" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Tiles Edit: Deselect Tiles&#x0d;Entities Edit: Deselect Objects&#x0d;(Both will not deselect your current selection if you already have objects selected)"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Height="52" Tag="NULL" VerticalAlignment="Top">
+                                            <TextBlock IsEnabled="False" Foreground="{DynamicResource DisabledText}" TextAlignment="Center" Text="Right Click + Ctrl&#x0d;(Over Selected Item(s))"></TextBlock>
+                                        </Button>
+                                        <Label>
+                                            <TextBlock Text="Tiles Edit: Duplicate Selected Tiles&#x0d;Entities Edit: Duplicate Selected Objects&#x0d;(Both will deselect your current selection and select the duplicated objects)"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
                     </TabControl>
                 </Grid>
             </TabItem>
@@ -3531,7 +3574,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <StatusBar Grid.Row="1" Height="30" Background="{DynamicResource StatusBarBackground}">
+        <StatusBar Grid.Row="1" Height="30" Background="{DynamicResource StatusBarBackground}" Grid.ColumnSpan="2">
             <StatusBarItem HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
                     <Button Width="65" Content="Save" Margin="5,0" Click="button11_Click"></Button>

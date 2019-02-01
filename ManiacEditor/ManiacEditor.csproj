@@ -407,6 +407,9 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.17\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
@@ -513,6 +516,7 @@
     <Compile Include="Entity Renders\YoyoPulley.cs" />
     <Compile Include="Enums + Shorthandings\Settings.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="GL Preperations\IndexBuffer.cs" />
     <Compile Include="GL Preperations\Indices.cs" />
     <Compile Include="GL Preperations\TexCoords.cs" />
@@ -520,14 +524,34 @@
     <Compile Include="GL Preperations\VBCreator.cs" />
     <Compile Include="GL Preperations\VertexBuffer.cs" />
     <Compile Include="GL Preperations\Vertices.cs" />
+    <Compile Include="Interfaces\Dialog\MessageBox.cs" />
+    <Compile Include="Interfaces\Dialog\CustomMessageBoxWindow.xaml.cs">
+      <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\Dialog\DialogUtil.cs" />
     <Compile Include="Interfaces\WPF Resources\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF Resources\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\WPF UI\EditorView2.xaml.cs">
+      <DependentUpon>EditorView2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Misc\UnloadingSceneWarning.xaml.cs">
+      <DependentUpon>UnloadingSceneWarning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Mod Config Editor\ConfigManager.xaml.cs">
+      <DependentUpon>ConfigManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\WPF UI\Editor.xaml.cs">
       <DependentUpon>Editor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Mod Config Editor\ModConfigEditor.xaml.cs">
+      <DependentUpon>ModConfigEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Options + Dev\Updater.xaml.cs">
+      <DependentUpon>Updater.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF UI\Scene Select\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
@@ -543,12 +567,6 @@
     </Compile>
     <Compile Include="Interfaces\WPF UI\Scene Editors\Object Manager\ObjectImporter.xaml.cs">
       <DependentUpon>ObjectImporter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\AboutBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Actions\ActionAddDeleteEntities.cs" />
     <Compile Include="Actions\ActionDummy.cs" />
@@ -604,19 +622,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WinForm UI\ConfigManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\ConfigManager.Designer.cs">
-      <DependentUpon>ConfigManager.cs</DependentUpon>
-    </Compile>
     <Compile Include="Graphics\DeviceEventArgs.cs" />
-    <Compile Include="Interfaces\PhaseOut\AddAttributeBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\AddAttributeBox.Designer.cs">
-      <DependentUpon>AddAttributeBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\UserControls\EditorView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -632,20 +638,8 @@
     <Compile Include="Interfaces\UserControls\ChunksList.Designer.cs">
       <DependentUpon>ChunksList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WinForm UI\StartupInformation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\StartupInformation.Designer.cs">
-      <DependentUpon>StartupInformation.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\WPF Resources\EntityPropertiesView.xaml.cs">
       <DependentUpon>EntityPropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\NewSceneMaker.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\NewSceneMaker.Designer.cs">
-      <DependentUpon>NewSceneMaker.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor Classes\EditorStats.cs" />
     <Compile Include="Interfaces\WinForm UI\DeviceLostBox.cs">
@@ -655,24 +649,12 @@
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor Classes\EditorControls.cs" />
-    <Compile Include="Interfaces\PhaseOut\EditCategorySelectInfoForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\EditCategorySelectInfoForm.Designer.cs">
-      <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\Discord.cs" />
     <Compile Include="Enums + Shorthandings\DuplicateAction.cs" />
     <Compile Include="Editor Classes\EditorAnimations.cs" />
     <Compile Include="Editor Classes\EditorBackground.cs" />
     <Compile Include="Editor Classes\EditorEntityFramework.cs" />
     <Compile Include="Editor Classes\EditorScene.cs" />
-    <Compile Include="Interfaces\PhaseOut\EditSceneSelectInfoForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\EditSceneSelectInfoForm.Designer.cs">
-      <DependentUpon>EditSceneSelectInfoForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\UserControls\EntitiesToolbar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -816,41 +798,11 @@
     <Compile Include="Entity Renders\ZoneSetup.cs" />
     <Compile Include="Enums + Shorthandings\FlipDirection.cs" />
     <Compile Include="Extensions\FolderSelectDialog.cs" />
-    <Compile Include="Interfaces\PhaseOut\ControlBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\ControlBox.Designer.cs">
-      <DependentUpon>ControlBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\ExitWarningBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\ExitWarningBox.Designer.cs">
-      <DependentUpon>ExitWarningBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\WinForm UI\FindandReplaceTool.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\WinForm UI\FindandReplaceTool.Designer.cs">
       <DependentUpon>FindandReplaceTool.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\GoToPlayerBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\GoToPlayerBox.Designer.cs">
-      <DependentUpon>GoToPlayerBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\GoToPositionBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\GoToPositionBox.Designer.cs">
-      <DependentUpon>GoToPositionBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\KeybindTool.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\KeybindTool.Designer.cs">
-      <DependentUpon>KeybindTool.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WinForm UI\MD5HashGen.cs">
       <SubType>Form</SubType>
@@ -858,29 +810,11 @@
     <Compile Include="Interfaces\WinForm UI\MD5HashGen.Designer.cs">
       <DependentUpon>MD5HashGen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WinForm UI\ModConfigCreator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\ModConfigCreator.Designer.cs">
-      <DependentUpon>ModConfigCreator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\Sanic2-Maniac.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\Sanic2-Maniac.Designer.cs">
-      <DependentUpon>Sanic2-Maniac.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\WinForm UI\SoundLooper.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\WinForm UI\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\UpdateStatusBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\UpdateStatusBox.Designer.cs">
-      <DependentUpon>UpdateStatusBox.cs</DependentUpon>
     </Compile>
     <Compile Include="WPF + Winform Stuff\KeyEventExt.cs" />
     <Compile Include="Object ID Repair Tool\ObjectIDHealer.cs" />
@@ -888,18 +822,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>KeyBinds.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\ObjectImporter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\ObjectImporter.designer.cs">
-      <DependentUpon>ObjectImporter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\DeveloperTool.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\DeveloperTool.Designer.cs">
-      <DependentUpon>DeveloperTool.cs</DependentUpon>
     </Compile>
     <Compile Include="Layers + Objects\HorizontalLayerScroll.cs" />
     <Compile Include="Graphics\IDrawArea.cs" />
@@ -909,36 +831,12 @@
     <Compile Include="Interfaces\UserControls\ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\PhaseOut\LayerManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\LayerManager.Designer.cs">
-      <DependentUpon>LayerManager.cs</DependentUpon>
-    </Compile>
     <Compile Include="Layers + Objects\LinkedEditorEntity.cs" />
     <Compile Include="PropertyGrid\LocalProperty.cs" />
     <Compile Include="PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Editor Classes\EditorEntities.cs" />
     <Compile Include="Editor Classes\EditorEntity.cs" />
     <Compile Include="Editor Classes\EditorLayer.cs" />
-    <Compile Include="Interfaces\PhaseOut\ObjectManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\ObjectManager.Designer.cs">
-      <DependentUpon>ObjectManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\OptionBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\OptionBox.Designer.cs">
-      <DependentUpon>OptionBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\PreLoadBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\PreLoadBox.Designer.cs">
-      <DependentUpon>PreLoadBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Memory Editing\ProcessMemory.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -946,20 +844,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Extensions\Reflector.cs" />
-    <Compile Include="Interfaces\PhaseOut\SceneSelectForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\SceneSelectForm.Designer.cs">
-      <DependentUpon>SceneSelectForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Layers + Objects\ScrollInfoLines.cs" />
     <Compile Include="Editor Classes\EditorSettings.cs" />
-    <Compile Include="Interfaces\PhaseOut\SoundImporter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PhaseOut\SoundImporter.Designer.cs">
-      <DependentUpon>SoundImporter.cs</DependentUpon>
-    </Compile>
     <Compile Include="WPF + Winform Stuff\SkinResourceDictionary.cs" />
     <Compile Include="WPF + Winform Stuff\TextPrompt.cs" />
     <Compile Include="Graphics\TextureCreator.cs" />
@@ -987,6 +873,7 @@
     <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Resource Include="Interfaces\Dialog\blankicon.ico" />
     <Resource Include="Resources\App Icons\64x64_2.ico" />
     <Content Include="Config\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -998,6 +885,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Resource Include="blankicon.ico" />
     <Content Include="Resources\Global\EditorIcons2.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1075,50 +963,20 @@
     <EmbeddedResource Include="Interfaces\UserControls\ChunksList.resx">
       <DependentUpon>ChunksList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\ConfigManager.resx">
-      <DependentUpon>ConfigManager.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\EditorView.resx">
       <DependentUpon>EditorView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\StartupInformation.resx">
-      <DependentUpon>StartupInformation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\NewSceneMaker.resx">
-      <DependentUpon>NewSceneMaker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\EditCategorySelectInfoForm.resx">
-      <DependentUpon>EditCategorySelectInfoForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\FindandReplaceTool.resx">
       <DependentUpon>FindandReplaceTool.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\GoToPlayerBox.resx">
-      <DependentUpon>GoToPlayerBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\GoToPositionBox.resx">
-      <DependentUpon>GoToPositionBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\KeybindTool.resx">
-      <DependentUpon>KeybindTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\MD5HashGen.resx">
       <DependentUpon>MD5HashGen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\ModConfigCreator.resx">
-      <DependentUpon>ModConfigCreator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\Sanic2-Maniac.resx">
-      <DependentUpon>Sanic2-Maniac.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\SoundLooper.resx">
       <DependentUpon>SoundLooper.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\UpdateStatusBox.resx">
-      <DependentUpon>UpdateStatusBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\objectRenderList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1133,53 +991,14 @@
     <EmbeddedResource Include="Resources\onScreenRenderExclusions.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\AddAttributeBox.resx">
-      <DependentUpon>AddAttributeBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\DeviceLostBox.resx">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\EditSceneSelectInfoForm.resx">
-      <DependentUpon>EditSceneSelectInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\EntitiesToolbar.resx">
       <DependentUpon>EntitiesToolbar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\ControlBox.resx">
-      <DependentUpon>ControlBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\ExitWarningBox.resx">
-      <DependentUpon>ExitWarningBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\LayerManager.resx">
-      <DependentUpon>LayerManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\ObjectImporter.resx">
-      <DependentUpon>ObjectImporter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\ObjectManager.resx">
-      <DependentUpon>ObjectManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\DeveloperTool.resx">
-      <DependentUpon>DeveloperTool.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\OptionBox.resx">
-      <DependentUpon>OptionBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\PreLoadBox.resx">
-      <DependentUpon>PreLoadBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\SceneSelectForm.resx">
-      <DependentUpon>SceneSelectForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\PhaseOut\SoundImporter.resx">
-      <DependentUpon>SoundImporter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\TilesList.resx">
       <DependentUpon>TilesList.cs</DependentUpon>
@@ -1249,7 +1068,6 @@
     <Resource Include="Resources\Icons\DropDownArrow.png" />
     <Resource Include="Resources\NeoAboutImage.png" />
     <Resource Include="Resources\MELogo.png" />
-    <Resource Include="Resources\StartPanelBackground.png" />
     <Content Include="Resources\Tile Overlays\16x16Tiles_Edit.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1336,6 +1154,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interfaces\Dialog\CustomMessageBoxWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interfaces\WPF UI\EditorView2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Misc\UnloadingSceneWarning.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Mod Config Editor\ConfigManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Mod Config Editor\ModConfigEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\WPF UI\Options + Dev\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1361,6 +1199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\WPF UI\Editor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Options + Dev\Updater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

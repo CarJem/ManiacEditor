@@ -1,0 +1,46 @@
+﻿<Window x:Class="ManiacEditor.UnloadingSceneWarning"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:maniac="clr-namespace:ManiacEditor"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        mc:Ignorable="d"
+        Height="143.333" Width="342"  Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Closed="Window_Closed">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Image Width="60" Height="60" gif:ImageBehavior.AnimatedSource="pack://application:,,,/Resources/Monitors/WarningStatic2.gif"></Image>
+        <Label Margin="5,0" Grid.Column="1" Content="Do you want to save your changes? &#xD;&#xA;They will be lost if you have not saved them."></Label>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+            <Button Click="Save_Click" Content="Save" Width="75" Height="23" Margin="5,0,0,0"></Button>
+            <Button Click="NoSave_Click" Content="Don't Save" Width="75" Height="23" Margin="5,0,0,0"></Button>
+            <Button Click="Cancel_Click" Content="Cancel" Width="75" Height="23" Margin="5,0,0,0"></Button>
+        </StackPanel>
+    </Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <maniac:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
+                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Themes/MyBorderStyle.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
+            </Style>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+</Window>

@@ -24,10 +24,10 @@ namespace ManiacEditor.Interfaces
 	/// </summary>
 	partial class AboutWindow : Window
 	{
-		public EditorUpdater Updater = new EditorUpdater();
+		public EditorUpdater Updater;
 		public AboutWindow()
 		{
-
+			Updater = new EditorUpdater(this);
 			InitializeComponent();
 			Title = String.Format("About {0}", AssemblyTitle);
 			labelProductName.Text = AssemblyProduct;

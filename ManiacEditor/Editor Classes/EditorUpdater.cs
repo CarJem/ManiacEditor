@@ -23,13 +23,16 @@ namespace ManiacEditor
 		public bool unkownError = false;
         public bool runningBuild = false;
         public int condition = 0;
+
+		System.Windows.Window Window;
+
         public void CheckforUpdates(bool manuallyTriggered = false, bool dontShowUpdaterBox = false) {
             // Appveyor Update Check
             int buildNumber = -1;
             string versionNum = GetVersion();
             string versionNum2 = "0.0.0.0";
 			//Debug.Print(versionNum);
-			if (versionNum.Contains("DEV"))
+			if (versionNum.Contains("DEV") && !manuallyTriggered)
 			{
 				DeveloperError = true;
 				condition = 2;
@@ -116,7 +119,8 @@ namespace ManiacEditor
                     {
                         if (!dontShowUpdaterBox)
                         {
-                            UpdateStatusBox box = new UpdateStatusBox(1, this);
+							Updater box = new Updater(1, this);
+							box.Owner = System.Windows.Window.GetWindow(Window);
                             box.ShowDialog();
                         }
                         condition = 1;
@@ -126,8 +130,9 @@ namespace ManiacEditor
                     {
                         if (!dontShowUpdaterBox)
                         {
-                            UpdateStatusBox box = new UpdateStatusBox(0, this);
-                            box.ShowDialog();
+							Updater box = new Updater(0, this);
+							box.Owner = System.Windows.Window.GetWindow(Window);
+							box.ShowDialog();
                         }
                         condition = 0;
                     }
@@ -142,8 +147,9 @@ namespace ManiacEditor
                     {
                         if (!dontShowUpdaterBox)
                         {
-                            UpdateStatusBox box = new UpdateStatusBox(2, this);
-                            box.ShowDialog();
+							Updater box = new Updater(2, this);
+							box.Owner = System.Windows.Window.GetWindow(Window);
+							box.ShowDialog();
                         }
                         condition = 2;
                     }
@@ -151,8 +157,9 @@ namespace ManiacEditor
                     {
                         if (!dontShowUpdaterBox)
                         {
-                            UpdateStatusBox box = new UpdateStatusBox(0, this);
-                            box.ShowDialog();
+							Updater box = new Updater(0, this);
+							box.Owner = System.Windows.Window.GetWindow(Window);
+							box.ShowDialog();
                         }
                         condition = 0;
                     }
@@ -174,6 +181,11 @@ namespace ManiacEditor
             
             return version;
         }
+
+		public EditorUpdater(System.Windows.Window window = null)
+		{
+			Window = window;
+		}
 
         public string GetCurrentVersion()
         {

@@ -64,7 +64,7 @@ namespace ManiacEditor.Interfaces
 			{
 				if (sourceBuild)
 				{
-					this.updateInfoLabel.Text = "Your using the source. No need to update!" + Environment.NewLine + Environment.NewLine + string.Format("Local Version: {0}", updater.GetVersion()) + Environment.NewLine + string.Format("Current Version: {0}", updater.GetCurrentVersion()) + Environment.NewLine + Environment.NewLine + string.Format("Latest Version Details: {0}", updater.GetBuildMessage());
+					this.updateInfoLabel.Text = "You're using the source. No need to update!" + Environment.NewLine + Environment.NewLine + string.Format("Local Version: {0}", updater.GetVersion()) + Environment.NewLine + string.Format("Current Version: {0}", updater.GetCurrentVersion()) + Environment.NewLine + Environment.NewLine + string.Format("Latest Version Details: {0}", updater.GetBuildMessage());
 				}
 				else
 				{

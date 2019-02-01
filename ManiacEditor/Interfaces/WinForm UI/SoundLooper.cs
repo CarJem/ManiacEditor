@@ -75,7 +75,7 @@ namespace ManiacEditor.Interfaces
 				}
 				catch
 				{
-					MessageBox.Show("Not a Valid File!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Not a Valid File!", "ERROR", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 					currentSoundFile = "";
 				}
 			}

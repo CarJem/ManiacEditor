@@ -20,6 +20,7 @@
     <SolidColorBrush x:Key="DisabledTab" Color="#FF343434"/>
 
     <SolidColorBrush x:Key="StartScreenBackground" Color="#8B343434"/>
+    <SolidColorBrush x:Key="DialogBoxButtonBackgroundColor" Color="#404040"/>
 
     <SolidColorBrush x:Key="Maniac_OptionMark_Static_Background" Color="#404040"/>
     <SolidColorBrush x:Key="Maniac_OptionMark_Static_Border" Color="#FF5D5D5D"/>

@@ -17,9 +17,14 @@ using Microsoft.Xna.Framework;
 using Point = System.Drawing.Point;
 using System.Linq.Expressions;
 
+
 namespace ManiacEditor
 {
-    public partial class Sanic2Maniac : Form
+	using MessageBox = System.Windows.Forms.MessageBox;
+	using MessageBoxButtons = System.Windows.Forms.MessageBoxButtons;
+	using MessageBoxIcon = System.Windows.Forms.MessageBoxIcon;
+
+	public partial class Sanic2Maniac : Form
     {
         public List<Tuple<string, List<Tuple<string, string>>>> Categories = new List<Tuple<string, List<Tuple<string, string>>>>();
         public Dictionary<string, List<string>> Directories = new Dictionary<string, List<string>>();
