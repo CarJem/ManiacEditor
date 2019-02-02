@@ -13,7 +13,7 @@ using TileManiac;
 
 namespace ManiacEditor
 {
-    public partial class TilesToolbar : UserControl
+    public partial class TilesToolbarOld : UserControl
     {
         public Editor EditorInstance;
 
@@ -98,7 +98,7 @@ namespace ManiacEditor
             setCheckboxes = false;
         }
 
-        public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
+        public TilesToolbarOld(StageTiles tiles, String data_directory, String Colors, Editor instance)
         {
             InitializeComponent();
 			SetupTilesList(instance);

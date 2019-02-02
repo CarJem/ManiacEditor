@@ -12,13 +12,6 @@
     <Style TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
     </Style>
-    <Style TargetType="{x:Type ComboBox}">
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource ToolbarBackground}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
     <Style x:Key="DisabledToggleButton" TargetType="{x:Type ToggleButton}">
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="false">
@@ -267,6 +260,11 @@
     <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="{Binding Color, Source={StaticResource Maniac_OptionMark_Pressed_Glyph}}"/>
     <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="{Binding Color, Source={StaticResource Maniac_OptionMark_Static_Glyph}}"/>
     <Style TargetType="{x:Type CheckBox}">
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource DisabledText}"/>
+            </Trigger>
+        </Style.Triggers>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
@@ -521,6 +519,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Template" Value="{DynamicResource ComboBoxControlTemplate1}"/>
     </Style>
 
     <ControlTemplate x:Key="ComboBoxControlTemplate1" TargetType="{x:Type ComboBox}">

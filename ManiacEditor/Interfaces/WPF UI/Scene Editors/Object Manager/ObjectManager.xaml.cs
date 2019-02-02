@@ -443,7 +443,7 @@ namespace ManiacEditor.Interfaces
 
 		private void mD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MD5HashGen hashmap = new MD5HashGen(EditorInstance);
+			ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen hashmap = new ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen(EditorInstance);
 			hashmap.Show();
 		}
 

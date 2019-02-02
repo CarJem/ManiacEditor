@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="ManiacEditor.EntitiesToolbar2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManiacEditor"
+             xmlns:maniac="clr-namespace:ManiacEditor"
+            xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="525" d:DesignWidth="250" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Entity Spawner" Foreground="{DynamicResource NormalText}" Grid.ColumnSpan="2">
+            <Grid Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="54"></ColumnDefinition>
+                    <ColumnDefinition Width="78"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ComboBox Foreground="{DynamicResource NormalText}" KeyDown="cbSpawn_KeyDown" x:Name="cbSpawn" Height="20" Margin="0,0" Grid.Column="0"></ComboBox>
+                <Button Click="btnSpawn_Click" Margin="2,0,0,0" Content="Spawn" Width="50" Height="20" Grid.Column="1"></Button>
+                <ComboBox Foreground="{DynamicResource NormalText}" x:Name="defaultFilter" Margin="2,0" Width="74" Height="20" Grid.Column="2">
+                    <ComboBoxItem Content="Mania (2)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
+                    <ComboBoxItem Content="Encore (4)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
+                    <ComboBoxItem Content="Both (1)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
+                    <ComboBoxItem Content="Pinball (255)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
+                    <ComboBoxItem Content="Other (0)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="EntityEditor" Header="Entity Editor" Foreground="{DynamicResource NormalText}" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="60"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ComboBox Foreground="{DynamicResource NormalText}" SelectionChanged="EntitiesList_SelectedIndexChanged" DropDownOpened="entitiesList_DropDown" x:Name="entitiesList" Height="20" Margin="0,10,0,10"></ComboBox>
+                <Button x:Name="MoreButton" Height="20" Margin="5,10,0,10" Content="..." Grid.Column="1" Click="button2_Click">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Go to this Entity" Click="goToThisEntityToolStripMenuItem_Click"></MenuItem>
+                            <ContextMenu.Template>
+                                <ControlTemplate>
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </ContextMenu.Template>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                    <Grid>
+                        <wpfTool:PropertyGrid x:Name="entityProperties2" IsEnabled="false" Visibility="Collapsed" PropertyValueChanged="entityProperties2_PropertyValueChanged"></wpfTool:PropertyGrid>
+                    </Grid>
+                    <Grid Background="{DynamicResource ButtonBackground}">
+                        <WindowsFormsHost x:Name="entityPropertiesLegacy"></WindowsFormsHost>
+                    </Grid>
+                </Grid>
+                <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Search Box">
+                    <TextBox x:Name="searchBox" Height="20"></TextBox>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Entity Filter Settings" Foreground="{DynamicResource NormalText}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel>
+                    <CheckBox Checked="maniaFilterCheck_CheckedChanged" x:Name="maniaFilterCheck" Margin="5" Unchecked="maniaFilterCheck_CheckedChanged">Mania</CheckBox>
+                    <CheckBox x:Name="bothFilterCheck" Unchecked="bothFilterCheck_CheckedChanged" Checked="bothFilterCheck_CheckedChanged" Margin="5" Content="Common"></CheckBox>
+                </StackPanel>
+                <StackPanel>
+                    <CheckBox x:Name="encoreFilterCheck" Checked="encoreFilterCheck_CheckedChanged" Unchecked="encoreFilterCheck_CheckedChanged" Margin="5">Encore</CheckBox>
+                    <CheckBox x:Name="otherFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Other"></CheckBox>
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <maniac:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
+                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Themes/MyBorderStyle.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
+            </Style>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+</UserControl>

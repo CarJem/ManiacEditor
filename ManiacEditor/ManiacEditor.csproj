@@ -535,8 +535,8 @@
     <Compile Include="Interfaces\WPF Resources\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\EditorView2.xaml.cs">
-      <DependentUpon>EditorView2.xaml</DependentUpon>
+    <Compile Include="Interfaces\WPF UI\Editor Tools\FindandReplaceTool.xaml.cs">
+      <DependentUpon>FindandReplaceTool.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF UI\Misc\UnloadingSceneWarning.xaml.cs">
       <DependentUpon>UnloadingSceneWarning.xaml</DependentUpon>
@@ -549,6 +549,9 @@
     </Compile>
     <Compile Include="Interfaces\WPF UI\Mod Config Editor\ModConfigEditor.xaml.cs">
       <DependentUpon>ModConfigEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Options + Dev\MD5HashGen.xaml.cs">
+      <DependentUpon>MD5HashGen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF UI\Options + Dev\Updater.xaml.cs">
       <DependentUpon>Updater.xaml</DependentUpon>
@@ -615,6 +618,12 @@
     </Compile>
     <Compile Include="Interfaces\WPF UI\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\UserControls\EntitiesToolbar2.xaml.cs">
+      <DependentUpon>EntitiesToolbar2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\UserControls\TilesToolbar.xaml.cs">
+      <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layers + Objects\AttributeValidater.cs" />
     <Compile Include="Object ID Repair Tool\ColorConsole.cs" />
@@ -798,18 +807,6 @@
     <Compile Include="Entity Renders\ZoneSetup.cs" />
     <Compile Include="Enums + Shorthandings\FlipDirection.cs" />
     <Compile Include="Extensions\FolderSelectDialog.cs" />
-    <Compile Include="Interfaces\WinForm UI\FindandReplaceTool.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\FindandReplaceTool.Designer.cs">
-      <DependentUpon>FindandReplaceTool.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\MD5HashGen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interfaces\WinForm UI\MD5HashGen.Designer.cs">
-      <DependentUpon>MD5HashGen.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\WinForm UI\SoundLooper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -857,12 +854,6 @@
     </Compile>
     <Compile Include="Interfaces\UserControls\TilesList.Designer.cs">
       <DependentUpon>TilesList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\UserControls\TilesToolbar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Interfaces\UserControls\TilesToolbar.Designer.cs">
-      <DependentUpon>TilesToolbar.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\UserControls\DevicePanel.cs">
       <SubType>UserControl</SubType>
@@ -969,12 +960,6 @@
     <EmbeddedResource Include="Interfaces\UserControls\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\FindandReplaceTool.resx">
-      <DependentUpon>FindandReplaceTool.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\WinForm UI\MD5HashGen.resx">
-      <DependentUpon>MD5HashGen.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\SoundLooper.resx">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </EmbeddedResource>
@@ -1002,9 +987,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\TilesList.resx">
       <DependentUpon>TilesList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\UserControls\TilesToolbar.resx">
-      <DependentUpon>TilesToolbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1158,7 +1140,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\WPF UI\EditorView2.xaml">
+    <Page Include="Interfaces\WPF UI\Editor Tools\FindandReplaceTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1199,6 +1181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\WPF UI\Editor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Options + Dev\MD5HashGen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1287,6 +1273,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\WPF Resources\Themes\MyBorderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\UserControls\EntitiesToolbar2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interfaces\WPF UI\UserControls\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

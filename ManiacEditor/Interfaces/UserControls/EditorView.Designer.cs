@@ -31,8 +31,8 @@
 			this.mainPanel = new System.Windows.Forms.Panel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.viewPanel = new System.Windows.Forms.Panel();
-			this.hScrollBar1Host = new System.Windows.Forms.Integration.ElementHost();
 			this.vScrollBar1Host = new System.Windows.Forms.Integration.ElementHost();
+			this.hScrollBar1Host = new System.Windows.Forms.Integration.ElementHost();
 			this.mainPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -68,6 +68,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.splitContainer1.Panel2Collapsed = true;
 			this.splitContainer1.Size = new System.Drawing.Size(1389, 697);
 			this.splitContainer1.SplitterDistance = 1269;
 			this.splitContainer1.TabIndex = 5;
@@ -80,8 +81,19 @@
 			this.viewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.viewPanel.Location = new System.Drawing.Point(0, 0);
 			this.viewPanel.Name = "viewPanel";
-			this.viewPanel.Size = new System.Drawing.Size(1267, 695);
+			this.viewPanel.Size = new System.Drawing.Size(1387, 695);
 			this.viewPanel.TabIndex = 13;
+			// 
+			// vScrollBar1Host
+			// 
+			this.vScrollBar1Host.AutoSize = true;
+			this.vScrollBar1Host.Dock = System.Windows.Forms.DockStyle.Right;
+			this.vScrollBar1Host.Location = new System.Drawing.Point(1386, 0);
+			this.vScrollBar1Host.Margin = new System.Windows.Forms.Padding(0);
+			this.vScrollBar1Host.Name = "vScrollBar1Host";
+			this.vScrollBar1Host.Size = new System.Drawing.Size(1, 694);
+			this.vScrollBar1Host.TabIndex = 12;
+			this.vScrollBar1Host.Child = null;
 			// 
 			// hScrollBar1Host
 			// 
@@ -90,20 +102,9 @@
 			this.hScrollBar1Host.Location = new System.Drawing.Point(0, 694);
 			this.hScrollBar1Host.Margin = new System.Windows.Forms.Padding(0);
 			this.hScrollBar1Host.Name = "hScrollBar1Host";
-			this.hScrollBar1Host.Size = new System.Drawing.Size(1267, 1);
+			this.hScrollBar1Host.Size = new System.Drawing.Size(1387, 1);
 			this.hScrollBar1Host.TabIndex = 11;
 			this.hScrollBar1Host.Child = null;
-			// 
-			// vScrollBar1Host
-			// 
-			this.vScrollBar1Host.AutoSize = true;
-			this.vScrollBar1Host.Dock = System.Windows.Forms.DockStyle.Right;
-			this.vScrollBar1Host.Location = new System.Drawing.Point(1266, 0);
-			this.vScrollBar1Host.Margin = new System.Windows.Forms.Padding(0);
-			this.vScrollBar1Host.Name = "vScrollBar1Host";
-			this.vScrollBar1Host.Size = new System.Drawing.Size(1, 694);
-			this.vScrollBar1Host.TabIndex = 12;
-			this.vScrollBar1Host.Child = null;
 			// 
 			// EditorView
 			// 

@@ -247,7 +247,7 @@ namespace ManiacEditor
 		internal EditorBackground EditorBackground;
 		public EditorLayer EditLayer;
 		internal TilesToolbar TilesToolbar = null;
-		public EntitiesToolbar entitiesToolbar = null;
+		public EntitiesToolbar2 entitiesToolbar = null;
 		public EditorEntity_ini EditorEntity_ini;
 		public EditorUpdater Updater;
 		public TileConfig TilesConfig;
@@ -432,7 +432,6 @@ namespace ManiacEditor
 			DevController = new ManiacEditor.Interfaces.DeveloperTerminal(this);
 
 			this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
-			this.editorView.splitContainer1.Panel2MinSize = 254;
 			editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
 			editorView.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
 
@@ -1008,18 +1007,15 @@ namespace ManiacEditor
 						EditLayer.SetPropertySelected(option + 12, state);
 
 					});
-					editorView.splitContainer1.Panel2.Controls.Clear();
-					editorView.splitContainer1.Panel2.Controls.Add(TilesToolbar);
-					editorView.splitContainer1.Panel2Collapsed = false;
-					TilesToolbar.Width = editorView.splitContainer1.Panel2.Width - 2;
-					TilesToolbar.Height = editorView.splitContainer1.Panel2.Height - 2;
+					ToolBarPanelRight.Children.Clear();
+					ToolBarPanelRight.Children.Add(TilesToolbar);
+					UpdateToolbars(true, true);
 					Form1_Resize(null, null);
 				}
 				if (IsChunksEdit()) TilesToolbar.TabControl.TabIndex = 1;
 				else TilesToolbar.TabControl.TabIndex = 0;
 				UpdateTilesOptions();
 				TilesToolbar.ShowShortcuts = PlaceTilesButton.IsChecked.Value;
-
 			}
 			else
 			{
@@ -1030,9 +1026,8 @@ namespace ManiacEditor
 			{
 				if (entitiesToolbar == null)
 				{
-					entitiesToolbar = new EntitiesToolbar(EditorScene.Objects, this)
+					entitiesToolbar = new EntitiesToolbar2(EditorScene.Objects, this)
 					{
-						//entitiesToolbar = new EntitiesToolbar(ObjectList);
 						SelectedEntity = new Action<int>(x =>
 						{
 							entities.SelectSlot(x);
@@ -1052,11 +1047,9 @@ namespace ManiacEditor
 							UpdateControls();
 						})
 					};
-					editorView.splitContainer1.Panel2.Controls.Clear();
-					editorView.splitContainer1.Panel2.Controls.Add(entitiesToolbar);
-					editorView.splitContainer1.Panel2Collapsed = false;
-					entitiesToolbar.Width = editorView.splitContainer1.Panel2.Width - 2;
-					entitiesToolbar.Height = editorView.splitContainer1.Panel2.Height - 2;
+					ToolBarPanelRight.Children.Clear();
+					ToolBarPanelRight.Children.Add(entitiesToolbar);
+					UpdateToolbars(true, true);
 					Form1_Resize(null, null);
 				}
 				UpdateEntitiesToolbarList();
@@ -1064,12 +1057,12 @@ namespace ManiacEditor
 			}
 			else
 			{
-				entitiesToolbar?.Dispose();
 				entitiesToolbar = null;
 			}
 			if (TilesToolbar == null && entitiesToolbar == null)
 			{
-				editorView.splitContainer1.Panel2Collapsed = true;
+				ToolBarPanelRight.Children.Clear();
+				UpdateToolbars(true, false);
 				Form1_Resize(null, null);
 			}
 
@@ -1089,6 +1082,50 @@ namespace ManiacEditor
 				editorView.hScrollBar1.IsEnabled = true;
 			}
 			SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
+		}
+
+		private void UpdateToolbars(bool rightToolbar = true, bool visible = false)
+		{
+			if (visible)
+			{
+				ToolbarRight.Width = new GridLength(275);
+				ToolbarRight.MinWidth = 275;
+				ToolbarRight.MaxWidth = 400;
+				SplitterRight.Width = new GridLength(6);
+				SplitterRight.MinWidth = 6;
+			}
+			else
+			{
+				ToolbarRight.Width = new GridLength(0);
+				ToolbarRight.MinWidth = 0;
+				ToolbarRight.MaxWidth = 0;
+				SplitterRight.Width = new GridLength(0);
+				SplitterRight.MinWidth = 0;
+			}
+			/*
+			else
+			{
+				if (visible)
+				{
+					if (ToolbarLeft.Width.Value == 0)
+					{
+						ToolbarLeft.Width = new GridLength(275);
+						ToolbarLeft.MinWidth = 275;
+						ToolbarLeft.MaxWidth = 400;
+						SplitterLeft.Width = new GridLength(6);
+						SplitterLeft.MinWidth = 6;
+					}
+				}
+				else
+				{
+					ToolbarLeft.Width = new GridLength(0);
+					ToolbarLeft.MinWidth = 0;
+					ToolbarLeft.MaxWidth = 0;
+					SplitterLeft.Width = new GridLength(0);
+					SplitterLeft.MinWidth = 0;
+				}
+			}*/
+
 		}
 
 		#endregion
@@ -2635,13 +2672,6 @@ namespace ManiacEditor
 
 		public void Form1_Resize(object sender, RoutedEventArgs e)
 		{
-
-			if (editorView.splitContainer1.Panel2.Controls.Count == 1)
-			{
-				editorView.splitContainer1.Panel2.Controls[0].Height = editorView.splitContainer1.Panel2.Height - 2;
-				editorView.splitContainer1.Panel2.Controls[0].Width = editorView.splitContainer1.Panel2.Width - 2;
-			}
-
 			// TODO: It hides right now few pixels at the edge
 
 			Visibility nvscrollbar = Visibility.Visible;
@@ -3730,7 +3760,7 @@ Error: {ex.Message}");
 			}
 			else if (IsEntitiesEdit())
 			{
-				if (entitiesToolbar.ContainsFocus.Equals(false))
+				if (entitiesToolbar.IsFocused.Equals(false))
 				{
 					CopyEntitiesToClipboard();
 					DeleteSelected();
@@ -3760,7 +3790,7 @@ Error: {ex.Message}");
 			}
 			else if (IsEntitiesEdit())
 			{
-				if (entitiesToolbar.ContainsFocus.Equals(false))
+				if (entitiesToolbar.IsFocused.Equals(false))
 				{
 					try
 					{
@@ -5589,7 +5619,7 @@ Error: {ex.Message}");
 
 		private void CopyEntitiesToClipboard()
 		{
-			if (entitiesToolbar.ContainsFocus.Equals(false))
+			if (entitiesToolbar.IsFocused.Equals(false))
 			{
 				// Windows Clipboard mode
 				if (mySettings.EnableWindowsClipboard && !mySettings.ProhibitEntityUseOnExternalClipboard)
@@ -6437,7 +6467,7 @@ Error: {ex.Message}");
 
 		private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MD5HashGen hashmap = new MD5HashGen(this);
+			ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen hashmap = new ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen(this);
 			hashmap.Show();
 		}
 
@@ -6469,9 +6499,9 @@ Error: {ex.Message}");
 
 		private void FindToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
 		{
-			FindandReplaceTool form = new FindandReplaceTool();
-			System.Windows.Forms.DialogResult result = form.ShowDialog();
-			if (result == System.Windows.Forms.DialogResult.OK)
+			ManiacEditor.Interfaces.WPF_UI.Editor_Tools.FindandReplaceTool form = new ManiacEditor.Interfaces.WPF_UI.Editor_Tools.FindandReplaceTool();
+			form.ShowDialog();
+			if (form.DialogResult == true)
 			{
 				while (form.GetReadyState() == false)
 				{
@@ -6504,7 +6534,7 @@ Error: {ex.Message}");
 
 			for (int i = 0; i < 1024; i++)
 			{
-				TilesToolbar.selectedTileLabel.Text = "Selected Tile: " + i;
+				TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + i;
 				bool Unusued = IsTileUnused(i);
 				while (cooldownDone != true)
 				{
@@ -7220,6 +7250,16 @@ Error: {ex.Message}");
 		private void CollisionOpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			collisionOpacityChanged = true;
+		}
+
+		private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e)
+		{
+			UpdateToolbars(false, true);
+		}
+
+		private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e)
+		{
+			UpdateToolbars(true, true);
 		}
 
 		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)

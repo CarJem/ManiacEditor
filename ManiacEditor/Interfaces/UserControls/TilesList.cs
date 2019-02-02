@@ -219,6 +219,7 @@ namespace ManiacEditor
 
         private void ClickTile(int x, int y, bool rightClick = false, MouseEventArgs e = null)
         {
+			
             int tile_size = (TILE_SIZE + BorderSize * 2);
             int tiles_per_line = panel1.Width / tile_size / TileScale;
 
@@ -227,8 +228,8 @@ namespace ManiacEditor
             {
                 SelectedTile = tile_number;
                 EditorInstance.ToolbarSelectedTile = tile_number.ToString();
-                EditorInstance.TilesToolbar.editTileInTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
-                if (rightClick) EditorInstance.TilesToolbar.contextMenuStrip1.Show(TilesToolbar.MousePosition);
+                //EditorInstance.TilesToolbar.editTileInTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
+                //if (rightClick) EditorInstance.TilesToolbar.contextMenuStrip1.Show(TilesToolbar.MousePosition);
             }
             else
             {

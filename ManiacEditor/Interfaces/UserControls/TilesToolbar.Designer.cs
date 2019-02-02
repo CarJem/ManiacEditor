@@ -1,7 +1,7 @@
 ﻿namespace ManiacEditor
 {
-    partial class TilesToolbar
-    {
+    partial class TilesToolbarOld
+	{
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -236,7 +236,7 @@
 			this.elementHost1.Text = "elementHost1";
 			this.elementHost1.Child = null;
 			// 
-			// TilesToolbar
+			// TilesToolbarOld
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -250,7 +250,7 @@
 			this.Controls.Add(this.option1CheckBox);
 			this.Controls.Add(this.elementHost1);
 			this.MinimumSize = new System.Drawing.Size(250, 500);
-			this.Name = "TilesToolbar";
+			this.Name = "TilesToolbarOld";
 			this.Size = new System.Drawing.Size(250, 525);
 			this.Load += new System.EventHandler(this.TilesToolbar_Load);
 			this.Resize += new System.EventHandler(this.TilesToolbar_Resize);

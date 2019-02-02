@@ -28,27 +28,52 @@
 
         <Border Grid.ColumnSpan="5" Margin="10,114,10,10" BorderBrush="Transparent" BorderThickness="1">
             <Grid x:Name="OverlayPanel" Background="{DynamicResource NormalBackground}">
-                <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <Grid.ContextMenu>
-                        <ContextMenu x:Name="ViewPanelContextMenu">
-                            <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="EditTileWithTileManiacToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHereToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHereToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpointToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetResetToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartSceneToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpointToolStripMenuItem_Click"></MenuItem>
-                            <ContextMenu.Template>
-                                <ControlTemplate>
-                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </ContextMenu.Template>
-                        </ContextMenu>
-                    </Grid.ContextMenu>
+                <Grid x:Name="SplitContianer">
+                    <Grid Name="gridMain">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ToolbarLeft" Width="150" MaxWidth="0" MinWidth="0"/>
+                            <ColumnDefinition x:Name="SplitterLeft" Width="6" MaxWidth="0" MinWidth="0"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition x:Name="SplitterRight" Width="6" MinWidth="0" MaxWidth="0"/>
+                            <ColumnDefinition x:Name="ToolbarRight" Width="0" MinWidth="0" MaxWidth="0"/>
+                        </Grid.ColumnDefinitions>
+                        <WindowsFormsHost Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelLeft" Grid.Column="0"></WindowsFormsHost>
+                        
+                        <GridSplitter x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
+                        <Grid Grid.Column="2">
+                            <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid.ContextMenu>
+                                    <ContextMenu x:Name="ViewPanelContextMenu">
+                                        <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="EditTileWithTileManiacToolStripMenuItem_Click"></MenuItem>
+                                        <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHereToolStripMenuItem_Click"></MenuItem>
+                                        <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHereToolStripMenuItem_Click"></MenuItem>
+                                        <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpointToolStripMenuItem_Click"></MenuItem>
+                                        <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetResetToolStripMenuItem_Click"></MenuItem>
+                                        <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartSceneToolStripMenuItem_Click"></MenuItem>
+                                        <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpointToolStripMenuItem_Click"></MenuItem>
+                                        <ContextMenu.Template>
+                                            <ControlTemplate>
+                                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                                                    </StackPanel>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </ContextMenu.Template>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+                        </Grid>
+
+                        <GridSplitter x:Name="SpliterRight" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
+
+                        <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelRight" Grid.Column="4"></Grid>
                     </Grid>
+                </Grid>
+
                 </Grid>
         </Border>
 
@@ -236,6 +261,10 @@
                     <MenuItem x:Name="consoleWindowToolStripMenuItem" Header="Console Window" Click="ConsoleWindowToolStripMenuItem_Click"/>
                     <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Header="Save for Force Open on Startup" Click="SaveForForceOpenOnStartupToolStripMenuItem_Click"/>
                     <MenuItem x:Name="enableAllButtonsToolStripMenuItem" Header="Enable all Main Toolstrip Buttons" Click="EnableAllButtonsToolStripMenuItem_Click"/>
+                    <MenuItem Header="Force Toolbars to Open/Close">
+                        <MenuItem Header="Right Toolbar" x:Name="rightToolbarToggleDev" Click="RightToolbarToggleDev_Click"></MenuItem>
+                        <MenuItem Header="Left Toolbar" x:Name="leftToolbarToggleDev" Click="LeftToolbarToggleDev_Click"></MenuItem>
+                    </MenuItem>
                 </MenuItem>
             </MenuItem>
             <MenuItem x:Name="sceneToolStripMenuItem" Header="Scene" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}" >
