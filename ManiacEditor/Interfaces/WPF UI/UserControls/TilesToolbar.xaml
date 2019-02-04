@@ -27,12 +27,44 @@
                         <RowDefinition Height="50"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid x:Name="TileSlider" Grid.Row="0"></Grid>
+                    <Grid x:Name="TileSlider" Grid.Row="0">
+                        <Slider ValueChanged="trackBar1_ValueChanged" x:Name="trackBar1" VerticalAlignment="Center" Maximum="3" Ticks="4" TickPlacement="Both"></Slider>
+                    </Grid>
                     <Grid x:Name="TileViewer" Grid.Row="1"></Grid>
+                    <Grid.ContextMenu>
+                        <ContextMenu x:Name="TileContextMenu">
+                            <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="editTileInTileManiacToolStripMenuItem_Click"></MenuItem>
+                            <ContextMenu.Template>
+                                <ControlTemplate>
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </ContextMenu.Template>
+                        </ContextMenu>
+                    </Grid.ContextMenu>
                 </Grid>
             </TabItem>
             <TabItem Header="Chunks" Foreground="{DynamicResource NormalText}">
-                <Grid x:Name="ChunksPage"></Grid>
+                <Grid x:Name="ChunksPage">
+                    <Grid.ContextMenu>
+                        <ContextMenu x:Name="ChunkContextMenu" Background="{DynamicResource NormalBakground}">
+                            <MenuItem x:Name="removeChunk" Header="Remove Chunk"></MenuItem>
+                            <MenuItem x:Name="replaceChunk" Header="Remove Chunk"></MenuItem>
+                            <MenuItem x:Name="moveChunkUp" Header="Remove Chunk"></MenuItem>
+                            <MenuItem x:Name="moveChunkDown" Header="Remove Chunk"></MenuItem>
+                            <ContextMenu.Template>
+                                <ControlTemplate>
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </ContextMenu.Template>
+                        </ContextMenu>
+                    </Grid.ContextMenu>
+                </Grid>
             </TabItem>
         </TabControl>
         

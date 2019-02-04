@@ -350,10 +350,10 @@ namespace ManiacEditor
             actFile = "Encore" + modifiedZone + modifiedScene + ".act";
             newPal = Path.Combine(DataDirectory, "Palettes", actFile);
 
-            Debug.Print(newPal);
+            //Debug.Print(newPal);
             if (File.Exists(newPal))
             {
-                Debug.Print("First Check Passed");
+                //Debug.Print("First Check Passed");
                 return newPal;
             }
             else
@@ -361,10 +361,10 @@ namespace ManiacEditor
                 //Second Check (intended for external data folders)
                 actFile = "Encore" + Zone + ".act";
                 newPal = Path.Combine(DataDirectory, "Palettes", actFile);
-                Debug.Print(newPal);
+                //Debug.Print(newPal);
                 if (File.Exists(newPal))
                 {
-                    Debug.Print("Second Check Passed");
+                    //Debug.Print("Second Check Passed");
                     return newPal;
                 }
                 else
@@ -379,14 +379,14 @@ namespace ManiacEditor
                     actFile = "Encore" + modifiedZone + modifiedScene + ".act";
                     newPal = Path.Combine(DataDirectory, "Palettes", actFile);
 
-                    Debug.Print(newPal);
+                    //Debug.Print(newPal);
                     if (File.Exists(newPal))
                     {
-                        Debug.Print("Third Check Passed");
+                        //Debug.Print("Third Check Passed");
                         return newPal;
                     }
 
-                    Debug.Print("Did not find a Work Around");
+                    //Debug.Print("Did not find a Work Around");
                     return "";
                 }
 

@@ -212,6 +212,11 @@ namespace ManiacEditor
             graphicPanel.Render();
         }
 
+		public void Render()
+		{
+			graphicPanel.Render();
+		}
+
         private void graphicPanel_MouseWheel(object sender, MouseEventArgs e)
         {
             vScrollBar1.scroller.Value = Math.Max(Math.Min(vScrollBar1.scroller.Value - (e.Delta * vScrollBar1.scroller.SmallChange / 120), vScrollBar1.scroller.Maximum), 0);
@@ -228,14 +233,19 @@ namespace ManiacEditor
             {
                 SelectedTile = tile_number;
                 EditorInstance.ToolbarSelectedTile = tile_number.ToString();
-                //EditorInstance.TilesToolbar.editTileInTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
-                //if (rightClick) EditorInstance.TilesToolbar.contextMenuStrip1.Show(TilesToolbar.MousePosition);
+                EditorInstance.TilesToolbar.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
+				if (rightClick)
+				{
+					EditorInstance.TilesToolbar.TileContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+					EditorInstance.TilesToolbar.TileContextMenu.IsOpen = true;
+				}
+
             }
             else
             {
                 SelectedTile = -1;
             }
-           graphicPanel.Render();
+			graphicPanel.Render();
             EditorInstance.TilesToolbar.RefreshTileSelected();
         }
 

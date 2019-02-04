@@ -5,6 +5,7 @@ using SharpDX.Direct3D9;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -26,7 +27,7 @@ namespace ManiacEditor
 {
     [Serializable]
     public class EditorEntity : IDrawable
-    {
+	{
         protected const int NAME_BOX_WIDTH  = 20;
         protected const int NAME_BOX_HEIGHT = 20;
 
@@ -247,55 +248,31 @@ namespace ManiacEditor
             return new Rectangle(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT);
         }
 
-
-
-
-        
-
-
-
-
-
-
         public bool SetFilter()
         {
-            if (HasFilter())
-            {
-                int filter = entity.GetAttribute("filter").ValueUInt8;
+			if (HasFilter())
+			{
+				int filter = entity.GetAttribute("filter").ValueUInt8;
 
-                /**
+				/**
                  * 1 or 5 = Both
                  * 2 = Mania
                  * 4 = Encore
+				 * 255 = Pinball
                  * 
-                 * 0b0000
-                 *   ||||
-                 *   |||- Common
-                 *   ||-- Mania
-                 *   |--- Encore
-                 *   ---- Unknown
                  */
-                if (Properties.Settings.Default.useBitOperators)
-                {
-                    filteredOut =
-                        ((filter & 0b0001) != 0 && !Properties.Settings.Default.showBothEntities) ||
-                        ((filter & 0b0010) != 0 && !Properties.Settings.Default.showManiaEntities) ||
-                        ((filter & 0b0100) != 0 && !Properties.Settings.Default.showEncoreEntities) ||
-                        ((filter & 0b1000) != 0 && !Properties.Settings.Default.showOtherEntities);
-                }
-                else
-                {
-                    filteredOut =
-                        ((filter == 1 || filter == 5) && !Properties.Settings.Default.showBothEntities) ||
-                        (filter == 2 && !Properties.Settings.Default.showManiaEntities) ||
-                        (filter == 4 && !Properties.Settings.Default.showEncoreEntities) ||
-                        ((filter < 1 || filter == 3 || filter > 5) && !Properties.Settings.Default.showOtherEntities);
-                }
+				filteredOut =
+					((filter == 1 || filter == 5) && !Properties.Settings.Default.showBothEntities) ||
+					(filter == 2 && !Properties.Settings.Default.showManiaEntities) ||
+					(filter == 4 && !Properties.Settings.Default.showEncoreEntities) ||
+					(filter == 255 && !Properties.Settings.Default.showPinballEntities) ||
+					((filter < 1 || filter == 3 || filter > 5) && !Properties.Settings.Default.showOtherEntities);
+			}
+			else
+			{
+				filteredOut = !Properties.Settings.Default.showPrePlusEntities;
+			}
 
-
-            }
-            else
-                filteredOut = !Properties.Settings.Default.showBothEntities;
 
             if (EditorInstance.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(EditorInstance.entitiesTextFilter))
             {
@@ -360,12 +337,20 @@ namespace ManiacEditor
             {
                 color2 = System.Drawing.Color.DarkGreen;
             }
-            else if (HasFilterOther())
+			else if (HasSpecificFilter(255))
+			{
+				color2 = System.Drawing.Color.Purple;
+			}
+			else if (HasFilterOther())
             {
                  color2 = System.Drawing.Color.Yellow;
             }
+			else if (!HasFilter())
+			{
+				color2 = System.Drawing.Color.White;
+			}
 
-            int Transparency = (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
+			int Transparency = (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
             if (!Properties.Settings.Default.NeverLoadEntityTextures && !EditorInstance.isExportingImage)
             {
                 if (!is64Bit && entity.Object.Name.Name == "SpecialRing") skipRenderforx86 = true;
@@ -707,5 +692,5 @@ namespace ManiacEditor
         {
 
         }
-    }
+	}
 }

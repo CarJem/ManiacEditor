@@ -534,7 +534,7 @@ namespace ManiacEditor
                     {
                         path = userDefinedPath + "\\" + name + ".bin";
                         path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-                        Debug.Print(path2);
+                        //Debug.Print(path2);
                         if (File.Exists(path2))
                         {
                             break;

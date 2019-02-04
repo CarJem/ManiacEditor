@@ -31,7 +31,8 @@ namespace ManiacEditor
             ChangeSkin(Skin.Light);
         }
 
-        public void Load(string DataDir, string ScenePath, string ModPath, int LevelID, bool launchAsShortcut, int shortcutMode, bool isEncoreMode, int X, int Y)
+
+		public void Load(string DataDir, string ScenePath, string ModPath, int LevelID, bool launchAsShortcut, int shortcutMode, bool isEncoreMode, int X, int Y)
         {
 			var UI = new ManiacEditor.Editor(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
             UI.Run();
@@ -50,5 +51,5 @@ namespace ManiacEditor
                     dict.Source = dict.Source;
             }
         }
-    }
+	}
 }

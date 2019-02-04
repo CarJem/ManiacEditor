@@ -17,6 +17,8 @@ namespace ManiacEditor
         private RSDKv5.SceneEntity currentEntity;
         private Editor EditorInstance2;
 
+		private byte TransportTubeType;
+
         public LinkedEditorEntity(RSDKv5.SceneEntity entity, Editor instance) : base(entity, instance)
         {
             EditorInstance2 = instance;
@@ -33,6 +35,13 @@ namespace ManiacEditor
                 targetSlotID = (ushort)(Entity.SlotID + 1);
                 currentEntity = Entity;
             }
+			else if (entity.Object.Name.Name == "TransportTube")
+			{
+				TransportTubeType = Entity.GetAttribute("type").ValueUInt8;
+				slotID = Entity.SlotID;
+				targetSlotID = (ushort)(Entity.SlotID + 1);
+				currentEntity = Entity;
+			}
             else if (entity.Object.Name.Name == "AIZTornadoPath")
             {
                 slotID = Entity.SlotID;
@@ -44,7 +53,7 @@ namespace ManiacEditor
 
         public override void Draw(DevicePanel d)
         {
-            if (EditorInstance.showEntityPathArrows)
+			if (EditorInstance.showEntityPathArrows)
             {
                 if (currentEntity.Object.Name.Name == "WarpDoor")
                 {
@@ -65,7 +74,7 @@ namespace ManiacEditor
                         }
                     }
                 }
-                else if (currentEntity.Object.Name.Name == "TornadoPath")
+				else if (currentEntity.Object.Name.Name == "TornadoPath")
                 {
                     base.Draw(d);
 
@@ -105,8 +114,45 @@ namespace ManiacEditor
                 }
             }
 
+			if (currentEntity.Object.Name.Name == "TransportTube")
+			{
+				base.Draw(d);
 
-        }
+				if (EditorInstance.showEntityPathArrows)
+				{
+					if ((TransportTubeType == 2 || TransportTubeType == 4))
+					{
+						var transportTubePaths = Entity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+
+						if (transportTubePaths != null && transportTubePaths.Any())
+						{
+							foreach (var ttp in transportTubePaths)
+							{
+								int destinationType = ttp.GetAttribute("type").ValueUInt8;
+								if (destinationType == 3)
+								{
+									DrawLinkArrowTransportTubes(d, Entity, ttp, 3, TransportTubeType);
+								}
+								else if (destinationType == 4)
+								{
+									DrawLinkArrowTransportTubes(d, Entity, ttp, 4, TransportTubeType);
+								}
+								else if (destinationType == 2)
+								{
+									DrawLinkArrowTransportTubes(d, Entity, ttp, 2, TransportTubeType);
+								}
+								else
+								{
+									DrawLinkArrowTransportTubes(d, Entity, ttp, 1, TransportTubeType);
+								}
+
+							}
+						}
+					}
+				}
+
+			}
+		}
 
         private void DrawLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
         {
@@ -160,5 +206,49 @@ namespace ManiacEditor
                         end.Position.Y.High + offsetDestinationY,
                         Color.GreenYellow);
         }
-    }
+
+		private void DrawLinkArrowTransportTubes(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, int destType, int sourceType)
+		{
+			Color color = Color.Transparent;
+			switch (destType)
+			{
+				case 4:
+					color = Color.Yellow;
+					break;
+				case 3:
+					color = Color.Red;
+					break;
+			}
+			if (sourceType == 2)
+			{
+				switch (destType)
+				{
+					case 4:
+						color = Color.Green;
+						break;
+					case 3:
+						color = Color.Red;
+						break;
+				}
+			}
+			int startX = start.Position.X.High;
+			int startY = start.Position.Y.High;
+			int endX = end.Position.X.High;
+			int endY = end.Position.Y.High;
+
+			int dx = endX - startX;
+			int dy = endY - startY;
+
+			int offsetX = 0;
+			int offsetY = 0;
+			int offsetDestinationX = 0;
+			int offsetDestinationY = 0;
+
+			d.DrawArrow(startX + offsetX,
+						startY + offsetY,
+						end.Position.X.High + offsetDestinationX,
+						end.Position.Y.High + offsetDestinationY,
+						color);
+		}
+	}
 }

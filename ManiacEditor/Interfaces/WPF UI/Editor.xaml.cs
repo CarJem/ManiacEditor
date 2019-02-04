@@ -380,7 +380,7 @@ namespace ManiacEditor
 				}
 				catch
 				{
-					Debug.Print("Couldn't Force Open!");
+					Debug.Print("Couldn't Force Open Maniac Editor with the Specificied Arguments!");
 				}
 			}
 		}
@@ -840,8 +840,10 @@ namespace ManiacEditor
 
 
 			RunSceneButton.IsEnabled = enabled;
-			RunSceneButton.IsChecked = GameRunning;
 			RunSceneDropDown.IsEnabled = enabled;
+
+			if (GameRunning) SetButtonColors(RunSceneButton, Color.Blue);
+			else SetButtonColors(RunSceneButton, Color.Green);
 
 			SetEditButtonsState(enabled);
 			UpdateTooltips();
@@ -1019,7 +1021,7 @@ namespace ManiacEditor
 			}
 			else
 			{
-				TilesToolbar?.Dispose();
+				if (TilesToolbar != null) TilesToolbar.Dispose();
 				TilesToolbar = null;
 			}
 			if (IsEntitiesEdit())
@@ -1057,6 +1059,7 @@ namespace ManiacEditor
 			}
 			else
 			{
+				if (entitiesToolbar != null) entitiesToolbar.Dispose();
 				entitiesToolbar = null;
 			}
 			if (TilesToolbar == null && entitiesToolbar == null)
@@ -1086,32 +1089,35 @@ namespace ManiacEditor
 
 		private void UpdateToolbars(bool rightToolbar = true, bool visible = false)
 		{
-			if (visible)
+			if (rightToolbar)
 			{
-				ToolbarRight.Width = new GridLength(275);
-				ToolbarRight.MinWidth = 275;
-				ToolbarRight.MaxWidth = 400;
-				SplitterRight.Width = new GridLength(6);
-				SplitterRight.MinWidth = 6;
+				if (visible)
+				{
+					ToolbarRight.Width = new GridLength(300);
+					ToolbarRight.MinWidth = 300;
+					ToolbarRight.MaxWidth = ViewPanelForm.ActualWidth / 3;
+					SplitterRight.Width = new GridLength(6);
+					SplitterRight.MinWidth = 6;
+				}
+				else
+				{
+					ToolbarRight.Width = new GridLength(0);
+					ToolbarRight.MinWidth = 0;
+					ToolbarRight.MaxWidth = 0;
+					SplitterRight.Width = new GridLength(0);
+					SplitterRight.MinWidth = 0;
+				}
 			}
-			else
-			{
-				ToolbarRight.Width = new GridLength(0);
-				ToolbarRight.MinWidth = 0;
-				ToolbarRight.MaxWidth = 0;
-				SplitterRight.Width = new GridLength(0);
-				SplitterRight.MinWidth = 0;
-			}
-			/*
+			
 			else
 			{
 				if (visible)
 				{
 					if (ToolbarLeft.Width.Value == 0)
 					{
-						ToolbarLeft.Width = new GridLength(275);
-						ToolbarLeft.MinWidth = 275;
-						ToolbarLeft.MaxWidth = 400;
+						ToolbarLeft.Width = new GridLength(300);
+						ToolbarLeft.MinWidth = 300;
+						ToolbarLeft.MaxWidth = ViewPanelForm.ActualWidth / 3;
 						SplitterLeft.Width = new GridLength(6);
 						SplitterLeft.MinWidth = 6;
 					}
@@ -1124,7 +1130,7 @@ namespace ManiacEditor
 					SplitterLeft.Width = new GridLength(0);
 					SplitterLeft.MinWidth = 0;
 				}
-			}*/
+			}
 
 		}
 
@@ -3028,25 +3034,17 @@ namespace ManiacEditor
 
 		public void OpenSceneForceFully()
 		{
-			if (mySettings.DeveloperForceOpenMode != 1)
-			{
-				OpenSceneForceFully(mySettings.DevForceRestartData);
-			}
-			else
-			{
-				DataDirectory = mySettings.DevForceRestartData;
-				string Result = mySettings.DevForceRestartScene;
-				int LevelID = mySettings.DeveForceRestartLevelID;
-				bool isEncore = mySettings.DevForceRestartEncore;
-				int x = mySettings.DevForceRestartX;
-				int y = mySettings.DevForeRestartY;
-				TempWarpCoords = new Point(x, y);
-				ForceWarp = true;
-				OpenScene(false, Result, LevelID, isEncore);
-			}
 
-
-
+			DataDirectory = mySettings.DevForceRestartData;
+			string Result = mySettings.DevForceRestartScene;
+			int LevelID = mySettings.DeveForceRestartLevelID;
+			bool isEncore = mySettings.DevForceRestartEncore;
+			int x = mySettings.DevForceRestartX;
+			int y = mySettings.DevForeRestartY;
+			TempWarpCoords = new Point(x, y);
+			ForceWarp = true;
+			OpenScene(false, Result, LevelID, isEncore);
+			
 		}
 		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0)
 		{
@@ -3267,7 +3265,7 @@ namespace ManiacEditor
 					}
 					else
 					{
-						Debug.Print("Something went wrong");
+						Debug.Print("Something went wrong trying to read the Maniac.INI File");
 						allowToRead = false;
 					}
 				}
@@ -3368,7 +3366,7 @@ namespace ManiacEditor
 					}
 					else
 					{
-						Debug.Print("Something went wrong");
+						Debug.Print("Something went wrong trying to read the Maniac.INI File");
 						allowToRead = false;
 					}
 				}
@@ -3626,7 +3624,7 @@ Error: {ex.Message}");
 
 				// user clicked Import, get to it!
 				UpdateControls();
-				entitiesToolbar?.RefreshObjects(EditorScene.Objects);
+				entitiesToolbar?.RefreshSpawningObjects(EditorScene.Objects);
 			}
 			catch (Exception ex)
 			{
@@ -3736,6 +3734,8 @@ Error: {ex.Message}");
 				}
 				UpdateEntitiesToolbarList();
 				SetSelectOnlyButtonsState();
+				UpdateEntitiesToolbarList();
+
 			}
 		}
 
@@ -3765,6 +3765,7 @@ Error: {ex.Message}");
 					CopyEntitiesToClipboard();
 					DeleteSelected();
 					UpdateControls();
+					UpdateEntitiesToolbarList();
 				}
 			}
 		}
@@ -3794,9 +3795,11 @@ Error: {ex.Message}");
 				{
 					try
 					{
+
 						// check if there are entities on the Windows clipboard; if so, use those
 						if (mySettings.EnableWindowsClipboard && Clipboard.ContainsData("ManiacEntities"))
 						{
+							
 							entities.PasteFromClipboard(new Point((int)(lastX / Zoom), (int)(lastY / Zoom)), (List<EditorEntity>)Clipboard.GetDataObject().GetData("ManiacEntities"));
 							UpdateLastEntityAction();
 						}
@@ -4213,7 +4216,7 @@ Error: {ex.Message}");
 
 				// user clicked Import, get to it!
 				UpdateControls();
-				entitiesToolbar?.RefreshObjects(EditorScene.Objects);
+				entitiesToolbar?.RefreshSpawningObjects(EditorScene.Objects);
 
 			}
 			catch (Exception ex)
@@ -4465,64 +4468,43 @@ Error: {ex.Message}");
 		{
 			MenuItem button = sender as MenuItem;
 
-			if (ManiaPal.MainWindow.Instance == null) return; //This is currently broken, so just return at the moment.
-
-			//if (ManiaPalInstance != null && !ManiaPalInstance.IsVisible) return;
-
 			if (ManiaPal.MainWindow.Instance == null)
 			{
-				var thread = new Thread(() =>
-				{
-					//ManiaPal.App.HideInstead = true;
-					ManiaPalInstance = new ManiaPal.MainWindow();
-					ManiaPalInstance.ShowDialog();
-				});
-				thread.SetApartmentState(ApartmentState.STA);
-				thread.Start();
+				ManiaPalInstance = new ManiaPal.MainWindow();
+				ManiaPalInstance.Show();
 
 				while (ManiaPal.MainWindow.Instance == null)
 					Thread.Sleep(100);
 				var MP = ManiaPal.MainWindow.Instance;
-				MP.Dispatcher.Invoke(() =>
+				if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
 				{
-					if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
-					{
-						if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
-					}
-					else if (StageConfig != null)
-					{
-						if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
-					}
+					if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
+				}
+				else if (StageConfig != null)
+				{
+					if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
+				}
 
-					MP.RefreshPalette(MP.CurrentPaletteSet);
-					MP.Activate();
-				});
+				MP.RefreshPalette(MP.CurrentPaletteSet);
+				MP.Activate();
 			}
 			else
 			{
 				var MP = ManiaPal.MainWindow.Instance;
-				MP.Dispatcher.Invoke(() =>
-				{
-					MP.Visibility = System.Windows.Visibility.Visible;
-				});
+				MP.Visibility = System.Windows.Visibility.Visible;
+				MP.Activate();
 
 
 				if (button != null && button == maniaPalStageConfigToolStripMenuItem && StageConfig != null)
 				{
-					MP.Dispatcher.Invoke(() =>
-					{
-						if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
-						MP.RefreshPalette(MP.CurrentPaletteSet);
-					});
+					if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
+					MP.RefreshPalette(MP.CurrentPaletteSet);
 				}
 
 				if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
 				{
-					MP.Dispatcher.Invoke(() =>
-					{
-						if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
-						MP.RefreshPalette(MP.CurrentPaletteSet);
-					});
+					if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
+					MP.RefreshPalette(MP.CurrentPaletteSet);
 				}
 
 			}
@@ -5255,7 +5237,6 @@ Error: {ex.Message}");
 				{
 					Point rel = editorView.GraphicPanel.PointToScreen(Point.Empty);
 					e.Effect = System.Windows.Forms.DragDropEffects.Move;
-					//(ushort)((Int32)e.Data.GetData(e.Data.GetFormats()[0])
 					EditLayer?.StartDragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
 					UpdateEditLayerActions();
 				}
@@ -5341,10 +5322,7 @@ Error: {ex.Message}");
 			if (ManiaPalInstance != null)
 			{
 				var MP = ManiaPal.MainWindow.Instance;
-				MP.Dispatcher.Invoke(() =>
-				{
-					MP.Close();
-				});
+				MP.Close();
 			}
 
 
@@ -5359,7 +5337,14 @@ Error: {ex.Message}");
 			{
 				Debug.Write("Failed to write settings: " + ex);
 			}
+
+			editorView.Dispose();
+			editorView = null;
 			host.Child.Dispose();
+			host = null;
+
+
+
 		}
 
 		private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -5417,8 +5402,6 @@ Error: {ex.Message}");
 				ViewPanelContextMenu.IsOpen = true;
 
 			}
-
-			//Stuff that Doesn't work yet that I'm not ready to ship
 
 		}
 
@@ -5619,9 +5602,10 @@ Error: {ex.Message}");
 
 		private void CopyEntitiesToClipboard()
 		{
-			if (entitiesToolbar.IsFocused.Equals(false))
+			if (entitiesToolbar.IsFocused == false)
 			{
-				// Windows Clipboard mode
+				// Windows Clipboard mode (WPF Current Breaks this Apparently)
+				/*
 				if (mySettings.EnableWindowsClipboard && !mySettings.ProhibitEntityUseOnExternalClipboard)
 				{
 					// Clone the entities and stow them here
@@ -5633,7 +5617,7 @@ Error: {ex.Message}");
 
 					// Make a DataObject for the data and send it to the Windows clipboard for cross-instance copying
 					Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData), true);
-				}
+				}*/
 
 				// Local Clipboard mode
 				{

@@ -7,7 +7,8 @@
              xmlns:maniac="clr-namespace:ManiacEditor"
             xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="525" d:DesignWidth="250" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}">
+             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+             d:DesignHeight="525" d:DesignWidth="300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -17,23 +18,23 @@
             <RowDefinition Height="70"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="105"></RowDefinition>
         </Grid.RowDefinitions>
         <GroupBox Header="Entity Spawner" Foreground="{DynamicResource NormalText}" Grid.ColumnSpan="2">
             <Grid Height="30">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="54"></ColumnDefinition>
-                    <ColumnDefinition Width="78"></ColumnDefinition>
+                    <ColumnDefinition Width="45"></ColumnDefinition>
+                    <ColumnDefinition Width="114"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <ComboBox Foreground="{DynamicResource NormalText}" KeyDown="cbSpawn_KeyDown" x:Name="cbSpawn" Height="20" Margin="0,0" Grid.Column="0"></ComboBox>
-                <Button Click="btnSpawn_Click" Margin="2,0,0,0" Content="Spawn" Width="50" Height="20" Grid.Column="1"></Button>
-                <ComboBox Foreground="{DynamicResource NormalText}" x:Name="defaultFilter" Margin="2,0" Width="74" Height="20" Grid.Column="2">
-                    <ComboBoxItem Content="Mania (2)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
-                    <ComboBoxItem Content="Encore (4)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
-                    <ComboBoxItem Content="Both (1)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
-                    <ComboBoxItem Content="Pinball (255)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
-                    <ComboBoxItem Content="Other (0)" Foreground="{DynamicResource NormalText}"></ComboBoxItem>
+                <Button Click="btnSpawn_Click" Margin="2,0,0,0" Content="Spawn" Width="40" Height="20" Grid.Column="1"></Button>
+                <ComboBox SelectionChanged="FilterBox_SelectionChanged" SelectedIndex="0" Foreground="{DynamicResource NormalText}" x:Name="defaultFilter" Margin="2,0" Width="110" Height="20" Grid.Column="2">
+                    <ComboBoxItem x:Name="maniaFilter" Content="Mania (2)" Tag="M" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="encoreFilter" Content="Encore (4)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="bothFilter" Content="Both (1 &amp; 5)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="pinballFilter" Content="Pinball (255)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="otherFilter" Content="Other (0)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
                 </ComboBox>
             </Grid>
         </GroupBox>
@@ -48,22 +49,41 @@
                     <RowDefinition Height="1*"></RowDefinition>
                     <RowDefinition Height="60"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ComboBox Foreground="{DynamicResource NormalText}" SelectionChanged="EntitiesList_SelectedIndexChanged" DropDownOpened="entitiesList_DropDown" x:Name="entitiesList" Height="20" Margin="0,10,0,10"></ComboBox>
-                <Button x:Name="MoreButton" Height="20" Margin="5,10,0,10" Content="..." Grid.Column="1" Click="button2_Click">
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Go to this Entity" Click="goToThisEntityToolStripMenuItem_Click"></MenuItem>
-                            <ContextMenu.Template>
-                                <ControlTemplate>
-                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </ContextMenu.Template>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
+                <Grid Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="24"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ComboBox Foreground="{DynamicResource NormalText}" SelectionChanged="EntitiesList_SelectedIndexChanged" DropDownOpened="entitiesList_DropDown" x:Name="entitiesList" Height="30" Margin="0,0,0,0" DropDownClosed="EntitiesList_DropDownClosed">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Visibility}" Value="Collapsed">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Setter Property="Height" Value="0" />
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=Visibility}" Value="Visible">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <wpfTool:SplitButton x:Name="MoreButton" Height="30" Margin="5,0,0,0" Width="19" Grid.Column="1" Click="button2_Click">
+                        <wpfTool:SplitButton.DropDownContent>
+                            <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                                <MenuItem Header="Go to this Entity" Click="goToThisEntityToolStripMenuItem_Click"></MenuItem>
+                            </StackPanel>
+                        </wpfTool:SplitButton.DropDownContent>
+                    </wpfTool:SplitButton>
+                </Grid>
+
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
                     <Grid>
@@ -74,21 +94,22 @@
                     </Grid>
                 </Grid>
                 <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Search Box">
-                    <TextBox x:Name="searchBox" Height="20"></TextBox>
+                    <TextBox x:Name="searchBox" TextChanged="SearchBox_TextChanged" Height="20"></TextBox>
                 </GroupBox>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Entity Filter Settings" Foreground="{DynamicResource NormalText}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel>
-                    <CheckBox Checked="maniaFilterCheck_CheckedChanged" x:Name="maniaFilterCheck" Margin="5" Unchecked="maniaFilterCheck_CheckedChanged">Mania</CheckBox>
-                    <CheckBox x:Name="bothFilterCheck" Unchecked="bothFilterCheck_CheckedChanged" Checked="bothFilterCheck_CheckedChanged" Margin="5" Content="Common"></CheckBox>
+                    <CheckBox IsChecked="{maniac:SettingBinding showManiaEntities}" Checked="maniaFilterCheck_CheckedChanged" x:Name="maniaFilterCheck" Margin="5" Unchecked="maniaFilterCheck_CheckedChanged">Mania (000000)</CheckBox>
+                    <CheckBox IsChecked="{maniac:SettingBinding showBothEntities}" x:Name="bothFilterCheck" Unchecked="bothFilterCheck_CheckedChanged" Checked="bothFilterCheck_CheckedChanged" Margin="5" >Common (000000)</CheckBox>
+                    <CheckBox IsChecked="{maniac:SettingBinding showPinballEntities}" x:Name="pinballFilterCheck" Checked="PinballFilterCheck_CheckedChanged" Unchecked="PinballFilterCheck_CheckedChanged" Margin="5">Pinball (000000)</CheckBox>
                 </StackPanel>
                 <StackPanel>
-                    <CheckBox x:Name="encoreFilterCheck" Checked="encoreFilterCheck_CheckedChanged" Unchecked="encoreFilterCheck_CheckedChanged" Margin="5">Encore</CheckBox>
-                    <CheckBox x:Name="otherFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Other"></CheckBox>
-                </StackPanel>
-
+                    <CheckBox IsChecked="{maniac:SettingBinding showEncoreEntities}" x:Name="encoreFilterCheck" Checked="encoreFilterCheck_CheckedChanged" Unchecked="encoreFilterCheck_CheckedChanged" Margin="5">Encore (000000)</CheckBox>
+                    <CheckBox IsChecked="{maniac:SettingBinding showOtherEntities}" x:Name="otherFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Other (000000)"></CheckBox>
+                    <CheckBox IsChecked="{maniac:SettingBinding showPrePlusEntities}" x:Name="prePlusFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
+                </StackPanel> 
             </StackPanel>
         </GroupBox>
     </Grid>
@@ -108,6 +129,8 @@
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
             </Style>
+            
+
 
         </ResourceDictionary>
     </UserControl.Resources>

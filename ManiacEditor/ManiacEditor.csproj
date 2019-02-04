@@ -517,18 +517,17 @@
     <Compile Include="Enums + Shorthandings\Settings.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
-    <Compile Include="GL Preperations\IndexBuffer.cs" />
-    <Compile Include="GL Preperations\Indices.cs" />
-    <Compile Include="GL Preperations\TexCoords.cs" />
-    <Compile Include="GL Preperations\Texture2D.cs" />
-    <Compile Include="GL Preperations\VBCreator.cs" />
-    <Compile Include="GL Preperations\VertexBuffer.cs" />
-    <Compile Include="GL Preperations\Vertices.cs" />
     <Compile Include="Interfaces\Dialog\MessageBox.cs" />
     <Compile Include="Interfaces\Dialog\CustomMessageBoxWindow.xaml.cs">
       <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Dialog\DialogUtil.cs" />
+    <Compile Include="Interfaces\UserControls\EditorView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interfaces\UserControls\EditorView.Designer.cs">
+      <DependentUpon>EditorView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\WPF Resources\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
@@ -585,10 +584,6 @@
     <Compile Include="Interfaces\WPF UI\Options + Dev\DeveloperInterface.xaml.cs">
       <DependentUpon>DeveloperInterface.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\UserControls\GLViewControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Interfaces\UserControls\GLViewControl.Designer.cs" />
     <Compile Include="Interfaces\WPF UI\Editor Tools\GoToPlayerWindow.xaml.cs">
       <DependentUpon>GoToPlayerWindow.xaml</DependentUpon>
     </Compile>
@@ -632,12 +627,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\DeviceEventArgs.cs" />
-    <Compile Include="Interfaces\UserControls\EditorView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Interfaces\UserControls\EditorView.Designer.cs">
-      <DependentUpon>EditorView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\WPF Resources\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
@@ -664,12 +653,6 @@
     <Compile Include="Editor Classes\EditorBackground.cs" />
     <Compile Include="Editor Classes\EditorEntityFramework.cs" />
     <Compile Include="Editor Classes\EditorScene.cs" />
-    <Compile Include="Interfaces\UserControls\EntitiesToolbar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Interfaces\UserControls\EntitiesToolbar.Designer.cs">
-      <DependentUpon>EntitiesToolbar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entity Renders\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\AIZRockPile.cs" />
     <Compile Include="Entity Renders\Animals.cs" />
@@ -846,6 +829,9 @@
     <Compile Include="WPF + Winform Stuff\SkinResourceDictionary.cs" />
     <Compile Include="WPF + Winform Stuff\TextPrompt.cs" />
     <Compile Include="Graphics\TextureCreator.cs" />
+    <Compile Include="WPF + Winform Stuff\TextPrompt2.xaml.cs">
+      <DependentUpon>TextPrompt2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF + Winform Stuff\ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -954,11 +940,11 @@
     <EmbeddedResource Include="Interfaces\UserControls\ChunksList.resx">
       <DependentUpon>ChunksList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\UserControls\EditorView.resx">
-      <DependentUpon>EditorView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\UserControls\EditorView.resx">
+      <DependentUpon>EditorView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\SoundLooper.resx">
       <DependentUpon>SoundLooper.cs</DependentUpon>
@@ -978,9 +964,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\DeviceLostBox.resx">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\UserControls\EntitiesToolbar.resx">
-      <DependentUpon>EntitiesToolbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\UserControls\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
@@ -1050,6 +1033,8 @@
     <Resource Include="Resources\Icons\DropDownArrow.png" />
     <Resource Include="Resources\NeoAboutImage.png" />
     <Resource Include="Resources\MELogo.png" />
+    <Resource Include="Resources\Monitors\QuestionStatic.gif" />
+    <Resource Include="Resources\Monitors\QuestionStatic2.gif" />
     <Content Include="Resources\Tile Overlays\16x16Tiles_Edit.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1281,6 +1266,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Interfaces\WPF UI\UserControls\TilesToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF + Winform Stuff\TextPrompt2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

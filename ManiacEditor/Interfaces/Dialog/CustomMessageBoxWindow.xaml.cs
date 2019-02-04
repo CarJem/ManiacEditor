@@ -224,9 +224,9 @@ namespace ManiacEditor
 					icon.UriSource = new Uri("pack://application:,,,/Resources/Monitors/InfoStatic2.gif");
 					icon.EndInit();
 					break;
-				case MessageBoxImage.Question:        //Must Add Icon for Question Mark (Missing)
+				case MessageBoxImage.Question:        // Question Mark 
 					icon.BeginInit();
-					icon.UriSource = new Uri("pack://application:,,,/Resources/Monitors/InfoStatic2.gif");
+					icon.UriSource = new Uri("pack://application:,,,/Resources/Monitors/QuestionStatic2.gif");
 					icon.EndInit();
 					break;
 				default:

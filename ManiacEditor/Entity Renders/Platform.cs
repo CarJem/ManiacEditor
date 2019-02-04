@@ -92,7 +92,6 @@ namespace ManiacEditor.Entity_Renders
                     if (type == 4) editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
                     if (editorAnim == null)
                     {
-                        Debug.Print("I suck!");
                         return; // no animation, bail out
                     }
                     

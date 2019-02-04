@@ -86,9 +86,9 @@ namespace ManiacEditor.Entity_Renders
                     }
                 }
             }
-            Debug.Print(zoneName);
-            Debug.Print(binPath);
-            Debug.Print(parallaxName);
+            //Debug.Print(zoneName);
+            //Debug.Print(binPath);
+            //Debug.Print(parallaxName);
             return parallaxName;
         }
 

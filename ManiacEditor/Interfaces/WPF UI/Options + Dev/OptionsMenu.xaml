@@ -108,7 +108,11 @@
             </TabItem>
             <TabItem Header="Defaults" Foreground="{DynamicResource NormalText}">
                 <Grid Background="{DynamicResource NormalBackground}">
-                    <GroupBox Header="Tile Toolbar Defaults" HorizontalAlignment="Left" Height="104" VerticalAlignment="Top" Width="193" Margin="10,10,0,0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="415*"/>
+                        <ColumnDefinition Width="711*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Tile Toolbar Defaults" HorizontalAlignment="Left" Height="104" VerticalAlignment="Top" Width="193" Margin="10,10,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="62*"/>
@@ -157,15 +161,17 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="62*"/>
-                                <ColumnDefinition Width="29*"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox Content="Mania" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,4,0,0" IsChecked="{maniac:SettingBinding showManiaEntities}"/>
                             <CheckBox Content="Encore" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,24,0,0" IsChecked="{maniac:SettingBinding showEncoreEntities}"/>
                             <CheckBox Content="Both" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,44,0,0" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding showBothEntities}"/>
                             <CheckBox Content="Other" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,64,0,0" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding showOtherEntities}"/>
-                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="87,10,0,0" Height="41" Width="84" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding useBitOperators}">
+
+                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="68,39,0,0" Height="41" Width="84" IsChecked="{maniac:SettingBinding useBitOperators}">
                                 <TextBlock Text="Use Bit Operators" TextWrapping="Wrap"/>
                             </CheckBox>
+                            <CheckBox Content="Pinball" HorizontalAlignment="Left" Margin="68,4,0,62" IsChecked="{maniac:SettingBinding showPinballEntities}"/>
+                            <CheckBox Content="Filterless" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,24,0,0" IsChecked="{maniac:SettingBinding showPrePlusEntities}"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Default Visible Layers" HorizontalAlignment="Left" Height="203" VerticalAlignment="Top" Width="193" Margin="208,114,0,0">
@@ -184,7 +190,7 @@
                             <CheckBox Content="Moving Platforms" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,146,0,0" Height="16" Grid.ColumnSpan="2" Width="128" IsChecked="{maniac:SettingBinding MovingPlatformsDefault}"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Other Defaults" HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="404" Margin="406,13,0,0">
+                    <GroupBox Header="Other Defaults" HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="404" Margin="406,13,0,0" Grid.ColumnSpan="2">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="62*"/>
@@ -220,7 +226,7 @@
                             <Label Content="Custom Grid Size" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,50,0,0" Width="103" Height="26"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Default Grid Size" HorizontalAlignment="Left" Margin="406,291,0,0" Width="117" Height="162" VerticalAlignment="Top">
+                    <GroupBox Header="Default Grid Size" HorizontalAlignment="Left" Margin="406,291,0,0" Width="117" Height="162" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <StackPanel>
                             <RadioButton x:Name="x16checkbox" Content="16x16" Margin="0,4,0,0" Grid.ColumnSpan="2" Checked="x16checkbox_CheckedChanged" Unchecked="x16checkbox_CheckedChanged"/>
                             <RadioButton x:Name="x128checkbox" Content="128x128" Margin="0,4,0,0" Grid.ColumnSpan="2" Checked="X128checkbox_CheckedChanged" Unchecked="X128checkbox_CheckedChanged"/>
@@ -228,7 +234,7 @@
                             <RadioButton x:Name="customGridCheckbox" Content="Custom..." Margin="0,4,0,0" Grid.ColumnSpan="2"  Checked="customGridCheckbox_CheckedChanged" Unchecked="customGridCheckbox_CheckedChanged"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Default Game Menu Layout" HorizontalAlignment="Left" Margin="815,13,0,0" Width="197" Height="259" VerticalAlignment="Top">
+                    <GroupBox Header="Default Game Menu Layout" HorizontalAlignment="Left" Margin="400.333,13,0,0" Width="197" Height="259" VerticalAlignment="Top" Grid.Column="1">
                         <StackPanel x:Name="ButtonLayoutGroup">
                             <RadioButton Tag="Xbox" Content="Xbox" Margin="0,2" Click="SetButtonLayoutDefault"/>
                             <RadioButton Tag="PS4" Content="PS4" Margin="0,2" Click="SetButtonLayoutDefault"/>
@@ -244,7 +250,7 @@
                             <RadioButton Tag="PC SP" Content="PC SP" Margin="0,2" Click="SetButtonLayoutDefault"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Default Game Menu Language" HorizontalAlignment="Left" Margin="815,277,0,0" Width="197" Height="176" VerticalAlignment="Top">
+                    <GroupBox Header="Default Game Menu Language" HorizontalAlignment="Left" Margin="400.333,277,0,0" Width="197" Height="176" VerticalAlignment="Top" Grid.Column="1">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="5,0" x:Name="MenuLangGroup">
                                 <RadioButton Content="EN" Tag="EN" Margin="0,2" Click="radioButton12_Click"/>
@@ -265,7 +271,7 @@
 
 
                     </GroupBox>
-                    <GroupBox Header="Custom Colors" Margin="528,291,0,0" Height="162" VerticalAlignment="Top" HorizontalAlignment="Left" Width="282">
+                    <GroupBox Header="Custom Colors" Margin="113.333,291,0,0" Height="162" VerticalAlignment="Top" HorizontalAlignment="Left" Width="282" Grid.Column="1">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="White" x:Name="CSAC" Click="comboBox4_DropDown"></Button>
@@ -3521,7 +3527,7 @@
                             <CheckBox IsChecked="{maniac:SettingBinding allowForSmoothSelection}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,4,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock Text="Allow for Smoother Selecting/Moving*(Slows down Status Information)" TextWrapping="WrapWithOverflow" Width="208" TextAlignment="Center"/>
                             </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding DisableDragging}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,4,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <CheckBox IsChecked="{maniac:SettingBinding DisableDraging}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,4,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock Text="Disable Tiles Toolbar Dragging" TextWrapping="WrapWithOverflow" Width="209" TextAlignment="Center"/>
                             </CheckBox>
                         </StackPanel>

@@ -56,7 +56,7 @@
                         <TextBlock></TextBlock>
                         <TextBlock></TextBlock>
                         <TextBlock x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
-                        <TextBlock x:Name="devCheck"><TextBlock Text="        "/><CheckBox IsChecked="{maniac:SettingBinding UsePrePlusOffsets}"><TextBlock><Hyperlink ><Run Text="Automatically Open"/></Hyperlink></TextBlock></CheckBox></TextBlock>
+                        <TextBlock x:Name="devCheck"><TextBlock Text="        "/><CheckBox IsChecked="{maniac:SettingBinding UseAutoForcefulStartup}"><TextBlock><Hyperlink ><Run Text="Automatically Open"/></Hyperlink></TextBlock></CheckBox></TextBlock>
                         <TextBlock></TextBlock>
                         <TextBlock></TextBlock>
                         <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel7_LinkClicked"><Run Text="Github"/></Hyperlink></TextBlock>

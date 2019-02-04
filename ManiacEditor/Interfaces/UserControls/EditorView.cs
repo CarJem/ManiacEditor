@@ -53,6 +53,17 @@ namespace ManiacEditor.Interfaces
             else return EditorInstance.Zoom;
         }
 
+		public void Dispose()
+		{
+			this.GraphicPanel.Dispose();
+			this.GraphicPanel = null;
+			hScrollBar = null;
+			vScrollBar = null;
+			hScrollBar1Host.Dispose();
+			vScrollBar1Host.Dispose();
+			base.Dispose(true);
+		}
+
         public Rectangle GetScreen()
         {
             if (EditorInstance.mySettings.EntityFreeCam && !EditorInstance.isExportingImage) return new Rectangle(EditorInstance.CustomX, EditorInstance.CustomY, mainPanel.Width, mainPanel.Height);

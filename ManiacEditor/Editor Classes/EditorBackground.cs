@@ -20,9 +20,6 @@ namespace ManiacEditor
         public int GRID_TILE_SIZE = 16;
         public Editor EditorInstance;
 
-		Vertices vb1;
-		Vertices vb2;
-
 		int width;
 		int height;
 
@@ -31,7 +28,6 @@ namespace ManiacEditor
             EditorInstance = instance;
         }
 
-		//GL Method
 		public EditorBackground(Editor instance, int width, int height)
 		{
 			this.width = width;
@@ -77,50 +73,6 @@ namespace ManiacEditor
                 }
             }
         }
-
-
-		//GL Draw
-		public void Draw(GLViewControl gl)
-		{
-			RSDKv5Color rcolor1 = EditorInstance.EditorScene.EditorMetadata.BackgroundColor1;
-			RSDKv5Color rcolor2 = EditorInstance.EditorScene.EditorMetadata.BackgroundColor2;
-
-			Color color1 = Color.FromArgb(rcolor1.A, rcolor1.R, rcolor1.G, rcolor1.B);
-			Color color2 = Color.FromArgb(rcolor2.A, rcolor2.R, rcolor2.G, rcolor2.B);
-
-			// Draw with first color everything
-			if (vb1 == null)
-			{
-				using (var c = new VBCreator())
-				{
-					c.AddRectangle(new Rectangle(0, 0, width, height));
-					vb1 = c.GetVertices();
-				}
-			}
-			vb1.Draw(PrimitiveType.Quads, color1);
-
-			if (color2.A != 0)
-			{
-				if (vb2 == null)
-				{
-					using (var c = new VBCreator())
-					{
-						for (int y = 0; y < DivideRoundUp(height, BOX_SIZE * EditorLayer.TILE_SIZE); ++y)
-						{
-							for (int x = 0; x < DivideRoundUp(width, BOX_SIZE * EditorLayer.TILE_SIZE); ++x)
-							{
-								if ((x + y) % 2 == 1) c.AddRectangle(new Rectangle(x * BOX_SIZE * EditorLayer.TILE_SIZE, y * BOX_SIZE * EditorLayer.TILE_SIZE, BOX_SIZE * EditorLayer.TILE_SIZE, BOX_SIZE * EditorLayer.TILE_SIZE));
-							}
-						}
-						vb2 = c.GetVertices();
-					}
-				}
-				GL.PushMatrix();
-				GL.Translate(0, 0, Editor.LAYER_DEPTH / 2);
-				vb2.Draw(PrimitiveType.Quads, color2);
-				GL.PopMatrix();
-			}
-		}
 
 		public void DrawEdit(DevicePanel d)
         {

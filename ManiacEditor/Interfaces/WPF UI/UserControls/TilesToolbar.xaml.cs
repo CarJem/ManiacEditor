@@ -25,9 +25,12 @@ namespace ManiacEditor
 		public Editor EditorInstance;
 
 		private TilesList tilesList;
-		private System.Windows.Forms.TrackBar trackBar1;
+		//private System.Windows.Forms.TrackBar trackBar1;
 		public System.Windows.Forms.Panel tilePanel;
 		public Interfaces.RetroEDTileList retroEDTileList1;
+
+		public System.Windows.Forms.Integration.WindowsFormsHost host;
+		public System.Windows.Forms.Integration.WindowsFormsHost host3;
 		public Action<int> TileDoubleClick
 		{
 			get
@@ -119,7 +122,7 @@ namespace ManiacEditor
 
 			RSDKv5.GIF tileGridImage = new GIF((data_directory + "\\16x16Tiles.gif"), Colors);
 			tilesList.TilesImage = tileGridImage;
-			tilesList.TileScale = 1 << trackBar1.Value;
+			tilesList.TileScale = 1 << (int)trackBar1.Value;
 
 			UpdateShortcuts();
 
@@ -128,8 +131,8 @@ namespace ManiacEditor
 
 		public void SetupTilesList(Editor instance)
 		{
-
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			host = new System.Windows.Forms.Integration.WindowsFormsHost();
+			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
 			this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
 			this.tilePanel = new System.Windows.Forms.Panel();
 			// 
@@ -148,24 +151,6 @@ namespace ManiacEditor
 			this.retroEDTileList1.TabIndex = 1;
 
 			// 
-			// trackBar1
-			// 
-			this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.trackBar1.BackColor = System.Drawing.SystemColors.Control;
-			this.trackBar1.LargeChange = 1;
-			this.trackBar1.Location = new System.Drawing.Point(0, 0);
-			this.trackBar1.Maximum = 3;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(242, 45);
-			this.trackBar1.TabIndex = 1;
-			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.trackBar1.Value = 1;
-			this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-			this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-			this.trackBar1.Dock = System.Windows.Forms.DockStyle.Fill;
-
-			// 
 			// tilePanel
 			// 
 			this.tilePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -177,15 +162,11 @@ namespace ManiacEditor
 			this.tilePanel.Size = new System.Drawing.Size(241, 253);
 			this.tilePanel.TabIndex = 2;
 			this.tilePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
-			System.Windows.Forms.Integration.WindowsFormsHost host2 = new System.Windows.Forms.Integration.WindowsFormsHost();
-			System.Windows.Forms.Integration.WindowsFormsHost host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
+
 
 			host.Child = tilePanel;
-			host2.Child = trackBar1;
 			host3.Child = retroEDTileList1;
 
-			TileSlider.Children.Add(host2);
 			TileViewer.Children.Add(host);
 
 			ChunksPage.Children.Add(host3);
@@ -208,9 +189,9 @@ namespace ManiacEditor
 			this.tilePanel.Controls.Add(this.tilesList);
 		}
 
-		private void trackBar1_ValueChanged(object sender, EventArgs e)
+		private void trackBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			tilesList.TileScale = 1 << trackBar1.Value;
+			tilesList.TileScale = 1 << (int)trackBar1.Value;
 		}
 
 		public void Reload(string colors = null)
@@ -233,9 +214,33 @@ namespace ManiacEditor
 
 		public void Dispose()
 		{
-			retroEDTileList1.Dispose();
-			tilesList.Dispose();
-			Visibility = Visibility.Collapsed;
+			if (host != null)
+			{
+				host.Child.Dispose();
+				host = null;
+			}
+			if (tilesList != null)
+			{
+				tilesList.Dispose();
+				tilesList = null;
+			}
+			if (tilePanel != null)
+			{
+				tilePanel.Dispose();
+				tilePanel = null;
+			}
+			if (retroEDTileList1 != null)
+			{
+				retroEDTileList1.Dispose();
+				retroEDTileList1 = null;
+			}
+			if (host3 != null)
+			{
+				host3.Child.Dispose();
+				host3 = null;
+			}
+
+
 		}
 
 		private void TilesToolbar_Load(object sender, RoutedEventArgs e)
@@ -323,8 +328,14 @@ namespace ManiacEditor
 
 		private void tabControl1_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (TabControl.TabIndex == 0) EditorInstance.ChunksToolButton.IsChecked = false;
-			else EditorInstance.ChunksToolButton.IsChecked = true;
+			if (TabControl.TabIndex == 0)
+			{
+				EditorInstance.ChunksToolButton.IsChecked = false;
+			}
+			else
+			{
+				EditorInstance.ChunksToolButton.IsChecked = true;
+			}
 		}
 
 		private void TilesToolbar_Resize(object sender, EventArgs e)

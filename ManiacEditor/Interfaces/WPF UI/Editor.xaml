@@ -292,7 +292,10 @@
                 <MenuItem x:Name="duplicateObjectIDHealerToolStripMenuItem" Header="Fixer Maniac (Duplicate Object ID Fixer)" Click="DuplicateObjectIDHealerToolStripMenuItem_Click"/>
                 <MenuItem x:Name="animationManiacToolStripMenuItem" Header="Animation Maniac (Animation Editor)" IsEnabled="False"/>
                 <MenuItem x:Name="rSDKAnnimationEditorToolStripMenuItem" Header="RSDK Animation Editor" Click="RSDKAnnimationEditorToolStripMenuItem_Click"/>
-                <MenuItem x:Name="colorPaletteEditorToolStripMenuItem" Header="ManiaPal (Color Palette Editor)" Click="ColorPaletteEditorToolStripMenuItem_Click" SubmenuOpened="ManiaPalMenuItem_SubmenuOpened" IsEnabled="False">
+                <MenuItem SubmenuOpened="ManiaPalMenuItem_SubmenuOpened" IsEnabled="True">
+                    <MenuItem.Header>
+                        <TextBlock PreviewMouseDown="ColorPaletteEditorToolStripMenuItem_Click" x:Name="colorPaletteEditorToolStripMenuItem" Text="ManiaPal (Color Palette Editor)"></TextBlock>
+                    </MenuItem.Header>
                     <MenuItem x:Name="maniaPalStageConfigToolStripMenuItem" Header="ManiaPal (Stage Config)" Click="ColorPaletteEditorToolStripMenuItem_Click"/>
                     <MenuItem x:Name="maniaPalGameConfigToolStripMenuItem" Header="ManiaPal (Game Config)" Click="ColorPaletteEditorToolStripMenuItem_Click"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
@@ -384,15 +387,15 @@
                     </Button.Content>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="RunSceneButton" Width="32"  Height="34"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RunScene_Click">
-                    <ToggleButton.Content>
+                <Button x:Name="RunSceneButton" Width="32"  Height="34"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RunScene_Click">
+                    <Button.Content>
                         <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1">
                             <Rectangle.OpacityMask>
                                 <ImageBrush ImageSource="pack://application:,,,/Resources/icons/RunGame.png" Stretch="Uniform" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                    </ToggleButton.Content>
-                </ToggleButton>
+                    </Button.Content>
+                </Button>
 
                 <Button BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
                     <Button.Content>
@@ -406,7 +409,7 @@
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                     </MenuItem.Header>
-                                    <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus"/>
+                                    <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus" Click="RunScene_Click"/>
                                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                                     <MenuItem x:Name="trackThePlayerToolStripMenuItem" Header="Track the Player...">
                                         <MenuItem x:Name="trackP1ToolStripMenuItem" Header="Track P1" Tag="1" Click="TrackPlayerToolStripMenuItem_Click"/>
@@ -523,8 +526,8 @@
                                     <MenuItem x:Name="x32ToolStripMenuItem" Header="32x32" Click="X32ToolStripMenuItem_Click"></MenuItem>
                                     <MenuItem x:Name="x64ToolStripMenuItem" Header="64x64" Click="X64ToolStripMenuItem_Click"></MenuItem>
                                     <MenuItem x:Name="optionsToolStripMenuItem1" Header="Options: " IsEnabled="False"></MenuItem>
-                                    <MenuItem x:Name="enableXAxisToolStripMenuItem" Header="Enable X Axis" Click="EnableXAxisToolStripMenuItem_Click"></MenuItem>
-                                    <MenuItem x:Name="enableYAxisToolStripMenuItem" Header="Enable Y Axis" Click="EnableYAxisToolStripMenuItem_Click"></MenuItem>
+                                    <MenuItem IsChecked="True" x:Name="enableXAxisToolStripMenuItem" Header="Enable X Axis" Click="EnableXAxisToolStripMenuItem_Click"></MenuItem>
+                                    <MenuItem IsChecked="True" x:Name="enableYAxisToolStripMenuItem" Header="Enable Y Axis" Click="EnableYAxisToolStripMenuItem_Click"></MenuItem>
                                 </MenuItem>
                             </Menu>
                         </StackPanel>

@@ -47,7 +47,7 @@ namespace ManiacEditor.Interfaces
 
 		public int GetSelectedPlayer()
 		{
-			Debug.Print(selectedPlayer.ToString());
+			//Debug.Print(selectedPlayer.ToString());
 			return selectedPlayer;
 		}
 	}

@@ -299,7 +299,7 @@ namespace ManiacEditor.Interfaces
 				var lvc = lvObjectsViewer.SelectedItem as CheckBox;
 				if (lvc != null)
 				{
-					Debug.Print(lvc.Content.ToString());
+					//Debug.Print(lvc.Content.ToString());
 					int.TryParse(lvc.Tag.ToString(), out int ID);
 					SceneObject obj = _targetSceneObjects[ID];
 

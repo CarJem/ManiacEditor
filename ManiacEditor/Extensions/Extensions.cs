@@ -50,6 +50,16 @@ namespace ManiacEditor
             }
         }
 
+		public static System.Windows.Media.Color ColorConvertToMedia(System.Drawing.Color input)
+		{
+			return System.Windows.Media.Color.FromArgb(input.A, input.R, input.G, input.B);
+		}
+
+		public static System.Drawing.Color ColorConvertToDrawing(System.Windows.Media.Color input)
+		{
+			return System.Drawing.Color.FromArgb(input.A, input.R, input.G, input.B);
+		}
+
 		// Or IsNanOrInfinity
 		public static bool HasValue(this double value)
 		{

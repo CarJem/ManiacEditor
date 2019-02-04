@@ -104,15 +104,15 @@ namespace ManiacEditor
                 string v1 = versionNum;
                 string v2 = versionNum2;
 
-                Debug.Print(v1);
-                Debug.Print(v2);
+                //Debug.Print(v1);
+                //Debug.Print(v2);
 
                 var version1 = new Version(v1);
                 var version2 = new Version(v2);
 
                 var result = version1.CompareTo(version2);
                 string curVer = GetCurrentVersion();
-                Debug.Print(result.ToString());
+                //Debug.Print(result.ToString());
                 if (result != 0)
                 {
                     if (badBuild == false && !curVer.Contains("RUNNING"))

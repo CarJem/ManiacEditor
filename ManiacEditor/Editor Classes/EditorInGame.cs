@@ -65,7 +65,7 @@ namespace ManiacEditor
             return GetDimensions(player).Contains(point);
         }
 
-        public bool CheckpointEnabled { get { return StarPostEnable >= 0; } }
+        public bool CheckpointEnabled { get { return StarPostEnable >= (byte)65; } }
 
 
         public Rectangle GetDimensions(int player)

@@ -53,12 +53,12 @@ namespace ManiacEditor
                 }
                 else if (argument.StartsWith("X="))
                 {
-                    Debug.Print(argument.Substring(2));
+                    //Debug.Print(argument.Substring(2));
                     Int32.TryParse(argument.Substring(2), out X);
                 }
                 else if (argument.StartsWith("Y="))
                 {
-                    Debug.Print(argument.Substring(2));
+                    //Debug.Print(argument.Substring(2));
                     Int32.TryParse(argument.Substring(2), out Y);
                 }
             }
@@ -67,10 +67,10 @@ namespace ManiacEditor
             ScenePath.Replace("\"", "");
             ModPath.Replace("\"", "");
 
-            Debug.Print(DataDir);
-            Debug.Print(ModPath);
-            Debug.Print(ScenePath);
-            Debug.Print(LevelID.ToString());
+            //Debug.Print(DataDir);
+            //Debug.Print(ModPath);
+            //Debug.Print(ScenePath);
+            //Debug.Print(LevelID.ToString());
 
             if (DataDir != "" && ScenePath != "")
             {

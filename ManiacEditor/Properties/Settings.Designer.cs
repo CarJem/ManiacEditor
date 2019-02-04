@@ -1602,5 +1602,29 @@ namespace ManiacEditor.Properties {
                 this["DeveloperForceOpenMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool showPinballEntities {
+            get {
+                return ((bool)(this["showPinballEntities"]));
+            }
+            set {
+                this["showPinballEntities"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool showPrePlusEntities {
+            get {
+                return ((bool)(this["showPrePlusEntities"]));
+            }
+            set {
+                this["showPrePlusEntities"] = value;
+            }
+        }
     }
 }

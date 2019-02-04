@@ -96,7 +96,7 @@ namespace ManiacEditor.Interfaces
 			InitializeComponent();
 			SetupWinFormTreeStuff();
 			withinAParentForm = parented;
-			if (withinAParentForm) CancelButton.IsEnabled = false;
+			if (withinAParentForm && window == null) CancelButton.IsEnabled = false;
 			Window = window;
 
 			RemoveAllDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
