@@ -15,9 +15,10 @@ namespace ManiacEditor
     {
         public GIF TilesImage = null;
 
-        private DevicePanel graphicPanel;
+        public DevicePanel graphicPanel;
 		private ManiacEditor.Interfaces.VScrollBar vScrollBar1;
 
+		bool disposing = false;
 
 		const int TILE_SIZE = 16;
 
@@ -87,7 +88,8 @@ namespace ManiacEditor
 
         public void Reload(string colors = null)
         {
-            TilesImage.Reload(colors);
+			if (disposing) return;
+			TilesImage.Reload(colors);
             graphicPanel.Refresh();
         }
 
@@ -98,12 +100,14 @@ namespace ManiacEditor
 
         private void graphicPanel_Resize(object sender, EventArgs e)
         {
-            graphicPanel.ResetDevice();
+			if (disposing) return;
+			graphicPanel.ResetDevice();
 
         }
 
         private void graphicPanel_OnRender(object sender, DeviceEventArgs e)
         {
+			if (disposing) return;
             var lineColor = System.Drawing.Color.Black;
             if (Settings.mySettings.NightMode) lineColor = Editor.darkTheme5;
             if (TilesImage != null) {
@@ -173,11 +177,13 @@ namespace ManiacEditor
 
         private void panel1_Resize(object sender, EventArgs e)
         {
-            AdjustControls();
+			if (disposing) return;
+			AdjustControls();
         }
 
         private void AdjustControls()
         {
+			if (disposing) return;
 			try
 			{
 				int tile_size = (TILE_SIZE + BorderSize * 2);
@@ -209,7 +215,8 @@ namespace ManiacEditor
 
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
         {
-            graphicPanel.Render();
+			if (disposing) return;
+			graphicPanel.Render();
         }
 
 		public void Render()
@@ -219,13 +226,14 @@ namespace ManiacEditor
 
         private void graphicPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            vScrollBar1.scroller.Value = Math.Max(Math.Min(vScrollBar1.scroller.Value - (e.Delta * vScrollBar1.scroller.SmallChange / 120), vScrollBar1.scroller.Maximum), 0);
+			if (disposing) return;
+			vScrollBar1.scroller.Value = Math.Max(Math.Min(vScrollBar1.scroller.Value - (e.Delta * vScrollBar1.scroller.SmallChange / 120), vScrollBar1.scroller.Maximum), 0);
         }
 
         private void ClickTile(int x, int y, bool rightClick = false, MouseEventArgs e = null)
         {
-			
-            int tile_size = (TILE_SIZE + BorderSize * 2);
+			if (disposing) return;
+			int tile_size = (TILE_SIZE + BorderSize * 2);
             int tiles_per_line = panel1.Width / tile_size / TileScale;
 
             int tile_number = ((y / tile_size / TileScale) * tiles_per_line) + (x / tile_size / TileScale);
@@ -252,7 +260,8 @@ namespace ManiacEditor
 
         private void graphicPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+			if (disposing) return;
+			if (e.Button == MouseButtons.Left)
             {
                 ClickTile(e.X, e.Y);
                 mouseDownPos = e.Location;
@@ -266,7 +275,8 @@ namespace ManiacEditor
 
         private void graphicPanel_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+			if (disposing) return;
+			if (e.Button == MouseButtons.Left)
             {
                 ClickTile(e.X, e.Y);
                 if (SelectedTile != -1 && TileDoubleClick != null)
@@ -282,11 +292,13 @@ namespace ManiacEditor
 
         private void graphicPanel_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = DragDropEffects.Move;
+			if (disposing) return;
+			e.Effect = DragDropEffects.Move;
         }
 
         private void graphicPanel_MouseMove(object sender, MouseEventArgs e)
         {
+			if (disposing) return;
             if (e.Button == MouseButtons.Left)
             {
                 dynamic dx = e.X - mouseDownPos.X;
@@ -304,9 +316,9 @@ namespace ManiacEditor
 
         public new void Dispose()
         {
-            TilesImage?.Dispose();
-            graphicPanel.Dispose();
-            base.Dispose();
+			disposing = true;
+			TilesImage?.Dispose();
+			base.Dispose();
         }
     }
 }

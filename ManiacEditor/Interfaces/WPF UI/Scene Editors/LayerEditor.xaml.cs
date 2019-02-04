@@ -46,6 +46,7 @@ namespace ManiacEditor.Interfaces
 			get => GetSelectedLayerScroll();
 		}
 
+		private bool LockSelectionChangedTriggers = false;
 		private bool _layerArrangementChanged = false;
 		bool initilzing = true;
 
@@ -158,15 +159,27 @@ namespace ManiacEditor.Interfaces
 										$"Effective Height {(nudHeight.Value * 16):N0}";
 		}
 
-		private void SelectionChanged()
+		private void SelectionChanged(int itemChanged = 0)
 		{
 
+			if (itemChanged != 1)
+			{
 				lbLayers.Refresh();
 				lbLayers.Items.Refresh();
+			}
+			if (itemChanged != 2)
+			{
 				lbHorizontalRules.Refresh();
 				lbHorizontalRules.Items.Refresh();
+			}
+			if (itemChanged != 3)
+			{
 				lbMappings.Refresh();
 				lbMappings.Items.Refresh();
+			}
+
+
+
 
 				DataContext = new
 				{
@@ -175,9 +188,10 @@ namespace ManiacEditor.Interfaces
 					_bsHorizontalMap = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList.ElementAtOrDefault(SelectedLayerHorizontalIndex)
 				};
 
-				lbLayers.ItemsSource = Layers;
-				lbHorizontalRules.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll;
-				lbMappings.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList;
+
+				if (itemChanged != 1)  lbLayers.ItemsSource = Layers;
+				if (itemChanged != 2) lbHorizontalRules.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll;
+				if (itemChanged != 3) lbMappings.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList;
 
 
 				lbLayers.DisplayMemberPath = "Name";
@@ -196,6 +210,7 @@ namespace ManiacEditor.Interfaces
 				BindControl(nudUnknownByte2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.DrawingOrder");
 				BindControl(nudUnknownWord1, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.RelativeSpeed");
 				BindControl(nudUnknownWord2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.ConstantSpeed");
+			
 
 				lbHorizontalRules.DisplayMemberPath = "Id";
 
@@ -203,7 +218,6 @@ namespace ManiacEditor.Interfaces
 				BindControl(nudHorizByte2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontal.DrawOrder");
 				BindControl(nudHorizVal1, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontal.RelativeSpeed");
 				BindControl(nudHorizVal2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontal.ConstantSpeed");
-
 
 				BindControl(nudStartLine, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontalMap.StartIndex");
 				BindControl(nudLineCount, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontalMap.LineCount");
@@ -214,27 +228,33 @@ namespace ManiacEditor.Interfaces
 
 		private void LbHorizontalRules_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			lbMappings.SelectedIndex = 0;
-			//lbMappings.Refresh();
-			//lbMappings.Items.Refresh();
-			SelectionChanged();
+			if (LockSelectionChangedTriggers) return;
+
+			LockSelectionChangedTriggers = true;
+			SelectionChanged(2);
+			LockSelectionChangedTriggers = false;
 		}
 
 		private void LbMappings_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectionChanged();
+
+			if (LockSelectionChangedTriggers) return;
+
+			LockSelectionChangedTriggers = true;
+			lbHorizontalRules.SelectedIndex = 0;
+			SelectionChanged(3);
+			LockSelectionChangedTriggers = false;
 		}
 
 		private void LbLayers_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			if (LockSelectionChangedTriggers) return;
 
-			//lbHorizontalRules.Refresh();
-			//lbHorizontalRules.Items.Refresh();
-			//lbMappings.Refresh();
-			//lbMappings.Items.Refresh();
+			LockSelectionChangedTriggers = true;
 			lbHorizontalRules.SelectedIndex = 0;
 			lbMappings.SelectedIndex = 0;
-			SelectionChanged();
+			SelectionChanged(1);
+			LockSelectionChangedTriggers = false;
 		}
 
 		private void btnResize_Click(object sender, RoutedEventArgs e)
@@ -433,7 +453,7 @@ namespace ManiacEditor.Interfaces
 						TextWrapping = TextWrapping.WrapWithOverflow,
 						Foreground = new SolidColorBrush(Colors.Red)
 					};
-					SelectionChanged();
+					//SelectionChanged();
 				}
 				else
 				{
@@ -444,7 +464,7 @@ namespace ManiacEditor.Interfaces
 						TextWrapping = TextWrapping.WrapWithOverflow,
 						Foreground = (SolidColorBrush)FindResource("NormalText")
 					};
-					SelectionChanged();
+					//SelectionChanged();
 				}
 			}
 

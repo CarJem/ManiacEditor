@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ManiacEditor.Interfaces"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Title="Select a Scene..." Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+        Title="Select a Scene..." MinWidth="1026" MinHeight="522" Width="1026" Height="522" Background="{DynamicResource NormalBackground}" ResizeMode="CanResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
     <Grid x:Name="FrameHost">
         
     </Grid>

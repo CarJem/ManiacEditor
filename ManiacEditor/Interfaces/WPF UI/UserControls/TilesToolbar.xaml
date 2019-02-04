@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ManiacEditor"
              xmlns:maniac="clr-namespace:ManiacEditor"
              mc:Ignorable="d" 
-             d:DesignHeight="525" d:DesignWidth="250" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="TilesToolbar_Load">
+             d:DesignHeight="525" d:DesignWidth="250" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="TilesToolbar_Load" Unloaded="UserControl_Unloaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

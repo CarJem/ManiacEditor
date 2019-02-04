@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using RSDKv5;
 using System.Diagnostics;
 
@@ -25,7 +14,8 @@ namespace ManiacEditor
 		public Editor EditorInstance;
 
 		private TilesList tilesList;
-		//private System.Windows.Forms.TrackBar trackBar1;
+		bool disposing = false;
+
 		public System.Windows.Forms.Panel tilePanel;
 		public Interfaces.RetroEDTileList retroEDTileList1;
 
@@ -53,6 +43,7 @@ namespace ManiacEditor
 		{
 			get
 			{
+				if (disposing) return -1;
 				int res = tilesList.SelectedTile;
 				for (int i = 0; i < selectTileOptionsCheckboxes.Length; ++i)
 					if (selectTileOptionsCheckboxes[i].IsChecked.Value) res |= 1 << (10 + i);
@@ -134,6 +125,7 @@ namespace ManiacEditor
 			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
 			this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
+			this.tilesList = new ManiacEditor.TilesList(instance);
 			this.tilePanel = new System.Windows.Forms.Panel();
 			// 
 			// retroEDTileList1
@@ -166,12 +158,10 @@ namespace ManiacEditor
 
 			host.Child = tilePanel;
 			host3.Child = retroEDTileList1;
-
 			TileViewer.Children.Add(host);
-
 			ChunksPage.Children.Add(host3);
 
-			this.tilesList = new ManiacEditor.TilesList(instance);
+
 			this.tilesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 | System.Windows.Forms.AnchorStyles.Left)
 | System.Windows.Forms.AnchorStyles.Right)));
@@ -182,7 +172,7 @@ namespace ManiacEditor
 			this.tilesList.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.tilesList.Location = new System.Drawing.Point(0, 0);
 			this.tilesList.Name = "tilesList";
-			this.tilesList.Size = tilePanel.Size;
+			this.tilesList.Size = new System.Drawing.Size(241, 253);
 			this.tilesList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tilesList.TabIndex = 0;
 			this.tilesList.TileScale = 2;
@@ -191,17 +181,20 @@ namespace ManiacEditor
 
 		private void trackBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
+			if (disposing) return;
 			tilesList.TileScale = 1 << (int)trackBar1.Value;
 		}
 
 		public void Reload(string colors = null)
 		{
+			if (disposing) return;
 			tilesList.Reload(colors);
 			ChunksReload();
 		}
 
 		public void ChunksReload()
 		{
+			if (disposing) return;
 			retroEDTileList1.Images.Clear();
 			EditorInstance.EditorChunk.DisposeTextures();
 
@@ -214,18 +207,21 @@ namespace ManiacEditor
 
 		public void Dispose()
 		{
-			if (host != null)
-			{
-				host.Child.Dispose();
-				host = null;
-			}
+			disposing = true;
 			if (tilesList != null)
 			{
+				if (tilesList.graphicPanel != null)
+				{
+					tilesList.graphicPanel.Dispose();
+					tilesList.graphicPanel = null;
+				}
+				tilesList.Controls.Clear();
 				tilesList.Dispose();
 				tilesList = null;
 			}
 			if (tilePanel != null)
 			{
+				tilePanel.Controls.Clear();
 				tilePanel.Dispose();
 				tilePanel = null;
 			}
@@ -233,6 +229,11 @@ namespace ManiacEditor
 			{
 				retroEDTileList1.Dispose();
 				retroEDTileList1 = null;
+			}
+			if (host != null)
+			{
+				host.Child.Dispose();
+				host = null;
 			}
 			if (host3 != null)
 			{
@@ -347,6 +348,11 @@ namespace ManiacEditor
 		private void selectedTileLabel_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+		{
+			//this.Dispose();
 		}
 	}
 }

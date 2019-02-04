@@ -53,14 +53,13 @@ namespace ManiacEditor.Interfaces
             else return EditorInstance.Zoom;
         }
 
-		public void Dispose()
+		public new void Dispose()
 		{
 			this.GraphicPanel.Dispose();
 			this.GraphicPanel = null;
 			hScrollBar = null;
 			vScrollBar = null;
-			hScrollBar1Host.Dispose();
-			vScrollBar1Host.Dispose();
+			this.Controls.Clear();
 			base.Dispose(true);
 		}
 

@@ -153,8 +153,8 @@
                     </GroupBox>
                     <GroupBox Header="Scene Select View Default" HorizontalAlignment="Left" Margin="10,386,0,0" Width="193" Height="67" VerticalAlignment="Top">
                         <StackPanel>
-                            <RadioButton x:Name="SceneSelectRadio1" Checked="radioButton2_CheckedChanged" Unchecked="radioButton2_CheckedChanged" Content="Files View" Margin="0,5,0,0" IsChecked="{maniac:SettingBinding SceneSelectRadioButton1On}"/>
-                            <RadioButton x:Name="SceneSelectRadio2" Checked="radioButton1_CheckedChanged" Unchecked="radioButton1_CheckedChanged" Content="GameConfig View" Margin="0,5,0,0" IsChecked="{maniac:SettingBinding SceneSelectRadioButton2On}"/>
+                            <RadioButton x:Name="SceneSelectRadio2" Checked="radioButton2_CheckedChanged" Unchecked="radioButton2_CheckedChanged" Content="Files View" Margin="0,5,0,0" IsChecked="{maniac:SettingBinding SceneSelectRadioButton2On}"/>
+                            <RadioButton x:Name="SceneSelectRadio1" Checked="radioButton1_CheckedChanged" Unchecked="radioButton1_CheckedChanged" Content="GameConfig View" Margin="0,5,0,0" IsChecked="{maniac:SettingBinding SceneSelectRadioButton1On}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Entities Toolbar Visibility Defaults" HorizontalAlignment="Left" Height="104" VerticalAlignment="Top" Width="193" Margin="208,10,0,0">

@@ -246,7 +246,7 @@ namespace ManiacEditor
 		//public Editor ThisInstance;
 		internal EditorBackground EditorBackground;
 		public EditorLayer EditLayer;
-		internal TilesToolbar TilesToolbar = null;
+		public TilesToolbar TilesToolbar = null;
 		public EntitiesToolbar2 entitiesToolbar = null;
 		public EditorEntity_ini EditorEntity_ini;
 		public EditorUpdater Updater;
@@ -1000,6 +1000,7 @@ namespace ManiacEditor
 					else
 						TilesToolbar = new TilesToolbar(StageTiles, SceneFilepath, null, this);
 
+					
 					TilesToolbar.TileDoubleClick = new Action<int>(x =>
 					{
 						EditorPlaceTile(new Point((int)(ShiftX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorLayer.TILE_SIZE - 1), x);
@@ -1021,8 +1022,11 @@ namespace ManiacEditor
 			}
 			else
 			{
-				if (TilesToolbar != null) TilesToolbar.Dispose();
-				TilesToolbar = null;
+				if (TilesToolbar != null)
+				{
+					TilesToolbar.Dispose();
+					TilesToolbar = null;
+				}		
 			}
 			if (IsEntitiesEdit())
 			{
@@ -1163,30 +1167,34 @@ namespace ManiacEditor
 		{
 			if (IsTilesEdit() && !IsChunksEdit())
 			{
-				List<ushort> values = EditLayer.GetSelectedValues();
-
-				if (values.Count > 0)
+				if (TilesToolbar != null)
 				{
-					for (int i = 0; i < 4; ++i)
+					List<ushort> values = EditLayer.GetSelectedValues();
+
+					if (values.Count > 0)
 					{
-						bool set = ((values[0] & (1 << (i + 12))) != 0);
-						bool unk = false;
-						foreach (ushort value in values)
+						for (int i = 0; i < 4; ++i)
 						{
-							if (set != ((value & (1 << (i + 12))) != 0))
+							bool set = ((values[0] & (1 << (i + 12))) != 0);
+							bool unk = false;
+							foreach (ushort value in values)
 							{
-								unk = true;
-								break;
+								if (set != ((value & (1 << (i + 12))) != 0))
+								{
+									unk = true;
+									break;
+								}
 							}
+							TilesToolbar.SetTileOptionState(i, unk ? TilesToolbar.TileOptionState.Indeterminate : set ? TilesToolbar.TileOptionState.Checked : TilesToolbar.TileOptionState.Unchcked);
 						}
-						TilesToolbar.SetTileOptionState(i, unk ? TilesToolbar.TileOptionState.Indeterminate : set ? TilesToolbar.TileOptionState.Checked : TilesToolbar.TileOptionState.Unchcked);
+					}
+					else
+					{
+						for (int i = 0; i < 4; ++i)
+							TilesToolbar.SetTileOptionState(i, TilesToolbar.TileOptionState.Disabled);
 					}
 				}
-				else
-				{
-					for (int i = 0; i < 4; ++i)
-						TilesToolbar.SetTileOptionState(i, TilesToolbar.TileOptionState.Disabled);
-				}
+
 			}
 		}
 
@@ -7244,6 +7252,11 @@ Error: {ex.Message}");
 		private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e)
 		{
 			UpdateToolbars(true, true);
+		}
+
+		private void MoreSettingsButton_Opened(object sender, RoutedEventArgs e)
+		{
+			
 		}
 
 		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)

@@ -1,11 +1,7 @@
-﻿using IronPython.Runtime.Types;
-using ManiaPal;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
 
 namespace ManiacEditor
 {
