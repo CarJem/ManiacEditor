@@ -261,7 +261,7 @@ namespace ManiacEditor
 		public EditorDiscordRP Discord;
 
 		//Tile Maniac + ManiaPal Instance
-		public TileManiac.Mainform mainform = new Mainform();
+		public TileManiac.Mainform mainform = new TileManiac.Mainform();
 		public static ManiaPal.App app;
 		public static ManiaPal.MainWindow ManiaPalInstance;
 
@@ -4421,6 +4421,13 @@ Error: {ex.Message}");
 			}
 
 		}
+
+		private void NewTileManiac_Click(object sender, RoutedEventArgs e)
+		{
+			Mainform mainform = new Mainform();
+			mainform.ShowDialog();
+		}
+
 		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			//Sanic2Maniac sanic = new Sanic2Maniac(null, this);
@@ -7258,6 +7265,8 @@ Error: {ex.Message}");
 		{
 			
 		}
+
+
 
 		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
 		{

@@ -616,6 +616,9 @@
     <Compile Include="Interfaces\WPF UI\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\WPF UI\Tile Maniac\Mainform.xaml.cs">
+      <DependentUpon>Mainform.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\WPF UI\UserControls\EntitiesToolbar2.xaml.cs">
       <DependentUpon>EntitiesToolbar2.xaml</DependentUpon>
     </Compile>
@@ -1260,6 +1263,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\WPF Resources\Themes\MyBorderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Tile Maniac\Mainform.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
