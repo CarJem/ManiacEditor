@@ -1,0 +1,2049 @@
+﻿<Window x:Class="TileManiacWPF.OptionsMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:maniac="clr-namespace:TileManiacWPF"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Tile Maniac Options" Height="569" Width="1138" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="OptionBox_FormClosing" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="156*"/>
+            <ColumnDefinition Width="127*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,0,0" BorderBrush="{DynamicResource DisabledText}" Background="{DynamicResource NormalBackground}">
+            <TabItem Header="Defaults" Foreground="{DynamicResource NormalText}">
+                <Grid Background="{DynamicResource NormalBackground}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="415*"/>
+                        <ColumnDefinition Width="711*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Common Defaults" Width="250" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <CheckBox Content="Scrolling Allowed in Classic Mode" Margin="2"  IsChecked="{maniac:SettingBinding ScrollAllowed}"></CheckBox>
+                            <CheckBox Content="Show Grid" Margin="2"  IsChecked="{maniac:SettingBinding ShowGrid}"></CheckBox>
+                            <CheckBox Content="Enable Classic Mode" Margin="2"  IsChecked="{maniac:SettingBinding ClassicMode}"></CheckBox>
+                            <CheckBox Content="Enable Mirror Mode" Margin="2"  IsChecked="{maniac:SettingBinding MirrorMode}"></CheckBox>
+                            <CheckBox Content="Use Dark Theme" Margin="2" x:Name="DarkModeCheckBox"></CheckBox>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Default List View" Width="250" Height="60" Margin="4,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <RadioButton x:Name="collisionListRadioButton" Content="Collision" Margin="2" Click="ListViewModeChanged"></RadioButton>
+                            <RadioButton x:Name="tileListRadioButton" Content="Tiles" Margin="2" Click="ListViewModeChanged"></RadioButton>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Tile Viewer Default View" Width="250" Height="80" Margin="4,180,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <RadioButton x:Name="collisionRenderViewRadioButton" Content="Collision" Margin="2" Click="RenderViewModeChanged"></RadioButton>
+                            <RadioButton x:Name="tileRenderViewRadioButton" Content="Tile" Margin="2" Click="RenderViewModeChanged"></RadioButton>
+                            <RadioButton x:Name="overlayRenderViewRadioButton" Content="Hybrid Overlay (Collision + Tiles)" Margin="2" Click="RenderViewModeChanged"></RadioButton>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Editor View Setting" Width="250" Height="100" Margin="4,260,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <RadioButton x:Name="collisionEditorViewRadioButton" Content="Collision" Margin="2" Click="EditorViewModeChanged"></RadioButton>
+                            <RadioButton x:Name="overlayEditorViewRadioButton" Content="Hybrid Overlay (Collision + Tiles)" Margin="2"  Click="EditorViewModeChanged"></RadioButton>
+                            <TextBlock></TextBlock>
+                            <TextBlock>*Not for Classic Mode</TextBlock>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Controls" Foreground="{DynamicResource NormalText}">
+                <Grid Background="{DynamicResource NormalBackground}">
+                    <TabControl x:Name="ControlTab" HorizontalAlignment="Stretch" Height="453" VerticalAlignment="Stretch" Background="{DynamicResource NormalBackground}">
+                        <TabItem x:Name="NewControlTab" Header="File" Foreground="{DynamicResource NormalText}" Height="20" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal" x:Name="NewControls">
+                                <StackPanel Visibility="Visible">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NewInstance"></Button>
+                                        <Label Content="New Instance"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="Open"></Button>
+                                        <Label Content="Open"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="_Save"></Button>
+                                        <Label Content="Save"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="SaveAs"></Button>
+                                        <Label Content="Save As"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="_SaveUncompressed"></Button>
+                                        <Label Content="Save (Uncompressed)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="SaveAsUncompressed"></Button>
+                                        <Label Content="Save As (Uncompressed)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="OpenSingleColMask"></Button>
+                                        <Label Content="Open Single Collision Mask"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="ExportColMask"></Button>
+                                        <Label Content="Export Current Collision Mask"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="ImportFromOlderRSDK"></Button>
+                                        <Label Content="Import from older RSDK Version"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="backupConfig"></Button>
+                                        <Label Content="Backup TileConfig"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="backupImage"></Button>
+                                        <Label Content="Backup 16x16Tiles Image"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Edit" Foreground="{DynamicResource NormalText}">
+                            <StackPanel Orientation="Horizontal" x:Name="EditControls">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="Cut"></Button>
+                                        <Label Content="Cut"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="Copy"></Button>
+                                        <Label Content="Copy"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="Paste"></Button>
+                                        <Label Content="Paste"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="PastetoOther"></Button>
+                                        <Label Content="Paste to Other Path"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="MirrorMode"></Button>
+                                        <Label Content="Mirror Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="RestorePathA"></Button>
+                                        <Label Content="Restore Mask (Path A)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="RestorePathB"></Button>
+                                        <Label Content="Restore Mask (Path B)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="RestorePaths"></Button>
+                                        <Label Content="Restore Mask (Both)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4"  Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="View" Foreground="{DynamicResource NormalText}">
+                            <StackPanel Orientation="Horizontal" x:Name="ViewControls">
+                                <StackPanel Visibility="Visible">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="ShowPathB"></Button>
+                                        <Label Content="Show Path B"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="ShowGrid"></Button>
+                                        <Label Content="Show Grid"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="ClassicMode"></Button>
+                                        <Label Content="Classic View Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Tools" Foreground="{DynamicResource NormalText}">
+                            <StackPanel Orientation="Horizontal" x:Name="ToolsControls">
+                                <StackPanel  Visibility="Visible">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="SplitFile"></Button>
+                                        <Label Content="Split File"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="FlipTileH"></Button>
+                                        <Label Content="Flip Tile Horizontally"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="FlipTileV"></Button>
+                                        <Label Content="Flip Tile Vertically"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Folders" Foreground="{DynamicResource NormalText}">
+                            <StackPanel x:Name="FolderControls" Orientation="Horizontal">
+                                <StackPanel  Visibility="Visible">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="HomeFolderOpen"></Button>
+                                        <Label Content="Open Collision Home Folder"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Other" Foreground="{DynamicResource NormalText}">
+                            <StackPanel x:Name="OtherControls" Orientation="Horizontal">
+                                <StackPanel  Visibility="Visible">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="Settings"></Button>
+                                        <Label Content="Settings"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="About"></Button>
+                                        <Label Content="About"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="CycleEditorViewMode"></Button>
+                                        <Label Content="Cycle Editor View Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="CycleListViewMode"></Button>
+                                        <Label Content="Cycle List View Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="CycleMainViewerMode"></Button>
+                                        <Label Content="Cycle Viewer Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel  Visibility="Hidden">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Non-Bindable Controls" Foreground="{DynamicResource NormalText}">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel  Visibility="Visible">
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label>
+                                            <TextBlock Text="Toggle Scroller (While Mouse within Editor View)"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Right Click" Height="26" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Draw Tool / Stamp Tool Mode: Remove Tiles&#x0d;Selection Tool Mode: Select Tiles&#x0d;Interaction Tool Mode: Show Tool Context Menu &#x0d;Tiles Toolbar Tile: Show Tile Context Menu &#x0d;Chunk Panel: Show Chunk Context Menu"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Left Click" Height="26" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Place Tiles Tool / Stamp Tool Mode: Place Tiles&#x0d;Selection Tool Mode: Select Tiles/Entities&#x0d;Pointer Tool Mode: Select Tiles/Entities"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <Label Content="Selection Tool Controls:"></Label>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Content="Right Click + Ctrl&#x0d;(While Dragging)" Height="52" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Tiles Edit: Deselect Tiles&#x0d;Entities Edit: Deselect Objects&#x0d;(Both will not deselect your current selection if you already have objects selected)"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4">
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Height="52" Tag="NULL" VerticalAlignment="Top">
+                                            <TextBlock IsEnabled="False" Foreground="{DynamicResource DisabledText}" TextAlignment="Center" Text="Right Click + Ctrl&#x0d;(Over Selected Item(s))"></TextBlock>
+                                        </Button>
+                                        <Label>
+                                            <TextBlock Text="Tiles Edit: Duplicate Selected Tiles&#x0d;Entities Edit: Duplicate Selected Objects&#x0d;(Both will deselect your current selection and select the duplicated objects)"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+
+
+        </TabControl>
+        <StatusBar Grid.Row="1" Height="30" Background="{DynamicResource StatusBarBackground}" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="65" Content="Save" Margin="5,0" Click="button11_Click"></Button>
+                    <Button Width="65" Content="OK" Margin="5,0" Click="Button_Click"></Button>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <maniac:SkinResourceDictonary LightSource="/TileManiacWPF;component/Themes/LightTheme.xaml" DarkSource="/TileManiacWPF;component/Themes/DarkTheme.xaml"/>
+                <ResourceDictionary Source="/TileManiacWPF;component/Templates/ContextMenu.xaml"/>
+                <ResourceDictionary Source="/TileManiacWPF;component/Templates/ManiacResources.xaml"/>
+                <ResourceDictionary Source="/TileManiacWPF;component/Templates/Toolbar.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+</Window>

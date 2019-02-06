@@ -286,5 +286,17 @@ namespace TileManiac.Properties {
                 this["Size"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool NightMode {
+            get {
+                return ((bool)(this["NightMode"]));
+            }
+            set {
+                this["NightMode"] = value;
+            }
+        }
     }
 }

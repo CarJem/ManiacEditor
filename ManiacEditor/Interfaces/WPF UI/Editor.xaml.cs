@@ -4424,8 +4424,8 @@ Error: {ex.Message}");
 
 		private void NewTileManiac_Click(object sender, RoutedEventArgs e)
 		{
-			Mainform mainform = new Mainform();
-			mainform.ShowDialog();
+			TileManiacWPF.MainWindow MainWindow = new TileManiacWPF.MainWindow();
+			MainWindow.ShowDialog();
 		}
 
 		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
