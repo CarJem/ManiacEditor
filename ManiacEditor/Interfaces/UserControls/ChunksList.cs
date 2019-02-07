@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using TileManiac;
+using TileManiacWPF;
 
 namespace ManiacEditor.Interfaces
 {

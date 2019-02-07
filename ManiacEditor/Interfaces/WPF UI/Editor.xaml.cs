@@ -16,7 +16,7 @@ using System.Reflection;
 using ManiacEditor.Interfaces;
 using Cyotek.Windows.Forms;
 using Microsoft.Scripting.Utils;
-using TileManiac;
+using TileManiacWPF;
 using Microsoft.Win32;
 using ManiacEditor.Entity_Renders;
 using IWshRuntimeLibrary;
@@ -4641,7 +4641,7 @@ Error: {ex.Message}");
 		#region Other Tab Buttons
 		public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			var aboutBox = new AboutWindow();
+			var aboutBox = new ManiacEditor.Interfaces.AboutWindow();
 			aboutBox.Owner = Window.GetWindow(this);
 			aboutBox.ShowDialog();
 		}
@@ -4659,14 +4659,14 @@ Error: {ex.Message}");
                 optionBox.ShowDialog();
             }
 			*/
-			var optionMenu = new OptionsMenu(this);
+			var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(this);
 			optionMenu.Owner = Window.GetWindow(this);
 			optionMenu.ShowDialog();
 		}
 
 		private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			var optionMenu = new OptionsMenu(this);
+			var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(this);
 			optionMenu.Owner = Window.GetWindow(this);
 			optionMenu.MainTabControl.SelectedIndex = 2;
 			optionMenu.ShowDialog();

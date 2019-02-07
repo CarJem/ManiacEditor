@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSDKv4", "RSDKv4\RSDKv4.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSDKv5", "RSDKv5\RSDKv5.csproj", "{D10DC6B1-EB04-46BC-8C7A-62914AF396B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileManiacWPF", "TileManiacWPF\TileManiacWPF.csproj", "{D4BEBCD3-438F-4F11-9B31-E9B25AA53BFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile Maniac", "TileManiacWPF\Tile Maniac.csproj", "{D4BEBCD3-438F-4F11-9B31-E9B25AA53BFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

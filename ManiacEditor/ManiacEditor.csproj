@@ -1086,9 +1086,9 @@
       <Project>{d10dc6b1-eb04-46bc-8c7a-62914af396b0}</Project>
       <Name>RSDKv5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TileManiacWPF\TileManiacWPF.csproj">
+    <ProjectReference Include="..\TileManiacWPF\Tile Maniac.csproj">
       <Project>{d4bebcd3-438f-4f11-9b31-e9b25aa53bfc}</Project>
-      <Name>TileManiacWPF</Name>
+      <Name>Tile Maniac</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -101,6 +101,7 @@ namespace TileManiacWPF
 
 			if (Properties.Settings.Default.NightMode)
 			{
+				OldColViewer.Opacity = 0.5;
 				CollisionColor = Color.FromArgb(20, 148, 20);
 			}
 
@@ -805,7 +806,11 @@ namespace TileManiacWPF
 			PicBoxHost3Collision.Child = CollisionPicBox;
 			TilesListHost.Child = CollisionList;
 
-			TilesListHost.Child.BackColor = System.Drawing.Color.FromArgb(40, 40, 40);
+			if (Properties.Settings.Default.NightMode)
+			{
+				TilesListHost.Child.BackColor = System.Drawing.Color.FromArgb(40, 40, 40);
+			}
+
 
 			overlayPicBox.Show();
 			TilePicBox.Show();

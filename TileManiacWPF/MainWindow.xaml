@@ -558,7 +558,7 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <GroupBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="330" Height="216" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Header="Collision View" Foreground="{DynamicResource NormalText}">
-                <Grid Height="190" HorizontalAlignment="Center" Opacity="0.5">
+                <Grid Height="190" HorizontalAlignment="Center" x:Name="OldColViewer">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="160"></RowDefinition>
                         <RowDefinition Height="10"></RowDefinition>
