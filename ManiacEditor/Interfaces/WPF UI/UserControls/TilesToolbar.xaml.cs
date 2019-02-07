@@ -306,14 +306,15 @@ namespace ManiacEditor
 
 		private void editTileInTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (EditorInstance.mainform.IsDisposed) EditorInstance.mainform = new TileManiac.Mainform();
-			if (!EditorInstance.mainform.Visible)
+			if (EditorInstance.mainform == null || EditorInstance.mainform.IsClosed) EditorInstance.mainform = new TileManiacWPF.MainWindow();
+			if (EditorInstance.mainform.Visibility != Visibility.Visible)
 			{
 				EditorInstance.mainform.Show();
 			}
+			EditorInstance.mainform.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
 			if (EditorInstance.TilesConfig != null && EditorInstance.StageTiles != null)
 			{
-				if (!EditorInstance.mainform.Visible || EditorInstance.mainform.tcf == null)
+				if (EditorInstance.mainform.Visibility != Visibility.Visible || EditorInstance.mainform.tcf == null)
 				{
 					EditorInstance.mainform.LoadTileConfigViaIntergration(EditorInstance.TilesConfig, EditorInstance.SceneFilepath, SelectedTile);
 				}

@@ -32,6 +32,7 @@ namespace TileManiacWPF
 		public OptionsMenu()
 		{
 			InitializeComponent();
+			Owner = App.Current.MainWindow;
 			SetupDefaults();
 			SetKeybindTextboxes();
 		}
@@ -317,6 +318,18 @@ namespace TileManiacWPF
 				Properties.Settings.Default.Save();
 				App.ChangeSkin(Skin.Light);
 				App.SkinChanged = true;
+
+			}
+		}
+
+		private void ResetControlsToDefault(object sender, RoutedEventArgs e)
+		{
+			if (MessageBox.Show("Are you sure you want to reset your control configuration?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				Properties.KeyBinds.Default.Reset();
+			}
+			else
+			{
 
 			}
 		}

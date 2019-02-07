@@ -26,10 +26,11 @@ namespace TileManiacWPF
 	{
 		public AboutWindow()
 		{
+			Owner = App.Current.MainWindow;
 			InitializeComponent();
-			Title = String.Format("About {0}", AssemblyTitle);
+			Title = String.Format("About {0}", "Tile Maniac");
 			labelProductName.Text = AssemblyProduct;
-			labelVersion.Text = String.Format("Version {0}", "NULL");
+			labelVersion.Text = String.Format("Version {0}", "WPF 1.0");
 			buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime) + Environment.NewLine + String.Format("Architecture: {0}", GetProgramType);
 			labelCopyright.Text = AssemblyCopyright;
 

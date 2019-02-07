@@ -42,6 +42,7 @@ namespace TileManiacWPF
 		{
 			KeyRefrence = _keyRefrence;
 			InitializeComponent();
+			this.Owner = App.Current.MainWindow;
 			UpdateResultLabel();
 			SetupExistingKeybinds(_keyRefrence);
 			SetupListBox();
@@ -101,9 +102,14 @@ namespace TileManiacWPF
 		private void UpdateResultLabel()
 		{
 			KeysConverter kc = new KeysConverter();
-			if (KeyBindsList.Count == KeyCount)
+			if (KeyBindsList.Count == KeyCount && KeyBindsList.Count != 0)
 			{
 				PreviousBoxLabel.Content = KeyBindsList[ListIndex].ToString();
+				InputBoxLabel.Content = kc.ConvertToString(CurrentBindingKey);
+			}
+			else
+			{
+				PreviousBoxLabel.Content = "N/A";
 				InputBoxLabel.Content = kc.ConvertToString(CurrentBindingKey);
 			}
 		}

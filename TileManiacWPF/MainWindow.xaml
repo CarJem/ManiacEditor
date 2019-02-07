@@ -6,7 +6,7 @@
         xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:TileManiacWPF"
         mc:Ignorable="d"
-        Title="Tile Maniac - RSDKv5 Collision Editor" Height="549" Width="919" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Tile Maniac - RSDKv5 Collision Editor" Height="549" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Width="919" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="24"></RowDefinition>
@@ -20,34 +20,34 @@
         </Grid.ColumnDefinitions>
         <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
             <MenuItem Header="File" Style="{DynamicResource MenuItemStyle1}">
-                <MenuItem Header="New Instance" Click="newInstanceToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="newInstanceMenuItem" Header="New Instance" Click="newInstanceToolStripMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Open" Click="OpenToolStripMenuItem_Click"></MenuItem>
-                <MenuItem Header="Save" Click="saveToolStripMenuItem_Click"></MenuItem>
-                <MenuItem Header="Save As..." Click="saveAsToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="openMenuItem" Header="Open" Click="OpenToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="saveMenuItem" Header="Save" Click="saveToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="saveAsMenuItem" Header="Save As..." Click="saveAsToolStripMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Save (Uncompressed)" Click="saveUncompressedToolStripMenuItem_Click"></MenuItem>
-                <MenuItem Header="Save As... (Uncompressed)" Click="saveAsUncompressedToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="saveUncompressedMenuItem" Header="Save (Uncompressed)" Click="saveUncompressedToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="saveAsUncompressedMenuItem" Header="Save As... (Uncompressed)" Click="saveAsUncompressedToolStripMenuItem_Click"></MenuItem>
                 <MenuItem Header="Backup...">
-                    <MenuItem Header="16x16Tiles.gif" Click="x16TilesgifToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Tilesconfig.bin" Click="tileConfigbinToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="backupTilesMenuItem" Header="16x16Tiles.gif" Click="x16TilesgifToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="backupTilesConfigMenuItem" Header="Tilesconfig.bin" Click="tileConfigbinToolStripMenuItem_Click"></MenuItem>
                 </MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Open Single Collision Mask" Click="openSingleCollisionMaskToolStripMenuItem_Click_1"></MenuItem>
-                <MenuItem Header="Export Current Collision Mask As..." Click="exportCurrentCollisionMaskAsToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="OpenSingleColMaskMenuItem" Header="Open Single Collision Mask" Click="openSingleCollisionMaskToolStripMenuItem_Click_1"></MenuItem>
+                <MenuItem x:Name="exportCurrentMaskMenuItem" Header="Export Current Collision Mask As..." Click="exportCurrentCollisionMaskAsToolStripMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Import from older RSDK Version" Click="importFromOlderRSDKVersionToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="importMenuItem" Header="Import from older RSDK Version" Click="importFromOlderRSDKVersionToolStripMenuItem_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Edit" Style="{DynamicResource MenuItemStyle1}">
-                <MenuItem Click="copyToolStripMenuItem_Click" Header="Copy"></MenuItem>
-                <MenuItem Click="copyToOtherPathToolStripMenuItem_Click" Header="Copy to Other Path"></MenuItem>
-                <MenuItem Click="pasteToolStripMenuItem_Click" Header="Paste"></MenuItem>
+                <MenuItem x:Name="copyMenuItem" Click="copyToolStripMenuItem_Click" Header="Copy"></MenuItem>
+                <MenuItem x:Name="copyToOtherPathMenuItem" Click="copyToOtherPathToolStripMenuItem_Click" Header="Copy to Other Path"></MenuItem>
+                <MenuItem x:Name="pasteMenuItem" Click="pasteToolStripMenuItem_Click" Header="Paste"></MenuItem>
                 <Separator></Separator>
                 <MenuItem IsCheckable="True" Click="mirrorPathsToolStripMenuItem_Click" x:Name="mirrorPathsToolStripMenuItem1" Header="Mirror Mode"></MenuItem>
                 <MenuItem Header="Restore Mask from Memory">
-                    <MenuItem Click="bothToolStripMenuItem_Click" Header="Both"></MenuItem>
-                    <MenuItem Click="pathBToolStripMenuItem_Click" Header="Path A"></MenuItem>
-                    <MenuItem Click="pathAToolStripMenuItem_Click" Header="Path B"></MenuItem>
+                    <MenuItem x:Name="restoreBothMenuItem" Click="bothToolStripMenuItem_Click" Header="Both"></MenuItem>
+                    <MenuItem x:Name="restorePathAMenuItem" Click="pathBToolStripMenuItem_Click" Header="Path A"></MenuItem>
+                    <MenuItem x:Name="restorePathBMenuItem" Click="pathAToolStripMenuItem_Click" Header="Path B"></MenuItem>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="View" Style="{DynamicResource MenuItemStyle1}">
@@ -60,21 +60,23 @@
                     <MenuItem Click="overlayToolStripMenuItem_Click" x:Name="overlayToolStripMenuItem" Header="Overlay"></MenuItem>
                     <MenuItem Click="collisionToolStripMenuItem_Click" x:Name="collisionToolStripMenuItem" Header="Collision"></MenuItem>
                 </MenuItem>
+                <Separator></Separator>
+                <MenuItem IsCheckable="True" x:Name="windowAlwaysOnTop" Click="WindowAlwaysOnTop_Click" Header="Window Always On Top"></MenuItem>
             </MenuItem>
             <MenuItem Header="Tools" Style="{DynamicResource MenuItemStyle1}">
-                <MenuItem Click="splitFileToolStripMenuItem_Click" Header="Split File"></MenuItem>
+                <MenuItem x:Name="splitFileMenuItem" Click="splitFileToolStripMenuItem_Click" Header="Split File"></MenuItem>
                 <MenuItem Header="Developer">
                     <MenuItem Click="developerInterfaceToolStripMenuItem_Click" Header="Developer Interface"></MenuItem>
                 </MenuItem>
-                <MenuItem Click="flipTileHorizontallyToolStripMenuItem_Click" Header="Flip Tile Horizontally"></MenuItem>
-                <MenuItem Click="flipTileVerticallyToolStripMenuItem_Click" Header="Flip Tile Vertically"></MenuItem>
+                <MenuItem x:Name="flipTileHMenuItem" Click="flipTileHorizontallyToolStripMenuItem_Click" Header="Flip Tile Horizontally"></MenuItem>
+                <MenuItem x:Name="flipTileVMenuItem" Click="flipTileVerticallyToolStripMenuItem_Click" Header="Flip Tile Vertically"></MenuItem>
             </MenuItem>
             <MenuItem Header="Folders" Style="{DynamicResource MenuItemStyle1}">
-                <MenuItem Click="openCollisionHomeFolderToolStripMenuItem_Click" Header="Open Collision Home Folder"></MenuItem>
+                <MenuItem x:Name="openCollisionHomeFolderToolStripMenuItem" Click="openCollisionHomeFolderToolStripMenuItem_Click" Header="Open Collision Home Folder"></MenuItem>
             </MenuItem>
-            <MenuItem Header="About" Style="{DynamicResource MenuItemStyle1}">
-                <MenuItem Click="aboutToolStripMenuItem1_Click" Header="About"></MenuItem>
-                <MenuItem Click="settingsToolStripMenuItem_Click" Header="Settings"></MenuItem>
+            <MenuItem Header="Other" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="aboutMenuItem" Click="aboutToolStripMenuItem1_Click" Header="About"></MenuItem>
+                <MenuItem x:Name="settingsMenuItem" Click="settingsToolStripMenuItem_Click" Header="Settings"></MenuItem>
             </MenuItem>
         </Menu>
         <GroupBox Grid.Column="0" Grid.Row="1" Foreground="{DynamicResource NormalText}" Header="Tile Collision Data">
@@ -556,7 +558,7 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <GroupBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="330" Height="216" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Header="Collision View" Foreground="{DynamicResource NormalText}">
-                <Grid Height="190" HorizontalAlignment="Center">
+                <Grid Height="190" HorizontalAlignment="Center" Opacity="0.5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="160"></RowDefinition>
                         <RowDefinition Height="10"></RowDefinition>
@@ -698,7 +700,7 @@
             </GroupBox>
         </Grid>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-            <Label Content="Checkbox Ctrls (while Holding):&#xD;&#xA;Left Click - Check&#xD;&#xA;Right Click - Uncheck"></Label>
+            <Label Content="Checkbox Controls:&#xD;&#xA;Left Click - Check&#xD;&#xA;Right Click - Uncheck"></Label>
         </StackPanel>
         <Label x:Name="mirrorModeStatusLabel" Content="Mirror Mode: OFF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="1"></Label>
         <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="3">

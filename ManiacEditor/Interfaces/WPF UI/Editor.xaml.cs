@@ -261,7 +261,7 @@ namespace ManiacEditor
 		public EditorDiscordRP Discord;
 
 		//Tile Maniac + ManiaPal Instance
-		public TileManiac.Mainform mainform = new TileManiac.Mainform();
+		public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
 		public static ManiaPal.App app;
 		public static ManiaPal.MainWindow ManiaPalInstance;
 
@@ -4405,11 +4405,11 @@ Error: {ex.Message}");
 
 		private void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
+			if (mainform == null || mainform.IsClosed) mainform = new TileManiacWPF.MainWindow();
 			mainform.Show();
 			if (TilesConfig != null && StageTiles != null)
 			{
-				if (!mainform.Visible || mainform.tcf == null)
+				if (mainform.Visibility != Visibility.Visible || mainform.tcf == null)
 				{
 					mainform.LoadTileConfigViaIntergration(TilesConfig, SceneFilepath);
 				}
@@ -4420,12 +4420,6 @@ Error: {ex.Message}");
 
 			}
 
-		}
-
-		private void NewTileManiac_Click(object sender, RoutedEventArgs e)
-		{
-			TileManiacWPF.MainWindow MainWindow = new TileManiacWPF.MainWindow();
-			MainWindow.ShowDialog();
 		}
 
 		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -7188,14 +7182,15 @@ Error: {ex.Message}");
 
 		private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (mainform.IsDisposed) mainform = new TileManiac.Mainform();
-			if (!mainform.Visible)
+			if (mainform == null || mainform.IsClosed) mainform = new TileManiacWPF.MainWindow();
+			if (mainform.Visibility != Visibility.Visible)
 			{
 				mainform.Show();
 			}
+			mainform.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
 			if (TilesConfig != null && StageTiles != null)
 			{
-				if (!mainform.Visible || mainform.tcf == null)
+				if (mainform.Visibility != Visibility.Visible || mainform.tcf == null)
 				{
 					mainform.LoadTileConfigViaIntergration(TilesConfig, SceneFilepath, SelectedTileID);
 				}

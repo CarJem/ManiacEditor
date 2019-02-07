@@ -74,6 +74,7 @@
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls.cs" />
     <Compile Include="Dialog\CustomMessageBoxWindow.xaml.cs">
       <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
     </Compile>
@@ -313,6 +314,9 @@
   <ItemGroup>
     <Resource Include="Resources\Green.png" />
     <Resource Include="Resources\Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Assets\NeoAboutImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

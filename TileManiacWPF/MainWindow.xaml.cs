@@ -21,7 +21,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Clipboard = System.Windows.Forms.Clipboard;
+using Clipboard = System.Windows.Clipboard;
 using Grid = System.Windows.Controls.Grid;
 
 namespace TileManiacWPF
@@ -41,6 +41,7 @@ namespace TileManiacWPF
 
 		Grid[,] CollisionViewerBackgrounds = new Grid[16,16];
 		TextBlock[,] CollisionViewerLabels = new TextBlock[16,16];
+		Color CollisionColor = Color.FromArgb(255, 0, 255, 0);
 
 		public int curColisionMask; //What Collision Mask are we editing?
 
@@ -73,9 +74,9 @@ namespace TileManiacWPF
 
 		List<Bitmap> Tiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles
 		List<Bitmap> IndexedTiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles (Preserving Color Pallete)
-		int gotoVal; //What collision mask we goto when "GO!" is pressed
 
 		public MainWindow Instance;
+		public EditorControls EditorControls;
 
 		//Winform Components
 		public PictureBoxNearestNeighbor overlayPicBox = new PictureBoxNearestNeighbor();
@@ -83,13 +84,25 @@ namespace TileManiacWPF
 		public PictureBoxNearestNeighbor CollisionPicBox = new PictureBoxNearestNeighbor();
 		public TileList CollisionList = new TileList();
 
+		public bool IsClosed { get; private set; }
+
+		protected override void OnClosed(EventArgs e)
+		{
+			base.OnClosed(e);
+			IsClosed = true;
+		}
 
 		public MainWindow()
 		{
 			InitializeComponent();
 			InitalizeViewer();
 			Instance = this;
+			EditorControls = new EditorControls(this);
 
+			if (Properties.Settings.Default.NightMode)
+			{
+				CollisionColor = Color.FromArgb(20, 148, 20);
+			}
 
 			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/1.png", UriKind.Relative)));
 			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/2.png", UriKind.Relative)));
@@ -255,10 +268,26 @@ namespace TileManiacWPF
 				UpdateMirrorModeStatusLabel();
 
 			}
+			if (Properties.Settings.Default.WindowAlwaysOnTop)
+			{
+				windowAlwaysOnTop.IsChecked = true;
+				this.Topmost = true;
+			}
+		}
+
+		public void SetIntergrationNightMode(bool state)
+		{
+			Properties.Settings.Default.NightMode = state;
+			if (Properties.Settings.Default.NightMode)
+			{
+				App.ChangeSkin(Skin.Dark);
+				CollisionColor = Color.FromArgb(20, 148, 20);
+			}
 		}
 
 		public void LoadTileConfigViaIntergration(TileConfig tilesConfig, string scenePath, int selectedTile = 0)
 		{
+
 			indexedImagedLoaded = false;
 			curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
 			filepath = Path.Combine(scenePath, "TileConfig.bin");
@@ -276,7 +305,7 @@ namespace TileManiacWPF
 			{
 				if (listSetting == 0)
 				{
-					CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+					CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
 					CollisionList.Images.Add(CollisionListImgA[i]);
 				}
 				else
@@ -291,7 +320,7 @@ namespace TileManiacWPF
 			{
 				if (listSetting == 0)
 				{
-					CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+					CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
 					CollisionList.Images.Add(CollisionListImgB[i]);
 				}
 				else
@@ -316,7 +345,7 @@ namespace TileManiacWPF
 			RefreshUI(); //update the UI
 		}
 
-		private void OpenToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void OpenToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog dlg = new OpenFileDialog
 			{
@@ -342,7 +371,7 @@ namespace TileManiacWPF
 				{
 					if (listSetting == 0)
 					{
-						CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+						CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
 						CollisionList.Images.Add(CollisionListImgA[i]);
 					}
 					else
@@ -357,7 +386,7 @@ namespace TileManiacWPF
 				{
 					if (listSetting == 0)
 					{
-						CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+						CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
 						CollisionList.Images.Add(CollisionListImgB[i]);
 					}
 					else
@@ -373,7 +402,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void saveToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void saveToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (filepath != null) //Did we open a file?
 			{
@@ -387,7 +416,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void saveAsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void saveAsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			SaveFileDialog dlg = new SaveFileDialog
 			{
@@ -499,7 +528,7 @@ namespace TileManiacWPF
 			MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
-		private void splitFileToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void splitFileToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			FolderBrowserDialog dlg = new FolderBrowserDialog
 			{
@@ -628,6 +657,7 @@ namespace TileManiacWPF
 
 		public void RefreshUI()
 		{
+			if (EditorControls != null) EditorControls.UpdateMenuItems();
 			if (tcf != null)
 			{
 				
@@ -637,9 +667,9 @@ namespace TileManiacWPF
 				GetRawSlopeNUD();
 				if (!showPathB) //if we are showing Path A then refresh the values accordingly
 				{
-					Collisionpic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+					Collisionpic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionColor);
 					CollisionPicBox.Image = Collisionpic;
-					Overlaypic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0), Tiles[curColisionMask]);
+					Overlaypic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor, Tiles[curColisionMask]);
 					PhysicsNUD.Value = tcf.CollisionPath1[curColisionMask].physics;
 					MomentumNUD.Value = tcf.CollisionPath1[curColisionMask].momentum;
 					UnknownNUD.Value = tcf.CollisionPath1[curColisionMask].unknown;
@@ -654,7 +684,7 @@ namespace TileManiacWPF
 				{
 					Collisionpic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(0, 255, 0));
 					CollisionPicBox.Image = Collisionpic;
-					Overlaypic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(255, 0, 255, 0), Tiles[curColisionMask]);
+					Overlaypic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionColor, Tiles[curColisionMask]);
 					SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].slopeAngle;
 					PhysicsNUD.Value = tcf.CollisionPath2[curColisionMask].physics;
 					MomentumNUD.Value = tcf.CollisionPath2[curColisionMask].momentum;
@@ -1244,7 +1274,7 @@ namespace TileManiacWPF
 			CollisionList.Refresh();
 		}
 
-		private void showPathBToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void showPathBToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			//Do we want to show Path B's Collision Masks instead of Path A's ones?
 			if (!showPathB)
@@ -1261,36 +1291,10 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void aboutToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
+		public void aboutToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
 		{
 			AboutWindow frm = new AboutWindow();
 			frm.ShowDialog();
-		}
-
-		private void NextButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (tcf != null)
-			{
-				curColisionMask++;
-				if (curColisionMask > 1023) //Don't go above 1024... 1023 + 1 (because it starts at zero) = 1024
-				{
-					curColisionMask = 1023;
-				}
-				RefreshUI();
-			}
-		}
-
-		private void PrevButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (tcf != null)
-			{
-				curColisionMask--;
-				if (curColisionMask < 0) //Don't go below zero
-				{
-					curColisionMask = 0;
-				}
-				RefreshUI();
-			}
 		}
 
 		private void GotoNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -1304,14 +1308,6 @@ namespace TileManiacWPF
 			if (e.Source == GotoNUD) RefreshUI();
 		}
 
-		private void GotoButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (tcf != null)
-			{
-				curColisionMask = gotoVal; //Set the Collision Masl to the desired value
-				RefreshUI(); //Show the user the new values
-			}
-		}
 
 		private void SlopeNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
@@ -1501,7 +1497,7 @@ namespace TileManiacWPF
 			RefreshUI();
 		}
 
-		private void copyToOtherPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void copyToOtherPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (!showPathB)
 			{
@@ -1531,7 +1527,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void mirrorPathsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void mirrorPathsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (mirrorPathsToolStripMenuItem1.IsChecked)
 			{
@@ -1555,9 +1551,9 @@ namespace TileManiacWPF
 				if (mirrorMode)
 				{
 					tcf.CollisionPath1[curColisionMask].Collision[row] = (byte)lb.SelectedIndex;
-					CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+					CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 					tcf.CollisionPath2[curColisionMask].Collision[row] = (byte)lb.SelectedIndex;
-					CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+					CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 					CollisionList.Refresh();
 				}
 				else
@@ -1565,13 +1561,13 @@ namespace TileManiacWPF
 					if (!showPathB)
 					{
 						tcf.CollisionPath1[curColisionMask].Collision[row] = (byte)lb.SelectedIndex;
-						CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+						CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 						CollisionList.Refresh();
 					}
 					if (showPathB)
 					{
 						tcf.CollisionPath2[curColisionMask].Collision[row] = (byte)lb.SelectedIndex;
-						CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+						CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 						CollisionList.Refresh();
 					}
 				}
@@ -1732,9 +1728,9 @@ namespace TileManiacWPF
 				if (mirrorMode)
 				{
 					tcf.CollisionPath1[curColisionMask].HasCollision[box] = cb.IsChecked.Value;
-					CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+					CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 					tcf.CollisionPath2[curColisionMask].HasCollision[box] = cb.IsChecked.Value;
-					CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+					CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 					CollisionList.Refresh();
 				}
 				else
@@ -1742,13 +1738,13 @@ namespace TileManiacWPF
 					if (!showPathB)
 					{
 						tcf.CollisionPath1[curColisionMask].HasCollision[box] = cb.IsChecked.Value;
-						CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+						CollisionListImgA[curColisionMask] = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 						CollisionList.Refresh();
 					}
 					if (showPathB)
 					{
 						tcf.CollisionPath2[curColisionMask].HasCollision[box] = cb.IsChecked.Value;
-						CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0));
+						CollisionListImgB[curColisionMask] = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor);
 						CollisionList.Refresh();
 					}
 				}
@@ -1784,7 +1780,7 @@ namespace TileManiacWPF
 		}
 		#endregion
 
-		private void saveUncompressedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void saveUncompressedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (filepath != null) //Did we open a file?
 			{
@@ -1796,7 +1792,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void saveAsUncompressedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void saveAsUncompressedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			SaveFileDialog dlg = new SaveFileDialog
 			{
@@ -1809,10 +1805,6 @@ namespace TileManiacWPF
 			{
 				tcf.WriteUnc(dlg.FileName); //Write Uncompressed
 			}
-		}
-		private void toolsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-
 		}
 
 		private void radioButton1_CheckedChanged(object sender, RoutedEventArgs e)
@@ -1911,7 +1903,7 @@ namespace TileManiacWPF
 			tileViewRadioButton.IsChecked = false;
 		}
 
-		private void copyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void copyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (!showPathB)
 			{
@@ -1927,11 +1919,11 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void pasteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void pasteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (!showPathB)
 			{
-				if (Clipboard.ContainsData("TileManiacCollision"))
+				if (Clipboard.ContainsData("TileManiacCollision") && Properties.Settings.Default.EnableWindowsClipboard)
 				{
 					var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
 					if (copyData != null)
@@ -1949,7 +1941,7 @@ namespace TileManiacWPF
 			}
 			else if (showPathB)
 			{
-				if (Clipboard.ContainsData("TileManiacCollision"))
+				if (Clipboard.ContainsData("TileManiacCollision") && Properties.Settings.Default.EnableWindowsClipboard)
 				{
 					var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
 					if (copyData != null)
@@ -1978,7 +1970,7 @@ namespace TileManiacWPF
 				{
 					if (listSetting == 0)
 					{
-						CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+						CollisionListImgA.Add(tcf.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
 						CollisionList.Images.Add(CollisionListImgA[i]);
 					}
 					else
@@ -1993,7 +1985,7 @@ namespace TileManiacWPF
 				{
 					if (listSetting == 0)
 					{
-						CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+						CollisionListImgB.Add(tcf.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
 						CollisionList.Images.Add(CollisionListImgB[i]);
 					}
 					else
@@ -2009,7 +2001,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void openSingleCollisionMaskToolStripMenuItem_Click_1(object sender, RoutedEventArgs e)
+		public void openSingleCollisionMaskToolStripMenuItem_Click_1(object sender, RoutedEventArgs e)
 		{
 
 			OpenFileDialog dlg = new OpenFileDialog();
@@ -2032,7 +2024,7 @@ namespace TileManiacWPF
 
 		}
 
-		private void exportCurrentCollisionMaskAsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void exportCurrentCollisionMaskAsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Export As...";
@@ -2051,7 +2043,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void importFromOlderRSDKVersionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void importFromOlderRSDKVersionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Open Compressed";
@@ -2077,8 +2069,8 @@ namespace TileManiacWPF
 
 				for (int i = 0; i < 1024; i++)
 				{
-					CollisionListImgA.Add(tcfOLD.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
-					CollisionListImgB.Add(tcfOLD.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 0, 255, 0)));
+					CollisionListImgA.Add(tcfOLD.CollisionPath1[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
+					CollisionListImgB.Add(tcfOLD.CollisionPath2[i].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor));
 
 					CollisionList.Images.Add(CollisionListImgA[i]);
 					CollisionList.Images.Add(CollisionListImgB[i]);
@@ -2136,7 +2128,7 @@ namespace TileManiacWPF
 			//developerTerminal.Show();
 		}
 
-		private void showGridToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void showGridToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (showGridToolStripMenuItem.IsChecked)
 			{
@@ -2379,7 +2371,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void classicViewModeToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void classicViewModeToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (classicViewModeToolStripMenuItem.IsChecked)
 			{
@@ -2392,14 +2384,14 @@ namespace TileManiacWPF
 			RefreshUI();
 		}
 
-		private void overlayToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void overlayToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			viewAppearanceMode = 0;
 			UpdateViewApperancePlusButtons();
 
 		}
 
-		private void collisionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void collisionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			viewAppearanceMode = 1;
 			UpdateViewApperancePlusButtons();
@@ -2421,7 +2413,7 @@ namespace TileManiacWPF
 			RefreshUI();
 		}
 
-		private void UpdateMirrorModeStatusLabel()
+		public void UpdateMirrorModeStatusLabel()
 		{
 			if (mirrorMode)
 			{
@@ -2433,7 +2425,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void pathAToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void pathAToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.Yes)
@@ -2449,7 +2441,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void pathBToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void pathBToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.Yes)
@@ -2465,7 +2457,7 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void bothToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void bothToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.Yes)
@@ -2491,13 +2483,13 @@ namespace TileManiacWPF
 			}
 		}
 
-		private void newInstanceToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void newInstanceToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			var mainWindow = new MainWindow();
 			mainWindow.Show();
 		}
 
-		private void flipTileHorizontallyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void flipTileHorizontallyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (AllowFlipPrompt())
 			{
@@ -2515,7 +2507,7 @@ namespace TileManiacWPF
 
 		}
 
-		private void flipTileVerticallyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void flipTileVerticallyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (AllowFlipPrompt())
 			{
@@ -2549,23 +2541,23 @@ namespace TileManiacWPF
 
 		}
 
-		private void settingsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void settingsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			OptionsMenu form = new OptionsMenu();
 			form.ShowDialog();
 		}
 
-		private void x16TilesgifToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void x16TilesgifToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			Save16x16Tiles(true);
 		}
 
-		private void tileConfigbinToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void tileConfigbinToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			BackupCollisionData();
 		}
 
-		private void openCollisionHomeFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void openCollisionHomeFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (filepath != null)
 			{
@@ -2638,6 +2630,28 @@ namespace TileManiacWPF
 			catch (Exception ex)
 			{
 				Debug.Write("Failed to write settings: " + ex);
+			}
+		}
+
+		private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			EditorControls.GraphicPanel_OnKeyDown(sender, KeyEventExtsTM.ToWinforms(e));
+		}
+
+		private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			EditorControls.GraphicPanel_OnKeyUp(sender, KeyEventExtsTM.ToWinforms(e));
+		}
+
+		public void WindowAlwaysOnTop_Click(object sender, RoutedEventArgs e)
+		{
+			if (windowAlwaysOnTop.IsChecked)
+			{
+				this.Topmost = true;
+			}
+			else
+			{
+				this.Topmost = false;
 			}
 		}
 	}

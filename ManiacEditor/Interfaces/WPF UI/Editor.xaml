@@ -288,7 +288,6 @@
             </MenuItem>
             <MenuItem x:Name="toolsToolStripMenuItem" Header="Apps" Margin="0,2,0,0" Style="{DynamicResource MenuItemStyle1}">
                 <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Tile Maniac (Collision Editor)" Click="TileManiacToolStripMenuItem_Click"/>
-                <MenuItem x:Name="NewTileManiac" Header="Tile Maniac 3.0 (Collision Editor)" Click="NewTileManiac_Click"></MenuItem>
                 <MenuItem x:Name="insanicManiacToolStripMenuItem" Header="Insanic Maniac (Game Config Editor)" Click="InsanicManiacToolStripMenuItem_Click"/>
                 <MenuItem x:Name="duplicateObjectIDHealerToolStripMenuItem" Header="Fixer Maniac (Duplicate Object ID Fixer)" Click="DuplicateObjectIDHealerToolStripMenuItem_Click"/>
                 <MenuItem x:Name="animationManiacToolStripMenuItem" Header="Animation Maniac (Animation Editor)" IsEnabled="False"/>

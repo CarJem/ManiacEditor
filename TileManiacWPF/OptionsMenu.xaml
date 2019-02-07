@@ -29,7 +29,7 @@
                             <CheckBox Content="Show Grid" Margin="2"  IsChecked="{maniac:SettingBinding ShowGrid}"></CheckBox>
                             <CheckBox Content="Enable Classic Mode" Margin="2"  IsChecked="{maniac:SettingBinding ClassicMode}"></CheckBox>
                             <CheckBox Content="Enable Mirror Mode" Margin="2"  IsChecked="{maniac:SettingBinding MirrorMode}"></CheckBox>
-                            <CheckBox Content="Use Dark Theme" Margin="2" x:Name="DarkModeCheckBox"></CheckBox>
+                            <CheckBox Content="Window Always On Top" Margin="2"  IsChecked="{maniac:SettingBinding WindowAlwaysOnTop}"></CheckBox>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Default List View" Width="250" Height="60" Margin="4,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -45,7 +45,7 @@
                             <RadioButton x:Name="overlayRenderViewRadioButton" Content="Hybrid Overlay (Collision + Tiles)" Margin="2" Click="RenderViewModeChanged"></RadioButton>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Editor View Setting" Width="250" Height="100" Margin="4,260,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <GroupBox Header="Editor View Setting*" Width="250" Height="100" Margin="4,260,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <StackPanel>
                             <RadioButton x:Name="collisionEditorViewRadioButton" Content="Collision" Margin="2" Click="EditorViewModeChanged"></RadioButton>
                             <RadioButton x:Name="overlayEditorViewRadioButton" Content="Hybrid Overlay (Collision + Tiles)" Margin="2"  Click="EditorViewModeChanged"></RadioButton>
@@ -53,6 +53,20 @@
                             <TextBlock>*Not for Classic Mode</TextBlock>
                         </StackPanel>
                     </GroupBox>
+                    <GroupBox Header="Misc Settings" Width="250" Height="100" Margin="4,360,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <CheckBox x:Name="enableWindowsClipboard" Content="Enable Windows Clipboard*" Margin="2" IsChecked="{maniac:SettingBinding EnableWindowsClipboard}"></CheckBox>
+                            <CheckBox Content="Use Dark Theme" Margin="2" x:Name="DarkModeCheckBox"></CheckBox>
+                            <TextBlock></TextBlock>
+                            <TextBlock>*Not Working ATM</TextBlock>
+                        </StackPanel>
+                    </GroupBox>
+                    <StackPanel Grid.Column="1" Margin="0,0,10,10" Width="186" Height="115" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <Button IsEnabled="False" Content="Import Settings" Height="20" Width="170" Margin="0,4"></Button>
+                        <Button IsEnabled="False" Content="Export Settings"  Height="20" Width="170" Margin="0,4"></Button>
+                        <Button Content="Reset Settings to Default" Click="ResetSettingsToDefault"  Height="20" Width="170" Margin="0,4"></Button>
+                        <Button Content="Reset Controls to Default" Click="ResetControlsToDefault"  Height="20" Width="170" Margin="0,4"></Button>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Controls" Foreground="{DynamicResource NormalText}">
@@ -60,29 +74,29 @@
                     <TabControl x:Name="ControlTab" HorizontalAlignment="Stretch" Height="453" VerticalAlignment="Stretch" Background="{DynamicResource NormalBackground}">
                         <TabItem x:Name="NewControlTab" Header="File" Foreground="{DynamicResource NormalText}" Height="20" VerticalAlignment="Top">
                             <StackPanel Orientation="Horizontal" x:Name="NewControls">
-                                <StackPanel Visibility="Visible">
+                                <StackPanel  Visibility="Visible">
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="NewInstance"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="NewInstance"></Button>
                                         <Label Content="New Instance"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="Open"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="Open"></Button>
                                         <Label Content="Open"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="_Save"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="_Save"></Button>
                                         <Label Content="Save"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="SaveAs"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="SaveAs"></Button>
                                         <Label Content="Save As"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="_SaveUncompressed"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="_SaveUncompressed"></Button>
                                         <Label Content="Save (Uncompressed)"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="SaveAsUncompressed"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="SaveAsUncompressed"></Button>
                                         <Label Content="Save As (Uncompressed)"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
@@ -366,23 +380,23 @@
                             <StackPanel Orientation="Horizontal" x:Name="EditControls">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="Cut"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="Cut"></Button>
                                         <Label Content="Cut"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="Copy"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="Copy"></Button>
                                         <Label Content="Copy"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="Paste"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="Paste"></Button>
                                         <Label Content="Paste"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="PastetoOther"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="PastetoOther"></Button>
                                         <Label Content="Paste to Other Path"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="MirrorMode"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="MirrorMode"></Button>
                                         <Label Content="Mirror Mode"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
@@ -770,20 +784,20 @@
                             <StackPanel Orientation="Horizontal" x:Name="ViewControls">
                                 <StackPanel Visibility="Visible">
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="ShowPathB"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="ShowPathB"></Button>
                                         <Label Content="Show Path B"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="ShowGrid"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="ShowGrid"></Button>
                                         <Label Content="Show Grid"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4">
                                         <Button Width="100" Click="EditKeyCombo" Tag="ClassicMode"></Button>
                                         <Label Content="Classic View Mode"></Label>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
-                                        <Label Content="Title"></Label>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="WindowAlwaysOnTop"></Button>
+                                        <Label Content="Toggle Window Always On Top"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
                                         <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
@@ -1694,15 +1708,15 @@
                                         <Label Content="Title"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="CycleEditorViewMode"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="CycleEditorViewMode"></Button>
                                         <Label Content="Cycle Editor View Mode"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="CycleListViewMode"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="CycleListViewMode"></Button>
                                         <Label Content="Cycle List View Mode"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="CycleMainViewerMode"></Button>
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="CycleMainViewerMode"></Button>
                                         <Label Content="Cycle Viewer Mode"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
@@ -1982,7 +1996,7 @@
                                 </StackPanel>
                             </StackPanel>
                         </TabItem>
-                        <TabItem Header="Non-Bindable Controls" Foreground="{DynamicResource NormalText}">
+                        <TabItem Visibility="hidden" Header="Non-Bindable Controls" Foreground="{DynamicResource NormalText}">
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel  Visibility="Visible">
                                     <StackPanel Orientation="Horizontal" Margin="4,4">

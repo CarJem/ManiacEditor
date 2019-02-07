@@ -1086,10 +1086,6 @@
       <Project>{d10dc6b1-eb04-46bc-8c7a-62914af396b0}</Project>
       <Name>RSDKv5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tile Maniac\Tile Maniac - RSDKv5 Collision Editor.csproj">
-      <Project>{3d9f597d-8d90-44d3-a0b9-a0cb2292d0e1}</Project>
-      <Name>Tile Maniac - RSDKv5 Collision Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TileManiacWPF\TileManiacWPF.csproj">
       <Project>{d4bebcd3-438f-4f11-9b31-e9b25aa53bfc}</Project>
       <Name>TileManiacWPF</Name>

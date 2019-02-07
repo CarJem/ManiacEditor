@@ -20,7 +20,7 @@
 
         <Grid Width="160" Grid.Column="0" Grid.RowSpan="3">
             <Border  BorderBrush="{DynamicResource DisabledText}" BorderThickness="2">
-                <Image Stretch="UniformToFill" HorizontalAlignment="Center" Margin="0,0,0,0"></Image>
+                <Image Source="pack://application:,,,/Resources/Assets/NeoAboutImage.png" Stretch="UniformToFill" HorizontalAlignment="Center" Margin="0,0,0,0"></Image>
             </Border>
         </Grid>
 
@@ -54,7 +54,7 @@
             <TextBlock  x:Name="labelVersion" Text="Version" Margin="0,4" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
 
-        <Label Width="150" Height="30" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="0,23,-42,-2">
+        <Label Visibility="Hidden" Width="150" Height="30" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="0,23,-42,-2">
             <Hyperlink Click="linkLabel3_LinkClicked">
                 <Run Text="Check for Updates"/>
             </Hyperlink>
