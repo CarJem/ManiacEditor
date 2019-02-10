@@ -2256,6 +2256,7 @@ namespace ManiacEditor
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
+				/*
 				if (entities.SelectedEntities.Count == 2)
 				{
 					var entity1 = entities.selectedEntities[0];
@@ -2264,7 +2265,7 @@ namespace ManiacEditor
 					ushort slotID2 = entity2.Entity.SlotID;
 					entity1.Entity.SlotID = slotID2;
 					entity2.Entity.SlotID = slotID1;
-				}
+				}*/
 			}
 			UpdateControls();
 		}
