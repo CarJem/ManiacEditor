@@ -778,7 +778,7 @@ namespace ManiacEditor
 					{
 						if (obj.Entities.Any(t => t.SlotID == newSlot))
 						{
-							MessageBox.Show($"Slot {newSlot} is currently being used by a {obj.Name.ToString()}",
+							MessageBox.Show("Slot {newSlot} is currently being used by a {obj.Name.ToString()}",
 								"Slot in use!", MessageBoxButton.OK, MessageBoxImage.Error);
 							return;
 						}

@@ -109,7 +109,7 @@ namespace ManiacEditor
             return nextFreeSlot++;
         }
 
-        public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
+		public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
             if (!addSelection) Deselect();
             foreach (var entity in entities)

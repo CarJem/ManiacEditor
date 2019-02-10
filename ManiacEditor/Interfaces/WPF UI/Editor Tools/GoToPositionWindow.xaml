@@ -59,7 +59,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
+                <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" 
                                               DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Themes/MyBorderStyle.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>

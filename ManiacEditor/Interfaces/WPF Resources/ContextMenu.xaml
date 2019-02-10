@@ -6,7 +6,7 @@
                     xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
-    <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
+    <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Geometry x:Key="Checkmark">M 0,5.1 L 1.7,5.2 L 3.4,7.1 L 8,0.4 L 9.2,0 L 3.3,10.8 Z</Geometry>
     <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>

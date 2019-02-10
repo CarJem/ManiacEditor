@@ -489,6 +489,7 @@
     <Compile Include="Entity Renders\TurboSpiker.cs" />
     <Compile Include="Entity Renders\TwistingSlide.cs" />
     <Compile Include="Entity Renders\SummaryEmerald.cs" />
+    <Compile Include="Entity Renders\UIButton.cs" />
     <Compile Include="Entity Renders\UIWinSize.cs" />
     <Compile Include="Entity Renders\UIResPicker.cs" />
     <Compile Include="Entity Renders\UIVsRoundPicker.cs" />
@@ -508,7 +509,7 @@
     <Compile Include="Entity Renders\UISubHeading.cs" />
     <Compile Include="Entity Renders\UISaveSlot.cs" />
     <Compile Include="Entity Renders\UIButtonPrompt.cs" />
-    <Compile Include="Entity Renders\UIButton.cs" />
+    <Compile Include="Entity Renders\UIModeButton.cs" />
     <Compile Include="Entity Renders\UIHeading.cs" />
     <Compile Include="Entity Renders\UIText.cs" />
     <Compile Include="Entity Renders\UIPicture.cs" />

@@ -854,7 +854,7 @@ namespace ManiacEditor
 			}
 			else if (mySettings.preRenderSceneOption == 2 && enabled && stageLoad)
 			{
-				MessageBoxResult result = System.Windows.MessageBox.Show("Do you wish to Pre-Render this scene?", "Requesting to Pre-Render the Scene", MessageBoxButton.YesNo, MessageBoxImage.Information);
+				MessageBoxResult result = System.Windows.MessageBox.Show(Application.Current.MainWindow,"Do you wish to Pre-Render this scene?", "Requesting to Pre-Render the Scene", MessageBoxButton.YesNo, MessageBoxImage.Information);
 				if (result == MessageBoxResult.Yes)
 				{
 					PreLoadSceneButton_Click(null, null);
@@ -1471,7 +1471,7 @@ namespace ManiacEditor
 				if (listLocations != null || listLocations.Count != 0)
 				{
 					var message = string.Join(Environment.NewLine, listLocations);
-					System.Windows.MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
+					System.Windows.MessageBox.Show(Application.Current.MainWindow,"Tiles found at: " + Environment.NewLine + message, "Results");
 					if (copyResults && message != null)
 					{
 						Clipboard.SetText(message);
@@ -1479,7 +1479,7 @@ namespace ManiacEditor
 				}
 				else
 				{
-					System.Windows.MessageBox.Show("Found Nothing", "Results");
+					System.Windows.MessageBox.Show(Application.Current.MainWindow,"Found Nothing", "Results");
 				}
 				FindReplaceClipboard.Clear();
 				Deselect();
@@ -1994,7 +1994,7 @@ namespace ManiacEditor
 						}
 						catch (EditorEntities.TooManyEntitiesException)
 						{
-							System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+							System.Windows.MessageBox.Show(Application.Current.MainWindow,"Too many entities! (limit: 2048)");
 							dragged = false;
 							return;
 						}
@@ -2254,18 +2254,6 @@ namespace ManiacEditor
 					Cursor = Cursors.Arrow;
 				}
 			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				if (entities.SelectedEntities.Count == 2)
-				{
-					var entity1 = entities.selectedEntities[0];
-					var entity2 = entities.selectedEntities[1];
-					ushort slotID1 = entity1.Entity.SlotID;
-					ushort slotID2 = entity2.Entity.SlotID;
-					entity1.Entity.SlotID = slotID2;
-					entity2.Entity.SlotID = slotID1;
-				}
-			}
 			UpdateControls();
 		}
 
@@ -2426,7 +2414,7 @@ namespace ManiacEditor
 				}
 				catch
 				{
-					System.Windows.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
+					System.Windows.MessageBox.Show(Application.Current.MainWindow,"Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
 					return false;
 				}
 
@@ -2449,7 +2437,7 @@ namespace ManiacEditor
 			}
 			else
 			{
-				System.Windows.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,$"The specified Data Directory {dataDirectory} is not valid.",
 								"Invalid Data Directory!",
 								MessageBoxButton.OK,
 								MessageBoxImage.Error);
@@ -2491,7 +2479,7 @@ namespace ManiacEditor
 			}
 			else
 			{
-				System.Windows.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,$"The specified Data Directory {dataDirectory} is not valid.",
 								"Invalid Data Directory!",
 								MessageBoxButton.OK,
 								MessageBoxImage.Error);
@@ -3178,7 +3166,7 @@ namespace ManiacEditor
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Load failed. Error: " + ex.ToString() + " " + Result);
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Load failed. Error: " + ex.ToString() + " " + Result);
 				return;
 			}
 
@@ -3297,7 +3285,7 @@ namespace ManiacEditor
 					}
 					catch (Exception ex)
 					{
-						System.Windows.MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
+						System.Windows.MessageBox.Show(Application.Current.MainWindow,"Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
 						EditorSettings.CleanPrefrences();
 					}
 
@@ -3398,7 +3386,7 @@ namespace ManiacEditor
 					}
 					catch (Exception ex)
 					{
-						System.Windows.MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
+						System.Windows.MessageBox.Show(Application.Current.MainWindow,"Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
 						EditorSettings.CleanPrefrences();
 					}
 
@@ -3436,7 +3424,7 @@ namespace ManiacEditor
 				if (IsDataDirectoryValid(newDataDirectory))
 					ResetDataDirectoryToAndResetScene(newDataDirectory);
 				else
-					System.Windows.MessageBox.Show($@"{newDataDirectory} is not
+					System.Windows.MessageBox.Show(Application.Current.MainWindow,$@"{newDataDirectory} is not
 a valid Data Directory.",
 									"Invalid Data Directory!",
 									MessageBoxButton.OK,
@@ -3560,7 +3548,7 @@ Error: {ex.Message}");
 					}
 				}
 
-				System.Windows.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,$"Layer export succeeded. {fileCount} images saved.", "Success!",
 								MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
@@ -3648,7 +3636,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Unable to import Objects. " + ex.Message);
 			}
 		}
 
@@ -3749,7 +3737,7 @@ Error: {ex.Message}");
 				}
 				catch (EditorEntities.TooManyEntitiesException)
 				{
-					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+					System.Windows.MessageBox.Show(Application.Current.MainWindow,"Too many entities! (limit: 2048)");
 					return;
 				}
 				UpdateEntitiesToolbarList();
@@ -3833,7 +3821,7 @@ Error: {ex.Message}");
 					}
 					catch (EditorEntities.TooManyEntitiesException)
 					{
-						System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+						System.Windows.MessageBox.Show(Application.Current.MainWindow,"Too many entities! (limit: 2048)");
 						return;
 					}
 					UpdateEntitiesToolbarList();
@@ -4051,7 +4039,7 @@ Error: {ex.Message}");
 				}
 				catch (Exception ex)
 				{
-					System.Windows.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
+					System.Windows.MessageBox.Show(Application.Current.MainWindow,"Unable to set Encore Colors. " + ex.Message);
 				}
 			}
 			else if (path != "")
@@ -4067,7 +4055,7 @@ Error: {ex.Message}");
 				}
 				else
 				{
-					System.Windows.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
+					System.Windows.MessageBox.Show(Application.Current.MainWindow,"Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
 				}
 			}
 
@@ -4241,7 +4229,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Unable to import Objects. " + ex.Message);
 			}
 			importingObjects = false;
 		}
@@ -4269,7 +4257,7 @@ Error: {ex.Message}");
 						}
 						catch
 						{
-							System.Windows.MessageBox.Show("Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
+							System.Windows.MessageBox.Show(Application.Current.MainWindow,"Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
 							return;
 						}
 
@@ -4289,7 +4277,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Unable to import sounds. " + ex.Message);
 			}
 		}
 
@@ -4547,7 +4535,7 @@ Error: {ex.Message}");
 
 		private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = System.Windows.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+			MessageBoxResult result = System.Windows.MessageBox.Show(Application.Current.MainWindow,"WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
 			if (result == MessageBoxResult.OK)
 			{
 				RepairScene();
@@ -4566,7 +4554,7 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Scene File does not exist or simply isn't loaded!", "ERROR");
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Scene File does not exist or simply isn't loaded!", "ERROR");
 			}
 
 		}
@@ -4580,7 +4568,7 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Data Directory does not exist or simply isn't loaded!", "ERROR");
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Data Directory does not exist or simply isn't loaded!", "ERROR");
 			}
 
 		}
@@ -4595,7 +4583,7 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Game Folder does not exist or isn't set!", "ERROR");
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Game Folder does not exist or isn't set!", "ERROR");
 			}
 
 		}
@@ -4609,7 +4597,7 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Mod Data Directory Not Loaded!", "ERROR");
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Mod Data Directory Not Loaded!", "ERROR");
 			}
 
 
@@ -4818,7 +4806,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show(ex.Message);
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,ex.Message);
 			}
 		}
 
@@ -5786,7 +5774,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show(ex.Message);
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,ex.Message);
 			}
 		}
 
@@ -6555,11 +6543,11 @@ Error: {ex.Message}");
 			if (UnusedTiles.Count != 0)
 			{
 				var message = string.Join(Environment.NewLine, UnusedTiles);
-				System.Windows.MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Tiles not used are: " + Environment.NewLine + message, "Results");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Found Nothing", "Results");
+				System.Windows.MessageBox.Show(Application.Current.MainWindow,"Found Nothing", "Results");
 			}
 			ToggleEditorButtons(true);
 
@@ -7249,6 +7237,8 @@ Error: {ex.Message}");
 			this.ViewPanelForm.Children.Add(host);
 
 			editorView.GraphicPanel.Init(editorView);
+
+			ManiacEditor.App.Current.MainWindow = this;
 		}
 
 
@@ -7309,7 +7299,7 @@ Error: {ex.Message}");
 
 		private void ShowError(string message, string title = "Error!")
 		{
-			System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+			System.Windows.MessageBox.Show(Application.Current.MainWindow,message, title, MessageBoxButton.OK, MessageBoxImage.Error);
 			/*using (var customMsgBox = new CustomMsgBox(message, title, 1, 1))
             {
                 customMsgBox.ShowDialog();
@@ -7350,7 +7340,7 @@ Error: {ex.Message}");
 				return false;
 			}
 
-			var result = System.Windows.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
+			var result = System.Windows.MessageBox.Show(Application.Current.MainWindow,$"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
 										 MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
 			if (result == MessageBoxResult.Yes) return true;

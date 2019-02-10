@@ -4,7 +4,7 @@
                     xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:local="clr-namespace:ManiacEditor" xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" xmlns:Themes1="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=DotNetProjects.Wpf.Extended.Toolkit">
     <ResourceDictionary.MergedDictionaries>
-        <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Resources/Themes/LightColors.xaml" 
+        <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" 
                                               DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
         <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
         <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>

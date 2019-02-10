@@ -334,9 +334,9 @@ namespace ManiacEditor
                         deviceLost = true;
                         Debug.Print("Device Not Reset! Fixing....");
                         DisposeDeviceResources();
-                        InitDeviceResources();
+						EditorInstance.DisposeTextures();
+						InitDeviceResources();
                         Init(EditorInstance.editorView);
-                        EditorInstance.DisposeTextures();
                         deviceLost = false;
                     }
                     catch (SharpDXException ex2)
@@ -495,15 +495,7 @@ namespace ManiacEditor
         /// </summary>
         public void Render()
         {
-            if (deviceLost) AttemptRecovery(null);
-            
-            if (_device == null)
-            {
-                AttemptRecovery(null);
-                return;
-            }
-
-            if (Parent == null) return;
+            if (Parent == null || _device == null || deviceLost || direct3d == null) return;
 
 
             try
@@ -577,14 +569,10 @@ namespace ManiacEditor
                 _device.Present();
 
             }
-        catch (SharpDXException ex)
-        {
-                deviceLost = true;
-                AttemptRecovery(ex);
-        }
-
-
-
+			catch (SharpDXException ex)
+			{
+				throw ex;
+			}
 }
 
         #endregion
