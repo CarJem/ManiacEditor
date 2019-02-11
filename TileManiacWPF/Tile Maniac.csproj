@@ -63,7 +63,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WpfAnimatedGif">
-      <HintPath>..\..\WPFCustomMessageBox\source\WPFCustomMessageBox\bin\Debug\WpfAnimatedGif.dll</HintPath>
+      <HintPath>..\packages\WpfAnimatedGif.1.4.17\lib\net\WpfAnimatedGif.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
