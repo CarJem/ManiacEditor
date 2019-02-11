@@ -349,12 +349,6 @@
       <HintPath>..\packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\packages\OpenTK.Next.1.2.2336.6514-pre\lib\net20\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\packages\OpenTK.Next.GLControl.1.2.2336.6514-pre\lib\net20\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework">
       <Private>False</Private>
