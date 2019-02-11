@@ -2,7 +2,6 @@
         x:ClassModifier="internal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:TileManiacWPF"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
