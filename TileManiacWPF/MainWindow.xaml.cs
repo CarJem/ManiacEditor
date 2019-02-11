@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Linq.Expressions;
 using System.Diagnostics;
-using RSDKv4;
+using RSDKvB;
 using RSDKv5;
 using System.Drawing.Imaging;
 using System.Media;
@@ -2062,7 +2062,7 @@ namespace TileManiacWPF
 				filepath = dlg.FileName;
 				tcf = new RSDKv5.TileConfig();
 				tcfBak = new RSDKv5.TileConfig();
-				RSDKv4.CollisionMask tcfOLD = new RSDKv4.CollisionMask(dlg.FileName);
+				RSDKvB.Tileconfig tcfOLD = new RSDKvB.Tileconfig(dlg.FileName);
 				string tileBitmapPath = filepath.Replace("CollisionMasks.bin", "16x16tiles.gif"); //get the path to the stage's tileset
 				LoadTileSet(new Bitmap(tileBitmapPath)); //load each 16x16 tile into the list
 				bitmappath = tileBitmapPath;

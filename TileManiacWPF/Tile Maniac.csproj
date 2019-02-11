@@ -309,13 +309,13 @@
     <Resource Include="Resources\Assets\NeoAboutImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RSDK-Reverse\RSDKv4\RSDKv4.csproj">
-      <Project>{1a58ba31-c9e1-4d18-876e-ec73799e7a9f}</Project>
-      <Name>RSDKv4</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKv5\RSDKv5.csproj">
       <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
       <Name>RSDKv5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKvB\RSDKvB.csproj">
+      <Project>{1a58ba31-c9e1-4d18-876e-ec73799e7a9f}</Project>
+      <Name>RSDKvB</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
