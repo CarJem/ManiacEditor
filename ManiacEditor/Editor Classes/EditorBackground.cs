@@ -7,9 +7,6 @@ using System.Drawing;
 using RSDKv5Color = RSDKv5.Color;
 using IronPython.Modules;
 using System.Net.Http.Headers;
-using OpenTK.Platform.Windows;
-using OpenTK.Graphics.OpenGL;
-using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 
 namespace ManiacEditor
 {
