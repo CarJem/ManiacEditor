@@ -1,4 +1,4 @@
-﻿namespace Vurdalakov
+﻿namespace ManiacEditor
 {
 	using System;
 	using System.Runtime.InteropServices;

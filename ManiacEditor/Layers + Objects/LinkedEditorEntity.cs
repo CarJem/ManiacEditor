@@ -116,8 +116,6 @@ namespace ManiacEditor
 
 			if (currentEntity.Object.Name.Name == "TransportTube")
 			{
-				base.Draw(d);
-
 				if (EditorInstance.showEntityPathArrows)
 				{
 					if ((TransportTubeType == 2 || TransportTubeType == 4))
@@ -151,6 +149,7 @@ namespace ManiacEditor
 					}
 				}
 
+				base.Draw(d);
 			}
 		}
 

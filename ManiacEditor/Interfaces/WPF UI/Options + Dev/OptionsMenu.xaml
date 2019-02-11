@@ -140,7 +140,7 @@
                     </GroupBox>
                     <GroupBox Header="Tile Toolbar Default Zoom Level" HorizontalAlignment="Left" Height="59" Margin="10,258,0,0" VerticalAlignment="Top" Width="193">
                         <Grid>
-                            <Slider HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Height="30" Width="181" Ticks="0 1 2 3" Maximum="3" Value="{maniac:SettingBinding tileToolbarDefaultZoomLevel}"/>
+                            <Slider HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Height="30" Width="181" Ticks="0 1 2 3" TickPlacement="Both" Maximum="3" Value="{maniac:SettingBinding tileToolbarDefaultZoomLevel}"/>
                         </Grid>
 
                     </GroupBox>
@@ -1024,9 +1024,9 @@
                                         <Button Width="100" Click="EditKeyCombo" Tag="ScrollLockTypeSwitch"></Button>
                                         <Label Content="Swap Scroll Lock Axis"></Label>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
-                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
-                                        <Label Content="Title"></Label>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="StatusBoxToggle"></Button>
+                                        <Label Content="Show Status"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Hidden">
                                         <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>

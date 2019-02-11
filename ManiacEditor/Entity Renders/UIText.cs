@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIText : EntityRenderer
     {
-        string HUDLevelSelectCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"_^]\\[";
+        string HUDLevelSelectCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"_^]\\[)(";
         public char[] HUDLevelSelectChar;
 
         public UIText()
@@ -46,29 +46,56 @@ namespace ManiacEditor.Entity_Renders
             
         }
 
-        public void DrawEditorHUDText(Editor instance, DevicePanel d, int x, int y, string text, bool highlighted, int Transparency = 0xff, int highlightDistance = -1)
+        public void DrawEditorHUDText(Editor instance, DevicePanel d, int x, int y, string text, bool highlighted, int Transparency = 0xff, int highlightDistance = -1, int highlightStart = 0)
         {
-            int spacingAmount = 0;
+			d.DrawHUDRectangle(x - 8, y - 8, x + text.Length * 8, y + 8, System.Drawing.Color.FromArgb(128, 0, 0, 0));
+			int spacingAmount = 0;
+			int loopCount = 0;
             foreach (char symb in text)
             {
                 bool fliph = false;
                 bool flipv = false;
                 int frameID = GetFrameIDHUD(symb, HUDLevelSelectChar);
-                int listID = (highlighted ? 1 : 0);
-                if (highlightDistance != -1)
-                {
-                    if (highlightDistance > 0) highlightDistance--;
-                    else highlighted = false;
-                }
-                var editorAnim = instance.EditorEntity_ini.LoadAnimation("HUDEditorText", d, listID, frameID, fliph, flipv, false);
+				bool highlighted_temp = highlighted;
+				if (highlightStart == 0)
+				{
+					if (highlightDistance != -1)
+					{
+						if (highlightDistance > 0) highlightDistance--;
+						else highlighted_temp = false;
+					}
+				}
+				else
+				{
+					if (loopCount >= highlightStart)
+					{
+						highlighted_temp = true;
+						if (highlightDistance != -1)
+						{
+							if (highlightDistance > 0) highlightDistance--;
+							else highlighted_temp = false;
+						}
+					}
+					else
+					{
+						highlighted_temp = false;
+					}
+				}
+				int listID = (highlighted_temp ? 1 : 0);
+
+				var editorAnim = instance.EditorEntity_ini.LoadAnimation("HUDEditorText", d, listID, frameID, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[0];
-                    d.DrawHUDBitmap(frame.Texture, x + frame.Frame.CenterX + spacingAmount, y + frame.Frame.CenterY,
+					d.DrawHUDBitmap(frame.Texture, x + frame.Frame.CenterX + spacingAmount, y + frame.Frame.CenterY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     spacingAmount = spacingAmount + frame.Frame.Width;
-                }
+					loopCount++;
+
+				}
+				
             }
+
         }
 
         public int GetFrameIDHUD(char letter, char[] arry)

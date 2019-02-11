@@ -832,7 +832,7 @@
     <Compile Include="WPF + Winform Stuff\SkinResourceDictionary.cs" />
     <Compile Include="WPF + Winform Stuff\TextPrompt.cs" />
     <Compile Include="Graphics\TextureCreator.cs" />
-    <Compile Include="WPF + Winform Stuff\TextPrompt2.xaml.cs">
+    <Compile Include="Interfaces\Dialog\TextPrompt2.xaml.cs">
       <DependentUpon>TextPrompt2.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF + Winform Stuff\ThumbnailFlowLayoutPanel.cs">
@@ -1272,7 +1272,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WPF + Winform Stuff\TextPrompt2.xaml">
+    <Page Include="Interfaces\Dialog\TextPrompt2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

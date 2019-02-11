@@ -18,12 +18,25 @@ namespace ManiacEditor.Entity_Renders
             string text = "Text" + e.EditorInstance.CurrentLanguage;
             int listID = (int)entity.attributesMap["listID"].ValueVar;
             int frameID = (int)entity.attributesMap["frameID"].ValueVar;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, listID, frameID, false, false, false);
+			int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
+			int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
+			int align = (int)entity.attributesMap["align"].ValueVar;
+			double alignmentVal = 0;
+			var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, listID, frameID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
-                //Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+				switch (align)
+				{
+					case 0:
+						alignmentVal = -((width / 2)) - frame.Frame.CenterY;
+						break;
+					default:
+						alignmentVal = frame.Frame.CenterX + (22 / 2);
+						break;
+				}
+				e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height);
+				d.DrawBitmap(frame.Texture, x + (int)alignmentVal, y + frame.Frame.CenterY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

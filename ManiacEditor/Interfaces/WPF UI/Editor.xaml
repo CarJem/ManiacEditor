@@ -242,6 +242,14 @@
                 <MenuItem x:Name="overlayImageToolStripMenuItem" Header="Overlay Image" IsEnabled="False"/>
                 <MenuItem x:Name="multiLayerSelectionToolStripMenuItem" Header="Multi-Layer Selection Mode" IsEnabled="False"/>
                 <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID..." Click="changeLevelIDToolStripMenuItem_Click"/>
+                <MenuItem x:Name="entityEditOptions" Header="Entities Edit Tools...">
+                    <MenuItem x:Name="rightClicktoSwapSlotIDs" Header="Right Click to Swap Slot IDs" IsCheckable="True" Click="RightClicktoSwapSlotIDs_Click"/>
+                    <MenuItem x:Name="rightClicktoSwapSlotIDsNote" IsEnabled="False">
+                        <MenuItem.Header>
+                            <TextBlock Text="NOTE: Only works on selections of two entities" Width="200" Height="35" TextWrapping="Wrap"></TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </MenuItem>
                 <MenuItem x:Name="optimizeEntitySlotIDsToolStripMenuItem" Header="Optimize Entity Slot IDs" Click="OptimizeEntitySlotIDsToolStripMenuItem_Click"/>
                 <MenuItem x:Name="preRenderSceneToolStripMenuItem" Header="Pre-Render Scene" Click="PreLoadSceneButton_Click"/>
                 <MenuItem x:Name="newShortcutToolStripMenuItem" Header="Create a Desktop Shortcut">

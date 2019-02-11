@@ -555,7 +555,11 @@ namespace ManiacEditor.Interfaces
 				isEncore = true;
 			}
 			Close();
-			if (withinAParentForm) EditorInstance.OpenScene(false, Result, LevelID, isEncore, isModLoaded, EditorInstance.ModDataDirectory);
+			if (withinAParentForm)
+			{
+				EditorInstance.OpenScene(false, Result, LevelID, isEncore, isModLoaded, EditorInstance.ModDataDirectory);
+				isEncore = false;
+			}
 
 		}
 
@@ -1420,7 +1424,7 @@ namespace ManiacEditor.Interfaces
 				}
 			}
 
-			string inputValue = TextPrompt.ShowDialog("Change Custom Folder Name", "Leave blank to reset. This will not touch your mod!", Settings.mySettings.ModFolderCustomNames[index]);
+			string inputValue = TextPrompt2.ShowDialog("Change Custom Folder Name", "Leave blank to reset. This will not touch your mod!", Settings.mySettings.ModFolderCustomNames[index]);
 			if (inputValue != "")
 			{
 				Settings.mySettings.ModFolderCustomNames[index] = inputValue;

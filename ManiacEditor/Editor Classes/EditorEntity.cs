@@ -48,12 +48,15 @@ namespace ManiacEditor
         private SceneEntity entity;
         public bool filteredOut;
         public string uniqueKey = "";
+		public bool useOtherSelectionVisiblityMethod = false; //Not Universal; Only for Renders that need it
+		public bool drawSelectionBoxInFront = true;
+		public bool renderNotFound = false;
 
 
 
 
-        //Rotating/Moving Platforms
-        public int platformAngle = 0;
+		//Rotating/Moving Platforms
+		public int platformAngle = 0;
         public int platformpositionX = 0;
         public int platformpositionY = 0;
         //bool platformdisableX = false;
@@ -110,32 +113,6 @@ namespace ManiacEditor
         public void Draw(Graphics g)
         {
 
-        }
-
-        public void DrawGraphicsMode(DevicePanel d, bool state = false)
-        {
-            List<string> entityRenderList = EditorInstance.EditorEntity_ini.entityRenderingObjects;
-
-            int x = entity.Position.X.High;
-            int y = entity.Position.Y.High;
-            int _ChildX = entity.Position.X.High + (childDraw ? childX : 0);
-            int _ChildY = entity.Position.Y.High + (childDraw ? childY : 0);
-            if (childDrawAddMode == false)
-            {
-                _ChildX = childX;
-                _ChildY = childY;
-            }
-            bool fliph = false;
-            bool flipv = false;
-            bool rotate = false;
-            var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
-            string name = entity.Object.Name.Name;
-
-
-            if (entityRenderList.Contains(name))
-            {
-                EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode, true);
-            }
         }
 
         public bool ContainsPoint(Point point)
@@ -266,7 +243,7 @@ namespace ManiacEditor
 					(filter == 2 && !Properties.Settings.Default.showManiaEntities) ||
 					(filter == 4 && !Properties.Settings.Default.showEncoreEntities) ||
 					(filter == 255 && !Properties.Settings.Default.showPinballEntities) ||
-					((filter < 1 || filter == 3 || filter > 5) && !Properties.Settings.Default.showOtherEntities);
+					((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !Properties.Settings.Default.showOtherEntities);
 			}
 			else
 			{
@@ -296,7 +273,7 @@ namespace ManiacEditor
             {
                 if (layerPriority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
                 else validPlane = true;
-                if (validPlane == false && !EditorInstance.IsEntitiesEdit() && EditorInstance.entityVisibilityType != 1) return;
+                if (validPlane == false) return;
             }
 
             bool skipRenderforx86 = false;
@@ -371,7 +348,9 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
 
-            if (entityRenderList.Contains(name) && EditorInstance.isExportingImage)
+			if (!drawSelectionBoxInFront) DrawSelectionBox(d, x, y, Transparency, color, color2);
+
+			if (entityRenderList.Contains(name) && EditorInstance.isExportingImage)
             {
                 EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
             }
@@ -395,16 +374,13 @@ namespace ManiacEditor
                 var editorAnim = EditorInstance.EditorEntity_ini.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
                 if (editorAnim != null && editorAnim.Frames.Count > 0)
                 {
-
-                    // Special cases that always display a set frame(?)
-                    if (EditorInstance.ShowAnimations.IsEnabled == true)
+					renderNotFound = false;
+					// Special cases that always display a set frame(?)
+					if (EditorInstance.ShowAnimations.IsEnabled == true)
                     {
                         if (entity.Object.Name.Name == "StarPost")
                             index = 1;
                     }
-
-
-
                     // Just incase
                     if (index >= editorAnim.Frames.Count)
                         index = 0;
@@ -430,40 +406,36 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes)
-                    {
-                        d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
-                    }
-
-                }
+					renderNotFound = true;
+				}
             }
 
 
+			if (drawSelectionBoxInFront) DrawSelectionBox(d, x, y, Transparency, color, color2);
+		}
 
-            if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes && !EditorInstance.isPreRending)
-            {
-                d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
-                d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y, x, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y + NAME_BOX_HEIGHT, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                if (Properties.Settings.Default.UseObjectRenderingImprovements == false && entity.Object.Name.Name != "TransportTube")
-                {
-                    if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
-                }
-                if (entity.Object.Name.Name == "TransportTube")
-                {
-                    if (EditorInstance.GetZoom() >= 1)
-                    {
-                        d.DrawText(String.Format(entity.attributesMap["dirMask"].ValueUInt8.ToString()), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Red), true);
-                    }
-                }
-
-            }
-
-
-
-        }
+		public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
+		{
+			if (renderNotFound)
+			{
+				if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
+				{
+					d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+				}
+			}
+			if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes && !EditorInstance.isPreRending && !useOtherSelectionVisiblityMethod)
+			{
+				d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
+				d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+				d.DrawLine(x, y, x, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+				d.DrawLine(x, y + NAME_BOX_HEIGHT, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+				d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+				if (Properties.Settings.Default.UseObjectRenderingImprovements == false)
+				{
+					if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+				}
+			}
+		}
 		public EditorEntity_ini.EditorAnimation.EditorFrame GetFrameFromAttribute(EditorEntity_ini.EditorAnimation anim, AttributeValue attribute, string key = "frameID")
         {
             int frameID = -1;

@@ -15,6 +15,7 @@ namespace ManiacEditor
 
 		private TilesList tilesList;
 		bool disposing = false;
+		bool updateList = false;
 
 		public System.Windows.Forms.Panel tilePanel;
 		public Interfaces.RetroEDTileList retroEDTileList1;
@@ -330,14 +331,16 @@ namespace ManiacEditor
 
 		private void tabControl1_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (TabControl.TabIndex == 0)
+			if (e.Source is TabControl)
 			{
-				EditorInstance.ChunksToolButton.IsChecked = false;
+				if (TabControl.SelectedIndex == 0) EditorInstance.ChunksToolButton.IsChecked = false;
+				else EditorInstance.ChunksToolButton.IsChecked = true;
 			}
-			else
+			if (TabControl.SelectedIndex == 0)
 			{
-				EditorInstance.ChunksToolButton.IsChecked = true;
+				tilesList.graphicPanel.Render();
 			}
+
 		}
 
 		private void TilesToolbar_Resize(object sender, EventArgs e)
@@ -354,6 +357,14 @@ namespace ManiacEditor
 		private void UserControl_Unloaded(object sender, RoutedEventArgs e)
 		{
 			//this.Dispose();
+		}
+
+		private void TabItem_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if (TabControl.SelectedIndex == 0)
+			{
+				tilesList.graphicPanel.Render();
+			}
 		}
 	}
 }

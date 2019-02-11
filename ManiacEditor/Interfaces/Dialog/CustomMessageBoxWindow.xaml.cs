@@ -91,8 +91,9 @@ namespace ManiacEditor
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
-			
+			this.SourceInitialized += WindowHelper.RemoveIcon;
+			//Owner = App.Current.MainWindow;
+
 
 			Message = message;
 			Image_MessageBox.Visibility = System.Windows.Visibility.Collapsed;
@@ -104,8 +105,9 @@ namespace ManiacEditor
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
-			
+			this.SourceInitialized += WindowHelper.RemoveIcon;
+			//Owner = App.Current.MainWindow;
+
 
 			Message = message;
 			Caption = caption;
@@ -118,8 +120,9 @@ namespace ManiacEditor
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
-			
+			this.SourceInitialized += WindowHelper.RemoveIcon;
+			//Owner = App.Current.MainWindow;
+
 
 			Message = message;
 			Caption = caption;
@@ -133,8 +136,9 @@ namespace ManiacEditor
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
-			
+			this.SourceInitialized += WindowHelper.RemoveIcon;
+			//Owner = App.Current.MainWindow;
+
 
 			Message = message;
 			Caption = caption;
@@ -147,8 +151,9 @@ namespace ManiacEditor
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
-			
+			this.SourceInitialized += WindowHelper.RemoveIcon;
+			//Owner = App.Current.MainWindow;
+
 
 			Message = message;
 			Caption = caption;

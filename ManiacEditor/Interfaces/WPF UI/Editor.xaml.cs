@@ -110,6 +110,7 @@ namespace ManiacEditor
 		public bool showEntitySelectionBoxes = false; //Determines if we should show the entity selection boxes.
 		public bool EnablePixelCountMode = false; //Count the selection in pixels per tile or not
 		public bool isConsoleWindowOpen = false; //Show the Console Window or not
+		public bool rightClicktoSwapSlotID = false; //Swap Entity Slot ID's with Right Click
 
 		//Editor Status States (Like are we pre-loading a scene)
 		public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -865,6 +866,11 @@ namespace ManiacEditor
 				PreLoadSceneButton_Click(null, null);
 			}
 
+			if (stageLoad)
+			{
+				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
+			}
+
 			UpdateButtonColors();
 		}
 
@@ -949,8 +955,17 @@ namespace ManiacEditor
 			PlaceTilesButton.IsChecked = PlaceTilesButton.IsChecked;
 			InteractionToolButton.IsChecked = InteractionToolButton.IsChecked;
 			ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !IsEntitiesEdit();
-
-
+			if (TilesToolbar != null)
+			{
+				if (ChunksToolButton.IsChecked.Value)
+				{
+					TilesToolbar.TabControl.SelectedIndex = 1;
+				}
+				else
+				{
+					TilesToolbar.TabControl.SelectedIndex = 0;
+				}
+			}
 
 
 
@@ -2256,8 +2271,8 @@ namespace ManiacEditor
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				/*
-				if (entities.SelectedEntities.Count == 2)
+				
+				if (entities.SelectedEntities.Count == 2 && rightClicktoSwapSlotID)
 				{
 					var entity1 = entities.selectedEntities[0];
 					var entity2 = entities.selectedEntities[1];
@@ -2265,7 +2280,7 @@ namespace ManiacEditor
 					ushort slotID2 = entity2.Entity.SlotID;
 					entity1.Entity.SlotID = slotID2;
 					entity2.Entity.SlotID = slotID1;
-				}*/
+				}
 			}
 			UpdateControls();
 		}
@@ -2780,8 +2795,8 @@ namespace ManiacEditor
 
 			if (!mySettings.EntityFreeCam || !isExportingImage)
 			{
-				editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
-				editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
+				editorView.hScrollBar1.Value = (int)Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
+				editorView.vScrollBar1.Value = (int)Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
 			}
 		}
 
@@ -3165,6 +3180,11 @@ namespace ManiacEditor
 				EncorePaletteButton.IsChecked = true;
 				useEncoreColors = true;
 			}
+			else
+			{
+				EncorePaletteButton.IsChecked = false;
+				useEncoreColors = false;
+			}
 			try
 			{
 				if (File.Exists(Result))
@@ -3202,7 +3222,7 @@ namespace ManiacEditor
 
 			entities = new EditorEntities(EditorScene, this);
 
-			SetViewSize(SceneWidth, SceneHeight);
+			SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 
 			UpdateControls(true);
 
@@ -3860,7 +3880,7 @@ Error: {ex.Message}");
 
 		#region View Tab Buttons
 
-		private void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		public void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			DebugStatsVisibleOnPanel = !DebugStatsVisibleOnPanel;
 			showStatsToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
@@ -4369,7 +4389,7 @@ Error: {ex.Message}");
 
 		private void changeLevelIDToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			string inputValue = TextPrompt.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", LevelID.ToString());
+			string inputValue = TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", LevelID.ToString());
 			int.TryParse(inputValue.ToString(), out int output);
 			LevelID = output;
 			_levelIDLabel.Content = "Level ID: " + LevelID.ToString();
@@ -5048,6 +5068,12 @@ Error: {ex.Message}");
 			// hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
 			// So I will refresh it here
 
+			bool showEntities = ShowEntities.IsChecked.Value && !EditEntities.IsChecked.Value;
+			bool showEntitiesEditing = EditEntities.IsChecked.Value;
+
+			bool PriorityMode = mySettings.PrioritizedObjectRendering;
+			bool AboveAllMode = entityVisibilityType == 1;
+
 			if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
 			if (EditorScene != null)
 			{
@@ -5097,10 +5123,8 @@ Error: {ex.Message}");
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetZoom(), true, 255, 11);
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSetupObject(), true, 255, 13);
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 7, statusBox.GetSelectedZone(), true, 255, 14);
-					//DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, statusBox.GetMemoryUsage(), true, 255, 13);
-					//DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 9, statusBox.GetPhysicalMemoryUsage(), true, 255, 22);                   
 
-					//DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 11, "Use F1 and F2 to Swap Information", true, 255);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + EditorControls.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, EditorControls.KeyBindPraser("StatusBoxToggle").Length, 4);
 				}
 
 
@@ -5125,19 +5149,29 @@ Error: {ex.Message}");
 				if (ShowFGLow.IsChecked.Value || EditFGLow.IsChecked.Value)
 					FGLow.Draw(editorView.GraphicPanel);
 
-				if (mySettings.PrioritizedObjectRendering && !EditEntities.IsChecked.Value && ShowEntities.IsChecked.Value && entityVisibilityType != 1 && entities != null)
-				{
-					entities.DrawPriority(editorView.GraphicPanel, -1);
-					entities.DrawPriority(editorView.GraphicPanel, 0);
-					entities.DrawPriority(editorView.GraphicPanel, 1);
-				}
 
-				if (!mySettings.PrioritizedObjectRendering && !EditEntities.IsChecked.Value && ShowEntities.IsChecked.Value && entityVisibilityType == 0 && entities != null) entities.Draw(editorView.GraphicPanel);
+
+
+
+				if (showEntities && !AboveAllMode)
+				{
+					if (PriorityMode)
+					{
+						entities.DrawPriority(editorView.GraphicPanel, -1);
+						entities.DrawPriority(editorView.GraphicPanel, 0);
+						entities.DrawPriority(editorView.GraphicPanel, 1);
+					}
+					else
+					{
+						entities.Draw(editorView.GraphicPanel);
+					}
+				}
 
 				if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsChecked.Value)
 					FGHigh.Draw(editorView.GraphicPanel);
 
-				if (mySettings.PrioritizedObjectRendering && !EditEntities.IsChecked.Value && ShowEntities.IsChecked.Value && entityVisibilityType != 1 && entities != null)
+				
+				if (showEntities && PriorityMode && !AboveAllMode)
 				{
 					entities.DrawPriority(editorView.GraphicPanel, 2);
 					entities.DrawPriority(editorView.GraphicPanel, 3);
@@ -5158,10 +5192,24 @@ Error: {ex.Message}");
 					}
 				}
 
-				if (EditEntities.IsChecked.Value || (entityVisibilityType == 1 && ShowEntities.IsChecked.Value)) entities.Draw(editorView.GraphicPanel);
-
+				if (showEntitiesEditing || AboveAllMode)
+				{
+					if (PriorityMode)
+					{
+						entities.DrawPriority(editorView.GraphicPanel, -1);
+						entities.DrawPriority(editorView.GraphicPanel, 0);
+						entities.DrawPriority(editorView.GraphicPanel, 1);
+						entities.DrawPriority(editorView.GraphicPanel, 2);
+						entities.DrawPriority(editorView.GraphicPanel, 3);
+					}
+					else
+					{
+						entities.Draw(editorView.GraphicPanel);
+					}
+				}
 
 			}
+
 			if (draggingSelection)
 			{
 				int x1 = (int)(selectingX / Zoom), x2 = (int)(lastX / Zoom);
@@ -7186,7 +7234,7 @@ Error: {ex.Message}");
 
 				entities = new EditorEntities(EditorScene, this);
 
-				SetViewSize(SceneWidth, SceneHeight);
+				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 
 				UpdateControls(true);
 			}
@@ -7274,7 +7322,17 @@ Error: {ex.Message}");
 			
 		}
 
-
+		private void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e)
+		{
+			if (rightClicktoSwapSlotIDs.IsChecked)
+			{
+				rightClicktoSwapSlotID = true;
+			}
+			else
+			{
+				rightClicktoSwapSlotID = false;
+			}
+		}
 
 		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
 		{

@@ -91,7 +91,7 @@ namespace TileManiacWPF
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
+			this.SourceInitialized += WindowHelper.RemoveIcon;
 			Owner = App.Current.MainWindow;
 
 			Message = message;
@@ -104,7 +104,7 @@ namespace TileManiacWPF
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
+			this.SourceInitialized += WindowHelper.RemoveIcon;
 			Owner = App.Current.MainWindow;
 
 			Message = message;
@@ -118,7 +118,7 @@ namespace TileManiacWPF
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
+			this.SourceInitialized += WindowHelper.RemoveIcon;
 			Owner = App.Current.MainWindow;
 
 			Message = message;
@@ -133,7 +133,7 @@ namespace TileManiacWPF
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
+			this.SourceInitialized += WindowHelper.RemoveIcon;
 			Owner = App.Current.MainWindow;
 
 			Message = message;
@@ -147,7 +147,7 @@ namespace TileManiacWPF
 			
 			InitializeComponent();
 
-			this.SourceInitialized += Vurdalakov.WindowHelper.RemoveIcon;
+			this.SourceInitialized += WindowHelper.RemoveIcon;
 			Owner = App.Current.MainWindow;
 
 			Message = message;

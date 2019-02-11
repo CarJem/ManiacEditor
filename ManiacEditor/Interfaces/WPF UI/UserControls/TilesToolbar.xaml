@@ -21,14 +21,14 @@
 
         <Label Grid.Column="1" x:Name="SelectedTileLabel" Content="Selected Tile: N/A" HorizontalAlignment="Right"></Label>
         <TabControl SelectionChanged="tabControl1_SelectedIndexChanged" x:Name="TabControl" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="5" Background="{DynamicResource NormalBackground}">
-            <TabItem Header="Tiles" Foreground="{DynamicResource NormalText}">
+            <TabItem MouseUp="TabItem_MouseUp" Header="Tiles" Foreground="{DynamicResource NormalText}">
                 <Grid x:Name="TilesPage">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid x:Name="TileSlider" Grid.Row="0">
-                        <Slider ValueChanged="trackBar1_ValueChanged" x:Name="trackBar1" VerticalAlignment="Center" Maximum="3" Ticks="4" TickPlacement="Both"></Slider>
+                        <Slider ValueChanged="trackBar1_ValueChanged" x:Name="trackBar1" VerticalAlignment="Center" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
                     </Grid>
                     <Grid x:Name="TileViewer" Grid.Row="1"></Grid>
                     <Grid.ContextMenu>

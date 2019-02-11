@@ -711,7 +711,15 @@ namespace ManiacEditor
             DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
         }
 
-        public void DrawHUDBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
+		public void DrawHUDRectangle(int x1, int y1, int x2, int y2, Color color)
+		{
+			Rectangle screen = _parent.GetScreen();
+			double zoom = _parent.GetZoom();
+
+			DrawHUD(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(), new Vector3(x1, y1, 0), color);
+		}
+
+		public void DrawHUDBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();

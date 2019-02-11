@@ -172,6 +172,11 @@ namespace ManiacEditor
 			{
 				Editor.ShowTileIDButton_Click(null, null);
 			}
+			//Refresh Tiles and Sprites
+			else if (isCombo(e, myKeyBinds.StatusBoxToggle))
+			{
+				Editor.statsToolStripMenuItem_Click(null, null);
+			}
 		}
 
 		public void GraphicPanel_OnKeyDownEditing(object sender, KeyEventArgs e)
@@ -364,6 +369,7 @@ namespace ManiacEditor
 			Editor.flipHorizontalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipHIndv");
 			Editor.flipHorizontalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipH");
 			Editor.flipVerticalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipV");
+			Editor.showStatsToolStripMenuItem.InputGestureText = KeyBindPraser("StatusBoxToggle");
 		}
 
 		public void UpdateTooltips()

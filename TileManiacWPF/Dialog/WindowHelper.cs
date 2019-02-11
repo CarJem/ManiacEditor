@@ -1,4 +1,4 @@
-﻿namespace Vurdalakov
+﻿namespace TileManiacWPF
 {
 	using System;
 	using System.Runtime.InteropServices;
