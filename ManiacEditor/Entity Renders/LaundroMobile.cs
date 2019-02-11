@@ -56,74 +56,74 @@ namespace ManiacEditor.Entity_Renders
 
 
                 if (type == 0) {
-                    Animation.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration);
+                    Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay);
                     d.DrawBitmap(frameRockets.Texture,
-                        x + frameRockets.Frame.CenterX - 4,
-                        y + frameRockets.Frame.CenterY - 27,
+                        x + frameRockets.Frame.PivotX - 4,
+                        y + frameRockets.Frame.PivotY - 27,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY,
+                        x + frame.Frame.PivotX,
+                        y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     d.DrawBitmap(framePropel.Texture,
-                        x + framePropel.Frame.CenterX,
-                        y + framePropel.Frame.CenterY,
+                        x + framePropel.Frame.PivotX,
+                        y + framePropel.Frame.PivotY,
                         framePropel.Frame.Width, framePropel.Frame.Height, false, Transparency);
                     d.DrawBitmap(frameRockets.Texture,
-                        x + frameRockets.Frame.CenterX - 18,
-                        y + frameRockets.Frame.CenterY + 20,
+                        x + frameRockets.Frame.PivotX - 18,
+                        y + frameRockets.Frame.PivotY + 20,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
                     d.DrawBitmap(frameRockets.Texture,
-                        x + frameRockets.Frame.CenterX - 18,
-                        y + frameRockets.Frame.CenterY - 27,
+                        x + frameRockets.Frame.PivotX - 18,
+                        y + frameRockets.Frame.PivotY - 27,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
                 }
                     else if (type == 1) {
-                    Animation.ProcessAnimation3(frameBomb.Entry.FrameSpeed, frameBomb.Entry.Frames.Count, frameBomb.Frame.Duration);
+                    Animation.ProcessAnimation3(frameBomb.Entry.SpeedMultiplyer, frameBomb.Entry.Frames.Count, frameBomb.Frame.Delay);
                     d.DrawBitmap(frameBomb.Texture,
-                            x + frameBomb.Frame.CenterX,
-                            y + frameBomb.Frame.CenterY,
+                            x + frameBomb.Frame.PivotX,
+                            y + frameBomb.Frame.PivotY,
                             frameBomb.Frame.Width, frameBomb.Frame.Height, false, Transparency);
                     }
                     else if (type == 2)
                     {
-                    Animation.ProcessAnimation2(frameLaundry.Entry.FrameSpeed, frameLaundry.Entry.Frames.Count, frameLaundry.Frame.Duration);
+                    Animation.ProcessAnimation2(frameLaundry.Entry.SpeedMultiplyer, frameLaundry.Entry.Frames.Count, frameLaundry.Frame.Delay);
                     d.DrawBitmap(frameLaundry.Texture,
-                        x + frameLaundry.Frame.CenterX,
-                        y + frameLaundry.Frame.CenterY + 16,
+                        x + frameLaundry.Frame.PivotX,
+                        y + frameLaundry.Frame.PivotY + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
                     d.DrawBitmap(frameLaundry.Texture,
-                        x + frameLaundry.Frame.CenterX,
-                        y + frameLaundry.Frame.CenterY + frameLaundry.Frame.CenterY + 16,
+                        x + frameLaundry.Frame.PivotX,
+                        y + frameLaundry.Frame.PivotY + frameLaundry.Frame.PivotY + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
                     d.DrawBitmap(frameLaundry.Texture,
-                        x + frameLaundry.Frame.CenterX,
-                        y + frameLaundry.Frame.CenterY + -(frameLaundry.Frame.CenterY * 2) + 16,
+                        x + frameLaundry.Frame.PivotX,
+                        y + frameLaundry.Frame.PivotY + -(frameLaundry.Frame.PivotY * 2) + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
                     d.DrawBitmap(frameLaundry.Texture,
-                        x + frameLaundry.Frame.CenterX,
-                        y - frameLaundry.Frame.CenterY + -(frameLaundry.Frame.CenterY * 2) + 16,
+                        x + frameLaundry.Frame.PivotX,
+                        y - frameLaundry.Frame.PivotY + -(frameLaundry.Frame.PivotY * 2) + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
 
                     d.DrawBitmap(frameLaundryCenterBottom.Texture,
-                        x + frameLaundryCenterBottom.Frame.CenterX,
-                        y + frameLaundryCenterBottom.Frame.CenterY + frameLaundryCenterBottom.Frame.CenterY * 3 + 16,
+                        x + frameLaundryCenterBottom.Frame.PivotX,
+                        y + frameLaundryCenterBottom.Frame.PivotY + frameLaundryCenterBottom.Frame.PivotY * 3 + 16,
                         frameLaundryCenterBottom.Frame.Width, frameLaundryCenterBottom.Frame.Height, false, Transparency);
 
                     d.DrawBitmap(frameLaundryCenterTop.Texture,
-                        x + frameLaundryCenterTop.Frame.CenterX,
-                        y + frameLaundryCenterTop.Frame.CenterY,
+                        x + frameLaundryCenterTop.Frame.PivotX,
+                        y + frameLaundryCenterTop.Frame.PivotY,
                         frameLaundryCenterTop.Frame.Width, frameLaundryCenterTop.Frame.Height, false, Transparency);
 
                     d.DrawBitmap(frameLaundryCenter.Texture,
-                        x + frameLaundryCenter.Frame.CenterX,
-                        y + frameLaundryCenter.Frame.CenterY + frameLaundryCenter.Frame.CenterY*2 + 16,
+                        x + frameLaundryCenter.Frame.PivotX,
+                        y + frameLaundryCenter.Frame.PivotY + frameLaundryCenter.Frame.PivotY*2 + 16,
                         frameLaundryCenter.Frame.Width, frameLaundryCenter.Frame.Height, false, Transparency);
                     }
                     else if (type == 4 || type == 5) {
                     d.DrawBitmap(frameBlock.Texture,
-                            x + frameBlock.Frame.CenterX,
-                            y + frameBlock.Frame.CenterY,
+                            x + frameBlock.Frame.PivotX,
+                            y + frameBlock.Frame.PivotY,
                             frameBlock.Frame.Width, frameBlock.Frame.Height, false, Transparency);
                     }
                     else
@@ -131,7 +131,7 @@ namespace ManiacEditor.Entity_Renders
                         if (editorAnimIcon != null && editorAnimIcon.Frames.Count != 0)
                         {
                             var frameIcon = editorAnimIcon.Frames[0];
-                            d.DrawBitmap(frameIcon.Texture, x + frameIcon.Frame.CenterX, y + frameIcon.Frame.CenterY,
+                            d.DrawBitmap(frameIcon.Texture, x + frameIcon.Frame.PivotX, y + frameIcon.Frame.PivotY,
                                 frameIcon.Frame.Width, frameIcon.Frame.Height, false, Transparency);
                         }
                     }

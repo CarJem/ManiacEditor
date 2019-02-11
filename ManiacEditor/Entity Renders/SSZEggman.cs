@@ -24,19 +24,19 @@ namespace ManiacEditor.Entity_Renders
                 var frameMobile = editorAnimMobile.Frames[0];
                 var frameSeat = editorAnimSeat.Frames[0];
 
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                 d.DrawBitmap(frameSeat.Texture,
-                    x + frameSeat.Frame.CenterX,
-                    y + frameSeat.Frame.CenterY,
+                    x + frameSeat.Frame.PivotX,
+                    y + frameSeat.Frame.PivotY,
                     frameSeat.Frame.Width, frameSeat.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameMobile.Texture,
-                    x + frameMobile.Frame.CenterX,
-                    y + frameMobile.Frame.CenterY,
+                    x + frameMobile.Frame.PivotX,
+                    y + frameMobile.Frame.PivotY,
                     frameMobile.Frame.Width, frameMobile.Frame.Height, false, Transparency);
             }
         }

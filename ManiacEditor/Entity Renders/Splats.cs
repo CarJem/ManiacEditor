@@ -21,8 +21,8 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
             }

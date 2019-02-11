@@ -286,8 +286,7 @@ namespace ManiacEditor
 
             using (var stream = File.OpenRead(path2))
             {
-                rsdkAnim = new Animation();
-                rsdkAnim.Load(new BinaryReader(stream));
+                rsdkAnim = new Animation(new RSDKv5.Reader(stream));
             }
             if (AnimId == -1)
             {
@@ -314,7 +313,7 @@ namespace ManiacEditor
 				bool noEncoreColors = false;
                 if (assetName == "EditorAssets" || assetName == "EditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
 
-                if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = rsdkAnim.SpriteSheets.Count - 1;
+                if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = (byte)(rsdkAnim.SpriteSheets.Count - 1);
                 if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
                 {
                     string targetFile;
@@ -371,8 +370,8 @@ namespace ManiacEditor
                 if (rotateImg != 0 && legacyRotate)
                 {
                     map = RotateImageLegacy(map, rotateImg, colour);
-                    frame.Height = frame.Width + frame.Height + 64;
-                    frame.Width = frame.Height + frame.Width + 32;
+                    frame.Height = (short)(frame.Width + frame.Height + 64);
+                    frame.Width = (short)(frame.Height + frame.Width + 32);
                 }
 
                 map = RemoveColourImage(map, colour, map.Width, map.Height);
@@ -821,8 +820,9 @@ namespace ManiacEditor
             }
             int Transparency = (EditorInstance.EditLayer == null) ? 0xff : 0x32;
             try
-            {
-                if (!rendersWithErrors.Contains(entity.Object.Name.Name))
+			{
+
+				if (!rendersWithErrors.Contains(entity.Object.Name.Name))
                 {
                     if (entity.Object.Name.Name.Contains("Setup"))
                     {
@@ -830,7 +830,12 @@ namespace ManiacEditor
                         if (renderer != null)
                             renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
-                    else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
+					if (entity.Object.Name.Name.Equals("BreakableWall"))
+					{
+						BreakableWall renderer = new BreakableWall();
+						renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+					}
+					else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
                     {
                         EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
                         if (renderer != null)
@@ -874,8 +879,8 @@ namespace ManiacEditor
             public class EditorFrame
             {
                 public Texture Texture;
-                public Animation.Frame Frame;
-                public Animation.AnimationEntry Entry;
+                public Animation.sprAnimation.sprFrame Frame;
+                public Animation.sprAnimation Entry;
                 public Bitmap _Bitmap;
                 public int ImageWidth;
                 public int ImageHeight;

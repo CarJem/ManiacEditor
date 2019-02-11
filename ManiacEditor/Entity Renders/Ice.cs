@@ -48,22 +48,22 @@ namespace ManiacEditor.Entity_Renders
                     case 1:
                         frameContents = editorAnimContents.Frames[0];
                         d.DrawBitmap(frameContents.Texture,
-                            x + frameContents.Frame.CenterX - (fliph ? (frameContents.Frame.Width - editorAnimContents.Frames[0].Frame.Width) : 0),
-                            y + frameContents.Frame.CenterY + (flipv ? (frameContents.Frame.Height - editorAnimContents.Frames[0].Frame.Height) : 0),
+                            x + frameContents.Frame.PivotX - (fliph ? (frameContents.Frame.Width - editorAnimContents.Frames[0].Frame.Width) : 0),
+                            y + frameContents.Frame.PivotY + (flipv ? (frameContents.Frame.Height - editorAnimContents.Frames[0].Frame.Height) : 0),
                             frameContents.Frame.Width, frameContents.Frame.Height, false, Transparency);
                         break;
                     case 2:
                         frameContents = editorAnimContents.Frames[1];
                         d.DrawBitmap(frameContents.Texture,
-                            x + frameContents.Frame.CenterX - (fliph ? (frameContents.Frame.Width - editorAnimContents.Frames[0].Frame.Width) : 0),
-                            y + frameContents.Frame.CenterY + (flipv ? (frameContents.Frame.Height - editorAnimContents.Frames[0].Frame.Height) : 0),
+                            x + frameContents.Frame.PivotX - (fliph ? (frameContents.Frame.Width - editorAnimContents.Frames[0].Frame.Width) : 0),
+                            y + frameContents.Frame.PivotY + (flipv ? (frameContents.Frame.Height - editorAnimContents.Frames[0].Frame.Height) : 0),
                             frameContents.Frame.Width, frameContents.Frame.Height, false, Transparency);
                         break;
                     case 3:
                         frameContents = editorAnimContents.Frames[2];
                         d.DrawBitmap(frameContents.Texture,
-                            x + frameContents.Frame.CenterX - (fliph ? (frameContents.Frame.Width - editorAnimContents.Frames[0].Frame.Width) : 0),
-                            y + frameContents.Frame.CenterY + (flipv ? (frameContents.Frame.Height - editorAnimContents.Frames[0].Frame.Height) : 0),
+                            x + frameContents.Frame.PivotX - (fliph ? (frameContents.Frame.Width - editorAnimContents.Frames[0].Frame.Width) : 0),
+                            y + frameContents.Frame.PivotY + (flipv ? (frameContents.Frame.Height - editorAnimContents.Frames[0].Frame.Height) : 0),
                             frameContents.Frame.Width, frameContents.Frame.Height, false, Transparency);
                         break;
                     case 4:
@@ -123,8 +123,8 @@ namespace ManiacEditor.Entity_Renders
                 }
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
+                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
+                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
         }

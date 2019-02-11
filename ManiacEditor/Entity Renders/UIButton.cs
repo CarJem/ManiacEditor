@@ -30,14 +30,14 @@ namespace ManiacEditor.Entity_Renders
                 switch (align)
                 {
                     case 0:
-                        alignmentVal = -((width / 2)) - frame.Frame.CenterY;
+                        alignmentVal = -((width / 2)) - frame.Frame.PivotY;
                         break;
                     default:
-                        alignmentVal = frame.Frame.CenterX + (22 / 2);
+                        alignmentVal = frame.Frame.PivotX + (22 / 2);
                         break;
                 }
                 e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height);
-                d.DrawBitmap(frame.Texture, x + (int)alignmentVal, y + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, x + (int)alignmentVal, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

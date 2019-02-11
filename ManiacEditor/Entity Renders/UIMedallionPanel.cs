@@ -25,7 +25,7 @@ namespace ManiacEditor.Entity_Renders
 				{
 					for (int my = 0; my < 4; my++)
 					{
-						d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + (14 * mx), y + frame.Frame.CenterY + (16 * my),
+						d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + (14 * mx), y + frame.Frame.PivotY + (16 * my),
 	frame.Frame.Width, frame.Frame.Height, false, Transparency);
 					}
 				}
@@ -35,13 +35,13 @@ namespace ManiacEditor.Entity_Renders
 			if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
 			{
 				var frame = editorAnim2.Frames[Animation.index];
-				d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+				d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
 					frame.Frame.Width, frame.Frame.Height, false, Transparency);
 			}
 			if (editorAnim3 != null && editorAnim3.Frames.Count != 0)
 			{
 				var frame = editorAnim3.Frames[Animation.index];
-				d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+				d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
 					frame.Frame.Width, frame.Frame.Height, false, Transparency);
 			}*/
 		}

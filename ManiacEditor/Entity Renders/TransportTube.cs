@@ -231,65 +231,65 @@ namespace ManiacEditor.Entity_Renders
 					if (!hideFrame)
 					{
 						d.DrawBitmap(frame.Texture,
-							x + frame.Frame.CenterX,
-							y + frame.Frame.CenterY,
+							x + frame.Frame.PivotX,
+							y + frame.Frame.PivotY,
 							frame.Frame.Width, frame.Frame.Height, false, Transparency);
 					}
 
 					if (showUp == true)
 					{
 						d.DrawBitmap(frame2.Texture,
-							x + frame2.Frame.CenterX,
-							y + frame2.Frame.CenterY,
+							x + frame2.Frame.PivotX,
+							y + frame2.Frame.PivotY,
 							frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 					}
 					if (showDown == true)
 					{
 						d.DrawBitmap(frame3.Texture,
-							x + frame3.Frame.CenterX,
-							y + frame3.Frame.CenterY,
+							x + frame3.Frame.PivotX,
+							y + frame3.Frame.PivotY,
 							frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 					}
 					if (showRight == true)
 					{
 						d.DrawBitmap(frame4.Texture,
-							x + frame4.Frame.CenterX,
-							y + frame4.Frame.CenterY,
+							x + frame4.Frame.PivotX,
+							y + frame4.Frame.PivotY,
 							frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
 					}
 					if (showLeft == true)
 					{
 						d.DrawBitmap(frame5.Texture,
-							x + frame5.Frame.CenterX,
-							y + frame5.Frame.CenterY,
+							x + frame5.Frame.PivotX,
+							y + frame5.Frame.PivotY,
 							frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 					}
 					if (showUpRight == true)
 					{
 						d.DrawBitmap(frame6.Texture,
-							x + frame6.Frame.CenterX,
-							y + frame6.Frame.CenterY,
+							x + frame6.Frame.PivotX,
+							y + frame6.Frame.PivotY,
 							frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
 					}
 					if (showDownRight == true)
 					{
 						d.DrawBitmap(frame7.Texture,
-							x + frame7.Frame.CenterX,
-							y + frame7.Frame.CenterY,
+							x + frame7.Frame.PivotX,
+							y + frame7.Frame.PivotY,
 							frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
 					}
 					if (showUpLeft == true)
 					{
 						d.DrawBitmap(frame8.Texture,
-							x + frame8.Frame.CenterX,
-							y + frame8.Frame.CenterY,
+							x + frame8.Frame.PivotX,
+							y + frame8.Frame.PivotY,
 							frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
 					}
 					if (showDownLeft == true)
 					{
 						d.DrawBitmap(frame9.Texture,
-							x + frame9.Frame.CenterX,
-							y + frame9.Frame.CenterY,
+							x + frame9.Frame.PivotX,
+							y + frame9.Frame.PivotY,
 							frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
 					}
 				}
@@ -310,73 +310,73 @@ namespace ManiacEditor.Entity_Renders
 				if (showCenter == true)
 				{
 					d.DrawBitmap(frame.Texture,
-						x + frame.Frame.CenterX,
-						y + frame.Frame.CenterY,
+						x + frame.Frame.PivotX,
+						y + frame.Frame.PivotY,
 						frame.Frame.Width, frame.Frame.Height, false, Transparency);
 				}
 				if (showA == true)
 				{
 					d.DrawBitmap(frame2.Texture,
-						x + frame2.Frame.CenterX,
-						y + frame2.Frame.CenterY,
+						x + frame2.Frame.PivotX,
+						y + frame2.Frame.PivotY,
 						frame2.Frame.Width, frame2.Frame.Height, e.Selected, Transparency);
 				}
 				if (showB == true)
 				{
 					d.DrawBitmap(frame3.Texture,
-						x + frame3.Frame.CenterX,
-						y + frame3.Frame.CenterY,
+						x + frame3.Frame.PivotX,
+						y + frame3.Frame.PivotY,
 						frame3.Frame.Width, frame3.Frame.Height, e.Selected, Transparency);
 				}
 				if (showC == true)
 				{
 					d.DrawBitmap(frame4.Texture,
-						x + frame4.Frame.CenterX,
-						y + frame4.Frame.CenterY,
+						x + frame4.Frame.PivotX,
+						y + frame4.Frame.PivotY,
 						frame4.Frame.Width, frame4.Frame.Height, e.Selected, Transparency);
 				}
 				if (showInOut == true)
 				{
 					d.DrawBitmap(frame5.Texture,
-						x + frame5.Frame.CenterX,
-						y + frame5.Frame.CenterY,
+						x + frame5.Frame.PivotX,
+						y + frame5.Frame.PivotY,
 						frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 				}
 				if (showJunction == true)
 				{
 					d.DrawBitmap(frame6.Texture,
-						x + frame6.Frame.CenterX,
-						y + frame6.Frame.CenterY,
+						x + frame6.Frame.PivotX,
+						y + frame6.Frame.PivotY,
 						frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
 				}
 				if (showRun == true)
 				{
 					d.DrawBitmap(frame7.Texture,
-						x + frame7.Frame.CenterX,
-						y + frame7.Frame.CenterY,
+						x + frame7.Frame.PivotX,
+						y + frame7.Frame.PivotY,
 						frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
 				}
 
 				if (isUnsafe == true)
 				{
 					d.DrawBitmap(frame9.Texture,
-						x + frame9.Frame.CenterX,
-						y + frame9.Frame.CenterY,
+						x + frame9.Frame.PivotX,
+						y + frame9.Frame.PivotY,
 						frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
 				}
 
 				if (showUnkown == true)
 				{
 					d.DrawBitmap(frame8.Texture,
-						x + frame8.Frame.CenterX,
-						y + frame8.Frame.CenterY,
+						x + frame8.Frame.PivotX,
+						y + frame8.Frame.PivotY,
 						frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
 				}
 				if (showInvalid == true)
 				{
 					d.DrawBitmap(frame10.Texture,
-						x + frame10.Frame.CenterX,
-						y + frame10.Frame.CenterY,
+						x + frame10.Frame.PivotX,
+						y + frame10.Frame.PivotY,
 						frame10.Frame.Width, frame10.Frame.Height, false, Transparency);
 				}
 			}

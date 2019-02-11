@@ -36,9 +36,9 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frameBox = editorAnimBox.Frames[0];
                     var frameEffect = editorAnimEffect.Frames[0];
-                    d.DrawBitmap(frameBox.Texture, x + frameBox.Frame.CenterX, y + frameBox.Frame.CenterY,
+                    d.DrawBitmap(frameBox.Texture, x + frameBox.Frame.PivotX, y + frameBox.Frame.PivotY,
                         frameBox.Frame.Width, frameBox.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameEffect.Texture, x + frameEffect.Frame.CenterX, y + frameEffect.Frame.CenterY - (flipv ? (-3) : 3),
+                    d.DrawBitmap(frameEffect.Texture, x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3),
                         frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
                 }
         }
@@ -54,14 +54,14 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frameBox = editorAnimBox.Frames[0];
 
-                d.DrawBitmap(frameBox.Texture, x + frameBox.Frame.CenterX, y + frameBox.Frame.CenterY,
+                d.DrawBitmap(frameBox.Texture, x + frameBox.Frame.PivotX, y + frameBox.Frame.PivotY,
                     frameBox.Frame.Width, frameBox.Frame.Height, false, Transparency);
 
             }
             if (editorAnimEffect != null && editorAnimEffect.Frames.Count != 0 && forceType != -1)
             {
                 var frameEffect = editorAnimEffect.Frames[0];
-                d.DrawBitmap(frameEffect.Texture, x + frameEffect.Frame.CenterX, y + frameEffect.Frame.CenterY - (flipv ? (-3) : 3), frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
+                d.DrawBitmap(frameEffect.Texture, x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3), frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
             }
         }
 

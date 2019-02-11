@@ -41,13 +41,13 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                 bool hEven = size % 2 == 0;
                 for (int yy = 0; yy <= size; ++yy)
                 {
                     int[] drawCoords = RotatePoints(
                         x - frame.Frame.Width / 2,
-                        (y + (hEven ? frame.Frame.CenterY : -frame.Frame.Height) + (-size / 2 + yy) * frame.Frame.Height),
+                        (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-size / 2 + yy) * frame.Frame.Height),
                         x + pivotOffsetX, y + pivotOffsetY, angle);
 
                     d.DrawBitmap(frame.Texture, drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.Frame.Width, frame.Frame.Height, false, Transparency);

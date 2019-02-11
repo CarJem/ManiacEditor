@@ -30,19 +30,19 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
             {
                 var frame = editorAnimFrame.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY + 32,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY + 32,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnimIcon != null && editorAnimIcon.Frames.Count != 0)
             {
                 var frame = editorAnimIcon.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY - 8,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
             }

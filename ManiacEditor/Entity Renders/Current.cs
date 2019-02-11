@@ -51,7 +51,7 @@ namespace ManiacEditor.Entity_Renders
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                         d.DrawBitmap(frame.Texture,
                             (x + widthPixels / (right ? 2 : -2)) - (right ? frame.Frame.Width : 0),
                             (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),

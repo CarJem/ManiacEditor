@@ -30,12 +30,12 @@ namespace ManiacEditor.Entity_Renders
                 var frameKnob = editorAnimKnob.Frames[0];
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameKnob.Texture,
-                    x + frameKnob.Frame.CenterX,
-                    y + frameKnob.Frame.CenterY,
+                    x + frameKnob.Frame.PivotX,
+                    y + frameKnob.Frame.PivotY,
                     frameKnob.Frame.Width, frameKnob.Frame.Height, false, Transparency);
             }
         }

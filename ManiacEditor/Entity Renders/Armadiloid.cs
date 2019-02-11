@@ -31,30 +31,30 @@ namespace ManiacEditor.Entity_Renders
 
                 if (type == 0)
                 {
-                    Animation.ProcessAnimation(frameBoost.Entry.FrameSpeed, frameBoost.Entry.Frames.Count, frameBoost.Frame.Duration);
+                    Animation.ProcessAnimation(frameBoost.Entry.SpeedMultiplyer, frameBoost.Entry.Frames.Count, frameBoost.Frame.Delay);
 
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                        y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
+                        x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
+                        y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                     d.DrawBitmap(frameHead.Texture,
-                        x + frameHead.Frame.CenterX - (fliph ? (frameHead.Frame.Width - editorAnimHead.Frames[0].Frame.Width) : 0),
-                        y + frameHead.Frame.CenterY + (flipv ? (frameHead.Frame.Height - editorAnimHead.Frames[0].Frame.Height) : 0),
+                        x + frameHead.Frame.PivotX - (fliph ? (frameHead.Frame.Width - editorAnimHead.Frames[0].Frame.Width) : 0),
+                        y + frameHead.Frame.PivotY + (flipv ? (frameHead.Frame.Height - editorAnimHead.Frames[0].Frame.Height) : 0),
                         frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
 
                     d.DrawBitmap(frameBoost.Texture,
-                        x + frameBoost.Frame.CenterX - (fliph ? (frameBoost.Frame.Width - editorAnimBoost.Frames[0].Frame.Width) : 0),
-                        y + frameBoost.Frame.CenterY + (flipv ? (frameBoost.Frame.Height - editorAnimBoost.Frames[0].Frame.Height) : 0),
+                        x + frameBoost.Frame.PivotX - (fliph ? (frameBoost.Frame.Width - editorAnimBoost.Frames[0].Frame.Width) : 0),
+                        y + frameBoost.Frame.PivotY + (flipv ? (frameBoost.Frame.Height - editorAnimBoost.Frames[0].Frame.Height) : 0),
                         frameBoost.Frame.Width, frameBoost.Frame.Height, false, Transparency);
                 }
                 else if (type == 1)
                 {
-                    Animation.ProcessAnimation(frameRider.Entry.FrameSpeed, frameRider.Entry.Frames.Count, frameRider.Frame.Duration);
+                    Animation.ProcessAnimation(frameRider.Entry.SpeedMultiplyer, frameRider.Entry.Frames.Count, frameRider.Frame.Delay);
 
                     d.DrawBitmap(frameRider.Texture,
-                        x + frameRider.Frame.CenterX - (fliph ? (frameRider.Frame.Width - editorAnimRider.Frames[0].Frame.Width) : 0),
-                        y + frameRider.Frame.CenterY + (flipv ? (frameRider.Frame.Height - editorAnimRider.Frames[0].Frame.Height) : 0),
+                        x + frameRider.Frame.PivotX - (fliph ? (frameRider.Frame.Width - editorAnimRider.Frames[0].Frame.Width) : 0),
+                        y + frameRider.Frame.PivotY + (flipv ? (frameRider.Frame.Height - editorAnimRider.Frames[0].Frame.Height) : 0),
                         frameRider.Frame.Width, frameRider.Frame.Height, false, Transparency);
                 }
 

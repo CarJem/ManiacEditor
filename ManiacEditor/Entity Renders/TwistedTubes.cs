@@ -26,17 +26,17 @@ namespace ManiacEditor.Entity_Renders
                 var frame2 = editorAnim2.Frames[Animation.index];
 
 
-                //ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                //ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                 d.DrawBitmap(frame2.Texture,
-                    x + frame2.Frame.CenterX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
-                    y + frame2.Frame.CenterY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
+                    x + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
+                    y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                     frame2.Frame.Width, frame.Frame.Height, false, Transparency);
                 for (int i = 0; i < height * 2; i++)
                 {
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[1].Frame.Width) : 0),
-                        y + (i * 32) + frame.Frame.CenterY + 64 + (flipv ? (frame.Frame.Height - editorAnim.Frames[1].Frame.Height) : 0),
+                        x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[1].Frame.Width) : 0),
+                        y + (i * 32) + frame.Frame.PivotY + 64 + (flipv ? (frame.Frame.Height - editorAnim.Frames[1].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
 

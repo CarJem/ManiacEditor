@@ -53,7 +53,7 @@ namespace ManiacEditor.Entity_Renders
                 int topX = top + 68;
                 int topY = left + 12;
 
-                d.DrawBitmap(frame.Texture, topX + frame.Frame.CenterX, topY + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, topX + frame.Frame.PivotX, topY + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnimBot != null && editorAnimBot.Frames.Count != 0 && !botHidden)
@@ -63,7 +63,7 @@ namespace ManiacEditor.Entity_Renders
                 int botX = x + (botAlignRight ? frame.Frame.Width - 6 : 0);
                 int botY = right - 12;
 
-                d.DrawBitmap(frame.Texture, botX + frame.Frame.CenterX, botY + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, botX + frame.Frame.PivotX, botY + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

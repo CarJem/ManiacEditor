@@ -45,28 +45,28 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
             {
                 var frame = editorAnimFrame.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
             {
                 var frame = editorAnimBackground.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY - 8,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimWaiting != null && editorAnimWaiting.Frames.Count != 0)
             {
                 var frame = editorAnimWaiting.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY - 8,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimPlayerText != null && editorAnimPlayerText.Frames.Count != 0)
             {
                 var frame = editorAnimPlayerText.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + 36, y + frame.Frame.CenterY - 38,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 38,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

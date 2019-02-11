@@ -25,15 +25,15 @@ namespace ManiacEditor.Entity_Renders
                 var frameHead = editorAnimHead.Frames[0];
 
                 //Animation Currently Doesn't work
-                //Animation.ProcessAnimation(frameHead.Entry.FrameSpeed, frameHead.Entry.Frames.Count, frameHead.Frame.Duration);
+                //Animation.ProcessAnimation(frameHead.Entry.SpeedMultiplyer, frameHead.Entry.Frames.Count, frameHead.Frame.Delay);
 
                 d.DrawBitmap(frameHead.Texture,
-                    x + frameHead.Frame.CenterX,
-                    y + frameHead.Frame.CenterY,
+                    x + frameHead.Frame.PivotX,
+                    y + frameHead.Frame.PivotY,
                     frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
             }

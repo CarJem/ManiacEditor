@@ -61,13 +61,13 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frame = editorAnim.Frames[Animation.index];
                 e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height);
-                d.DrawBitmap(frame.Texture, x, y + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, x, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnimKey != null && editorAnimKey.Frames.Count != 0)
             {
                 var frame = editorAnimKey.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX - 16, y + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX - 16, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

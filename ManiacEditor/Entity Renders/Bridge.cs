@@ -24,8 +24,8 @@ namespace ManiacEditor.Entity_Renders
                 for (int xx = 0; xx <= value; ++xx)
                 {
                     d.DrawBitmap(frame.Texture,
-                        x + (wEven ? frame.Frame.CenterX : -frame.Frame.Width) + (-value / 2 + xx) * frame.Frame.Width,
-                        y + frame.Frame.CenterY,
+                        x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-value / 2 + xx) * frame.Frame.Width,
+                        y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }

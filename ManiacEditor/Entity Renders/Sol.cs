@@ -39,35 +39,35 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
                 var frame2 = editorAnim2.Frames[Animation.index];
 
-                Animation.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
+                Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
 
                 if (!fireOrbs)
                 {
                     d.DrawBitmap(frame2.Texture,
-                        x + frame2.Frame.CenterX + 16,
-                        y + frame2.Frame.CenterY,
+                        x + frame2.Frame.PivotX + 16,
+                        y + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                     d.DrawBitmap(frame2.Texture,
-                        x - frame2.Frame.CenterX - 30,
-                        y + frame2.Frame.CenterY,
+                        x - frame2.Frame.PivotX - 30,
+                        y + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                 }
                 else
                 {
                     d.DrawBitmap(frame2.Texture,
-                        x + frame2.Frame.CenterX + 16,
-                        y + frame2.Frame.CenterY,
+                        x + frame2.Frame.PivotX + 16,
+                        y + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency-100);
                     d.DrawBitmap(frame2.Texture,
-                        x - frame2.Frame.CenterX - 30,
-                        y + frame2.Frame.CenterY,
+                        x - frame2.Frame.PivotX - 30,
+                        y + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency-100);
                 }
 
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
             }

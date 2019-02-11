@@ -47,17 +47,17 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawLine(x - 1, y, processPoints[0] - 1, processPoints[1], System.Drawing.Color.FromArgb(255, 198, 32, 0));
                 d.DrawLine(x - 2, y, processPoints[0] - 2, processPoints[1], System.Drawing.Color.FromArgb(255, 0, 32, 0));
                 d.DrawBitmap(frameHandle.Texture,
-                processPoints[0] + frameHandle.Frame.CenterX - (flipSides ? -5 : 5),
-                processPoints[1] + frameHandle.Frame.CenterY + (flipSides ? 10 : -10),
+                processPoints[0] + frameHandle.Frame.PivotX - (flipSides ? -5 : 5),
+                processPoints[1] + frameHandle.Frame.PivotY + (flipSides ? 10 : -10),
                 frameHandle.Frame.Width, frameHandle.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameKnob.Texture,
-                    x + frameKnob.Frame.CenterX,
-                    y + frameKnob.Frame.CenterY,
+                    x + frameKnob.Frame.PivotX,
+                    y + frameKnob.Frame.PivotY,
                     frameKnob.Frame.Width, frameKnob.Frame.Height, false, Transparency);
 
 

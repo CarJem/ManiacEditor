@@ -55,8 +55,8 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
 
                 d.DrawBitmap(frame.Texture,
-                    x + (fliph ? -frame.Frame.CenterX - frame.Frame.Width : frame.Frame.CenterX),
-                    y + (flipv ? -frame.Frame.CenterY - frame.Frame.Height : frame.Frame.CenterY),
+                    x + (fliph ? -frame.Frame.PivotX - frame.Frame.Width : frame.Frame.PivotX),
+                    y + (flipv ? -frame.Frame.PivotY - frame.Frame.Height : frame.Frame.PivotY),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
             }

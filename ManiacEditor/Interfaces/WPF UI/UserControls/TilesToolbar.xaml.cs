@@ -15,7 +15,6 @@ namespace ManiacEditor
 
 		private TilesList tilesList;
 		bool disposing = false;
-		bool updateList = false;
 
 		public System.Windows.Forms.Panel tilePanel;
 		public Interfaces.RetroEDTileList retroEDTileList1;

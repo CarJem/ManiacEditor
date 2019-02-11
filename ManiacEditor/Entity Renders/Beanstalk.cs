@@ -56,17 +56,17 @@ namespace ManiacEditor.Entity_Renders
                 if (plantType == true)
                 {
                     frameHead = editorAnimType.Frames[Animation.index];
-                    Animation.ProcessAnimation(frameHead.Entry.FrameSpeed, frameHead.Entry.Frames.Count, frameHead.Frame.Duration);
+                    Animation.ProcessAnimation(frameHead.Entry.SpeedMultiplyer, frameHead.Entry.Frames.Count, frameHead.Frame.Delay);
                 }
 
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnimNode.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnimNode.Frames[0].Frame.Height) : 0),
+                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnimNode.Frames[0].Frame.Width) : 0),
+                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnimNode.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameHead.Texture,
-                    x + (plantType ? (fliph ? frameHead.Frame.CenterX*2 : frameHead.Frame.CenterX) : (fliph ? -frameHead.Frame.Width : frameHead.Frame.CenterX)),
-                    y + frameHead.Frame.CenterY,
+                    x + (plantType ? (fliph ? frameHead.Frame.PivotX*2 : frameHead.Frame.PivotX) : (fliph ? -frameHead.Frame.Width : frameHead.Frame.PivotX)),
+                    y + frameHead.Frame.PivotY,
                     frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
 
 

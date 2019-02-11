@@ -102,8 +102,8 @@ namespace ManiacEditor.Entity_Renders
                     var frame = editorAnimCork.Frames[0];
 
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY,
+                        x + frame.Frame.PivotX,
+                        y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);
                 }
                 else if (type == 2)
@@ -111,8 +111,8 @@ namespace ManiacEditor.Entity_Renders
                     var frame = editorAnimCork.Frames[0];
 
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY,
+                        x + frame.Frame.PivotX,
+                        y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);
                 }
                 else
@@ -123,14 +123,14 @@ namespace ManiacEditor.Entity_Renders
                     if (selected)
                     {
                         d.DrawBitmap(frame3.Texture,
-                            x2 + frame3.Frame.CenterX,
-                            y2 + frame3.Frame.CenterY,
+                            x2 + frame3.Frame.PivotX,
+                            y2 + frame3.Frame.PivotY,
                             frame3.Frame.Height, frame3.Frame.Height, false, 125);
                     }
 
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY,
+                        x + frame.Frame.PivotX,
+                        y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);
                 }
 

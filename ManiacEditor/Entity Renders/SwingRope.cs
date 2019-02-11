@@ -28,18 +28,18 @@ namespace ManiacEditor.Entity_Renders
                 for (int i = 0; i < ropeSize; i++)
                 {
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY + frame.Frame.Height*i,
+                        x + frame.Frame.PivotX,
+                        y + frame.Frame.PivotY + frame.Frame.Height*i,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 d.DrawBitmap(frame3.Texture,
-                    x + frame3.Frame.CenterX,
-                    y + frame3.Frame.CenterY,
+                    x + frame3.Frame.PivotX,
+                    y + frame3.Frame.PivotY,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(frame2.Texture,
-                    x + frame2.Frame.CenterX,
-                    y + frame2.Frame.CenterY + frame.Frame.Height * ropeSize,
+                    x + frame2.Frame.PivotX,
+                    y + frame2.Frame.PivotY + frame.Frame.Height * ropeSize,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
             }
         }

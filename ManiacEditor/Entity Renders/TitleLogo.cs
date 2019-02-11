@@ -27,22 +27,22 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frame = editorAnim.Frames[0];
 
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnim2 != null && editorAnim2.Frames.Count != 0 && mirrorFrames)
             {
                 var frame = editorAnim2.Frames[0];
 
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX + frame.Frame.Width,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX + frame.Frame.Width,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
         }

@@ -26,21 +26,21 @@ namespace ManiacEditor.Entity_Renders
                 var frameHead = editorAnim2.Frames[0];
                 var framePropel = editorAnim3.Frames[5];
 
-                //Animation.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration, 5);
+                //Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay, 5);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
+                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
+                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(frameHead.Texture,
-                    x + frameHead.Frame.CenterX - (fliph ? (frameHead.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
-                    y + frameHead.Frame.CenterY + (flipv ? (frameHead.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
+                    x + frameHead.Frame.PivotX - (fliph ? (frameHead.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
+                    y + frameHead.Frame.PivotY + (flipv ? (frameHead.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                     frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(framePropel.Texture,
-                    x + framePropel.Frame.CenterX - (fliph ? (framePropel.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
-                    y + framePropel.Frame.CenterY + (flipv ? (framePropel.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
+                    x + framePropel.Frame.PivotX - (fliph ? (framePropel.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
+                    y + framePropel.Frame.PivotY + (flipv ? (framePropel.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
                     framePropel.Frame.Width, framePropel.Frame.Height, false, Transparency);
 
             }

@@ -35,16 +35,16 @@ namespace ManiacEditor.Entity_Renders
                 //var frame3 = editorAnim3.Frames[0];
                 //var frame4 = editorAnim4.Frames[0];
 
-                //Animation.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration, 5);
+                //Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay, 5);
 
                 /*d.DrawBitmap(frameFocus.Texture,
-                    x + frameFocus.Frame.CenterX,
-                    y + frameFocus.Frame.CenterY,
+                    x + frameFocus.Frame.PivotX,
+                    y + frameFocus.Frame.PivotY,
                     frameFocus.Frame.Width, frameFocus.Frame.Height, false, Transparency);*/
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
             }

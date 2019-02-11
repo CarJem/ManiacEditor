@@ -28,23 +28,23 @@ namespace ManiacEditor.Entity_Renders
                 var frameLaunch = editorAnimLaunch.Frames[0];
                 var framePropel = editorAnimPropel.Frames[Animation.index];
 
-                Animation.ProcessAnimation(framePropel.Entry.FrameSpeed, framePropel.Entry.Frames.Count, framePropel.Frame.Duration);
+                Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay);
 
                 d.DrawBitmap(frameSeat.Texture,
-                    x + frameSeat.Frame.CenterX,
-                    y + frameSeat.Frame.CenterY,
+                    x + frameSeat.Frame.PivotX,
+                    y + frameSeat.Frame.PivotY,
                     frameSeat.Frame.Width, frameSeat.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameLaunch.Texture,
-                    x + frameLaunch.Frame.CenterX,
-                    y + frameLaunch.Frame.CenterY,
+                    x + frameLaunch.Frame.PivotX,
+                    y + frameLaunch.Frame.PivotY,
                     frameLaunch.Frame.Width, frameLaunch.Frame.Height, false, Transparency);
                 d.DrawBitmap(framePropel.Texture,
-                    x + framePropel.Frame.CenterX,
-                    y + framePropel.Frame.CenterY,
+                    x + framePropel.Frame.PivotX,
+                    y + framePropel.Frame.PivotY,
                     framePropel.Frame.Width, framePropel.Frame.Height, false, Transparency);
 
 

@@ -30,8 +30,8 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
-                    //Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                    d.DrawBitmap(frame.Texture, x2 + frame.Frame.CenterX + spacingAmount, y + frame.Frame.CenterY,
+                    //Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+                    d.DrawBitmap(frame.Texture, x2 + frame.Frame.PivotX + spacingAmount, y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     spacingAmount = spacingAmount + frame.Frame.Width;
                 }

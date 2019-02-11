@@ -34,13 +34,13 @@ namespace ManiacEditor.Entity_Renders
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
                             d.DrawBitmap(frame.Texture,
-                                (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.CenterX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
-                                y + (hEven ? frame.Frame.CenterY : -frame.Frame.Height) + (-height / 2 + i) * frame.Frame.Height,
+                                (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
+                                y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + i) * frame.Frame.Height,
                                 frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
@@ -54,12 +54,12 @@ namespace ManiacEditor.Entity_Renders
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
                             d.DrawBitmap(frame.Texture,
-                                (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.CenterX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
+                                (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
                                 (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),
                                 frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }

@@ -119,7 +119,7 @@ namespace ManiacEditor.Entity_Renders
             {
 
                 EditorEntity_ini.EditorAnimation.EditorFrame frame = null;
-                if (editorAnim.Frames[0].Entry.FrameSpeed > 0 && doNotShow == false && type != 4)
+                if (editorAnim.Frames[0].Entry.SpeedMultiplyer > 0 && doNotShow == false && type != 4)
                 {
                     frame = editorAnim.Frames[Animation.index];
                 }
@@ -137,18 +137,18 @@ namespace ManiacEditor.Entity_Renders
                 {
                     PlatformWidth = frame.Frame.Width;
                     PlatformHight = frame.Frame.Height;
-                    PlatformOffsetX = frame.Frame.CenterX;
-                    PlatformOffsetY = frame.Frame.CenterY;
+                    PlatformOffsetX = frame.Frame.PivotX;
+                    PlatformOffsetY = frame.Frame.PivotY;
 
-                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                     if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && selected)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + amplitudeX, y + frame.Frame.CenterY + amplitudeY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + amplitudeX, y + frame.Frame.PivotY + amplitudeY,
                             frame.ImageWidth, frame.ImageHeight, false, 125);
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX - amplitudeX, y + frame.Frame.CenterY - amplitudeY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX - amplitudeX, y + frame.Frame.PivotY - amplitudeY,
                             frame.ImageWidth, frame.ImageHeight, false, 125);
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                             frame.ImageWidth, frame.ImageHeight, false, Transparency);
                     }
 
@@ -203,7 +203,7 @@ namespace ManiacEditor.Entity_Renders
                         }
 
 
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + position[0], y + frame.Frame.CenterY - position[1],
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + position[0], y + frame.Frame.PivotY - position[1],
                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                     }
@@ -232,15 +232,15 @@ namespace ManiacEditor.Entity_Renders
                                 if (i == 0)
                                 {
                                     d.DrawBitmap(frame4.Texture,
-                                        linePoints[0] + frame4.Frame.CenterX,
-                                        linePoints[1] + frame4.Frame.CenterY,
+                                        linePoints[0] + frame4.Frame.PivotX,
+                                        linePoints[1] + frame4.Frame.PivotY,
                                         frame4.ImageWidth, frame4.ImageHeight, false, Transparency);
                                 }
                                 else
                                 {
                                     d.DrawBitmap(frame3.Texture,
-                                        linePoints[0] + frame3.Frame.CenterX,
-                                        linePoints[1] + frame3.Frame.CenterY,
+                                        linePoints[0] + frame3.Frame.PivotX,
+                                        linePoints[1] + frame3.Frame.PivotY,
                                         frame3.ImageWidth, frame3.ImageHeight, false, Transparency);
                                 }
 
@@ -259,7 +259,7 @@ namespace ManiacEditor.Entity_Renders
                             }
                         }
 
-                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
+                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                     }
@@ -296,13 +296,13 @@ namespace ManiacEditor.Entity_Renders
                                 if (i == 0)
                                 {
                                     d.DrawBitmap(frame4.Texture,
-                                        linePoints[0] + frame4.Frame.CenterX,
-                                        linePoints[1] + frame4.Frame.CenterY,
+                                        linePoints[0] + frame4.Frame.PivotX,
+                                        linePoints[1] + frame4.Frame.PivotY,
                                         frame4.ImageWidth, frame4.ImageHeight, false, Transparency);
                                 }
                                 else if (i == tensionCount)
                                 {
-                                    d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.CenterX, linePoints[1] + frame.Frame.CenterY,
+                                    d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.PivotX, linePoints[1] + frame.Frame.PivotY,
                                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                                     if (childCount != 0 && e.EditorInstance.entities.entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
@@ -346,8 +346,8 @@ namespace ManiacEditor.Entity_Renders
                                 else
                                 {
                                     d.DrawBitmap(frame3.Texture,
-                                        linePoints[0] + frame3.Frame.CenterX,
-                                        linePoints[1] + frame3.Frame.CenterY,
+                                        linePoints[0] + frame3.Frame.PivotX,
+                                        linePoints[1] + frame3.Frame.PivotY,
                                         frame3.ImageWidth, frame3.ImageHeight, false, Transparency);
                                 }
                             }
@@ -356,7 +356,7 @@ namespace ManiacEditor.Entity_Renders
                     else
                     {
 
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + angleStateX, y + frame.Frame.CenterY - angleStateY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + angleStateX, y + frame.Frame.PivotY - angleStateY,
                             frame.ImageWidth, frame.ImageHeight, false, Transparency);
                     }
                 }             

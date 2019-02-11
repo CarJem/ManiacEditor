@@ -19,7 +19,8 @@ namespace ManiacEditor.Entity_Renders
         {
             var type = entity.attributesMap["type"].ValueUInt8;
             var width = (int)(entity.attributesMap["size"].ValuePosition.X.High) - 1;
-            var height = (int)(entity.attributesMap["size"].ValuePosition.Y.High) - 1;
+			var height = (int)(entity.attributesMap["size"].ValuePosition.Y.High) - 1;
+
 
             var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
 
@@ -49,10 +50,10 @@ namespace ManiacEditor.Entity_Renders
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                         d.DrawBitmap(frame.Texture,
-                            (x + (wEven ? frame.Frame.CenterX : -frame.Frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Frame.Width),
-                            (y + (hEven ? frame.Frame.CenterY : -frame.Frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Frame.Height),
+                            (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Frame.Width),
+                            (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Frame.Height),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                     }
@@ -69,7 +70,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                     d.DrawBitmap(frame.Texture, x - frame.Frame.Width / (mighty ? 1 : 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }
@@ -81,7 +82,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                     d.DrawBitmap(frame.Texture, x - (knux ? 0 : frame.Frame.Width / 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }

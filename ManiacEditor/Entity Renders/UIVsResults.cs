@@ -40,13 +40,13 @@ namespace ManiacEditor.Entity_Renders
 			if (editorAnim != null && editorAnim.Frames.Count != 0)
 			{
 				var frame = editorAnim.Frames[Animation.index];
-				d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY + 40,
+				d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY + 40,
 					frame.Frame.Width, frame.Frame.Height, false, Transparency);
 			}
 			if (editorAnimPlayerText != null && editorAnimPlayerText.Frames.Count != 0)
 			{
 				var frame = editorAnimPlayerText.Frames[Animation.index];
-				d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + 36, y + frame.Frame.CenterY - 26,
+				d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 26,
 					frame.Frame.Width, frame.Frame.Height, false, Transparency);
 			}
 		}

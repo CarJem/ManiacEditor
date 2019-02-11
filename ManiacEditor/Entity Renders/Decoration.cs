@@ -56,7 +56,7 @@ namespace ManiacEditor.Entity_Renders
                 if (index >= editorAnim.Frames.Count)
                     index = 0;
                 var frame = editorAnim.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                 for (int yy = 0; yy <= repeatY; yy++)
                 {

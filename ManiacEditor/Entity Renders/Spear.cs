@@ -41,12 +41,12 @@ namespace ManiacEditor.Entity_Renders
                 var frameSpear = editorAnimSpear.Frames[0];
 
                 d.DrawBitmap(frameSpear.Texture,
-                    x + (fliph ? -frameSpear.Frame.CenterX - frameSpear.Frame.Width : frameSpear.Frame.CenterX),
-                    y + (flipv ? -frameSpear.Frame.CenterY - frameSpear.Frame.Height : frameSpear.Frame.CenterY),
+                    x + (fliph ? -frameSpear.Frame.PivotX - frameSpear.Frame.Width : frameSpear.Frame.PivotX),
+                    y + (flipv ? -frameSpear.Frame.PivotY - frameSpear.Frame.Height : frameSpear.Frame.PivotY),
                     frameSpear.Frame.Width, frameSpear.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame.Texture,
-                    x + (fliph ? -frame.Frame.CenterX - frame.Frame.Width : frame.Frame.CenterX),
-                    y + (flipv ? -frame.Frame.CenterY - frame.Frame.Height : frame.Frame.CenterY),
+                    x + (fliph ? -frame.Frame.PivotX - frame.Frame.Width : frame.Frame.PivotX),
+                    y + (flipv ? -frame.Frame.PivotY - frame.Frame.Height : frame.Frame.PivotY),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
             }

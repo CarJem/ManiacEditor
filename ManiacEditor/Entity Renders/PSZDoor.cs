@@ -113,30 +113,30 @@ namespace ManiacEditor.Entity_Renders
                 }
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX + (open ? doorAdjX : 0),
-                    y + frame.Frame.CenterY + (open ? doorAdjY : 0),
+                    x + frame.Frame.PivotX + (open ? doorAdjX : 0),
+                    y + frame.Frame.PivotY + (open ? doorAdjY : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 //Upper Cog
                 d.DrawBitmap(cog1.Texture,
-                    x + cog1.Frame.CenterX + cogSpaceW,
-                    y + cog1.Frame.CenterY + cogSpaceH,
+                    x + cog1.Frame.PivotX + cogSpaceW,
+                    y + cog1.Frame.PivotY + cogSpaceH,
                     cog1.Frame.Width, cog1.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(cog2.Texture,
-                    x + cog2.Frame.CenterX + cogSpaceW,
-                    y + cog2.Frame.CenterY + cogSpaceH,
+                    x + cog2.Frame.PivotX + cogSpaceW,
+                    y + cog2.Frame.PivotY + cogSpaceH,
                     cog2.Frame.Width, cog2.Frame.Height, false, Transparency);
 
                 //Lower Cog
                 d.DrawBitmap(cog1.Texture,
-                    x + cog1.Frame.CenterX + cogSpaceW_2,
-                    y + cog1.Frame.CenterY + cogSpaceH_2,
+                    x + cog1.Frame.PivotX + cogSpaceW_2,
+                    y + cog1.Frame.PivotY + cogSpaceH_2,
                     cog1.Frame.Width, cog1.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(cog2.Texture,
-                    x + cog2.Frame.CenterX + cogSpaceW_2,
-                    y + cog2.Frame.CenterY + cogSpaceH_2,
+                    x + cog2.Frame.PivotX + cogSpaceW_2,
+                    y + cog2.Frame.PivotY + cogSpaceH_2,
                     cog2.Frame.Width, cog2.Frame.Height, false, Transparency);
             }
         }

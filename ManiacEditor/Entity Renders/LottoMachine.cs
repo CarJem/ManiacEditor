@@ -100,62 +100,62 @@ namespace ManiacEditor.Entity_Renders
                 var ballslot2_2 = editorAnim4_2.Frames[Animation.index];
                 var ballslot3_2 = editorAnim5_2.Frames[Animation.index];
 
-                //ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                //ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                 d.DrawBitmap(frame9.Texture,
-x + frame9.Frame.CenterX - (fliph ? (frame9.Frame.Width - editorAnim9.Frames[0].Frame.Width) : 0),
-y + frame9.Frame.CenterY + (flipv ? (frame9.Frame.Height - editorAnim9.Frames[0].Frame.Height) : 0),
+x + frame9.Frame.PivotX - (fliph ? (frame9.Frame.Width - editorAnim9.Frames[0].Frame.Width) : 0),
+y + frame9.Frame.PivotY + (flipv ? (frame9.Frame.Height - editorAnim9.Frames[0].Frame.Height) : 0),
 frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame10.Texture,
-                    x + frame10.Frame.CenterX - (fliph ? (frame10.Frame.Width - editorAnim10.Frames[0].Frame.Width) : 0),
-                    y - 4 + frame10.Frame.CenterY + (flipv ? (frame10.Frame.Height - editorAnim10.Frames[0].Frame.Height) : 0),
+                    x + frame10.Frame.PivotX - (fliph ? (frame10.Frame.Width - editorAnim10.Frames[0].Frame.Width) : 0),
+                    y - 4 + frame10.Frame.PivotY + (flipv ? (frame10.Frame.Height - editorAnim10.Frames[0].Frame.Height) : 0),
                     frame10.Frame.Width, frame10.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame11.Texture,
-x + frame11.Frame.Width + 32 + frame11.Frame.CenterX - (true ? (frame11.Frame.Width - editorAnim11.Frames[0].Frame.Width) : 0),
-y + frame11.Frame.CenterY + (false ? (frame11.Frame.Height - editorAnim11.Frames[0].Frame.Height) : 0),
+x + frame11.Frame.Width + 32 + frame11.Frame.PivotX - (true ? (frame11.Frame.Width - editorAnim11.Frames[0].Frame.Width) : 0),
+y + frame11.Frame.PivotY + (false ? (frame11.Frame.Height - editorAnim11.Frames[0].Frame.Height) : 0),
 frame11.Frame.Width, frame11.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame12.Texture,
-x + frame12.Frame.Width + 32 + frame12.Frame.CenterX - (true ? (frame12.Frame.Width - editorAnim12.Frames[0].Frame.Width) : 0),
-y + frame12.Frame.Height + frame12.Frame.CenterY + (true ? (frame12.Frame.Height - editorAnim12.Frames[0].Frame.Height) : 0),
+x + frame12.Frame.Width + 32 + frame12.Frame.PivotX - (true ? (frame12.Frame.Width - editorAnim12.Frames[0].Frame.Width) : 0),
+y + frame12.Frame.Height + frame12.Frame.PivotY + (true ? (frame12.Frame.Height - editorAnim12.Frames[0].Frame.Height) : 0),
 frame12.Frame.Width, frame12.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame13.Texture,
-x + frame13.Frame.CenterX - (false ? (frame13.Frame.Width - editorAnim13.Frames[0].Frame.Width) : 0),
-y + frame13.Frame.Height + frame13.Frame.CenterY + (true ? (frame13.Frame.Height - editorAnim13.Frames[0].Frame.Height) : 0),
+x + frame13.Frame.PivotX - (false ? (frame13.Frame.Width - editorAnim13.Frames[0].Frame.Width) : 0),
+y + frame13.Frame.Height + frame13.Frame.PivotY + (true ? (frame13.Frame.Height - editorAnim13.Frames[0].Frame.Height) : 0),
 frame13.Frame.Width, frame13.Frame.Height, false, Transparency);
                 d.DrawBitmap(ballslot1.Texture,
-                    x + ballslot1.Frame.CenterX - (fliph ? (ballslot1.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
-                    y + ballslot1.Frame.CenterY + (flipv ? (ballslot1.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
+                    x + ballslot1.Frame.PivotX - (fliph ? (ballslot1.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
+                    y + ballslot1.Frame.PivotY + (flipv ? (ballslot1.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
                     ballslot1.Frame.Width, ballslot1.Frame.Height, false, Transparency);
                 d.DrawBitmap(ballslot2.Texture,
-                    x + ballslot2.Frame.CenterX - (fliph ? (ballslot2.Frame.Width - editorAnim4.Frames[0].Frame.Width) : 0),
-                    y + ballslot2.Frame.CenterY + (flipv ? (ballslot2.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
+                    x + ballslot2.Frame.PivotX - (fliph ? (ballslot2.Frame.Width - editorAnim4.Frames[0].Frame.Width) : 0),
+                    y + ballslot2.Frame.PivotY + (flipv ? (ballslot2.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
                     ballslot2.Frame.Width, ballslot2.Frame.Height, false, Transparency);
                 d.DrawBitmap(ballslot3.Texture,
-x + ballslot3.Frame.CenterX - (fliph ? (ballslot3.Frame.Width - editorAnim5.Frames[0].Frame.Width) : 0),
-y + ballslot3.Frame.CenterY + (flipv ? (ballslot3.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
+x + ballslot3.Frame.PivotX - (fliph ? (ballslot3.Frame.Width - editorAnim5.Frames[0].Frame.Width) : 0),
+y + ballslot3.Frame.PivotY + (flipv ? (ballslot3.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
 ballslot3.Frame.Width, ballslot3.Frame.Height, false, Transparency);
                 d.DrawBitmap(ballslot1_2.Texture,
-x - ballslot1_2.Frame.Width - ballslot1_2.Frame.CenterX + (fliph ? (ballslot1_2.Frame.Width + editorAnim3.Frames[0].Frame.Width) : 0),
-y + ballslot1_2.Frame.CenterY + (flipv ? (ballslot1_2.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
+x - ballslot1_2.Frame.Width - ballslot1_2.Frame.PivotX + (fliph ? (ballslot1_2.Frame.Width + editorAnim3.Frames[0].Frame.Width) : 0),
+y + ballslot1_2.Frame.PivotY + (flipv ? (ballslot1_2.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
 ballslot1_2.Frame.Width, ballslot1_2.Frame.Height, false, Transparency);
                 d.DrawBitmap(ballslot2_2.Texture,
-                    x - ballslot2_2.Frame.Width - ballslot2_2.Frame.CenterX + (fliph ? (ballslot2_2.Frame.Width + editorAnim4.Frames[0].Frame.Width) : 0),
-                    y + ballslot2_2.Frame.CenterY + (flipv ? (ballslot2_2.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
+                    x - ballslot2_2.Frame.Width - ballslot2_2.Frame.PivotX + (fliph ? (ballslot2_2.Frame.Width + editorAnim4.Frames[0].Frame.Width) : 0),
+                    y + ballslot2_2.Frame.PivotY + (flipv ? (ballslot2_2.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
                     ballslot2_2.Frame.Width, ballslot2_2.Frame.Height, false, Transparency);
                 d.DrawBitmap(ballslot3_2.Texture,
-x - ballslot3_2.Frame.Width - ballslot3_2.Frame.CenterX + (fliph ? (ballslot3_2.Frame.Width + editorAnim5.Frames[0].Frame.Width) : 0),
-y + ballslot3_2.Frame.CenterY + (flipv ? (ballslot3_2.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
+x - ballslot3_2.Frame.Width - ballslot3_2.Frame.PivotX + (fliph ? (ballslot3_2.Frame.Width + editorAnim5.Frames[0].Frame.Width) : 0),
+y + ballslot3_2.Frame.PivotY + (flipv ? (ballslot3_2.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
 ballslot3_2.Frame.Width, ballslot3_2.Frame.Height, false, Transparency);
                 d.DrawBitmap(galloplogo.Texture,
-                    x + galloplogo.Frame.CenterX - (fliph ? (galloplogo.Frame.Width - editorAnim8.Frames[0].Frame.Width) : 0),
-                    y + galloplogo.Frame.CenterY + (flipv ? (galloplogo.Frame.Height - editorAnim8.Frames[0].Frame.Height) : 0),
+                    x + galloplogo.Frame.PivotX - (fliph ? (galloplogo.Frame.Width - editorAnim8.Frames[0].Frame.Width) : 0),
+                    y + galloplogo.Frame.PivotY + (flipv ? (galloplogo.Frame.Height - editorAnim8.Frames[0].Frame.Height) : 0),
                     galloplogo.Frame.Width, galloplogo.Frame.Height, false, Transparency);
                 d.DrawBitmap(chute.Texture,
-x + chute.Frame.CenterX - (fliph ? (chute.Frame.Width - editorAnim17.Frames[0].Frame.Width) : 0),
-y + chute.Frame.CenterY + 132 + (flipv ? (chute.Frame.Height - editorAnim17.Frames[0].Frame.Height) : 0),
+x + chute.Frame.PivotX - (fliph ? (chute.Frame.Width - editorAnim17.Frames[0].Frame.Width) : 0),
+y + chute.Frame.PivotY + 132 + (flipv ? (chute.Frame.Height - editorAnim17.Frames[0].Frame.Height) : 0),
 chute.Frame.Width, chute.Frame.Height, false, Transparency);
                 d.DrawBitmap(dispenser.Texture,
-    x + dispenser.Frame.CenterX - (fliph ? (dispenser.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
-    y + dispenser.Frame.CenterY + (flipv ? (dispenser.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
+    x + dispenser.Frame.PivotX - (fliph ? (dispenser.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
+    y + dispenser.Frame.PivotY + (flipv ? (dispenser.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
     dispenser.Frame.Width, dispenser.Frame.Height, false, Transparency);
 
 

@@ -22,15 +22,15 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
                 var framePanel = editorAnimPanel.Frames[Animation.index];
 
-                Animation.ProcessAnimation(framePanel.Entry.FrameSpeed, framePanel.Entry.Frames.Count, framePanel.Frame.Duration);
+                Animation.ProcessAnimation(framePanel.Entry.SpeedMultiplyer, framePanel.Entry.Frames.Count, framePanel.Frame.Delay);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(framePanel.Texture,
-                    x + framePanel.Frame.CenterX,
-                    y + framePanel.Frame.CenterY,
+                    x + framePanel.Frame.PivotX,
+                    y + framePanel.Frame.PivotY,
                     framePanel.Frame.Width, framePanel.Frame.Height, false, Transparency);
             }
         }

@@ -44,23 +44,23 @@ namespace ManiacEditor.Entity_Renders
                 var frameBack = editorAnimBack.Frames[0];
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 for (int i = 0; i < 4; i++)
                 {
                     d.DrawBitmap(frameFront.Texture,
-                        x + frameFront.Frame.CenterX + 12,
-                        y + frameFront.Frame.CenterY + 6 + 6 * i,
+                        x + frameFront.Frame.PivotX + 12,
+                        y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
                     d.DrawBitmap(frameFront.Texture,
-                        x + frameFront.Frame.CenterX - 12,
-                        y + frameFront.Frame.CenterY + 6 + 6 * i,
+                        x + frameFront.Frame.PivotX - 12,
+                        y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
                     d.DrawBitmap(frameBack.Texture,
-                        x + frameBack.Frame.CenterX,
-                        y + frameBack.Frame.CenterY + 6 + 6 * i,
+                        x + frameBack.Frame.PivotX,
+                        y + frameBack.Frame.PivotY + 6 + 6 * i,
                         frameBack.Frame.Width, frameBack.Frame.Height, false, Transparency);
                 }
              }

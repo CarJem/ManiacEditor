@@ -83,8 +83,8 @@ namespace ManiacEditor.Entity_Renders
                     int[] linePoints = RotatePoints(x_alt + (frame2.Frame.Width) * i, y, x, y, angleStartInt);
                     
                     d.DrawBitmap(frame2.Texture,
-                        linePoints[0] + frame2.Frame.CenterX,
-                        linePoints[1] + frame2.Frame.CenterY,
+                        linePoints[0] + frame2.Frame.PivotX,
+                        linePoints[1] + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                 }
 
@@ -96,16 +96,16 @@ namespace ManiacEditor.Entity_Renders
                 processPoints = RotatePoints(x + length, y, x, y, angleStartInt);
 
                 d.DrawBitmap(frame3.Texture,
-                    processPoints[0] + frame3.Frame.CenterX,
-                    processPoints[1] + frame3.Frame.CenterY,
+                    processPoints[0] + frame3.Frame.PivotX,
+                    processPoints[1] + frame3.Frame.PivotY,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 
                 // TetherBall Center
                 if (drawType == true)
                 {
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
-                        y + frame.Frame.CenterY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
+                        x + frame.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
+                        y + frame.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
 

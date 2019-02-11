@@ -26,30 +26,30 @@ namespace ManiacEditor.Entity_Renders
                 var frameB = editorAnimBottom.Frames[Animation.index];
                 var frameE = editorAnimElectric.Frames[Animation.index];
 
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                Animation.ProcessAnimation2(frameE.Entry.FrameSpeed, frameE.Entry.Frames.Count, frameE.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+                Animation.ProcessAnimation2(frameE.Entry.SpeedMultiplyer, frameE.Entry.Frames.Count, frameE.Frame.Delay);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(frameB.Texture,
-                    x + frameB.Frame.CenterX - (fliph ? (frameB.Frame.Width - editorAnimBottom.Frames[0].Frame.Width) : 0),
+                    x + frameB.Frame.PivotX - (fliph ? (frameB.Frame.Width - editorAnimBottom.Frames[0].Frame.Width) : 0),
                     y + frameE.Frame.Height/2,
                     frameB.Frame.Width, frameB.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(frameE.Texture,
-                    x + frameE.Frame.CenterX - 22,
-                    y + frameE.Frame.CenterY,
+                    x + frameE.Frame.PivotX - 22,
+                    y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameE.Texture,
-                    x + frameE.Frame.CenterX - 6,
-                    y + frameE.Frame.CenterY,
+                    x + frameE.Frame.PivotX - 6,
+                    y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frameE.Texture,
-                    x + frameE.Frame.CenterX + 10,
-                    y + frameE.Frame.CenterY,
+                    x + frameE.Frame.PivotX + 10,
+                    y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);
             }
         }

@@ -61,7 +61,7 @@ namespace ManiacEditor.Entity_Renders
                 if (isFBZ)
                 {
                     frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                 }
 
 
@@ -85,14 +85,14 @@ namespace ManiacEditor.Entity_Renders
                     int max = (count2 + 1) / 2;
                     for (int i = -count2 / 2; i < max; ++i)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + (i * (frame.Frame.Width)) - offset1 + offset2, y + frame.Frame.CenterY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + (i * (frame.Frame.Width)) - offset1 + offset2, y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
 
                     // Draw one more overlapping if needed
                     if (extra)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + ((max - 1) * (frame.Frame.Width)) + offset1 + offset2, y + frame.Frame.CenterY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + ((max - 1) * (frame.Frame.Width)) + offset1 + offset2, y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
@@ -116,14 +116,14 @@ namespace ManiacEditor.Entity_Renders
                     int max = (count2 + 1) / 2;
                     for (int i = -count2 / 2; i < max; ++i)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY + (i * (frame.Frame.Height)) - offset1 + offset2,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY + (i * (frame.Frame.Height)) - offset1 + offset2,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
 
                     // Draw one more overlapping if needed
                     if (extra)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY + ((max - 1) * (frame.Frame.Height)) + offset1 + offset2,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY + ((max - 1) * (frame.Frame.Height)) + offset1 + offset2,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
@@ -139,8 +139,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frame = editorAnim.Frames[0];
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

@@ -21,15 +21,15 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
             {
                 var frame = editorAnimFrame.Frames[0];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
             {
                 var frame = editorAnimBackground.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX - 107, y + frame.Frame.CenterY,
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX - 107, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
@@ -49,7 +49,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                 {
                     var frame = editorAnim2.Frames[0];
-                    d.DrawBitmap(frame.Texture, text_X + spacingAmount, text_Y + frame.Frame.CenterY - text_YAdjust,
+                    d.DrawBitmap(frame.Texture, text_X + spacingAmount, text_Y + frame.Frame.PivotY - text_YAdjust,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     spacingAmount = spacingAmount + frame.Frame.Width;
                 }
@@ -62,7 +62,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                 {
                     var frame = editorAnim2.Frames[0];
-                    d.DrawBitmap(frame.Texture, text_X + 32 + spacingAmount, text_Y + frame.Frame.CenterY + 28 - text_YAdjust,
+                    d.DrawBitmap(frame.Texture, text_X + 32 + spacingAmount, text_Y + frame.Frame.PivotY + 28 - text_YAdjust,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     spacingAmount = spacingAmount + frame.Frame.Width;
                 }

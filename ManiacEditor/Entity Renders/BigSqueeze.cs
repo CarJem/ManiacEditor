@@ -43,72 +43,72 @@ namespace ManiacEditor.Entity_Renders
                 var shocking = editorAnim8.Frames[Animation.index];
                 var frame = editorAnim9.Frames[0];
 
-                Animation.ProcessAnimation(electroMagDome.Entry.FrameSpeed, electroMagDome.Entry.Frames.Count, electroMagDome.Frame.Duration);
-                Animation.ProcessAnimation(electroMagProngs.Entry.FrameSpeed, electroMagProngs.Entry.Frames.Count, electroMagProngs.Frame.Duration);
-                Animation.ProcessAnimation(wheels.Entry.FrameSpeed, wheels.Entry.Frames.Count, wheels.Frame.Duration);
-                Animation.ProcessAnimation(wheelsr.Entry.FrameSpeed, wheelsr.Entry.Frames.Count, wheelsr.Frame.Duration);
-                //Animation.ProcessAnimation(shocking.Entry.FrameSpeed, shocking.Entry.Frames.Count, shocking.Frame.Duration);
+                Animation.ProcessAnimation(electroMagDome.Entry.SpeedMultiplyer, electroMagDome.Entry.Frames.Count, electroMagDome.Frame.Delay);
+                Animation.ProcessAnimation(electroMagProngs.Entry.SpeedMultiplyer, electroMagProngs.Entry.Frames.Count, electroMagProngs.Frame.Delay);
+                Animation.ProcessAnimation(wheels.Entry.SpeedMultiplyer, wheels.Entry.Frames.Count, wheels.Frame.Delay);
+                Animation.ProcessAnimation(wheelsr.Entry.SpeedMultiplyer, wheelsr.Entry.Frames.Count, wheelsr.Frame.Delay);
+                //Animation.ProcessAnimation(shocking.Entry.SpeedMultiplyer, shocking.Entry.Frames.Count, shocking.Frame.Delay);
 
                 if (type == 2)
                 {
                     d.DrawBitmap(wall1.Texture,
-                        x + wall1.Frame.CenterX - (fliph ? (wall1.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                        y + wall1.Frame.CenterY + (flipv ? (wall1.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
+                        x + wall1.Frame.PivotX - (fliph ? (wall1.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
+                        y + wall1.Frame.PivotY + (flipv ? (wall1.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         wall1.Frame.Width, wall1.Frame.Height, false, Transparency);
                     d.DrawBitmap(wall2.Texture,
-                        x + wall2.Frame.CenterX - (fliph ? (wall2.Frame.Width - editorAnim.Frames[1].Frame.Width) : 0),
-                        y + wall2.Frame.CenterY + (flipv ? (wall2.Frame.Height - editorAnim.Frames[1].Frame.Height) : 0),
+                        x + wall2.Frame.PivotX - (fliph ? (wall2.Frame.Width - editorAnim.Frames[1].Frame.Width) : 0),
+                        y + wall2.Frame.PivotY + (flipv ? (wall2.Frame.Height - editorAnim.Frames[1].Frame.Height) : 0),
                         wall2.Frame.Width, wall2.Frame.Height, false, Transparency);
                     d.DrawBitmap(wall3.Texture,
-                        x + wall3.Frame.CenterX - (fliph ? (wall3.Frame.Width - editorAnim.Frames[2].Frame.Width) : 0),
-                        y + wall3.Frame.CenterY + (flipv ? (wall3.Frame.Height - editorAnim.Frames[2].Frame.Height) : 0),
+                        x + wall3.Frame.PivotX - (fliph ? (wall3.Frame.Width - editorAnim.Frames[2].Frame.Width) : 0),
+                        y + wall3.Frame.PivotY + (flipv ? (wall3.Frame.Height - editorAnim.Frames[2].Frame.Height) : 0),
                         wall3.Frame.Width, wall3.Frame.Height, false, Transparency);
                 }
                 else if (type == 3)
                 {
                     d.DrawBitmap(wall1r.Texture,
-                        x + wall1r.Frame.CenterX,
-                        y + wall1r.Frame.CenterY + (flipv ? (wall1r.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
+                        x + wall1r.Frame.PivotX,
+                        y + wall1r.Frame.PivotY + (flipv ? (wall1r.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                         wall1r.Frame.Width, wall1r.Frame.Height, false, Transparency);
                     d.DrawBitmap(wall2r.Texture,
-                        x + wall2r.Frame.CenterX + -wall2r.Frame.CenterX + 23,
-                        y + wall2r.Frame.CenterY + (flipv ? (wall2r.Frame.Height - editorAnim2.Frames[1].Frame.Height) : 0),
+                        x + wall2r.Frame.PivotX + -wall2r.Frame.PivotX + 23,
+                        y + wall2r.Frame.PivotY + (flipv ? (wall2r.Frame.Height - editorAnim2.Frames[1].Frame.Height) : 0),
                         wall2.Frame.Width, wall2.Frame.Height, false, Transparency);
                     d.DrawBitmap(wall3r.Texture,
-                        x + wall3r.Frame.CenterX + -wall3r.Frame.CenterX + 55,
-                        y + wall3r.Frame.CenterY + (flipv ? (wall3r.Frame.Height - editorAnim2.Frames[2].Frame.Height) : 0),
+                        x + wall3r.Frame.PivotX + -wall3r.Frame.PivotX + 55,
+                        y + wall3r.Frame.PivotY + (flipv ? (wall3r.Frame.Height - editorAnim2.Frames[2].Frame.Height) : 0),
                         wall3r.Frame.Width, wall3r.Frame.Height, false, Transparency);
                 }
 
                 else if (type == 1)
                 {
                     d.DrawBitmap(electroMagBase.Texture,
-                        x + electroMagBase.Frame.CenterX - (fliph ? (electroMagBase.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
-                        y + electroMagBase.Frame.CenterY + (flipv ? (electroMagBase.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
+                        x + electroMagBase.Frame.PivotX - (fliph ? (electroMagBase.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
+                        y + electroMagBase.Frame.PivotY + (flipv ? (electroMagBase.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
                         electroMagBase.Frame.Width, electroMagBase.Frame.Height, false, Transparency);
                     d.DrawBitmap(electroMagDome.Texture,
-                        x + electroMagDome.Frame.CenterX - (fliph ? (electroMagDome.Frame.Width - editorAnim4.Frames[0].Frame.Width) : 0),
-                        y + electroMagDome.Frame.CenterY + (flipv ? (electroMagDome.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
+                        x + electroMagDome.Frame.PivotX - (fliph ? (electroMagDome.Frame.Width - editorAnim4.Frames[0].Frame.Width) : 0),
+                        y + electroMagDome.Frame.PivotY + (flipv ? (electroMagDome.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
                         electroMagDome.Frame.Width, electroMagDome.Frame.Height, false, Transparency);
                     d.DrawBitmap(electroMagProngs.Texture,
-                        x + electroMagProngs.Frame.CenterX - (fliph ? (electroMagProngs.Frame.Width - editorAnim5.Frames[0].Frame.Width) : 0),
-                        y + electroMagProngs.Frame.CenterY + (flipv ? (electroMagProngs.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
+                        x + electroMagProngs.Frame.PivotX - (fliph ? (electroMagProngs.Frame.Width - editorAnim5.Frames[0].Frame.Width) : 0),
+                        y + electroMagProngs.Frame.PivotY + (flipv ? (electroMagProngs.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
                         electroMagProngs.Frame.Width, electroMagProngs.Frame.Height, false, Transparency);
                     d.DrawBitmap(wheels.Texture,
-                        x + wheels.Frame.CenterX - (fliph ? (wheels.Frame.Width - editorAnim6.Frames[0].Frame.Width) : 0) - 20,
-                        y + wheels.Frame.CenterY + (flipv ? (wheels.Frame.Height - editorAnim6.Frames[0].Frame.Height) : 0),
+                        x + wheels.Frame.PivotX - (fliph ? (wheels.Frame.Width - editorAnim6.Frames[0].Frame.Width) : 0) - 20,
+                        y + wheels.Frame.PivotY + (flipv ? (wheels.Frame.Height - editorAnim6.Frames[0].Frame.Height) : 0),
                         wheels.Frame.Width, wheels.Frame.Height, false, Transparency);
                     d.DrawBitmap(wheelsr.Texture,
-                        x + wheelsr.Frame.CenterX + 20,
-                        y + wheelsr.Frame.CenterY + (flipv ? (wheelsr.Frame.Height - editorAnim7.Frames[0].Frame.Height) : 0),
+                        x + wheelsr.Frame.PivotX + 20,
+                        y + wheelsr.Frame.PivotY + (flipv ? (wheelsr.Frame.Height - editorAnim7.Frames[0].Frame.Height) : 0),
                         wheelsr.Frame.Width, wheelsr.Frame.Height, false, Transparency);
                     /*
                     if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.annimationsChecked)
                     {
 
                         d.DrawBitmap(shocking.Texture,
-                            x + shocking.Frame.CenterX,
-                            y + shocking.Frame.CenterY + (flipv ? (shocking.Frame.Height - editorAnim8.Frames[0].Frame.Height) : 0),
+                            x + shocking.Frame.PivotX,
+                            y + shocking.Frame.PivotY + (flipv ? (shocking.Frame.Height - editorAnim8.Frames[0].Frame.Height) : 0),
                             shocking.Frame.Width, shocking.Frame.Height, false, Transparency);
 
                     }
@@ -120,8 +120,8 @@ namespace ManiacEditor.Entity_Renders
                 else if (type == 0)
                 {
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                        y + frame.Frame.CenterY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
+                        x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
+                        y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
 

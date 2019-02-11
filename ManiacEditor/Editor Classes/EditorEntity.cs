@@ -391,9 +391,9 @@ namespace ManiacEditor
 
                     if (frame != null)
                     {
-                        EditorAnimations.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        EditorAnimations.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                         // Draw the normal filled Rectangle but Its visible if you have the entity selected
-                        d.DrawBitmap(frame.Texture, _ChildX + frame.Frame.CenterX + ((int)offset.X * frame.Frame.Width), _ChildY + frame.Frame.CenterY + ((int)offset.Y * frame.Frame.Height),
+                        d.DrawBitmap(frame.Texture, _ChildX + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), _ChildY + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                     else

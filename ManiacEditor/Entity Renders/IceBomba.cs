@@ -36,19 +36,19 @@ namespace ManiacEditor.Entity_Renders
                 var frame2 = editorAnim2.Frames[Animation.index];
                 var frame3 = editorAnim3.Frames[0];
 
-                Animation.ProcessAnimation(frame2.Entry.FrameSpeed, frame2.Entry.Frames.Count, frame2.Frame.Duration);
+                Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
 
                 d.DrawBitmap(frame3.Texture,
-                    x - 5 + frame.Frame.CenterX - (fliph ? 6 : 0),
+                    x - 5 + frame.Frame.PivotX - (fliph ? 6 : 0),
                     y + 10 + (flipv ? 0 : 0),
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 d.DrawBitmap(frame2.Texture,
-                    x + frame2.Frame.CenterX - (fliph ? 6 : 0),
-                    y + frame2.Frame.CenterY,
+                    x + frame2.Frame.PivotX - (fliph ? 6 : 0),
+                    y + frame2.Frame.PivotY,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 
             }

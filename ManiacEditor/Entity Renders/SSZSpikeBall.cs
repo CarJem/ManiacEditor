@@ -45,15 +45,15 @@ namespace ManiacEditor.Entity_Renders
                 if (type == 0)
                 {
                     d.DrawBitmap(frame.Texture,
-                       x + frame.Frame.CenterX,
-                       y + frame.Frame.CenterY,
+                       x + frame.Frame.PivotX,
+                       y + frame.Frame.PivotY,
                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
                 {
                     d.DrawBitmap(frameSpike.Texture,
-                       x + frameSpike.Frame.CenterX,
-                       y + frameSpike.Frame.CenterY,
+                       x + frameSpike.Frame.PivotX,
+                       y + frameSpike.Frame.PivotY,
                        frameSpike.Frame.Width, frameSpike.Frame.Height, false, Transparency);
                 }
 

@@ -409,6 +409,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="DynamicCodeTest.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />
@@ -657,7 +658,9 @@
     <Compile Include="Entity Renders\BigSqueeze.cs" />
     <Compile Include="Entity Renders\BlankObject.cs" />
     <Compile Include="Entity Renders\BoundsMarker.cs" />
-    <Compile Include="Entity Renders\BreakableWall.cs" />
+    <Compile Include="Entity Renders\BreakableWall.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\BreakBar.cs" />
     <Compile Include="Entity Renders\Bridge.cs" />
     <Compile Include="Entity Renders\Button.cs" />
@@ -1077,9 +1080,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RSDKv5\RSDKv5.csproj">
-      <Project>{d10dc6b1-eb04-46bc-8c7a-62914af396b0}</Project>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKv5\RSDKv5.csproj">
+      <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
       <Name>RSDKv5</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\TileManiacWPF\Tile Maniac.csproj">
       <Project>{d4bebcd3-438f-4f11-9b31-e9b25aa53bfc}</Project>

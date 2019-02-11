@@ -58,11 +58,11 @@ namespace ManiacEditor.Entity_Renders
 
                 if (type >= 2)
                 {
-                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, 16, frame.Frame.Delay);
                 }
                 else
                 {
-                    Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                 }
 
                 if (moveType == 2)
@@ -72,11 +72,11 @@ namespace ManiacEditor.Entity_Renders
 
                     if (type >= 2)
                     {
-                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, 16, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, 16, frame.Frame.Delay);
                     }
                     else
                     {
-                        Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                     }
                 }
 
@@ -91,7 +91,7 @@ namespace ManiacEditor.Entity_Renders
                         int radiusInt = (int)Math.Sqrt(radius);
                         int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
                         int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
-                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.CenterX, (y - newY) + frame.Frame.CenterY,
+                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else if (moveType == 1)
@@ -117,14 +117,14 @@ namespace ManiacEditor.Entity_Renders
                         position = Animation.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                     }
 
-                    d.DrawBitmap(frame.Texture, (x + position[0]) + frame.Frame.CenterX, (y - position[1]) + frame.Frame.CenterY,
+                    d.DrawBitmap(frame.Texture, (x + position[0]) + frame.Frame.PivotX, (y - position[1]) + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
                 {
                     d.DrawBitmap(frame.Texture,
-                        x + frame.Frame.CenterX,
-                        y + frame.Frame.CenterY,
+                        x + frame.Frame.PivotX,
+                        y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
 

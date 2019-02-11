@@ -40,17 +40,17 @@ namespace ManiacEditor.Entity_Renders
 
 				if (buttonID == 2)
 				{
-					d.DrawBitmap(frame4.Texture, x + frame4.Frame.CenterX + (int)alignmentVal, y + frame4.Frame.CenterY - 10,
+					d.DrawBitmap(frame4.Texture, x + frame4.Frame.PivotX + (int)alignmentVal, y + frame4.Frame.PivotY - 10,
 						frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-					d.DrawBitmap(frame3.Texture, x + frame3.Frame.CenterX + (int)alignmentVal, y + frame3.Frame.CenterY - 10,
+					d.DrawBitmap(frame3.Texture, x + frame3.Frame.PivotX + (int)alignmentVal, y + frame3.Frame.PivotY - 10,
 						frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 				}
-				d.DrawBitmap(frame2.Texture, x + frame2.Frame.CenterX + (int)alignmentVal, y + frame2.Frame.CenterY - 10,
+				d.DrawBitmap(frame2.Texture, x + frame2.Frame.PivotX + (int)alignmentVal, y + frame2.Frame.PivotY - 10,
 					frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-				d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX + (int)alignmentVal, y + frame.Frame.CenterY - 10,
+				d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + (int)alignmentVal, y + frame.Frame.PivotY - 10,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 				e.DrawUIButtonBack(d, x, y, 120, 20, frame.Frame.Width, frame.Frame.Height);
-				d.DrawBitmap(frame5.Texture, x + frame5.Frame.CenterX + (int)alignmentVal, y + frame5.Frame.CenterY,
+				d.DrawBitmap(frame5.Texture, x + frame5.Frame.PivotX + (int)alignmentVal, y + frame5.Frame.PivotY,
 					frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 
 

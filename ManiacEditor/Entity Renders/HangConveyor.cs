@@ -33,34 +33,34 @@ namespace ManiacEditor.Entity_Renders
                 var frameMid = editorAnimMid.Frames[Animation.index];
                 var frameMid2 = editorAnimMid2.Frames[Animation.index];
 
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX + (direction == 1 ? length / 2 : -(length / 2)),
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX + (direction == 1 ? length / 2 : -(length / 2)),
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 d.DrawBitmap(frameEnd.Texture,
-                    x + frameEnd.Frame.CenterX - (direction == 1 ? length / 2 : -(length / 2)),
-                    y + frameEnd.Frame.CenterY,
+                    x + frameEnd.Frame.PivotX - (direction == 1 ? length / 2 : -(length / 2)),
+                    y + frameEnd.Frame.PivotY,
                     frameEnd.Frame.Width, frameEnd.Frame.Height, false, Transparency);
 
-                int start_x = x + frameEnd.Frame.CenterX - length / 2 + frameEnd.Frame.Width - 6;
-                int start_x2 = x + frameEnd.Frame.CenterX - length / 2 + frameEnd.Frame.Width - 10;
+                int start_x = x + frameEnd.Frame.PivotX - length / 2 + frameEnd.Frame.Width - 6;
+                int start_x2 = x + frameEnd.Frame.PivotX - length / 2 + frameEnd.Frame.Width - 10;
                 int length2 = (length / 16 ) - 1;
                 for (int i = 0; i < length2; i++)
                 {
                     d.DrawBitmap(frameMid.Texture,
-                        start_x + frameMid.Frame.CenterX + 16*i,
-                        y - 21 + frameMid.Frame.CenterY,
+                        start_x + frameMid.Frame.PivotX + 16*i,
+                        y - 21 + frameMid.Frame.PivotY,
                         frameMid.Frame.Width, frameMid.Frame.Height, false, Transparency);
                 }
 
                 for (int i = 0; i < length2; i++)
                 {
                     d.DrawBitmap(frameMid2.Texture,
-                        start_x2 + frameMid2.Frame.CenterX + 16 * i,
-                        y + 21 + frameMid2.Frame.CenterY,
+                        start_x2 + frameMid2.Frame.PivotX + 16 * i,
+                        y + 21 + frameMid2.Frame.PivotY,
                         frameMid2.Frame.Width, frameMid2.Frame.Height, false, Transparency);
                 }
             }

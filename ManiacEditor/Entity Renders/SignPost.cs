@@ -19,8 +19,8 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
-                Animation.ProcessAnimation(1, frame.Entry.Frames.Count, frame.Frame.Duration);
-                d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                Animation.ProcessAnimation(1, frame.Entry.Frames.Count, frame.Frame.Delay);
+                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (Properties.Settings.Default.UsePrePlusOffsets)
@@ -33,7 +33,7 @@ namespace ManiacEditor.Entity_Renders
                         if (i == 1)
                             continue;
                         var frame = editorAnim.Frames[i];
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
                         if (i == 1)
                             continue;
                         var frame = editorAnim.Frames[i];
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.CenterX, y + frame.Frame.CenterY,
+                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }

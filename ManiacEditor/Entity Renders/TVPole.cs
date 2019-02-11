@@ -31,22 +31,22 @@ namespace ManiacEditor.Entity_Renders
                     if (xx == 0)
                     {
                         d.DrawBitmap(frame.Texture,
-                            x + (wEven ? frame2.Frame.CenterX : -frame.Frame.Width) + (-value / 2 + xx) * frame2.Frame.Width,
-                            y + frame2.Frame.CenterY,
+                            x + (wEven ? frame2.Frame.PivotX : -frame.Frame.Width) + (-value / 2 + xx) * frame2.Frame.Width,
+                            y + frame2.Frame.PivotY,
                             frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                     }
                     else if (xx == value)
                     {
                         d.DrawBitmap(frame3.Texture,
-                            x + (wEven ? frame3.Frame.CenterX : -frame3.Frame.Width) + (-value / 2 + xx) * frame3.Frame.Width,
-                            y + frame3.Frame.CenterY,
+                            x + (wEven ? frame3.Frame.PivotX : -frame3.Frame.Width) + (-value / 2 + xx) * frame3.Frame.Width,
+                            y + frame3.Frame.PivotY,
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                     }
                     else
                     {
                         d.DrawBitmap(frame2.Texture,
-                            x + (wEven ? frame2.Frame.CenterX : -frame2.Frame.Width) + (-value / 2 + xx) * frame2.Frame.Width,
-                            y + frame2.Frame.CenterY,
+                            x + (wEven ? frame2.Frame.PivotX : -frame2.Frame.Width) + (-value / 2 + xx) * frame2.Frame.Width,
+                            y + frame2.Frame.PivotY,
                             frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                     }
 

@@ -60,25 +60,25 @@ namespace ManiacEditor.Entity_Renders
                 var headA = nozzelA.Frames[0];
                 var headB = nozzelB.Frames[0];
 
-                Animation.ProcessAnimation(frame.Entry.FrameSpeed, frame.Entry.Frames.Count, frame.Frame.Duration);
+                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.CenterX,
-                    y + frame.Frame.CenterY,
+                    x + frame.Frame.PivotX,
+                    y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 if (valveType == 2 || valveType == 0)
                 {
                     d.DrawBitmap(headA.Texture,
-                        x - 21 - headA.Frame.CenterX,
-                        y - 12 - headA.Frame.CenterY,
+                        x - 21 - headA.Frame.PivotX,
+                        y - 12 - headA.Frame.PivotY,
                         headA.Frame.Width, headA.Frame.Height, false, Transparency);
                 }
                 if (valveType == 1 || valveType == 0)
                 {
                     d.DrawBitmap(headB.Texture,
-                        x + 12 + headB.Frame.CenterX,
-                        y - 12 - headB.Frame.CenterY,
+                        x + 12 + headB.Frame.PivotX,
+                        y - 12 - headB.Frame.PivotY,
                         headB.Frame.Width, headB.Frame.Height, false, Transparency);
                 }
             }
