@@ -240,19 +240,19 @@ namespace ManiacEditor
             if (x / tile_size / TileScale < tiles_per_line && tile_number >= 0 && tile_number < 0x400)
             {
                 SelectedTile = tile_number;
-                EditorInstance.ToolbarSelectedTile = tile_number.ToString();
-                EditorInstance.TilesToolbar.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
+				editTile0WithTileManiacToolStripMenuItem.Text = String.Format("Edit Tile {0} in Tile Maniac", tile_number);
+				editTile0WithTileManiacToolStripMenuItem.Enabled = true;
+				EditorInstance.ToolbarSelectedTile = tile_number.ToString();
 				if (rightClick)
 				{
-					EditorInstance.TilesToolbar.TileContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-					EditorInstance.TilesToolbar.TileContextMenu.IsOpen = true;
+					contextMenuStrip1.Show(this, e.Location);
 				}
 
             }
             else
             {
                 SelectedTile = -1;
-            }
+			}
 			graphicPanel.Render();
             EditorInstance.TilesToolbar.RefreshTileSelected();
         }
@@ -320,5 +320,10 @@ namespace ManiacEditor
 			TilesImage?.Dispose();
 			base.Dispose();
         }
-    }
+
+		private void editTile0WithTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			EditorInstance.TilesToolbar.editTileInTileManiacToolStripMenuItem_Click(null, null);
+		}
+	}
 }

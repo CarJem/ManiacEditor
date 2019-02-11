@@ -26,22 +26,4 @@ namespace ManiacEditor.Interfaces
             InitializeComponent();
         }
 	}
-	public static class ScrollBarExtensions
-	{
-		static void SetViewportSize(ScrollBar bar, double size)
-		{
-			var max = (bar.Maximum - bar.Minimum);
-			bar.ViewportSize = size / (max - size) * max;
-			bar.IsEnabled = (bar.ViewportSize >= 0 &&
-				bar.ViewportSize != double.PositiveInfinity);
-			InvalidateScrollBar(bar);
-		}
-
-		static void InvalidateScrollBar(ScrollBar bar)
-		{
-			var v = bar.Value;
-			bar.Value = (bar.Value == bar.Maximum) ? bar.Minimum : bar.Maximum;
-			bar.Value = v;
-		}
-	}
 }

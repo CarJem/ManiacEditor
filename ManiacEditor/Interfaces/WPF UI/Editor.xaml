@@ -694,7 +694,6 @@
                 </ToolBar.Resources>
             </ToolBar>
         </ToolBarTray>
-
         <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="5" Height="35" Grid.Row="1" BorderThickness="1" Foreground="{DynamicResource NormalText}" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
             <Label x:Name="positionLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator1" Visibility="Collapsed"/>

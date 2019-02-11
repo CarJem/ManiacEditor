@@ -304,7 +304,7 @@ namespace ManiacEditor
 			EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + EditorInstance.ToolbarSelectedTile;
 		}
 
-		private void editTileInTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
+		public void editTileInTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (EditorInstance.mainform == null || EditorInstance.mainform.IsClosed) EditorInstance.mainform = new TileManiacWPF.MainWindow();
 			if (EditorInstance.mainform.Visibility != Visibility.Visible)

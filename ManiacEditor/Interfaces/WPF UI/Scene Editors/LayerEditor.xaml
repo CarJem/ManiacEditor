@@ -33,14 +33,6 @@
                     <Separator></Separator>
                     <MenuItem Header="Move Selected Up" Click="btnUp_Click"></MenuItem>
                     <MenuItem Header="Move Selected Down" Click="btnDown_Click"></MenuItem>
-                    <ContextMenu.Template>
-                        <ControlTemplate>
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </ContextMenu.Template>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

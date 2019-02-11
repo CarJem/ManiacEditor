@@ -30,38 +30,24 @@
                     <Grid x:Name="TileSlider" Grid.Row="0">
                         <Slider ValueChanged="trackBar1_ValueChanged" x:Name="trackBar1" VerticalAlignment="Center" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
                     </Grid>
-                    <Grid x:Name="TileViewer" Grid.Row="1"></Grid>
-                    <Grid.ContextMenu>
-                        <ContextMenu x:Name="TileContextMenu">
-                            <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="editTileInTileManiacToolStripMenuItem_Click"></MenuItem>
-                            <ContextMenu.Template>
-                                <ControlTemplate>
-                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </ContextMenu.Template>
-                        </ContextMenu>
-                    </Grid.ContextMenu>
+                    <Grid x:Name="TileViewer" Grid.Row="1">
+                        <Grid.ContextMenu>
+                            <ContextMenu x:Name="TileContextMenu">
+                                <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="editTileInTileManiacToolStripMenuItem_Click"></MenuItem>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Chunks" Foreground="{DynamicResource NormalText}">
                 <Grid x:Name="ChunksPage">
                     <Grid.ContextMenu>
-                        <ContextMenu x:Name="ChunkContextMenu" Background="{DynamicResource NormalBakground}">
+                        <ContextMenu x:Name="ChunkContextMenu">
                             <MenuItem x:Name="removeChunk" Header="Remove Chunk"></MenuItem>
                             <MenuItem x:Name="replaceChunk" Header="Remove Chunk"></MenuItem>
                             <MenuItem x:Name="moveChunkUp" Header="Remove Chunk"></MenuItem>
                             <MenuItem x:Name="moveChunkDown" Header="Remove Chunk"></MenuItem>
-                            <ContextMenu.Template>
-                                <ControlTemplate>
-                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </ContextMenu.Template>
                         </ContextMenu>
                     </Grid.ContextMenu>
                 </Grid>
@@ -105,13 +91,6 @@
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="{x:Type Label}">
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
-            </Style>
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
-            </Style>
-
         </ResourceDictionary>
     </UserControl.Resources>
 </UserControl>

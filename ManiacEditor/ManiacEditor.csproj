@@ -409,7 +409,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
-    <Compile Include="DynamicCodeTest.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />

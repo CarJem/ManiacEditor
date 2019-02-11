@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:ManiacEditor.Interfaces"
              xmlns:maniac="clr-namespace:ManiacEditor"
              mc:Ignorable="d">
-    <ScrollBar x:Name="scroller" Height="15" Orientation="Horizontal" Margin="0,0,0,0"/>
+    <ScrollBar x:Name="scroller" Height="15" Orientation="Horizontal" Margin="0,0,0,0">
+    </ScrollBar>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,6 +18,6 @@
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
+        </ResourceDictionary>
     </UserControl.Resources>
 </UserControl>
