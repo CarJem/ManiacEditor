@@ -3,7 +3,7 @@ image: Visual Studio 2017
 skip_tags: true
 environment:
   matrix:
-    - BUILD: x86 (To Download Click Artifacts after clicking this link) (PLEASE AVOID USING THIS VERSION)___________________                            
+    - BUILD: x86 (To Download Click Artifacts after clicking this link)___________________                            
       appveyor_build_worker_image: Visual Studio 2017
       configuration: Release
       platform: x86     
@@ -25,6 +25,7 @@ install:
   - git submodule update --init --recursive
 build:
   verbosity: minimal
+  project: ManiacEditor
 artifacts:
  - path: 'ManiacEditor\bin\Release(x86)'
    name: 'ManiacEditor-Generations-BETA-$(appveyor_build_version)[x86]'
