@@ -3,20 +3,9 @@ image: Visual Studio 2017
 skip_tags: true
 environment:
   matrix:
-    - BUILD: Universal (x86 / x64) (To Download Click Artifacts for any of these entries below)                                                                
+    - BUILD: Universal (x86 / x64) (To Download Click Here and Then click Artifacts) ||| 
       appveyor_build_worker_image: Visual Studio 2017
       configuration: Release
-      platform: Any CPU
-    - BUILD: x86 Only                                                                                                                                                     
-      appveyor_build_worker_image: Visual Studio 2017
-      configuration: Release
-      platform: x86     
-    - BUILD: x64 Only
-      appveyor_build_worker_image: Visual Studio 2017
-      configuration: Release
-      platform: x64
-
-
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
