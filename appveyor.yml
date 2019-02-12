@@ -19,6 +19,8 @@ install:
   - git submodule update --init --recursive
   - cd RSDK-Reverse
   - nuget restore "RSDK Reverse.sln"
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - nuget restore "ManiacEditor.sln"
 build:
   verbosity: minimal
   project: ManiacEditor
