@@ -64,7 +64,7 @@
         </StackPanel>
 
         <Button x:Name="browse" Grid.Row="3" Grid.Column="0" Height="25" Content="Browse..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="browse_Click"></Button>
-        <Button IsEnabled="False" x:Name="selectButton" Height="25" Grid.Row="3" Grid.Column="0" Content="Select" Margin="0,5,10,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
+        <Button IsEnabled="False" x:Name="selectButton" Click="selectButton_Click" Height="25" Grid.Row="3" Grid.Column="0" Content="Select" Margin="0,5,10,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
 
         <Button Grid.Row="3" Grid.Column="1" Height="25" Content="Load Selected" Margin="0,5,190,5" Width="100" VerticalAlignment="Center" HorizontalAlignment="Right" Click="load_Click"></Button>
         <wpfTool:SplitButton x:Name="addButton" Grid.Row="3" Height="25" Grid.Column="1" Content="Add..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="addButton_Click">

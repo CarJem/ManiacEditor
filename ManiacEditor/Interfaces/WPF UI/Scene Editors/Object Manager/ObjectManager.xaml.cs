@@ -16,6 +16,7 @@ using System.Data;
 using System.Diagnostics;
 using Microsoft.Scripting.Utils;
 using RSDKv5;
+using System.Collections.ObjectModel;
 
 namespace ManiacEditor.Interfaces
 {
@@ -34,7 +35,9 @@ namespace ManiacEditor.Interfaces
 
 		public Editor EditorInstance;
 
-		public IList<CheckBox> lvObjects;
+		public ObservableCollection<CheckBox> lvObjects;
+
+		bool fullRefreshNeeded = false;
 
 		//Shorthanding Settings
 		Properties.Settings mySettings = Properties.Settings.Default;
@@ -52,7 +55,7 @@ namespace ManiacEditor.Interfaces
 			InitializeComponent();
 			_sourceSceneObjects = targetSceneObjects;
 			_sourceSceneObjectUID = new List<int>();
-			lvObjects = new List<CheckBox>();
+			lvObjects = new ObservableCollection<CheckBox>();
 			_targetSceneObjects = targetSceneObjects;
 			_stageConfig = stageConfig;
 			lvObjectsViewer.ItemsSource = lvObjects;
@@ -83,7 +86,6 @@ namespace ManiacEditor.Interfaces
 
 		private void btnCancel_Click(object sender, RoutedEventArgs e)
 		{
-			DialogResult = false;
 			Close();
 		}
 
@@ -151,8 +153,13 @@ namespace ManiacEditor.Interfaces
 
 		private void ReloadList()
 		{
-			addCheckedItems();
-			removeUncheckedItems();
+			if (!fullRefreshNeeded)
+			{
+
+				addCheckedItems();
+				removeUncheckedItems();
+				fullRefreshNeeded = false;
+			}
 			lvObjects.Clear();
 			var targetNames = _targetSceneObjects.Select(tso => tso.Name.ToString());
 			var importableObjects = _targetSceneObjects.Where(sso => targetNames.Contains(sso.Name.ToString()))
@@ -190,6 +197,7 @@ namespace ManiacEditor.Interfaces
 
 
 			}
+			lvObjectsViewer.Refresh();
 		}
 
 		public void RefreshList()
@@ -287,6 +295,7 @@ namespace ManiacEditor.Interfaces
 		private void importObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			EditorInstance.ImportObjectsToolStripMenuItem_Click(sender, null, GetWindow(this));
+			fullRefreshNeeded = true;
 			ReloadList();
 			// Blanks the list for some reason should consider fixing badly
 		}

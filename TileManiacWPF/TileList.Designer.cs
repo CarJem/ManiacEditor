@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            if (this.BackgroundImage != null)
-            {
-                //this.Images
-            }
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.SuspendLayout();
             // 

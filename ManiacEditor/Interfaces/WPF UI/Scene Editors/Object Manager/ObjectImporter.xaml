@@ -45,16 +45,6 @@
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
                 <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="{x:Type Image}">
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Opacity" Value="0.4" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-            <Style TargetType="{x:Type Label}">
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
-            </Style>
             <Style TargetType="{x:Type ComboBox}">
                 <Style.Triggers>
                     <Trigger Property="IsEnabled" Value="False">
@@ -96,26 +86,6 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>
-            <Style TargetType="{x:Type TextBox}">
-                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
-            </Style>
-            <Style TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
-            </Style>
-            <Style TargetType="{x:Type ListBox}">
-                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
-            </Style>
-            <Style TargetType="{x:Type ListView}">
-                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
             </Style>
 
 

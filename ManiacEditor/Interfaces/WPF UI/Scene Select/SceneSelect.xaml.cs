@@ -386,6 +386,7 @@ namespace ManiacEditor.Interfaces
 			this.scenesTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.scenesTree_NodeMouseDoubleClick);
 			this.scenesTree.Click += new System.EventHandler(this.scenesTree_Click);
 			this.scenesTree.MouseUp += new System.Windows.Forms.MouseEventHandler(this.scenesTree_MouseUp);
+			this.scenesTree.HideSelection = false;
 			// 
 			// recentDataDirList
 			// 
@@ -397,6 +398,7 @@ namespace ManiacEditor.Interfaces
 			this.recentDataDirList.TabIndex = 13;
 			this.recentDataDirList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.recentDataDirList_Click);
 			this.recentDataDirList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.recentDataDirList_NodeMouseDoubleClick);
+			this.recentDataDirList.HideSelection = false;
 
 
 			scenesTree.Show();
@@ -555,7 +557,7 @@ namespace ManiacEditor.Interfaces
 				isEncore = true;
 			}
 			Close();
-			if (withinAParentForm)
+			if (withinAParentForm && !EditorInstance.importingObjects)
 			{
 				EditorInstance.OpenScene(false, Result, LevelID, isEncore, isModLoaded, EditorInstance.ModDataDirectory);
 				isEncore = false;

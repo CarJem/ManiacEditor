@@ -82,34 +82,47 @@ namespace ManiacEditor.Interfaces
 		{
 			DialogResult = false;
 			Close();
+
 		}
 
 		private void btnImport_Click(object sender, RoutedEventArgs e)
 		{
-			DialogResult = true;
 
-			var CheckedItems = lvObjects.Where(item => item.IsChecked.Value == true).ToList().Count;
-			IList<CheckBox> lvObjects_CheckedItems = lvObjects.Where(item => item.IsChecked.Value == true).ToList();
-
-			foreach (var lvci in lvObjects_CheckedItems)
+			try
 			{
-				var item = lvci as CheckBox;
-				SceneObject objectToImport = _sourceSceneObjects.Single(sso => sso.Name.ToString().Equals(item.Content.ToString()));
-				objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
-				_targetSceneObjects.Add(_sourceSceneObjects.Single(sso => sso.Name.ToString().Equals(item.ToString())));
+				var CheckedItems = lvObjects.Where(item => item.IsChecked.Value == true).ToList().Count;
+				IList<CheckBox> lvObjects_CheckedItems = lvObjects.Where(item => item.IsChecked.Value == true).ToList();
 
-				if (EditorInstance.AddStageConfigEntriesAllowed)
+				foreach (var lvci in lvObjects_CheckedItems)
 				{
-					if (_stageConfig != null
-						&& !_stageConfig.ObjectsNames.Contains(item.ToString()))
+					var item = lvci as CheckBox;
+					SceneObject objectToImport = _sourceSceneObjects.Single(sso => sso.Name.ToString().Equals(item.Content.ToString()));
+					objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
+					_targetSceneObjects.Add(objectToImport);
+
+					if (EditorInstance.AddStageConfigEntriesAllowed)
 					{
-						_stageConfig.ObjectsNames.Add(item.ToString());
+						if (_stageConfig != null
+							&& !_stageConfig.ObjectsNames.Contains(item.ToString()))
+						{
+							_stageConfig.ObjectsNames.Add(item.ToString());
+						}
 					}
+
 				}
 
+				
+				DialogResult = true;
+				Close();
+			}
+			catch (Exception ex)
+			{
+				System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
+				DialogResult = false;
+				Close();
 			}
 
-			Close();
+
 		}
 
 		private void checkBox1_CheckedChanged(object sender, RoutedEventArgs e)

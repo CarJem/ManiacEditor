@@ -59,7 +59,7 @@
 			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editTile0WithTileManiacToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(224, 48);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(224, 26);
 			// 
 			// editTile0WithTileManiacToolStripMenuItem
 			// 
@@ -85,8 +85,8 @@
 		#endregion
 
         private System.Windows.Forms.Integration.ElementHost vScrollBar1Host;
-        private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem editTile0WithTileManiacToolStripMenuItem;
+		public System.Windows.Forms.Panel panel1;
 	}
 }

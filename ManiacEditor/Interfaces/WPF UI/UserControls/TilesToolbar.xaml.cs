@@ -17,7 +17,7 @@ namespace ManiacEditor
 		bool disposing = false;
 
 		public System.Windows.Forms.Panel tilePanel;
-		public Interfaces.RetroEDTileList retroEDTileList1;
+		public Interfaces.RetroEDTileList ChunkList;
 
 		public System.Windows.Forms.Integration.WindowsFormsHost host;
 		public System.Windows.Forms.Integration.WindowsFormsHost host3;
@@ -124,23 +124,28 @@ namespace ManiacEditor
 		{
 			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
-			this.retroEDTileList1 = new ManiacEditor.Interfaces.RetroEDTileList();
+			this.ChunkList = new ManiacEditor.Interfaces.RetroEDTileList(instance);
 			this.tilesList = new ManiacEditor.TilesList(instance);
+			this.tilesList.graphicPanel.KeyDown += TilePanel_KeyDown;
+			this.tilesList.graphicPanel.KeyUp += TilePanel_KeyUp;
+
 			this.tilePanel = new System.Windows.Forms.Panel();
 			// 
-			// retroEDTileList1
+			// ChunkList
 			// 
-			this.retroEDTileList1.BackColor = System.Drawing.SystemColors.Window;
-			this.retroEDTileList1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.retroEDTileList1.ImageHeight = 128;
-			this.retroEDTileList1.ImageSize = 128;
-			this.retroEDTileList1.ImageWidth = 128;
-			this.retroEDTileList1.Location = new System.Drawing.Point(3, 3);
-			this.retroEDTileList1.Name = "retroEDTileList1";
-			this.retroEDTileList1.ScrollValue = 0;
-			this.retroEDTileList1.SelectedIndex = -1;
-			this.retroEDTileList1.Size = new System.Drawing.Size(234, 290);
-			this.retroEDTileList1.TabIndex = 1;
+			this.ChunkList.BackColor = System.Drawing.SystemColors.Window;
+			this.ChunkList.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ChunkList.ImageHeight = 16 * 8;
+			this.ChunkList.ImageSize = 16 * 8;
+			this.ChunkList.ImageWidth = 16 * 8;
+			this.ChunkList.Location = new System.Drawing.Point(3, 3);
+			this.ChunkList.Name = "ChunkList";
+			this.ChunkList.ScrollValue = 0;
+			this.ChunkList.SelectedIndex = -1;
+			this.ChunkList.Size = new System.Drawing.Size(234, 290);
+			this.ChunkList.TabIndex = 1;
+			this.ChunkList.MouseClick += ChunkList_Click;
+			this.ChunkList.SelectedIndexChanged += ChunkList_SelectedIndexChanged;
 
 			// 
 			// tilePanel
@@ -157,7 +162,7 @@ namespace ManiacEditor
 
 
 			host.Child = tilePanel;
-			host3.Child = retroEDTileList1;
+			host3.Child = ChunkList;
 			TileViewer.Children.Add(host);
 			ChunksPage.Children.Add(host3);
 
@@ -179,6 +184,69 @@ namespace ManiacEditor
 			this.tilePanel.Controls.Add(this.tilesList);
 		}
 
+		private void TilePanel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			EditorInstance.EditorControls.GraphicPanel_OnKeyDown(sender, e);
+		}
+
+		private void TilePanel_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			EditorInstance.EditorControls.GraphicPanel_OnKeyUp(sender, e);
+		}
+
+		private void ChunkList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (EditorInstance.IsChunksEdit())
+			{
+				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
+
+			}
+		}
+
+		private void ChunkList_Click(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			ChunkList.moveChunkDownToolStripMenuItem.Enabled = false;
+			ChunkList.moveChunkUpToolStripMenuItem.Enabled = false;
+			if (e.Button == System.Windows.Forms.MouseButtons.Right)
+			{
+				if (ChunkList.SelectedIndex != -1)
+				{
+					ChunkList.removeChunkToolStripMenuItem.Enabled = true;
+					ChunkList.duplicateChunkToolStripMenuItem.Enabled = true;
+
+					ChunkList.contextMenuStrip1.Show(ChunkList, e.Location);
+				}
+				else
+				{
+					ChunkList.removeChunkToolStripMenuItem.Enabled = false;
+					ChunkList.duplicateChunkToolStripMenuItem.Enabled = false;
+
+					ChunkList.contextMenuStrip1.Show(ChunkList, e.Location);
+				}
+			}
+
+		}
+
+		public void RemoveChunk(int index)
+		{
+			EditorInstance.EditorChunk.StageStamps.StampList.RemoveAt(index);
+			ChunkList.Images.Clear();
+			EditorInstance.EditorChunk.DisposeTextures();
+			if (index != 0) ChunkList.SelectedIndex = index--;
+			else ChunkList.SelectedIndex = -1;
+
+
+
+			ChunksReload();
+		}
+
+		public void DuplicateChunk(int index)
+		{
+			EditorInstance.EditorChunk.StageStamps.StampList.Add(EditorInstance.EditorChunk.StageStamps.StampList[index]);
+
+			ChunksReload();
+		}
+
 		private void trackBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			if (disposing) return;
@@ -195,14 +263,17 @@ namespace ManiacEditor
 		public void ChunksReload()
 		{
 			if (disposing) return;
-			retroEDTileList1.Images.Clear();
+			ChunkList.Images.Clear();
 			EditorInstance.EditorChunk.DisposeTextures();
 
 			for (int i = 0; i < EditorInstance.EditorChunk.StageStamps.StampList.Count; i++)
 			{
-				retroEDTileList1.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
+				ChunkList.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
 			}
-			retroEDTileList1.Refresh();
+			int indexStorage = ChunkList.SelectedIndex;
+			ChunkList.SelectedIndex = -1;
+			ChunkList.SelectedIndex = indexStorage;
+			ChunkList.Refresh();
 		}
 
 		public void Dispose()
@@ -225,10 +296,10 @@ namespace ManiacEditor
 				tilePanel.Dispose();
 				tilePanel = null;
 			}
-			if (retroEDTileList1 != null)
+			if (ChunkList != null)
 			{
-				retroEDTileList1.Dispose();
-				retroEDTileList1 = null;
+				ChunkList.Dispose();
+				ChunkList = null;
 			}
 			if (host != null)
 			{
@@ -333,11 +404,16 @@ namespace ManiacEditor
 			if (e.Source is TabControl)
 			{
 				if (TabControl.SelectedIndex == 0) EditorInstance.ChunksToolButton.IsChecked = false;
-				else EditorInstance.ChunksToolButton.IsChecked = true;
+				else
+				{
+					EditorInstance.ChunksToolButton.IsChecked = true;
+					EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
+				}
 			}
 			if (TabControl.SelectedIndex == 0)
 			{
 				tilesList.graphicPanel.Render();
+				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + EditorInstance.ToolbarSelectedTile;
 			}
 
 		}

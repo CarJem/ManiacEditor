@@ -624,6 +624,8 @@ namespace ManiacEditor
 
 			waterColor = mySettings.WaterColorDefault;
 
+			
+
 
 			//Default Grid Preferences
 			if (!mySettings.x16Default) x16ToolStripMenuItem.IsChecked = false;
@@ -641,6 +643,21 @@ namespace ManiacEditor
 			customToolStripMenuItem1.IsChecked = mySettings.CollisionColorsDefault == 2;
 			collisionPreset = mySettings.CollisionColorsDefault;
 			RefreshCollisionColours();
+
+			if (mySettings.ScrollLockY)
+			{
+				mySettings.ScrollLockDirection = false;
+				xToolStripMenuItem.IsChecked = false;
+				yToolStripMenuItem.IsChecked = true;
+				scrollLockDirLabel.Content = "Scroll Lock Direction: Y";
+			}
+			else
+			{
+				mySettings.ScrollLockDirection = true;
+				xToolStripMenuItem.IsChecked = true;
+				yToolStripMenuItem.IsChecked = false;
+				scrollLockDirLabel.Content = "Scroll Lock Direction: X";
+			}
 
 		}
 
@@ -1029,6 +1046,7 @@ namespace ManiacEditor
 					ToolBarPanelRight.Children.Add(TilesToolbar);
 					UpdateToolbars(true, true);
 					Form1_Resize(null, null);
+					this.Focus();
 				}
 				if (IsChunksEdit()) TilesToolbar.TabControl.TabIndex = 1;
 				else TilesToolbar.TabControl.TabIndex = 0;
@@ -1041,6 +1059,7 @@ namespace ManiacEditor
 				{
 					TilesToolbar.Dispose();
 					TilesToolbar = null;
+					this.Focus();
 				}		
 			}
 			if (IsEntitiesEdit())
@@ -1836,25 +1855,32 @@ namespace ManiacEditor
 
 					if (e.Button == MouseButtons.Left)
 					{
-						int selectedIndex = TilesToolbar.retroEDTileList1.SelectedIndex;
-						// Place Stamp
-						if (selectedIndex != -1)
+						if (PlaceTilesButton.IsChecked.Value)
 						{
-							if (!EditorChunk.DoesChunkMatch(pC, EditorChunk.StageStamps.StampList[selectedIndex], EditLayer))
+							int selectedIndex = TilesToolbar.ChunkList.SelectedIndex;
+							// Place Stamp
+							if (selectedIndex != -1)
 							{
-								EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
-							}
+								if (!EditorChunk.DoesChunkMatch(pC, EditorChunk.StageStamps.StampList[selectedIndex], EditLayer))
+								{
+									EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
+								}
 
+							}
 						}
 					}
 
 					else if (e.Button == MouseButtons.Right)
 					{
-						if (!EditorChunk.IsChunkEmpty(pC, EditLayer))
+						if (PlaceTilesButton.IsChecked.Value)
 						{
-							// Remove Stamp Sized Area
-							EditorChunk.PasteStamp(pC, 0, EditLayer, true);
+							if (!EditorChunk.IsChunkEmpty(pC, EditLayer))
+							{
+								// Remove Stamp Sized Area
+								EditorChunk.PasteStamp(pC, 0, EditLayer, true);
+							}
 						}
+
 					}
 				}
 
@@ -2069,16 +2095,22 @@ namespace ManiacEditor
 						Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
 						Point pC = EditLayer.GetChunkCoordinates(p.X, p.Y);
 
-
-						int selectedIndex = TilesToolbar.retroEDTileList1.SelectedIndex;
-						// Place Stamp
-						if (selectedIndex != -1)
+						if (PlaceTilesButton.IsChecked.Value)
 						{
-							if (!EditorChunk.DoesChunkMatch(pC, EditorChunk.StageStamps.StampList[selectedIndex], EditLayer))
+							int selectedIndex = TilesToolbar.ChunkList.SelectedIndex;
+							// Place Stamp
+							if (selectedIndex != -1)
 							{
-								EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
-							}
+								if (!EditorChunk.DoesChunkMatch(pC, EditorChunk.StageStamps.StampList[selectedIndex], EditLayer))
+								{
+									EditorChunk.PasteStamp(pC, selectedIndex, EditLayer);
+								}
 
+							}
+						}
+						else if (PointerButton.IsChecked.Value)
+						{
+							EditLayer.Select(new Rectangle(pC.X * 128, pC.Y * 128, 8 * 16, 8 * 16));
 						}
 
 
@@ -2138,7 +2170,7 @@ namespace ManiacEditor
 					}
 					DeleteSelected();
 				}
-				else if (IsChunksEdit())
+				else if (IsChunksEdit() && PlaceTilesButton.IsChecked.Value)
 				{
 					Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
 					Point pC = EditLayer.GetChunkCoordinates(p.X, p.Y);
@@ -2148,11 +2180,13 @@ namespace ManiacEditor
 						// Remove Stamp Sized Area
 						EditorChunk.PasteStamp(pC, 0, EditLayer, true);
 					}
-
-
 				}
 			}
-			else if (e.Button == MouseButtons.Middle || Mouse.MiddleButton == MouseButtonState.Pressed)
+		}
+
+		public void ToggleScrollerMode(System.Windows.Forms.MouseEventArgs e)
+		{
+			if (!wheelClicked)
 			{
 				wheelClicked = true;
 				scrolling = true;
@@ -2179,6 +2213,16 @@ namespace ManiacEditor
 					scrolling = false;
 				}
 			}
+			else
+			{
+				wheelClicked = false;
+				if (scrollingDragged)
+				{
+					scrolling = false;
+					Cursor = Cursors.Arrow;
+				}
+			}
+
 		}
 
 		private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -2260,14 +2304,9 @@ namespace ManiacEditor
 					}
 				}
 			}
-			else if (e.Button == MouseButtons.Middle || Mouse.MiddleButton == MouseButtonState.Pressed)
+			else if (e.Button == MouseButtons.Middle)
 			{
-				wheelClicked = false;
-				if (scrollingDragged)
-				{
-					scrolling = false;
-					Cursor = Cursors.Arrow;
-				}
+				ToggleScrollerMode(e);
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
@@ -3653,24 +3692,9 @@ Error: {ex.Message}");
 
 		private void ObjectManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			try
-			{
-
-				var objectManager = new ManiacEditor.Interfaces.ObjectManager(EditorScene.Objects, StageConfig, this);
-				objectManager.Owner = Window.GetWindow(this);
-				objectManager.ShowDialog();
-
-				if (objectManager.DialogResult.Value != true)
-					return; // nothing to do
-
-				// user clicked Import, get to it!
-				UpdateControls();
-				entitiesToolbar?.RefreshSpawningObjects(EditorScene.Objects);
-			}
-			catch (Exception ex)
-			{
-				System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
-			}
+			var objectManager = new ManiacEditor.Interfaces.ObjectManager(EditorScene.Objects, StageConfig, this);
+			objectManager.Owner = Window.GetWindow(this);
+			objectManager.ShowDialog();
 		}
 
 		public void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -5355,7 +5379,12 @@ Error: {ex.Message}");
 
 		private void EditorViewWPF_KeyDown(object sender, KeyEventArgs e)
 		{
-			EditorControls.GraphicPanel_OnKeyDown(sender, KeyEventExts.ToWinforms(e));
+			var e2 = KeyEventExts.ToWinforms(e);
+			if (e2 != null)
+			{
+				EditorControls.GraphicPanel_OnKeyDown(sender, e2);
+			}
+
 		}
 
 		public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -5365,7 +5394,12 @@ Error: {ex.Message}");
 
 		private void EditorViewWPF_KeyUp(object sender, KeyEventArgs e)
 		{
-			EditorControls.GraphicPanel_OnKeyUp(sender, KeyEventExts.ToWinforms(e));
+			var e2 = KeyEventExts.ToWinforms(e);
+			if (e2 != null)
+			{
+				EditorControls.GraphicPanel_OnKeyUp(sender, e2);
+			}
+
 		}
 
 		private void MapEditor_Activated(object sender, EventArgs e)
@@ -5409,9 +5443,9 @@ Error: {ex.Message}");
 			}
 
 			editorView.Dispose();
-			editorView = null;
+			//editorView = null;
 			host.Child.Dispose();
-			host = null;
+			//host = null;
 
 
 

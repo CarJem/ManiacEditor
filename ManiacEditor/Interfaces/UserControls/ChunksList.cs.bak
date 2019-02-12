@@ -19,11 +19,7 @@ namespace ManiacEditor.Interfaces
     {
 		private Editor EditorInstance;
         private int selectedIndex = -1;
-		private System.Windows.Forms.Integration.ElementHost elementHost1;
-		private VScrollBar vScrollBar1Host;
-		private System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar1Host.scroller; }
-
-		[Browsable(false)]
+        [Browsable(false)]
         public int SelectedIndex
         {
             get { return selectedIndex; }
@@ -86,7 +82,7 @@ namespace ManiacEditor.Interfaces
             {
                 direction = value;
                 SuspendLayout();
-                //vScrollBar1.Visibility = !(hScrollBar1.Visible = value == Direction.Horizontal);
+                vScrollBar1.Visible = !(hScrollBar1.Visible = value == Direction.Horizontal);
                 ResumeLayout();
                 ChangeSize();
             }
@@ -100,7 +96,6 @@ namespace ManiacEditor.Interfaces
             InitializeComponent();
 			SetupHostScrollBar();
 			vScrollBar1Host.scroller.Scroll += vScrollBar1_Scroll;
-			vScrollBar1.ViewportSize = this.Height;
 			this.Controls.Add(elementHost1);
 		}
 
@@ -108,7 +103,7 @@ namespace ManiacEditor.Interfaces
 		private void SetupHostScrollBar()
 		{
 			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-			this.vScrollBar1Host = new ManiacEditor.Interfaces.VScrollBar();
+			this.vScrollBar1Host = new TileManiacWPF.VScrollBar();
 			// 
 			// elementHost1
 			// 
@@ -397,10 +392,9 @@ namespace ManiacEditor.Interfaces
                         vScrollBar1.Value += y;
                     if (y + actualImageHeight > Height)
                         vScrollBar1.Value += (y + actualImageHeight) - Height;
-					break;
+                    break;
             }
-
-		}
+        }
 
         void TileList_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {

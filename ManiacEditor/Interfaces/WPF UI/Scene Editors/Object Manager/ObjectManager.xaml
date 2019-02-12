@@ -139,16 +139,8 @@
                 <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
             </Style>
-            <Style TargetType="{x:Type ListBox}">
-                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
-            </Style>
-            <Style TargetType="{x:Type ListView}">
-                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
-            </Style>
+
+
 
 
 
