@@ -3,18 +3,20 @@ image: Visual Studio 2017
 skip_tags: true
 environment:
   matrix:
-    - BUILD: x86 (To Download Click Artifacts after clicking this link)_____________________________________________________                             
-      appveyor_build_worker_image: Visual Studio 2017
-      configuration: Release
-      platform: x86     
-    - BUILD: x64 (To Download Click Artifacts after clicking this link)_____________________________________________________                                              
-      appveyor_build_worker_image: Visual Studio 2017
-      configuration: Release
-      platform: x64
+    - BUILD: (To Download Click Artifacts after clicking this link) 
     - BUILD: Universal______________________________________________________________________________________________________                                          
       appveyor_build_worker_image: Visual Studio 2017
       configuration: Release
       platform: Any CPU
+    - BUILD: x86____________________________________________________________________________________________________________                             
+      appveyor_build_worker_image: Visual Studio 2017
+      configuration: Release
+      platform: x86     
+    - BUILD: x64____________________________________________________________________________________________________________
+      appveyor_build_worker_image: Visual Studio 2017
+      configuration: Release
+      platform: x64
+
 
 assembly_info:
   patch: true
@@ -36,4 +38,7 @@ artifacts:
    type: zip
  - path: 'ManiacEditor\bin\Release(x64)'
    name: 'ManiacEditor-Generations-BETA-$(appveyor_build_version)[x64]' 
+   type: zip
+ - path: 'ManiacEditor\bin\Release'
+   name: 'ManiacEditor-Generations-BETA-$(appveyor_build_version)[AnyCPU]' 
    type: zip
