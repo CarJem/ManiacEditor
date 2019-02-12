@@ -1082,7 +1082,6 @@
     <ProjectReference Include="..\RSDK-Reverse\RSDKv5\RSDKv5.csproj">
       <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
       <Name>RSDKv5</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\TileManiacWPF\Tile Maniac.csproj">
       <Project>{d4bebcd3-438f-4f11-9b31-e9b25aa53bfc}</Project>
