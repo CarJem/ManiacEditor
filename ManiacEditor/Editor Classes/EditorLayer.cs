@@ -400,6 +400,17 @@ namespace ManiacEditor
 			return ChunkCoordinate;
 		}
 
+		public Point GetChunkCoordinates(double x, double y)
+		{
+			Point ChunkCoordinate = new Point();
+			if (x != 0) ChunkCoordinate.X = (int)(x / 128);
+			else ChunkCoordinate.X = 0;
+			if (y != 0) ChunkCoordinate.Y = (int)(y / 128);
+			else ChunkCoordinate.Y = 0;
+
+			return ChunkCoordinate;
+		}
+
 		public void MoveSelectedQuonta(Point change)
         {
             MoveSelected(Point.Empty, new Point(change.X * TILE_SIZE, change.Y * TILE_SIZE), false);
@@ -1051,83 +1062,87 @@ namespace ManiacEditor
 
         private void DrawSelectedTiles(DevicePanel d, int x, int y, int Transperncy)
         {
-            foreach (Point p in SelectedTiles.GetChunkPoint(x, y))
-                if (SelectedTilesValue.ContainsKey(p))
-                    DrawTile(d, SelectedTilesValue[p], p.X, p.Y, !TempSelectionDeselect || !TempSelectionTiles.Contains(p), Transperncy);
+			foreach (Point p in SelectedTiles.GetChunkPoint(x, y))
+			{
+				if (d.IsObjectOnScreen(p.X * 16, p.Y * 16, 16, 16))
+				{
+					if (SelectedTilesValue.ContainsKey(p))
+						DrawTile(d, SelectedTilesValue[p], p.X, p.Y, !TempSelectionDeselect || !TempSelectionTiles.Contains(p), Transperncy);
 
 
-                else // It is still in the original place
-                    DrawTile(d, _layer.Tiles[p.Y][p.X], p.X, p.Y, !TempSelectionDeselect || !TempSelectionTiles.Contains(p), Transperncy);
-
+					else // It is still in the original place
+						DrawTile(d, _layer.Tiles[p.Y][p.X], p.X, p.Y, !TempSelectionDeselect || !TempSelectionTiles.Contains(p), Transperncy);
+				}
+			}
             foreach (Point p in TempSelectionTiles.GetChunkPoint(x, y)) {
                 if (SelectedTiles.Contains(p))
                 {
                     continue;
                 }
-                DrawTile(d, _layer.Tiles[p.Y][p.X], p.X, p.Y, true, Transperncy);
+				if (d.IsObjectOnScreen(p.X * 16, p.Y * 16, 16, 16))
+				{
+					DrawTile(d, _layer.Tiles[p.Y][p.X], p.X, p.Y, true, Transperncy);
+				}
             }
         }
 
         public void Draw(DevicePanel d)
         {
-            if (!Settings.mySettings.EntityFreeCam)
-            {
-                int Transperncy;
+			int Transperncy;
 
-                if (EditorInstance.EditLayer != null && EditorInstance.EditLayer != this)
-                    Transperncy = 0x32;
-                else if (EditorInstance.EditEntities.IsChecked.Value && EditorInstance.EditLayer == null && EditorInstance.applyEditEntitiesTransparency)
-                    Transperncy = 0x32;
-                else
-                    Transperncy = 0xFF;
+			if (EditorInstance.EditLayer != null && EditorInstance.EditLayer != this)
+				Transperncy = 0x32;
+			else if (EditorInstance.EditEntities.IsChecked.Value && EditorInstance.EditLayer == null && EditorInstance.applyEditEntitiesTransparency)
+				Transperncy = 0x32;
+			else
+				Transperncy = 0xFF;
 
-                Rectangle screen = d.GetScreen();
+			Rectangle screen = d.GetScreen();
+			int startX = screen.X, startY = screen.Y;
+			int width = screen.Width, height = screen.Height;
 
+			if (screen.X < 0 || screen.Y < 0 || (screen.X + screen.Width > this.Width * 128) || Properties.Settings.Default.EntityFreeCam)
+			{
+				startX = 0;
+				startY = 0;
+				width = this.Width * 128;
+				height = this.Height * 128;
+			}
 
-                int start_x = screen.X / (TILES_CHUNK_SIZE * TILE_SIZE);
-                int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures[0].Length);
-                int start_y = screen.Y / (TILES_CHUNK_SIZE * TILE_SIZE);
-                int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures.Length);
+			int start_x = startX / (TILES_CHUNK_SIZE * TILE_SIZE);
+			int end_x = Math.Min(DivideRoundUp(startX + width, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures[0].Length);
+			int start_y = startY / (TILES_CHUNK_SIZE * TILE_SIZE);
+			int end_y = Math.Min(DivideRoundUp(startY + height, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures.Length);
 
-                for (int y = start_y; y < end_y; ++y)
-                {
-                    for (int x = start_x; x < end_x; ++x)
-                    {
-                        Rectangle rect = GetTilesChunkArea(x, y);
-
-
-                        if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
-                        {
-                            // TODO: If the full chunk isDrawTilesChunk selected, cache it
-                            // draw one by one
-                            DrawTilesChunk(d, x, y, Transperncy);
-                        }
-                        else
-                        {
-                            d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * TILE_SIZE, rect.Y * TILE_SIZE, rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, false, Transperncy);
-                        }
-                        DrawSelectedTiles(d, x, y, Transperncy);
+			for (int y = start_y; y < end_y; ++y)
+			{
+				for (int x = start_x; x < end_x; ++x)
+				{
+					if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
+					{
+						Rectangle rect = GetTilesChunkArea(x, y);
 
 
-                    }
-                }
-            }
-            else
-            {
-            Rectangle screen = d.GetScreen();
+					if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
+					{
+						// TODO: If the full chunk isDrawTilesChunk selected, cache it
+						// draw one by one
+						DrawTilesChunk(d, x, y, Transperncy);
+					}
+					else
+					{
+						d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * TILE_SIZE, rect.Y * TILE_SIZE, rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, false, Transperncy);
+					}
 
-            int start_x = 0;
-            int end_x = EditorInstance.SceneWidth;
-            int start_y = 0;
-            int end_y = EditorInstance.SceneHeight;
-
-            d.DrawLine(start_x, start_y, end_x, start_y, System.Drawing.Color.White); //Top
-            d.DrawLine(start_x, end_y, end_x, end_y, System.Drawing.Color.White); //Bottom
-            d.DrawLine(start_x, start_y, start_x, end_y, System.Drawing.Color.White); //Left
-            d.DrawLine(end_x, start_y, end_x, end_y, System.Drawing.Color.White); //Left
+						DrawSelectedTiles(d, x, y, Transperncy);
+					}
 
 
-            }
+
+
+				}
+			}
+            
 
             
             

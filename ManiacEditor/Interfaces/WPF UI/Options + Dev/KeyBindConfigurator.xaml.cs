@@ -71,7 +71,6 @@ namespace ManiacEditor.Interfaces
 
 		private void SetupExistingKeybinds(string keyRefrence)
 		{
-
 			var keybindDict = Settings.myKeyBinds[keyRefrence] as StringCollection;
 			if (keybindDict != null) KeyBindsList = keybindDict.Cast<string>().ToArray();
 			KeyCount = KeyBindsList.Count();
@@ -136,6 +135,33 @@ namespace ManiacEditor.Interfaces
 		{
 			CurrentBindingKey = Keys.ShiftKey;
 			UpdateResultLabel();
+		}
+
+		private void AddButton_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("Not Implemented Yet", "Sorry!", MessageBoxButton.OK, MessageBoxImage.Question);
+		}
+
+		private void RemoveButton_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("Not Implemented Yet", "Sorry!", MessageBoxButton.OK, MessageBoxImage.Question);
+		}
+
+		private void ResetButton_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("You can not reverse this, do you want to continue?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			if (result == MessageBoxResult.Yes)
+			{
+				Properties.KeyBinds.Default[KeyRefrence] = (StringCollection)Properties.KeyBindDefaults.Default[KeyRefrence];
+				Properties.KeyBinds.Default.Save();
+				Properties.KeyBinds.Default.Reload();
+				KeysConverter kc = new KeysConverter();
+				CurrentBindingKey = (Keys)kc.ConvertFromString(KeyBindsList[ListIndex].ToString());
+
+				UpdateResultLabel();
+				SetupExistingKeybinds(KeyRefrence);
+				SetupListBox();
+			}
 		}
 	}
 }

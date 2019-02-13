@@ -13,11 +13,11 @@ namespace ManiacEditor.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
-    public sealed partial class KeyBinds : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class KeyBindDefaults : global::System.Configuration.ApplicationSettingsBase {
         
-        private static KeyBinds defaultInstance = ((KeyBinds)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new KeyBinds())));
+        private static KeyBindDefaults defaultInstance = ((KeyBindDefaults)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new KeyBindDefaults())));
         
-        public static KeyBinds Default {
+        public static KeyBindDefaults Default {
             get {
                 return defaultInstance;
             }

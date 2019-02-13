@@ -662,47 +662,103 @@ namespace ManiacEditor.Interfaces
 			{
 				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
 				{
-					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+					ProcessKeybindingButtons(t);
 				}
 			}
 			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(EditControls))
 			{
 				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
 				{
-					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+					ProcessKeybindingButtons(t);
 				}
 			}
 			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(ViewControls))
 			{
 				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
 				{
-					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+					ProcessKeybindingButtons(t);
 				}
 			}
 			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(ToolsControls))
 			{
 				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
 				{
-					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+					ProcessKeybindingButtons(t);
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(FolderControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					ProcessKeybindingButtons(t);
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(SceneControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					ProcessKeybindingButtons(t);
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(AppControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					ProcessKeybindingButtons(t);
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(OtherControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					ProcessKeybindingButtons(t);
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(LayerControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					ProcessKeybindingButtons(t);
+				}
+			}
+			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(MiscControls))
+			{
+				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+				{
+					ProcessKeybindingButtons(t);
 				}
 			}
 			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(MenuItemControls))
 			{
 				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
 				{
-					if (t.Tag != null) t.Content = KeyBindPraser(t.Tag.ToString());
+					ProcessKeybindingButtons(t);
 				}
 			}
 		}
 
-		private string KeyBindPraser(string keyRefrence)
+		private void ProcessKeybindingButtons(Button t)
 		{
-			if (keyRefrence == "NULL") return "N/A";
+			if (t.Tag != null)
+			{
+				System.Tuple<string,string> tuple = KeyBindPraser(t.Tag.ToString());
+				t.Content = tuple.Item1;
+				if (tuple.Item2 != null)
+				{
+					ToolTipService.SetShowOnDisabled(t, true);
+					t.ToolTip = tuple.Item2;
+				}
+			}
+		}
+
+		private Tuple<string,string> KeyBindPraser(string keyRefrence)
+		{
+			if (keyRefrence == "NULL") return new Tuple<string, string>("N/A", null);
 
 			List<string> keyBindList = new List<string>();
 			List<string> keyBindModList = new List<string>();
 
-			if (!Extensions.KeyBindsSettingExists(keyRefrence)) return "N/A";
+			if (!Extensions.KeyBindsSettingExists(keyRefrence)) return new Tuple<string, string>("N/A", null);
 
 			var keybindDict = Settings.myKeyBinds[keyRefrence] as StringCollection;
 			if (keybindDict != null)
@@ -711,25 +767,30 @@ namespace ManiacEditor.Interfaces
 			}
 			else
 			{
-				return "N/A";
+				return new Tuple<string, string>("N/A",null);
 			}
 
 			if (keyBindList == null)
 			{
-				return "N/A";
+				return new Tuple<string, string>("N/A", null);
 			}
 
 			if (keyBindList.Count > 1)
 			{
-				return string.Format("{0} Keybinds", keyBindList.Count);
+				string tooltip = "Possible Combos for this Keybind:";
+				foreach (string keyBind in keyBindList)
+				{
+					tooltip += Environment.NewLine + keyBind;
+				}
+				return new Tuple<string, string>(string.Format("{0} Keybinds", keyBindList.Count), tooltip);
 			}
 			else if ((keyBindList.Count == 1))
 			{
-				return keyBindList[0];
+				return new Tuple<string, string>(keyBindList[0], null);
 			}
 			else
 			{
-				return "N/A";
+				return new Tuple<string, string>("N/A", null);
 			}
 
 		}

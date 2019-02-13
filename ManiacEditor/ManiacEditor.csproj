@@ -795,6 +795,12 @@
     <Compile Include="Interfaces\WinForm UI\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\KeyBindDefaults.Designer.cs">
+      <DependentUpon>KeyBindDefaults.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Properties\KeyBinds.cs" />
     <Compile Include="WPF + Winform Stuff\KeyEventExt.cs" />
     <Compile Include="Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
@@ -932,6 +938,10 @@
     <Resource Include="Resources\Monitors\ErrorMonitor.gif" />
     <Resource Include="Resources\Icons\ColorPalette_alt.png" />
     <Resource Include="Resources\Monitors\WarningStatic2.gif" />
+    <None Include="Properties\KeyBindDefaults.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>KeyBindDefaults.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\LayerManagerWarning1.rtf" />
     <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
