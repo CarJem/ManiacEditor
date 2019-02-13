@@ -629,7 +629,12 @@ namespace ManiacEditor
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
                     }
-                }
+					else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.CopyAir)
+					{ 
+						SelectedTiles.Add(new Point(x, y));
+						RefreshTileCount();
+					}
+				}
             }
         }
 
@@ -647,7 +652,7 @@ namespace ManiacEditor
                     DeselectPoint(point);
                     RefreshTileCount();
                 }
-                else if (this._layer.Tiles[point.Y][point.X] != 0xffff)
+                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.CopyAir)
                 {
                     // Just add the point
                     SelectedTiles.Add(point);
@@ -665,7 +670,7 @@ namespace ManiacEditor
             {
                 for (int x = Math.Max(area.X / TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, TILE_SIZE), _layer.Width); ++x)
                 {
-                    if (SelectedTiles.Contains(new Point(x, y)) || _layer.Tiles[y][x] != 0xffff)
+                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || EditorInstance.CopyAir))
                     {
                         TempSelectionTiles.Add(new Point(x, y));
                         if (SelectedTiles.Contains(new Point(x, y)) && TempSelectionTiles.Contains(new Point(x, y)))
@@ -751,7 +756,7 @@ namespace ManiacEditor
             point = new Point(point.X / TILE_SIZE, point.Y / TILE_SIZE);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
-                return _layer.Tiles[point.Y][point.X] != 0xffff;
+                return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.CopyAir);
             }
             return false;
         }
@@ -798,36 +803,40 @@ namespace ManiacEditor
         }
 
         public void DrawTile(DevicePanel d, ushort tile, int x, int y, bool selected, int Transperncy)
-        {
-            ushort TileIndex = (ushort)(tile & 0x3ff);
-            int TileIndexInt = (int)TileIndex;
-            bool flipX = ((tile >> 10) & 1) == 1;
-            bool flipY = ((tile >> 11) & 1) == 1;
-            bool SolidTopA = ((tile >> 12) & 1) == 1;
-            bool SolidLrbA = ((tile >> 13) & 1) == 1;
-            bool SolidTopB = ((tile >> 14) & 1) == 1;
-            bool SolidLrbB = ((tile >> 15) & 1) == 1;
+		{
+			if (tile != 0xffff)
+			{
+				ushort TileIndex = (ushort)(tile & 0x3ff);
+				int TileIndexInt = (int)TileIndex;
+				bool flipX = ((tile >> 10) & 1) == 1;
+				bool flipY = ((tile >> 11) & 1) == 1;
+				bool SolidTopA = ((tile >> 12) & 1) == 1;
+				bool SolidLrbA = ((tile >> 13) & 1) == 1;
+				bool SolidTopB = ((tile >> 14) & 1) == 1;
+				bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            d.DrawBitmap(EditorInstance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
-            x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+				d.DrawBitmap(EditorInstance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+				x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 
-            if (EditorInstance.showFlippedTileHelper == true)
-            {
-                d.DrawBitmap(EditorInstance.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
-                x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
-            }
-            
-            if (EditorInstance.showTileID == true)
-            {
-                d.DrawBitmap(EditorInstance.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
-                x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
-            }
+				if (EditorInstance.showFlippedTileHelper == true)
+				{
+					d.DrawBitmap(EditorInstance.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+					x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+				}
+
+				if (EditorInstance.showTileID == true)
+				{
+					d.DrawBitmap(EditorInstance.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+					x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+				}
+			}
+
             if (selected)
             {
-                    d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
-                    d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
-                    d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
-                    d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
             }
         }
         public void DrawTile(Graphics g, ushort tile, int x, int y)
@@ -1075,12 +1084,12 @@ namespace ManiacEditor
 				}
 			}
             foreach (Point p in TempSelectionTiles.GetChunkPoint(x, y)) {
-                if (SelectedTiles.Contains(p))
-                {
-                    continue;
-                }
 				if (d.IsObjectOnScreen(p.X * 16, p.Y * 16, 16, 16))
 				{
+					if (SelectedTiles.Contains(p))
+					{
+						continue;
+					}
 					DrawTile(d, _layer.Tiles[p.Y][p.X], p.X, p.Y, true, Transperncy);
 				}
             }

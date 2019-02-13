@@ -347,18 +347,34 @@ namespace ManiacEditor
 
 		public bool isComboData(KeyEventArgs e, string key)
 		{
-			KeysConverter kc = new KeysConverter();
+			try
+			{
+				KeysConverter kc = new KeysConverter();
 
-			if (e.KeyData == (Keys)kc.ConvertFromString(key)) return true;
-			else return false;
+				if (e.KeyData == (Keys)kc.ConvertFromString(key)) return true;
+				else return false;
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
 		}
 
 		public bool isComboCode(KeyEventArgs e, string key)
 		{
-			KeysConverter kc = new KeysConverter();
+			try
+			{
+				KeysConverter kc = new KeysConverter();
 
-			if (e.KeyCode == (Keys)kc.ConvertFromString(key)) return true;
-			else return false;
+				if (e.KeyCode == (Keys)kc.ConvertFromString(key)) return true;
+				else return false;
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
 		}
 
 		public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
@@ -592,10 +608,74 @@ namespace ManiacEditor
 				}
 			}
 		}
+		public int previousX = 0;
+		public int previousY = 0;
+
+		public void GenerateMouseToolTip(System.Windows.Forms.MouseEventArgs e)
+		{
+			if (!Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel))
+			{
+				RemoveToolTip();
+			}
+			if (Editor.showMouseTooltip)
+			{
+				if (previousX != e.X && previousY != e.Y)
+				{
+					RemoveToolTip();
+
+					System.Windows.Controls.ToolTip tip = new System.Windows.Controls.ToolTip();
+					tip.Content += "Pixel Position:";
+					tip.Content += Environment.NewLine +  String.Format("X: {0}, Y: {1}", e.X, e.Y);
+
+					if (Editor.EditLayer != null)
+					{
+						tip.Content += Environment.NewLine + "Chunk Position:";
+						Point chunkPos = Editor.EditLayer.GetChunkCoordinates(e.X / Zoom, e.Y / Zoom);
+						tip.Content += Environment.NewLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
+						tip.Content += Environment.NewLine + "Tile Position:";
+						Point tilePos;
+						if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
+						else tilePos = new Point(e.X / 16, e.Y / 16);
+						tip.Content += Environment.NewLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
+					}
+					tip.Content += Environment.NewLine;
+					tip.Content += Environment.NewLine + String.Format("Copy Air: {0}", (Editor.CopyAir ? "ON" : "OFF"));
+					tip.Content += Environment.NewLine + String.Format("Swap Slot ID Mode: {0}", (Editor.rightClicktoSwapSlotID ? "ON" : "OFF"));
+					Editor.ViewPanelContextMenu.ToolTip = tip;
+					if (Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel)) tip.IsOpen = true;
+					previousX = e.X;
+					previousY = e.Y;
+				}
+			}
+
+
+			void RemoveToolTip()
+			{
+				System.Windows.Controls.ToolTip oldtip = (System.Windows.Controls.ToolTip)Editor.ViewPanelContextMenu.ToolTip;
+				if (oldtip != null) oldtip.IsOpen = false;
+			}
+
+
+		}
+
+		public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
+		{
+			if (Editor.EnablePixelCountMode == false)
+			{
+				Editor.positionLabel.Content = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
+			}
+			else
+			{
+				Editor.positionLabel.Content = "X: " + (int)((e.X / Zoom) / 16) + " Y: " + (int)((e.Y / Zoom) / 16);
+			}
+		}
+
 		public void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			if (Editor.InstanceID != -1 && !Editor.KickStartMegaManiacRenderLoopFinished) Editor.KickStartMegaManiacRenderLoop = true;
 			if (mySettings.allowForSmoothSelection) Editor.editorView.GraphicPanel.Render();
+
+			Common();
 
 			if (GameRunning) InGame();
 			if (ClickedX != -1) DraggingStarting();
@@ -614,6 +694,7 @@ namespace ManiacEditor
 				lastX = e.X;
 				lastY = e.Y;
 			}
+
 
 
 			void InGame()
@@ -1074,6 +1155,11 @@ namespace ManiacEditor
 					Editor.startDragged = false;
 				}
 			}
+			void Common()
+			{
+				UpdatePositionLabel(e);
+				GenerateMouseToolTip(e);
+			}
 		}
 		public void MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
@@ -1081,6 +1167,8 @@ namespace ManiacEditor
 			if (e.Button == MouseButtons.Left) Left();
 			else if (e.Button == MouseButtons.Right) Right();
 			else if (e.Button == MouseButtons.Middle) Middle();
+
+
 
 			Editor.UpdateControls();
 
@@ -1169,8 +1257,7 @@ namespace ManiacEditor
 					{
 						// So it was just click
 						Point clicked_point = new Point((int)(ClickedX / Zoom), (int)(ClickedY / Zoom));
-						Point chunk_point = Editor.EditLayer.GetChunkCoordinates(clicked_point.X, clicked_point.Y);
-						Point clicked_chunk = new Point(chunk_point.X * 128, chunk_point.Y * 128);
+
 						if (IsTilesEdit() && !IsChunksEdit()) TilesEdit();
 						else if (IsChunksEdit()) ChunksEdit();
 						else if (IsEntitiesEdit()) EntitiesEdit();
@@ -1185,6 +1272,8 @@ namespace ManiacEditor
 						}
 						void ChunksEdit()
 						{
+							Point chunk_point = Editor.EditLayer.GetChunkCoordinates(clicked_point.X, clicked_point.Y);
+							Point clicked_chunk = new Point(chunk_point.X * 128, chunk_point.Y * 128);
 							Editor.EditLayer.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.UpdateEditLayerActions();
 						}
@@ -1435,6 +1524,7 @@ namespace ManiacEditor
 			Editor.chunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
 			Editor.developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
 			Editor.saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
+			Editor.copyAirToggle.InputGestureText = KeyBindPraser("CopyAirTiles", false, true);
 		}
 
 		public void UpdateTooltips()

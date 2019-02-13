@@ -139,6 +139,8 @@ namespace ManiacEditor
 		public bool UseLargeDebugStats = false;
 		public bool collisionOpacityChanged = false;
 		public static bool UpdateUpdaterMessage = false;
+		public bool CopyAir = false;
+		public bool showMouseTooltip = false;
 
 
 		//Editor Variable States (Like Scroll Lock is in the X Direction)
@@ -246,7 +248,9 @@ namespace ManiacEditor
 		//public static Editor Instance; //Used the access this class easier
 		//public Editor ThisInstance;
 		internal EditorBackground EditorBackground;
-		public EditorLayer EditLayer;
+		public EditorLayer EditLayer { get => EditLayerA; set => EditLayerA = value; }
+		public EditorLayer EditLayerA;
+		public EditorLayer EditLayerB;
 		public TilesToolbar TilesToolbar = null;
 		public EntitiesToolbar2 entitiesToolbar = null;
 		public EditorEntity_ini EditorEntity_ini;
@@ -727,12 +731,12 @@ namespace ManiacEditor
 
 		public bool IsTilesEdit()
 		{
-			return EditLayer != null;
+			return EditLayerA != null;
 		}
 
 		public bool IsChunksEdit()
 		{
-			return ChunksToolButton.IsChecked.Value && EditLayer != null;
+			return ChunksToolButton.IsChecked.Value && EditLayerA != null;
 		}
 
 		public bool IsEntitiesEdit()
@@ -744,7 +748,7 @@ namespace ManiacEditor
 		{
 			if (IsTilesEdit())
 			{
-				return EditLayer.SelectedTiles.Count > 0 || EditLayer.TempSelectionTiles.Count > 0;
+				return EditLayerA.SelectedTiles.Count > 0 || EditLayerA.TempSelectionTiles.Count > 0;
 			}
 			else if (IsEntitiesEdit())
 			{
@@ -929,8 +933,16 @@ namespace ManiacEditor
 
 			editEntitiesOptionToolStrip.IsEnabled = enabled;
 
-			if (enabled && EditFGLow.IsChecked.Value) EditLayer = FGLow;
-			else if (enabled && EditFGHigh.IsChecked.Value) EditLayer = FGHigh;
+			if (enabled && EditFGLow.IsChecked.Value)
+			{
+				EditLayerA = FGLow;
+				//EditLayerB = FGHigh;
+			}
+			else if (enabled && EditFGHigh.IsChecked.Value)
+			{
+				EditLayerA = FGHigh;
+				//EditLayerB = FGLow;
+			}
 			else if (enabled && EditFGHigher.IsChecked.Value) EditLayer = FGHigher;
 			else if (enabled && EditFGLower.IsChecked.Value) EditLayer = FGLower;
 			else if (enabled && _extraLayerEditButtons.Any(elb => elb.IsChecked.Value))
@@ -2061,7 +2073,7 @@ namespace ManiacEditor
 
 		private void ResizeGraphicPanel(int width = 0, int height = 0)
 		{
-			/*
+			
             if (mySettings.EntityFreeCam)
             {
                 width = SceneWidth;
@@ -2076,7 +2088,7 @@ namespace ManiacEditor
 
             editorView.GraphicPanel.DrawWidth = (int)Math.Min(editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
             editorView.GraphicPanel.DrawHeight = (int)Math.Min(editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
-            */
+            
 		}
 
 		#endregion
@@ -2951,7 +2963,8 @@ Error: {ex.Message}");
 		{
 			if (IsTilesEdit() && !IsChunksEdit())
 			{
-				EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+				EditLayerA?.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+				//EditLayerB?.Select(new Rectangle(0, 0, 32768, 32768), true, false);
 				UpdateEditLayerActions();
 			}
 			else if (IsEntitiesEdit())
@@ -3623,6 +3636,30 @@ Error: {ex.Message}");
 			if (EditorScene != null)
 			{
 				entities.OptimizeSlotIDs();
+			}
+		}
+
+		private void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e)
+		{
+			if (rightClicktoSwapSlotIDs.IsChecked)
+			{
+				rightClicktoSwapSlotID = true;
+			}
+			else
+			{
+				rightClicktoSwapSlotID = false;
+			}
+		}
+
+		private void CopyAirToggle_Click(object sender, RoutedEventArgs e)
+		{
+			if (copyAirToggle.IsChecked)
+			{
+				CopyAir = true;
+			}
+			else
+			{
+				CopyAir = false;
 			}
 		}
 
@@ -5304,6 +5341,21 @@ Error: {ex.Message}");
 
 		}
 
+		private void TooltipButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (showMouseTooltip == false)
+			{
+				tooltipButton.IsChecked = true;
+				showMouseTooltip = true;
+
+			}
+			else
+			{
+				tooltipButton.IsChecked = false;
+				showMouseTooltip = false;
+			}
+		}
+
 		public void ScrollLockButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (mySettings.scrollLock == false)
@@ -6529,17 +6581,7 @@ Error: {ex.Message}");
 			
 		}
 
-		private void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e)
-		{
-			if (rightClicktoSwapSlotIDs.IsChecked)
-			{
-				rightClicktoSwapSlotID = true;
-			}
-			else
-			{
-				rightClicktoSwapSlotID = false;
-			}
-		}
+
 
 		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
 		{

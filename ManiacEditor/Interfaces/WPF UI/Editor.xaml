@@ -242,6 +242,9 @@
                 <MenuItem x:Name="overlayImageToolStripMenuItem" Header="Overlay Image" IsEnabled="False"/>
                 <MenuItem x:Name="multiLayerSelectionToolStripMenuItem" Header="Multi-Layer Selection Mode" IsEnabled="False"/>
                 <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID..." Click="changeLevelIDToolStripMenuItem_Click"/>
+                <MenuItem x:Name="editLayerOptionsToolStripMenuItem" Header="Edit Layer Options...">
+                    <MenuItem x:Name="copyAirToggle" Header="Copy Air Tiles" Click="CopyAirToggle_Click" IsCheckable="True"></MenuItem>
+                </MenuItem>
                 <MenuItem x:Name="entityEditOptions" Header="Entities Edit Tools...">
                     <MenuItem x:Name="rightClicktoSwapSlotIDs" Header="Right Click to Swap Slot IDs" IsCheckable="True" Click="RightClicktoSwapSlotIDs_Click"/>
                     <MenuItem x:Name="rightClicktoSwapSlotIDsNote" IsEnabled="False">
@@ -729,6 +732,8 @@
             </StatusBarItem>
             <StatusBarItem DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="tooltipButton" Content="Pointer Tooltip Mode" Click="TooltipButton_Click" HorizontalAlignment="Center" Padding="5"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="PixelModeButton_Click" HorizontalAlignment="Center" Padding="5"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />

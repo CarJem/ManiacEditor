@@ -50,6 +50,14 @@ namespace ManiacEditor
             }
         }
 
+		public static bool MouseIsOverGraphicsPanel(DevicePanel btn)
+		{
+			if (btn.ClientRectangle.Contains(btn.PointToClient(System.Windows.Forms.Cursor.Position)))
+			{
+				return true;
+			}
+			return false;
+		}
 		public static System.Windows.Media.Color ColorConvertToMedia(System.Drawing.Color input)
 		{
 			return System.Windows.Media.Color.FromArgb(input.A, input.R, input.G, input.B);
