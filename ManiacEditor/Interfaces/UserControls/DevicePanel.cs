@@ -41,30 +41,27 @@ namespace ManiacEditor
         public int DrawWidth;
         public int DrawHeight;
 
-
         public int ScreenPosWidth;
         public int ScreenPosHeight;
 
         private Sprite sprite;
-        private Sprite sprite2;
-        private Sprite HUD;
+		private Sprite sprite2;
+		private Sprite HUD;
         Texture tx;
         Bitmap txb;
-        Texture tcircle;
-        Texture tecircle;
-        Texture hvcursor;
-        Bitmap hvcursorb;
-        Texture vcursor;
-        Bitmap vcursorb;
-        Texture hcursor;
-        Bitmap hcursorb;
-        Bitmap tcircleb;
-        Bitmap tecircleb;
+		Texture hvcursor;
+		Bitmap hvcursorb;
+		Texture vcursor;
+		Bitmap vcursorb;
+		Texture hcursor;
+		Bitmap hcursorb;
 
-        public bool bRender = true;
 
-        // The DirectX device
-        public Device _device = null;
+		public bool bRender = true;
+		public bool tRender = false;
+
+		// The DirectX device
+		public Device _device = null;
         public bool deviceLost;
         private Direct3D direct3d = new Direct3D();
         private Font font;
@@ -85,7 +82,7 @@ namespace ManiacEditor
 
         #endregion
 
-        #region ctor
+        #region Constructor
 
         public DevicePanel(Editor instance = null)
         {
@@ -138,53 +135,34 @@ namespace ManiacEditor
                 _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
-                //_device.SetRenderState(RenderState.ZWriteEnable, false);
-                //_device.SetRenderState(RenderState.ZEnable, false);
+                _device.SetRenderState(RenderState.ZWriteEnable, false);
+                _device.SetRenderState(RenderState.ZEnable, false);
 
-                if (OnCreateDevice != null)
+				if (OnCreateDevice != null)
                 {
                     OnCreateDevice(this, new DeviceEventArgs(_device));
                 }
 
 
-                //vb = new VertexBuffer(typeof(CustomVertex.PositionTextured),
-                //vb = new VertexBuffer(new IntPtr(), 4, _device, Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionTextured.Format, Pool.Default);
-                //vb = new VertexBuffer(_device, 4, Usage.Dynamic | Usage.WriteOnly, VertexFormat.Position, Pool.Default);
 
-                //_device.SetStreamSource(0, vb, 0, 0);
-
-
-            txb = new Bitmap(1, 1);
+				txb = new Bitmap(1, 1);
                 using (Graphics g = Graphics.FromImage(txb))
                     g.Clear(Color.White);
+				hcursorb = new Bitmap(32, 32);
+				using (Graphics g = Graphics.FromImage(hcursorb))
+					Cursors.NoMoveHoriz.Draw(g, new Rectangle(0, 0, 32, 32));
+				MakeGray(hcursorb);
 
-                tcircleb = new Bitmap(9, 9);
-                using (Graphics g = Graphics.FromImage(tcircleb))
-                    g.FillEllipse(Brushes.White, new Rectangle(0, 0, 9, 9));
-            
-                tecircleb = new Bitmap(14, 14);
-                using (Graphics g = Graphics.FromImage(tecircleb))
-                    g.DrawEllipse(new Pen(Brushes.White), new Rectangle(0, 0, 13, 13));
-                
-                hcursorb = new Bitmap(32, 32);
-                using (Graphics g = Graphics.FromImage(hcursorb))
-                    Cursors.NoMoveHoriz.Draw(g, new Rectangle(0, 0, 32, 32));
-                MakeGray(hcursorb);
-                
-                vcursorb = new Bitmap(32, 32);
-                using (Graphics g = Graphics.FromImage(vcursorb))
-                    Cursors.NoMoveVert.Draw(g, new Rectangle(0, 0, 32, 32));
-                MakeGray(vcursorb);
-                
-                hvcursorb = new Bitmap(32, 32);
-                using (Graphics g = Graphics.FromImage(hvcursorb))
-                    Cursors.NoMove2D.Draw(g, new Rectangle(0, 0, 32, 32));
-                MakeGray(hvcursorb);
+				vcursorb = new Bitmap(32, 32);
+				using (Graphics g = Graphics.FromImage(vcursorb))
+					Cursors.NoMoveVert.Draw(g, new Rectangle(0, 0, 32, 32));
+				MakeGray(vcursorb);
 
-                if (parent != null)
-                {
-                    InitDeviceResources();
-                }
+				hvcursorb = new Bitmap(32, 32);
+				using (Graphics g = Graphics.FromImage(hvcursorb))
+					Cursors.NoMove2D.Draw(g, new Rectangle(0, 0, 32, 32));
+				MakeGray(hvcursorb);
+				if (parent != null) InitDeviceResources();
 
             }
             catch (SharpDXException ex)
@@ -221,18 +199,22 @@ namespace ManiacEditor
 
         public void Run()
         {
+			
 			RenderLoop.Run(this, () =>
 			{
 				// Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
-				if (bRender && !deviceLost) Render();
+				if (bRender || tRender)
+				{
+					Render();
+					//bRender = false;
+				}
 				if (mouseMoved)
 				{
 					OnMouseMove(lastEvent);
 					mouseMoved = false;
 				}
-
-
-			}, false);
+				// Application.DoEvents();
+			});
 		}
 
         public void InitDeviceResources()
@@ -242,8 +224,8 @@ namespace ManiacEditor
             HUD = new Sprite(_device);
 
             tx = TextureCreator.FromBitmap(_device, txb);
-            tcircle = TextureCreator.FromBitmap(_device, tcircleb);
-            tecircle = TextureCreator.FromBitmap(_device, tecircleb);
+            //tcircle = TextureCreator.FromBitmap(_device, tcircleb);
+            //tecircle = TextureCreator.FromBitmap(_device, tecircleb);
             hcursor = TextureCreator.FromBitmap(_device, hcursorb);
             vcursor = TextureCreator.FromBitmap(_device, vcursorb);
             hvcursor = TextureCreator.FromBitmap(_device, hvcursorb);
@@ -495,7 +477,9 @@ namespace ManiacEditor
         /// </summary>
         public void Render()
         {
-            if (Parent == null || _device == null || deviceLost || direct3d == null) return;
+
+
+			if (Parent == null || _device == null || deviceLost || direct3d == null) return;
 
 
             try
@@ -513,27 +497,23 @@ namespace ManiacEditor
 
                 if (EditorInstance.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
                 else HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
+				sprite2.Begin(SpriteFlags.AlphaBlend);
 
 
-                sprite2.Begin(SpriteFlags.AlphaBlend);
-
-
-                var state1 = _device.GetSamplerState(0, SamplerState.MinFilter);
-                var state2 = _device.GetSamplerState(0, SamplerState.MagFilter);
-                var state3 = _device.GetSamplerState(0, SamplerState.MipFilter);
-
-                // If zoomin, just do near-neighbor scaling
-                _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
+				var state1 = _device.GetSamplerState(0, SamplerState.MinFilter);
+				var state2 = _device.GetSamplerState(0, SamplerState.MagFilter);
+				var state3 = _device.GetSamplerState(0, SamplerState.MipFilter);
+				// If zoomin, just do near-neighbor scaling
+				_device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
 
                 HUD.Begin(SpriteFlags.AlphaBlend);
 
-                _device.SetSamplerState(0, SamplerState.MinFilter, state1);
-                _device.SetSamplerState(0, SamplerState.MagFilter, state2);
-                _device.SetSamplerState(0, SamplerState.MipFilter, state3);
-
-                if (zoom > 1)
+				_device.SetSamplerState(0, SamplerState.MinFilter, state1);
+				_device.SetSamplerState(0, SamplerState.MagFilter, state2);
+				_device.SetSamplerState(0, SamplerState.MipFilter, state3);
+				if (zoom > 1)
                 {
                     // If zoomin, just do near-neighbor scaling
                     _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
@@ -542,28 +522,22 @@ namespace ManiacEditor
                 }
                 sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack | SpriteFlags.DoNotModifyRenderState);
 
-
                 // Render of scene here
-                if (OnRender != null && !deviceLost)
-                {
-                    OnRender(this, new DeviceEventArgs(_device));
-                }
-
-
+                if (OnRender != null) OnRender(this, new DeviceEventArgs(_device));
 
                 sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
                 HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
 
-                Rectangle rect1 = new Rectangle(DrawWidth - screen.X, 0, Width - DrawWidth, Height);
-                rect1.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
-                Rectangle rect2 = new Rectangle(0, DrawHeight - screen.Y, DrawWidth, Height - DrawHeight);
-                rect2.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
-                DrawTexture(tx, new Rectangle(0, 0, rect1.Width, rect1.Height), new Vector3(0, 0, 0), new Vector3(rect1.X, rect1.Y, 0), SystemColors.Control);
-                DrawTexture(tx, new Rectangle(0, 0, rect2.Width, rect2.Height), new Vector3(0, 0, 0), new Vector3(rect2.X, rect2.Y, 0), SystemColors.Control);
 
-                sprite.End();
-                sprite2.End();
-                HUD.End();
+				Rectangle rect1 = new Rectangle(DrawWidth - screen.X, 0, Width - DrawWidth, Height);
+				rect1.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
+				Rectangle rect2 = new Rectangle(0, DrawHeight - screen.Y, DrawWidth, Height - DrawHeight);
+				rect2.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
+				DrawTexture(tx, new Rectangle(0, 0, rect1.Width, rect1.Height), new Vector3(0, 0, 0), new Vector3(rect1.X, rect1.Y, 0), SystemColors.Control);
+				DrawTexture(tx, new Rectangle(0, 0, rect2.Width, rect2.Height), new Vector3(0, 0, 0), new Vector3(rect2.X, rect2.Y, 0), SystemColors.Control);
+				sprite.End();
+				sprite2.End();
+				HUD.End();
                 //End the scene
                 _device.EndScene();
                 _device.Present();
@@ -575,86 +549,73 @@ namespace ManiacEditor
 			}
 }
 
-        #endregion
+		#endregion
 
-        #region Overrides
+		#region Overrides
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            // Render on each Paint
-            this.Render();
-        }
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			this.Render();
+		}
 
-        protected override void OnKeyPress(System.Windows.Forms.KeyPressEventArgs e)
-        {
-            /*// Close on escape
-            if ((int)(byte)e.KeyChar == (int)System.Windows.Forms.Keys.Escape)
-                _parent.Close();*/
-        }
-
-        protected override bool IsInputKey(Keys keyData)
-        {
-            switch (keyData)
-            {
-                case Keys.Up: return true;
-                case Keys.Down: return true;
-                case Keys.Right: return true;
-                case Keys.Left: return true;
-                case Keys.PageUp: return true;
-                case Keys.PageDown: return true;
-            }
-            return base.IsInputKey(keyData);
-        }
-
-        /*protected override void OnKeyDown(System.Windows.Forms.KeyEventArgs e)
-        {
-            MapEditor.Instance.GraphicPanel_OnKeyDown(null, e);
-        }
-
-        protected override void OnKeyUp(System.Windows.Forms.KeyEventArgs e)
-        {
-            MapEditor.Instance.GraphicPanel_OnKeyUp(null, e);
-        }*/
-
-        protected override Point ScrollToControl(Control activeControl)
+		protected override bool IsInputKey(Keys keyData)
+		{
+			switch (keyData)
+			{
+				case Keys.Up: return true;
+				case Keys.Down: return true;
+				case Keys.Right: return true;
+				case Keys.Left: return true;
+				case Keys.PageUp: return true;
+				case Keys.PageDown: return true;
+			}
+			return base.IsInputKey(keyData);
+		}
+		protected override Point ScrollToControl(Control activeControl)
         {
             return this.AutoScrollPosition;
         }
 
-        protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
-        {
-            lastEvent = e;
-            base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-        }
+		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
+		{
+			lastEvent = e;
+			base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+			bRender = true;
+		}
 
-        protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
-        {
-            base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-        }
+		protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
+		{
+			base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+			bRender = true;
+		}
 
-        protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
-        {
-            base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-        }
+		protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
+		{
+			base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+			bRender = true;
+		}
 
-        protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
-        {
-            base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-        }
+		protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
+		{
+			base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+			bRender = true;
+		}
 
-        protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
-        {
-            base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-        }
+		protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
+		{
+			base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+			bRender = true;
+		}
 
-        protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
-        {
-            base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-        }
+		protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
+		{
+			base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+			bRender = true;
+		}
 
-        #endregion
+		#endregion
 
-        public Rectangle GetScreen()
+		public Rectangle GetScreen()
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
@@ -685,21 +646,15 @@ namespace ManiacEditor
 
         private void DrawTexture(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
-            if (!deviceLost)
-            {
-                sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
-            }
+            sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);        
         }
+		private void DrawTexture2(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+		{
+			sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
 
-        private void DrawTexture2(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
-        {
-            if (!deviceLost)
-            {
-                sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
-            }
-            
-        }
-        private void DrawHUD(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+		}
+
+		private void DrawHUD(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
             HUD.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
         }
@@ -715,7 +670,6 @@ namespace ManiacEditor
 		{
 			Rectangle screen = _parent.GetScreen();
 			double zoom = _parent.GetZoom();
-
 			DrawHUD(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(), new Vector3(x1, y1, 0), color);
 		}
 
@@ -726,27 +680,7 @@ namespace ManiacEditor
             DrawHUD(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x, y, 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
         }
 
-        public void DrawCircle(int x, int y, Color color)
-        {
-            if (!IsObjectOnScreen(x - 4, y - 4, 9, 9)) return;
-            //tcircle = new Texture(_device, tcircleb, Usage.Dynamic, Pool.Default);
-
-            Rectangle screen = _parent.GetScreen();
-            double zoom = _parent.GetZoom();
-            DrawTexture(tcircle, new Rectangle(0, 0, 9, 9), new Vector3(0, 0, 0), new Vector3(x - 4 - (int)(screen.X / zoom), y - 4 - (int)(screen.Y / zoom), 0), color);
-        }
-
-        public void DrawEmptyCircle(int x, int y, Color color)
-        {
-            if (!IsObjectOnScreen(x - 6, y - 6, 14, 14)) return;
-            //tecircle = new Texture(_device, tecircleb, Usage.Dynamic, Pool.Default);
-
-            Rectangle screen = _parent.GetScreen();
-            double zoom = _parent.GetZoom();
-            DrawTexture(tecircle, new Rectangle(0, 0, 14, 14), new Vector3(0, 0, 0), new Vector3(x - 6 - (int)(screen.X / zoom), y - 6 - (int)(screen.Y / zoom), 0), color);
-        }
-
-        public void DrawLine(int X1, int Y1, int X2, int Y2, Color color)
+        public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color())
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
@@ -757,8 +691,6 @@ namespace ManiacEditor
             int pixel_width = Math.Max((int)zoom, 1);
 
             if (!IsObjectOnScreen(x, y, width, height)) return;
-
-            //tx = new Texture(_device, txb, Usage.Dynamic, Pool.Default);
 
 
             sprite.Transform = Matrix.Scaling(1f, 1f, 1f); 
@@ -789,8 +721,6 @@ namespace ManiacEditor
 
             if (!IsObjectOnScreen(x, y, width, height)) return;
 
-            //tx = new Texture(_device, txb, Usage.Dynamic, Pool.Default);
-
 
             sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
             /*
@@ -807,30 +737,6 @@ namespace ManiacEditor
                 DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
             //}
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
-        }
-
-        public void DrawSnowLines(int X1, int Y1, int X2, int Y2, Color color)
-        {
-            Rectangle screen = _parent.GetScreen();
-            double zoom = _parent.GetZoom();
-            int width = Math.Abs(X2 - X1);
-            int height = Math.Abs(Y2 - Y1);
-            int x = Math.Min(X1, X2);
-            int y = Math.Min(Y1, Y2);
-            int pixel_width = Math.Max((int)zoom, 1);
-
-            if (width == 0 || height == 0)
-            {
-                if (width == 0) width = 1;
-                else width = (int)(width * zoom);
-                if (height == 0) height = 1;
-                else height = (int)(height * zoom);
-                DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x)), (int)((y)), 0), color);
-            }
-            else
-            {
-                DrawLinePBP(X1, Y1, X2, Y2, color);
-            }
         }
 
         public void DrawArrow(int x0, int y0, int x1, int y1, Color color)
@@ -978,11 +884,11 @@ namespace ManiacEditor
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
-            //tx = new Texture(_device, txb, Usage.Dynamic, Pool.Default);
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
-        public void DrawText(string text, int x, int y, int width, Color color, bool bold)
+
+		public void DrawText(string text, int x, int y, int width, Color color, bool bold)
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
@@ -997,7 +903,7 @@ namespace ManiacEditor
         }
         public void DrawTextSmall(string text, int x, int y, int width, Color color, bool bold)
         {
-            Rectangle screen = _parent.GetScreen();
+			Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
             sprite.Transform = Matrix.Scaling((float)zoom / 4, (float)zoom / 4, 1f);
             if (width >= 10)
@@ -1010,38 +916,27 @@ namespace ManiacEditor
             }
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
-        public void Draw2DCursor(int x, int y)
-        {
-            //hvcursor = new Texture(_device, hvcursorb, Usage.Dynamic, Pool.Default);
-            if (!deviceLost)
-            {
-                DrawTexture2(hvcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-            }
+		public void Draw2DCursor(int x, int y)
+		{
+			DrawTexture2(hvcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
 
-        }
-        public void DrawHorizCursor(int x, int y)
-        {
-            //hcursor = new Texture(_device, hcursorb, Usage.Dynamic, Pool.Default);
-            if (!deviceLost)
-            {
-                DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-            }
-        }
+		}
+		public void DrawHorizCursor(int x, int y)
+		{
+			//hcursor = new Texture(_device, hcursorb, Usage.Dynamic, Pool.Default);
+			DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+		}
 
-        public void DrawVertCursor(int x, int y)
+		public void DrawVertCursor(int x, int y)
+		{
+			//vcursor = new Texture(_device, vcursorb, Usage.Dynamic, Pool.Default);
+			DrawTexture2(vcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+			DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+		}
+		public void OnMouseMoveEventCreate()
         {
-            //vcursor = new Texture(_device, vcursorb, Usage.Dynamic, Pool.Default);
-            if (!deviceLost)
-            {
-                DrawTexture2(vcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-                DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-            }
-        }
-
-        public void OnMouseMoveEventCreate()
-        {
-            Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y);
-        }
+           Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y);
+		}
 
         public void DisposeDeviceResources(int type = 0)
         {
@@ -1049,31 +944,6 @@ namespace ManiacEditor
             {
                 tx.Dispose();
                 tx = null;
-            }
-            if (tcircle != null)
-            {
-                tcircle.Dispose();
-                tcircle = null;
-            }
-            if (tecircle != null)
-            {
-                tecircle.Dispose();
-                tecircle = null;
-            }
-            if (hvcursor != null)
-            {
-                hvcursor.Dispose();
-                hvcursor = null;
-            }
-            if (vcursor != null)
-            {
-                vcursor.Dispose();
-                vcursor = null;
-            }
-            if (hcursor != null)
-            {
-                hcursor.Dispose();
-                hcursor = null;
             }
 
             if (font != null)
@@ -1091,11 +961,6 @@ namespace ManiacEditor
             {
                 sprite.Dispose();
                 sprite = null;
-            }
-            if (sprite2 != null || type == 1)
-            {
-                sprite2.Dispose();
-                sprite2 = null;
             }
             if (HUD != null || type == 1)
             {
@@ -1120,10 +985,6 @@ namespace ManiacEditor
             }
             
         }
-        public void ForceDisposeDeviceSpriteResources()
-        {
-
-        }
 
         public new void Dispose()
         {
@@ -1133,22 +994,6 @@ namespace ManiacEditor
             direct3d.Dispose();
             base.Dispose();
         }
-
-        public void UnloadingDispose()
-        {
-            DisposeDeviceResources();
-            _device.Dispose();
-            direct3d.Dispose();
-            base.Dispose();
-        }
-
-        public Image GetImage()
-        {
-            Surface backbuffer = _device.GetBackBuffer(0, 0);         
-            Image deviceImage = Image.FromStream(Surface.ToStream(backbuffer, ImageFileFormat.Png));
-            backbuffer.Dispose();
-            return deviceImage;
-        } 
 
 
     }

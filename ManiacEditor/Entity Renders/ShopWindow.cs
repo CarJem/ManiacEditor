@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ManiacEditor;
 using Microsoft.Xna.Framework;
-using ManiacEditor.Enums;
 using RSDKv5;
 using SystemColors = System.Drawing.Color;
 

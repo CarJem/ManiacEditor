@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using IronPython.Modules;
-using ManiacEditor.Enums;
 using RSDKv5;
 using SharpDX.Direct3D9;
 
@@ -25,10 +24,6 @@ namespace ManiacEditor
         public List<EditorEntity> entities = new List<EditorEntity>();
         public List<EditorEntity> selectedEntities = new List<EditorEntity>();
         public List<EditorEntity> tempSelection = new List<EditorEntity>();
-
-        public List<String> NotOnScreenKeys = new List<String>();
-        public List<String> OnScreenKeys = new List<String>();
-        public List<String> TrueNotOnScreenKeys = new List<String>();
 
         Dictionary<ushort, EditorEntity> entitiesBySlot = new Dictionary<ushort, EditorEntity>();
 
@@ -64,8 +59,7 @@ namespace ManiacEditor
 
         private void FindDuplicateIds()
         {
-            var groupedById = entities.GroupBy(e => e.Entity.SlotID)
-                                      .Where(g => g.Count()>1);
+            var groupedById = entities.GroupBy(e => e.Entity.SlotID).Where(g => g.Count()>1);
         }
 
         public List<string> GetObjects(List<RSDKv5.SceneObject> sceneObjects)
@@ -87,7 +81,6 @@ namespace ManiacEditor
             {
                 return "";
             }
-
         }
 
         private ushort getFreeSlot(RSDKv5.SceneEntity preferred)
@@ -297,7 +290,7 @@ namespace ManiacEditor
             foreach (var entity in selectedEntities)
             {
                 // Move them
-                    entity.Move(newPos);
+                entity.Move(newPos);
             }
         }
 
@@ -344,37 +337,15 @@ namespace ManiacEditor
 
         }
 
-        public void GraphicsDraw(DevicePanel d, Graphics g)
-        {
-            foreach (var entity in entities)
-            {
-                entity.Draw(d, entities, entity);
-            }
-            Image canvas = d.GetImage();
-            g.DrawImage(canvas, new Point(0, 0));
-        }
-
         public void Draw(DevicePanel d)
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-                entity.Draw(d, entities, entity);
+                entity.Draw(d);
             }
         }
-
-		public void PreLoadDraw(DevicePanel d)
-		{
-			EditorInstance.isPreRending = true;
-			if (FilterRefreshNeeded)
-				UpdateViewFilters();
-			foreach (var entity in entities)
-			{
-				entity.Draw(d, entities, entity);
-			}
-			EditorInstance.isPreRending = false;
-		}
 
 		public void DrawPriority(DevicePanel d, int prority)
         {
@@ -382,17 +353,16 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-                entity.layerPriority = prority;
-                entity.Draw(d, entities, entity);
-            }
+				entity.Draw(d, prority);
+			}
         }
 
-        /// <summary>
-        /// Creates a new instance of the given SceneObject at the indicated position.
-        /// </summary>
-        /// <param name="sceneObject">Type of SceneObject to create an instance of.</param>
-        /// <param name="position">Location to insert into the scene.</param>
-        public void Add(RSDKv5.SceneObject sceneObject, RSDKv5.Position position)
+		/// <summary>
+		/// Creates a new instance of the given SceneObject at the indicated position.
+		/// </summary>
+		/// <param name="sceneObject">Type of SceneObject to create an instance of.</param>
+		/// <param name="position">Location to insert into the scene.</param>
+		public void Add(RSDKv5.SceneObject sceneObject, RSDKv5.Position position)
         {
             var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, getFreeSlot(null)));
             editorEntity.Entity.Position = position;
@@ -450,12 +420,13 @@ namespace ManiacEditor
 
             return entity;
         }
-
         public void UpdateViewFilters()
         {
             FilterRefreshNeeded = false;
             foreach (EditorEntity entity in entities)
-                entity.SetFilter();
+			{
+				entity.SetFilter();
+			}
         }
         internal void Flip(FlipDirection direction)
         {

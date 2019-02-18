@@ -49,7 +49,7 @@ namespace ManiacEditor
             // Playback
             if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.AnnimationsChecked)
             {
-                if (speed > 0)
+				if (speed > 0)
                 {
                     int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
                     if (speed1 == 0)
@@ -60,7 +60,7 @@ namespace ManiacEditor
                         lastFrametime = DateTime.Now;
                     }
                 }
-            }
+			}
             else index = 0 + startFrame;
             if (index >= frameCount)
                 index = 0;
@@ -78,7 +78,7 @@ namespace ManiacEditor
             // Playback
             if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.MovingPlatformsChecked)
             {
-                if (speed > 0)
+				if (speed > 0)
                 {
                     int speed1 = (int)speed * 64 / (duration == 0 ? 256 : duration);
                     if (speed1 == 0)

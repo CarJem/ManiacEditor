@@ -38,7 +38,7 @@ namespace ManiacEditor
             UI.Run();
         }
 
-        public static void ChangeSkin(Skin newSkin)
+		public static void ChangeSkin(Skin newSkin)
         {
             Skin = newSkin;
 

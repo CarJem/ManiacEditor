@@ -146,8 +146,8 @@
                     </GroupBox>
                     <GroupBox Header="Scroll Lock Default" HorizontalAlignment="Left" Height="59" Margin="10,322,0,0" VerticalAlignment="Top" Width="193">
                         <Grid>
-                            <RadioButton Checked="radioButtonX_CheckedChanged_1" Unchecked="radioButtonX_CheckedChanged_1" x:Name="radioButtonX" Content="X" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,0,0,0" IsChecked="{maniac:SettingBinding ScrollLockX}"/>
-                            <RadioButton Checked="radioButtonY_CheckedChanged_1" Unchecked="radioButtonY_CheckedChanged_1" x:Name="radioButtonY" Content="Y" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-40,0,0,0" IsChecked="{maniac:SettingBinding ScrollLockY}"/>
+                            <RadioButton Checked="radioButtonX_CheckedChanged_1" Unchecked="radioButtonX_CheckedChanged_1" x:Name="radioButtonX" Content="X" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,0,0,0"/>
+                            <RadioButton Checked="radioButtonY_CheckedChanged_1" Unchecked="radioButtonY_CheckedChanged_1" x:Name="radioButtonY" Content="Y" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-40,0,0,0"/>
 
                         </Grid>
                     </GroupBox>
@@ -200,7 +200,7 @@
                             <CheckBox Content="Show Warp Door / Entity Arrow Paths" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,31,0,0" Height="16" IsChecked="{maniac:SettingBinding ShowEntityArrowPathsDefault}"/>
                             <CheckBox Content="Use Transparency when Editing Entities" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Height="16" IsChecked="{maniac:SettingBinding EditEntitiesTransparencyDefault}"/>
                             <CheckBox Content="Enable Pixel Count Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,73,0,0" Height="16" IsChecked="{maniac:SettingBinding EnablePixelModeDefault}"/>
-                            <CheckBox Content="Enable Scroll Lock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,196,0,0" Height="16" IsChecked="{maniac:SettingBinding ScrollLockDefault}"/>
+                            <CheckBox Content="Enable Scroll Lock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,196,0,0" Height="16" IsChecked="{maniac:SettingBinding ScrollLockEnabledDefault}"/>
                             <CheckBox Content="Show Entity Selection Boxes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,218,0,0" Height="16" IsChecked="{maniac:SettingBinding ShowEntitySelectionBoxesDefault}"/>
                             <CheckBox Content="Show Water Level" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="232,10,0,0" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding showWaterLevelDefault}"/>
                             <CheckBox Content="Always Show Water Level" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="248,31,0,0" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding AlwaysShowWaterLevelDefault}"/>
@@ -1020,6 +1020,10 @@
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
                                         <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
                                         <Label Content="Toggle Mania/Encore Entities"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="PointerTooltipToggle" IsEnabled="True"></Button>
+                                        <Label Content="Toggle Pointer Tooltip Visibility"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="4,4" Visibility="Visible">
                                         <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>

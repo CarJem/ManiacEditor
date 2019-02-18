@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Drawing;
 using RSDKv5;
 using ManiacEditor.Actions;
-using ManiacEditor.Enums;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -31,7 +30,8 @@ namespace ManiacEditor
 
 		private Stamps EditorStamps;
 
-		public IList<Bitmap> ChunkImages = new List<Bitmap>();
+		public IList<Bitmap> ChunkImagesA = new List<Bitmap>();
+		public IList<Bitmap> ChunkImagesAB = new List<Bitmap>();
 
 		public EditorChunk(Editor instance, StageTiles stageTiles, Stamps stageStamps)
 		{
@@ -62,7 +62,19 @@ namespace ManiacEditor
 
 		public Bitmap GetChunkTexture(int chunkIndex)
 		{
-			if (this.ChunkImages.ElementAtOrDefault(chunkIndex) != null) return this.ChunkImages[chunkIndex];
+			if (EditorInstance.EditLayerB != null)
+			{
+				return GetChunkTextureAB(chunkIndex);
+			}
+			else
+			{
+				return GetChunkTextureA(chunkIndex);
+			}
+		}
+
+		public Bitmap GetChunkTextureA(int chunkIndex)
+		{
+			if (this.ChunkImagesA.ElementAtOrDefault(chunkIndex) != null) return this.ChunkImagesA[chunkIndex];
 
 			Rectangle rect = new Rectangle(0, 0, 8, 8);
 
@@ -73,16 +85,49 @@ namespace ManiacEditor
 			{
 				for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
 				{
-					if (this.StageStamps.StampList[chunkIndex].TileMap[tx, ty] != 0xffff)
+					if (this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty] != 0xffff && EditorInstance.EditLayerA != null)
 					{
-						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMap[tx, ty], tx - rect.X, ty - rect.Y);
+						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty], tx - rect.X, ty - rect.Y);
+					}
+					if (this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty] != 0xffff && EditorInstance.EditLayerB != null)
+					{
+						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty], tx - rect.X, ty - rect.Y);
 					}
 				}
 			}
 			g.Flush();
 			g.Dispose();
-			this.ChunkImages.Insert(chunkIndex, bmp);
-			return this.ChunkImages[chunkIndex];
+			this.ChunkImagesA.Insert(chunkIndex, bmp);
+			return this.ChunkImagesA[chunkIndex];
+		}
+
+		public Bitmap GetChunkTextureAB(int chunkIndex)
+		{
+			if (this.ChunkImagesAB.ElementAtOrDefault(chunkIndex) != null) return this.ChunkImagesAB[chunkIndex];
+
+			Rectangle rect = new Rectangle(0, 0, 8, 8);
+
+			Bitmap bmp = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			Graphics g = Graphics.FromImage(bmp);
+			for (int ty = rect.Y; ty < rect.Y + rect.Height; ty++)
+			{
+				for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+				{
+					if (this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty] != 0xffff && EditorInstance.EditLayerA != null)
+					{
+						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty], tx - rect.X, ty - rect.Y);
+					}
+					if (this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty] != 0xffff && EditorInstance.EditLayerB != null)
+					{
+						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty], tx - rect.X, ty - rect.Y);
+					}
+				}
+			}
+			g.Flush();
+			g.Dispose();
+			this.ChunkImagesAB.Insert(chunkIndex, bmp);
+			return this.ChunkImagesAB[chunkIndex];
 		}
 
 		public void ConvertClipboardtoChunk(Dictionary<Point, ushort> points)
@@ -115,22 +160,82 @@ namespace ManiacEditor
 			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPoints));
 		}
 
-		public void PasteStamp(Point ChunkCoord, int index, EditorLayer EditLayer, bool deleteMode = false)
+		public void ConvertClipboardtoMultiLayerChunk(Dictionary<Point, ushort> pointsA, Dictionary<Point, ushort> pointsB = null)
+		{
+			if (pointsB == null)
+			{
+				ConvertClipboardtoChunk(pointsA);
+				return;
+			}
+
+			int minimumX_A = pointsA.Min(kvp => kvp.Key.X);
+			int minimumY_A = pointsA.Min(kvp => kvp.Key.Y);
+			int minimumX_B = pointsB.Min(kvp => kvp.Key.X);
+			int minimumY_B = pointsB.Min(kvp => kvp.Key.Y);
+
+			int minimumX = Math.Min(minimumX_A, minimumX_B);
+			int minimumY = Math.Min(minimumY_A, minimumY_B);
+
+			var keys_A = pointsA.Select(kvp => kvp.Key).ToList();
+			var values_A = pointsA.Select(kvp => kvp.Value).ToList();
+
+			var keys_B = pointsB.Select(kvp => kvp.Key).ToList();
+			var values_B = pointsB.Select(kvp => kvp.Value).ToList();
+
+			for (int i = 0; i < keys_A.Count; i++)
+			{
+				int x = keys_A[i].X - minimumX;
+				int y = keys_A[i].Y - minimumY;
+				keys_A[i] = new Point(x, y);
+			}
+
+			for (int i = 0; i < keys_B.Count; i++)
+			{
+				int x = keys_B[i].X - minimumX;
+				int y = keys_B[i].Y - minimumY;
+				keys_B[i] = new Point(x, y);
+			}
+
+			var convertedPointsA = keys_A.Zip(values_A, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
+			var convertedPointsB = keys_B.Zip(values_B, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
+			for (int y = 0; y < 8; y++)
+			{
+				for (int x = 0; x < 8; x++)
+				{
+					Point p = new Point(x, y);
+					if (!convertedPointsA.Keys.Contains(p)) convertedPointsA.Add(p, 0xffff);
+					if (!convertedPointsB.Keys.Contains(p)) convertedPointsB.Add(p, 0xffff);
+				}
+			}
+
+			var convertedPointsAFinal = convertedPointsA.OrderBy(x => x.Key.X).ThenBy(x => x.Key.Y).ToDictionary(x => x.Key, x => x.Value);
+			var convertedPointsBFinal = convertedPointsB.OrderBy(x => x.Key.X).ThenBy(x => x.Key.Y).ToDictionary(x => x.Key, x => x.Value);
+
+
+			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPointsAFinal, convertedPointsBFinal));
+		}
+
+		public void PasteStamp(Point ChunkCoord, int index, EditorLayer EditLayerA, EditorLayer EditLayerB, bool deleteMode = false)
 		{
 			Point TileCoord = new Point(ChunkCoord.X * 128, ChunkCoord.Y * 128);
-			Dictionary<Point, ushort> ConvertedChunk = new Dictionary<Point, ushort>();
+			Dictionary<Point, ushort> ConvertedChunkA = new Dictionary<Point, ushort>();
+			Dictionary<Point, ushort> ConvertedChunkB = new Dictionary<Point, ushort>();
 			if (deleteMode)
 			{
-				ConvertedChunk = ConvertChunktoClipboard(EditorStamps.StampList[0]);
+				ConvertedChunkA = ConvertChunkSideAtoClipboard(EditorStamps.StampList[0]);
+				ConvertedChunkB = ConvertChunkSideBtoClipboard(EditorStamps.StampList[0]);
 			}
 			else
 			{
-				ConvertedChunk = ConvertChunktoClipboard(StageStamps.StampList[index]);
+				ConvertedChunkA = ConvertChunkSideAtoClipboard(StageStamps.StampList[index]);
+				ConvertedChunkB = ConvertChunkSideBtoClipboard(StageStamps.StampList[index]);
 			}
 
-			EditLayer.PasteFromClipboard(TileCoord, ConvertedChunk);
+			EditLayerA?.PasteFromClipboard(TileCoord, ConvertedChunkA);
+			EditLayerB?.PasteFromClipboard(TileCoord, ConvertedChunkB);
 			EditorInstance.UpdateEditLayerActions();
-			EditLayer.Deselect();
+			EditLayerA?.Deselect();
+			EditLayerB?.Deselect();
 		}
 
 		public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, EditorLayer EditLayer, int chunkSize = 8)
@@ -141,7 +246,7 @@ namespace ManiacEditor
 				for (int y = 0; y < chunkSize; y++)
 				{
 					Point p = new Point((TileCoord.X / 16) + x, (TileCoord.Y / 16) + y);
-					if (CompareChunk.TileMap[x, y] == EditLayer.GetTileAt(p.X, p.Y)) continue;
+					if (CompareChunk.TileMapA[x, y] == EditLayer.GetTileAt(p.X, p.Y)) continue;
 					else
 					{
 						return false;
@@ -154,6 +259,7 @@ namespace ManiacEditor
 
 		public bool IsChunkEmpty(Point point, EditorLayer EditLayer, int chunkSize = 8)
 		{
+			if (EditLayer == null) return true;
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
 			for (int x = 0; x < chunkSize; x++)
 			{
@@ -169,9 +275,25 @@ namespace ManiacEditor
 		}
 		
 
-		public Dictionary<Point, ushort> ConvertChunktoClipboard(Stamps.TileChunk Chunk)
+		public Dictionary<Point, ushort> ConvertChunkSideAtoClipboard(Stamps.TileChunk Chunk)
 		{
-			ushort[,] ChunkData = Chunk.TileMap;
+			ushort[,] ChunkData = Chunk.TileMapA;
+			Dictionary<Point, ushort> ClipboardData = new Dictionary<Point, ushort>();
+
+			for (int x = 0; x < Chunk.ChunkSize; x++)
+			{
+				for (int y = 0; y < Chunk.ChunkSize; y++)
+				{
+					ClipboardData.Add(new Point(x, y), ChunkData[x, y]);
+				}
+			}
+
+			return ClipboardData;
+		}
+
+		public Dictionary<Point, ushort> ConvertChunkSideBtoClipboard(Stamps.TileChunk Chunk)
+		{
+			ushort[,] ChunkData = Chunk.TileMapB;
 			Dictionary<Point, ushort> ClipboardData = new Dictionary<Point, ushort>();
 
 			for (int x = 0; x < Chunk.ChunkSize; x++)
@@ -217,11 +339,16 @@ namespace ManiacEditor
 
 		public void DisposeTextures()
 		{
-			foreach (var image in ChunkImages)
+			foreach (var image in ChunkImagesA)
 			{
 				image.Dispose();
 			}
-			ChunkImages.Clear();
+			foreach (var image in ChunkImagesAB)
+			{
+				image.Dispose();
+			}
+			ChunkImagesA.Clear();
+			ChunkImagesAB.Clear();
 		}
 
 		public void AddTestMaps()

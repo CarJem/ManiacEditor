@@ -15,6 +15,13 @@
     <SolidColorBrush x:Key="ContextMenuCheckboxColor" Color="Black"/>
     <SolidColorBrush x:Key="HyperLinkColor" Color="#31A2F7"/>
 
+    <SolidColorBrush x:Key="EditLayerSelectedColor" Color="Blue"/>
+    <SolidColorBrush x:Key="EditLayerSelectedColorBack" Color="#232370"/>
+    <SolidColorBrush x:Key="EditLayerASelectedColor" Color="#05FF00"/>
+    <SolidColorBrush x:Key="EditLayerASelectedColorBack" Color="#237030"/>
+    <SolidColorBrush x:Key="EditLayerBSelectedColor" Color="#C900FF"/>
+    <SolidColorBrush x:Key="EditLayerBSelectedColorBack" Color="#692370"/>
+
     <SolidColorBrush x:Key="EnabledTab" Color="Gray"/>
     <SolidColorBrush x:Key="DisabledTab" Color="#FF343434"/>
 

@@ -1,5 +1,4 @@
-﻿using ManiacEditor.Enums;
-using RSDKv5;
+﻿using RSDKv5;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections;
@@ -26,9 +25,10 @@ namespace ManiacEditor
     {
         // Object Render List
         public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
+		public ClearScript render = new ClearScript();
 
-        // Object List for initilizing the if statement
-        public List<string> entityRenderingObjects;
+		// Object List for initilizing the if statement
+		public List<string> entityRenderingObjects;
         public List<string> renderOnScreenExlusions;
         public List<string> rendersWithErrors = new List<string>();
 
@@ -821,20 +821,20 @@ namespace ManiacEditor
             int Transparency = (EditorInstance.EditLayer == null) ? 0xff : 0x32;
             try
 			{
-
+				
 				if (!rendersWithErrors.Contains(entity.Object.Name.Name))
                 {
-                    if (entity.Object.Name.Name.Contains("Setup"))
+					/*if (entity.Object.Name.Name.Equals("Ring"))
+					{
+						render.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+					}*/
+					
+					if (entity.Object.Name.Name.Contains("Setup"))
                     {
                         EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
                         if (renderer != null)
                             renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
-					if (entity.Object.Name.Name.Equals("BreakableWall"))
-					{
-						BreakableWall renderer = new BreakableWall();
-						renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-					}
 					else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
                     {
                         EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
@@ -853,9 +853,9 @@ namespace ManiacEditor
                         if (renderer != null)
                             renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
-                }
+				}
 
-            }
+			}
             catch (Exception ex)
             {
 				if (!EditorInstance.isPreRending)
@@ -869,7 +869,7 @@ namespace ManiacEditor
 
         }
 
-        [Serializable]
+		[Serializable]
         public class EditorAnimation
         {
             public int loadedFrames = 0;

@@ -1,5 +1,4 @@
 ﻿using ManiacEditor.Entity_Renders;
-using ManiacEditor.Enums;
 using RSDKv5;
 using SharpDX.Direct3D9;
 using System;
@@ -259,23 +258,23 @@ namespace ManiacEditor
             return filteredOut;
         }
 
-        public void Draw(DevicePanel d, List<EditorEntity> editorEntities = null, EditorEntity entity = null)
+		public bool ValidPriorityPlane(int priority)
+		{
+			bool validPlane = false;
+			if (priority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, priority);
+			else validPlane = true;
+			
+			return validPlane;
+		}
+		public virtual void Draw(DevicePanel d, int priority)
+		{
+			if (!ValidPriorityPlane(priority)) return;
+			else Draw(d);
+		}
+
+		// allow derived types to override the draw
+		public virtual void Draw(DevicePanel d)
         {
-            Draw(d);
-        }
-
-        // allow derived types to override the draw
-        public virtual void Draw(DevicePanel d)
-        {
-            bool validPlane = false;
-
-            if (Properties.Settings.Default.PrioritizedObjectRendering)
-            {
-                if (layerPriority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, layerPriority);
-                else validPlane = true;
-                if (validPlane == false) return;
-            }
-
             bool skipRenderforx86 = false;
             if (entity.Object.Name.Name == "Player" && !EditorInstance.playerObjectPosition.Contains(entity))
             {
@@ -416,23 +415,26 @@ namespace ManiacEditor
 
 		public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
 		{
-			if (renderNotFound)
+			if (EditorInstance.showEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
 			{
-				if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
+				if (this.IsObjectOnScreen(d))
 				{
-					d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
-				}
-			}
-			if (this.IsObjectOnScreen(d) && EditorInstance.showEntitySelectionBoxes && !EditorInstance.isPreRending && !useOtherSelectionVisiblityMethod)
-			{
-				d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
-				d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-				d.DrawLine(x, y, x, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-				d.DrawLine(x, y + NAME_BOX_HEIGHT, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-				d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-				if (Properties.Settings.Default.UseObjectRenderingImprovements == false)
-				{
-					if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+					if (renderNotFound)
+					{
+						d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+					}
+					else
+					{
+						d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
+					}
+					d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+					d.DrawLine(x, y, x, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+					d.DrawLine(x, y + NAME_BOX_HEIGHT, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+					d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+					if (Properties.Settings.Default.UseObjectRenderingImprovements == false)
+					{
+						if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+					}
 				}
 			}
 		}

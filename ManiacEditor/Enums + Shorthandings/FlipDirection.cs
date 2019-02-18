@@ -1,4 +1,4 @@
-﻿namespace ManiacEditor.Enums
+﻿namespace ManiacEditor
 {
     public enum FlipDirection : ushort
     {

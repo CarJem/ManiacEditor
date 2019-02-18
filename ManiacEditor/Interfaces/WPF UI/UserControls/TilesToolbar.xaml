@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:local="clr-namespace:ManiacEditor"
              xmlns:maniac="clr-namespace:ManiacEditor"
              mc:Ignorable="d" 
@@ -11,6 +12,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="19"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -20,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Column="1" x:Name="SelectedTileLabel" Content="Selected Tile: N/A" HorizontalAlignment="Right"></Label>
-        <TabControl SelectionChanged="tabControl1_SelectedIndexChanged" x:Name="TabControl" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="5" Background="{DynamicResource NormalBackground}">
+        <TabControl SelectionChanged="tabControl1_SelectedIndexChanged" x:Name="TabControl" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="5" Background="{DynamicResource NormalBackground}">
             <TabItem MouseUp="TabItem_MouseUp" Header="Tiles" Foreground="{DynamicResource NormalText}">
                 <Grid x:Name="TilesPage">
                     <Grid.RowDefinitions>
@@ -40,7 +42,13 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        
+        <wpfTool:SplitButton IsEnabled="False" x:Name="TileChunkOptionsMenu" Grid.Column="2" Height="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,2">
+            <wpfTool:SplitButton.DropDownContent>
+                <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                    <MenuItem Header="Save Current Chunks to File" x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
+                </StackPanel>
+            </wpfTool:SplitButton.DropDownContent>
+        </wpfTool:SplitButton>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
             <StackPanel>
                 <CheckBox x:Name="option1CheckBox" Margin="5" Content="Flip Horizontal &#xD;&#xA;(Ctrl)" Checked="option1CheckBox_CheckedChanged" Unchecked="option1CheckBox_CheckedChanged"></CheckBox>

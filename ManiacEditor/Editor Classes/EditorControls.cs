@@ -13,7 +13,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.ComponentModel;
 using ManiacEditor.Actions;
-using ManiacEditor.Enums;
 using ManiacEditor.Properties;
 using RSDKv5;
 using SharpDX.Direct3D9;
@@ -30,11 +29,18 @@ namespace ManiacEditor
 
 		private bool mouseHeld = false;
 
+		[DllImport("User32.dll")]
+		private static extern bool SetCursorPos(int X, int Y);
+
 		#region Editor Definitions
+
+		public int previousX = 0;
+		public int previousY = 0;
 		private int select_x1 { get => Editor.select_x1; set => Editor.select_x1 = value; }
 		private int select_x2 { get => Editor.select_x2; set => Editor.select_x2 = value; }
 		private int select_y1 { get => Editor.select_y1; set => Editor.select_y1 = value; }
 		private int select_y2 { get => Editor.select_y2; set => Editor.select_y2 = value; }
+
 		private int selectingY { get => Editor.selectingY; set => Editor.selectingY = value; }
 		private int selectingX { get => Editor.selectingX; set => Editor.selectingX = value; }
 		private int ClickedY { get => Editor.ClickedY; set => Editor.ClickedY = value; }
@@ -51,7 +57,6 @@ namespace ManiacEditor
 
 		private double Zoom { get => Editor.Zoom; set => Editor.Zoom = value; }
 		private int ZoomLevel { get => Editor.ZoomLevel; set => Editor.ZoomLevel = value; }
-		private string scrollDirection { get => Editor.scrollDirection; set => Editor.scrollDirection = value; }
 
 		private bool IsChunksEdit() { return Editor.IsChunksEdit(); }
 		private bool IsTilesEdit() { return Editor.IsTilesEdit(); }
@@ -65,6 +70,9 @@ namespace ManiacEditor
 		private bool startDragged { get => Editor.startDragged; set => Editor.startDragged = value; }
 		private bool draggingSelection { get => Editor.draggingSelection; set => Editor.draggingSelection = value; }
 		private bool GameRunning { get => Editor.GameRunning; set => Editor.GameRunning = value; }
+
+		private int ScrollDirection { get => Editor.ScrollDirection; }
+		private bool ScrollLocked { get => Editor.ScrollLocked; }
 
 		private bool CtrlPressed() { return Editor.CtrlPressed(); }
 		private bool ShiftPressed() { return Editor.ShiftPressed(); }
@@ -109,8 +117,13 @@ namespace ManiacEditor
             {
                 Editor.NudgeFasterButton_Click(sender, null);
             }
-            // Scroll Lock Toggle
-            else if (isCombo(e, myKeyBinds.ScrollLock))
+			// Pointer ToolTip Toggle
+			if (isCombo(e, myKeyBinds.PointerTooltipToggle))
+			{
+				Editor.TooltipButton_Click(sender, null);
+			}
+			// Scroll Lock Toggle
+			else if (isCombo(e, myKeyBinds.ScrollLock))
             {
                 Editor.ScrollLockButton_Click(sender, null);
             }
@@ -323,6 +336,7 @@ namespace ManiacEditor
 		#region Keybind Checking and Prasing
 		public bool isCombo(KeyEventArgs e, StringCollection keyCollection, bool singleKey = false)
 		{
+
 			if (keyCollection == null) return false;
 			foreach (string key in keyCollection)
 			{
@@ -380,6 +394,7 @@ namespace ManiacEditor
 		public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
 		{
 			string nullString = (nonRequiredBinding ? "" : "N/A");
+			if (nonRequiredBinding && tooltip) nullString = "None";
 			List<string> keyBindList = new List<string>();
 			List<string> keyBindModList = new List<string>();
 
@@ -428,6 +443,8 @@ namespace ManiacEditor
 
 		#region Mouse Controls
 
+		bool ForceUpdateMousePos = false;
+
 		public void ToggleScrollerMode(System.Windows.Forms.MouseEventArgs e)
 		{
 
@@ -441,14 +458,17 @@ namespace ManiacEditor
 				if (Editor.editorView.vScrollBar1.IsVisible && Editor.editorView.hScrollBar1.IsVisible)
 				{
 					Editor.Cursor = System.Windows.Input.Cursors.ScrollAll;
+					SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
 				}
 				else if (Editor.editorView.vScrollBar1.IsVisible)
 				{
 					Editor.Cursor = System.Windows.Input.Cursors.ScrollWE;
+					SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
 				}
 				else if (Editor.editorView.hScrollBar1.IsVisible)
 				{
 					Editor.Cursor = System.Windows.Input.Cursors.ScrollNS;
+					SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
 				}
 				else
 				{
@@ -463,10 +483,163 @@ namespace ManiacEditor
 				{
 					scrolling = false;
 					Editor.Cursor = System.Windows.Input.Cursors.Arrow;
+					SetScrollerBorderApperance();
 				}
 			}
 
 		}
+		public void GenerateMouseToolTip(System.Windows.Forms.MouseEventArgs e)
+		{
+			if (!Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel))
+			{
+				RemoveToolTip();
+			}
+			if (Editor.showMouseTooltip)
+			{
+				if (previousX != e.X && previousY != e.Y)
+				{
+					RemoveToolTip();
+
+					System.Windows.Controls.ToolTip tip = new System.Windows.Controls.ToolTip();
+					tip.Content += "Pixel Position:";
+					tip.Content += Environment.NewLine + String.Format("X: {0}, Y: {1}", e.X, e.Y);
+
+					if (Editor.EditLayerA != null)
+					{
+						tip.Content += Environment.NewLine + "Chunk Position:";
+						Point chunkPos = Editor.EditLayerA.GetChunkCoordinates(e.X / Zoom, e.Y / Zoom);
+						tip.Content += Environment.NewLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
+						tip.Content += Environment.NewLine + "Tile Position:";
+						Point tilePos;
+						if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
+						else tilePos = new Point(e.X / 16, e.Y / 16);
+						tip.Content += Environment.NewLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
+					}
+					tip.Content += Environment.NewLine;
+					tip.Content += Environment.NewLine + String.Format("Copy Air: {0}", (Editor.CopyAir ? "ON" : "OFF"));
+					tip.Content += Environment.NewLine + String.Format("Swap Slot ID Mode: {0}", (Editor.rightClicktoSwapSlotID ? "ON" : "OFF"));
+					Editor.ViewPanelContextMenu.ToolTip = tip;
+					if (Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel)) tip.IsOpen = true;
+					previousX = e.X;
+					previousY = e.Y;
+				}
+			}
+
+
+			void RemoveToolTip()
+			{
+				System.Windows.Controls.ToolTip oldtip = (System.Windows.Controls.ToolTip)Editor.ViewPanelContextMenu.ToolTip;
+				if (oldtip != null) oldtip.IsOpen = false;
+			}
+
+
+		}
+		public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
+		{
+
+			if (Editor.EnablePixelCountMode == false)
+			{
+				Editor.positionLabel.Content = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
+			}
+			else
+			{
+				Editor.positionLabel.Content = "X: " + (int)((e.X / Zoom) / 16) + " Y: " + (int)((e.Y / Zoom) / 16);
+			}
+		}
+
+		public enum ScrollerModeDirection : int
+		{
+			N = 0,
+			NE = 1,
+			E = 2,
+			SE = 3,
+			S = 4,
+			SW = 5,
+			W = 6,
+			NW = 7,
+			WE = 8,
+			NS = 9,
+			ALL = 10
+		}
+		public void SetScrollerBorderApperance(int direction = -1)
+		{
+			var converter = new System.Windows.Media.BrushConverter();
+			var Active = (System.Windows.Media.Brush)converter.ConvertFromString("Red");
+			var NotActive = (System.Windows.Media.Brush)converter.ConvertFromString("Transparent");
+
+			Editor.ScrollBorderN.Fill = NotActive;
+			Editor.ScrollBorderS.Fill = NotActive;
+			Editor.ScrollBorderE.Fill = NotActive;
+			Editor.ScrollBorderW.Fill = NotActive;
+			Editor.ScrollBorderNW.Fill = NotActive;
+			Editor.ScrollBorderSW.Fill = NotActive;
+			Editor.ScrollBorderSE.Fill = NotActive;
+			Editor.ScrollBorderNE.Fill = NotActive;
+
+			switch (direction)
+			{
+				case 0:
+					Editor.ScrollBorderN.Fill = Active;
+					break;
+				case 1:
+					Editor.ScrollBorderNE.Fill = Active;
+					break;
+				case 2:
+					Editor.ScrollBorderE.Fill = Active;
+					break;
+				case 3:
+					Editor.ScrollBorderSE.Fill = Active;
+					break;
+				case 4:
+					Editor.ScrollBorderS.Fill = Active;
+					break;
+				case 5:
+					Editor.ScrollBorderSW.Fill = Active;
+					break;
+				case 6:
+					Editor.ScrollBorderW.Fill = Active;
+					break;
+				case 7:
+					Editor.ScrollBorderNW.Fill = Active;
+					break;
+				case 8:
+					Editor.ScrollBorderW.Fill = Active;
+					Editor.ScrollBorderE.Fill = Active;
+					break;
+				case 9:
+					Editor.ScrollBorderN.Fill = Active;
+					Editor.ScrollBorderS.Fill = Active;
+					break;
+				case 10:
+					Editor.ScrollBorderN.Fill = Active;
+					Editor.ScrollBorderS.Fill = Active;
+					Editor.ScrollBorderE.Fill = Active;
+					Editor.ScrollBorderW.Fill = Active;
+					Editor.ScrollBorderNW.Fill = Active;
+					Editor.ScrollBorderSW.Fill = Active;
+					Editor.ScrollBorderSE.Fill = Active;
+					Editor.ScrollBorderNE.Fill = Active;
+					break;
+				default:
+					break;
+
+			}
+
+		}
+		public void EnforceCursorPosition()
+		{
+			ForceUpdateMousePos = true;
+			System.Windows.Point pointFromParent = Editor.ViewPanelForm.TranslatePoint(new System.Windows.Point(0, 0), Editor);
+			SetCursorPos((int)(Editor.Left + pointFromParent.X) + (int)(Editor.ViewPanelForm.ActualWidth / 2), (int)(Editor.Left + pointFromParent.Y) + (int)(Editor.ViewPanelForm.ActualHeight / 2));
+		}
+
+		public void UpdateScrollerPosition(System.Windows.Forms.MouseEventArgs e)
+		{
+			Editor.scrollPosition = new Point(e.X - ShiftX, e.Y - ShiftY);
+			ForceUpdateMousePos = false;
+		}
+
+
 		public void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			mouseHeld = true;
@@ -474,6 +647,8 @@ namespace ManiacEditor
 
 			if (e.Button == MouseButtons.Left) Left();
 			else if (e.Button == MouseButtons.Right) Right();
+			else if (e.Button == MouseButtons.Middle) EnforceCursorPosition();
+
 
 			void Left()
 			{
@@ -494,7 +669,7 @@ namespace ManiacEditor
 							// Place tile
 							if (Editor.TilesToolbar.SelectedTile != -1)
 							{
-								Editor.EditorPlaceTile(new Point((int)(e.X / Zoom), (int)(e.Y / Zoom)), Editor.TilesToolbar.SelectedTile);
+								Editor.EditorPlaceTile(new Point((int)(e.X / Zoom), (int)(e.Y / Zoom)), Editor.TilesToolbar.SelectedTile, Editor.EditLayerA);
 							}
 						}
 						else
@@ -505,7 +680,7 @@ namespace ManiacEditor
 					void ChunksEdit()
 					{
 						Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-						Point pC = Editor.EditLayer.GetChunkCoordinates(p.X, p.Y);
+						Point pC = Editor.EditLayerA.GetChunkCoordinates(p.X, p.Y);
 
 						if (Editor.PlaceTilesButton.IsChecked.Value)
 						{
@@ -513,24 +688,27 @@ namespace ManiacEditor
 							// Place Stamp
 							if (selectedIndex != -1)
 							{
-								if (!Editor.EditorChunk.DoesChunkMatch(pC, Editor.EditorChunk.StageStamps.StampList[selectedIndex], Editor.EditLayer))
+								if (!Editor.EditorChunk.DoesChunkMatch(pC, Editor.EditorChunk.StageStamps.StampList[selectedIndex], Editor.EditLayerA))
 								{
-									Editor.EditorChunk.PasteStamp(pC, selectedIndex, Editor.EditLayer);
+									Editor.EditorChunk.PasteStamp(pC, selectedIndex, Editor.EditLayerA, Editor.EditLayerB);
 								}
 
 							}
 						}
 						else if (Editor.PointerButton.IsChecked.Value)
 						{
-							if (!Editor.EditorChunk.IsChunkEmpty(pC, Editor.EditLayer))
+							if (!Editor.EditorChunk.IsChunkEmpty(pC, Editor.EditLayerA) || !Editor.EditorChunk.IsChunkEmpty(pC, Editor.EditLayerB))
 							{
 								//Select a Chunk Sized Area
-								Editor.EditLayer.Select(new Rectangle(pC.X * 128, pC.Y * 128, 8 * 16, 8 * 16), true, true);
+								Editor.EditLayerA?.Select(new Rectangle(pC.X * 128, pC.Y * 128, 8 * 16, 8 * 16), true, true);
+								Editor.EditLayerB?.Select(new Rectangle(pC.X * 128, pC.Y * 128, 8 * 16, 8 * 16), true, true);
+
 							}
 							else if (Editor.EditorChunk.IsChunkEmpty(pC, Editor.EditLayer))
 							{
 								//Deselect Everything
-								Editor.EditLayer.Deselect();
+								Editor.EditLayerA?.Deselect();
+								Editor.EditLayerB?.Deselect();
 							}
 							//SetClickedXY(new Point((int)((pC.X * 128) * Zoom), (int)((pC.Y * 128) * Zoom)));
 						}
@@ -577,8 +755,7 @@ namespace ManiacEditor
 				}
 				void Scrolling()
 				{
-					scrolling = false;
-					Editor.Cursor = System.Windows.Input.Cursors.Arrow;
+					ToggleScrollerMode(e);
 				}
 			}
 			void Right()
@@ -589,9 +766,10 @@ namespace ManiacEditor
 				{
 					// Remove tile
 					Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-					if (!Editor.EditLayer.IsPointSelected(p))
+					if (!Editor.EditLayerA.IsPointSelected(p) || !Editor.EditLayerB.IsPointSelected(p))
 					{
-						Editor.EditLayer.Select(p);
+						Editor.EditLayerA?.Select(p);
+						Editor.EditLayerB?.Select(p);
 					}
 					Editor.DeleteSelected();
 				}
@@ -603,75 +781,14 @@ namespace ManiacEditor
 					if (!Editor.EditorChunk.IsChunkEmpty(pC, Editor.EditLayer))
 					{
 						// Remove Stamp Sized Area
-						Editor.EditorChunk.PasteStamp(pC, 0, Editor.EditLayer, true);
+						Editor.EditorChunk.PasteStamp(pC, 0, Editor.EditLayerA, Editor.EditLayerB, true);
 					}
 				}
 			}
 		}
-		public int previousX = 0;
-		public int previousY = 0;
-
-		public void GenerateMouseToolTip(System.Windows.Forms.MouseEventArgs e)
-		{
-			if (!Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel))
-			{
-				RemoveToolTip();
-			}
-			if (Editor.showMouseTooltip)
-			{
-				if (previousX != e.X && previousY != e.Y)
-				{
-					RemoveToolTip();
-
-					System.Windows.Controls.ToolTip tip = new System.Windows.Controls.ToolTip();
-					tip.Content += "Pixel Position:";
-					tip.Content += Environment.NewLine +  String.Format("X: {0}, Y: {1}", e.X, e.Y);
-
-					if (Editor.EditLayer != null)
-					{
-						tip.Content += Environment.NewLine + "Chunk Position:";
-						Point chunkPos = Editor.EditLayer.GetChunkCoordinates(e.X / Zoom, e.Y / Zoom);
-						tip.Content += Environment.NewLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
-						tip.Content += Environment.NewLine + "Tile Position:";
-						Point tilePos;
-						if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
-						else tilePos = new Point(e.X / 16, e.Y / 16);
-						tip.Content += Environment.NewLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
-					}
-					tip.Content += Environment.NewLine;
-					tip.Content += Environment.NewLine + String.Format("Copy Air: {0}", (Editor.CopyAir ? "ON" : "OFF"));
-					tip.Content += Environment.NewLine + String.Format("Swap Slot ID Mode: {0}", (Editor.rightClicktoSwapSlotID ? "ON" : "OFF"));
-					Editor.ViewPanelContextMenu.ToolTip = tip;
-					if (Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel)) tip.IsOpen = true;
-					previousX = e.X;
-					previousY = e.Y;
-				}
-			}
-
-
-			void RemoveToolTip()
-			{
-				System.Windows.Controls.ToolTip oldtip = (System.Windows.Controls.ToolTip)Editor.ViewPanelContextMenu.ToolTip;
-				if (oldtip != null) oldtip.IsOpen = false;
-			}
-
-
-		}
-
-		public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
-		{
-			if (Editor.EnablePixelCountMode == false)
-			{
-				Editor.positionLabel.Content = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
-			}
-			else
-			{
-				Editor.positionLabel.Content = "X: " + (int)((e.X / Zoom) / 16) + " Y: " + (int)((e.Y / Zoom) / 16);
-			}
-		}
-
 		public void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
+			if (ForceUpdateMousePos) UpdateScrollerPosition(e);
 			if (Editor.InstanceID != -1 && !Editor.KickStartMegaManiacRenderLoopFinished) Editor.KickStartMegaManiacRenderLoop = true;
 			if (mySettings.allowForSmoothSelection) Editor.editorView.GraphicPanel.Render();
 
@@ -680,7 +797,10 @@ namespace ManiacEditor
 			if (GameRunning) InGame();
 			if (ClickedX != -1) DraggingStarting();
 			if (scrolling) Scroller();
+			else if (e.Button == MouseButtons.Middle) EnforceCursorPosition();
 			if (IsEditing()) Editing();
+
+
 
 			if (IsChunksEdit())
 			{
@@ -694,7 +814,6 @@ namespace ManiacEditor
 				lastX = e.X;
 				lastY = e.Y;
 			}
-
 
 
 			void InGame()
@@ -731,23 +850,26 @@ namespace ManiacEditor
 				{
 					// There was just a click now we can determine that this click is dragging
 					Point clicked_point = new Point((int)(ClickedX / Zoom), (int)(ClickedY / Zoom));
-					if ((Editor.EditLayer?.IsPointSelected(clicked_point)).Value)
+					bool PointASelected = Editor.EditLayerA?.IsPointSelected(clicked_point) ?? false;
+					bool PointBSelected = Editor.EditLayerB?.IsPointSelected(clicked_point) ?? false;
+					if (PointASelected || PointBSelected)
 					{
 						// Start dragging the tiles
 						dragged = true;
 						startDragged = true;
-						Editor.EditLayer?.StartDrag();
-
+						Editor.EditLayerA?.StartDrag();
+						Editor.EditLayerB?.StartDrag();
 					}
 
-					else if (!Editor.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Editor.EditLayer?.HasTileAt(clicked_point)).Value)
+					else if (!Editor.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Editor.EditLayerA?.HasTileAt(clicked_point) ?? false) || (Editor.EditLayerB?.HasTileAt(clicked_point) ?? false))
 					{
 						// Start dragging the single selected tile
-						Editor.EditLayer?.Select(clicked_point);
+						Editor.EditLayerA?.Select(clicked_point);
+						Editor.EditLayerB?.Select(clicked_point);
 						dragged = true;
 						startDragged = true;
-						Editor.EditLayer?.StartDrag();
-
+						Editor.EditLayerA?.StartDrag();
+						Editor.EditLayerB?.StartDrag();
 					}
 
 					else
@@ -820,28 +942,72 @@ namespace ManiacEditor
 
 				if (xMove > 0)
 				{
-					if (yMove > 0) Editor.Cursor = System.Windows.Input.Cursors.ScrollSE;
-					else if (yMove < 0) Editor.Cursor = System.Windows.Input.Cursors.ScrollNE;
-					else Editor.Cursor = System.Windows.Input.Cursors.ScrollE;
+					if (yMove > 0)
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollSE;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.SE);
+					}
+					else if (yMove < 0)
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollNE;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.NE);
+					}
+					else
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollE;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.E);
+					}
 
 				}
 				else if (xMove < 0)
 				{
-					if (yMove > 0) Editor.Cursor = System.Windows.Input.Cursors.ScrollSW;
-					else if (yMove < 0) Editor.Cursor = System.Windows.Input.Cursors.ScrollNW;
-					else Editor.Cursor = System.Windows.Input.Cursors.ScrollW;
+					if (yMove > 0)
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollSW;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.SW);
+					}
+					else if (yMove < 0)
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollNW;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.NW);
+					}
+					else
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollW;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.W);
+					}
 
 				}
 				else
 				{
 
-					if (yMove > 0) Editor.Cursor = System.Windows.Input.Cursors.ScrollS;
-					else if (yMove < 0) Editor.Cursor = System.Windows.Input.Cursors.ScrollN;
+					if (yMove > 0)
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollS;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.S);
+					}
+					else if (yMove < 0)
+					{
+						Editor.Cursor = System.Windows.Input.Cursors.ScrollN;
+						SetScrollerBorderApperance((int)ScrollerModeDirection.N);
+					}
 					else
 					{
-						if (Editor.editorView.vScrollBar1.IsVisible && Editor.editorView.hScrollBar1.IsVisible) Editor.Cursor = System.Windows.Input.Cursors.ScrollAll;
-						else if (Editor.editorView.vScrollBar1.IsVisible) Editor.Cursor = System.Windows.Input.Cursors.ScrollNS;
-						else if (Editor.editorView.hScrollBar1.IsVisible) Editor.Cursor = System.Windows.Input.Cursors.ScrollWE;
+						if (Editor.editorView.vScrollBar1.IsVisible && Editor.editorView.hScrollBar1.IsVisible)
+						{
+							Editor.Cursor = System.Windows.Input.Cursors.ScrollAll;
+							SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
+						}
+						else if (Editor.editorView.vScrollBar1.IsVisible)
+						{
+							Editor.Cursor = System.Windows.Input.Cursors.ScrollNS;
+							SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
+						}
+						else if (Editor.editorView.hScrollBar1.IsVisible)
+						{
+							Editor.Cursor = System.Windows.Input.Cursors.ScrollWE;
+							SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
+						}
 					}
 
 				}
@@ -897,7 +1063,7 @@ namespace ManiacEditor
 							{
 								if (Editor.EditLayer.GetTileAt(p) != Editor.TilesToolbar.SelectedTile)
 								{
-									Editor.EditorPlaceTile(p, Editor.TilesToolbar.SelectedTile);
+									Editor.EditorPlaceTile(p, Editor.TilesToolbar.SelectedTile, Editor.EditLayerA);
 								}
 								else if (!Editor.EditLayer.IsPointSelected(p))
 								{
@@ -908,9 +1074,10 @@ namespace ManiacEditor
 						else if (e.Button == MouseButtons.Right)
 						{
 							// Remove tile
-							if (!Editor.EditLayer.IsPointSelected(p))
+							if (!(bool)Editor.EditLayerA?.IsPointSelected(p) || !(bool)Editor.EditLayerB?.IsPointSelected(p))
 							{
-								Editor.EditLayer.Select(p);
+								Editor.EditLayerA.Select(p);
+								Editor.EditLayerB.Select(p);
 							}
 							Editor.DeleteSelected();
 
@@ -932,7 +1099,7 @@ namespace ManiacEditor
 							{
 								if (!Editor.EditorChunk.DoesChunkMatch(pC, Editor.EditorChunk.StageStamps.StampList[selectedIndex], Editor.EditLayer))
 								{
-									Editor.EditorChunk.PasteStamp(pC, selectedIndex, Editor.EditLayer);
+									Editor.EditorChunk.PasteStamp(pC, selectedIndex, Editor.EditLayerA, Editor.EditLayerB);
 								}
 
 							}
@@ -946,7 +1113,7 @@ namespace ManiacEditor
 							if (!Editor.EditorChunk.IsChunkEmpty(pC, Editor.EditLayer))
 							{
 								// Remove Stamp Sized Area
-								Editor.EditorChunk.PasteStamp(pC, 0, Editor.EditLayer, true);
+								Editor.EditorChunk.PasteStamp(pC, 0, Editor.EditLayerA, Editor.EditLayerB, true);
 							}
 						}
 
@@ -1029,7 +1196,9 @@ namespace ManiacEditor
 								select_y1 = (int)(eC.Y / Zoom);
 								select_y2 = (int)(selectingY / Zoom);
 							}
-							Editor.EditLayer?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
+							Editor.EditLayerA?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
+							Editor.EditLayerB?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
+
 							Editor.UpdateTilesOptions();
 						}
 					}
@@ -1051,7 +1220,9 @@ namespace ManiacEditor
 								select_y1 = (int)(e.Y / Zoom);
 								select_y2 = (int)(selectingY / Zoom);
 							}
-							Editor.EditLayer?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
+							Editor.EditLayerA?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
+							Editor.EditLayerB?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
+
 							Editor.UpdateTilesOptions();
 
 							if (IsEntitiesEdit()) Editor.entities.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
@@ -1093,7 +1264,8 @@ namespace ManiacEditor
 					Point newPoint = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
 
 
-					Editor.EditLayer?.MoveSelected(oldPoint, newPoint, CtrlPressed());
+					Editor.EditLayerA?.MoveSelected(oldPoint, newPoint, CtrlPressed());
+					Editor.EditLayerB?.MoveSelected(oldPoint, newPoint, CtrlPressed());
 
 					Editor.UpdateEditLayerActions();
 					if (IsEntitiesEdit())
@@ -1206,7 +1378,8 @@ namespace ManiacEditor
 								y1 = (int)(eC.Y / Zoom);
 								y2 = (int)(selectingY / Zoom);
 							}
-							Editor.EditLayer?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerA?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 
 							if (IsEntitiesEdit()) Editor.entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.SetSelectOnlyButtonsState();
@@ -1214,7 +1387,9 @@ namespace ManiacEditor
 
 						}
 						draggingSelection = false;
-						Editor.EditLayer?.EndTempSelection();
+						Editor.EditLayerA?.EndTempSelection();
+						Editor.EditLayerB?.EndTempSelection();
+
 						if (IsEntitiesEdit()) Editor.entities.EndTempSelection();
 					}
 					void Normal()
@@ -1234,7 +1409,8 @@ namespace ManiacEditor
 								y1 = (int)(e.Y / Zoom);
 								y2 = (int)(selectingY / Zoom);
 							}
-							Editor.EditLayer?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerA?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 
 							if (IsEntitiesEdit()) Editor.entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.SetSelectOnlyButtonsState();
@@ -1242,7 +1418,9 @@ namespace ManiacEditor
 
 						}
 						draggingSelection = false;
-						Editor.EditLayer?.EndTempSelection();
+						Editor.EditLayerA?.EndTempSelection();
+						Editor.EditLayerB?.EndTempSelection();
+
 						if (IsEntitiesEdit()) Editor.entities.EndTempSelection();
 					}
 
@@ -1267,14 +1445,16 @@ namespace ManiacEditor
 
 						void TilesEdit()
 						{
-							Editor.EditLayer.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.UpdateEditLayerActions();
 						}
 						void ChunksEdit()
 						{
 							Point chunk_point = Editor.EditLayer.GetChunkCoordinates(clicked_point.X, clicked_point.Y);
 							Point clicked_chunk = new Point(chunk_point.X * 128, chunk_point.Y * 128);
-							Editor.EditLayer.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
+							Editor.EditLayerB?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.UpdateEditLayerActions();
 						}
 						void EntitiesEdit()
@@ -1360,7 +1540,7 @@ namespace ManiacEditor
 
 				void ScrollMove()
 				{
-					if (scrollDirection == "Y" && !mySettings.scrollLock)
+					if (ScrollDirection == (int)ScrollDir.Y && !ScrollLocked)
 					{
 						if (Editor.editorView.vScrollBar1.IsVisible)
 						{
@@ -1377,7 +1557,7 @@ namespace ManiacEditor
 							Editor.editorView.hScrollBar1.Value = x;
 						}
 					}
-					else if (scrollDirection == "X" && !mySettings.scrollLock)
+					else if (ScrollDirection == (int)ScrollDir.X && !ScrollLocked)
 					{
 						if (Editor.editorView.hScrollBar1.IsVisible)
 						{
@@ -1394,9 +1574,9 @@ namespace ManiacEditor
 							Editor.editorView.vScrollBar1.Value = y;
 						}
 					}
-					else if (scrollDirection == "Locked" || mySettings.scrollLock == true)
+					else if (ScrollLocked)
 					{
-						if (mySettings.ScrollLockDirection == false)
+						if (ScrollDirection == (int)ScrollDir.Y)
 						{
 							if (Editor.editorView.vScrollBar1.IsVisible)
 							{
@@ -1439,7 +1619,7 @@ namespace ManiacEditor
 				}
 				void FreeCamScroll()
 				{
-					if (mySettings.ScrollLockDirection) Editor.CustomX -= e.Delta;
+					if (ScrollDirection == (int)ScrollDir.X) Editor.CustomX -= e.Delta;
 					else Editor.CustomY -= e.Delta;
 				}
 			}
@@ -1453,7 +1633,11 @@ namespace ManiacEditor
 				if (IsTilesEdit())
 				{
 					Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-					int tile = (ushort)(Editor.EditLayer?.GetTileAt(clicked_point_tile) & 0x3ff);
+					int tile;
+					int tileA = (ushort)(Editor.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
+					int tileB = (ushort)(Editor.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
+					if (tileA > 1023 && tileB < 1023) tile = tileB;
+					else tile = tileA;
 					Editor.SelectedTileID = tile;
 					Editor.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
 					Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
@@ -1525,6 +1709,7 @@ namespace ManiacEditor
 			Editor.developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
 			Editor.saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
 			Editor.copyAirToggle.InputGestureText = KeyBindPraser("CopyAirTiles", false, true);
+			Editor.PointerTooltipToggleToolStripMenuItem.InputGestureText = KeyBindPraser("PointerTooltipToggle", false, true);
 		}
 
 		public void UpdateTooltips()
@@ -1557,11 +1742,13 @@ namespace ManiacEditor
 			Editor.EncorePaletteButton.ToolTip = "Show Encore Colors";
 			Editor.ShowTileIDButton.ToolTip = "Toggle Tile ID Visibility" + KeyBindPraser("ShowTileID", true, true);
 			Editor.ShowGridButton.ToolTip = "Toggle Grid Visibility" + KeyBindPraser("ShowGrid", true, true);
+			Editor.tooltipButton.ToolTip = "Shows a Tooltip that displays helpful information at the cursor's position\r\nShortcut Key: " + KeyBindPraser("PointerTooltipToggle", true, true);
 
 
 		}
 
 		#endregion
+
 	}
 
 

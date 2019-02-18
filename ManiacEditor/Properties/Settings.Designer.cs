@@ -1145,13 +1145,13 @@ namespace ManiacEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ScrollLockDefault {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ScrollLockXYDefault {
             get {
-                return ((bool)(this["ScrollLockDefault"]));
+                return ((int)(this["ScrollLockXYDefault"]));
             }
             set {
-                this["ScrollLockDefault"] = value;
+                this["ScrollLockXYDefault"] = value;
             }
         }
         
@@ -1506,58 +1506,6 @@ namespace ManiacEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ScrollLockY {
-            get {
-                return ((bool)(this["ScrollLockY"]));
-            }
-            set {
-                this["ScrollLockY"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ScrollLockX {
-            get {
-                return ((bool)(this["ScrollLockX"]));
-            }
-            set {
-                this["ScrollLockX"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ScrollLockDirection {
-            get {
-                return ((bool)(this["ScrollLockDirection"]));
-            }
-            set {
-                this["ScrollLockDirection"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool scrollLock {
-            get {
-                return ((bool)(this["scrollLock"]));
-            }
-            set {
-                this["scrollLock"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ShowStatsViewerDefault {
             get {
                 return ((bool)(this["ShowStatsViewerDefault"]));
@@ -1624,6 +1572,18 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["showPrePlusEntities"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ScrollLockEnabledDefault {
+            get {
+                return ((bool)(this["ScrollLockEnabledDefault"]));
+            }
+            set {
+                this["ScrollLockEnabledDefault"] = value;
             }
         }
     }

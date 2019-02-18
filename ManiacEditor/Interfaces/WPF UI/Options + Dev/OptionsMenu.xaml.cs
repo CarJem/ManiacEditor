@@ -43,6 +43,9 @@ namespace ManiacEditor.Interfaces
 			CheckGraphicalSettingTimer.Interval = 10;
 			CheckGraphicalSettingTimer.Tick += CheckGraphicalPresetModeState;
 
+			if (Properties.Settings.Default.ScrollLockXYDefault.Equals(ScrollDir.X)) radioButtonX.IsChecked = true;
+			else radioButtonY.IsChecked = true;
+
 			preRenderRadioGroupsUpdate(Properties.Settings.Default.preRenderSceneOption);
 			collisionColorsRadioGroupUpdate(Properties.Settings.Default.CollisionColorsDefault);
 			preRenderRadioGroupCheckChangeAllowed = true;
@@ -187,15 +190,11 @@ namespace ManiacEditor.Interfaces
 			{
 				if (radioButtonY.IsChecked == true)
 				{
-					Properties.Settings.Default.ScrollLockDirection = true;
-					Properties.Settings.Default.ScrollLockX = false;
-					Properties.Settings.Default.ScrollLockY = true;
+					Properties.Settings.Default.ScrollLockXYDefault = (int)ScrollDir.Y;
 				}
 				else
 				{
-					Properties.Settings.Default.ScrollLockDirection = false;
-					Properties.Settings.Default.ScrollLockX = true;
-					Properties.Settings.Default.ScrollLockY = false;
+					Properties.Settings.Default.ScrollLockXYDefault = (int)ScrollDir.X;
 
 				}
 			}
@@ -203,19 +202,15 @@ namespace ManiacEditor.Interfaces
 
 		private void radioButtonX_CheckedChanged_1(object sender, RoutedEventArgs e)
 		{
-			if (radioButtonY != null)
+			if (radioButtonX != null)
 			{
-				if (radioButtonY.IsChecked == true)
+				if (radioButtonX.IsChecked == true)
 				{
-					Properties.Settings.Default.ScrollLockDirection = true;
-					Properties.Settings.Default.ScrollLockX = false;
-					Properties.Settings.Default.ScrollLockY = true;
+					Properties.Settings.Default.ScrollLockXYDefault = (int)ScrollDir.X;
 				}
 				else
 				{
-					Properties.Settings.Default.ScrollLockDirection = false;
-					Properties.Settings.Default.ScrollLockX = true;
-					Properties.Settings.Default.ScrollLockY = false;
+					Properties.Settings.Default.ScrollLockXYDefault = (int)ScrollDir.Y;
 
 				}
 			}
@@ -655,9 +650,36 @@ namespace ManiacEditor.Interfaces
 			SetKeybindTextboxes();
 
 		}
+		List<string> AllKeyBinds = new List<string>();
+		List<string> KnownKeybinds = new List<string>();
 
+		private void RefreshKeybindList()
+		{
+			AllKeyBinds.Clear();
+			AllKeyBinds = new List<string>();
+			KnownKeybinds.Clear();
+			KnownKeybinds = new List<string>();
+			foreach (SettingsProperty currentProperty in Settings.myKeyBinds.Properties)
+			{
+				KnownKeybinds.Add(currentProperty.Name);
+			}
+			foreach (string keybind in KnownKeybinds)
+			{
+				if (!Extensions.KeyBindsSettingExists(keybind)) continue;
+				var keybindDict = Settings.myKeyBinds[keybind] as StringCollection;
+				if (keybindDict != null && keybindDict.Count != 0)
+				{
+					foreach (string item in keybindDict)
+					{
+						AllKeyBinds.Add(item);
+					}
+				}
+
+			}
+		}
 		private void SetKeybindTextboxes()
 		{
+			RefreshKeybindList();
 			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(NewControls))
 			{
 				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
@@ -739,16 +761,56 @@ namespace ManiacEditor.Interfaces
 
 		private void ProcessKeybindingButtons(Button t)
 		{
+			t.Foreground = (SolidColorBrush)FindResource("NormalText");
 			if (t.Tag != null)
 			{
 				System.Tuple<string,string> tuple = KeyBindPraser(t.Tag.ToString());
 				t.Content = tuple.Item1;
 				if (tuple.Item2 != null)
 				{
+					if (HasSingleMultipleOccurances(t.Tag.ToString())) t.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
+					else t.Foreground = (SolidColorBrush)FindResource("NormalText");
 					ToolTipService.SetShowOnDisabled(t, true);
 					t.ToolTip = tuple.Item2;
 				}
+				else
+				{
+					if (HasMultipleOccurances(tuple.Item1)) t.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
+					else t.Foreground = (SolidColorBrush)FindResource("NormalText");
+				}
 			}
+		}
+
+		public bool HasMultipleOccurances(String targetBinding)
+		{
+			if (targetBinding == "None" || targetBinding == "N/A") return false;
+			int occurances = 0;
+			foreach (string currentBinding in AllKeyBinds)
+			{
+				if (targetBinding == currentBinding) occurances++;
+			}
+			if (occurances < 2) return false;
+			else return true;
+		}
+
+		public bool HasSingleMultipleOccurances(String keyRefrence)
+		{		
+			List<string> keyBindList = new List<string>();
+			List<string> keyBindDuplicatesList = new List<string>();
+
+			var keybindDict = Settings.myKeyBinds[keyRefrence] as StringCollection;
+			if (keybindDict != null) keyBindList = keybindDict.Cast<string>().ToList();
+			if (keyBindList != null)
+			{
+				foreach (string keybind in keyBindList)
+				{
+					if (HasMultipleOccurances(keybind)) keyBindDuplicatesList.Add(keybind);
+				}
+			}
+			if (keyBindDuplicatesList.Count < 2) return false;
+			else return true;
+			
+
 		}
 
 		private Tuple<string,string> KeyBindPraser(string keyRefrence)

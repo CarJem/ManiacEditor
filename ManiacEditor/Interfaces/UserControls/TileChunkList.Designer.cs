@@ -31,7 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			this.vScrollBar1Old = new System.Windows.Forms.VScrollBar();
 			this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.Chunks128ToolStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.removeChunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.duplicateChunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -39,7 +39,10 @@
 			this.moveChunkDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.importChunkFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.contextMenuStrip1.SuspendLayout();
+			this.Tiles16ToolStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.editCollisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Chunks128ToolStrip.SuspendLayout();
+			this.Tiles16ToolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// vScrollBar1Old
@@ -66,9 +69,9 @@
 			this.hScrollBar1.Visible = false;
 			this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
 			// 
-			// contextMenuStrip1
+			// Chunks128ToolStrip
 			// 
-			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.Chunks128ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeChunkToolStripMenuItem,
             this.duplicateChunkToolStripMenuItem,
             this.toolStripSeparator1,
@@ -76,8 +79,8 @@
             this.moveChunkDownToolStripMenuItem,
             this.toolStripSeparator2,
             this.importChunkFromClipboardToolStripMenuItem});
-			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(233, 126);
+			this.Chunks128ToolStrip.Name = "contextMenuStrip1";
+			this.Chunks128ToolStrip.Size = new System.Drawing.Size(233, 126);
 			// 
 			// removeChunkToolStripMenuItem
 			// 
@@ -124,6 +127,20 @@
 			this.importChunkFromClipboardToolStripMenuItem.Text = "Import Chunk from Clipboard";
 			this.importChunkFromClipboardToolStripMenuItem.Click += new System.EventHandler(this.importChunkFromClipboardToolStripMenuItem_Click);
 			// 
+			// Tiles16ToolStrip
+			// 
+			this.Tiles16ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editCollisionToolStripMenuItem});
+			this.Tiles16ToolStrip.Name = "contextMenuStrip1";
+			this.Tiles16ToolStrip.Size = new System.Drawing.Size(295, 48);
+			// 
+			// editCollisionToolStripMenuItem
+			// 
+			this.editCollisionToolStripMenuItem.Enabled = false;
+			this.editCollisionToolStripMenuItem.Name = "editCollisionToolStripMenuItem";
+			this.editCollisionToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
+			this.editCollisionToolStripMenuItem.Text = "Edit Collision of Tile N/A with Tile Maniac";
+			// 
 			// RetroEDTileList
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -141,7 +158,8 @@
 			this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.TileList_MouseWheel);
 			this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TileList_PreviewKeyDown);
 			this.Resize += new System.EventHandler(this.TileList_Resize);
-			this.contextMenuStrip1.ResumeLayout(false);
+			this.Chunks128ToolStrip.ResumeLayout(false);
+			this.Tiles16ToolStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 
         }
@@ -155,8 +173,10 @@
 		public System.Windows.Forms.ToolStripMenuItem duplicateChunkToolStripMenuItem;
 		public System.Windows.Forms.ToolStripMenuItem moveChunkUpToolStripMenuItem;
 		public System.Windows.Forms.ToolStripMenuItem moveChunkDownToolStripMenuItem;
-		public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		public System.Windows.Forms.ContextMenuStrip Chunks128ToolStrip;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem importChunkFromClipboardToolStripMenuItem;
+		public System.Windows.Forms.ContextMenuStrip Tiles16ToolStrip;
+		public System.Windows.Forms.ToolStripMenuItem editCollisionToolStripMenuItem;
 	}
 }

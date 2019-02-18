@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using ManiacEditor.Actions;
-using ManiacEditor.Enums;
 using RSDKv5;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
@@ -112,6 +111,13 @@ namespace ManiacEditor
 		public bool isConsoleWindowOpen = false; //Show the Console Window or not
 		public bool rightClicktoSwapSlotID = false; //Swap Entity Slot ID's with Right Click
 
+
+		//Scroll Lock States
+		public int ScrollDirection = 1;
+		public bool ScrollLocked = true;
+
+
+
 		//Editor Status States (Like are we pre-loading a scene)
 		public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
 		public bool isPreRending = false; //Determines if we are Preloading a Scene
@@ -141,10 +147,12 @@ namespace ManiacEditor
 		public static bool UpdateUpdaterMessage = false;
 		public bool CopyAir = false;
 		public bool showMouseTooltip = false;
+		public bool MultiLayerEditMode = false;
+		public string MultiLayerA = "";
+		public string MultiLayerB = "";
 
 
 		//Editor Variable States (Like Scroll Lock is in the X Direction)
-		public string scrollDirection = "X"; //Determines Scroll Lock Direction
 		public int magnetSize = 16; //Determines the Magnets Size
 		public int EncoreSetupType; //Used to determine what kind of encore setup the stage uses
 		public string ToolbarSelectedTile; //Used to display the selected tile in the tiles toolbar
@@ -176,8 +184,7 @@ namespace ManiacEditor
 		string StageConfigFileName = null; //Used for fetch the scene's stage config file name
 
 		// Extra Layer Buttons
-		private IList<ToggleButton> _extraLayerEditButtons; //Used for Extra Layer Edit Buttons
-		private IList<ToggleButton> _extraLayerViewButtons; //Used for Extra Layer View Buttons
+		private IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
 		private IList<Separator> _extraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
 
 		// Editor Collections
@@ -225,7 +232,7 @@ namespace ManiacEditor
 		public bool checkpointSelected = false;
 
 		//Used to store information to Clipboards
-		public Dictionary<Point, ushort> TilesClipboard;
+		public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
 		public Dictionary<Point, ushort> FindReplaceClipboard;
 		public Dictionary<Point, ushort> TilesClipboardEditable;
 		private List<EditorEntity> entitiesClipboard;
@@ -249,8 +256,8 @@ namespace ManiacEditor
 		//public Editor ThisInstance;
 		internal EditorBackground EditorBackground;
 		public EditorLayer EditLayer { get => EditLayerA; set => EditLayerA = value; }
-		public EditorLayer EditLayerA;
-		public EditorLayer EditLayerB;
+		public EditorLayer EditLayerA { get; set; }
+		public EditorLayer EditLayerB { get; set; }
 		public TilesToolbar TilesToolbar = null;
 		public EntitiesToolbar2 entitiesToolbar = null;
 		public EditorEntity_ini EditorEntity_ini;
@@ -419,9 +426,9 @@ namespace ManiacEditor
 			this.editorView.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
 			this.editorView.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
 
-			_extraLayerEditButtons = new List<ToggleButton>();
-			_extraLayerViewButtons = new List<ToggleButton>();
+			ExtraLayerEditViewButtons = new Dictionary<EditLayerToggleButton, EditLayerToggleButton>();
 			_extraLayerSeperators = new List<Separator>();
+
 			_recentDataItems = new List<MenuItem>();
 			_recentDataItems_Button = new List<MenuItem>();
 			MenuChar = MenuCharS.ToCharArray();
@@ -442,6 +449,17 @@ namespace ManiacEditor
 
 			ViewPanelContextMenu.Foreground = (SolidColorBrush)FindResource("NormalText");
 			ViewPanelContextMenu.Background = (SolidColorBrush)FindResource("NormalBackground");
+
+
+			EditFGLower.Click += EditFGLower_Click;
+			EditFGLow.Click += EditFGLow_Click;
+			EditFGHigh.Click += EditFGHigh_Click;
+			EditFGHigher.Click += EditFGHigher_Click;
+
+			EditFGLower.RightClick += EditFGLower_RightClick;
+			EditFGLow.RightClick += EditFGLow_RightClick;
+			EditFGHigh.RightClick += EditFGHigh_RightClick;
+			EditFGHigher.RightClick += EditFGHigher_RightClick;
 
 			AllocConsole();
 			HideConsoleWindow();
@@ -521,13 +539,14 @@ namespace ManiacEditor
 			transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = mySettings.EditEntitiesTransparencyDefault;
 			applyEditEntitiesTransparency = mySettings.EditEntitiesTransparencyDefault;
 
-			mySettings.scrollLock = mySettings.ScrollLockDefault;
-			statusNAToolStripMenuItem.IsChecked = mySettings.ScrollLockDefault;
-			scrollLockButton.IsChecked = mySettings.ScrollLockDefault;
+			ScrollLocked = mySettings.ScrollLockEnabledDefault;
+			statusNAToolStripMenuItem.IsChecked = mySettings.ScrollLockEnabledDefault;
+			scrollLockButton.IsChecked = mySettings.ScrollLockEnabledDefault;
 
+			ScrollDirection = mySettings.ScrollLockXYDefault;
 
-			xToolStripMenuItem.IsChecked = mySettings.ScrollLockDirection;
-			yToolStripMenuItem.IsChecked = !mySettings.ScrollLockDirection;
+			xToolStripMenuItem.IsChecked = ScrollDirection == (int)ScrollDir.X;
+			yToolStripMenuItem.IsChecked = ScrollDirection == (int)ScrollDir.Y;
 
 			pixelModeButton.IsChecked = mySettings.EnablePixelModeDefault;
 			pixelModeToolStripMenuItem.IsChecked = mySettings.EnablePixelModeDefault;
@@ -648,19 +667,16 @@ namespace ManiacEditor
 			collisionPreset = mySettings.CollisionColorsDefault;
 			RefreshCollisionColours();
 
-			if (mySettings.ScrollLockY)
+			if (mySettings.ScrollLockXYDefault.Equals(ScrollDir.X))
 			{
-				mySettings.ScrollLockDirection = false;
-				xToolStripMenuItem.IsChecked = false;
-				yToolStripMenuItem.IsChecked = true;
-				scrollLockDirLabel.Content = "Scroll Lock Direction: Y";
+				ScrollDirection = (int)ScrollDir.X;
+				UpdateStatusPanel(null, null);
+
 			}
 			else
 			{
-				mySettings.ScrollLockDirection = true;
-				xToolStripMenuItem.IsChecked = true;
-				yToolStripMenuItem.IsChecked = false;
-				scrollLockDirLabel.Content = "Scroll Lock Direction: X";
+				ScrollDirection = (int)ScrollDir.Y;
+				UpdateStatusPanel(null, null);
 			}
 
 		}
@@ -741,14 +757,16 @@ namespace ManiacEditor
 
 		public bool IsEntitiesEdit()
 		{
-			return EditEntities.IsChecked.Value;
+			return EditEntities.IsCheckedN.Value;
 		}
 
 		public bool IsSelected()
 		{
 			if (IsTilesEdit())
 			{
-				return EditLayerA.SelectedTiles.Count > 0 || EditLayerA.TempSelectionTiles.Count > 0;
+				bool SelectedA = EditLayerA?.SelectedTiles.Count > 0 || EditLayerA?.TempSelectionTiles.Count > 0;
+				bool SelectedB = EditLayerB?.SelectedTiles.Count > 0 || EditLayerB?.TempSelectionTiles.Count > 0;
+				return SelectedA || SelectedB;
 			}
 			else if (IsEntitiesEdit())
 			{
@@ -846,6 +864,10 @@ namespace ManiacEditor
 			withCurrentCoordinatesToolStripMenuItem.IsEnabled = EditorScene != null;
 			changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
 
+			MultiLayerHint.Visibility = (MultiLayerEditMode ? Visibility.Visible : Visibility.Collapsed);
+			LayerHint.Visibility = (MultiLayerEditMode ? Visibility.Collapsed : Visibility.Visible);
+
+
 			Save.IsEnabled = enabled;
 
 			if (mySettings.ReduceZoom)
@@ -910,10 +932,71 @@ namespace ManiacEditor
 
 			selectAllToolStripMenuItem.IsEnabled = (IsTilesEdit() && !IsChunksEdit()) || IsEntitiesEdit();
 
-			if (IsEntitiesEdit())
+			if (IsEntitiesEdit() && entitiesToolbar != null)
 			{
 				entitiesToolbar.SelectedEntities = entities.SelectedEntities.Select(x => x.Entity).ToList();
 			}
+		}
+
+		private void SetLayerEditButtonsState(bool enabled)
+		{
+			if (!MultiLayerEditMode)
+			{
+				if (enabled && EditFGLow.IsCheckedN.Value) EditLayer = FGLow;
+				else if (enabled && EditFGHigh.IsCheckedN.Value) EditLayer = FGHigh;
+				else if (enabled && EditFGHigher.IsCheckedN.Value) EditLayer = FGHigher;
+				else if (enabled && EditFGLower.IsCheckedN.Value) EditLayer = FGLower;
+				else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedN.Value))
+				{
+					var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedN.Value);
+					var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+
+					EditLayer = editorLayer;
+				}
+				else EditLayer = null;
+			}
+			else
+			{
+				SetEditLayerA();
+				SetEditLayerB();
+			}
+
+			if (TilesToolbar != null)
+			{
+				TilesToolbar.ChunksReload();
+			}
+
+			void SetEditLayerA()
+			{
+				if (enabled && EditFGLow.IsCheckedA.Value) EditLayerA = FGLow;
+				else if (enabled && EditFGHigh.IsCheckedA.Value) EditLayerA = FGHigh;
+				else if (enabled && EditFGHigher.IsCheckedA.Value) EditLayerA = FGHigher;
+				else if (enabled && EditFGLower.IsCheckedA.Value) EditLayerA = FGLower;
+				else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
+				{
+					var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
+					var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+
+					EditLayerA = editorLayer;
+				}
+				else EditLayerA = null;
+			}
+			void SetEditLayerB()
+			{
+				if (enabled && EditFGLow.IsCheckedB.Value) EditLayerB = FGLow;
+				else if (enabled && EditFGHigh.IsCheckedB.Value) EditLayerB = FGHigh;
+				else if (enabled && EditFGHigher.IsCheckedB.Value) EditLayerB = FGHigher;
+				else if (enabled && EditFGLower.IsCheckedB.Value) EditLayerB = FGLower;
+				else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
+				{
+					var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
+					var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+
+					EditLayerB = editorLayer;
+				}
+				else EditLayerB = null;
+			}
+
 		}
 
 		private void SetEditButtonsState(bool enabled)
@@ -933,26 +1016,7 @@ namespace ManiacEditor
 
 			editEntitiesOptionToolStrip.IsEnabled = enabled;
 
-			if (enabled && EditFGLow.IsChecked.Value)
-			{
-				EditLayerA = FGLow;
-				//EditLayerB = FGHigh;
-			}
-			else if (enabled && EditFGHigh.IsChecked.Value)
-			{
-				EditLayerA = FGHigh;
-				//EditLayerB = FGLow;
-			}
-			else if (enabled && EditFGHigher.IsChecked.Value) EditLayer = FGHigher;
-			else if (enabled && EditFGLower.IsChecked.Value) EditLayer = FGLower;
-			else if (enabled && _extraLayerEditButtons.Any(elb => elb.IsChecked.Value))
-			{
-				var selectedExtraLayerButton = _extraLayerEditButtons.Single(elb => elb.IsChecked.Value);
-				var editorLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Content));
-
-				EditLayer = editorLayer;
-			}
-			else EditLayer = null;
+			SetLayerEditButtonsState(enabled);
 
 			undoToolStripMenuItem.IsEnabled = enabled && undo.Count > 0;
 			redoToolStripMenuItem.IsEnabled = enabled && redo.Count > 0;
@@ -970,17 +1034,12 @@ namespace ManiacEditor
 			findAndReplaceToolStripMenuItem.IsEnabled = enabled && EditLayer != null;
 
 			PointerButton.IsEnabled = enabled && IsTilesEdit();
-			SelectToolButton.IsEnabled = enabled && IsTilesEdit(); //&& !IsChunksEdit();
+			SelectToolButton.IsEnabled = enabled && IsTilesEdit();
 			PlaceTilesButton.IsEnabled = enabled && IsTilesEdit();
 			InteractionToolButton.IsEnabled = enabled;
 			ChunksToolButton.IsEnabled = enabled && IsTilesEdit();
 
 			PointerButton.IsChecked = (bool)PointerButton.IsChecked || (!(bool)PointerButton.IsChecked && !(bool)SelectToolButton.IsChecked && !(bool)PlaceTilesButton.IsChecked);
-			//if ((bool)SelectToolButton.IsChecked && IsChunksEdit())
-			//{
-			//	SelectToolButton.IsChecked = false;
-			//	PlaceTilesButton.IsChecked = true;
-			//}
 			PlaceTilesButton.IsChecked = PlaceTilesButton.IsChecked;
 			InteractionToolButton.IsChecked = InteractionToolButton.IsChecked;
 			ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !IsEntitiesEdit();
@@ -1047,11 +1106,12 @@ namespace ManiacEditor
 					
 					TilesToolbar.TileDoubleClick = new Action<int>(x =>
 					{
-						EditorPlaceTile(new Point((int)(ShiftX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorLayer.TILE_SIZE - 1), x);
+						EditorPlaceTile(new Point((int)(ShiftX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorLayer.TILE_SIZE - 1), x, EditLayerA);
 					});
 					TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
 					{
-						EditLayer.SetPropertySelected(option + 12, state);
+						EditLayerA?.SetPropertySelected(option + 12, state);
+						EditLayerB?.SetPropertySelected(option + 12, state);
 
 					});
 					ToolBarPanelRight.Children.Clear();
@@ -1215,7 +1275,9 @@ namespace ManiacEditor
 			{
 				if (TilesToolbar != null)
 				{
-					List<ushort> values = EditLayer.GetSelectedValues();
+					List<ushort> values = EditLayerA?.GetSelectedValues();
+					List<ushort> valuesB = EditLayerB?.GetSelectedValues();
+					if (valuesB != null) values.AddRange(valuesB);
 
 					if (values.Count > 0)
 					{
@@ -1246,9 +1308,32 @@ namespace ManiacEditor
 
 		public void UpdateEditLayerActions()
 		{
-			if (EditLayer != null)
+			if (EditLayerA != null)
 			{
-				List<IAction> actions = EditLayer?.Actions;
+				List<IAction> actions = EditLayerA?.Actions;
+				if (actions.Count > 0) redo.Clear();
+				while (actions.Count > 0)
+				{
+					bool create_new = false;
+					if (undo.Count == 0 || !(undo.Peek() is ActionsGroup))
+					{
+						create_new = true;
+					}
+					else
+					{
+						create_new = (undo.Peek() as ActionsGroup).IsClosed;
+					}
+					if (create_new)
+					{
+						undo.Push(new ActionsGroup());
+					}
+					(undo.Peek() as ActionsGroup).AddAction(actions[0]);
+					actions.RemoveAt(0);
+				}
+			}
+			if (EditLayerB != null)
+			{
+				List<IAction> actions = EditLayerB?.Actions;
 				if (actions.Count > 0) redo.Clear();
 				while (actions.Count > 0)
 				{
@@ -1276,15 +1361,6 @@ namespace ManiacEditor
 			//
 			// Tooltip Bar Info 
 			//
-			if (EnablePixelCountMode == false)
-			{
-				positionLabel.Content = "X: " + (int)(lastX / Zoom) + " Y: " + (int)(lastY / Zoom);
-			}
-			else
-			{
-				positionLabel.Content = "X: " + (int)((lastX / Zoom) / 16) + " Y: " + (int)((lastY / Zoom) / 16);
-			}
-
 
 			_levelIDLabel.Content = "Level ID: " + LevelID.ToString();
 			seperator1.Visibility = Visibility.Visible;
@@ -1320,19 +1396,10 @@ namespace ManiacEditor
 
 			selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (select_x2 - select_x1) + ", Y: " + (select_y2 - select_y1);
 
-			if (mySettings.ScrollLockDirection == true)
-			{
-				scrollLockDirLabel.Content = "Scroll Lock Direction: X";
-			}
-			else
-			{
-				scrollLockDirLabel.Content = "Scroll Lock Direction: Y";
-			}
+			scrollLockDirLabel.Content = "Scroll Direction: " + (ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (ScrollLocked ? " (Locked)" : "");
 
 
 			hVScrollBarXYLabel.Content = "Zoom Value: " + Zoom.ToString();
-			//hScrollBarValueLabel.Content = "Horz. ScrollBar Value: " + editorView.hScrollBar1.Value + " Horz. ScrollBar Max: " + editorView.hScrollBar1.Maximum;
-			//vScrollBarValueLabel.Content = "Vert. ScrollBar Value: " + editorView.vScrollBar1.Value + " Vert. ScrollBar Max: " + editorView.vScrollBar1.Maximum;
 
 			if (UpdateUpdaterMessage)
 			{
@@ -1389,13 +1456,13 @@ namespace ManiacEditor
 		#endregion
 
 		#region Editor Entity/Tile Management
-		public void EditorPlaceTile(Point position, int tile)
+		public void EditorPlaceTile(Point position, int tile, EditorLayer layer)
 		{
 			Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>
 			{
 				[new Point(0, 0)] = (ushort)tile
 			};
-			EditLayer.PasteFromClipboard(position, tiles);
+			layer.PasteFromClipboard(position, tiles);
 		}
 
 		public void EditorTileReplaceTest(int findValue, int replaceValue, int applyState, bool copyResults, bool perserveColllision)
@@ -1614,7 +1681,8 @@ namespace ManiacEditor
 
 		public void DeleteSelected()
 		{
-			EditLayer?.DeleteSelected();
+			EditLayerA?.DeleteSelected();
+			EditLayerB?.DeleteSelected();
 			UpdateEditLayerActions();
 
 			if (IsEntitiesEdit())
@@ -2056,7 +2124,7 @@ namespace ManiacEditor
 			editorView.GraphicPanel.DrawWidth = Math.Min(width, editorView.GraphicPanel.Width);
 			editorView.GraphicPanel.DrawHeight = Math.Min(height, editorView.GraphicPanel.Height);
 
-			Form1_Resize(editorView, null);
+			Form1_Resize(null, null);
 
 
 			if (!mySettings.EntityFreeCam || !isExportingImage)
@@ -2093,23 +2161,221 @@ namespace ManiacEditor
 
 		#endregion
 
-		#region Extra Layer Related Methods
+		#region Normal + Extra Layer Button Methods
+		private void LayerShowButton_Click(ToggleButton button, string desc)
+		{
+			if (button.IsChecked.Value)
+			{
+				button.IsChecked = false;
+				button.ToolTip = "Show " + desc;
+			}
+			else
+			{
+				button.IsChecked = true;
+				button.ToolTip = "Hide " + desc;
+			}
+		}
+
+		private void ShowFGLow_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGLow, "Layer FG Low");
+		}
+
+		private void ShowFGHigh_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGHigh, "Layer FG High");
+		}
+
+		private void ShowFGHigher_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGHigher, "Layer FG Higher");
+		}
+
+		private void ShowFGLower_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGLower, "Layer FG Lower");
+		}
+
+		private void ShowEntities_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowEntities, "Entities");
+		}
+
+		private void ShowAnimations_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowAnimations, "Animations");
+		}
+
+		private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
+		{
+			if (MultiLayerEditMode)
+			{
+				if (ClickType == MouseButton.Left) LayerA();
+				else if (ClickType == MouseButton.Right) LayerB();
+			}
+			else
+			{
+				if (ClickType == MouseButton.Left) Normal();
+			}
+			UpdateControls();
+
+
+
+			void Normal()
+			{
+				Deselect(false);
+				if (!button.IsCheckedN.Value)
+				{
+					button.IsCheckedN = false;
+				}
+				else
+				{
+					EditFGLow.IsCheckedN = false;
+					EditFGHigh.IsCheckedN = false;
+					EditFGLower.IsCheckedN = false;
+					EditFGHigher.IsCheckedN = false;
+					EditEntities.IsCheckedN = false;
+					button.IsCheckedN = true;
+				}
+
+				foreach (var elb in ExtraLayerEditViewButtons.Values)
+				{
+					elb.IsCheckedN = false;
+				}
+
+
+
+			}
+			void LayerA()
+			{
+				Deselect(false);
+				if (!button.IsCheckedA.Value)
+				{
+					button.IsCheckedA = false;
+				}
+				else
+				{
+					EditFGLow.IsCheckedA = false;
+					EditFGHigh.IsCheckedA = false;
+					EditFGLower.IsCheckedA = false;
+					EditFGHigher.IsCheckedA = false;
+					EditEntities.IsCheckedA = false;
+					button.IsCheckedA = true;
+				}
+
+				foreach (var elb in ExtraLayerEditViewButtons.Values)
+				{
+					elb.IsCheckedA = false;
+				}
+			}
+			void LayerB()
+			{
+				Deselect(false);
+				if (!button.IsCheckedB.Value)
+				{
+					button.IsCheckedB = false;
+				}
+				else
+				{
+					EditFGLow.IsCheckedB = false;
+					EditFGHigh.IsCheckedB = false;
+					EditFGLower.IsCheckedB = false;
+					EditFGHigher.IsCheckedB = false;
+					EditEntities.IsCheckedB = false;
+					button.IsCheckedB = true;
+				}
+
+				foreach (var elb in ExtraLayerEditViewButtons.Values)
+				{
+					elb.IsCheckedB = false;
+				}
+			}
+		}
+
+		private void EditFGLow_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLow, MouseButton.Left);
+		}
+
+		private void EditFGLow_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLow, MouseButton.Right);
+		}
+
+		private void EditFGHigh_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigh, MouseButton.Left);
+		}
+
+		private void EditFGHigh_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigh, MouseButton.Right);
+		}
+
+		private void EditFGLower_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLower, MouseButton.Left);
+		}
+
+		private void EditFGLower_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLower, MouseButton.Right);
+		}
+
+		private void EditFGHigher_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigher, MouseButton.Left);
+		}
+
+		private void EditFGHigher_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigher, MouseButton.Right);
+		}
+
+		private void EditEntities_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditEntities, MouseButton.Left);
+		}
 
 		private void SetupLayerButtons()
 		{
 			TearDownExtraLayerButtons();
+			IList<EditLayerToggleButton> _extraLayerEditButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer Edit Buttons
+			IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
+
 			//EDIT BUTTONS
 			foreach (EditorLayer el in EditorScene.OtherLayers)
 			{
-				ToggleButton tsb = new ToggleButton()
+				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
-					Content = el.Name
+					Text = el.Name,
+					Name = "Edit" + el.Name.Replace(" ", "")
 				};
 				LayerToolbar.Items.Add(tsb);
-				tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
-				tsb.IsChecked = false;
-				tsb.Style = (Style)FindResource("Flat");
-				tsb.Click += AdHocLayerEdit;
+				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
+				tsb.RightClick += AdHocLayerEdit_RightClick;
+				tsb.Click += AdHocLayerEdit_Click;
 
 				_extraLayerEditButtons.Add(tsb);
 			}
@@ -2122,17 +2388,22 @@ namespace ManiacEditor
 			//VIEW BUTTONS
 			foreach (EditorLayer el in EditorScene.OtherLayers)
 			{
-				ToggleButton tsb = new ToggleButton()
+				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
-					Content = el.Name
+					Text = el.Name,
+					Name = "Show" + el.Name.Replace(" ", "")
 				};
 				//toolStrip1.Items.Add(tsb);
 				LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
-				tsb.Style = (Style)FindResource("Flat");
-				tsb.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
-				tsb.IsChecked = false;
+				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
 
 				_extraLayerViewButtons.Add(tsb);
+			}
+
+			//EDIT + VIEW BUTTONS LIST
+			for (int i = 0; i < _extraLayerViewButtons.Count; i++)
+			{
+				ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
 			}
 
 			UpdateDualButtonsControlsForLayer(FGLow, ShowFGLow, EditFGLow);
@@ -2143,18 +2414,13 @@ namespace ManiacEditor
 
 		private void TearDownExtraLayerButtons()
 		{
-			foreach (var elb in _extraLayerEditButtons)
+			foreach (var elb in ExtraLayerEditViewButtons)
 			{
-				elb.Click -= AdHocLayerEdit;
-				LayerToolbar.Items.Remove(elb);
+				LayerToolbar.Items.Remove(elb.Key);
+				elb.Value.RightClick -= AdHocLayerEdit_RightClick;
+				LayerToolbar.Items.Remove(elb.Value);
 			}
-			_extraLayerEditButtons.Clear();
-
-			foreach (var elb in _extraLayerViewButtons)
-			{
-				LayerToolbar.Items.Remove(elb);
-			}
-			_extraLayerViewButtons.Clear();
+			ExtraLayerEditViewButtons.Clear();
 
 
 			foreach (var els in _extraLayerSeperators)
@@ -2171,42 +2437,115 @@ namespace ManiacEditor
 		/// <param name="layer">The layer of the scene from which to extract a name.</param>
 		/// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
 		/// <param name="editButton">The button which controls editing the layer.</param>
-		private void UpdateDualButtonsControlsForLayer(EditorLayer layer, ToggleButton visibilityButton, ToggleButton editButton)
+		private void UpdateDualButtonsControlsForLayer(EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
 		{
 			bool layerValid = layer != null;
 			visibilityButton.IsChecked = layerValid;
 			if (layerValid)
 			{
 				string name = layer.Name;
-				//visibilityButton.Name = name;
-				editButton.Content = name.ToString();
+				visibilityButton.Content = name;
+				editButton.Text = name.ToString();
 			}
 		}
 
-		private void AdHocLayerEdit(object sender, RoutedEventArgs e)
+		private void AdHocLayerEdit_RightClick(object sender, RoutedEventArgs e)
 		{
-			ToggleButton tsb = sender as ToggleButton;
-			Deselect(false);
-			if (tsb.IsChecked.Value)
-			{
-				if (!mySettings.KeepLayersVisible)
-				{
-					ShowFGLow.IsChecked = false;
-					ShowFGHigh.IsChecked = false;
-					ShowFGLower.IsChecked = false;
-					ShowFGHigher.IsChecked = false;
-				}
-				EditFGLow.IsChecked = false;
-				EditFGHigh.IsChecked = false;
-				EditFGLower.IsChecked = false;
-				EditFGHigher.IsChecked = false;
-				EditEntities.IsChecked = false;
+			AdHocLayerEdit(sender, MouseButton.Right);
+		}
 
-				foreach (var elb in _extraLayerEditButtons)
+		private void AdHocLayerEdit_Click(object sender, RoutedEventArgs e)
+		{
+			AdHocLayerEdit(sender, MouseButton.Left);
+		}
+
+		private void AdHocLayerEdit(object sender, MouseButton ClickType)
+		{
+			if (ClickType == MouseButton.Left && !MultiLayerEditMode) Normal();
+			else if (ClickType == MouseButton.Left && MultiLayerEditMode) LayerA();
+			else if (ClickType == MouseButton.Right && MultiLayerEditMode) LayerB();
+
+			void Normal()
+			{
+				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+				Deselect(false);
+				if (tsb.IsCheckedN.Value)
 				{
-					if (elb != tsb)
+					if (!mySettings.KeepLayersVisible)
 					{
-						elb.IsChecked = false;
+						ShowFGLow.IsChecked = false;
+						ShowFGHigh.IsChecked = false;
+						ShowFGLower.IsChecked = false;
+						ShowFGHigher.IsChecked = false;
+					}
+					EditFGLow.ClearCheckedItems(3);
+					EditFGHigh.ClearCheckedItems(3);
+					EditFGLower.ClearCheckedItems(3);
+					EditFGHigher.ClearCheckedItems(3);
+					EditEntities.ClearCheckedItems(3);
+
+					foreach (var elb in ExtraLayerEditViewButtons)
+					{
+						if (elb.Value != tsb)
+						{
+							elb.Value.IsCheckedN = false;
+						}
+					}
+				}
+			}
+			void LayerA()
+			{
+				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+				Deselect(false);
+				if (tsb.IsCheckedA.Value)
+				{
+					if (!mySettings.KeepLayersVisible)
+					{
+						ShowFGLow.IsChecked = false;
+						ShowFGHigh.IsChecked = false;
+						ShowFGLower.IsChecked = false;
+						ShowFGHigher.IsChecked = false;
+					}
+					EditFGLow.ClearCheckedItems(1);
+					EditFGHigh.ClearCheckedItems(1);
+					EditFGLower.ClearCheckedItems(1);
+					EditFGHigher.ClearCheckedItems(1);
+					EditEntities.ClearCheckedItems(1);
+
+					foreach (var elb in ExtraLayerEditViewButtons)
+					{
+						if (elb.Value != tsb)
+						{
+							elb.Value.IsCheckedA = false;
+						}
+					}
+				}
+			}
+			void LayerB()
+			{
+				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+				Deselect(false);
+				if (tsb.IsCheckedB.Value)
+				{
+					if (!mySettings.KeepLayersVisible)
+					{
+						ShowFGLow.IsChecked = false;
+						ShowFGHigh.IsChecked = false;
+						ShowFGLower.IsChecked = false;
+						ShowFGHigher.IsChecked = false;
+					}
+					EditFGLow.ClearCheckedItems(2);
+					EditFGHigh.ClearCheckedItems(2);
+					EditFGLower.ClearCheckedItems(2);
+					EditFGHigher.ClearCheckedItems(2);
+					EditEntities.ClearCheckedItems(2);
+
+					foreach (var elb in ExtraLayerEditViewButtons)
+					{
+						if (elb.Value != tsb)
+						{
+							elb.Value.IsCheckedB = false;
+						}
 					}
 				}
 			}
@@ -2309,11 +2648,11 @@ namespace ManiacEditor
 			undo.Clear();
 			redo.Clear();
 
-			EditFGLow.IsChecked = false;
-			EditFGHigh.IsChecked = false;
-			EditFGLower.IsChecked = false;
-			EditFGHigher.IsChecked = false;
-			EditEntities.IsChecked = false;
+			EditFGLow.ClearCheckedItems();
+			EditFGHigh.ClearCheckedItems();
+			EditFGLower.ClearCheckedItems();
+			EditFGHigher.ClearCheckedItems();
+			EditEntities.ClearCheckedItems();
 
 			SetViewSize();
 
@@ -2763,7 +3102,20 @@ Error: {ex.Message}");
 
 			try
 			{
-				EditorChunk.StageStamps?.Write(SceneFilepath + "//ManiacStamps.bin");
+				if (EditorChunk.StageStamps?.loadstate == Stamps.LoadState.Upgrade)
+				{
+					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+					if (result == MessageBoxResult.Yes)
+					{
+						EditorChunk.StageStamps?.Write(SceneFilepath + "//ManiacStamps.bin");
+					}
+				}
+				else
+				{
+					EditorChunk.StageStamps?.Write(SceneFilepath + "//ManiacStamps.bin");
+				}
+
+
 			}
 			catch (Exception ex)
 			{
@@ -2953,7 +3305,7 @@ Error: {ex.Message}");
 		{
 			if (TilesClipboard != null)
 			{
-				EditorChunk.ConvertClipboardtoChunk(TilesClipboard);
+				EditorChunk.ConvertClipboardtoMultiLayerChunk(TilesClipboard.Item1, TilesClipboard.Item2);
 				TilesToolbar?.ChunksReload();
 			}
 
@@ -2978,13 +3330,15 @@ Error: {ex.Message}");
 
 		public void FlipHorizontalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditLayer?.FlipPropertySelected(FlipDirection.Horizontal);
+			EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
+			EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
 			UpdateEditLayerActions();
 		}
 
 		public void FlipHorizontalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditLayer?.FlipPropertySelected(FlipDirection.Horizontal, true);
+			EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
+			EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
 			UpdateEditLayerActions();
 		}
 
@@ -3010,7 +3364,8 @@ Error: {ex.Message}");
 		{
 			if (IsTilesEdit())
 			{
-				EditLayer.PasteFromClipboard(new Point(16, 16), EditLayer.CopyToClipboard(true));
+				EditLayerA?.PasteFromClipboard(new Point(16, 16), EditLayerA?.CopyToClipboard(true));
+				EditLayerB?.PasteFromClipboard(new Point(16, 16), EditLayerB?.CopyToClipboard(true));
 				UpdateEditLayerActions();
 			}
 			else if (IsEntitiesEdit())
@@ -3070,14 +3425,20 @@ Error: {ex.Message}");
 				// check if there are tiles on the Windows clipboard; if so, use those
 				if (mySettings.EnableWindowsClipboard && Clipboard.ContainsData("ManiacTiles"))
 				{
-					EditLayer.PasteFromClipboard(new Point((int)(lastX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(lastY / Zoom) + EditorLayer.TILE_SIZE - 1), (Dictionary<Point, ushort>)Clipboard.GetDataObject().GetData("ManiacTiles"));
+					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>)Clipboard.GetDataObject().GetData("ManiacTiles");
+					Point pastePoint = new Point((int)(lastX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(lastY / Zoom) + EditorLayer.TILE_SIZE - 1);
+					if (EditLayerA != null) EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
+					if (EditLayerB != null) EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
+
 					UpdateEditLayerActions();
 				}
 
 				// if there's none, use the internal clipboard
 				else if (TilesClipboard != null)
 				{
-					EditLayer.PasteFromClipboard(new Point((int)(lastX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(lastY / Zoom) + EditorLayer.TILE_SIZE - 1), TilesClipboard);
+					Point pastePoint = new Point((int)(lastX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(lastY / Zoom) + EditorLayer.TILE_SIZE - 1);
+					if (EditLayerA != null) EditLayerA.PasteFromClipboard(pastePoint, TilesClipboard.Item1);
+					if (EditLayerB != null) EditLayerB.PasteFromClipboard(pastePoint, TilesClipboard.Item2);
 					UpdateEditLayerActions();
 				}
 
@@ -3117,14 +3478,15 @@ Error: {ex.Message}");
 
 		public void FlipVerticalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditLayer?.FlipPropertySelected(FlipDirection.Veritcal);
+			EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
+			EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
 			UpdateEditLayerActions();
 		}
 
 		public void FlipVerticalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditLayer?.FlipPropertySelected(FlipDirection.Veritcal, true);
-			UpdateEditLayerActions();
+			EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
+			EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
 			UpdateEditLayerActions();
 		}
 
@@ -3136,6 +3498,11 @@ Error: {ex.Message}");
 		{
 			DebugStatsVisibleOnPanel = !DebugStatsVisibleOnPanel;
 			showStatsToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
+		}
+
+		private void PointerTooltipToggleToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			TooltipButton_Click(sender, e);
 		}
 
 		private void ResetZoomLevelToolstripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -3444,33 +3811,27 @@ Error: {ex.Message}");
 
 		private void XToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (mySettings.ScrollLockDirection)
-			{
-				mySettings.ScrollLockDirection = false;
-				xToolStripMenuItem.IsChecked = false;
-				yToolStripMenuItem.IsChecked = true;
-				scrollLockDirLabel.Content = "Scroll Lock Direction: Y";
-			}
-			else
-			{
-				mySettings.ScrollLockDirection = true;
-				xToolStripMenuItem.IsChecked = true;
-				yToolStripMenuItem.IsChecked = false;
-				scrollLockDirLabel.Content = "Scroll Lock Direction: X";
-			}
+			SetScrollLockDirection();
 		}
 
 		private void YToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (mySettings.ScrollLockDirection)
+			SetScrollLockDirection();
+		}
+
+		private void SetScrollLockDirection()
+		{
+			if (ScrollDirection == (int)ScrollDir.X)
 			{
-				mySettings.ScrollLockDirection = false;
+				ScrollDirection = (int)ScrollDir.Y;
+				UpdateStatusPanel(null, null);
 				xToolStripMenuItem.IsChecked = false;
 				yToolStripMenuItem.IsChecked = true;
 			}
 			else
 			{
-				mySettings.ScrollLockDirection = true;
+				ScrollDirection = (int)ScrollDir.X;
+				UpdateStatusPanel(null, null);
 				xToolStripMenuItem.IsChecked = true;
 				yToolStripMenuItem.IsChecked = false;
 			}
@@ -4344,8 +4705,8 @@ Error: {ex.Message}");
 			// hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
 			// So I will refresh it here
 
-			bool showEntities = ShowEntities.IsChecked.Value && !EditEntities.IsChecked.Value;
-			bool showEntitiesEditing = EditEntities.IsChecked.Value;
+			bool showEntities = ShowEntities.IsChecked.Value && !EditEntities.IsCheckedAll;
+			bool showEntitiesEditing = EditEntities.IsCheckedAll;
 
 			bool PriorityMode = mySettings.PrioritizedObjectRendering;
 			bool AboveAllMode = entityVisibilityType == 1;
@@ -4387,7 +4748,7 @@ Error: {ex.Message}");
                 */
 
 
-				if (DebugStatsVisibleOnPanel && EditorScene != null && DebugTextHUD != null && EditorEntity_ini != null)
+				if (DebugStatsVisibleOnPanel && EditorScene != null)
 				{
 					Point point = new Point((short)(15), (short)(15));
 
@@ -4409,24 +4770,19 @@ Error: {ex.Message}");
 
 				if (!extraLayersMoveToFront)
 				{
-					foreach (var elb in _extraLayerViewButtons)
+
+					foreach (var elb in ExtraLayerEditViewButtons)
 					{
-						if (elb.IsChecked.Value)
+						if (elb.Key.IsCheckedAll || elb.Value.IsCheckedAll)
 						{
-							var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Content));
+							var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
 							_extraViewLayer.Draw(editorView.GraphicPanel);
 						}
 					}
 				}
 
-				if (ShowFGLower.IsChecked.Value || EditFGLower.IsChecked.Value)
-					FGLower.Draw(editorView.GraphicPanel);
-
-				if (ShowFGLow.IsChecked.Value || EditFGLow.IsChecked.Value)
-					FGLow.Draw(editorView.GraphicPanel);
-
-
-
+				if (ShowFGLower.IsChecked.Value || EditFGLower.IsCheckedAll) FGLower.Draw(editorView.GraphicPanel);
+				if (ShowFGLow.IsChecked.Value || EditFGLow.IsCheckedAll) FGLow.Draw(editorView.GraphicPanel);
 
 
 				if (showEntities && !AboveAllMode)
@@ -4443,7 +4799,7 @@ Error: {ex.Message}");
 					}
 				}
 
-				if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsChecked.Value)
+				if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsCheckedAll)
 					FGHigh.Draw(editorView.GraphicPanel);
 
 				
@@ -4453,16 +4809,16 @@ Error: {ex.Message}");
 					entities.DrawPriority(editorView.GraphicPanel, 3);
 				}
 
-				if (ShowFGHigher.IsChecked.Value || EditFGHigher.IsChecked.Value)
+				if (ShowFGHigher.IsChecked.Value || EditFGHigher.IsCheckedAll)
 					FGHigher.Draw(editorView.GraphicPanel);
 
 				if (extraLayersMoveToFront)
 				{
-					foreach (var elb in _extraLayerViewButtons)
+					foreach (var elb in ExtraLayerEditViewButtons)
 					{
-						if (elb.IsChecked.Value)
+						if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
 						{
-							var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Content));
+							var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
 							_extraViewLayer.Draw(editorView.GraphicPanel);
 						}
 					}
@@ -4488,41 +4844,33 @@ Error: {ex.Message}");
 
 			if (draggingSelection)
 			{
-				int x1 = (int)(selectingX / Zoom), x2 = (int)(lastX / Zoom);
-				int y1 = (int)(selectingY / Zoom), y2 = (int)(lastY / Zoom);
-				if (x1 != x2 && y1 != y2)
+				int bound_x1 = (int)(selectingX / Zoom); int bound_x2 = (int)(lastX / Zoom);
+				int bound_y1 = (int)(selectingY / Zoom); int bound_y2 = (int)(lastY / Zoom);
+				if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
 				{
-					if (x1 > x2)
+					if (bound_x1 > bound_x2)
 					{
-						x1 = (int)(lastX / Zoom);
-						x2 = (int)(selectingX / Zoom);
+						bound_x1 = (int)(lastX / Zoom);
+						bound_x2 = (int)(selectingX / Zoom);
 					}
-					if (y1 > y2)
+					if (bound_y1 > bound_y2)
 					{
-						y1 = (int)(lastY / Zoom);
-						y2 = (int)(selectingY / Zoom);
+						bound_y1 = (int)(lastY / Zoom);
+						bound_y2 = (int)(selectingY / Zoom);
 					}
 
-					editorView.GraphicPanel.DrawRectangle(x1, y1, x2, y2, Color.FromArgb(100, Color.Purple));
-					editorView.GraphicPanel.DrawLine(x1, y1, x2, y1, Color.Purple);
-					editorView.GraphicPanel.DrawLine(x1, y1, x1, y2, Color.Purple);
-					editorView.GraphicPanel.DrawLine(x2, y2, x2, y1, Color.Purple);
-					editorView.GraphicPanel.DrawLine(x2, y2, x1, y2, Color.Purple);
+
 				}
+
+				editorView.GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, Color.FromArgb(100, Color.Purple));
+				editorView.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, Color.Purple);
+				editorView.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, Color.Purple);
+				editorView.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, Color.Purple);
+				editorView.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
 			}
-			if (!draggingSelection)
+			else
 			{
-				select_x1 = 0;
-				select_x2 = 0;
-				select_y1 = 0;
-				select_y2 = 0;
-			}
-			bool deviceLost = editorView.GraphicPanel.getDeviceLostState();
-			if (scrolling)
-			{
-				if (editorView.vScrollBar1.IsVisible && editorView.hScrollBar1.IsVisible && !deviceLost) editorView.GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
-				else if (editorView.vScrollBar1.IsVisible && !deviceLost) editorView.GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
-				else if (editorView.hScrollBar1.IsVisible && !deviceLost) editorView.GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
+				select_x1 = 0; select_x2 = 0; select_y1 = 0; select_y2 = 0;
 			}
 
 			if (showGrid && EditorScene != null)
@@ -4543,20 +4891,18 @@ Error: {ex.Message}");
 				}
 			}
 
-
-			Process proc = Process.GetCurrentProcess();
-			long memory = proc.PrivateMemorySize64;
-
-			if (!Environment.Is64BitProcess && memory >= 1500000000)
+			if (scrolling)
 			{
-				ReloadToolStripButton_Click(null, null);
+				if (editorView.vScrollBar1.IsVisible && editorView.hScrollBar1.IsVisible) editorView.GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
+				else if (editorView.vScrollBar1.IsVisible) editorView.GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
+				else if (editorView.hScrollBar1.IsVisible) editorView.GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
 			}
-
 			if (ForceWarp)
 			{
 				if (ShortcutHasZoom) SetZoomLevel(0, TempWarpCoords, ShortcutZoomValue);
 				else SetZoomLevel(mySettings.DevForceRestartZoomLevel, TempWarpCoords);
 				GoToPosition(TempWarpCoords.X, TempWarpCoords.Y, false, true);
+				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 			}
 		}
 
@@ -4720,123 +5066,6 @@ Error: {ex.Message}");
 
 		#endregion
 
-		#region Normal Layer Button Methods
-		private void LayerShowButton_Click(ToggleButton button, string desc)
-		{
-			if (button.IsChecked.Value)
-			{
-				button.IsChecked = false;
-				button.ToolTip = "Show " + desc;
-			}
-			else
-			{
-				button.IsChecked = true;
-				button.ToolTip = "Hide " + desc;
-			}
-		}
-
-		private void ShowFGLow_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGLow, "Layer FG Low");
-		}
-
-		private void ShowFGHigh_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGHigh, "Layer FG High");
-		}
-
-		private void ShowFGHigher_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGHigher, "Layer FG Higher");
-		}
-
-		private void ShowFGLower_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGLower, "Layer FG Lower");
-		}
-
-		private void ShowEntities_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowEntities, "Entities");
-		}
-
-		private void ShowAnimations_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowAnimations, "Animations");
-		}
-
-		private void LayerEditButton_Click(ToggleButton button)
-		{
-			Deselect(false);
-			if (button.IsChecked.Value)
-			{
-				button.IsChecked = false;
-			}
-			else
-			{
-				EditFGLow.IsChecked = false;
-				EditFGHigh.IsChecked = false;
-				EditFGLower.IsChecked = false;
-				EditFGHigher.IsChecked = false;
-				EditEntities.IsChecked = false;
-				button.IsChecked = true;
-			}
-
-			foreach (var elb in _extraLayerEditButtons)
-			{
-				elb.IsChecked = false;
-			}
-			UpdateControls();
-		}
-
-		private void EditFGLow_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerEditButton_Click(EditFGLow);
-		}
-
-		private void EditFGHigh_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerEditButton_Click(EditFGHigh);
-		}
-
-		private void EditFGLower_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerEditButton_Click(EditFGLower);
-		}
-
-		private void EditFGHigher_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerEditButton_Click(EditFGHigher);
-		}
-
-		private void EditEntities_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerEditButton_Click(EditEntities);
-		}
-		#endregion
-
 		#region Editor Functions Copy/Paste/Delete/etc.
 		/// <summary>
 		/// Deselects all tiles and entities
@@ -4846,7 +5075,8 @@ Error: {ex.Message}");
 		{
 			if (IsEditing())
 			{
-				EditLayer?.Deselect();
+				EditLayerA?.Deselect();
+				EditLayerB?.Deselect();
 
 				if (IsEntitiesEdit()) entities.Deselect();
 				SetSelectOnlyButtonsState(false);
@@ -4902,14 +5132,32 @@ Error: {ex.Message}");
 
 		private void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
 		{
-			Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard();
+			bool hasMultipleValidLayers = EditLayerA != null && EditLayerB != null;
+			if (!hasMultipleValidLayers)
+			{
+				Dictionary<Point, ushort> copyDataA = EditLayerA?.CopyToClipboard();
+				Dictionary<Point, ushort> copyDataB = EditLayerB?.CopyToClipboard();
+				Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copyDataA, copyDataB);
 
-			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-			if (mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
-				Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
+				// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
+				if (mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
+					Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
 
-			// Also copy to Maniac's clipboard in case it gets overwritten elsewhere
-			TilesClipboard = copyData;
+				// Also copy to Maniac's clipboard in case it gets overwritten elsewhere
+				TilesClipboard = copyData;
+			}
+			else if (hasMultipleValidLayers && MultiLayerEditMode)
+			{
+				Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
+
+				// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
+				if (mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
+					Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
+
+				// Also copy to Maniac's clipboard in case it gets overwritten elsewhere
+				TilesClipboard = copyData;
+			}
+
 
 		}
 
@@ -5001,7 +5249,8 @@ Error: {ex.Message}");
 				}
 
 			}
-			EditLayer?.MoveSelectedQuonta(new Point(x, y));
+			EditLayerA?.MoveSelectedQuonta(new Point(x, y));
+			EditLayerB?.MoveSelectedQuonta(new Point(x, y));
 
 			UpdateEditLayerActions();
 
@@ -5041,8 +5290,6 @@ Error: {ex.Message}");
 
 		public void MoveCameraFreely(object sender, KeyEventArgs e)
 		{
-			//editorView.hScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
-			//editorView.vScrollBar1.Size = new System.Drawing.Size(100000000, 100000000);
 			if (CtrlPressed() && ShiftPressed())
 			{
 				switch (e.Key)
@@ -5341,16 +5588,18 @@ Error: {ex.Message}");
 
 		}
 
-		private void TooltipButton_Click(object sender, RoutedEventArgs e)
+		public void TooltipButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (showMouseTooltip == false)
 			{
+				PointerTooltipToggleToolStripMenuItem.IsChecked = true;
 				tooltipButton.IsChecked = true;
 				showMouseTooltip = true;
 
 			}
 			else
 			{
+				PointerTooltipToggleToolStripMenuItem.IsChecked = false;
 				tooltipButton.IsChecked = false;
 				showMouseTooltip = false;
 			}
@@ -5358,30 +5607,17 @@ Error: {ex.Message}");
 
 		public void ScrollLockButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (mySettings.scrollLock == false)
+			if (ScrollLocked == false)
 			{
 				scrollLockButton.IsChecked = true;
-				mySettings.scrollLock = true;
+				ScrollLocked = true;
 				statusNAToolStripMenuItem.IsChecked = true;
-				scrollDirection = "Locked";
 			}
 			else
 			{
-				if (mySettings.ScrollLockY == true)
-				{
-					scrollLockButton.IsChecked = false;
-					statusNAToolStripMenuItem.IsChecked = false;
-					mySettings.scrollLock = false;
-					scrollDirection = "Y";
-				}
-				else
-				{
-					scrollLockButton.IsChecked = false;
-					statusNAToolStripMenuItem.IsChecked = false;
-					mySettings.scrollLock = false;
-					scrollDirection = "X";
-				}
-
+				scrollLockButton.IsChecked = false;
+				statusNAToolStripMenuItem.IsChecked = false;
+				ScrollLocked = false;
 			}
 
 		}
@@ -5443,26 +5679,17 @@ Error: {ex.Message}");
 
 		private void VScrollBar1_Entered(object sender, EventArgs e)
 		{
-			if (mySettings.scrollLock == false)
+			if (!ScrollLocked)
 			{
-				scrollDirection = "Y";
+				ScrollDirection = (int)ScrollDir.Y;
 			}
-			else
-			{
-				scrollDirection = "Locked";
-			}
-
 		}
 
 		private void HScrollBar1_Entered(object sender, EventArgs e)
 		{
-			if (mySettings.scrollLock == false)
+			if (!ScrollLocked)
 			{
-				scrollDirection = "X";
-			}
-			else
-			{
-				scrollDirection = "Locked";
+				ScrollDirection = (int)ScrollDir.X;
 			}
 		}
 
@@ -5769,7 +5996,6 @@ Error: {ex.Message}");
 		public void PreLoadSceneButton_Click(object sender, RoutedEventArgs e)
 		{
 			//Disabled By Checking for Result OK
-			entities.PreLoadDraw(editorView.GraphicPanel);
 		}
 
 		private void DeveloperTerminalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -6581,7 +6807,35 @@ Error: {ex.Message}");
 			
 		}
 
+		private void MultiLayerSelectionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			MultiLayerEditMode = !MultiLayerEditMode;
+			multiLayerSelectionToolStripMenuItem.IsChecked = MultiLayerEditMode;
 
+
+			bool enabled = (MultiLayerEditMode == true ? true : false);
+			EditFGLower.DualSelect = enabled;
+			EditFGLow.DualSelect = enabled;
+			EditFGHigh.DualSelect = enabled;
+			EditFGHigher.DualSelect = enabled;
+
+			EditFGLower.SwapDefaultToA(!enabled);
+			EditFGLow.SwapDefaultToA(!enabled);
+			EditFGHigh.SwapDefaultToA(!enabled);
+			EditFGHigher.SwapDefaultToA(!enabled);
+
+			foreach (var elb in ExtraLayerEditViewButtons.Values)
+			{
+				elb.DualSelect = enabled;
+				elb.SwapDefaultToA(!enabled);
+			}
+
+			if (!enabled) EditLayerB = null;
+
+			UpdateControls();
+
+
+		}
 
 		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
 		{
@@ -6615,7 +6869,7 @@ Error: {ex.Message}");
 
 
 
-		private void ShowError(string message, string title = "Error!")
+		public void ShowError(string message, string title = "Error!")
 		{
 			System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
 			/*using (var customMsgBox = new CustomMsgBox(message, title, 1, 1))

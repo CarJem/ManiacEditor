@@ -13,25 +13,22 @@ namespace ManiacEditor
 	{
 		public Editor EditorInstance;
 
-		private TilesList tilesList;
 		bool disposing = false;
+		RSDKv5.GIF TileGridImage;
+		string TilesImagePath;
+		public Action<int> TileDoubleClick { get; set; } 
+
+		bool TilesFlipHorizontal = false;
+		bool TilesFlipVertical = false;
 
 		public System.Windows.Forms.Panel tilePanel;
+		public string CurrentColorPalette;
+
 		public Interfaces.RetroEDTileList ChunkList;
+		private Interfaces.RetroEDTileList TilesList;
 
 		public System.Windows.Forms.Integration.WindowsFormsHost host;
 		public System.Windows.Forms.Integration.WindowsFormsHost host3;
-		public Action<int> TileDoubleClick
-		{
-			get
-			{
-				return tilesList.TileDoubleClick;
-			}
-			set
-			{
-				tilesList.TileDoubleClick = value;
-			}
-		}
 
 		public Action<int, bool> TileOptionChanged;
 
@@ -43,12 +40,7 @@ namespace ManiacEditor
 		{
 			get
 			{
-				if (disposing) return -1;
-				int res = tilesList.SelectedTile;
-				for (int i = 0; i < selectTileOptionsCheckboxes.Length; ++i)
-					if (selectTileOptionsCheckboxes[i].IsChecked.Value) res |= 1 << (10 + i);
-				return res;
-
+				return TilesList.SelectedIndex;
 			}
 		}
 
@@ -111,13 +103,13 @@ namespace ManiacEditor
 			selectTileOptionsCheckboxes[4] = option5CheckBox;
 			selectTileOptionsCheckboxes[5] = option6CheckBox;
 
-			RSDKv5.GIF tileGridImage = new GIF((data_directory + "\\16x16Tiles.gif"), Colors);
-			tilesList.TilesImage = tileGridImage;
-			tilesList.TileScale = 1 << (int)trackBar1.Value;
+			TilesImagePath = data_directory + "\\16x16Tiles.gif";
+			TileGridImage = new GIF((TilesImagePath), Colors);
 
 			UpdateShortcuts();
 
 			ChunksReload();
+			TilesReload(Colors);
 		}
 
 		public void SetupTilesList(Editor instance)
@@ -125,9 +117,6 @@ namespace ManiacEditor
 			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
 			this.ChunkList = new ManiacEditor.Interfaces.RetroEDTileList(instance);
-			this.tilesList = new ManiacEditor.TilesList(instance);
-			this.tilesList.graphicPanel.KeyDown += TilePanel_KeyDown;
-			this.tilesList.graphicPanel.KeyUp += TilePanel_KeyUp;
 
 			this.tilePanel = new System.Windows.Forms.Panel();
 			// 
@@ -148,6 +137,27 @@ namespace ManiacEditor
 			this.ChunkList.SelectedIndexChanged += ChunkList_SelectedIndexChanged;
 
 			// 
+			// TileList
+			//
+			this.TilesList = new Interfaces.RetroEDTileList(instance);
+			this.TilesList.BackColor = System.Drawing.SystemColors.Window;
+			this.TilesList.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TilesList.ImageHeight = 16 * 1;
+			this.TilesList.ImageSize = 16 * 1;
+			this.TilesList.ImageWidth = 16 * 1;
+			this.TilesList.Location = new System.Drawing.Point(3, 3);
+			this.TilesList.Name = "TilesList";
+			this.TilesList.ScrollValue = 0;
+			this.TilesList.SelectedIndex = -1;
+			this.TilesList.Size = new System.Drawing.Size(234, 290);
+			this.TilesList.TabIndex = 1;
+			this.TilesList.MouseClick += TilesList_MouseClick; ;
+			this.TilesList.SelectedIndexChanged += TilesListList_SelectedIndexChanged;
+			this.TilesList.MouseMove += TilesList_MouseMove;
+			this.TilesList.MouseDoubleClick += TilesList_MouseDoubleClick;
+			this.tilePanel.Controls.Add(this.TilesList);
+
+			// 
 			// tilePanel
 			// 
 			this.tilePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -165,23 +175,58 @@ namespace ManiacEditor
 			host3.Child = ChunkList;
 			TileViewer.Children.Add(host);
 			ChunksPage.Children.Add(host3);
+		}
 
+		private void TilesList_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			if (disposing) return;
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				if (SelectedTile != -1 && TileDoubleClick != null)
+				{
+					TileDoubleClick(SelectedTile);
+				}
+			}
+		}
 
-			this.tilesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-| System.Windows.Forms.AnchorStyles.Left)
-| System.Windows.Forms.AnchorStyles.Right)));
-			this.tilesList.BackColor = System.Drawing.SystemColors.Window;
-			this.tilesList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tilesList.FlipHorizontal = false;
-			this.tilesList.FlipVertical = false;
-			this.tilesList.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.tilesList.Location = new System.Drawing.Point(0, 0);
-			this.tilesList.Name = "tilesList";
-			this.tilesList.Size = new System.Drawing.Size(241, 253);
-			this.tilesList.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tilesList.TabIndex = 0;
-			this.tilesList.TileScale = 2;
-			this.tilePanel.Controls.Add(this.tilesList);
+		private void TilesList_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			TilesList.editCollisionToolStripMenuItem.Enabled = false;
+			if (e.Button == System.Windows.Forms.MouseButtons.Right)
+			{
+				if (TilesList.SelectedIndex != -1)
+				{
+					TilesList.editCollisionToolStripMenuItem.Enabled = true;
+					TilesList.editCollisionToolStripMenuItem.Text = string.Format("Edit Collision of Tile {0} with Tile Maniac", SelectedTile);
+
+					TilesList.Tiles16ToolStrip.Show(TilesList, e.Location);
+				}
+				else
+				{
+					TilesList.editCollisionToolStripMenuItem.Enabled = false;
+					TilesList.editCollisionToolStripMenuItem.Text = string.Format("Edit Collision of Tile {0} with Tile Maniac", "N/A");
+
+					TilesList.Tiles16ToolStrip.Show(TilesList, e.Location);
+				}
+			}
+		}
+
+		private void TileListDoubleClick()
+		{
+
+		}
+
+		private void TilesList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			if (disposing) return;
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				if (SelectedTile != -1)
+				{
+					Int32 val = SelectedTile;
+					TilesList.DoDragDrop(val, System.Windows.Forms.DragDropEffects.Move);
+				}
+			}
 		}
 
 		private void TilePanel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -203,6 +248,14 @@ namespace ManiacEditor
 			}
 		}
 
+		private void TilesListList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (EditorInstance.IsTilesEdit())
+			{
+				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
+			}
+		}
+
 		private void ChunkList_Click(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			ChunkList.moveChunkDownToolStripMenuItem.Enabled = false;
@@ -214,17 +267,16 @@ namespace ManiacEditor
 					ChunkList.removeChunkToolStripMenuItem.Enabled = true;
 					ChunkList.duplicateChunkToolStripMenuItem.Enabled = true;
 
-					ChunkList.contextMenuStrip1.Show(ChunkList, e.Location);
+					ChunkList.Chunks128ToolStrip.Show(ChunkList, e.Location);
 				}
 				else
 				{
 					ChunkList.removeChunkToolStripMenuItem.Enabled = false;
 					ChunkList.duplicateChunkToolStripMenuItem.Enabled = false;
 
-					ChunkList.contextMenuStrip1.Show(ChunkList, e.Location);
+					ChunkList.Chunks128ToolStrip.Show(ChunkList, e.Location);
 				}
 			}
-
 		}
 
 		public void RemoveChunk(int index)
@@ -250,54 +302,74 @@ namespace ManiacEditor
 		private void trackBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			if (disposing) return;
-			tilesList.TileScale = 1 << (int)trackBar1.Value;
+			int scale = 16 << (int)trackBar1.Value;
+			TilesList.ImageSize = scale;
 		}
 
 		public void Reload(string colors = null)
 		{
 			if (disposing) return;
-			tilesList.Reload(colors);
+			TilesReload(colors);
 			ChunksReload();
+		}
+
+		public void TilesReload(string colors = "")
+		{
+			if (colors != "") CurrentColorPalette = colors;
+			else if (CurrentColorPalette != null) colors = CurrentColorPalette;
+
+			if (disposing) return;
+			TilesList.Images.Clear();
+			TileGridImage = new GIF((TilesImagePath), colors);
+
+			for (int i = 0; i < 1024; i++)
+			{
+				TilesList.Images.Add(TileGridImage.GetBitmap(new System.Drawing.Rectangle(0,16*i,16,16) , TilesFlipHorizontal, TilesFlipVertical));
+			}
+			int indexStorage = TilesList.SelectedIndex;
+			TilesList.SelectedIndex = -1;
+			TilesList.SelectedIndex = indexStorage;
+			TilesList.Refresh();
 		}
 
 		public void ChunksReload()
 		{
 			if (disposing) return;
 			ChunkList.Images.Clear();
-			EditorInstance.EditorChunk.DisposeTextures();
-
-			for (int i = 0; i < EditorInstance.EditorChunk.StageStamps.StampList.Count; i++)
+			if (EditorInstance.EditorChunk != null)
 			{
-				ChunkList.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
+				EditorInstance.EditorChunk.DisposeTextures();
+
+				for (int i = 0; i < EditorInstance.EditorChunk.StageStamps.StampList.Count; i++)
+				{
+					ChunkList.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
+				}
+				int indexStorage = ChunkList.SelectedIndex;
+				ChunkList.SelectedIndex = -1;
+				ChunkList.SelectedIndex = indexStorage;
+				ChunkList.Refresh();
 			}
-			int indexStorage = ChunkList.SelectedIndex;
-			ChunkList.SelectedIndex = -1;
-			ChunkList.SelectedIndex = indexStorage;
-			ChunkList.Refresh();
+
 		}
 
 		public void Dispose()
 		{
 			disposing = true;
-			if (tilesList != null)
-			{
-				if (tilesList.graphicPanel != null)
-				{
-					tilesList.graphicPanel.Dispose();
-					tilesList.graphicPanel = null;
-				}
-				tilesList.Controls.Clear();
-				tilesList.Dispose();
-				tilesList = null;
-			}
 			if (tilePanel != null)
 			{
 				tilePanel.Controls.Clear();
 				tilePanel.Dispose();
 				tilePanel = null;
 			}
+			if (TilesList != null)
+			{
+				TilesList.Controls.Clear();
+				TilesList.Dispose();
+				TilesList = null;
+			}
 			if (ChunkList != null)
 			{
+				ChunkList.Controls.Clear();
 				ChunkList.Dispose();
 				ChunkList = null;
 			}
@@ -324,12 +396,14 @@ namespace ManiacEditor
 
 		private void option1CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			tilesList.FlipHorizontal = option1CheckBox.IsChecked.Value;
+			TilesFlipHorizontal = option1CheckBox.IsChecked.Value;
+			TilesReload();
 		}
 
 		private void option2CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			tilesList.FlipVertical = option2CheckBox.IsChecked.Value;
+			TilesFlipVertical = option2CheckBox.IsChecked.Value;
+			TilesReload();
 		}
 
 		private void tileOption1_CheckedChanged(object sender, RoutedEventArgs e)
@@ -408,12 +482,14 @@ namespace ManiacEditor
 				{
 					EditorInstance.ChunksToolButton.IsChecked = true;
 					EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
+					TileChunkOptionsMenu.IsEnabled = true;
 				}
 			}
 			if (TabControl.SelectedIndex == 0)
 			{
-				tilesList.graphicPanel.Render();
-				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + EditorInstance.ToolbarSelectedTile;
+				TilesReload();
+				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
+				TileChunkOptionsMenu.IsEnabled = false;
 			}
 
 		}
@@ -438,8 +514,34 @@ namespace ManiacEditor
 		{
 			if (TabControl.SelectedIndex == 0)
 			{
-				tilesList.graphicPanel.Render();
+				//tilesList.graphicPanel.Render();
 			}
+		}
+
+		private void SaveChunksManually_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				if (EditorInstance.EditorChunk.StageStamps?.loadstate == Stamps.LoadState.Upgrade)
+				{
+					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+					if (result == MessageBoxResult.Yes)
+					{
+						EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.SceneFilepath + "//ManiacStamps.bin");
+					}
+				}
+				else
+				{
+					EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.SceneFilepath + "//ManiacStamps.bin");
+				}
+			}
+			catch (Exception ex)
+			{
+				EditorInstance.ShowError($@"Failed to save StageStamps to file '{EditorInstance.SceneFilepath + "ManiacStamps.bin"}'
+Error: {ex.Message}");
+			}
+
+			TileChunkOptionsMenu.IsOpen = false;
 		}
 	}
 }

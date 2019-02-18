@@ -425,7 +425,8 @@ namespace ManiacEditor.Interfaces
 		{
 			if (EditorInstance.TilesClipboard != null)
 			{
-				EditorInstance.EditorChunk.ConvertClipboardtoChunk(EditorInstance.TilesClipboard);
+				EditorInstance.EditorChunk.ConvertClipboardtoMultiLayerChunk(EditorInstance.TilesClipboard.Item1, EditorInstance.TilesClipboard.Item2);
+
 				EditorInstance.TilesToolbar?.ChunksReload();
 			}
 		}

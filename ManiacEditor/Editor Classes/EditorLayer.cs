@@ -7,7 +7,6 @@ using System.Drawing;
 using RSDKv5;
 using SharpDX.Direct3D9;
 using ManiacEditor.Actions;
-using ManiacEditor.Enums;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -579,7 +578,44 @@ namespace ManiacEditor
             return copiedTiles.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
         }
 
-        public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points)
+		public static Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> CopyMultiSelectionToClipboard(EditorLayer layer1, EditorLayer layer2, bool keepPosition = false)
+		{
+			if (layer1.SelectedTiles.Count == 0 && layer2.SelectedTiles.Count == 0) return null;
+			int minX = 0, minY = 0;
+
+			Dictionary<Point, ushort> copiedTilesA = new Dictionary<Point, ushort>(layer1.SelectedTilesValue);
+			Dictionary<Point, ushort> copiedTilesB = new Dictionary<Point, ushort>(layer2.SelectedTilesValue);
+			foreach (Point point in layer1.SelectedTiles.GetAll())
+			{
+				if (!copiedTilesA.ContainsKey(point))
+				{
+					// Not moved yet
+					copiedTilesA[point] = layer1.GetTile(point);
+				}
+			}
+			foreach (Point point in layer2.SelectedTiles.GetAll())
+			{
+				if (!copiedTilesB.ContainsKey(point))
+				{
+					// Not moved yet
+					copiedTilesB[point] = layer2.GetTile(point);
+				}
+			}
+			if (!keepPosition)
+			{
+				int minX_A = copiedTilesA.Keys.Min(x => x.X);
+				int minY_A = copiedTilesA.Keys.Min(x => x.Y);
+				int minX_B = copiedTilesB.Keys.Min(x => x.X);
+				int minY_B = copiedTilesB.Keys.Min(x => x.Y);
+				minX = Math.Min(minX_A, minX_B);
+				minY = Math.Min(minY_A, minY_B);
+			}
+			copiedTilesA = copiedTilesA.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
+			copiedTilesB = copiedTilesB.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
+			return new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copiedTilesA, copiedTilesB);
+		}
+
+		public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points)
         {
             try
             {
@@ -1099,9 +1135,10 @@ namespace ManiacEditor
         {
 			int Transperncy;
 
-			if (EditorInstance.EditLayer != null && EditorInstance.EditLayer != this)
+
+			if (EditorInstance.EditLayer != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
 				Transperncy = 0x32;
-			else if (EditorInstance.EditEntities.IsChecked.Value && EditorInstance.EditLayer == null && EditorInstance.applyEditEntitiesTransparency)
+			else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayer == null && EditorInstance.applyEditEntitiesTransparency)
 				Transperncy = 0x32;
 			else
 				Transperncy = 0xFF;

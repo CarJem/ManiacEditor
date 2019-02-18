@@ -272,8 +272,8 @@
     <Setting Name="MovingPlatformsDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ScrollLockDefault" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="ScrollLockXYDefault" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="DevForceRestartData" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -364,18 +364,6 @@
 If your using the x86 version of Maniac Editor, you should upgrade to the x64 version!
 Would you like to save your progress before Maniac Editor Closes?</Value>
     </Setting>
-    <Setting Name="ScrollLockY" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="ScrollLockX" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="ScrollLockDirection" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="scrollLock" Roaming="true" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="ShowStatsViewerDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -392,6 +380,9 @@ Would you like to save your progress before Maniac Editor Closes?</Value>
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="showPrePlusEntities" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ScrollLockEnabledDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
