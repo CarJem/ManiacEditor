@@ -879,8 +879,8 @@ namespace ManiacEditor
             public class EditorFrame
             {
                 public Texture Texture;
-                public Animation.sprAnimation.sprFrame Frame;
-                public Animation.sprAnimation Entry;
+                public Animation.AnimationEntry.Frame Frame;
+                public Animation.AnimationEntry Entry;
                 public Bitmap _Bitmap;
                 public int ImageWidth;
                 public int ImageHeight;
