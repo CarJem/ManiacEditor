@@ -224,12 +224,12 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 			{
 				LayerAToggle.IsChecked = !LayerAToggle.IsChecked.Value;
 				if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
-				this.Click(this, e);
+				if (this.Click != null) this.Click(this, e);
 			}
 			else
 			{
 				LayerToggle.IsChecked = !LayerToggle.IsChecked.Value;
-				this.Click(this, e);
+				if (this.Click != null) this.Click(this, e);
 			}
 
 		}

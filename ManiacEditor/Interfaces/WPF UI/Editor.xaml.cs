@@ -15,32 +15,19 @@ using System.Reflection;
 using ManiacEditor.Interfaces;
 using Cyotek.Windows.Forms;
 using Microsoft.Scripting.Utils;
-using TileManiacWPF;
 using Microsoft.Win32;
 using ManiacEditor.Entity_Renders;
 using IWshRuntimeLibrary;
 using System.Drawing;
 using File = System.IO.File;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Net.Sockets;
-using System.Windows.Forms.VisualStyles;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Xceed.Wpf.Toolkit;
-using ManiacEditor;
 using Point = System.Drawing.Point;
 using DragEventArgs = System.Windows.DragEventArgs;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
@@ -53,7 +40,6 @@ using MenuItem = System.Windows.Controls.MenuItem;
 using Control = System.Windows.Forms.Control;
 using Clipboard = System.Windows.Clipboard;
 using DataObject = System.Windows.DataObject;
-using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Cursors = System.Windows.Input.Cursors;
 
@@ -121,10 +107,10 @@ namespace ManiacEditor
 		//Editor Status States (Like are we pre-loading a scene)
 		public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
 		public bool isPreRending = false; //Determines if we are Preloading a Scene
-		bool encorePaletteExists = false; // Determines if an Encore Pallete Exists
+		public bool encorePaletteExists = false; // Determines if an Encore Pallete Exists
 		public int SelectedTileID = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
 		public string CurrentLanguage = "EN"; //Current Selected Language
-		Point TempWarpCoords = new Point(0, 0); //Temporary Warp Position for Shortcuts and Force Open
+		public Point TempWarpCoords = new Point(0, 0); //Temporary Warp Position for Shortcuts and Force Open
 		public bool ForceWarp = false; //For Shortcuts and Force Open.
 		public bool ShortcutHasZoom = false; //For Shortcuts and Force Open.
 		public int PlayerBeingTracked = -1;
@@ -177,14 +163,14 @@ namespace ManiacEditor
 		public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
 		public string ModDataDirectory = ""; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
 		public string SelectedZone; //Used to get the Selected zone
-		string SelectedScene; //Used to get the Scene zone
+		public string SelectedScene; //Used to get the Scene zone
 		public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
-		string SceneFilename = null; //Used for fetching the scene's file name
+		public string SceneFilename = null; //Used for fetching the scene's file name
 		public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
-		string StageConfigFileName = null; //Used for fetch the scene's stage config file name
+		public string StageConfigFileName = null; //Used for fetch the scene's stage config file name
 
 		// Extra Layer Buttons
-		private IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
+		public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
 		private IList<Separator> _extraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
 
 		// Editor Collections
@@ -235,7 +221,7 @@ namespace ManiacEditor
 		public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
 		public Dictionary<Point, ushort> FindReplaceClipboard;
 		public Dictionary<Point, ushort> TilesClipboardEditable;
-		private List<EditorEntity> entitiesClipboard;
+		public List<EditorEntity> entitiesClipboard;
 
 		//Collision Colours
 		public Color CollisionAllSolid = Color.FromArgb(255, 255, 255, 255);
@@ -271,6 +257,7 @@ namespace ManiacEditor
 		public System.Windows.Forms.Integration.WindowsFormsHost host;
 		public EditorView editorView;
 		public EditorDiscordRP Discord;
+		public EditorInteractions Interactions;
 
 		//Tile Maniac + ManiaPal Instance
 		public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
@@ -442,6 +429,7 @@ namespace ManiacEditor
 			Discord = new EditorDiscordRP(this);
 			Updater = new EditorUpdater();
 			DevController = new ManiacEditor.Interfaces.DeveloperTerminal(this);
+			Interactions = new EditorInteractions(this);
 
 			this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
 			editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
@@ -531,7 +519,6 @@ namespace ManiacEditor
 				Debug.Write("Failed to load settings: " + ex);
 			}
 		}
-
 		private void ApplyDefaults()
 		{
 			// These Prefrences are applied on Editor Load
@@ -620,7 +607,7 @@ namespace ManiacEditor
 
 
 		}
-		void UseDefaultPrefrences()
+		public void UseDefaultPrefrences()
 		{
 			//These Prefrences are applied on Stage Load
 
@@ -680,63 +667,13 @@ namespace ManiacEditor
 			}
 
 		}
-
-		#endregion
-
-		#region Mod Config List Stuff
-		private MenuItem CreateModConfigMenuItem(int i)
-		{
-			MenuItem newItem = new MenuItem()
-			{
-				Header = mySettings.modConfigsNames[i],
-				Tag = mySettings.modConfigs[i]
-			};
-			newItem.Click += ModConfigItemClicked;
-			if (newItem.Tag.ToString() == mySettings.LastModConfig) newItem.IsChecked = true;
-			return newItem;
-		}
-
-		private void ModConfigItemClicked(object sender, RoutedEventArgs e)
-		{
-			var modConfig_CheckedItem = (sender as MenuItem);
-			SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
-			mySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
-		}
-
-		public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Interfaces.WPF_UI.ConfigManager configManager = new Interfaces.WPF_UI.ConfigManager();
-			configManager.Owner = GetWindow(this);
-			configManager.ShowDialog();
-
-			// TODO: Fix NullReferenceException on mySettings.modConfigs
-			selectConfigToolStripMenuItem.Items.Clear();
-			for (int i = 0; i < mySettings.modConfigs.Count; i++)
-			{
-				selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
-			}
-		}
-
-		private void SelectConfigToolStripMenuItem_Click(MenuItem modConfig_CheckedItem)
-		{
-			var allItems = selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-			foreach (var item in allItems)
-			{
-				item.IsChecked = false;
-			}
-			modConfig_CheckedItem.IsChecked = true;
-
-		}
-
 		#endregion
 
 		#region Boolean States
-
 		public bool IsEditing()
 		{
 			return IsTilesEdit() || IsEntitiesEdit() || IsChunksEdit();
 		}
-
 		public bool IsSceneLoaded()
 		{
 			if (EditorScene != null)
@@ -744,22 +681,18 @@ namespace ManiacEditor
 			else
 				return false;
 		}
-
 		public bool IsTilesEdit()
 		{
 			return EditLayerA != null;
 		}
-
 		public bool IsChunksEdit()
 		{
 			return ChunksToolButton.IsChecked.Value && EditLayerA != null;
 		}
-
 		public bool IsEntitiesEdit()
 		{
 			return EditEntities.IsCheckedN.Value;
 		}
-
 		public bool IsSelected()
 		{
 			if (IsTilesEdit())
@@ -774,17 +707,14 @@ namespace ManiacEditor
 			}
 			return false;
 		}
-
 		public bool CtrlPressed()
 		{
 			return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Control);
 		}
-
 		public bool ShiftPressed()
 		{
 			return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Shift);
 		}
-
 		public bool IsTileUnused(int tile)
 		{
 			List<ushort> listValue = new List<ushort> { };
@@ -836,11 +766,62 @@ namespace ManiacEditor
 			}
 
 		}
+		public bool CanWriteFile(string fullFilePath)
+		{
+			if (!File.Exists(fullFilePath)) return true;
 
+			if (File.GetAttributes(fullFilePath).HasFlag(FileAttributes.ReadOnly))
+			{
+				ShowError($"The file '{fullFilePath}' is Read Only.", "File is Read Only.");
+				return false;
+			}
+
+			var result = System.Windows.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
+										 MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+			if (result == MessageBoxResult.Yes) return true;
+
+			return false;
+		}
+		public bool AllowSceneUnloading()
+		{
+			bool AllowSceneChange = false;
+			if (IsSceneLoaded() == false)
+			{
+				AllowSceneChange = true;
+				return AllowSceneChange;
+			}
+			else if (IsSceneLoaded() == true && mySettings.DisableSaveWarnings == false)
+			{
+				var exitBox = new UnloadingSceneWarning();
+				exitBox.Owner = GetWindow(this);
+				exitBox.ShowDialog();
+				var exitBoxResult = exitBox.WindowResult;
+				if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.Yes)
+				{
+					Save_Click(null, null);
+					AllowSceneChange = true;
+				}
+				else if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.No)
+				{
+					AllowSceneChange = true;
+				}
+				else
+				{
+					AllowSceneChange = false;
+				}
+			}
+			else
+			{
+				AllowSceneChange = true;
+			}
+			return AllowSceneChange;
+
+
+		}
 		#endregion
 
 		#region Enable And Disable Editor Buttons
-
 		private void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
 		{
 			saveToolStripMenuItem.IsEnabled = enabled;
@@ -916,7 +897,6 @@ namespace ManiacEditor
 
 			UpdateButtonColors();
 		}
-
 		public void SetSelectOnlyButtonsState(bool enabled = true)
 		{
 			enabled &= IsSelected();
@@ -937,7 +917,6 @@ namespace ManiacEditor
 				entitiesToolbar.SelectedEntities = entities.SelectedEntities.Select(x => x.Entity).ToList();
 			}
 		}
-
 		private void SetLayerEditButtonsState(bool enabled)
 		{
 			if (!MultiLayerEditMode)
@@ -998,7 +977,6 @@ namespace ManiacEditor
 			}
 
 		}
-
 		private void SetEditButtonsState(bool enabled)
 		{
 			bool windowsClipboardState;
@@ -1181,7 +1159,6 @@ namespace ManiacEditor
 
 			SetSelectOnlyButtonsState(enabled);
 		}
-
 		public void UpdateControls(bool stageLoad = false)
 		{
 			if (mySettings.EntityFreeCam)
@@ -1196,7 +1173,6 @@ namespace ManiacEditor
 			}
 			SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
 		}
-
 		private void UpdateToolbars(bool rightToolbar = true, bool visible = false)
 		{
 			if (rightToolbar)
@@ -1243,7 +1219,6 @@ namespace ManiacEditor
 			}
 
 		}
-
 		#endregion
 
 		#region Refresh UI
@@ -1356,7 +1331,7 @@ namespace ManiacEditor
 			}
 		}
 
-		private void UpdateStatusPanel(object sender, EventArgs e)
+		public void UpdateStatusPanel(object sender, EventArgs e)
 		{
 			//
 			// Tooltip Bar Info 
@@ -1727,14 +1702,6 @@ namespace ManiacEditor
 
 		#endregion
 
-		#region Mouse Actions
-		private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseMove(sender, e); }
-		private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseDown(sender, e); }
-		private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseUp(sender, e); }
-		private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseWheel(sender, e); }
-		private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseClick(sender, e); }
-		#endregion
-
 		#region GameConfig/Data Folders
 
 		public string GetDataDirectory()
@@ -1789,7 +1756,7 @@ namespace ManiacEditor
 			return File.Exists(Path.Combine(directoryToCheck, "Game", "GameConfig.bin"));
 		}
 
-		private void RecentDataDirectoryClicked(object sender, RoutedEventArgs e, String dataDirectory)
+		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e, String dataDirectory)
 		{
 			var dataDirectories = mySettings.DataDirectories;
 			mySettings.GamePath = GamePath;
@@ -1829,7 +1796,7 @@ namespace ManiacEditor
 			
 		}
 
-		private void RecentDataDirectoryClicked(object sender, RoutedEventArgs e)
+		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e)
 		{
 			var menuItem = sender as MenuItem;
 			string dataDirectory = menuItem.Tag.ToString();
@@ -1895,7 +1862,7 @@ namespace ManiacEditor
 
 		}
 
-		private void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
+		public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
 		{
 			string modFolderTag = "Mod Directory: {0} [Mod-Loaded]";
 			string dataFolderTag_Normal = "Data Directory: {0}";
@@ -2100,7 +2067,7 @@ namespace ManiacEditor
 
 		}
 
-		private void SetViewSize(int width = 0, int height = 0)
+		public void SetViewSize(int width = 0, int height = 0)
 		{
 
 			if (mySettings.EntityFreeCam)
@@ -2134,7 +2101,7 @@ namespace ManiacEditor
 			}
 		}
 
-		private void ResetViewSize()
+		public void ResetViewSize()
 		{
 			SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 		}
@@ -2161,401 +2128,8 @@ namespace ManiacEditor
 
 		#endregion
 
-		#region Normal + Extra Layer Button Methods
-		private void LayerShowButton_Click(ToggleButton button, string desc)
-		{
-			if (button.IsChecked.Value)
-			{
-				button.IsChecked = false;
-				button.ToolTip = "Show " + desc;
-			}
-			else
-			{
-				button.IsChecked = true;
-				button.ToolTip = "Hide " + desc;
-			}
-		}
-
-		private void ShowFGLow_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGLow, "Layer FG Low");
-		}
-
-		private void ShowFGHigh_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGHigh, "Layer FG High");
-		}
-
-		private void ShowFGHigher_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGHigher, "Layer FG Higher");
-		}
-
-		private void ShowFGLower_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGLower, "Layer FG Lower");
-		}
-
-		private void ShowEntities_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowEntities, "Entities");
-		}
-
-		private void ShowAnimations_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowAnimations, "Animations");
-		}
-
-		private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
-		{
-			if (MultiLayerEditMode)
-			{
-				if (ClickType == MouseButton.Left) LayerA();
-				else if (ClickType == MouseButton.Right) LayerB();
-			}
-			else
-			{
-				if (ClickType == MouseButton.Left) Normal();
-			}
-			UpdateControls();
-
-
-
-			void Normal()
-			{
-				Deselect(false);
-				if (!button.IsCheckedN.Value)
-				{
-					button.IsCheckedN = false;
-				}
-				else
-				{
-					EditFGLow.IsCheckedN = false;
-					EditFGHigh.IsCheckedN = false;
-					EditFGLower.IsCheckedN = false;
-					EditFGHigher.IsCheckedN = false;
-					EditEntities.IsCheckedN = false;
-					button.IsCheckedN = true;
-				}
-
-				foreach (var elb in ExtraLayerEditViewButtons.Values)
-				{
-					elb.IsCheckedN = false;
-				}
-
-
-
-			}
-			void LayerA()
-			{
-				Deselect(false);
-				if (!button.IsCheckedA.Value)
-				{
-					button.IsCheckedA = false;
-				}
-				else
-				{
-					EditFGLow.IsCheckedA = false;
-					EditFGHigh.IsCheckedA = false;
-					EditFGLower.IsCheckedA = false;
-					EditFGHigher.IsCheckedA = false;
-					EditEntities.IsCheckedA = false;
-					button.IsCheckedA = true;
-				}
-
-				foreach (var elb in ExtraLayerEditViewButtons.Values)
-				{
-					elb.IsCheckedA = false;
-				}
-			}
-			void LayerB()
-			{
-				Deselect(false);
-				if (!button.IsCheckedB.Value)
-				{
-					button.IsCheckedB = false;
-				}
-				else
-				{
-					EditFGLow.IsCheckedB = false;
-					EditFGHigh.IsCheckedB = false;
-					EditFGLower.IsCheckedB = false;
-					EditFGHigher.IsCheckedB = false;
-					EditEntities.IsCheckedB = false;
-					button.IsCheckedB = true;
-				}
-
-				foreach (var elb in ExtraLayerEditViewButtons.Values)
-				{
-					elb.IsCheckedB = false;
-				}
-			}
-		}
-
-		private void EditFGLow_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLow, MouseButton.Left);
-		}
-
-		private void EditFGLow_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLow, MouseButton.Right);
-		}
-
-		private void EditFGHigh_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigh, MouseButton.Left);
-		}
-
-		private void EditFGHigh_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigh, MouseButton.Right);
-		}
-
-		private void EditFGLower_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLower, MouseButton.Left);
-		}
-
-		private void EditFGLower_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLower, MouseButton.Right);
-		}
-
-		private void EditFGHigher_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigher, MouseButton.Left);
-		}
-
-		private void EditFGHigher_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigher, MouseButton.Right);
-		}
-
-		private void EditEntities_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditEntities, MouseButton.Left);
-		}
-
-		private void SetupLayerButtons()
-		{
-			TearDownExtraLayerButtons();
-			IList<EditLayerToggleButton> _extraLayerEditButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer Edit Buttons
-			IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
-
-			//EDIT BUTTONS
-			foreach (EditorLayer el in EditorScene.OtherLayers)
-			{
-				EditLayerToggleButton tsb = new EditLayerToggleButton()
-				{
-					Text = el.Name,
-					Name = "Edit" + el.Name.Replace(" ", "")
-				};
-				LayerToolbar.Items.Add(tsb);
-				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
-				tsb.RightClick += AdHocLayerEdit_RightClick;
-				tsb.Click += AdHocLayerEdit_Click;
-
-				_extraLayerEditButtons.Add(tsb);
-			}
-
-			//EDIT BUTTONS SEPERATOR
-			Separator tss = new Separator();
-			LayerToolbar.Items.Add(tss);
-			_extraLayerSeperators.Add(tss);
-
-			//VIEW BUTTONS
-			foreach (EditorLayer el in EditorScene.OtherLayers)
-			{
-				EditLayerToggleButton tsb = new EditLayerToggleButton()
-				{
-					Text = el.Name,
-					Name = "Show" + el.Name.Replace(" ", "")
-				};
-				//toolStrip1.Items.Add(tsb);
-				LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
-				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
-
-				_extraLayerViewButtons.Add(tsb);
-			}
-
-			//EDIT + VIEW BUTTONS LIST
-			for (int i = 0; i < _extraLayerViewButtons.Count; i++)
-			{
-				ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
-			}
-
-			UpdateDualButtonsControlsForLayer(FGLow, ShowFGLow, EditFGLow);
-			UpdateDualButtonsControlsForLayer(FGHigh, ShowFGHigh, EditFGHigh);
-			UpdateDualButtonsControlsForLayer(FGLower, ShowFGLower, EditFGLower);
-			UpdateDualButtonsControlsForLayer(FGHigher, ShowFGHigher, EditFGHigher);
-		}
-
-		private void TearDownExtraLayerButtons()
-		{
-			foreach (var elb in ExtraLayerEditViewButtons)
-			{
-				LayerToolbar.Items.Remove(elb.Key);
-				elb.Value.RightClick -= AdHocLayerEdit_RightClick;
-				LayerToolbar.Items.Remove(elb.Value);
-			}
-			ExtraLayerEditViewButtons.Clear();
-
-
-			foreach (var els in _extraLayerSeperators)
-			{
-				LayerToolbar.Items.Remove(els);
-			}
-			_extraLayerSeperators.Clear();
-
-		}
-
-		/// <summary>
-		/// Given a scene layer, configure the given visibiltiy and edit buttons which will control that layer.
-		/// </summary>
-		/// <param name="layer">The layer of the scene from which to extract a name.</param>
-		/// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
-		/// <param name="editButton">The button which controls editing the layer.</param>
-		private void UpdateDualButtonsControlsForLayer(EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
-		{
-			bool layerValid = layer != null;
-			visibilityButton.IsChecked = layerValid;
-			if (layerValid)
-			{
-				string name = layer.Name;
-				visibilityButton.Content = name;
-				editButton.Text = name.ToString();
-			}
-		}
-
-		private void AdHocLayerEdit_RightClick(object sender, RoutedEventArgs e)
-		{
-			AdHocLayerEdit(sender, MouseButton.Right);
-		}
-
-		private void AdHocLayerEdit_Click(object sender, RoutedEventArgs e)
-		{
-			AdHocLayerEdit(sender, MouseButton.Left);
-		}
-
-		private void AdHocLayerEdit(object sender, MouseButton ClickType)
-		{
-			if (ClickType == MouseButton.Left && !MultiLayerEditMode) Normal();
-			else if (ClickType == MouseButton.Left && MultiLayerEditMode) LayerA();
-			else if (ClickType == MouseButton.Right && MultiLayerEditMode) LayerB();
-
-			void Normal()
-			{
-				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-				Deselect(false);
-				if (tsb.IsCheckedN.Value)
-				{
-					if (!mySettings.KeepLayersVisible)
-					{
-						ShowFGLow.IsChecked = false;
-						ShowFGHigh.IsChecked = false;
-						ShowFGLower.IsChecked = false;
-						ShowFGHigher.IsChecked = false;
-					}
-					EditFGLow.ClearCheckedItems(3);
-					EditFGHigh.ClearCheckedItems(3);
-					EditFGLower.ClearCheckedItems(3);
-					EditFGHigher.ClearCheckedItems(3);
-					EditEntities.ClearCheckedItems(3);
-
-					foreach (var elb in ExtraLayerEditViewButtons)
-					{
-						if (elb.Value != tsb)
-						{
-							elb.Value.IsCheckedN = false;
-						}
-					}
-				}
-			}
-			void LayerA()
-			{
-				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-				Deselect(false);
-				if (tsb.IsCheckedA.Value)
-				{
-					if (!mySettings.KeepLayersVisible)
-					{
-						ShowFGLow.IsChecked = false;
-						ShowFGHigh.IsChecked = false;
-						ShowFGLower.IsChecked = false;
-						ShowFGHigher.IsChecked = false;
-					}
-					EditFGLow.ClearCheckedItems(1);
-					EditFGHigh.ClearCheckedItems(1);
-					EditFGLower.ClearCheckedItems(1);
-					EditFGHigher.ClearCheckedItems(1);
-					EditEntities.ClearCheckedItems(1);
-
-					foreach (var elb in ExtraLayerEditViewButtons)
-					{
-						if (elb.Value != tsb)
-						{
-							elb.Value.IsCheckedA = false;
-						}
-					}
-				}
-			}
-			void LayerB()
-			{
-				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-				Deselect(false);
-				if (tsb.IsCheckedB.Value)
-				{
-					if (!mySettings.KeepLayersVisible)
-					{
-						ShowFGLow.IsChecked = false;
-						ShowFGHigh.IsChecked = false;
-						ShowFGLower.IsChecked = false;
-						ShowFGHigher.IsChecked = false;
-					}
-					EditFGLow.ClearCheckedItems(2);
-					EditFGHigh.ClearCheckedItems(2);
-					EditFGLower.ClearCheckedItems(2);
-					EditFGHigher.ClearCheckedItems(2);
-					EditEntities.ClearCheckedItems(2);
-
-					foreach (var elb in ExtraLayerEditViewButtons)
-					{
-						if (elb.Value != tsb)
-						{
-							elb.Value.IsCheckedB = false;
-						}
-					}
-				}
-			}
-
-			UpdateControls();
-		}
-		#endregion
-
 		#region Scene Loading / Unloading + Repair
-		private void RepairScene()
+		public void RepairScene()
 		{
 			string Result = null;
 			OpenFileDialog open = new OpenFileDialog() { };
@@ -2586,7 +2160,7 @@ namespace ManiacEditor
 			EditorEntity_ini.ReleaseResources();
 			return true;
 		}
-		void UnloadScene()
+		public void UnloadScene()
 		{
 			EditorScene?.Dispose();
 			EditorScene = null;
@@ -3036,1656 +2610,11 @@ namespace ManiacEditor
 
 		#endregion
 
-		#region File Tab Buttons
-		public void Open_Click(object sender, RoutedEventArgs e)
-		{
-			if (AllowSceneUnloading() != true) return;
-			UnloadScene();
-
-			OpenScene(mySettings.forceBrowse);
-
-		}
-
-		private void OpenToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Open_Click(sender, e);
-		}
-
-		public void OpenDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-				if (AllowSceneUnloading() != true) return;
-
-				string newDataDirectory = GetDataDirectory();
-				if (null == newDataDirectory) return;
-				if (newDataDirectory.Equals(DataDirectory)) return;
-
-				if (IsDataDirectoryValid(newDataDirectory))
-					ResetDataDirectoryToAndResetScene(newDataDirectory);
-				else
-					System.Windows.MessageBox.Show($@"{newDataDirectory} is not
-a valid Data Directory.",
-									"Invalid Data Directory!",
-									MessageBoxButton.OK,
-									MessageBoxImage.Error);
-
-		}
-
-		public void Save_Click(object sender, RoutedEventArgs e)
-		{
-			if (EditorScene == null) return;
-
-			if (IsTilesEdit())
-			{
-				// Apply changes
-				Deselect();
-			}
-
-			try
-			{
-				EditorScene.Save(SceneFilename);
-			}
-			catch (Exception ex)
-			{
-				ShowError($@"Failed to save the scene to file '{SceneFilename}'
-Error: {ex.Message}");
-			}
-
-			try
-			{
-				StageConfig?.Write(StageConfigFileName);
-			}
-			catch (Exception ex)
-			{
-				ShowError($@"Failed to save the StageConfig to file '{StageConfigFileName}'
-Error: {ex.Message}");
-			}
-
-			try
-			{
-				if (EditorChunk.StageStamps?.loadstate == Stamps.LoadState.Upgrade)
-				{
-					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-					if (result == MessageBoxResult.Yes)
-					{
-						EditorChunk.StageStamps?.Write(SceneFilepath + "//ManiacStamps.bin");
-					}
-				}
-				else
-				{
-					EditorChunk.StageStamps?.Write(SceneFilepath + "//ManiacStamps.bin");
-				}
-
-
-			}
-			catch (Exception ex)
-			{
-				ShowError($@"Failed to save StageStamps to file '{SceneFilepath + "ManiacStamps.bin"}'
-Error: {ex.Message}");
-			}
-		}
-
-		private void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (InstanceID == -1)
-			{
-				Close();
-			}
-			else
-			{
-				CloseMegaManiacTab = true;
-			}
-		}
-
-		private void SaveAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (EditorScene == null) return;
-
-			SaveFileDialog save = new SaveFileDialog
-			{
-				Filter = ".png File|*.png",
-				DefaultExt = "png"
-			};
-			if (save.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
-			{
-				isExportingImage = true;
-				using (Bitmap bitmap = new Bitmap(SceneWidth, SceneHeight))
-				using (Graphics g = Graphics.FromImage(bitmap))
-				{
-					// not all scenes have both a Low and a High foreground
-					// only attempt to render the ones we actually have
-					FGLower?.Draw(g);
-					FGLow?.Draw(g);
-					FGHigh?.Draw(g);
-					FGHigher?.Draw(g);
-					//entities?.GraphicsDraw(editorView.GraphicPanel, g);
-
-					bitmap.Save(save.FileName);
-				}
-
-			}
-		}
-
-		private void ExportEachLayerAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				if (EditorScene?._editorLayers == null || !EditorScene._editorLayers.Any()) return;
-
-				var dialog = new FolderSelectDialog()
-				{
-					Title = "Select folder to save each exported layer image to"
-				};
-
-				if (!dialog.ShowDialog()) return;
-
-				int fileCount = 0;
-
-				foreach (var editorLayer in EditorScene.AllLayers)
-				{
-					string fileName = Path.Combine(dialog.FileName, editorLayer.Name + ".png");
-
-					if (!CanWriteFile(fileName))
-					{
-						ShowError($"Layer export aborted. {fileCount} images saved.");
-						return;
-					}
-
-					using (var bitmap = new Bitmap(editorLayer.Width * EditorLayer.TILE_SIZE, editorLayer.Height * EditorLayer.TILE_SIZE))
-					using (var g = Graphics.FromImage(bitmap))
-					{
-						editorLayer.Draw(g);
-						bitmap.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
-						++fileCount;
-					}
-				}
-
-				System.Windows.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
-								MessageBoxButton.OK, MessageBoxImage.Information);
-			}
-			catch (Exception ex)
-			{
-				ShowError("An error occurred: " + ex.Message);
-			}
-		}
-
-		public void SaveAsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (EditorScene == null) return;
-
-			if (IsTilesEdit())
-			{
-				// Apply changes
-				Deselect();
-			}
-
-			SaveFileDialog save = new SaveFileDialog
-			{
-				Filter = "Scene File|*.bin",
-				DefaultExt = "bin",
-				InitialDirectory = Path.GetDirectoryName(SceneFilename),
-				RestoreDirectory = false,
-				FileName = Path.GetFileName(SceneFilename)
-			};
-			if (save.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
-			{
-				EditorScene.Write(save.FileName);
-			}
-		}
-
-		private void BackupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			BackupTool(null, null);
-		}
-
-		private void BackupRecoverButton_Click(object sender, RoutedEventArgs e)
-		{
-			string Result = null, ResultOriginal = null, ResultOld = null;
-			OpenFileDialog open = new OpenFileDialog
-			{
-				Filter = "Backup Scene|*.bin.bak|Old Scene|*.bin.old|Crash Backup Scene|*.bin.crash.bak"
-			};
-			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
-			{
-				Result = open.FileName;
-				ResultOriginal = Result.Split('.')[0] + ".bin";
-				ResultOld = ResultOriginal + ".old";
-				int i = 1;
-				while ((File.Exists(ResultOld)))
-				{
-					ResultOld = ResultOriginal.Substring(0, ResultOriginal.Length - 4) + "." + i + ".bin.old";
-					i++;
-				}
-
-
-
-			}
-
-			if (Result == null)
-				return;
-
-			UnloadScene();
-			UseDefaultPrefrences();
-			File.Replace(Result, ResultOriginal, ResultOld);
-
-		}
-
-		private void ObjectManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			var objectManager = new ManiacEditor.Interfaces.ObjectManager(EditorScene.Objects, StageConfig, this);
-			objectManager.Owner = Window.GetWindow(this);
-			objectManager.ShowDialog();
-		}
-
-		public void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			UnloadScene();
-		}
-
-		#region Backup SubMenu
-		private void StageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			backupType = 4;
-			BackupToolStripMenuItem_Click(null, null);
-			backupType = 0;
-		}
-
-		private void NormalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			backupType = 1;
-			BackupToolStripMenuItem_Click(null, null);
-			backupType = 0;
-		}
-		#endregion
-
-		#endregion
-
-		#region Edit Tab Buttons
-
-		public void chunkToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (TilesClipboard != null)
-			{
-				EditorChunk.ConvertClipboardtoMultiLayerChunk(TilesClipboard.Item1, TilesClipboard.Item2);
-				TilesToolbar?.ChunksReload();
-			}
-
-		}
-
-		public void SelectAllToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (IsTilesEdit() && !IsChunksEdit())
-			{
-				EditLayerA?.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-				//EditLayerB?.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-				UpdateEditLayerActions();
-			}
-			else if (IsEntitiesEdit())
-			{
-				entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-			}
-			SetSelectOnlyButtonsState();
-			ClickedX = -1;
-			ClickedY = -1;
-		}
-
-		public void FlipHorizontalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
-			EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
-			UpdateEditLayerActions();
-		}
-
-		public void FlipHorizontalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
-			EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
-			UpdateEditLayerActions();
-		}
-
-		private void DeleteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			DeleteSelected();
-		}
-
-		public void CopyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (IsTilesEdit())
-				CopyTilesToClipboard();
-
-
-			else if (IsEntitiesEdit())
-				CopyEntitiesToClipboard();
-
-
-			UpdateControls();
-		}
-
-		public void DuplicateToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (IsTilesEdit())
-			{
-				EditLayerA?.PasteFromClipboard(new Point(16, 16), EditLayerA?.CopyToClipboard(true));
-				EditLayerB?.PasteFromClipboard(new Point(16, 16), EditLayerB?.CopyToClipboard(true));
-				UpdateEditLayerActions();
-			}
-			else if (IsEntitiesEdit())
-			{
-				try
-				{
-					entities.PasteFromClipboard(new Point(16, 16), entities.CopyToClipboard(true));
-					UpdateLastEntityAction();
-				}
-				catch (EditorEntities.TooManyEntitiesException)
-				{
-					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
-					return;
-				}
-				UpdateEntitiesToolbarList();
-				SetSelectOnlyButtonsState();
-				UpdateEntitiesToolbarList();
-
-			}
-		}
-
-		private void UndoToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorUndo();
-		}
-
-		private void RedoToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorRedo();
-		}
-
-		public void CutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (IsTilesEdit())
-			{
-				CopyTilesToClipboard();
-				DeleteSelected();
-				UpdateControls();
-				UpdateEditLayerActions();
-			}
-			else if (IsEntitiesEdit())
-			{
-				if (entitiesToolbar.IsFocused.Equals(false))
-				{
-					CopyEntitiesToClipboard();
-					DeleteSelected();
-					UpdateControls();
-					UpdateEntitiesToolbarList();
-				}
-			}
-		}
-
-		public void PasteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (IsTilesEdit())
-			{
-				// check if there are tiles on the Windows clipboard; if so, use those
-				if (mySettings.EnableWindowsClipboard && Clipboard.ContainsData("ManiacTiles"))
-				{
-					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>)Clipboard.GetDataObject().GetData("ManiacTiles");
-					Point pastePoint = new Point((int)(lastX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(lastY / Zoom) + EditorLayer.TILE_SIZE - 1);
-					if (EditLayerA != null) EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
-					if (EditLayerB != null) EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
-
-					UpdateEditLayerActions();
-				}
-
-				// if there's none, use the internal clipboard
-				else if (TilesClipboard != null)
-				{
-					Point pastePoint = new Point((int)(lastX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(lastY / Zoom) + EditorLayer.TILE_SIZE - 1);
-					if (EditLayerA != null) EditLayerA.PasteFromClipboard(pastePoint, TilesClipboard.Item1);
-					if (EditLayerB != null) EditLayerB.PasteFromClipboard(pastePoint, TilesClipboard.Item2);
-					UpdateEditLayerActions();
-				}
-
-			}
-			else if (IsEntitiesEdit())
-			{
-				if (entitiesToolbar.IsFocused.Equals(false))
-				{
-					try
-					{
-
-						// check if there are entities on the Windows clipboard; if so, use those
-						if (mySettings.EnableWindowsClipboard && Clipboard.ContainsData("ManiacEntities"))
-						{
-							
-							entities.PasteFromClipboard(new Point((int)(lastX / Zoom), (int)(lastY / Zoom)), (List<EditorEntity>)Clipboard.GetDataObject().GetData("ManiacEntities"));
-							UpdateLastEntityAction();
-						}
-
-						// if there's none, use the internal clipboard
-						else if (entitiesClipboard != null)
-						{
-							entities.PasteFromClipboard(new Point((int)(lastX / Zoom), (int)(lastY / Zoom)), entitiesClipboard);
-							UpdateLastEntityAction();
-						}
-					}
-					catch (EditorEntities.TooManyEntitiesException)
-					{
-						System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
-						return;
-					}
-					UpdateEntitiesToolbarList();
-					SetSelectOnlyButtonsState();
-				}
-			}
-		}
-
-		public void FlipVerticalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
-			EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
-			UpdateEditLayerActions();
-		}
-
-		public void FlipVerticalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
-			EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
-			UpdateEditLayerActions();
-		}
-
-		#endregion
-
-		#region View Tab Buttons
-
-		public void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			DebugStatsVisibleOnPanel = !DebugStatsVisibleOnPanel;
-			showStatsToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
-		}
-
-		private void PointerTooltipToggleToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			TooltipButton_Click(sender, e);
-		}
-
-		private void ResetZoomLevelToolstripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			SetZoomLevel(0, new Point(0, 0));
-		}
-
-		private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			UseLargeDebugStats = !UseLargeDebugStats;
-			useLargeTextToolStripMenuItem.IsChecked = DebugStatsVisibleOnPanel;
-		}
-
-		private void SetMenuButtons(object sender, RoutedEventArgs e)
-		{
-			MenuItem menuItem = sender as MenuItem;
-			if (menuItem != null)
-			{
-				if (menuItem.Tag != null)
-				{
-					var allItems = menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-					foreach (MenuItem item in allItems)
-					{
-						item.IsChecked = false;
-						var allSubItems = menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-						foreach (MenuItem subItem in allSubItems)
-						{
-							subItem.IsChecked = false;
-						}
-					}
-					string tag = menuItem.Tag.ToString();
-					switch (tag)
-					{
-						case "Xbox":
-							CurrentControllerButtons = 2;
-							break;
-						case "Switch":
-							CurrentControllerButtons = 4;
-							break;
-						case "PS4":
-							CurrentControllerButtons = 3;
-							break;
-						case "Saturn Black":
-							CurrentControllerButtons = 5;
-							break;
-						case "Saturn White":
-							CurrentControllerButtons = 6;
-							break;
-						case "Switch Joy L":
-							CurrentControllerButtons = 7;
-							break;
-						case "Switch Joy R":
-							CurrentControllerButtons = 8;
-							break;
-						case "PC EN/JP":
-							CurrentControllerButtons = 1;
-							break;
-						case "PC FR":
-							CurrentControllerButtons = 9;
-							break;
-						case "PC IT":
-							CurrentControllerButtons = 10;
-							break;
-						case "PC GE":
-							CurrentControllerButtons = 11;
-							break;
-						case "PC SP":
-							CurrentControllerButtons = 12;
-							break;
-					}
-					menuItem.IsChecked = true;
-				}
-
-			}
-
-		}
-
-		private void SetMenuButtons(string tag)
-		{
-			switch (tag)
-			{
-				case "Xbox":
-					CurrentControllerButtons = 2;
-					break;
-				case "Switch":
-					CurrentControllerButtons = 4;
-					break;
-				case "PS4":
-					CurrentControllerButtons = 3;
-					break;
-				case "Saturn Black":
-					CurrentControllerButtons = 5;
-					break;
-				case "Saturn White":
-					CurrentControllerButtons = 6;
-					break;
-				case "Switch Joy L":
-					CurrentControllerButtons = 7;
-					break;
-				case "Switch Joy R":
-					CurrentControllerButtons = 8;
-					break;
-				case "PC EN/JP":
-					CurrentControllerButtons = 1;
-					break;
-				case "PC FR":
-					CurrentControllerButtons = 9;
-					break;
-				case "PC IT":
-					CurrentControllerButtons = 10;
-					break;
-				case "PC GE":
-					CurrentControllerButtons = 11;
-					break;
-				case "PC SP":
-					CurrentControllerButtons = 12;
-					break;
-			}
-		}
-
-		private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (entityVisibilityType == 0)
-			{
-				showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked = true;
-				entityVisibilityType = 1;
-			}
-			else
-			{
-				showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked = false;
-				entityVisibilityType = 0;
-			}
-
-		}
-
-		private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (!mySettings.PrioritizedObjectRendering)
-			{
-				mySettings.PrioritizedObjectRendering = true;
-				prioritizedViewingToolStripMenuItem.IsChecked = true;
-			}
-			else
-			{
-				mySettings.PrioritizedObjectRendering = false;
-				prioritizedViewingToolStripMenuItem.IsChecked = false;
-			}
-
-		}
-
-
-		private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			SetEncorePallete(sender);
-		}
-
-		public void SetEncorePallete(object sender = null, string path = "")
-		{
-			if (sender != null)
-			{
-				var clickedItem = sender as System.Windows.Controls.MenuItem;
-				bool useModFolder = (clickedItem == fromModDirectoryToolStripMenuItem) && ModDataDirectory != "" && Directory.Exists(Path.Combine(ModDataDirectory, "Palettes"));
-				string StartDir = (useModFolder ? ModDataDirectory : DataDirectory);
-				try
-				{
-					using (var fd = new OpenFileDialog())
-					{
-						fd.Filter = "Color Palette File|*.act";
-						fd.DefaultExt = ".act";
-						fd.Title = "Select an Encore Color Palette";
-						fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
-						if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						{
-							EncorePalette = EditorScene.getEncorePalette("", "", "", "", -1, fd.FileName);
-							EncoreSetupType = 0;
-							if (File.Exists(EncorePalette[0]))
-							{
-								encorePaletteExists = true;
-								EncorePaletteButton.IsChecked = true;
-								useEncoreColors = true;
-								ReloadSpecificTextures(null, null);
-							}
-
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					System.Windows.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
-				}
-			}
-			else if (path != "")
-			{
-				EncorePalette = EditorScene.getEncorePalette("", "", "", "", -1, path);
-				EncoreSetupType = 0;
-				if (File.Exists(EncorePalette[0]))
-				{
-					encorePaletteExists = true;
-					EncorePaletteButton.IsChecked = true;
-					useEncoreColors = true;
-					ReloadSpecificTextures(null, null);
-				}
-				else
-				{
-					System.Windows.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
-				}
-			}
-
-		}
-
-		private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (!extraLayersMoveToFront)
-			{
-				moveExtraLayersToFrontToolStripMenuItem.IsChecked = true;
-				extraLayersMoveToFront = true;
-			}
-			else
-			{
-				moveExtraLayersToFrontToolStripMenuItem.IsChecked = false;
-				extraLayersMoveToFront = false;
-			}
-		}
-
-		private void ToolStripTextBox1_TextChanged(object sender, RoutedEventArgs e)
-		{
-			entitiesTextFilter = toolStripTextBox1.Text;
-			entities.FilterRefreshNeeded = true;
-		}
-
-		private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (showEntitySelectionBoxes)
-			{
-				showEntitySelectionBoxesToolStripMenuItem.IsChecked = false;
-				showEntitySelectionBoxes = false;
-			}
-			else
-			{
-				showEntitySelectionBoxesToolStripMenuItem.IsChecked = true;
-				showEntitySelectionBoxes = true;
-			}
-		}
-
-		private void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (!showWaterLevel)
-			{
-				showWaterLevelToolStripMenuItem.IsChecked = true;
-				showWaterLevel = true;
-			}
-			else
-			{
-				showWaterLevelToolStripMenuItem.IsChecked = false;
-				showWaterLevel = false;
-			}
-		}
-
-		private void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e)
-		{
-
-			if (!alwaysShowWaterLevel)
-			{
-				waterLevelAlwaysShowItem.IsChecked = true;
-				alwaysShowWaterLevel = true;
-			}
-			else
-			{
-				waterLevelAlwaysShowItem.IsChecked = false;
-				alwaysShowWaterLevel = false;
-			}
-		}
-
-		private void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (!sizeWaterLevelwithBounds)
-			{
-				sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
-				sizeWaterLevelwithBounds = true;
-			}
-			else
-			{
-				sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
-				sizeWaterLevelwithBounds = false;
-			}
-		}
-
-		private void ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e);
-		}
-
-		private void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (showParallaxSprites)
-			{
-				showEntityPathArrowsToolstripItem.IsChecked = false;
-				showParallaxSprites = false;
-			}
-			else
-			{
-				showEntityPathArrowsToolstripItem.IsChecked = false;
-				showParallaxSprites = true;
-			}
-		}
-
-		private void XToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			SetScrollLockDirection();
-		}
-
-		private void YToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			SetScrollLockDirection();
-		}
-
-		private void SetScrollLockDirection()
-		{
-			if (ScrollDirection == (int)ScrollDir.X)
-			{
-				ScrollDirection = (int)ScrollDir.Y;
-				UpdateStatusPanel(null, null);
-				xToolStripMenuItem.IsChecked = false;
-				yToolStripMenuItem.IsChecked = true;
-			}
-			else
-			{
-				ScrollDirection = (int)ScrollDir.X;
-				UpdateStatusPanel(null, null);
-				xToolStripMenuItem.IsChecked = true;
-				yToolStripMenuItem.IsChecked = false;
-			}
-		}
-
-		private void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (!showEntityPathArrows)
-			{
-				showEntityPathArrowsToolstripItem.IsChecked = true;
-				showEntityPathArrows = true;
-			}
-			else
-			{
-				showEntityPathArrowsToolstripItem.IsChecked = false;
-				showEntityPathArrows = false;
-			}
-		}
-
-		#endregion
-
-		#region Scene Tab Buttons
-		public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null)
-		{
-			importingObjects = true;
-			try
-			{
-				Scene sourceScene = GetSceneSelection();
-				if (sourceScene == null) return;
-				var objectImporter = new ManiacEditor.Interfaces.ObjectImporter(sourceScene.Objects, EditorScene.Objects, StageConfig, this);
-				if (window != null) objectImporter.Owner = window;
-				objectImporter.ShowDialog();
-
-				if (objectImporter.DialogResult != true)
-					return; // nothing to do
-
-				// user clicked Import, get to it!
-				UpdateControls();
-				entitiesToolbar?.RefreshSpawningObjects(EditorScene.Objects);
-
-			}
-			catch (Exception ex)
-			{
-				System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
-			}
-			importingObjects = false;
-		}
-
-		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			ImportSoundsToolStripMenuItem_Click(sender, e, GetWindow(this));
-		}
-		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null)
-		{
-			try
-			{
-				StageConfig sourceStageConfig = null;
-				using (var fd = new OpenFileDialog())
-				{
-					fd.Filter = "Stage Config File|*.bin";
-					fd.DefaultExt = ".bin";
-					fd.Title = "Select Stage Config File";
-					fd.InitialDirectory = Path.Combine(DataDirectory, "Stages");
-					if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-					{
-						try
-						{
-							sourceStageConfig = new StageConfig(fd.FileName);
-						}
-						catch
-						{
-							System.Windows.MessageBox.Show("Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
-							return;
-						}
-
-					}
-				}
-				if (null == sourceStageConfig) return;
-
-				var soundImporter = new ManiacEditor.Interfaces.SoundImporter(sourceStageConfig, StageConfig);
-				soundImporter.ShowDialog();
-
-				if (soundImporter.DialogResult != true)
-					return; // nothing to do
-
-
-				// changing the sound list doesn't require us to do anything either
-
-			}
-			catch (Exception ex)
-			{
-				System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
-			}
-		}
-
-		private void LayerManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Deselect(true);
-
-			var lm = new LayerManager(EditorScene);
-			lm.Owner = Window.GetWindow(this);
-			lm.ShowDialog();
-
-			SetupLayerButtons();
-			ResetViewSize();
-			UpdateControls();
-		}
-
-		private void PrimaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			ColorPickerDialog colorSelect = new ColorPickerDialog
-			{
-				Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor1.R, EditorScene.EditorMetadata.BackgroundColor1.G, EditorScene.EditorMetadata.BackgroundColor1.B)
-			};
-			UseExternalDarkTheme(colorSelect);
-			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
-			if (result == System.Windows.Forms.DialogResult.OK)
-			{
-				{
-					RSDKv5.Color returnColor = new RSDKv5.Color
-					{
-						R = colorSelect.Color.R,
-						A = colorSelect.Color.A,
-						B = colorSelect.Color.B,
-						G = colorSelect.Color.G
-					};
-					EditorScene.EditorMetadata.BackgroundColor1 = returnColor;
-				}
-
-			}
-		}
-
-		private void SecondaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			ColorPickerDialog colorSelect = new ColorPickerDialog
-			{
-				Color = Color.FromArgb(EditorScene.EditorMetadata.BackgroundColor2.R, EditorScene.EditorMetadata.BackgroundColor2.G, EditorScene.EditorMetadata.BackgroundColor2.B)
-			};
-			UseExternalDarkTheme(colorSelect);
-			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
-			if (result == System.Windows.Forms.DialogResult.OK)
-			{
-				{
-					RSDKv5.Color returnColor = new RSDKv5.Color
-					{
-						R = colorSelect.Color.R,
-						A = colorSelect.Color.A,
-						B = colorSelect.Color.B,
-						G = colorSelect.Color.G
-					};
-					EditorScene.EditorMetadata.BackgroundColor2 = returnColor;
-				}
-
-			}
-		}
-
-		#endregion
-
-		#region Tools Tab Buttons
-
-		private void OptimizeEntitySlotIDsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (EditorScene != null)
-			{
-				entities.OptimizeSlotIDs();
-			}
-		}
-
-		private void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e)
-		{
-			if (rightClicktoSwapSlotIDs.IsChecked)
-			{
-				rightClicktoSwapSlotID = true;
-			}
-			else
-			{
-				rightClicktoSwapSlotID = false;
-			}
-		}
-
-		private void CopyAirToggle_Click(object sender, RoutedEventArgs e)
-		{
-			if (copyAirToggle.IsChecked)
-			{
-				CopyAir = true;
-			}
-			else
-			{
-				CopyAir = false;
-			}
-		}
-
-		private void changeLevelIDToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			string inputValue = TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", LevelID.ToString());
-			int.TryParse(inputValue.ToString(), out int output);
-			LevelID = output;
-			_levelIDLabel.Content = "Level ID: " + LevelID.ToString();
-		}
-
-		private void MakeForDataFolderOnlyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			string dataDir = DataDirectory;
-			CreateShortcut(dataDir);
-		}
-
-		private void WithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			string dataDir = DataDirectory;
-			string scenePath = Discord.ScenePath;
-			string modPath = ModDataDirectory;
-			int rX = (short)(ShiftX);
-			int rY = (short)(ShiftY);
-			double _ZoomLevel = ZoomLevel;
-			bool isEncoreSet = useEncoreColors;
-			int levelSlotNum = LevelID;
-			CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
-		}
-
-		private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			string dataDir = DataDirectory;
-			string scenePath = Discord.ScenePath;
-			string modPath = ModDataDirectory;
-			int rX = 0;
-			int rY = 0;
-			bool isEncoreSet = useEncoreColors;
-			int levelSlotNum = LevelID;
-			CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum);
-		}
-
-		private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			SoundLooper form = new SoundLooper();
-			form.ShowDialog();
-		}
-
-		#endregion
-
-		#region Apps Tab Buttons
-
-		private void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (mainform == null || mainform.IsClosed) mainform = new TileManiacWPF.MainWindow();
-			mainform.Show();
-			if (TilesConfig != null && StageTiles != null)
-			{
-				if (mainform.Visibility != Visibility.Visible || mainform.tcf == null)
-				{
-					mainform.LoadTileConfigViaIntergration(TilesConfig, SceneFilepath);
-				}
-				else
-				{
-					mainform.Activate();
-				}
-
-			}
-
-		}
-
-		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			//Sanic2Maniac sanic = new Sanic2Maniac(null, this);
-			//sanic.Show();
-		}
-		private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			String aniProcessName = Path.GetFileNameWithoutExtension(mySettings.RunAniEdPath);
-			IntPtr hWnd = FindWindow(aniProcessName, null); // this gives you the handle of the window you need.
-			Process processes = Process.GetProcessesByName(aniProcessName).FirstOrDefault();
-			if (processes != null)
-			{
-				// check if the window is hidden / minimized
-				if (processes.MainWindowHandle == IntPtr.Zero)
-				{
-					// the window is hidden so try to restore it before setting focus.
-					ShowWindow(processes.Handle, ShowWindowEnum.Restore);
-				}
-
-				// set user the focus to the window
-				SetForegroundWindow(processes.MainWindowHandle);
-			}
-			else
-			{
-
-				// Ask where RSDK Annimation Editor is located when not set
-				if (string.IsNullOrEmpty(mySettings.RunAniEdPath))
-				{
-					var ofd = new OpenFileDialog
-					{
-						Title = "Select RSDK Animation Editor.exe",
-						Filter = "Windows Executable|*.exe"
-					};
-					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						mySettings.RunAniEdPath = ofd.FileName;
-				}
-				else
-				{
-					if (!File.Exists(mySettings.RunGamePath))
-					{
-						mySettings.RunAniEdPath = "";
-						return;
-					}
-				}
-
-				ProcessStartInfo psi;
-				psi = new ProcessStartInfo(mySettings.RunAniEdPath);
-				Process.Start(psi);
-			}
-		}
-
-		private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			MenuItem button = sender as MenuItem;
-
-			if (ManiaPal.MainWindow.Instance == null)
-			{
-				ManiaPalInstance = new ManiaPal.MainWindow();
-				ManiaPalInstance.Show();
-
-				while (ManiaPal.MainWindow.Instance == null)
-					Thread.Sleep(100);
-				var MP = ManiaPal.MainWindow.Instance;
-				if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
-				{
-					if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
-				}
-				else if (StageConfig != null)
-				{
-					if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
-				}
-
-				MP.RefreshPalette(MP.CurrentPaletteSet);
-				MP.Activate();
-			}
-			else
-			{
-				var MP = ManiaPal.MainWindow.Instance;
-				MP.Visibility = System.Windows.Visibility.Visible;
-				MP.Activate();
-
-
-				if (button != null && button == maniaPalStageConfigToolStripMenuItem && StageConfig != null)
-				{
-					if (StageConfig.FilePath != null) MP.LoadFile(StageConfig.FilePath);
-					MP.RefreshPalette(MP.CurrentPaletteSet);
-				}
-
-				if (button != null && button == maniaPalGameConfigToolStripMenuItem && GameConfig != null)
-				{
-					if (GameConfig.FilePath != null) MP.LoadFile(GameConfig.FilePath);
-					MP.RefreshPalette(MP.CurrentPaletteSet);
-				}
-
-			}
-
-
-		}
-
-		private void colorPaletteEditorToolStripMenuItem_DropDownOpened(object sender, RoutedEventArgs e)
-		{
-			maniaPalHint.Header = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
-			if (!maniaPalGameConfigToolStripMenuItem.Header.ToString().Contains(Environment.NewLine))
-			{
-				maniaPalGameConfigToolStripMenuItem.Header += Environment.NewLine + Environment.NewLine;
-				maniaPalStageConfigToolStripMenuItem.Header += Environment.NewLine + Environment.NewLine;
-			}
-
-		}
-
-
-		private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			MessageBoxResult result = System.Windows.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
-			if (result == MessageBoxResult.OK)
-			{
-				RepairScene();
-			}
-		}
-
-		#endregion
-
-		#region Folders Tab Buttons
-		private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (SceneFilename != null && SceneFilename != "" && File.Exists(SceneFilename))
-			{
-				string SceneFilename_mod = SceneFilename.Replace('/', '\\');
-				Process.Start("explorer.exe", "/select, " + SceneFilename_mod);
-			}
-			else
-			{
-				System.Windows.MessageBox.Show("Scene File does not exist or simply isn't loaded!", "ERROR");
-			}
-
-		}
-
-		private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			string DataDirectory_mod = DataDirectory.Replace('/', '\\');
-			if (DataDirectory_mod != null && DataDirectory_mod != "" && Directory.Exists(DataDirectory_mod))
-			{
-				Process.Start("explorer.exe", "/select, " + DataDirectory_mod);
-			}
-			else
-			{
-				System.Windows.MessageBox.Show("Data Directory does not exist or simply isn't loaded!", "ERROR");
-			}
-
-		}
-
-		private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (mySettings.RunGamePath != null && mySettings.RunGamePath != "" && File.Exists(mySettings.RunGamePath))
-			{
-				string GameFolder = mySettings.RunGamePath;
-				string GameFolder_mod = GameFolder.Replace('/', '\\');
-				Process.Start("explorer.exe", "/select, " + GameFolder_mod);
-			}
-			else
-			{
-				System.Windows.MessageBox.Show("Game Folder does not exist or isn't set!", "ERROR");
-			}
-
-		}
-
-		private void OpenModDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (ModDataDirectory != "")
-			{
-				string ModDataDir = ModDataDirectory.Replace('/', '\\');
-				Process.Start("explorer.exe", "/select, " + ModDataDir);
-			}
-			else
-			{
-				System.Windows.MessageBox.Show("Mod Data Directory Not Loaded!", "ERROR");
-			}
-
-
-		}
-		private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e)
-		{
-			if (Settings.mySettings.SavedPlaces != null && Settings.mySettings.SavedPlaces.Count > 0)
-			{
-				openASavedPlaceToolStripMenuItem.Items.Clear();
-				var allItems = openASavedPlaceToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-				foreach (string savedPlace in Settings.mySettings.SavedPlaces)
-				{
-					var savedPlaceItem = new MenuItem()
-					{
-						Header = savedPlace,
-						Tag = savedPlace
-					};
-					savedPlaceItem.Click += OpenASavedPlaceTrigger;
-					openASavedPlaceToolStripMenuItem.Items.Add(savedPlaceItem);
-				}
-			}
-
-		}
-
-		private void OpenASavedPlaceTrigger(object sender, RoutedEventArgs e)
-		{
-			MenuItem item = sender as MenuItem;
-			string savedPlaceDir = item.Header.ToString().Replace('/', '\\');
-			Process.Start("explorer.exe", "/select, " + savedPlaceDir);
-		}
-
-		private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e)
-		{
-			openASavedPlaceToolStripMenuItem.Items.Clear();
-			openASavedPlaceToolStripMenuItem.Items.Add("No Saved Places");
-			//openASavedPlaceToolStripMenuItem.DropDownItems[0].IsEnabled = false;
-		}
-
-		#endregion
-
-		#region Other Tab Buttons
-		public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			var aboutBox = new ManiacEditor.Interfaces.AboutWindow();
-			aboutBox.Owner = Window.GetWindow(this);
-			aboutBox.ShowDialog();
-		}
-
-		private void WikiToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
-		}
-
-		public void OptionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			/*
-            using (var optionBox = new OptionBox(this))
-            {
-                optionBox.ShowDialog();
-            }
-			*/
-			var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(this);
-			optionMenu.Owner = Window.GetWindow(this);
-			optionMenu.ShowDialog();
-		}
-
-		private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(this);
-			optionMenu.Owner = Window.GetWindow(this);
-			optionMenu.MainTabControl.SelectedIndex = 2;
-			optionMenu.ShowDialog();
-		}
-		#endregion
-
-		#region Main Toolstrip Buttons
-		private void NewToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			New_Click(sender, e);
-		}
-
-		private void SToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Save_Click(sender, e);
-		}
-
-		private void MagnetMode_Click(object sender, RoutedEventArgs e)
-		{
-			if (UseMagnetMode)
-			{
-				UseMagnetMode = false;
-				MagnetMode.IsChecked = false;
-			}
-			else
-			{
-				UseMagnetMode = true;
-				MagnetMode.IsChecked = true;
-			}
-		}
-
-		private void UndoButton_Click(object sender, RoutedEventArgs e)
-		{
-			EditorUndo();
-		}
-
-		private void RedoButton_Click(object sender, RoutedEventArgs e)
-		{
-			EditorRedo();
-		}
-
-		private void ZoomInButton_Click(object sender, RoutedEventArgs e)
-		{
-			ZoomLevel += 1;
-			if (ZoomLevel >= 5) ZoomLevel = 5;
-			if (ZoomLevel <= -5) ZoomLevel = -5;
-
-			SetZoomLevel(ZoomLevel, new Point(0, 0));
-		}
-
-		private void ZoomOutButton_Click(object sender, RoutedEventArgs e)
-		{
-			ZoomLevel -= 1;
-			if (ZoomLevel >= 5) ZoomLevel = 5;
-			if (ZoomLevel <= -5) ZoomLevel = -5;
-
-			SetZoomLevel(ZoomLevel, new Point(0, 0));
-		}
-
-		private void SelectTool_Click(object sender, RoutedEventArgs e)
-		{
-			//SelectToolButton.IsChecked = !SelectToolButton.IsChecked;
-			PointerButton.IsChecked = false;
-			PlaceTilesButton.IsChecked = false;
-			InteractionToolButton.IsChecked = false;
-			UpdateControls();
-		}
-
-		private void PointerButton_Click(object sender, RoutedEventArgs e)
-		{
-			//PointerButton.IsChecked = !PointerButton.IsChecked;
-			SelectToolButton.IsChecked = false;
-			PlaceTilesButton.IsChecked = false;
-			InteractionToolButton.IsChecked = false;
-			UpdateControls();
-		}
-
-		private void PlaceTilesButton_Click(object sender, RoutedEventArgs e)
-		{
-			//PlaceTilesButton.IsChecked = !PlaceTilesButton.IsChecked;
-			SelectToolButton.IsChecked = false;
-			PointerButton.IsChecked = false;
-			InteractionToolButton.IsChecked = false;
-			UpdateControls();
-		}
-
-		private void InteractionToolButton_Click(object sender, RoutedEventArgs e)
-		{
-			//InteractionToolButton.IsChecked = !InteractionToolButton.IsChecked;
-			PlaceTilesButton.IsChecked = false;
-			SelectToolButton.IsChecked = false;
-			PointerButton.IsChecked = false;
-			UpdateControls();
-		}
-
-		private void ChunkToolButton_Click(object sender, RoutedEventArgs e)
-		{
-			//ChunksToolButton.IsChecked = !ChunksToolButton.IsChecked;
-			UpdateControls();
-		}
-
-		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				// release all our resources, and force a reload of the tiles
-				// Entities should take care of themselves
-				DisposeTextures();
-				EditorEntity_ini.ReleaseResources();
-				//EditorEntity_ini.rendersWithErrors.Clear();
-
-				//Reload for Encore Palletes, otherwise reload the image normally
-				if (useEncoreColors == true)
-				{
-					StageTiles?.Image.Reload(EncorePalette[0]);
-					TilesToolbar?.Reload(EncorePalette[0]);
-				}
-				else
-				{
-					StageTiles?.Image.Reload();
-					TilesToolbar?.Reload();
-				}
-
-				TilesConfig = new TileConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
-
-				CollisionLayerA.Clear();
-				CollisionLayerB.Clear();
-
-				for (int i = 0; i < 1024; i++)
-				{
-					CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-					CollisionLayerB.Add(TilesConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-				}
-
-
-
-			}
-			catch (Exception ex)
-			{
-				System.Windows.MessageBox.Show(ex.Message);
-			}
-		}
-
-		private void RunScene_Click(object sender, RoutedEventArgs e)
-		{
-			IntPtr hWnd = FindWindow("SonicMania", null); // this gives you the handle of the window you need.
-			Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
-			if (sender == RunSceneButton && GameRunning)
-			{
-				RunSceneDropDown.IsSubmenuOpen = true;
-				return;
-			}
-			if (processes != null)
-			{
-				// check if the window is hidden / minimized
-				if (processes.MainWindowHandle == IntPtr.Zero)
-				{
-					// the window is hidden so try to restore it before setting focus.
-					ShowWindow(processes.Handle, ShowWindowEnum.Restore);
-				}
-
-				// set user the focus to the window
-				SetForegroundWindow(processes.MainWindowHandle);
-				if (!GameRunning)
-				{
-					Dispatcher.Invoke(new Action(() => RunSequence(sender, e, true)));
-				}
-			}
-			else
-			{
-				if (!GameRunning)
-				{
-					if (mySettings.RunModLoaderPath != null && mySettings.modConfigs?.Count > 0)
-					{
-						string ConfigPath = mySettings.RunGamePath;
-						MenuItem dropDownItem = selectConfigToolStripMenuItem.Items[0] as MenuItem;
-						ConfigPath = ConfigPath.Replace('/', '\\');
-						ConfigPath = ConfigPath.Replace("SonicMania.exe", "//mods//ManiaModLoader.ini");
-						var allItems = selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-						foreach (MenuItem item in allItems)
-						{
-							if (item.IsChecked)
-							{
-								dropDownItem = item;
-							}
-						}
-						File.WriteAllText(ConfigPath, dropDownItem.Tag.ToString());
-					}
-					Dispatcher.Invoke(new Action(() => RunSequence(sender, e)));
-				}
-
-			}
-		}
-
-		private void RunSceneButton_DropDownOpening(object sender, RoutedEventArgs e)
-		{
-			trackThePlayerToolStripMenuItem.IsEnabled = GameRunning;
-			assetResetToolStripMenuItem1.IsEnabled = GameRunning;
-			moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
-			restartSceneToolStripMenuItem1.IsEnabled = GameRunning;
-			selectConfigToolStripMenuItem.IsEnabled = !GameRunning;
-		}
-
-		public void ShowTileIDButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (showTileID == false)
-			{
-				ShowTileIDButton.IsChecked = true;
-				ReloadSpecificTextures(sender, e);
-				showTileID = true;
-			}
-			else
-			{
-				ShowTileIDButton.IsChecked = false;
-				ReloadSpecificTextures(sender, e);
-				showTileID = false;
-			}
-		}
-
-		public void ShowGridButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (showGrid == false)
-			{
-				ShowGridButton.IsChecked = true;
-				showGrid = true;
-				GridCheckStateCheck();
-
-			}
-			else
-			{
-				ShowGridButton.IsChecked = false;
-				showGrid = false;
-			}
-		}
-
-		public void ShowCollisionAButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (showCollisionA == false)
-			{
-				ShowCollisionAButton.IsChecked = true;
-				showCollisionA = true;
-				ShowCollisionBButton.IsChecked = false;
-				showCollisionB = false;
-				ReloadSpecificTextures(sender, e);
-			}
-			else
-			{
-				ShowCollisionAButton.IsChecked = false;
-				showCollisionA = false;
-				ShowCollisionBButton.IsChecked = false;
-				showCollisionB = false;
-				ReloadSpecificTextures(sender, e);
-			}
-		}
-
-		public void ShowCollisionBButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (showCollisionB == false)
-			{
-				ShowCollisionBButton.IsChecked = true;
-				showCollisionB = true;
-				ShowCollisionAButton.IsChecked = false;
-				showCollisionA = false;
-				ReloadSpecificTextures(sender, e);
-			}
-			else
-			{
-				ShowCollisionBButton.IsChecked = false;
-				showCollisionB = false;
-				ShowCollisionAButton.IsChecked = false;
-				showCollisionA = false;
-				ReloadSpecificTextures(sender, e);
-			}
-		}
-
-		private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e)
-		{
-			if (_recentDataItems != null)
-			{
-				string dataDirectory = _recentDataItems[1].Tag.ToString();
-				if (dataDirectory != null || dataDirectory != "")
-				{
-					RecentDataDirectoryClicked(sender, e, dataDirectory);
-				}
-			}
-		}
-		private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e)
-		{
-			if (editorView.GraphicPanel.bRender)
-			{
-				editorView.GraphicPanel.bRender = false;
-			}
-			else
-			{
-				ReloadToolStripButton_Click(null, null);
-				editorView.GraphicPanel.bRender = true;
-			}
-		}
-
-		private void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e)
-		{
-			if (showFlippedTileHelper == false)
-			{
-				ReloadSpecificTextures(sender, e);
-				showFlippedTileHelper = true;
-
-			}
-			else
-			{
-				ReloadSpecificTextures(sender, e);
-				showFlippedTileHelper = false;
-			}
-		}
-
-		private void ResetDeviceButton_Click(object sender, RoutedEventArgs e)
-		{
-			editorView.GraphicPanel.AttemptRecovery(null);
-		}
-
-		private void EnableEncorePalette_Click(object sender, RoutedEventArgs e)
-		{
-			DisposeTextures();
-			if (useEncoreColors == true)
-			{
-				EncorePaletteButton.IsChecked = false;
-				useEncoreColors = false;
-				StageTiles?.Image.Reload();
-				TilesToolbar?.Reload();
-			}
-			else
-			{
-				EncorePaletteButton.IsChecked = true;
-				useEncoreColors = true;
-				StageTiles?.Image.Reload(EncorePalette[0]);
-				TilesToolbar?.Reload(EncorePalette[0]);
-			}
-			EditorEntity_ini.ReleaseResources();
-		}
-
-
-		#endregion
-
 		#region GraphicsPanel + Program + Splitcontainer
-
 		public void OnResetDevice(object sender, DeviceEventArgs e)
 		{
 			Device device = e.Device;
 		}
-
 		public void CheckDeviceState(object sender, PowerModeChangedEventArgs e)
 		{
 			switch (e.Mode)
@@ -4698,8 +2627,28 @@ Error: {ex.Message}");
 					break;
 			}
 		}
+		private void Editor_Resize(object sender, SizeChangedEventArgs e)
+		{
+			Form1_Resize(this, null);
+		}
+		private void ParentGrid_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Create the interop host control.
+			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 
+			// Create the MaskedTextBox control.
 
+			// Assign the MaskedTextBox control as the host control's child.
+			host.Child = editorView;
+
+			host.Foreground = (SolidColorBrush)FindResource("NormalText");
+
+			// Add the interop host control to the Grid
+			// control's collection of child controls.
+			this.ViewPanelForm.Children.Add(host);
+
+			editorView.GraphicPanel.Init(editorView);
+		}
 		private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
 		{
 			// hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
@@ -4905,13 +2854,11 @@ Error: {ex.Message}");
 				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
 			}
 		}
-
 		public void DrawLayers(int drawOrder = 0)
 		{
 			var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
 			_extraViewLayer.Draw(editorView.GraphicPanel);
 		}
-
 		public void Run()
 		{
 			Show();
@@ -4920,7 +2867,6 @@ Error: {ex.Message}");
 			editorView.GraphicPanel.Run();
 
 		}
-
 		private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			if (!mySettings.DisableDraging)
@@ -4938,7 +2884,6 @@ Error: {ex.Message}");
 				}
 			}
 		}
-
 		private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			if (!mySettings.DisableDraging)
@@ -4952,7 +2897,6 @@ Error: {ex.Message}");
 				}
 			}
 		}
-
 		private void GraphicPanel_DragLeave(object sender, EventArgs e)
 		{
 			if (!mySettings.DisableDraging)
@@ -4961,7 +2905,6 @@ Error: {ex.Message}");
 				editorView.GraphicPanel.Render();
 			}
 		}
-
 		private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			if (!mySettings.DisableDraging)
@@ -4969,12 +2912,10 @@ Error: {ex.Message}");
 				EditLayer?.EndDragOver(false);
 			}
 		}
-
 		public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			EditorControls.GraphicPanel_OnKeyDown(sender, e);
 		}
-
 		private void EditorViewWPF_KeyDown(object sender, KeyEventArgs e)
 		{
 			var e2 = KeyEventExts.ToWinforms(e);
@@ -4984,12 +2925,10 @@ Error: {ex.Message}");
 			}
 
 		}
-
 		public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			EditorControls.GraphicPanel_OnKeyUp(sender, e);
 		}
-
 		private void EditorViewWPF_KeyUp(object sender, KeyEventArgs e)
 		{
 			var e2 = KeyEventExts.ToWinforms(e);
@@ -4999,7 +2938,6 @@ Error: {ex.Message}");
 			}
 
 		}
-
 		private void MapEditor_Activated(object sender, EventArgs e)
 		{
 			editorView.GraphicPanel.Focus();
@@ -5009,7 +2947,6 @@ Error: {ex.Message}");
 			}
 
 		}
-
 		private void MapEditor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			if (!editorView.GraphicPanel.Focused)
@@ -5017,7 +2954,6 @@ Error: {ex.Message}");
 				EditorControls.GraphicPanel_OnKeyDown(sender, e);
 			}
 		}
-
 		private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 
@@ -5048,7 +2984,6 @@ Error: {ex.Message}");
 
 
 		}
-
 		private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			if (!editorView.GraphicPanel.Focused)
@@ -5056,14 +2991,39 @@ Error: {ex.Message}");
 				EditorControls.GraphicPanel_OnKeyUp(sender, e);
 			}
 		}
-
 		private void SplitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
 		{
 			Form1_Resize(null, null);
 		}
+		public void UpdateStartScreen(bool visible, bool firstLoad = false)
+		{
+			if (firstLoad)
+			{
+				Thread thread = new Thread(() => {
+					Updater.CheckforUpdates(true, true);
+					Editor.UpdateUpdaterMessage = true;
+				});
+				thread.Start();
+				this.OverlayPanel.Children.Add(StartScreen);
+				StartScreen.SelectScreen.ReloadQuickPanel();
+				this.ViewPanelForm.Visibility = Visibility.Hidden;
 
 
+			}
+			if (visible)
+			{
+				StartScreen.Visibility = Visibility.Visible;
+				StartScreen.SelectScreen.ReloadQuickPanel();
+				this.ViewPanelForm.Visibility = Visibility.Hidden;
+			}
+			else
+			{
+				StartScreen.Visibility = Visibility.Hidden;
+				StartScreen.SelectScreen.ReloadQuickPanel();
+				this.ViewPanelForm.Visibility = Visibility.Visible;
+			}
 
+		}
 		#endregion
 
 		#region Editor Functions Copy/Paste/Delete/etc.
@@ -5130,7 +3090,7 @@ Error: {ex.Message}");
 			UpdateControls();
 		}
 
-		private void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
+		public void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
 		{
 			bool hasMultipleValidLayers = EditLayerA != null && EditLayerB != null;
 			if (!hasMultipleValidLayers)
@@ -5161,7 +3121,7 @@ Error: {ex.Message}");
 
 		}
 
-		private void CopyEntitiesToClipboard()
+		public void CopyEntitiesToClipboard()
 		{
 			if (entitiesToolbar.IsFocused == false)
 			{
@@ -5303,10 +3263,89 @@ Error: {ex.Message}");
 
 		}
 
+		public void CreateShortcut(string dataDir, string scenePath = "", string modPath = "", int X = 0, int Y = 0, bool isEncoreMode = false, int LevelSlotNum = -1, double ZoomedLevel = 0.0)
+		{
+			object shDesktop = (object)"Desktop";
+			WshShell shell = new WshShell();
+			string shortcutAddress = "";
+			if (scenePath != "")
+			{
+				shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + "Scene Link" + " - Maniac.lnk";
+			}
+			else
+			{
+				shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + "Data Folder Link" + " - Maniac.lnk";
+			}
+			IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+
+			string targetAddress = "\"" + Environment.CurrentDirectory + @"\ManiacEditor.exe" + "\"";
+			string launchArguments = "";
+			if (scenePath != "")
+			{
+				launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "") + (scenePath != "" ? "ScenePath=" + "\"" + scenePath + "\" " : "") + (modPath != "" ? "ModPath=" + "\"" + modPath + "\" " : "") + (LevelSlotNum != -1 ? "LevelID=" + LevelSlotNum.ToString() + " " : "") + (isEncoreMode == true ? "EncoreMode=TRUE " : "") + (X != 0 ? "X=" + X.ToString() + " " : "") + (Y != 0 ? "Y=" + Y.ToString() + " " : "") + (ZoomedLevel != 0 ? "ZoomedLevel=" + ZoomedLevel.ToString() + " " : "");
+			}
+			else
+			{
+				launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "");
+			}
+
+			shortcut.TargetPath = targetAddress;
+			shortcut.Arguments = launchArguments;
+			shortcut.WorkingDirectory = Environment.CurrentDirectory;
+			shortcut.Save();
+		}
+		public void ShowError(string message, string title = "Error!")
+		{
+			System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+			/*using (var customMsgBox = new CustomMsgBox(message, title, 1, 1))
+            {
+                customMsgBox.ShowDialog();
+            }*/
+		}
+		public void GoToPosition(int x, int y, bool CenterCoords = true, bool ShortcutClear = false)
+		{
+			if (CenterCoords)
+			{
+				Rectangle r = editorView.GraphicPanel.GetScreen();
+				int x2 = (int)(r.Width * Zoom);
+				int y2 = (int)(r.Height * Zoom);
+
+				int ResultX = (int)(x * Zoom) - x2 / 2;
+				int ResultY = (int)(y * Zoom) - y2 / 2;
+
+				if ((ResultX <= 0)) ResultX = 0;
+				if ((ResultY <= 0)) ResultY = 0;
+
+				ShiftX = ResultX;
+				ShiftY = ResultY;
+			}
+			else
+			{
+				int ResultX = (int)(x * Zoom);
+				int ResultY = (int)(y * Zoom);
+
+				if ((ResultX <= 0)) ResultX = 0;
+				if ((ResultY <= 0)) ResultY = 0;
+
+				ShiftX = ResultX;
+				ShiftY = ResultY;
+			}
+
+
+			if (ShortcutClear)
+			{
+				ForceWarp = false;
+				TempWarpCoords = new Point(0, 0);
+				ShortcutHasZoom = false;
+				ShortcutZoomValue = 0.0;
+			}
+
+		}
+
 		#endregion
 
 		#region Asset Reloading
-		private void ReloadSpecificTextures(object sender, RoutedEventArgs e)
+		public void ReloadSpecificTextures(object sender, RoutedEventArgs e)
 		{
 			try
 			{
@@ -5329,7 +3368,6 @@ Error: {ex.Message}");
 				System.Windows.MessageBox.Show(ex.Message);
 			}
 		}
-
 		public void DisposeTextures()
 		{
 			// Make sure to dispose the textures of the extra layers too
@@ -5344,7 +3382,6 @@ Error: {ex.Message}");
 				el.DisposeTextures();
 			}
 		}
-
 		public void RefreshCollisionColours(bool RefreshMasks = false)
 		{
 			switch (collisionPreset)
@@ -5381,264 +3418,6 @@ Error: {ex.Message}");
 				}
 			}
 		}
-		#endregion
-
-		#region Run Mania Methods
-
-		// TODO: Perfect Scene Autobooting
-		private void RunSequence(object sender, EventArgs e, bool attachMode = false)
-		{
-			// Ask where Sonic Mania is located when not set
-			string path = "steam://run/584400";
-			bool ready = false;
-			if (mySettings.UsePrePlusOffsets)
-			{
-				if (string.IsNullOrEmpty(mySettings.RunGamePath))
-				{
-					var ofd = new OpenFileDialog
-					{
-						Title = "Select SonicMania.exe",
-						Filter = "Windows PE Executable|*.exe"
-					};
-					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						mySettings.RunGamePath = ofd.FileName;
-				}
-				else
-				{
-					if (!File.Exists(mySettings.RunGamePath))
-					{
-						mySettings.RunGamePath = "";
-						return;
-					}
-				}
-				path = mySettings.RunGamePath;
-			}
-			ProcessStartInfo psi;
-
-			if (mySettings.RunGameInsteadOfScene)
-			{
-				psi = new ProcessStartInfo(path);
-			}
-			else
-			{
-				if (mySettings.UsePrePlusOffsets == true)
-				{
-					psi = new ProcessStartInfo(path, $"stage={SelectedZone};scene={SelectedScene[5]};");
-				}
-				else
-				{
-					psi = new ProcessStartInfo(path);
-				}
-
-			}
-			if (path != "" || attachMode)
-			{
-				string maniaDir = Path.GetDirectoryName(path);
-				// Check if the mod loader is installed
-				string modLoaderDLL = maniaDir + "//d3d9.dll";
-				if (File.Exists(modLoaderDLL))
-					psi.WorkingDirectory = maniaDir;
-				else
-					psi.WorkingDirectory = Path.GetDirectoryName(DataDirectory);
-				Process p;
-				if (!attachMode)
-				{
-					p = Process.Start(psi);
-				}
-				else
-				{
-					var mania = Process.GetProcessesByName("SonicMania.exe");
-					p = mania.FirstOrDefault();
-				}
-				GameRunning = true;
-
-				int CurrentScene_ptr = 0x00E48758;          // &CurrentScene
-				int GameState_ptr = 0x00E48776;             // &GameState
-				int IsGameRunning_ptr = 0x0065D1C8;
-				int Player1_ControllerID_ptr = 0x0085EB44;  // &Player1.ControllerID
-				int Player2_ControllerID_ptr = 0x0085EF9C;  // &Player2.ControllerID
-				if (mySettings.UsePrePlusOffsets)
-				{
-					CurrentScene_ptr = 0x00CCF6F8;
-					// TODO: Get Pre Plus GameState address
-					IsGameRunning_ptr = 0x00628094;
-					Player1_ControllerID_ptr = 0x00A4C860;
-				}
-
-				if (mySettings.UsePrePlusOffsets)
-				{
-					UpdateControls();
-					UseCheatCodes(p);
-					ready = true;
-				}
-				else
-				{
-
-					// For Mania Plus, The best way to boot the game is by using the steam command.
-					// After Calling the Steam command, We need to wait until Steam responds and Starts the game.
-					// Once the game process starts up, We quickly attach to it and apply all the needed patches
-
-					// Wait for Steam to complete startup
-					new Thread(() =>
-					{
-						Process[] Procs;
-						while ((Procs = Process.GetProcessesByName("SonicMania")).Length == 0)
-							Thread.Sleep(1);
-						Dispatcher.Invoke(new Action(() =>
-						{
-							p = Procs[0];
-							// Attach and Apply Cheats
-							UseCheatCodes(p);
-							UpdateControls();
-							ready = true;
-
-
-							// Wait until there is a Running Scene.
-							while (GameMemory.ReadByte(GameState_ptr) != 0x01)
-								Thread.Sleep(1);
-
-							// Swap the Scene
-							if (LevelID != -1)
-							{
-								GameMemory.WriteByte(CurrentScene_ptr, (byte)LevelID);
-								// Restart the Scene
-								GameMemory.WriteByte(GameState_ptr, 0);
-							}
-
-
-
-						}));
-					}).Start();
-				}
-
-
-				new Thread(() =>
-				{
-					while (!ready)
-						Thread.Sleep(10);
-					/* Level != Main Menu*/
-					while (GameMemory.ReadByte(CurrentScene_ptr) != 0x02 || Properties.Settings.Default.DisableRunSceneMenuQuit == true)
-					{
-						// Check if the user closed the game
-						if (p.HasExited || !GameRunning)
-						{
-							GameRunning = false;
-							if (IsVisible)
-							{
-								Dispatcher.Invoke(new Action(() => UpdateControls()));
-							}
-							return;
-						}
-						UseCheatCodes(p);
-						// Makes sure the process is attached and patches are applied
-						// Set Player 1 Controller Set to 1 (If we set it to AnyController (0x00) we can't use Debug Mode In-Game)
-						if (GameMemory.ReadByte(Player1_ControllerID_ptr) != 0x00 && Properties.Settings.Default.DisableRunSceneAutoInput == false)
-						{
-							GameMemory.WriteByte(Player1_ControllerID_ptr, 0x00); //setting this to 0x00 causes the inability to use debug mode
-							GameMemory.WriteByte(Player2_ControllerID_ptr, 0xFF);
-						}
-						Thread.Sleep(300);
-					}
-					// User is on the Main Menu
-					// Close the game
-					GameMemory.WriteByte(IsGameRunning_ptr, 0);
-					GameRunning = false;
-					Dispatcher.Invoke(new Action(() => UpdateControls()));
-				}).Start();
-			}
-		}
-
-		public void UseCheatCodes(Process p)
-		{
-			if (mySettings.UsePrePlusOffsets)
-			{
-				// Patches
-				GameMemory.Attach(p);
-			}
-			else
-			{
-				GameMemory.Attach(p);
-
-				// Mania Plus Patches
-				GameMemory.WriteByte(0x00E48768, 0x01); // Enable Debug
-				GameMemory.WriteByte(0x006F1806, 0x01); // Allow DevMenu
-				GameMemory.WriteByte(0x005FDD00, 0xEB); // Disable Background Pausing
-			}
-		}
-
-		#endregion
-
-		#region Lower Right Status Bar Buttons
-
-		private void PixelModeButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (EnablePixelCountMode == false)
-			{
-				pixelModeButton.IsChecked = true;
-				pixelModeToolStripMenuItem.IsChecked = true;
-				EnablePixelCountMode = true;
-
-			}
-			else
-			{
-				pixelModeButton.IsChecked = false;
-				pixelModeToolStripMenuItem.IsChecked = false;
-				EnablePixelCountMode = false;
-			}
-
-		}
-
-		public void TooltipButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (showMouseTooltip == false)
-			{
-				PointerTooltipToggleToolStripMenuItem.IsChecked = true;
-				tooltipButton.IsChecked = true;
-				showMouseTooltip = true;
-
-			}
-			else
-			{
-				PointerTooltipToggleToolStripMenuItem.IsChecked = false;
-				tooltipButton.IsChecked = false;
-				showMouseTooltip = false;
-			}
-		}
-
-		public void ScrollLockButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (ScrollLocked == false)
-			{
-				scrollLockButton.IsChecked = true;
-				ScrollLocked = true;
-				statusNAToolStripMenuItem.IsChecked = true;
-			}
-			else
-			{
-				scrollLockButton.IsChecked = false;
-				statusNAToolStripMenuItem.IsChecked = false;
-				ScrollLocked = false;
-			}
-
-		}
-
-
-		public void NudgeFasterButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (mySettings.EnableFasterNudge == false)
-			{
-				nudgeFasterButton.IsChecked = true;
-				nudgeSelectionFasterToolStripMenuItem.IsChecked = true;
-				mySettings.EnableFasterNudge = true;
-			}
-			else
-			{
-				nudgeFasterButton.IsChecked = false;
-				nudgeSelectionFasterToolStripMenuItem.IsChecked = false;
-				mySettings.EnableFasterNudge = false;
-			}
-		}
-
 		#endregion
 
 		#region Scrollbar Methods
@@ -5722,544 +3501,51 @@ Error: {ex.Message}");
 
 		#endregion
 
-		#region Run Scene Button Methods/Buttons
-		private void OpenDataDirectoryButton_DropDownOpened(object sender, RoutedEventArgs e)
-		{
-			//RecentDataDirectories.AutoToolTip = false;
-		}
-
-		private void OpenDataDirectoryButton_DropDownClosed(object sender, RoutedEventArgs e)
-		{
-			//RecentDataDirectories.AutoToolTip = true;
-		}
-
-		private void OpenModManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			String modProcessName = Path.GetFileNameWithoutExtension(mySettings.RunModLoaderPath);
-			IntPtr hWnd = FindWindow(modProcessName, null); // this gives you the handle of the window you need.
-			Process processes = Process.GetProcessesByName(modProcessName).FirstOrDefault();
-			if (processes != null)
-			{
-				// check if the window is hidden / minimized
-				if (processes.MainWindowHandle == IntPtr.Zero)
-				{
-					// the window is hidden so try to restore it before setting focus.
-					ShowWindow(processes.Handle, ShowWindowEnum.Restore);
-				}
-
-				// set user the focus to the window
-				SetForegroundWindow(processes.MainWindowHandle);
-			}
-			else
-			{
-				// Ask where the Mania Mod Manager is located when not set
-				if (string.IsNullOrEmpty(mySettings.RunModLoaderPath))
-				{
-					var ofd = new OpenFileDialog
-					{
-						Title = "Select Mania Mod Manager.exe",
-						Filter = "Windows PE Executable|*.exe"
-					};
-					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						mySettings.RunModLoaderPath = ofd.FileName;
-				}
-				else
-				{
-					if (!File.Exists(mySettings.RunGamePath))
-					{
-						mySettings.RunModLoaderPath = "";
-						return;
-					}
-				}
-
-				if (File.Exists(mySettings.RunModLoaderPath))
-					Process.Start(mySettings.RunModLoaderPath);
-			}
-		}
-
-		#endregion
-
-		#region Show Grid Button Methods/Buttons
-		private void GridCheckStateCheck()
-		{
-			if (x16ToolStripMenuItem.IsChecked == true)
-			{
-				EditorBackground.GRID_TILE_SIZE = 16;
-			}
-			if (x128ToolStripMenuItem.IsChecked == true)
-			{
-				EditorBackground.GRID_TILE_SIZE = 128;
-			}
-			if (x256ToolStripMenuItem.IsChecked == true)
-			{
-				EditorBackground.GRID_TILE_SIZE = 256;
-			}
-			if (customToolStripMenuItem.IsChecked == true)
-			{
-				EditorBackground.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
-			}
-		}
-		private void X16ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorBackground.GRID_TILE_SIZE = 16;
-			ResetGridOptions();
-			x16ToolStripMenuItem.IsChecked = true;
-		}
-
-		private void X128ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorBackground.GRID_TILE_SIZE = 128;
-			ResetGridOptions();
-			x128ToolStripMenuItem.IsChecked = true;
-		}
-
-		private void ResetGridOptions()
-		{
-			x16ToolStripMenuItem.IsChecked = false;
-			x128ToolStripMenuItem.IsChecked = false;
-			x256ToolStripMenuItem.IsChecked = false;
-			customToolStripMenuItem.IsChecked = false;
-		}
-
-		private void X256ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorBackground.GRID_TILE_SIZE = 256;
-			ResetGridOptions();
-			x256ToolStripMenuItem.IsChecked = true;
-		}
-
-		private void CustomToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorBackground.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
-			ResetGridOptions();
-			customToolStripMenuItem.IsChecked = true;
-		}
-		#endregion
-
-		#region Lower Right Status Bar Quick Options Button
-		public void MoreSettingsButton_ButtonClick(object sender, RoutedEventArgs e)
-		{
-			switch (LastQuickButtonState)
-			{
-				case 1:
-					SwapScrollLockDirectionToolStripMenuItem_Click(sender, e);
-					break;
-				case 2:
-					EditEntitesTransparencyToolStripMenuItem_Click(sender, e);
-					break;
-				case 3:
-					ToggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e);
-					break;
-				default:
-					SwapScrollLockDirectionToolStripMenuItem_Click(sender, e);
-					break;
-
-
-			}
-		}
-
-		public void SwapScrollLockDirectionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			LastQuickButtonState = 1;
-			XToolStripMenuItem_Click(sender, e);
-		}
-
-		public void EditEntitesTransparencyToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender != transparentLayersForEditingEntitiesToolStripMenuItem)
-			{
-				LastQuickButtonState = 2;
-			}
-			if (applyEditEntitiesTransparency == false)
-			{
-				applyEditEntitiesTransparency = true;
-				transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = true;
-				editEntitesTransparencyToolStripMenuItem.IsChecked = true;
-			}
-			else
-			{
-				applyEditEntitiesTransparency = false;
-				transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = false;
-				editEntitesTransparencyToolStripMenuItem.IsChecked = false;
-			}
-		}
-
-		public void ToggleEncoreManiaEntitiesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			LastQuickButtonState = 3;
-			if (mySettings.showEncoreEntities == true && mySettings.showManiaEntities == true)
-			{
-				mySettings.showManiaEntities = true;
-				mySettings.showEncoreEntities = false;
-			}
-			if (mySettings.showEncoreEntities == true && mySettings.showManiaEntities == false)
-			{
-				mySettings.showManiaEntities = true;
-				mySettings.showEncoreEntities = false;
-			}
-			else
-			{
-				mySettings.showManiaEntities = false;
-				mySettings.showEncoreEntities = true;
-			}
-
-		}
-		#endregion
-
-		#region Magnet Mode Methods/Buttons
-
-		private void X8ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			magnetSize = 8;
-			ResetMagnetModeOptions();
-			x8ToolStripMenuItem.IsChecked = true;
-		}
-
-		private void X16ToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
-		{
-			magnetSize = 16;
-			ResetMagnetModeOptions();
-			x16ToolStripMenuItem1.IsChecked = true;
-		}
-
-		private void X32ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			magnetSize = 32;
-			ResetMagnetModeOptions();
-			x32ToolStripMenuItem.IsChecked = true;
-		}
-
-		private void X64ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			magnetSize = 64;
-			ResetMagnetModeOptions();
-			x64ToolStripMenuItem.IsChecked = true;
-		}
-
-		private void ResetMagnetModeOptions()
-		{
-			x16ToolStripMenuItem1.IsChecked = false;
-			x8ToolStripMenuItem.IsChecked = false;
-			x32ToolStripMenuItem.IsChecked = false;
-			x64ToolStripMenuItem.IsChecked = false;
-		}
-
-		private void EnableXAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (useMagnetXAxis)
-			{
-				enableXAxisToolStripMenuItem.IsChecked = false;
-				useMagnetXAxis = false;
-			}
-			else
-			{
-				enableXAxisToolStripMenuItem.IsChecked = true;
-				useMagnetXAxis = true;
-			}
-		}
-
-		private void EnableYAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (useMagnetYAxis)
-			{
-				enableYAxisToolStripMenuItem.IsChecked = false;
-				useMagnetYAxis = false;
-			}
-			else
-			{
-				enableYAxisToolStripMenuItem.IsChecked = true;
-				useMagnetYAxis = true;
-			}
-		}
-
-		#endregion
-
-		#region Developer Stuff
-
-		public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			GoToPositionBox form = new GoToPositionBox();
-			if (form.ShowDialog().Value == true)
-			{
-				int x = form.goTo_X;
-				int y = form.goTo_Y;
-				if (form.tilesMode)
-				{
-					x *= 16;
-					y *= 16;
-				}
-				GoToPosition(x, y);
-			}
-
-		}
-
-		public void PreLoadSceneButton_Click(object sender, RoutedEventArgs e)
-		{
-			//Disabled By Checking for Result OK
-		}
-
-		private void DeveloperTerminalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			DevController.Owner = Window.GetWindow(this);
-			DevController.Show();
-		}
-
-		private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen hashmap = new ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen(this);
-			hashmap.Show();
-		}
-
-		private void PlayerSpawnToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			selectPlayerObject_GoTo = -1;
-			if (playerObjectPosition.Count == 0) return;
-
-			if (playerObjectPosition.Count == 1)
-			{
-				//Set Zoom Level to Position so we can Move to that location
-				int xPos = (int)(playerObjectPosition[0].Position.X.High);
-				int yPos = (int)(playerObjectPosition[0].Position.Y.High);
-				GoToPosition(xPos, yPos);
-			}
-			else
-			{
-				GoToPlayerBox goToPlayerBox = new GoToPlayerBox(this);
-				goToPlayerBox.ShowDialog();
-				if (selectPlayerObject_GoTo != -1)
-				{
-					int objectIndex = selectPlayerObject_GoTo;
-					int xPos = (int)((int)playerObjectPosition[objectIndex].Position.X.High);
-					int yPos = (int)((int)playerObjectPosition[objectIndex].Position.Y.High);
-					GoToPosition(xPos, yPos);
-				}
-			}
-		}
-
-		private void FindToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
-		{
-			ManiacEditor.Interfaces.WPF_UI.Editor_Tools.FindandReplaceTool form = new ManiacEditor.Interfaces.WPF_UI.Editor_Tools.FindandReplaceTool();
-			form.ShowDialog();
-			if (form.DialogResult == true)
-			{
-				while (form.GetReadyState() == false)
-				{
-
-				}
-				int applyState = form.GetApplyState();
-				bool copyResults = form.CopyResultsOrNot();
-				bool replaceMode = form.IsReplaceMode();
-				int find = form.GetFindValue();
-				int replace = form.GetReplaceValue();
-				bool perserveColllision = form.PerservingCollision();
-
-				if (replaceMode)
-				{
-					EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
-				}
-				else
-				{
-					EditorTileFind(find, applyState, copyResults);
-				}
-
-			}
-
-		}
-
-		private void FindUnusedTiles(object sender, RoutedEventArgs e)
-		{
-			ToggleEditorButtons(false);
-			List<int> UnusedTiles = new List<int> { };
-
-			for (int i = 0; i < 1024; i++)
-			{
-				TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + i;
-				bool Unusued = IsTileUnused(i);
-				while (cooldownDone != true)
-				{
-					//Application.DoEvents();
-				}
-				cooldownDone = false;
-				if (Unusued)
-				{
-					UnusedTiles.Add(i);
-				}
-				//Application.DoEvents();
-			}
-			if (UnusedTiles.Count != 0)
-			{
-				var message = string.Join(Environment.NewLine, UnusedTiles);
-				System.Windows.MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
-			}
-			else
-			{
-				System.Windows.MessageBox.Show("Found Nothing", "Results");
-			}
-			ToggleEditorButtons(true);
-
-		}
-
-		private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (!isConsoleWindowOpen)
-			{
-				isConsoleWindowOpen = true;
-				ShowConsoleWindow();
-			}
-			else
-			{
-				isConsoleWindowOpen = false;
-				HideConsoleWindow();
-			}
-		}
-
-		private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			mySettings.DevForceRestartData = DataDirectory;
-			mySettings.DevForceRestartScene = Discord.ScenePath;
-			mySettings.DevForceRestartX = (short)(ShiftX / Zoom);
-			mySettings.DevForeRestartY = (short)(ShiftY / Zoom);
-			mySettings.DevForceRestartZoomLevel = ZoomLevel;
-			mySettings.DevForceRestartEncore = encorePaletteExists;
-			mySettings.DeveForceRestartLevelID = LevelID;
-		}
-
-		//TO-MOVE
-		private void EditEntitiesOptionToolStrip_DropDownOpening(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-
-
-
-
-		#endregion
-
-		#region Collision Toolstrip Menu Item Entries
-
-		private void DefaultToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (collisionPreset != 0)
-			{
-				invertedToolStripMenuItem.IsChecked = false;
-				customToolStripMenuItem1.IsChecked = false;
-				defaultToolStripMenuItem.IsChecked = true;
-				collisionPreset = 0;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
-			else
-			{
-				defaultToolStripMenuItem.IsChecked = true;
-				invertedToolStripMenuItem.IsChecked = false;
-				customToolStripMenuItem1.IsChecked = false;
-				collisionPreset = 0;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
-		}
-
-		private void InvertedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (collisionPreset != 1)
-			{
-				defaultToolStripMenuItem.IsChecked = false;
-				customToolStripMenuItem1.IsChecked = false;
-				invertedToolStripMenuItem.IsChecked = true;
-				collisionPreset = 1;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
-			else
-			{
-				defaultToolStripMenuItem.IsChecked = true;
-				invertedToolStripMenuItem.IsChecked = false;
-				customToolStripMenuItem1.IsChecked = false;
-				collisionPreset = 0;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
-		}
-
-		private void CustomToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
-		{
-			if (collisionPreset != 2)
-			{
-				defaultToolStripMenuItem.IsChecked = false;
-				invertedToolStripMenuItem.IsChecked = false;
-				customToolStripMenuItem1.IsChecked = true;
-				collisionPreset = 2;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
-			else
-			{
-				defaultToolStripMenuItem.IsChecked = true;
-				invertedToolStripMenuItem.IsChecked = false;
-				customToolStripMenuItem1.IsChecked = false;
-				collisionPreset = 0;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
-		}
-
-		#endregion
-
-		#region Annimations Button Toolstrip Items
-
-		private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (MovingPlatformsChecked == false)
-			{
-				movingPlatformsObjectsToolStripMenuItem.IsChecked = true;
-				MovingPlatformsChecked = true;
-			}
-			else
-			{
-				movingPlatformsObjectsToolStripMenuItem.IsChecked = false;
-				MovingPlatformsChecked = false;
-			}
-
-		}
-
-		private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (AnnimationsChecked == false)
-			{
-				spriteFramesToolStripMenuItem.IsChecked = true;
-				AnnimationsChecked = true;
-			}
-			else
-			{
-				spriteFramesToolStripMenuItem.IsChecked = false;
-				AnnimationsChecked = false;
-			}
-		}
-
-		#endregion
-
-		#region GetScreen + Get Zoom
-
+		#region Get + Set Methods
 		public Rectangle GetScreen()
 		{
 			if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(CustomX, CustomY, editorView.mainPanel.Width, editorView.mainPanel.Height);
 			else if (isExportingImage) return new Rectangle(0, 0, SceneWidth, SceneHeight);
 			else return new Rectangle(ShiftX, ShiftY, editorView.mainPanel.Width, editorView.mainPanel.Height);
 		}
-
 		public double GetZoom()
 		{
 			if (isExportingImage) return 1;
 			else return Zoom;
 		}
+		private void SetDeviceSleepState(bool state)
+		{
+			editorView.GraphicPanel.bRender = state;
+			if (state == true)
+			{
+				ReloadToolStripButton_Click(null, null);
+			}
+		}
+		public Scene GetSceneSelection()
+		{
+			string selectedScene;
 
+			ManiacEditor.Interfaces.SceneSelectWindow select = new ManiacEditor.Interfaces.SceneSelectWindow(GameConfig, this);
+			select.Owner = Window.GetWindow(this);
+			select.ShowDialog();
+			if (select.SceneSelect.Result == null)
+				return null;
+			selectedScene = select.SceneSelect.Result;
 
+			if (!File.Exists(selectedScene))
+			{
+				string[] splitted = selectedScene.Split('\\');
 
+				string part1 = splitted[0];
+				string part2 = splitted[1];
+
+				selectedScene = Path.Combine(DataDirectory, "Stages", part1, part2);
+			}
+			return new Scene(selectedScene);
+		}
 		#endregion
 
 		#region Theming Stuff
-
 		public void UseDarkTheme(bool state = false)
 		{
 			if (state)
@@ -6320,7 +3606,6 @@ Error: {ex.Message}");
 			}
 
 		}
-
 		public void UseDarkTheme_WPF(bool state = false)
 		{
 			if (state)
@@ -6334,7 +3619,6 @@ Error: {ex.Message}");
 				UseDarkTheme(false);
 			}
 		}
-
 		public Control UseExternalDarkTheme(Control control)
 		{
 			foreach (Control c in control.Controls)
@@ -6378,21 +3662,6 @@ Error: {ex.Message}");
 			}
 			return control;
 		}
-
-		public Bitmap GetButtonImage(object sender)
-		{
-			Bitmap bmpOut = null;
-			ToggleButton userControl = sender as ToggleButton;
-			if (userControl == null) return null;
-
-			var d = new DataObject(System.Windows.DataFormats.Bitmap, userControl.Content, true);
-			bmpOut = d.GetData("System.Drawing.Bitmap") as System.Drawing.Bitmap;
-
-			if (bmpOut == null) return null;
-
-			return bmpOut;
-		}
-
 		public void SetButtonColors(object sender, Color OverallColor)
 		{
 			if (sender is ToggleButton)
@@ -6473,7 +3742,6 @@ Error: {ex.Message}");
 
 			}
 		}
-
 		public void UpdateButtonColors()
 		{
 			SetButtonColors(New, MainThemeColor());
@@ -6509,7 +3777,6 @@ Error: {ex.Message}");
 			SetButtonColors(MoreSettingsButton, MainThemeColor());
 
 		}
-
 		public Color MainThemeColor(Color? CDC = null, Color? CWC = null)
 		{
 			Color NightColor;
@@ -6522,129 +3789,297 @@ Error: {ex.Message}");
 
 			return (mySettings.NightMode ? NightColor : NormalColor);
 		}
-
-		#endregion
-
-		#region Game Manipulation Stuff
-
-		private void SetPlayerRespawnToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
-			if (GameRunning)
-			{
-				EditorGame.UpdateCheckpoint(clicked_point);
-			}
-		}
-
-		private void MoveThisPlayerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
-			if (EditorGame.GetPlayerAt(clicked_point) != -1)
-			{
-				playerSelected = true;
-				selectedPlayer = EditorGame.GetPlayerAt(clicked_point);
-			}
-		}
-
-		private void Player1ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			playerSelected = true;
-			selectedPlayer = 0;
-		}
-
-		private void Player2ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			playerSelected = true;
-			selectedPlayer = 1;
-		}
-
-		private void Player3ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			playerSelected = true;
-			selectedPlayer = 2;
-		}
-
-		private void Player4ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			playerSelected = true;
-			selectedPlayer = 3;
-		}
-
-		private void MoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			checkpointSelected = true;
-		}
-
-		private void RemoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorGame.UpdateCheckpoint(new Point(0, 0), false);
-		}
-
-		private void AssetResetToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorGame.AssetReset();
-		}
-
-		private void RestartSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			EditorGame.RestartScene();
-		}
-
 		#endregion
 
 		#region Miscellaneous
 
-		private void CreateShortcut(string dataDir, string scenePath = "", string modPath = "", int X = 0, int Y = 0, bool isEncoreMode = false, int LevelSlotNum = -1, double ZoomedLevel = 0.0)
+		public class SystemColorsUtility
 		{
-			object shDesktop = (object)"Desktop";
-			WshShell shell = new WshShell();
-			string shortcutAddress = "";
-			if (scenePath != "")
+			public SystemColorsUtility()
 			{
-				shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + "Scene Link" + " - Maniac.lnk";
+				// force init color table
+				byte unused = SystemColors.Window.R;
+
+				var colorTableField = typeof(Color).Assembly.GetType("System.Drawing.KnownColorTable")
+					.GetField("colorTable", BindingFlags.Static | BindingFlags.NonPublic);
+
+				_colorTable = (int[])colorTableField.GetValue(null);
+			}
+
+			public void SetColor(KnownColor knownColor, Color value)
+			{
+				_colorTable[(int)knownColor] = value.ToArgb();
+			}
+
+			private readonly int[] _colorTable;
+		}
+		#endregion
+
+		#region Orginized Tab Event Handlers
+
+		#region File Tab Buttons
+
+		private void New_Click(object sender, RoutedEventArgs e) { Interactions.New_Click(sender, e); }
+		public void Open_Click(object sender, RoutedEventArgs e) { Interactions.Open_Click(sender, e); }
+		private void OpenToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OpenToolStripMenuItem_Click(sender, e); }
+		public void OpenDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OpenDataDirectoryToolStripMenuItem_Click(sender, e); }
+		public void Save_Click(object sender, RoutedEventArgs e) { Interactions.Save_Click(sender, e); }
+		private void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ExitToolStripMenuItem_Click(sender, e); }
+		private void SaveAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SaveAspngToolStripMenuItem_Click(sender, e); }
+		private void ExportEachLayerAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ExportEachLayerAspngToolStripMenuItem_Click(sender, e); }
+		public void SaveAsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SaveAsToolStripMenuItem_Click(sender, e); }
+		private void BackupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.BackupToolStripMenuItem_Click(sender, e); }
+		private void BackupRecoverButton_Click(object sender, RoutedEventArgs e) { Interactions.BackupRecoverButton_Click(sender, e); }
+		private void ObjectManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ObjectManagerToolStripMenuItem_Click(sender, e); }
+		public void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.UnloadSceneToolStripMenuItem_Click(sender, e); }
+		private void StageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.StageConfigToolStripMenuItem_Click(sender, e); }
+		private void NormalToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.NormalToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		#region Edit Tab Buttons
+		public void chunkToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.chunkToolStripMenuItem_Click(sender, e); }
+		public void SelectAllToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SelectAllToolStripMenuItem_Click(sender, e); }
+		public void FlipHorizontalToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.FlipHorizontalToolStripMenuItem_Click(sender, e); }
+		public void FlipHorizontalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.FlipHorizontalIndividualToolStripMenuItem_Click(sender, e); }
+		private void DeleteToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.DeleteToolStripMenuItem_Click(sender, e); }
+		public void CopyToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.CopyToolStripMenuItem_Click(sender, e); }
+		public void DuplicateToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.DuplicateToolStripMenuItem_Click(sender, e); }
+		private void UndoToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.UndoToolStripMenuItem_Click(sender, e); }
+		private void RedoToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.RedoToolStripMenuItem_Click(sender, e); }
+		public void CutToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.CutToolStripMenuItem_Click(sender, e); }
+		public void PasteToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PasteToolStripMenuItem_Click(sender, e); }
+		public void FlipVerticalToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.FlipVerticalToolStripMenuItem_Click(sender, e); }
+		public void FlipVerticalIndividualToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.FlipVerticalIndividualToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		#region View Tab Buttons
+		public void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.statsToolStripMenuItem_Click(sender, e); }
+		private void PointerTooltipToggleToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PointerTooltipToggleToolStripMenuItem_Click(sender, e); }
+		private void ResetZoomLevelToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ResetZoomLevelToolstripMenuItem_Click(sender, e); }
+		private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.useLargeTextToolStripMenuItem_Click(sender, e); }
+		private void SetMenuButtons(object sender, RoutedEventArgs e) { Interactions.SetMenuButtons(sender, e); }
+		private void SetMenuButtons(string tag) { Interactions.SetMenuButtons(tag); }
+		private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(sender, e); }
+		private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.prioritizedViewingToolStripMenuItem_Click(sender, e); }
+		private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ChangeEncorePaleteToolStripMenuItem_Click(sender, e); }
+		public void SetEncorePallete(object sender = null, string path = "") { Interactions.SetEncorePallete(sender, path); }
+		private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.MoveExtraLayersToFrontToolStripMenuItem_Click(sender, e); }
+		private void ToolStripTextBox1_TextChanged(object sender, RoutedEventArgs e) { Interactions.ToolStripTextBox1_TextChanged(sender, e); }
+		private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ShowEntitySelectionBoxesToolStripMenuItem_Click(sender, e); }
+		private void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ShowWaterLevelToolStripMenuItem_Click(sender, e); }
+		private void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e) { Interactions.WaterLevelAlwaysShowItem_Click(sender, e); }
+		private void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(sender, e); }
+		private void ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(sender, e); }
+		private void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ShowParallaxSpritesToolStripMenuItem_Click(sender, e); }
+		private void XToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.XToolStripMenuItem_Click(sender, e); }
+		private void YToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.YToolStripMenuItem_Click(sender, e); }
+		private void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ShowEntityPathToolStripMenuItem_Click(sender, e); }
+		private void LangToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.LangToolStripMenuItem_Click(sender, e); }
+
+		#region Collision Options
+		private void DefaultToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.DefaultToolStripMenuItem_Click(sender, e); }
+		private void InvertedToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.InvertedToolStripMenuItem_Click(sender, e); }
+		private void CustomToolStripMenuItem1_Click(object sender, RoutedEventArgs e) { Interactions.CustomToolStripMenuItem1_Click(sender, e); }
+		private void CollisionOpacitySlider_DragCompleted(object sender, DragCompletedEventArgs e) { Interactions.CollisionOpacitySlider_DragCompleted(sender, e); }
+		private void CollisionOpacitySlider_LostFocus(object sender, RoutedEventArgs e) { Interactions.CollisionOpacitySlider_LostFocus(sender, e); }
+		private void CollisionOpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) { Interactions?.CollisionOpacitySlider_ValueChanged(sender, e); }
+		#endregion
+
+		#endregion
+
+		#region Scene Tab Buttons
+		public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null) { Interactions.ShowEntityPathToolStripMenuItem_Click(sender, e); }
+		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ImportSoundsToolStripMenuItem_Click(sender, e); }
+		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null) { Interactions.ImportSoundsToolStripMenuItem_Click(sender, e, window); }
+		private void LayerManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.LayerManagerToolStripMenuItem_Click(sender, e); }
+		private void PrimaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PrimaryColorToolStripMenuItem_Click(sender, e); }
+		private void SecondaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SecondaryColorToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		#region Tools Tab Buttons
+		private void OptimizeEntitySlotIDsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OptimizeEntitySlotIDsToolStripMenuItem_Click(sender, e); }
+		private void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e) { Interactions.RightClicktoSwapSlotIDs_Click(sender, e); }
+		private void CopyAirToggle_Click(object sender, RoutedEventArgs e) { Interactions.CopyAirToggle_Click(sender, e); }
+		private void changeLevelIDToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.changeLevelIDToolStripMenuItem_Click(sender, e); }
+		private void MultiLayerSelectionToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.MultiLayerSelectionToolStripMenuItem_Click(sender, e); }
+		private void MakeForDataFolderOnlyToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.MakeForDataFolderOnlyToolStripMenuItem_Click(sender, e); }
+		private void WithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.WithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
+		private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.WithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
+		private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SoundLooperToolStripMenuItem_Click(sender, e); }
+
+		#region Developer Stuff
+		public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.GoToToolStripMenuItem_Click(sender, e); }
+		public void PreLoadSceneButton_Click(object sender, RoutedEventArgs e) { Interactions.PreLoadSceneButton_Click(sender, e); }
+		private void DeveloperTerminalToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.DeveloperTerminalToolStripMenuItem_Click(sender, e); }
+		private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.MD5GeneratorToolStripMenuItem_Click(sender, e); }
+		private void PlayerSpawnToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PlayerSpawnToolStripMenuItem_Click(sender, e); }
+		private void FindToolStripMenuItem1_Click(object sender, RoutedEventArgs e) { Interactions.FindToolStripMenuItem1_Click(sender, e); }
+		private void FindUnusedTiles(object sender, RoutedEventArgs e) { Interactions.FindUnusedTiles(sender, e); }
+		private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ConsoleWindowToolStripMenuItem_Click(sender, e); }
+		private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
+		private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UpdateToolbars(false, true); } 
+		private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UpdateToolbars(true, true); }
+		private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		#endregion
+
+		#region Apps Tab Buttons
+		private void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.TileManiacToolStripMenuItem_Click(sender, e); }
+		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.InsanicManiacToolStripMenuItem_Click(sender, e); }
+		private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.RSDKAnnimationEditorToolStripMenuItem_Click(sender, e); }
+		private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ColorPaletteEditorToolStripMenuItem_Click(sender, e); }
+		private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { Interactions.ManiaPalMenuItem_SubmenuOpened(sender, e); }
+		private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.DuplicateObjectIDHealerToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		#region Folders Tab Buttons
+		private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OpenSceneFolderToolStripMenuItem_Click(sender, e); }
+		private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OpenDataDirectoryFolderToolStripMenuItem_Click(sender, e); }
+		private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OpenSonicManiaFolderToolStripMenuItem_Click(sender, e); }
+		private void OpenModDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OpenModDataDirectoryToolStripMenuItem_Click(sender, e); }
+		private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Interactions.OpenASavedPlaceToolStripMenuItem_DropDownOpening(sender, e); }
+		private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Interactions.OpenASavedPlaceToolStripMenuItem_DropDownClosed(sender, e); }
+		#endregion
+
+		#region Other Tab Buttons
+		public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.AboutToolStripMenuItem_Click(sender, e); }
+		private void WikiToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.WikiToolStripMenuItem_Click(sender, e); }
+		public void OptionToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.OptionToolStripMenuItem_Click(sender, e); }
+		private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ControlsToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		#endregion
+
+		#region Main Toolstrip Item's Event Handlers
+		private void NewToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.NewToolStripMenuItem_Click(sender, e); }
+		private void SToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SToolStripMenuItem_Click(sender, e); }
+		private void MagnetMode_Click(object sender, RoutedEventArgs e) { Interactions.MagnetMode_Click(sender, e); }
+		private void UndoButton_Click(object sender, RoutedEventArgs e) { Interactions.UndoButton_Click(sender, e); }
+		private void RedoButton_Click(object sender, RoutedEventArgs e) { Interactions.RedoButton_Click(sender, e); }
+		private void ZoomInButton_Click(object sender, RoutedEventArgs e) { Interactions.ZoomInButton_Click(sender, e); }
+		private void ZoomOutButton_Click(object sender, RoutedEventArgs e) { Interactions.ZoomOutButton_Click(sender, e); }
+		private void SelectTool_Click(object sender, RoutedEventArgs e) { Interactions.SelectTool_Click(sender, e); }
+		private void PointerButton_Click(object sender, RoutedEventArgs e) { Interactions.PointerButton_Click(sender, e); }
+		private void PlaceTilesButton_Click(object sender, RoutedEventArgs e) { Interactions.PlaceTilesButton_Click(sender, e); }
+		private void InteractionToolButton_Click(object sender, RoutedEventArgs e) { Interactions.InteractionToolButton_Click(sender, e); }
+		private void ChunkToolButton_Click(object sender, RoutedEventArgs e) { Interactions.ChunkToolButton_Click(sender, e); }
+		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Interactions.ReloadToolStripButton_Click(sender, e); }
+		public void ShowTileIDButton_Click(object sender, RoutedEventArgs e) { Interactions.ShowTileIDButton_Click(sender, e); }
+
+		#region Magnet Mode Methods/Buttons
+
+		private void X8ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			magnetSize = 8;
+			ResetMagnetModeOptions();
+			x8ToolStripMenuItem.IsChecked = true;
+		}
+
+		private void X16ToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
+		{
+			magnetSize = 16;
+			ResetMagnetModeOptions();
+			x16ToolStripMenuItem1.IsChecked = true;
+		}
+
+		private void X32ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			magnetSize = 32;
+			ResetMagnetModeOptions();
+			x32ToolStripMenuItem.IsChecked = true;
+		}
+
+		private void X64ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			magnetSize = 64;
+			ResetMagnetModeOptions();
+			x64ToolStripMenuItem.IsChecked = true;
+		}
+
+		private void ResetMagnetModeOptions()
+		{
+			x16ToolStripMenuItem1.IsChecked = false;
+			x8ToolStripMenuItem.IsChecked = false;
+			x32ToolStripMenuItem.IsChecked = false;
+			x64ToolStripMenuItem.IsChecked = false;
+		}
+
+		private void EnableXAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (useMagnetXAxis)
+			{
+				enableXAxisToolStripMenuItem.IsChecked = false;
+				useMagnetXAxis = false;
 			}
 			else
 			{
-				shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + "Data Folder Link" + " - Maniac.lnk";
+				enableXAxisToolStripMenuItem.IsChecked = true;
+				useMagnetXAxis = true;
 			}
-			IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+		}
 
-			string targetAddress = "\"" + Environment.CurrentDirectory + @"\ManiacEditor.exe" + "\"";
-			string launchArguments = "";
-			if (scenePath != "")
+		private void EnableYAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (useMagnetYAxis)
 			{
-				launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "") + (scenePath != "" ? "ScenePath=" + "\"" + scenePath + "\" " : "") + (modPath != "" ? "ModPath=" + "\"" + modPath + "\" " : "") + (LevelSlotNum != -1 ? "LevelID=" + LevelSlotNum.ToString() + " " : "") + (isEncoreMode == true ? "EncoreMode=TRUE " : "") + (X != 0 ? "X=" + X.ToString() + " " : "") + (Y != 0 ? "Y=" + Y.ToString() + " " : "") + (ZoomedLevel != 0 ? "ZoomedLevel=" + ZoomedLevel.ToString() + " " : "");
+				enableYAxisToolStripMenuItem.IsChecked = false;
+				useMagnetYAxis = false;
 			}
 			else
 			{
-				launchArguments = (dataDir != "" ? "DataDir=" + "\"" + dataDir + "\" " : "");
+				enableYAxisToolStripMenuItem.IsChecked = true;
+				useMagnetYAxis = true;
 			}
-
-			shortcut.TargetPath = targetAddress;
-			shortcut.Arguments = launchArguments;
-			shortcut.WorkingDirectory = Environment.CurrentDirectory;
-			shortcut.Save();
 		}
 
-		private void MoveThePlayerToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		#endregion
+
+		#region Run Scene Events
+		private void RunScene_Click(object sender, RoutedEventArgs e) { Interactions.RunScene_Click(sender, e); }
+		private void OpenModManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (GameRunning)
+			String modProcessName = Path.GetFileNameWithoutExtension(mySettings.RunModLoaderPath);
+			IntPtr hWnd = FindWindow(modProcessName, null); // this gives you the handle of the window you need.
+			Process processes = Process.GetProcessesByName(modProcessName).FirstOrDefault();
+			if (processes != null)
 			{
-				int ObjectAddress = 0x85E9A0;
-				GameMemory.WriteInt16(ObjectAddress + 2, (short)(lastX / Zoom));
-				GameMemory.WriteInt16(ObjectAddress + 6, (short)(lastY / Zoom));
+				// check if the window is hidden / minimized
+				if (processes.MainWindowHandle == IntPtr.Zero)
+				{
+					// the window is hidden so try to restore it before setting focus.
+					ShowWindow(processes.Handle, ShowWindowEnum.Restore);
+				}
+
+				// set user the focus to the window
+				SetForegroundWindow(processes.MainWindowHandle);
+			}
+			else
+			{
+				// Ask where the Mania Mod Manager is located when not set
+				if (string.IsNullOrEmpty(mySettings.RunModLoaderPath))
+				{
+					var ofd = new OpenFileDialog
+					{
+						Title = "Select Mania Mod Manager.exe",
+						Filter = "Windows PE Executable|*.exe"
+					};
+					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+						mySettings.RunModLoaderPath = ofd.FileName;
+				}
+				else
+				{
+					if (!File.Exists(mySettings.RunGamePath))
+					{
+						mySettings.RunModLoaderPath = "";
+						return;
+					}
+				}
+
+				if (File.Exists(mySettings.RunModLoaderPath))
+					Process.Start(mySettings.RunModLoaderPath);
 			}
 		}
-
-		private void LangToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			var allLangItems = menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-			foreach (var item in allLangItems) item.IsChecked = false;
-			MenuItem menuItem = sender as MenuItem;
-			CurrentLanguage = menuItem.Tag.ToString();
-			menuItem.IsChecked = true;
-		}
-
 		private void TrackPlayerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			MenuItem item = sender as MenuItem;
@@ -6667,7 +4102,6 @@ Error: {ex.Message}");
 
 			}
 		}
-
 		private void UncheckAllPlayers()
 		{
 			trackP1ToolStripMenuItem.IsChecked = false;
@@ -6675,55 +4109,535 @@ Error: {ex.Message}");
 			trackP3ToolStripMenuItem.IsChecked = false;
 			trackP4ToolStripMenuItem.IsChecked = false;
 		}
+		private void RunSceneButton_DropDownOpening(object sender, RoutedEventArgs e) { Interactions.RunSceneButton_DropDownOpening(sender, e); }
 
-
-		private void New_Click(object sender, RoutedEventArgs e)
+		#region Mod Config List Stuff
+		private MenuItem CreateModConfigMenuItem(int i)
 		{
-			UnloadScene();
-			NewSceneWindow makerDialog = new NewSceneWindow();
-			makerDialog.Owner = GetWindow(this);
-			if (makerDialog.ShowDialog() == true)
+			MenuItem newItem = new MenuItem()
 			{
-				string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
-				SelectedZone = (new DirectoryInfo(directoryPath).Name).Replace("\\", "");
-				SelectedScene = Path.GetFileName(makerDialog.SceneFolder);
-				SceneFilename = "Scene1.bin";
-				SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
+				Header = mySettings.modConfigsNames[i],
+				Tag = mySettings.modConfigs[i]
+			};
+			newItem.Click += ModConfigItemClicked;
+			if (newItem.Tag.ToString() == mySettings.LastModConfig) newItem.IsChecked = true;
+			return newItem;
+		}
 
-				EditorScene = new EditorScene(editorView.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, this);
-				TilesConfig = new TileConfig();
-				StageTiles = new StageTiles();
-				StageConfig = new StageConfig();
+		private void ModConfigItemClicked(object sender, RoutedEventArgs e)
+		{
+			var modConfig_CheckedItem = (sender as MenuItem);
+			SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
+			mySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
+		}
 
-				string ImagePath = directoryPath + "//16x16Tiles.gif";
-				string TilesPath = directoryPath + "//TilesConfig.bin";
-				string StagePath = directoryPath + "//StageConfig.bin";
+		public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			Interfaces.WPF_UI.ConfigManager configManager = new Interfaces.WPF_UI.ConfigManager();
+			configManager.Owner = GetWindow(this);
+			configManager.ShowDialog();
 
-				File.Create(SceneFilepath).Dispose();
-				File.Create(ImagePath).Dispose();
-				File.Create(TilesPath).Dispose();
-				File.Create(StagePath).Dispose();
+			// TODO: Fix NullReferenceException on mySettings.modConfigs
+			selectConfigToolStripMenuItem.Items.Clear();
+			for (int i = 0; i < mySettings.modConfigs.Count; i++)
+			{
+				selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
+			}
+		}
 
-				//EditorScene.Write(SceneFilepath);
-				TilesConfig.Write(TilesPath);
-				//StageConfig.Write(StagePath);
-				StageTiles.Write(ImagePath);
+		private void SelectConfigToolStripMenuItem_Click(MenuItem modConfig_CheckedItem)
+		{
+			var allItems = selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+			foreach (var item in allItems)
+			{
+				item.IsChecked = false;
+			}
+			modConfig_CheckedItem.IsChecked = true;
+
+		}
+
+		#endregion
+
+		#endregion
+
+		#region Grid Options
+		public void ShowGridButton_Click(object sender, RoutedEventArgs e) { Interactions.ShowGridButton_Click(sender, e); }
+		public void GridCheckStateCheck() { Interactions.GridCheckStateCheck(); }
+		private void X16ToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.X16ToolStripMenuItem_Click(sender, e); }
+		private void X128ToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.X128ToolStripMenuItem_Click(sender, e); }
+		private void ResetGridOptions() { Interactions.ResetGridOptions(); }
+		private void X256ToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.X256ToolStripMenuItem_Click(sender, e); }
+		private void CustomToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.CustomToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		public void ShowCollisionAButton_Click(object sender, RoutedEventArgs e) { Interactions.ShowCollisionAButton_Click(sender, e); }
+		public void ShowCollisionBButton_Click(object sender, RoutedEventArgs e) { Interactions.ShowCollisionBButton_Click(sender, e); }
+		private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e) { Interactions.OpenDataDirectoryMenuButton(sender, e); }
+		private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e) { Interactions.ResetDeviceButton_Click_1(sender, e); }
+		private void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e) { Interactions.ShowFlippedTileHelper_Click(sender, e); }
+		private void ResetDeviceButton_Click(object sender, RoutedEventArgs e) { Interactions.ResetDeviceButton_Click(sender, e); }
+		private void EnableEncorePalette_Click(object sender, RoutedEventArgs e) { Interactions.EnableEncorePalette_Click(sender, e); }
 
 
-				UpdateDataFolderLabel(null, null);
+		#endregion
 
-				SetupLayerButtons();
+		#region Layer Toolbar Items
+		private void LayerShowButton_Click(ToggleButton button, string desc)
+		{
+			if (button.IsChecked.Value)
+			{
+				button.IsChecked = false;
+				button.ToolTip = "Show " + desc;
+			}
+			else
+			{
+				button.IsChecked = true;
+				button.ToolTip = "Hide " + desc;
+			}
+		}
 
+		private void ShowFGLow_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGLow, "Layer FG Low");
+		}
 
-				EditorBackground = new EditorBackground(this);
+		private void ShowFGHigh_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGHigh, "Layer FG High");
+		}
 
-				entities = new EditorEntities(EditorScene, this);
+		private void ShowFGHigher_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGHigher, "Layer FG Higher");
+		}
 
-				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
+		private void ShowFGLower_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowFGLower, "Layer FG Lower");
+		}
 
-				UpdateControls(true);
+		private void ShowEntities_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowEntities, "Entities");
+		}
+
+		private void ShowAnimations_Click(object sender, RoutedEventArgs e)
+		{
+			ToggleButton toggle = sender as ToggleButton;
+			toggle.IsChecked = !toggle.IsChecked.Value;
+			LayerShowButton_Click(ShowAnimations, "Animations");
+		}
+
+		#region Animations DropDown
+		private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (MovingPlatformsChecked == false)
+			{
+				movingPlatformsObjectsToolStripMenuItem.IsChecked = true;
+				MovingPlatformsChecked = true;
+			}
+			else
+			{
+				movingPlatformsObjectsToolStripMenuItem.IsChecked = false;
+				MovingPlatformsChecked = false;
 			}
 
+		}
+
+		private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (AnnimationsChecked == false)
+			{
+				spriteFramesToolStripMenuItem.IsChecked = true;
+				AnnimationsChecked = true;
+			}
+			else
+			{
+				spriteFramesToolStripMenuItem.IsChecked = false;
+				AnnimationsChecked = false;
+			}
+		}
+
+		#endregion
+
+		private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
+		{
+			if (MultiLayerEditMode)
+			{
+				if (ClickType == MouseButton.Left) LayerA();
+				else if (ClickType == MouseButton.Right) LayerB();
+			}
+			else
+			{
+				if (ClickType == MouseButton.Left) Normal();
+			}
+			UpdateControls();
+
+
+
+			void Normal()
+			{
+				Deselect(false);
+				if (!button.IsCheckedN.Value)
+				{
+					button.IsCheckedN = false;
+				}
+				else
+				{
+					EditFGLow.IsCheckedN = false;
+					EditFGHigh.IsCheckedN = false;
+					EditFGLower.IsCheckedN = false;
+					EditFGHigher.IsCheckedN = false;
+					EditEntities.IsCheckedN = false;
+					button.IsCheckedN = true;
+				}
+
+				foreach (var elb in ExtraLayerEditViewButtons.Values)
+				{
+					elb.IsCheckedN = false;
+				}
+
+
+
+			}
+			void LayerA()
+			{
+				Deselect(false);
+				if (!button.IsCheckedA.Value)
+				{
+					button.IsCheckedA = false;
+				}
+				else
+				{
+					EditFGLow.IsCheckedA = false;
+					EditFGHigh.IsCheckedA = false;
+					EditFGLower.IsCheckedA = false;
+					EditFGHigher.IsCheckedA = false;
+					EditEntities.IsCheckedA = false;
+					button.IsCheckedA = true;
+				}
+
+				foreach (var elb in ExtraLayerEditViewButtons.Values)
+				{
+					elb.IsCheckedA = false;
+				}
+			}
+			void LayerB()
+			{
+				Deselect(false);
+				if (!button.IsCheckedB.Value)
+				{
+					button.IsCheckedB = false;
+				}
+				else
+				{
+					EditFGLow.IsCheckedB = false;
+					EditFGHigh.IsCheckedB = false;
+					EditFGLower.IsCheckedB = false;
+					EditFGHigher.IsCheckedB = false;
+					EditEntities.IsCheckedB = false;
+					button.IsCheckedB = true;
+				}
+
+				foreach (var elb in ExtraLayerEditViewButtons.Values)
+				{
+					elb.IsCheckedB = false;
+				}
+			}
+		}
+
+		private void EditFGLow_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLow, MouseButton.Left);
+		}
+
+		private void EditFGLow_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLow, MouseButton.Right);
+		}
+
+		private void EditFGHigh_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigh, MouseButton.Left);
+		}
+
+		private void EditFGHigh_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigh, MouseButton.Right);
+		}
+
+		private void EditFGLower_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLower, MouseButton.Left);
+		}
+
+		private void EditFGLower_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGLower, MouseButton.Right);
+		}
+
+		private void EditFGHigher_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigher, MouseButton.Left);
+		}
+
+		private void EditFGHigher_RightClick(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditFGHigher, MouseButton.Right);
+		}
+
+		private void EditEntities_Click(object sender, RoutedEventArgs e)
+		{
+			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
+			LayerEditButton_Click(EditEntities, MouseButton.Left);
+		}
+
+		public void SetupLayerButtons()
+		{
+			TearDownExtraLayerButtons();
+			IList<EditLayerToggleButton> _extraLayerEditButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer Edit Buttons
+			IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
+
+			//EDIT BUTTONS
+			foreach (EditorLayer el in EditorScene.OtherLayers)
+			{
+				EditLayerToggleButton tsb = new EditLayerToggleButton()
+				{
+					Text = el.Name,
+					Name = "Edit" + el.Name.Replace(" ", "")
+				};
+				LayerToolbar.Items.Add(tsb);
+				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
+				tsb.RightClick += AdHocLayerEdit_RightClick;
+				tsb.Click += AdHocLayerEdit_Click;
+
+				_extraLayerEditButtons.Add(tsb);
+			}
+
+			//EDIT BUTTONS SEPERATOR
+			Separator tss = new Separator();
+			LayerToolbar.Items.Add(tss);
+			_extraLayerSeperators.Add(tss);
+
+			//VIEW BUTTONS
+			foreach (EditorLayer el in EditorScene.OtherLayers)
+			{
+				EditLayerToggleButton tsb = new EditLayerToggleButton()
+				{
+					Text = el.Name,
+					Name = "Show" + el.Name.Replace(" ", "")
+				};
+				//toolStrip1.Items.Add(tsb);
+				LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
+				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
+
+				_extraLayerViewButtons.Add(tsb);
+			}
+
+			//EDIT + VIEW BUTTONS LIST
+			for (int i = 0; i < _extraLayerViewButtons.Count; i++)
+			{
+				ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
+			}
+
+			UpdateDualButtonsControlsForLayer(FGLow, ShowFGLow, EditFGLow);
+			UpdateDualButtonsControlsForLayer(FGHigh, ShowFGHigh, EditFGHigh);
+			UpdateDualButtonsControlsForLayer(FGLower, ShowFGLower, EditFGLower);
+			UpdateDualButtonsControlsForLayer(FGHigher, ShowFGHigher, EditFGHigher);
+		}
+
+		public void TearDownExtraLayerButtons()
+		{
+			foreach (var elb in ExtraLayerEditViewButtons)
+			{
+				LayerToolbar.Items.Remove(elb.Key);
+				elb.Value.RightClick -= AdHocLayerEdit_RightClick;
+				LayerToolbar.Items.Remove(elb.Value);
+			}
+			ExtraLayerEditViewButtons.Clear();
+
+
+			foreach (var els in _extraLayerSeperators)
+			{
+				LayerToolbar.Items.Remove(els);
+			}
+			_extraLayerSeperators.Clear();
+
+		}
+
+		/// <summary>
+		/// Given a scene layer, configure the given visibiltiy and edit buttons which will control that layer.
+		/// </summary>
+		/// <param name="layer">The layer of the scene from which to extract a name.</param>
+		/// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
+		/// <param name="editButton">The button which controls editing the layer.</param>
+		private void UpdateDualButtonsControlsForLayer(EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+		{
+			bool layerValid = layer != null;
+			visibilityButton.IsChecked = layerValid;
+			if (layerValid)
+			{
+				string name = layer.Name;
+				visibilityButton.Content = name;
+				editButton.Text = name.ToString();
+			}
+		}
+
+		private void AdHocLayerEdit_RightClick(object sender, RoutedEventArgs e)
+		{
+			AdHocLayerEdit(sender, MouseButton.Right);
+		}
+
+		private void AdHocLayerEdit_Click(object sender, RoutedEventArgs e)
+		{
+			AdHocLayerEdit(sender, MouseButton.Left);
+		}
+
+		private void AdHocLayerEdit(object sender, MouseButton ClickType)
+		{
+			if (ClickType == MouseButton.Left && !MultiLayerEditMode) Normal();
+			else if (ClickType == MouseButton.Left && MultiLayerEditMode) LayerA();
+			else if (ClickType == MouseButton.Right && MultiLayerEditMode) LayerB();
+
+			void Normal()
+			{
+				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+				Deselect(false);
+				if (tsb.IsCheckedN.Value)
+				{
+					if (!mySettings.KeepLayersVisible)
+					{
+						ShowFGLow.IsChecked = false;
+						ShowFGHigh.IsChecked = false;
+						ShowFGLower.IsChecked = false;
+						ShowFGHigher.IsChecked = false;
+					}
+					EditFGLow.ClearCheckedItems(3);
+					EditFGHigh.ClearCheckedItems(3);
+					EditFGLower.ClearCheckedItems(3);
+					EditFGHigher.ClearCheckedItems(3);
+					EditEntities.ClearCheckedItems(3);
+
+					foreach (var elb in ExtraLayerEditViewButtons)
+					{
+						if (elb.Value != tsb)
+						{
+							elb.Value.IsCheckedN = false;
+						}
+					}
+				}
+			}
+			void LayerA()
+			{
+				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+				Deselect(false);
+				if (tsb.IsCheckedA.Value)
+				{
+					if (!mySettings.KeepLayersVisible)
+					{
+						ShowFGLow.IsChecked = false;
+						ShowFGHigh.IsChecked = false;
+						ShowFGLower.IsChecked = false;
+						ShowFGHigher.IsChecked = false;
+					}
+					EditFGLow.ClearCheckedItems(1);
+					EditFGHigh.ClearCheckedItems(1);
+					EditFGLower.ClearCheckedItems(1);
+					EditFGHigher.ClearCheckedItems(1);
+					EditEntities.ClearCheckedItems(1);
+
+					foreach (var elb in ExtraLayerEditViewButtons)
+					{
+						if (elb.Value != tsb)
+						{
+							elb.Value.IsCheckedA = false;
+						}
+					}
+				}
+			}
+			void LayerB()
+			{
+				EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+				Deselect(false);
+				if (tsb.IsCheckedB.Value)
+				{
+					if (!mySettings.KeepLayersVisible)
+					{
+						ShowFGLow.IsChecked = false;
+						ShowFGHigh.IsChecked = false;
+						ShowFGLower.IsChecked = false;
+						ShowFGHigher.IsChecked = false;
+					}
+					EditFGLow.ClearCheckedItems(2);
+					EditFGHigh.ClearCheckedItems(2);
+					EditFGLower.ClearCheckedItems(2);
+					EditFGHigher.ClearCheckedItems(2);
+					EditEntities.ClearCheckedItems(2);
+
+					foreach (var elb in ExtraLayerEditViewButtons)
+					{
+						if (elb.Value != tsb)
+						{
+							elb.Value.IsCheckedB = false;
+						}
+					}
+				}
+			}
+
+			UpdateControls();
+		}
+		#endregion
+
+		#region Mouse Actions Event Handlers
+		private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseMove(sender, e); }
+		private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseDown(sender, e); }
+		private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseUp(sender, e); }
+		private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseWheel(sender, e); }
+		private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseClick(sender, e); }
+		#endregion
+
+		#region Status Bar Event Handlers
+		private void PixelModeButton_Click(object sender, RoutedEventArgs e) { Interactions.PixelModeButton_Click(sender, e); }
+		public void TooltipButton_Click(object sender, RoutedEventArgs e) { Interactions.TooltipButton_Click(sender, e); }
+		public void ScrollLockButton_Click(object sender, RoutedEventArgs e) { Interactions.ScrollLockButton_Click(sender, e); }
+		public void NudgeFasterButton_Click(object sender, RoutedEventArgs e) { Interactions.NudgeFasterButton_Click(sender, e); }
+
+		#region Quick Button Event Handlers
+		public void MoreSettingsButton_ButtonClick(object sender, RoutedEventArgs e) { Interactions.MoreSettingsButton_ButtonClick(sender, e); }
+		public void SwapScrollLockDirectionToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SwapScrollLockDirectionToolStripMenuItem_Click(sender, e); }
+		public void EditEntitesTransparencyToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.EditEntitesTransparencyToolStripMenuItem_Click(sender, e); }
+		public void ToggleEncoreManiaEntitiesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ToggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e); }
+		#endregion
+
+		#endregion
+
+		#region Interaction Tool Items
+		private void MoveThePlayerToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (GameRunning)
+			{
+				int ObjectAddress = 0x85E9A0;
+				GameMemory.WriteInt16(ObjectAddress + 2, (short)(lastX / Zoom));
+				GameMemory.WriteInt16(ObjectAddress + 6, (short)(lastY / Zoom));
+			}
 		}
 
 		private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -6749,337 +4663,35 @@ Error: {ex.Message}");
 			}
 		}
 
-
-
-
-
-		private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		private void SetPlayerRespawnToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			object[] MTB = MainToolbarButtons.Items.Cast<object>().ToArray();
-			object[] LT = LayerToolbar.Items.Cast<object>().ToArray();
-			ManiacEditor.Extensions.EnableButtonList(MTB);
-			ManiacEditor.Extensions.EnableButtonList(LT);
-		}
-
-		private void Editor_Resize(object sender, SizeChangedEventArgs e)
-		{
-			Form1_Resize(this, null);
-		}
-
-		private void ParentGrid_Loaded(object sender, RoutedEventArgs e)
-		{
-			// Create the interop host control.
-			host = new System.Windows.Forms.Integration.WindowsFormsHost();
-
-			// Create the MaskedTextBox control.
-
-			// Assign the MaskedTextBox control as the host control's child.
-			host.Child = editorView;
-
-			host.Foreground = (SolidColorBrush)FindResource("NormalText");
-
-			// Add the interop host control to the Grid
-			// control's collection of child controls.
-			this.ViewPanelForm.Children.Add(host);
-
-			editorView.GraphicPanel.Init(editorView);
-		}
-
-
-
-		private void CollisionOpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-		{
-			collisionOpacityChanged = true;
-		}
-
-		private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e)
-		{
-			UpdateToolbars(false, true);
-		}
-
-		private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e)
-		{
-			UpdateToolbars(true, true);
-		}
-
-		private void MoreSettingsButton_Opened(object sender, RoutedEventArgs e)
-		{
-			
-		}
-
-		private void MultiLayerSelectionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			MultiLayerEditMode = !MultiLayerEditMode;
-			multiLayerSelectionToolStripMenuItem.IsChecked = MultiLayerEditMode;
-
-
-			bool enabled = (MultiLayerEditMode == true ? true : false);
-			EditFGLower.DualSelect = enabled;
-			EditFGLow.DualSelect = enabled;
-			EditFGHigh.DualSelect = enabled;
-			EditFGHigher.DualSelect = enabled;
-
-			EditFGLower.SwapDefaultToA(!enabled);
-			EditFGLow.SwapDefaultToA(!enabled);
-			EditFGHigh.SwapDefaultToA(!enabled);
-			EditFGHigher.SwapDefaultToA(!enabled);
-
-			foreach (var elb in ExtraLayerEditViewButtons.Values)
+			Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
+			if (GameRunning)
 			{
-				elb.DualSelect = enabled;
-				elb.SwapDefaultToA(!enabled);
-			}
-
-			if (!enabled) EditLayerB = null;
-
-			UpdateControls();
-
-
-		}
-
-		private void CollisionColorsToolStripMenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
-		{
-			if (collisionOpacityChanged)
-			{
-				collisionOpacityChanged = false;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
+				EditorGame.UpdateCheckpoint(clicked_point);
 			}
 		}
 
-		private void CollisionOpacitySlider_DragCompleted(object sender, DragCompletedEventArgs e)
+		private void MoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (collisionOpacityChanged)
-			{
-				collisionOpacityChanged = false;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
+			checkpointSelected = true;
 		}
 
-		private void CollisionOpacitySlider_LostFocus(object sender, RoutedEventArgs e)
+		private void RemoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (collisionOpacityChanged)
-			{
-				collisionOpacityChanged = false;
-				ReloadSpecificTextures(sender, e);
-				RefreshCollisionColours(true);
-			}
+			EditorGame.UpdateCheckpoint(new Point(0, 0), false);
 		}
 
-
-
-		public void ShowError(string message, string title = "Error!")
+		private void AssetResetToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-			/*using (var customMsgBox = new CustomMsgBox(message, title, 1, 1))
-            {
-                customMsgBox.ShowDialog();
-            }*/
+			EditorGame.AssetReset();
 		}
 
-
-
-		public void FreezeDevice(bool state)
+		private void RestartSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (state)
-			{
-				editorView.GraphicPanel.bRender = false;
-			}
-			else
-			{
-				ReloadToolStripButton_Click(null, null);
-				editorView.GraphicPanel.bRender = true;
-			}
+			EditorGame.RestartScene();
 		}
-
-		private void SetDeviceSleepState(bool state)
-		{
-			editorView.GraphicPanel.bRender = state;
-			if (state == true)
-			{
-				ReloadToolStripButton_Click(null, null);
-			}
-		}
-
-		private bool CanWriteFile(string fullFilePath)
-		{
-			if (!File.Exists(fullFilePath)) return true;
-
-			if (File.GetAttributes(fullFilePath).HasFlag(FileAttributes.ReadOnly))
-			{
-				ShowError($"The file '{fullFilePath}' is Read Only.", "File is Read Only.");
-				return false;
-			}
-
-			var result = System.Windows.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
-										 MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-			if (result == MessageBoxResult.Yes) return true;
-
-			return false;
-		}
-
-		public Scene GetSceneSelection()
-		{
-			string selectedScene;
-
-			ManiacEditor.Interfaces.SceneSelectWindow select = new ManiacEditor.Interfaces.SceneSelectWindow(GameConfig, this);
-			select.Owner = Window.GetWindow(this);
-			select.ShowDialog();
-			if (select.SceneSelect.Result == null)
-				return null;
-			selectedScene = select.SceneSelect.Result;
-
-			if (!File.Exists(selectedScene))
-			{
-				string[] splitted = selectedScene.Split('\\');
-
-				string part1 = splitted[0];
-				string part2 = splitted[1];
-
-				selectedScene = Path.Combine(DataDirectory, "Stages", part1, part2);
-			}
-			return new Scene(selectedScene);
-		}
-
-		private bool AllowSceneUnloading()
-		{
-			bool AllowSceneChange = false;
-			if (IsSceneLoaded() == false)
-			{
-				AllowSceneChange = true;
-				return AllowSceneChange;
-			}
-			else if (IsSceneLoaded() == true && mySettings.DisableSaveWarnings == false)
-			{
-				var exitBox = new UnloadingSceneWarning();
-				exitBox.Owner = GetWindow(this);
-				exitBox.ShowDialog();
-				var exitBoxResult = exitBox.WindowResult;
-				if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.Yes)
-				{
-					Save_Click(null, null);
-					AllowSceneChange = true;
-				}
-				else if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.No)
-				{
-					AllowSceneChange = true;
-				}
-				else
-				{
-					AllowSceneChange = false;
-				}
-			}
-			else
-			{
-				AllowSceneChange = true;
-			}
-			return AllowSceneChange;
-			
-
-		}
-
-		public void GoToPosition(int x, int y, bool CenterCoords = true, bool ShortcutClear = false)
-		{
-			if (CenterCoords)
-			{
-				Rectangle r = editorView.GraphicPanel.GetScreen();
-				int x2 = (int)(r.Width * Zoom);
-				int y2 = (int)(r.Height * Zoom);
-
-				int ResultX = (int)(x * Zoom) - x2 / 2;
-				int ResultY = (int)(y * Zoom) - y2 / 2;
-
-				if ((ResultX <= 0)) ResultX = 0;
-				if ((ResultY <= 0)) ResultY = 0;
-
-				ShiftX = ResultX;
-				ShiftY = ResultY;
-			}
-			else
-			{
-				int ResultX = (int)(x * Zoom);
-				int ResultY = (int)(y * Zoom);
-
-				if ((ResultX <= 0)) ResultX = 0;
-				if ((ResultY <= 0)) ResultY = 0;
-
-				ShiftX = ResultX;
-				ShiftY = ResultY;
-			}
-
-
-			if (ShortcutClear)
-			{
-				ForceWarp = false;
-				TempWarpCoords = new Point(0, 0);
-				ShortcutHasZoom = false;
-				ShortcutZoomValue = 0.0;
-			}
-
-		}
-
-		public void UpdateStartScreen(bool visible, bool firstLoad = false)
-		{
-			if (firstLoad)
-			{
-				Thread thread = new Thread(() => {
-					Updater.CheckforUpdates(true, true);
-					Editor.UpdateUpdaterMessage = true;
-				});
-				thread.Start();
-				this.OverlayPanel.Children.Add(StartScreen);
-				StartScreen.SelectScreen.ReloadQuickPanel();
-				this.ViewPanelForm.Visibility = Visibility.Hidden;
-
-
-			}
-			if (visible)
-			{
-				StartScreen.Visibility = Visibility.Visible;
-				StartScreen.SelectScreen.ReloadQuickPanel();
-				this.ViewPanelForm.Visibility = Visibility.Hidden;
-			}
-			else
-			{
-				StartScreen.Visibility = Visibility.Hidden;
-				StartScreen.SelectScreen.ReloadQuickPanel();
-				this.ViewPanelForm.Visibility = Visibility.Visible;
-			}
-
-		}
-
-
-		public class SystemColorsUtility
-		{
-			public SystemColorsUtility()
-			{
-				// force init color table
-				byte unused = SystemColors.Window.R;
-
-				var colorTableField = typeof(Color).Assembly.GetType("System.Drawing.KnownColorTable")
-					.GetField("colorTable", BindingFlags.Static | BindingFlags.NonPublic);
-
-				_colorTable = (int[])colorTableField.GetValue(null);
-			}
-
-			public void SetColor(KnownColor knownColor, Color value)
-			{
-				_colorTable[(int)knownColor] = value.ToArgb();
-			}
-
-			private readonly int[] _colorTable;
-		}
-
-
-
 		#endregion
 
-
-		private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
-		{
-			maniaPalHint.Header = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
-		}
 	}
 }

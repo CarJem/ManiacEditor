@@ -778,7 +778,7 @@
             <Label x:Name="vScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator9" Visibility="Collapsed"/>
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
-                <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="MoreSettingsButton_ButtonClick" Opened="MoreSettingsButton_Opened">
+                <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="MoreSettingsButton_ButtonClick">
                     <wpfTool:SplitButton.Content>
                         <Rectangle Width="26" Height="26" Fill="Black" Margin="-2">
                             <Rectangle.OpacityMask>

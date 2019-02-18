@@ -84,8 +84,6 @@ namespace ManiacEditor
 		public EditorControls(Editor instance)
         {
             Editor = instance;
-			//UpdateTooltips();
-			//UpdateMenuItems();
 		}
 
 
@@ -363,6 +361,7 @@ namespace ManiacEditor
 		{
 			try
 			{
+				if (key.Contains("Ctrl")) key = key.Replace("Ctrl", "Control");
 				KeysConverter kc = new KeysConverter();
 
 				if (e.KeyData == (Keys)kc.ConvertFromString(key)) return true;
@@ -379,6 +378,7 @@ namespace ManiacEditor
 		{
 			try
 			{
+				if (key.Contains("Ctrl")) key = key.Replace("Ctrl", "Control");
 				KeysConverter kc = new KeysConverter();
 
 				if (e.KeyCode == (Keys)kc.ConvertFromString(key)) return true;

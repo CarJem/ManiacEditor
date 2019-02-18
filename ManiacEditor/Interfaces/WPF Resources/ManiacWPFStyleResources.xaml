@@ -394,6 +394,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    
     <SolidColorBrush x:Key="TextBox.Static.Border" Color="{Binding Color, Source={StaticResource ButtonBorder}}"/>
     <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="{Binding Color, Source={StaticResource Maniac_ButtonMouseOver_Border}}"/>
     <SolidColorBrush x:Key="TextBox.Focus.Border" Color="{Binding Color, Source={StaticResource Maniac_ButtonPressed_Border}}"/>
