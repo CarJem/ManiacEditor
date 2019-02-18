@@ -25,7 +25,7 @@ namespace ManiacEditor
     {
         // Object Render List
         public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
-		public ClearScript render = new ClearScript();
+		//public ClearScript render = new ClearScript();
 
 		// Object List for initilizing the if statement
 		public List<string> entityRenderingObjects;
