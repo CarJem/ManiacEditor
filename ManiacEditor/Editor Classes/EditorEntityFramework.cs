@@ -256,7 +256,7 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true)
+        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true, bool PartialEngineRotation = false, bool FullEngineRotation = false)
         {
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
             var anim = new EditorEntity_ini.EditorAnimation();
@@ -366,13 +366,24 @@ namespace ManiacEditor
 				var colour = map.Palette.Entries[0];
 
 				// Slow
-				map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
-                if (rotateImg != 0 && legacyRotate)
-                {
-                    map = RotateImageLegacy(map, rotateImg, colour);
-                    frame.Height = (short)(frame.Width + frame.Height + 64);
-                    frame.Width = (short)(frame.Height + frame.Width + 32);
-                }
+				if (PartialEngineRotation || FullEngineRotation)
+				{
+					map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour);
+					map = RotateImage(map, rotateImg, colour);
+					map = FitForSharpDXTexture(map);
+				}
+				else 
+				{
+					map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
+					if (rotateImg != 0 && legacyRotate)
+					{
+						map = RotateImageLegacy(map, rotateImg, colour);
+						frame.Height = (short)(frame.Width + frame.Height + 64);
+						frame.Width = (short)(frame.Height + frame.Width + 32);
+					}
+				}
+
+
 
                 map = RemoveColourImage(map, colour, map.Width, map.Height);
 
@@ -669,7 +680,37 @@ namespace ManiacEditor
 
         }
 
-        public Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
+		public Bitmap SimplyCropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour)
+		{
+			Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
+			using (Graphics g = Graphics.FromImage(bmp2)) g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+			if (fliph && flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+			else if (fliph) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
+			else if (flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+			return bmp2;
+
+		}
+
+		public Bitmap FitForSharpDXTexture(Bitmap source)
+		{	
+			var squareSize = (source.Width > source.Height ? source.Width : source.Height);
+			int factor = 32;
+			int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+			if (newSize == 0) newSize = factor;
+			while (newSize < squareSize) newSize += factor;
+
+			Bitmap bmp = new Bitmap(newSize, newSize);
+			using (Graphics g = Graphics.FromImage(bmp))
+			{
+				g.DrawImage(source, bmp.Width / 2 - source.Width / 2, bmp.Height / 2 - source.Height / 2, new Rectangle(0, 0, source.Width, source.Height), GraphicsUnit.Pixel);
+			}
+			source.Dispose();
+			return bmp;
+
+		}
+
+		public Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
         {
             // I don't know who though it was a good idea to disable this, but it is essential for rotating textures
             img.MakeTransparent(colour);

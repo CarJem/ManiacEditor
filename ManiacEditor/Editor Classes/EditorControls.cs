@@ -362,6 +362,7 @@ namespace ManiacEditor
 			try
 			{
 				if (key.Contains("Ctrl")) key = key.Replace("Ctrl", "Control");
+				if (key.Contains("Del")) key = key.Replace("Del", "Delete");
 				KeysConverter kc = new KeysConverter();
 
 				if (e.KeyData == (Keys)kc.ConvertFromString(key)) return true;
@@ -379,6 +380,7 @@ namespace ManiacEditor
 			try
 			{
 				if (key.Contains("Ctrl")) key = key.Replace("Ctrl", "Control");
+				if (key.Contains("Del")) key = key.Replace("Del", "Delete");
 				KeysConverter kc = new KeysConverter();
 
 				if (e.KeyCode == (Keys)kc.ConvertFromString(key)) return true;
@@ -628,9 +630,13 @@ namespace ManiacEditor
 		}
 		public void EnforceCursorPosition()
 		{
-			ForceUpdateMousePos = true;
-			System.Windows.Point pointFromParent = Editor.ViewPanelForm.TranslatePoint(new System.Windows.Point(0, 0), Editor);
-			SetCursorPos((int)(Editor.Left + pointFromParent.X) + (int)(Editor.ViewPanelForm.ActualWidth / 2), (int)(Editor.Left + pointFromParent.Y) + (int)(Editor.ViewPanelForm.ActualHeight / 2));
+			if (mySettings.ScrollerAutoCenters)
+			{
+				ForceUpdateMousePos = true;
+				System.Windows.Point pointFromParent = Editor.ViewPanelForm.TranslatePoint(new System.Windows.Point(0, 0), Editor);
+				SetCursorPos((int)(Editor.Left + pointFromParent.X) + (int)(Editor.ViewPanelForm.ActualWidth / 2), (int)(Editor.Left + pointFromParent.Y) + (int)(Editor.ViewPanelForm.ActualHeight / 2));
+			}
+
 		}
 
 		public void UpdateScrollerPosition(System.Windows.Forms.MouseEventArgs e)

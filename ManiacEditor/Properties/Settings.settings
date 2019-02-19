@@ -385,5 +385,8 @@ Would you like to save your progress before Maniac Editor Closes?</Value>
     <Setting Name="ScrollLockEnabledDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ScrollerAutoCenters" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

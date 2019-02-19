@@ -1586,5 +1586,17 @@ namespace ManiacEditor.Properties {
                 this["ScrollLockEnabledDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ScrollerAutoCenters {
+            get {
+                return ((bool)(this["ScrollerAutoCenters"]));
+            }
+            set {
+                this["ScrollerAutoCenters"] = value;
+            }
+        }
     }
 }

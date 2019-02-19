@@ -302,7 +302,7 @@
     </Reference>
     <Reference Include="Magick.NET-Q8-AnyCPU, Version=7.9.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
       <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.9.0.1\lib\net40\Magick.NET-Q8-AnyCPU.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ManiaPal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -721,6 +721,7 @@
     <Compile Include="Enums + Shorthandings\Settings.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
+    <Compile Include="Graphics\ImageExtensions.cs" />
     <Compile Include="Interfaces\Dialog\MessageBox.cs" />
     <Compile Include="Interfaces\Dialog\CustomMessageBoxWindow.xaml.cs">
       <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>

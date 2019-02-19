@@ -34,6 +34,7 @@
                             <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
                             <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme (Requires Manual Restart)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
                             <CheckBox Content="Pre-Render TURBO Mode (Highly Experimental)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding preRenderTURBOMode}"/>
+                            <CheckBox Content="Scoller Auto Centers with the Middle of the Scene Viewer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Auto Pre-Render Settings" Height="105" VerticalAlignment="Top" Margin="10,194,0,0" HorizontalAlignment="Left" Width="222">
