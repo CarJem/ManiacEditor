@@ -216,7 +216,7 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool legacyRotation = false)
+        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool legacyRotation = true)
         {
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotation}";
             if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
@@ -226,8 +226,6 @@ namespace ManiacEditor
                     // Use the already loaded Amination
                     return EditorInstance.EditorEntity_ini.Animations[key];
                 }
-                else
-                    return null;
             }
             var entry = new EditorEntity_ini.LoadAnimationData()
             {
