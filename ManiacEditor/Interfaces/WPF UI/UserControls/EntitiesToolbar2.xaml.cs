@@ -319,29 +319,37 @@ namespace ManiacEditor
 
 		public void RefreshSpawningObjects(List<RSDKv5.SceneObject> sceneObjects)
 		{
-			sceneObjects.Sort((x, y) => x.Name.ToString().CompareTo(y.Name.ToString()));
-			var bindingSceneObjectsList = new BindingList<RSDKv5.SceneObject>(sceneObjects);
-
-
-			_bindingSceneObjectsSource.Clear();
-			foreach (var _object in bindingSceneObjectsList)
+			try
 			{
-				TextBlock item = new TextBlock()
+				sceneObjects.Sort((x, y) => x.Name.ToString().CompareTo(y.Name.ToString()));
+				var bindingSceneObjectsList = new BindingList<RSDKv5.SceneObject>(sceneObjects);
+
+
+				_bindingSceneObjectsSource.Clear();
+				foreach (var _object in bindingSceneObjectsList)
 				{
-					Tag = _object,
-					Text = _object.Name.Name
-				};
-				_bindingSceneObjectsSource.Add(item);
+					TextBlock item = new TextBlock()
+					{
+						Tag = _object,
+						Text = _object.Name.Name
+					};
+					_bindingSceneObjectsSource.Add(item);
+				}
+
+				if (_bindingSceneObjectsSource != null && _bindingSceneObjectsSource.Count > 0)
+				{
+					cbSpawn.ItemsSource = _bindingSceneObjectsSource;
+					cbSpawn.SelectedItem = cbSpawn.Items[0];
+					var SelectedItem = cbSpawn.SelectedItem as TextBlock;
+					if (SelectedItem == null) return;
+					SelectedItem.Foreground = (SolidColorBrush)this.FindResource("NormalText");
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
 			}
 
-			if (_bindingSceneObjectsSource != null && _bindingSceneObjectsSource.Count > 0)
-			{
-				cbSpawn.ItemsSource = _bindingSceneObjectsSource;
-				cbSpawn.SelectedItem = cbSpawn.Items[0];
-				var SelectedItem = cbSpawn.SelectedItem as TextBlock;
-				if (SelectedItem == null) return;
-				SelectedItem.Foreground = (SolidColorBrush)this.FindResource("NormalText");
-			}
 		}
 
 

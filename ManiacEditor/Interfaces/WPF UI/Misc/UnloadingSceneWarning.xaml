@@ -26,14 +26,6 @@
     </Grid>
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <maniac:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" 
-                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Themes/MyBorderStyle.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Label}">
                 <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
             </Style>

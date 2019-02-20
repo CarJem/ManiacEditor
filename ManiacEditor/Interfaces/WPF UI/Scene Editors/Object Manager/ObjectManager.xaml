@@ -16,17 +16,17 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.Row="0" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
-                <MenuItem x:Name="fileTab" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="fileTab" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0" >
                     <MenuItem Header="Import Objects" Click="importObjectsToolStripMenuItem_Click"></MenuItem>
                     <MenuItem Header="Import Sounds" Click="importSoundsToolStripMenuItem_Click"></MenuItem>
                     <MenuItem Header="Backup Stage Config" Click="backupStageConfigToolStripMenuItem_Click"></MenuItem>
                     <MenuItem Header="Restore Stage Config" IsEnabled="False"></MenuItem>
                 </MenuItem>
-                <MenuItem x:Name="editTab" Header="Edit" VerticalContentAlignment="Center" Margin="7,2,0,0" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="editTab" Header="Edit" VerticalContentAlignment="Center" Margin="7,2,0,0" >
                     <MenuItem Header="Optimize Object ID Placement" IsEnabled="False"></MenuItem>
                     <MenuItem Header="Add Attribute to All Objects" Click="addAttributeToAllObjectsToolStripMenuItem_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem x:Name="toolsTab" Header="Tools" VerticalContentAlignment="Center" Margin="7,2,0,0" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="toolsTab" Header="Tools" VerticalContentAlignment="Center" Margin="7,2,0,0" >
                     <MenuItem Header="MD5 Generator" Click="mD5GeneratorToolStripMenuItem_Click"></MenuItem>
                 </MenuItem>
             </Menu>
@@ -74,14 +74,6 @@
     </Grid>
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <maniac:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" 
-                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Themes/MyBorderStyle.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Image}">
                 <Style.Triggers>
                     <Trigger Property="IsEnabled" Value="False">

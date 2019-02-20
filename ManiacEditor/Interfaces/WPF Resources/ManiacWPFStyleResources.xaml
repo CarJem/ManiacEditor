@@ -3,12 +3,6 @@
                     xmlns:maniac="clr-namespace:ManiacEditor"
                     xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:local="clr-namespace:ManiacEditor" xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" xmlns:Themes1="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=DotNetProjects.Wpf.Extended.Toolkit">
-    <ResourceDictionary.MergedDictionaries>
-        <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" 
-                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
-        <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
-        <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
     <Style TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{DynamicResource NormalText}" />
     </Style>
@@ -1161,6 +1155,39 @@
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
     </Style>
 
+    <Style x:Key="PopupContentStyle" TargetType="ContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Grid Width="Auto" Height="Auto" Background="Gray">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="2" CornerRadius="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="Gray"/>
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush Color="White"/>
+                            </Border.Background>
+                        </Border>
+
+                        <StackPanel Grid.Row="0">
+                            <Label Foreground="Blue" Content="Popup_Title"/>
+                        </StackPanel>
+
+                        <GroupBox Grid.Row="1" Header="Popup example content">
+                            <StackPanel>
+                                <ContentPresenter />
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type wpfTool:ButtonChrome}">
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -1325,6 +1352,7 @@
         </Setter>
     </Style>
     <SolidColorBrush x:Key="ListBorder" Color="#828790"/>
+    
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ButtonBorder}"/>

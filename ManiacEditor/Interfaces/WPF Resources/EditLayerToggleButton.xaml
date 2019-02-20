@@ -14,10 +14,6 @@
     </Grid>
             <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <local:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" 
-                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <Style x:Key="EditLayerFlatButton" x:Name="EditLayerFlatButtons" TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>

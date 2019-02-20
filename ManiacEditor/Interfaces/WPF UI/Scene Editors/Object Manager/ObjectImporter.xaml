@@ -19,7 +19,7 @@
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <RichTextBox IsEnabled="False" x:Name="rtbWarning" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True" Style="{DynamicResource RichTextBoxStyle1}"/>
+        <RichTextBox IsEnabled="False" x:Name="rtbWarning" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True"/>
         <ListBox x:Name="lvObjectsView" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -37,14 +37,6 @@
     </Grid>
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <base:SkinResourceDictionary LightSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/LightColors.xaml" 
-                                              DarkSource="/ManiacEditor;component/Interfaces/WPF Resources/Themes/DarkColors.xaml" />
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Themes/MyBorderStyle.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ContextMenu.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/ManiacWPFStyleResources.xaml"/>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/WPF Resources/Toolbar.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type ComboBox}">
                 <Style.Triggers>
                     <Trigger Property="IsEnabled" Value="False">

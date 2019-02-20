@@ -272,6 +272,44 @@ namespace ManiacEditor
 			else Draw(d);
 		}
 
+		public virtual void DrawBoxOnly(DevicePanel d)
+		{
+			int Transparency = (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
+			int x = entity.Position.X.High;
+			int y = entity.Position.Y.High;
+
+			if (filteredOut && !EditorInstance.isPreRending) return;
+
+			System.Drawing.Color color = Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+			System.Drawing.Color color2 = System.Drawing.Color.DarkBlue;
+			if (HasSpecificFilter(1) || HasSpecificFilter(5))
+			{
+				color2 = System.Drawing.Color.DarkBlue;
+			}
+			else if (HasSpecificFilter(2))
+			{
+				color2 = System.Drawing.Color.DarkRed;
+			}
+			else if (HasSpecificFilter(4))
+			{
+				color2 = System.Drawing.Color.DarkGreen;
+			}
+			else if (HasSpecificFilter(255))
+			{
+				color2 = System.Drawing.Color.Purple;
+			}
+			else if (HasFilterOther())
+			{
+				color2 = System.Drawing.Color.Yellow;
+			}
+			else if (!HasFilter())
+			{
+				color2 = System.Drawing.Color.White;
+			}
+
+			DrawSelectionBox(d, x, y, Transparency, color, color2);
+		}
+
 		// allow derived types to override the draw
 		public virtual void Draw(DevicePanel d)
         {

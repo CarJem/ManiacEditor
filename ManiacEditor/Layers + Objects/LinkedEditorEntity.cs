@@ -42,21 +42,29 @@ namespace ManiacEditor
 				targetSlotID = (ushort)(Entity.SlotID + 1);
 				currentEntity = Entity;
 			}
-            else if (entity.Object.Name.Name == "AIZTornadoPath")
+            else if (entity.Object.Name.Name == "PlatformNode")
             {
                 slotID = Entity.SlotID;
                 targetSlotID = (ushort)(Entity.SlotID + 1);
                 currentEntity = Entity;
             }
+			else if (entity.Object.Name.Name == "AIZTornadoPath")
+			{
+				slotID = Entity.SlotID;
+				targetSlotID = (ushort)(Entity.SlotID + 1);
+				currentEntity = Entity;
+			}
 
-        }
+		}
 
         public override void Draw(DevicePanel d)
         {
+			if (filteredOut) return;
 			if (EditorInstance.showEntityPathArrows)
             {
                 if (currentEntity.Object.Name.Name == "WarpDoor")
                 {
+
                     base.Draw(d);
                     if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
 
@@ -112,7 +120,32 @@ namespace ManiacEditor
                         }
                     }
                 }
-            }
+				else if (currentEntity.Object.Name.Name == "PlatformNode")
+				{
+
+
+					//if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
+
+					// this is the start of a WarpDoor, find its partner(s)
+					var nodePaths = Entity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+
+					if (nodePaths != null
+						&& nodePaths.Any())
+					{
+						base.Draw(d);
+						// some destinations seem to be duplicated, so we must loop
+						foreach (var tp in nodePaths)
+						{
+							DrawCenteredLinkArrow(d, Entity, tp);
+						}
+					}
+					else
+					{
+						base.DrawBoxOnly(d);
+					}
+
+				}
+			}
 
 			if (currentEntity.Object.Name.Name == "TransportTube")
 			{
@@ -205,6 +238,28 @@ namespace ManiacEditor
                         end.Position.Y.High + offsetDestinationY,
                         Color.GreenYellow);
         }
+
+		private void DrawCenteredLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
+		{
+			int startX = start.Position.X.High;
+			int startY = start.Position.Y.High;
+			int endX = end.Position.X.High;
+			int endY = end.Position.Y.High;
+
+			int dx = endX - startX;
+			int dy = endY - startY;
+
+			int offsetX = 0;
+			int offsetY = 0;
+			int offsetDestinationX = 0;
+			int offsetDestinationY = 0;
+
+			d.DrawArrow(startX + offsetX,
+						startY + offsetY,
+						end.Position.X.High + offsetDestinationX,
+						end.Position.Y.High + offsetDestinationY,
+						Color.GreenYellow);
+		}
 
 		private void DrawLinkArrowTransportTubes(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, int destType, int sourceType)
 		{

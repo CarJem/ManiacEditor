@@ -49,12 +49,10 @@ namespace ManiacEditor
                 }
                 else if (argument.StartsWith("X="))
                 {
-                    //Debug.Print(argument.Substring(2));
                     Int32.TryParse(argument.Substring(2), out X);
                 }
                 else if (argument.StartsWith("Y="))
                 {
-                    //Debug.Print(argument.Substring(2));
                     Int32.TryParse(argument.Substring(2), out Y);
                 }
             }
@@ -62,11 +60,6 @@ namespace ManiacEditor
             DataDir.Replace("\"", "");
             ScenePath.Replace("\"", "");
             ModPath.Replace("\"", "");
-
-            //Debug.Print(DataDir);
-            //Debug.Print(ModPath);
-            //Debug.Print(ScenePath);
-            //Debug.Print(LevelID.ToString());
 
             if (DataDir != "" && ScenePath != "")
             {
@@ -102,6 +95,7 @@ Missing file: {fnfe.FileName}");
             if (allowedToLoad)
             {
                 var application = new ManiacEditor.App();
+				application.InitializeComponent();
                 application.Load(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
             }
         }

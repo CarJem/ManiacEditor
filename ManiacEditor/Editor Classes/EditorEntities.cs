@@ -396,7 +396,11 @@ namespace ManiacEditor
                     {
                         return new LinkedEditorEntity(sceneEntity, EditorInstance);
                     }
-                    else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
+					else if (sceneEntity.Object.Name.ToString().Equals("PlatformNode", StringComparison.InvariantCultureIgnoreCase))
+					{
+						return new LinkedEditorEntity(sceneEntity, EditorInstance);
+					}
+					else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
                     {
                         return new LinkedEditorEntity(sceneEntity, EditorInstance);
                     }
