@@ -2195,6 +2195,8 @@ namespace ManiacEditor
 			MenuChar_Small = MenuCharS_Small.ToCharArray();
 			LevelSelectChar = LevelSelectCharS.ToCharArray();
 
+			ResourcePackList.Clear();
+
 			UpdateStartScreen(true);
 		}
 

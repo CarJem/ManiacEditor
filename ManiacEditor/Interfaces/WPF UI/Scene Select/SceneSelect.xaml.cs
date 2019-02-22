@@ -619,6 +619,7 @@ namespace ManiacEditor.Interfaces
 						scenesTree.Nodes.Add(dir_node);
 				}
 			}
+			browse.IsEnabled = true;
 			if (filter != "")
 			{
 				scenesTree.ExpandAll();
@@ -663,6 +664,7 @@ namespace ManiacEditor.Interfaces
 
 		public void UpdateCurrentInfo()
 		{
+
 			if (scenesTree.SelectedNode != null)
 			{
 				if (scenesTree.SelectedNode.Parent != null)

@@ -558,13 +558,13 @@ namespace ManiacEditor
 			string dataDirectory = dataFolder;
 			// Checks the Stage Folder First
 			path = EditorInstance.EditorPath.CurrentZone + "\\" + name + ".bin";
-			path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 			if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
 			{
 				foreach (string userDefinedPath in EditorInstance.userDefinedSpritePaths)
 				{
 					path = userDefinedPath + "\\" + name + ".bin";
-					path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 					//Debug.Print(path2);
 					if (File.Exists(path2))
 					{
@@ -574,7 +574,7 @@ namespace ManiacEditor
 				if (!File.Exists(path2))
 				{
 					path = EditorInstance.EditorPath.CurrentZone + "\\" + name + ".bin";
-					path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+					path2 = Path.Combine(dataDirectory, "\\Sprites") + "\\" + path;
 				}
 			}
 
@@ -583,68 +583,66 @@ namespace ManiacEditor
 			{
 				// Checks using Setup Object (Removed Until Further Notice)
 				//path = Extensions.ReplaceLastOccurrence(EditorInstance.entities.SetupObject, "Setup", "") + "\\" + name + ".bin";
-				//path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+				//path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
 					path = EditorInstance.EditorPath.CurrentZone.Substring(0, EditorInstance.EditorPath.CurrentZone.Length - 1) + "\\" + name + ".bin";
-					path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 					if (!File.Exists(path2))
 					{
 						// Checks for name without the last character and without the numbers in the entity name
 						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
 						path = path = EditorInstance.EditorPath.CurrentZone.Substring(0, EditorInstance.EditorPath.CurrentZone.Length - 1) + "\\" + adjustedName + ".bin";
-						path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+						path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 						if (!File.Exists(path2))
 						{
 							// Checks for name without any numbers in the Zone name
 							string adjustedZone = Regex.Replace(EditorInstance.EditorPath.CurrentZone, @"[\d-]", string.Empty);
 							path = path = adjustedZone + "\\" + name + ".bin";
-							path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+							path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 							if (!File.Exists(path2))
 							{
 								// Checks for name without any numbers in the Zone name, then add a 1 back
 								adjustedZone = adjustedZone + "1";
 								path = path = adjustedZone + "\\" + name + ".bin";
-								path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+								path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 								if (!File.Exists(path2))
 								{
 									// Checks Global
 									path = "Global\\" + name + ".bin";
-									path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+									path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 									if (!File.Exists(path2))
 									{
 										//Checks Editor
 										path = "Editor\\" + name + ".bin";
-										path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+										path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 										if (!File.Exists(path2))
 										{
 											//Checks Cutscene
 											path = "Cutscene\\" + name + ".bin";
-											path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+											path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 											if (!File.Exists(path2))
 											{
 												//Checks MSZ
 												path = "MSZ\\" + name + ".bin";
-												path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+												path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 												if (!File.Exists(path2))
 												{
 													//Checks Base without a Path
 													path = name + ".bin";
-													path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+													path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 
 
 													if (!File.Exists(path2))
 													{
+														string spriteFolder = Path.Combine(dataDirectory, "Sprites");
 														// Checks the Entire Sprite folder 
-														foreach (string dir in Directory.GetDirectories(Path.Combine(dataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
+														foreach (string dir in Directory.GetDirectories(spriteFolder, $"*", SearchOption.TopDirectoryOnly))
 														{
 															path = Path.GetFileName(dir) + "\\" + name + ".bin";
-															path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-															if (File.Exists(path2))
-															{
-																break;
-															}
+															path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
+															if (File.Exists(path2)) break;
 
 														}
 														if (!File.Exists(path2))

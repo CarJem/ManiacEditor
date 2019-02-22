@@ -66,7 +66,7 @@
                 </StackPanel>
                 <Label Grid.Row="3" Grid.ColumnSpan="2" x:Name="label1"></Label>
                 <Button Click="btnRemoveEntries_Click" Content="Remove Checked Objects from Scene" Margin="10,3,10,3" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch"></Button>
-                <CheckBox x:Name="rmvStgCfgCheckbox" Content="Remove Stage Config Entries for Selected Objects" Margin="10,3,10,3" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"></CheckBox>
+                <CheckBox Checked="Checkbox_CheckChanged" Unchecked="Checkbox_CheckChanged" x:Name="rmvStgCfgCheckbox" Content="Remove Stage Config Entries for Selected Objects" Margin="10,3,10,3" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"></CheckBox>
                 <Button Click="btnCancel_Click" Content="Exit" Width="72" HorizontalAlignment="Right" Height="25" Grid.Column="1" Grid.Row="4" Margin="10,3,10,3"></Button>
             </Grid>
 

@@ -178,56 +178,7 @@ a valid Data Directory.",
 
 		public void Save_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.EditorScene == null) return;
-
-			if (Editor.IsTilesEdit())
-			{
-				// Apply changes
-				Editor.Deselect();
-			}
-
-			try
-			{
-				Editor.EditorScene.Save(Editor.EditorPath.SceneFile_Source);
-			}
-			catch (Exception ex)
-			{
-				Editor.ShowError($@"Failed to save the scene to file '{Editor.EditorPath.SceneFile_Source}'
-Error: {ex.Message}");
-			}
-
-			try
-			{
-				Editor.StageConfig?.Write(Editor.EditorPath.StageConfig_Source);
-			}
-			catch (Exception ex)
-			{
-				Editor.ShowError($@"Failed to save the StageConfig to file '{Editor.EditorPath.StageConfig_Source}'
-Error: {ex.Message}");
-			}
-
-			try
-			{
-				if (Editor.EditorChunk.StageStamps?.loadstate == RSDKv5.Stamps.LoadState.Upgrade)
-				{
-					MessageBoxResult result = RSDKrU.MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-					if (result == MessageBoxResult.Yes)
-					{
-						Editor.EditorChunk.StageStamps?.Write(Editor.EditorPath.Stamps_Source);
-					}
-				}
-				else
-				{
-					Editor.EditorChunk.StageStamps?.Write(Editor.EditorPath.Stamps_Source);
-				}
-
-
-			}
-			catch (Exception ex)
-			{
-				Editor.ShowError($@"Failed to save StageStamps to file '{Editor.EditorPath.SceneFile_Source}'
-Error: {ex.Message}");
-			}
+			Editor.EditorSceneLoading.Save();
 		}
 
 		public void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e)

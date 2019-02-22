@@ -410,17 +410,15 @@ namespace ManiacEditor.Interfaces
 			updateSelectedText();
 		}
 
-		private void removeStageConfigEntriesOnObjectRemovalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		private void Checkbox_CheckChanged(object sender, RoutedEventArgs e)
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				EditorInstance.RemoveStageConfigEntriesAllowed = false;
-				rmvStgCfgCheckbox.IsChecked = false;
+				EditorInstance.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				EditorInstance.RemoveStageConfigEntriesAllowed = true;
-				rmvStgCfgCheckbox.IsChecked = true;
+				EditorInstance.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 

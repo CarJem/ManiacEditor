@@ -17,7 +17,7 @@ namespace ManiacEditor
 		public EditorDirectories(Editor instance)
 		{
 			Instance = instance;
-			LoadFile();
+			//LoadFile();
 		}
 
 		public void LoadFile()

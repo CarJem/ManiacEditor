@@ -7,6 +7,7 @@ using MessageBox = RSDKrU.MessageBox;
 using System.Windows;
 using System.IO;
 using RSDKv5;
+using System.Text.RegularExpressions;
 
 namespace ManiacEditor
 {
@@ -48,14 +49,7 @@ namespace ManiacEditor
 			if (select.DialogResult != true) return;
 			if (PreLoad() == false) return;
 
-			Instance.EditorPath.SceneFilePath = select.SceneSelect.Result;
-			Instance.EditorPath.CurrentLevelID = select.SceneSelect.LevelID;
-			Instance.EditorPath.isEncoreMode = select.SceneSelect.isEncore;
-			Instance.EditorPath.SceneDirectory = Path.GetDirectoryName(Instance.EditorPath.SceneFilePath);
-			Instance.EditorPath.CurrentZone = select.SceneSelect.CurrentZone;
-			Instance.EditorPath.CurrentName = select.SceneSelect.CurrentName;
-			Instance.EditorPath.CurrentSceneID = select.SceneSelect.CurrentSceneID;
-			Instance.EditorPath.Browsed = select.SceneSelect.Browsed;
+			GetSceneSelectData(select.SceneSelect, select.SceneSelect.Browsed);
 
 			if (Instance.EditorPath.Browsed)
 			{
@@ -89,14 +83,7 @@ namespace ManiacEditor
 			if (select.DialogResult != true) return;
 			if (PreLoad() == false) return;
 
-			Instance.EditorPath.SceneFilePath = select.SceneSelect.Result;
-			Instance.EditorPath.CurrentLevelID = select.SceneSelect.LevelID;
-			Instance.EditorPath.isEncoreMode = select.SceneSelect.isEncore;
-			Instance.EditorPath.SceneDirectory = Path.GetDirectoryName(Instance.EditorPath.SceneFilePath);
-			Instance.EditorPath.CurrentZone = select.SceneSelect.CurrentZone;
-			Instance.EditorPath.CurrentName = select.SceneSelect.CurrentName;
-			Instance.EditorPath.CurrentSceneID = select.SceneSelect.CurrentSceneID;
-			Instance.EditorPath.Browsed = select.SceneSelect.Browsed;
+			GetSceneSelectData(select.SceneSelect, select.SceneSelect.Browsed);
 
 			if (Instance.EditorPath.Browsed)
 			{
@@ -113,14 +100,7 @@ namespace ManiacEditor
 		{
 			if (PreLoad() == false) return;
 
-			Instance.EditorPath.SceneFilePath = select.Result;
-			Instance.EditorPath.CurrentLevelID = select.LevelID;
-			Instance.EditorPath.isEncoreMode = select.isEncore;
-			Instance.EditorPath.SceneDirectory = Path.GetDirectoryName(Instance.EditorPath.SceneFilePath);
-			Instance.EditorPath.CurrentZone = select.CurrentZone;
-			Instance.EditorPath.CurrentName = select.CurrentName;
-			Instance.EditorPath.CurrentSceneID = select.CurrentSceneID;
-			Instance.EditorPath.Browsed = select.Browsed;
+			GetSceneSelectData(select, select.Browsed);
 
 			if (Instance.EditorPath.Browsed)
 			{
@@ -129,6 +109,46 @@ namespace ManiacEditor
 			else
 			{
 				LoadFromSceneSelect();
+			}
+		}
+
+		public void GetSceneSelectData(ManiacEditor.Interfaces.SceneSelect select, bool browsedFile = false)
+		{
+			if (browsedFile == true)
+			{
+				Instance.EditorPath.SceneFilePath = select.Result;
+				Instance.EditorPath.CurrentLevelID = select.LevelID;
+				Instance.EditorPath.isEncoreMode = select.isEncore;
+				Instance.EditorPath.SceneDirectory = Path.GetDirectoryName(Instance.EditorPath.SceneFilePath);
+				Instance.EditorPath.CurrentZone = Path.GetFileName(Instance.EditorPath.SceneDirectory);
+				Instance.EditorPath.CurrentName = select.CurrentName;
+				Instance.EditorPath.CurrentSceneID = select.CurrentSceneID;
+				Instance.EditorPath.Browsed = select.Browsed;
+				AddTemporaryResourcePack();
+			}
+			else
+			{
+				Instance.EditorPath.SceneFilePath = select.Result;
+				Instance.EditorPath.CurrentLevelID = select.LevelID;
+				Instance.EditorPath.isEncoreMode = select.isEncore;
+				Instance.EditorPath.SceneDirectory = Path.GetDirectoryName(Instance.EditorPath.SceneFilePath);
+				Instance.EditorPath.CurrentZone = select.CurrentZone;
+				Instance.EditorPath.CurrentName = select.CurrentName;
+				Instance.EditorPath.CurrentSceneID = select.CurrentSceneID;
+				Instance.EditorPath.Browsed = select.Browsed;
+			}
+		}
+
+		public void AddTemporaryResourcePack()
+		{
+			if (Instance.EditorPath.SceneDirectory.Contains("Data") && Instance.EditorPath.SceneDirectory.Contains("Stages"))
+			{
+				var input = Instance.EditorPath.SceneDirectory;
+				var output = input.Replace("\\Stages\\" + Instance.EditorPath.CurrentZone, "");
+				if (output.Contains("Data"))
+				{
+					Instance.ResourcePackList.Add(output);
+				}
 			}
 		}
 
@@ -223,9 +243,10 @@ namespace ManiacEditor
 			Instance.LevelID = Instance.EditorPath.CurrentLevelID;
 			Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePathFromFile(Instance.EditorPath.SceneFilePath), Instance.editorView.GraphicPanel, Instance);
 
+			
 			//ACT File (Encore Colors)
-			Instance.EncorePalette = Instance.EditorScene.GetEncorePalette(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneFilePath, 0);
-			Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneFilePath);
+			Instance.EncorePalette = Instance.EditorScene.GetEncorePalette(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneDirectory, 0);
+			Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneDirectory);
 			if (Instance.EncorePalette[0] != "")
 			{
 				Instance.encorePaletteExists = true;
@@ -260,10 +281,10 @@ namespace ManiacEditor
 
 		public void ReadManiacINIFile()
 		{
-			if (File.Exists(Instance.EditorPath.SceneFilePath + "\\maniac.ini"))
+			if (File.Exists(Instance.EditorPath.SceneDirectory + "\\maniac.ini"))
 			{
 				bool allowToRead = false;
-				using (Stream stream = EditorSettings.GetSceneIniResource(Instance.EditorPath.SceneFilePath + "\\maniac.ini"))
+				using (Stream stream = EditorSettings.GetSceneIniResource(Instance.EditorPath.SceneDirectory + "\\maniac.ini"))
 				{
 					if (stream != null)
 					{
@@ -284,13 +305,73 @@ namespace ManiacEditor
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Instance.EditorPath.SceneFilePath);
+						MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Instance.EditorPath.SceneDirectory);
 						EditorSettings.CleanPrefrences();
 					}
 
 				}
 
 
+			}
+		}
+
+		public void Save()
+		{
+			if (Instance.EditorScene == null) return;
+			if (Instance.IsTilesEdit()) Instance.Deselect();
+
+			SaveScene();
+			SaveStageConfig();
+			SaveChunks();
+		}
+
+		public void SaveScene()
+		{
+			try
+			{
+				Instance.EditorScene.Save(Instance.EditorPath.SceneFile_Source);
+			}
+			catch (Exception ex)
+			{
+				Instance.ShowError($@"Failed to save the scene to file '{Instance.EditorPath.SceneFile_Source}' Error: {ex.Message}");
+			}
+		}
+
+		public void SaveStageConfig()
+		{
+			try
+			{
+				Instance.StageConfig?.Write(Instance.EditorPath.StageConfig_Source);
+			}
+			catch (Exception ex)
+			{
+				Instance.ShowError($@"Failed to save the StageConfig to file '{Instance.EditorPath.StageConfig_Source}'
+Error: {ex.Message}");
+			}
+		}
+
+		public void SaveChunks()
+		{
+			try
+			{
+				if (Instance.EditorChunk.StageStamps?.loadstate == RSDKv5.Stamps.LoadState.Upgrade)
+				{
+					MessageBoxResult result = RSDKrU.MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+					if (result == MessageBoxResult.Yes)
+					{
+						Instance.EditorChunk.StageStamps?.Write(Instance.EditorPath.Stamps_Source);
+					}
+				}
+				else
+				{
+					Instance.EditorChunk.StageStamps?.Write(Instance.EditorPath.Stamps_Source);
+				}
+
+
+			}
+			catch (Exception ex)
+			{
+				Instance.ShowError($@"Failed to save StageStamps to file '{Instance.EditorPath.SceneFile_Source}' Error: {ex.Message}");
 			}
 		}
 	}

@@ -26,7 +26,7 @@ namespace ManiacEditor
 		public int CurrentLevelID = -1;
 		public bool isEncoreMode = false;
 		public string SceneDirectory = "";
-		public string CurrentZone = "";
+		public string CurrentZone { get; set; }
 		public string CurrentName = "";
 		public string CurrentSceneID = "";
 		public bool Browsed = false;
@@ -259,7 +259,7 @@ namespace ManiacEditor
 		{
 			SceneFile_Source = Result;
 			SceneFile_Directory = Path.GetDirectoryName(Result);
-			CurrentZone = Path.GetDirectoryName(SceneFile_Source);
+			CurrentZone = Path.GetFileName(SceneDirectory);
 			return Result;
 		}
 
@@ -344,7 +344,7 @@ namespace ManiacEditor
 			try
 			{
 				Stamps StageStamps = new Stamps(Path.Combine(configPath, "Stages", CurrentZone, "ManiacStamps.bin"));
-				Stamps_Source = configPath;
+				Stamps_Source = Path.Combine(configPath, "Stages", CurrentZone, "ManiacStamps.bin");
 				return StageStamps;
 			}
 			catch
