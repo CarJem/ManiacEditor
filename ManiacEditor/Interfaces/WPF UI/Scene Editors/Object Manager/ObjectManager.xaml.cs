@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Microsoft.Scripting.Utils;
 using RSDKv5;
 using System.Collections.ObjectModel;
+using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

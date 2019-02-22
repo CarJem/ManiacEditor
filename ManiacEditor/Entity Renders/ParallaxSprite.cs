@@ -50,7 +50,7 @@ namespace ManiacEditor.Entity_Renders
 
         private string GetParallaxPath (Editor EditorInstance)
         {
-            string name = EditorInstance.SelectedZone.Replace("\\", "");
+            string name = EditorInstance.EditorPath.CurrentZone.Replace("\\", "");
             string zoneName = "";
             string binPath = "";
             string parallaxName = "";

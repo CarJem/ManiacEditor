@@ -75,7 +75,7 @@ namespace ManiacEditor.Interfaces
 				}
 				catch
 				{
-					MessageBox.Show("Not a Valid File!", "ERROR", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+					RSDKrU.MessageBox.Show("Not a Valid File!", "ERROR", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 					currentSoundFile = "";
 				}
 			}

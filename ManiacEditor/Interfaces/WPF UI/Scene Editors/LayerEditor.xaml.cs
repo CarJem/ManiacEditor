@@ -17,6 +17,7 @@ using ManiacEditor.Properties;
 using Microsoft.Xna.Framework;
 using HexInnovation;
 using System.Collections.ObjectModel;
+using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

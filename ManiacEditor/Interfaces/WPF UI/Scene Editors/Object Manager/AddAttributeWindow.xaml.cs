@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using RSDKv5;
+using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

@@ -42,6 +42,8 @@ using Clipboard = System.Windows.Clipboard;
 using DataObject = System.Windows.DataObject;
 using Button = System.Windows.Controls.Button;
 using Cursors = System.Windows.Input.Cursors;
+using RSDKrU;
+using MessageBox = RSDKrU.MessageBox;
 
 
 namespace ManiacEditor
@@ -161,13 +163,13 @@ namespace ManiacEditor
 		//Editor Paths
 		public string DataDirectory; //Used to get the current Data Directory
 		public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
-		public string ModDataDirectory = ""; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
-		public string SelectedZone; //Used to get the Selected zone
-		public string SelectedScene; //Used to get the Scene zone
+		public IList<string> ResourcePackList = new List<string>();
+		//public string SelectedZone; //Used to get the Selected zone
+		//public string SelectedScene; //Used to get the Scene zone
 		public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
-		public string SceneFilename = null; //Used for fetching the scene's file name
-		public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
-		public string StageConfigFileName = null; //Used for fetch the scene's stage config file name
+		//public string SceneFilename = null; //Used for fetching the scene's file name
+		//public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
+		//public string StageConfigFileName = null; //Used for fetch the scene's stage config file name
 
 		// Extra Layer Buttons
 		public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
@@ -258,6 +260,9 @@ namespace ManiacEditor
 		public EditorView editorView;
 		public EditorDiscordRP Discord;
 		public EditorInteractions Interactions;
+		public EditorPath EditorPath;
+		public EditorSceneLoading EditorSceneLoading;
+		public EditorDirectories EditorDirectories;
 
 		//Tile Maniac + ManiaPal Instance
 		public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
@@ -349,14 +354,12 @@ namespace ManiacEditor
 		#region Editor Initalizing Methods
 		public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
-
 			SystemEvents.PowerModeChanged += CheckDeviceState;
 			InstanceID = MegaManiacInstanceID;
 
 			UseDarkTheme_WPF(mySettings.NightMode);
 			InitializeComponent();
 			InitilizeEditor();
-
 
 			try
 			{
@@ -430,6 +433,9 @@ namespace ManiacEditor
 			Updater = new EditorUpdater();
 			DevController = new ManiacEditor.Interfaces.DeveloperTerminal(this);
 			Interactions = new EditorInteractions(this);
+			EditorPath = new EditorPath(this);
+			EditorSceneLoading = new EditorSceneLoading(this);
+			EditorDirectories = new EditorDirectories(this);
 
 			this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
 			editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
@@ -464,14 +470,6 @@ namespace ManiacEditor
 			StatusPanelTickTimer.Tick += new EventHandler(UpdateStatusPanel);
 			StatusPanelTickTimer.Start();
 		}
-
-
-
-		#endregion
-
-		#region Discord Rich Presence
-
-
 		#endregion
 
 		#region Defaults and Presets
@@ -1036,8 +1034,8 @@ namespace ManiacEditor
 
 
 			ShowGridButton.IsEnabled = enabled && StageConfig != null;
-			ShowCollisionAButton.IsEnabled = enabled && StageConfig != null;
-			ShowCollisionBButton.IsEnabled = enabled && StageConfig != null;
+			ShowCollisionAButton.IsEnabled = enabled && TilesConfig != null;
+			ShowCollisionBButton.IsEnabled = enabled && TilesConfig != null;
 			ShowTileIDButton.IsEnabled = enabled && StageConfig != null;
 			GridSizeButton.IsEnabled = enabled && StageConfig != null;
 			EncorePaletteButton.IsEnabled = enabled && encorePaletteExists;
@@ -1077,9 +1075,9 @@ namespace ManiacEditor
 				if (TilesToolbar == null)
 				{
 					if (useEncoreColors)
-						TilesToolbar = new TilesToolbar(StageTiles, SceneFilepath, EncorePalette[0], this);
+						TilesToolbar = new TilesToolbar(StageTiles, EditorPath.StageTiles_Source, EncorePalette[0], this);
 					else
-						TilesToolbar = new TilesToolbar(StageTiles, SceneFilepath, null, this);
+						TilesToolbar = new TilesToolbar(StageTiles, EditorPath.StageTiles_Source, null, this);
 
 					
 					TilesToolbar.TileDoubleClick = new Action<int>(x =>
@@ -1222,8 +1220,6 @@ namespace ManiacEditor
 		#endregion
 
 		#region Refresh UI
-
-
 
 		public void UpdateEntitiesToolbarList()
 		{
@@ -1726,35 +1722,8 @@ namespace ManiacEditor
 			return newItem;
 		}
 
-		public bool SetGameConfig()
-		{
-			try
-			{
-				GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
-				return true;
-			}
-			catch
-			{
-				// Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
-				try
-				{
-					GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
-					return true;
-				}
-				catch
-				{
-					System.Windows.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
-					return false;
-				}
-
-
-			}
-
-		}
-		public bool IsDataDirectoryValid(string directoryToCheck)
-		{
-			return File.Exists(Path.Combine(directoryToCheck, "Game", "GameConfig.bin"));
-		}
+		public bool SetGameConfig() { return EditorPath.SetGameConfig(); }
+		public bool IsDataDirectoryValid(string directoryToCheck) { return EditorPath.IsDataDirectoryValid(directoryToCheck); }
 
 		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e, String dataDirectory)
 		{
@@ -1766,7 +1735,7 @@ namespace ManiacEditor
 			}
 			else
 			{
-				System.Windows.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
+				MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
 								"Invalid Data Directory!",
 								MessageBoxButton.OK,
 								MessageBoxImage.Error);
@@ -1864,24 +1833,12 @@ namespace ManiacEditor
 
 		public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
 		{
-			string modFolderTag = "Mod Directory: {0} [Mod-Loaded]";
 			string dataFolderTag_Normal = "Data Directory: {0}";
-			string dataFolderTag_ModLoaded = "Data Directory: {0} [Mod-Loaded]";
-			if (showingDataDirectory && ModDataDirectory != "")
-			{
-				_baseDataDirectoryLabel.Tag = modFolderTag;
-				UpdateDataFolderLabel(ModDataDirectory);
-				showingDataDirectory = false;
-			}
-			else
-			{
-				_baseDataDirectoryLabel.Tag = (ModDataDirectory != "" ? dataFolderTag_ModLoaded : dataFolderTag_Normal);
-				UpdateDataFolderLabel();
-				showingDataDirectory = true;
-			}
 
+			_baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
+			UpdateDataFolderLabel();
+			showingDataDirectory = true;
 		}
-
 
 		private void UpdateDataFolderLabel(string dataDirectory = null)
 		{
@@ -2164,14 +2121,10 @@ namespace ManiacEditor
 		{
 			EditorScene?.Dispose();
 			EditorScene = null;
-			SceneFilename = null;
-			SceneFilepath = null;
 			StageConfig = null;
-			StageConfigFileName = null;
 			_levelIDLabel.Content = "Level ID: NULL";
 			LevelID = -1;
 			encorePaletteExists = false;
-			EncorePalette = null;
 			EncoreSetupType = 0;
 			playerObjectPosition = new List<SceneEntity> { };
 			INILayerNameHigher = "";
@@ -2179,10 +2132,8 @@ namespace ManiacEditor
 			EditorSettings.CleanPrefrences();
 			userDefinedEntityRenderSwaps = new Dictionary<string, string>();
 			userDefinedSpritePaths = new List<string>();
-
-			SelectedScene = null;
-			SelectedZone = null;
 			EncorePaletteButton.IsChecked = false;
+			EditorPath.UnloadScene();
 
 			if (StageTiles != null) StageTiles.Dispose();
 			StageTiles = null;
@@ -2249,7 +2200,7 @@ namespace ManiacEditor
 
 		public void OpenSceneForceFully()
 		{
-
+			/*
 			DataDirectory = mySettings.DevForceRestartData;
 			string Result = mySettings.DevForceRestartScene;
 			int LevelID = mySettings.DeveForceRestartLevelID;
@@ -2258,12 +2209,12 @@ namespace ManiacEditor
 			int y = mySettings.DevForeRestartY;
 			TempWarpCoords = new Point(x, y);
 			ForceWarp = true;
-			OpenScene(false, Result, LevelID, isEncore);
+			OpenScene(false, Result, LevelID, isEncore);*/
 			
 		}
 		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0)
 		{
-			DataDirectory = dataDir;
+			/*DataDirectory = dataDir;
 			string Result = scenePath;
 			int LevelID = levelID;
 			bool isEncore = isEncoreMode;
@@ -2274,340 +2225,19 @@ namespace ManiacEditor
 			}
 			TempWarpCoords = new Point(X, Y);
 			ForceWarp = true;
-			OpenScene(false, Result, LevelID, isEncore, (modPath != "" ? true : false), modPath);
+			OpenScene(false, Result, LevelID, isEncore, (modPath != "" ? true : false), modPath);*/
 		}
 
 		private void OpenSceneForceFully(string dataDir)
 		{
 			DataDirectory = dataDir;
-			OpenScene();
+			EditorSceneLoading.OpenSceneForcefullyUsingSceneSelect(DataDirectory);
 		}
 
 		public void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
 		{
-			ManiacEditor.Interfaces.SceneSelectWindow select;
-			ModDataDirectory = modDir;
-			string ResultPath = null;
-			if (Result == null)
-			{
-				if (manual == false)
-				{
-
-					if (!EditorLoad())
-					{
-						select = new ManiacEditor.Interfaces.SceneSelectWindow(null, this);
-						select.Owner = GetWindow(this);
-						select.ShowDialog();
-					}
-					else
-					{
-						select = new ManiacEditor.Interfaces.SceneSelectWindow(GameConfig, this);
-						select.Owner = GetWindow(this);
-						select.ShowDialog();
-					}
-					Result = select.SceneSelect.Result;
-					LevelID = select.SceneSelect.LevelID;
-					isEncore = select.SceneSelect.isEncore;
-					ResultPath = Path.GetDirectoryName(Result);
-					modLoaded = (select.SceneSelect.isModLoadedwithGameConfig);
-
-				}
-				else
-				{
-					OpenFileDialog open = new OpenFileDialog
-					{
-						Filter = "Scene File|*.bin"
-					};
-					if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
-					{
-						Result = open.FileName;
-					}
-
-
-				}
-			}
-
-
-			if (Result == null)
-			{
-				return;
-			}
-
-			string _DataDirectory = (modLoaded == true ? ModDataDirectory : DataDirectory);
-
-
-			try
-			{
-				ResultPath = Path.GetDirectoryName(Result);
-			}
-			catch
-			{
-				ResultPath = Result;
-			}
-
-
-			UnloadScene();
-			UseDefaultPrefrences();
-			bool goodGameConfig = SetGameConfig();
-			if (goodGameConfig == false)
-			{
-				return;
-			}
-
-			if (isEncore)
-			{
-				EncorePaletteButton.IsChecked = true;
-				useEncoreColors = true;
-			}
-			else
-			{
-				EncorePaletteButton.IsChecked = false;
-				useEncoreColors = false;
-			}
-			try
-			{
-				if (File.Exists(Result))
-				{
-					OpenScenefromBrowse(Result, _DataDirectory, LevelID);
-				}
-				else
-				{
-					OpenScenefromSceneSelect(Result, _DataDirectory, LevelID, modLoaded);
-				}
-
-			}
-			catch (Exception ex)
-			{
-				System.Windows.MessageBox.Show("Load failed. Error: " + ex.ToString() + " " + Result);
-				return;
-			}
-
-			UpdateStartScreen(false);
-
-			UpdateDataFolderLabel(null, null);
-
-			SetupLayerButtons();
-
-			Stamps StageStamps = new Stamps();
-
-			if (File.Exists(SceneFilepath + "\\ManiacStamps.bin"))
-			{
-				StageStamps = new Stamps(SceneFilepath + "\\ManiacStamps.bin");
-			}
-
-			EditorChunk = new EditorChunk(this, StageTiles, StageStamps);
-
-			EditorBackground = new EditorBackground(this);
-
-			entities = new EditorEntities(EditorScene, this);
-
-			SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
-
-			UpdateControls(true);
-
+			EditorSceneLoading.OpenSceneUsingSceneSelect();
 		}
-
-		private void OpenScenefromSceneSelect(string Result, string _DataDirectory, int _LevelID, bool modLoaded)
-		{
-			int searchType = 1;
-			SelectedZone = Result.Replace(Path.GetFileName(Result), "");
-			SelectedScene = Path.GetFileName(Result);
-			SceneFilename = Path.Combine(_DataDirectory, "Stages", SelectedZone, SelectedScene);
-			SceneFilepath = Path.Combine(_DataDirectory, "Stages", SelectedZone);
-			SelectedZone = SelectedZone.Replace("\\", "");
-			LevelID = _LevelID;
-			EditorScene = new EditorScene(SceneFilename, editorView.GraphicPanel, this);
-			//Encore Palette + Stage Tiles Initaliazation
-			EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
-			EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
-			if (EncorePalette[0] != "")
-			{
-				encorePaletteExists = true;
-			}
-			//Encore Palette + Stage Tiles
-			if (useEncoreColors == true && EncorePalette[0] != "")
-			{
-				StageTiles = new StageTiles(Path.Combine(_DataDirectory, "Stages", SelectedZone), EncorePalette[0]);
-			}
-			else
-			{
-				StageTiles = new StageTiles(Path.Combine(_DataDirectory, "Stages", SelectedZone));
-			}
-			//These cause issues, but not clearing them means when new stages are loaded Collision Mask 0 will be index 1024... (I think)
-			CollisionLayerA.Clear();
-			CollisionLayerB.Clear();
-			if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
-			{
-
-				TilesConfig = new TileConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
-				for (int i = 0; i < 1024; i++)
-				{
-					CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-					CollisionLayerB.Add(TilesConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-				}
-			}
-			// Object Rescue Mode
-			if (mySettings.DisableEntityReading == true)
-			{
-				RSDKv5.Scene.readTilesOnly = true;
-			}
-			else
-			{
-				RSDKv5.Scene.readTilesOnly = false;
-			}
-			StageConfigFileName = Path.Combine(Path.GetDirectoryName(SceneFilename), "StageConfig.bin");
-			if (File.Exists(StageConfigFileName))
-			{
-				StageConfig = new StageConfig(StageConfigFileName);
-			}
-			ObjectList.Clear();
-			for (int i = 0; i < GameConfig.ObjectsNames.Count; i++)
-			{
-				ObjectList.Add(GameConfig.ObjectsNames[i]);
-			}
-			for (int i = 0; i < StageConfig.ObjectsNames.Count; i++)
-			{
-				ObjectList.Add(StageConfig.ObjectsNames[i]);
-			}
-			Discord.ScenePath = Result;
-			Discord.UpdateDiscord("Editing " + Result);
-
-
-			if (File.Exists(SceneFilepath + "\\maniac.ini"))
-			{
-				bool allowToRead = false;
-				using (Stream stream = EditorSettings.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
-				{
-					if (stream != null)
-					{
-						EditorSettings.GetSceneINISettings(stream);
-						allowToRead = true;
-					}
-					else
-					{
-						Debug.Print("Something went wrong trying to read the Maniac.INI File");
-						allowToRead = false;
-					}
-				}
-				if (allowToRead)
-				{
-					try
-					{
-						EditorSettings.SetINIDefaultPrefrences(this);
-					}
-					catch (Exception ex)
-					{
-						System.Windows.MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
-						EditorSettings.CleanPrefrences();
-					}
-
-				}
-
-
-			}
-
-
-		}
-
-		private void OpenScenefromBrowse(string Result, string _DataDirectory, int _LevelID)
-		{
-			int searchType = 0;
-			// Selected file
-			// Don't forget to populate these Members
-			string directoryPath = Path.GetDirectoryName(Result);
-			SelectedZone = new DirectoryInfo(directoryPath).Name;
-			SelectedScene = Path.GetFileName(Result);
-			SceneFilename = Result;
-			SceneFilepath = Path.Combine(directoryPath);
-			searchType = 0;
-			SelectedZone = SelectedZone.Replace("\\", "");
-			LevelID = _LevelID;
-			EditorScene = new EditorScene(SceneFilename, editorView.GraphicPanel, this);
-			//Encore Palette + Stage Tiles Initaliazation
-			EncorePalette = EditorScene.getEncorePalette(SelectedZone, _DataDirectory, SelectedScene, Result, searchType);
-			EncoreSetupType = EditorScene.GetEncoreSetupType(SelectedZone, _DataDirectory, SelectedScene, Result);
-			if (EncorePalette[0] != "")
-			{
-				encorePaletteExists = true;
-			}
-			//Encore Palette + Stage Tiles
-			//string directoryPath = Path.GetDirectoryName(Result);
-			if (useEncoreColors == true && EncorePalette[0] != "")
-			{
-				StageTiles = new StageTiles(directoryPath, EncorePalette[0]);
-			}
-			else
-			{
-				StageTiles = new StageTiles(directoryPath);
-			}
-			//These cause issues, but not clearing them means when new stages are loaded Collision Mask 0 will be index 1024... (I think)
-			CollisionLayerA.Clear();
-			CollisionLayerB.Clear();
-
-			if (StageTiles != null && File.Exists(Path.Combine(SceneFilepath, "TileConfig.bin")))
-			{
-
-				TilesConfig = new TileConfig(Path.Combine(SceneFilepath, "TileConfig.bin"));
-				for (int i = 0; i < 1024; i++)
-				{
-					CollisionLayerA.Add(TilesConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-					CollisionLayerB.Add(TilesConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-				}
-			}
-
-			// Object Rescue Mode
-			if (mySettings.DisableEntityReading == true) RSDKv5.Scene.readTilesOnly = true;
-			else RSDKv5.Scene.readTilesOnly = false;
-
-			StageConfigFileName = Path.Combine(Path.GetDirectoryName(SceneFilename), "StageConfig.bin");
-			if (File.Exists(StageConfigFileName)) StageConfig = new StageConfig(StageConfigFileName);
-			ObjectList.Clear();
-
-			for (int i = 0; i < GameConfig.ObjectsNames.Count; i++)
-			{
-				ObjectList.Add(GameConfig.ObjectsNames[i]);
-			}
-			for (int i = 0; i < StageConfig.ObjectsNames.Count; i++)
-			{
-				ObjectList.Add(StageConfig.ObjectsNames[i]);
-			}
-			Discord.ScenePath = Result;
-			Discord.UpdateDiscord("Editing " + Result);
-
-			if (File.Exists(SceneFilepath + "\\maniac.ini"))
-			{
-				bool allowToRead = false;
-				using (Stream stream = EditorSettings.GetSceneIniResource(SceneFilepath + "\\maniac.ini"))
-				{
-					if (stream != null)
-					{
-						EditorSettings.GetSceneINISettings(stream);
-						allowToRead = true;
-					}
-					else
-					{
-						Debug.Print("Something went wrong trying to read the Maniac.INI File");
-						allowToRead = false;
-					}
-				}
-				if (allowToRead)
-				{
-					try
-					{
-						EditorSettings.SetINIDefaultPrefrences(this);
-					}
-					catch (Exception ex)
-					{
-						System.Windows.MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Result);
-						EditorSettings.CleanPrefrences();
-					}
-
-				}
-
-
-			}
-		}
-
 		#endregion
 
 		#region GraphicsPanel + Program + Splitcontainer
@@ -2702,13 +2332,12 @@ namespace ManiacEditor
 					Point point = new Point((short)(15), (short)(15));
 
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y, statusBox.GetDataFolder(), true, 255, 15);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetModDataFolder(), true, 255, 19);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetMasterDataFolder(), true, 255, 22);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetScenePath(), true, 255, 11);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 4, statusBox.GetSceneFilePath(), true, 255, 14);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetZoom(), true, 255, 11);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSetupObject(), true, 255, 13);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 7, statusBox.GetSelectedZone(), true, 255, 14);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetMasterDataFolder(), true, 255, 22);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetScenePath(), true, 255, 11);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetSceneFilePath(), true, 255, 14);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 4, statusBox.GetZoom(), true, 255, 11);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetSetupObject(), true, 255, 13);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSelectedZone(), true, 255, 14);
 
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + EditorControls.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, EditorControls.KeyBindPraser("StatusBoxToggle").Length, 4);
 				}
@@ -3888,7 +3517,7 @@ namespace ManiacEditor
 		#endregion
 
 		#region Scene Tab Buttons
-		public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null) { Interactions.ShowEntityPathToolStripMenuItem_Click(sender, e); }
+		public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null) { Interactions.ImportObjectsToolStripMenuItem_Click(sender, e); }
 		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ImportSoundsToolStripMenuItem_Click(sender, e); }
 		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null) { Interactions.ImportSoundsToolStripMenuItem_Click(sender, e, window); }
 		private void LayerManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.LayerManagerToolStripMenuItem_Click(sender, e); }
@@ -3920,6 +3549,7 @@ namespace ManiacEditor
 		private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UpdateToolbars(false, true); } 
 		private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UpdateToolbars(true, true); }
 		private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
+		private void NextGenSceneSelectTest_Click(object sender, RoutedEventArgs e) { EditorSceneLoading.OpenSceneUsingSceneSelect(); }
 		#endregion
 
 		#endregion
@@ -4176,7 +3806,7 @@ namespace ManiacEditor
 		private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e) { Interactions.ResetDeviceButton_Click_1(sender, e); }
 		private void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e) { Interactions.ShowFlippedTileHelper_Click(sender, e); }
 		private void ResetDeviceButton_Click(object sender, RoutedEventArgs e) { Interactions.ResetDeviceButton_Click(sender, e); }
-		private void EnableEncorePalette_Click(object sender, RoutedEventArgs e) { Interactions.EnableEncorePalette_Click(sender, e); }
+		public void EnableEncorePalette_Click(object sender, RoutedEventArgs e) { Interactions.EnableEncorePalette_Click(); }
 
 
 		#endregion
@@ -4652,7 +4282,7 @@ namespace ManiacEditor
 			{
 				if (mainform.Visibility != Visibility.Visible || mainform.tcf == null)
 				{
-					mainform.LoadTileConfigViaIntergration(TilesConfig, SceneFilepath, SelectedTileID);
+					mainform.LoadTileConfigViaIntergration(TilesConfig, Path.GetFullPath(EditorPath.StageTiles_Source), SelectedTileID);
 				}
 				else
 				{

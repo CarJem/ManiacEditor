@@ -275,11 +275,6 @@
       <HintPath>..\packages\Cyotek.Windows.Forms.ColorPicker.1.7.2\lib\net35\Cyotek.Windows.Forms.ColorPicker.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetProjects.Wpf.Extended.Toolkit, Version=3.2.57.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetProjects.Extended.Wpf.Toolkit.3.2.57\lib\net40\DotNetProjects.Wpf.Extended.Toolkit.dll</HintPath>
-      <Private>True</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
@@ -413,14 +408,20 @@
     <Reference Include="WpfAnimatedGif, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WpfAnimatedGif.1.4.17\lib\net\WpfAnimatedGif.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
     <Compile Include="Editor Classes\EditorCommon.cs" />
+    <Compile Include="Editor Classes\EditorDirectories.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />
     <Compile Include="Editor Classes\EditorInteractions.cs" />
+    <Compile Include="Editor Classes\EditorPath.cs" />
+    <Compile Include="Editor Classes\EditorSceneLoading.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
     <Compile Include="Entity Renders\ClearScript.cs" />
     <Compile Include="Entity Renders\TitleBG.cs">
@@ -722,27 +723,22 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="Graphics\ImageExtensions.cs" />
-    <Compile Include="Interfaces\Dialog\MessageBox.cs" />
-    <Compile Include="Interfaces\Dialog\CustomMessageBoxWindow.xaml.cs">
-      <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\Dialog\DialogUtil.cs" />
     <Compile Include="Interfaces\UserControls\EditorView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\UserControls\EditorView.Designer.cs">
       <DependentUpon>EditorView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF Resources\EditLayerToggleButton.xaml.cs">
+    <Compile Include="Interfaces\UserControls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF Resources\SplitButton.xaml.cs">
+    <Compile Include="Interfaces\UserControls\SplitButton.xaml.cs">
       <DependentUpon>SplitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF Resources\TilesTabControl.xaml.cs">
+    <Compile Include="Interfaces\UserControls\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF Resources\VScrollBar.xaml.cs">
+    <Compile Include="Interfaces\UserControls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF UI\Editor Tools\FindandReplaceTool.xaml.cs">
@@ -838,7 +834,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\DeviceEventArgs.cs" />
-    <Compile Include="Interfaces\WPF Resources\HScrollBar.xaml.cs">
+    <Compile Include="Interfaces\UserControls\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\UserControls\TileChunkList.cs">
@@ -847,7 +843,7 @@
     <Compile Include="Interfaces\UserControls\TileChunkList.Designer.cs">
       <DependentUpon>TileChunkList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF Resources\EntityPropertiesView.xaml.cs">
+    <Compile Include="Interfaces\UserControls\EntityPropertiesView.xaml.cs">
       <DependentUpon>EntityPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Editor Classes\EditorStats.cs" />
@@ -1281,6 +1277,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Properties\KeyBinds.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="WPF + Winform Stuff\KeyEventExt.cs" />
     <Compile Include="Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
@@ -1314,9 +1315,6 @@
     <Compile Include="WPF + Winform Stuff\SkinResourceDictionary.cs" />
     <Compile Include="WPF + Winform Stuff\TextPrompt.cs" />
     <Compile Include="Graphics\TextureCreator.cs" />
-    <Compile Include="Interfaces\Dialog\TextPrompt2.xaml.cs">
-      <DependentUpon>TextPrompt2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WPF + Winform Stuff\ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -1329,7 +1327,6 @@
     <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Resource Include="Interfaces\Dialog\blankicon.ico" />
     <Resource Include="Resources\App Icons\64x64_2.ico" />
     <Content Include="Config\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1377,7 +1374,6 @@
     </Content>
     <Resource Include="Resources\Icons\ZoomOut.png" />
     <Resource Include="Resources\Icons\ZoomIn.png" />
-    <Resource Include="Resources\Monitors\WarningMonitor.gif" />
     <Resource Include="Resources\Icons\Undo.png" />
     <Resource Include="Resources\Icons\StampTool.png" />
     <Resource Include="Resources\Icons\ShowTileID.png" />
@@ -1389,7 +1385,6 @@
     <Resource Include="Resources\Icons\Save_.png" />
     <Resource Include="Resources\Icons\RunGame.png" />
     <Resource Include="Resources\Icons\RotateAssist.png" />
-    <Resource Include="Resources\Monitors\RefreshStatic2.gif" />
     <Resource Include="Resources\Icons\Refresh.png" />
     <Resource Include="Resources\Icons\Redo.png" />
     <Resource Include="Resources\Icons\PreRender.png" />
@@ -1406,12 +1401,8 @@
     <Resource Include="Resources\Icons\MultiLayerSelect.png" />
     <Resource Include="Resources\Icons\MagnetTool.png" />
     <Resource Include="Resources\Icons\InteractionTool.png" />
-    <Resource Include="Resources\Monitors\InfoStatic2.gif" />
     <Resource Include="Resources\Icons\FreezeDevice.png" />
-    <Resource Include="Resources\Monitors\ErrorStatic2.gif" />
-    <Resource Include="Resources\Monitors\ErrorMonitor.gif" />
     <Resource Include="Resources\Icons\ColorPalette_alt.png" />
-    <Resource Include="Resources\Monitors\WarningStatic2.gif" />
     <None Include="Properties\KeyBindDefaults.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>KeyBindDefaults.Designer.cs</LastGenOutput>
@@ -1441,6 +1432,7 @@
     <None Include="Properties\KeyBinds.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>KeyBinds.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Resources\onScreenRenderExclusions.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1468,12 +1460,8 @@
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <EmbeddedResource Include="Resources\objects_attributes.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1513,8 +1501,14 @@
     <Resource Include="Resources\Icons\DropDownArrow.png" />
     <Resource Include="Resources\NeoAboutImage.png" />
     <Resource Include="Resources\MELogo.png" />
+    <Resource Include="Resources\Monitors\ErrorMonitor.gif" />
+    <Resource Include="Resources\Monitors\ErrorStatic2.gif" />
+    <Resource Include="Resources\Monitors\InfoStatic2.gif" />
     <Resource Include="Resources\Monitors\QuestionStatic.gif" />
     <Resource Include="Resources\Monitors\QuestionStatic2.gif" />
+    <Resource Include="Resources\Monitors\RefreshStatic2.gif" />
+    <Resource Include="Resources\Monitors\WarningMonitor.gif" />
+    <Resource Include="Resources\Monitors\WarningStatic2.gif" />
     <Content Include="Resources\Tile Overlays\16x16Tiles_Edit.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1560,6 +1554,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKrU\RSDKrU.csproj">
+      <Project>{2ba290f0-4e82-4b58-aab4-3c431ee4de62}</Project>
+      <Name>RSDKrU</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKv5\RSDKv5.csproj">
       <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
       <Name>RSDKv5</Name>
@@ -1601,15 +1599,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Dialog\CustomMessageBoxWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interfaces\WPF Resources\EditLayerToggleButton.xaml">
+    <Page Include="Interfaces\UserControls\EditLayerToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF Resources\SplitButton.xaml">
+    <Page Include="Interfaces\UserControls\SplitButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1633,21 +1627,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF Resources\ContextMenu.xaml">
+    <Page Include="Interfaces\UserControls\TilesTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF Resources\TilesTabControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Interfaces\WPF Resources\VScrollBar.xaml">
+    <Page Include="Interfaces\UserControls\VScrollBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interfaces\WPF Resources\Toolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\WPF UI\Options + Dev\DeveloperInterface.xaml">
       <SubType>Designer</SubType>
@@ -1685,11 +1671,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF Resources\EntityPropertiesView.xaml">
+    <Page Include="Interfaces\UserControls\EntityPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF Resources\HScrollBar.xaml">
+    <Page Include="Interfaces\UserControls\HScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1725,10 +1711,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF Resources\ManiacWPFStyleResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Interfaces\WPF UI\Scene Select\SceneSelectEditCategoryLabelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1737,23 +1719,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF Resources\Themes\LightColors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interfaces\WPF Resources\Themes\DarkColors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Interfaces\WPF UI\UserControls\EntitiesToolbar2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Interfaces\WPF UI\UserControls\TilesToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Interfaces\Dialog\TextPrompt2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

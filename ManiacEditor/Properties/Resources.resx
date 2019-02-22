@@ -127,14 +127,8 @@
   <data name="OhNo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OhNo.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="InfoStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Monitors\InfoStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\App Icons\folder.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WarningMonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Monitors\WarningMonitor.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="objectRenderList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\objectRenderList.ini;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -145,14 +139,8 @@
   <data name="file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\App Icons\file.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WarningStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Monitors\WarningStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SoundWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SoundWarning.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
-  </data>
-  <data name="ErrorStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Monitors\ErrorStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ScoreTotal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ScoreTotal.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -160,13 +148,25 @@
   <data name="SoundWarningDarkTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SoundWarning1.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="RefreshStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Monitors\RefreshStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ObjectWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjectWarning.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
   </data>
   <data name="ErrorMonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Monitors\ErrorMonitor.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ErrorStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Monitors\ErrorStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InfoStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Monitors\InfoStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RefreshStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Monitors\RefreshStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WarningMonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Monitors\WarningMonitor.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WarningStatic2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Monitors\WarningStatic2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

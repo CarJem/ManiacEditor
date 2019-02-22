@@ -340,13 +340,16 @@ namespace ManiacEditor
 			{
 				EditorInstance.EditorChunk.DisposeTextures();
 
-				for (int i = 0; i < EditorInstance.EditorChunk.StageStamps.StampList.Count; i++)
-				{
-					ChunkList.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
-				}
 				int indexStorage = ChunkList.SelectedIndex;
 				ChunkList.SelectedIndex = -1;
-				ChunkList.SelectedIndex = indexStorage;
+				if (EditorInstance.EditorChunk.StageStamps != null)
+				{
+					for (int i = 0; i < EditorInstance.EditorChunk.StageStamps.StampList.Count; i++)
+					{
+						ChunkList.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
+					}
+					ChunkList.SelectedIndex = indexStorage;
+				}
 				ChunkList.Refresh();
 			}
 
@@ -461,7 +464,7 @@ namespace ManiacEditor
 			{
 				if (EditorInstance.mainform.Visibility != Visibility.Visible || EditorInstance.mainform.tcf == null)
 				{
-					EditorInstance.mainform.LoadTileConfigViaIntergration(EditorInstance.TilesConfig, EditorInstance.SceneFilepath, SelectedTile);
+					EditorInstance.mainform.LoadTileConfigViaIntergration(EditorInstance.TilesConfig, EditorInstance.EditorPath.TileConfig_Source, SelectedTile);
 				}
 				else
 				{
@@ -527,17 +530,17 @@ namespace ManiacEditor
 					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 					if (result == MessageBoxResult.Yes)
 					{
-						EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.SceneFilepath + "//ManiacStamps.bin");
+						EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.EditorPath.Stamps_Source);
 					}
 				}
 				else
 				{
-					EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.SceneFilepath + "//ManiacStamps.bin");
+					EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.EditorPath.Stamps_Source);
 				}
 			}
 			catch (Exception ex)
 			{
-				EditorInstance.ShowError($@"Failed to save StageStamps to file '{EditorInstance.SceneFilepath + "ManiacStamps.bin"}'
+				EditorInstance.ShowError($@"Failed to save StageStamps to file '{EditorInstance.EditorPath.Stamps_Source}'
 Error: {ex.Message}");
 			}
 

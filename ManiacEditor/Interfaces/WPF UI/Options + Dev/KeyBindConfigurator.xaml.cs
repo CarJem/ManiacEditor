@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Collections.Specialized;
 using Keys = System.Windows.Forms.Keys;
 using KeysConverter = System.Windows.Forms.KeysConverter;
+using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

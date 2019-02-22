@@ -102,10 +102,10 @@ namespace ManiacEditor
 			if (makerDialog.ShowDialog() == true)
 			{
 				string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
-				Editor.SelectedZone = (new DirectoryInfo(directoryPath).Name).Replace("\\", "");
-				Editor.SelectedScene = Path.GetFileName(makerDialog.SceneFolder);
-				Editor.SceneFilename = "Scene1.bin";
-				Editor.SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
+				//Editor.SelectedZone = (new DirectoryInfo(directoryPath).Name).Replace("\\", "");
+				//Editor.SelectedScene = Path.GetFileName(makerDialog.SceneFolder);
+				//Editor.SceneFilename = "Scene1.bin";
+				//Editor.SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
 
 				Editor.EditorScene = new EditorScene(Editor.editorView.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Editor);
 				Editor.TilesConfig = new TileConfig();
@@ -116,7 +116,7 @@ namespace ManiacEditor
 				string TilesPath = directoryPath + "//TilesConfig.bin";
 				string StagePath = directoryPath + "//StageConfig.bin";
 
-				File.Create(Editor.SceneFilepath).Dispose();
+				//File.Create(Editor.SceneFilepath).Dispose();
 				File.Create(ImagePath).Dispose();
 				File.Create(TilesPath).Dispose();
 				File.Create(StagePath).Dispose();
@@ -168,7 +168,7 @@ namespace ManiacEditor
 			if (Editor.IsDataDirectoryValid(newDataDirectory))
 				Editor.ResetDataDirectoryToAndResetScene(newDataDirectory);
 			else
-				System.Windows.MessageBox.Show($@"{newDataDirectory} is not
+				RSDKrU.MessageBox.Show($@"{newDataDirectory} is not
 a valid Data Directory.",
 								"Invalid Data Directory!",
 								MessageBoxButton.OK,
@@ -188,21 +188,21 @@ a valid Data Directory.",
 
 			try
 			{
-				Editor.EditorScene.Save(Editor.SceneFilename);
+				Editor.EditorScene.Save(Editor.EditorPath.SceneFile_Source);
 			}
 			catch (Exception ex)
 			{
-				Editor.ShowError($@"Failed to save the scene to file '{Editor.SceneFilename}'
+				Editor.ShowError($@"Failed to save the scene to file '{Editor.EditorPath.SceneFile_Source}'
 Error: {ex.Message}");
 			}
 
 			try
 			{
-				Editor.StageConfig?.Write(Editor.StageConfigFileName);
+				Editor.StageConfig?.Write(Editor.EditorPath.StageConfig_Source);
 			}
 			catch (Exception ex)
 			{
-				Editor.ShowError($@"Failed to save the StageConfig to file '{Editor.StageConfigFileName}'
+				Editor.ShowError($@"Failed to save the StageConfig to file '{Editor.EditorPath.StageConfig_Source}'
 Error: {ex.Message}");
 			}
 
@@ -210,22 +210,22 @@ Error: {ex.Message}");
 			{
 				if (Editor.EditorChunk.StageStamps?.loadstate == RSDKv5.Stamps.LoadState.Upgrade)
 				{
-					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+					MessageBoxResult result = RSDKrU.MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 					if (result == MessageBoxResult.Yes)
 					{
-						Editor.EditorChunk.StageStamps?.Write(Editor.SceneFilepath + "//ManiacStamps.bin");
+						Editor.EditorChunk.StageStamps?.Write(Editor.EditorPath.Stamps_Source);
 					}
 				}
 				else
 				{
-					Editor.EditorChunk.StageStamps?.Write(Editor.SceneFilepath + "//ManiacStamps.bin");
+					Editor.EditorChunk.StageStamps?.Write(Editor.EditorPath.Stamps_Source);
 				}
 
 
 			}
 			catch (Exception ex)
 			{
-				Editor.ShowError($@"Failed to save StageStamps to file '{Editor.SceneFilepath + "ManiacStamps.bin"}'
+				Editor.ShowError($@"Failed to save StageStamps to file '{Editor.EditorPath.SceneFile_Source}'
 Error: {ex.Message}");
 			}
 		}
@@ -305,7 +305,7 @@ Error: {ex.Message}");
 					}
 				}
 
-				System.Windows.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
+				RSDKrU.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
 								MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
@@ -328,9 +328,9 @@ Error: {ex.Message}");
 			{
 				Filter = "Scene File|*.bin",
 				DefaultExt = "bin",
-				InitialDirectory = System.IO.Path.GetDirectoryName(Editor.SceneFilename),
+				InitialDirectory = Editor.EditorPath.SceneDirectory,
 				RestoreDirectory = false,
-				FileName = System.IO.Path.GetFileName(Editor.SceneFilename)
+				FileName = System.IO.Path.GetFileName(Editor.EditorPath.SceneFile_Source)
 			};
 			if (save.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
@@ -483,7 +483,7 @@ Error: {ex.Message}");
 				}
 				catch (EditorEntities.TooManyEntitiesException)
 				{
-					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+					RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
 					return;
 				}
 				Editor.UpdateEntitiesToolbarList();
@@ -573,7 +573,7 @@ Error: {ex.Message}");
 					}
 					catch (EditorEntities.TooManyEntitiesException)
 					{
-						System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+						RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
 						return;
 					}
 					Editor.UpdateEntitiesToolbarList();
@@ -769,8 +769,7 @@ Error: {ex.Message}");
 			if (sender != null)
 			{
 				var clickedItem = sender as System.Windows.Controls.MenuItem;
-				bool useModFolder = (clickedItem == Editor.fromModDirectoryToolStripMenuItem) && Editor.ModDataDirectory != "" && Directory.Exists(Path.Combine(Editor.ModDataDirectory, "Palettes"));
-				string StartDir = (useModFolder ? Editor.ModDataDirectory : Editor.DataDirectory);
+				string StartDir = Editor.DataDirectory;
 				try
 				{
 					using (var fd = new OpenFileDialog())
@@ -781,7 +780,7 @@ Error: {ex.Message}");
 						fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
 						if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 						{
-							Editor.EncorePalette = Editor.EditorScene.getEncorePalette("", "", "", "", -1, fd.FileName);
+							Editor.EncorePalette = Editor.EditorScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
 							Editor.EncoreSetupType = 0;
 							if (File.Exists(Editor.EncorePalette[0]))
 							{
@@ -796,12 +795,12 @@ Error: {ex.Message}");
 				}
 				catch (Exception ex)
 				{
-					System.Windows.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
+					RSDKrU.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
 				}
 			}
 			else if (path != "")
 			{
-				Editor.EncorePalette = Editor.EditorScene.getEncorePalette("", "", "", "", -1, path);
+				Editor.EncorePalette = Editor.EditorScene.GetEncorePalette("", "", "", "", -1, path);
 				Editor.EncoreSetupType = 0;
 				if (File.Exists(Editor.EncorePalette[0]))
 				{
@@ -812,7 +811,7 @@ Error: {ex.Message}");
 				}
 				else
 				{
-					System.Windows.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
+					RSDKrU.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
 				}
 			}
 
@@ -909,7 +908,7 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				Editor.showEntityPathArrowsToolstripItem.IsChecked = false;
+				Editor.showEntityPathArrowsToolstripItem.IsChecked = true;
 				Editor.showParallaxSprites = true;
 			}
 		}
@@ -1077,7 +1076,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
+				RSDKrU.MessageBox.Show("Unable to import Objects. " + ex.Message);
 			}
 			Editor.importingObjects = false;
 		}
@@ -1105,7 +1104,7 @@ Error: {ex.Message}");
 						}
 						catch
 						{
-							System.Windows.MessageBox.Show("Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
+							RSDKrU.MessageBox.Show("Ethier this isn't a stage config, or this stage config is ethier corrupted or unreadable in Maniac.");
 							return;
 						}
 
@@ -1125,7 +1124,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
+				RSDKrU.MessageBox.Show("Unable to import sounds. " + ex.Message);
 			}
 		}
 
@@ -1224,7 +1223,7 @@ Error: {ex.Message}");
 		}
 		public void changeLevelIDToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			string inputValue = TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.LevelID.ToString());
+			string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.LevelID.ToString());
 			int.TryParse(inputValue.ToString(), out int output);
 			Editor.LevelID = output;
 			Editor._levelIDLabel.Content = "Level ID: " + Editor.LevelID.ToString();
@@ -1238,24 +1237,22 @@ Error: {ex.Message}");
 		{
 			string dataDir = Editor.DataDirectory;
 			string scenePath = Editor.Discord.ScenePath;
-			string modPath = Editor.ModDataDirectory;
 			int rX = (short)(Editor.ShiftX);
 			int rY = (short)(Editor.ShiftY);
 			double _ZoomLevel = Editor.ZoomLevel;
 			bool isEncoreSet = Editor.useEncoreColors;
 			int levelSlotNum = Editor.LevelID;
-			Editor.CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
+			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
 		}
 		public void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			string dataDir = Editor.DataDirectory;
 			string scenePath = Editor.Discord.ScenePath;
-			string modPath = Editor.ModDataDirectory;
 			int rX = 0;
 			int rY = 0;
 			bool isEncoreSet = Editor.useEncoreColors;
 			int levelSlotNum = Editor.LevelID;
-			Editor.CreateShortcut(dataDir, scenePath, modPath, rX, rY, isEncoreSet, levelSlotNum);
+			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
 		}
 		public void MultiLayerSelectionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -1400,11 +1397,11 @@ Error: {ex.Message}");
 			if (UnusedTiles.Count != 0)
 			{
 				var message = string.Join(Environment.NewLine, UnusedTiles);
-				System.Windows.MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
+				RSDKrU.MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Found Nothing", "Results");
+				RSDKrU.MessageBox.Show("Found Nothing", "Results");
 			}
 			Editor.ToggleEditorButtons(true);
 
@@ -1454,7 +1451,7 @@ Error: {ex.Message}");
 			{
 				if (Editor.mainform.Visibility != Visibility.Visible || Editor.mainform.tcf == null)
 				{
-					Editor.mainform.LoadTileConfigViaIntergration(Editor.TilesConfig, Editor.SceneFilepath);
+					Editor.mainform.LoadTileConfigViaIntergration(Editor.TilesConfig, Editor.EditorPath.TileConfig_Source);
 				}
 				else
 				{
@@ -1567,7 +1564,7 @@ Error: {ex.Message}");
 		}
 		public void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = System.Windows.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+			MessageBoxResult result = RSDKrU.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
 			if (result == MessageBoxResult.OK)
 			{
 				Editor.RepairScene();
@@ -1579,14 +1576,14 @@ Error: {ex.Message}");
 		#region Folders Tab Buttons
 		public void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.SceneFilename != null && Editor.SceneFilename != "" && File.Exists(Editor.SceneFilename))
+			if (Editor.EditorPath.SceneDirectory != null && Editor.EditorPath.SceneDirectory != "")
 			{
-				string SceneFilename_mod = Editor.SceneFilename.Replace('/', '\\');
+				string SceneFilename_mod = Editor.EditorPath.SceneDirectory.Replace('/', '\\');
 				Process.Start("explorer.exe", "/select, " + SceneFilename_mod);
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Scene File does not exist or simply isn't loaded!", "ERROR");
+				RSDKrU.MessageBox.Show("Scene File does not exist or simply isn't loaded!", "ERROR");
 			}
 
 		}
@@ -1600,7 +1597,7 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Data Directory does not exist or simply isn't loaded!", "ERROR");
+				RSDKrU.MessageBox.Show("Data Directory does not exist or simply isn't loaded!", "ERROR");
 			}
 
 		}
@@ -1615,22 +1612,22 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Game Folder does not exist or isn't set!", "ERROR");
+				RSDKrU.MessageBox.Show("Game Folder does not exist or isn't set!", "ERROR");
 			}
 
 		}
 
 		public void OpenModDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.ModDataDirectory != "")
+			/*if (Editor.ModDataDirectory != "")
 			{
 				string ModDataDir = Editor.ModDataDirectory.Replace('/', '\\');
 				Process.Start("explorer.exe", "/select, " + ModDataDir);
 			}
 			else
 			{
-				System.Windows.MessageBox.Show("Mod Data Directory Not Loaded!", "ERROR");
-			}
+				RSDKrU.MessageBox.Show("Mod Data Directory Not Loaded!", "ERROR");
+			}*/
 
 
 		}
@@ -1822,7 +1819,7 @@ Error: {ex.Message}");
 					Editor.TilesToolbar?.Reload();
 				}
 
-				Editor.TilesConfig = new TileConfig(Path.Combine(Editor.SceneFilepath, "TileConfig.bin"));
+				Editor.TilesConfig = new TileConfig(Editor.EditorPath.TileConfig_Source);
 
 				Editor.CollisionLayerA.Clear();
 				Editor.CollisionLayerB.Clear();
@@ -1838,7 +1835,7 @@ Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show(ex.Message);
+				RSDKrU.MessageBox.Show(ex.Message);
 			}
 		}
 
@@ -2070,22 +2067,23 @@ Error: {ex.Message}");
 			Editor.editorView.GraphicPanel.AttemptRecovery(null);
 		}
 
-		public void EnableEncorePalette_Click(object sender, RoutedEventArgs e)
+		public void EnableEncorePalette_Click(bool? manualEnable = null)
 		{
 			Editor.DisposeTextures();
-			if (Editor.useEncoreColors == true)
-			{
-				Editor.EncorePaletteButton.IsChecked = false;
-				Editor.useEncoreColors = false;
-				Editor.StageTiles?.Image.Reload();
-				Editor.TilesToolbar?.Reload();
-			}
-			else
+			bool mode = (manualEnable != null ? (bool)manualEnable : !Editor.useEncoreColors);
+			if (mode == true)
 			{
 				Editor.EncorePaletteButton.IsChecked = true;
 				Editor.useEncoreColors = true;
 				Editor.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
 				Editor.TilesToolbar?.Reload(Editor.EncorePalette[0]);
+			}
+			else
+			{
+				Editor.EncorePaletteButton.IsChecked = false;
+				Editor.useEncoreColors = false;
+				Editor.StageTiles?.Image.Reload();
+				Editor.TilesToolbar?.Reload();
 			}
 			Editor.EditorEntity_ini.ReleaseResources();
 		}
@@ -2268,14 +2266,14 @@ Error: {ex.Message}");
 			}
 			else
 			{
-				if (mySettings.UsePrePlusOffsets == true)
-				{
-					psi = new ProcessStartInfo(path, $"stage={Editor.SelectedZone};scene={Editor.SelectedScene[5]};");
-				}
-				else
-				{
+				//if (mySettings.UsePrePlusOffsets == true)
+				//{
+				//	//psi = new ProcessStartInfo(path, $"stage={Editor.SelectedZone};scene={Editor.SelectedScene[5]};");
+				//}
+				//else
+				//{
 					psi = new ProcessStartInfo(path);
-				}
+				//}
 
 			}
 			if (path != "" || attachMode)

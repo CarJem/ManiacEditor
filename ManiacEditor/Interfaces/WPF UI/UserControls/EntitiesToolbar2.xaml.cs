@@ -790,6 +790,12 @@ namespace ManiacEditor
 								"Slot in use!", MessageBoxButton.OK, MessageBoxImage.Error);
 							return;
 						}
+						if (newSlot > 2048)
+						{
+							MessageBox.Show("Slot " + newSlot + " is bigger than the maximum amount of objects allowed!",
+								"Slot is too big!", MessageBoxButton.OK, MessageBoxImage.Error);
+							return;
+						}
 					}
 					// Passed
 					entity.SlotID = newSlot;

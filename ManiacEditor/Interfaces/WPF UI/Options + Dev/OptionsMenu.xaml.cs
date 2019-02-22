@@ -22,6 +22,7 @@ using Cyotek.Windows.Forms;
 using ManiacEditor.Interfaces;
 using Keys = System.Windows.Forms.Keys;
 using KeysConverter = System.Windows.Forms.KeysConverter;
+using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

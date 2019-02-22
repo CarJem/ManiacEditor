@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using Path = System.IO.Path;
 using System.ComponentModel;
+using MessageBox = RSDKrU.MessageBox;
 
 
 namespace ManiacEditor

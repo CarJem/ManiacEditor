@@ -44,7 +44,6 @@ namespace ManiacEditor
         public string GetStatsText()
         {
             string statsText = GetDataFolder();
-            statsText = statsText + newLine + GetModDataFolder();
             statsText = statsText + newLine + GetMasterDataFolder();
             statsText = statsText + newLine + GetZoom();
             statsText = statsText + newLine + GetSceneFilePath();
@@ -57,7 +56,7 @@ namespace ManiacEditor
 
         public string GetSceneTileConfigPath()
         {
-            if (EditorInstance.SceneFilepath != null && EditorInstance.SceneFilepath != "") return "Scene TileConfig Path: " + Path.Combine(EditorInstance.SceneFilepath, "TileConfig.bin").ToString();         
+            if (EditorInstance.EditorPath.TileConfig_Source != null && EditorInstance.EditorPath.TileConfig_Source != "") return "Scene TileConfig Path: " + Path.Combine(EditorInstance.EditorPath.TileConfig_Source, "TileConfig.bin").ToString();         
             else return "Scene TileConfig Path: N/A";           
         }
 
@@ -98,12 +97,6 @@ namespace ManiacEditor
             return (bytes / 1024f) / 1024f;
         }
 
-        public string GetSceneFilePath()
-        {
-            if (EditorInstance.SceneFilepath != null && EditorInstance.SceneFilepath != "") return "Scene Filepath: " + EditorInstance.SceneFilepath;
-            else return "Scene Filepath: N/A";
-        }
-
         public string GetZoom()
         {
             return "Zoom Level: " + EditorInstance.GetZoom();
@@ -111,20 +104,21 @@ namespace ManiacEditor
 
         public string GetSelectedZone()
         {
-            if (EditorInstance.SelectedZone != null && EditorInstance.SelectedZone != "") return "Selected Zone: " + EditorInstance.SelectedZone;
+            if (EditorInstance.EditorPath.CurrentZone != null && EditorInstance.EditorPath.CurrentZone != "") return "Selected Zone: " + EditorInstance.EditorPath.CurrentZone;
             else return "Selected Zone: N/A";
         }
 
-        public string GetScenePath()
-        {
-            if (EditorInstance.Discord.ScenePath != null && EditorInstance.Discord.ScenePath != "") return "Scene Path: " + EditorInstance.Discord.ScenePath;
-            else return "Scene Path: N/A";
-        }
+		public string GetSceneFilePath()
+		{
+			if (EditorInstance.EditorPath.SceneFile_Source != null && EditorInstance.EditorPath.SceneFile_Source != "") return "Scene File: " + EditorInstance.EditorPath.SceneFile_Source;
+			else return "Scene File: N/A";
+		}
 
-        public string GetModDataFolder()
+		public string GetScenePath()
         {
-            if (EditorInstance.ModDataDirectory != null && EditorInstance.ModDataDirectory != "") return "Mod Data Directory: " + EditorInstance.ModDataDirectory;
-            else return "Mod Data Directory: N/A";
+
+            if (EditorInstance.EditorPath.SceneFile_Directory != null && EditorInstance.EditorPath.SceneFile_Directory != "") return "Scene Path: " + EditorInstance.EditorPath.SceneFile_Directory;
+            else return "Scene Path: N/A";
         }
 
         public string GetDataFolder()

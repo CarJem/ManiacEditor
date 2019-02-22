@@ -113,7 +113,7 @@ namespace ManiacEditor
             _editorLayers.Remove(thisLayer);
         }
 
-        public String[] getEncorePalette(string SelectedZone, string DataDirectory, string SelectedScene, string Result, int searchType, string userLoad = "")
+        public String[] GetEncorePalette(string SelectedZone, string DataDirectory, string SelectedScene, string Result, int searchType, string userLoad = "")
         {
             string EncorePallete1 = ""; //Base Pallete
             string EncorePallete2 = "";

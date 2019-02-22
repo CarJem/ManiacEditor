@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Reflection;
 using System.Windows.Navigation;
+using MessageBox = RSDKrU.MessageBox;
 
 
 namespace ManiacEditor.Interfaces

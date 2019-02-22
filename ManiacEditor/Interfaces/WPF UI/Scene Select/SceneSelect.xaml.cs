@@ -31,6 +31,7 @@ using TreeNode = System.Windows.Forms.TreeNode;
 using TreeNodeMouseClickEventArgs = System.Windows.Forms.TreeNodeMouseClickEventArgs;
 using TreeViewEventArgs = System.Windows.Forms.TreeViewEventArgs;
 using MouseButtons = System.Windows.Forms.MouseButtons;
+using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {
@@ -40,7 +41,10 @@ namespace ManiacEditor.Interfaces
 	public partial class SceneSelect : UserControl
 	{
 		public List<Tuple<string, List<Tuple<string, string>>>> Categories = new List<Tuple<string, List<Tuple<string, string>>>>();
-		public Dictionary<string, List<string>> Directories = new Dictionary<string, List<string>>();
+		public Dictionary<string, List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>> Directories = new Dictionary<string, List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>>();
+
+		public bool isFileViewMode { get => isFilesView.IsChecked.Value; }
+
 		public GameConfig _GameConfig;
 		public SceneSelectWindow Window;
 
@@ -49,13 +53,18 @@ namespace ManiacEditor.Interfaces
 
 		public string Result = null;
 		public bool withinAParentForm = false;
-		public int LevelID = -1;
 		public bool isEncore = false;
 		public bool isModLoadedwithGameConfig = false;
 		public bool isModLoaded = false;
 		Timer timer = new Timer();
 		public int selectedCategoryIndex = -1;
 		public Editor EditorInstance;
+
+		public int LevelID = -1;
+		public string CurrentZone = "";
+		public string CurrentName = "";
+		public string CurrentSceneID = "";
+		public bool Browsed = false;
 
 		//Winform Stuff
 		private System.ComponentModel.IContainer components = null;
@@ -102,13 +111,16 @@ namespace ManiacEditor.Interfaces
 			RemoveAllDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
 			RemoveAllDropDown.Background = (SolidColorBrush)FindResource("NormalBackground");
 
-			//if (EditorInstance.PreRenderSceneSelectCheckbox) preRenderCheckbox.IsChecked = true;
-			//if (Properties.Settings.Default.preRenderSceneOption == 1) preRenderCheckbox.IsEnabled = true;
 			ReloadQuickPanel();
 			if (config != null)
 			{
+				browse.IsEnabled = true;
 				LoadFromGameConfig(config);
 				_GameConfig = config;
+			}
+			else
+			{
+				browse.IsEnabled = false;
 			}
 
 			timer.Interval = 10;
@@ -416,21 +428,19 @@ namespace ManiacEditor.Interfaces
 				{
 					scenes.Add(new Tuple<string, string>(scene.Name, scene.Zone + "\\Scene" + scene.SceneID + ".bin"));
 
-					List<string> files;
+					List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>> files;
 					if (!Directories.TryGetValue(scene.Zone, out files))
 					{
-						files = new List<string>();
+						files = new List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>();
 						Directories[scene.Zone] = files;
 					}
-					files.Add("Scene" + scene.SceneID + ".bin");
+					files.Add(new Tuple<string, Tuple<GameConfig.SceneInfo, string>>("Scene" + scene.SceneID + ".bin" + (scene.ModeFilter == 5 ? " (Encore)" : ""), new Tuple<GameConfig.SceneInfo, string>(scene, scene.Zone + "\\Scene" + scene.SceneID + ".bin")));
 				}
 				Categories.Add(new Tuple<string, List<Tuple<string, string>>>(category.Name, scenes));
 			}
 
 			// Sort
 			Directories = Directories.OrderBy(key => key.Key).ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
-			foreach (KeyValuePair<string, List<String>> dir in Directories)
-				dir.Value.Sort();
 
 			this.scenesTree.ImageList = new ImageList();
 			this.scenesTree.ImageList.Images.Add("Folder", Properties.Resources.folder);
@@ -509,64 +519,35 @@ namespace ManiacEditor.Interfaces
 
 			if (Properties.Settings.Default.ModFolders?.Count > 0)
 			{
-				StringCollection modFolders = new StringCollection();
-				StringCollection modFolderNames = new StringCollection();
-				this.recentDataDirList.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
-				int index = this.recentDataDirList.ImageList.Images.IndexOfKey("SubFolder");
-				modFolders = Properties.Settings.Default.ModFolders;
-				modFolderNames = Properties.Settings.Default.ModFolderCustomNames;
-				foreach (string folder in modFolders)
-				{
-					int nameIndex = modFolders.IndexOf(folder);
-					string title;
-					if (modFolderNames[nameIndex].Equals(""))
-					{
-						title = folder;
-					}
-					else
-					{
-						title = modFolderNames[nameIndex];
-					}
 
-					var node = recentDataDirList.Nodes[2].Nodes.Add(folder, title, index, index);
-					node.Tag = folder;
-					node.ToolTipText = folder;
-					node.ImageKey = "ModFolder";
-				}
-				recentDataDirList.Nodes[2].ExpandAll();
 			}
 
 		}
 
 		private void selectButton_Click(object sender, EventArgs e)
 		{
-			int _levelID = -1;
-			int _isEncore = 0;
-			var cat = _GameConfig.Categories.Where(t => t.Name == scenesTree.SelectedNode.Parent.Text).FirstOrDefault();
-			if (cat != null)
+			EditorInstance.LevelID = LevelID;
+			if (!isFilesView.IsChecked.Value)
 			{
-				var scene = cat.Scenes.Where(t => $"{t.Zone}\\Scene{t.SceneID}.bin" == scenesTree.SelectedNode.Tag as string).FirstOrDefault();
-				EditorInstance.LevelID = scene.LevelID;
-				_isEncore = scene.ModeFilter;
-				_levelID = scene.LevelID;
+				Result = scenesTree.SelectedNode.Tag as string;
 			}
-			Result = scenesTree.SelectedNode.Tag as string;
-			LevelID = _levelID;
-			if (_isEncore == 5)
+			else
 			{
-				isEncore = true;
+				Tuple<GameConfig.SceneInfo, string> tag = scenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
+				if (tag != null)
+				{
+					Result = tag.Item2;
+				}
+				else return;
 			}
+
 			Close();
-			if (withinAParentForm && !EditorInstance.importingObjects)
-			{
-				EditorInstance.OpenScene(false, Result, LevelID, isEncore, isModLoaded, EditorInstance.ModDataDirectory);
-				isEncore = false;
-			}
 
 		}
 
 		private void Close()
 		{
+			if (!EditorInstance.importingObjects)EditorInstance.EditorSceneLoading.OpenSceneUsingExistingSceneSelect(this);
 			if (Window != null) Window.Close();
 
 		}
@@ -587,20 +568,20 @@ namespace ManiacEditor.Interfaces
 			scenesTree.Nodes.Clear();
 			if ((bool)isFilesView.IsChecked)
 			{
-				foreach (KeyValuePair<string, List<string>> directory in Directories)
+				foreach (KeyValuePair<string, List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>> directory in Directories)
 				{
 					TreeNode dir_node = new TreeNode(directory.Key);
 					dir_node.ImageKey = "Folder";
 					dir_node.SelectedImageKey = "Folder";
 					dir_node.ContextMenuStrip = contextMenuStrip1;
-					foreach (string file in directory.Value)
+					foreach (Tuple<string, Tuple<GameConfig.SceneInfo, string>> file in directory.Value)
 					{
-						TreeNode file_node = new TreeNode(file);
-						file_node.Tag = directory.Key + "/" + file;
+						TreeNode file_node = new TreeNode(file.Item1);
+						file_node.Tag = file.Item2;
 						file_node.ImageKey = "File";
 						file_node.ImageKey = "File";
 						file_node.SelectedImageKey = "File";
-						if (filter == "" || (directory.Key + "/" + file).ToLower().Contains(filter.ToLower()))
+						if (filter == "" || (directory.Key + "/" + file.Item1).ToLower().Contains(filter.ToLower()))
 							dir_node.Nodes.Add(file_node);
 					}
 					if (dir_node.Nodes.Count > 0)
@@ -657,23 +638,92 @@ namespace ManiacEditor.Interfaces
 		private void scenesTree_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			selectButton.IsEnabled = scenesTree.SelectedNode.Tag != null;
+			UpdateCurrentInfo();
 		}
 
 		private void scenesTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			if (selectButton.IsEnabled)
 			{
+				UpdateCurrentInfo();
 				selectButton_Click(sender, e);
 			}
 		}
 
 		private void scenesTree_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-
 			if (scenesTree.SelectedNode == null)
 			{
 				selectButton.IsEnabled = false;
 			}
+			if (_GameConfig != null) browse.IsEnabled = true;
+			else browse.IsEnabled = true;
+			UpdateCurrentInfo();
+		}
+
+		public void UpdateCurrentInfo()
+		{
+			if (scenesTree.SelectedNode != null)
+			{
+				if (scenesTree.SelectedNode.Parent != null)
+				{
+					if (isFilesView.IsChecked.Value)
+					{
+						Tuple<GameConfig.SceneInfo, string> tag = scenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
+						if (tag != null)
+						{
+							GameConfig.SceneInfo scene = tag.Item1;
+							if (scene != null)
+							{
+								CurrentSceneID = scene.SceneID;
+								CurrentZone = scene.Zone;
+								CurrentName = scene.Name;
+								LevelID = scene.LevelID;
+								isEncore = (scene.ModeFilter == 5 ? true : false);
+								CurrenInfoLabel.Visibility = Visibility.Visible;
+								CurrenInfoLabel.Content = string.Format("Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3} || Encore: {4}", LevelID, CurrentSceneID, CurrentName, CurrentZone, (isEncore ? "Yes" : "No"));
+							}
+							else Reset();
+						}
+						else Reset();
+
+					}
+					else
+					{
+						var cat = _GameConfig.Categories.Where(t => t.Name == scenesTree.SelectedNode.Parent.Text).FirstOrDefault();
+						if (cat != null)
+						{
+							var scene = cat.Scenes.Where(t => t.Index == scenesTree.SelectedNode.Index).FirstOrDefault();
+							if (scene != null)
+							{
+								CurrentSceneID = scene.SceneID;
+								CurrentZone = scene.Zone;
+								CurrentName = scene.Name;
+								LevelID = scene.LevelID;
+								isEncore = (scene.ModeFilter == 5 ? true : false);
+								CurrenInfoLabel.Visibility = Visibility.Visible;
+								CurrenInfoLabel.Content = string.Format("Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3} || Encore: {4}", LevelID, CurrentSceneID, CurrentName, CurrentZone, (isEncore ? "Yes" : "No"));
+							}
+						}
+						else Reset();
+					}
+
+				}
+				else Reset();
+
+			}
+			else Reset();
+
+			void Reset()
+			{
+				CurrentSceneID = "";
+				CurrentZone = "";
+				CurrentName = "";
+				isEncore = false;
+				LevelID = -1;
+				CurrenInfoLabel.Visibility = Visibility.Hidden;
+			}
+
 		}
 
 		private void browse_Click(object sender, RoutedEventArgs e)
@@ -684,6 +734,7 @@ namespace ManiacEditor.Interfaces
 			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
 				Result = open.FileName;
+				Browsed = true;
 				Close();
 			}
 		}
@@ -696,6 +747,7 @@ namespace ManiacEditor.Interfaces
 			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
 				Result = open.FileName;
+				Browsed = true;
 				Close();
 			}
 		}
@@ -711,6 +763,7 @@ namespace ManiacEditor.Interfaces
 				else if (e.Node.ImageKey == "File")
 					contextMenuStrip2.Show(scenesTree, e.Location);
 			}
+			UpdateCurrentInfo();
 		}
 
 		private void addToolStripMenuItem_Click(object sender, EventArgs e)
@@ -733,7 +786,7 @@ namespace ManiacEditor.Interfaces
 					cat.Scenes.Add(form.Scene);
 					LoadFromGameConfig(_GameConfig);
 					if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-						_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+						_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 					ReloadGameConfig();
 
 				}
@@ -770,7 +823,7 @@ namespace ManiacEditor.Interfaces
 						LoadFromGameConfig(_GameConfig);
 
 						if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-							_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+							_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 						ReloadGameConfig();
 					}
 
@@ -800,7 +853,7 @@ namespace ManiacEditor.Interfaces
 				{
 					LoadFromGameConfig(_GameConfig);
 					if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-						_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+						_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 					ReloadGameConfig();
 				}
 			}
@@ -823,7 +876,7 @@ namespace ManiacEditor.Interfaces
 			{
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 				ReloadGameConfig();
 			}
 
@@ -848,7 +901,7 @@ namespace ManiacEditor.Interfaces
 				cat.Scenes.RemoveAt(scene);
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 				ReloadGameConfig();
 			}
 		}
@@ -858,7 +911,7 @@ namespace ManiacEditor.Interfaces
 			_GameConfig.Categories.RemoveAt(scenesTree.SelectedNode.Index);
 			LoadFromGameConfig(_GameConfig);
 			if (MessageBox.Show("Write Changes to File? Please make sure you didn't delete something on accident!", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-				_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+				_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 			ReloadGameConfig();
 		}
 
@@ -895,7 +948,6 @@ namespace ManiacEditor.Interfaces
 				if (unloadingMod)
 				{
 					SelectedDataDirectory = EditorInstance.DataDirectory;
-					EditorInstance.ModDataDirectory = "";
 					modFolderStatusLabel.Content = "";
 					isModLoadedwithGameConfig = false;
 					isModLoaded = false;
@@ -1162,50 +1214,17 @@ namespace ManiacEditor.Interfaces
 						MessageBox.Show("Please Select/Open a Data Directory First", "ERROR!", MessageBoxButton.OK, MessageBoxImage.Error);
 					}
 				}
-				else if (e.Node.ImageKey == "ModFolder")
+				else if (e.Node.ImageKey == "Mods")
 				{
-					if (_GameConfig != null)
+					/*if (_GameConfig != null)
 					{
 						LoadModDataDirectory();
 					}
 					else
 					{
 						MessageBox.Show("Please Select/Open a Data Directory First", "ERROR!", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
+					}*/
 				}
-			}
-		}
-
-		private void LoadModDataDirectory()
-		{
-			GameConfig GameConfig = null;
-			String SelectedDataDirectory = recentDataDirList.SelectedNode.Tag.ToString();
-			{
-				try
-				{
-					GameConfig = new GameConfig(Path.Combine(SelectedDataDirectory, "Game", "GameConfig.bin"));
-					EditorInstance.ModDataDirectory = SelectedDataDirectory;
-					modFolderStatusLabel.Content = "Mod Directory: " + SelectedDataDirectory;
-					isModLoadedwithGameConfig = true;
-					isModLoaded = true;
-				}
-				catch
-				{
-					MessageBox.Show("Your Mod must have a GameConfig included! Or there is something else wrong here... (doubtful)", "ERROR");
-					/*
-                    EditorInstance.ModDataDirectory = SelectedDataDirectory;                  
-                    LoadDataDirectory(true);
-                    modFolderStatusLabel.Text = "Mod Directory (No GameConfig Present): " + SelectedDataDirectory;
-                    modFolderStatusLabel.ForeColor = System.Drawing.Color.Red;
-                    isModLoaded = true;
-                    */
-				}
-
-			}
-			if (GameConfig != null)
-			{
-				LoadFromGameConfig(GameConfig);
-				_GameConfig = GameConfig;
 			}
 		}
 
@@ -1236,7 +1255,7 @@ namespace ManiacEditor.Interfaces
 
 			LoadFromGameConfig(_GameConfig);
 			if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-				_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+				_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 			ReloadGameConfig();
 		}
 
@@ -1254,44 +1273,61 @@ namespace ManiacEditor.Interfaces
 
 			LoadFromGameConfig(_GameConfig);
 			if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-				_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+				_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 			ReloadGameConfig();
 		}
 
 		private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
 		{
-			if (selectedCategoryIndex != -1)
+			if (isFileViewMode)
 			{
-				if (scenesTree.SelectedNode.Index == 0)
-				{
-					moveCategoryUpToolStripMenuItem.Enabled = false;
-				}
-				else
-				{
-					moveCategoryUpToolStripMenuItem.Enabled = true;
-				}
-
-				if (scenesTree.SelectedNode.Index == scenesTree.Nodes.Count - 1)
-				{
-					moveCategoryDownToolStripMenuItem.Enabled = false;
-				}
-				else
-				{
-					moveCategoryDownToolStripMenuItem.Enabled = true;
-				}
+				contextMenuStrip1.Enabled = false;
 			}
 			else
 			{
-				moveCategoryUpToolStripMenuItem.Enabled = false;
-				moveCategoryDownToolStripMenuItem.Enabled = false;
+				contextMenuStrip1.Enabled = true;
+				if (selectedCategoryIndex != -1)
+				{
+					if (scenesTree.SelectedNode.Index == 0)
+					{
+						moveCategoryUpToolStripMenuItem.Enabled = false;
+					}
+					else
+					{
+						moveCategoryUpToolStripMenuItem.Enabled = true;
+					}
+
+					if (scenesTree.SelectedNode.Index == scenesTree.Nodes.Count - 1)
+					{
+						moveCategoryDownToolStripMenuItem.Enabled = false;
+					}
+					else
+					{
+						moveCategoryDownToolStripMenuItem.Enabled = true;
+					}
+				}
+				else
+				{
+					moveCategoryUpToolStripMenuItem.Enabled = false;
+					moveCategoryDownToolStripMenuItem.Enabled = false;
+				}
 			}
+
 
 		}
 
 		private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
 		{
-			moveSceneInfoDownToolStripMenuItem.Enabled = false;
-			moveSceneInfoUpToolStripMenuItem.Enabled = false;
+			if (isFileViewMode)
+			{
+				contextMenuStrip2.Enabled = false;
+			}
+			else
+			{
+				contextMenuStrip2.Enabled = true;
+				moveSceneInfoDownToolStripMenuItem.Enabled = false;
+				moveSceneInfoUpToolStripMenuItem.Enabled = false;
+			}
 		}
 
 		private void moveSceneInfoUpToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1310,7 +1346,7 @@ namespace ManiacEditor.Interfaces
 
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 				ReloadGameConfig();
 			}
 		}
@@ -1333,7 +1369,7 @@ namespace ManiacEditor.Interfaces
 
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(Path.Combine((isModLoadedwithGameConfig ? EditorInstance.ModDataDirectory : EditorInstance.DataDirectory), "Game", "GameConfig.bin"));
+					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
 				ReloadGameConfig();
 			}
 		}
@@ -1426,7 +1462,7 @@ namespace ManiacEditor.Interfaces
 				}
 			}
 
-			string inputValue = TextPrompt2.ShowDialog("Change Custom Folder Name", "Leave blank to reset. This will not touch your mod!", Settings.mySettings.ModFolderCustomNames[index]);
+			string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Custom Folder Name", "Leave blank to reset. This will not touch your mod!", Settings.mySettings.ModFolderCustomNames[index]);
 			if (inputValue != "")
 			{
 				Settings.mySettings.ModFolderCustomNames[index] = inputValue;

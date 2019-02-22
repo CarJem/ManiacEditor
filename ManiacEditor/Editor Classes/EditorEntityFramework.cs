@@ -256,6 +256,7 @@ namespace ManiacEditor
         /// <returns>The fully loaded Animation</returns>
         public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true, bool PartialEngineRotation = false, bool FullEngineRotation = false)
         {
+
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
             var anim = new EditorEntity_ini.EditorAnimation();
             if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
@@ -268,18 +269,11 @@ namespace ManiacEditor
 
             // Get the path of the object's textures
             string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
-            var assetInfo = GetAssetPath(assetName, (EditorInstance.ModDataDirectory != "" ? EditorInstance.ModDataDirectory : ""), false, (EditorInstance.ModDataDirectory != "" ? true : false));
+            var assetInfo = GetAssetPath(name);
 
             string path2 = assetInfo.Item1;
             string dataFolderLocation = assetInfo.Item2;
-            if (!File.Exists(path2) || path2 == null)
-            {
-                assetInfo = GetAssetPath(assetName);
-                path2 = assetInfo.Item1;
-                dataFolderLocation = assetInfo.Item2;
-                if (!File.Exists(path2) || path2 == null) return null;
-
-            }
+            if (!File.Exists(path2) || path2 == null) return null;
 
 
             using (var stream = File.OpenRead(path2))
@@ -491,37 +485,37 @@ namespace ManiacEditor
             return new Rectangle(x, y, width, height);
         }
 
-        public Tuple<String, String> GetAssetPath(string name, string CustomDataDirectoryLocation = "", bool dontSeachCustom = false, bool isModLoaded = false)
+        public Tuple<String, String> GetAssetPath(string name)
         {
-            string path, path2;
-            string dataDirectory = (CustomDataDirectoryLocation != "" ? CustomDataDirectoryLocation : EditorInstance.DataDirectory);
+			string path = "";
+			string dataDirectory = "";
             if (name == "EditorAssets" || name == "HUDEditorText" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
             {
                 switch (name)
                 {
                     case "EditorAssets":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.bin");
-                        if (!File.Exists(path2)) return null;
+                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.bin");
+                        if (!File.Exists(path)) return null;
                         break;
                     case "HUDEditorText":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.bin");
-                        if (!File.Exists(path2)) return null;
+                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.bin");
+                        if (!File.Exists(path)) return null;
                         break;
                     case "EditorIcons2":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.bin");
-                        if (!File.Exists(path2)) return null;
+                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.bin");
+                        if (!File.Exists(path)) return null;
                         break;
                     case "TransportTubes":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.bin");
-                        if (!File.Exists(path2)) return null;
+                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.bin");
+                        if (!File.Exists(path)) return null;
                         break;
                     case "EditorUIRender":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorUIRender.bin");
-                        if (!File.Exists(path2)) return null;
+                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorUIRender.bin");
+                        if (!File.Exists(path)) return null;
                         break;
                     case "SuperSpecialRing":
-                        path2 = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.bin");
-                        if (!File.Exists(path2)) return null;
+                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.bin");
+                        if (!File.Exists(path)) return null;
                         break;
                     default:
                         return null;
@@ -529,31 +523,60 @@ namespace ManiacEditor
             }
             else
             {
-                if (DataDirectoryList == null) DataDirectoryList = Directory.GetFiles(Path.Combine(dataDirectory, "Sprites"), $"*.bin", SearchOption.AllDirectories);
+				bool AssetFound = false;
+				foreach (string dataDir in EditorInstance.ResourcePackList)
+				{
+					Tuple<string, string> Findings = GetAssetSourcePath(dataDir, name);
+					if (Findings.Item1 != null && Findings.Item2 != null)
+					{
+						AssetFound = true;
+						path = Findings.Item1;
+						dataDirectory = Findings.Item2;
+						break;
+					}
+				}
 
+				if (!AssetFound)
+				{
+					Tuple<string, string> Findings = GetAssetSourcePath(EditorInstance.DataDirectory, name);
+					if (Findings.Item1 != null && Findings.Item2 != null)
+					{
+						AssetFound = true;
+						path = Findings.Item1;
+						dataDirectory = Findings.Item2;
+					}
+				}
 
-                // Checks the Stage Folder First
+            }
 
-                path = EditorInstance.SelectedZone + "\\" + name + ".bin";
-                path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-                if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
-                {
-                    foreach (string userDefinedPath in EditorInstance.userDefinedSpritePaths)
-                    {
-                        path = userDefinedPath + "\\" + name + ".bin";
-                        path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-                        //Debug.Print(path2);
-                        if (File.Exists(path2))
-                        {
-                            break;
-                        }
-                    }
-                    if (!File.Exists(path2))
-                    {
-                        path = EditorInstance.SelectedZone + "\\" + name + ".bin";
-                        path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
-                    }
-                }
+            return Tuple.Create(path, dataDirectory);
+        }
+
+		public Tuple<string, string> GetAssetSourcePath(string dataFolder, string name)
+		{
+			string path, path2;
+			string dataDirectory = dataFolder;
+			// Checks the Stage Folder First
+			path = EditorInstance.EditorPath.CurrentZone + "\\" + name + ".bin";
+			path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+			if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
+			{
+				foreach (string userDefinedPath in EditorInstance.userDefinedSpritePaths)
+				{
+					path = userDefinedPath + "\\" + name + ".bin";
+					path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+					//Debug.Print(path2);
+					if (File.Exists(path2))
+					{
+						break;
+					}
+				}
+				if (!File.Exists(path2))
+				{
+					path = EditorInstance.EditorPath.CurrentZone + "\\" + name + ".bin";
+					path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
+				}
+			}
 
 
 			if (!File.Exists(path2))
@@ -564,18 +587,18 @@ namespace ManiacEditor
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
-					path = EditorInstance.SelectedZone.Substring(0, EditorInstance.SelectedZone.Length - 1) + "\\" + name + ".bin";
+					path = EditorInstance.EditorPath.CurrentZone.Substring(0, EditorInstance.EditorPath.CurrentZone.Length - 1) + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
 					if (!File.Exists(path2))
 					{
 						// Checks for name without the last character and without the numbers in the entity name
 						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-						path = path = EditorInstance.SelectedZone.Substring(0, EditorInstance.SelectedZone.Length - 1) + "\\" + adjustedName + ".bin";
+						path = path = EditorInstance.EditorPath.CurrentZone.Substring(0, EditorInstance.EditorPath.CurrentZone.Length - 1) + "\\" + adjustedName + ".bin";
 						path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
 						if (!File.Exists(path2))
 						{
 							// Checks for name without any numbers in the Zone name
-							string adjustedZone = Regex.Replace(EditorInstance.SelectedZone, @"[\d-]", string.Empty);
+							string adjustedZone = Regex.Replace(EditorInstance.EditorPath.CurrentZone, @"[\d-]", string.Empty);
 							path = path = adjustedZone + "\\" + name + ".bin";
 							path2 = Path.Combine(dataDirectory, "Sprites") + '\\' + path;
 							if (!File.Exists(path2))
@@ -640,11 +663,9 @@ namespace ManiacEditor
 						}
 					}
 				}
-                }                           
-            }
-
-            return Tuple.Create(path2, dataDirectory);
-        }
+			}
+			return Tuple.Create(path2, dataDirectory);
+		}
 
         public Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0, bool rotate = false, bool legacyRotate = false)
         {

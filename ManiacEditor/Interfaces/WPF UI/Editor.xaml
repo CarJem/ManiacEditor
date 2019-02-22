@@ -310,6 +310,7 @@
                             <MenuItem Header="Right Toolbar" x:Name="rightToolbarToggleDev" Click="RightToolbarToggleDev_Click"></MenuItem>
                             <MenuItem Header="Left Toolbar" x:Name="leftToolbarToggleDev" Click="LeftToolbarToggleDev_Click"></MenuItem>
                         </MenuItem>
+                        <MenuItem x:Name="NextGenSceneSelectTest" Header="Next Gen Scene Select Test" Click="NextGenSceneSelectTest_Click"></MenuItem>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="sceneToolStripMenuItem" Header="Scene" Margin="0,2,0,0"  >
