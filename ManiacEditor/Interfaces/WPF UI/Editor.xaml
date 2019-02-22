@@ -50,6 +50,9 @@
 
 
                 <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}" Margin="3">
+                    <Grid x:Name="WaitingPanel" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Opacity="0.2">
+                        <TextBlock FontSize="30" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Working..."/><LineBreak/><Run Text="(Please Wait!)"/></TextBlock>
+                    </Grid>
                     <Grid x:Name="SplitContianer">
                         <Grid Name="gridMain">
                             <Grid.ColumnDefinitions>
@@ -68,7 +71,7 @@
                                 <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Grid.ContextMenu>
                                         <ContextMenu x:Name="ViewPanelContextMenu">
-                                            <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Tile {0} with Tile Maniac" Click="EditTileWithTileManiacToolStripMenuItem_Click"></MenuItem>
+                                            <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="EditTileWithTileManiacToolStripMenuItem_Click"></MenuItem>
                                             <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHereToolStripMenuItem_Click"></MenuItem>
                                             <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHereToolStripMenuItem_Click"></MenuItem>
                                             <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpointToolStripMenuItem_Click"></MenuItem>
@@ -259,6 +262,7 @@
                 </MenuItem>
                 <MenuItem x:Name="toolsToolStripMenuItem1" Header="Tools" Margin="0,2,0,0" >
                     <MenuItem x:Name="findAndReplaceToolStripMenuItem" Header="Find and Replace..." Click="FindToolStripMenuItem1_Click"/>
+                    <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles" Click="FindUnusedTiles"/>
                     <MenuItem x:Name="scrollLockToolStripMenuItem" Header="Scroll Lock...">
                         <MenuItem x:Name="statusNAToolStripMenuItem" Header="Enabled" Click="ScrollLockButton_Click"/>
                         <MenuItem x:Name="axisToolStripMenuItem" Header="Axis...">
@@ -302,7 +306,6 @@
                         <MenuItem x:Name="developerInterfaceToolStripMenuItem" Header="Developer Interface" Click="DeveloperTerminalToolStripMenuItem_Click"/>
                         <MenuItem x:Name="soundLooperToolStripMenuItem" Header="Sound Looper" Click="SoundLooperToolStripMenuItem_Click"/>
                         <MenuItem x:Name="mD5GeneratorToolStripMenuItem" Header="MD5 Generator" Click="MD5GeneratorToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles" Click="FindUnusedTiles"/>
                         <MenuItem x:Name="consoleWindowToolStripMenuItem" Header="Console Window" Click="ConsoleWindowToolStripMenuItem_Click"/>
                         <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Header="Save for Force Open on Startup" Click="SaveForForceOpenOnStartupToolStripMenuItem_Click"/>
                         <MenuItem x:Name="enableAllButtonsToolStripMenuItem" Header="Enable all Main Toolstrip Buttons" Click="EnableAllButtonsToolStripMenuItem_Click"/>
@@ -759,7 +762,7 @@
         </Grid>
 
 
-        <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="5" Height="35" Grid.Row="1" BorderThickness="1" Foreground="{DynamicResource NormalText}" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
+        <StatusBar x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="5" Height="35" Grid.Row="1" BorderThickness="1" Foreground="{DynamicResource NormalText}" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
             <Label x:Name="positionLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator1" Visibility="Collapsed"/>
             <Label x:Name="selectedPositionLabel" Foreground="{DynamicResource NormalText}"/>
@@ -816,7 +819,7 @@
 
 
         </StatusBar>
-        <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="2" Grid.ColumnSpan="5" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
+        <StatusBar x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="2" Grid.ColumnSpan="5" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
             <Label x:Name="_levelIDLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator7" Visibility="Collapsed"/>
             <Label x:Name="_baseDataDirectoryLabel" Tag=" " Foreground="{DynamicResource NormalText}"/>

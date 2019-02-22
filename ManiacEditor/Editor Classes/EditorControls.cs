@@ -27,8 +27,6 @@ namespace ManiacEditor
     {
         private Editor Editor;
 
-		private bool mouseHeld = false;
-
 		[DllImport("User32.dll")]
 		private static extern bool SetCursorPos(int X, int Y);
 
@@ -84,6 +82,8 @@ namespace ManiacEditor
 		public EditorControls(Editor instance)
         {
             Editor = instance;
+			UpdateTooltips();
+			UpdateMenuItems();
 		}
 
 
@@ -648,7 +648,6 @@ namespace ManiacEditor
 
 		public void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			mouseHeld = true;
 			Editor.editorView.GraphicPanel.Focus();
 
 			if (e.Button == MouseButtons.Left) Left();
@@ -1341,7 +1340,6 @@ namespace ManiacEditor
 		}
 		public void MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			mouseHeld = false;
 			if (e.Button == MouseButtons.Left) Left();
 			else if (e.Button == MouseButtons.Right) Right();
 			else if (e.Button == MouseButtons.Middle) Middle();
@@ -1641,9 +1639,16 @@ namespace ManiacEditor
 					Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
 					int tile;
 					int tileA = (ushort)(Editor.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
-					int tileB = (ushort)(Editor.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
-					if (tileA > 1023 && tileB < 1023) tile = tileB;
+					int tileB = 0;
+					if (Editor.EditLayerB != null)
+					{
+						tileB = (ushort)(Editor.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
+						if (tileA > 1023 && tileB < 1023) tile = tileB;
+						else tile = tileA;
+					}
 					else tile = tileA;
+
+
 					Editor.SelectedTileID = tile;
 					Editor.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
 					Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
@@ -1654,14 +1659,14 @@ namespace ManiacEditor
 					Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning && Editor.EditorGame.CheckpointEnabled;
 
 
-					Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile);
+					Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
 					Editor.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
 					Editor.ViewPanelContextMenu.IsOpen = true;
 				}
 				else
 				{
 					Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-					string tile = "NULL";
+					string tile = "N/A";
 					Editor.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
 					Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
 					Editor.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
@@ -1674,7 +1679,7 @@ namespace ManiacEditor
 					Editor.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
 					Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
 
-					Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Tile {0} in Tile Maniac", tile);
+					Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
 					Editor.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
 					Editor.ViewPanelContextMenu.IsOpen = true;
 				}

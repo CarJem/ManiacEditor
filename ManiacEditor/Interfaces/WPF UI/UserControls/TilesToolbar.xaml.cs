@@ -452,30 +452,6 @@ namespace ManiacEditor
 			EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + EditorInstance.ToolbarSelectedTile;
 		}
 
-		public void editTileInTileManiacToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (EditorInstance.mainform == null || EditorInstance.mainform.IsClosed) EditorInstance.mainform = new TileManiacWPF.MainWindow();
-			if (EditorInstance.mainform.Visibility != Visibility.Visible)
-			{
-				EditorInstance.mainform.Show();
-			}
-			EditorInstance.mainform.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
-			if (EditorInstance.TilesConfig != null && EditorInstance.StageTiles != null)
-			{
-				if (EditorInstance.mainform.Visibility != Visibility.Visible || EditorInstance.mainform.tcf == null)
-				{
-					EditorInstance.mainform.LoadTileConfigViaIntergration(EditorInstance.TilesConfig, EditorInstance.EditorPath.TileConfig_Source, SelectedTile);
-				}
-				else
-				{
-					EditorInstance.mainform.SetCollisionIndex(SelectedTile);
-					EditorInstance.mainform.Activate();
-				}
-
-			}
-
-		}
-
 		private void tabControl1_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (e.Source is TabControl)

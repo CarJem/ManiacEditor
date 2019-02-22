@@ -140,6 +140,7 @@
 			this.editCollisionToolStripMenuItem.Name = "editCollisionToolStripMenuItem";
 			this.editCollisionToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
 			this.editCollisionToolStripMenuItem.Text = "Edit Collision of Tile N/A with Tile Maniac";
+			this.editCollisionToolStripMenuItem.Click += new System.EventHandler(this.editCollisionToolStripMenuItem_Click);
 			// 
 			// RetroEDTileList
 			// 

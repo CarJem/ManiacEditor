@@ -299,10 +299,6 @@
       <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.9.0.1\lib\net40\Magick.NET-Q8-AnyCPU.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ManiaPal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\ManiaPal.exe</HintPath>
-    </Reference>
     <Reference Include="MathConverter, Version=1.2.1.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathConverter.1.2.1.5\lib\net40-client\MathConverter.dll</HintPath>
     </Reference>
@@ -417,6 +413,7 @@
     <Compile Include="Editor Classes\EditorCommon.cs" />
     <Compile Include="Editor Classes\EditorDirectories.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
+    <Compile Include="Editor Classes\EditorFindReplace.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />
     <Compile Include="Editor Classes\EditorInteractions.cs" />
@@ -1554,6 +1551,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ManiacED-ManiaPal\ManiacED-ManiaPal.csproj">
+      <Project>{f75427b3-facd-43a9-af49-98a0f3aaadb5}</Project>
+      <Name>ManiacED-ManiaPal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKrU\RSDKrU.csproj">
       <Project>{2ba290f0-4e82-4b58-aab4-3c431ee4de62}</Project>
       <Name>RSDKrU</Name>

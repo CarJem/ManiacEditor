@@ -263,11 +263,11 @@ namespace ManiacEditor
 		public EditorPath EditorPath;
 		public EditorSceneLoading EditorSceneLoading;
 		public EditorDirectories EditorDirectories;
+		public EditorFindReplace FindAndReplace;
 
 		//Tile Maniac + ManiaPal Instance
 		public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
-		public static ManiaPal.App app;
-		public static ManiaPal.MainWindow ManiaPalInstance;
+
 
 		//Editor Misc. Variables
 		System.Windows.Forms.Timer StatusPanelTickTimer;
@@ -436,6 +436,7 @@ namespace ManiacEditor
 			EditorPath = new EditorPath(this);
 			EditorSceneLoading = new EditorSceneLoading(this);
 			EditorDirectories = new EditorDirectories(this);
+			FindAndReplace = new EditorFindReplace(this);
 
 			this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
 			editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
@@ -713,57 +714,7 @@ namespace ManiacEditor
 		{
 			return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Shift);
 		}
-		public bool IsTileUnused(int tile)
-		{
-			List<ushort> listValue = new List<ushort> { };
-			List<Point> listPoint = new List<Point> { };
-			List<Point> listLocations = new List<Point> { };
-			IEnumerable<EditorLayer> AllLayers = EditorScene.AllLayers;
 
-			foreach (var editorLayer in EditorScene.AllLayers)
-			{
-				EditLayer = editorLayer;
-				EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-				UpdateEditLayerActions();
-				Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard(true);
-				FindReplaceClipboard = copyData;
-
-
-				if (FindReplaceClipboard != null)
-				{
-					foreach (var item in FindReplaceClipboard)
-					{
-						listPoint.Add(item.Key);
-					}
-					foreach (var item in FindReplaceClipboard)
-					{
-						listValue.Add(item.Value);
-					}
-					for (int i = 0; i < listValue.Count; i++)
-					{
-						if ((listValue[i] & 0x3ff) == (ushort)(tile & 0x3ff))
-						{
-							listLocations.Add(listPoint[i]);
-						}
-					}
-					FindReplaceClipboard.Clear();
-					Deselect();
-				}
-
-			}
-
-			if (listLocations.Count != 0)
-			{
-				cooldownDone = true;
-				return false;
-			}
-			else
-			{
-				cooldownDone = true;
-				return true;
-			}
-
-		}
 		public bool CanWriteFile(string fullFilePath)
 		{
 			if (!File.Exists(fullFilePath)) return true;
@@ -829,6 +780,7 @@ namespace ManiacEditor
 			goToToolStripMenuItem1.IsEnabled = enabled;
 			specificPlaceToolStripMenuItem.IsEnabled = enabled;
 			playerSpawnToolStripMenuItem.IsEnabled = enabled;
+			findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
 
 			ShowFGHigh.IsEnabled = enabled && FGHigh != null;
 			ShowFGLow.IsEnabled = enabled && FGLow != null;
@@ -1217,6 +1169,21 @@ namespace ManiacEditor
 			}
 
 		}
+
+		public void UpdateWaitingScreen(bool show)
+		{
+			if (show)
+			{
+				ViewPanelForm.Visibility = Visibility.Hidden;
+				WaitingPanel.Visibility = Visibility.Visible;
+			}
+			else
+			{
+				ViewPanelForm.Visibility = Visibility.Visible;
+				WaitingPanel.Visibility = Visibility.Collapsed;
+			}
+
+		}
 		#endregion
 
 		#region Refresh UI
@@ -1419,9 +1386,13 @@ namespace ManiacEditor
 		{
 			MenuBar.IsEnabled = enabled;
 			LayerToolbar.IsEnabled = enabled;
-			//toolStrip2.IsEnabled = enabled;
-			//toolStrip3.IsEnabled = enabled;
-			editorView.splitContainer1.Enabled = enabled;
+			MainToolbarButtons.IsEnabled = enabled;
+			SetSceneOnlyButtonsState((enabled ? true : EditorScene != null));
+			LayerToolbar.IsEnabled = enabled;
+			StatusBar1.IsEnabled = enabled;
+			StatusBar2.IsEnabled = enabled;
+			if (TilesToolbar != null) TilesToolbar.IsEnabled = enabled;
+			if (entitiesToolbar != null) entitiesToolbar.IsEnabled = enabled;
 		}
 
 		#endregion
@@ -2587,13 +2558,7 @@ namespace ManiacEditor
 		}
 		private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-
-			if (ManiaPalInstance != null)
-			{
-				var MP = ManiaPal.MainWindow.Instance;
-				MP.Close();
-			}
-
+			Interactions.ManiaPalConnector.Kill();
 
 			try
 			{
@@ -3015,39 +2980,43 @@ namespace ManiacEditor
 		}
 		public void RefreshCollisionColours(bool RefreshMasks = false)
 		{
-			switch (collisionPreset)
+			if (EditorScene != null && CollisionLayerA != null && CollisionLayerB != null)
 			{
-				case 2:
-					CollisionAllSolid = Properties.Settings.Default.CollisionSAColour;
-					CollisionTopOnlySolid = Properties.Settings.Default.CollisionTOColour;
-					CollisionLRDSolid = Properties.Settings.Default.CollisionLRDColour;
-					break;
-				case 1:
-					CollisionAllSolid = Color.Black;
-					CollisionTopOnlySolid = Color.Yellow;
-					CollisionLRDSolid = Color.Red;
-					break;
-				case 0:
-					CollisionAllSolid = Color.White;
-					CollisionTopOnlySolid = Color.Yellow;
-					CollisionLRDSolid = Color.Red;
-					break;
-			}
-
-
-
-
-			if (RefreshMasks)
-			{
-				CollisionLayerA.Clear();
-				CollisionLayerB.Clear();
-
-				for (int i = 0; i < 1024; i++)
+				switch (collisionPreset)
 				{
-					CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-					CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+					case 2:
+						CollisionAllSolid = Properties.Settings.Default.CollisionSAColour;
+						CollisionTopOnlySolid = Properties.Settings.Default.CollisionTOColour;
+						CollisionLRDSolid = Properties.Settings.Default.CollisionLRDColour;
+						break;
+					case 1:
+						CollisionAllSolid = Color.Black;
+						CollisionTopOnlySolid = Color.Yellow;
+						CollisionLRDSolid = Color.Red;
+						break;
+					case 0:
+						CollisionAllSolid = Color.White;
+						CollisionTopOnlySolid = Color.Yellow;
+						CollisionLRDSolid = Color.Red;
+						break;
+				}
+
+
+
+
+				if (RefreshMasks)
+				{
+					CollisionLayerA.Clear();
+					CollisionLayerB.Clear();
+
+					for (int i = 0; i < 1024; i++)
+					{
+						CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+						CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+					}
 				}
 			}
+
 		}
 		#endregion
 
@@ -3537,6 +3506,7 @@ namespace ManiacEditor
 		private void WithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.WithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
 		private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.WithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
 		private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SoundLooperToolStripMenuItem_Click(sender, e); }
+		private void FindUnusedTiles(object sender, RoutedEventArgs e) { Interactions.FindUnusedTiles(sender, e); }
 
 		#region Developer Stuff
 		public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.GoToToolStripMenuItem_Click(sender, e); }
@@ -3545,7 +3515,6 @@ namespace ManiacEditor
 		private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.MD5GeneratorToolStripMenuItem_Click(sender, e); }
 		private void PlayerSpawnToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PlayerSpawnToolStripMenuItem_Click(sender, e); }
 		private void FindToolStripMenuItem1_Click(object sender, RoutedEventArgs e) { Interactions.FindToolStripMenuItem1_Click(sender, e); }
-		private void FindUnusedTiles(object sender, RoutedEventArgs e) { Interactions.FindUnusedTiles(sender, e); }
 		private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ConsoleWindowToolStripMenuItem_Click(sender, e); }
 		private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
 		private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UpdateToolbars(false, true); } 
@@ -4284,7 +4253,7 @@ namespace ManiacEditor
 			{
 				if (mainform.Visibility != Visibility.Visible || mainform.tcf == null)
 				{
-					mainform.LoadTileConfigViaIntergration(TilesConfig, Path.GetFullPath(EditorPath.StageTiles_Source), SelectedTileID);
+					mainform.LoadTileConfigViaIntergration(TilesConfig, EditorPath.SceneFile_Directory, SelectedTileID);
 				}
 				else
 				{

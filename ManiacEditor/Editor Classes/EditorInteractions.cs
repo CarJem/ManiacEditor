@@ -23,6 +23,9 @@ namespace ManiacEditor
 	{
 		private Editor Editor;
 
+
+		public ManiacED_ManiaPal.Connector ManiaPalConnector;
+
 		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's
 		#region DLL Import Stuff
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -90,6 +93,7 @@ namespace ManiacEditor
 		public EditorInteractions(Editor instance)
 		{
 			Editor = instance;
+
 		}
 
 		#region File Tab Buttons
@@ -1234,6 +1238,10 @@ a valid Data Directory.",
 
 
 		}
+		public void FindUnusedTiles(object sender, RoutedEventArgs e)
+		{
+			Editor.FindAndReplace.FindUnusedTiles();
+		}
 
 		#region Developer Stuff
 		public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -1325,38 +1333,7 @@ a valid Data Directory.",
 			}
 
 		}
-		public void FindUnusedTiles(object sender, RoutedEventArgs e)
-		{
-			Editor.ToggleEditorButtons(false);
-			List<int> UnusedTiles = new List<int> { };
 
-			for (int i = 0; i < 1024; i++)
-			{
-				Editor.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + i;
-				bool Unusued = Editor.IsTileUnused(i);
-				while (Editor.cooldownDone != true)
-				{
-					//Application.DoEvents();
-				}
-				Editor.cooldownDone = false;
-				if (Unusued)
-				{
-					UnusedTiles.Add(i);
-				}
-				//Application.DoEvents();
-			}
-			if (UnusedTiles.Count != 0)
-			{
-				var message = string.Join(Environment.NewLine, UnusedTiles);
-				RSDKrU.MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results");
-			}
-			else
-			{
-				RSDKrU.MessageBox.Show("Found Nothing", "Results");
-			}
-			Editor.ToggleEditorButtons(true);
-
-		}
 		public void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (!Editor.isConsoleWindowOpen)
@@ -1465,47 +1442,31 @@ a valid Data Directory.",
 		public void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			System.Windows.Controls.MenuItem button = sender as System.Windows.Controls.MenuItem;
+			bool isGameConfig = false;
+			bool GC_NULL = false;
+			bool SC_NULL = false;
+			string SC_Path = "";
+			string GC_Path = "";
 
-			if (ManiaPal.MainWindow.Instance == null)
+			if (button != null && button == Editor.maniaPalGameConfigToolStripMenuItem)
 			{
-				Editor.ManiaPalInstance = new ManiaPal.MainWindow();
-				Editor.ManiaPalInstance.Show();
-
-				while (ManiaPal.MainWindow.Instance == null)
-					Thread.Sleep(100);
-				var MP = ManiaPal.MainWindow.Instance;
-				if (button != null && button == Editor.maniaPalGameConfigToolStripMenuItem && Editor.GameConfig != null)
-				{
-					if (Editor.GameConfig.FilePath != null) MP.LoadFile(Editor.GameConfig.FilePath);
-				}
-				else if (Editor.StageConfig != null)
-				{
-					if (Editor.StageConfig.FilePath != null) MP.LoadFile(Editor.StageConfig.FilePath);
-				}
-
-				MP.RefreshPalette(MP.CurrentPaletteSet);
-				MP.Activate();
+				if (Editor.GameConfig == null) GC_NULL = true;
+				else GC_Path = Editor.GameConfig.FilePath;
+				isGameConfig = true;
 			}
 			else
 			{
-				var MP = ManiaPal.MainWindow.Instance;
-				MP.Visibility = System.Windows.Visibility.Visible;
-				MP.Activate();
-
-
-				if (button != null && button == Editor.maniaPalStageConfigToolStripMenuItem && Editor.StageConfig != null)
-				{
-					if (Editor.StageConfig.FilePath != null) MP.LoadFile(Editor.StageConfig.FilePath);
-					MP.RefreshPalette(MP.CurrentPaletteSet);
-				}
-
-				if (button != null && button == Editor.maniaPalGameConfigToolStripMenuItem && Editor.GameConfig != null)
-				{
-					if (Editor.GameConfig.FilePath != null) MP.LoadFile(Editor.GameConfig.FilePath);
-					MP.RefreshPalette(MP.CurrentPaletteSet);
-				}
-
+				if (Editor.StageConfig == null) SC_NULL = true;
+				else SC_Path = Editor.StageConfig.FilePath;
+				isGameConfig = false;
 			}
+
+
+			if (ManiaPalConnector == null) ManiaPalConnector = new ManiacED_ManiaPal.Connector();
+
+			ManiaPalConnector.SetLoadingInformation(GC_Path, SC_Path, SC_NULL, GC_NULL);
+			ManiaPalConnector.Activate(isGameConfig);
+
 
 
 		}
