@@ -75,10 +75,10 @@ namespace ManiacEditor
 			{
 				ListedPrefrences.TryGetValue("SpritePaths", out value);
 				List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
-				foreach (string item in list)
-				{
-					System.Windows.MessageBox.Show(item);
-				}
+				//foreach (string item in list)
+				//{
+				//	RSDKrU.MessageBox.Show(item);
+				//}
 				instance.userDefinedSpritePaths = list;
 			}
 			if (ListedPrefrences.ContainsKey("SwapEntityRenderNames"))
@@ -91,14 +91,14 @@ namespace ManiacEditor
 					{
 						string toBeSwapped = list[i];
 						string toSet = list[i + 1];
-						System.Windows.MessageBox.Show(toBeSwapped + "-> " + toSet);
+						//RSDKrU.MessageBox.Show(toBeSwapped + "-> " + toSet);
 						instance.userDefinedEntityRenderSwaps.Add(toBeSwapped, toSet);
 						i = i + 2;
 					}
 				}
 				else
 				{
-					System.Windows.MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
+					RSDKrU.MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
 				}
 
 

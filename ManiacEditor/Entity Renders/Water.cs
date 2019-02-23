@@ -22,7 +22,10 @@ namespace ManiacEditor.Entity_Renders
             var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High);
             var heightY = (int)(entity.attributesMap["height"].ValuePosition.Y.High);
             var heightX = (int)(entity.attributesMap["height"].ValuePosition.X.High);
-            var width = (int)widthPixels / 16;
+			int r = (int)(entity.attributesMap["r"].ValueUInt8);
+			int g = (int)(entity.attributesMap["g"].ValueUInt8);
+			int b = (int)(entity.attributesMap["b"].ValueUInt8);
+			var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
             bool fliph = false;
             bool flipv = false;
@@ -106,72 +109,87 @@ namespace ManiacEditor.Entity_Renders
                 int y1 = y + heightPixels / -2;
                 int y2 = y + heightPixels / 2 - 1;
 
-                if (e.EditorInstance.showWaterLevel)
-                {
-                    if (selected)
-                    {
-                        if (!Properties.Settings.Default.SimplifiedWaterLevelRendering)
-                        {
-                            d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
-                            d.DrawLine(0, heightX, e.EditorInstance.SceneWidth, heightX, SystemColors.White);
-                            if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
-                            {
-                                var frame = editorAnim2.Frames[Animation.index];
+				if (type != 1)
+				{
+					if (e.EditorInstance.showWaterLevel)
+					{
+						if (selected)
+						{
+							if (!Properties.Settings.Default.SimplifiedWaterLevelRendering)
+							{
+								d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, heightX, e.EditorInstance.waterColor);
+								d.DrawLine(0, heightX, e.EditorInstance.SceneWidth, heightX, SystemColors.White);
+								if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
+								{
+									var frame = editorAnim2.Frames[Animation.index];
 
-                                Animation.ProcessAnimation2(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+									Animation.ProcessAnimation2(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                                for (int i = 0; i < e.EditorInstance.SceneWidth; i = i + frame.Frame.Width)
-                                    d.DrawBitmap(frame.Texture,
-                                        i + frame.Frame.PivotX,
-                                        heightX + frame.Frame.PivotY,
-                                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                            }
-                        }
-                        else
-                        {
-                            d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
-                            d.DrawLine(0, heightX, e.EditorInstance.SceneWidth, heightX, SystemColors.White);
-                        }
-                    }
-                    else
-                    {
-                        if (!Properties.Settings.Default.SimplifiedWaterLevelRendering)
-                        {
-                            if (e.EditorInstance.alwaysShowWaterLevel)
-                            {
-                                int startX = (e.EditorInstance.sizeWaterLevelwithBounds ? x1 : 0);
-                                int endX = (e.EditorInstance.sizeWaterLevelwithBounds ? x2 : e.EditorInstance.SceneWidth);
+									for (int i = 0; i < e.EditorInstance.SceneWidth; i = i + frame.Frame.Width)
+										d.DrawBitmap(frame.Texture,
+											i + frame.Frame.PivotX,
+											heightX + frame.Frame.PivotY,
+											frame.Frame.Width, frame.Frame.Height, false, Transparency);
+								}
+							}
+							else
+							{
+								d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, heightX, e.EditorInstance.waterColor);
+								d.DrawLine(0, heightX, e.EditorInstance.SceneWidth, heightX, SystemColors.White);
+							}
+						}
+						else
+						{
+							if (!Properties.Settings.Default.SimplifiedWaterLevelRendering)
+							{
+								if (e.EditorInstance.alwaysShowWaterLevel)
+								{
+									int startX = (e.EditorInstance.sizeWaterLevelwithBounds ? x1 : 0);
+									int endX = (e.EditorInstance.sizeWaterLevelwithBounds ? x2 : e.EditorInstance.SceneWidth);
 
-                                d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
-                                d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
-                                if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
-                                {
-                                    var frame = editorAnim2.Frames[Animation.index];
+									d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
+									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
+									if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
+									{
+										var frame = editorAnim2.Frames[Animation.index];
 
-                                    Animation.ProcessAnimation2(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+										Animation.ProcessAnimation2(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                                    for (int i = startX; i < endX; i = i + frame.Frame.Width)
-                                        d.DrawBitmap(frame.Texture,
-                                            i + frame.Frame.PivotX,
-                                            heightX + frame.Frame.PivotY,
-                                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                                }
-                            }
+										for (int i = startX; i < endX; i = i + frame.Frame.Width)
+											d.DrawBitmap(frame.Texture,
+												i + frame.Frame.PivotX,
+												heightX + frame.Frame.PivotY,
+												frame.Frame.Width, frame.Frame.Height, false, Transparency);
+									}
+								}
 
-                        }
-                        else
-                        {
-                            if (e.EditorInstance.alwaysShowWaterLevel)
-                            {
-                                int startX = (e.EditorInstance.sizeWaterLevelwithBounds ? x1 : 0);
-                                int endX = (e.EditorInstance.sizeWaterLevelwithBounds ? x2 : e.EditorInstance.SceneWidth);
-                                d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
-                                d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
-                            }
-                        }
-                    }
-                }
-
+							}
+							else
+							{
+								if (e.EditorInstance.alwaysShowWaterLevel)
+								{
+									int startX = (e.EditorInstance.sizeWaterLevelwithBounds ? x1 : 0);
+									int endX = (e.EditorInstance.sizeWaterLevelwithBounds ? x2 : e.EditorInstance.SceneWidth);
+									d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
+									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					int red = r - 150;
+					int blue = b - 150;
+					int green = g - 150;
+					if (red > 255) red = 255;
+					if (blue > 255) blue = 255;
+					if (green > 255) green = 255;
+					if (red < 0) red = 0;
+					if (blue < 0) blue = 0;
+					if (green < 0) green = 0;
+					d.DrawRectangle(x1, y1, x2, y2, SystemColors.FromArgb(128, red, green, blue));
+				}
 
                 d.DrawLine(x1, y1, x1, y2, SystemColors.Aqua);
                 d.DrawLine(x1, y1, x2, y1, SystemColors.Aqua);

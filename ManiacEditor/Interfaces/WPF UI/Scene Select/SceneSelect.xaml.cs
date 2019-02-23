@@ -486,7 +486,7 @@ namespace ManiacEditor.Interfaces
 			recentDataDirList.Nodes.Clear();
 			recentDataDirList.Nodes.Add("Recent Data Directories");
 			recentDataDirList.Nodes.Add("Saved Places");
-			recentDataDirList.Nodes.Add("Mods");
+			//recentDataDirList.Nodes.Add("Mods");
 			this.recentDataDirList.ImageList = new ImageList();
 			this.recentDataDirList.ImageList.Images.Add("Folder", Properties.Resources.folder);
 			this.recentDataDirList.ImageList.Images.Add("File", Properties.Resources.file);

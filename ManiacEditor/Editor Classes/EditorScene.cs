@@ -72,12 +72,12 @@ namespace ManiacEditor
 
         public EditorScene(string filename, DevicePanel d, Editor instance) : base(filename)
         {
-            EditorInstance = instance;
-            _editorLayers = new List<EditorLayer>(Layers.Count);
-            foreach (SceneLayer layer in Layers)
-            {
-                _editorLayers.Add(new EditorLayer(layer, EditorInstance));
-            }
+			EditorInstance = instance;
+			_editorLayers = new List<EditorLayer>(Layers.Count);
+			foreach (SceneLayer layer in Layers)
+			{
+				_editorLayers.Add(new EditorLayer(layer, EditorInstance));
+			}
         }
 
         public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, Editor instance)

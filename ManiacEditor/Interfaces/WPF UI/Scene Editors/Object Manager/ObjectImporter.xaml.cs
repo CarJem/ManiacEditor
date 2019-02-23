@@ -118,7 +118,7 @@ namespace ManiacEditor.Interfaces
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
+				RSDKrU.MessageBox.Show("Unable to import Objects. " + ex.Message);
 				DialogResult = false;
 				Close();
 			}

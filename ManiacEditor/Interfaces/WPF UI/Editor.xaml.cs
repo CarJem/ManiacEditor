@@ -167,9 +167,9 @@ namespace ManiacEditor
 		//public string SelectedZone; //Used to get the Selected zone
 		//public string SelectedScene; //Used to get the Scene zone
 		public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
-		//public string SceneFilename = null; //Used for fetching the scene's file name
-		//public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
-		//public string StageConfigFileName = null; //Used for fetch the scene's stage config file name
+													   //public string SceneFilename = null; //Used for fetching the scene's file name
+													   //public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
+													   //public string StageConfigFileName = null; //Used for fetch the scene's stage config file name
 
 		// Extra Layer Buttons
 		public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
@@ -198,8 +198,8 @@ namespace ManiacEditor
 
 		//internal IEnumerable<EditorLayer> AllLayers => EditorScene?.AllLayers;
 		//Used to Get the Maximum Layer Height and Width
-		internal int SceneWidth => EditorScene.Layers.Max(sl => sl.Width) * 16;
-		internal int SceneHeight => EditorScene.Layers.Max(sl => sl.Height) * 16;
+		internal int SceneWidth => (EditorScene != null ? EditorScene.Layers.Max(sl => sl.Width) * 16 : 0);
+		internal int SceneHeight => (EditorScene != null ? EditorScene.Layers.Max(sl => sl.Height) * 16 : 0);
 
 		//Used for "Run Scene"
 		public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
@@ -237,7 +237,6 @@ namespace ManiacEditor
 		public StageConfig StageConfig;
 		public GameConfig GameConfig;
 		public EditorControls EditorControls;
-		public ManiacEditor.Interfaces.DeveloperTerminal DevController;
 		public EditorEntities entities;
 		//public int InstanceID = 0;
 		//public static Editor Instance; //Used the access this class easier
@@ -431,7 +430,6 @@ namespace ManiacEditor
 			StartScreen = new StartScreen(this);
 			Discord = new EditorDiscordRP(this);
 			Updater = new EditorUpdater();
-			DevController = new ManiacEditor.Interfaces.DeveloperTerminal(this);
 			Interactions = new EditorInteractions(this);
 			EditorPath = new EditorPath(this);
 			EditorSceneLoading = new EditorSceneLoading(this);
@@ -633,7 +631,7 @@ namespace ManiacEditor
 
 			waterColor = mySettings.WaterColorDefault;
 
-			
+
 
 
 			//Default Grid Preferences
@@ -725,7 +723,7 @@ namespace ManiacEditor
 				return false;
 			}
 
-			var result = System.Windows.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
+			var result = RSDKrU.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
 										 MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
 			if (result == MessageBoxResult.Yes) return true;
@@ -829,7 +827,7 @@ namespace ManiacEditor
 			}
 			else if (mySettings.preRenderSceneOption == 2 && enabled && stageLoad)
 			{
-				MessageBoxResult result = System.Windows.MessageBox.Show("Do you wish to Pre-Render this scene?", "Requesting to Pre-Render the Scene", MessageBoxButton.YesNo, MessageBoxImage.Information);
+				MessageBoxResult result = RSDKrU.MessageBox.Show("Do you wish to Pre-Render this scene?", "Requesting to Pre-Render the Scene", MessageBoxButton.YesNo, MessageBoxImage.Information);
 				if (result == MessageBoxResult.Yes)
 				{
 					PreLoadSceneButton_Click(null, null);
@@ -1031,7 +1029,7 @@ namespace ManiacEditor
 					else
 						TilesToolbar = new TilesToolbar(StageTiles, EditorPath.StageTiles_Source, null, this);
 
-					
+
 					TilesToolbar.TileDoubleClick = new Action<int>(x =>
 					{
 						EditorPlaceTile(new Point((int)(ShiftX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorLayer.TILE_SIZE - 1), x, EditLayerA);
@@ -1060,7 +1058,7 @@ namespace ManiacEditor
 					TilesToolbar.Dispose();
 					TilesToolbar = null;
 					this.Focus();
-				}		
+				}
 			}
 			if (IsEntitiesEdit())
 			{
@@ -1144,7 +1142,7 @@ namespace ManiacEditor
 					SplitterRight.MinWidth = 0;
 				}
 			}
-			
+
 			else
 			{
 				if (visible)
@@ -1526,7 +1524,7 @@ namespace ManiacEditor
 				if (listLocations != null || listLocations.Count != 0)
 				{
 					var message = string.Join(Environment.NewLine, listLocations);
-					System.Windows.MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
+					RSDKrU.MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
 					if (copyResults && message != null)
 					{
 						Clipboard.SetText(message);
@@ -1534,7 +1532,7 @@ namespace ManiacEditor
 				}
 				else
 				{
-					System.Windows.MessageBox.Show("Found Nothing", "Results");
+					RSDKrU.MessageBox.Show("Found Nothing", "Results");
 				}
 				FindReplaceClipboard.Clear();
 				Deselect();
@@ -1665,8 +1663,6 @@ namespace ManiacEditor
 			redo.Clear();
 
 		}
-
-
 		#endregion
 
 		#region GameConfig/Data Folders
@@ -1733,7 +1729,7 @@ namespace ManiacEditor
 
 			}
 
-			
+
 		}
 
 		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e)
@@ -1748,7 +1744,7 @@ namespace ManiacEditor
 			}
 			else
 			{
-				System.Windows.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
+				RSDKrU.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
 								"Invalid Data Directory!",
 								MessageBoxButton.OK,
 								MessageBoxImage.Error);
@@ -2036,22 +2032,22 @@ namespace ManiacEditor
 
 		private void ResizeGraphicPanel(int width = 0, int height = 0)
 		{
-			
-            if (mySettings.EntityFreeCam)
-            {
-                width = SceneWidth;
-                height = SceneHeight;
-            }
 
-            
-            editorView.GraphicPanel.Width = width;
-            editorView.GraphicPanel.Height = height;
+			if (mySettings.EntityFreeCam)
+			{
+				width = SceneWidth;
+				height = SceneHeight;
+			}
 
-            editorView.GraphicPanel.ResetDevice();
 
-            editorView.GraphicPanel.DrawWidth = (int)Math.Min(editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
-            editorView.GraphicPanel.DrawHeight = (int)Math.Min(editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
-            
+			editorView.GraphicPanel.Width = width;
+			editorView.GraphicPanel.Height = height;
+
+			editorView.GraphicPanel.ResetDevice();
+
+			editorView.GraphicPanel.DrawWidth = (int)Math.Min(editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
+			editorView.GraphicPanel.DrawHeight = (int)Math.Min(editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
+
 		}
 
 		#endregion
@@ -2173,24 +2169,39 @@ namespace ManiacEditor
 
 		public void OpenSceneForceFully()
 		{
-			/*
-			DataDirectory = mySettings.DevForceRestartData;
+
+			string dataDirectory = mySettings.DevForceRestartData;
+			DataDirectory = dataDirectory;
 			string Result = mySettings.DevForceRestartScene;
 			int LevelID = mySettings.DeveForceRestartLevelID;
 			bool isEncore = mySettings.DevForceRestartEncore;
+			string CurrentZone = mySettings.DevForceRestartCurrentZone;
+			string CurrentName = mySettings.DevForceRestartCurrentName;
+			string CurrentSceneID = mySettings.DevForceRestartCurrentSceneID;
+			bool Browsed = mySettings.DevForceRestartBrowsed;
+
 			int x = mySettings.DevForceRestartX;
 			int y = mySettings.DevForeRestartY;
 			TempWarpCoords = new Point(x, y);
 			ForceWarp = true;
-			OpenScene(false, Result, LevelID, isEncore);*/
-			
+
+			EditorSceneLoading.OpenSceneForcefully(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed);
 		}
-		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0)
+		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0, string SceneID = "", string Zone = "", string Name = "")
 		{
-			/*DataDirectory = dataDir;
+			MessageBox.Show("These Kind of Shortcuts are Broken for now! SORRY!");
+
+			/*
+			string dataDirectory = dataDir;
+			DataDirectory = dataDirectory;
 			string Result = scenePath;
 			int LevelID = levelID;
 			bool isEncore = isEncoreMode;
+			string CurrentZone = Zone;
+			string CurrentName = Name;
+			string CurrentSceneID = SceneID;
+			bool Browsed = false;
+
 			if (_ZoomScale != 0.0)
 			{
 				ShortcutZoomValue = _ZoomScale;
@@ -2198,7 +2209,16 @@ namespace ManiacEditor
 			}
 			TempWarpCoords = new Point(X, Y);
 			ForceWarp = true;
-			OpenScene(false, Result, LevelID, isEncore, (modPath != "" ? true : false), modPath);*/
+
+			if (CurrentZone == "" || CurrentName == "" || CurrentSceneID == "")
+			{
+				MessageBox.Show("Shortcuts are Broken for now! SORRY!");
+				return;
+			}
+			else
+			{
+				EditorSceneLoading.OpenSceneForcefully(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed);
+			}*/
 		}
 
 		private void OpenSceneForceFully(string dataDir)
@@ -2307,7 +2327,7 @@ namespace ManiacEditor
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y, statusBox.GetDataFolder(), true, 255, 15);
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetMasterDataFolder(), true, 255, 22);
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetScenePath(), true, 255, 11);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetSceneFilePath(), true, 255, 14);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetSceneFilePath(), true, 255, 12);
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 4, statusBox.GetZoom(), true, 255, 11);
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetSetupObject(), true, 255, 13);
 					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSelectedZone(), true, 255, 14);
@@ -2558,7 +2578,7 @@ namespace ManiacEditor
 		}
 		private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			Interactions.ManiaPalConnector.Kill();
+			if (Interactions.ManiaPalConnector != null) Interactions.ManiaPalConnector.Kill();
 
 			try
 			{
@@ -2892,11 +2912,7 @@ namespace ManiacEditor
 		}
 		public void ShowError(string message, string title = "Error!")
 		{
-			System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-			/*using (var customMsgBox = new CustomMsgBox(message, title, 1, 1))
-            {
-                customMsgBox.ShowDialog();
-            }*/
+			MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 		public void GoToPosition(int x, int y, bool CenterCoords = true, bool ShortcutClear = false)
 		{
@@ -2961,7 +2977,7 @@ namespace ManiacEditor
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show(ex.Message);
+				RSDKrU.MessageBox.Show(ex.Message);
 			}
 		}
 		public void DisposeTextures()

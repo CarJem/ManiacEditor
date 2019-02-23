@@ -96,6 +96,47 @@ namespace ManiacEditor
 
 		}
 
+		public void OpenSceneForcefully(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile)
+		{
+			if (PreLoad() == false) return;
+
+			if (Instance.EditorPath.SetGameConfig(dataDirectory) == false) return;
+
+			if (browsedFile == true)
+			{
+				Instance.EditorPath.SceneFilePath = Result;
+				Instance.EditorPath.CurrentLevelID = LevelID;
+				Instance.EditorPath.isEncoreMode = isEncore;
+				Instance.EditorPath.SceneDirectory = Path.GetDirectoryName(Instance.EditorPath.SceneFilePath);
+				Instance.EditorPath.CurrentZone = Path.GetFileName(Instance.EditorPath.SceneDirectory);
+				Instance.EditorPath.CurrentName = CurrentName;
+				Instance.EditorPath.CurrentSceneID = CurrentSceneID;
+				Instance.EditorPath.Browsed = browsedFile;
+				AddTemporaryResourcePack();
+			}
+			else
+			{
+				Instance.EditorPath.SceneFilePath = Result;
+				Instance.EditorPath.CurrentLevelID = LevelID;
+				Instance.EditorPath.isEncoreMode = isEncore;
+				Instance.EditorPath.SceneDirectory = Path.GetDirectoryName(Instance.EditorPath.SceneFilePath);
+				Instance.EditorPath.CurrentZone = CurrentZone;
+				Instance.EditorPath.CurrentName = CurrentName;
+				Instance.EditorPath.CurrentSceneID = CurrentSceneID;
+				Instance.EditorPath.Browsed = browsedFile;
+			}
+
+			if (Instance.EditorPath.Browsed)
+			{
+				LoadFromFiles();
+			}
+			else
+			{
+				LoadFromSceneSelect();
+			}
+
+		}
+
 		public void OpenSceneUsingExistingSceneSelect(ManiacEditor.Interfaces.SceneSelect select)
 		{
 			if (PreLoad() == false) return;
@@ -154,43 +195,53 @@ namespace ManiacEditor
 
 		public void LoadFromSceneSelect()
 		{
-			//Using Instance Means the Stuff Hasn't Stated 
-			Instance.LevelID = Instance.EditorPath.CurrentLevelID;
-			Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePath(), Instance.editorView.GraphicPanel, Instance);
-
-			//ACT File (Encore Colors)
-			Instance.EncorePalette = Instance.EditorScene.GetEncorePalette(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, "", 1);
-			Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, "");
-			if (Instance.EncorePalette[0] != "")
+			bool LoadFailed = false;
+			try
 			{
-				Instance.encorePaletteExists = true;
-				if (Instance.EditorPath.isEncoreMode)
+				//Using Instance Means the Stuff Hasn't Stated 
+				Instance.LevelID = Instance.EditorPath.CurrentLevelID;
+				Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePath(), Instance.editorView.GraphicPanel, Instance);
+
+				//ACT File (Encore Colors)
+				Instance.EncorePalette = Instance.EditorScene.GetEncorePalette(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, "", 1);
+				Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, "");
+				if (Instance.EncorePalette[0] != "")
 				{
-					Instance.EncorePaletteButton.IsChecked = true;
-					Instance.useEncoreColors = true;
+					Instance.encorePaletteExists = true;
+					if (Instance.EditorPath.isEncoreMode)
+					{
+						Instance.EncorePaletteButton.IsChecked = true;
+						Instance.useEncoreColors = true;
+					}
 				}
+
+				//Stage Tiles
+				if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0]);
+				else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone);
+
+				//Tile Config
+				Instance.CollisionLayerA.Clear();
+				Instance.CollisionLayerB.Clear();
+				Instance.EditorPath.GetTileConfig(Instance.EditorPath.CurrentZone);
+				if (Instance.TilesConfig != null)
+				{
+					for (int i = 0; i < 1024; i++)
+					{
+						Instance.CollisionLayerA.Add(Instance.TilesConfig.CollisionPath1[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
+						Instance.CollisionLayerB.Add(Instance.TilesConfig.CollisionPath2[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
+					}
+				}
+
+				Instance.EditorPath.GetStageConfig(Instance.EditorPath.CurrentZone);
+			}
+			catch (Exception ex)
+			{
+				LoadFailed = true;
+				MessageBox.Show("Load failed. Error: " + ex.ToString());
+				return;
 			}
 
-			//Stage Tiles
-			if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0]);
-			else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone);
-
-			//Tile Config
-			Instance.CollisionLayerA.Clear();
-			Instance.CollisionLayerB.Clear();
-			Instance.EditorPath.GetTileConfig(Instance.EditorPath.CurrentZone);
-			if (Instance.TilesConfig != null)
-			{
-				for (int i = 0; i < 1024; i++)
-				{
-					Instance.CollisionLayerA.Add(Instance.TilesConfig.CollisionPath1[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
-					Instance.CollisionLayerB.Add(Instance.TilesConfig.CollisionPath2[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
-				}
-			}
-
-			Instance.EditorPath.GetStageConfig(Instance.EditorPath.CurrentZone);
-		
-			AfterLoad();
+			if (!LoadFailed) AfterLoad();
 
 		}
 
@@ -204,7 +255,7 @@ namespace ManiacEditor
 			Instance.entities = new EditorEntities(Instance.EditorScene, Instance);
 
 
-
+			ReadManiacINIFile();
 			Instance.UpdateStartScreen(false);
 			Instance.UpdateDataFolderLabel(null, null);
 			Instance.SetupLayerButtons();
@@ -240,43 +291,54 @@ namespace ManiacEditor
 
 		public void LoadFromFiles()
 		{
-			Instance.LevelID = Instance.EditorPath.CurrentLevelID;
-			Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePathFromFile(Instance.EditorPath.SceneFilePath), Instance.editorView.GraphicPanel, Instance);
-
-			
-			//ACT File (Encore Colors)
-			Instance.EncorePalette = Instance.EditorScene.GetEncorePalette(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneDirectory, 0);
-			Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneDirectory);
-			if (Instance.EncorePalette[0] != "")
+			bool LoadFailed = false;
+			try
 			{
-				Instance.encorePaletteExists = true;
-				if (Instance.EditorPath.isEncoreMode)
-				{
-					Instance.EncorePaletteButton.IsChecked = true;
-					Instance.useEncoreColors = true;
-				} 				
-			}
+				Instance.LevelID = Instance.EditorPath.CurrentLevelID;
+				Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePathFromFile(Instance.EditorPath.SceneFilePath), Instance.editorView.GraphicPanel, Instance);
 
-			//Stage Tiles
-			if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0]);
-			else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone);
 
-			//Tile Config
-			Instance.CollisionLayerA.Clear();
-			Instance.CollisionLayerB.Clear();
-			Instance.EditorPath.GetTileConfig(Instance.EditorPath.CurrentZone);
-			if (Instance.TilesConfig != null)
-			{
-				for (int i = 0; i < 1024; i++)
+				//ACT File (Encore Colors)
+				Instance.EncorePalette = Instance.EditorScene.GetEncorePalette(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneDirectory, 0);
+				Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneDirectory);
+				if (Instance.EncorePalette[0] != "")
 				{
-					Instance.CollisionLayerA.Add(Instance.TilesConfig.CollisionPath1[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
-					Instance.CollisionLayerB.Add(Instance.TilesConfig.CollisionPath2[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
+					Instance.encorePaletteExists = true;
+					if (Instance.EditorPath.isEncoreMode)
+					{
+						Instance.EncorePaletteButton.IsChecked = true;
+						Instance.useEncoreColors = true;
+					}
 				}
+
+				//Stage Tiles
+				if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0]);
+				else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone);
+
+				//Tile Config
+				Instance.CollisionLayerA.Clear();
+				Instance.CollisionLayerB.Clear();
+				Instance.EditorPath.GetTileConfig(Instance.EditorPath.CurrentZone);
+				if (Instance.TilesConfig != null)
+				{
+					for (int i = 0; i < 1024; i++)
+					{
+						Instance.CollisionLayerA.Add(Instance.TilesConfig.CollisionPath1[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
+						Instance.CollisionLayerB.Add(Instance.TilesConfig.CollisionPath2[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
+					}
+				}
+
+				Instance.EditorPath.GetStageConfig(Instance.EditorPath.CurrentZone);
+			}
+			catch (Exception ex)
+			{
+				LoadFailed = true;
+				MessageBox.Show("Load failed. Error: " + ex.ToString());
+				return;
 			}
 
-			Instance.EditorPath.GetStageConfig(Instance.EditorPath.CurrentZone);
 
-			AfterLoad();
+			if (!LoadFailed) AfterLoad();
 		}
 
 		public void ReadManiacINIFile()

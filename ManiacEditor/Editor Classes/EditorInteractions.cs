@@ -1271,8 +1271,9 @@ a valid Data Directory.",
 		}
 		public void DeveloperTerminalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.DevController.Owner = Window.GetWindow(Editor);
-			Editor.DevController.Show();
+			var DevController = new ManiacEditor.Interfaces.DeveloperTerminal(Editor);
+			DevController.Owner = Window.GetWindow(Editor);
+			DevController.Show();
 		}
 		public void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -1350,12 +1351,16 @@ a valid Data Directory.",
 		public void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			mySettings.DevForceRestartData = Editor.DataDirectory;
-			mySettings.DevForceRestartScene = Editor.Discord.ScenePath;
+			mySettings.DevForceRestartScene = Editor.EditorPath.SceneFilePath;
 			mySettings.DevForceRestartX = (short)(Editor.ShiftX / Editor.Zoom);
 			mySettings.DevForeRestartY = (short)(Editor.ShiftY / Editor.Zoom);
 			mySettings.DevForceRestartZoomLevel = Editor.ZoomLevel;
-			mySettings.DevForceRestartEncore = Editor.encorePaletteExists;
+			mySettings.DevForceRestartEncore = Editor.EditorPath.isEncoreMode;
 			mySettings.DeveForceRestartLevelID = Editor.LevelID;
+			mySettings.DevForceRestartCurrentName = Editor.EditorPath.CurrentName;
+			mySettings.DevForceRestartCurrentZone = Editor.EditorPath.CurrentZone;
+			mySettings.DevForceRestartCurrentSceneID = Editor.EditorPath.CurrentSceneID;
+			mySettings.DevForceRestartBrowsed = Editor.EditorPath.Browsed;
 		}
 
 		public void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)

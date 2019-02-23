@@ -1598,5 +1598,53 @@ namespace ManiacEditor.Properties {
                 this["ScrollerAutoCenters"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DevForceRestartBrowsed {
+            get {
+                return ((bool)(this["DevForceRestartBrowsed"]));
+            }
+            set {
+                this["DevForceRestartBrowsed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DevForceRestartCurrentZone {
+            get {
+                return ((string)(this["DevForceRestartCurrentZone"]));
+            }
+            set {
+                this["DevForceRestartCurrentZone"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DevForceRestartCurrentName {
+            get {
+                return ((string)(this["DevForceRestartCurrentName"]));
+            }
+            set {
+                this["DevForceRestartCurrentName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DevForceRestartCurrentSceneID {
+            get {
+                return ((string)(this["DevForceRestartCurrentSceneID"]));
+            }
+            set {
+                this["DevForceRestartCurrentSceneID"] = value;
+            }
+        }
     }
 }

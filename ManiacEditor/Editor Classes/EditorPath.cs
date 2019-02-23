@@ -26,7 +26,7 @@ namespace ManiacEditor
 		public int CurrentLevelID = -1;
 		public bool isEncoreMode = false;
 		public string SceneDirectory = "";
-		public string CurrentZone { get; set; }
+		public string CurrentZone = "";
 		public string CurrentName = "";
 		public string CurrentSceneID = "";
 		public bool Browsed = false;
@@ -60,7 +60,7 @@ namespace ManiacEditor
 				}
 				catch
 				{
-					System.Windows.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
+					RSDKrU.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
 					return false;
 				}
 

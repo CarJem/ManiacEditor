@@ -1308,7 +1308,7 @@ namespace ManiacEditor
 						}
 						catch (EditorEntities.TooManyEntitiesException)
 						{
-							System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+							RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
 							Editor.dragged = false;
 							return;
 						}
