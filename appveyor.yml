@@ -31,7 +31,7 @@ install:
   - nuget restore "ManiacEditor.sln"
 build:
   verbosity: minimal
-  project: ManiacEditor
+  project: ManiacEditor.sln
 artifacts:
  - path: 'ManiacEditor\bin\Release(x86)'
    name: 'ManiacEditor-Generations-BETA-$(appveyor_build_version)[x86]'
