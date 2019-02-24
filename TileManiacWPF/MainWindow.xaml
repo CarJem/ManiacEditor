@@ -418,7 +418,7 @@
                     </ListBox>
                 </Grid>
 
-                <Grid MouseLeave="CollisionViewer_MouseLeave" Height="280" x:Name="CollisionViewer" VerticalAlignment="Bottom" MouseEnter="CollisionViewer_MouseHover" MouseDown="CollisionViewer_MouseDown" MouseMove="CollisionViewer_MouseMove" HorizontalAlignment="Stretch">
+                <Grid MouseLeave="CollisionViewer_MouseLeave" Height="280" x:Name="CollisionViewer" VerticalAlignment="Bottom" MouseEnter="CollisionViewer_MouseHover" MouseDown="CollisionViewer_MouseDown" MouseMove="CollisionViewer_MouseMove" HorizontalAlignment="Stretch" IsEnabled="False">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"></RowDefinition>
                         <RowDefinition Height="1*"></RowDefinition>
@@ -461,22 +461,22 @@
 
 
 
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb00" Grid.Row="16" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb01" Grid.Row="16" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb02"  Grid.Row="16" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb03"  Grid.Row="16" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb04"  Grid.Row="16" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb05"  Grid.Row="16" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb06" Grid.Row="16" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb07" Grid.Row="16" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb08" Grid.Row="16" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb09" Grid.Row="16" Grid.Column="9" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb10" Grid.Row="16" Grid.Column="10" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb11" Grid.Row="16" Grid.Column="11" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb12" Grid.Row="16" Grid.Column="12" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb13" Grid.Row="16" Grid.Column="13" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb14" Grid.Row="16" Grid.Column="14" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb15" Grid.Row="16" Grid.Column="15" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb00" Grid.Row="16" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb01" Grid.Row="16" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb02"  Grid.Row="16" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb03"  Grid.Row="16" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb04"  Grid.Row="16" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb05"  Grid.Row="16" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb06" Grid.Row="16" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb07" Grid.Row="16" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb08" Grid.Row="16" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb09" Grid.Row="16" Grid.Column="9" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb10" Grid.Row="16" Grid.Column="10" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb11" Grid.Row="16" Grid.Column="11" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb12" Grid.Row="16" Grid.Column="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb13" Grid.Row="16" Grid.Column="13" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb14" Grid.Row="16" Grid.Column="14" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb15" Grid.Row="16" Grid.Column="15" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
                 </Grid>
                 <Grid  Grid.Row="1">
                     <Grid.ColumnDefinitions>
@@ -493,34 +493,33 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" Margin="2">
                         <Label Content="Slope"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="SlopeNUD_ValueChanged" x:Name="SlopeNUD" ToolTip="Controls the slope angle of the tile in degrees" DefaultValue="0" Value="0" Height="20"></wpfTool:IntegerUpDown>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="SlopeNUD_ValueChanged" x:Name="SlopeNUD" ToolTip="Controls the slope angle of the tile in degrees" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="2,0">
                         <Label Content="Slope (°D)"></Label>
                         <Grid Width="48" Height="20" HorizontalAlignment="Left">
-                            <wpfTool:IntegerUpDown x:Name="RawSlopeNUD" DefaultValue="0" Value="0" Height="20" Width="48"></wpfTool:IntegerUpDown>
-                            <Rectangle Fill="Black" Opacity="0.3"></Rectangle>
+                            <wpfTool:IntegerUpDown IsEnabled="False" x:Name="RawSlopeNUD" DefaultValue="0" Value="0" Height="20" Width="48"></wpfTool:IntegerUpDown>
                         </Grid>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="2">
                         <Label Content="Physics"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="PhysicsNUD_ValueChanged" x:Name="PhysicsNUD" ToolTip="Controls the physics of the player interacting with the tile" DefaultValue="0" Value="0" Height="20"></wpfTool:IntegerUpDown>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="PhysicsNUD_ValueChanged" x:Name="PhysicsNUD" ToolTip="Controls the physics of the player interacting with the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Grid.Column="2"  Margin="2">
                         <Label Content="Momentum"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="MomentumNUD_ValueChanged" x:Name="MomentumNUD" ToolTip="Controls the momentum the player gets from the tile" DefaultValue="0" Value="0" Height="20"></wpfTool:IntegerUpDown>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="MomentumNUD_ValueChanged" x:Name="MomentumNUD" ToolTip="Controls the momentum the player gets from the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Grid.Column="3" Margin="2">
                         <Label Content="Unknown"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="UnknownNUD_ValueChanged" x:Name="UnknownNUD" ToolTip="Controls the Unknown Value of the tile" DefaultValue="0" Value="0"></wpfTool:IntegerUpDown>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="UnknownNUD_ValueChanged" x:Name="UnknownNUD" ToolTip="Controls the Unknown Value of the tile" DefaultValue="0" Value="0" IsEnabled="False"></wpfTool:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Grid.Column="4" Margin="2">
                         <Label Content="Special"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" x:Name="SpecialNUD" ValueChanged="SpecialNUD_ValueChanged" ToolTip="Controls the the tile's 'Special' Properties, like whether it's a conveyor belt or not" DefaultValue="0" Value="0" Height="20"></wpfTool:IntegerUpDown>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" x:Name="SpecialNUD" ValueChanged="SpecialNUD_ValueChanged" ToolTip="Controls the the tile's 'Special' Properties, like whether it's a conveyor belt or not" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Grid.Column="5" Margin="2">
                         <Label Content="IsCelling"></Label>
-                        <CheckBox x:Name="IsCeilingButton" Checked="IsCeilingButton_CheckedChanged" Unchecked="IsCeilingButton_CheckedChanged"></CheckBox>
+                        <CheckBox x:Name="IsCeilingButton" Checked="IsCeilingButton_CheckedChanged" Unchecked="IsCeilingButton_CheckedChanged" IsEnabled="False"></CheckBox>
                     </StackPanel>
                 </Grid>
 
@@ -540,14 +539,14 @@
                 <TextBlock Height="27"></TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Collision Mask" VerticalContentAlignment="Center"></Label>
-                    <wpfTool:IntegerUpDown ValueChanged="GotoNUD_ValueChanged"  Minimum="0" Maximum="1023" x:Name="GotoNUD" DefaultValue="0" Value="0" Height="20" Width="50"></wpfTool:IntegerUpDown>
+                    <wpfTool:IntegerUpDown ValueChanged="GotoNUD_ValueChanged"  Minimum="0" Maximum="1023" x:Name="GotoNUD" DefaultValue="0" Value="0" Height="20" Width="50" IsEnabled="False"></wpfTool:IntegerUpDown>
                     <Label Content="of 1023" VerticalContentAlignment="Center"></Label>
                 </StackPanel>
             </StackPanel>
 
             <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical">
                 <Label x:Name="VPLabel" Content="Currently Viewing: Path A" HorizontalAlignment="Center"></Label>
-                <Button Click="showPathBToolStripMenuItem_Click" Content="Swap Path" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="140"></Button>
+                <Button x:Name="swapPathButton" Click="showPathBToolStripMenuItem_Click" Content="Swap Path" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="140" IsEnabled="False"></Button>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">

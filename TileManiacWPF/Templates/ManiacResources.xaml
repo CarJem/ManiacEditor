@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:maniac="clr-namespace:TileManiacWPF"
                     xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
-                    xmlns:local="clr-namespace:TileManiacWPF" xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" xmlns:Themes1="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=DotNetProjects.Wpf.Extended.Toolkit">
+                    xmlns:local="clr-namespace:TileManiacWPF" xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:Themes1="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=DotNetProjects.Wpf.Extended.Toolkit">
     <ResourceDictionary.MergedDictionaries>
         <local:SkinResourceDictonary LightSource="/TileManiacWPF;component/Themes/LightTheme.xaml" DarkSource="/TileManiacWPF;component/Themes/DarkTheme.xaml"/>
         <ResourceDictionary Source="/TileManiacWPF;component/Templates/ContextMenu.xaml"/>

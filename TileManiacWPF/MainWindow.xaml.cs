@@ -23,6 +23,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Clipboard = System.Windows.Clipboard;
 using Grid = System.Windows.Controls.Grid;
+using System.Threading;
 
 namespace TileManiacWPF
 {
@@ -66,6 +67,7 @@ namespace TileManiacWPF
 		public int viewAppearanceMode = 0;
 		public bool mirrorMode = false;
 		public int listSetting = 0;
+        public bool freezeGrid = true;
 
 		bool changingModes = false; //To prevent updating the radio buttons until after we change the viewer mode
 
@@ -346,9 +348,27 @@ namespace TileManiacWPF
 			RefreshUI(); //update the UI
 		}
 
+        public void SetGridActivation(bool enabled)
+        {
+            if (enabled)
+            {
+                Thread thread = new Thread(() => {
+                    Thread.Sleep(1000);
+                    freezeGrid = false;
+                });
+                thread.Start();
+            }
+            else
+            {
+                freezeGrid = true;
+            }
+
+        }
+
 		public void OpenToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			OpenFileDialog dlg = new OpenFileDialog
+            SetGridActivation(false);
+            OpenFileDialog dlg = new OpenFileDialog
 			{
 				Title = "Open RSDKv5 Tileconfig",
 				DefaultExt = ".bin",
@@ -401,16 +421,19 @@ namespace TileManiacWPF
 
 				RefreshUI(); //update the UI
 			}
-		}
+            SetGridActivation(true);
+        }
 
 		public void saveToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (filepath != null) //Did we open a file?
 			{
-				Save16x16Tiles();
+                SetGridActivation(false);
+                Save16x16Tiles();
 				tcf.Write(filepath);
 				hasModified = true;
-			}
+                SetGridActivation(true);
+            }
 			else //if not then use "Save As..."
 			{
 				saveAsToolStripMenuItem_Click(null, e);
@@ -419,7 +442,8 @@ namespace TileManiacWPF
 
 		public void saveAsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			SaveFileDialog dlg = new SaveFileDialog
+            SetGridActivation(false);
+            SaveFileDialog dlg = new SaveFileDialog
 			{
 				Title = "Save RSDKv5 Tileconfig As...",
 				DefaultExt = ".bin",
@@ -430,7 +454,8 @@ namespace TileManiacWPF
 			{
 				tcf.Write(dlg.FileName); //Write the data to a file
 			}
-		}
+            SetGridActivation(true);
+        }
 
 		public void BackupCollisionData()
 		{
@@ -656,6 +681,38 @@ namespace TileManiacWPF
 			return result;
 		}
 
+        public void SetEditorOnlyButtonsState(bool enabled)
+        {
+            SlopeNUD.IsEnabled = enabled;
+            PhysicsNUD.IsEnabled = enabled;
+            MomentumNUD.IsEnabled = enabled;
+            SpecialNUD.IsEnabled = enabled;
+            UnknownNUD.IsEnabled = enabled;
+            IsCeilingButton.IsEnabled = enabled;
+
+            cb00.IsEnabled = enabled;
+            cb01.IsEnabled = enabled;
+            cb02.IsEnabled = enabled;
+            cb03.IsEnabled = enabled;
+            cb04.IsEnabled = enabled;
+            cb05.IsEnabled = enabled;
+            cb06.IsEnabled = enabled;
+            cb07.IsEnabled = enabled;
+            cb08.IsEnabled = enabled;
+            cb09.IsEnabled = enabled;
+            cb10.IsEnabled = enabled;
+            cb11.IsEnabled = enabled;
+            cb12.IsEnabled = enabled;
+            cb13.IsEnabled = enabled;
+            cb14.IsEnabled = enabled;
+            cb15.IsEnabled = enabled;
+
+            CollisionViewer.IsEnabled = enabled;
+
+            if (swapPathButton != null) swapPathButton.IsEnabled = enabled;
+            GotoNUD.IsEnabled = enabled;
+        }
+
 		public void RefreshUI()
 		{
 			if (EditorControls != null) EditorControls.UpdateMenuItems();
@@ -721,7 +778,10 @@ namespace TileManiacWPF
 
 				RefreshCollisionList();
 			}
-		}
+
+            SetEditorOnlyButtonsState(tcf != null);
+
+        }
 
 		public void UpdateColllisionViewer(System.Drawing.Image image)
 		{
@@ -1787,7 +1847,8 @@ namespace TileManiacWPF
 
 		public void saveUncompressedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (filepath != null) //Did we open a file?
+            SetGridActivation(false);
+            if (filepath != null) //Did we open a file?
 			{
 				tcf.WriteUnc(filepath);
 			}
@@ -1795,11 +1856,13 @@ namespace TileManiacWPF
 			{
 				saveAsUncompressedToolStripMenuItem_Click(null, e);
 			}
-		}
+            SetGridActivation(true);
+        }
 
 		public void saveAsUncompressedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			SaveFileDialog dlg = new SaveFileDialog
+            SetGridActivation(false);
+            SaveFileDialog dlg = new SaveFileDialog
 			{
 				Title = "Save Uncompressed As...",
 				DefaultExt = ".bin",
@@ -1810,7 +1873,8 @@ namespace TileManiacWPF
 			{
 				tcf.WriteUnc(dlg.FileName); //Write Uncompressed
 			}
-		}
+            SetGridActivation(true);
+        }
 
 		private void radioButton1_CheckedChanged(object sender, RoutedEventArgs e)
 		{
@@ -2008,8 +2072,8 @@ namespace TileManiacWPF
 
 		public void openSingleCollisionMaskToolStripMenuItem_Click_1(object sender, RoutedEventArgs e)
 		{
-
-			OpenFileDialog dlg = new OpenFileDialog();
+            SetGridActivation(false);
+            OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Import CollisionMask...";
 			dlg.DefaultExt = ".rcm";
 			dlg.Filter = "Singular RSDKv5 CollisionMask (*.rcm)|*.rcm";
@@ -2050,7 +2114,8 @@ namespace TileManiacWPF
 
 		public void importFromOlderRSDKVersionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			OpenFileDialog dlg = new OpenFileDialog();
+            SetGridActivation(false);
+            OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Open Compressed";
 			dlg.DefaultExt = ".bin";
 			dlg.Filter = "RSDK ColllisionMask Files (CollisionMasks.bin)|CollisionMasks.bin";
@@ -2103,7 +2168,8 @@ namespace TileManiacWPF
 
 				RefreshUI(); //update the UI
 			}
-		}
+            SetGridActivation(true);
+        }
 
 		private void gridPicBox_Paint(object sender, PaintEventArgs e)
 		{
@@ -2159,8 +2225,8 @@ namespace TileManiacWPF
 
 		private void CollisionViewer_Click(object sender, RoutedEventArgs e)
 		{
-			UpdateCollisionalGrid(sender, e);
-		}
+            UpdateCollisionalGrid(sender, e);
+        }
 
 
 
@@ -2171,6 +2237,8 @@ namespace TileManiacWPF
 
 		private void UpdateCollisionalGrid(object sender, RoutedEventArgs e)
 		{
+            if (!CollisionViewer.IsEnabled) return;
+            if (freezeGrid) return;
 			Extensions.GetRowColIndex(CollisionViewer, System.Windows.Input.Mouse.GetPosition(CollisionViewer), out int row, out int col);
 			System.Windows.Point cellPos = new System.Windows.Point(col, row);
 			if (cellPos.Y >= 16) return;
@@ -2230,7 +2298,7 @@ namespace TileManiacWPF
 		private void CollisionViewer_MouseUp(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			RefreshUI();
-		}
+        }
 
 		private void CollisionViewer_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
 		{
@@ -2659,5 +2727,5 @@ namespace TileManiacWPF
 				this.Topmost = false;
 			}
 		}
-	}
+    }
 }

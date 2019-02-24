@@ -2534,7 +2534,7 @@ namespace ManiacEditor
 				EditLayer?.EndDragOver(false);
 			}
 		}
-		public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		public void GraphicPanel_OnKeyDown(object    sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			EditorControls.GraphicPanel_OnKeyDown(sender, e);
 		}
