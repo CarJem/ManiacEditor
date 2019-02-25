@@ -1293,7 +1293,7 @@
     <Compile Include="Interfaces\UserControls\ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Layers + Objects\LinkedEditorEntity.cs" />
+    <Compile Include="Editor Classes\EditorLinkedEntity.cs" />
     <Compile Include="PropertyGrid\LocalProperty.cs" />
     <Compile Include="PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Editor Classes\EditorEntities.cs" />

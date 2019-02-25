@@ -181,18 +181,6 @@ namespace ManiacEditor
             }
         }
 
-        public bool getDeviceLostState()
-        {
-            if (deviceLost)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
 
 
         public void Run()
@@ -257,95 +245,17 @@ namespace ManiacEditor
             font = new Font(_device, fontDescription);
             fontBold = new Font(_device, fontDescriptionBold);
         }
-        /// <summary>
-        /// Attempt to recover the device if it is lost.
-        /// </summary>
-        public void AttemptRecovery(SharpDXException ex)
-        {
-            Process proc = Process.GetCurrentProcess();
-            long memory = proc.PrivateMemorySize64;
-            //long memory = 0;
-
-            
-            if (!Environment.Is64BitProcess && memory >= 1500000000)
-            {
-                Debug.Print("Out of Video Memory!");
-                DeviceExceptionDialog(1, ex, null);
-            }
-            else
-            {
-                Result result = _device.TestCooperativeLevel();
-                if (result == ResultCode.DeviceLost)
-                {
-                    try
-                    {
-                        Debug.Print("Device Lost! Fixing....");
-                        DisposeDeviceResources();
-                        InitDeviceResources();
-                        deviceLost = false;
-                    }
-                    catch (SharpDXException ex2)
-                    {
-                        DeviceExceptionDialog(0, ex, ex2);
-                    }
-                }
-                else if (result == ResultCode.DeviceRemoved)
-                {
-                    try
-                    {
-                        Debug.Print("Device Removed! Fixing....");
-                        ResetDevice();
-                        deviceLost = false;
-                    }
-                    catch (SharpDXException ex2)
-                    {
-                        DeviceExceptionDialog(0, ex, ex2);
-                    }
-                }
-                else if (result == ResultCode.OutOfVideoMemory)
-                {
-                    Debug.Print("Out of Video Memory!");
-                    DeviceExceptionDialog(1, ex, null);
-                }
-                else if (result == ResultCode.DeviceNotReset)
-                {
-                    try
-                    {
-                        deviceLost = true;
-                        Debug.Print("Device Not Reset! Fixing....");
-                        DisposeDeviceResources();
-						EditorInstance.DisposeTextures();
-						InitDeviceResources();
-                        Init(EditorInstance.editorView);
-                        deviceLost = false;
-                    }
-                    catch (SharpDXException ex2)
-                    {
-                        DeviceExceptionDialog(0, ex, ex2);
-                    }
-                }
-                else
-                {
-                    DeviceExceptionDialog(0, ex, null);
-                }
-            }
-
-
-
-        }
-
-
-
 
         public void ResetDevice()
         {
-                DisposeDeviceResources();
-                _parent.DisposeTextures();
-                _device.Reset(presentParams);
-                InitDeviceResources();
-                deviceLost = false;
-
-        }
+            DisposeDeviceResources();
+            _parent.DisposeTextures();
+            try { _device.Reset(presentParams); }
+            catch { Init(_parent); }
+            InitDeviceResources();
+            if (EditorInstance.EditorScene != null) EditorInstance.ReloadToolStripButton_Click(null, null);
+            deviceLost = false;
+         }
 
         private void MakeGray(Bitmap image)
         {
@@ -543,7 +453,7 @@ namespace ManiacEditor
             }
 			catch (SharpDXException ex)
 			{
-				throw ex;
+                ResetDevice();
 			}
 }
 

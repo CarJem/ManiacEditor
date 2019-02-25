@@ -212,7 +212,7 @@ namespace ManiacEditor
 			//Run Scene
 			else if (isCombo(e, myKeyBinds.RunScene))
 			{
-				Editor.SetZoomLevel(0, new Point(0, 0));
+                Editor.Interactions.RunScene_Click(null, null);
 			}
 			//Show Path A
 			else if (isCombo(e, myKeyBinds.ShowPathA) && Editor.IsSceneLoaded())
@@ -939,8 +939,8 @@ namespace ManiacEditor
 
 				}
 
-				int xMove = (Editor.editorView.hScrollBar1.IsVisible) ? e.X - ShiftX - Editor.scrollPosition.X : 0;
-				int yMove = (Editor.editorView.vScrollBar1.IsVisible) ? e.Y - ShiftY - Editor.scrollPosition.Y : 0;
+                double xMove = (Editor.editorView.hScrollBar1.IsVisible) ? e.X - ShiftX - Editor.scrollPosition.X : 0;
+                double yMove = (Editor.editorView.vScrollBar1.IsVisible) ? e.Y - ShiftY - Editor.scrollPosition.Y : 0;
 
 				if (Math.Abs(xMove) < 15) xMove = 0;
 				if (Math.Abs(yMove) < 15) yMove = 0;
@@ -1017,17 +1017,17 @@ namespace ManiacEditor
 
 				}
 
-				Point position = new Point(ShiftX, ShiftY); ;
-				int x = xMove / 10 + position.X;
-				int y = yMove / 10 + position.Y;
+                System.Windows.Point position = new System.Windows.Point(ShiftX, ShiftY); ;
+				double x = xMove / 10 + position.X;
+                double y = yMove / 10 + position.Y;
 
-				Editor.CustomX += xMove / 10;
-				Editor.CustomY += yMove / 10;
+				Editor.CustomX += (int)xMove / 10;
+				Editor.CustomY += (int)yMove / 10;
 
 				if (x < 0) x = 0;
 				if (y < 0) y = 0;
-				if (x > Editor.editorView.hScrollBar1.Maximum) x = (int)Editor.editorView.hScrollBar1.Maximum;
-				if (y > Editor.editorView.vScrollBar1.Maximum) y = (int)Editor.editorView.vScrollBar1.Maximum;
+				if (x > Editor.editorView.hScrollBar1.Maximum ) x = Editor.editorView.hScrollBar1.Maximum ;
+				if (y > Editor.editorView.vScrollBar1.Maximum ) y = Editor.editorView.vScrollBar1.Maximum ;
 
 
 				if (x != position.X || y != position.Y)
@@ -1126,14 +1126,14 @@ namespace ManiacEditor
 				}
 				void EdgeMove()
 				{
-					Point position = new Point(ShiftX, ShiftY); ;
-					int ScreenMaxX = position.X + Editor.editorView.splitContainer1.Panel1.Width - (int)Editor.editorView.vScrollBar1Host.Width;
-					int ScreenMaxY = position.Y + Editor.editorView.splitContainer1.Panel1.Height - (int)Editor.editorView.hScrollBar1Host.Height;
-					int ScreenMinX = position.X;
-					int ScreenMinY = position.Y;
+					System.Windows.Point position = new System.Windows.Point(ShiftX, ShiftY); ;
+					double ScreenMaxX = position.X + Editor.editorView.splitContainer1.Panel1.Width - (int)Editor.editorView.vScrollBar.ActualWidth;
+                    double ScreenMaxY = position.Y + Editor.editorView.splitContainer1.Panel1.Height - (int)Editor.editorView.hScrollBar.ActualHeight;
+                    double ScreenMinX = position.X;
+                    double ScreenMinY = position.Y;
 
-					int x = position.X;
-					int y = position.Y;
+                    double x = position.X;
+                    double y = position.Y;
 
 					if (e.X > ScreenMaxX)
 					{
@@ -1154,8 +1154,8 @@ namespace ManiacEditor
 
 					if (x < 0) x = 0;
 					if (y < 0) y = 0;
-					if (x > Editor.editorView.hScrollBar1.Maximum) x = (int)Editor.editorView.hScrollBar1.Maximum;
-					if (y > Editor.editorView.vScrollBar1.Maximum) y = (int)Editor.editorView.vScrollBar1.Maximum;
+					if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
+					if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
 
 					if (x != position.X || y != position.Y)
 					{
@@ -1548,16 +1548,16 @@ namespace ManiacEditor
 					{
 						if (Editor.editorView.vScrollBar1.IsVisible)
 						{
-							int y = (int)Editor.editorView.vScrollBar1.Value - e.Delta;
+							double y = Editor.editorView.vScrollBar1.Value - e.Delta;
 							if (y < 0) y = 0;
-							if (y > Editor.editorView.vScrollBar1.Maximum) y = (int)Editor.editorView.vScrollBar1.Maximum;
+							if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
 							Editor.editorView.vScrollBar1.Value = y;
 						}
 						else
 						{
-							int x = (int)Editor.editorView.hScrollBar1.Value - e.Delta * 2;
+							double x = Editor.editorView.hScrollBar1.Value - e.Delta;
 							if (x < 0) x = 0;
-							if (x > Editor.editorView.hScrollBar1.Maximum) x = (int)Editor.editorView.hScrollBar1.Maximum;
+							if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
 							Editor.editorView.hScrollBar1.Value = x;
 						}
 					}
@@ -1565,16 +1565,16 @@ namespace ManiacEditor
 					{
 						if (Editor.editorView.hScrollBar1.IsVisible)
 						{
-							int x = (int)Editor.editorView.hScrollBar1.Value - e.Delta * 2;
+							double x = Editor.editorView.hScrollBar1.Value - e.Delta;
 							if (x < 0) x = 0;
-							if (x > Editor.editorView.hScrollBar1.Maximum) x = (int)Editor.editorView.hScrollBar1.Maximum;
+							if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
 							Editor.editorView.hScrollBar1.Value = x;
 						}
 						else
 						{
-							int y = (int)Editor.editorView.vScrollBar1.Value - e.Delta;
+							double y = Editor.editorView.vScrollBar1.Value - e.Delta;
 							if (y < 0) y = 0;
-							if (y > Editor.editorView.vScrollBar1.Maximum) y = (int)Editor.editorView.vScrollBar1.Maximum;
+							if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
 							Editor.editorView.vScrollBar1.Value = y;
 						}
 					}
@@ -1584,36 +1584,36 @@ namespace ManiacEditor
 						{
 							if (Editor.editorView.vScrollBar1.IsVisible)
 							{
-								int y = (int)Editor.editorView.vScrollBar1.Value - e.Delta * 2;
+								double y = Editor.editorView.vScrollBar1.Value - e.Delta;
 								if (y < 0) y = 0;
-								if (y > Editor.editorView.vScrollBar1.Maximum) y = (int)Editor.editorView.vScrollBar1.Maximum;
+								if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
 								if (y <= -1) y = 0;
 								Editor.editorView.vScrollBar1.Value = y;
 							}
 							else
 							{
-								int x = (int)Editor.editorView.vScrollBar1.Value - e.Delta * 2;
+								double x = Editor.editorView.hScrollBar1.Value - e.Delta;
 								if (x < 0) x = 0;
-								if (x > Editor.editorView.vScrollBar1.Maximum) x = (int)Editor.editorView.vScrollBar1.Maximum;
+								if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
 								if (x <= -1) x = 0;
-								Editor.editorView.vScrollBar1.Value = x;
+								Editor.editorView.hScrollBar1.Value = x;
 							}
 						}
 						else
 						{
 							if (Editor.editorView.hScrollBar1.IsVisible)
 							{
-								int x = (int)Editor.editorView.hScrollBar1.Value - e.Delta * 2;
+								double x = Editor.editorView.hScrollBar1.Value - e.Delta;
 								if (x < 0) x = 0;
-								if (x > Editor.editorView.hScrollBar1.Maximum) x = (int)Editor.editorView.hScrollBar1.Maximum;
+								if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
 								if (x <= -1) x = 0;
 								Editor.editorView.hScrollBar1.Value = x;
 							}
 							else
 							{
-								int y = (int)Editor.editorView.vScrollBar1.Value - e.Delta;
+								double y = Editor.editorView.vScrollBar1.Value - e.Delta;
 								if (y < 0) y = 0;
-								if (y > Editor.editorView.vScrollBar1.Maximum) y = (int)Editor.editorView.vScrollBar1.Maximum;
+								if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
 								if (y <= -1) y = 0;
 								Editor.editorView.vScrollBar1.Value = y;
 							}

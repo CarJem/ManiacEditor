@@ -31,6 +31,7 @@ namespace ManiacEditor
 		public List<string> entityRenderingObjects;
         public List<string> renderOnScreenExlusions;
         public List<string> rendersWithErrors = new List<string>();
+        public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "EditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
 
         public List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
 
@@ -40,6 +41,15 @@ namespace ManiacEditor
         public bool Working = false;
 
         public Editor EditorInstance;
+
+        public enum Flag : int
+        {
+            DefaultBehavior = 0,
+            FullEngineRotation = 1,
+            PartialEngineRotation = 2,
+            StaticRotationUsingExtraFrames = 3,
+            Unknown = 4    
+        }
 
         public EditorEntity_ini(Editor instance)
         {
@@ -254,7 +264,7 @@ namespace ManiacEditor
         /// <param name="fliph">Flip the Texture Horizontally</param>
         /// <param name="flipv">Flip the Texture Vertically</param>
         /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true, bool PartialEngineRotation = false, bool FullEngineRotation = false)
+        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true, bool PartialEngineRotation = false, bool FullEngineRotation = false, bool stacker = false)
         {
 
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
@@ -409,6 +419,198 @@ namespace ManiacEditor
 			return anim;
 
         }
+
+        #region New Animation System (Untested)
+        public EditorAnimation LoadAnimation3(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool StackFrames = false, bool LoadImageToDX = true, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false, int TextureRotation = 0, bool LegacyRotate = false, int StackStart = 0, int StackEnd = 0)
+        {
+            string key = $"{name}-{AnimID}-{FrameID}-{FlipH}-{FlipV}-{FlagAttributes}-{TextureRotation}-{Rotate}";
+            var anim = new EditorEntity_ini.EditorAnimation();
+            if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
+            {
+                if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
+                else return null;
+            }
+
+            Animations.Add(key, anim);
+
+            // Get the path of the object's textures
+            string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
+            Tuple<string, string> AssetInfo = GetAssetPath(name);
+            string path2 = AssetInfo.Item1;
+            string dataFolderLocation = AssetInfo.Item2;
+            if (!File.Exists(path2) || path2 == null) return null;
+            using (var stream = File.OpenRead(path2)) { rsdkAnim = new Animation(new RSDKv5.Reader(stream)); }
+            if (AnimID >= rsdkAnim.Animations.Count) AnimID = rsdkAnim.Animations.Count - 1;
+            
+            if (StackFrames) anim = ProcessAnimationFramesAsStack(name, d, AnimID, FrameID, StackStart, StackEnd, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
+            else anim = ProcessAnimationFrames(name, d, AnimID, FrameID, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
+
+            anim.ImageLoaded = true;
+            if (LoadImageToDX) anim.Ready = true;
+            Working = false;
+            return anim;
+        }
+        public EditorAnimation ProcessAnimationFrames(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, string assetName, string dataFolderLocation, bool LoadImageToDX, EditorAnimation anim, bool LegacyRotate, int TextureRotation, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false)
+        {
+            for (int i = 0; i < rsdkAnim.Animations[AnimID].Frames.Count; ++i)
+            {
+                var animiation = rsdkAnim.Animations[AnimID];
+                var frame = animiation.Frames[i];
+                if (FrameID >= 0 && FrameID < animiation.Frames.Count) frame = animiation.Frames[FrameID];
+                Bitmap map = null;
+                bool noEncoreColors = false;
+                map = GetAnimationBitmap(name, AnimID, FrameID, assetName, dataFolderLocation, i, map, frame, noEncoreColors);
+
+
+                // We are storing the first colour from the palette so we can use it to make sprites transparent
+                var colour = map.Palette.Entries[0];
+
+                // Slow
+                if (FlagAttributes == Flag.FullEngineRotation || FlagAttributes == Flag.PartialEngineRotation)
+                {
+                    map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour);
+                    map = RotateImage(map, TextureRotation, colour);
+                    map = FitForSharpDXTexture(map);
+                }
+                else
+                {
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour, TextureRotation, Rotate, LegacyRotate);
+                    if (TextureRotation != 0 && LegacyRotate)
+                    {
+                        map = RotateImageLegacy(map, TextureRotation, colour);
+                        frame.Height = (short)(frame.Width + frame.Height + 64);
+                        frame.Width = (short)(frame.Height + frame.Width + 32);
+                    }
+                }
+                map = RemoveColourImage(map, colour, map.Width, map.Height);
+                Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
+                map.Dispose();
+
+                var editorFrame = GenerateNewFrame(frame, d, AnimID, finalMap, LoadImageToDX);
+                if (LoadImageToDX == false) editorFrame._Bitmap = finalMap;
+                anim.Frames.Add(editorFrame);
+                if (FrameID != -1) break;
+            }
+            return anim;
+
+        }
+        public EditorAnimation ProcessAnimationFramesAsStack(string name, DevicePanel d, int AnimID, int FrameID, int StartID, int EndID, bool FlipH, bool FlipV, string assetName, string dataFolderLocation, bool LoadImageToDX, EditorAnimation anim, bool LegacyRotate, int TextureRotation, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false)
+        {
+            //Copied Unmodified Code from ProcessAnimationFrames, still need to implement this section correctly.
+
+            for (int i = 0; i < rsdkAnim.Animations[AnimID].Frames.Count; ++i)
+            {
+                var animiation = rsdkAnim.Animations[AnimID];
+                var frame = animiation.Frames[i];
+                if (FrameID >= 0 && FrameID < animiation.Frames.Count) frame = animiation.Frames[FrameID];
+                Bitmap map = null;
+                bool noEncoreColors = false;
+                map = GetAnimationBitmap(name, AnimID, FrameID, assetName, dataFolderLocation, i, map, frame, noEncoreColors);
+
+
+                // We are storing the first colour from the palette so we can use it to make sprites transparent
+                var colour = map.Palette.Entries[0];
+
+                // Slow
+                if (FlagAttributes == Flag.FullEngineRotation || FlagAttributes == Flag.PartialEngineRotation)
+                {
+                    map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour);
+                    map = RotateImage(map, TextureRotation, colour);
+                    map = FitForSharpDXTexture(map);
+                    map = RemoveColourImage(map, colour, map.Width, map.Height);
+                }
+                else
+                {
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour, TextureRotation, Rotate, LegacyRotate);
+                    if (TextureRotation != 0 && LegacyRotate)
+                    {
+                        map = RotateImageLegacy(map, TextureRotation, colour);
+                        frame.Height = (short)(frame.Width + frame.Height + 64);
+                        frame.Width = (short)(frame.Height + frame.Width + 32);
+                    }
+                }
+
+                Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
+                map.Dispose();
+
+                var editorFrame = GenerateNewFrame(frame, d, AnimID, finalMap, LoadImageToDX);
+                if (LoadImageToDX == false) editorFrame._Bitmap = finalMap;
+                anim.Frames.Add(editorFrame);
+                if (FrameID != -1) break;
+            }
+            return anim;
+
+        }
+        public EditorEntity_ini.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
+        {
+            Texture texture = null;
+            if (LoadImageToDX) texture = TextureCreator.FromBitmap(d._device, finalMap);
+            return new EditorEntity_ini.EditorAnimation.EditorFrame()
+            {
+                Texture = texture,
+                Frame = frame,
+                Entry = rsdkAnim.Animations[AnimID],
+                ImageWidth = finalMap.Size.Width,
+                ImageHeight = finalMap.Size.Height
+            };
+        }
+        public Bitmap GetAnimationBitmap(string name, int AnimID, int FrameID, string assetName, string dataFolderLocation, int index, Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame, bool noEncoreColors)
+        {
+            if (EditorStaticObjects.Contains(assetName)) noEncoreColors = true;
+            if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = (byte)(rsdkAnim.SpriteSheets.Count - 1);
+            if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
+            {
+                string targetFile;
+                if (EditorStaticObjects.Contains(assetName)) targetFile = GetEditorStaticBitmapPath(assetName);
+                else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
+                if (!File.Exists(targetFile)) map = AddNullLookup(map, frame);
+                else map = OpenBitmapTargetFile(map, frame, targetFile, noEncoreColors);
+            }
+            else if (Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]] != null)
+            {
+                map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
+                map = TestForEncoreColors(map, noEncoreColors, frame);
+            }
+
+            return map;
+        }
+        public Bitmap AddNullLookup(Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame)
+        {
+            // Add a Null to our lookup, so we can avoid looking again in the future
+            Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+            return null;
+        }
+        public Bitmap OpenBitmapTargetFile(Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame, string targetFile, bool noEncoreColors)
+        {
+            using (Stream stream = File.OpenRead(targetFile))
+            {
+                Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
+                map = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
+                //Encore Colors
+                map = TestForEncoreColors(map, noEncoreColors, frame);
+                Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+                disposable.Dispose();
+            }
+            return map;
+        }
+        public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
+        {
+            if (EditorInstance.useEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+            else return map;
+        }
+        public string GetEditorStaticBitmapPath(string assetName)
+        {
+            string targetFile = "";
+            if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.gif");
+            else if (assetName == "HUDEditorText") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.gif");
+            else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.gif");
+            else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.gif");
+            else if (assetName == "EditorUIRender") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "MenuRenders.gif");
+            else targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.gif");
+
+            return targetFile;
+        }
+        #endregion
 
         public EditorTilePlatforms LoadTilePlatform(DevicePanel d, int x2, int y2, int width, int height)
         {
@@ -676,24 +878,34 @@ namespace ManiacEditor
 
 
 
+         //   if (!legacyRotate)
+         //   {
+                // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have. (UPDATE: Inital Fix to the Problem)
+                var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
+                int factor = 32;
+                int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+                if (newSize == 0) newSize = factor;
+                while (newSize < squareSize) newSize += factor;
 
-            // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have. (UPDATE: Inital Fix to the Problem)
-            var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
-            int factor = 32;
-            int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
-            if (newSize == 0) newSize = factor;
-            while (newSize < squareSize) newSize += factor;
+                Bitmap bmp = new Bitmap(newSize, newSize);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    if (rotate && !legacyRotate) g.DrawImage(bmp2, bmp.Width / 2 - bmp2.Width / 2, bmp.Height / 2 - bmp2.Height / 2, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+                    else g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
 
-            Bitmap bmp = new Bitmap(newSize, newSize);
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                if (rotate && !legacyRotate) g.DrawImage(bmp2, bmp.Width/2 - bmp2.Width/2, bmp.Height/2 - bmp2.Height / 2, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
-                else g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+                }
+                bmp2.Dispose();
+                //bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + (frameID != -1 ? "_" + frameID : "") + (animID != -1 ? "_" + animID : "") + ".gif");
+                return bmp;
+          //  }
+           // else
+           // {
+           //     Bitmap bmp = new Bitmap(1024, 1024);
+           //     using (Graphics g = Graphics.FromImage(bmp))
+           //         g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+           //     return bmp;
+            //}
 
-            }
-            bmp2.Dispose();
-            //bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + (frameID != -1 ? "_" + frameID : "") + (animID != -1 ? "_" + animID : "") + ".gif");
-            return bmp;
 
         }
 

@@ -1921,13 +1921,13 @@ namespace ManiacEditor
 			if (editorView.hScrollBar1.IsVisible)
 			{
 				ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Zoom - zoom_point.X);
-				ShiftX = (int)Math.Min(editorView.hScrollBar1.Maximum, Math.Max(0, ShiftX));
+				ShiftX = (int)Math.Min((editorView.hScrollBar1.Maximum), Math.Max(0, ShiftX));
 				editorView.hScrollBar1.Value = ShiftX;
 			}
 			if (editorView.vScrollBar1.IsVisible)
 			{
 				ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Zoom - zoom_point.Y);
-				ShiftY = (int)Math.Min(editorView.vScrollBar1.Maximum, Math.Max(0, ShiftY));
+				ShiftY = (int)Math.Min((editorView.vScrollBar1.Maximum), Math.Max(0, ShiftY));
 				editorView.vScrollBar1.Value = ShiftY;
 			}
 
@@ -1984,9 +1984,9 @@ namespace ManiacEditor
 
 
 			while (ScreenWidth > editorView.GraphicPanel.Width)
-				ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height);
+				ResizeGraphicPanel(editorView.GraphicPanel.Width * 2, editorView.GraphicPanel.Height);
 			while (ScreenHeight > editorView.GraphicPanel.Height)
-				ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height);
+				ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height * 2);
 
 
 		}
@@ -2005,25 +2005,24 @@ namespace ManiacEditor
 				height = SceneHeight;
 			}
 
+            if (!isExportingImage && !mySettings.EntityFreeCam)
+            {
+                editorView.vScrollBar1.Maximum = height - editorView.vScrollBar1.LargeChange;
+                editorView.hScrollBar1.Maximum = width - editorView.hScrollBar1.LargeChange;
+            }
 
-			if (!mySettings.EntityFreeCam || !isExportingImage)
-			{
-				editorView.vScrollBar1.Maximum = height - (int)editorView.vScrollBar1.LargeChange;
-				editorView.hScrollBar1.Maximum = width - (int)editorView.hScrollBar1.LargeChange;
-			}
-
-			editorView.GraphicPanel.DrawWidth = Math.Min(width, editorView.GraphicPanel.Width);
-			editorView.GraphicPanel.DrawHeight = Math.Min(height, editorView.GraphicPanel.Height);
+			editorView.GraphicPanel.DrawWidth = Math.Min((int)width, editorView.GraphicPanel.Width);
+			editorView.GraphicPanel.DrawHeight = Math.Min((int)height, editorView.GraphicPanel.Height);
 
 			Form1_Resize(null, null);
 
+            if (!isExportingImage && !mySettings.EntityFreeCam)
+            {
+                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
+                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
+            }
 
-			if (!mySettings.EntityFreeCam || !isExportingImage)
-			{
-				editorView.hScrollBar1.Value = (int)Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
-				editorView.vScrollBar1.Value = (int)Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
-			}
-		}
+        }
 
 		public void ResetViewSize()
 		{
@@ -2032,21 +2031,19 @@ namespace ManiacEditor
 
 		private void ResizeGraphicPanel(int width = 0, int height = 0)
 		{
-
 			if (mySettings.EntityFreeCam)
 			{
 				width = SceneWidth;
 				height = SceneHeight;
 			}
 
-
 			editorView.GraphicPanel.Width = width;
 			editorView.GraphicPanel.Height = height;
 
 			editorView.GraphicPanel.ResetDevice();
 
-			editorView.GraphicPanel.DrawWidth = (int)Math.Min(editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
-			editorView.GraphicPanel.DrawHeight = (int)Math.Min(editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
+			editorView.GraphicPanel.DrawWidth = Math.Min((int)editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
+			editorView.GraphicPanel.DrawHeight = Math.Min((int)editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
 
 		}
 
@@ -2282,6 +2279,7 @@ namespace ManiacEditor
 
 			bool PriorityMode = mySettings.PrioritizedObjectRendering;
 			bool AboveAllMode = entityVisibilityType == 1;
+
 
 			if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
 			if (EditorScene != null)
@@ -3041,14 +3039,14 @@ namespace ManiacEditor
 		private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
 		{
 			ShiftY = (int)e.NewValue;
-			editorView.GraphicPanel.Render();
-		}
+            //editorView.GraphicPanel.Render();
+        }
 
 		private void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
 		{
 			ShiftX = (int)e.NewValue;
-			editorView.GraphicPanel.Render();
-		}
+            //editorView.GraphicPanel.Render();
+        }
 
 		private void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
 		{
@@ -3792,7 +3790,6 @@ namespace ManiacEditor
 		private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e) { Interactions.OpenDataDirectoryMenuButton(sender, e); }
 		private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e) { Interactions.ResetDeviceButton_Click_1(sender, e); }
 		private void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e) { Interactions.ShowFlippedTileHelper_Click(sender, e); }
-		private void ResetDeviceButton_Click(object sender, RoutedEventArgs e) { Interactions.ResetDeviceButton_Click(sender, e); }
 		public void EnableEncorePalette_Click(object sender, RoutedEventArgs e) { Interactions.EnableEncorePalette_Click(); }
 
 

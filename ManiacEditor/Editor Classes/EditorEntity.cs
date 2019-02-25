@@ -46,6 +46,7 @@ namespace ManiacEditor
 
         private SceneEntity entity;
         public bool filteredOut;
+        public bool filteredOutByParent;
         public string uniqueKey = "";
 		public bool useOtherSelectionVisiblityMethod = false; //Not Universal; Only for Renders that need it
 		public bool drawSelectionBoxInFront = true;
@@ -266,11 +267,6 @@ namespace ManiacEditor
 			
 			return validPlane;
 		}
-		public virtual void Draw(DevicePanel d, int priority)
-		{
-			if (!ValidPriorityPlane(priority)) return;
-			else Draw(d);
-		}
 
 		public virtual void DrawBoxOnly(DevicePanel d)
 		{
@@ -310,8 +306,8 @@ namespace ManiacEditor
 			DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
 
-		// allow derived types to override the draw
-		public virtual void Draw(DevicePanel d)
+        // allow derived types to override the draw
+        public virtual void Draw(DevicePanel d)
         {
             bool skipRenderforx86 = false;
             if (entity.Object.Name.Name == "Player" && !EditorInstance.playerObjectPosition.Contains(entity))
@@ -327,7 +323,6 @@ namespace ManiacEditor
             }
 
             if (filteredOut && !EditorInstance.isPreRending) return;
-
 
             if (!onScreenExlusionList.Contains(entity.Object.Name.Name))
             {
@@ -604,7 +599,7 @@ namespace ManiacEditor
 
             bool isObjectVisibile = false;
 
-			if (!EditorInstance.isPreRending)
+			if (!EditorInstance.isPreRending && !filteredOut)
 			{
 				EntityRenderer renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
 				if (renderer != null)

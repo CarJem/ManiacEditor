@@ -15,39 +15,89 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            bool fliph = false;
-            bool flipv = false;
+
             int rotation = (int)(entity.attributesMap["rotation"].ValueInt32 / 1.42);
+            int pageID = GetRotationFrame(rotation);
 
-            var editorAnimFocus = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LRZFireball", d, 0, 0, fliph, flipv, false);
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LRZFireball", d, 1, 0, fliph, flipv, false, rotation);
+            bool fliph = FlippedH(rotation);
+            bool flipv = FlippedV(rotation);
 
 
-            //Duds
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LRZFireball", d, 0, 2, fliph, flipv, false, rotation);
-            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LRZFireball", d, 0, 3, fliph, flipv, false, rotation);
-            var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LRZFireball", d, 0, 4, fliph, flipv, false, rotation);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnimFocus != null)
+
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("LRZFireball", d, 1, 0, fliph, flipv, false, rotation, true, false, false, true);
+
+            if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                //var frameFocus = editorAnimFocus.Frames[0];
-                //var frame2 = editorAnim2.Frames[0];
-                //var frame3 = editorAnim3.Frames[0];
-                //var frame4 = editorAnim4.Frames[0];
-
-                //Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay, 5);
-
-                /*d.DrawBitmap(frameFocus.Texture,
-                    x + frameFocus.Frame.PivotX,
-                    y + frameFocus.Frame.PivotY,
-                    frameFocus.Frame.Width, frameFocus.Frame.Height, false, Transparency);*/
+                int thickness = (pageID == 1 ? frame.Frame.Width : frame.Frame.Height);
+                int offset = thickness / 2;
 
                 d.DrawBitmap(frame.Texture,
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    x - (fliph ? offset : -offset) - (int)(frame.ImageWidth / 2),
+                    y - (flipv ? -offset : 0)  - (int)(frame.ImageHeight / 2),
+                    frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
             }
+        }
+
+        public enum Orientation : int
+        {
+            Horizontal = 0,
+            Vertical = 1,
+            HorizontalFlipped = 2,
+            VerticalFlipped = 3,
+            Unknown = -1
+        }
+
+        public int GetRotationFrame(int rotation)
+        {
+            Orientation Orientation = GetOrientation(rotation);
+            if (Orientation == Orientation.Horizontal || Orientation == Orientation.HorizontalFlipped)
+            {
+                return 0;
+            }
+            else return 1;
+        }
+
+        public bool FlippedV(int rotation)
+        {
+            Orientation Orientation = GetOrientation(rotation);
+            if (Orientation == Orientation.VerticalFlipped) return true;
+            else return false;
+        }
+
+        public bool FlippedH(int rotation)
+        {
+            Orientation Orientation = GetOrientation(rotation);
+            if (Orientation == Orientation.HorizontalFlipped) return true;
+            else return false;
+        }
+
+        public Orientation GetOrientation(int rotation)
+        {
+            bool isNegative = false;
+            if (rotation < 0) isNegative = true;
+            if (isNegative) rotation = -rotation;
+
+            while (rotation > 360) rotation -= 360;
+
+            if (!isNegative)
+            {
+                if (Enumerable.Range(0, 90).Contains(rotation)) return Orientation.Vertical;
+                else if (Enumerable.Range(90, 180).Contains(rotation)) return Orientation.HorizontalFlipped;
+                else if (Enumerable.Range(180, 270).Contains(rotation)) return Orientation.VerticalFlipped;
+                else if (Enumerable.Range(270, 360).Contains(rotation)) return Orientation.Horizontal;
+                else return Orientation.Unknown;
+            }
+            else
+            {
+                if (Enumerable.Range(0, 90).Contains(rotation)) return Orientation.Vertical;
+                else if (Enumerable.Range(90, 180).Contains(rotation)) return Orientation.Horizontal;
+                else if (Enumerable.Range(180, 270).Contains(rotation)) return Orientation.VerticalFlipped;
+                else if (Enumerable.Range(270, 360).Contains(rotation)) return Orientation.HorizontalFlipped;
+                else return Orientation.Unknown;
+            }
+
         }
 
         public override string GetObjectName()

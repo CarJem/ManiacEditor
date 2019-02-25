@@ -1979,11 +1979,6 @@ a valid Data Directory.",
 			}
 		}
 
-		public void ResetDeviceButton_Click(object sender, RoutedEventArgs e)
-		{
-			Editor.editorView.GraphicPanel.AttemptRecovery(null);
-		}
-
 		public void EnableEncorePalette_Click(bool? manualEnable = null)
 		{
 			Editor.DisposeTextures();

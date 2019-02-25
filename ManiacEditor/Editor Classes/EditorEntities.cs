@@ -20,10 +20,10 @@ namespace ManiacEditor
 
         public bool OptimizeAssets = false;
 
-        //Scene scene;
         public List<EditorEntity> entities = new List<EditorEntity>();
         public List<EditorEntity> selectedEntities = new List<EditorEntity>();
         public List<EditorEntity> tempSelection = new List<EditorEntity>();
+
 
         Dictionary<ushort, EditorEntity> entitiesBySlot = new Dictionary<ushort, EditorEntity>();
 
@@ -59,7 +59,7 @@ namespace ManiacEditor
 
         private void FindDuplicateIds()
         {
-            var groupedById = entities.GroupBy(e => e.Entity.SlotID).Where(g => g.Count()>1);
+            var groupedById = entities.GroupBy(e => e.Entity.SlotID).Where(g => g.Count() > 1);
         }
 
         public List<string> GetObjects(List<RSDKv5.SceneObject> sceneObjects)
@@ -343,7 +343,7 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-                entity.Draw(d);
+                if (entity.IsObjectOnScreen(d)) entity.Draw(d);
             }
         }
 
@@ -353,16 +353,18 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in entities)
             {
-				entity.Draw(d, prority);
-			}
+                if (entity.ValidPriorityPlane(prority) && entity.IsObjectOnScreen(d)) entity.Draw(d);
+            }
+
+
         }
 
-		/// <summary>
-		/// Creates a new instance of the given SceneObject at the indicated position.
-		/// </summary>
-		/// <param name="sceneObject">Type of SceneObject to create an instance of.</param>
-		/// <param name="position">Location to insert into the scene.</param>
-		public void Add(RSDKv5.SceneObject sceneObject, RSDKv5.Position position)
+        /// <summary>
+        /// Creates a new instance of the given SceneObject at the indicated position.
+        /// </summary>
+        /// <param name="sceneObject">Type of SceneObject to create an instance of.</param>
+        /// <param name="position">Location to insert into the scene.</param>
+        public void Add(RSDKv5.SceneObject sceneObject, RSDKv5.Position position)
         {
             var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, getFreeSlot(null)));
             editorEntity.Entity.Position = position;
@@ -381,30 +383,38 @@ namespace ManiacEditor
             try
             {
 
-                    // ideally this would be driven by configuration...one day
-                    // or can we assume anything with a "Go" and "Tag" Attributes is linked to another?
-                    if (sceneEntity.Object.Name.ToString().Equals("WarpDoor", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        return new LinkedEditorEntity(sceneEntity, EditorInstance);
-                    }
+                // ideally this would be driven by configuration...one day
+                // or can we assume anything with a "Go" and "Tag" Attributes is linked to another?
+                if (sceneEntity.Object.Name.ToString().Equals("WarpDoor", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
+                }
 
-					else if (sceneEntity.Object.Name.ToString().Equals("TransportTube", StringComparison.InvariantCultureIgnoreCase))
-					{
-						return new LinkedEditorEntity(sceneEntity, EditorInstance);
-					}
-					else if (sceneEntity.Object.Name.ToString().Equals("TornadoPath", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        return new LinkedEditorEntity(sceneEntity, EditorInstance);
-                    }
-					else if (sceneEntity.Object.Name.ToString().Equals("PlatformNode", StringComparison.InvariantCultureIgnoreCase))
-					{
-						return new LinkedEditorEntity(sceneEntity, EditorInstance);
-					}
-					else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        return new LinkedEditorEntity(sceneEntity, EditorInstance);
-                    }
-                
+				else if (sceneEntity.Object.Name.ToString().Equals("TransportTube", StringComparison.InvariantCultureIgnoreCase))
+				{
+					return new LinkedEditorEntity(sceneEntity, EditorInstance);
+				}
+				else if (sceneEntity.Object.Name.ToString().Equals("TornadoPath", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
+                }
+                else if (sceneEntity.Object.Name.ToString().Equals("PlatformControl", StringComparison.InvariantCultureIgnoreCase))
+				{
+					return new LinkedEditorEntity(sceneEntity, EditorInstance);
+				}
+				else if (sceneEntity.Object.Name.ToString().Equals("PlatformNode", StringComparison.InvariantCultureIgnoreCase))
+				{
+					return new LinkedEditorEntity(sceneEntity, EditorInstance);
+				}
+				else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
+                }
+                else if (sceneEntity.Object.Name.ToString().Equals("Button", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
+                }
+
 
             }
             catch

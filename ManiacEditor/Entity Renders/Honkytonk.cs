@@ -21,11 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int rotation = (int)(angle / -0.71);
 
 
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("HonkyTonk", d, 0, 0, fliph, flipv, true, rotation, true, false, false, true);
-			var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation("HonkyTonk", d, 0, 1, fliph, flipv, true, rotation, true, false, false, true);
-			var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation("HonkyTonk", d, 0, 2, fliph, flipv, true, rotation, true, false, false, true);
-			var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation("HonkyTonk", d, 0, 3, fliph, flipv, true, rotation, true, false, false, true);
-			var editorAnim5 = e.EditorInstance.EditorEntity_ini.LoadAnimation("HonkyTonk", d, 0, 4, fliph, flipv, true, rotation, true, false, false, true);
+            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation("HonkyTonk", d, 0, 1, fliph, flipv, true, rotation, true, false, false, true);
 
 
 			if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -37,30 +33,9 @@ namespace ManiacEditor.Entity_Renders
 					y - (int)(frame.ImageHeight / 2),
 					frame.ImageWidth, frame.ImageHeight, false, Transparency);
 			}
-			if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
-			{
-				var frame = editorAnim2.Frames[0];
-
-				d.DrawBitmap(frame.Texture,
-					x - (int)(frame.ImageWidth / 2),
-					y - (int)(frame.ImageHeight / 2),
-					frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
 
-			}
-			if (editorAnim5 != null && editorAnim5.Frames.Count != 0)
-			{
-				var frame = editorAnim5.Frames[0];
-
-				d.DrawBitmap(frame.Texture,
-					x - (int)(frame.ImageWidth / 2),
-					y - (int)(frame.ImageHeight / 2),
-					frame.ImageWidth, frame.ImageHeight, false, Transparency);
-
-			}
-
-
-		}
+        }
 
         public override string GetObjectName()
         {

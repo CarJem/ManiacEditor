@@ -54,11 +54,21 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, false, false, true, rotation);
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, true, false, true, rotation);
-            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 1, -1, false, false, false, 0);
-            var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 2, -1, false, false, true, rotation);
+            //var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, false, false, false, rotation, true);
+            //var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, true, false, false, rotation, true);
+            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 1, -1, false, false, false);
+            //var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 2, -1, false, false, false, rotation, true);
 
+            if (editorAnim3 != null && editorAnim3.Frames.Count != 0)
+            {
+                var frame3 = editorAnim3.Frames[0];
+                //Universal Center Screw
+                d.DrawBitmap(frame3.Texture,
+                    x + frame3.Frame.PivotX,
+                    y + frame3.Frame.PivotY,
+                    frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
+            }
+/*
             if (editorAnim != null && editorAnim2 != null && editorAnim3 != null && editorAnim4 != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[0];
@@ -260,7 +270,7 @@ namespace ManiacEditor.Entity_Renders
                 }
 
 
-            }
+            }*/
         }
 
 
