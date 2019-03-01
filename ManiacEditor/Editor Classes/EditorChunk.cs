@@ -39,7 +39,7 @@ namespace ManiacEditor
 			StageStamps = stageStamps;
 			EditorStamps = new Stamps();
 			AddBlankMap();
-			Tiles = instance.StageTiles;
+			Tiles = instance.EditorTiles.StageTiles;
 		}
 
 
@@ -54,7 +54,7 @@ namespace ManiacEditor
 			bool SolidTopB = ((tile >> 14) & 1) == 1;
 			bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-			g.DrawImage(EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+			g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
 				new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
 
 		}

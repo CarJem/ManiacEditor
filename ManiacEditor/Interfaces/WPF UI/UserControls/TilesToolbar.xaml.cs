@@ -86,30 +86,38 @@ namespace ManiacEditor
 
 		public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
 		{
-			InitializeComponent();
-			SetupTilesList(instance);
+            try
+            {
+                InitializeComponent();
+                SetupTilesList(instance);
 
-			EditorInstance = instance;
+                EditorInstance = instance;
 
-			tileOptionsCheckboxes[0] = tileOption1;
-			tileOptionsCheckboxes[1] = tileOption2;
-			tileOptionsCheckboxes[2] = tileOption3;
-			tileOptionsCheckboxes[3] = tileOption4;
+                tileOptionsCheckboxes[0] = tileOption1;
+                tileOptionsCheckboxes[1] = tileOption2;
+                tileOptionsCheckboxes[2] = tileOption3;
+                tileOptionsCheckboxes[3] = tileOption4;
 
-			selectTileOptionsCheckboxes[0] = option1CheckBox;
-			selectTileOptionsCheckboxes[1] = option2CheckBox;
-			selectTileOptionsCheckboxes[2] = option3CheckBox;
-			selectTileOptionsCheckboxes[3] = option4CheckBox;
-			selectTileOptionsCheckboxes[4] = option5CheckBox;
-			selectTileOptionsCheckboxes[5] = option6CheckBox;
+                selectTileOptionsCheckboxes[0] = option1CheckBox;
+                selectTileOptionsCheckboxes[1] = option2CheckBox;
+                selectTileOptionsCheckboxes[2] = option3CheckBox;
+                selectTileOptionsCheckboxes[3] = option4CheckBox;
+                selectTileOptionsCheckboxes[4] = option5CheckBox;
+                selectTileOptionsCheckboxes[5] = option6CheckBox;
 
-			TilesImagePath = data_directory + "\\16x16Tiles.gif";
-			TileGridImage = new GIF((TilesImagePath), Colors);
+                TilesImagePath = data_directory + "\\16x16Tiles.gif";
+                TileGridImage = new GIF((TilesImagePath), Colors);
 
-			UpdateShortcuts();
+                UpdateShortcuts();
 
-			ChunksReload();
-			TilesReload(Colors);
+                ChunksReload();
+                TilesReload(Colors);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.ToString());
+            }
+
 		}
 
 		public void SetupTilesList(Editor instance)

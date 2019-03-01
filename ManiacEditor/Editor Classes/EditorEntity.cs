@@ -72,9 +72,6 @@ namespace ManiacEditor
         public int childY = 0;
         public bool childDrawAddMode = true;
         public int previousChildCount = 0; //For Reseting ChildCount States
-
-
-
         public static bool Working = false;
         public DateTime lastFrametime;
         public int index = 0;
@@ -100,19 +97,36 @@ namespace ManiacEditor
             AttributeValidater = new AttributeValidater();
 			is64Bit = Environment.Is64BitProcess;
 
-
-
-			if (EditorInstance.EditorEntity_ini.EntityRenderers.Count == 0)
+            if (EditorInstance.EditorEntity_ini.EntityRenderers.Count == 0)
             {
                 var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
                 foreach (var type in types)
                     EditorInstance.EditorEntity_ini.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
             }
+
+            if (EditorInstance.EditorEntity_ini.LinkedEntityRenderers.Count == 0)
+            {
+                var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
+                foreach (var type in types)
+                    EditorInstance.EditorEntity_ini.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
+
+                foreach (LinkedRenderer render in EditorInstance.EditorEntity_ini.LinkedEntityRenderers)
+                {
+                    render.EditorInstance = instance;
+                }
+            }
+
+
         }
 
         public void Draw(Graphics g)
         {
 
+        }
+
+        public EditorEntity GetSelf()
+        {
+            return this;
         }
 
         public bool ContainsPoint(Point point)
@@ -306,8 +320,22 @@ namespace ManiacEditor
 			DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
 
-        // allow derived types to override the draw
         public virtual void Draw(DevicePanel d)
+        {
+            if (filteredOut) return;
+            if (EditorEntity_ini.LinkedRendersNames.Contains(entity.Object.Name.Name) && EditorInstance.showEntityPathArrows)
+            {
+                LinkedRenderer renderer = EditorInstance.EditorEntity_ini.LinkedEntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name.ToString()).FirstOrDefault();
+                if (renderer != null) renderer.Draw(d, entity, this);
+            }
+            else
+            {
+                DrawBase(d);
+            }
+        }
+
+        // allow derived types to override the draw
+        public virtual void DrawBase(DevicePanel d)
         {
             bool skipRenderforx86 = false;
             if (entity.Object.Name.Name == "Player" && !EditorInstance.playerObjectPosition.Contains(entity))
@@ -321,9 +349,7 @@ namespace ManiacEditor
             {
                 onScreenExlusionList = new List<string>();
             }
-
-            if (filteredOut && !EditorInstance.isPreRending) return;
-
+         
             if (!onScreenExlusionList.Contains(entity.Object.Name.Name))
             {
                 //This causes some objects not to load ever, which is problamatic, so I made a toggle(and a list as of recently). It can also have some performance benifits

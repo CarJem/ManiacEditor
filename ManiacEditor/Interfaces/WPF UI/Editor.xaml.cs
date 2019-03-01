@@ -123,8 +123,8 @@ namespace ManiacEditor
 		public bool MovingPlatformsChecked = true; //Self Explanatory
 		public bool AnnimationsChecked = true; //Self Explanatory
 		public bool PreRenderSceneSelectCheckbox = false; //Self Explanatory
-		public bool RemoveStageConfigEntriesAllowed = false; //Self Explanatory
-		public bool AddStageConfigEntriesAllowed = false; //Self Explanatory
+		public bool RemoveStageConfigEntriesAllowed = true; //Self Explanatory
+		public bool AddStageConfigEntriesAllowed = true; //Self Explanatory
 		public int InstanceID = 0; //Mega Maniac Instance ID
 		public bool CloseMegaManiacTab = false; //Tells Mega Maniac to Remove the Tab
 		public bool KickStartMegaManiacRenderLoop = false; //Used to start the render loop when starting the editor for Mega Maniac
@@ -164,12 +164,7 @@ namespace ManiacEditor
 		public string DataDirectory; //Used to get the current Data Directory
 		public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
 		public IList<string> ResourcePackList = new List<string>();
-		//public string SelectedZone; //Used to get the Selected zone
-		//public string SelectedScene; //Used to get the Scene zone
 		public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
-													   //public string SceneFilename = null; //Used for fetching the scene's file name
-													   //public string SceneFilepath = null; //Used for fetching the folder that contains the scene file
-													   //public string StageConfigFileName = null; //Used for fetch the scene's stage config file name
 
 		// Extra Layer Buttons
 		public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
@@ -231,8 +226,9 @@ namespace ManiacEditor
 		public Color CollisionLRDSolid = Color.FromArgb(255, 255, 255, 0);
 		public int collisionPreset = 0; //For Collision Presets
 
-		//Internal/Public/Vital Classes
-		public StageTiles StageTiles;
+        //Internal/Public/Vital Classes
+
+        public EditorTiles EditorTiles;
 		public EditorScene EditorScene;
 		public StageConfig StageConfig;
 		public GameConfig GameConfig;
@@ -358,16 +354,23 @@ namespace ManiacEditor
 
 			UseDarkTheme_WPF(mySettings.NightMode);
 			InitializeComponent();
-			InitilizeEditor();
-
-			try
-			{
-				Discord.InitDiscord();
-			}
-			catch (Exception ex)
-			{
-				Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
-			}
+            try
+            {
+                InitilizeEditor();
+            }
+            catch (Exception ex)
+            {
+                Debug.Print("Couldn't Initilize Editor!" + ex.ToString());
+                throw ex;
+            }
+            try
+            {
+                Discord.InitDiscord();
+            }
+            catch (Exception ex)
+            {
+                Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
+            }
 
 			if (mySettings.UseAutoForcefulStartup && mySettings.UseForcefulStartup) OpenSceneForceFully();
 
@@ -1025,9 +1028,9 @@ namespace ManiacEditor
 				if (TilesToolbar == null)
 				{
 					if (useEncoreColors)
-						TilesToolbar = new TilesToolbar(StageTiles, EditorPath.StageTiles_Source, EncorePalette[0], this);
+						TilesToolbar = new TilesToolbar(EditorTiles.StageTiles, EditorPath.StageTiles_Source, EncorePalette[0], this);
 					else
-						TilesToolbar = new TilesToolbar(StageTiles, EditorPath.StageTiles_Source, null, this);
+						TilesToolbar = new TilesToolbar(EditorTiles.StageTiles, EditorPath.StageTiles_Source, null, this);
 
 
 					TilesToolbar.TileDoubleClick = new Action<int>(x =>
@@ -2099,8 +2102,8 @@ namespace ManiacEditor
 			EncorePaletteButton.IsChecked = false;
 			EditorPath.UnloadScene();
 
-			if (StageTiles != null) StageTiles.Dispose();
-			StageTiles = null;
+			if (EditorTiles != null) EditorTiles.Dispose();
+            EditorTiles = null;
 
 			TearDownExtraLayerButtons();
 
@@ -2965,11 +2968,11 @@ namespace ManiacEditor
 
 				if (useEncoreColors)
 				{
-					StageTiles?.Image.Reload(EncorePalette[0]);
+                    EditorTiles.StageTiles?.Image.Reload(EncorePalette[0]);
 				}
 				else
 				{
-					StageTiles?.Image.Reload();
+                    EditorTiles.StageTiles?.Image.Reload();
 				}
 
 			}
@@ -2980,8 +2983,8 @@ namespace ManiacEditor
 		}
 		public void DisposeTextures()
 		{
-			// Make sure to dispose the textures of the extra layers too
-			StageTiles?.DisposeTextures();
+            // Make sure to dispose the textures of the extra layers too
+            EditorTiles?.DisposeTextures();
 			if (FGHigh != null) FGHigh.DisposeTextures();
 			if (FGLow != null) FGLow.DisposeTextures();
 			if (FGHigher != null) FGHigher.DisposeTextures();
@@ -3025,8 +3028,8 @@ namespace ManiacEditor
 
 					for (int i = 0; i < 1024; i++)
 					{
-						CollisionLayerA.Add(StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-						CollisionLayerB.Add(StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+						CollisionLayerA.Add(EditorTiles.StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
+						CollisionLayerB.Add(EditorTiles.StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
 					}
 				}
 			}
@@ -4262,7 +4265,7 @@ namespace ManiacEditor
 				mainform.Show();
 			}
 			mainform.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
-			if (TilesConfig != null && StageTiles != null)
+			if (TilesConfig != null && EditorTiles.StageTiles != null)
 			{
 				if (mainform.Visibility != Visibility.Visible || mainform.tcf == null)
 				{

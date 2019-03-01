@@ -124,20 +124,27 @@ namespace ManiacEditor.Interfaces
 
         public void ChangeSize()
         {
-            switch (Direction)
+            try
             {
-                case Direction.Horizontal:
-                    int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / (imageHeight + 4), 1);
-                    hScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerCol) * (imageWidth + 4)) - Width, 0);
-                    hScrollBar1.SmallChange = hScrollBar1.LargeChange = imageHeight + 4;
-                    break;
-                case Direction.Vertical:
-                    int tilesPerRow = (int)Math.Max((Width - vScrollBar1.Width) / (imageWidth + 4), 1);
-                    vScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerRow) * (imageHeight + 4)) - Height, 0);
-                    vScrollBar1.SmallChange = vScrollBar1.LargeChange = imageWidth + 4;
-                    break;
+                switch (Direction)
+                {
+                    case Direction.Horizontal:
+                        int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / (imageHeight + 4), 1);
+                        hScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerCol) * (imageWidth + 4)) - Width, 0);
+                        hScrollBar1.SmallChange = hScrollBar1.LargeChange = imageHeight + 4;
+                        break;
+                    case Direction.Vertical:
+                        int tilesPerRow = (int)Math.Max((Width - vScrollBar1.Width) / (imageWidth + 4), 1);
+                        vScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerRow) * (imageHeight + 4)) - Height, 0);
+                        vScrollBar1.SmallChange = vScrollBar1.LargeChange = imageWidth + 4;
+                        break;
+                }
+                Invalidate();
             }
-            Invalidate();
+            catch (Exception ex) {
+                throw ex;
+            }
+
         }
 
         private void TileList_Resize(object sender, EventArgs e) { ChangeSize(); ScrollToSelected(); }
@@ -439,7 +446,7 @@ namespace ManiacEditor.Interfaces
 				EditorInstance.mainform.Show();
 			}
 			EditorInstance.mainform.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
-			if (EditorInstance.TilesConfig != null && EditorInstance.StageTiles != null)
+			if (EditorInstance.TilesConfig != null && EditorInstance.EditorTiles.StageTiles != null)
 			{
 				if (EditorInstance.mainform.Visibility != System.Windows.Visibility.Visible || EditorInstance.mainform.tcf == null)
 				{

@@ -25,13 +25,14 @@ namespace ManiacEditor
     {
         // Object Render List
         public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
-		//public ClearScript render = new ClearScript();
+        public List<LinkedRenderer> LinkedEntityRenderers = new List<LinkedRenderer>();
 
 		// Object List for initilizing the if statement
 		public List<string> entityRenderingObjects;
         public List<string> renderOnScreenExlusions;
         public List<string> rendersWithErrors = new List<string>();
         public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "EditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
+        public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform" };
 
         public List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
 
@@ -678,7 +679,7 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
@@ -1056,7 +1057,7 @@ namespace ManiacEditor
             ColorPalette[] stageConfigColors = new ColorPalette[8];
             for (int i = 0; i < 8; i++)
             {
-                stageConfigColors[i] = EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+                stageConfigColors[i] = EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
             }
             for (int i = 0; i < 8; i++)
             {
@@ -1079,6 +1080,7 @@ namespace ManiacEditor
         }
 
         // These are special
+
         public void DrawOthers(DevicePanel d, SceneEntity entity, EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
@@ -1090,16 +1092,10 @@ namespace ManiacEditor
             }
             int Transparency = (EditorInstance.EditLayer == null) ? 0xff : 0x32;
             try
-			{
-				
+			{		
 				if (!rendersWithErrors.Contains(entity.Object.Name.Name))
                 {
-					/*if (entity.Object.Name.Name.Equals("Ring"))
-					{
-						render.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
-					}*/
-					
-					if (entity.Object.Name.Name.Contains("Setup"))
+                    if (entity.Object.Name.Name.Contains("Setup"))
                     {
                         EntityRenderer renderer = EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
                         if (renderer != null)

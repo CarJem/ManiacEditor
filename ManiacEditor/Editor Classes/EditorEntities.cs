@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using IronPython.Modules;
 using RSDKv5;
 using SharpDX.Direct3D9;
+using ManiacEditor.Entity_Renders;
 
 namespace ManiacEditor
 {
@@ -41,9 +42,6 @@ namespace ManiacEditor
         public string SetupObject = "";
 
         public Editor EditorInstance;
-
-
-
 
         public EditorEntities(Scene scene, Editor instance)
         {
@@ -379,48 +377,16 @@ namespace ManiacEditor
 
         private EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
         {
-
+            /*
             try
             {
-
-                // ideally this would be driven by configuration...one day
-                // or can we assume anything with a "Go" and "Tag" Attributes is linked to another?
-                if (sceneEntity.Object.Name.ToString().Equals("WarpDoor", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
-                }
-
-				else if (sceneEntity.Object.Name.ToString().Equals("TransportTube", StringComparison.InvariantCultureIgnoreCase))
-				{
-					return new LinkedEditorEntity(sceneEntity, EditorInstance);
-				}
-				else if (sceneEntity.Object.Name.ToString().Equals("TornadoPath", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
-                }
-                else if (sceneEntity.Object.Name.ToString().Equals("PlatformControl", StringComparison.InvariantCultureIgnoreCase))
-				{
-					return new LinkedEditorEntity(sceneEntity, EditorInstance);
-				}
-				else if (sceneEntity.Object.Name.ToString().Equals("PlatformNode", StringComparison.InvariantCultureIgnoreCase))
-				{
-					return new LinkedEditorEntity(sceneEntity, EditorInstance);
-				}
-				else if (sceneEntity.Object.Name.ToString().Equals("AIZTornadoPath", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
-                }
-                else if (sceneEntity.Object.Name.ToString().Equals("Button", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new LinkedEditorEntity(sceneEntity, EditorInstance);
-                }
-
-
+                string objectName = sceneEntity.Object.Name.Name;
+                if (LinkedRendersNames.Contains(objectName)) return new LinkedEditorEntity(sceneEntity, EditorInstance);
             }
             catch
             {
                 Debug.WriteLine("Failed to generate a LinkedEditorEntity, will create a basic one instead.");
-            }
+            }*/
 
             EditorEntity entity = new EditorEntity(sceneEntity, EditorInstance);
 

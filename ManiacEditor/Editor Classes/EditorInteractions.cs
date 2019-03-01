@@ -113,7 +113,7 @@ namespace ManiacEditor
 
 				Editor.EditorScene = new EditorScene(Editor.editorView.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Editor);
 				Editor.TilesConfig = new TileConfig();
-				Editor.StageTiles = new StageTiles();
+				Editor.EditorTiles.StageTiles = new StageTiles();
 				Editor.StageConfig = new StageConfig();
 
 				string ImagePath = directoryPath + "//16x16Tiles.gif";
@@ -128,7 +128,7 @@ namespace ManiacEditor
 				//EditorScene.Write(SceneFilepath);
 				Editor.TilesConfig.Write(TilesPath);
 				//StageConfig.Write(StagePath);
-				Editor.StageTiles.Write(ImagePath);
+				Editor.EditorTiles.StageTiles.Write(ImagePath);
 
 
 				Editor.UpdateDataFolderLabel(null, null);
@@ -1380,7 +1380,7 @@ a valid Data Directory.",
 		{
 			if (Editor.mainform == null || Editor.mainform.IsClosed) Editor.mainform = new TileManiacWPF.MainWindow();
 			Editor.mainform.Show();
-			if (Editor.TilesConfig != null && Editor.StageTiles != null)
+			if (Editor.TilesConfig != null && Editor.EditorTiles.StageTiles != null)
 			{
 				if (Editor.mainform.Visibility != Visibility.Visible || Editor.mainform.tcf == null)
 				{
@@ -1727,12 +1727,12 @@ a valid Data Directory.",
 				//Reload for Encore Palletes, otherwise reload the image normally
 				if (Editor.useEncoreColors == true)
 				{
-					Editor.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
+					Editor.EditorTiles.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
 					Editor.TilesToolbar?.Reload(Editor.EncorePalette[0]);
 				}
 				else
 				{
-					Editor.StageTiles?.Image.Reload();
+					Editor.EditorTiles.StageTiles?.Image.Reload();
 					Editor.TilesToolbar?.Reload();
 				}
 
@@ -1987,14 +1987,14 @@ a valid Data Directory.",
 			{
 				Editor.EncorePaletteButton.IsChecked = true;
 				Editor.useEncoreColors = true;
-				Editor.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
+				Editor.EditorTiles.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
 				Editor.TilesToolbar?.Reload(Editor.EncorePalette[0]);
 			}
 			else
 			{
 				Editor.EncorePaletteButton.IsChecked = false;
 				Editor.useEncoreColors = false;
-				Editor.StageTiles?.Image.Reload();
+				Editor.EditorTiles.StageTiles?.Image.Reload();
 				Editor.TilesToolbar?.Reload();
 			}
 			Editor.EditorEntity_ini.ReleaseResources();

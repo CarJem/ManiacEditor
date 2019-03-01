@@ -64,8 +64,12 @@
                     <Button Content="Add" Click="addAttributeBtn_Click" Width="72" Height="30" Margin="10,0,10,0"></Button>
                     <Button Content="Remove" Click="removeAttributeBtn_Click" Width="72" Height="30" Margin="0,0,10,0"></Button>
                 </StackPanel>
-                <Label Grid.Row="3" Grid.ColumnSpan="2" x:Name="label1"></Label>
+                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" x:Name="label1"></Label>
                 <Button Click="btnRemoveEntries_Click" Content="Remove Checked Objects from Scene" Margin="10,3,10,3" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch"></Button>
+                <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="10,0">
+                    <TextBlock Foreground="Red" Text="RED means that the object is not listed in ethier the StageConfig or GameConfig"></TextBlock>
+                    <TextBlock Foreground="YellowGreen" Text="GREEN means that the object is in the GameConfig"></TextBlock>
+                </StackPanel>
                 <CheckBox Checked="Checkbox_CheckChanged" Unchecked="Checkbox_CheckChanged" x:Name="rmvStgCfgCheckbox" Content="Remove Stage Config Entries for Selected Objects" Margin="10,3,10,3" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"></CheckBox>
                 <Button Click="btnCancel_Click" Content="Exit" Width="72" HorizontalAlignment="Right" Height="25" Grid.Column="1" Grid.Row="4" Margin="10,3,10,3"></Button>
             </Grid>

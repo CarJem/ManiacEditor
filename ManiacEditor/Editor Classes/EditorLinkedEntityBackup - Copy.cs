@@ -1,13 +1,15 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ManiacEditor.Entity_Renders;
 
 namespace ManiacEditor
 {
-    class LinkedEditorEntity : EditorEntity
+    public class LinkedEditorEntityBackup : EditorEntity
     {
         private uint goProperty;
         private uint destinationTag;
@@ -15,7 +17,6 @@ namespace ManiacEditor
         private ushort slotID;
         private ushort targetSlotID;
         private RSDKv5.SceneEntity currentEntity;
-        private Editor EditorInstance2;
 		private byte TransportTubeType;
 
         private uint NodeCount;
@@ -24,11 +25,15 @@ namespace ManiacEditor
 
         private uint ButtonTag;
 
+        private EditorEntity EntityInstance;
 
 
-        public LinkedEditorEntity(RSDKv5.SceneEntity entity, Editor instance) : base(entity, instance)
+
+        public LinkedEditorEntityBackup(RSDKv5.SceneEntity entity, Editor instance) : base(entity, instance)
         {
-            EditorInstance2 = instance;
+            EditorInstance = instance;
+            EntityInstance = base.GetSelf();
+
             if (entity.Object.Name.Name == "WarpDoor")
             {
                 goProperty = Entity.GetAttribute("go").ValueVar;
@@ -85,64 +90,6 @@ namespace ManiacEditor
 			if (filteredOut || currentEntity == null) return;
 			if (EditorInstance.showEntityPathArrows)
             {
-                if (currentEntity.Object.Name.Name == "WarpDoor")
-                {
-
-                    base.Draw(d);
-                    if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
-
-                    // this is the start of a WarpDoor, find its partner(s)
-                    var warpDoors = Entity.Object.Entities.Where(e => e.GetAttribute("tag").ValueUInt8 ==
-                                                                        destinationTag);
-
-                    if (warpDoors != null
-                        && warpDoors.Any())
-                    {
-                        // some destinations seem to be duplicated, so we must loop
-                        foreach (var wd in warpDoors)
-                        {
-                            DrawLinkArrow(d, Entity, wd);
-                        }
-                    }
-                }
-				else if (currentEntity.Object.Name.Name == "TornadoPath")
-                {
-                    base.Draw(d);
-
-                    //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
-
-                    // this is the start of a WarpDoor, find its partner(s)
-                    var tornadoPaths = Entity.Object.Entities.Where(e => e.SlotID == targetSlotID);
-
-                    if (tornadoPaths != null
-                        && tornadoPaths.Any())
-                    {
-                        // some destinations seem to be duplicated, so we must loop
-                        foreach (var tp in tornadoPaths)
-                        {
-                            DrawLinkArrow(d, Entity, tp);
-                        }
-                    }
-                }
-                else if (currentEntity.Object.Name.Name == "AIZTornadoPath")
-                {
-                    base.Draw(d);
-
-                    //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
-
-                    // this is the start of a WarpDoor, find its partner(s)
-                    var tornadoPaths = Entity.Object.Entities.Where(e => e.SlotID == targetSlotID);
-
-                    if (tornadoPaths != null
-                        && tornadoPaths.Any())
-                    {
-                        // some destinations seem to be duplicated, so we must loop
-                        foreach (var tp in tornadoPaths)
-                        {
-                            DrawLinkArrow(d, Entity, tp);
-                        }
-                    }
-                }
 				else if (currentEntity.Object.Name.Name == "PlatformNode")
 				{
 
@@ -293,6 +240,13 @@ namespace ManiacEditor
 		    }
 		}
 
+        public void Draw2(DevicePanel d)
+        {
+            LinkedRenderer renderer = EditorInstance.EditorEntity_ini.LinkedEntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+            if (renderer != null)
+                renderer.Draw(d);
+        }
+
         private void DrawLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
         {
             int startX = start.Position.X.High;
@@ -434,3 +388,4 @@ namespace ManiacEditor
 
     }
 }
+*/

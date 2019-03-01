@@ -103,10 +103,9 @@ namespace ManiacEditor.Interfaces
 
 					if (EditorInstance.AddStageConfigEntriesAllowed)
 					{
-						if (_stageConfig != null
-							&& !_stageConfig.ObjectsNames.Contains(item.ToString()))
+						if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
 						{
-							_stageConfig.ObjectsNames.Add(item.ToString());
+							_stageConfig.ObjectsNames.Add(item.Content.ToString());
 						}
 					}
 

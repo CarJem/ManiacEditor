@@ -662,6 +662,60 @@ namespace ManiacEditor
             DrawLine(x1, y1, x2, y2, color);
             DrawLine(x1, y1, x3, y3, color);
         }
+
+        public void DrawBézierSplineCubic(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color color)
+        {
+            for (double i = 0; i < 1; i += 0.01)
+            {
+                // The Green Lines
+                int xa = getPt(x1, x2, i);
+                int ya = getPt(y1, y2, i);
+                int xb = getPt(x2, x3, i);
+                int yb = getPt(y2, y3, i);
+                int xc = getPt(x3, x4, i);
+                int yc = getPt(y3, y4, i);
+
+                // The Blue Line
+                int xm = getPt(xa, xb, i);
+                int ym = getPt(ya, yb, i);
+                int xn = getPt(xb, xc, i);
+                int yn = getPt(yb, yc, i);
+
+                // The Black Dot
+                int x = getPt(xm, xn, i);
+                int y = getPt(ym, yn, i);
+
+                DrawLinePBP(x, y, x, y, color);
+            }
+        }
+
+        public void DrawBézierSplineQuadratic(int x1, int y1, int x2, int y2, int x3, int y3, Color color)
+        {
+            for (double i = 0; i < 1; i += 0.01)
+            {
+                // The Green Line
+                int xa = getPt(x1, x2, i);
+                int ya = getPt(y1, y2, i);
+                int xb = getPt(x2, x3, i);
+                int yb = getPt(y2, y3, i);
+
+                // The Black Dot
+                int x = getPt(xa, xb, i);
+                int y = getPt(ya, yb, i);
+
+                DrawLinePBP(x, y, x, y, color);
+            }
+        }
+
+
+
+        int getPt(int n1, int n2, double perc)
+        {
+            int diff = n2 - n1;
+
+            return (int)(n1 + (diff * perc));
+        }
+
         void DrawLinePBP(int x0, int y0, int x1, int y1, Color color)
         {
             Rectangle screen = _parent.GetScreen();

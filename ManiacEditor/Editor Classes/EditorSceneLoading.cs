@@ -87,7 +87,8 @@ namespace ManiacEditor
 
 			if (Instance.EditorPath.Browsed)
 			{
-				LoadFromFiles();
+                AddTemporaryResourcePack();
+                LoadFromFiles();
 			}
 			else
 			{
@@ -128,7 +129,8 @@ namespace ManiacEditor
 
 			if (Instance.EditorPath.Browsed)
 			{
-				LoadFromFiles();
+                AddTemporaryResourcePack();
+                LoadFromFiles();
 			}
 			else
 			{
@@ -143,9 +145,9 @@ namespace ManiacEditor
 
 			GetSceneSelectData(select, select.Browsed);
 
-			if (Instance.EditorPath.Browsed)
+			if (select.Browsed)
 			{
-				LoadFromFiles();
+                LoadFromFiles();
 			}
 			else
 			{
@@ -250,12 +252,11 @@ namespace ManiacEditor
 			SetupObjectsList();
 			SetupDiscordRP(Instance.EditorPath.SceneFilePath);
 			Stamps StageStamps = Instance.EditorPath.GetEditorStamps(Instance.EditorPath.CurrentZone);
-			Instance.EditorChunk = new EditorChunk(Instance, Instance.StageTiles, StageStamps);
+			Instance.EditorChunk = new EditorChunk(Instance, Instance.EditorTiles.StageTiles, StageStamps);
 			Instance.EditorBackground = new EditorBackground(Instance);
 			Instance.entities = new EditorEntities(Instance.EditorScene, Instance);
 
-
-			ReadManiacINIFile();
+            ReadManiacINIFile();
 			Instance.UpdateStartScreen(false);
 			Instance.UpdateDataFolderLabel(null, null);
 			Instance.SetupLayerButtons();
@@ -267,7 +268,8 @@ namespace ManiacEditor
 		{
 			Instance.UnloadScene();
 			Instance.UseDefaultPrefrences();
-			return Instance.SetGameConfig();
+            Instance.EditorTiles = new EditorTiles(Instance);
+            return Instance.SetGameConfig();
 		}
 
 		public void SetupObjectsList()
@@ -312,13 +314,13 @@ namespace ManiacEditor
 				}
 
 				//Stage Tiles
-				if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0]);
-				else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone);
+				if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0], Instance.EditorPath.Browsed);
+				else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, null, Instance.EditorPath.Browsed);
 
 				//Tile Config
 				Instance.CollisionLayerA.Clear();
 				Instance.CollisionLayerB.Clear();
-				Instance.EditorPath.GetTileConfig(Instance.EditorPath.CurrentZone);
+				Instance.EditorPath.GetTileConfig(Instance.EditorPath.CurrentZone, Instance.EditorPath.Browsed);
 				if (Instance.TilesConfig != null)
 				{
 					for (int i = 0; i < 1024; i++)
@@ -328,7 +330,7 @@ namespace ManiacEditor
 					}
 				}
 
-				Instance.EditorPath.GetStageConfig(Instance.EditorPath.CurrentZone);
+				Instance.EditorPath.GetStageConfig(Instance.EditorPath.CurrentZone, Instance.EditorPath.Browsed);
 			}
 			catch (Exception ex)
 			{

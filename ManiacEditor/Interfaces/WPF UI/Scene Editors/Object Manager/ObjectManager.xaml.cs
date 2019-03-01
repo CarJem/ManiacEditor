@@ -47,13 +47,14 @@ namespace ManiacEditor.Interfaces
 		public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Editor instance)
 		{
 			EditorInstance = instance;
+            InitializeComponent();
 
-			if (EditorInstance.RemoveStageConfigEntriesAllowed)
+            if (EditorInstance.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
 
-			InitializeComponent();
+
 			_sourceSceneObjects = targetSceneObjects;
 			_sourceSceneObjectUID = new List<int>();
 			lvObjects = new ObservableCollection<CheckBox>();
@@ -75,7 +76,17 @@ namespace ManiacEditor.Interfaces
 					IsChecked = false,
 					Tag = PersonalID.ToString()				
 				};
-				lvc.Checked += lvObjects_ItemChecked;
+                if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
+                {
+                    if (!EditorInstance.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
+                        lvc.Foreground = Brushes.Red;
+                    }
+                    else
+                    {
+                        lvc.Foreground = Brushes.GreenYellow;
+                    }
+                }
+                lvc.Checked += lvObjects_ItemChecked;
 
 				lvObjects.Add(lvc);
 				PersonalID++;
@@ -175,7 +186,18 @@ namespace ManiacEditor.Interfaces
 					IsChecked = false,
 					Tag = InstanceID.ToString()
 				};
-				InstanceID++;
+                if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
+                {
+                    if (!EditorInstance.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+                    {
+                        lvc.Foreground = Brushes.Red;
+                    }
+                    else
+                    {
+                        lvc.Foreground = Brushes.GreenYellow;
+                    }
+                }
+                InstanceID++;
 
 				bool alreadyChecked = false;
 				foreach (string str in objectCheckMemory)

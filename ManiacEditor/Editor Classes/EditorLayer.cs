@@ -31,6 +31,8 @@ namespace ManiacEditor
 
         Texture[] ChunksTextures;
 
+
+
         public PointsMap SelectedTiles;
         
 
@@ -838,6 +840,8 @@ namespace ManiacEditor
             return new Rectangle(x_start, y_start, x_end - x_start, y_end - y_start);
         }
 
+
+
         public void DrawTile(DevicePanel d, ushort tile, int x, int y, bool selected, int Transperncy)
 		{
 			if (tile != 0xffff)
@@ -851,18 +855,18 @@ namespace ManiacEditor
 				bool SolidTopB = ((tile >> 14) & 1) == 1;
 				bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-				d.DrawBitmap(EditorInstance.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+				d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
 				x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 
 				if (EditorInstance.showFlippedTileHelper == true)
 				{
-					d.DrawBitmap(EditorInstance.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
 					x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 				}
 
 				if (EditorInstance.showTileID == true)
 				{
-					d.DrawBitmap(EditorInstance.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
 					x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
 				}
 			}
@@ -886,7 +890,7 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
           
-            g.DrawImage(EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
                 new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
             if (EditorInstance.showCollisionA == true)
             {
@@ -957,12 +961,12 @@ namespace ManiacEditor
 
             if (EditorInstance.showFlippedTileHelper == true)
             {
-                g.DrawImage(EditorInstance.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+                g.DrawImage(EditorInstance.EditorTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
                             new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
             }
             if (EditorInstance.showTileID == true)
             {
-                g.DrawImage(EditorInstance.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+                g.DrawImage(EditorInstance.EditorTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
                             new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
             }
 
@@ -971,7 +975,7 @@ namespace ManiacEditor
 
         public void DrawTile(Graphics g, ushort tile)
         {
-            g.DrawImage(EditorInstance.StageTiles.Image.GetBitmap(new Rectangle(0, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
+            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
                 new Rectangle(0, 0, TILE_SIZE, TILE_SIZE));
         }
 

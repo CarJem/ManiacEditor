@@ -99,7 +99,7 @@ namespace ManiacEditor
 		#endregion
 
 		#region TileConfig
-		public bool GetTileConfig(string Zone)
+		public bool GetTileConfig(string Zone, bool browsed = false)
 		{
 			bool validTileConfigFound = false;
 			string validTileConfigPathDir = "";
@@ -114,7 +114,19 @@ namespace ManiacEditor
 			}
 			if (!validTileConfigFound)
 			{
-				return SetTileConfig(Instance.DataDirectory);
+                if (browsed)
+                {
+                    bool result = SetTileConfigFromFilePath(SceneFile_Directory);
+                    if (result == false)
+                    {
+                        return result = SetTileConfig(Instance.DataDirectory);
+                    }
+                    else return result;
+                }
+                else
+                {
+                    return SetTileConfig(Instance.DataDirectory);
+                }
 			}
 			else
 			{
@@ -137,14 +149,29 @@ namespace ManiacEditor
 
 		}
 
-		public bool IsTileConfigValid(string directoryToCheck)
+        public bool SetTileConfigFromFilePath(string filepath)
+        {
+            try
+            {
+                Instance.TilesConfig = new TileConfig(Path.Combine(filepath, "TileConfig.bin"));
+                TileConfig_Source = Path.Combine(filepath, "TileConfig.bin");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public bool IsTileConfigValid(string directoryToCheck)
 		{
 			return File.Exists(Path.Combine(directoryToCheck, "Stages", CurrentZone, "TileConfig.bin"));
 		}
-		#endregion
+        #endregion
 
-		#region StageTiles
-		public bool GetStageTiles(string Zone, string colors = null)
+        #region StageTiles
+        public bool GetStageTiles(string Zone, string colors = null, bool browsed = false)
 		{
 			bool validStageTilesFound = false;
 			string validStageTilesPathDir = "";
@@ -159,8 +186,20 @@ namespace ManiacEditor
 			}
 			if (!validStageTilesFound)
 			{
-				return SetStageTiles(Instance.DataDirectory, Zone, colors);
-			}
+                if (browsed)
+                {
+                    bool result = SetStageTilesFromFilePath(SceneFile_Directory, colors);
+                    if (result == false)
+                    {
+                        return result = SetStageTiles(Instance.DataDirectory, Zone, colors);
+                    }
+                    else return result;
+                }
+                else
+                {
+                    return SetStageTiles(Instance.DataDirectory, Zone, colors);
+                }
+            }
 			else
 			{
 				return SetStageTiles(validStageTilesPathDir, Zone, colors);
@@ -171,7 +210,7 @@ namespace ManiacEditor
 		{
 			try
 			{
-				Instance.StageTiles = new StageTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
+				Instance.EditorTiles.StageTiles = new StageTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
 				StageTiles_Source = Path.Combine(tilePath, "Stages", CurrentZone);
 				return true;
 			}
@@ -182,7 +221,22 @@ namespace ManiacEditor
 
 		}
 
-		public bool IsStageTilesValid(string directoryToCheck)
+        public bool SetStageTilesFromFilePath(string filePath, string colors = null)
+        {
+            try
+            {
+                Instance.EditorTiles.StageTiles = new StageTiles(Path.Combine(filePath), colors);
+                StageTiles_Source = Path.Combine(filePath);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public bool IsStageTilesValid(string directoryToCheck)
 		{
 			return File.Exists(Path.Combine(directoryToCheck, "Stages", CurrentZone, "16x16Tiles.gif"));
 		}
@@ -271,7 +325,7 @@ namespace ManiacEditor
 		#endregion
 
 		#region StageConfig
-		public bool GetStageConfig(string Zone)
+		public bool GetStageConfig(string Zone, bool browsed = false)
 		{
 			bool validStageConfigFound = false;
 			string validStageConfigPathDir = "";
@@ -286,7 +340,20 @@ namespace ManiacEditor
 			}
 			if (!validStageConfigFound)
 			{
-				return SetStageConfig(Instance.DataDirectory);
+                if (browsed)
+                {
+                    bool result = SetStageConfigFromFilePath(SceneFile_Directory);
+                    if (result == false)
+                    {
+                        return result = SetStageConfig(Instance.DataDirectory);
+                    }
+                    else return result;
+                }
+                else
+                {
+                    return SetStageConfig(Instance.DataDirectory);
+                }
+
 			}
 			else
 			{
@@ -304,12 +371,29 @@ namespace ManiacEditor
 			}
 			catch
 			{
+                
 				return false;
 			}
 
 		}
 
-		public bool IsStageConfigValid(string directoryToCheck)
+        public bool SetStageConfigFromFilePath(string filepath)
+        {
+            try
+            {
+                Instance.StageConfig = new StageConfig(Path.Combine(filepath, "StageConfig.bin"));
+                StageConfig_Source = Path.Combine(filepath, "StageConfig.bin");
+                return true;
+            }
+            catch
+            {
+
+                return false;
+            }
+
+        }
+
+        public bool IsStageConfigValid(string directoryToCheck)
 		{
 			return File.Exists(Path.Combine(directoryToCheck, "Stages", CurrentZone, "StageConfig.bin"));
 		}
