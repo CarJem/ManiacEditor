@@ -136,7 +136,6 @@ namespace ManiacEditor
 
 
         }
-
         public static IEnumerable<string> EnumerateLines(TextReader reader)
         {
             string line;
@@ -147,11 +146,9 @@ namespace ManiacEditor
             }
         }
 
-
         public static Animation rsdkAnim;
 
         //For Drawing/Saving Tile Platforms
-
 
         public static string[] DataDirectoryList = null;
 

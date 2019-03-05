@@ -13,9 +13,6 @@ namespace ManiacEditor
 {
     public class EditorEntities : IDrawable
     {
-        protected const int NAME_BOX_WIDTH = 20;
-        protected const int NAME_BOX_HEIGHT = 20;
-
         public bool FilterRefreshNeeded = false;
         public int DefaultFilter = -1;
 
@@ -353,8 +350,14 @@ namespace ManiacEditor
             {
                 if (entity.ValidPriorityPlane(prority) && entity.IsObjectOnScreen(d)) entity.Draw(d);
             }
+        }
 
-
+        public void DrawSelectionBoxes(DevicePanel d)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity.IsObjectOnScreen(d)) entity.DrawBoxOnly(d);
+            }
         }
 
         /// <summary>

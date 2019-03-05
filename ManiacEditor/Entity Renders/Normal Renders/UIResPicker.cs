@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-			e.DrawUIButtonBack(d, x, y, width, height, 0, 0);
+			e.DrawUIButtonBack(d, x, y, width, height, 0, 0, Transparency);
             if (leftArrow != null && leftArrow.Frames.Count != 0)
             {
                 var frame = leftArrow.Frames[Animation.index];

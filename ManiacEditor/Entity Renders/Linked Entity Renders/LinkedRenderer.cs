@@ -14,11 +14,6 @@ namespace ManiacEditor.Entity_Renders
     public abstract class LinkedRenderer
     {
         public Editor EditorInstance;
-        protected const int NAME_BOX_WIDTH = 20;
-        protected const int NAME_BOX_HEIGHT = 20;
-
-        protected const int NAME_BOX_HALF_WIDTH = NAME_BOX_WIDTH / 2;
-        protected const int NAME_BOX_HALF_HEIGHT = NAME_BOX_HEIGHT / 2;
 
         public virtual void Draw(DevicePanel d, RSDKv5.SceneEntity currentEntity, EditorEntity ObjectInstance)
         {
@@ -45,31 +40,31 @@ namespace ManiacEditor.Entity_Renders
             if (Math.Abs(dx) > Math.Abs(dy))
             {
                 // horizontal difference greater than vertical difference
-                offsetY = NAME_BOX_HALF_HEIGHT;
-                offsetDestinationY = NAME_BOX_HALF_HEIGHT;
+                offsetY = EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetDestinationY = EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
 
                 if (dx > 0)
                 {
-                    offsetX = NAME_BOX_WIDTH;
+                    offsetX = EditorConstants.ENTITY_NAME_BOX_WIDTH;
                 }
                 else
                 {
-                    offsetDestinationX = NAME_BOX_WIDTH;
+                    offsetDestinationX = EditorConstants.ENTITY_NAME_BOX_WIDTH;
                 }
             }
             else
             {
                 // vertical difference greater than horizontal difference
-                offsetX = NAME_BOX_HALF_WIDTH;
-                offsetDestinationX = NAME_BOX_HALF_WIDTH;
+                offsetX = EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetDestinationX = EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
 
                 if (dy > 0)
                 {
-                    offsetY = NAME_BOX_HEIGHT;
+                    offsetY = EditorConstants.ENTITY_NAME_BOX_HEIGHT;
                 }
                 else
                 {
-                    offsetDestinationY = NAME_BOX_HEIGHT;
+                    offsetDestinationY = EditorConstants.ENTITY_NAME_BOX_HEIGHT;
                 }
             }
 

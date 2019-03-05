@@ -49,7 +49,7 @@ namespace ManiacEditor.Entity_Renders
 					frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 				d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + (int)alignmentVal, y + frame.Frame.PivotY - 10,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-				e.DrawUIButtonBack(d, x, y, 120, 20, frame.Frame.Width, frame.Frame.Height);
+				e.DrawUIButtonBack(d, x, y, 120, 20, frame.Frame.Width, frame.Frame.Height, Transparency);
 				d.DrawBitmap(frame5.Texture, x + frame5.Frame.PivotX + (int)alignmentVal, y + frame5.Frame.PivotY,
 					frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 

@@ -3824,8 +3824,8 @@
                             <CheckBox IsChecked="{maniac:SettingBinding AllowMoreRenderUpdates}"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,4,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock Text="Allow More Render Updates(Makes a smoother experience)" TextWrapping="WrapWithOverflow" Width="182" TextAlignment="Center"/>
                             </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding allowForSmoothSelection}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,4,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <TextBlock Text="Allow for Smoother Selecting/Moving*(Slows down Status Information)" TextWrapping="WrapWithOverflow" Width="208" TextAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:SettingBinding allowForSmoothSelection}" IsEnabled="False" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,4,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock Text="Allow for Smoother Selecting/Moving*(Slows down Status Information)" Foreground="DarkRed" TextWrapping="WrapWithOverflow" Width="208" TextAlignment="Center"/>
                             </CheckBox>
                             <CheckBox IsChecked="{maniac:SettingBinding DisableDraging}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,4,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock Text="Disable Tiles Toolbar Dragging" TextWrapping="WrapWithOverflow" Width="209" TextAlignment="Center"/>

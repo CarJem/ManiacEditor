@@ -18,24 +18,16 @@ namespace ManiacEditor
         private SceneLayer _layer;
         internal SceneLayer Layer { get => _layer; }
 
-        const int TILES_CHUNK_SIZE = 16;
-
-        public const int TILE_SIZE = 16;
-
         public DevicePanel GraphicsPanel;
 
         public Editor EditorInstance;
-
 
         Texture[][] TileChunksTextures;
 
         Texture[] ChunksTextures;
 
-
-
         public PointsMap SelectedTiles;
         
-
         public Dictionary<Point, ushort> SelectedTilesValue = new Dictionary<Point, ushort>();
 
         public PointsMap TempSelectionTiles;
@@ -91,8 +83,8 @@ namespace ManiacEditor
 
         public ushort Height { get => _layer.Height; }
         public ushort Width { get => _layer.Width; }
-        public int HeightPixels { get => _layer.Height * TILE_SIZE; }
-        public int WidthPixels { get => _layer.Height * TILE_SIZE; }
+        public int HeightPixels { get => _layer.Height * EditorConstants.TILE_SIZE; }
+        public int WidthPixels { get => _layer.Height * EditorConstants.TILE_SIZE; }
 
         /// <summary>
         /// Collection of rules and mappings representing the horizontal scrolling info
@@ -114,10 +106,10 @@ namespace ManiacEditor
 
             public PointsMap(int width, int height)
             {
-                PointsChunks = new HashSet<Point>[DivideRoundUp(height, TILES_CHUNK_SIZE)][];
+                PointsChunks = new HashSet<Point>[DivideRoundUp(height, EditorConstants.TILES_CHUNK_SIZE)][];
                 for (int i = 0; i < PointsChunks.Length; ++i)
                 {
-                    PointsChunks[i] = new HashSet<Point>[DivideRoundUp(width, TILES_CHUNK_SIZE)];
+                    PointsChunks[i] = new HashSet<Point>[DivideRoundUp(width, EditorConstants.TILES_CHUNK_SIZE)];
                     for (int j = 0; j < PointsChunks[i].Length; ++j)
                         PointsChunks[i][j] = new HashSet<Point>();
                 }
@@ -127,10 +119,10 @@ namespace ManiacEditor
             {
 
                 HashSet<Point> h;
-                if (point.Y < 0 || point.X < 0 || point.Y / TILES_CHUNK_SIZE >= PointsChunks.Length || point.X / TILES_CHUNK_SIZE >= PointsChunks[0].Length)
+                if (point.Y < 0 || point.X < 0 || point.Y / EditorConstants.TILES_CHUNK_SIZE >= PointsChunks.Length || point.X / EditorConstants.TILES_CHUNK_SIZE >= PointsChunks[0].Length)
                     h = OutOfBoundsPoints;
                 else
-                    h = PointsChunks[point.Y / TILES_CHUNK_SIZE][point.X / TILES_CHUNK_SIZE];
+                    h = PointsChunks[point.Y / EditorConstants.TILES_CHUNK_SIZE][point.X / EditorConstants.TILES_CHUNK_SIZE];
                 Count -= h.Count;
                 h.Add(point);
                 Count += h.Count;
@@ -139,10 +131,10 @@ namespace ManiacEditor
             public void Remove(Point point)
             {
                 HashSet<Point> h;
-                if (point.Y < 0 || point.X < 0 || point.Y / TILES_CHUNK_SIZE >= PointsChunks.Length || point.X / TILES_CHUNK_SIZE >= PointsChunks[0].Length)
+                if (point.Y < 0 || point.X < 0 || point.Y / EditorConstants.TILES_CHUNK_SIZE >= PointsChunks.Length || point.X / EditorConstants.TILES_CHUNK_SIZE >= PointsChunks[0].Length)
                     h = OutOfBoundsPoints;
                 else
-                    h = PointsChunks[point.Y / TILES_CHUNK_SIZE][point.X / TILES_CHUNK_SIZE];
+                    h = PointsChunks[point.Y / EditorConstants.TILES_CHUNK_SIZE][point.X / EditorConstants.TILES_CHUNK_SIZE];
                 Count -= h.Count;
                 h.Remove(point);
                 Count += h.Count;
@@ -150,10 +142,10 @@ namespace ManiacEditor
 
             public bool Contains(Point point)
             {
-                if (point.Y < 0 || point.X < 0 || point.Y / TILES_CHUNK_SIZE >= PointsChunks.Length || point.X / TILES_CHUNK_SIZE >= PointsChunks[0].Length)
+                if (point.Y < 0 || point.X < 0 || point.Y / EditorConstants.TILES_CHUNK_SIZE >= PointsChunks.Length || point.X / EditorConstants.TILES_CHUNK_SIZE >= PointsChunks[0].Length)
                     return OutOfBoundsPoints.Contains(point);
                 else
-                    return PointsChunks[point.Y / TILES_CHUNK_SIZE][point.X / TILES_CHUNK_SIZE].Contains(point);
+                    return PointsChunks[point.Y / EditorConstants.TILES_CHUNK_SIZE][point.X / EditorConstants.TILES_CHUNK_SIZE].Contains(point);
             }
 
             public bool IsChunkUsed(int x, int y)
@@ -207,9 +199,9 @@ namespace ManiacEditor
 
             ChunksTextures = new Texture[1028];
 
-            TileChunksTextures = new Texture[DivideRoundUp(Height, TILES_CHUNK_SIZE)][];
+            TileChunksTextures = new Texture[DivideRoundUp(Height, EditorConstants.TILES_CHUNK_SIZE)][];
             for (int i = 0; i < TileChunksTextures.Length; ++i)
-                TileChunksTextures[i] = new Texture[DivideRoundUp(Width, TILES_CHUNK_SIZE)];
+                TileChunksTextures[i] = new Texture[DivideRoundUp(Width, EditorConstants.TILES_CHUNK_SIZE)];
 
             SelectedTiles = new PointsMap(Width, Height);
             TempSelectionTiles = new PointsMap(Width, Height);
@@ -316,7 +308,7 @@ namespace ManiacEditor
         {
             SelectedTiles.Clear();
             SelectedTilesValue.Clear();
-            point = new Point(point.X / TILE_SIZE, point.Y / TILE_SIZE);
+            point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             SelectedTiles.Add(point);
             SelectedTilesValue[point] = value;
             RefreshTileCount();
@@ -354,8 +346,8 @@ namespace ManiacEditor
         public void MoveSelected(Point oldPos, Point newPos, bool duplicate)
         {
             //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) EditorInstance.UpdateRender();
-            oldPos = new Point(oldPos.X / TILE_SIZE, oldPos.Y / TILE_SIZE);
-            newPos = new Point(newPos.X / TILE_SIZE, newPos.Y / TILE_SIZE);
+            oldPos = new Point(oldPos.X / EditorConstants.TILE_SIZE, oldPos.Y / EditorConstants.TILE_SIZE);
+            newPos = new Point(newPos.X / EditorConstants.TILE_SIZE, newPos.Y / EditorConstants.TILE_SIZE);
             if (oldPos != newPos)
             {
                 duplicate &= FirstDrag;
@@ -414,7 +406,7 @@ namespace ManiacEditor
 
 		public void MoveSelectedQuonta(Point change)
         {
-            MoveSelected(Point.Empty, new Point(change.X * TILE_SIZE, change.Y * TILE_SIZE), false);
+            MoveSelected(Point.Empty, new Point(change.X * EditorConstants.TILE_SIZE, change.Y * EditorConstants.TILE_SIZE), false);
         }
 
         public void DeleteSelected()
@@ -621,7 +613,7 @@ namespace ManiacEditor
         {
             try
             {
-                newPos = new Point(newPos.X / TILE_SIZE, newPos.Y / TILE_SIZE);
+                newPos = new Point(newPos.X / EditorConstants.TILE_SIZE, newPos.Y / EditorConstants.TILE_SIZE);
                 Deselect();
                 foreach (KeyValuePair<Point, ushort> point in points)
                 {
@@ -643,9 +635,9 @@ namespace ManiacEditor
         public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
             if (!addSelection) Deselect();
-            for (int y = Math.Max(area.Y / TILE_SIZE, 0); y < Math.Min(DivideRoundUp(area.Y + area.Height, TILE_SIZE), _layer.Height); ++y)
+            for (int y = Math.Max(area.Y / EditorConstants.TILE_SIZE, 0); y < Math.Min(DivideRoundUp(area.Y + area.Height, EditorConstants.TILE_SIZE), _layer.Height); ++y)
             {
-                for (int x = Math.Max(area.X / TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, TILE_SIZE), _layer.Width); ++x)
+                for (int x = Math.Max(area.X / EditorConstants.TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, EditorConstants.TILE_SIZE), _layer.Width); ++x)
                 {
                     if (addSelection || deselectIfSelected)
                     {
@@ -679,7 +671,7 @@ namespace ManiacEditor
         public void Select(Point point, bool addSelection = false, bool deselectIfSelected = false)
         {
             if (!addSelection) Deselect();
-            point = new Point(point.X / TILE_SIZE, point.Y / TILE_SIZE);
+            point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             EditorInstance.SelectedTileX = point.X;
             EditorInstance.SelectedTileY = point.Y;
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
@@ -704,9 +696,9 @@ namespace ManiacEditor
             TempSelectionTiles.Clear();
             TempSelectionDeselectTiles.Clear();
             TempSelectionDeselect = deselectIfSelected;
-            for (int y = Math.Max(area.Y / TILE_SIZE, 0); y < Math.Min(DivideRoundUp(area.Y + area.Height, TILE_SIZE), _layer.Height); ++y)
+            for (int y = Math.Max(area.Y / EditorConstants.TILE_SIZE, 0); y < Math.Min(DivideRoundUp(area.Y + area.Height, EditorConstants.TILE_SIZE), _layer.Height); ++y)
             {
-                for (int x = Math.Max(area.X / TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, TILE_SIZE), _layer.Width); ++x)
+                for (int x = Math.Max(area.X / EditorConstants.TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, EditorConstants.TILE_SIZE), _layer.Width); ++x)
                 {
                     if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || EditorInstance.CopyAir))
                     {
@@ -747,7 +739,7 @@ namespace ManiacEditor
             if (addAction)
                 Actions.Add(new ActionChangeTile((x, y) => SetTile(x, y, false), point, _layer.Tiles[point.Y][point.X], value));
             _layer.Tiles[point.Y][point.X] = value;
-            InvalidateChunk(point.X / TILES_CHUNK_SIZE, point.Y / TILES_CHUNK_SIZE);
+            InvalidateChunk(point.X / EditorConstants.TILES_CHUNK_SIZE, point.Y / EditorConstants.TILES_CHUNK_SIZE);
         }
 
         private void RemoveTile(Point point)
@@ -786,12 +778,12 @@ namespace ManiacEditor
 
         public bool IsPointSelected(Point point)
         {
-            return SelectedTiles.Contains(new Point(point.X / TILE_SIZE, point.Y / TILE_SIZE));
+            return SelectedTiles.Contains(new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE));
         }
 
         public bool HasTileAt(Point point)
         {
-            point = new Point(point.X / TILE_SIZE, point.Y / TILE_SIZE);
+            point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
                 return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.CopyAir);
@@ -801,7 +793,7 @@ namespace ManiacEditor
 
         public ushort GetTileAt(Point point)
         {
-            point = new Point(point.X / TILE_SIZE, point.Y / TILE_SIZE);
+            point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
                 if (SelectedTilesValue.ContainsKey(point)) return SelectedTilesValue[point];
@@ -830,11 +822,11 @@ namespace ManiacEditor
 
         private Rectangle GetTilesChunkArea(int x, int y)
         {
-            int y_start = y * TILES_CHUNK_SIZE;
-            int y_end = Math.Min((y + 1) * TILES_CHUNK_SIZE, _layer.Height);
+            int y_start = y * EditorConstants.TILES_CHUNK_SIZE;
+            int y_end = Math.Min((y + 1) * EditorConstants.TILES_CHUNK_SIZE, _layer.Height);
 
-            int x_start = x * TILES_CHUNK_SIZE;
-            int x_end = Math.Min((x + 1) * TILES_CHUNK_SIZE, _layer.Width);
+            int x_start = x * EditorConstants.TILES_CHUNK_SIZE;
+            int x_end = Math.Min((x + 1) * EditorConstants.TILES_CHUNK_SIZE, _layer.Width);
 
 
             return new Rectangle(x_start, y_start, x_end - x_start, y_end - y_start);
@@ -855,28 +847,28 @@ namespace ManiacEditor
 				bool SolidTopB = ((tile >> 14) & 1) == 1;
 				bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-				d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
-				x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+				d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
+				x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
 
 				if (EditorInstance.showFlippedTileHelper == true)
 				{
-					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
-					x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+					x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
 				}
 
 				if (EditorInstance.showTileID == true)
 				{
-					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
-					x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
+					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+					x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
 				}
 			}
 
             if (selected)
             {
-                d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
-                d.DrawLine(x * TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
-                d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE, System.Drawing.Color.Brown);
-                d.DrawLine(x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, System.Drawing.Color.Brown);
+                d.DrawLine(x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, System.Drawing.Color.Brown);
             }
         }
         public void DrawTile(Graphics g, ushort tile, int x, int y)
@@ -890,8 +882,8 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
           
-            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
-                new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
+                new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             if (EditorInstance.showCollisionA == true)
             {
                 if (SolidLrbA || SolidTopA)
@@ -922,7 +914,7 @@ namespace ManiacEditor
 
                     if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
 
-                    g.DrawImage(cm, new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                    g.DrawImage(cm, new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
                 }
             }
             if (EditorInstance.showCollisionB == true)
@@ -955,19 +947,19 @@ namespace ManiacEditor
 
                     if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
 
-                    g.DrawImage(cm, new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                    g.DrawImage(cm, new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
                 }
             }
 
             if (EditorInstance.showFlippedTileHelper == true)
             {
-                g.DrawImage(EditorInstance.EditorTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
-                            new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                g.DrawImage(EditorInstance.EditorTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                            new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             }
             if (EditorInstance.showTileID == true)
             {
-                g.DrawImage(EditorInstance.EditorTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
-                            new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                g.DrawImage(EditorInstance.EditorTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                            new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             }
 
 
@@ -975,8 +967,8 @@ namespace ManiacEditor
 
         public void DrawTile(Graphics g, ushort tile)
         {
-            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false),
-                new Rectangle(0, 0, TILE_SIZE, TILE_SIZE));
+            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 2 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                new Rectangle(0, 0, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
         }
 
 
@@ -1001,7 +993,7 @@ namespace ManiacEditor
 
             Rectangle rect = GetTilesChunkArea(x, y);
 
-            Bitmap bmp2 = new Bitmap(rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmp2 = new Bitmap(rect.Width * EditorConstants.TILE_SIZE, rect.Height * EditorConstants.TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
             int factor = 32;
             int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
@@ -1038,7 +1030,7 @@ namespace ManiacEditor
 
             Rectangle rect = GetChunkArea(x, y);
 
-            Bitmap bmp2 = new Bitmap(rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmp2 = new Bitmap(rect.Width * EditorConstants.TILE_SIZE, rect.Height * EditorConstants.TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
             int factor = 32;
             int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
@@ -1159,10 +1151,10 @@ namespace ManiacEditor
 				height = this.Height * 128;
 			}
 
-			int start_x = startX / (TILES_CHUNK_SIZE * TILE_SIZE);
-			int end_x = Math.Min(DivideRoundUp(startX + width, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures[0].Length);
-			int start_y = startY / (TILES_CHUNK_SIZE * TILE_SIZE);
-			int end_y = Math.Min(DivideRoundUp(startY + height, TILES_CHUNK_SIZE * TILE_SIZE), TileChunksTextures.Length);
+			int start_x = startX / (EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE);
+			int end_x = Math.Min(DivideRoundUp(startX + width, EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE), TileChunksTextures[0].Length);
+			int start_y = startY / (EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE);
+			int end_y = Math.Min(DivideRoundUp(startY + height, EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE), TileChunksTextures.Length);
 
 			for (int y = start_y; y < end_y; ++y)
 			{
@@ -1181,7 +1173,7 @@ namespace ManiacEditor
 					}
 					else
 					{
-						d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * TILE_SIZE, rect.Y * TILE_SIZE, rect.Width * TILE_SIZE, rect.Height * TILE_SIZE, false, Transperncy);
+						d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * EditorConstants.TILE_SIZE, rect.Y * EditorConstants.TILE_SIZE, rect.Width * EditorConstants.TILE_SIZE, rect.Height * EditorConstants.TILE_SIZE, false, Transperncy);
 					}
 
 						DrawSelectedTiles(d, x, y, Transperncy);
@@ -1211,12 +1203,12 @@ namespace ManiacEditor
             // first resize the underlying SceneLayer
             _layer.Resize(width, height);
 
-            int oldWidthChunkSize = DivideRoundUp(oldWidth, TILES_CHUNK_SIZE);
-            int newWidthChunkSize = DivideRoundUp(Width, TILES_CHUNK_SIZE);
+            int oldWidthChunkSize = DivideRoundUp(oldWidth, EditorConstants.TILES_CHUNK_SIZE);
+            int newWidthChunkSize = DivideRoundUp(Width, EditorConstants.TILES_CHUNK_SIZE);
 
             // now resize ourselves
-            Array.Resize(ref TileChunksTextures, DivideRoundUp(Height, TILES_CHUNK_SIZE));
-            for (int i = DivideRoundUp(oldHeight, TILES_CHUNK_SIZE); i < TileChunksTextures.Length; i++)
+            Array.Resize(ref TileChunksTextures, DivideRoundUp(Height, EditorConstants.TILES_CHUNK_SIZE));
+            for (int i = DivideRoundUp(oldHeight, EditorConstants.TILES_CHUNK_SIZE); i < TileChunksTextures.Length; i++)
             {
                 TileChunksTextures[i] = new Texture[oldWidthChunkSize];
             }

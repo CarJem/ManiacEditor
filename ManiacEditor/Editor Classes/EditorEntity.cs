@@ -27,13 +27,7 @@ namespace ManiacEditor
     [Serializable]
     public class EditorEntity : IDrawable
 	{
-        protected const int NAME_BOX_WIDTH  = 20;
-        protected const int NAME_BOX_HEIGHT = 20;
-
 		private bool is64Bit = false;
-
-        protected const int NAME_BOX_HALF_WIDTH  = NAME_BOX_WIDTH  / 2;
-        protected const int NAME_BOX_HALF_HEIGHT = NAME_BOX_HEIGHT / 2;
 
         public bool Selected;
 
@@ -136,7 +130,7 @@ namespace ManiacEditor
             return GetDimensions().Contains(point);
         }
 
-        public void DrawUIButtonBack(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW)
+        public void DrawUIButtonBack(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW, int Transparency)
         {
             width += 1;
             height += 1;
@@ -149,9 +143,9 @@ namespace ManiacEditor
             if (width != 0) x2 -= width / 2;
             if (height != 0) y2 -= height / 2;
 
-            d.DrawRectangle(x2, y2, x2 + width, y2 + height, System.Drawing.Color.Black);
+            d.DrawRectangle(x2, y2, x2 + width, y2 + height, System.Drawing.Color.FromArgb(Transparency, 0, 0, 0));
 
-            System.Drawing.Color colur = System.Drawing.Color.Black;
+            System.Drawing.Color colur = System.Drawing.Color.FromArgb(Transparency, 0, 0, 0);
             //Left Triangle         
             for (int i = 1; i <= (height); i++)
             {
@@ -167,13 +161,13 @@ namespace ManiacEditor
                 d.DrawLine(x3, y + (!hEven ? 1 : 0) + (height / 2) - i, x3 + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
             }
         }
-        public void DrawTriangle(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW, int state = 0)
+        public void DrawTriangle(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW, int state = 0, int Transparency = 0xFF)
         {
 
             bool wEven = width % 2 == 0;
             bool hEven = height % 2 == 0;
 
-            System.Drawing.Color colur = System.Drawing.Color.Black;
+            System.Drawing.Color colur = System.Drawing.Color.FromArgb(Transparency, 0, 0, 0);
             if (state == 0)
             {
                 //Left Triangle         
@@ -236,7 +230,7 @@ namespace ManiacEditor
 
         public Rectangle GetDimensions()
         {
-            return new Rectangle(entity.Position.X.High, entity.Position.Y.High, NAME_BOX_WIDTH, NAME_BOX_HEIGHT);
+            return new Rectangle(entity.Position.X.High, entity.Position.Y.High, EditorConstants.ENTITY_NAME_BOX_WIDTH, EditorConstants.ENTITY_NAME_BOX_HEIGHT);
         }
 
         public bool SetFilter()
@@ -273,7 +267,60 @@ namespace ManiacEditor
             return filteredOut;
         }
 
-		public bool ValidPriorityPlane(int priority)
+        public void TestIfPlayerObject()
+        {
+            if (entity.Object.Name.Name == "Player" && !EditorInstance.playerObjectPosition.Contains(entity))
+            {
+                EditorInstance.playerObjectPosition.Add(entity);
+            }
+        }
+        public System.Drawing.Color GetFilterBoxColor()
+        {
+            System.Drawing.Color color = System.Drawing.Color.DarkBlue;
+            if (HasSpecificFilter(1) || HasSpecificFilter(5))
+            {
+                color = System.Drawing.Color.DarkBlue;
+            }
+            else if (HasSpecificFilter(2))
+            {
+                color = System.Drawing.Color.DarkRed;
+            }
+            else if (HasSpecificFilter(4))
+            {
+                color = System.Drawing.Color.DarkGreen;
+            }
+            else if (HasSpecificFilter(255))
+            {
+                color = System.Drawing.Color.Purple;
+            }
+            else if (HasFilterOther())
+            {
+                color = System.Drawing.Color.Yellow;
+            }
+            else if (!HasFilter())
+            {
+                color = System.Drawing.Color.White;
+            }
+            return color;
+
+        }
+        public System.Drawing.Color GetBoxInsideColor()
+        {
+            return Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+        }
+        public int GetTransparencyLevel()
+        {
+            return (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
+        }
+        public int GetChildX()
+        {
+            return  (childDrawAddMode == false ? childX : entity.Position.X.High + (childDraw ? childX : 0));
+        }
+        public int GetChildY()
+        {
+            return (childDrawAddMode == false ? childY : entity.Position.Y.High + (childDraw ? childY : 0));
+        }
+        public bool ValidPriorityPlane(int priority)
 		{
 			bool validPlane = false;
 			if (priority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, priority);
@@ -281,7 +328,6 @@ namespace ManiacEditor
 			
 			return validPlane;
 		}
-
 		public virtual void DrawBoxOnly(DevicePanel d)
 		{
 			int Transparency = (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
@@ -290,36 +336,11 @@ namespace ManiacEditor
 
 			if (filteredOut && !EditorInstance.isPreRending) return;
 
-			System.Drawing.Color color = Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
-			System.Drawing.Color color2 = System.Drawing.Color.DarkBlue;
-			if (HasSpecificFilter(1) || HasSpecificFilter(5))
-			{
-				color2 = System.Drawing.Color.DarkBlue;
-			}
-			else if (HasSpecificFilter(2))
-			{
-				color2 = System.Drawing.Color.DarkRed;
-			}
-			else if (HasSpecificFilter(4))
-			{
-				color2 = System.Drawing.Color.DarkGreen;
-			}
-			else if (HasSpecificFilter(255))
-			{
-				color2 = System.Drawing.Color.Purple;
-			}
-			else if (HasFilterOther())
-			{
-				color2 = System.Drawing.Color.Yellow;
-			}
-			else if (!HasFilter())
-			{
-				color2 = System.Drawing.Color.White;
-			}
+            System.Drawing.Color color = GetBoxInsideColor();
+            System.Drawing.Color color2 = GetFilterBoxColor();
 
-			DrawSelectionBox(d, x, y, Transparency, color, color2);
+            DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
-
         public virtual void Draw(DevicePanel d)
         {
             if (filteredOut) return;
@@ -333,145 +354,95 @@ namespace ManiacEditor
                 DrawBase(d);
             }
         }
-
-        // allow derived types to override the draw
         public virtual void DrawBase(DevicePanel d)
         {
-            bool skipRenderforx86 = false;
-            if (entity.Object.Name.Name == "Player" && !EditorInstance.playerObjectPosition.Contains(entity))
-            {
-                EditorInstance.playerObjectPosition.Add(entity);
-            }
+            TestIfPlayerObject();
 
             List<string> entityRenderList = EditorInstance.EditorEntity_ini.entityRenderingObjects;
-            List<string> onScreenExlusionList = EditorInstance.EditorEntity_ini.renderOnScreenExlusions;
-            if (Properties.Settings.Default.DisableRenderExlusions)
-            {
-                onScreenExlusionList = new List<string>();
-            }
+            List<string> onScreenExlusionList = (Properties.Settings.Default.DisableRenderExlusions ? new List<string>() : EditorInstance.EditorEntity_ini.renderOnScreenExlusions);
          
-            if (!onScreenExlusionList.Contains(entity.Object.Name.Name))
-            {
-                //This causes some objects not to load ever, which is problamatic, so I made a toggle(and a list as of recently). It can also have some performance benifits
-                if (!EditorInstance.isPreRending)
-                {
-                    if (!this.IsObjectOnScreen(d)) return;
-                }
-            }
-            System.Drawing.Color color = Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
-            System.Drawing.Color color2 = System.Drawing.Color.DarkBlue;
-            if (HasSpecificFilter(1) || HasSpecificFilter(5))
-            {
-                 color2 = System.Drawing.Color.DarkBlue;
-            }
-            else if (HasSpecificFilter(2))
-            {
-                 color2 = System.Drawing.Color.DarkRed;
-            }
-            else if (HasSpecificFilter(4))
-            {
-                color2 = System.Drawing.Color.DarkGreen;
-            }
-			else if (HasSpecificFilter(255))
-			{
-				color2 = System.Drawing.Color.Purple;
-			}
-			else if (HasFilterOther())
-            {
-                 color2 = System.Drawing.Color.Yellow;
-            }
-			else if (!HasFilter())
-			{
-				color2 = System.Drawing.Color.White;
-			}
+            if (!onScreenExlusionList.Contains(entity.Object.Name.Name)) if (!this.IsObjectOnScreen(d)) return;
+            System.Drawing.Color color = GetBoxInsideColor();
+            System.Drawing.Color color2 = GetFilterBoxColor();
+            int Transparency = GetTransparencyLevel();
+            if (!Properties.Settings.Default.NeverLoadEntityTextures) EditorInstance.EditorEntity_ini.LoadNextAnimation(this);
 
-			int Transparency = (EditorInstance.EditLayer == null || EditorInstance.isExportingImage) ? 0xff : 0x32;
-            if (!Properties.Settings.Default.NeverLoadEntityTextures && !EditorInstance.isExportingImage)
-            {
-                if (!is64Bit && entity.Object.Name.Name == "SpecialRing") skipRenderforx86 = true;
-                else EditorInstance.EditorEntity_ini.LoadNextAnimation(this);
-            }
             int x = entity.Position.X.High;
             int y = entity.Position.Y.High;
-            int _ChildX = entity.Position.X.High + (childDraw ? childX : 0);
-            int _ChildY = entity.Position.Y.High + (childDraw ? childY : 0);
-            if (childDrawAddMode == false)
-            {
-                _ChildX = childX;
-                _ChildY = childY;
-            }
+            int _ChildX = GetChildX();
+            int _ChildY = GetChildY();
             bool fliph = false;
             bool flipv = false;
             bool rotate = false;
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !EditorInstance.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
-			if (entityRenderList.Contains(name) && EditorInstance.isExportingImage)
+            if (!Properties.Settings.Default.NeverLoadEntityTextures)
+            {
+                if (entityRenderList.Contains(name)) PrimaryDraw(d, onScreenExlusionList);
+                else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
+            }
+
+            if (drawSelectionBoxInFront && !EditorInstance.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
+		}
+        public virtual void PrimaryDraw(DevicePanel d, List<string> onScreenExlusionList)
+        {
+            if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
             {
                 EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
             }
-            else if (entityRenderList.Contains(name) && !skipRenderforx86)
+            else if (!Properties.Settings.Default.UseAltEntityRenderMode)
             {
-                if (!Properties.Settings.Default.NeverLoadEntityTextures)
-                {
-                    if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Properties.Settings.Default.UseAltEntityRenderMode)
-                    {
-                        EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
-                    }
-                    else if (!Properties.Settings.Default.UseAltEntityRenderMode) {
-                        EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
-                    }
-
-
-				}
-
+                EditorInstance.EditorEntity_ini.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
             }
-            else {
-                var editorAnim = EditorInstance.EditorEntity_ini.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
-                if (editorAnim != null && editorAnim.Frames.Count > 0)
+        }
+        public virtual void FallbackDraw(DevicePanel d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color)
+        {
+            bool fliph = false;
+            bool flipv = false;
+            bool rotate = false;
+            var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
+            string name = entity.Object.Name.Name;
+            var editorAnim = EditorInstance.EditorEntity_ini.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
+            if (editorAnim != null && editorAnim.Frames.Count > 0)
+            {
+                renderNotFound = false;
+                // Special cases that always display a set frame(?)
+                if (EditorInstance.ShowAnimations.IsEnabled == true)
                 {
-					renderNotFound = false;
-					// Special cases that always display a set frame(?)
-					if (EditorInstance.ShowAnimations.IsEnabled == true)
-                    {
-                        if (entity.Object.Name.Name == "StarPost")
-                            index = 1;
-                    }
-                    // Just incase
-                    if (index >= editorAnim.Frames.Count)
-                        index = 0;
-                    var frame = editorAnim.Frames[index];
+                    if (entity.Object.Name.Name == "StarPost")
+                        index = 1;
+                }
+                // Just incase
+                if (index >= editorAnim.Frames.Count)
+                    index = 0;
+                var frame = editorAnim.Frames[index];
 
-                    if (entity.attributesMap.ContainsKey("frameID"))
-                        frame = GetFrameFromAttribute(editorAnim, entity.attributesMap["frameID"]);
+                if (entity.attributesMap.ContainsKey("frameID"))
+                    frame = GetFrameFromAttribute(editorAnim, entity.attributesMap["frameID"]);
 
-                    if (frame != null)
-                    {
-                        EditorAnimations.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                        // Draw the normal filled Rectangle but Its visible if you have the entity selected
-                        d.DrawBitmap(frame.Texture, _ChildX + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), _ChildY + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
-                    else
-                    { // No frame to render
-                        if (EditorInstance.showEntitySelectionBoxes) d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
-                    }
-                    //Failsafe?
-                    //DrawOthers(d);
-
+                if (frame != null)
+                {
+                    EditorAnimations.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+                    // Draw the normal filled Rectangle but Its visible if you have the entity selected
+                    d.DrawBitmap(frame.Texture, _ChildX + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), _ChildY + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
-                {
-					renderNotFound = true;
-				}
+                { // No frame to render
+                    if (EditorInstance.showEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                }
+                //Failsafe?
+                //DrawOthers(d);
+
             }
-
-
-			if (drawSelectionBoxInFront) DrawSelectionBox(d, x, y, Transparency, color, color2);
-		}
-
+            else
+            {
+                renderNotFound = true;
+            }
+        }
 		public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
 		{
 			if (EditorInstance.showEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
@@ -480,19 +451,19 @@ namespace ManiacEditor
 				{
 					if (renderNotFound)
 					{
-						d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+						d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
 					}
 					else
 					{
-						d.DrawRectangle(x, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
+						d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
 					}
-					d.DrawLine(x, y, x + NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-					d.DrawLine(x, y, x, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-					d.DrawLine(x, y + NAME_BOX_HEIGHT, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-					d.DrawLine(x + NAME_BOX_WIDTH, y, x + NAME_BOX_WIDTH, y + NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+					d.DrawLine(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+					d.DrawLine(x, y, x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+					d.DrawLine(x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+					d.DrawLine(x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
 					if (Properties.Settings.Default.UseObjectRenderingImprovements == false)
 					{
-						if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+						if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
 					}
 				}
 			}
@@ -521,7 +492,6 @@ namespace ManiacEditor
             else
                 return null; // Don't Render the Animation
         }
-
         /// <summary>
         /// Guesses the rotation of an entity
         /// </summary>
@@ -611,7 +581,6 @@ namespace ManiacEditor
             }
             return offset;
         }
-
         public bool IsObjectOnScreen(DevicePanel d)
         {
             int x = entity.Position.X.High + childX;
@@ -647,8 +616,6 @@ namespace ManiacEditor
 
 
         }
-
-
         public bool HasFilter()
         {
             return entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8;

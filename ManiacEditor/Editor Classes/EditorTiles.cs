@@ -15,9 +15,6 @@ namespace ManiacEditor
 {
     public class EditorTiles
     {
-        const int TILES_CHUNK_SIZE = 16;
-        public const int TILE_SIZE = 16;
-
         private Editor Instance;
         public StageTiles StageTiles;
 

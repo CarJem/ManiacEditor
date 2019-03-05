@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
             int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
             int spacingAmount = 0;
-            e.DrawUIButtonBack(d, x, y, width, height, width, height);
+            e.DrawUIButtonBack(d, x, y, width, height, width, height, Transparency);
             if (width == 0) width = 1;
             int x2 = x - (width / 4);
             foreach (char symb in text)

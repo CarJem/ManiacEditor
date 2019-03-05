@@ -64,7 +64,7 @@
                             </Grid.ColumnDefinitions>
                             <WindowsFormsHost Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelLeft" Grid.Column="0"></WindowsFormsHost>
 
-                            <GridSplitter x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" 
+                            <GridSplitter SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                   ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
                             <Grid x:Name="CenterPanel" Grid.Column="2">
@@ -91,7 +91,7 @@
                                 </Grid>
                             </Grid>
 
-                            <GridSplitter x:Name="SpliterRight" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" 
+                            <GridSplitter x:Name="SpliterRight" SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                   ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
 
@@ -213,6 +213,7 @@
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
                         <MenuItem x:Name="prioritizedViewingToolStripMenuItem" Header="Prioritized Viewing" Click="prioritizedViewingToolStripMenuItem_Click"/>
+                        <MenuItem x:Name="SelectionBoxesAlwaysPrioritized" Header="Selection Boxes Always Prioritized" Click="SelectionBoxesAlwaysPrioritized_Click" IsCheckable="True" IsChecked="True"></MenuItem>
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         <MenuItem x:Name="objectFilterToolStripMenuItem" Header="Entity Filter:" IsEnabled="False"/>
                         <TextBox x:Name="toolStripTextBox1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0" Height="15" UseLayoutRounding="False" Width="100" TextChanged="ToolStripTextBox1_TextChanged"/>

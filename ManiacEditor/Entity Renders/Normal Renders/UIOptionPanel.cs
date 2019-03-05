@@ -32,15 +32,15 @@ namespace ManiacEditor.Entity_Renders
             int bottom = x + 212;
             int right = y + panelSize;
 
-            d.DrawRectangle(top, left, bottom, right, System.Drawing.Color.FromArgb(255, 49, 162, 247));
+            d.DrawRectangle(top, left, bottom, right, System.Drawing.Color.FromArgb(Transparency, 49, 162, 247));
 
-            d.DrawRectangle(top, left, x - 6, left+24, System.Drawing.Color.Black);
-            e.DrawTriangle(d, x - 6, left+12, 10, 24, 10, 10, 1);
+            d.DrawRectangle(top, left, x - 6, left+24, System.Drawing.Color.FromArgb(Transparency, 0, 0, 0));
+            e.DrawTriangle(d, x - 6, left+12, 10, 24, 10, 10, 1, Transparency);
 
             if (!botHidden)
             {
-                d.DrawRectangle(bottom, right, x - 6, right - 24, System.Drawing.Color.Black);
-                e.DrawTriangle(d, x - 6, right - 12, 24, 24, 10, 10, 0);
+                d.DrawRectangle(bottom, right, x - 6, right - 24, System.Drawing.Color.FromArgb(Transparency, 0, 0, 0));
+                e.DrawTriangle(d, x - 6, right - 12, 24, 24, 10, 10, 0, Transparency);
             }
 
 

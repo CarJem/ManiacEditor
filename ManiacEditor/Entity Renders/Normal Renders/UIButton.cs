@@ -36,7 +36,7 @@ namespace ManiacEditor.Entity_Renders
                         alignmentVal = frame.Frame.PivotX + (22 / 2);
                         break;
                 }
-                e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height);
+                e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height, Transparency);
                 d.DrawBitmap(frame.Texture, x + (int)alignmentVal, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }

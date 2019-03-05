@@ -25,5 +25,5 @@ namespace ManiacEditor.Interfaces
         {
             InitializeComponent();
         }
-	}
+    }
 }

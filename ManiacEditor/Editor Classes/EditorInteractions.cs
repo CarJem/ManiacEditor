@@ -251,7 +251,7 @@ a valid Data Directory.",
 						return;
 					}
 
-					using (var bitmap = new System.Drawing.Bitmap(editorLayer.Width * EditorLayer.TILE_SIZE, editorLayer.Height * EditorLayer.TILE_SIZE))
+					using (var bitmap = new System.Drawing.Bitmap(editorLayer.Width * EditorConstants.TILE_SIZE, editorLayer.Height * EditorConstants.TILE_SIZE))
 					using (var g = System.Drawing.Graphics.FromImage(bitmap))
 					{
 						editorLayer.Draw(g);
@@ -487,7 +487,7 @@ a valid Data Directory.",
 				if (mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacTiles"))
 				{
 					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>) System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
-					Point pastePoint = new Point((int)(Editor.lastX / Editor.Zoom) + EditorLayer.TILE_SIZE - 1, (int)(Editor.lastY / Editor.Zoom) + EditorLayer.TILE_SIZE - 1);
+					Point pastePoint = new Point((int)(Editor.lastX / Editor.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.lastY / Editor.Zoom) + EditorConstants.TILE_SIZE - 1);
 					if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
 					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
 
@@ -497,7 +497,7 @@ a valid Data Directory.",
 				// if there's none, use the internal clipboard
 				else if (Editor.TilesClipboard != null)
 				{
-					Point pastePoint = new Point((int)(Editor.lastX / Editor.Zoom) + EditorLayer.TILE_SIZE - 1, (int)(Editor.lastY / Editor.Zoom) + EditorLayer.TILE_SIZE - 1);
+					Point pastePoint = new Point((int)(Editor.lastX / Editor.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.lastY / Editor.Zoom) + EditorConstants.TILE_SIZE - 1);
 					if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item1);
 					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item2);
 					Editor.UpdateEditLayerActions();
@@ -699,7 +699,11 @@ a valid Data Directory.",
 
 		}
 
-		public void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        public void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.EntitySelectionBoxesAlwaysPrioritized = Editor.SelectionBoxesAlwaysPrioritized.IsChecked;
+        }
+        public void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (!mySettings.PrioritizedObjectRendering)
 			{
@@ -1852,30 +1856,30 @@ a valid Data Directory.",
 		{
 			if (Editor.x16ToolStripMenuItem.IsChecked == true)
 			{
-				Editor.EditorBackground.GRID_TILE_SIZE = 16;
+				EditorConstants.GRID_TILE_SIZE = 16;
 			}
 			if (Editor.x128ToolStripMenuItem.IsChecked == true)
 			{
-				Editor.EditorBackground.GRID_TILE_SIZE = 128;
+				EditorConstants.GRID_TILE_SIZE = 128;
 			}
 			if (Editor.x256ToolStripMenuItem.IsChecked == true)
 			{
-				Editor.EditorBackground.GRID_TILE_SIZE = 256;
+				EditorConstants.GRID_TILE_SIZE = 256;
 			}
 			if (Editor.customToolStripMenuItem.IsChecked == true)
 			{
-				Editor.EditorBackground.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
+				EditorConstants.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
 			}
 		}
 		public void X16ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.EditorBackground.GRID_TILE_SIZE = 16;
+			EditorConstants.GRID_TILE_SIZE = 16;
 			ResetGridOptions();
 			Editor.x16ToolStripMenuItem.IsChecked = true;
 		}
 		public void X128ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.EditorBackground.GRID_TILE_SIZE = 128;
+			EditorConstants.GRID_TILE_SIZE = 128;
 			ResetGridOptions();
 			Editor.x128ToolStripMenuItem.IsChecked = true;
 		}
@@ -1888,13 +1892,13 @@ a valid Data Directory.",
 		}
 		public void X256ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.EditorBackground.GRID_TILE_SIZE = 256;
+			EditorConstants.GRID_TILE_SIZE = 256;
 			ResetGridOptions();
 			Editor.x256ToolStripMenuItem.IsChecked = true;
 		}
 		public void CustomToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.EditorBackground.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
+			EditorConstants.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
 			ResetGridOptions();
 			Editor.customToolStripMenuItem.IsChecked = true;
 		}

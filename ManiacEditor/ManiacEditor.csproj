@@ -411,6 +411,7 @@
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
     <Compile Include="Editor Classes\EditorCommon.cs" />
+    <Compile Include="Editor Classes\EditorConstants.cs" />
     <Compile Include="Editor Classes\EditorDirectories.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorFindReplace.cs" />
@@ -421,7 +422,7 @@
     <Compile Include="Editor Classes\EditorSceneLoading.cs" />
     <Compile Include="Editor Classes\EditorTiles.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
-    <Compile Include="Editor Classes\EditorLinkedEntityBackup - Copy.cs" />
+    <Compile Include="Editor Classes\EditorViewSize.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedButton.cs" />

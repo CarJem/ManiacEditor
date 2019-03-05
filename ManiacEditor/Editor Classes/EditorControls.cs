@@ -648,7 +648,7 @@ namespace ManiacEditor
 
 		public void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			Editor.editorView.GraphicPanel.Focus();
+			if (!scrolling) Editor.editorView.GraphicPanel.Focus();
 
 			if (e.Button == MouseButtons.Left) Left();
 			else if (e.Button == MouseButtons.Right) Right();
@@ -659,7 +659,7 @@ namespace ManiacEditor
 			{
 				if (IsEditing() && !dragged) Editing();
 				InGame();
-				if (scrolling) Scrolling();
+				//if (scrolling) Scrolling();
 
 				void Editing()
 				{
@@ -760,7 +760,7 @@ namespace ManiacEditor
 				}
 				void Scrolling()
 				{
-					ToggleScrollerMode(e);
+				    ToggleScrollerMode(e);
 				}
 			}
 			void Right()
@@ -795,17 +795,15 @@ namespace ManiacEditor
 		{
 			if (ForceUpdateMousePos) UpdateScrollerPosition(e);
 			if (Editor.InstanceID != -1 && !Editor.KickStartMegaManiacRenderLoopFinished) Editor.KickStartMegaManiacRenderLoop = true;
-			if (mySettings.allowForSmoothSelection) Editor.editorView.GraphicPanel.Render();
+            if (scrolling || scrollingDragged) Editor.editorView.GraphicPanel.Render();
 
-			Common();
+            Common();
 
 			if (GameRunning) InGame();
 			if (ClickedX != -1) DraggingStarting();
 			if (scrolling) Scroller();
 			else if (e.Button == MouseButtons.Middle) EnforceCursorPosition();
 			if (IsEditing()) Editing();
-
-
 
 			if (IsChunksEdit())
 			{
@@ -883,8 +881,7 @@ namespace ManiacEditor
 						//EditLayer.Select(clicked_point, ShiftPressed || CtrlPressed, CtrlPressed);
 						if (!ShiftPressed() && !CtrlPressed())
 							Editor.Deselect();
-						Editor.UpdateControls();
-						Editor.UpdateEditLayerActions();
+                        Editor.UpdateEditLayerActions();
 
 						draggingSelection = true;
 						selectingX = ClickedX;
@@ -897,7 +894,6 @@ namespace ManiacEditor
 					// Start drag selection
 					if (!ShiftPressed() && !CtrlPressed())
 						Editor.Deselect();
-					Editor.UpdateControls();
 					Editor.UpdateEditLayerActions();
 
 					draggingSelection = true;
@@ -923,7 +919,6 @@ namespace ManiacEditor
 						// Start drag selection
 						if (!ShiftPressed() && !CtrlPressed())
 							Editor.Deselect();
-						Editor.UpdateControls();
 						draggingSelection = true;
 						selectingX = ClickedX;
 						selectingY = ClickedY;
@@ -933,6 +928,7 @@ namespace ManiacEditor
 			}
 			void Scroller()
 			{
+                
 				if (Editor.wheelClicked)
 				{
 					scrollingDragged = true;
@@ -1017,7 +1013,7 @@ namespace ManiacEditor
 
 				}
 
-                System.Windows.Point position = new System.Windows.Point(ShiftX, ShiftY); ;
+                System.Windows.Point position = new System.Windows.Point(ShiftX, ShiftY);
 				double x = xMove / 10 + position.X;
                 double y = yMove / 10 + position.Y;
 
@@ -1026,8 +1022,8 @@ namespace ManiacEditor
 
 				if (x < 0) x = 0;
 				if (y < 0) y = 0;
-				if (x > Editor.editorView.hScrollBar1.Maximum ) x = Editor.editorView.hScrollBar1.Maximum ;
-				if (y > Editor.editorView.vScrollBar1.Maximum ) y = Editor.editorView.vScrollBar1.Maximum ;
+                if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
+				if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
 
 
 				if (x != position.X || y != position.Y)
@@ -1045,8 +1041,7 @@ namespace ManiacEditor
 					Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
 
 				}
-
-				Editor.editorView.GraphicPanel.Render();
+                Editor.editorView.GraphicPanel.Render();
 			}
 			void Editing()
 			{
@@ -1168,7 +1163,7 @@ namespace ManiacEditor
 							Editor.editorView.hScrollBar1.Value = x;
 						}
 						Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
-						Editor.editorView.GraphicPanel.Render();
+                        if (!scrolling) Editor.editorView.GraphicPanel.Render();
 
 
 
@@ -1546,78 +1541,26 @@ namespace ManiacEditor
 				{
 					if (ScrollDirection == (int)ScrollDir.Y && !ScrollLocked)
 					{
-						if (Editor.editorView.vScrollBar1.IsVisible)
-						{
-							double y = Editor.editorView.vScrollBar1.Value - e.Delta;
-							if (y < 0) y = 0;
-							if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
-							Editor.editorView.vScrollBar1.Value = y;
-						}
-						else
-						{
-							double x = Editor.editorView.hScrollBar1.Value - e.Delta;
-							if (x < 0) x = 0;
-							if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
-							Editor.editorView.hScrollBar1.Value = x;
-						}
-					}
+                        if (Editor.editorView.vScrollBar1.IsVisible) VScroll();
+                        else HScroll();
+                    }
 					else if (ScrollDirection == (int)ScrollDir.X && !ScrollLocked)
 					{
-						if (Editor.editorView.hScrollBar1.IsVisible)
-						{
-							double x = Editor.editorView.hScrollBar1.Value - e.Delta;
-							if (x < 0) x = 0;
-							if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
-							Editor.editorView.hScrollBar1.Value = x;
-						}
-						else
-						{
-							double y = Editor.editorView.vScrollBar1.Value - e.Delta;
-							if (y < 0) y = 0;
-							if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
-							Editor.editorView.vScrollBar1.Value = y;
-						}
+                        if (Editor.editorView.hScrollBar1.IsVisible) HScroll();
+                        else VScroll();
 					}
 					else if (ScrollLocked)
 					{
 						if (ScrollDirection == (int)ScrollDir.Y)
 						{
-							if (Editor.editorView.vScrollBar1.IsVisible)
-							{
-								double y = Editor.editorView.vScrollBar1.Value - e.Delta;
-								if (y < 0) y = 0;
-								if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
-								if (y <= -1) y = 0;
-								Editor.editorView.vScrollBar1.Value = y;
-							}
-							else
-							{
-								double x = Editor.editorView.hScrollBar1.Value - e.Delta;
-								if (x < 0) x = 0;
-								if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
-								if (x <= -1) x = 0;
-								Editor.editorView.hScrollBar1.Value = x;
-							}
-						}
+                            if (Editor.editorView.vScrollBar1.IsVisible) VScroll();
+                            else HScroll();
+                        }
 						else
 						{
-							if (Editor.editorView.hScrollBar1.IsVisible)
-							{
-								double x = Editor.editorView.hScrollBar1.Value - e.Delta;
-								if (x < 0) x = 0;
-								if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
-								if (x <= -1) x = 0;
-								Editor.editorView.hScrollBar1.Value = x;
-							}
-							else
-							{
-								double y = Editor.editorView.vScrollBar1.Value - e.Delta;
-								if (y < 0) y = 0;
-								if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
-								if (y <= -1) y = 0;
-								Editor.editorView.vScrollBar1.Value = y;
-							}
-						}
+                            if (Editor.editorView.hScrollBar1.IsVisible) HScroll();
+                            else VScroll();
+                        }
 
 					}
 				}
@@ -1627,7 +1570,23 @@ namespace ManiacEditor
 					else Editor.CustomY -= e.Delta;
 				}
 			}
-		}
+
+            void VScroll()
+            {
+                double y = Editor.editorView.vScrollBar1.Value - e.Delta;
+                if (y < 0) y = 0;
+                if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
+                Editor.editorView.vScrollBar1.Value = y;
+            }
+
+            void HScroll()
+            {
+                double x = Editor.editorView.hScrollBar1.Value - e.Delta;
+                if (x < 0) x = 0;
+                if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
+                Editor.editorView.hScrollBar1.Value = x;
+            }
+        }
 		public void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			Editor.editorView.GraphicPanel.Focus();

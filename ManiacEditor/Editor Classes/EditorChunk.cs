@@ -18,10 +18,6 @@ namespace ManiacEditor
 	public class EditorChunk
 	{
 
-		const int x128_CHUNK_SIZE = 128;
-
-		public const int TILE_SIZE = 16;
-
 		public Editor EditorInstance;
 
 		private StageTiles Tiles;
@@ -54,8 +50,8 @@ namespace ManiacEditor
 			bool SolidTopB = ((tile >> 14) & 1) == 1;
 			bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-			g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
-				new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+			g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
+				new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
 		}
 

@@ -53,6 +53,7 @@ namespace ManiacEditor
 	/// </summary>
 	public partial class Editor : Window
 	{
+
 		#region Definitions
 		//Editor Editing States
 		public bool dragged;
@@ -98,6 +99,7 @@ namespace ManiacEditor
 		public bool EnablePixelCountMode = false; //Count the selection in pixels per tile or not
 		public bool isConsoleWindowOpen = false; //Show the Console Window or not
 		public bool rightClicktoSwapSlotID = false; //Swap Entity Slot ID's with Right Click
+        public bool EntitySelectionBoxesAlwaysPrioritized = true;
 
 
 		//Scroll Lock States
@@ -259,9 +261,10 @@ namespace ManiacEditor
 		public EditorSceneLoading EditorSceneLoading;
 		public EditorDirectories EditorDirectories;
 		public EditorFindReplace FindAndReplace;
+        public EditorViewSize EditorView;
 
-		//Tile Maniac + ManiaPal Instance
-		public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
+        //Tile Maniac + ManiaPal Instance
+        public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
 
 
 		//Editor Misc. Variables
@@ -388,12 +391,11 @@ namespace ManiacEditor
 				}
 			}
 		}
-
 		public void InitilizeEditor()
 		{
 			editorView = new EditorView(this);
 
-			this.editorView.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
+			//this.editorView.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
 			this.editorView.vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
 			this.editorView.vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
 			this.editorView.vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
@@ -438,8 +440,10 @@ namespace ManiacEditor
 			EditorSceneLoading = new EditorSceneLoading(this);
 			EditorDirectories = new EditorDirectories(this);
 			FindAndReplace = new EditorFindReplace(this);
+            EditorView = new EditorViewSize(this);
 
-			this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
+
+            this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
 			editorView.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
 			editorView.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
 
@@ -715,7 +719,6 @@ namespace ManiacEditor
 		{
 			return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Shift);
 		}
-
 		public bool CanWriteFile(string fullFilePath)
 		{
 			if (!File.Exists(fullFilePath)) return true;
@@ -1035,7 +1038,7 @@ namespace ManiacEditor
 
 					TilesToolbar.TileDoubleClick = new Action<int>(x =>
 					{
-						EditorPlaceTile(new Point((int)(ShiftX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorLayer.TILE_SIZE - 1), x, EditLayerA);
+						EditorPlaceTile(new Point((int)(ShiftX / Zoom) + EditorConstants.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorConstants.TILE_SIZE - 1), x, EditLayerA);
 					});
 					TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
 					{
@@ -1098,10 +1101,14 @@ namespace ManiacEditor
 			}
 			else
 			{
-				if (entitiesToolbar != null) entitiesToolbar.Dispose();
-				entitiesToolbar = null;
+                if (entitiesToolbar != null)
+                {
+                    entitiesToolbar.Dispose();
+                    entitiesToolbar = null;
+                }
+
 			}
-			if (TilesToolbar == null && entitiesToolbar == null)
+			if (TilesToolbar == null && entitiesToolbar == null && (ToolBarPanelRight.Children.Count != 0))
 			{
 				ToolBarPanelRight.Children.Clear();
 				UpdateToolbars(true, false);
@@ -1110,19 +1117,19 @@ namespace ManiacEditor
 
 			SetSelectOnlyButtonsState(enabled);
 		}
-		public void UpdateControls(bool stageLoad = false)
-		{
-			if (mySettings.EntityFreeCam)
-			{
-				editorView.vScrollBar1.IsEnabled = false;
-				editorView.hScrollBar1.IsEnabled = false;
-			}
-			else
-			{
-				editorView.vScrollBar1.IsEnabled = true;
-				editorView.hScrollBar1.IsEnabled = true;
-			}
-			SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
+        public void UpdateControls(bool stageLoad = false)
+        {
+            if (mySettings.EntityFreeCam)
+            {
+                editorView.vScrollBar1.IsEnabled = false;
+                editorView.hScrollBar1.IsEnabled = false;
+            }
+            else
+            {
+                editorView.vScrollBar1.IsEnabled = true;
+                editorView.hScrollBar1.IsEnabled = true;
+            }
+            SetSceneOnlyButtonsState(EditorScene != null, stageLoad);
 		}
 		private void UpdateToolbars(bool rightToolbar = true, bool visible = false)
 		{
@@ -1169,8 +1176,7 @@ namespace ManiacEditor
 				}
 			}
 
-		}
-
+        }
 		public void UpdateWaitingScreen(bool show)
 		{
 			if (show)
@@ -1879,178 +1885,7 @@ namespace ManiacEditor
 
 		#endregion
 
-		#region Zooming/Resizing Related Methods
 
-		public void SetZoomLevel(int zoom_level, Point zoom_point, double zoom_level_d = 0.0)
-		{
-			double old_zoom = Zoom;
-
-
-
-			if (zoom_level_d == 0.0)
-			{
-				ZoomLevel = zoom_level;
-				switch (ZoomLevel)
-				{
-					case 5: Zoom = 4; break;
-					case 4: Zoom = 3; break;
-					case 3: Zoom = 2; break;
-					case 2: Zoom = 3 / 2.0; break;
-					case 1: Zoom = 5 / 4.0; break;
-					case 0: Zoom = 1; break;
-					case -1: Zoom = 2 / 3.0; break;
-					case -2: Zoom = 1 / 2.0; break;
-					case -3: Zoom = 1 / 3.0; break;
-					case -4: Zoom = 1 / 4.0; break;
-					case -5: Zoom = 1 / 8.0; break;
-				}
-			}
-			else
-			{
-				ZoomLevel = (int)zoom_level_d;
-				Zoom = zoom_level_d;
-			}
-
-
-			zooming = true;
-
-			int oldShiftX = ShiftX;
-			int oldShiftY = ShiftY;
-
-			if (EditorScene != null)
-				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
-
-
-			if (editorView.hScrollBar1.IsVisible)
-			{
-				ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Zoom - zoom_point.X);
-				ShiftX = (int)Math.Min((editorView.hScrollBar1.Maximum), Math.Max(0, ShiftX));
-				editorView.hScrollBar1.Value = ShiftX;
-			}
-			if (editorView.vScrollBar1.IsVisible)
-			{
-				ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Zoom - zoom_point.Y);
-				ShiftY = (int)Math.Min((editorView.vScrollBar1.Maximum), Math.Max(0, ShiftY));
-				editorView.vScrollBar1.Value = ShiftY;
-			}
-
-
-			zooming = false;
-
-			UpdateControls();
-		}
-
-		public void Form1_Resize(object sender, RoutedEventArgs e)
-		{
-			// TODO: It hides right now few pixels at the edge
-
-			Visibility nvscrollbar = Visibility.Visible;
-			Visibility nhscrollbar = Visibility.Visible;
-
-			if (editorView.hScrollBar1.Maximum == 0) nhscrollbar = Visibility.Hidden;
-			if (editorView.vScrollBar1.Maximum == 0) nvscrollbar = Visibility.Hidden;
-
-			editorView.vScrollBar1.Visibility = nvscrollbar;
-			editorView.vScrollBar1Host.Child.Visibility = nvscrollbar;
-			editorView.hScrollBar1Host.Child.Visibility = nhscrollbar;
-			editorView.hScrollBar1.Visibility = nhscrollbar;
-
-			if (editorView.vScrollBar1.IsVisible)
-			{
-				editorView.vScrollBar1.ViewportSize = SceneHeight;
-				editorView.vScrollBar1.LargeChange = editorView.vScrollBar1Host.Height;
-				editorView.vScrollBar1.SmallChange = editorView.vScrollBar1Host.Height / 4;
-				ScreenHeight = (int)editorView.vScrollBar1Host.Height;
-				editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
-			}
-			else
-			{
-				ScreenHeight = editorView.GraphicPanel.Height;
-				ShiftY = 0;
-				editorView.vScrollBar1.Value = 0;
-			}
-			if (editorView.hScrollBar1.IsVisible)
-			{
-				editorView.hScrollBar1.ViewportSize = SceneWidth;
-				editorView.hScrollBar1.LargeChange = editorView.hScrollBar1Host.Width;
-				editorView.hScrollBar1.SmallChange = editorView.hScrollBar1Host.Width / 4;
-				ScreenWidth = (int)editorView.hScrollBar1Host.Width;
-				editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
-			}
-			else
-			{
-				ScreenWidth = editorView.GraphicPanel.Width;
-				ShiftX = 0;
-				editorView.hScrollBar1.Value = 0;
-			}
-
-
-
-			while (ScreenWidth > editorView.GraphicPanel.Width)
-				ResizeGraphicPanel(editorView.GraphicPanel.Width * 2, editorView.GraphicPanel.Height);
-			while (ScreenHeight > editorView.GraphicPanel.Height)
-				ResizeGraphicPanel(editorView.GraphicPanel.Width, editorView.GraphicPanel.Height * 2);
-
-
-		}
-
-		public void SetViewSize(int width = 0, int height = 0)
-		{
-
-			if (mySettings.EntityFreeCam)
-			{
-				width = 10000000;
-				height = 10000000;
-			}
-			else if (isExportingImage)
-			{
-				width = SceneWidth;
-				height = SceneHeight;
-			}
-
-            if (!isExportingImage && !mySettings.EntityFreeCam)
-            {
-                editorView.vScrollBar1.Maximum = height - editorView.vScrollBar1.LargeChange;
-                editorView.hScrollBar1.Maximum = width - editorView.hScrollBar1.LargeChange;
-            }
-
-			editorView.GraphicPanel.DrawWidth = Math.Min((int)width, editorView.GraphicPanel.Width);
-			editorView.GraphicPanel.DrawHeight = Math.Min((int)height, editorView.GraphicPanel.Height);
-
-			Form1_Resize(null, null);
-
-            if (!isExportingImage && !mySettings.EntityFreeCam)
-            {
-                editorView.hScrollBar1.Value = Math.Max(0, Math.Min(editorView.hScrollBar1.Value, editorView.hScrollBar1.Maximum));
-                editorView.vScrollBar1.Value = Math.Max(0, Math.Min(editorView.vScrollBar1.Value, editorView.vScrollBar1.Maximum));
-            }
-
-        }
-
-		public void ResetViewSize()
-		{
-			SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
-		}
-
-		private void ResizeGraphicPanel(int width = 0, int height = 0)
-		{
-			if (mySettings.EntityFreeCam)
-			{
-				width = SceneWidth;
-				height = SceneHeight;
-			}
-
-			editorView.GraphicPanel.Width = width;
-			editorView.GraphicPanel.Height = height;
-
-			editorView.GraphicPanel.ResetDevice();
-
-			editorView.GraphicPanel.DrawWidth = Math.Min((int)editorView.hScrollBar1.Maximum, editorView.GraphicPanel.Width);
-			editorView.GraphicPanel.DrawHeight = Math.Min((int)editorView.vScrollBar1.Maximum, editorView.GraphicPanel.Height);
-
-		}
-
-		#endregion
 
 		#region Scene Loading / Unloading + Repair
 		public void RepairScene()
@@ -2074,15 +1909,6 @@ namespace ManiacEditor
 			healer.startHealing(open.FileName);
 			HideConsoleWindow();
 
-		}
-		private bool EditorLoad()
-		{
-			if (DataDirectory == null)
-			{
-				return false;
-			}
-			EditorEntity_ini.ReleaseResources();
-			return true;
 		}
 		public void UnloadScene()
 		{
@@ -2166,7 +1992,6 @@ namespace ManiacEditor
 
 			UpdateStartScreen(true);
 		}
-
 		public void OpenSceneForceFully()
 		{
 
@@ -2220,13 +2045,11 @@ namespace ManiacEditor
 				EditorSceneLoading.OpenSceneForcefully(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed);
 			}*/
 		}
-
 		private void OpenSceneForceFully(string dataDir)
 		{
 			DataDirectory = dataDir;
 			EditorSceneLoading.OpenSceneForcefullyUsingSceneSelect(DataDirectory);
 		}
-
 		public void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
 		{
 			EditorSceneLoading.OpenSceneUsingSceneSelect();
@@ -2412,6 +2235,11 @@ namespace ManiacEditor
 					}
 				}
 
+                if (EntitySelectionBoxesAlwaysPrioritized)
+                {
+                    entities.DrawSelectionBoxes(editorView.GraphicPanel);
+                }
+
 			}
 
 			if (draggingSelection)
@@ -2515,7 +2343,7 @@ namespace ManiacEditor
 				{
 					Point rel = editorView.GraphicPanel.PointToScreen(Point.Empty);
 					EditLayer?.DragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
-					editorView.GraphicPanel.Render();
+                    editorView.GraphicPanel.Render();
 
 				}
 			}
@@ -2525,7 +2353,7 @@ namespace ManiacEditor
 			if (!mySettings.DisableDraging)
 			{
 				EditLayer?.EndDragOver(true);
-				editorView.GraphicPanel.Render();
+			    editorView.GraphicPanel.Render();
 			}
 		}
 		private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
@@ -2879,7 +2707,6 @@ namespace ManiacEditor
 			}
 
 		}
-
 		public void CreateShortcut(string dataDir, string scenePath = "", string modPath = "", int X = 0, int Y = 0, bool isEncoreMode = false, int LevelSlotNum = -1, double ZoomedLevel = 0.0)
 		{
 			object shDesktop = (object)"Desktop";
@@ -3035,60 +2862,6 @@ namespace ManiacEditor
 			}
 
 		}
-		#endregion
-
-		#region Scrollbar Methods
-
-		private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
-		{
-			ShiftY = (int)e.NewValue;
-            //editorView.GraphicPanel.Render();
-        }
-
-		private void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
-		{
-			ShiftX = (int)e.NewValue;
-            //editorView.GraphicPanel.Render();
-        }
-
-		private void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
-		{
-			ShiftY = (int)editorView.vScrollBar1.Value;
-			if (!(zooming || draggingSelection || dragged || scrolling)) editorView.GraphicPanel.Render();
-			if (draggingSelection)
-			{
-				editorView.GraphicPanel.OnMouseMoveEventCreate();
-			}
-
-		}
-
-		private void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
-		{
-			ShiftX = (int)editorView.hScrollBar1.Value;
-			if (!(zooming || draggingSelection || dragged || scrolling)) editorView.GraphicPanel.Render();
-			if (draggingSelection)
-			{
-				editorView.GraphicPanel.OnMouseMoveEventCreate();
-			}
-
-		}
-
-		private void VScrollBar1_Entered(object sender, EventArgs e)
-		{
-			if (!ScrollLocked)
-			{
-				ScrollDirection = (int)ScrollDir.Y;
-			}
-		}
-
-		private void HScrollBar1_Entered(object sender, EventArgs e)
-		{
-			if (!ScrollLocked)
-			{
-				ScrollDirection = (int)ScrollDir.X;
-			}
-		}
-
 		#endregion
 
 		#region Backup Tool Methods
@@ -3477,7 +3250,8 @@ namespace ManiacEditor
 		private void SetMenuButtons(object sender, RoutedEventArgs e) { Interactions.SetMenuButtons(sender, e); }
 		private void SetMenuButtons(string tag) { Interactions.SetMenuButtons(tag); }
 		private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(sender, e); }
-		private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.prioritizedViewingToolStripMenuItem_Click(sender, e); }
+        private void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e) { Interactions.SelectionBoxesAlwaysPrioritized_Click(sender, e); }
+        private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.prioritizedViewingToolStripMenuItem_Click(sender, e); }
 		private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ChangeEncorePaleteToolStripMenuItem_Click(sender, e); }
 		public void SetEncorePallete(object sender = null, string path = "") { Interactions.SetEncorePallete(sender, path); }
 		private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.MoveExtraLayersToFrontToolStripMenuItem_Click(sender, e); }
@@ -4234,7 +4008,8 @@ namespace ManiacEditor
 		#region Status Bar Event Handlers
 		private void PixelModeButton_Click(object sender, RoutedEventArgs e) { Interactions.PixelModeButton_Click(sender, e); }
 		public void TooltipButton_Click(object sender, RoutedEventArgs e) { Interactions.TooltipButton_Click(sender, e); }
-		public void ScrollLockButton_Click(object sender, RoutedEventArgs e) { Interactions.ScrollLockButton_Click(sender, e); }
+
+        public void ScrollLockButton_Click(object sender, RoutedEventArgs e) { Interactions.ScrollLockButton_Click(sender, e); }
 		public void NudgeFasterButton_Click(object sender, RoutedEventArgs e) { Interactions.NudgeFasterButton_Click(sender, e); }
 
 		#region Quick Button Event Handlers
@@ -4298,17 +4073,61 @@ namespace ManiacEditor
 		{
 			EditorGame.UpdateCheckpoint(new Point(0, 0), false);
 		}
-
-		private void AssetResetToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        private void AssetResetToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			EditorGame.AssetReset();
 		}
 
-		private void RestartSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        private void RestartSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			EditorGame.RestartScene();
 		}
-		#endregion
+        #endregion
 
-	}
+
+        #region Temporary Region
+
+        private void Spliter_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            Form1_Resize(null, null);
+        }
+
+        private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetZoomLevel(ZoomLevel, new System.Drawing.Point(ShiftX, ShiftY), 0.0, false);
+        }
+
+        public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true) { EditorView.SetViewSize(width, height, resizeForm); }
+
+        public void Form1_Resize(object sender, RoutedEventArgs e) { EditorView.Form1_Resize(sender, e); }
+
+        #region Scrollbar Methods
+
+        private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { EditorView.VScrollBar1_Scroll(sender, e); }
+
+        private void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { EditorView.HScrollBar1_Scroll(sender, e); }
+
+
+        private void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { EditorView.VScrollBar1_ValueChanged(sender, e); }
+
+        private void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { EditorView.HScrollBar1_ValueChanged(sender, e); }
+
+
+        private void VScrollBar1_Entered(object sender, EventArgs e) { EditorView.VScrollBar1_Entered(sender, e); }
+
+        private void HScrollBar1_Entered(object sender, EventArgs e) { EditorView.HScrollBar1_Entered(sender, e); }
+
+        #region Zooming/Resizing Related Methods
+
+        public void SetZoomLevel(int zoom_level, Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true) { EditorView.SetZoomLevel(zoom_level, zoom_point, zoom_level_d, updateControls); }
+
+        public void ResetViewSize() { EditorView.ResetViewSize(); }
+        public void ResizeGraphicPanel(int width = 0, int height = 0) { EditorView.ResizeGraphicPanel(width, height); }
+        #endregion
+
+
+        #endregion
+
+        #endregion
+    }
 }
