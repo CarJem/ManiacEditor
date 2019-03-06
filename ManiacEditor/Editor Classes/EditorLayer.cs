@@ -672,8 +672,8 @@ namespace ManiacEditor
         {
             if (!addSelection) Deselect();
             point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
-            EditorInstance.SelectedTileX = point.X;
-            EditorInstance.SelectedTileY = point.Y;
+            EditorInstance.EditorState.SelectedTileX = point.X;
+            EditorInstance.EditorState.SelectedTileY = point.Y;
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
                 if (deselectIfSelected && SelectedTiles.Contains(point))
@@ -773,7 +773,7 @@ namespace ManiacEditor
 
             SelectedTiles.Clear();
             SelectedTilesValue.Clear();
-            EditorInstance.SelectedTilesCount = 0;
+            EditorInstance.EditorState.SelectedTilesCount = 0;
         }
 
         public bool IsPointSelected(Point point)
@@ -1250,8 +1250,8 @@ namespace ManiacEditor
         public void RefreshTileCount()
         {
             GlobalSelectedTiles = SelectedTiles.Count + TempSelectionTiles.Count;
-            EditorInstance.DeselectTilesCount = TempSelectionDeselectTiles.Count;
-            EditorInstance.SelectedTilesCount = GlobalSelectedTiles - EditorInstance.DeselectTilesCount;
+            EditorInstance.EditorState.DeselectTilesCount = TempSelectionDeselectTiles.Count;
+            EditorInstance.EditorState.SelectedTilesCount = GlobalSelectedTiles - EditorInstance.EditorState.DeselectTilesCount;
         }
     }
 }

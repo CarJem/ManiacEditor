@@ -18,8 +18,15 @@ using IniParser.Model;
 namespace ManiacEditor
 {
     [Serializable]
-    class EditorSettings
+    public class EditorSettings
     {
+        private Editor Instance;
+        public EditorSettings(Editor instance)
+        {
+            Instance = instance;
+        }
+
+
         static Dictionary<String, String> SceneINISettings = new Dictionary<string, string> { };
 
         public static void exportSettings()
@@ -34,7 +41,8 @@ namespace ManiacEditor
 
         }
 
-		public static void SetINIDefaultPrefrences(Editor instance)
+        #region Maniac.ini and Preset Section
+        public static void SetINIDefaultPrefrences(Editor instance)
 		{
 			string value;
 			Dictionary<String, String> ListedPrefrences = EditorSettings.ReturnPrefrences();
@@ -127,7 +135,6 @@ namespace ManiacEditor
 
 
 		}
-
 		public static FileStream GetSceneIniResource(string path)
         {
             if (!File.Exists(path))
@@ -140,7 +147,6 @@ namespace ManiacEditor
                                   FileAccess.Read,
                                   FileShare.Read);
         }
-
         public static void GetSceneINISettings(Stream stream)
         {
             var parser = new IniParser.StreamIniDataParser();
@@ -156,18 +162,14 @@ namespace ManiacEditor
 
 
         }
-
-
         public static Dictionary<String,String> ReturnPrefrences()
         {
             return SceneINISettings;
         }
-
         public static void CleanPrefrences()
         {
             SceneINISettings.Clear();
         }
-
         public static void ApplyPreset(int state)
         {
             switch (state)
@@ -186,7 +188,6 @@ namespace ManiacEditor
                     break;
             }
         }
-
         public static void ApplyPreset(string state)
         {
             switch (state)
@@ -205,7 +206,6 @@ namespace ManiacEditor
                     break;
             }
         }
-
         public static void ApplyMinimalPreset()
         {
             Settings.mySettings.allowForSmoothSelection = false;
@@ -217,7 +217,6 @@ namespace ManiacEditor
             Settings.mySettings.NeverLoadEntityTextures = true;
             Settings.mySettings.preRenderTURBOMode = false;
         }
-
         public static void ApplyBasicPreset()
         {
             Settings.mySettings.allowForSmoothSelection = false;
@@ -229,7 +228,6 @@ namespace ManiacEditor
             Settings.mySettings.NeverLoadEntityTextures = false;
             Settings.mySettings.preRenderTURBOMode = false;
         }
-
         public static void ApplySuperPreset()
         {
             Settings.mySettings.allowForSmoothSelection = true;
@@ -241,7 +239,6 @@ namespace ManiacEditor
             Settings.mySettings.NeverLoadEntityTextures = false;
             Settings.mySettings.preRenderTURBOMode = false;
         }
-
         public static void ApplyHyperPreset()
         {
             Settings.mySettings.allowForSmoothSelection = true;
@@ -253,9 +250,6 @@ namespace ManiacEditor
             Settings.mySettings.DisableRenderExlusions = false;
             Settings.mySettings.NeverLoadEntityTextures = false;
         }
-
-
-
         public static bool isMinimalPreset()
         {
             bool isMinimal = false;
@@ -273,7 +267,6 @@ namespace ManiacEditor
             return isMinimal;
 
         }
-
         public static bool isBasicPreset()
         {
             bool isBasic = false;
@@ -290,7 +283,6 @@ namespace ManiacEditor
             }
             return isBasic;
         }
-
         public static bool isSuperPreset()
         {
             bool isSuper = false;
@@ -307,7 +299,6 @@ namespace ManiacEditor
             }
             return isSuper;
         }
-
         public static bool isHyperPreset()
         {
             bool isHyper = false;
@@ -323,6 +314,196 @@ namespace ManiacEditor
                                             isHyper = true;
             }
             return isHyper;
+        }
+        #endregion
+
+        public void TryLoadSettings()
+        {
+            try
+            {
+                if (Settings.mySettings.UpgradeRequired)
+                {
+                    Settings.mySettings.Upgrade();
+                    Settings.mySettings.UpgradeRequired = false;
+                    Settings.mySettings.Save();
+                }
+
+                Instance.WindowState = Settings.mySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
+                Instance.GamePath = Settings.mySettings.GamePath;
+
+
+                Instance.RefreshDataDirectories(Settings.mySettings.DataDirectories);
+
+
+                if (Settings.mySettings.modConfigs?.Count > 0)
+                {
+                    Instance.selectConfigToolStripMenuItem.Items.Clear();
+                    for (int i = 0; i < Settings.mySettings.modConfigs.Count; i++)
+                    {
+                        Instance.selectConfigToolStripMenuItem.Items.Add(Instance.CreateModConfigMenuItem(i));
+
+                    }
+                }
+
+                ApplyDefaults();
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Write("Failed to load settings: " + ex);
+            }
+        }
+        public void ApplyDefaults()
+        {
+            // These Prefrences are applied on Editor Load
+            Instance.editEntitesTransparencyToolStripMenuItem.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
+            Instance.transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
+            Instance.applyEditEntitiesTransparency = Settings.mySettings.EditEntitiesTransparencyDefault;
+
+            Instance.ScrollLocked = Settings.mySettings.ScrollLockEnabledDefault;
+            Instance.statusNAToolStripMenuItem.IsChecked = Settings.mySettings.ScrollLockEnabledDefault;
+            Instance.scrollLockButton.IsChecked = Settings.mySettings.ScrollLockEnabledDefault;
+
+            Instance.ScrollDirection = Settings.mySettings.ScrollLockXYDefault;
+
+            Instance.xToolStripMenuItem.IsChecked = Instance.ScrollDirection == (int)ScrollDir.X;
+            Instance.yToolStripMenuItem.IsChecked = Instance.ScrollDirection == (int)ScrollDir.Y;
+
+            Instance.pixelModeButton.IsChecked = Settings.mySettings.EnablePixelModeDefault;
+            Instance.pixelModeToolStripMenuItem.IsChecked = Settings.mySettings.EnablePixelModeDefault;
+            Instance.EnablePixelCountMode = Settings.mySettings.EnablePixelModeDefault;
+
+            Instance.showEntityPathArrowsToolstripItem.IsChecked = Settings.mySettings.ShowEntityArrowPathsDefault;
+            Instance.showEntityPathArrows = Settings.mySettings.ShowEntityArrowPathsDefault;
+
+            Instance.showWaterLevelToolStripMenuItem.IsChecked = Settings.mySettings.showWaterLevelDefault;
+            Instance.showWaterLevel = Settings.mySettings.showWaterLevelDefault;
+            Instance.alwaysShowWaterLevel = Settings.mySettings.AlwaysShowWaterLevelDefault;
+            Instance.sizeWaterLevelwithBounds = Settings.mySettings.SizeWaterLevelWithBoundsDefault;
+            Instance.waterLevelAlwaysShowItem.IsChecked = Settings.mySettings.AlwaysShowWaterLevelDefault;
+            Instance.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = Settings.mySettings.SizeWaterLevelWithBoundsDefault;
+
+            Instance.showParallaxSpritesToolStripMenuItem.IsChecked = Settings.mySettings.ShowFullParallaxEntityRenderDefault;
+            Instance.showParallaxSprites = Settings.mySettings.ShowFullParallaxEntityRenderDefault;
+            Instance.prioritizedViewingToolStripMenuItem.IsChecked = Settings.mySettings.PrioritizedObjectRendering;
+
+            Instance.showEntitySelectionBoxes = Settings.mySettings.ShowEntitySelectionBoxesDefault;
+            Instance.showEntitySelectionBoxesToolStripMenuItem.IsChecked = Settings.mySettings.ShowEntitySelectionBoxesDefault;
+
+            Instance.showStatsToolStripMenuItem.IsChecked = Settings.mySettings.ShowStatsViewerDefault;
+            Instance.useLargeTextToolStripMenuItem.IsChecked = Settings.mySettings.StatsViewerLargeTextDefault;
+
+            Instance.DebugStatsVisibleOnPanel = Settings.mySettings.ShowStatsViewerDefault;
+            Instance.UseLargeDebugStats = Settings.mySettings.StatsViewerLargeTextDefault;
+
+
+
+            var allLangItems = Instance.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            foreach (var item in allLangItems)
+                if (item != null)
+                {
+                    if (item.Tag.ToString() == Settings.mySettings.LangDefault)
+                    {
+                        item.IsChecked = true;
+                        Instance.CurrentLanguage = item.Tag.ToString();
+                    }
+                }
+
+
+            bool endSearch = false;
+            var allButtonItems = Instance.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            foreach (var item in allButtonItems)
+            {
+                if (item.Tag != null)
+                {
+                    if (item.Tag.ToString() == Settings.mySettings.ButtonLayoutDefault && !endSearch)
+                    {
+                        item.IsChecked = true;
+                        Instance.SetMenuButtons(item.Tag.ToString());
+                        endSearch = true;
+                    }
+                    var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                    foreach (var subItem in allSubButtonItems)
+                    {
+                        if (subItem.Tag != null)
+                        {
+                            if (subItem.Tag.ToString() == Settings.mySettings.ButtonLayoutDefault && !endSearch)
+                            {
+                                subItem.IsChecked = true;
+                                Instance.SetMenuButtons(subItem.Tag.ToString());
+                                endSearch = true;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+        public void UseDefaultPrefrences()
+        {
+            //These Prefrences are applied on Stage Load
+
+            //Default Layer Visibility Preferences
+            if (!Settings.mySettings.FGLowerDefault) Instance.ShowFGLower.IsChecked = false;
+            else Instance.ShowFGLower.IsChecked = true;
+            if (!Settings.mySettings.FGLowDefault) Instance.ShowFGLow.IsChecked = false;
+            else Instance.ShowFGLow.IsChecked = true;
+            if (!Settings.mySettings.FGHighDefault) Instance.ShowFGHigh.IsChecked = false;
+            else Instance.ShowFGHigh.IsChecked = true;
+            if (!Settings.mySettings.FGHigherDefault) Instance.ShowFGHigher.IsChecked = false;
+            else Instance.ShowFGHigher.IsChecked = true;
+            if (!Settings.mySettings.EntitiesDefault) Instance.ShowEntities.IsChecked = false;
+            else Instance.ShowEntities.IsChecked = true;
+            if (!Settings.mySettings.AnimationsDefault) Instance.ShowAnimations.IsChecked = false;
+            else Instance.ShowAnimations.IsChecked = true;
+
+            //Default Enabled Annimation Preferences
+            Instance.movingPlatformsObjectsToolStripMenuItem.IsChecked = Instance.mySettings.MovingPlatformsDefault;
+            Instance.MovingPlatformsChecked = Instance.mySettings.MovingPlatformsDefault;
+
+            Instance.spriteFramesToolStripMenuItem.IsChecked = Instance.mySettings.AnimatedSpritesDefault;
+            Instance.AnnimationsChecked = Instance.mySettings.AnimatedSpritesDefault;
+
+            Instance.waterColor = Instance.mySettings.WaterColorDefault;
+
+
+
+
+            //Default Grid Preferences
+            if (!Settings.mySettings.x16Default) Instance.x16ToolStripMenuItem.IsChecked = false;
+            else Instance.x16ToolStripMenuItem.IsChecked = true;
+            if (!Settings.mySettings.x128Default) Instance.x128ToolStripMenuItem.IsChecked = false;
+            else Instance.x128ToolStripMenuItem.IsChecked = true;
+            if (!Settings.mySettings.x256Default) Instance.x256ToolStripMenuItem.IsChecked = false;
+            else Instance.x256ToolStripMenuItem.IsChecked = true;
+            if (!Settings.mySettings.CustomGridDefault) Instance.customToolStripMenuItem.IsChecked = false;
+            else Instance.customToolStripMenuItem.IsChecked = true;
+
+            //Collision Color Presets
+            Instance.defaultToolStripMenuItem.IsChecked = Settings.mySettings.CollisionColorsDefault == 0;
+            Instance.invertedToolStripMenuItem.IsChecked = Settings.mySettings.CollisionColorsDefault == 1;
+            Instance.customToolStripMenuItem1.IsChecked = Settings.mySettings.CollisionColorsDefault == 2;
+            Instance.collisionPreset = Settings.mySettings.CollisionColorsDefault;
+            Instance.RefreshCollisionColours();
+
+            if (Settings.mySettings.ScrollLockXYDefault.Equals(ScrollDir.X))
+            {
+                Instance.ScrollDirection = (int)ScrollDir.X;
+                Instance.UpdateStatusPanel(null, null);
+
+            }
+            else
+            {
+                Instance.ScrollDirection = (int)ScrollDir.Y;
+                Instance.UpdateStatusPanel(null, null);
+            }
+
         }
     }
 

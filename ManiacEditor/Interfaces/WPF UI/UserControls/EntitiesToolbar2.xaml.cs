@@ -226,9 +226,12 @@ namespace ManiacEditor
 					};					
 				}
 			}
-			if (currentEntity != null) MoreButton.IsEnabled = true;
-			else MoreButton.IsEnabled = false;
-		}
+			if (currentEntity != null) GoToObject.IsEnabled = true;
+			else GoToObject.IsEnabled = false;
+
+            if (EditorInstance.entities.SelectedEntities != null && EditorInstance.entities.SelectedEntities.Count > 1) SortSelectedSlotIDs.IsEnabled = true;
+            else SortSelectedSlotIDs.IsEnabled = false;
+        }
 
 		public Visibility GetObjectListItemVisiblity(string name, ushort slotID)
 		{
@@ -336,7 +339,7 @@ namespace ManiacEditor
 					_bindingSceneObjectsSource.Add(item);
 				}
 
-				if (_bindingSceneObjectsSource != null && _bindingSceneObjectsSource.Count > 0)
+				if (_bindingSceneObjectsSource != null && _bindingSceneObjectsSource.Count > 1)
 				{
 					cbSpawn.ItemsSource = _bindingSceneObjectsSource;
 					cbSpawn.SelectedItem = cbSpawn.Items[0];
@@ -380,10 +383,13 @@ namespace ManiacEditor
 				Int32.TryParse(ObjectList[entitiesList.SelectedIndex].Tag.ToString(), out int selectedIndexInt);
 				SelectedEntity?.Invoke(_entities.Where(x => x.SlotID == selectedIndexInt).First().SlotID);
 			}
-			if (currentEntity != null) MoreButton.IsEnabled = true;
-			else MoreButton.IsEnabled = false;
+            if (currentEntity != null) GoToObject.IsEnabled = true;
+            else GoToObject.IsEnabled = false;
 
-		}
+            if (EditorInstance.entities.SelectedEntities != null && EditorInstance.entities.SelectedEntities.Count > 0) SortSelectedSlotIDs.IsEnabled = true;
+            else SortSelectedSlotIDs.IsEnabled = false;
+
+        }
 
 		public int GetIndexOfSlotID(int slotID)
 		{
@@ -974,7 +980,7 @@ namespace ManiacEditor
 
 		private void goToThisEntityToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (currentEntity != null)
+            if (currentEntity != null)
 			{
 				int x = currentEntity.Position.X.High;
 				int y = currentEntity.Position.Y.High;
@@ -1009,5 +1015,15 @@ namespace ManiacEditor
 		{
 
 		}
-	}
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SortSelectedSlotIDs_Click(object sender, RoutedEventArgs e)
+        {
+            EditorInstance.entities.OrderSelectedSlotIDs();
+        }
+    }
 }

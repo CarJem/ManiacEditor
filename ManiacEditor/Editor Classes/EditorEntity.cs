@@ -70,7 +70,7 @@ namespace ManiacEditor
         public DateTime lastFrametime;
         public int index = 0;
         public int layerPriority = 0;
-        public SceneEntity Entity { get { return entity; } }
+        public SceneEntity Entity { get { return entity; }}
 
         public int PositionX = 0;
         public int PositionY = 0;

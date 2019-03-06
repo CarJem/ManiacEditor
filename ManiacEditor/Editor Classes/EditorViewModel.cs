@@ -7,11 +7,11 @@ using System.Windows;
 
 namespace ManiacEditor
 {
-    public class EditorViewSize
+    public class EditorViewModel
     {
         private bool AllowScrollUpdate = true;
         private Editor Editor;
-        public EditorViewSize(Editor instance)
+        public EditorViewModel(Editor instance)
         {
             Editor = instance;
         }
@@ -20,7 +20,7 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.ShiftY = (int)e.NewValue;
+                Editor.EditorState.ShiftY = (int)e.NewValue;
                 UpdateScrollBars();
             }
             Editor.editorView.GraphicPanel.Render();
@@ -30,7 +30,7 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.ShiftX = (int)e.NewValue;
+                Editor.EditorState.ShiftX = (int)e.NewValue;
                 UpdateScrollBars();
             }
             Editor.editorView.GraphicPanel.Render();
@@ -40,11 +40,11 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.ShiftY = (int)Editor.editorView.vScrollBar1.Value;
+                Editor.EditorState.ShiftY = (int)Editor.editorView.vScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(Editor.zooming || Editor.draggingSelection || Editor.dragged || Editor.scrolling)) Editor.editorView.GraphicPanel.Render();
-            if (Editor.draggingSelection)
+            if (!(Editor.EditorState.zooming || Editor.EditorState.draggingSelection || Editor.EditorState.dragged || Editor.EditorState.scrolling)) Editor.editorView.GraphicPanel.Render();
+            if (Editor.EditorState.draggingSelection)
             {
                 Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -55,11 +55,11 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.ShiftX = (int)Editor.editorView.hScrollBar1.Value;
+                Editor.EditorState.ShiftX = (int)Editor.editorView.hScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(Editor.zooming || Editor.draggingSelection || Editor.dragged || Editor.scrolling)) Editor.editorView.GraphicPanel.Render();
-            if (Editor.draggingSelection)
+            if (!(Editor.EditorState.zooming || Editor.EditorState.draggingSelection || Editor.EditorState.dragged || Editor.EditorState.scrolling)) Editor.editorView.GraphicPanel.Render();
+            if (Editor.EditorState.draggingSelection)
             {
                 Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -110,34 +110,34 @@ namespace ManiacEditor
             {
                 Editor.editorView.vScrollBar1.LargeChange = Editor.editorView.vScrollBar1Host.Height;
                 Editor.editorView.vScrollBar1.SmallChange = Editor.editorView.vScrollBar1Host.Height / 8;
-                Editor.ScreenHeight = (int)Editor.editorView.vScrollBar1Host.Height;
+                Editor.EditorState.ScreenHeight = (int)Editor.editorView.vScrollBar1Host.Height;
                 Editor.editorView.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.editorView.vScrollBar1.Value, Editor.editorView.vScrollBar1.Maximum));
                 if (Editor.editorView.vScrollBar1.Track.ViewportSize != Editor.SceneHeight) Editor.editorView.vScrollBar1.Track.ViewportSize = Editor.SceneHeight;
             }
             else
             {
-                Editor.ScreenHeight = Editor.editorView.GraphicPanel.Height;
-                Editor.ShiftY = 0;
+                Editor.EditorState.ScreenHeight = Editor.editorView.GraphicPanel.Height;
+                Editor.EditorState.ShiftY = 0;
                 Editor.editorView.vScrollBar1.Value = 0;
             }
             if (Editor.editorView.hScrollBar1.IsVisible)
             {
                 Editor.editorView.hScrollBar1.LargeChange = Editor.editorView.hScrollBar1Host.Width;
                 Editor.editorView.hScrollBar1.SmallChange = Editor.editorView.hScrollBar1Host.Width / 8;
-                Editor.ScreenWidth = (int)Editor.editorView.hScrollBar1Host.Width;
+                Editor.EditorState.ScreenWidth = (int)Editor.editorView.hScrollBar1Host.Width;
                 Editor.editorView.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.editorView.hScrollBar1.Value, Editor.editorView.hScrollBar1.Maximum));
                 if (Editor.editorView.hScrollBar1.Track.ViewportSize != Editor.SceneWidth) Editor.editorView.hScrollBar1.Track.ViewportSize = Editor.SceneWidth;
             }
             else
             {
-                Editor.ScreenWidth = Editor.editorView.GraphicPanel.Width;
-                Editor.ShiftX = 0;
+                Editor.EditorState.ScreenWidth = Editor.editorView.GraphicPanel.Width;
+                Editor.EditorState.ShiftX = 0;
                 Editor.editorView.hScrollBar1.Value = 0;
             }
 
-            while (Editor.ScreenWidth > Editor.editorView.GraphicPanel.Width)
+            while (Editor.EditorState.ScreenWidth > Editor.editorView.GraphicPanel.Width)
                 Editor.ResizeGraphicPanel(Editor.editorView.GraphicPanel.Width * 2, Editor.editorView.GraphicPanel.Height);
-            while (Editor.ScreenHeight > Editor.editorView.GraphicPanel.Height)
+            while (Editor.EditorState.ScreenHeight > Editor.editorView.GraphicPanel.Height)
                 Editor.ResizeGraphicPanel(Editor.editorView.GraphicPanel.Width, Editor.editorView.GraphicPanel.Height * 2);
         }
 
@@ -169,66 +169,66 @@ namespace ManiacEditor
 
         public void SetZoomLevel(int zoom_level, System.Drawing.Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true)
         {
-            double old_zoom = Editor.Zoom;
+            double old_zoom = Editor.EditorState.Zoom;
 
 
 
             if (zoom_level_d == 0.0)
             {
-                Editor.ZoomLevel = zoom_level;
-                switch (Editor.ZoomLevel)
+                Editor.EditorState.ZoomLevel = zoom_level;
+                switch (Editor.EditorState.ZoomLevel)
                 {
-                    case 5: Editor.Zoom = 4; break;
-                    case 4: Editor.Zoom = 3; break;
-                    case 3: Editor.Zoom = 2; break;
-                    case 2: Editor.Zoom = 3 / 2.0; break;
-                    case 1: Editor.Zoom = 5 / 4.0; break;
-                    case 0: Editor.Zoom = 1; break;
-                    case -1: Editor.Zoom = 2 / 3.0; break;
-                    case -2: Editor.Zoom = 1 / 2.0; break;
-                    case -3: Editor.Zoom = 1 / 3.0; break;
-                    case -4: Editor.Zoom = 1 / 4.0; break;
-                    case -5: Editor.Zoom = 1 / 8.0; break;
+                    case 5: Editor.EditorState.Zoom = 4; break;
+                    case 4: Editor.EditorState.Zoom = 3; break;
+                    case 3: Editor.EditorState.Zoom = 2; break;
+                    case 2: Editor.EditorState.Zoom = 3 / 2.0; break;
+                    case 1: Editor.EditorState.Zoom = 5 / 4.0; break;
+                    case 0: Editor.EditorState.Zoom = 1; break;
+                    case -1: Editor.EditorState.Zoom = 2 / 3.0; break;
+                    case -2: Editor.EditorState.Zoom = 1 / 2.0; break;
+                    case -3: Editor.EditorState.Zoom = 1 / 3.0; break;
+                    case -4: Editor.EditorState.Zoom = 1 / 4.0; break;
+                    case -5: Editor.EditorState.Zoom = 1 / 8.0; break;
                 }
             }
             else
             {
-                Editor.ZoomLevel = (int)zoom_level_d;
-                Editor.Zoom = zoom_level_d;
+                Editor.EditorState.ZoomLevel = (int)zoom_level_d;
+                Editor.EditorState.Zoom = zoom_level_d;
             }
 
 
-            Editor.zooming = true;
+            Editor.EditorState.zooming = true;
 
-            int oldShiftX = Editor.ShiftX;
-            int oldShiftY = Editor.ShiftY;
+            int oldShiftX = Editor.EditorState.ShiftX;
+            int oldShiftY = Editor.EditorState.ShiftY;
 
             if (Editor.EditorScene != null)
-                SetViewSize((int)(Editor.SceneWidth * Editor.Zoom), (int)(Editor.SceneHeight * Editor.Zoom), updateControls);
+                SetViewSize((int)(Editor.SceneWidth * Editor.EditorState.Zoom), (int)(Editor.SceneHeight * Editor.EditorState.Zoom), updateControls);
 
 
             if (Editor.editorView.hScrollBar1.IsVisible)
             {
-                Editor.ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Editor.Zoom - zoom_point.X);
-                Editor.ShiftX = (int)Math.Min((Editor.editorView.hScrollBar1.Maximum), Math.Max(0, Editor.ShiftX));
-                Editor.editorView.hScrollBar1.Value = Editor.ShiftX;
+                Editor.EditorState.ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Editor.EditorState.Zoom - zoom_point.X);
+                Editor.EditorState.ShiftX = (int)Math.Min((Editor.editorView.hScrollBar1.Maximum), Math.Max(0, Editor.EditorState.ShiftX));
+                Editor.editorView.hScrollBar1.Value = Editor.EditorState.ShiftX;
             }
             if (Editor.editorView.vScrollBar1.IsVisible)
             {
-                Editor.ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Editor.Zoom - zoom_point.Y);
-                Editor.ShiftY = (int)Math.Min((Editor.editorView.vScrollBar1.Maximum), Math.Max(0, Editor.ShiftY));
-                Editor.editorView.vScrollBar1.Value = Editor.ShiftY;
+                Editor.EditorState.ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Editor.EditorState.Zoom - zoom_point.Y);
+                Editor.EditorState.ShiftY = (int)Math.Min((Editor.editorView.vScrollBar1.Maximum), Math.Max(0, Editor.EditorState.ShiftY));
+                Editor.editorView.vScrollBar1.Value = Editor.EditorState.ShiftY;
             }
 
 
-            Editor.zooming = false;
+            Editor.EditorState.zooming = false;
 
             if (updateControls) Editor.UpdateControls();
         }
 
         public void ResetViewSize()
         {
-            Editor.EditorView.SetViewSize((int)(Editor.SceneWidth * Editor.Zoom), (int)(Editor.SceneHeight * Editor.Zoom));
+            Editor.EditorView.SetViewSize((int)(Editor.SceneWidth * Editor.EditorState.Zoom), (int)(Editor.SceneHeight * Editor.EditorState.Zoom));
         }
         public void ResizeGraphicPanel(int width = 0, int height = 0)
         {

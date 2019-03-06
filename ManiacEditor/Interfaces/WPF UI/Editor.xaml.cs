@@ -54,28 +54,7 @@ namespace ManiacEditor
 	public partial class Editor : Window
 	{
 
-		#region Definitions
-		//Editor Editing States
-		public bool dragged;
-		public bool startDragged;
-		public int lastX, lastY, draggedX, draggedY;
-		public int ShiftX = 0, ShiftY = 0, ScreenWidth, ScreenHeight;
-		public int CustomX = 0, CustomY = 0;
-		public int select_x1, select_x2, select_y1, select_y2;
-		public int ClickedX = -1, ClickedY = -1;
-		public bool draggingSelection; //Determines if we are dragging a selection
-		public int selectingX, selectingY;
-		public bool zooming; //Detects if we are zooming
-		public double Zoom = 1; //Double Value for Zoom Levels
-		public int ZoomLevel = 0; //Interger Value for Zoom Levels
-		public int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
-		public int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
-		public int SelectedTileX = 0; //Used to get a single Selected Tile's X
-		public int SelectedTileY = 0; //Used to get a single Selected Tile's Y
-		public bool scrolling = false; //Determines if the User is Scrolling
-		public bool scrollingDragged = false, wheelClicked = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
-		public Point scrollPosition; //For Getting the Scroll Position
-
+        #region Definitions
 		//Editor Toggles
 		public bool showTileID; // Show Tile ID Mode Status
 		public bool showGrid; // Show Grid Mode Status
@@ -146,7 +125,6 @@ namespace ManiacEditor
 		public int magnetSize = 16; //Determines the Magnets Size
 		public int EncoreSetupType; //Used to determine what kind of encore setup the stage uses
 		public string ToolbarSelectedTile; //Used to display the selected tile in the tiles toolbar
-		internal bool controlWindowOpen; //Used somewhere in the Layer Manager (Unkown)
 		public int selectPlayerObject_GoTo = 0; //Used to determine which player object to go to
 		public bool cooldownDone = false; // For waiting on functions
 		public Color waterColor = new Color(); // The color used for the Water Entity
@@ -234,7 +212,7 @@ namespace ManiacEditor
 		public EditorScene EditorScene;
 		public StageConfig StageConfig;
 		public GameConfig GameConfig;
-		public EditorControls EditorControls;
+		public EditorControlModel EditorViewModelControls;
 		public EditorEntities entities;
 		//public int InstanceID = 0;
 		//public static Editor Instance; //Used the access this class easier
@@ -250,7 +228,7 @@ namespace ManiacEditor
 		public TileConfig TilesConfig;
 		public EditorInGame EditorGame;
 		public StartScreen StartScreen;
-		public StatusBox statusBox;
+		public EditorState EditorState;
 		public UIText DebugTextHUD = new UIText();
 		public EditorChunk EditorChunk;
 		public System.Windows.Forms.Integration.WindowsFormsHost host;
@@ -261,7 +239,9 @@ namespace ManiacEditor
 		public EditorSceneLoading EditorSceneLoading;
 		public EditorDirectories EditorDirectories;
 		public EditorFindReplace FindAndReplace;
-        public EditorViewSize EditorView;
+        public EditorViewModel EditorView;
+        public EditorTheming EditorTheming;
+        public EditorSettings EditorSettings;
 
         //Tile Maniac + ManiaPal Instance
         public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
@@ -269,14 +249,6 @@ namespace ManiacEditor
 
 		//Editor Misc. Variables
 		System.Windows.Forms.Timer StatusPanelTickTimer;
-
-		//Dark Theme
-		public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
-		public static Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
-		public static Color darkTheme2 = Color.FromArgb(255, 70, 70, 70);
-		public static Color darkTheme3 = Color.White;
-		public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
-		public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
 
 		//Shorthanding Setting Files
 		public Properties.Settings mySettings = Properties.Settings.Default;
@@ -354,8 +326,10 @@ namespace ManiacEditor
 		{
 			SystemEvents.PowerModeChanged += CheckDeviceState;
 			InstanceID = MegaManiacInstanceID;
+            EditorTheming = new EditorTheming(this);
+            EditorSettings = new EditorSettings(this);
 
-			UseDarkTheme_WPF(mySettings.NightMode);
+            EditorTheming.UseDarkTheme_WPF(mySettings.NightMode);
 			InitializeComponent();
             try
             {
@@ -430,8 +404,8 @@ namespace ManiacEditor
 			LevelSelectChar = LevelSelectCharS.ToCharArray();
 			EditorGame = new EditorInGame(this);
 			EditorEntity_ini = new EditorEntity_ini(this);
-			statusBox = new StatusBox(this);
-			EditorControls = new EditorControls(this);
+            EditorState = new EditorState(this);
+			EditorViewModelControls = new EditorControlModel(this);
 			StartScreen = new StartScreen(this);
 			Discord = new EditorDiscordRP(this);
 			Updater = new EditorUpdater();
@@ -440,7 +414,7 @@ namespace ManiacEditor
 			EditorSceneLoading = new EditorSceneLoading(this);
 			EditorDirectories = new EditorDirectories(this);
 			FindAndReplace = new EditorFindReplace(this);
-            EditorView = new EditorViewSize(this);
+            EditorView = new EditorViewModel(this);
 
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
@@ -466,7 +440,7 @@ namespace ManiacEditor
 			RefreshCollisionColours();
 			SetViewSize();
 			UpdateControls();
-			TryLoadSettings();
+			EditorSettings.TryLoadSettings();
 			UpdateStartScreen(true, true);
 
 			StatusPanelTickTimer = new System.Windows.Forms.Timer
@@ -475,201 +449,6 @@ namespace ManiacEditor
 			};
 			StatusPanelTickTimer.Tick += new EventHandler(UpdateStatusPanel);
 			StatusPanelTickTimer.Start();
-		}
-		#endregion
-
-		#region Defaults and Presets
-		/// <summary>
-		/// Try to load settings from the Application Settings file(s).
-		/// This includes User specific settings.
-		/// </summary>
-		private void TryLoadSettings()
-		{
-			try
-			{
-				if (mySettings.UpgradeRequired)
-				{
-					mySettings.Upgrade();
-					mySettings.UpgradeRequired = false;
-					mySettings.Save();
-				}
-
-				WindowState = mySettings.IsMaximized ? System.Windows.WindowState.Maximized : WindowState;
-				GamePath = mySettings.GamePath;
-
-
-				RefreshDataDirectories(mySettings.DataDirectories);
-
-
-				if (mySettings.modConfigs?.Count > 0)
-				{
-					selectConfigToolStripMenuItem.Items.Clear();
-					for (int i = 0; i < mySettings.modConfigs.Count; i++)
-					{
-						selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
-
-					}
-				}
-
-				ApplyDefaults();
-
-
-
-
-
-			}
-			catch (Exception ex)
-			{
-				Debug.Write("Failed to load settings: " + ex);
-			}
-		}
-		private void ApplyDefaults()
-		{
-			// These Prefrences are applied on Editor Load
-			editEntitesTransparencyToolStripMenuItem.IsChecked = mySettings.EditEntitiesTransparencyDefault;
-			transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = mySettings.EditEntitiesTransparencyDefault;
-			applyEditEntitiesTransparency = mySettings.EditEntitiesTransparencyDefault;
-
-			ScrollLocked = mySettings.ScrollLockEnabledDefault;
-			statusNAToolStripMenuItem.IsChecked = mySettings.ScrollLockEnabledDefault;
-			scrollLockButton.IsChecked = mySettings.ScrollLockEnabledDefault;
-
-			ScrollDirection = mySettings.ScrollLockXYDefault;
-
-			xToolStripMenuItem.IsChecked = ScrollDirection == (int)ScrollDir.X;
-			yToolStripMenuItem.IsChecked = ScrollDirection == (int)ScrollDir.Y;
-
-			pixelModeButton.IsChecked = mySettings.EnablePixelModeDefault;
-			pixelModeToolStripMenuItem.IsChecked = mySettings.EnablePixelModeDefault;
-			EnablePixelCountMode = mySettings.EnablePixelModeDefault;
-
-			showEntityPathArrowsToolstripItem.IsChecked = mySettings.ShowEntityArrowPathsDefault;
-			showEntityPathArrows = mySettings.ShowEntityArrowPathsDefault;
-
-			showWaterLevelToolStripMenuItem.IsChecked = mySettings.showWaterLevelDefault;
-			showWaterLevel = mySettings.showWaterLevelDefault;
-			alwaysShowWaterLevel = mySettings.AlwaysShowWaterLevelDefault;
-			sizeWaterLevelwithBounds = mySettings.SizeWaterLevelWithBoundsDefault;
-			waterLevelAlwaysShowItem.IsChecked = mySettings.AlwaysShowWaterLevelDefault;
-			sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = mySettings.SizeWaterLevelWithBoundsDefault;
-
-			showParallaxSpritesToolStripMenuItem.IsChecked = mySettings.ShowFullParallaxEntityRenderDefault;
-			showParallaxSprites = mySettings.ShowFullParallaxEntityRenderDefault;
-			prioritizedViewingToolStripMenuItem.IsChecked = mySettings.PrioritizedObjectRendering;
-
-			showEntitySelectionBoxes = mySettings.ShowEntitySelectionBoxesDefault;
-			showEntitySelectionBoxesToolStripMenuItem.IsChecked = mySettings.ShowEntitySelectionBoxesDefault;
-
-			showStatsToolStripMenuItem.IsChecked = mySettings.ShowStatsViewerDefault;
-			useLargeTextToolStripMenuItem.IsChecked = mySettings.StatsViewerLargeTextDefault;
-
-			DebugStatsVisibleOnPanel = mySettings.ShowStatsViewerDefault;
-			UseLargeDebugStats = mySettings.StatsViewerLargeTextDefault;
-
-
-
-			var allLangItems = menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-			foreach (var item in allLangItems)
-				if (item != null)
-				{
-					if (item.Tag.ToString() == mySettings.LangDefault)
-					{
-						item.IsChecked = true;
-						CurrentLanguage = item.Tag.ToString();
-					}
-				}
-
-
-			bool endSearch = false;
-			var allButtonItems = menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-			foreach (var item in allButtonItems)
-			{
-				if (item.Tag != null)
-				{
-					if (item.Tag.ToString() == mySettings.ButtonLayoutDefault && !endSearch)
-					{
-						item.IsChecked = true;
-						SetMenuButtons(item.Tag.ToString());
-						endSearch = true;
-					}
-					var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-					foreach (var subItem in allSubButtonItems)
-					{
-						if (subItem.Tag != null)
-						{
-							if (subItem.Tag.ToString() == mySettings.ButtonLayoutDefault && !endSearch)
-							{
-								subItem.IsChecked = true;
-								SetMenuButtons(subItem.Tag.ToString());
-								endSearch = true;
-							}
-						}
-					}
-				}
-
-			}
-
-
-		}
-		public void UseDefaultPrefrences()
-		{
-			//These Prefrences are applied on Stage Load
-
-			//Default Layer Visibility Preferences
-			if (!mySettings.FGLowerDefault) ShowFGLower.IsChecked = false;
-			else ShowFGLower.IsChecked = true;
-			if (!mySettings.FGLowDefault) ShowFGLow.IsChecked = false;
-			else ShowFGLow.IsChecked = true;
-			if (!mySettings.FGHighDefault) ShowFGHigh.IsChecked = false;
-			else ShowFGHigh.IsChecked = true;
-			if (!mySettings.FGHigherDefault) ShowFGHigher.IsChecked = false;
-			else ShowFGHigher.IsChecked = true;
-			if (!mySettings.EntitiesDefault) ShowEntities.IsChecked = false;
-			else ShowEntities.IsChecked = true;
-			if (!mySettings.AnimationsDefault) ShowAnimations.IsChecked = false;
-			else ShowAnimations.IsChecked = true;
-
-			//Default Enabled Annimation Preferences
-			movingPlatformsObjectsToolStripMenuItem.IsChecked = mySettings.MovingPlatformsDefault;
-			MovingPlatformsChecked = mySettings.MovingPlatformsDefault;
-
-			spriteFramesToolStripMenuItem.IsChecked = mySettings.AnimatedSpritesDefault;
-			AnnimationsChecked = mySettings.AnimatedSpritesDefault;
-
-			waterColor = mySettings.WaterColorDefault;
-
-
-
-
-			//Default Grid Preferences
-			if (!mySettings.x16Default) x16ToolStripMenuItem.IsChecked = false;
-			else x16ToolStripMenuItem.IsChecked = true;
-			if (!mySettings.x128Default) x128ToolStripMenuItem.IsChecked = false;
-			else x128ToolStripMenuItem.IsChecked = true;
-			if (!mySettings.x256Default) x256ToolStripMenuItem.IsChecked = false;
-			else x256ToolStripMenuItem.IsChecked = true;
-			if (!mySettings.CustomGridDefault) customToolStripMenuItem.IsChecked = false;
-			else customToolStripMenuItem.IsChecked = true;
-
-			//Collision Color Presets
-			defaultToolStripMenuItem.IsChecked = mySettings.CollisionColorsDefault == 0;
-			invertedToolStripMenuItem.IsChecked = mySettings.CollisionColorsDefault == 1;
-			customToolStripMenuItem1.IsChecked = mySettings.CollisionColorsDefault == 2;
-			collisionPreset = mySettings.CollisionColorsDefault;
-			RefreshCollisionColours();
-
-			if (mySettings.ScrollLockXYDefault.Equals(ScrollDir.X))
-			{
-				ScrollDirection = (int)ScrollDir.X;
-				UpdateStatusPanel(null, null);
-
-			}
-			else
-			{
-				ScrollDirection = (int)ScrollDir.Y;
-				UpdateStatusPanel(null, null);
-			}
-
 		}
 		#endregion
 
@@ -807,13 +586,13 @@ namespace ManiacEditor
 
 			if (mySettings.ReduceZoom)
 			{
-				ZoomInButton.IsEnabled = enabled && ZoomLevel < 5;
-				ZoomOutButton.IsEnabled = enabled && ZoomLevel > -2;
+				ZoomInButton.IsEnabled = enabled && EditorState.ZoomLevel < 5;
+				ZoomOutButton.IsEnabled = enabled && EditorState.ZoomLevel > -2;
 			}
 			else
 			{
-				ZoomInButton.IsEnabled = enabled && ZoomLevel < 5;
-				ZoomOutButton.IsEnabled = enabled && ZoomLevel > -5;
+				ZoomInButton.IsEnabled = enabled && EditorState.ZoomLevel < 5;
+				ZoomOutButton.IsEnabled = enabled && EditorState.ZoomLevel > -5;
 			}
 
 
@@ -821,8 +600,8 @@ namespace ManiacEditor
 			RunSceneButton.IsEnabled = enabled;
 			RunSceneDropDown.IsEnabled = enabled;
 
-			if (GameRunning) SetButtonColors(RunSceneButton, Color.Blue);
-			else SetButtonColors(RunSceneButton, Color.Green);
+			if (GameRunning) EditorTheming.SetButtonColors(RunSceneButton, Color.Blue);
+			else EditorTheming.SetButtonColors(RunSceneButton, Color.Green);
 
 			SetEditButtonsState(enabled);
 			UpdateTooltips();
@@ -846,10 +625,10 @@ namespace ManiacEditor
 
 			if (stageLoad)
 			{
-				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
+				SetViewSize((int)(SceneWidth * EditorState.Zoom), (int)(SceneHeight * EditorState.Zoom));
 			}
 
-			UpdateButtonColors();
+            EditorTheming.UpdateButtonColors();
 		}
 		public void SetSelectOnlyButtonsState(bool enabled = true)
 		{
@@ -1038,7 +817,7 @@ namespace ManiacEditor
 
 					TilesToolbar.TileDoubleClick = new Action<int>(x =>
 					{
-						EditorPlaceTile(new Point((int)(ShiftX / Zoom) + EditorConstants.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorConstants.TILE_SIZE - 1), x, EditLayerA);
+						EditorPlaceTile(new Point((int)(EditorState.ShiftX / EditorState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(EditorState.ShiftY / EditorState.Zoom) + EditorConstants.TILE_SIZE - 1), x, EditLayerA);
 					});
 					TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
 					{
@@ -1085,7 +864,7 @@ namespace ManiacEditor
 						}),
 						Spawn = new Action<SceneObject>(x =>
 						{
-							entities.Add(x, new Position((short)(ShiftX / Zoom), (short)(ShiftY / Zoom)));
+							entities.Add(x, new Position((short)(EditorState.ShiftX / EditorState.Zoom), (short)(EditorState.ShiftY / EditorState.Zoom)));
 							undo.Push(entities.LastAction);
 							redo.Clear();
 							UpdateControls();
@@ -1320,31 +1099,31 @@ namespace ManiacEditor
 
 			if (EnablePixelCountMode == false)
 			{
-				selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)SelectedTileX + ", Y: " + (int)SelectedTileY;
+				selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)EditorState.SelectedTileX + ", Y: " + (int)EditorState.SelectedTileY;
 				selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
 			}
 			else
 			{
-				selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)SelectedTileX * 16 + ", Y: " + (int)SelectedTileY * 16;
+				selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)EditorState.SelectedTileX * 16 + ", Y: " + (int)EditorState.SelectedTileY * 16;
 				selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
 			}
 			if (EnablePixelCountMode == false)
 			{
-				selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (SelectedTilesCount - DeselectTilesCount);
+				selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (EditorState.SelectedTilesCount - EditorState.DeselectTilesCount);
 				selectionSizeLabel.ToolTip = "The Size of the Selection";
 			}
 			else
 			{
-				selectionSizeLabel.Content = "Length of Pixels in Selection: " + (SelectedTilesCount - DeselectTilesCount) * 16;
+				selectionSizeLabel.Content = "Length of Pixels in Selection: " + (EditorState.SelectedTilesCount - EditorState.DeselectTilesCount) * 16;
 				selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
 			}
 
-			selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (select_x2 - select_x1) + ", Y: " + (select_y2 - select_y1);
+			selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (EditorState.select_x2 - EditorState.select_x1) + ", Y: " + (EditorState.select_y2 - EditorState.select_y1);
 
 			scrollLockDirLabel.Content = "Scroll Direction: " + (ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (ScrollLocked ? " (Locked)" : "");
 
 
-			hVScrollBarXYLabel.Content = "Zoom Value: " + Zoom.ToString();
+			hVScrollBarXYLabel.Content = "Zoom Value: " + EditorState.Zoom.ToString();
 
 			if (UpdateUpdaterMessage)
 			{
@@ -1361,12 +1140,12 @@ namespace ManiacEditor
 		{
 			UpdateTooltipForStacks(UndoButton, undo);
 			UpdateTooltipForStacks(RedoButton, redo);
-			if (EditorControls != null)
+			if (EditorViewModelControls != null)
 			{
 				if (this.IsVisible)
 				{
-					EditorControls.UpdateMenuItems();
-					EditorControls.UpdateTooltips();
+					EditorViewModelControls.UpdateMenuItems();
+					EditorViewModelControls.UpdateTooltips();
 				}
 
 			}
@@ -1726,7 +1505,7 @@ namespace ManiacEditor
 		{
 			if (AllowSceneUnloading() != true) return;
 			UnloadScene();
-			UseDefaultPrefrences();
+            EditorSettings.UseDefaultPrefrences();
 			DataDirectory = newDataDirectory;
 			AddRecentDataFolder(newDataDirectory);
 			bool goodGameConfig = SetGameConfig();
@@ -1885,8 +1664,6 @@ namespace ManiacEditor
 
 		#endregion
 
-
-
 		#region Scene Loading / Unloading + Repair
 		public void RepairScene()
 		{
@@ -1902,7 +1679,7 @@ namespace ManiacEditor
 				return;
 
 			UnloadScene();
-			UseDefaultPrefrences();
+            EditorSettings.UseDefaultPrefrences();
 
 			ObjectIDHealer healer = new ObjectIDHealer();
 			ShowConsoleWindow();
@@ -1960,8 +1737,8 @@ namespace ManiacEditor
 
 			entities = null;
 
-			Zoom = 1;
-			ZoomLevel = 0;
+			EditorState.Zoom = 1;
+			EditorState.ZoomLevel = 0;
 
 			undo.Clear();
 			redo.Clear();
@@ -2148,15 +1925,15 @@ namespace ManiacEditor
 				{
 					Point point = new Point((short)(15), (short)(15));
 
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y, statusBox.GetDataFolder(), true, 255, 15);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 1, statusBox.GetMasterDataFolder(), true, 255, 22);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 2, statusBox.GetScenePath(), true, 255, 11);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 3, statusBox.GetSceneFilePath(), true, 255, 12);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 4, statusBox.GetZoom(), true, 255, 11);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, statusBox.GetSetupObject(), true, 255, 13);
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, statusBox.GetSelectedZone(), true, 255, 14);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y, EditorState.GetDataFolder(), true, 255, 15);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 1, EditorState.GetMasterDataFolder(), true, 255, 22);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 2, EditorState.GetScenePath(), true, 255, 11);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 3, EditorState.GetSceneFilePath(), true, 255, 12);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 4, EditorState.GetZoom(), true, 255, 11);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 5, EditorState.GetSetupObject(), true, 255, 13);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 6, EditorState.GetSelectedZone(), true, 255, 14);
 
-					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + EditorControls.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, EditorControls.KeyBindPraser("StatusBoxToggle").Length, 4);
+					DebugTextHUD.DrawEditorHUDText(this, editorView.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + EditorViewModelControls.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, EditorViewModelControls.KeyBindPraser("StatusBoxToggle").Length, 4);
 				}
 
 
@@ -2242,21 +2019,21 @@ namespace ManiacEditor
 
 			}
 
-			if (draggingSelection)
+			if (EditorState.draggingSelection)
 			{
-				int bound_x1 = (int)(selectingX / Zoom); int bound_x2 = (int)(lastX / Zoom);
-				int bound_y1 = (int)(selectingY / Zoom); int bound_y2 = (int)(lastY / Zoom);
+				int bound_x1 = (int)(EditorState.selectingX / EditorState.Zoom); int bound_x2 = (int)(EditorState.lastX / EditorState.Zoom);
+				int bound_y1 = (int)(EditorState.selectingY / EditorState.Zoom); int bound_y2 = (int)(EditorState.lastY / EditorState.Zoom);
 				if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
 				{
 					if (bound_x1 > bound_x2)
 					{
-						bound_x1 = (int)(lastX / Zoom);
-						bound_x2 = (int)(selectingX / Zoom);
+						bound_x1 = (int)(EditorState.lastX / EditorState.Zoom);
+						bound_x2 = (int)(EditorState.selectingX / EditorState.Zoom);
 					}
 					if (bound_y1 > bound_y2)
 					{
-						bound_y1 = (int)(lastY / Zoom);
-						bound_y2 = (int)(selectingY / Zoom);
+						bound_y1 = (int)(EditorState.lastY / EditorState.Zoom);
+						bound_y2 = (int)(EditorState.selectingY / EditorState.Zoom);
 					}
 
 
@@ -2270,7 +2047,7 @@ namespace ManiacEditor
 			}
 			else
 			{
-				select_x1 = 0; select_x2 = 0; select_y1 = 0; select_y2 = 0;
+				EditorState.select_x1 = 0; EditorState.select_x2 = 0; EditorState.select_y1 = 0; EditorState.select_y2 = 0;
 			}
 
 			if (showGrid && EditorScene != null)
@@ -2282,27 +2059,27 @@ namespace ManiacEditor
 
 				if (playerSelected)
 				{
-					EditorGame.MovePlayer(new Point(lastX, lastY), Zoom, selectedPlayer);
+					EditorGame.MovePlayer(new Point(EditorState.lastX, EditorState.lastY), EditorState.Zoom, selectedPlayer);
 				}
 				if (checkpointSelected)
 				{
-					Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
+					Point clicked_point = new Point((int)(EditorState.lastX / EditorState.Zoom), (int)(EditorState.lastY / EditorState.Zoom));
 					EditorGame.UpdateCheckpoint(clicked_point);
 				}
 			}
 
-			if (scrolling)
+			if (EditorState.scrolling)
 			{
-				if (editorView.vScrollBar1.IsVisible && editorView.hScrollBar1.IsVisible) editorView.GraphicPanel.Draw2DCursor(scrollPosition.X, scrollPosition.Y);
-				else if (editorView.vScrollBar1.IsVisible) editorView.GraphicPanel.DrawVertCursor(scrollPosition.X, scrollPosition.Y);
-				else if (editorView.hScrollBar1.IsVisible) editorView.GraphicPanel.DrawHorizCursor(scrollPosition.X, scrollPosition.Y);
+				if (editorView.vScrollBar1.IsVisible && editorView.hScrollBar1.IsVisible) editorView.GraphicPanel.Draw2DCursor(EditorState.scrollPosition.X, EditorState.scrollPosition.Y);
+				else if (editorView.vScrollBar1.IsVisible) editorView.GraphicPanel.DrawVertCursor(EditorState.scrollPosition.X, EditorState.scrollPosition.Y);
+				else if (editorView.hScrollBar1.IsVisible) editorView.GraphicPanel.DrawHorizCursor(EditorState.scrollPosition.X, EditorState.scrollPosition.Y);
 			}
 			if (ForceWarp)
 			{
 				if (ShortcutHasZoom) SetZoomLevel(0, TempWarpCoords, ShortcutZoomValue);
 				else SetZoomLevel(mySettings.DevForceRestartZoomLevel, TempWarpCoords);
 				GoToPosition(TempWarpCoords.X, TempWarpCoords.Y, false, true);
-				SetViewSize((int)(SceneWidth * Zoom), (int)(SceneHeight * Zoom));
+				SetViewSize((int)(SceneWidth * EditorState.Zoom), (int)(SceneHeight * EditorState.Zoom));
 			}
 		}
 		public void DrawLayers(int drawOrder = 0)
@@ -2326,7 +2103,7 @@ namespace ManiacEditor
 				{
 					Point rel = editorView.GraphicPanel.PointToScreen(Point.Empty);
 					e.Effect = System.Windows.Forms.DragDropEffects.Move;
-					EditLayer?.StartDragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
+					EditLayer?.StartDragOver(new Point((int)(((e.X - rel.X) + EditorState.ShiftX) / EditorState.Zoom), (int)(((e.Y - rel.Y) + EditorState.ShiftY) / EditorState.Zoom)), (ushort)TilesToolbar.SelectedTile);
 					UpdateEditLayerActions();
 				}
 				else
@@ -2342,7 +2119,7 @@ namespace ManiacEditor
 				if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
 				{
 					Point rel = editorView.GraphicPanel.PointToScreen(Point.Empty);
-					EditLayer?.DragOver(new Point((int)(((e.X - rel.X) + ShiftX) / Zoom), (int)(((e.Y - rel.Y) + ShiftY) / Zoom)), (ushort)TilesToolbar.SelectedTile);
+					EditLayer?.DragOver(new Point((int)(((e.X - rel.X) + EditorState.ShiftX) / EditorState.Zoom), (int)(((e.Y - rel.Y) + EditorState.ShiftY) / EditorState.Zoom)), (ushort)TilesToolbar.SelectedTile);
                     editorView.GraphicPanel.Render();
 
 				}
@@ -2365,27 +2142,27 @@ namespace ManiacEditor
 		}
 		public void GraphicPanel_OnKeyDown(object    sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorControls.GraphicPanel_OnKeyDown(sender, e);
+			EditorViewModelControls.GraphicPanel_OnKeyDown(sender, e);
 		}
 		private void EditorViewWPF_KeyDown(object sender, KeyEventArgs e)
 		{
 			var e2 = KeyEventExts.ToWinforms(e);
 			if (e2 != null)
 			{
-				EditorControls.GraphicPanel_OnKeyDown(sender, e2);
+				EditorViewModelControls.GraphicPanel_OnKeyDown(sender, e2);
 			}
 
 		}
 		public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorControls.GraphicPanel_OnKeyUp(sender, e);
+			EditorViewModelControls.GraphicPanel_OnKeyUp(sender, e);
 		}
 		private void EditorViewWPF_KeyUp(object sender, KeyEventArgs e)
 		{
 			var e2 = KeyEventExts.ToWinforms(e);
 			if (e2 != null)
 			{
-				EditorControls.GraphicPanel_OnKeyUp(sender, e2);
+				EditorViewModelControls.GraphicPanel_OnKeyUp(sender, e2);
 			}
 
 		}
@@ -2402,7 +2179,7 @@ namespace ManiacEditor
 		{
 			if (!editorView.GraphicPanel.Focused)
 			{
-				EditorControls.GraphicPanel_OnKeyDown(sender, e);
+				EditorViewModelControls.GraphicPanel_OnKeyDown(sender, e);
 			}
 		}
 		private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -2433,7 +2210,7 @@ namespace ManiacEditor
 		{
 			if (!editorView.GraphicPanel.Focused)
 			{
-				EditorControls.GraphicPanel_OnKeyUp(sender, e);
+				EditorViewModelControls.GraphicPanel_OnKeyUp(sender, e);
 			}
 		}
 		private void SplitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
@@ -2699,10 +2476,10 @@ namespace ManiacEditor
 			{
 				switch (e.Key)
 				{
-					case Key.Up: CustomY -= 5; break;
-					case Key.Down: CustomY += 5; break;
-					case Key.Left: CustomX -= 5; break;
-					case Key.Right: CustomX += 5; break;
+					case Key.Up: EditorState.CustomY -= 5; break;
+					case Key.Down: EditorState.CustomY += 5; break;
+					case Key.Left: EditorState.CustomX -= 5; break;
+					case Key.Right: EditorState.CustomX += 5; break;
 				}
 			}
 
@@ -2747,28 +2524,28 @@ namespace ManiacEditor
 			if (CenterCoords)
 			{
 				Rectangle r = editorView.GraphicPanel.GetScreen();
-				int x2 = (int)(r.Width * Zoom);
-				int y2 = (int)(r.Height * Zoom);
+				int x2 = (int)(r.Width * EditorState.Zoom);
+				int y2 = (int)(r.Height * EditorState.Zoom);
 
-				int ResultX = (int)(x * Zoom) - x2 / 2;
-				int ResultY = (int)(y * Zoom) - y2 / 2;
+				int ResultX = (int)(x * EditorState.Zoom) - x2 / 2;
+				int ResultY = (int)(y * EditorState.Zoom) - y2 / 2;
 
 				if ((ResultX <= 0)) ResultX = 0;
 				if ((ResultY <= 0)) ResultY = 0;
 
-				ShiftX = ResultX;
-				ShiftY = ResultY;
+				EditorState.ShiftX = ResultX;
+				EditorState.ShiftY = ResultY;
 			}
 			else
 			{
-				int ResultX = (int)(x * Zoom);
-				int ResultY = (int)(y * Zoom);
+				int ResultX = (int)(x * EditorState.Zoom);
+				int ResultY = (int)(y * EditorState.Zoom);
 
 				if ((ResultX <= 0)) ResultX = 0;
 				if ((ResultY <= 0)) ResultY = 0;
 
-				ShiftX = ResultX;
-				ShiftY = ResultY;
+				EditorState.ShiftX = ResultX;
+				EditorState.ShiftY = ResultY;
 			}
 
 
@@ -2894,14 +2671,13 @@ namespace ManiacEditor
 		#region Get + Set Methods
 		public Rectangle GetScreen()
 		{
-			if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(CustomX, CustomY, editorView.mainPanel.Width, editorView.mainPanel.Height);
+			if (mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(EditorState.CustomX, EditorState.CustomY, editorView.mainPanel.Width, editorView.mainPanel.Height);
 			else if (isExportingImage) return new Rectangle(0, 0, SceneWidth, SceneHeight);
-			else return new Rectangle(ShiftX, ShiftY, editorView.mainPanel.Width, editorView.mainPanel.Height);
+			else return new Rectangle(EditorState.ShiftX, EditorState.ShiftY, editorView.mainPanel.Width, editorView.mainPanel.Height);
 		}
 		public double GetZoom()
 		{
-			if (isExportingImage) return 1;
-			else return Zoom;
+			return EditorState.Zoom;
 		}
 		private void SetDeviceSleepState(bool state)
 		{
@@ -2932,276 +2708,6 @@ namespace ManiacEditor
 				selectedScene = Path.Combine(DataDirectory, "Stages", part1, part2);
 			}
 			return new Scene(selectedScene);
-		}
-		#endregion
-
-		#region Theming Stuff
-		public void UseDarkTheme(bool state = false)
-		{
-			if (state)
-			{
-				SystemColorsUtility systemColors = new SystemColorsUtility();
-				systemColors.SetColor(KnownColor.Window, darkTheme1);
-				systemColors.SetColor(KnownColor.Highlight, Color.Blue);
-				systemColors.SetColor(KnownColor.WindowFrame, darkTheme2);
-				systemColors.SetColor(KnownColor.GradientActiveCaption, darkTheme1);
-				systemColors.SetColor(KnownColor.GradientInactiveCaption, darkTheme1);
-				systemColors.SetColor(KnownColor.ControlText, darkTheme3);
-				systemColors.SetColor(KnownColor.WindowText, darkTheme3);
-				systemColors.SetColor(KnownColor.GrayText, Color.Gray);
-				systemColors.SetColor(KnownColor.InfoText, darkTheme3);
-				systemColors.SetColor(KnownColor.MenuText, darkTheme3);
-				systemColors.SetColor(KnownColor.Control, darkTheme1);
-				systemColors.SetColor(KnownColor.ButtonHighlight, darkTheme3);
-				systemColors.SetColor(KnownColor.ButtonShadow, darkTheme2);
-				systemColors.SetColor(KnownColor.ButtonFace, darkTheme1);
-				systemColors.SetColor(KnownColor.Desktop, darkTheme1);
-				systemColors.SetColor(KnownColor.ControlLightLight, darkTheme2);
-				systemColors.SetColor(KnownColor.ControlLight, darkTheme1);
-				systemColors.SetColor(KnownColor.ControlDark, darkTheme3);
-				systemColors.SetColor(KnownColor.ControlDarkDark, darkTheme3);
-				systemColors.SetColor(KnownColor.ActiveBorder, darkTheme1);
-				systemColors.SetColor(KnownColor.ActiveCaption, darkTheme1);
-				systemColors.SetColor(KnownColor.ActiveCaptionText, darkTheme3);
-				systemColors.SetColor(KnownColor.InactiveBorder, darkTheme2);
-				systemColors.SetColor(KnownColor.MenuBar, darkTheme1);
-			}
-			else
-			{
-				SystemColorsUtility systemColors = new SystemColorsUtility();
-				systemColors.SetColor(KnownColor.Window, SystemColors.Window);
-				systemColors.SetColor(KnownColor.Highlight, SystemColors.Highlight);
-				systemColors.SetColor(KnownColor.WindowFrame, SystemColors.WindowFrame);
-				systemColors.SetColor(KnownColor.GradientActiveCaption, SystemColors.GradientActiveCaption);
-				systemColors.SetColor(KnownColor.GradientInactiveCaption, SystemColors.GradientInactiveCaption);
-				systemColors.SetColor(KnownColor.ControlText, SystemColors.ControlText);
-				systemColors.SetColor(KnownColor.WindowText, SystemColors.WindowText);
-				systemColors.SetColor(KnownColor.GrayText, SystemColors.GrayText);
-				systemColors.SetColor(KnownColor.InfoText, SystemColors.InfoText);
-				systemColors.SetColor(KnownColor.MenuText, SystemColors.MenuText);
-				systemColors.SetColor(KnownColor.Control, SystemColors.Control);
-				systemColors.SetColor(KnownColor.ButtonHighlight, SystemColors.ButtonHighlight);
-				systemColors.SetColor(KnownColor.ButtonShadow, SystemColors.ButtonShadow);
-				systemColors.SetColor(KnownColor.ButtonFace, SystemColors.ButtonFace);
-				systemColors.SetColor(KnownColor.Desktop, SystemColors.Desktop);
-				systemColors.SetColor(KnownColor.ControlLightLight, SystemColors.ControlLightLight);
-				systemColors.SetColor(KnownColor.ControlLight, SystemColors.ControlLight);
-				systemColors.SetColor(KnownColor.ControlDark, SystemColors.ControlDark);
-				systemColors.SetColor(KnownColor.ControlDarkDark, SystemColors.ControlDarkDark);
-				systemColors.SetColor(KnownColor.ActiveBorder, SystemColors.ActiveBorder);
-				systemColors.SetColor(KnownColor.ActiveCaption, SystemColors.ActiveCaption);
-				systemColors.SetColor(KnownColor.ActiveCaptionText, SystemColors.ActiveCaptionText);
-				systemColors.SetColor(KnownColor.InactiveBorder, SystemColors.InactiveBorder);
-				systemColors.SetColor(KnownColor.MenuBar, SystemColors.MenuBar);
-			}
-
-		}
-		public void UseDarkTheme_WPF(bool state = false)
-		{
-			if (state)
-			{
-				App.ChangeSkin(Skin.Dark);
-				UseDarkTheme(true);
-			}
-			else
-			{
-				App.ChangeSkin(Skin.Light);
-				UseDarkTheme(false);
-			}
-		}
-		public Control UseExternalDarkTheme(Control control)
-		{
-			foreach (Control c in control.Controls)
-			{
-				if (c is Cyotek.Windows.Forms.ColorEditor)
-				{
-					foreach (Control c2 in c.Controls)
-					{
-						if (c2 is System.Windows.Forms.NumericUpDown)
-						{
-							c2.ForeColor = Color.Black;
-							c2.BackColor = Color.White;
-						}
-						if (c2 is System.Windows.Forms.ComboBox)
-						{
-							c2.ForeColor = Color.Black;
-							c2.BackColor = Color.White;
-						}
-					}
-				}
-
-				if (c is System.Windows.Forms.Button)
-				{
-					c.ForeColor = Color.Black;
-				}
-				if (c is NumericUpDown)
-				{
-					c.ForeColor = Color.Black;
-					c.BackColor = Color.White;
-				}
-				if (c is System.Windows.Forms.ComboBox)
-				{
-					c.ForeColor = Color.Black;
-					c.BackColor = Color.White;
-				}
-				if (c is System.Windows.Forms.TextBox)
-				{
-					c.ForeColor = Color.Black;
-					c.BackColor = Color.White;
-				}
-			}
-			return control;
-		}
-		public void SetButtonColors(object sender, Color OverallColor)
-		{
-			if (sender is ToggleButton)
-			{
-
-				var item = (sender as ToggleButton);
-				if (item == null) return;
-				if (item.Content == null) return;
-				var objContent = (sender as ToggleButton).Content;
-				if (objContent == null) return;
-				if (objContent is System.Windows.Shapes.Rectangle)
-				{
-					System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-					Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-					System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-					content.Fill = new SolidColorBrush(ConvertedColor);
-
-				}
-
-
-			}
-
-			if (sender is Button)
-			{
-
-				var item = (sender as Button);
-				if (item == null) return;
-				if (item.Content == null) return;
-				var objContent = (sender as Button).Content;
-				if (objContent == null) return;
-				if (objContent is System.Windows.Shapes.Rectangle)
-				{
-					System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-					Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-					System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-					content.Fill = new SolidColorBrush(ConvertedColor);
-
-				}
-
-
-			}
-
-			if (sender is MenuItem)
-			{
-
-				var item = (sender as MenuItem);
-				if (item == null) return;
-				if (item.Header == null) return;
-				var objContent = (sender as MenuItem).Header;
-				if (objContent == null) return;
-				if (objContent is System.Windows.Shapes.Rectangle)
-				{
-					System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-					Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-					System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-					content.Fill = new SolidColorBrush(ConvertedColor);
-
-				}
-
-
-			}
-
-			if (sender is SplitButton)
-			{
-				var item = (sender as SplitButton);
-				if (item == null) return;
-				if (item.Content == null) return;
-				var objContent = (sender as SplitButton).Content;
-				if (objContent == null) return;
-				if (objContent is System.Windows.Shapes.Rectangle)
-				{
-					System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-					Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-					System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-					content.Fill = new SolidColorBrush(ConvertedColor);
-
-				}
-
-			}
-		}
-		public void UpdateButtonColors()
-		{
-			SetButtonColors(New, MainThemeColor());
-			SetButtonColors(Open, MainThemeColor(Color.FromArgb(255, 231, 147), Color.FromArgb(250, 217, 98)));
-			SetButtonColors(RecentDataDirectories, MainThemeColor(Color.FromArgb(255, 231, 147), Color.FromArgb(250, 217, 98)));
-			SetButtonColors(Save, Color.RoyalBlue);
-			SetButtonColors(ZoomInButton, Color.SlateBlue);
-			SetButtonColors(ZoomOutButton, Color.SlateBlue);
-			SetButtonColors(RunSceneButton, MainThemeColor(Color.LimeGreen));
-			SetButtonColors(FreezeDeviceButton, Color.Red);
-			SetButtonColors(UndoButton, Color.RoyalBlue);
-			SetButtonColors(RedoButton, Color.RoyalBlue);
-			SetButtonColors(ReloadButton, Color.RoyalBlue);
-			SetButtonColors(PointerButton, MainThemeColor());
-			SetButtonColors(SelectToolButton, Color.MediumPurple);
-			SetButtonColors(PlaceTilesButton, Color.Green);
-			SetButtonColors(InteractionToolButton, Color.Gold);
-			SetButtonColors(MagnetMode, Color.Red);
-			SetButtonColors(ChunksToolButton, Color.SandyBrown);
-			SetButtonColors(ShowTileIDButton, MainThemeColor());
-			SetButtonColors(ShowGridButton, MainThemeColor(Color.Gray));
-			SetButtonColors(ShowCollisionAButton, Color.DeepSkyBlue);
-			SetButtonColors(ShowCollisionBButton, Color.DeepSkyBlue);
-			SetButtonColors(FlipAssistButton, MainThemeColor());
-			SetButtonColors(RunSceneButton, Color.Green);
-			SetButtonColors(MagnetModeSplitButton, MainThemeColor());
-			SetButtonColors(GridSizeButton, MainThemeColor());
-			SetButtonColors(RunSceneDropDown, MainThemeColor());
-			SetButtonColors(RecentDataDirectories_DropDown, MainThemeColor());
-			SetButtonColors(MagnetModeSplitDropDown, MainThemeColor());
-			SetButtonColors(GridSizeButton, MainThemeColor());
-			SetButtonColors(animationsSplitButton_Dropdown, MainThemeColor());
-			SetButtonColors(MoreSettingsButton, MainThemeColor());
-
-		}
-		public Color MainThemeColor(Color? CDC = null, Color? CWC = null)
-		{
-			Color NightColor;
-			Color NormalColor;
-			if (CDC != null) NightColor = CDC.Value;
-			else NightColor = Color.White;
-
-			if (CWC != null) NormalColor = CWC.Value;
-			else NormalColor = Color.Black;
-
-			return (mySettings.NightMode ? NightColor : NormalColor);
-		}
-		#endregion
-
-		#region Miscellaneous
-
-		public class SystemColorsUtility
-		{
-			public SystemColorsUtility()
-			{
-				// force init color table
-				byte unused = SystemColors.Window.R;
-
-				var colorTableField = typeof(Color).Assembly.GetType("System.Drawing.KnownColorTable")
-					.GetField("colorTable", BindingFlags.Static | BindingFlags.NonPublic);
-
-				_colorTable = (int[])colorTableField.GetValue(null);
-			}
-
-			public void SetColor(KnownColor knownColor, Color value)
-			{
-				_colorTable[(int)knownColor] = value.ToArgb();
-			}
-
-			private readonly int[] _colorTable;
 		}
 		#endregion
 
@@ -3247,8 +2753,8 @@ namespace ManiacEditor
 		private void PointerTooltipToggleToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PointerTooltipToggleToolStripMenuItem_Click(sender, e); }
 		private void ResetZoomLevelToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ResetZoomLevelToolstripMenuItem_Click(sender, e); }
 		private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.useLargeTextToolStripMenuItem_Click(sender, e); }
-		private void SetMenuButtons(object sender, RoutedEventArgs e) { Interactions.SetMenuButtons(sender, e); }
-		private void SetMenuButtons(string tag) { Interactions.SetMenuButtons(tag); }
+		public void SetMenuButtons(object sender, RoutedEventArgs e) { Interactions.SetMenuButtons(sender, e); }
+        public void SetMenuButtons(string tag) { Interactions.SetMenuButtons(tag); }
 		private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(sender, e); }
         private void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e) { Interactions.SelectionBoxesAlwaysPrioritized_Click(sender, e); }
         private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.prioritizedViewingToolStripMenuItem_Click(sender, e); }
@@ -3504,7 +3010,7 @@ namespace ManiacEditor
 		private void RunSceneButton_DropDownOpening(object sender, RoutedEventArgs e) { Interactions.RunSceneButton_DropDownOpening(sender, e); }
 
 		#region Mod Config List Stuff
-		private MenuItem CreateModConfigMenuItem(int i)
+		public MenuItem CreateModConfigMenuItem(int i)
 		{
 			MenuItem newItem = new MenuItem()
 			{
@@ -3998,11 +3504,11 @@ namespace ManiacEditor
 		#endregion
 
 		#region Mouse Actions Event Handlers
-		private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseMove(sender, e); }
-		private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseDown(sender, e); }
-		private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseUp(sender, e); }
-		private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseWheel(sender, e); }
-		private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { EditorControls.MouseClick(sender, e); }
+		private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { EditorViewModelControls.MouseMove(sender, e); }
+		private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { EditorViewModelControls.MouseDown(sender, e); }
+		private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { EditorViewModelControls.MouseUp(sender, e); }
+		private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { EditorViewModelControls.MouseWheel(sender, e); }
+		private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { EditorViewModelControls.MouseClick(sender, e); }
 		#endregion
 
 		#region Status Bar Event Handlers
@@ -4027,8 +3533,8 @@ namespace ManiacEditor
 			if (GameRunning)
 			{
 				int ObjectAddress = 0x85E9A0;
-				GameMemory.WriteInt16(ObjectAddress + 2, (short)(lastX / Zoom));
-				GameMemory.WriteInt16(ObjectAddress + 6, (short)(lastY / Zoom));
+				GameMemory.WriteInt16(ObjectAddress + 2, (short)(EditorState.lastX / EditorState.Zoom));
+				GameMemory.WriteInt16(ObjectAddress + 6, (short)(EditorState.lastY / EditorState.Zoom));
 			}
 		}
 
@@ -4057,7 +3563,7 @@ namespace ManiacEditor
 
 		private void SetPlayerRespawnToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Point clicked_point = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
+			Point clicked_point = new Point((int)(EditorState.lastX / EditorState.Zoom), (int)(EditorState.lastY / EditorState.Zoom));
 			if (GameRunning)
 			{
 				EditorGame.UpdateCheckpoint(clicked_point);
@@ -4094,7 +3600,7 @@ namespace ManiacEditor
 
         private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            SetZoomLevel(ZoomLevel, new System.Drawing.Point(ShiftX, ShiftY), 0.0, false);
+            SetZoomLevel(EditorState.ZoomLevel, new System.Drawing.Point(EditorState.ShiftX, EditorState.ShiftY), 0.0, false);
         }
 
         public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true) { EditorView.SetViewSize(width, height, resizeForm); }

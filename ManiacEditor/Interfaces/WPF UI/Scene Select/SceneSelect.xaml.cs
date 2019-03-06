@@ -131,11 +131,11 @@ namespace ManiacEditor.Interfaces
 
 			if (Settings.mySettings.NightMode)
 			{
-				scenesTree.BackColor = Editor.darkTheme1;
-				scenesTree.ForeColor = Editor.darkTheme3;
+				scenesTree.BackColor = EditorTheming.darkTheme1;
+				scenesTree.ForeColor = EditorTheming.darkTheme3;
 
-				recentDataDirList.BackColor = Editor.darkTheme1;
-				recentDataDirList.ForeColor = Editor.darkTheme3;
+				recentDataDirList.BackColor = EditorTheming.darkTheme1;
+				recentDataDirList.ForeColor = EditorTheming.darkTheme3;
 			}
 
 

@@ -50,7 +50,7 @@ namespace ManiacEditor.Interfaces
         public double GetZoom()
         {
             if (EditorInstance.isExportingImage) return 1;
-            else return EditorInstance.Zoom;
+            else return EditorInstance.EditorState.Zoom;
         }
 
 		public new void Dispose()
@@ -65,8 +65,8 @@ namespace ManiacEditor.Interfaces
 
         public Rectangle GetScreen()
         {
-            if (EditorInstance.mySettings.EntityFreeCam) return new Rectangle(EditorInstance.CustomX, EditorInstance.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
-            else return new Rectangle((int)EditorInstance.ShiftX, (int)EditorInstance.ShiftY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            if (EditorInstance.mySettings.EntityFreeCam) return new Rectangle(EditorInstance.EditorState.CustomX, EditorInstance.EditorState.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            else return new Rectangle((int)EditorInstance.EditorState.ShiftX, (int)EditorInstance.EditorState.ShiftY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
         }
 
         public void DisposeTextures()

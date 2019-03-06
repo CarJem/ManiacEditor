@@ -44,20 +44,22 @@ namespace ManiacEditor
 		public bool IsTileUnused(int tile)
 		{
 			IEnumerable<EditorLayer> AllLayers = Editor.EditorScene.AllLayers;
+            bool unused = true;
 
 			foreach (var editorLayer in Editor.EditorScene.AllLayers)
 			{
-				for (int x = 0; x < editorLayer.Width; x++)
+				for (int x = 0; x < editorLayer.Layer.Width; x++)
 				{
 					for (int y = 0; y < editorLayer.Height; y++)
 					{
-						ushort currentTile = editorLayer.GetTileAt(new Point(x, y));
-						if ((currentTile & 0x3ff) == tile) return true;
+						ushort currentTile = editorLayer.GetTileAt(new Point(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE));
+                        int tileIndex = (currentTile & 0x3ff);
+                        if (tileIndex == tile) unused = false;
 
 					}
 				}
 			}
-			return false;
+			return unused;
 		}
 
 		public void ShowUnusedTiles(List<int> UnusedTiles)

@@ -140,7 +140,7 @@ namespace ManiacEditor
 
 				Editor.entities = new EditorEntities(Editor.EditorScene, Editor);
 
-				Editor.SetViewSize((int)(Editor.SceneWidth * Editor.Zoom), (int)(Editor.SceneHeight * Editor.Zoom));
+				Editor.SetViewSize((int)(Editor.SceneWidth * Editor.EditorState.Zoom), (int)(Editor.SceneHeight * Editor.EditorState.Zoom));
 
 				Editor.UpdateControls(true);
 			}
@@ -325,7 +325,7 @@ a valid Data Directory.",
 				return;
 
 			Editor.UnloadScene();
-			Editor.UseDefaultPrefrences();
+			Editor.EditorSettings.UseDefaultPrefrences();
 			File.Replace(Result, ResultOriginal, ResultOld);
 
 		}
@@ -385,8 +385,8 @@ a valid Data Directory.",
 				Editor.entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
 			}
 			Editor.SetSelectOnlyButtonsState();
-			Editor.ClickedX = -1;
-			Editor.ClickedY = -1;
+			Editor.EditorState.ClickedX = -1;
+			Editor.EditorState.ClickedY = -1;
 		}
 
 		public void FlipHorizontalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -487,7 +487,7 @@ a valid Data Directory.",
 				if (mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacTiles"))
 				{
 					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>) System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
-					Point pastePoint = new Point((int)(Editor.lastX / Editor.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.lastY / Editor.Zoom) + EditorConstants.TILE_SIZE - 1);
+					Point pastePoint = new Point((int)(Editor.EditorState.lastX / Editor.EditorState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.EditorState.lastY / Editor.EditorState.Zoom) + EditorConstants.TILE_SIZE - 1);
 					if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
 					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
 
@@ -497,7 +497,7 @@ a valid Data Directory.",
 				// if there's none, use the internal clipboard
 				else if (Editor.TilesClipboard != null)
 				{
-					Point pastePoint = new Point((int)(Editor.lastX / Editor.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.lastY / Editor.Zoom) + EditorConstants.TILE_SIZE - 1);
+					Point pastePoint = new Point((int)(Editor.EditorState.lastX / Editor.EditorState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.EditorState.lastY / Editor.EditorState.Zoom) + EditorConstants.TILE_SIZE - 1);
 					if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item1);
 					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item2);
 					Editor.UpdateEditLayerActions();
@@ -515,14 +515,14 @@ a valid Data Directory.",
 						if (mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacEntities"))
 						{
 
-							Editor.entities.PasteFromClipboard(new Point((int)(Editor.lastX / Editor.Zoom), (int)(Editor.lastY / Editor.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+							Editor.entities.PasteFromClipboard(new Point((int)(Editor.EditorState.lastX / Editor.EditorState.Zoom), (int)(Editor.EditorState.lastY / Editor.EditorState.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
 							Editor.UpdateLastEntityAction();
 						}
 
 						// if there's none, use the internal clipboard
 						else if (Editor.entitiesClipboard != null)
 						{
-							Editor.entities.PasteFromClipboard(new Point((int)(Editor.lastX / Editor.Zoom), (int)(Editor.lastY / Editor.Zoom)), Editor.entitiesClipboard);
+							Editor.entities.PasteFromClipboard(new Point((int)(Editor.EditorState.lastX / Editor.EditorState.Zoom), (int)(Editor.EditorState.lastY / Editor.EditorState.Zoom)), Editor.entitiesClipboard);
 							Editor.UpdateLastEntityAction();
 						}
 					}
@@ -1106,7 +1106,7 @@ a valid Data Directory.",
 			{
 				Color = Color.FromArgb(Editor.EditorScene.EditorMetadata.BackgroundColor1.R, Editor.EditorScene.EditorMetadata.BackgroundColor1.G, Editor.EditorScene.EditorMetadata.BackgroundColor1.B)
 			};
-			Editor.UseExternalDarkTheme(colorSelect);
+			Editor.EditorTheming.UseExternalDarkTheme(colorSelect);
 			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
@@ -1130,7 +1130,7 @@ a valid Data Directory.",
 			{
 				Color = Color.FromArgb(Editor.EditorScene.EditorMetadata.BackgroundColor2.R, Editor.EditorScene.EditorMetadata.BackgroundColor2.G, Editor.EditorScene.EditorMetadata.BackgroundColor2.B)
 			};
-			Editor.UseExternalDarkTheme(colorSelect);
+			Editor.EditorTheming.UseExternalDarkTheme(colorSelect);
 			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
@@ -1196,9 +1196,9 @@ a valid Data Directory.",
 		{
 			string dataDir = Editor.DataDirectory;
 			string scenePath = Editor.Discord.ScenePath;
-			int rX = (short)(Editor.ShiftX);
-			int rY = (short)(Editor.ShiftY);
-			double _ZoomLevel = Editor.ZoomLevel;
+			int rX = (short)(Editor.EditorState.ShiftX);
+			int rY = (short)(Editor.EditorState.ShiftY);
+			double _ZoomLevel = Editor.EditorState.ZoomLevel;
 			bool isEncoreSet = Editor.useEncoreColors;
 			int levelSlotNum = Editor.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
@@ -1356,9 +1356,9 @@ a valid Data Directory.",
 		{
 			mySettings.DevForceRestartData = Editor.DataDirectory;
 			mySettings.DevForceRestartScene = Editor.EditorPath.SceneFilePath;
-			mySettings.DevForceRestartX = (short)(Editor.ShiftX / Editor.Zoom);
-			mySettings.DevForeRestartY = (short)(Editor.ShiftY / Editor.Zoom);
-			mySettings.DevForceRestartZoomLevel = Editor.ZoomLevel;
+			mySettings.DevForceRestartX = (short)(Editor.EditorState.ShiftX / Editor.EditorState.Zoom);
+			mySettings.DevForeRestartY = (short)(Editor.EditorState.ShiftY / Editor.EditorState.Zoom);
+			mySettings.DevForceRestartZoomLevel = Editor.EditorState.ZoomLevel;
 			mySettings.DevForceRestartEncore = Editor.EditorPath.isEncoreMode;
 			mySettings.DeveForceRestartLevelID = Editor.LevelID;
 			mySettings.DevForceRestartCurrentName = Editor.EditorPath.CurrentName;
@@ -1660,20 +1660,20 @@ a valid Data Directory.",
 
 		public void ZoomInButton_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.ZoomLevel += 1;
-			if (Editor.ZoomLevel >= 5) Editor.ZoomLevel = 5;
-			if (Editor.ZoomLevel <= -5) Editor.ZoomLevel = -5;
+			Editor.EditorState.ZoomLevel += 1;
+			if (Editor.EditorState.ZoomLevel >= 5) Editor.EditorState.ZoomLevel = 5;
+			if (Editor.EditorState.ZoomLevel <= -5) Editor.EditorState.ZoomLevel = -5;
 
-			Editor.SetZoomLevel(Editor.ZoomLevel, new Point(0, 0));
+			Editor.SetZoomLevel(Editor.EditorState.ZoomLevel, new Point(0, 0));
 		}
 
 		public void ZoomOutButton_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.ZoomLevel -= 1;
-			if (Editor.ZoomLevel >= 5) Editor.ZoomLevel = 5;
-			if (Editor.ZoomLevel <= -5) Editor.ZoomLevel = -5;
+			Editor.EditorState.ZoomLevel -= 1;
+			if (Editor.EditorState.ZoomLevel >= 5) Editor.EditorState.ZoomLevel = 5;
+			if (Editor.EditorState.ZoomLevel <= -5) Editor.EditorState.ZoomLevel = -5;
 
-			Editor.SetZoomLevel(Editor.ZoomLevel, new Point(0, 0));
+			Editor.SetZoomLevel(Editor.EditorState.ZoomLevel, new Point(0, 0));
 		}
 
 		public void SelectTool_Click(object sender, RoutedEventArgs e)

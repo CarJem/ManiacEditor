@@ -260,14 +260,14 @@ namespace ManiacEditor
 			Instance.UpdateStartScreen(false);
 			Instance.UpdateDataFolderLabel(null, null);
 			Instance.SetupLayerButtons();
-			Instance.SetViewSize((int)(Instance.SceneWidth * Instance.Zoom), (int)(Instance.SceneHeight * Instance.Zoom));
+			Instance.SetViewSize((int)(Instance.SceneWidth * Instance.EditorState.Zoom), (int)(Instance.SceneHeight * Instance.EditorState.Zoom));
 			Instance.UpdateControls(true);
 		}
 
 		public bool PreLoad()
 		{
 			Instance.UnloadScene();
-			Instance.UseDefaultPrefrences();
+			Instance.EditorSettings.UseDefaultPrefrences();
             Instance.EditorTiles = new EditorTiles(Instance);
             return Instance.SetGameConfig();
 		}

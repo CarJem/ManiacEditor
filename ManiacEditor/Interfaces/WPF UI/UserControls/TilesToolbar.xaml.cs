@@ -239,12 +239,12 @@ namespace ManiacEditor
 
 		private void TilePanel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorInstance.EditorControls.GraphicPanel_OnKeyDown(sender, e);
+			EditorInstance.EditorViewModelControls.GraphicPanel_OnKeyDown(sender, e);
 		}
 
 		private void TilePanel_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorInstance.EditorControls.GraphicPanel_OnKeyUp(sender, e);
+			EditorInstance.EditorViewModelControls.GraphicPanel_OnKeyUp(sender, e);
 		}
 
 		private void ChunkList_SelectedIndexChanged(object sender, EventArgs e)
@@ -441,13 +441,13 @@ namespace ManiacEditor
 		{
 			if (show)
 			{
-				option1CheckBox.Content = "Flip Horizontal " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipHTiles", true);
-				option2CheckBox.Content = "Flip Vertical " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipVTiles", true);
+				option1CheckBox.Content = "Flip Horizontal " + Environment.NewLine + EditorInstance.EditorViewModelControls.KeyBindPraser("FlipHTiles", true);
+				option2CheckBox.Content = "Flip Vertical " + Environment.NewLine + EditorInstance.EditorViewModelControls.KeyBindPraser("FlipVTiles", true);
 			}
 			else
 			{
-				option1CheckBox.Content = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipH"));
-				option2CheckBox.Content = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipV"));
+				option1CheckBox.Content = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorViewModelControls.KeyBindPraser("FlipH"));
+				option2CheckBox.Content = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorViewModelControls.KeyBindPraser("FlipV"));
 			}
 		}
 

@@ -420,9 +420,11 @@
     <Compile Include="Editor Classes\EditorInteractions.cs" />
     <Compile Include="Editor Classes\EditorPath.cs" />
     <Compile Include="Editor Classes\EditorSceneLoading.cs" />
+    <Compile Include="Editor Classes\EditorTheming.cs" />
     <Compile Include="Editor Classes\EditorTiles.cs" />
+    <Compile Include="Editor Classes\EditorUI.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
-    <Compile Include="Editor Classes\EditorViewSize.cs" />
+    <Compile Include="Editor Classes\EditorViewModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedButton.cs" />
@@ -857,14 +859,14 @@
     <Compile Include="Interfaces\UserControls\EntityPropertiesView.xaml.cs">
       <DependentUpon>EntityPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorStats.cs" />
+    <Compile Include="Editor Classes\EditorState.cs" />
     <Compile Include="Interfaces\WinForm UI\DeviceLostBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\WinForm UI\DeviceLostBox.Designer.cs">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorControls.cs" />
+    <Compile Include="Editor Classes\EditorControlModel.cs" />
     <Compile Include="Extensions\Discord.cs" />
     <Compile Include="Enums + Shorthandings\DuplicateAction.cs" />
     <Compile Include="Editor Classes\EditorAnimations.cs" />

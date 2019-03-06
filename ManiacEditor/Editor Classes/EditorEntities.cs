@@ -163,6 +163,25 @@ namespace ManiacEditor
             entitiesBySlot[entity.Entity.SlotID] = entity;
         }
 
+        public void OrderSelectedSlotIDs()
+        {
+            List<ushort> SelectedSlotIDs = new List<ushort>();
+            foreach (var entity in SelectedEntities)
+            {
+                SelectedSlotIDs.Add(entity.Entity.SlotID);
+            }
+
+            SelectedSlotIDs.Sort();
+            int i = 0;
+            var tempEntities = entities.ToList();
+            foreach (var entity in SelectedEntities.Where(e => SelectedEntities.Contains(e)))
+            {
+                entity.Entity.SlotID = SelectedSlotIDs[i];
+                i++;
+            }
+            entities = tempEntities;
+
+        }
 
         public void OptimizeSlotIDs()
         {
@@ -174,7 +193,6 @@ namespace ManiacEditor
                 entitiesSortedBySlot[i].Entity.SlotID = (ushort)i;
             }
             entities = entitiesSortedBySlot;
-            //MessageBox.Show("There are exactly " + unusedSpaces + " unused slots, in this scene", "Results");
         }
 
         /// <summary>
@@ -336,7 +354,7 @@ namespace ManiacEditor
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
-            foreach (var entity in entities)
+            foreach (var entity in entities.OrderBy(e => e.Entity.SlotID))
             {
                 if (entity.IsObjectOnScreen(d)) entity.Draw(d);
             }
@@ -346,7 +364,7 @@ namespace ManiacEditor
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
-            foreach (var entity in entities)
+            foreach (var entity in entities.OrderBy(e => e.Entity.SlotID))
             {
                 if (entity.ValidPriorityPlane(prority) && entity.IsObjectOnScreen(d)) entity.Draw(d);
             }
@@ -354,7 +372,7 @@ namespace ManiacEditor
 
         public void DrawSelectionBoxes(DevicePanel d)
         {
-            foreach (var entity in entities)
+            foreach (var entity in entities.OrderBy(e => e.Entity.SlotID))
             {
                 if (entity.IsObjectOnScreen(d)) entity.DrawBoxOnly(d);
             }

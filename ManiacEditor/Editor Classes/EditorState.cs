@@ -13,46 +13,22 @@ using System.Windows.Forms;
 
 namespace ManiacEditor
 {
-    public partial class StatusBox
+    public class EditorState
     {
         string newLine = Environment.NewLine;
         System.Windows.Forms.Timer t;
         public Editor EditorInstance;
         public bool panelMode = false;
-        public StatusBox(Editor instance)
+        public EditorState(Editor instance)
         {
             EditorInstance = instance;
-            t = new System.Windows.Forms.Timer();
-            t.Interval = 10;
-            t.Tick += new EventHandler(setText);
-            t.Start();
+            //t = new System.Windows.Forms.Timer();
+            //t.Interval = 10;
+            //t.Tick += new EventHandler(setText);
+            //t.Start();
         }
 
-        private void setText(object sender, EventArgs e)
-        {
-            ApplyText();
-        }
-
-
-
-        private void ApplyText()
-        {
-            //informationLabel.Text = GetStatsText();
-        }
-
-
-        public string GetStatsText()
-        {
-            string statsText = GetDataFolder();
-            statsText = statsText + newLine + GetMasterDataFolder();
-            statsText = statsText + newLine + GetZoom();
-            statsText = statsText + newLine + GetSceneFilePath();
-            statsText = statsText + newLine + GetScenePath();
-            statsText = statsText + newLine + GetSelectedZone();
-            statsText = statsText + newLine +  GetSceneTileConfigPath();
-            statsText = statsText + newLine + GetSetupObject();
-            return statsText;
-        }
+        #region Debug HUD Information
 
         public string GetSceneTileConfigPath()
         {
@@ -145,10 +121,42 @@ namespace ManiacEditor
 
         }
 
+        #endregion
 
-        private void controlBox_Quit(object sender, EventArgs e)
-        {
-            EditorInstance.controlWindowOpen = false;
-        }
+        #region Editing States 
+        //Editor Editing States
+        public bool dragged { get; set; }
+        public bool startDragged { get; set; }
+        public int lastX { get; set; }
+        public int lastY { get; set; }
+        public int draggedX { get; set; }
+        public int draggedY { get; set; }
+        public int ShiftX { get; set; } = 0;
+        public int ShiftY { get; set; } = 0;
+        public int ScreenWidth { get; set; }
+        public int ScreenHeight { get; set; }
+        public int CustomX { get; set; } = 0;
+        public int CustomY { get; set; } = 0;
+        public int select_x1 { get; set; }
+        public int select_x2 { get; set; }
+        public int select_y1 { get; set; }
+        public int select_y2 { get; set; }
+        public int ClickedX { get; set; }
+        public int ClickedY { get; set; }
+        public bool draggingSelection { get; set; } //Determines if we are dragging a selection
+        public int selectingX { get; set; }
+        public int selectingY { get; set; }
+        public bool zooming { get; set; } //Detects if we are zooming
+        public double Zoom { get; set; } = 1; //Double Value for Zoom Levels
+        public int ZoomLevel { get; set; } = 0; //Interger Value for Zoom Levels
+        public int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
+        public int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
+        public int SelectedTileX { get; set; } = 0; //Used to get a single Selected Tile's X
+        public int SelectedTileY { get; set; } = 0; //Used to get a single Selected Tile's Y
+        public bool scrolling { get; set; } = false; //Determines if the User is Scrolling
+        public bool scrollingDragged { get; set; } = false;
+        public bool wheelClicked { get; set; } = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
+        public Point scrollPosition { get; set; } //For Getting the Scroll Position
+        #endregion
     }
 }
