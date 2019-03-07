@@ -69,7 +69,33 @@ namespace ManiacEditor
 
 		}
 
-		public bool SetGameConfig()
+        public GameConfig SetandReturnGameConfig(string DataDirectory)
+        {
+            try
+            {
+                var GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
+                return GameConfig;
+            }
+            catch
+            {
+                // Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
+                try
+                {
+                    var GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
+                    return GameConfig;
+                }
+                catch
+                {
+                    RSDKrU.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
+                    return null;
+                }
+
+
+            }
+
+        }
+
+        public bool SetGameConfig()
 		{
 			bool validDataDirectoryFound = false;
 			string validDataDirectoryPath = "";
@@ -92,7 +118,30 @@ namespace ManiacEditor
 			}
 		}
 
-		public bool IsDataDirectoryValid(string directoryToCheck)
+        public GameConfig SetandReturnGameConfig()
+        {
+            bool validDataDirectoryFound = false;
+            string validDataDirectoryPath = "";
+            foreach (string dataDir in Instance.ResourcePackList)
+            {
+                if (IsDataDirectoryValid(dataDir))
+                {
+                    validDataDirectoryFound = true;
+                    validDataDirectoryPath = dataDir;
+                    break;
+                }
+            }
+            if (!validDataDirectoryFound)
+            {
+                return SetandReturnGameConfig(Instance.DataDirectory);
+            }
+            else
+            {
+                return SetandReturnGameConfig(validDataDirectoryPath);
+            }
+        }
+
+        public bool IsDataDirectoryValid(string directoryToCheck)
 		{
 			return File.Exists(Path.Combine(directoryToCheck, "Game", "GameConfig.bin"));
 		}

@@ -436,6 +436,9 @@
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatformNode.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedWarpDoor.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedRenderer.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MicDrop.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\ClearScript.cs" />
     <Compile Include="Entity Renders\Normal Renders\TitleBG.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -777,6 +780,9 @@
     </Compile>
     <Compile Include="Interfaces\WPF UI\Scene Select\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Scene Select\DataPackEditor.xaml.cs">
+      <DependentUpon>DataPackEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF UI\Scene Select\NewSceneWindow.xaml.cs">
       <DependentUpon>NewSceneWindow.xaml</DependentUpon>
@@ -1694,6 +1700,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\UserControls\HScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Scene Select\DataPackEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

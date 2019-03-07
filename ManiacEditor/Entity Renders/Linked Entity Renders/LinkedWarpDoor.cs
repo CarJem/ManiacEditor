@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
             uint destinationTag = currentEntity.GetAttribute("destinationTag").ValueVar;
             byte tag = currentEntity.GetAttribute("tag").ValueUInt8;
 
-            ObjectInstance.Draw(d);
+            ObjectInstance.DrawBase(d);
             if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
 
             // this is the start of a WarpDoor, find its partner(s)

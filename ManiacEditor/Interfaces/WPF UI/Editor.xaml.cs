@@ -144,6 +144,7 @@ namespace ManiacEditor
 		public string DataDirectory; //Used to get the current Data Directory
 		public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
 		public IList<string> ResourcePackList = new List<string>();
+        public string LoadedDataPack = "";
 		public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
 
 		// Extra Layer Buttons
@@ -331,6 +332,9 @@ namespace ManiacEditor
 
             EditorTheming.UseDarkTheme_WPF(mySettings.NightMode);
 			InitializeComponent();
+
+            System.Windows.Application.Current.MainWindow = this;
+
             try
             {
                 InitilizeEditor();
@@ -1764,8 +1768,6 @@ namespace ManiacEditor
 			MenuChar = MenuCharS.ToCharArray();
 			MenuChar_Small = MenuCharS_Small.ToCharArray();
 			LevelSelectChar = LevelSelectCharS.ToCharArray();
-
-			ResourcePackList.Clear();
 
 			UpdateStartScreen(true);
 		}

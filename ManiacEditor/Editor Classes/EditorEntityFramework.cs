@@ -31,6 +31,7 @@ namespace ManiacEditor
 		public List<string> entityRenderingObjects;
         public List<string> renderOnScreenExlusions;
         public List<string> rendersWithErrors = new List<string>();
+        public List<string> linkedrendersWithErrors = new List<string>();
         public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "EditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
         public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform" };
 

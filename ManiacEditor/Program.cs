@@ -72,6 +72,7 @@ namespace ManiacEditor
                 shortcutMode = 0;
             }
 
+            Environment.CurrentDirectory = GetExecutingDirectoryName();
 
             bool allowedToLoad = false;
             try

@@ -346,8 +346,18 @@ namespace ManiacEditor
             if (filteredOut) return;
             if (EditorEntity_ini.LinkedRendersNames.Contains(entity.Object.Name.Name) && EditorInstance.showEntityPathArrows)
             {
-                LinkedRenderer renderer = EditorInstance.EditorEntity_ini.LinkedEntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name.ToString()).FirstOrDefault();
-                if (renderer != null) renderer.Draw(d, entity, this);
+                try
+                {
+                    LinkedRenderer renderer = EditorInstance.EditorEntity_ini.LinkedEntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name.ToString()).FirstOrDefault();
+                    if (renderer != null) renderer.Draw(d, entity, this);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to load the linked render for " + entity.Object.Name.Name + "! " + ex.ToString());
+                    EditorInstance.EditorEntity_ini.linkedrendersWithErrors.Add(entity.Object.Name.Name);
+
+                }
+
             }
             else
             {

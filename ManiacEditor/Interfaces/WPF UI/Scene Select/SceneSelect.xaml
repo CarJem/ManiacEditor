@@ -25,6 +25,7 @@
 
             <Label HorizontalAlignment="Left" x:Name="dataLabelToolStripItem" Content="Data Directory: NULL" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,0,0,0"></Label>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button Style="{DynamicResource Flat2}" x:Name="ModPackEditorButton" Width="110" Height="30" Content="Mod Pack Editor" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" Click="ModPackEditorButton_Click"></Button>
                 <Button Style="{DynamicResource Flat2}" x:Name="refreshButton" Width="70" Height="30" Content="Refresh" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" Click="UserControl_GotFocus"></Button>
                 <Button Style="{DynamicResource Flat2}" x:Name="optionsButton" Width="70" Height="30" Content="Options" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" HorizontalAlignment="Right" Click="OptionsButton_Click">
                     <Button.ContextMenu>
@@ -99,9 +100,9 @@
 
 
         <ToolBarPanel x:Name="BottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="41" Background="{DynamicResource StatusBarBackground}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button Style="{DynamicResource Flat2}" x:Name="unloadModButton" Width="80" Height="41" Content="Unload Mod" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" HorizontalAlignment="Right" Click="toolStripDropDownButton1_Click">
+            <Button Style="{DynamicResource Flat2}" x:Name="unloadModButton" Width="120" Height="41" Content="Unload Data Pack" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" HorizontalAlignment="Right" Click="toolStripDropDownButton1_Click">
             </Button>
-            <Label HorizontalAlignment="Left" VerticalContentAlignment="Center" x:Name="modFolderStatusLabel" Content="" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,-40,0,0"></Label>
+            <Label HorizontalAlignment="Left" VerticalContentAlignment="Center" x:Name="dataPackStatusLabel" Content="" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,-40,0,0"></Label>
         </ToolBarPanel>
 
 

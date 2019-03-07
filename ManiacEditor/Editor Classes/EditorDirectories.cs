@@ -17,8 +17,18 @@ namespace ManiacEditor
 		public EditorDirectories(Editor instance)
 		{
 			Instance = instance;
-			//LoadFile();
+			LoadFile();
 		}
+
+        public List<string> DataPackNamesToList()
+        {
+            List<string> PackNames = new List<string>();
+            foreach (var config in ModListInformation)
+            {
+                PackNames.Add(config.Item1);
+            }
+            return PackNames;
+        }
 
 		public void LoadFile()
 		{
@@ -43,7 +53,8 @@ namespace ManiacEditor
 				}
 				ModListInformation.Add(new Tuple<string, List<Tuple<string, string>>>(section.SectionName, Keys));
 			}
-		}
+
+        }
 
 		public void PrintInformation()
 		{
@@ -86,11 +97,14 @@ namespace ManiacEditor
 		public bool GetFile()
 		{
 			var parser = new FileIniDataParser();
-			IniData file = parser.ReadFile(Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini"));
-			if (file == null) return false;
+            if (!File.Exists(Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini")))
+            {
+                return false;
+            }
 			else
 			{
-				ModPackInfo = file;
+                IniData file = parser.ReadFile(Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini"));
+                ModPackInfo = file;
 			}
 			return true;
 		}

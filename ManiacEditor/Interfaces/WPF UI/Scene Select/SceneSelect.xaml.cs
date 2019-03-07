@@ -54,8 +54,7 @@ namespace ManiacEditor.Interfaces
 		public string Result = null;
 		public bool withinAParentForm = false;
 		public bool isEncore = false;
-		public bool isModLoadedwithGameConfig = false;
-		public bool isModLoaded = false;
+		public bool UsingDataPack = false;
 		Timer timer = new Timer();
 		public int selectedCategoryIndex = -1;
 		public Editor EditorInstance;
@@ -87,10 +86,8 @@ namespace ManiacEditor.Interfaces
 		private System.Windows.Forms.ToolStripMenuItem removeSavedFolderToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip dataDirEditContext;
 		private System.Windows.Forms.ToolStripMenuItem removeDataDirectoryToolStripMenuItem;
-		private System.Windows.Forms.ContextMenuStrip modEditContext;
-		private System.Windows.Forms.ToolStripMenuItem setNameToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem removeModToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem restoreOriginalNameToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip DataPackContextMenu;
+		private System.Windows.Forms.ToolStripMenuItem EditDataPacksToolStripMenuItems;
 		private System.Windows.Forms.TreeView scenesTree;
 		private System.Windows.Forms.TreeView recentDataDirList;
 
@@ -161,10 +158,8 @@ namespace ManiacEditor.Interfaces
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.moveSceneInfoUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.moveSceneInfoDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.modEditContext = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.setNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.restoreOriginalNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.removeModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.DataPackContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.EditDataPacksToolStripMenuItems = new System.Windows.Forms.ToolStripMenuItem();
 			this.scenesTree = new System.Windows.Forms.TreeView();
 			this.recentDataDirList = new System.Windows.Forms.TreeView();
 
@@ -356,33 +351,17 @@ namespace ManiacEditor.Interfaces
 			// 
 			// modEditContext
 			// 
-			this.modEditContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.setNameToolStripMenuItem,
-			this.restoreOriginalNameToolStripMenuItem,
-			this.removeModToolStripMenuItem});
-			this.modEditContext.Name = "folderEditContext";
-			this.modEditContext.Size = new System.Drawing.Size(194, 70);
-			// 
-			// setNameToolStripMenuItem
-			// 
-			this.setNameToolStripMenuItem.Name = "setNameToolStripMenuItem";
-			this.setNameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-			this.setNameToolStripMenuItem.Text = "Set Name...";
-			this.setNameToolStripMenuItem.Click += new System.EventHandler(this.setNameToolStripMenuItem_Click);
-			// 
-			// restoreOriginalNameToolStripMenuItem
-			// 
-			this.restoreOriginalNameToolStripMenuItem.Name = "restoreOriginalNameToolStripMenuItem";
-			this.restoreOriginalNameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-			this.restoreOriginalNameToolStripMenuItem.Text = "Restore Original Name";
-			this.restoreOriginalNameToolStripMenuItem.Click += new System.EventHandler(this.restoreOriginalNameToolStripMenuItem_Click);
-			// 
-			// removeModToolStripMenuItem
-			// 
-			this.removeModToolStripMenuItem.Name = "removeModToolStripMenuItem";
-			this.removeModToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-			this.removeModToolStripMenuItem.Text = "Remove Mod";
-			this.removeModToolStripMenuItem.Click += new System.EventHandler(this.removeModToolStripMenuItem_Click);
+			this.DataPackContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.EditDataPacksToolStripMenuItems});
+			this.DataPackContextMenu.Name = "folderEditContext";
+			this.DataPackContextMenu.Size = new System.Drawing.Size(194, 70);
+            // 
+            // EditDataPacksToolStripMenuItems
+            // 
+            this.EditDataPacksToolStripMenuItems.Name = "EditDataPacksToolStripMenuItems";
+			this.EditDataPacksToolStripMenuItems.Size = new System.Drawing.Size(193, 22);
+			this.EditDataPacksToolStripMenuItems.Text = "Edit Data Packs...";
+			this.EditDataPacksToolStripMenuItems.Click += new System.EventHandler(this.EditDataPacksMenuItem_Click);
 			// 
 			// scenesTree
 			// 
@@ -486,7 +465,7 @@ namespace ManiacEditor.Interfaces
 			recentDataDirList.Nodes.Clear();
 			recentDataDirList.Nodes.Add("Recent Data Directories");
 			recentDataDirList.Nodes.Add("Saved Places");
-			//recentDataDirList.Nodes.Add("Mods");
+			recentDataDirList.Nodes.Add("Data Packs");
 			this.recentDataDirList.ImageList = new ImageList();
 			this.recentDataDirList.ImageList.Images.Add("Folder", Properties.Resources.folder);
 			this.recentDataDirList.ImageList.Images.Add("File", Properties.Resources.file);
@@ -517,10 +496,21 @@ namespace ManiacEditor.Interfaces
 				recentDataDirList.Nodes[1].ExpandAll();
 			}
 
-			if (Properties.Settings.Default.ModFolders?.Count > 0)
+			if (EditorInstance.EditorDirectories != null && EditorInstance.EditorDirectories.ModListInformation?.Count > 0)
 			{
-
-			}
+                List<string> modPacks = new List<string>();
+                this.recentDataDirList.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
+                int index = this.recentDataDirList.ImageList.Images.IndexOfKey("SubFolder");
+                modPacks = EditorInstance.EditorDirectories.DataPackNamesToList();
+                foreach (string packs in modPacks)
+                {
+                    var node = recentDataDirList.Nodes[2].Nodes.Add(packs, packs, index, index);
+                    node.Tag = modPacks.IndexOf(packs);
+                    node.ToolTipText = packs;
+                    node.ImageKey = "DataPack";
+                }
+                recentDataDirList.Nodes[2].ExpandAll();
+            }
 
 		}
 
@@ -547,7 +537,7 @@ namespace ManiacEditor.Interfaces
 
 		private void Close()
 		{
-			if (!EditorInstance.importingObjects)EditorInstance.EditorSceneLoading.OpenSceneUsingExistingSceneSelect(this);
+			if (!EditorInstance.importingObjects && withinAParentForm)EditorInstance.EditorSceneLoading.OpenSceneUsingExistingSceneSelect(this);
 			if (Window != null) Window.Close();
 
 		}
@@ -919,86 +909,53 @@ namespace ManiacEditor.Interfaces
 
 		private void load_Click(object sender, RoutedEventArgs e)
 		{
-			LoadDataDirectory();
-		}
+            UnloadDataPack();
+            if (EditorInstance.importingObjects == true)
+            {
+                MessageBox.Show("You can't do that while importing objects!");
+            }
+            else
+            {
+                if (recentDataDirList.SelectedNode.ImageKey == "DataFolder") LoadDataDirectory();
+                else if (recentDataDirList.SelectedNode.ImageKey == "DataPack") LoadDataPack(recentDataDirList.SelectedNode.Tag.ToString());
+                else if (recentDataDirList.SelectedNode.ImageKey == "SavedPlace")
+                {
+                    if (_GameConfig != null) selectable_browse_Click(recentDataDirList.SelectedNode.Tag.ToString());
+                    else MessageBox.Show("Please Select/Open a Data Directory First", "ERROR!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
 
-		private void LoadDataDirectory(bool unloadingMod = false)
+        }
+
+		private void LoadDataDirectory()
 		{
-			int NodeType = 0;
-			if (EditorInstance.importingObjects == false)
-			{
-				NodeType = 0;
-			}
-			else
-			{
-				NodeType = -1;
-			}
+			bool AllowedToProceed = true;
 
-			if (EditorInstance.DataDirectory != null)
-			{
-				dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
-			}
+			if (EditorInstance.DataDirectory != null) dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
 			else
 			{
 				dataLabelToolStripItem.Content = "Data Directory: NULL";
-			}
+                AllowedToProceed = false;
+            }
 
-			if (NodeType == 0)
+            if (AllowedToProceed)
 			{
 				GameConfig GameConfig = null;
 				String SelectedDataDirectory;
-				if (unloadingMod)
-				{
-					SelectedDataDirectory = EditorInstance.DataDirectory;
-					modFolderStatusLabel.Content = "";
-					isModLoadedwithGameConfig = false;
-					isModLoaded = false;
-				}
-				else
-				{
-					SelectedDataDirectory = recentDataDirList.SelectedNode.Tag.ToString();
-				}
-				{
-					try
-					{
-						GameConfig = new GameConfig(Path.Combine(SelectedDataDirectory, "Game", "GameConfig.bin"));
-					}
-					catch
-					{
-						// Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
-						try
-						{
-							GameConfig = new GameConfig(Path.Combine(SelectedDataDirectory, "Game", "GameConfig_ME.bin"));
-						}
-						catch
-						{
-							MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work you in Sonic Mania can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
-							EditorInstance.DataDirectory = prevDataDir;
-							prevDataDir = null;
-
-							if (EditorInstance.DataDirectory != null)
-							{
-								dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
-							}
-							else
-							{
-								dataLabelToolStripItem.Content = "Data Directory: NULL";
-							}
-
-						}
-					}
-				}
+                SelectedDataDirectory = recentDataDirList.SelectedNode.Tag.ToString();
+                GameConfig = EditorInstance.EditorPath.SetandReturnGameConfig(SelectedDataDirectory);
 				if (GameConfig != null)
 				{
 					LoadFromGameConfig(GameConfig);
 					_GameConfig = GameConfig;
 				}
+                else
+                {
+                    dataLabelToolStripItem.Content = "Data Directory: NULL";
+                }
 			}
-			if (NodeType == -1)
-			{
-				MessageBox.Show("You can't do that while importing objects!");
-			}
-		}
+
+        }
 
 		private void setButtonEnabledState(bool enabled)
 		{
@@ -1074,8 +1031,8 @@ namespace ManiacEditor.Interfaces
 					dataDirEditContext.Show(recentDataDirList, e.Location);
 				else if (e.Node.ImageKey == "SavedPlace")
 					folderEditContext.Show(recentDataDirList, e.Location);
-				else if (e.Node.ImageKey == "ModFolder")
-					modEditContext.Show(recentDataDirList, e.Location);
+				else if (e.Node.ImageKey == "DataPack")
+					DataPackContextMenu.Show(recentDataDirList, e.Location);
 			}
 
 
@@ -1192,50 +1149,61 @@ namespace ManiacEditor.Interfaces
 			ReloadQuickPanel();
 		}
 
+        public void UnloadDataPack()
+        {
+            EditorInstance.ResourcePackList.Clear();
+            EditorInstance.DataDirectory = null;
+            dataPackStatusLabel.Content = "";
+            EditorInstance.DataDirectory = "Data Directory: NULL";
+        }
+
+        public void LoadDataPack(string tag)
+        {
+            bool AllowedToProceed = true;
+
+            prevDataDir = EditorInstance.DataDirectory;
+            if (EditorInstance.EditorDirectories == null) return;
+            if (!Int32.TryParse(tag, out int Index)) return;
+            if (EditorInstance.EditorDirectories.ModListInformation == null) return;
+
+            var pack = EditorInstance.EditorDirectories.ModListInformation[Index];
+
+            EditorInstance.LoadedDataPack = pack.Item1;
+
+            foreach(var item in pack.Item2)
+            {
+                if (item.Item1 == "DataDir") EditorInstance.DataDirectory = item.Item2;
+                else if (item.Item1 == "Mod") EditorInstance.ResourcePackList.Add(item.Item2);
+            }
+
+            GameConfig GameConfig = null;
+            GameConfig = EditorInstance.EditorPath.SetandReturnGameConfig();
+
+            if (GameConfig == null) AllowedToProceed = false;
+            if (EditorInstance.DataDirectory == null) AllowedToProceed = false;
+
+            if (AllowedToProceed)
+            {
+                dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
+                dataPackStatusLabel.Content = "Loaded Data Pack: " + EditorInstance.LoadedDataPack;
+                LoadFromGameConfig(GameConfig);
+                _GameConfig = GameConfig;
+            }
+            else
+            {
+                dataLabelToolStripItem.Content = "Data Directory: NULL";
+                dataPackStatusLabel.Content = "";
+            }
+        }
+
 
 		private void recentDataDirList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-
-				recentDataDirList.SelectedNode = e.Node;
-				if (e.Node.ImageKey == "DataFolder")
-				{
-					prevDataDir = EditorInstance.DataDirectory;
-					EditorInstance.DataDirectory = e.Node.Tag.ToString();
-					load_Click(sender, null);
-				}
-				else if (e.Node.ImageKey == "SavedPlace")
-				{
-					if (_GameConfig != null)
-					{
-						selectable_browse_Click(e.Node.Tag.ToString());
-					}
-					else
-					{
-						MessageBox.Show("Please Select/Open a Data Directory First", "ERROR!", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
-				}
-				else if (e.Node.ImageKey == "Mods")
-				{
-					/*if (_GameConfig != null)
-					{
-						LoadModDataDirectory();
-					}
-					else
-					{
-						MessageBox.Show("Please Select/Open a Data Directory First", "ERROR!", MessageBoxButton.OK, MessageBoxImage.Error);
-					}*/
-				}
+                recentDataDirList.SelectedNode = e.Node;
+                load_Click(sender, null);
 			}
-		}
-
-		private void preRenderCheckbox_CheckedChanged(object sender, EventArgs e)
-		{
-			if (preRenderCheckbox.IsChecked == true)
-				EditorInstance.PreRenderSceneSelectCheckbox = true;
-			else
-				EditorInstance.PreRenderSceneSelectCheckbox = false;
 		}
 
 		private void scenesTree_Click(object sender, EventArgs e)
@@ -1450,31 +1418,14 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
-		private void setNameToolStripMenuItem_Click(object sender, EventArgs e)
+		private void EditDataPacksMenuItem_Click(object sender, EventArgs e)
 		{
-			String toNameChange = recentDataDirList.SelectedNode.Tag.ToString();
-			int index = Settings.mySettings.ModFolders.IndexOf(toNameChange);
-
-			if (Settings.mySettings.ModFolderCustomNames == null)
-			{
-				Settings.mySettings.ModFolderCustomNames = new StringCollection();
-				foreach (string items in Settings.mySettings.ModFolders)
-				{
-					Settings.mySettings.ModFolderCustomNames.Add("");
-				}
-			}
-
-			string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Custom Folder Name", "Leave blank to reset. This will not touch your mod!", Settings.mySettings.ModFolderCustomNames[index]);
-			if (inputValue != "")
-			{
-				Settings.mySettings.ModFolderCustomNames[index] = inputValue;
-				ReloadQuickPanel();
-			}
+            ModPackEditorButton_Click(null, null);
 		}
 
 		private void toolStripDropDownButton1_Click(object sender, RoutedEventArgs e)
 		{
-			LoadDataDirectory(true);
+			LoadDataDirectory();
 		}
 
 		private void restoreOriginalNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1515,5 +1466,14 @@ namespace ManiacEditor.Interfaces
 		{
 			ReloadQuickPanel();
 		}
-	}
+
+        private void ModPackEditorButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataPackEditor editor = new DataPackEditor(EditorInstance);
+            if (Window != null) editor.Owner = Window.Owner;
+            else editor.Owner = Application.Current.MainWindow;
+            editor.ShowDialog();
+            ReloadQuickPanel();
+        }
+    }
 }
