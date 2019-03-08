@@ -1087,7 +1087,15 @@ a valid Data Directory.",
 			}
 		}
 
-		public void LayerManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        public void ManiacinieditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacINIEditor editor = new ManiacINIEditor(Editor);
+            if (editor.Owner != null) editor.Owner = Window.GetWindow(Editor);
+            else editor.Owner = System.Windows.Application.Current.MainWindow;
+            editor.ShowDialog();
+        }
+
+        public void LayerManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			Editor.Deselect(true);
 
@@ -1250,7 +1258,7 @@ a valid Data Directory.",
 		#region Developer Stuff
 		public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			GoToPositionBox form = new GoToPositionBox();
+			GoToPositionBox form = new GoToPositionBox(Editor);
 			if (form.ShowDialog().Value == true)
 			{
 				int x = form.goTo_X;
@@ -1448,7 +1456,14 @@ a valid Data Directory.",
 				Process.Start(psi);
 			}
 		}
-		public void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+
+        public void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            RenderListEditor editor = new RenderListEditor(Editor);
+            editor.Owner = Editor.Owner;
+            editor.ShowDialog();
+        }
+        public void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			System.Windows.Controls.MenuItem button = sender as System.Windows.Controls.MenuItem;
 			bool isGameConfig = false;

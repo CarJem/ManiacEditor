@@ -26,9 +26,6 @@ namespace ManiacEditor
             Instance = instance;
         }
 
-
-        static Dictionary<String, String> SceneINISettings = new Dictionary<string, string> { };
-
         public static void exportSettings()
         {
             foreach (SettingsProperty currentProperty in Properties.Settings.Default.Properties)
@@ -41,135 +38,7 @@ namespace ManiacEditor
 
         }
 
-        #region Maniac.ini and Preset Section
-        public static void SetINIDefaultPrefrences(Editor instance)
-		{
-			string value;
-			Dictionary<String, String> ListedPrefrences = EditorSettings.ReturnPrefrences();
-			if (ListedPrefrences.ContainsKey("LevelID"))
-			{
-				ListedPrefrences.TryGetValue("LevelID", out value);
-				Int32.TryParse(value, out int resultingInt);
-				if (resultingInt >= -1)
-				{
-					instance.LevelID = resultingInt;
-				}
-
-			}
-			if (ListedPrefrences.ContainsKey("FGLower"))
-			{
-				ListedPrefrences.TryGetValue("FGLower", out value);
-				instance.INILayerNameLower = value;
-			}
-			if (ListedPrefrences.ContainsKey("FGHigher"))
-			{
-				ListedPrefrences.TryGetValue("FGHigher", out value);
-				instance.INILayerNameHigher = value;
-			}
-			if (ListedPrefrences.ContainsKey("WaterColor"))
-			{
-				ListedPrefrences.TryGetValue("WaterColor", out value);
-				Color color = System.Drawing.ColorTranslator.FromHtml(value);
-
-				if (ListedPrefrences.ContainsKey("WaterColorAlpha"))
-				{
-					ListedPrefrences.TryGetValue("WaterColorAlpha", out string value2);
-					Int32.TryParse(value2, out int alpha);
-					color = Color.FromArgb(alpha, color.R, color.G, color.B);
-				}
-				instance.waterColor = color;
-			}
-			if (ListedPrefrences.ContainsKey("SpritePaths"))
-			{
-				ListedPrefrences.TryGetValue("SpritePaths", out value);
-				List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
-				//foreach (string item in list)
-				//{
-				//	RSDKrU.MessageBox.Show(item);
-				//}
-				instance.userDefinedSpritePaths = list;
-			}
-			if (ListedPrefrences.ContainsKey("SwapEntityRenderNames"))
-			{
-				ListedPrefrences.TryGetValue("SwapEntityRenderNames", out value);
-				List<string> list = new List<string>(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
-				if (list.Count % 2 == 0 && list.Count != 0)
-				{
-					for (int i = 0; i < list.Count;)
-					{
-						string toBeSwapped = list[i];
-						string toSet = list[i + 1];
-						//RSDKrU.MessageBox.Show(toBeSwapped + "-> " + toSet);
-						instance.userDefinedEntityRenderSwaps.Add(toBeSwapped, toSet);
-						i = i + 2;
-					}
-				}
-				else
-				{
-					RSDKrU.MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
-				}
-
-
-			}
-			if (ListedPrefrences.ContainsKey("EncoreACTFile"))
-			{
-				ListedPrefrences.TryGetValue("EncoreACTFile", out value);
-				value = value.Replace("\"", "");
-				instance.SetEncorePallete(null, value);
-			}
-			if (ListedPrefrences.ContainsKey("CustomMenuFontText"))
-			{
-				ListedPrefrences.TryGetValue("CustomMenuFontText", out value);
-				instance.MenuChar = value.ToCharArray();
-			}
-			if (ListedPrefrences.ContainsKey("CustomLSelectFontText"))
-			{
-				ListedPrefrences.TryGetValue("CustomLSelectFontText", out value);
-				instance.LevelSelectChar = value.ToCharArray();
-			}
-			if (ListedPrefrences.ContainsKey("CustomMenuSmallFontText"))
-			{
-				ListedPrefrences.TryGetValue("CustomMenuSmallFontText", out value);
-				instance.MenuChar_Small = value.ToCharArray();
-			}
-
-
-		}
-		public static FileStream GetSceneIniResource(string path)
-        {
-            if (!File.Exists(path))
-            {
-                return null;
-            }
-
-            return new FileStream(path,
-                                  FileMode.Open,
-                                  FileAccess.Read,
-                                  FileShare.Read);
-        }
-        public static void GetSceneINISettings(Stream stream)
-        {
-            var parser = new IniParser.StreamIniDataParser();
-            IniData data = parser.ReadData(new StreamReader(stream));
-
-            foreach (var section in data.Sections)
-            {
-                foreach (var key in section.Keys)
-                {
-                    SceneINISettings.Add(key.KeyName, key.Value);
-                }
-            }
-
-
-        }
-        public static Dictionary<String,String> ReturnPrefrences()
-        {
-            return SceneINISettings;
-        }
-        public static void CleanPrefrences()
-        {
-            SceneINISettings.Clear();
-        }
+        #region Preset Section
         public static void ApplyPreset(int state)
         {
             switch (state)

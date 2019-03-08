@@ -916,7 +916,7 @@ namespace ManiacEditor.Interfaces
             }
             else
             {
-                if (recentDataDirList.SelectedNode.ImageKey == "DataFolder") LoadDataDirectory();
+                if (recentDataDirList.SelectedNode.ImageKey == "DataFolder") LoadDataDirectory(recentDataDirList.SelectedNode.Tag.ToString());
                 else if (recentDataDirList.SelectedNode.ImageKey == "DataPack") LoadDataPack(recentDataDirList.SelectedNode.Tag.ToString());
                 else if (recentDataDirList.SelectedNode.ImageKey == "SavedPlace")
                 {
@@ -927,9 +927,11 @@ namespace ManiacEditor.Interfaces
 
         }
 
-		private void LoadDataDirectory()
+		private void LoadDataDirectory(string dataDirectory)
 		{
-			bool AllowedToProceed = true;
+            EditorInstance.DataDirectory = dataDirectory;
+
+            bool AllowedToProceed = true;
 
 			if (EditorInstance.DataDirectory != null) dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
 			else
@@ -1425,7 +1427,7 @@ namespace ManiacEditor.Interfaces
 
 		private void toolStripDropDownButton1_Click(object sender, RoutedEventArgs e)
 		{
-			LoadDataDirectory();
+			LoadDataDirectory(recentDataDirList.SelectedNode.Tag.ToString());
 		}
 
 		private void restoreOriginalNameToolStripMenuItem_Click(object sender, EventArgs e)

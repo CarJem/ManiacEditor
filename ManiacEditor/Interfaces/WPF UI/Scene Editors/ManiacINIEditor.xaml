@@ -1,0 +1,134 @@
+﻿<Window x:Class="ManiacEditor.ManiacINIEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManiacEditor"
+        mc:Ignorable="d"
+        Title="Edit Maniac.ini Prefrences..." Height="450" MinHeight="450" Width="800" MinWidth="880" Background="{DynamicResource NormalBackground}" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Margin="10,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="ValueHints"></TextBlock>
+                <ListBox x:Name="ValueList" SelectionChanged="ValueList_SelectionChanged"></ListBox>
+                <StackPanel Grid.Column="1" Width="20">
+                    <Button Content="+" Name="AddValueButton" Click="AddValueButton_Click" Margin="0,0"></Button>
+                    <Button Content="-" Name="RemoveValueButton" Click="RemoveValueButton_Click" Margin="0,5"></Button>
+                    <Button Content="↑" Name="MoveUpValueButton" Click="MoveUpValueButton_Click" Margin="0,5"></Button>
+                    <Button Content="↓" Name="MoveDownValueButton" Click="MoveDownValueButton_Click" Margin="0,5"></Button>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1"  Margin="10,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"></RowDefinition>
+                    <RowDefinition Height="35"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Margin="0,5" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Name="ChangeEntireValueButton" Click="ChangeEntireValueButton_Click">
+                    <TextBlock Text="✔ Both" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                </Button>
+                <Grid Height="25" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Name:"></Label>
+                    <TextBox Grid.Column="1" x:Name="ValueNameTextBox"></TextBox>
+                    <Button Grid.Column="2" Name="ChangeValueNameButton" Click="ChangeValueNameButton_Click" Content="✔"></Button>
+                </Grid>
+                <Grid Height="25" Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Value:"></Label>
+                    <TextBox Grid.Column="1" x:Name="ValueTextBox"></TextBox>
+                    <Button Grid.Column="2" Name="FindDirectoryButton" Click="FindDirectoryButton_Click" Content="..."></Button>
+                    <Button Grid.Column="3" Name="ChangeValueButton" Click="ChangeValueButton_Click" Content="✔"></Button>
+                </Grid>
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Margin="10,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="KeyHints"></TextBlock>
+                <ListBox x:Name="KeyList" SelectionChanged="KeyList_SelectionChanged"></ListBox>
+                <StackPanel Grid.Column="1" Width="20">
+                    <Button Content="+" Name="AddKeyButton" Margin="0,0" Click="AddKeyButton_Click"></Button>
+                    <Button Content="-" Name="RemoveKeyButton" Margin="0,5" Click="RemoveKeyButton_Click"></Button>
+                    <Button Content="↑" Name="MoveUpKeyButton" Margin="0,5" Click="MoveUpKeyButton_Click"></Button>
+                    <Button Content="↓" Name="MoveDownKeyButton" Margin="0,5" Click="MoveDownKeyButton_Click"></Button>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1"  Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"></RowDefinition>
+                    <RowDefinition Height="35"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Height="25">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Name:"></Label>
+                    <TextBox Grid.Column="1" x:Name="KeyNameTextBox"></TextBox>
+                    <Button Grid.Column="2" Name="ChangeNameButton" Click="ChangeNameButton_Click" Content="✔"></Button>
+                </Grid>
+                <Grid Height="25" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="SaveButton" Click="SaveButton_Click">
+                            <TextBlock Text="Save Changes" Width="Auto" Height="Auto" Margin="10,0"></TextBlock>
+                        </Button>
+                        <Separator Width="10" Visibility="Hidden"></Separator>
+                        <Button x:Name="LoadSource" Click="LoadSource_Click">
+                            <TextBlock Text="Open Source" Width="Auto" Height="Auto" Margin="10,0"></TextBlock>
+                        </Button>
+                        <Separator Width="10" Visibility="Hidden"></Separator>
+                        <Button x:Name="HintsButton" Click="HintsButton_Click">
+                            <TextBlock Text="Key/Hint" Width="Auto" Height="Auto" Margin="10,0"></TextBlock>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

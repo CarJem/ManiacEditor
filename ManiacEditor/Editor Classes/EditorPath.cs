@@ -35,6 +35,10 @@ namespace ManiacEditor
 		public string RelativeSceneFile = "";
 		public string RealtiveSceneFolder = "";
 
+        public bool BaseFolderReadOnlyMode = false;
+        public bool ReadOnlyDirectory = false;
+        public bool ReadOnlySceneFile = false;
+
 		public EditorPath(Editor instance)
 		{
 			Instance = instance;
@@ -345,7 +349,7 @@ namespace ManiacEditor
 			}
 			if (!ValidSceneFileFound)
 			{
-				return SetScenePath(Instance.DataDirectory);
+                return SetScenePath(Instance.DataDirectory);
 			}
 			else
 			{

@@ -6,7 +6,7 @@
         xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Title="Go to..." Height="164" Width="330" ResizeMode="NoResize" Background="{DynamicResource NormalBackground}" Foreground="{DynamicResource NormalText}">
+        Title="Go to..." MinHeight="164" MinWidth="396" ResizeMode="NoResize" Background="{DynamicResource NormalBackground}" Foreground="{DynamicResource NormalText}" Width="504" Height="164">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -24,36 +24,33 @@
             <Label Content="X:" Width="46" HorizontalAlignment="Left"></Label>
             <wpfTool:IntegerUpDown Value="0" x:Name="X" Height="20" Width="46" HorizontalAlignment="Left"></wpfTool:IntegerUpDown>
             <CheckBox x:Name="TileModeCheckbox" Content="Tile Mode" Margin="0,20,0,0" HorizontalAlignment="Left"></CheckBox>
-            <CheckBox IsEnabled="False" Content="Save Position" Margin="0,10,0,0" HorizontalAlignment="Left"></CheckBox>
+            <CheckBox IsEnabled="True" x:Name="SavePositionCheckbox" Content="Save Position" Margin="0,10,0,0" HorizontalAlignment="Left"></CheckBox>
         </StackPanel>
         <StackPanel Orientation="Vertical" Width="46"  Grid.Column="1" Grid.ColumnSpan="2" Margin="6" HorizontalAlignment="Left">
             <Label Content="Y:" HorizontalAlignment="Left"></Label>
             <wpfTool:IntegerUpDown Value="0" x:Name="Y" Height="20" Width="46" HorizontalAlignment="Left"></wpfTool:IntegerUpDown>
         </StackPanel>
-        <StackPanel Grid.Column="4" Grid.ColumnSpan="2" IsEnabled="False" Margin="10,0,0,0">
+        <StackPanel Grid.Column="3" Grid.ColumnSpan="3" Margin="10,0,10,0">
             <Label Content="Saved Points:" Width="85" Margin="-2,0,0,0" HorizontalAlignment="Left"></Label>
-            <ComboBox Foreground="{DynamicResource NormalText}" Template="{DynamicResource ComboBoxControlTemplate1}" Width="85" HorizontalAlignment="Left"></ComboBox>
+            <ComboBox x:Name="SavedPositionsList" SelectionChanged="SavedPositionsList_SelectionChanged" Foreground="{DynamicResource NormalText}" Template="{DynamicResource ComboBoxControlTemplate1}" ></ComboBox>
         </StackPanel>
 
         <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="75"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*"></RowDefinition>
-                <RowDefinition Height="7*"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="18"></RowDefinition>
             </Grid.RowDefinitions>
-
-            <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Orientation="Horizontal" Margin="10,0,0,0">
-                <StackPanel Orientation="Vertical" IsEnabled="False">
-                    <Label Content="Name: (For Saving...)" Margin="-3,0,0,0" Height="26"></Label>
-                    <TextBox Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBox>
-                </StackPanel>
-                <Button Content="GO" Height="18" Width="75" Margin="5,2,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center" Click="button1_Click"></Button>
-            </StackPanel>
-
+            <Label Content="Name: (For Saving...)" Margin="-3,0,0,0" Height="26"></Label>
+            <TextBox x:Name="SavedPositionTextBox" Grid.Row="1" Margin="3,0"></TextBox>
+            <Button Grid.Row="1" Margin="3,0" Grid.Column="1" Content="GO" Click="button1_Click"></Button>
         </Grid>
+
+
+
 
     </Grid>
     <Window.Resources>

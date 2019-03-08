@@ -659,7 +659,6 @@ namespace ManiacEditor
 			{
 				if (IsEditing() && !dragged) Editing();
 				InGame();
-				//if (scrolling) Scrolling();
 
 				void Editing()
 				{
@@ -1490,8 +1489,8 @@ namespace ManiacEditor
 				{
 					if (Editor.entities.SelectedEntities.Count == 2 && Editor.rightClicktoSwapSlotID)
 					{
-						var entity1 = Editor.entities.selectedEntities[0];
-						var entity2 = Editor.entities.selectedEntities[1];
+						var entity1 = Editor.entities.SelectedEntities[0];
+						var entity2 = Editor.entities.SelectedEntities[1];
 						ushort slotID1 = entity1.Entity.SlotID;
 						ushort slotID2 = entity2.Entity.SlotID;
 						entity1.Entity.SlotID = slotID2;

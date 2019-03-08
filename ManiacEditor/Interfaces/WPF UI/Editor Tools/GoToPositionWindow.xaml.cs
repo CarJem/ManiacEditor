@@ -23,10 +23,28 @@ namespace ManiacEditor.Interfaces
 		public bool tilesMode = false;
 		public int goTo_X = 0;
 		public int goTo_Y = 0;
-		public GoToPositionBox()
+        public IList<string> SavedPositionsTextList = new List<string>();
+        private Editor Instance;
+		public GoToPositionBox(Editor instance)
 		{
 			InitializeComponent();
+            Instance = instance;
+            GetSavedPositions();
 		}
+
+        public void GetSavedPositions()
+        {
+            var SavedPositions = Instance.EditorManiacINI.ReturnPositionMarkers();
+            if (SavedPositions.Count != 0) SavedPositionsList.IsEnabled = true;
+            else SavedPositionsList.IsEnabled = false;
+            foreach (var positions in SavedPositions)
+            {
+                Label item = new Label();
+                item.Content = positions.Item1 + string.Format(" - ({0})", positions.Item2);
+                SavedPositionsTextList.Add(positions.Item2);
+                SavedPositionsList.Items.Add(item);
+            }
+        }
 
 		private void button1_Click(object sender, RoutedEventArgs e)
 		{
@@ -36,7 +54,26 @@ namespace ManiacEditor.Interfaces
 			}
 			goTo_X = (int)X.Value;
 			goTo_Y = (int)Y.Value;
+
+            if (SavePositionCheckbox.IsChecked.Value)
+            {
+                Instance.EditorManiacINI.AddSavedCoordinates(SavedPositionTextBox.Text, goTo_X, goTo_Y, tilesMode);
+            }
+
 			this.DialogResult = true;
 		}
-	}
+
+        private void SavedPositionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SavedPositionsList.SelectedIndex == -1) return;
+            if (SavedPositionsTextList[SavedPositionsList.SelectedIndex] == null) return;
+            string Coords = SavedPositionsTextList[SavedPositionsList.SelectedIndex];
+            string[] SplitCoords = Coords.Split(',');
+            Int32.TryParse(SplitCoords[0], out int x);
+            Int32.TryParse(SplitCoords[1], out int y);
+
+            X.Value = x;
+            Y.Value = y;
+        }
+    }
 }

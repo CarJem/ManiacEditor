@@ -321,6 +321,7 @@
                     <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager" Click="ObjectManagerToolStripMenuItem_Click"/>
                     <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Import Sounds" Click="ImportSoundsToolStripMenuItem_Click"/>
                     <MenuItem x:Name="layerManagerToolStripMenuItem" Header="Layer Manager" Click="LayerManagerToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="maniacinieditorToolStripMenuItem" Header="Maniac.INI Settings Editor" Click="ManiacinieditorToolStripMenuItem_Click"/>
                     <MenuItem x:Name="editBackgroundColorsToolStripMenuItem" Header="Background Colors">
                         <MenuItem x:Name="primaryColorToolStripMenuItem" Header="Primary Color..." Click="PrimaryColorToolStripMenuItem_Click"/>
                         <MenuItem x:Name="secondaryColorToolStripMenuItem" Header="Secondary Color..." Click="SecondaryColorToolStripMenuItem_Click"/>
@@ -342,6 +343,7 @@
                     <MenuItem x:Name="duplicateObjectIDHealerToolStripMenuItem" Header="Fixer Maniac (Duplicate Object ID Fixer)" Click="DuplicateObjectIDHealerToolStripMenuItem_Click"/>
                     <MenuItem x:Name="animationManiacToolStripMenuItem" Header="Animation Maniac (Animation Editor)" IsEnabled="False"/>
                     <MenuItem x:Name="rSDKAnnimationEditorToolStripMenuItem" Header="RSDK Animation Editor" Click="RSDKAnnimationEditorToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="RenderListManagerToolstripMenuItem" Header="Render List Manager" Click="RenderListManagerToolstripMenuItem_Click" IsEnabled="False"></MenuItem>
                     <MenuItem SubmenuOpened="ManiaPalMenuItem_SubmenuOpened" IsEnabled="True">
                         <MenuItem.Header>
                             <TextBlock PreviewMouseDown="ColorPaletteEditorToolStripMenuItem_Click" x:Name="colorPaletteEditorToolStripMenuItem" Text="ManiaPal (Color Palette Editor)"></TextBlock>

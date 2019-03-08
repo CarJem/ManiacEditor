@@ -345,38 +345,14 @@ namespace ManiacEditor
 
 		public void ReadManiacINIFile()
 		{
-			if (File.Exists(Instance.EditorPath.SceneDirectory + "\\maniac.ini"))
+            Instance.EditorManiacINI.ClearSettings();
+            if (File.Exists(Instance.EditorPath.SceneFile_Directory + "\\maniac.ini"))
 			{
-				bool allowToRead = false;
-				using (Stream stream = EditorSettings.GetSceneIniResource(Instance.EditorPath.SceneDirectory + "\\maniac.ini"))
-				{
-					if (stream != null)
-					{
-						EditorSettings.GetSceneINISettings(stream);
-						allowToRead = true;
-					}
-					else
-					{
-						System.Diagnostics.Debug.Print("Something went wrong trying to read the Maniac.INI File");
-						allowToRead = false;
-					}
-				}
-				if (allowToRead)
-				{
-					try
-					{
-						EditorSettings.SetINIDefaultPrefrences(Instance);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show("Failed to Inturpret INI File. Error: " + ex.ToString() + " " + Instance.EditorPath.SceneDirectory);
-						EditorSettings.CleanPrefrences();
-					}
+                Instance.EditorManiacINI.UpdateFilePath();
+                Instance.EditorManiacINI.LoadFile();
+                Instance.EditorManiacINI.SetINIDefaultPrefrences();
 
-				}
-
-
-			}
+            }
 		}
 
 		public void Save()

@@ -186,7 +186,7 @@ namespace ManiacEditor
 		public void UpdateEntitiesList(bool FirstLoad = false)
 		{
 			//This if statement Triggers when the toolbar opens for the first time
-			if (FirstLoad) _entities = EditorInstance.entities.entities.Select(x => x.Entity).ToList();
+			if (FirstLoad) _entities = EditorInstance.entities.Entities.Select(x => x.Entity).ToList();
 			int j = 0;
 			for (int i = 0; i < 2048; i++)
 			{

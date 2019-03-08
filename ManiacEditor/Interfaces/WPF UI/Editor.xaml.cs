@@ -243,6 +243,7 @@ namespace ManiacEditor
         public EditorViewModel EditorView;
         public EditorTheming EditorTheming;
         public EditorSettings EditorSettings;
+        public EditorManiacINI EditorManiacINI;
 
         //Tile Maniac + ManiaPal Instance
         public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
@@ -419,6 +420,7 @@ namespace ManiacEditor
 			EditorDirectories = new EditorDirectories(this);
 			FindAndReplace = new EditorFindReplace(this);
             EditorView = new EditorViewModel(this);
+            EditorManiacINI = new EditorManiacINI(this);
 
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
@@ -568,6 +570,7 @@ namespace ManiacEditor
 			specificPlaceToolStripMenuItem.IsEnabled = enabled;
 			playerSpawnToolStripMenuItem.IsEnabled = enabled;
 			findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
+            maniacinieditorToolStripMenuItem.IsEnabled = false;
 
 			ShowFGHigh.IsEnabled = enabled && FGHigh != null;
 			ShowFGLow.IsEnabled = enabled && FGLow != null;
@@ -889,8 +892,17 @@ namespace ManiacEditor
                     entitiesToolbar.Dispose();
                     entitiesToolbar = null;
                 }
+                if (entities != null && entities.SelectedEntities != null)
+                {
+                    if (entities.SelectedEntities.Count != 0 && entities.tempSelection.Count != 0)
+                    {
+                        entities.EndTempSelection();
+                        entities.Deselect();
+                    }
+                }
 
-			}
+
+            }
 			if (TilesToolbar == null && entitiesToolbar == null && (ToolBarPanelRight.Children.Count != 0))
 			{
 				ToolBarPanelRight.Children.Clear();
@@ -1440,13 +1452,13 @@ namespace ManiacEditor
 		{
 			Dictionary<EditorEntity, Point> initalPos = new Dictionary<EditorEntity, Point>();
 			Dictionary<EditorEntity, Point> postPos = new Dictionary<EditorEntity, Point>();
-			foreach (EditorEntity e in entities.selectedEntities)
+			foreach (EditorEntity e in entities.SelectedEntities)
 			{
 				initalPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
 			entities.Flip(direction);
 			entitiesToolbar.UpdateCurrentEntityProperites();
-			foreach (EditorEntity e in entities.selectedEntities)
+			foreach (EditorEntity e in entities.SelectedEntities)
 			{
 				postPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
@@ -1703,7 +1715,7 @@ namespace ManiacEditor
 			playerObjectPosition = new List<SceneEntity> { };
 			INILayerNameHigher = "";
 			INILayerNameLower = "";
-			EditorSettings.CleanPrefrences();
+			EditorManiacINI.ClearSettings();
 			userDefinedEntityRenderSwaps = new Dictionary<string, string>();
 			userDefinedSpritePaths = new List<string>();
 			EncorePaletteButton.IsChecked = false;
@@ -2791,7 +2803,9 @@ namespace ManiacEditor
 		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ImportSoundsToolStripMenuItem_Click(sender, e); }
 		public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null) { Interactions.ImportSoundsToolStripMenuItem_Click(sender, e, window); }
 		private void LayerManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.LayerManagerToolStripMenuItem_Click(sender, e); }
-		private void PrimaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PrimaryColorToolStripMenuItem_Click(sender, e); }
+
+        private void ManiacinieditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ManiacinieditorToolStripMenuItem_Click(sender, e); }
+        private void PrimaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.PrimaryColorToolStripMenuItem_Click(sender, e); }
 		private void SecondaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.SecondaryColorToolStripMenuItem_Click(sender, e); }
 		#endregion
 
@@ -2828,7 +2842,8 @@ namespace ManiacEditor
 		private void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.TileManiacToolStripMenuItem_Click(sender, e); }
 		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.InsanicManiacToolStripMenuItem_Click(sender, e); }
 		private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.RSDKAnnimationEditorToolStripMenuItem_Click(sender, e); }
-		private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ColorPaletteEditorToolStripMenuItem_Click(sender, e); }
+        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.RenderListManagerToolstripMenuItem_Click(sender, e); }
+        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.ColorPaletteEditorToolStripMenuItem_Click(sender, e); }
 		private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { Interactions.ManiaPalMenuItem_SubmenuOpened(sender, e); }
 		private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interactions.DuplicateObjectIDHealerToolStripMenuItem_Click(sender, e); }
 		#endregion
@@ -3631,8 +3646,8 @@ namespace ManiacEditor
 
         public void ResetViewSize() { EditorView.ResetViewSize(); }
         public void ResizeGraphicPanel(int width = 0, int height = 0) { EditorView.ResizeGraphicPanel(width, height); }
-        #endregion
 
+        #endregion
 
         #endregion
 

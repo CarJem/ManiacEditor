@@ -412,6 +412,7 @@
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
     <Compile Include="Editor Classes\EditorCommon.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
+    <Compile Include="Editor Classes\EditorManiacINI.cs" />
     <Compile Include="Editor Classes\EditorDirectories.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorFindReplace.cs" />
@@ -739,11 +740,11 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="Graphics\ImageExtensions.cs" />
-    <Compile Include="Interfaces\UserControls\EditorView.cs">
+    <Compile Include="Interfaces\UserControls\GraphicsModel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\UserControls\EditorView.Designer.cs">
-      <DependentUpon>EditorView.cs</DependentUpon>
+    <Compile Include="Interfaces\UserControls\GraphicsModel.Designer.cs">
+      <DependentUpon>GraphicsModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\UserControls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
@@ -756,6 +757,9 @@
     </Compile>
     <Compile Include="Interfaces\UserControls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Editor Tools\RenderListManager.xaml.cs">
+      <DependentUpon>RenderListManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF UI\Editor Tools\FindandReplaceTool.xaml.cs">
       <DependentUpon>FindandReplaceTool.xaml</DependentUpon>
@@ -777,6 +781,9 @@
     </Compile>
     <Compile Include="Interfaces\WPF UI\Options + Dev\Updater.xaml.cs">
       <DependentUpon>Updater.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\WPF UI\Scene Editors\ManiacINIEditor.xaml.cs">
+      <DependentUpon>ManiacINIEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\WPF UI\Scene Select\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
@@ -1437,8 +1444,8 @@
     <EmbeddedResource Include="Interfaces\UserControls\DevicePanel.resx">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interfaces\UserControls\EditorView.resx">
-      <DependentUpon>EditorView.cs</DependentUpon>
+    <EmbeddedResource Include="Interfaces\UserControls\GraphicsModel.resx">
+      <DependentUpon>GraphicsModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\WinForm UI\SoundLooper.resx">
       <DependentUpon>SoundLooper.cs</DependentUpon>
@@ -1631,6 +1638,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interfaces\WPF UI\Editor Tools\RenderListManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Interfaces\WPF UI\Editor Tools\FindandReplaceTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1674,6 +1685,10 @@
     <Page Include="Interfaces\WPF UI\Options + Dev\Updater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Scene Editors\ManiacINIEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Interfaces\WPF UI\Scene Select\EditSceneSelectInfoWindow.xaml">
       <SubType>Designer</SubType>

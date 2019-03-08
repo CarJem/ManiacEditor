@@ -30,6 +30,8 @@ namespace ManiacEditor
 		private bool is64Bit = false;
 
         public bool Selected;
+        public bool InTempSelection = false;
+        public bool TempSelected = false;
 
         public bool rotateImageLegacyMode = false;
 		public bool PreLoadDrawing = false;
@@ -306,7 +308,14 @@ namespace ManiacEditor
         }
         public System.Drawing.Color GetBoxInsideColor()
         {
-            return Selected ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+            if (InTempSelection)
+            {
+                return (TempSelected && EditorInstance.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+            }
+            else
+            {
+                return (Selected && EditorInstance.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+            }
         }
         public int GetTransparencyLevel()
         {
@@ -453,31 +462,44 @@ namespace ManiacEditor
                 renderNotFound = true;
             }
         }
-		public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
-		{
-			if (EditorInstance.showEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
-			{
-				if (this.IsObjectOnScreen(d))
-				{
-					if (renderNotFound)
-					{
-						d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
-					}
-					else
-					{
-						d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Selected ? 0x60 : 0x00, System.Drawing.Color.MediumPurple));
-					}
-					d.DrawLine(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-					d.DrawLine(x, y, x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-					d.DrawLine(x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-					d.DrawLine(x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-					if (Properties.Settings.Default.UseObjectRenderingImprovements == false)
-					{
-						if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
-					}
-				}
-			}
-		}
+        public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
+        {
+            if (EditorInstance.showEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
+            {
+                if (this.IsObjectOnScreen(d))
+                {
+                    if (renderNotFound)
+                    {
+                        d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    }
+                    else
+                    {
+                        d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(color2));
+                    }
+                    d.DrawLine(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y, x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    if (Properties.Settings.Default.UseObjectRenderingImprovements == false)
+                    {
+                        if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    }
+                }
+            }
+        }
+
+        public System.Drawing.Color GetSelectedColor(System.Drawing.Color color)
+        {
+            if (InTempSelection)
+            {
+                return System.Drawing.Color.FromArgb(TempSelected && EditorInstance.IsEntitiesEdit() ? 0x60 : 0x00, color);
+            }
+            else
+            {
+                return System.Drawing.Color.FromArgb(Selected && EditorInstance.IsEntitiesEdit() ? 0x60 : 0x00, color);
+            }
+        }
+
 		public EditorEntity_ini.EditorAnimation.EditorFrame GetFrameFromAttribute(EditorEntity_ini.EditorAnimation anim, AttributeValue attribute, string key = "frameID")
         {
             int frameID = -1;
