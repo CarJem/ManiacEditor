@@ -47,7 +47,6 @@ namespace ManiacEditor.Interfaces
 			if (Properties.Settings.Default.ScrollLockXYDefault.Equals(ScrollDir.X)) radioButtonX.IsChecked = true;
 			else radioButtonY.IsChecked = true;
 
-			preRenderRadioGroupsUpdate(Properties.Settings.Default.preRenderSceneOption);
 			collisionColorsRadioGroupUpdate(Properties.Settings.Default.CollisionColorsDefault);
 			preRenderRadioGroupCheckChangeAllowed = true;
 			collisionColorsRadioGroupCheckChangeAllowed = true;
@@ -282,24 +281,7 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
-		private void button13_Click(object sender, RoutedEventArgs e)
-		{
-			var ofd = new System.Windows.Forms.OpenFileDialog();
-			ofd.Title = "Select SonicMania.exe";
-			ofd.Filter = "Windows PE Executable|*.exe";
-			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				Properties.Settings.Default.RunGamePath = ofd.FileName;
-		}
 
-		private void button14_Click(object sender, RoutedEventArgs e)
-		{
-			var ofd = new System.Windows.Forms.OpenFileDialog();
-			ofd.Title = "Select ManiaModManager.exe";
-			ofd.Filter = "Windows PE Executable|*.exe";
-			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				Properties.Settings.Default.RunModLoaderPath = ofd.FileName;
-
-		}
 
 		private void button15_Click(object sender, RoutedEventArgs e)
 		{
@@ -413,71 +395,6 @@ namespace ManiacEditor.Interfaces
 			{
 				uncheckOtherGridDefaults(3);
 			}
-		}
-
-		private void preRenderAlways_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			preRenderRadioGroupsUpdate(3);
-			Properties.Settings.Default.preRenderSceneOption = 3;
-			preRenderRadioGroupCheckChangeAllowed = true;
-		}
-
-		private void promptForPreRender_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			preRenderRadioGroupsUpdate(2);
-			Properties.Settings.Default.preRenderSceneOption = 2;
-			preRenderRadioGroupCheckChangeAllowed = true;
-		}
-
-		private void caseBasedPreRender_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			preRenderRadioGroupsUpdate(1);
-			Properties.Settings.Default.preRenderSceneOption = 1;
-			preRenderRadioGroupCheckChangeAllowed = true;
-		}
-
-		private void manualPreRender_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			preRenderRadioGroupsUpdate(0);
-			Properties.Settings.Default.preRenderSceneOption = 0;
-			preRenderRadioGroupCheckChangeAllowed = true;
-		}
-
-		private void preRenderRadioGroupsUpdate(int type)
-		{
-			bool[] groups = new[] { false, false, false, false };
-			for (int i = 0; i < 4; i++) if (type == i) groups[i] = true;
-			if (preRenderRadioGroupCheckChangeAllowed == true)
-			{
-				preRenderRadioGroupCheckChangeAllowed = false;
-				manualPreRender.IsChecked = false || groups[0];
-				caseBasedPreRender.IsChecked = false || groups[1];
-				promptForPreRender.IsChecked = false || groups[2];
-				preRenderAlways.IsChecked = false || groups[3];
-			}
-
-		}
-
-
-		private void radioButton4_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			preRenderRadioGroupsUpdate(1);
-			Properties.Settings.Default.CollisionColorsDefault = 0;
-			collisionColorsRadioGroupCheckChangeAllowed = true;
-		}
-
-		private void radioButton3_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			preRenderRadioGroupsUpdate(2);
-			Properties.Settings.Default.CollisionColorsDefault = 1;
-			collisionColorsRadioGroupCheckChangeAllowed = true;
-		}
-
-		private void radioButton1_CheckedChanged_1(object sender, RoutedEventArgs e)
-		{
-			preRenderRadioGroupsUpdate(3);
-			Properties.Settings.Default.CollisionColorsDefault = 2;
-			collisionColorsRadioGroupCheckChangeAllowed = true;
 		}
 
 		private void collisionColorsRadioGroupUpdate(int type)
@@ -862,5 +779,12 @@ namespace ManiacEditor.Interfaces
 		{
 			this.DialogResult = true;
 		}
-	}
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            CheatCodeManager cheatCodeManager = new CheatCodeManager();
+            cheatCodeManager.Owner = EditorInstance;
+            cheatCodeManager.ShowDialog();
+        }
+    }
 }

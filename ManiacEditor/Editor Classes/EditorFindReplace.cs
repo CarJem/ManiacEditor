@@ -23,7 +23,7 @@ namespace ManiacEditor
 
 		public void FindUnusedTiles()
 		{
-			Editor.UpdateWaitingScreen(true);
+			Editor.UI.UpdateWaitingScreen(true);
 			Editor.ToggleEditorButtons(false);
 			List<int> UnusedTiles = new List<int> { };
 
@@ -102,7 +102,7 @@ namespace ManiacEditor
 			{
 				RSDKrU.MessageBox.Show("Found Nothing", "Results", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 			}
-			Editor.UpdateWaitingScreen(false);
+			Editor.UI.UpdateWaitingScreen(false);
 			Editor.ToggleEditorButtons(true);
 		}
 

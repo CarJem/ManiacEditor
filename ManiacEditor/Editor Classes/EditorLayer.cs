@@ -850,13 +850,13 @@ namespace ManiacEditor
 				d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
 				x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
 
-				if (EditorInstance.showFlippedTileHelper == true)
+				if (EditorInstance.UITools.ShowFlippedTileHelper == true)
 				{
 					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
 					x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
 				}
 
-				if (EditorInstance.showTileID == true)
+				if (EditorInstance.UITools.ShowTileID == true)
 				{
 					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
 					x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
@@ -884,7 +884,7 @@ namespace ManiacEditor
           
             g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                 new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
-            if (EditorInstance.showCollisionA == true)
+            if (EditorInstance.UITools.ShowCollisionA == true)
             {
                 if (SolidLrbA || SolidTopA)
                 {
@@ -917,7 +917,7 @@ namespace ManiacEditor
                     g.DrawImage(cm, new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
                 }
             }
-            if (EditorInstance.showCollisionB == true)
+            if (EditorInstance.UITools.ShowCollisionB == true)
             {
                 if (SolidLrbB || SolidTopB)
                 {
@@ -951,12 +951,12 @@ namespace ManiacEditor
                 }
             }
 
-            if (EditorInstance.showFlippedTileHelper == true)
+            if (EditorInstance.UITools.ShowFlippedTileHelper == true)
             {
                 g.DrawImage(EditorInstance.EditorTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                             new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             }
-            if (EditorInstance.showTileID == true)
+            if (EditorInstance.UITools.ShowTileID == true)
             {
                 g.DrawImage(EditorInstance.EditorTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                             new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
@@ -1134,7 +1134,7 @@ namespace ManiacEditor
 
 			if (EditorInstance.EditLayer != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
 				Transperncy = 0x32;
-			else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayer == null && EditorInstance.applyEditEntitiesTransparency)
+			else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayer == null && EditorInstance.UITools.ApplyEditEntitiesTransparency)
 				Transperncy = 0x32;
 			else
 				Transperncy = 0xFF;

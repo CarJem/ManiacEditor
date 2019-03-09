@@ -332,14 +332,14 @@ namespace ManiacEditor
                     else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                     {
                         DisposeDeviceResources();
-                        Init(EditorInstance.editorView);
+                        Init(EditorInstance.GraphicsModel);
 
                     }
                     else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                     {
                         EditorInstance.BackupSceneBeforeCrash();
                         DisposeDeviceResources();
-                        Init(EditorInstance.editorView);
+                        Init(EditorInstance.GraphicsModel);
                     }
                     else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                     {
@@ -364,14 +364,14 @@ namespace ManiacEditor
                 else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                 {
                     DisposeDeviceResources();
-                    Init(EditorInstance.editorView);
+                    Init(EditorInstance.GraphicsModel);
 
                 }
                 else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                 {
                     EditorInstance.BackupSceneBeforeCrash();
                     DisposeDeviceResources();
-                    Init(EditorInstance.editorView);
+                    Init(EditorInstance.GraphicsModel);
                 }
                 else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                 {

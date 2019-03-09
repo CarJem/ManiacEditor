@@ -37,30 +37,14 @@
                             <CheckBox Content="Scoller Auto Centers with the Middle of the Scene Viewer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Auto Pre-Render Settings" Height="105" VerticalAlignment="Top" Margin="10,194,0,0" HorizontalAlignment="Left" Width="222">
+                    <GroupBox Header="Game Utilites" Height="105" VerticalAlignment="Top" Margin="10,194,0,0" HorizontalAlignment="Left" Width="222">
                         <StackPanel>
-                            <RadioButton x:Name="preRenderAlways" Checked="preRenderAlways_CheckedChanged" Unchecked="preRenderAlways_CheckedChanged" Content="Always" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0"/>
-                            <RadioButton x:Name="promptForPreRender" Checked="promptForPreRender_CheckedChanged" Unchecked="promptForPreRender_CheckedChanged" Content="Prompt for Choice" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0"/>
-                            <RadioButton x:Name="caseBasedPreRender" Checked="caseBasedPreRender_CheckedChanged" Unchecked="caseBasedPreRender_CheckedChanged" Content="Based on Scene Select Option" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0"/>
-                            <RadioButton x:Name="manualPreRender" Checked="manualPreRender_CheckedChanged" Unchecked="manualPreRender_CheckedChanged" Content="Manual" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,0"/>
+                            <Label Content="Game Lock On Options" HorizontalContentAlignment="Center"></Label>
+                            <Button Content="Settings..." Margin="5" Click="Button_Click_1"></Button>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Program Paths" HorizontalAlignment="Left" Height="264" VerticalAlignment="Top" Width="282" Margin="237,194,0,0">
+                    <GroupBox Header="Program Paths" HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="282" Margin="237,194,0,0">
                         <StackPanel>
-                            <StackPanel>
-                                <Label Content="Game Path" HorizontalContentAlignment="Center"></Label>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBox Width="130" HorizontalAlignment="Center" Text="{maniac:SettingBinding RunGamePath}"></TextBox>
-                                    <Button Width="20" Content="..." Click="button13_Click"></Button>
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel>
-                                <Label Content="Mod Loader Path" HorizontalContentAlignment="Center"></Label>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBox Width="130" HorizontalAlignment="Center" Text="{maniac:SettingBinding RunModLoaderPath}"></TextBox>
-                                    <Button Width="20" Content="..." Click="button14_Click"></Button>
-                                </StackPanel>
-                            </StackPanel>
                             <StackPanel>
                                 <Label Content="RSDK Animation Editor Path" HorizontalContentAlignment="Center"></Label>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -82,15 +66,6 @@
                                     <Button Width="20" Content="..." Click="button17_Click" IsEnabled="False"></Button>
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Run Scene/Game Options" HorizontalAlignment="Left" Height="154" VerticalAlignment="Top" Width="222" Margin="10,304,0,0">
-                        <StackPanel>
-                            <CheckBox Content="Use Pre-Plus Offsets" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding UsePrePlusOffsets}"/>
-                            <CheckBox Content="Just Run the Game" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding RunGameInsteadOfScene}"/>
-                            <CheckBox Content="Disable Menu Quitting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneMenuQuit}"/>
-                            <CheckBox Content="Disable Auto Input Binding" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneAutoInput}"/>
-                            <CheckBox Content="Enable Real Time Object Moving" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding EnableRealTimeObjectMovingInGame}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Performance Defaults" HorizontalAlignment="Left" Height="178" VerticalAlignment="Top" Width="309" Margin="524,10,0,0">

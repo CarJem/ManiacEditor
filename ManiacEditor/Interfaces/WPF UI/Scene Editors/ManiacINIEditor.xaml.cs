@@ -27,7 +27,8 @@ namespace ManiacEditor
         {
             InitializeComponent();
             Instance = instance;
-            if (Instance.EditorManiacINI.ManiacINISettings != null) ManiacINISettingsUnedited = Instance.EditorManiacINI.ManiacINISettings;
+            if (Instance.ManiacINI.ManiacINISettings != null) ManiacINISettingsUnedited = Instance.ManiacINI.ManiacINISettings;
+            else Instance.ManiacINI.ManiacINISettings = new List<Tuple<string, List<Tuple<string, string>>>>();
             RefreshKeyList();
 
             UpdateValueModButtons();
@@ -39,7 +40,7 @@ namespace ManiacEditor
             updatingKeys = true;
             if (ValueList.Items != null) ValueList.Items.Clear();
             if (KeyList.Items != null) KeyList.Items.Clear();
-            foreach (var item in Instance.EditorManiacINI.ManiacINISettings)
+            foreach (var item in Instance.ManiacINI.ManiacINISettings)
             {
                 KeyList.Items.Add(item.Item1);
             }
@@ -49,9 +50,9 @@ namespace ManiacEditor
         private bool KeyIndexValid()
         {
             if (KeyList.SelectedItem == null) return false;
-            if (Instance.EditorManiacINI.ManiacINISettings.Count > KeyList.SelectedIndex)
+            if (Instance.ManiacINI.ManiacINISettings.Count > KeyList.SelectedIndex)
             {
-                if (Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex] != null)
+                if (Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex] != null)
                 {
                     return true;
                 }
@@ -65,9 +66,9 @@ namespace ManiacEditor
             if (KeyIndexValid())
             {
                 if (ValueList.SelectedItem == null) return false;
-                if (Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Count > ValueList.SelectedIndex)
+                if (Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Count > ValueList.SelectedIndex)
                 {
-                    if (Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex] != null)
+                    if (Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex] != null)
                     {
                         return true;
                     }
@@ -84,7 +85,7 @@ namespace ManiacEditor
             if (ValueList.Items != null) ValueList.Items.Clear();
             if (KeyIndexValid() == false) return;
 
-            foreach (var item in Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2)
+            foreach (var item in Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2)
             {
                 string entry = item.Item1 + "=" + item.Item2;
                 ValueList.Items.Add(entry);
@@ -128,14 +129,14 @@ namespace ManiacEditor
         private void RefreshKeyValues()
         {
             if (KeyIndexValid() == false) return;
-            KeyNameTextBox.Text = Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item1;
+            KeyNameTextBox.Text = Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item1;
         }
 
         private void RefreshValueValues()
         {
             if (ValueIndexValid() == false) return;
-            ValueNameTextBox.Text = Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item1;
-            ValueTextBox.Text = Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item2;
+            ValueNameTextBox.Text = Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item1;
+            ValueTextBox.Text = Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item2;
         }
 
         private void ClearKeyValues()
@@ -156,7 +157,7 @@ namespace ManiacEditor
 
         private void AddKeyButton_Click(object sender, RoutedEventArgs e)
         {
-            Instance.EditorManiacINI.ManiacINISettings.Add(new Tuple<string, List<Tuple<string, string>>>("New Entry", new List<Tuple<string, string>>()));
+            Instance.ManiacINI.ManiacINISettings.Add(new Tuple<string, List<Tuple<string, string>>>("New Entry", new List<Tuple<string, string>>()));
             RefreshKeyList();
         }
 
@@ -166,7 +167,7 @@ namespace ManiacEditor
             MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.EditorManiacINI.ManiacINISettings.RemoveAt(KeyList.SelectedIndex);
+                Instance.ManiacINI.ManiacINISettings.RemoveAt(KeyList.SelectedIndex);
                 RefreshKeyList();
             }
         }
@@ -182,7 +183,7 @@ namespace ManiacEditor
         private void MoveDownKeyButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            if (KeyList.SelectedIndex + 1 > Instance.EditorManiacINI.ManiacINISettings.Count) return;
+            if (KeyList.SelectedIndex + 1 > Instance.ManiacINI.ManiacINISettings.Count) return;
             MoveKey(KeyList.SelectedIndex, KeyList.SelectedIndex + 1);
             RefreshKeyList();
         }
@@ -190,16 +191,16 @@ namespace ManiacEditor
 
         public void MoveKey(int oldIndex, int newIndex)
         {
-            Tuple<string, List<Tuple<string, string>>> item = Instance.EditorManiacINI.ManiacINISettings[oldIndex];
-            Instance.EditorManiacINI.ManiacINISettings.RemoveAt(oldIndex);
-            Instance.EditorManiacINI.ManiacINISettings.Insert(newIndex, item);
+            Tuple<string, List<Tuple<string, string>>> item = Instance.ManiacINI.ManiacINISettings[oldIndex];
+            Instance.ManiacINI.ManiacINISettings.RemoveAt(oldIndex);
+            Instance.ManiacINI.ManiacINISettings.Insert(newIndex, item);
         }
 
         public void MoveValue(int oldIndex, int newIndex)
         {
-            Tuple<string, string> item = Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[oldIndex];
-            Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.RemoveAt(oldIndex);
-            Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Insert(newIndex, item);
+            Tuple<string, string> item = Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2[oldIndex];
+            Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.RemoveAt(oldIndex);
+            Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Insert(newIndex, item);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -207,7 +208,7 @@ namespace ManiacEditor
             MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.EditorManiacINI.SaveFile();
+                Instance.ManiacINI.SaveFile();
             }
 
         }
@@ -215,8 +216,8 @@ namespace ManiacEditor
         private void ChangeNameButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            var itemToEdit = Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex];
-            Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(KeyNameTextBox.Text, itemToEdit.Item2);
+            var itemToEdit = Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex];
+            Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(KeyNameTextBox.Text, itemToEdit.Item2);
             RefreshKeyList();
         }
 
@@ -228,12 +229,12 @@ namespace ManiacEditor
         private void ChangeValueButton_Click(object sender, RoutedEventArgs e, bool refreshList = true)
         {
             if (ValueIndexValid() == false) return;
-            var itemToEdit = Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex];
+            var itemToEdit = Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex];
             var subItemtoEdit = itemToEdit.Item2;
             var valueItemToEdit = subItemtoEdit[ValueList.SelectedIndex];
             var valueItemEdited = new Tuple<string, string>(valueItemToEdit.Item1, ValueTextBox.Text);
             subItemtoEdit[ValueList.SelectedIndex] = valueItemEdited;
-            Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
+            Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
             if (refreshList) RefreshValueList();
         }
 
@@ -245,12 +246,12 @@ namespace ManiacEditor
         private void ChangeValueNameButton_Click(object sender, RoutedEventArgs e, bool refreshList = true)
         {
             if (ValueIndexValid() == false) return;
-            var itemToEdit = Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex];
+            var itemToEdit = Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex];
             var subItemtoEdit = itemToEdit.Item2;
             var valueItemToEdit = subItemtoEdit[ValueList.SelectedIndex];
             var valueItemEdited = new Tuple<string, string>(ValueNameTextBox.Text, valueItemToEdit.Item2);
             subItemtoEdit[ValueList.SelectedIndex] = valueItemEdited;
-            Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
+            Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
             if (refreshList) RefreshValueList();
         }
 
@@ -272,8 +273,8 @@ namespace ManiacEditor
         private void AddValueButton_Click(object sender, RoutedEventArgs e)
         {
             //if (ValueIndexValid() == false) return;
-            if (Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2 == null) Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item1, new List<Tuple<string, string>>());
-            Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Add(new Tuple<string, string>("Mod", "n/a"));
+            if (Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2 == null) Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item1, new List<Tuple<string, string>>());
+            Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Add(new Tuple<string, string>("Mod", "n/a"));
             RefreshValueList();
         }
 
@@ -283,7 +284,7 @@ namespace ManiacEditor
             MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
+                Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
                 RefreshValueList();
             }
         }
@@ -299,7 +300,7 @@ namespace ManiacEditor
         private void MoveDownValueButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValueIndexValid() == false) return;
-            if (ValueList.SelectedIndex + 1 > Instance.EditorManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Count) return;
+            if (ValueList.SelectedIndex + 1 > Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.Count) return;
             MoveValue(ValueList.SelectedIndex, ValueList.SelectedIndex + 1);
             RefreshValueList();
         }
@@ -322,12 +323,12 @@ namespace ManiacEditor
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Instance.EditorManiacINI.ManiacINISettings != ManiacINISettingsUnedited)
+            if (Instance.ManiacINI.ManiacINISettings != ManiacINISettingsUnedited)
             {
                 MessageBoxResult result = RSDKrU.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Instance.EditorManiacINI.SaveFile();
+                    Instance.ManiacINI.SaveFile();
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
@@ -335,7 +336,7 @@ namespace ManiacEditor
                 }
                 else if (result == MessageBoxResult.No)
                 {
-                    Instance.EditorManiacINI.ManiacINISettings = ManiacINISettingsUnedited;
+                    Instance.ManiacINI.ManiacINISettings = ManiacINISettingsUnedited;
                 }
                 else
                 {
@@ -347,19 +348,19 @@ namespace ManiacEditor
 
         private void LoadSource_Click(object sender, RoutedEventArgs e)
         {
-            if (System.IO.File.Exists(Instance.EditorManiacINI.GetFilePath()))
+            if (System.IO.File.Exists(Instance.ManiacINI.GetFilePath()))
             {
-                System.Diagnostics.Process.Start("explorer.exe", "/select, " + Instance.EditorManiacINI.GetFilePath());
+                System.Diagnostics.Process.Start("explorer.exe", "/select, " + Instance.ManiacINI.GetFilePath());
             }
             else
             {
-                RSDKrU.MessageBox.Show("File does not exist at " + Instance.EditorManiacINI.GetFilePath(), "ERROR");
+                RSDKrU.MessageBox.Show("File does not exist at " + Instance.ManiacINI.GetFilePath(), "ERROR");
             }
         }
 
         private void HintsButton_Click(object sender, RoutedEventArgs e)
         {
-            HintsButton.ContextMenu.IsOpen = true;
+
         }
     }
 }

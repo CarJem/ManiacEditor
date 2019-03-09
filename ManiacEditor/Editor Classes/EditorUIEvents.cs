@@ -19,7 +19,7 @@ using System.Threading;
 namespace ManiacEditor
 {
 
-	public class EditorInteractions
+	public class EditorUIEvents
 	{
 		private Editor Editor;
 
@@ -87,10 +87,7 @@ namespace ManiacEditor
 		const int SW_SHOW = 5;
 		#endregion
 
-		//Shorthanding Setting Files
-		public Properties.Settings mySettings = Properties.Settings.Default;
-		public Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
-		public EditorInteractions(Editor instance)
+		public EditorUIEvents(Editor instance)
 		{
 			Editor = instance;
 
@@ -106,12 +103,8 @@ namespace ManiacEditor
 			if (makerDialog.ShowDialog() == true)
 			{
 				string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
-				//Editor.SelectedZone = (new DirectoryInfo(directoryPath).Name).Replace("\\", "");
-				//Editor.SelectedScene = Path.GetFileName(makerDialog.SceneFolder);
-				//Editor.SceneFilename = "Scene1.bin";
-				//Editor.SceneFilepath = Path.Combine(directoryPath) + "//Scene1.bin";
 
-				Editor.EditorScene = new EditorScene(Editor.editorView.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Editor);
+				Editor.EditorScene = new EditorScene(Editor.GraphicsModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Editor);
 				Editor.TilesConfig = new TileConfig();
 				Editor.EditorTiles.StageTiles = new StageTiles();
 				Editor.StageConfig = new StageConfig();
@@ -120,7 +113,6 @@ namespace ManiacEditor
 				string TilesPath = directoryPath + "//TilesConfig.bin";
 				string StagePath = directoryPath + "//StageConfig.bin";
 
-				//File.Create(Editor.SceneFilepath).Dispose();
 				File.Create(ImagePath).Dispose();
 				File.Create(TilesPath).Dispose();
 				File.Create(StagePath).Dispose();
@@ -142,7 +134,7 @@ namespace ManiacEditor
 
 				Editor.SetViewSize((int)(Editor.SceneWidth * Editor.EditorState.Zoom), (int)(Editor.SceneHeight * Editor.EditorState.Zoom));
 
-				Editor.UpdateControls(true);
+				Editor.UI.UpdateControls(true);
 			}
 
 		}
@@ -152,7 +144,7 @@ namespace ManiacEditor
 			if (Editor.AllowSceneUnloading() != true) return;
 			Editor.UnloadScene();
 
-			Editor.OpenScene(mySettings.forceBrowse);
+			Editor.OpenScene(Settings.mySettings.forceBrowse);
 
 		}
 
@@ -345,16 +337,16 @@ a valid Data Directory.",
 		#region Backup SubMenu
 		public void StageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.backupType = 4;
+			Editor.UITools.BackupType = 4;
 			BackupToolStripMenuItem_Click(null, null);
-			Editor.backupType = 0;
+			Editor.UITools.BackupType = 0;
 		}
 
 		public void NormalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.backupType = 1;
+			Editor.UITools.BackupType = 1;
 			BackupToolStripMenuItem_Click(null, null);
-			Editor.backupType = 0;
+			Editor.UITools.BackupType = 0;
 		}
 		#endregion
 
@@ -384,7 +376,7 @@ a valid Data Directory.",
 			{
 				Editor.entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
 			}
-			Editor.SetSelectOnlyButtonsState();
+			Editor.UI.SetSelectOnlyButtonsState();
 			Editor.EditorState.ClickedX = -1;
 			Editor.EditorState.ClickedY = -1;
 		}
@@ -418,7 +410,7 @@ a valid Data Directory.",
 				Editor.CopyEntitiesToClipboard();
 
 
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 		}
 
 		public void DuplicateToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -442,7 +434,7 @@ a valid Data Directory.",
 					return;
 				}
 				Editor.UpdateEntitiesToolbarList();
-				Editor.SetSelectOnlyButtonsState();
+				Editor.UI.SetSelectOnlyButtonsState();
 				Editor.UpdateEntitiesToolbarList();
 
 			}
@@ -464,7 +456,7 @@ a valid Data Directory.",
 			{
 				Editor.CopyTilesToClipboard();
 				Editor.DeleteSelected();
-				Editor.UpdateControls();
+				Editor.UI.UpdateControls();
 				Editor.UpdateEditLayerActions();
 			}
 			else if (Editor.IsEntitiesEdit())
@@ -473,7 +465,7 @@ a valid Data Directory.",
 				{
 					Editor.CopyEntitiesToClipboard();
 					Editor.DeleteSelected();
-					Editor.UpdateControls();
+					Editor.UI.UpdateControls();
 					Editor.UpdateEntitiesToolbarList();
 				}
 			}
@@ -484,7 +476,7 @@ a valid Data Directory.",
 			if (Editor.IsTilesEdit())
 			{
 				// check if there are tiles on the Windows clipboard; if so, use those
-				if (mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacTiles"))
+				if (Settings.mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacTiles"))
 				{
 					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>) System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
 					Point pastePoint = new Point((int)(Editor.EditorState.lastX / Editor.EditorState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.EditorState.lastY / Editor.EditorState.Zoom) + EditorConstants.TILE_SIZE - 1);
@@ -512,7 +504,7 @@ a valid Data Directory.",
 					{
 
 						// check if there are entities on the Windows clipboard; if so, use those
-						if (mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacEntities"))
+						if (Settings.mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacEntities"))
 						{
 
 							Editor.entities.PasteFromClipboard(new Point((int)(Editor.EditorState.lastX / Editor.EditorState.Zoom), (int)(Editor.EditorState.lastY / Editor.EditorState.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
@@ -532,7 +524,7 @@ a valid Data Directory.",
 						return;
 					}
 					Editor.UpdateEntitiesToolbarList();
-					Editor.SetSelectOnlyButtonsState();
+					Editor.UI.SetSelectOnlyButtonsState();
 				}
 			}
 		}
@@ -701,18 +693,18 @@ a valid Data Directory.",
 
         public void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e)
         {
-            Editor.EntitySelectionBoxesAlwaysPrioritized = Editor.SelectionBoxesAlwaysPrioritized.IsChecked;
+            Editor.UITools.EntitySelectionBoxesAlwaysPrioritized = Editor.SelectionBoxesAlwaysPrioritized.IsChecked;
         }
         public void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!mySettings.PrioritizedObjectRendering)
+			if (!Settings.mySettings.PrioritizedObjectRendering)
 			{
-				mySettings.PrioritizedObjectRendering = true;
+				Settings.mySettings.PrioritizedObjectRendering = true;
 				Editor.prioritizedViewingToolStripMenuItem.IsChecked = true;
 			}
 			else
 			{
-				mySettings.PrioritizedObjectRendering = false;
+				Settings.mySettings.PrioritizedObjectRendering = false;
 				Editor.prioritizedViewingToolStripMenuItem.IsChecked = false;
 			}
 
@@ -743,11 +735,9 @@ a valid Data Directory.",
 							Editor.EncoreSetupType = 0;
 							if (File.Exists(Editor.EncorePalette[0]))
 							{
-								Editor.encorePaletteExists = true;
-								Editor.EncorePaletteButton.IsChecked = true;
-								Editor.useEncoreColors = true;
-								Editor.ReloadSpecificTextures(null, null);
-							}
+								Editor.EncorePaletteExists = true;
+                                Editor.UITools.UseEncoreColors = true;
+                            }
 
 						}
 					}
@@ -763,10 +753,8 @@ a valid Data Directory.",
 				Editor.EncoreSetupType = 0;
 				if (File.Exists(Editor.EncorePalette[0]))
 				{
-					Editor.encorePaletteExists = true;
-					Editor.EncorePaletteButton.IsChecked = true;
-					Editor.useEncoreColors = true;
-					Editor.ReloadSpecificTextures(null, null);
+					Editor.EncorePaletteExists = true;
+					Editor.UITools.UseEncoreColors = true;
 				}
 				else
 				{
@@ -778,15 +766,15 @@ a valid Data Directory.",
 
 		public void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.extraLayersMoveToFront)
+			if (!Editor.UITools.ExtraLayersMoveToFront)
 			{
 				Editor.moveExtraLayersToFrontToolStripMenuItem.IsChecked = true;
-				Editor.extraLayersMoveToFront = true;
+				Editor.UITools.ExtraLayersMoveToFront = true;
 			}
 			else
 			{
 				Editor.moveExtraLayersToFrontToolStripMenuItem.IsChecked = false;
-				Editor.extraLayersMoveToFront = false;
+				Editor.UITools.ExtraLayersMoveToFront = false;
 			}
 		}
 
@@ -798,58 +786,58 @@ a valid Data Directory.",
 
 		public void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.showEntitySelectionBoxes)
+			if (Editor.UITools.ShowEntitySelectionBoxes)
 			{
 				Editor.showEntitySelectionBoxesToolStripMenuItem.IsChecked = false;
-				Editor.showEntitySelectionBoxes = false;
+				Editor.UITools.ShowEntitySelectionBoxes = false;
 			}
 			else
 			{
 				Editor.showEntitySelectionBoxesToolStripMenuItem.IsChecked = true;
-				Editor.showEntitySelectionBoxes = true;
+				Editor.UITools.ShowEntitySelectionBoxes = true;
 			}
 		}
 
 		public void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.showWaterLevel)
+			if (!Editor.UITools.ShowWaterLevel)
 			{
 				Editor.showWaterLevelToolStripMenuItem.IsChecked = true;
-				Editor.showWaterLevel = true;
+				Editor.UITools.ShowWaterLevel = true;
 			}
 			else
 			{
 				Editor.showWaterLevelToolStripMenuItem.IsChecked = false;
-				Editor.showWaterLevel = false;
+				Editor.UITools.ShowWaterLevel = false;
 			}
 		}
 
 		public void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e)
 		{
 
-			if (!Editor.alwaysShowWaterLevel)
+			if (!Editor.UITools.AlwaysShowWaterLevel)
 			{
 				Editor.waterLevelAlwaysShowItem.IsChecked = true;
-				Editor.alwaysShowWaterLevel = true;
+				Editor.UITools.AlwaysShowWaterLevel = true;
 			}
 			else
 			{
 				Editor.waterLevelAlwaysShowItem.IsChecked = false;
-				Editor.alwaysShowWaterLevel = false;
+				Editor.UITools.AlwaysShowWaterLevel = false;
 			}
 		}
 
 		public void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.sizeWaterLevelwithBounds)
+			if (!Editor.UITools.SizeWaterLevelwithBounds)
 			{
 				Editor.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
-				Editor.sizeWaterLevelwithBounds = true;
+				Editor.UITools.SizeWaterLevelwithBounds = true;
 			}
 			else
 			{
 				Editor.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
-				Editor.sizeWaterLevelwithBounds = false;
+				Editor.UITools.SizeWaterLevelwithBounds = false;
 			}
 		}
 
@@ -860,15 +848,15 @@ a valid Data Directory.",
 
 		public void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.showParallaxSprites)
+			if (Editor.UITools.ShowParallaxSprites)
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = false;
-				Editor.showParallaxSprites = false;
+				Editor.UITools.ShowParallaxSprites = false;
 			}
 			else
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = true;
-				Editor.showParallaxSprites = true;
+				Editor.UITools.ShowParallaxSprites = true;
 			}
 		}
 
@@ -902,15 +890,15 @@ a valid Data Directory.",
 
 		public void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.showEntityPathArrows)
+			if (!Editor.UITools.ShowEntityPathArrows)
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = true;
-				Editor.showEntityPathArrows = true;
+				Editor.UITools.ShowEntityPathArrows = true;
 			}
 			else
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = false;
-				Editor.showEntityPathArrows = false;
+				Editor.UITools.ShowEntityPathArrows = false;
 			}
 		}
 
@@ -1029,7 +1017,7 @@ a valid Data Directory.",
 					return; // nothing to do
 
 				// user clicked Import, get to it!
-				Editor.UpdateControls();
+				Editor.UI.UpdateControls();
 				Editor.entitiesToolbar?.RefreshSpawningObjects(Editor.EditorScene.Objects);
 
 			}
@@ -1105,7 +1093,7 @@ a valid Data Directory.",
 
 			Editor.SetupLayerButtons();
 			Editor.ResetViewSize();
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 		}
 
 		public void PrimaryColorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -1170,11 +1158,11 @@ a valid Data Directory.",
 		{
 			if (Editor.rightClicktoSwapSlotIDs.IsChecked)
 			{
-				Editor.rightClicktoSwapSlotID = true;
+				Editor.UITools.RightClicktoSwapSlotID = true;
 			}
 			else
 			{
-				Editor.rightClicktoSwapSlotID = false;
+				Editor.UITools.RightClicktoSwapSlotID = false;
 			}
 		}
 		public void CopyAirToggle_Click(object sender, RoutedEventArgs e)
@@ -1207,7 +1195,7 @@ a valid Data Directory.",
 			int rX = (short)(Editor.EditorState.ShiftX);
 			int rY = (short)(Editor.EditorState.ShiftY);
 			double _ZoomLevel = Editor.EditorState.ZoomLevel;
-			bool isEncoreSet = Editor.useEncoreColors;
+			bool isEncoreSet = Editor.UITools.UseEncoreColors;
 			int levelSlotNum = Editor.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
 		}
@@ -1217,7 +1205,7 @@ a valid Data Directory.",
 			string scenePath = Editor.Discord.ScenePath;
 			int rX = 0;
 			int rY = 0;
-			bool isEncoreSet = Editor.useEncoreColors;
+			bool isEncoreSet = Editor.UITools.UseEncoreColors;
 			int levelSlotNum = Editor.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
 		}
@@ -1246,7 +1234,7 @@ a valid Data Directory.",
 
 			if (!enabled) Editor.EditLayerB = null;
 
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 
 
 		}
@@ -1349,30 +1337,30 @@ a valid Data Directory.",
 
 		public void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.isConsoleWindowOpen)
+			if (!Editor.UITools.IsConsoleWindowOpen)
 			{
-				Editor.isConsoleWindowOpen = true;
+				Editor.UITools.IsConsoleWindowOpen = true;
 				ShowConsoleWindow();
 			}
 			else
 			{
-				Editor.isConsoleWindowOpen = false;
+				Editor.UITools.IsConsoleWindowOpen = false;
 				HideConsoleWindow();
 			}
 		}
 		public void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			mySettings.DevForceRestartData = Editor.DataDirectory;
-			mySettings.DevForceRestartScene = Editor.EditorPath.SceneFilePath;
-			mySettings.DevForceRestartX = (short)(Editor.EditorState.ShiftX / Editor.EditorState.Zoom);
-			mySettings.DevForeRestartY = (short)(Editor.EditorState.ShiftY / Editor.EditorState.Zoom);
-			mySettings.DevForceRestartZoomLevel = Editor.EditorState.ZoomLevel;
-			mySettings.DevForceRestartEncore = Editor.EditorPath.isEncoreMode;
-			mySettings.DeveForceRestartLevelID = Editor.LevelID;
-			mySettings.DevForceRestartCurrentName = Editor.EditorPath.CurrentName;
-			mySettings.DevForceRestartCurrentZone = Editor.EditorPath.CurrentZone;
-			mySettings.DevForceRestartCurrentSceneID = Editor.EditorPath.CurrentSceneID;
-			mySettings.DevForceRestartBrowsed = Editor.EditorPath.Browsed;
+			Settings.mySettings.DevForceRestartData = Editor.DataDirectory;
+			Settings.mySettings.DevForceRestartScene = Editor.EditorPath.SceneFilePath;
+			Settings.mySettings.DevForceRestartX = (short)(Editor.EditorState.ShiftX / Editor.EditorState.Zoom);
+			Settings.mySettings.DevForeRestartY = (short)(Editor.EditorState.ShiftY / Editor.EditorState.Zoom);
+			Settings.mySettings.DevForceRestartZoomLevel = Editor.EditorState.ZoomLevel;
+			Settings.mySettings.DevForceRestartEncore = Editor.EditorPath.isEncoreMode;
+			Settings.mySettings.DeveForceRestartLevelID = Editor.LevelID;
+			Settings.mySettings.DevForceRestartCurrentName = Editor.EditorPath.CurrentName;
+			Settings.mySettings.DevForceRestartCurrentZone = Editor.EditorPath.CurrentZone;
+			Settings.mySettings.DevForceRestartCurrentSceneID = Editor.EditorPath.CurrentSceneID;
+			Settings.mySettings.DevForceRestartBrowsed = Editor.EditorPath.Browsed;
 		}
 
 		public void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -1413,7 +1401,7 @@ a valid Data Directory.",
 		}
 		public void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			String aniProcessName = Path.GetFileNameWithoutExtension(mySettings.RunAniEdPath);
+			String aniProcessName = Path.GetFileNameWithoutExtension(Settings.mySettings.RunAniEdPath);
 			IntPtr hWnd = FindWindow(aniProcessName, null); // this gives you the handle of the window you need.
 			Process processes = Process.GetProcessesByName(aniProcessName).FirstOrDefault();
 			if (processes != null)
@@ -1432,7 +1420,7 @@ a valid Data Directory.",
 			{
 
 				// Ask where RSDK Annimation Editor is located when not set
-				if (string.IsNullOrEmpty(mySettings.RunAniEdPath))
+				if (string.IsNullOrEmpty(Settings.mySettings.RunAniEdPath))
 				{
 					var ofd = new OpenFileDialog
 					{
@@ -1440,19 +1428,19 @@ a valid Data Directory.",
 						Filter = "Windows Executable|*.exe"
 					};
 					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						mySettings.RunAniEdPath = ofd.FileName;
+						Settings.mySettings.RunAniEdPath = ofd.FileName;
 				}
 				else
 				{
-					if (!File.Exists(mySettings.RunGamePath))
+					if (!File.Exists(Settings.mySettings.RunGamePath))
 					{
-						mySettings.RunAniEdPath = "";
+						Settings.mySettings.RunAniEdPath = "";
 						return;
 					}
 				}
 
 				ProcessStartInfo psi;
-				psi = new ProcessStartInfo(mySettings.RunAniEdPath);
+				psi = new ProcessStartInfo(Settings.mySettings.RunAniEdPath);
 				Process.Start(psi);
 			}
 		}
@@ -1540,9 +1528,9 @@ a valid Data Directory.",
 
 		public void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (mySettings.RunGamePath != null && mySettings.RunGamePath != "" && File.Exists(mySettings.RunGamePath))
+			if (Settings.mySettings.RunGamePath != null && Settings.mySettings.RunGamePath != "" && File.Exists(Settings.mySettings.RunGamePath))
 			{
-				string GameFolder = mySettings.RunGamePath;
+				string GameFolder = Settings.mySettings.RunGamePath;
 				string GameFolder_mod = GameFolder.Replace('/', '\\');
 				Process.Start("explorer.exe", "/select, " + GameFolder_mod);
 			}
@@ -1651,14 +1639,14 @@ a valid Data Directory.",
 
 		public void MagnetMode_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.UseMagnetMode)
+			if (Editor.UITools.UseMagnetMode)
 			{
-				Editor.UseMagnetMode = false;
+				Editor.UITools.UseMagnetMode = false;
 				Editor.MagnetMode.IsChecked = false;
 			}
 			else
 			{
-				Editor.UseMagnetMode = true;
+				Editor.UITools.UseMagnetMode = true;
 				Editor.MagnetMode.IsChecked = true;
 			}
 		}
@@ -1697,7 +1685,7 @@ a valid Data Directory.",
 			Editor.PointerButton.IsChecked = false;
 			Editor.PlaceTilesButton.IsChecked = false;
 			Editor.InteractionToolButton.IsChecked = false;
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 		}
 
 		public void PointerButton_Click(object sender, RoutedEventArgs e)
@@ -1706,7 +1694,7 @@ a valid Data Directory.",
 			Editor.SelectToolButton.IsChecked = false;
 			Editor.PlaceTilesButton.IsChecked = false;
 			Editor.InteractionToolButton.IsChecked = false;
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 		}
 
 		public void PlaceTilesButton_Click(object sender, RoutedEventArgs e)
@@ -1715,7 +1703,7 @@ a valid Data Directory.",
 			Editor.SelectToolButton.IsChecked = false;
 			Editor.PointerButton.IsChecked = false;
 			Editor.InteractionToolButton.IsChecked = false;
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 		}
 
 		public void InteractionToolButton_Click(object sender, RoutedEventArgs e)
@@ -1724,13 +1712,13 @@ a valid Data Directory.",
 			Editor.PlaceTilesButton.IsChecked = false;
 			Editor.SelectToolButton.IsChecked = false;
 			Editor.PointerButton.IsChecked = false;
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 		}
 
 		public void ChunkToolButton_Click(object sender, RoutedEventArgs e)
 		{
 			//ChunksToolButton.IsChecked = !ChunksToolButton.IsChecked;
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 		}
 
 		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e)
@@ -1744,7 +1732,7 @@ a valid Data Directory.",
 				//EditorEntity_ini.rendersWithErrors.Clear();
 
 				//Reload for Encore Palletes, otherwise reload the image normally
-				if (Editor.useEncoreColors == true)
+				if (Editor.UITools.UseEncoreColors == true)
 				{
 					Editor.EditorTiles.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
 					Editor.TilesToolbar?.Reload(Editor.EncorePalette[0]);
@@ -1777,54 +1765,8 @@ a valid Data Directory.",
 
 		public void RunScene_Click(object sender, RoutedEventArgs e)
 		{
-			IntPtr hWnd = FindWindow("SonicMania", null); // this gives you the handle of the window you need.
-			Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
-			if (sender == Editor.RunSceneButton && Editor.GameRunning)
-			{
-				Editor.RunSceneDropDown.IsSubmenuOpen = true;
-				return;
-			}
-			if (processes != null)
-			{
-				// check if the window is hidden / minimized
-				if (processes.MainWindowHandle == IntPtr.Zero)
-				{
-					// the window is hidden so try to restore it before setting focus.
-					ShowWindow(processes.Handle, ShowWindowEnum.Restore);
-				}
-
-				// set user the focus to the window
-				SetForegroundWindow(processes.MainWindowHandle);
-				if (!Editor.GameRunning)
-				{
-					Editor.Dispatcher.Invoke(new Action(() => RunSequence(sender, e, true)));
-				}
-			}
-			else
-			{
-				if (!Editor.GameRunning)
-				{
-					if (mySettings.RunModLoaderPath != null && mySettings.modConfigs?.Count > 0)
-					{
-						string ConfigPath = mySettings.RunGamePath;
-						System.Windows.Controls.MenuItem dropDownItem = Editor.selectConfigToolStripMenuItem.Items[0] as System.Windows.Controls.MenuItem;
-						ConfigPath = ConfigPath.Replace('/', '\\');
-						ConfigPath = ConfigPath.Replace("SonicMania.exe", "//mods//ManiaModLoader.ini");
-						var allItems = Editor.selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-						foreach (System.Windows.Controls.MenuItem item in allItems)
-						{
-							if (item.IsChecked)
-							{
-								dropDownItem = item;
-							}
-						}
-						File.WriteAllText(ConfigPath, dropDownItem.Tag.ToString());
-					}
-					Editor.Dispatcher.Invoke(new Action(() => RunSequence(sender, e)));
-				}
-
-			}
-		}
+            Editor.EditorGame.RunScene();
+        }
 
 		public void RunSceneButton_DropDownOpening(object sender, RoutedEventArgs e)
 		{
@@ -1835,39 +1777,15 @@ a valid Data Directory.",
 			Editor.selectConfigToolStripMenuItem.IsEnabled = !Editor.GameRunning;
 		}
 
-		public void ShowTileIDButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (Editor.showTileID == false)
-			{
-				Editor.ShowTileIDButton.IsChecked = true;
-				Editor.ReloadSpecificTextures(sender, e);
-				Editor.showTileID = true;
-			}
-			else
-			{
-				Editor.ShowTileIDButton.IsChecked = false;
-				Editor.ReloadSpecificTextures(sender, e);
-				Editor.showTileID = false;
-			}
-		}
+        public void GameOptionsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            CheatCodeManager cheatCodeManager = new CheatCodeManager();
+            cheatCodeManager.Owner = Editor;
+            cheatCodeManager.ShowDialog();
+        }
 
-		#region Grid Options
-		public void ShowGridButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (Editor.showGrid == false)
-			{
-				Editor.ShowGridButton.IsChecked = true;
-				Editor.showGrid = true;
-				Editor.GridCheckStateCheck();
-
-			}
-			else
-			{
-				Editor.ShowGridButton.IsChecked = false;
-				Editor.showGrid = false;
-			}
-		}
-		public void GridCheckStateCheck()
+        #region Grid Options
+        public void GridCheckStateCheck()
 		{
 			if (Editor.x16ToolStripMenuItem.IsChecked == true)
 			{
@@ -1883,7 +1801,7 @@ a valid Data Directory.",
 			}
 			if (Editor.customToolStripMenuItem.IsChecked == true)
 			{
-				EditorConstants.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
+				EditorConstants.GRID_TILE_SIZE = Settings.mySettings.CustomGridSizeValue;
 			}
 		}
 		public void X16ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -1913,51 +1831,11 @@ a valid Data Directory.",
 		}
 		public void CustomToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditorConstants.GRID_TILE_SIZE = mySettings.CustomGridSizeValue;
+			EditorConstants.GRID_TILE_SIZE = Settings.mySettings.CustomGridSizeValue;
 			ResetGridOptions();
 			Editor.customToolStripMenuItem.IsChecked = true;
 		}
 		#endregion
-
-		public void ShowCollisionAButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (Editor.showCollisionA == false)
-			{
-				Editor.ShowCollisionAButton.IsChecked = true;
-				Editor.showCollisionA = true;
-				Editor.ShowCollisionBButton.IsChecked = false;
-				Editor.showCollisionB = false;
-				Editor.ReloadSpecificTextures(sender, e);
-			}
-			else
-			{
-				Editor.ShowCollisionAButton.IsChecked = false;
-				Editor.showCollisionA = false;
-				Editor.ShowCollisionBButton.IsChecked = false;
-				Editor.showCollisionB = false;
-				Editor.ReloadSpecificTextures(sender, e);
-			}
-		}
-
-		public void ShowCollisionBButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (Editor.showCollisionB == false)
-			{
-				Editor.ShowCollisionBButton.IsChecked = true;
-				Editor.showCollisionB = true;
-				Editor.ShowCollisionAButton.IsChecked = false;
-				Editor.showCollisionA = false;
-				Editor.ReloadSpecificTextures(sender, e);
-			}
-			else
-			{
-				Editor.ShowCollisionBButton.IsChecked = false;
-				Editor.showCollisionB = false;
-				Editor.ShowCollisionAButton.IsChecked = false;
-				Editor.showCollisionA = false;
-				Editor.ReloadSpecificTextures(sender, e);
-			}
-		}
 
 		public void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e)
 		{
@@ -1972,51 +1850,30 @@ a valid Data Directory.",
 		}
 		public void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e)
 		{
-			if (Editor.editorView.GraphicPanel.bRender)
+			if (Editor.GraphicsModel.GraphicPanel.bRender)
 			{
-				Editor.editorView.GraphicPanel.bRender = false;
+				Editor.GraphicsModel.GraphicPanel.bRender = false;
 			}
 			else
 			{
 				ReloadToolStripButton_Click(null, null);
-				Editor.editorView.GraphicPanel.bRender = true;
+				Editor.GraphicsModel.GraphicPanel.bRender = true;
 			}
 		}
 
 		public void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.showFlippedTileHelper == false)
+			if (Editor.UITools.ShowFlippedTileHelper == false)
 			{
 				Editor.ReloadSpecificTextures(sender, e);
-				Editor.showFlippedTileHelper = true;
+				Editor.UITools.ShowFlippedTileHelper = true;
 
 			}
 			else
 			{
 				Editor.ReloadSpecificTextures(sender, e);
-				Editor.showFlippedTileHelper = false;
+				Editor.UITools.ShowFlippedTileHelper = false;
 			}
-		}
-
-		public void EnableEncorePalette_Click(bool? manualEnable = null)
-		{
-			Editor.DisposeTextures();
-			bool mode = (manualEnable != null ? (bool)manualEnable : !Editor.useEncoreColors);
-			if (mode == true)
-			{
-				Editor.EncorePaletteButton.IsChecked = true;
-				Editor.useEncoreColors = true;
-				Editor.EditorTiles.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
-				Editor.TilesToolbar?.Reload(Editor.EncorePalette[0]);
-			}
-			else
-			{
-				Editor.EncorePaletteButton.IsChecked = false;
-				Editor.useEncoreColors = false;
-				Editor.EditorTiles.StageTiles?.Image.Reload();
-				Editor.TilesToolbar?.Reload();
-			}
-			Editor.EditorEntity_ini.ReleaseResources();
 		}
 
 
@@ -2025,18 +1882,18 @@ a valid Data Directory.",
 		#region Status Bar Items
 		public void PixelModeButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.EnablePixelCountMode == false)
+			if (Editor.UITools.EnablePixelCountMode == false)
 			{
 				Editor.pixelModeButton.IsChecked = true;
 				Editor.pixelModeToolStripMenuItem.IsChecked = true;
-				Editor.EnablePixelCountMode = true;
+				Editor.UITools.EnablePixelCountMode = true;
 
 			}
 			else
 			{
 				Editor.pixelModeButton.IsChecked = false;
 				Editor.pixelModeToolStripMenuItem.IsChecked = false;
-				Editor.EnablePixelCountMode = false;
+				Editor.UITools.EnablePixelCountMode = false;
 			}
 
 		}
@@ -2074,17 +1931,17 @@ a valid Data Directory.",
 		}
 		public void NudgeFasterButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (mySettings.EnableFasterNudge == false)
+			if (Settings.mySettings.EnableFasterNudge == false)
 			{
 				Editor.nudgeFasterButton.IsChecked = true;
 				Editor.nudgeSelectionFasterToolStripMenuItem.IsChecked = true;
-				mySettings.EnableFasterNudge = true;
+				Settings.mySettings.EnableFasterNudge = true;
 			}
 			else
 			{
 				Editor.nudgeFasterButton.IsChecked = false;
 				Editor.nudgeSelectionFasterToolStripMenuItem.IsChecked = false;
-				mySettings.EnableFasterNudge = false;
+				Settings.mySettings.EnableFasterNudge = false;
 			}
 		}
 
@@ -2120,15 +1977,15 @@ a valid Data Directory.",
 			{
 				Editor.LastQuickButtonState = 2;
 			}
-			if (Editor.applyEditEntitiesTransparency == false)
+			if (Editor.UITools.ApplyEditEntitiesTransparency == false)
 			{
-				Editor.applyEditEntitiesTransparency = true;
+				Editor.UITools.ApplyEditEntitiesTransparency = true;
 				Editor.transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = true;
 				Editor.editEntitesTransparencyToolStripMenuItem.IsChecked = true;
 			}
 			else
 			{
-				Editor.applyEditEntitiesTransparency = false;
+				Editor.UITools.ApplyEditEntitiesTransparency = false;
 				Editor.transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = false;
 				Editor.editEntitesTransparencyToolStripMenuItem.IsChecked = false;
 			}
@@ -2136,20 +1993,20 @@ a valid Data Directory.",
 		public void ToggleEncoreManiaEntitiesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			Editor.LastQuickButtonState = 3;
-			if (mySettings.showEncoreEntities == true && mySettings.showManiaEntities == true)
+			if (Settings.mySettings.showEncoreEntities == true && Settings.mySettings.showManiaEntities == true)
 			{
-				mySettings.showManiaEntities = true;
-				mySettings.showEncoreEntities = false;
+				Settings.mySettings.showManiaEntities = true;
+				Settings.mySettings.showEncoreEntities = false;
 			}
-			if (mySettings.showEncoreEntities == true && mySettings.showManiaEntities == false)
+			if (Settings.mySettings.showEncoreEntities == true && Settings.mySettings.showManiaEntities == false)
 			{
-				mySettings.showManiaEntities = true;
-				mySettings.showEncoreEntities = false;
+				Settings.mySettings.showManiaEntities = true;
+				Settings.mySettings.showEncoreEntities = false;
 			}
 			else
 			{
-				mySettings.showManiaEntities = false;
-				mySettings.showEncoreEntities = true;
+				Settings.mySettings.showManiaEntities = false;
+				Settings.mySettings.showEncoreEntities = true;
 			}
 
 		}
@@ -2157,191 +2014,5 @@ a valid Data Directory.",
 
 		#endregion
 
-
-
-		#region Run Mania Sequence
-
-		// TODO: Perfect Scene Autobooting
-		public void RunSequence(object sender, EventArgs e, bool attachMode = false)
-		{
-			// Ask where Sonic Mania is located when not set
-			string path = "steam://run/584400";
-			bool ready = false;
-			if (mySettings.UsePrePlusOffsets)
-			{
-				if (string.IsNullOrEmpty(mySettings.RunGamePath))
-				{
-					var ofd = new OpenFileDialog
-					{
-						Title = "Select SonicMania.exe",
-						Filter = "Windows PE Executable|*.exe"
-					};
-					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						mySettings.RunGamePath = ofd.FileName;
-				}
-				else
-				{
-					if (!File.Exists(mySettings.RunGamePath))
-					{
-						mySettings.RunGamePath = "";
-						return;
-					}
-				}
-				path = mySettings.RunGamePath;
-			}
-			ProcessStartInfo psi;
-
-			if (mySettings.RunGameInsteadOfScene)
-			{
-				psi = new ProcessStartInfo(path);
-			}
-			else
-			{
-				//if (mySettings.UsePrePlusOffsets == true)
-				//{
-				//	//psi = new ProcessStartInfo(path, $"stage={Editor.SelectedZone};scene={Editor.SelectedScene[5]};");
-				//}
-				//else
-				//{
-					psi = new ProcessStartInfo(path);
-				//}
-
-			}
-			if (path != "" || attachMode)
-			{
-				string maniaDir = Path.GetDirectoryName(path);
-				// Check if the mod loader is installed
-				string modLoaderDLL = maniaDir + "//d3d9.dll";
-				if (File.Exists(modLoaderDLL))
-					psi.WorkingDirectory = maniaDir;
-				else
-					psi.WorkingDirectory = Path.GetDirectoryName(Editor.DataDirectory);
-				Process p;
-				if (!attachMode)
-				{
-					p = Process.Start(psi);
-				}
-				else
-				{
-					var mania = Process.GetProcessesByName("SonicMania.exe");
-					p = mania.FirstOrDefault();
-				}
-				Editor.GameRunning = true;
-
-				int CurrentScene_ptr = 0x00E48758;          // &CurrentScene
-				int GameState_ptr = 0x00E48776;             // &GameState
-				int IsGameRunning_ptr = 0x0065D1C8;
-				int Player1_ControllerID_ptr = 0x0085EB44;  // &Player1.ControllerID
-				int Player2_ControllerID_ptr = 0x0085EF9C;  // &Player2.ControllerID
-				if (mySettings.UsePrePlusOffsets)
-				{
-					CurrentScene_ptr = 0x00CCF6F8;
-					// TODO: Get Pre Plus GameState address
-					IsGameRunning_ptr = 0x00628094;
-					Player1_ControllerID_ptr = 0x00A4C860;
-				}
-
-				if (mySettings.UsePrePlusOffsets)
-				{
-					Editor.UpdateControls();
-					UseCheatCodes(p);
-					ready = true;
-				}
-				else
-				{
-
-					// For Mania Plus, The best way to boot the game is by using the steam command.
-					// After Calling the Steam command, We need to wait until Steam responds and Starts the game.
-					// Once the game process starts up, We quickly attach to it and apply all the needed patches
-
-					// Wait for Steam to complete startup
-					new Thread(() =>
-					{
-						Process[] Procs;
-						while ((Procs = Process.GetProcessesByName("SonicMania")).Length == 0)
-							Thread.Sleep(1);
-						Editor.Dispatcher.Invoke(new Action(() =>
-						{
-							p = Procs[0];
-							// Attach and Apply Cheats
-							UseCheatCodes(p);
-							Editor.UpdateControls();
-							ready = true;
-
-
-							// Wait until there is a Running Scene.
-							while (Editor.GameMemory.ReadByte(GameState_ptr) != 0x01)
-								Thread.Sleep(1);
-
-							// Swap the Scene
-							if (Editor.LevelID != -1)
-							{
-								Editor.GameMemory.WriteByte(CurrentScene_ptr, (byte)Editor.LevelID);
-								// Restart the Scene
-								Editor.GameMemory.WriteByte(GameState_ptr, 0);
-							}
-
-
-
-						}));
-					}).Start();
-				}
-
-
-				new Thread(() =>
-				{
-					while (!ready)
-						Thread.Sleep(10);
-					/* Level != Main Menu*/
-					while (Editor.GameMemory.ReadByte(CurrentScene_ptr) != 0x02 || Properties.Settings.Default.DisableRunSceneMenuQuit == true)
-					{
-						// Check if the user closed the game
-						if (p.HasExited || !Editor.GameRunning)
-						{
-							Editor.GameRunning = false;
-							if (Editor.IsVisible)
-							{
-								Editor.Dispatcher.Invoke(new Action(() => Editor.UpdateControls()));
-							}
-							return;
-						}
-						UseCheatCodes(p);
-						// Makes sure the process is attached and patches are applied
-						// Set Player 1 Controller Set to 1 (If we set it to AnyController (0x00) we can't use Debug Mode In-Game)
-						if (Editor.GameMemory.ReadByte(Player1_ControllerID_ptr) != 0x00 && Properties.Settings.Default.DisableRunSceneAutoInput == false)
-						{
-							Editor.GameMemory.WriteByte(Player1_ControllerID_ptr, 0x00); //setting this to 0x00 causes the inability to use debug mode
-							Editor.GameMemory.WriteByte(Player2_ControllerID_ptr, 0xFF);
-						}
-						Thread.Sleep(300);
-					}
-					// User is on the Main Menu
-					// Close the game
-					Editor.GameMemory.WriteByte(IsGameRunning_ptr, 0);
-					Editor.GameRunning = false;
-					Editor.Dispatcher.Invoke(new Action(() => Editor.UpdateControls()));
-				}).Start();
-			}
-		}
-
-		public void UseCheatCodes(Process p)
-		{
-			if (mySettings.UsePrePlusOffsets)
-			{
-				// Patches
-				Editor.GameMemory.Attach(p);
-			}
-			else
-			{
-				Editor.GameMemory.Attach(p);
-
-				// Mania Plus Patches
-				Editor.GameMemory.WriteByte(0x00E48768, 0x01); // Enable Debug
-				Editor.GameMemory.WriteByte(0x006F1806, 0x01); // Allow DevMenu
-				Editor.GameMemory.WriteByte(0x005FDD00, 0xEB); // Disable Background Pausing
-			}
-		}
-
-		#endregion
 	}
 }

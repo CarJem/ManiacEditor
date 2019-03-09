@@ -353,7 +353,7 @@ namespace ManiacEditor
         public virtual void Draw(DevicePanel d)
         {
             if (filteredOut) return;
-            if (EditorEntity_ini.LinkedRendersNames.Contains(entity.Object.Name.Name) && EditorInstance.showEntityPathArrows)
+            if (EditorEntity_ini.LinkedRendersNames.Contains(entity.Object.Name.Name) && EditorInstance.UITools.ShowEntityPathArrows)
             {
                 try
                 {
@@ -396,7 +396,7 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront && !EditorInstance.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !EditorInstance.UITools.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
             if (!Properties.Settings.Default.NeverLoadEntityTextures)
             {
@@ -404,7 +404,7 @@ namespace ManiacEditor
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
             }
 
-            if (drawSelectionBoxInFront && !EditorInstance.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
+            if (drawSelectionBoxInFront && !EditorInstance.UITools.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
         public virtual void PrimaryDraw(DevicePanel d, List<string> onScreenExlusionList)
         {
@@ -451,7 +451,7 @@ namespace ManiacEditor
                 }
                 else
                 { // No frame to render
-                    if (EditorInstance.showEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (EditorInstance.UITools.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
                 //DrawOthers(d);
@@ -464,7 +464,7 @@ namespace ManiacEditor
         }
         public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
         {
-            if (EditorInstance.showEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
+            if (EditorInstance.UITools.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
             {
                 if (this.IsObjectOnScreen(d))
                 {

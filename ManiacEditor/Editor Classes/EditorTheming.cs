@@ -192,7 +192,7 @@ namespace ManiacEditor
                     content.Fill = new SolidColorBrush(ConvertedColor);
 
                 }
-
+                item.Refresh();
 
             }
 
@@ -242,7 +242,6 @@ namespace ManiacEditor
             SetButtonColors(Instance.Save, Color.RoyalBlue);
             SetButtonColors(Instance.ZoomInButton, Color.SlateBlue);
             SetButtonColors(Instance.ZoomOutButton, Color.SlateBlue);
-            SetButtonColors(Instance.RunSceneButton, MainThemeColor(Color.LimeGreen));
             SetButtonColors(Instance.FreezeDeviceButton, Color.Red);
             SetButtonColors(Instance.UndoButton, Color.RoyalBlue);
             SetButtonColors(Instance.RedoButton, Color.RoyalBlue);
@@ -258,7 +257,6 @@ namespace ManiacEditor
             SetButtonColors(Instance.ShowCollisionAButton, Color.DeepSkyBlue);
             SetButtonColors(Instance.ShowCollisionBButton, Color.DeepSkyBlue);
             SetButtonColors(Instance.FlipAssistButton, MainThemeColor());
-            SetButtonColors(Instance.RunSceneButton, Color.Green);
             SetButtonColors(Instance.MagnetModeSplitButton, MainThemeColor());
             SetButtonColors(Instance.GridSizeButton, MainThemeColor());
             SetButtonColors(Instance.RunSceneDropDown, MainThemeColor());

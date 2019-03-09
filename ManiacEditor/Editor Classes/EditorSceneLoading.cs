@@ -202,23 +202,23 @@ namespace ManiacEditor
 			{
 				//Using Instance Means the Stuff Hasn't Stated 
 				Instance.LevelID = Instance.EditorPath.CurrentLevelID;
-				Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePath(), Instance.editorView.GraphicPanel, Instance);
+				Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePath(), Instance.GraphicsModel.GraphicPanel, Instance);
 
 				//ACT File (Encore Colors)
 				Instance.EncorePalette = Instance.EditorScene.GetEncorePalette(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, "", 1);
 				Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, "");
 				if (Instance.EncorePalette[0] != "")
 				{
-					Instance.encorePaletteExists = true;
+					Instance.EncorePaletteExists = true;
 					if (Instance.EditorPath.isEncoreMode)
 					{
 						Instance.EncorePaletteButton.IsChecked = true;
-						Instance.useEncoreColors = true;
+						Instance.UITools.UseEncoreColors = true;
 					}
 				}
 
 				//Stage Tiles
-				if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0]);
+				if (Instance.UITools.UseEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0]);
 				else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone);
 
 				//Tile Config
@@ -261,7 +261,7 @@ namespace ManiacEditor
 			Instance.UpdateDataFolderLabel(null, null);
 			Instance.SetupLayerButtons();
 			Instance.SetViewSize((int)(Instance.SceneWidth * Instance.EditorState.Zoom), (int)(Instance.SceneHeight * Instance.EditorState.Zoom));
-			Instance.UpdateControls(true);
+			Instance.UI.UpdateControls(true);
 		}
 
 		public bool PreLoad()
@@ -297,7 +297,7 @@ namespace ManiacEditor
 			try
 			{
 				Instance.LevelID = Instance.EditorPath.CurrentLevelID;
-				Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePathFromFile(Instance.EditorPath.SceneFilePath), Instance.editorView.GraphicPanel, Instance);
+				Instance.EditorScene = new EditorScene(Instance.EditorPath.GetScenePathFromFile(Instance.EditorPath.SceneFilePath), Instance.GraphicsModel.GraphicPanel, Instance);
 
 
 				//ACT File (Encore Colors)
@@ -305,16 +305,16 @@ namespace ManiacEditor
 				Instance.EncoreSetupType = Instance.EditorScene.GetEncoreSetupType(Instance.EditorPath.CurrentZone, Instance.DataDirectory, Instance.EditorPath.CurrentSceneID, Instance.EditorPath.SceneDirectory);
 				if (Instance.EncorePalette[0] != "")
 				{
-					Instance.encorePaletteExists = true;
+					Instance.EncorePaletteExists = true;
 					if (Instance.EditorPath.isEncoreMode)
 					{
 						Instance.EncorePaletteButton.IsChecked = true;
-						Instance.useEncoreColors = true;
+						Instance.UITools.UseEncoreColors = true;
 					}
 				}
 
 				//Stage Tiles
-				if (Instance.useEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0], Instance.EditorPath.Browsed);
+				if (Instance.UITools.UseEncoreColors == true && Instance.EncorePalette[0] != "") Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, Instance.EncorePalette[0], Instance.EditorPath.Browsed);
 				else Instance.EditorPath.GetStageTiles(Instance.EditorPath.CurrentZone, null, Instance.EditorPath.Browsed);
 
 				//Tile Config
@@ -345,12 +345,12 @@ namespace ManiacEditor
 
 		public void ReadManiacINIFile()
 		{
-            Instance.EditorManiacINI.ClearSettings();
+            Instance.ManiacINI.ClearSettings();
             if (File.Exists(Instance.EditorPath.SceneFile_Directory + "\\maniac.ini"))
 			{
-                Instance.EditorManiacINI.UpdateFilePath();
-                Instance.EditorManiacINI.LoadFile();
-                Instance.EditorManiacINI.SetINIDefaultPrefrences();
+                Instance.ManiacINI.UpdateFilePath();
+                Instance.ManiacINI.LoadFile();
+                Instance.ManiacINI.SetINIDefaultPrefrences();
 
             }
 		}

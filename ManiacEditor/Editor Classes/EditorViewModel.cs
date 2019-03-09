@@ -23,7 +23,7 @@ namespace ManiacEditor
                 Editor.EditorState.ShiftY = (int)e.NewValue;
                 UpdateScrollBars();
             }
-            Editor.editorView.GraphicPanel.Render();
+            Editor.GraphicsModel.GraphicPanel.Render();
         }
 
         public void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
@@ -33,20 +33,20 @@ namespace ManiacEditor
                 Editor.EditorState.ShiftX = (int)e.NewValue;
                 UpdateScrollBars();
             }
-            Editor.editorView.GraphicPanel.Render();
+            Editor.GraphicsModel.GraphicPanel.Render();
         }
 
         public void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (AllowScrollUpdate)
             {
-                Editor.EditorState.ShiftY = (int)Editor.editorView.vScrollBar1.Value;
+                Editor.EditorState.ShiftY = (int)Editor.GraphicsModel.vScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(Editor.EditorState.zooming || Editor.EditorState.draggingSelection || Editor.EditorState.dragged || Editor.EditorState.scrolling)) Editor.editorView.GraphicPanel.Render();
+            if (!(Editor.EditorState.zooming || Editor.EditorState.draggingSelection || Editor.EditorState.dragged || Editor.EditorState.scrolling)) Editor.GraphicsModel.GraphicPanel.Render();
             if (Editor.EditorState.draggingSelection)
             {
-                Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
+                Editor.GraphicsModel.GraphicPanel.OnMouseMoveEventCreate();
             }
 
         }
@@ -55,13 +55,13 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.EditorState.ShiftX = (int)Editor.editorView.hScrollBar1.Value;
+                Editor.EditorState.ShiftX = (int)Editor.GraphicsModel.hScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(Editor.EditorState.zooming || Editor.EditorState.draggingSelection || Editor.EditorState.dragged || Editor.EditorState.scrolling)) Editor.editorView.GraphicPanel.Render();
+            if (!(Editor.EditorState.zooming || Editor.EditorState.draggingSelection || Editor.EditorState.dragged || Editor.EditorState.scrolling)) Editor.GraphicsModel.GraphicPanel.Render();
             if (Editor.EditorState.draggingSelection)
             {
-                Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
+                Editor.GraphicsModel.GraphicPanel.OnMouseMoveEventCreate();
             }
 
         }
@@ -98,47 +98,47 @@ namespace ManiacEditor
             Visibility nvscrollbar = Visibility.Visible;
             Visibility nhscrollbar = Visibility.Visible;
 
-            if (Editor.editorView.hScrollBar1.Maximum == 0) nhscrollbar = Visibility.Hidden;
-            if (Editor.editorView.vScrollBar1.Maximum == 0) nvscrollbar = Visibility.Hidden;
+            if (Editor.GraphicsModel.hScrollBar1.Maximum == 0) nhscrollbar = Visibility.Hidden;
+            if (Editor.GraphicsModel.vScrollBar1.Maximum == 0) nvscrollbar = Visibility.Hidden;
 
-            Editor.editorView.vScrollBar1.Visibility = nvscrollbar;
-            Editor.editorView.vScrollBar1Host.Child.Visibility = nvscrollbar;
-            Editor.editorView.hScrollBar1Host.Child.Visibility = nhscrollbar;
-            Editor.editorView.hScrollBar1.Visibility = nhscrollbar;
+            Editor.GraphicsModel.vScrollBar1.Visibility = nvscrollbar;
+            Editor.GraphicsModel.vScrollBar1Host.Child.Visibility = nvscrollbar;
+            Editor.GraphicsModel.hScrollBar1Host.Child.Visibility = nhscrollbar;
+            Editor.GraphicsModel.hScrollBar1.Visibility = nhscrollbar;
 
-            if (Editor.editorView.vScrollBar1.IsVisible)
+            if (Editor.GraphicsModel.vScrollBar1.IsVisible)
             {
-                Editor.editorView.vScrollBar1.LargeChange = Editor.editorView.vScrollBar1Host.Height;
-                Editor.editorView.vScrollBar1.SmallChange = Editor.editorView.vScrollBar1Host.Height / 8;
-                Editor.EditorState.ScreenHeight = (int)Editor.editorView.vScrollBar1Host.Height;
-                Editor.editorView.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.editorView.vScrollBar1.Value, Editor.editorView.vScrollBar1.Maximum));
-                if (Editor.editorView.vScrollBar1.Track.ViewportSize != Editor.SceneHeight) Editor.editorView.vScrollBar1.Track.ViewportSize = Editor.SceneHeight;
+                Editor.GraphicsModel.vScrollBar1.LargeChange = Editor.GraphicsModel.vScrollBar1Host.Height;
+                Editor.GraphicsModel.vScrollBar1.SmallChange = Editor.GraphicsModel.vScrollBar1Host.Height / 8;
+                Editor.EditorState.ScreenHeight = (int)Editor.GraphicsModel.vScrollBar1Host.Height;
+                Editor.GraphicsModel.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.GraphicsModel.vScrollBar1.Value, Editor.GraphicsModel.vScrollBar1.Maximum));
+                if (Editor.GraphicsModel.vScrollBar1.Track.ViewportSize != Editor.SceneHeight) Editor.GraphicsModel.vScrollBar1.Track.ViewportSize = Editor.SceneHeight;
             }
             else
             {
-                Editor.EditorState.ScreenHeight = Editor.editorView.GraphicPanel.Height;
+                Editor.EditorState.ScreenHeight = Editor.GraphicsModel.GraphicPanel.Height;
                 Editor.EditorState.ShiftY = 0;
-                Editor.editorView.vScrollBar1.Value = 0;
+                Editor.GraphicsModel.vScrollBar1.Value = 0;
             }
-            if (Editor.editorView.hScrollBar1.IsVisible)
+            if (Editor.GraphicsModel.hScrollBar1.IsVisible)
             {
-                Editor.editorView.hScrollBar1.LargeChange = Editor.editorView.hScrollBar1Host.Width;
-                Editor.editorView.hScrollBar1.SmallChange = Editor.editorView.hScrollBar1Host.Width / 8;
-                Editor.EditorState.ScreenWidth = (int)Editor.editorView.hScrollBar1Host.Width;
-                Editor.editorView.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.editorView.hScrollBar1.Value, Editor.editorView.hScrollBar1.Maximum));
-                if (Editor.editorView.hScrollBar1.Track.ViewportSize != Editor.SceneWidth) Editor.editorView.hScrollBar1.Track.ViewportSize = Editor.SceneWidth;
+                Editor.GraphicsModel.hScrollBar1.LargeChange = Editor.GraphicsModel.hScrollBar1Host.Width;
+                Editor.GraphicsModel.hScrollBar1.SmallChange = Editor.GraphicsModel.hScrollBar1Host.Width / 8;
+                Editor.EditorState.ScreenWidth = (int)Editor.GraphicsModel.hScrollBar1Host.Width;
+                Editor.GraphicsModel.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.GraphicsModel.hScrollBar1.Value, Editor.GraphicsModel.hScrollBar1.Maximum));
+                if (Editor.GraphicsModel.hScrollBar1.Track.ViewportSize != Editor.SceneWidth) Editor.GraphicsModel.hScrollBar1.Track.ViewportSize = Editor.SceneWidth;
             }
             else
             {
-                Editor.EditorState.ScreenWidth = Editor.editorView.GraphicPanel.Width;
+                Editor.EditorState.ScreenWidth = Editor.GraphicsModel.GraphicPanel.Width;
                 Editor.EditorState.ShiftX = 0;
-                Editor.editorView.hScrollBar1.Value = 0;
+                Editor.GraphicsModel.hScrollBar1.Value = 0;
             }
 
-            while (Editor.EditorState.ScreenWidth > Editor.editorView.GraphicPanel.Width)
-                Editor.ResizeGraphicPanel(Editor.editorView.GraphicPanel.Width * 2, Editor.editorView.GraphicPanel.Height);
-            while (Editor.EditorState.ScreenHeight > Editor.editorView.GraphicPanel.Height)
-                Editor.ResizeGraphicPanel(Editor.editorView.GraphicPanel.Width, Editor.editorView.GraphicPanel.Height * 2);
+            while (Editor.EditorState.ScreenWidth > Editor.GraphicsModel.GraphicPanel.Width)
+                Editor.ResizeGraphicPanel(Editor.GraphicsModel.GraphicPanel.Width * 2, Editor.GraphicsModel.GraphicPanel.Height);
+            while (Editor.EditorState.ScreenHeight > Editor.GraphicsModel.GraphicPanel.Height)
+                Editor.ResizeGraphicPanel(Editor.GraphicsModel.GraphicPanel.Width, Editor.GraphicsModel.GraphicPanel.Height * 2);
         }
 
         public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true)
@@ -149,18 +149,18 @@ namespace ManiacEditor
                 height = 10000000;
             }
 
-            Editor.editorView.vScrollBar1.Maximum = height - Editor.editorView.vScrollBar1Host.Height;
-            Editor.editorView.hScrollBar1.Maximum = width - Editor.editorView.hScrollBar1Host.Width;
+            Editor.GraphicsModel.vScrollBar1.Maximum = height - Editor.GraphicsModel.vScrollBar1Host.Height;
+            Editor.GraphicsModel.hScrollBar1.Maximum = width - Editor.GraphicsModel.hScrollBar1Host.Width;
 
-            Editor.editorView.GraphicPanel.DrawWidth = Math.Min((int)width, Editor.editorView.GraphicPanel.Width);
-            Editor.editorView.GraphicPanel.DrawHeight = Math.Min((int)height, Editor.editorView.GraphicPanel.Height);
+            Editor.GraphicsModel.GraphicPanel.DrawWidth = Math.Min((int)width, Editor.GraphicsModel.GraphicPanel.Width);
+            Editor.GraphicsModel.GraphicPanel.DrawHeight = Math.Min((int)height, Editor.GraphicsModel.GraphicPanel.Height);
 
             if (resizeForm) Form1_Resize(null, null);
 
             if (!Settings.mySettings.EntityFreeCam)
             {
-                Editor.editorView.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.editorView.hScrollBar1.Value, Editor.editorView.hScrollBar1.Maximum));
-                Editor.editorView.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.editorView.vScrollBar1.Value, Editor.editorView.vScrollBar1.Maximum));
+                Editor.GraphicsModel.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.GraphicsModel.hScrollBar1.Value, Editor.GraphicsModel.hScrollBar1.Maximum));
+                Editor.GraphicsModel.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.GraphicsModel.vScrollBar1.Value, Editor.GraphicsModel.vScrollBar1.Maximum));
             }
 
         }
@@ -207,23 +207,23 @@ namespace ManiacEditor
                 SetViewSize((int)(Editor.SceneWidth * Editor.EditorState.Zoom), (int)(Editor.SceneHeight * Editor.EditorState.Zoom), updateControls);
 
 
-            if (Editor.editorView.hScrollBar1.IsVisible)
+            if (Editor.GraphicsModel.hScrollBar1.IsVisible)
             {
                 Editor.EditorState.ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Editor.EditorState.Zoom - zoom_point.X);
-                Editor.EditorState.ShiftX = (int)Math.Min((Editor.editorView.hScrollBar1.Maximum), Math.Max(0, Editor.EditorState.ShiftX));
-                Editor.editorView.hScrollBar1.Value = Editor.EditorState.ShiftX;
+                Editor.EditorState.ShiftX = (int)Math.Min((Editor.GraphicsModel.hScrollBar1.Maximum), Math.Max(0, Editor.EditorState.ShiftX));
+                Editor.GraphicsModel.hScrollBar1.Value = Editor.EditorState.ShiftX;
             }
-            if (Editor.editorView.vScrollBar1.IsVisible)
+            if (Editor.GraphicsModel.vScrollBar1.IsVisible)
             {
                 Editor.EditorState.ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Editor.EditorState.Zoom - zoom_point.Y);
-                Editor.EditorState.ShiftY = (int)Math.Min((Editor.editorView.vScrollBar1.Maximum), Math.Max(0, Editor.EditorState.ShiftY));
-                Editor.editorView.vScrollBar1.Value = Editor.EditorState.ShiftY;
+                Editor.EditorState.ShiftY = (int)Math.Min((Editor.GraphicsModel.vScrollBar1.Maximum), Math.Max(0, Editor.EditorState.ShiftY));
+                Editor.GraphicsModel.vScrollBar1.Value = Editor.EditorState.ShiftY;
             }
 
 
             Editor.EditorState.zooming = false;
 
-            if (updateControls) Editor.UpdateControls();
+            if (updateControls) Editor.UI.UpdateControls();
         }
 
         public void ResetViewSize()
@@ -232,19 +232,19 @@ namespace ManiacEditor
         }
         public void ResizeGraphicPanel(int width = 0, int height = 0)
         {
-            if (Editor.mySettings.EntityFreeCam)
+            if (Settings.mySettings.EntityFreeCam)
             {
                 width = Editor.SceneWidth;
                 height = Editor.SceneHeight;
             }
 
-            Editor.editorView.GraphicPanel.Width = width;
-            Editor.editorView.GraphicPanel.Height = height;
+            Editor.GraphicsModel.GraphicPanel.Width = width;
+            Editor.GraphicsModel.GraphicPanel.Height = height;
 
-            Editor.editorView.GraphicPanel.ResetDevice();
+            Editor.GraphicsModel.GraphicPanel.ResetDevice();
 
-            Editor.editorView.GraphicPanel.DrawWidth = Math.Min((int)Editor.editorView.hScrollBar1.Maximum, Editor.editorView.GraphicPanel.Width);
-            Editor.editorView.GraphicPanel.DrawHeight = Math.Min((int)Editor.editorView.vScrollBar1.Maximum, Editor.editorView.GraphicPanel.Height);
+            Editor.GraphicsModel.GraphicPanel.DrawWidth = Math.Min((int)Editor.GraphicsModel.hScrollBar1.Maximum, Editor.GraphicsModel.GraphicPanel.Width);
+            Editor.GraphicsModel.GraphicPanel.DrawHeight = Math.Min((int)Editor.GraphicsModel.vScrollBar1.Maximum, Editor.GraphicsModel.GraphicPanel.Height);
         }
         #endregion
     }

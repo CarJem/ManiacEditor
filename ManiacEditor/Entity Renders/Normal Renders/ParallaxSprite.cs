@@ -27,14 +27,14 @@ namespace ManiacEditor.Entity_Renders
             }
 
             var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
-            if (e.EditorInstance.showParallaxSprites)
+            if (e.EditorInstance.UITools.ShowParallaxSprites)
             {
                 editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2(Animation.parallaxSprite, d, aniID, -1, fliph, flipv, false);
             }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                if (e.EditorInstance.showParallaxSprites)
+                if (e.EditorInstance.UITools.ShowParallaxSprites)
                 {
                     frame = editorAnim.Frames[Animation.index];
                 }

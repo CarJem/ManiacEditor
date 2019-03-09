@@ -23,7 +23,7 @@ using System.Reflection;
 
 namespace ManiacEditor
 {
-    public class EditorControlModel
+    public class EditorUIControl
     {
         private Editor Editor;
 
@@ -79,7 +79,7 @@ namespace ManiacEditor
 		#endregion
 
 
-		public EditorControlModel(Editor instance)
+		public EditorUIControl(Editor instance)
         {
             Editor = instance;
 			UpdateTooltips();
@@ -212,7 +212,7 @@ namespace ManiacEditor
 			//Run Scene
 			else if (isCombo(e, myKeyBinds.RunScene))
 			{
-                Editor.Interactions.RunScene_Click(null, null);
+                Editor.UIEvents.RunScene_Click(null, null);
 			}
 			//Show Path A
 			else if (isCombo(e, myKeyBinds.ShowPathA) && Editor.IsSceneLoaded())
@@ -457,17 +457,17 @@ namespace ManiacEditor
 				scrolling = true;
 				scrollingDragged = false;
 				Editor.EditorState.scrollPosition = new Point(e.X - ShiftX, e.Y - ShiftY);
-				if (Editor.editorView.vScrollBar1.IsVisible && Editor.editorView.hScrollBar1.IsVisible)
+				if (Editor.GraphicsModel.vScrollBar1.IsVisible && Editor.GraphicsModel.hScrollBar1.IsVisible)
 				{
 					Editor.Cursor = System.Windows.Input.Cursors.ScrollAll;
 					SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
 				}
-				else if (Editor.editorView.vScrollBar1.IsVisible)
+				else if (Editor.GraphicsModel.vScrollBar1.IsVisible)
 				{
 					Editor.Cursor = System.Windows.Input.Cursors.ScrollWE;
 					SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
 				}
-				else if (Editor.editorView.hScrollBar1.IsVisible)
+				else if (Editor.GraphicsModel.hScrollBar1.IsVisible)
 				{
 					Editor.Cursor = System.Windows.Input.Cursors.ScrollNS;
 					SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
@@ -492,7 +492,7 @@ namespace ManiacEditor
 		}
 		public void GenerateMouseToolTip(System.Windows.Forms.MouseEventArgs e)
 		{
-			if (!Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel))
+			if (!Extensions.MouseIsOverGraphicsPanel(Editor.GraphicsModel.GraphicPanel))
 			{
 				RemoveToolTip();
 			}
@@ -519,9 +519,9 @@ namespace ManiacEditor
 					}
 					tip.Content += Environment.NewLine;
 					tip.Content += Environment.NewLine + String.Format("Copy Air: {0}", (Editor.CopyAir ? "ON" : "OFF"));
-					tip.Content += Environment.NewLine + String.Format("Swap Slot ID Mode: {0}", (Editor.rightClicktoSwapSlotID ? "ON" : "OFF"));
+					tip.Content += Environment.NewLine + String.Format("Swap Slot ID Mode: {0}", (Editor.UITools.RightClicktoSwapSlotID ? "ON" : "OFF"));
 					Editor.ViewPanelContextMenu.ToolTip = tip;
-					if (Extensions.MouseIsOverGraphicsPanel(Editor.editorView.GraphicPanel)) tip.IsOpen = true;
+					if (Extensions.MouseIsOverGraphicsPanel(Editor.GraphicsModel.GraphicPanel)) tip.IsOpen = true;
 					previousX = e.X;
 					previousY = e.Y;
 				}
@@ -539,7 +539,7 @@ namespace ManiacEditor
 		public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
 		{
 
-			if (Editor.EnablePixelCountMode == false)
+			if (Editor.UITools.EnablePixelCountMode == false)
 			{
 				Editor.positionLabel.Content = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
 			}
@@ -648,7 +648,7 @@ namespace ManiacEditor
 
 		public void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			if (!scrolling) Editor.editorView.GraphicPanel.Focus();
+			if (!scrolling) Editor.GraphicsModel.GraphicPanel.Focus();
 
 			if (e.Button == MouseButtons.Left) Left();
 			else if (e.Button == MouseButtons.Right) Right();
@@ -732,7 +732,7 @@ namespace ManiacEditor
 						else if (!ShiftPressed() && !CtrlPressed() && Editor.entities.GetEntityAt(clicked_point) != null)
 						{
 							Editor.entities.Select(clicked_point);
-							Editor.SetSelectOnlyButtonsState();
+							Editor.UI.SetSelectOnlyButtonsState();
 							// Start dragging the single selected entity
 							dragged = true;
 							draggedX = 0;
@@ -794,7 +794,7 @@ namespace ManiacEditor
 		{
 			if (ForceUpdateMousePos) UpdateScrollerPosition(e);
 			if (Editor.InstanceID != -1 && !Editor.KickStartMegaManiacRenderLoopFinished) Editor.KickStartMegaManiacRenderLoop = true;
-            if (scrolling || scrollingDragged) Editor.editorView.GraphicPanel.Render();
+            if (scrolling || scrollingDragged) Editor.GraphicsModel.GraphicPanel.Render();
 
             Common();
 
@@ -934,8 +934,8 @@ namespace ManiacEditor
 
 				}
 
-                double xMove = (Editor.editorView.hScrollBar1.IsVisible) ? e.X - ShiftX - Editor.EditorState.scrollPosition.X : 0;
-                double yMove = (Editor.editorView.vScrollBar1.IsVisible) ? e.Y - ShiftY - Editor.EditorState.scrollPosition.Y : 0;
+                double xMove = (Editor.GraphicsModel.hScrollBar1.IsVisible) ? e.X - ShiftX - Editor.EditorState.scrollPosition.X : 0;
+                double yMove = (Editor.GraphicsModel.vScrollBar1.IsVisible) ? e.Y - ShiftY - Editor.EditorState.scrollPosition.Y : 0;
 
 				if (Math.Abs(xMove) < 15) xMove = 0;
 				if (Math.Abs(yMove) < 15) yMove = 0;
@@ -993,17 +993,17 @@ namespace ManiacEditor
 					}
 					else
 					{
-						if (Editor.editorView.vScrollBar1.IsVisible && Editor.editorView.hScrollBar1.IsVisible)
+						if (Editor.GraphicsModel.vScrollBar1.IsVisible && Editor.GraphicsModel.hScrollBar1.IsVisible)
 						{
 							Editor.Cursor = System.Windows.Input.Cursors.ScrollAll;
 							SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
 						}
-						else if (Editor.editorView.vScrollBar1.IsVisible)
+						else if (Editor.GraphicsModel.vScrollBar1.IsVisible)
 						{
 							Editor.Cursor = System.Windows.Input.Cursors.ScrollNS;
 							SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
 						}
-						else if (Editor.editorView.hScrollBar1.IsVisible)
+						else if (Editor.GraphicsModel.hScrollBar1.IsVisible)
 						{
 							Editor.Cursor = System.Windows.Input.Cursors.ScrollWE;
 							SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
@@ -1021,26 +1021,26 @@ namespace ManiacEditor
 
 				if (x < 0) x = 0;
 				if (y < 0) y = 0;
-                if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
-				if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
+                if (x > Editor.GraphicsModel.hScrollBar1.Maximum) x = Editor.GraphicsModel.hScrollBar1.Maximum;
+				if (y > Editor.GraphicsModel.vScrollBar1.Maximum) y = Editor.GraphicsModel.vScrollBar1.Maximum;
 
 
 				if (x != position.X || y != position.Y)
 				{
 
-					if (Editor.editorView.vScrollBar1.IsVisible)
+					if (Editor.GraphicsModel.vScrollBar1.IsVisible)
 					{
-						Editor.editorView.vScrollBar1.Value = y;
+						Editor.GraphicsModel.vScrollBar1.Value = y;
 					}
-					if (Editor.editorView.hScrollBar1.IsVisible)
+					if (Editor.GraphicsModel.hScrollBar1.IsVisible)
 					{
-						Editor.editorView.hScrollBar1.Value = x;
+						Editor.GraphicsModel.hScrollBar1.Value = x;
 					}
 
-					Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
+					Editor.GraphicsModel.GraphicPanel.OnMouseMoveEventCreate();
 
 				}
-                Editor.editorView.GraphicPanel.Render();
+                Editor.GraphicsModel.GraphicPanel.Render();
 			}
 			void Editing()
 			{
@@ -1121,8 +1121,8 @@ namespace ManiacEditor
 				void EdgeMove()
 				{
 					System.Windows.Point position = new System.Windows.Point(ShiftX, ShiftY); ;
-					double ScreenMaxX = position.X + Editor.editorView.splitContainer1.Panel1.Width - (int)Editor.editorView.vScrollBar.ActualWidth;
-                    double ScreenMaxY = position.Y + Editor.editorView.splitContainer1.Panel1.Height - (int)Editor.editorView.hScrollBar.ActualHeight;
+					double ScreenMaxX = position.X + Editor.GraphicsModel.splitContainer1.Panel1.Width - (int)Editor.GraphicsModel.vScrollBar.ActualWidth;
+                    double ScreenMaxY = position.Y + Editor.GraphicsModel.splitContainer1.Panel1.Height - (int)Editor.GraphicsModel.hScrollBar.ActualHeight;
                     double ScreenMinX = position.X;
                     double ScreenMinY = position.Y;
 
@@ -1148,21 +1148,21 @@ namespace ManiacEditor
 
 					if (x < 0) x = 0;
 					if (y < 0) y = 0;
-					if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
-					if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
+					if (x > Editor.GraphicsModel.hScrollBar1.Maximum) x = Editor.GraphicsModel.hScrollBar1.Maximum;
+					if (y > Editor.GraphicsModel.vScrollBar1.Maximum) y = Editor.GraphicsModel.vScrollBar1.Maximum;
 
 					if (x != position.X || y != position.Y)
 					{
-						if (Editor.editorView.vScrollBar1.IsVisible)
+						if (Editor.GraphicsModel.vScrollBar1.IsVisible)
 						{
-							Editor.editorView.vScrollBar1.Value = y;
+							Editor.GraphicsModel.vScrollBar1.Value = y;
 						}
-						if (Editor.editorView.hScrollBar1.IsVisible)
+						if (Editor.GraphicsModel.hScrollBar1.IsVisible)
 						{
-							Editor.editorView.hScrollBar1.Value = x;
+							Editor.GraphicsModel.hScrollBar1.Value = x;
 						}
-						Editor.editorView.GraphicPanel.OnMouseMoveEventCreate();
-                        if (!scrolling) Editor.editorView.GraphicPanel.Render();
+						Editor.GraphicsModel.GraphicPanel.OnMouseMoveEventCreate();
+                        if (!scrolling) Editor.GraphicsModel.GraphicPanel.Render();
 
 
 
@@ -1236,24 +1236,24 @@ namespace ManiacEditor
 					int newGridY = (int)((e.Y / Zoom) / Editor.magnetSize) * Editor.magnetSize;
 					Point oldPointGrid = new Point(0, 0);
 					Point newPointGrid = new Point(0, 0);
-					if (Editor.UseMagnetMode && IsEntitiesEdit())
+					if (Editor.UITools.UseMagnetMode && IsEntitiesEdit())
 					{
-						if (Editor.useMagnetXAxis == true && Editor.useMagnetYAxis == true)
+						if (Editor.UITools.UseMagnetXAxis == true && Editor.UITools.UseMagnetYAxis == true)
 						{
 							oldPointGrid = new Point(oldGridX, oldGridY);
 							newPointGrid = new Point(newGridX, newGridY);
 						}
-						if (Editor.useMagnetXAxis && !Editor.useMagnetYAxis)
+						if (Editor.UITools.UseMagnetXAxis && !Editor.UITools.UseMagnetYAxis)
 						{
 							oldPointGrid = new Point(oldGridX, (int)(lastY / Zoom));
 							newPointGrid = new Point(newGridX, (int)(e.Y / Zoom));
 						}
-						if (!Editor.useMagnetXAxis && Editor.useMagnetYAxis)
+						if (!Editor.UITools.UseMagnetXAxis && Editor.UITools.UseMagnetYAxis)
 						{
 							oldPointGrid = new Point((int)(lastX / Zoom), oldGridY);
 							newPointGrid = new Point((int)(e.X / Zoom), newGridY);
 						}
-						if (!Editor.useMagnetXAxis && !Editor.useMagnetYAxis)
+						if (!Editor.UITools.UseMagnetXAxis && !Editor.UITools.UseMagnetYAxis)
 						{
 							oldPointGrid = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
 							newPointGrid = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
@@ -1269,17 +1269,17 @@ namespace ManiacEditor
 					Editor.UpdateEditLayerActions();
 					if (IsEntitiesEdit())
 					{
-						if (Editor.UseMagnetMode)
+						if (Editor.UITools.UseMagnetMode)
 						{
 							int x = Editor.entities.SelectedEntities[0].Entity.Position.X.High;
 							int y = Editor.entities.SelectedEntities[0].Entity.Position.Y.High;
 
-							if (x % Editor.magnetSize != 0 && Editor.useMagnetXAxis)
+							if (x % Editor.magnetSize != 0 && Editor.UITools.UseMagnetXAxis)
 							{
 								int offsetX = x % Editor.magnetSize;
 								oldPointGrid.X -= offsetX;
 							}
-							if (y % Editor.magnetSize != 0 && Editor.useMagnetYAxis)
+							if (y % Editor.magnetSize != 0 && Editor.UITools.UseMagnetYAxis)
 							{
 								int offsetY = y % Editor.magnetSize;
 								oldPointGrid.Y -= offsetY;
@@ -1290,7 +1290,7 @@ namespace ManiacEditor
 						try
 						{
 
-							if (Editor.UseMagnetMode)
+							if (Editor.UITools.UseMagnetMode)
 							{
 								Editor.entities.MoveSelected(oldPointGrid, newPointGrid, CtrlPressed() && Editor.EditorState.startDragged);
 							}
@@ -1306,7 +1306,7 @@ namespace ManiacEditor
 							Editor.EditorState.dragged = false;
 							return;
 						}
-						if (Editor.UseMagnetMode)
+						if (Editor.UITools.UseMagnetMode)
 						{
 							draggedX += newPointGrid.X - oldPointGrid.X;
 							draggedY += newPointGrid.Y - oldPointGrid.Y;
@@ -1319,7 +1319,7 @@ namespace ManiacEditor
 						if (CtrlPressed() && Editor.EditorState.startDragged)
 						{
 							Editor.UpdateEntitiesToolbarList();
-							Editor.SetSelectOnlyButtonsState();
+							Editor.UI.SetSelectOnlyButtonsState();
 						}
 						Editor.entitiesToolbar.UpdateCurrentEntityProperites();
 					}
@@ -1329,8 +1329,10 @@ namespace ManiacEditor
 			void Common()
 			{
 				UpdatePositionLabel(e);
-				GenerateMouseToolTip(e);
-			}
+                GenerateMouseToolTip(e);
+                Editor.UI.UpdateGameRunningButton(Editor.EditorScene != null);
+
+            }
 		}
 		public void MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
@@ -1340,7 +1342,7 @@ namespace ManiacEditor
 
 
 
-			Editor.UpdateControls();
+			Editor.UI.UpdateControls();
 
 			void Left()
 			{
@@ -1380,7 +1382,7 @@ namespace ManiacEditor
 							Editor.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 
 							if (IsEntitiesEdit()) Editor.entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
-							Editor.SetSelectOnlyButtonsState();
+							Editor.UI.SetSelectOnlyButtonsState();
 							Editor.UpdateEditLayerActions();
 
 						}
@@ -1411,7 +1413,7 @@ namespace ManiacEditor
 							Editor.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 
 							if (IsEntitiesEdit()) Editor.entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
-							Editor.SetSelectOnlyButtonsState();
+							Editor.UI.SetSelectOnlyButtonsState();
 							Editor.UpdateEditLayerActions();
 
 						}
@@ -1437,7 +1439,7 @@ namespace ManiacEditor
 						if (IsTilesEdit() && !IsChunksEdit()) TilesEdit();
 						else if (IsChunksEdit()) ChunksEdit();
 						else if (IsEntitiesEdit()) EntitiesEdit();
-						Editor.SetSelectOnlyButtonsState();
+						Editor.UI.SetSelectOnlyButtonsState();
 						ClickedX = -1;
 						ClickedY = -1;
 
@@ -1478,7 +1480,7 @@ namespace ManiacEditor
 							}
 							Editor.undo.Push(action);
 							Editor.redo.Clear();
-							Editor.UpdateControls();
+							Editor.UI.UpdateControls();
 						}
 					}
 				}
@@ -1487,7 +1489,7 @@ namespace ManiacEditor
 			{
 				if (IsEntitiesEdit())
 				{
-					if (Editor.entities.SelectedEntities.Count == 2 && Editor.rightClicktoSwapSlotID)
+					if (Editor.entities.SelectedEntities.Count == 2 && Editor.UITools.RightClicktoSwapSlotID)
 					{
 						var entity1 = Editor.entities.SelectedEntities[0];
 						var entity2 = Editor.entities.SelectedEntities[1];
@@ -1506,7 +1508,7 @@ namespace ManiacEditor
 		}
 		public void MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			Editor.editorView.GraphicPanel.Focus();
+			Editor.GraphicsModel.GraphicPanel.Focus();
 			if (CtrlPressed()) Ctrl();
 			else NoCtrl();
 
@@ -1533,31 +1535,31 @@ namespace ManiacEditor
 			}
 			void NoCtrl()
 			{
-				if (Editor.editorView.vScrollBar1.IsVisible || Editor.editorView.hScrollBar1.IsVisible) ScrollMove();
+				if (Editor.GraphicsModel.vScrollBar1.IsVisible || Editor.GraphicsModel.hScrollBar1.IsVisible) ScrollMove();
 				if (mySettings.EntityFreeCam) FreeCamScroll();
 
 				void ScrollMove()
 				{
 					if (ScrollDirection == (int)ScrollDir.Y && !ScrollLocked)
 					{
-                        if (Editor.editorView.vScrollBar1.IsVisible) VScroll();
+                        if (Editor.GraphicsModel.vScrollBar1.IsVisible) VScroll();
                         else HScroll();
                     }
 					else if (ScrollDirection == (int)ScrollDir.X && !ScrollLocked)
 					{
-                        if (Editor.editorView.hScrollBar1.IsVisible) HScroll();
+                        if (Editor.GraphicsModel.hScrollBar1.IsVisible) HScroll();
                         else VScroll();
 					}
 					else if (ScrollLocked)
 					{
 						if (ScrollDirection == (int)ScrollDir.Y)
 						{
-                            if (Editor.editorView.vScrollBar1.IsVisible) VScroll();
+                            if (Editor.GraphicsModel.vScrollBar1.IsVisible) VScroll();
                             else HScroll();
                         }
 						else
 						{
-                            if (Editor.editorView.hScrollBar1.IsVisible) HScroll();
+                            if (Editor.GraphicsModel.hScrollBar1.IsVisible) HScroll();
                             else VScroll();
                         }
 
@@ -1572,23 +1574,23 @@ namespace ManiacEditor
 
             void VScroll()
             {
-                double y = Editor.editorView.vScrollBar1.Value - e.Delta;
+                double y = Editor.GraphicsModel.vScrollBar1.Value - e.Delta;
                 if (y < 0) y = 0;
-                if (y > Editor.editorView.vScrollBar1.Maximum) y = Editor.editorView.vScrollBar1.Maximum;
-                Editor.editorView.vScrollBar1.Value = y;
+                if (y > Editor.GraphicsModel.vScrollBar1.Maximum) y = Editor.GraphicsModel.vScrollBar1.Maximum;
+                Editor.GraphicsModel.vScrollBar1.Value = y;
             }
 
             void HScroll()
             {
-                double x = Editor.editorView.hScrollBar1.Value - e.Delta;
+                double x = Editor.GraphicsModel.hScrollBar1.Value - e.Delta;
                 if (x < 0) x = 0;
-                if (x > Editor.editorView.hScrollBar1.Maximum) x = Editor.editorView.hScrollBar1.Maximum;
-                Editor.editorView.hScrollBar1.Value = x;
+                if (x > Editor.GraphicsModel.hScrollBar1.Maximum) x = Editor.GraphicsModel.hScrollBar1.Maximum;
+                Editor.GraphicsModel.hScrollBar1.Value = x;
             }
         }
 		public void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			Editor.editorView.GraphicPanel.Focus();
+			Editor.GraphicsModel.GraphicPanel.Focus();
 			if (e.Button == MouseButtons.Right && Editor.InteractionToolButton.IsChecked.Value) InteractionTool();
 
 			void InteractionTool() {

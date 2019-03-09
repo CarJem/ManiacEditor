@@ -342,7 +342,7 @@ namespace ManiacEditor
 							Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
 							map = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
 							//Encore Colors
-							if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+							if (EditorInstance.UITools.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
 							Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
 							disposable.Dispose();
 						}
@@ -354,7 +354,7 @@ namespace ManiacEditor
                 {
 						map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
 						//Encore Colors
-						if (EditorInstance.useEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);		
+						if (EditorInstance.UITools.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);		
 				}
 
 
@@ -594,7 +594,7 @@ namespace ManiacEditor
         }
         public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
         {
-            if (EditorInstance.useEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+            if (EditorInstance.UITools.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
             else return map;
         }
         public string GetEditorStaticBitmapPath(string assetName)

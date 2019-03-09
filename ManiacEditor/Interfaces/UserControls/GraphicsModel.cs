@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ManiacEditor.Interfaces
 {
-    public partial class EditorView : UserControl, IDrawArea
+    public partial class EditorGraphicsModel : UserControl, IDrawArea
     {
         public Editor EditorInstance;
         public ManiacEditor.DevicePanel GraphicPanel;
@@ -21,7 +21,7 @@ namespace ManiacEditor.Interfaces
 		public System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar.scroller; }
 		public System.Windows.Controls.Primitives.ScrollBar hScrollBar1 { get => hScrollBar.scroller; }
 
-		public EditorView(Editor instance)
+		public EditorGraphicsModel(Editor instance)
         {
             EditorInstance = instance;
             InitializeComponent();
@@ -65,7 +65,7 @@ namespace ManiacEditor.Interfaces
 
         public Rectangle GetScreen()
         {
-            if (EditorInstance.mySettings.EntityFreeCam) return new Rectangle(EditorInstance.EditorState.CustomX, EditorInstance.EditorState.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            if (Settings.mySettings.EntityFreeCam) return new Rectangle(EditorInstance.EditorState.CustomX, EditorInstance.EditorState.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
             else return new Rectangle((int)EditorInstance.EditorState.ShiftX, (int)EditorInstance.EditorState.ShiftY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
         }
 

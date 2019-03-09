@@ -477,6 +477,8 @@
                                             <MenuItem x:Name="noConfigFilesToolStripMenuItem" Header="No Config Files" IsEnabled="False"/>
                                         </MenuItem>
                                         <MenuItem x:Name="editConfigsToolStripMenuItem1" Header="Edit Configs" Click="EditConfigsToolStripMenuItem_Click"/>
+                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                        <MenuItem x:Name="gameOptionsMenuItem" Header="Game Options..." Click="GameOptionsMenuItem_Click"/>
                                     </MenuItem>
                                 </Menu>
                             </StackPanel>

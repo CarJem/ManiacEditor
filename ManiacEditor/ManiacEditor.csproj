@@ -410,15 +410,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
-    <Compile Include="Editor Classes\EditorCommon.cs" />
+    <Compile Include="Editor Classes\EditorUITools.cs" />
+    <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
+    <Compile Include="Editor Classes\EditorCore.cs" />
     <Compile Include="Editor Classes\EditorManiacINI.cs" />
     <Compile Include="Editor Classes\EditorDirectories.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorFindReplace.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />
-    <Compile Include="Editor Classes\EditorInteractions.cs" />
+    <Compile Include="Editor Classes\EditorUIEvents.cs" />
     <Compile Include="Editor Classes\EditorPath.cs" />
     <Compile Include="Editor Classes\EditorSceneLoading.cs" />
     <Compile Include="Editor Classes\EditorTheming.cs" />
@@ -758,6 +760,9 @@
     <Compile Include="Interfaces\UserControls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\WPF UI\Editor Tools\CheatCodeManager.xaml.cs">
+      <DependentUpon>CheatCodeManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\WPF UI\Editor Tools\RenderListManager.xaml.cs">
       <DependentUpon>RenderListManager.xaml</DependentUpon>
     </Compile>
@@ -872,14 +877,14 @@
     <Compile Include="Interfaces\UserControls\EntityPropertiesView.xaml.cs">
       <DependentUpon>EntityPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorState.cs" />
+    <Compile Include="Editor Classes\EditorStateModel.cs" />
     <Compile Include="Interfaces\WinForm UI\DeviceLostBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\WinForm UI\DeviceLostBox.Designer.cs">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorControlModel.cs" />
+    <Compile Include="Editor Classes\EditorUIControls.cs" />
     <Compile Include="Extensions\Discord.cs" />
     <Compile Include="Enums + Shorthandings\DuplicateAction.cs" />
     <Compile Include="Editor Classes\EditorAnimations.cs" />
@@ -1635,6 +1640,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\UserControls\SplitButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\WPF UI\Editor Tools\CheatCodeManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

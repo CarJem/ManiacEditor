@@ -1,6 +1,6 @@
 ﻿namespace ManiacEditor.Interfaces
 {
-    partial class EditorView
+    partial class EditorGraphicsModel
     {
         /// <summary> 
         /// Required designer variable.
