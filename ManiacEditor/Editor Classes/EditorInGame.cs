@@ -82,34 +82,35 @@ namespace ManiacEditor
         #endregion
 
         public static IList<string> GameVersion = new List<string> { "1.3", "1.4", "1.6", "N/A" };
-        public static string SelectedGameVersion = "1.4";
+        public static string SelectedGameVersion = "1.6";
 
 
-        public static IList<int> ObjectStart = new List<int> { 0x00, 0x0086FFA0, 0x00, 0x00 };
-        public static IList<int> ObjectSize = new List<int> { 0x00, 0x458, 0x00, 0x00 };
+        public static IList<bool> IsOffset = new List<bool> { false, false, true, false };
+        public static IList<int> ObjectStart = new List<int> { 0x00, 0x0086FFA0, 0x0047B010, 0x00 };
+        public static IList<int> ObjectSize = new List<int> { 0x00, 0x458, 0x458, 0x00 };
 
-        public static IList<int> CheckpointBase = new List<int> { 0x00, 0x00EBB6C4, 0x00, 0x00 };
-        public static IList<int> PlayerBase = new List<int> { 0x00, 0x85E9A0, 0x00, 0x00 };
-        public static IList<int> CurrentSceneAddress = new List<int> { 0x00, 0x00E48758, 0x00, 0x00 };
-        public static IList<int> GameStateAddress = new List<int> { 0x00, 0x00E48776, 0x00, 0x00 };
+        public static IList<int> CheckpointBase = new List<int> { 0x00, 0x00EBB6C4, 0x00, 0x00 }; // TODO: Find CheckpointBase for 1.06
+        public static IList<int> PlayerBase = new List<int> { 0x00, 0x85E9A0, 0x00469A10, 0x00 };
+        public static IList<int> CurrentSceneAddress = new List<int> { 0x00, 0x00E48758, 0x00A535C4, 0x00 };
+        public static IList<int> GameStateAddress = new List<int> { 0x00, 0x00E48776, 0x00A535E2, 0x00 };
         public static int Player1Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 0); } 
         public static int Player2Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 1); }
         public static int Player3Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 2); }
         public static int Player4Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 3); }
 
-        public static IList<int> CurrentScene_ptr = new List<int> { 0x00CCF6F8, 0x00E48758, 0x00, 0x00 };
-        public static IList<int> GameState_ptr = new List<int> { 0x00, 0x00E48776, 0x00, 0x00 };
-        public static IList<int> IsGameRunning_ptr = new List<int> { 0x00628094, 0x0065D1C8, 0x00, 0x00 };
-        public static IList<int> Player1_ControllerID_ptr = new List<int> { 0x00A4C860, 0x0085EB44, 0x00, 0x00 };
-        public static IList<int> Player2_ControllerID_ptr = new List<int> { 0x00, 0x0085EF9C, 0x00, 0x00, 0x00 };
+        public static IList<int> CurrentScene_ptr = new List<int> { 0x00CCF6F8, 0x00E48758, 0x00A535C4, 0x00 };
+        public static IList<int> GameState_ptr = new List<int> { 0x00, 0x00E48776, 0x00A535E2, 0x00 };
+        public static IList<int> IsGameRunning_ptr = new List<int> { 0x00628094, 0x0065D1C8, 0x002681D8, 0x00 };
+        public static IList<int> Player1_ControllerID_ptr = new List<int> { 0x00A4C860, 0x0085EB44, 0x00469BB4, 0x00 };
+        public static IList<int> Player2_ControllerID_ptr = new List<int> { 0x00, 0x0085EF9C, 0x0046A00C, 0x00 };
 
-        public static IList<int> EnableDebugMode = new List<int> { 0x00, 0x00E48768, 0x00, 0x00 };
-        public static IList<int> EnableDevMenu = new List<int> { 0x00, 0x006F1806, 0x00, 0x00 };
-        public static IList<int> DisableBackgroundPausing = new List<int> { 0x00, 0x005FDD00, 0x00, 0x00 };
+        public static IList<int> EnableDebugMode = new List<int> { 0x00, 0x00E48768, 0x00A535D4, 0x00 };
+        public static IList<int> EnableDevMenu = new List<int> { 0x00, 0x006F1806, 0x002FC867, 0x00 };
+        public static IList<int> DisableBackgroundPausing = new List<int> { 0x00, 0x005FDD00, 0x001FE5F0, 0x00 };
 
-        public static IList<byte> EnableDebugMode_Values = new List<byte> { 0x01, 0x01, 0x00, 0x00 };
-        public static IList<byte> EnableDevMenu_Values = new List<byte> { 0x01, 0x01, 0x00, 0x00 };
-        public static IList<byte> DisableBackgroundPausing_Values = new List<byte> { 0xEB, 0xEB, 0x00, 0x00 };
+        public static IList<byte> EnableDebugMode_Values = new List<byte> { 0x01, 0x01, 0x01, 0x00 };
+        public static IList<byte> EnableDevMenu_Values = new List<byte> { 0x01, 0x01, 0x01, 0x00 };
+        public static IList<byte> DisableBackgroundPausing_Values = new List<byte> { 0xEB, 0xEB, 0xEB, 0x00 };
 
         private Editor Editor;
 
@@ -610,6 +611,10 @@ namespace ManiacEditor
         public void UseCheatCodes(Process p)
         {
             Editor.GameMemory.Attach(p);
+            if (IsOffset[GameVersion.IndexOf(SelectedGameVersion)])
+                Editor.GameMemory.Offset = (int)p.MainModule.BaseAddress;
+            else
+                Editor.GameMemory.Offset = 0;
 
             // Mania Plus Patches
             if (Settings.mySettings.EnableDebugMode) Editor.GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug

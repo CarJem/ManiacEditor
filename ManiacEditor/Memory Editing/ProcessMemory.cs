@@ -14,6 +14,9 @@ namespace ManiacEditor
         // Handle used to Read or Write to
         public IntPtr ProcessHandle;
 
+        // Offsets the Addresses (Only use for version 1.06 and newer)
+        public int Offset = 0;
+
         public ProcessMemory(Process process) : this(process.Handle) { }
 
         public ProcessMemory(IntPtr processHandle)
@@ -35,14 +38,14 @@ namespace ManiacEditor
         {
             byte[] Buffer = new byte[Length];
             IntPtr Zero = IntPtr.Zero;
-            ReadProcessMemory(ProcessHandle, (IntPtr)Address, Buffer, (UInt32)Buffer.Length, out Zero);
+            ReadProcessMemory(ProcessHandle, (IntPtr)(Offset + Address), Buffer, (UInt32)Buffer.Length, out Zero);
             return Buffer;
         }
 
         private void Write(int address, byte[] bytes)
         {
             IntPtr Zero = IntPtr.Zero;
-            WriteProcessMemory(ProcessHandle, (IntPtr)address, bytes, (UInt32)bytes.Length, out Zero);
+            WriteProcessMemory(ProcessHandle, (IntPtr)(Offset + address), bytes, (UInt32)bytes.Length, out Zero);
         }
 
 
