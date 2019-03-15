@@ -19,11 +19,11 @@ namespace ManiacEditor
         public bool OptimizeAssets = false;
 
         private List<EditorEntity> _Entities = new List<EditorEntity>();
-        private Dictionary<ushort, EditorEntity> _EntitiesBySlot = new Dictionary<ushort, EditorEntity>();
+        private SortedDictionary<ushort, EditorEntity> _EntitiesBySlot = new SortedDictionary<ushort, EditorEntity>();
 
         public List<EditorEntity> Entities { get =>  GetEntities(); set => SetEntities(value); }
         public List<EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
-        Dictionary<ushort, EditorEntity> EntitiesBySlot { get => GetSortedEntities(); }
+        SortedDictionary<ushort, EditorEntity> EntitiesBySlot { get => GetSortedEntities(); }
 
         public List<EditorEntity> tempSelection = new List<EditorEntity>();
 
@@ -65,10 +65,11 @@ namespace ManiacEditor
             return _Entities;
         }
 
-        private Dictionary<ushort,EditorEntity> GetSortedEntities()
+        private SortedDictionary<ushort,EditorEntity> GetSortedEntities()
         {
-            _EntitiesBySlot = Entities.ToDictionary(x => x.Entity.SlotID);
-            return Entities.ToDictionary(x => x.Entity.SlotID);
+            var keyValuePairs = Entities.ToDictionary(x => x.Entity.SlotID);
+            _EntitiesBySlot = new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
+            return new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
         }
 
         private void SetSelectedEntities(List<EditorEntity> SelectedObj)
@@ -144,8 +145,15 @@ namespace ManiacEditor
                 {
                     if (deselectIfSelected)
                     {
-                        SelectedEntities.Remove(entity);
-                        entity.Selected = false;
+                        if (entity.Selected)
+                        {
+                            SelectedEntities.Remove(entity);
+                            entity.Selected = false;
+                        }
+                        else
+                        {
+                            entity.Selected = true;
+                        }
                     }
                     else
                     {

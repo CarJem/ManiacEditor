@@ -192,7 +192,6 @@ namespace ManiacEditor
                     content.Fill = new SolidColorBrush(ConvertedColor);
 
                 }
-                item.Refresh();
 
             }
 
@@ -216,12 +215,12 @@ namespace ManiacEditor
 
             }
 
-            if (sender is SplitButton)
+            if (sender is Xceed.Wpf.Toolkit.SplitButton)
             {
-                var item = (sender as SplitButton);
+                var item = (sender as Xceed.Wpf.Toolkit.SplitButton);
                 if (item == null) return;
                 if (item.Content == null) return;
-                var objContent = (sender as SplitButton).Content;
+                var objContent = (sender as Xceed.Wpf.Toolkit.SplitButton).Content;
                 if (objContent == null) return;
                 if (objContent is System.Windows.Shapes.Rectangle)
                 {

@@ -15,9 +15,25 @@ namespace ManiacEditor
 		public string TileConfig_Source = ""; //Holds the Path the Actual Path for the TileConfig
 		public string StageConfig_Source = ""; //Holds the Path the Actual Path for the GameConfig
 		public string StageTiles_Source = ""; //Holds the Path the Actual Path for the 16x16Tiles.gif
-		public string SceneFile_Source = ""; //Hold the Path Starting From the Root Data Folder to the Scene File
-		public string Stamps_Source = ""; //Hold the Path to the Root EditorStamps.bin
-		public string SceneFile_Directory = ""; //Hold the Path Starting From the Root Data Folder to the Scene Folder
+		public string SceneFile_Source = ""; //Holds the Path Starting From the Root Data Folder to the Scene File
+		public string Stamps_Source = ""; //Holds the Path to the Root EditorStamps.bin
+
+
+        //SourceID:
+        // -3 - Browsed
+        // -2 - Unset
+        // -1 - Data Folder
+        // 0* - Resource Pack Based on Index
+        public int GameConfig_SourceID = -2; //Holds the Path the Actual Path for the GameConfig
+        public int TileConfig_SourceID = -2; //Holds the Path the Actual Path for the TileConfig
+        public int StageConfig_SourceID = -2; //Holds the Path the Actual Path for the GameConfig
+        public int StageTiles_SourceID = -2; //Holds the Path the Actual Path for the 16x16Tiles.gif
+        public int SceneFile_SourceID = -2; //Hold the Path Starting From the Root Data Folder to the Scene File
+        public int Stamps_SourceID = -2; //Hold the Path to the Root EditorStamps.bin
+
+
+
+        public string SceneFile_Directory = ""; //Hold the Path Starting From the Root Data Folder to the Scene Folder
 		public string CurrentScene = ""; //Tells us what Stage Folder is Loaded
 		public string SceneFile_DataFolder_Source = ""; //Tells us which Data Folder the Scene File is Located in
 
@@ -160,6 +176,7 @@ namespace ManiacEditor
 			{
 				if (IsTileConfigValid(dataDir))
 				{
+                    TileConfig_SourceID = Instance.ResourcePackList.IndexOf(dataDir);
 					validTileConfigFound = true;
 					validTileConfigPathDir = dataDir;
 					break;
@@ -172,12 +189,18 @@ namespace ManiacEditor
                     bool result = SetTileConfigFromFilePath(SceneFile_Directory);
                     if (result == false)
                     {
+                        TileConfig_SourceID = -1;
                         return result = SetTileConfig(Instance.DataDirectory);
                     }
-                    else return result;
+                    else
+                    {
+                        TileConfig_SourceID = -3;
+                    }
+                    return result;
                 }
                 else
                 {
+                    TileConfig_SourceID = -1;
                     return SetTileConfig(Instance.DataDirectory);
                 }
 			}
@@ -232,24 +255,33 @@ namespace ManiacEditor
 			{
 				if (IsStageTilesValid(dataDir))
 				{
-					validStageTilesFound = true;
+                    StageTiles_SourceID = Instance.ResourcePackList.IndexOf(dataDir);
+                    validStageTilesFound = true;
 					validStageTilesPathDir = dataDir;
 					break;
 				}
 			}
 			if (!validStageTilesFound)
 			{
+
                 if (browsed)
                 {
                     bool result = SetStageTilesFromFilePath(SceneFile_Directory, colors);
                     if (result == false)
                     {
+                        StageTiles_SourceID = -1;
                         return result = SetStageTiles(Instance.DataDirectory, Zone, colors);
                     }
-                    else return result;
+                    else
+                    {
+                        StageTiles_SourceID = -3;
+                        return result;
+                    }
+
                 }
                 else
                 {
+                    StageTiles_SourceID = -1;
                     return SetStageTiles(Instance.DataDirectory, Zone, colors);
                 }
             }
@@ -342,13 +374,15 @@ namespace ManiacEditor
 			{
 				if (IsSceneValid(dataDir))
 				{
-					ValidSceneFileFound = true;
+                    SceneFile_SourceID = Instance.ResourcePackList.IndexOf(dataDir);
+                    ValidSceneFileFound = true;
 					ValidSceneFilePathDir = dataDir;
 					break;
 				}
 			}
 			if (!ValidSceneFileFound)
 			{
+                SceneFile_SourceID = -1;
                 return SetScenePath(Instance.DataDirectory);
 			}
 			else
@@ -359,7 +393,7 @@ namespace ManiacEditor
 
 		public bool IsSceneValid(string directoryToCheck)
 		{
-			return File.Exists(Path.Combine(directoryToCheck, "Stages", CurrentZone, "StageConfig.bin"));
+			return File.Exists(Path.Combine(directoryToCheck, "Stages", CurrentZone, GetSceneFilename(CurrentSceneID)));
 		}
 
 		public string GetScenePathFromFile(string Result)
@@ -386,7 +420,8 @@ namespace ManiacEditor
 			{
 				if (IsStageConfigValid(dataDir))
 				{
-					validStageConfigFound = true;
+                    StageConfig_SourceID = Instance.ResourcePackList.IndexOf(dataDir);
+                    validStageConfigFound = true;
 					validStageConfigPathDir = dataDir;
 					break;
 				}
@@ -398,12 +433,19 @@ namespace ManiacEditor
                     bool result = SetStageConfigFromFilePath(SceneFile_Directory);
                     if (result == false)
                     {
+                        StageConfig_SourceID = -1;
                         return result = SetStageConfig(Instance.DataDirectory);
                     }
-                    else return result;
+                    else
+                    {
+                        StageConfig_SourceID = -3;
+                        return result;
+                    }
+
                 }
                 else
                 {
+                    StageConfig_SourceID = -1;
                     return SetStageConfig(Instance.DataDirectory);
                 }
 
@@ -455,45 +497,15 @@ namespace ManiacEditor
 		#region Editor Stamps
 		public Stamps GetEditorStamps(string Zone)
 		{
-			bool validEditorStampsFound = false;
-			string validEditorStampsPathDir = "";
-			foreach (string dataDir in Instance.ResourcePackList)
-			{
-				if (IsEditorStampsValid(dataDir))
-				{
-					validEditorStampsFound = true;
-					validEditorStampsPathDir = dataDir;
-					break;
-				}
-			}
-			if (!validEditorStampsFound)
-			{
-				return SetEditorStamps(Instance.DataDirectory);
-			}
-			else
-			{
-				return SetEditorStamps(validEditorStampsPathDir);
-			}
-		}
+            Stamps_SourceID = SceneFile_SourceID;
+            Stamps_Source = Path.Combine(SceneFile_Directory, "ManiacStamps.bin");
+            if (IsEditorStampsValid()) return new Stamps(Path.Combine(SceneFile_Directory, "ManiacStamps.bin"));
+            else return new Stamps();
+        }
 
-		public Stamps SetEditorStamps(string configPath)
+		public bool IsEditorStampsValid()
 		{
-			try
-			{
-				Stamps StageStamps = new Stamps(Path.Combine(configPath, "Stages", CurrentZone, "ManiacStamps.bin"));
-				Stamps_Source = Path.Combine(configPath, "Stages", CurrentZone, "ManiacStamps.bin");
-				return StageStamps;
-			}
-			catch
-			{
-				return null;
-			}
-
-		}
-
-		public bool IsEditorStampsValid(string directoryToCheck)
-		{
-			return File.Exists(Path.Combine(directoryToCheck, "Stages", CurrentZone, "ManiacStamps.bin"));
+			return File.Exists(Path.Combine(SceneFile_Directory, "ManiacStamps.bin"));
 		}
 		#endregion
 
@@ -505,7 +517,13 @@ namespace ManiacEditor
 		StageTiles_Source = "";
 		SceneFile_Source = "";
 		Stamps_Source = "";
-		SceneFile_Directory = "";
+        GameConfig_SourceID = -2;
+        TileConfig_SourceID = -2;
+        StageConfig_SourceID = -2;
+        StageTiles_SourceID = -2;
+        SceneFile_SourceID = -2;
+        Stamps_SourceID = -2;
+        SceneFile_Directory = "";
 		CurrentScene = "";
 		SceneFilePath = "";
 		CurrentLevelID = -1;

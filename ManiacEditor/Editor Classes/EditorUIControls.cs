@@ -519,7 +519,7 @@ namespace ManiacEditor
 					}
 					tip.Content += Environment.NewLine;
 					tip.Content += Environment.NewLine + String.Format("Copy Air: {0}", (Editor.CopyAir ? "ON" : "OFF"));
-					tip.Content += Environment.NewLine + String.Format("Swap Slot ID Mode: {0}", (Editor.UITools.RightClicktoSwapSlotID ? "ON" : "OFF"));
+					tip.Content += Environment.NewLine + String.Format("Swap Slot ID Mode: {0}", (Editor.UIModes.RightClicktoSwapSlotID ? "ON" : "OFF"));
 					Editor.ViewPanelContextMenu.ToolTip = tip;
 					if (Extensions.MouseIsOverGraphicsPanel(Editor.GraphicsModel.GraphicPanel)) tip.IsOpen = true;
 					previousX = e.X;
@@ -539,7 +539,7 @@ namespace ManiacEditor
 		public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
 		{
 
-			if (Editor.UITools.EnablePixelCountMode == false)
+			if (Editor.UIModes.EnablePixelCountMode == false)
 			{
 				Editor.positionLabel.Content = "X: " + (int)(e.X / Zoom) + " Y: " + (int)(e.Y / Zoom);
 			}
@@ -794,7 +794,7 @@ namespace ManiacEditor
 		{
 			if (ForceUpdateMousePos) UpdateScrollerPosition(e);
 			if (Editor.InstanceID != -1 && !Editor.KickStartMegaManiacRenderLoopFinished) Editor.KickStartMegaManiacRenderLoop = true;
-            if (scrolling || scrollingDragged) Editor.GraphicsModel.GraphicPanel.Render();
+            if (scrolling || scrollingDragged || draggingSelection || dragged) Editor.GraphicsModel.GraphicPanel.Render();
 
             Common();
 
@@ -1236,24 +1236,24 @@ namespace ManiacEditor
 					int newGridY = (int)((e.Y / Zoom) / Editor.magnetSize) * Editor.magnetSize;
 					Point oldPointGrid = new Point(0, 0);
 					Point newPointGrid = new Point(0, 0);
-					if (Editor.UITools.UseMagnetMode && IsEntitiesEdit())
+					if (Editor.UIModes.UseMagnetMode && IsEntitiesEdit())
 					{
-						if (Editor.UITools.UseMagnetXAxis == true && Editor.UITools.UseMagnetYAxis == true)
+						if (Editor.UIModes.UseMagnetXAxis == true && Editor.UIModes.UseMagnetYAxis == true)
 						{
 							oldPointGrid = new Point(oldGridX, oldGridY);
 							newPointGrid = new Point(newGridX, newGridY);
 						}
-						if (Editor.UITools.UseMagnetXAxis && !Editor.UITools.UseMagnetYAxis)
+						if (Editor.UIModes.UseMagnetXAxis && !Editor.UIModes.UseMagnetYAxis)
 						{
 							oldPointGrid = new Point(oldGridX, (int)(lastY / Zoom));
 							newPointGrid = new Point(newGridX, (int)(e.Y / Zoom));
 						}
-						if (!Editor.UITools.UseMagnetXAxis && Editor.UITools.UseMagnetYAxis)
+						if (!Editor.UIModes.UseMagnetXAxis && Editor.UIModes.UseMagnetYAxis)
 						{
 							oldPointGrid = new Point((int)(lastX / Zoom), oldGridY);
 							newPointGrid = new Point((int)(e.X / Zoom), newGridY);
 						}
-						if (!Editor.UITools.UseMagnetXAxis && !Editor.UITools.UseMagnetYAxis)
+						if (!Editor.UIModes.UseMagnetXAxis && !Editor.UIModes.UseMagnetYAxis)
 						{
 							oldPointGrid = new Point((int)(lastX / Zoom), (int)(lastY / Zoom));
 							newPointGrid = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
@@ -1269,17 +1269,17 @@ namespace ManiacEditor
 					Editor.UpdateEditLayerActions();
 					if (IsEntitiesEdit())
 					{
-						if (Editor.UITools.UseMagnetMode)
+						if (Editor.UIModes.UseMagnetMode)
 						{
 							int x = Editor.entities.SelectedEntities[0].Entity.Position.X.High;
 							int y = Editor.entities.SelectedEntities[0].Entity.Position.Y.High;
 
-							if (x % Editor.magnetSize != 0 && Editor.UITools.UseMagnetXAxis)
+							if (x % Editor.magnetSize != 0 && Editor.UIModes.UseMagnetXAxis)
 							{
 								int offsetX = x % Editor.magnetSize;
 								oldPointGrid.X -= offsetX;
 							}
-							if (y % Editor.magnetSize != 0 && Editor.UITools.UseMagnetYAxis)
+							if (y % Editor.magnetSize != 0 && Editor.UIModes.UseMagnetYAxis)
 							{
 								int offsetY = y % Editor.magnetSize;
 								oldPointGrid.Y -= offsetY;
@@ -1290,7 +1290,7 @@ namespace ManiacEditor
 						try
 						{
 
-							if (Editor.UITools.UseMagnetMode)
+							if (Editor.UIModes.UseMagnetMode)
 							{
 								Editor.entities.MoveSelected(oldPointGrid, newPointGrid, CtrlPressed() && Editor.EditorState.startDragged);
 							}
@@ -1306,7 +1306,7 @@ namespace ManiacEditor
 							Editor.EditorState.dragged = false;
 							return;
 						}
-						if (Editor.UITools.UseMagnetMode)
+						if (Editor.UIModes.UseMagnetMode)
 						{
 							draggedX += newPointGrid.X - oldPointGrid.X;
 							draggedY += newPointGrid.Y - oldPointGrid.Y;
@@ -1487,9 +1487,9 @@ namespace ManiacEditor
 			}
 			void Right()
 			{
-				if (IsEntitiesEdit())
+                if (IsEntitiesEdit())
 				{
-					if (Editor.entities.SelectedEntities.Count == 2 && Editor.UITools.RightClicktoSwapSlotID)
+					if (Editor.entities.SelectedEntities.Count == 2 && Editor.UIModes.RightClicktoSwapSlotID)
 					{
 						var entity1 = Editor.entities.SelectedEntities[0];
 						var entity2 = Editor.entities.SelectedEntities[1];
@@ -1590,8 +1590,13 @@ namespace ManiacEditor
         }
 		public void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			Editor.GraphicsModel.GraphicPanel.Focus();
-			if (e.Button == MouseButtons.Right && Editor.InteractionToolButton.IsChecked.Value) InteractionTool();
+            Point clicked_point = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+            Editor.GraphicsModel.GraphicPanel.Focus();
+            if (e.Button == MouseButtons.Right)
+            {
+                if (Editor.InteractionToolButton.IsChecked.Value) InteractionTool();
+                else if (Editor.entities.GetEntityAt(clicked_point) != null && !IsTilesEdit() && Editor.entities.SelectedEntities.Count <= 1) EntitiesTooltip();
+            } 
 
 			void InteractionTool() {
 				if (IsTilesEdit())
@@ -1644,6 +1649,25 @@ namespace ManiacEditor
 					Editor.ViewPanelContextMenu.IsOpen = true;
 				}
 			}
+
+            void EntitiesTooltip()
+            {
+                string newLine = Environment.NewLine;
+                var currentEntity = Editor.entities.GetEntityAt(clicked_point);
+                System.Windows.Controls.ToolTip info = new System.Windows.Controls.ToolTip();
+                info.Content =
+                    String.Format("Entity Name: {0}", currentEntity.Name) + newLine +
+                    String.Format("Slot ID: {0}", currentEntity.Entity.SlotID) + newLine +
+                    String.Format("Runtime Slot ID: {0}", Editor.entities.GetRealSlotID(currentEntity.Entity)) + newLine +
+                    String.Format("X: {0}", currentEntity.Entity.Position.X.High) + newLine +
+                    String.Format("Y: {0}", currentEntity.Entity.Position.Y.High) + newLine +
+                    String.Format("{0}", "");
+                info.Foreground = (System.Windows.Media.SolidColorBrush)Editor.FindResource("NormalText");
+                info.Background = (System.Windows.Media.SolidColorBrush)Editor.FindResource("NormalBackground");
+                info.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                info.StaysOpen = false;
+                info.IsOpen = true;
+            }
 		}
 		public void SetClickedXY(System.Windows.Forms.MouseEventArgs e) { ClickedX = e.X; ClickedY = e.Y; }
 		public void SetClickedXY(Point e) { ClickedX = e.X; ClickedY = e.Y;}

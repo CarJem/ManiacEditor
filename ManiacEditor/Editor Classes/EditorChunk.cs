@@ -158,13 +158,18 @@ namespace ManiacEditor
 
 		public void ConvertClipboardtoMultiLayerChunk(Dictionary<Point, ushort> pointsA, Dictionary<Point, ushort> pointsB = null)
 		{
-			if (pointsB == null)
+			if (pointsB == null || pointsB.Count == 0)
 			{
 				ConvertClipboardtoChunk(pointsA);
 				return;
 			}
+            else if (pointsA == null || pointsA.Count == 0)
+            {
+                ConvertClipboardtoChunk(pointsB);
+                return;
+            }
 
-			int minimumX_A = pointsA.Min(kvp => kvp.Key.X);
+            int minimumX_A = pointsA.Min(kvp => kvp.Key.X);
 			int minimumY_A = pointsA.Min(kvp => kvp.Key.Y);
 			int minimumX_B = pointsB.Min(kvp => kvp.Key.X);
 			int minimumY_B = pointsB.Min(kvp => kvp.Key.Y);

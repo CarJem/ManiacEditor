@@ -6,7 +6,7 @@
         xmlns:maniac="clr-namespace:ManiacEditor"
         xmlns:local="clr-namespace:ManiacEditor.Interfaces.WPF_UI.Editor_Tools"
         mc:Ignorable="d"
-        Title="Game Lock On Options..." Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NormalBackground}">
+        Title="Game Lock On Options..." Height="450" Width="303" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NormalBackground}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -32,13 +32,13 @@
                 <CheckBox Content="Enable Real Time Object Moving" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding EnableRealTimeObjectMovingInGame}"/>
                 <TextBlock Text="Compatibility Options:" FontWeight="Bold" Foreground="{DynamicResource NormalText}"></TextBlock>
                 <TextBlock Height="2"></TextBlock>
-                <Grid Margin="1,0,0,0">
+                <Grid Margin="1,0,0,0" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Version: " VerticalAlignment="Center" Foreground="{DynamicResource NormalText}"></TextBlock>
-                    <ComboBox Grid.Column="1" IsEnabled="False" x:Name="VersionSelector" SelectedIndex="1" Foreground="{DynamicResource NormalText}">
+                    <ComboBox Grid.Column="1" Width="228" IsEnabled="False" x:Name="VersionSelector" SelectedIndex="1" Foreground="{DynamicResource NormalText}">
                         <ComboBoxItem Foreground="{DynamicResource NormalText}">1.03 - Partial Support</ComboBoxItem>
                         <ComboBoxItem Foreground="{DynamicResource NormalText}">1.04 (Mania Plus)</ComboBoxItem>
                         <ComboBoxItem Foreground="{DynamicResource NormalText}">1.06 (Steam Beta)  - Unsupported</ComboBoxItem>

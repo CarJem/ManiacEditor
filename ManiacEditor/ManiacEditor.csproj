@@ -410,7 +410,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
-    <Compile Include="Editor Classes\EditorUITools.cs" />
+    <Compile Include="Editor Classes\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
     <Compile Include="Editor Classes\EditorCore.cs" />
@@ -732,6 +732,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Vultron.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\PropellerShaft.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\YoyoPulley.cs">

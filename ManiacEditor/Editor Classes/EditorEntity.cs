@@ -39,6 +39,7 @@ namespace ManiacEditor
         //public static EditorEntity Instance;
         public EditorAnimations EditorAnimations;
         public AttributeValidater AttributeValidater;
+        public EntityRenderer renderer;
 
         private SceneEntity entity;
         public bool filteredOut;
@@ -215,11 +216,9 @@ namespace ManiacEditor
             //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) EditorInstance.UpdateRender();
             if (EditorInstance.GameRunning && Properties.Settings.Default.EnableRealTimeObjectMovingInGame)
             {
-                int ObjectStart = 0x0086FFA0;
-                int ObjectSize = 0x458;
 
-                if (Properties.Settings.Default.UsePrePlusOffsets)
-                    ObjectStart = 0x00A5DCC0;
+                int ObjectStart = EditorInGame.ObjectStart[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
+                int ObjectSize =  EditorInGame.ObjectSize[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
 
                 // TODO: Find out if this is constent
                 int ObjectAddress = ObjectStart + (ObjectSize * entity.SlotID);
@@ -353,7 +352,7 @@ namespace ManiacEditor
         public virtual void Draw(DevicePanel d)
         {
             if (filteredOut) return;
-            if (EditorEntity_ini.LinkedRendersNames.Contains(entity.Object.Name.Name) && EditorInstance.UITools.ShowEntityPathArrows)
+            if (EditorEntity_ini.LinkedRendersNames.Contains(entity.Object.Name.Name) && EditorInstance.UIModes.ShowEntityPathArrows)
             {
                 try
                 {
@@ -396,7 +395,7 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront && !EditorInstance.UITools.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !EditorInstance.UIModes.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
             if (!Properties.Settings.Default.NeverLoadEntityTextures)
             {
@@ -404,7 +403,7 @@ namespace ManiacEditor
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
             }
 
-            if (drawSelectionBoxInFront && !EditorInstance.UITools.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
+            if (drawSelectionBoxInFront && !EditorInstance.UIModes.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
         public virtual void PrimaryDraw(DevicePanel d, List<string> onScreenExlusionList)
         {
@@ -451,7 +450,7 @@ namespace ManiacEditor
                 }
                 else
                 { // No frame to render
-                    if (EditorInstance.UITools.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (EditorInstance.UIModes.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
                 //DrawOthers(d);
@@ -464,10 +463,8 @@ namespace ManiacEditor
         }
         public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
         {
-            if (EditorInstance.UITools.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod)
+            if (EditorInstance.UIModes.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
             {
-                if (this.IsObjectOnScreen(d))
-                {
                     if (renderNotFound)
                     {
                         d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
@@ -483,8 +480,7 @@ namespace ManiacEditor
                     if (Properties.Settings.Default.UseObjectRenderingImprovements == false)
                     {
                         if (EditorInstance.GetZoom() >= 1) d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
-                    }
-                }
+                    }             
             }
         }
 
@@ -615,6 +611,7 @@ namespace ManiacEditor
         }
         public bool IsObjectOnScreen(DevicePanel d)
         {
+            
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;
             if (childDrawAddMode == false)
@@ -626,10 +623,11 @@ namespace ManiacEditor
 
             bool isObjectVisibile = false;
 
-			if (!EditorInstance.isPreRending && !filteredOut)
+            
+			if (!filteredOut)
 			{
-				EntityRenderer renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
-				if (renderer != null)
+                if (renderer == null || renderer.GetObjectName() != entity.Object.Name.Name) renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+                if (renderer != null)
 				{
 					isObjectVisibile = renderer.isObjectOnScreen(d, entity, null, x, y, 0);
 				}
@@ -638,12 +636,8 @@ namespace ManiacEditor
 					isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
 				}
 			}
-			else
-			{
-				isObjectVisibile = true;
-			}
 
-
+            isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
             return isObjectVisibile;
 
 

@@ -217,7 +217,7 @@ namespace ManiacEditor
         public EditorSettings EditorSettings;
         public EditorManiacINI ManiacINI;
         public EditorUI UI;
-        public EditorUITools UITools;
+        public EditorUIModes UIModes;
 
         //Tile Maniac + ManiaPal Instance
         public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
@@ -387,7 +387,7 @@ namespace ManiacEditor
             EditorView = new EditorViewModel(this);
             ManiacINI = new EditorManiacINI(this);
             UI = new EditorUI(this);
-            UITools = new EditorUITools(this);
+            UIModes = new EditorUIModes(this);
 
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
@@ -634,7 +634,7 @@ namespace ManiacEditor
 			//seperator8.Visibility = Visibility.Visible;
 			//seperator9.Visibility = Visibility.Visible;
 
-			if (UITools.EnablePixelCountMode == false)
+			if (UIModes.EnablePixelCountMode == false)
 			{
 				selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)EditorState.SelectedTileX + ", Y: " + (int)EditorState.SelectedTileY;
 				selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
@@ -644,7 +644,7 @@ namespace ManiacEditor
 				selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)EditorState.SelectedTileX * 16 + ", Y: " + (int)EditorState.SelectedTileY * 16;
 				selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
 			}
-			if (UITools.EnablePixelCountMode == false)
+			if (UIModes.EnablePixelCountMode == false)
 			{
 				selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (EditorState.SelectedTilesCount - EditorState.DeselectTilesCount);
 				selectionSizeLabel.ToolTip = "The Size of the Selection";
@@ -1096,7 +1096,7 @@ namespace ManiacEditor
 
 			_baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
 			UpdateDataFolderLabel();
-			UITools.ShowingDataDirectory = true;
+			UIModes.ShowingDataDirectory = true;
 		}
 
 		private void UpdateDataFolderLabel(string dataDirectory = null)
@@ -1387,25 +1387,25 @@ namespace ManiacEditor
 
 
 			if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
-			if (EditorScene != null)
-			{
-				if (!isExportingImage)
-				{
-					if (!IsTilesEdit())
-						EditorBackground.Draw(GraphicsModel.GraphicPanel);
-					if (IsTilesEdit())
-					{
-						if (Settings.mySettings.ShowEditLayerBackground == true)
-						{
-							EditorBackground.DrawEdit(GraphicsModel.GraphicPanel);
-						}
-					}
-				}
+            if (EditorScene != null)
+            {
+                if (!isExportingImage)
+                {
+                    if (!IsTilesEdit())
+                        EditorBackground.Draw(GraphicsModel.GraphicPanel);
+                    if (IsTilesEdit())
+                    {
+                        if (Settings.mySettings.ShowEditLayerBackground == true)
+                        {
+                            EditorBackground.DrawEdit(GraphicsModel.GraphicPanel);
+                        }
+                    }
+                }
 
 
-				// Future Implementation
+                // Future Implementation
 
-				/*
+                /*
                 List<int> layerDrawingOrder = new List<int> { };
                 var allLayers = EditorScene.AllLayers;
                 foreach (var layer in allLayers)
@@ -1423,98 +1423,98 @@ namespace ManiacEditor
                 */
 
 
-				if (DebugStatsVisibleOnPanel && EditorScene != null)
-				{
-					Point point = new Point((short)(15), (short)(15));
+                if (DebugStatsVisibleOnPanel && EditorScene != null)
+                {
+                    Point point = new Point((short)(15), (short)(15));
 
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y, EditorState.GetDataFolder(), true, 255, 15);
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 1, EditorState.GetMasterDataFolder(), true, 255, 22);
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 2, EditorState.GetScenePath(), true, 255, 11);
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 3, EditorState.GetSceneFilePath(), true, 255, 12);
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 4, EditorState.GetZoom(), true, 255, 11);
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 5, EditorState.GetSetupObject(), true, 255, 13);
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 6, EditorState.GetSelectedZone(), true, 255, 14);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y, EditorState.GetDataFolder(), true, 255, 15);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 1, EditorState.GetMasterDataFolder(), true, 255, 22);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 2, EditorState.GetScenePath(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 3, EditorState.GetSceneFilePath(), true, 255, 12);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 4, EditorState.GetZoom(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 5, EditorState.GetSetupObject(), true, 255, 13);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 6, EditorState.GetSelectedZone(), true, 255, 14);
 
-					DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + UIControl.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, UIControl.KeyBindPraser("StatusBoxToggle").Length, 4);
-				}
-
-
-
-				if (EditorScene.OtherLayers.Contains(EditLayer)) EditLayer.Draw(GraphicsModel.GraphicPanel);
-
-				if (!UITools.ExtraLayersMoveToFront)
-				{
-
-					foreach (var elb in ExtraLayerEditViewButtons)
-					{
-						if (elb.Key.IsCheckedAll || elb.Value.IsCheckedAll)
-						{
-							var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
-							_extraViewLayer.Draw(GraphicsModel.GraphicPanel);
-						}
-					}
-				}
-
-				if (ShowFGLower.IsChecked.Value || EditFGLower.IsCheckedAll) FGLower.Draw(GraphicsModel.GraphicPanel);
-				if (ShowFGLow.IsChecked.Value || EditFGLow.IsCheckedAll) FGLow.Draw(GraphicsModel.GraphicPanel);
+                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + UIControl.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, UIControl.KeyBindPraser("StatusBoxToggle").Length, 4);
+                }
 
 
-				if (showEntities && !AboveAllMode)
-				{
-					if (PriorityMode)
-					{
-						entities.DrawPriority(GraphicsModel.GraphicPanel, -1);
-						entities.DrawPriority(GraphicsModel.GraphicPanel, 0);
-						entities.DrawPriority(GraphicsModel.GraphicPanel, 1);
-					}
-					else
-					{
-						entities.Draw(GraphicsModel.GraphicPanel);
-					}
-				}
 
-				if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsCheckedAll)
-					FGHigh.Draw(GraphicsModel.GraphicPanel);
+                if (EditorScene.OtherLayers.Contains(EditLayer)) EditLayer.Draw(GraphicsModel.GraphicPanel);
 
-				
-				if (showEntities && PriorityMode && !AboveAllMode)
-				{
-					entities.DrawPriority(GraphicsModel.GraphicPanel, 2);
-					entities.DrawPriority(GraphicsModel.GraphicPanel, 3);
-				}
+                if (!UIModes.ExtraLayersMoveToFront)
+                {
 
-				if (ShowFGHigher.IsChecked.Value || EditFGHigher.IsCheckedAll)
-					FGHigher.Draw(GraphicsModel.GraphicPanel);
+                    foreach (var elb in ExtraLayerEditViewButtons)
+                    {
+                        if (elb.Key.IsCheckedAll || elb.Value.IsCheckedAll)
+                        {
+                            var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
+                            _extraViewLayer.Draw(GraphicsModel.GraphicPanel);
+                        }
+                    }
+                }
 
-				if (UITools.ExtraLayersMoveToFront)
-				{
-					foreach (var elb in ExtraLayerEditViewButtons)
-					{
-						if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
-						{
-							var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
-							_extraViewLayer.Draw(GraphicsModel.GraphicPanel);
-						}
-					}
-				}
+                if (ShowFGLower.IsChecked.Value || EditFGLower.IsCheckedAll) FGLower.Draw(GraphicsModel.GraphicPanel);
+                if (ShowFGLow.IsChecked.Value || EditFGLow.IsCheckedAll) FGLow.Draw(GraphicsModel.GraphicPanel);
 
-				if (showEntitiesEditing || AboveAllMode)
-				{
-					if (PriorityMode)
-					{
-						entities.DrawPriority(GraphicsModel.GraphicPanel, -1);
-						entities.DrawPriority(GraphicsModel.GraphicPanel, 0);
-						entities.DrawPriority(GraphicsModel.GraphicPanel, 1);
-						entities.DrawPriority(GraphicsModel.GraphicPanel, 2);
-						entities.DrawPriority(GraphicsModel.GraphicPanel, 3);
-					}
-					else
-					{
-						entities.Draw(GraphicsModel.GraphicPanel);
-					}
-				}
 
-                if (UITools.EntitySelectionBoxesAlwaysPrioritized)
+                if (showEntities && !AboveAllMode)
+                {
+                    if (PriorityMode)
+                    {
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, -1);
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, 0);
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, 1);
+                    }
+                    else
+                    {
+                        entities.Draw(GraphicsModel.GraphicPanel);
+                    }
+                }
+
+                if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsCheckedAll)
+                    FGHigh.Draw(GraphicsModel.GraphicPanel);
+
+
+                if (showEntities && PriorityMode && !AboveAllMode)
+                {
+                    entities.DrawPriority(GraphicsModel.GraphicPanel, 2);
+                    entities.DrawPriority(GraphicsModel.GraphicPanel, 3);
+                }
+
+                if (ShowFGHigher.IsChecked.Value || EditFGHigher.IsCheckedAll)
+                    FGHigher.Draw(GraphicsModel.GraphicPanel);
+
+                if (UIModes.ExtraLayersMoveToFront)
+                {
+                    foreach (var elb in ExtraLayerEditViewButtons)
+                    {
+                        if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
+                        {
+                            var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
+                            _extraViewLayer.Draw(GraphicsModel.GraphicPanel);
+                        }
+                    }
+                }
+
+                if (showEntitiesEditing || AboveAllMode)
+                {
+                    if (PriorityMode)
+                    {
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, -1);
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, 0);
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, 1);
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, 2);
+                        entities.DrawPriority(GraphicsModel.GraphicPanel, 3);
+                    }
+                    else
+                    {
+                        entities.Draw(GraphicsModel.GraphicPanel);
+                    }
+                }
+
+                if (UIModes.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing))
                 {
                     entities.DrawSelectionBoxes(GraphicsModel.GraphicPanel);
                 }
@@ -1552,7 +1552,7 @@ namespace ManiacEditor
 				EditorState.select_x1 = 0; EditorState.select_x2 = 0; EditorState.select_y1 = 0; EditorState.select_y2 = 0;
 			}
 
-			if (UITools.ShowGrid && EditorScene != null)
+			if (UIModes.ShowGrid && EditorScene != null)
 				EditorBackground.DrawGrid(GraphicsModel.GraphicPanel);
 
 			if (GameRunning)
@@ -1582,6 +1582,7 @@ namespace ManiacEditor
 				else SetZoomLevel(Settings.mySettings.DevForceRestartZoomLevel, TempWarpCoords);
 				GoToPosition(TempWarpCoords.X, TempWarpCoords.Y, false, true);
 				SetViewSize((int)(SceneWidth * EditorState.Zoom), (int)(SceneHeight * EditorState.Zoom));
+
 			}
 		}
 		public void DrawLayers(int drawOrder = 0)
@@ -1881,33 +1882,33 @@ namespace ManiacEditor
 			int modifier = (IsChunksEdit() ? 8 : 1);
 			if (MagnetMode.IsChecked == false)
 			{
-				UITools.UseMagnetMode = false;
+				UIModes.UseMagnetMode = false;
 			}
 			if (nudgeFasterButton.IsChecked == false)
 			{
 				Settings.mySettings.EnableFasterNudge = false;
 				nudgeFasterButton.IsChecked = false;
 			}
-			if (UITools.UseMagnetMode)
+			if (UIModes.UseMagnetMode)
 			{
 				switch (e.KeyData)
 				{
-					case Keys.Up: y = (UITools.UseMagnetYAxis ? -magnetSize : -1); break;
-					case Keys.Down: y = (UITools.UseMagnetYAxis ? magnetSize : 1); break;
-					case Keys.Left: x = (UITools.UseMagnetXAxis ? -magnetSize : -1); break;
-					case Keys.Right: x = (UITools.UseMagnetXAxis ? magnetSize : 1); break;
+					case Keys.Up: y = (UIModes.UseMagnetYAxis ? -magnetSize : -1); break;
+					case Keys.Down: y = (UIModes.UseMagnetYAxis ? magnetSize : 1); break;
+					case Keys.Left: x = (UIModes.UseMagnetXAxis ? -magnetSize : -1); break;
+					case Keys.Right: x = (UIModes.UseMagnetXAxis ? magnetSize : 1); break;
 				}
 			}
 			if (Settings.mySettings.EnableFasterNudge)
 			{
-				if (UITools.UseMagnetMode)
+				if (UIModes.UseMagnetMode)
 				{
 					switch (e.KeyData)
 					{
-						case Keys.Up: y = (UITools.UseMagnetYAxis ? -magnetSize * Settings.mySettings.FasterNudgeValue : -1 - Settings.mySettings.FasterNudgeValue); break;
-						case Keys.Down: y = (UITools.UseMagnetYAxis ? magnetSize * Settings.mySettings.FasterNudgeValue : 1 + Settings.mySettings.FasterNudgeValue); break;
-						case Keys.Left: x = (UITools.UseMagnetXAxis ? -magnetSize * Settings.mySettings.FasterNudgeValue : -1 - Settings.mySettings.FasterNudgeValue); break;
-						case Keys.Right: x = (UITools.UseMagnetXAxis ? magnetSize * Settings.mySettings.FasterNudgeValue : 1 + Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Up: y = (UIModes.UseMagnetYAxis ? -magnetSize * Settings.mySettings.FasterNudgeValue : -1 - Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Down: y = (UIModes.UseMagnetYAxis ? magnetSize * Settings.mySettings.FasterNudgeValue : 1 + Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Left: x = (UIModes.UseMagnetXAxis ? -magnetSize * Settings.mySettings.FasterNudgeValue : -1 - Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Right: x = (UIModes.UseMagnetXAxis ? magnetSize * Settings.mySettings.FasterNudgeValue : 1 + Settings.mySettings.FasterNudgeValue); break;
 					}
 				}
 				else
@@ -1922,7 +1923,7 @@ namespace ManiacEditor
 				}
 
 			}
-			if (UITools.UseMagnetMode == false && Settings.mySettings.EnableFasterNudge == false)
+			if (UIModes.UseMagnetMode == false && Settings.mySettings.EnableFasterNudge == false)
 			{
 				switch (e.KeyData)
 				{
@@ -1940,17 +1941,17 @@ namespace ManiacEditor
 
 			if (IsEntitiesEdit())
 			{
-				if (UITools.UseMagnetMode)
+				if (UIModes.UseMagnetMode)
 				{
 					int xE = entities.SelectedEntities[0].Entity.Position.X.High;
 					int yE = entities.SelectedEntities[0].Entity.Position.Y.High;
 
-					if (xE % magnetSize != 0 && UITools.UseMagnetXAxis)
+					if (xE % magnetSize != 0 && UIModes.UseMagnetXAxis)
 					{
 						int offsetX = x % magnetSize;
 						x -= offsetX;
 					}
-					if (yE % magnetSize != 0 && UITools.UseMagnetYAxis)
+					if (yE % magnetSize != 0 && UIModes.UseMagnetYAxis)
 					{
 						int offsetY = y % magnetSize;
 						y -= offsetY;
@@ -2035,7 +2036,8 @@ namespace ManiacEditor
 				if ((ResultX <= 0)) ResultX = 0;
 				if ((ResultY <= 0)) ResultY = 0;
 
-				EditorState.ShiftX = ResultX;
+
+                EditorState.ShiftX = ResultX;
 				EditorState.ShiftY = ResultY;
 			}
 			else
@@ -2046,9 +2048,9 @@ namespace ManiacEditor
 				if ((ResultX <= 0)) ResultX = 0;
 				if ((ResultY <= 0)) ResultY = 0;
 
-				EditorState.ShiftX = ResultX;
-				EditorState.ShiftY = ResultY;
-			}
+                EditorState.ShiftX = ResultX;
+                EditorState.ShiftY = ResultY;
+            }
 
 
 			if (ShortcutClear)
@@ -2072,7 +2074,7 @@ namespace ManiacEditor
 				// Entities should take care of themselves
 				DisposeTextures();
 
-				if (UITools.UseEncoreColors)
+				if (UIModes.UseEncoreColors)
 				{
                     EditorTiles.StageTiles?.Image.Reload(EncorePalette[0]);
 				}
@@ -2147,21 +2149,21 @@ namespace ManiacEditor
 
 		public void BackupScene()
 		{
-			UITools.BackupType = 1;
+			UIModes.BackupType = 1;
 			BackupToolStripMenuItem_Click(null, null);
-			UITools.BackupType = 0;
+			UIModes.BackupType = 0;
 		}
 		public void BackupSceneBeforeCrash()
 		{
-			UITools.BackupType = 2;
+			UIModes.BackupType = 2;
 			BackupToolStripMenuItem_Click(null, null);
-			UITools.BackupType = 0;
+			UIModes.BackupType = 0;
 		}
 		public void AutoBackupScene()
 		{
-			UITools.BackupType = 3;
+			UIModes.BackupType = 3;
 			BackupToolStripMenuItem_Click(null, null);
-			UITools.BackupType = 0;
+			UIModes.BackupType = 0;
 		}
 		public void BackupTool(object sender, RoutedEventArgs e)
 		{
@@ -2368,7 +2370,7 @@ namespace ManiacEditor
 		private void InteractionToolButton_Click(object sender, RoutedEventArgs e) { UIEvents.InteractionToolButton_Click(sender, e); }
 		private void ChunkToolButton_Click(object sender, RoutedEventArgs e) { UIEvents.ChunkToolButton_Click(sender, e); }
 		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UIEvents.ReloadToolStripButton_Click(sender, e); }
-		public void ShowTileIDButton_Click(object sender, RoutedEventArgs e) { UITools.ShowTileID = ShowTileIDButton.IsChecked.Value; }
+		public void ShowTileIDButton_Click(object sender, RoutedEventArgs e) { UIModes.ShowTileID = ShowTileIDButton.IsChecked.Value; }
 
         #endregion
 
@@ -2412,29 +2414,29 @@ namespace ManiacEditor
 
 		private void EnableXAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (UITools.UseMagnetXAxis)
+			if (UIModes.UseMagnetXAxis)
 			{
 				enableXAxisToolStripMenuItem.IsChecked = false;
-				UITools.UseMagnetXAxis = false;
+				UIModes.UseMagnetXAxis = false;
 			}
 			else
 			{
 				enableXAxisToolStripMenuItem.IsChecked = true;
-				UITools.UseMagnetXAxis = true;
+				UIModes.UseMagnetXAxis = true;
 			}
 		}
 
 		private void EnableYAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (UITools.UseMagnetYAxis)
+			if (UIModes.UseMagnetYAxis)
 			{
 				enableYAxisToolStripMenuItem.IsChecked = false;
-				UITools.UseMagnetYAxis = false;
+				UIModes.UseMagnetYAxis = false;
 			}
 			else
 			{
 				enableYAxisToolStripMenuItem.IsChecked = true;
-				UITools.UseMagnetYAxis = true;
+				UIModes.UseMagnetYAxis = true;
 			}
 		}
 
@@ -2568,7 +2570,7 @@ namespace ManiacEditor
         #endregion
 
         #region Grid Options
-        public void ShowGridButton_Click(object sender, RoutedEventArgs e) { UITools.ShowGrid = ShowGridButton.IsChecked.Value; }
+        public void ShowGridButton_Click(object sender, RoutedEventArgs e) { UIModes.ShowGrid = ShowGridButton.IsChecked.Value; }
 		private void X16ToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.X16ToolStripMenuItem_Click(sender, e); }
 		private void X128ToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.X128ToolStripMenuItem_Click(sender, e); }
 		private void X256ToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.X256ToolStripMenuItem_Click(sender, e); }
@@ -2576,12 +2578,12 @@ namespace ManiacEditor
         #endregion
 
         #region Main Toolbar Buttons
-        public void ShowCollisionAButton_Click(object sender, RoutedEventArgs e) { UITools.ShowCollisionA = ShowCollisionAButton.IsChecked.Value; }
-		public void ShowCollisionBButton_Click(object sender, RoutedEventArgs e) { UITools.ShowCollisionB = ShowCollisionAButton.IsChecked.Value; }
+        public void ShowCollisionAButton_Click(object sender, RoutedEventArgs e) { UIModes.ShowCollisionA = ShowCollisionAButton.IsChecked.Value; }
+		public void ShowCollisionBButton_Click(object sender, RoutedEventArgs e) { UIModes.ShowCollisionB = ShowCollisionAButton.IsChecked.Value; }
 		private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e) { UIEvents.OpenDataDirectoryMenuButton(sender, e); }
 		private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e) { UIEvents.ResetDeviceButton_Click_1(sender, e); }
 		private void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e) { UIEvents.ShowFlippedTileHelper_Click(sender, e); }
-		public void EnableEncorePalette_Click(object sender, RoutedEventArgs e) { UITools.UseEncoreColors = EncorePaletteButton.IsChecked.Value; }
+		public void EnableEncorePalette_Click(object sender, RoutedEventArgs e) { UIModes.UseEncoreColors = EncorePaletteButton.IsChecked.Value; }
         #endregion
 
         #region Layer Toolbar Items

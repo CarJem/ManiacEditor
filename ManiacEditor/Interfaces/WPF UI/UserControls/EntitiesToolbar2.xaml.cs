@@ -809,7 +809,7 @@ namespace ManiacEditor
 				// Update Properties
 				currentEntity = null;
 				UpdateEntitiesProperties(new List<RSDKv5.SceneEntity>() { entity });
-				UpdateEntitiesList();
+				//UpdateEntitiesList();
 			}
 			else
 			{

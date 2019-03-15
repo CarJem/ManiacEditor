@@ -337,16 +337,16 @@ a valid Data Directory.",
 		#region Backup SubMenu
 		public void StageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.UITools.BackupType = 4;
+			Editor.UIModes.BackupType = 4;
 			BackupToolStripMenuItem_Click(null, null);
-			Editor.UITools.BackupType = 0;
+			Editor.UIModes.BackupType = 0;
 		}
 
 		public void NormalToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Editor.UITools.BackupType = 1;
+			Editor.UIModes.BackupType = 1;
 			BackupToolStripMenuItem_Click(null, null);
-			Editor.UITools.BackupType = 0;
+			Editor.UIModes.BackupType = 0;
 		}
 		#endregion
 
@@ -693,7 +693,7 @@ a valid Data Directory.",
 
         public void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e)
         {
-            Editor.UITools.EntitySelectionBoxesAlwaysPrioritized = Editor.SelectionBoxesAlwaysPrioritized.IsChecked;
+            Editor.UIModes.EntitySelectionBoxesAlwaysPrioritized = Editor.SelectionBoxesAlwaysPrioritized.IsChecked;
         }
         public void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -736,7 +736,7 @@ a valid Data Directory.",
 							if (File.Exists(Editor.EncorePalette[0]))
 							{
 								Editor.EncorePaletteExists = true;
-                                Editor.UITools.UseEncoreColors = true;
+                                Editor.UIModes.UseEncoreColors = true;
                             }
 
 						}
@@ -754,7 +754,7 @@ a valid Data Directory.",
 				if (File.Exists(Editor.EncorePalette[0]))
 				{
 					Editor.EncorePaletteExists = true;
-					Editor.UITools.UseEncoreColors = true;
+					Editor.UIModes.UseEncoreColors = true;
 				}
 				else
 				{
@@ -766,15 +766,15 @@ a valid Data Directory.",
 
 		public void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.UITools.ExtraLayersMoveToFront)
+			if (!Editor.UIModes.ExtraLayersMoveToFront)
 			{
 				Editor.moveExtraLayersToFrontToolStripMenuItem.IsChecked = true;
-				Editor.UITools.ExtraLayersMoveToFront = true;
+				Editor.UIModes.ExtraLayersMoveToFront = true;
 			}
 			else
 			{
 				Editor.moveExtraLayersToFrontToolStripMenuItem.IsChecked = false;
-				Editor.UITools.ExtraLayersMoveToFront = false;
+				Editor.UIModes.ExtraLayersMoveToFront = false;
 			}
 		}
 
@@ -786,58 +786,58 @@ a valid Data Directory.",
 
 		public void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.UITools.ShowEntitySelectionBoxes)
+			if (Editor.UIModes.ShowEntitySelectionBoxes)
 			{
 				Editor.showEntitySelectionBoxesToolStripMenuItem.IsChecked = false;
-				Editor.UITools.ShowEntitySelectionBoxes = false;
+				Editor.UIModes.ShowEntitySelectionBoxes = false;
 			}
 			else
 			{
 				Editor.showEntitySelectionBoxesToolStripMenuItem.IsChecked = true;
-				Editor.UITools.ShowEntitySelectionBoxes = true;
+				Editor.UIModes.ShowEntitySelectionBoxes = true;
 			}
 		}
 
 		public void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.UITools.ShowWaterLevel)
+			if (!Editor.UIModes.ShowWaterLevel)
 			{
 				Editor.showWaterLevelToolStripMenuItem.IsChecked = true;
-				Editor.UITools.ShowWaterLevel = true;
+				Editor.UIModes.ShowWaterLevel = true;
 			}
 			else
 			{
 				Editor.showWaterLevelToolStripMenuItem.IsChecked = false;
-				Editor.UITools.ShowWaterLevel = false;
+				Editor.UIModes.ShowWaterLevel = false;
 			}
 		}
 
 		public void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e)
 		{
 
-			if (!Editor.UITools.AlwaysShowWaterLevel)
+			if (!Editor.UIModes.AlwaysShowWaterLevel)
 			{
 				Editor.waterLevelAlwaysShowItem.IsChecked = true;
-				Editor.UITools.AlwaysShowWaterLevel = true;
+				Editor.UIModes.AlwaysShowWaterLevel = true;
 			}
 			else
 			{
 				Editor.waterLevelAlwaysShowItem.IsChecked = false;
-				Editor.UITools.AlwaysShowWaterLevel = false;
+				Editor.UIModes.AlwaysShowWaterLevel = false;
 			}
 		}
 
 		public void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.UITools.SizeWaterLevelwithBounds)
+			if (!Editor.UIModes.SizeWaterLevelwithBounds)
 			{
 				Editor.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
-				Editor.UITools.SizeWaterLevelwithBounds = true;
+				Editor.UIModes.SizeWaterLevelwithBounds = true;
 			}
 			else
 			{
 				Editor.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = false;
-				Editor.UITools.SizeWaterLevelwithBounds = false;
+				Editor.UIModes.SizeWaterLevelwithBounds = false;
 			}
 		}
 
@@ -848,15 +848,15 @@ a valid Data Directory.",
 
 		public void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.UITools.ShowParallaxSprites)
+			if (Editor.UIModes.ShowParallaxSprites)
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = false;
-				Editor.UITools.ShowParallaxSprites = false;
+				Editor.UIModes.ShowParallaxSprites = false;
 			}
 			else
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = true;
-				Editor.UITools.ShowParallaxSprites = true;
+				Editor.UIModes.ShowParallaxSprites = true;
 			}
 		}
 
@@ -890,15 +890,15 @@ a valid Data Directory.",
 
 		public void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.UITools.ShowEntityPathArrows)
+			if (!Editor.UIModes.ShowEntityPathArrows)
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = true;
-				Editor.UITools.ShowEntityPathArrows = true;
+				Editor.UIModes.ShowEntityPathArrows = true;
 			}
 			else
 			{
 				Editor.showEntityPathArrowsToolstripItem.IsChecked = false;
-				Editor.UITools.ShowEntityPathArrows = false;
+				Editor.UIModes.ShowEntityPathArrows = false;
 			}
 		}
 
@@ -1158,11 +1158,11 @@ a valid Data Directory.",
 		{
 			if (Editor.rightClicktoSwapSlotIDs.IsChecked)
 			{
-				Editor.UITools.RightClicktoSwapSlotID = true;
+				Editor.UIModes.RightClicktoSwapSlotID = true;
 			}
 			else
 			{
-				Editor.UITools.RightClicktoSwapSlotID = false;
+				Editor.UIModes.RightClicktoSwapSlotID = false;
 			}
 		}
 		public void CopyAirToggle_Click(object sender, RoutedEventArgs e)
@@ -1195,7 +1195,7 @@ a valid Data Directory.",
 			int rX = (short)(Editor.EditorState.ShiftX);
 			int rY = (short)(Editor.EditorState.ShiftY);
 			double _ZoomLevel = Editor.EditorState.ZoomLevel;
-			bool isEncoreSet = Editor.UITools.UseEncoreColors;
+			bool isEncoreSet = Editor.UIModes.UseEncoreColors;
 			int levelSlotNum = Editor.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
 		}
@@ -1205,7 +1205,7 @@ a valid Data Directory.",
 			string scenePath = Editor.Discord.ScenePath;
 			int rX = 0;
 			int rY = 0;
-			bool isEncoreSet = Editor.UITools.UseEncoreColors;
+			bool isEncoreSet = Editor.UIModes.UseEncoreColors;
 			int levelSlotNum = Editor.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
 		}
@@ -1337,14 +1337,14 @@ a valid Data Directory.",
 
 		public void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.UITools.IsConsoleWindowOpen)
+			if (!Editor.UIModes.IsConsoleWindowOpen)
 			{
-				Editor.UITools.IsConsoleWindowOpen = true;
+				Editor.UIModes.IsConsoleWindowOpen = true;
 				ShowConsoleWindow();
 			}
 			else
 			{
-				Editor.UITools.IsConsoleWindowOpen = false;
+				Editor.UIModes.IsConsoleWindowOpen = false;
 				HideConsoleWindow();
 			}
 		}
@@ -1500,9 +1500,9 @@ a valid Data Directory.",
 		#region Folders Tab Buttons
 		public void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.EditorPath.SceneDirectory != null && Editor.EditorPath.SceneDirectory != "")
+			if (Editor.EditorPath.SceneFile_Directory != null && Editor.EditorPath.SceneFile_Directory != "")
 			{
-				string SceneFilename_mod = Editor.EditorPath.SceneDirectory.Replace('/', '\\');
+				string SceneFilename_mod = Editor.EditorPath.SceneFile_Directory.Replace('/', '\\');
 				Process.Start("explorer.exe", "/select, " + SceneFilename_mod);
 			}
 			else
@@ -1639,14 +1639,14 @@ a valid Data Directory.",
 
 		public void MagnetMode_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.UITools.UseMagnetMode)
+			if (Editor.UIModes.UseMagnetMode)
 			{
-				Editor.UITools.UseMagnetMode = false;
+				Editor.UIModes.UseMagnetMode = false;
 				Editor.MagnetMode.IsChecked = false;
 			}
 			else
 			{
-				Editor.UITools.UseMagnetMode = true;
+				Editor.UIModes.UseMagnetMode = true;
 				Editor.MagnetMode.IsChecked = true;
 			}
 		}
@@ -1732,7 +1732,7 @@ a valid Data Directory.",
 				//EditorEntity_ini.rendersWithErrors.Clear();
 
 				//Reload for Encore Palletes, otherwise reload the image normally
-				if (Editor.UITools.UseEncoreColors == true)
+				if (Editor.UIModes.UseEncoreColors == true)
 				{
 					Editor.EditorTiles.StageTiles?.Image.Reload(Editor.EncorePalette[0]);
 					Editor.TilesToolbar?.Reload(Editor.EncorePalette[0]);
@@ -1863,16 +1863,16 @@ a valid Data Directory.",
 
 		public void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.UITools.ShowFlippedTileHelper == false)
+			if (Editor.UIModes.ShowFlippedTileHelper == false)
 			{
 				Editor.ReloadSpecificTextures(sender, e);
-				Editor.UITools.ShowFlippedTileHelper = true;
+				Editor.UIModes.ShowFlippedTileHelper = true;
 
 			}
 			else
 			{
 				Editor.ReloadSpecificTextures(sender, e);
-				Editor.UITools.ShowFlippedTileHelper = false;
+				Editor.UIModes.ShowFlippedTileHelper = false;
 			}
 		}
 
@@ -1882,18 +1882,18 @@ a valid Data Directory.",
 		#region Status Bar Items
 		public void PixelModeButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.UITools.EnablePixelCountMode == false)
+			if (Editor.UIModes.EnablePixelCountMode == false)
 			{
 				Editor.pixelModeButton.IsChecked = true;
 				Editor.pixelModeToolStripMenuItem.IsChecked = true;
-				Editor.UITools.EnablePixelCountMode = true;
+				Editor.UIModes.EnablePixelCountMode = true;
 
 			}
 			else
 			{
 				Editor.pixelModeButton.IsChecked = false;
 				Editor.pixelModeToolStripMenuItem.IsChecked = false;
-				Editor.UITools.EnablePixelCountMode = false;
+				Editor.UIModes.EnablePixelCountMode = false;
 			}
 
 		}
@@ -1977,15 +1977,15 @@ a valid Data Directory.",
 			{
 				Editor.LastQuickButtonState = 2;
 			}
-			if (Editor.UITools.ApplyEditEntitiesTransparency == false)
+			if (Editor.UIModes.ApplyEditEntitiesTransparency == false)
 			{
-				Editor.UITools.ApplyEditEntitiesTransparency = true;
+				Editor.UIModes.ApplyEditEntitiesTransparency = true;
 				Editor.transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = true;
 				Editor.editEntitesTransparencyToolStripMenuItem.IsChecked = true;
 			}
 			else
 			{
-				Editor.UITools.ApplyEditEntitiesTransparency = false;
+				Editor.UIModes.ApplyEditEntitiesTransparency = false;
 				Editor.transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = false;
 				Editor.editEntitesTransparencyToolStripMenuItem.IsChecked = false;
 			}

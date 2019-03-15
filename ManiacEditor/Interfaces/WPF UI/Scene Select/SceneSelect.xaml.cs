@@ -1154,6 +1154,7 @@ namespace ManiacEditor.Interfaces
         public void UnloadDataPack()
         {
             EditorInstance.ResourcePackList.Clear();
+            EditorInstance.UIModes.DataDirectoryReadOnlyMode = false;
             EditorInstance.DataDirectory = null;
             dataPackStatusLabel.Content = "";
             EditorInstance.DataDirectory = "Data Directory: NULL";
@@ -1176,6 +1177,7 @@ namespace ManiacEditor.Interfaces
             {
                 if (item.Item1 == "DataDir") EditorInstance.DataDirectory = item.Item2;
                 else if (item.Item1 == "Mod") EditorInstance.ResourcePackList.Add(item.Item2);
+                else if (item.Item1 == "ReadOnlyDataFolder" && item.Item2 == "TRUE") EditorInstance.UIModes.DataDirectoryReadOnlyMode = true;
             }
 
             GameConfig GameConfig = null;
@@ -1476,6 +1478,11 @@ namespace ManiacEditor.Interfaces
             else editor.Owner = Application.Current.MainWindow;
             editor.ShowDialog();
             ReloadQuickPanel();
+        }
+
+        private void selectButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

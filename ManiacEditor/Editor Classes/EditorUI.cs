@@ -286,9 +286,9 @@ namespace ManiacEditor
             Editor.redoToolStripMenuItem.IsEnabled = enabled && Editor.redo.Count > 0;
 
             Editor.MagnetMode.IsEnabled = enabled && Editor.IsEntitiesEdit();
-            Editor.MagnetMode.IsChecked = Editor.UITools.UseMagnetMode && Editor.IsEntitiesEdit();
+            Editor.MagnetMode.IsChecked = Editor.UIModes.UseMagnetMode && Editor.IsEntitiesEdit();
             Editor.MagnetModeSplitButton.IsEnabled = enabled && Editor.IsEntitiesEdit();
-            Editor.UITools.UseMagnetMode = Editor.IsEntitiesEdit() && Editor.MagnetMode.IsChecked.Value;
+            Editor.UIModes.UseMagnetMode = Editor.IsEntitiesEdit() && Editor.MagnetMode.IsChecked.Value;
 
 
 
@@ -362,7 +362,7 @@ namespace ManiacEditor
             {
                 if (Editor.TilesToolbar == null)
                 {
-                    if (Editor.UITools.UseEncoreColors)
+                    if (Editor.UIModes.UseEncoreColors)
                         Editor.TilesToolbar = new TilesToolbar(Editor.EditorTiles.StageTiles, Editor.EditorPath.StageTiles_Source, Editor.EncorePalette[0], Editor);
                     else
                         Editor.TilesToolbar = new TilesToolbar(Editor.EditorTiles.StageTiles, Editor.EditorPath.StageTiles_Source, null, Editor);

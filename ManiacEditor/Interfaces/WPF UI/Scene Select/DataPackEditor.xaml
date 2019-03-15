@@ -127,6 +127,7 @@
                                     <MenuItem Header="Entry Names: (For the Right Side / Mod Details)"></MenuItem>
                                     <MenuItem Header="Mod - Defines a mod folder with it's value being the path to it (Required)"></MenuItem>
                                     <MenuItem Header="DataDir - Defines the base folder with it's value being the path to it (Required)"></MenuItem>
+                                    <MenuItem Header="ReadOnlyDataFolder - Set this entry value to TRUE to protect the data folder from being changed by saving."></MenuItem>
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>

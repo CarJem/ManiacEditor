@@ -21,6 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int frameID = (int)entity.attributesMap["frameID"].ValueVar;
             int listID = (int)entity.attributesMap["listID"].ValueVar;
             bool auxIcon = entity.attributesMap["auxIcon"].ValueBool;
+            bool noText = entity.attributesMap["noText"].ValueBool;
             int auxframeID = (int)entity.attributesMap["auxFrameID"].ValueVar;
             int auxlistID = (int)entity.attributesMap["auxListID"].ValueVar;
             var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, listID, frameID, false, false, false);
@@ -40,10 +41,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
             var editorAnimIcon = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, auxlistID, auxframeID, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            e.DrawUIButtonBack(d, x, y, width, height, 0, 0, Transparency);
+            if (editorAnim != null && editorAnim.Frames.Count != 0 && noText == false)
             {
                 var frame = editorAnim.Frames[Animation.index];
-                e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height, Transparency);
                 d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + (int)alignmentVal, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }

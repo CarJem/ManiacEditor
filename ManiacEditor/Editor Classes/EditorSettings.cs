@@ -231,7 +231,7 @@ namespace ManiacEditor
             // These Prefrences are applied on Editor Load
             Instance.editEntitesTransparencyToolStripMenuItem.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
             Instance.transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
-            Instance.UITools.ApplyEditEntitiesTransparency = Settings.mySettings.EditEntitiesTransparencyDefault;
+            Instance.UIModes.ApplyEditEntitiesTransparency = Settings.mySettings.EditEntitiesTransparencyDefault;
 
             Instance.ScrollLocked = Settings.mySettings.ScrollLockEnabledDefault;
             Instance.statusNAToolStripMenuItem.IsChecked = Settings.mySettings.ScrollLockEnabledDefault;
@@ -244,23 +244,23 @@ namespace ManiacEditor
 
             Instance.pixelModeButton.IsChecked = Settings.mySettings.EnablePixelModeDefault;
             Instance.pixelModeToolStripMenuItem.IsChecked = Settings.mySettings.EnablePixelModeDefault;
-            Instance.UITools.EnablePixelCountMode = Settings.mySettings.EnablePixelModeDefault;
+            Instance.UIModes.EnablePixelCountMode = Settings.mySettings.EnablePixelModeDefault;
 
             Instance.showEntityPathArrowsToolstripItem.IsChecked = Settings.mySettings.ShowEntityArrowPathsDefault;
-            Instance.UITools.ShowEntityPathArrows = Settings.mySettings.ShowEntityArrowPathsDefault;
+            Instance.UIModes.ShowEntityPathArrows = Settings.mySettings.ShowEntityArrowPathsDefault;
 
             Instance.showWaterLevelToolStripMenuItem.IsChecked = Settings.mySettings.showWaterLevelDefault;
-            Instance.UITools.ShowWaterLevel = Settings.mySettings.showWaterLevelDefault;
-            Instance.UITools.AlwaysShowWaterLevel = Settings.mySettings.AlwaysShowWaterLevelDefault;
-            Instance.UITools.SizeWaterLevelwithBounds = Settings.mySettings.SizeWaterLevelWithBoundsDefault;
+            Instance.UIModes.ShowWaterLevel = Settings.mySettings.showWaterLevelDefault;
+            Instance.UIModes.AlwaysShowWaterLevel = Settings.mySettings.AlwaysShowWaterLevelDefault;
+            Instance.UIModes.SizeWaterLevelwithBounds = Settings.mySettings.SizeWaterLevelWithBoundsDefault;
             Instance.waterLevelAlwaysShowItem.IsChecked = Settings.mySettings.AlwaysShowWaterLevelDefault;
             Instance.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = Settings.mySettings.SizeWaterLevelWithBoundsDefault;
 
             Instance.showParallaxSpritesToolStripMenuItem.IsChecked = Settings.mySettings.ShowFullParallaxEntityRenderDefault;
-            Instance.UITools.ShowParallaxSprites = Settings.mySettings.ShowFullParallaxEntityRenderDefault;
+            Instance.UIModes.ShowParallaxSprites = Settings.mySettings.ShowFullParallaxEntityRenderDefault;
             Instance.prioritizedViewingToolStripMenuItem.IsChecked = Settings.mySettings.PrioritizedObjectRendering;
 
-            Instance.UITools.ShowEntitySelectionBoxes = Settings.mySettings.ShowEntitySelectionBoxesDefault;
+            Instance.UIModes.ShowEntitySelectionBoxes = Settings.mySettings.ShowEntitySelectionBoxesDefault;
             Instance.showEntitySelectionBoxesToolStripMenuItem.IsChecked = Settings.mySettings.ShowEntitySelectionBoxesDefault;
 
             Instance.showStatsToolStripMenuItem.IsChecked = Settings.mySettings.ShowStatsViewerDefault;

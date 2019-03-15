@@ -81,15 +81,21 @@ namespace ManiacEditor
         const int SW_SHOW = 5;
         #endregion
 
-        public static IList<string> GameVersion = new List<string> { "Release", "Plus", "Denvo-Removo?", "N/A" };
-        public static string SelectedGameVersion = "Plus";
+        public static IList<string> GameVersion = new List<string> { "1.3", "1.4", "1.6", "N/A" };
+        public static string SelectedGameVersion = "1.4";
 
-        public static int CheckpointBase = 0x00EBB6C4;
-        public static int PlayerBase = 0x85E9A0;
-        public static int Player1Base = PlayerBase + (0x458 * 0);
-        public static int Player2Base = PlayerBase + (0x458 * 1);
-        public static int Player3Base = PlayerBase + (0x458 * 2);
-        public static int Player4Base = PlayerBase + (0x458 * 3);
+
+        public static IList<int> ObjectStart = new List<int> { 0x00, 0x0086FFA0, 0x00, 0x00 };
+        public static IList<int> ObjectSize = new List<int> { 0x00, 0x458, 0x00, 0x00 };
+
+        public static IList<int> CheckpointBase = new List<int> { 0x00, 0x00EBB6C4, 0x00, 0x00 };
+        public static IList<int> PlayerBase = new List<int> { 0x00, 0x85E9A0, 0x00, 0x00 };
+        public static IList<int> CurrentSceneAddress = new List<int> { 0x00, 0x00E48758, 0x00, 0x00 };
+        public static IList<int> GameStateAddress = new List<int> { 0x00, 0x00E48776, 0x00, 0x00 };
+        public static int Player1Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 0); } 
+        public static int Player2Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 1); }
+        public static int Player3Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 2); }
+        public static int Player4Base { get => PlayerBase[GameVersion.IndexOf(SelectedGameVersion)] + (0x458 * 3); }
 
         public static IList<int> CurrentScene_ptr = new List<int> { 0x00CCF6F8, 0x00E48758, 0x00, 0x00 };
         public static IList<int> GameState_ptr = new List<int> { 0x00, 0x00E48776, 0x00, 0x00 };
@@ -124,12 +130,12 @@ namespace ManiacEditor
         public short Player2_X { get { return Editor.GameMemory.ReadShort(Player2Base + 0x02); } set { Editor.GameMemory.WriteShort(Player2Base + 0x02, value); } }
         public short Player2_Y { get { return Editor.GameMemory.ReadShort(Player2Base + 0x06); } set { Editor.GameMemory.WriteShort(Player2Base + 0x06, value); } }
 
-        public byte StarPostEnable { get { return Editor.GameMemory.ReadByte(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x34); } set { Editor.GameMemory.WriteByte(Editor.GameMemory.ReadByte(CheckpointBase) + 0x34, value); } }
-        public int StarPostX { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x12); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x12, value); } }
-        public int StarPostY { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x16); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase) + 0x16, value); } }
+        public byte StarPostEnable { get { return Editor.GameMemory.ReadByte(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34); } set { Editor.GameMemory.WriteByte(Editor.GameMemory.ReadByte(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34, value); } }
+        public int StarPostX { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12, value); } }
+        public int StarPostY { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16, value); } }
 
-        public byte CurrentScene { get { return Editor.GameMemory.ReadByte(0x00E48758); } set { Editor.GameMemory.WriteByte(0x00E48758, value); } }
-        public byte GameState { get { return Editor.GameMemory.ReadByte(0x00E48776); } set { Editor.GameMemory.WriteByte(0x00E48776, value); } }
+        public byte CurrentScene { get { return Editor.GameMemory.ReadByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
+        public byte GameState { get { return Editor.GameMemory.ReadByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
         #endregion
 
         public EditorInGame(Editor instance)

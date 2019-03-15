@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor
 {
-	public class EditorUITools
+	public class EditorUIModes
     {
 		private Editor Editor;
         #region ShowTileID
@@ -33,7 +33,7 @@ namespace ManiacEditor
         private void SetShowGridMode(bool value)
         {
             Editor.ShowGridButton.IsChecked = value;
-            Editor.UITools._ShowGrid = value;
+            Editor.UIModes._ShowGrid = value;
             Editor.UIEvents.GridCheckStateCheck();
         }
         #endregion
@@ -48,7 +48,7 @@ namespace ManiacEditor
         {
             Editor.DisposeTextures();
             Editor.EncorePaletteButton.IsChecked = value;
-            Editor.UITools._UseEncoreColors = value;
+            Editor.UIModes._UseEncoreColors = value;
             Editor.EditorTiles.StageTiles?.Image.Reload((value == true ? Editor.EncorePalette[0] : null));
             Editor.TilesToolbar?.Reload((value == true ? Editor.EncorePalette[0] : null));
             Editor.EditorEntity_ini.ReleaseResources();
@@ -67,9 +67,9 @@ namespace ManiacEditor
         private void SetShowCollisionA(bool value)
         {
             Editor.ShowCollisionAButton.IsChecked = value;
-            Editor.UITools._ShowCollisionA = value;
+            Editor.UIModes._ShowCollisionA = value;
             Editor.ShowCollisionBButton.IsChecked = false;
-            Editor.UITools._ShowCollisionB = false;
+            Editor.UIModes._ShowCollisionB = false;
             Editor.ReloadSpecificTextures(null, null);
         }
         #endregion
@@ -86,9 +86,9 @@ namespace ManiacEditor
         {
             
             Editor.ShowCollisionAButton.IsChecked = false;
-            Editor.UITools._ShowCollisionA = false;
+            Editor.UIModes._ShowCollisionA = false;
             Editor.ShowCollisionBButton.IsChecked = value;
-            Editor.UITools._ShowCollisionB = value;
+            Editor.UIModes._ShowCollisionB = value;
             Editor.ReloadSpecificTextures(null, null);
         }
         #endregion
@@ -110,8 +110,9 @@ namespace ManiacEditor
         public bool IsConsoleWindowOpen = false; //Show the Console Window or not
         public bool RightClicktoSwapSlotID = false; //Swap Entity Slot ID's with Right Click
         public bool EntitySelectionBoxesAlwaysPrioritized = true;
+        public bool DataDirectoryReadOnlyMode = false;
 
-        public EditorUITools(Editor instance)
+        public EditorUIModes(Editor instance)
 		{
 			Editor = instance;
 		}
