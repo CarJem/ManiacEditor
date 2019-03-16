@@ -53,5 +53,13 @@ namespace ManiacEditor
         {
             DialogResult = false;
         }
+
+        private void VersionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (VersionSelector.SelectedIndex != -1)
+            {
+                EditorInGame.SelectedGameVersion = EditorInGame.GameVersion[VersionSelector.SelectedIndex];
+            }
+        }
     }
 }

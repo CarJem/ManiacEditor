@@ -38,10 +38,10 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Version: " VerticalAlignment="Center" Foreground="{DynamicResource NormalText}"></TextBlock>
-                    <ComboBox Grid.Column="1" Width="228" IsEnabled="False" x:Name="VersionSelector" SelectedIndex="1" Foreground="{DynamicResource NormalText}">
-                        <ComboBoxItem Foreground="{DynamicResource NormalText}">1.03 - Partial Support</ComboBoxItem>
+                    <ComboBox Grid.Column="1" Width="228" IsEnabled="True" x:Name="VersionSelector" SelectedIndex="2" Foreground="{DynamicResource NormalText}" SelectionChanged="VersionSelector_SelectionChanged">
+                        <ComboBoxItem Foreground="{DynamicResource NormalText}">1.03 (Pre-Plus) - Partial Support</ComboBoxItem>
                         <ComboBoxItem Foreground="{DynamicResource NormalText}">1.04 (Mania Plus)</ComboBoxItem>
-                        <ComboBoxItem Foreground="{DynamicResource NormalText}">1.06 (Steam Beta)  - Unsupported</ComboBoxItem>
+                        <ComboBoxItem Foreground="{DynamicResource NormalText}">1.06 (Denevo Removo) - WIP</ComboBoxItem>
                         <ComboBoxItem Foreground="{DynamicResource NormalText}">None - Disabled</ComboBoxItem>
                     </ComboBox>
                 </Grid>
