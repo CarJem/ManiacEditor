@@ -530,5 +530,25 @@ Error: {ex.Message}");
 
 			TileChunkOptionsMenu.IsOpen = false;
 		}
-	}
+
+        private void AutoGenerateChunks_Click(object sender, RoutedEventArgs e)
+        {
+            if (EditorInstance.EditLayerA != null && EditorInstance.EditLayerB != null)
+            {
+                EditorInstance.EditorChunk.AutoGenerateChunks(EditorInstance.EditLayerA, EditorInstance.EditLayerB);
+                ChunksReload();
+            }
+        }
+
+        private void TrackBar2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (ChunkList != null && trackBar2 != null)
+            {
+                if (disposing) return;
+                int scale = 32 << (int)trackBar2.Value;
+                ChunkList.ImageSize = scale;
+            }
+
+        }
+    }
 }

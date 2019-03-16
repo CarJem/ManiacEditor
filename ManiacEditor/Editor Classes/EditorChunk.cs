@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using IronPython.Modules;
 using SharpDX.Direct3D9;
 using Microsoft.Scripting.Utils;
+using System.Drawing.Imaging;
 
 namespace ManiacEditor
 {
@@ -39,7 +40,7 @@ namespace ManiacEditor
 		}
 
 
-		public void DrawTile(Graphics g, ushort tile, int x, int y)
+		public void DrawTile(Graphics g, ushort tile, int x, int y, bool semitransparent = false)
 		{
 			ushort TileIndex = (ushort)(tile & 0x3ff);
 			int TileIndexInt = (int)TileIndex;
@@ -50,13 +51,23 @@ namespace ManiacEditor
 			bool SolidTopB = ((tile >> 14) & 1) == 1;
 			bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-			g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
-				new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+            if (semitransparent)
+            {
+                g.DrawImage(EditorInstance.EditorTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
-		}
+            }
+            else
+            {
+                g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+
+            }
+
+        }
 
 
-		public Bitmap GetChunkTexture(int chunkIndex)
+
+
+        public Bitmap GetChunkTexture(int chunkIndex)
 		{
 			if (EditorInstance.EditLayerB != null)
 			{
@@ -64,8 +75,8 @@ namespace ManiacEditor
 			}
 			else
 			{
-				return GetChunkTextureA(chunkIndex);
-			}
+                return GetChunkTextureA(chunkIndex);
+            }
 		}
 
 		public Bitmap GetChunkTextureA(int chunkIndex)
@@ -79,54 +90,54 @@ namespace ManiacEditor
 			Graphics g = Graphics.FromImage(bmp);
 			for (int ty = rect.Y; ty < rect.Y + rect.Height; ty++)
 			{
-				for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
-				{
-					if (this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty] != 0xffff && EditorInstance.EditLayerA != null)
-					{
-						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty], tx - rect.X, ty - rect.Y);
-					}
-					if (this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty] != 0xffff && EditorInstance.EditLayerB != null)
-					{
-						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty], tx - rect.X, ty - rect.Y);
-					}
-				}
-			}
+                for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+                {
+                    if (this.StageStamps.StampList[chunkIndex].TileMapA[tx][ty] != 0xffff)
+                    {
+                        DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapA[tx][ty], tx - rect.X, ty - rect.Y);
+                    }
+                    if (this.StageStamps.StampList[chunkIndex].TileMapB[tx][ty] != 0xffff)
+                    {
+                        DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapB[tx][ty], tx - rect.X, ty - rect.Y, true);
+                    }
+                }
+            }
 			g.Flush();
 			g.Dispose();
 			this.ChunkImagesA.Insert(chunkIndex, bmp);
 			return this.ChunkImagesA[chunkIndex];
 		}
 
-		public Bitmap GetChunkTextureAB(int chunkIndex)
-		{
-			if (this.ChunkImagesAB.ElementAtOrDefault(chunkIndex) != null) return this.ChunkImagesAB[chunkIndex];
+        public Bitmap GetChunkTextureAB(int chunkIndex)
+        {
+            if (this.ChunkImagesAB.ElementAtOrDefault(chunkIndex) != null) return this.ChunkImagesAB[chunkIndex];
 
-			Rectangle rect = new Rectangle(0, 0, 8, 8);
+            Rectangle rect = new Rectangle(0, 0, 8, 8);
 
-			Bitmap bmp = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmp = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-			Graphics g = Graphics.FromImage(bmp);
-			for (int ty = rect.Y; ty < rect.Y + rect.Height; ty++)
-			{
-				for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
-				{
-					if (this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty] != 0xffff && EditorInstance.EditLayerA != null)
-					{
-						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapA[tx, ty], tx - rect.X, ty - rect.Y);
-					}
-					if (this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty] != 0xffff && EditorInstance.EditLayerB != null)
-					{
-						DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapB[tx, ty], tx - rect.X, ty - rect.Y);
-					}
-				}
-			}
-			g.Flush();
-			g.Dispose();
-			this.ChunkImagesAB.Insert(chunkIndex, bmp);
-			return this.ChunkImagesAB[chunkIndex];
-		}
+            Graphics g = Graphics.FromImage(bmp);
+            for (int ty = rect.Y; ty < rect.Y + rect.Height; ty++)
+            {
+                for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+                {
+                    if (this.StageStamps.StampList[chunkIndex].TileMapA[tx][ty] != 0xffff)
+                    {
+                        DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapA[tx][ty], tx - rect.X, ty - rect.Y);
+                    }
+                    if (this.StageStamps.StampList[chunkIndex].TileMapB[tx][ty] != 0xffff)
+                    {
+                        DrawTile(g, this.StageStamps.StampList[chunkIndex].TileMapB[tx][ty], tx - rect.X, ty - rect.Y);
+                    }
+                }
+            }
+            g.Flush();
+            g.Dispose();
+            this.ChunkImagesAB.Insert(chunkIndex, bmp);
+            return this.ChunkImagesAB[chunkIndex];
+        }
 
-		public void ConvertClipboardtoChunk(Dictionary<Point, ushort> points)
+        public void ConvertClipboardtoChunk(Dictionary<Point, ushort> points)
 		{
 			int minimumX = points.Min(kvp => kvp.Key.X);
 			int minimumY = points.Min(kvp => kvp.Key.Y);
@@ -156,7 +167,54 @@ namespace ManiacEditor
 			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPoints));
 		}
 
-		public void ConvertClipboardtoMultiLayerChunk(Dictionary<Point, ushort> pointsA, Dictionary<Point, ushort> pointsB = null)
+        public void AutoGenerateChunks(EditorLayer LayerA, EditorLayer LayerB)
+        {
+            EditorInstance.UI.UpdateWaitingScreen(true);
+            EditorInstance.ToggleEditorButtons(false);
+
+            System.Threading.Thread thread = new System.Threading.Thread(() => {
+                int width = (LayerA.Width > LayerB.Width ? LayerA.Width : LayerB.Width);
+                int height = (LayerA.Height > LayerB.Height ? LayerA.Height : LayerB.Height);
+                int ChunkWidth = width / 8;
+                int ChunkHeight = height / 8;
+
+                for (int i = 0; i < ChunkHeight; ++i)
+                {
+                    for (int j = 0; j < ChunkWidth; ++j)
+                    {
+                        int tileX = j * 8;
+                        int tileY = i * 8;
+
+                        int x1 = j * 8;
+                        int x2 = x1 + 8;
+                        int y1 = i * 8;
+                        int y2 = y1 + 8;
+                        ushort[][] ChunkMapA = new ushort[8][];
+                        ushort[][] ChunkMapB = new ushort[8][];
+                        for (int x = 0; x < 8; x++)
+                        {
+                            ChunkMapA[x] = new ushort[8];
+                            ChunkMapB[x] = new ushort[8];
+                            for (int y = 0; y < 8; y++)
+                            {
+                                ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
+                                ChunkMapB[x][y] = LayerB.GetTileAt(tileX + x, tileY + y);
+                            }
+                        }
+                        var newChunk = new RSDKv5.Stamps.TileChunk(ChunkMapA, ChunkMapB, 8);
+                        var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
+                        if (duplicate == false) StageStamps.StampList.Add(newChunk);
+                    }
+                }
+                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.UpdateWaitingScreen(false)));
+                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.ToggleEditorButtons(true)));
+
+            })
+            { IsBackground = true };
+            thread.Start();
+        }
+
+        public void ConvertClipboardtoMultiLayerChunk(Dictionary<Point, ushort> pointsA, Dictionary<Point, ushort> pointsB = null)
 		{
 			if (pointsB == null || pointsB.Count == 0)
 			{
@@ -247,7 +305,7 @@ namespace ManiacEditor
 				for (int y = 0; y < chunkSize; y++)
 				{
 					Point p = new Point((TileCoord.X / 16) + x, (TileCoord.Y / 16) + y);
-					if (CompareChunk.TileMapA[x, y] == EditLayer.GetTileAt(p.X, p.Y)) continue;
+					if (CompareChunk.TileMapA[x][y] == EditLayer.GetTileAt(p.X, p.Y)) continue;
 					else
 					{
 						return false;
@@ -258,7 +316,26 @@ namespace ManiacEditor
 			return true;
 		}
 
-		public bool IsChunkEmpty(Point point, EditorLayer EditLayer, int chunkSize = 8)
+        public bool DoesChunkMatch(Stamps.TileChunk CompareChunk, Stamps.TileChunk CompareChunk2, int chunkSize = 8)
+        {
+            for (int x = 0; x < chunkSize; x++)
+            {
+                for (int y = 0; y < chunkSize; y++)
+                {
+                    if (CompareChunk.TileMapA[x][y] == CompareChunk.TileMapA[x][y])
+                    {
+                        if (CompareChunk.TileMapB[x][y] == CompareChunk.TileMapB[x][y]) continue;
+                        else return false;
+                    }
+                    else return false;
+
+
+                }
+            }
+            return true;
+        }
+
+        public bool IsChunkEmpty(Point point, EditorLayer EditLayer, int chunkSize = 8)
 		{
 			if (EditLayer == null) return true;
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
@@ -278,14 +355,14 @@ namespace ManiacEditor
 
 		public Dictionary<Point, ushort> ConvertChunkSideAtoClipboard(Stamps.TileChunk Chunk)
 		{
-			ushort[,] ChunkData = Chunk.TileMapA;
+			ushort[][] ChunkData = Chunk.TileMapA;
 			Dictionary<Point, ushort> ClipboardData = new Dictionary<Point, ushort>();
 
 			for (int x = 0; x < Chunk.ChunkSize; x++)
 			{
 				for (int y = 0; y < Chunk.ChunkSize; y++)
 				{
-					ClipboardData.Add(new Point(x, y), ChunkData[x, y]);
+					ClipboardData.Add(new Point(x, y), ChunkData[x][y]);
 				}
 			}
 
@@ -294,14 +371,14 @@ namespace ManiacEditor
 
 		public Dictionary<Point, ushort> ConvertChunkSideBtoClipboard(Stamps.TileChunk Chunk)
 		{
-			ushort[,] ChunkData = Chunk.TileMapB;
+			ushort[][] ChunkData = Chunk.TileMapB;
 			Dictionary<Point, ushort> ClipboardData = new Dictionary<Point, ushort>();
 
 			for (int x = 0; x < Chunk.ChunkSize; x++)
 			{
 				for (int y = 0; y < Chunk.ChunkSize; y++)
 				{
-					ClipboardData.Add(new Point(x, y), ChunkData[x, y]);
+					ClipboardData.Add(new Point(x, y), ChunkData[x][y]);
 				}
 			}
 

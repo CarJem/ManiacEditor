@@ -121,7 +121,7 @@ namespace ManiacEditor
         {
             MoveUpValueButton.IsEnabled = (ValueList.SelectedIndex != -1 && ValueList.SelectedItem != null && !(ValueList.SelectedIndex - 1 < 0));
             MoveDownValueButton.IsEnabled = (ValueList.SelectedIndex != -1 && ValueList.SelectedItem != null && !(ValueList.SelectedIndex + 1 > ValueList.Items.Count - 1));
-            AddValueButton.IsEnabled = (ValueList.Items != null && ValueList.Items.Count >= 0);
+            AddValueButton.IsEnabled = (ValueList.Items != null && ValueList.Items.Count >= 0 && KeyList.SelectedItem != null);
             RemoveValueButton.IsEnabled = (ValueList.SelectedIndex != -1 && ValueList.SelectedItem != null);
         }
 

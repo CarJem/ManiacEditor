@@ -38,14 +38,31 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Chunks" Foreground="{DynamicResource NormalText}">
-                <Grid x:Name="ChunksPage">
+                <Grid x:Name="ChunksTab">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="ChunksSlider" Grid.Row="0">
+                        <Slider ValueChanged="TrackBar2_ValueChanged" x:Name="trackBar2" VerticalAlignment="Center" Value="2" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
+                    </Grid>
+                    <Grid Grid.Row="1" x:Name="ChunksPage"></Grid>
                 </Grid>
+
             </TabItem>
         </TabControl>
         <wpfTool:SplitButton IsEnabled="False" x:Name="TileChunkOptionsMenu" Grid.Column="2" Height="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,2">
             <wpfTool:SplitButton.DropDownContent>
                 <StackPanel Background="{DynamicResource ContextMenuBackground}">
                     <MenuItem Header="Save Current Chunks to File" x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
+                    <MenuItem x:Name="AutoGenerateChunks" Click="AutoGenerateChunks_Click">
+                        <MenuItem.Header>
+                            <StackPanel>
+                                <TextBlock>Auto Generate Chunks from Current Layers</TextBlock>
+                                <TextBlock>(Make Sure that you have Both Multi-Layers Selected)</TextBlock>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
                 </StackPanel>
             </wpfTool:SplitButton.DropDownContent>
         </wpfTool:SplitButton>
