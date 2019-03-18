@@ -16,7 +16,6 @@ namespace ManiacEditor
     public class EditorState
     {
         string newLine = Environment.NewLine;
-        System.Windows.Forms.Timer t;
         public Editor EditorInstance;
         public bool panelMode = false;
         public EditorState(Editor instance)

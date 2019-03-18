@@ -451,7 +451,7 @@ namespace ManiacEditor
                 _device.Present();
 
             }
-			catch (SharpDXException ex)
+			catch
 			{
                 ResetDevice();
 			}

@@ -54,12 +54,13 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
+
             //var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, false, false, false, rotation, true);
             //var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, true, false, false, rotation, true);
             var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 1, -1, false, false, false);
             //var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 2, -1, false, false, false, rotation, true);
 
-            if (editorAnim3 != null && editorAnim3.Frames.Count != 0)
+            if (editorAnim3 != null && editorAnim3.Frames.Count != 0 && rotation != -1)
             {
                 var frame3 = editorAnim3.Frames[0];
                 //Universal Center Screw

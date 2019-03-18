@@ -757,10 +757,6 @@ namespace ManiacEditor
 						Editor.checkpointSelected = false;
 					}
 				}
-				void Scrolling()
-				{
-				    ToggleScrollerMode(e);
-				}
 			}
 			void Right()
 			{

@@ -31,7 +31,6 @@ namespace ManiacEditor.Interfaces
 	/// </summary>
 	public partial class OptionsMenu : Window
 	{
-		bool preRenderRadioGroupCheckChangeAllowed = true;
 		bool collisionColorsRadioGroupCheckChangeAllowed = true;
 		public Editor EditorInstance;
 		System.Windows.Forms.Timer CheckGraphicalSettingTimer;
@@ -48,7 +47,6 @@ namespace ManiacEditor.Interfaces
 			else radioButtonY.IsChecked = true;
 
 			collisionColorsRadioGroupUpdate(Properties.Settings.Default.CollisionColorsDefault);
-			preRenderRadioGroupCheckChangeAllowed = true;
 			collisionColorsRadioGroupCheckChangeAllowed = true;
 			if (Properties.Settings.Default.x16Default) uncheckOtherGridDefaults(1);
 			if (Properties.Settings.Default.x128Default) uncheckOtherGridDefaults(2);
