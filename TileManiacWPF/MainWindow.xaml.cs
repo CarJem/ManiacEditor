@@ -25,7 +25,7 @@ using Clipboard = System.Windows.Clipboard;
 using Grid = System.Windows.Controls.Grid;
 using System.Threading;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
 	public partial class MainWindow : Window
 	{
@@ -107,45 +107,45 @@ namespace TileManiacWPF
 				CollisionColor = Color.FromArgb(20, 148, 20);
 			}
 
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/1.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/2.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/3.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/4.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/5.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/6.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/7.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/8.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/9.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/10.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/11.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/12.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/13.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/14.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/15.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/16.png", UriKind.Relative)));
-			ColImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/0.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/1.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/2.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/3.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/4.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/5.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/6.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/7.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/8.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/9.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/10.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/11.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/12.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/13.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/14.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/15.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/16.png", UriKind.Relative)));
+			ColImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/0.png", UriKind.Relative)));
 
 
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_1_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_2_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_3_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_4_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_5_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_6_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_7_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_8_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_9_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_10_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_11_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_12_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_13_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_14_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_15_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_16_NoCol.png", UriKind.Relative)));
-			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/_0_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_1_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_2_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_3_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_4_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_5_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_6_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_7_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_8_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_9_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_10_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_11_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_12_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_13_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_14_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_15_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_16_NoCol.png", UriKind.Relative)));
+			ColImgesNoCol.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/_0_NoCol.png", UriKind.Relative)));
 
-			ColActivatedImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/Red.png", UriKind.Relative)));
-			ColActivatedImges.Add(new BitmapImage(new Uri(@"/TileManiacWPF;component/Resources/Green.png", UriKind.Relative)));
+			ColActivatedImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/Red.png", UriKind.Relative)));
+			ColActivatedImges.Add(new BitmapImage(new Uri(@"/TileManiac;component/Resources/Green.png", UriKind.Relative)));
 
 
 			Viewer1.Source = ColImges[16];

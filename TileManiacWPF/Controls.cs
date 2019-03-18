@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Reflection;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
 	public class EditorControls
 	{

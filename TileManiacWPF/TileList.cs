@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
 
 
@@ -106,7 +106,7 @@ namespace TileManiacWPF
 		private void SetupHostScrollBar()
 		{
 			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-			this.vScrollBar1Host = new TileManiacWPF.VScrollBar();
+			this.vScrollBar1Host = new TileManiac.VScrollBar();
 			// 
 			// elementHost1
 			// 

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
     /// <summary>
     /// Interaction logic for HScrollBar.xaml

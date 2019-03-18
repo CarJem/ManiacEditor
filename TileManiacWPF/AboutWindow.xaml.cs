@@ -17,7 +17,7 @@ using System.Reflection;
 using System.Windows.Navigation;
 
 
-namespace TileManiacWPF
+namespace TileManiac
 {
 	/// <summary>
 	/// Interaction logic for AboutWindow.xaml

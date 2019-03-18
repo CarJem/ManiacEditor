@@ -9,7 +9,7 @@
 // Original Project from evanwon/WPFCustomMessageBox on Github
 //
 
-namespace TileManiacWPF
+namespace TileManiac
 {
     using System.Windows;
 

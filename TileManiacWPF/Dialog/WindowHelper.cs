@@ -1,4 +1,4 @@
-﻿namespace TileManiacWPF
+﻿namespace TileManiac
 {
 	using System;
 	using System.Runtime.InteropServices;

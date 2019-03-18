@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
     /// <summary>
     /// Interaction logic for HScrollBar.xaml

@@ -1,4 +1,4 @@
-﻿namespace TileManiacWPF.Properties {
+﻿namespace TileManiac.Properties {
     
     
     // This class allows you to handle specific events on the settings class:

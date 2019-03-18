@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TileManiacWPF.Properties" GeneratedClassName="KeyBinds">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TileManiac.Properties" GeneratedClassName="KeyBinds">
   <Profiles />
   <Settings>
     <Setting Name="NewInstance" Type="System.Collections.Specialized.StringCollection" Scope="User">

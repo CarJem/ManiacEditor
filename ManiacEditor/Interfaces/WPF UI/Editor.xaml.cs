@@ -220,7 +220,7 @@ namespace ManiacEditor
         public EditorUIModes UIModes;
 
         //Tile Maniac + ManiaPal Instance
-        public TileManiacWPF.MainWindow mainform = new TileManiacWPF.MainWindow();
+        public TileManiac.MainWindow mainform = new TileManiac.MainWindow();
 
 		//Editor Misc. Variables
 		System.Windows.Forms.Timer StatusPanelTickTimer;
@@ -3042,7 +3042,7 @@ namespace ManiacEditor
 
 		private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (mainform == null || mainform.IsClosed) mainform = new TileManiacWPF.MainWindow();
+			if (mainform == null || mainform.IsClosed) mainform = new TileManiac.MainWindow();
 			if (mainform.Visibility != Visibility.Visible)
 			{
 				mainform.Show();

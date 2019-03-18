@@ -13,7 +13,7 @@ using System.Configuration;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
     public static class Extensions
     {
@@ -330,7 +330,7 @@ namespace TileManiacWPF
 
 		private void Initialize()
 		{
-			this.Source = TileManiacWPF.Properties.Settings.Default;
+			this.Source = TileManiac.Properties.Settings.Default;
 			this.Mode = BindingMode.TwoWay;
 		}
 	}

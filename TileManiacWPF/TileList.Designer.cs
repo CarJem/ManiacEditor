@@ -1,4 +1,4 @@
-﻿namespace TileManiacWPF
+﻿namespace TileManiac
 {
     partial class TileList
     {

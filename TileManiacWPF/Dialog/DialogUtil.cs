@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace TileManiacWPF
+namespace TileManiac
 {
     using System.Drawing;
     using System.Windows;

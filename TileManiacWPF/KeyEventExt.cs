@@ -1,4 +1,4 @@
-﻿namespace TileManiacWPF
+﻿namespace TileManiac
 {
 	public static class KeyEventExtsTM
 	{

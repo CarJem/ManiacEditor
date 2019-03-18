@@ -20,7 +20,7 @@ using System.Windows.Forms.PropertyGridInternal;
 using Keys = System.Windows.Forms.Keys;
 using KeysConverter = System.Windows.Forms.KeysConverter;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
 	/// <summary>
 	/// Interaction logic for OptionsMenu.xaml

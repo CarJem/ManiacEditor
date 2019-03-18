@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using TileManiacWPF;
+using TileManiac;
 
 namespace ManiacEditor.Interfaces
 {
@@ -440,7 +440,7 @@ namespace ManiacEditor.Interfaces
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (EditorInstance.mainform == null || EditorInstance.mainform.IsClosed) EditorInstance.mainform = new TileManiacWPF.MainWindow();
+			if (EditorInstance.mainform == null || EditorInstance.mainform.IsClosed) EditorInstance.mainform = new TileManiac.MainWindow();
 			if (EditorInstance.mainform.Visibility != System.Windows.Visibility.Visible)
 			{
 				EditorInstance.mainform.Show();

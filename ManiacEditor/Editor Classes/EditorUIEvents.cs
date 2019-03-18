@@ -1378,7 +1378,7 @@ a valid Data Directory.",
 
 		public void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Editor.mainform == null || Editor.mainform.IsClosed) Editor.mainform = new TileManiacWPF.MainWindow();
+			if (Editor.mainform == null || Editor.mainform.IsClosed) Editor.mainform = new TileManiac.MainWindow();
 			Editor.mainform.Show();
 			if (Editor.TilesConfig != null && Editor.EditorTiles.StageTiles != null)
 			{

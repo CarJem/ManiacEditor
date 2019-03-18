@@ -100,9 +100,18 @@ Missing file: {fnfe.FileName}");
             Console.WriteLine("Finished Objects");
             if (allowedToLoad)
             {
-                var application = new ManiacEditor.App();
-				application.InitializeComponent();
-                application.Load(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
+                try
+                {
+                    var application = new ManiacEditor.App();
+                    application.InitializeComponent();
+                    application.Load(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    throw ex;
+                }
+
             }
         }
 

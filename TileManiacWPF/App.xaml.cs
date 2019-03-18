@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace TileManiacWPF
+namespace TileManiac
 {
 	/// <summary>
 	/// Interaction logic for App.xaml
@@ -25,7 +25,7 @@ namespace TileManiacWPF
 
 		public App()
 		{
-			if (TileManiacWPF.Properties.Settings.Default.NightMode)
+			if (TileManiac.Properties.Settings.Default.NightMode)
 			{
 				ChangeSkin(Skin.Dark);
 			}
