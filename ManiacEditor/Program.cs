@@ -81,11 +81,12 @@ namespace ManiacEditor
             bool allowedToLoad = false;
             try
             {
-                using (var stream = GetObjectsIniResource())
-                {
-                   RSDKv5.Objects.InitObjects(stream);
-                    allowedToLoad = true;
-                }
+                Console.WriteLine("Setting up Objects");
+                string objIni = Environment.CurrentDirectory + @"\Resources\objects.ini";
+                string attribIni = Environment.CurrentDirectory + @"\Resources\attributes.ini";
+                RSDKv5.Objects.InitObjectNames(new StreamReader(File.OpenRead(objIni)));
+                RSDKv5.Objects.InitAttributeNames(new StreamReader(File.OpenRead(attribIni)));
+                allowedToLoad = true;
             }
             catch (FileNotFoundException fnfe)
             {
@@ -96,7 +97,7 @@ Missing file: {fnfe.FileName}");
             {
                 DisplayLoadFailure(e.Message);
             }
-
+            Console.WriteLine("Finished Objects");
             if (allowedToLoad)
             {
                 var application = new ManiacEditor.App();
@@ -118,22 +119,6 @@ Missing file: {fnfe.FileName}");
             string exeLocationUrl = Assembly.GetEntryAssembly().GetName().CodeBase;
             string exeLocation = new Uri(exeLocationUrl).LocalPath;
             return new FileInfo(exeLocation).Directory.FullName;
-        }
-
-        private static FileStream GetObjectsIniResource()
-        {
-            string executingDirectory = GetExecutingDirectoryName();
-            string fullPathToIni = executingDirectory + @"\Resources\objects_attributes.ini";
-            if (!File.Exists(fullPathToIni))
-            {
-                throw new FileNotFoundException("Unable to find the required file for naming objects and attributes.",
-                                                @"\Resources\objects_attributes.ini");
-            }
-
-            return new FileStream(fullPathToIni,
-                                  FileMode.Open,
-                                  FileAccess.Read,
-                                  FileShare.Read);
         }
     }
 }

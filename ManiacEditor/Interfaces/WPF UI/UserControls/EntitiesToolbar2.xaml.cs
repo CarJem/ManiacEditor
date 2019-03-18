@@ -734,7 +734,7 @@ namespace ManiacEditor
 			{
 				if (name == "name" && oldValue != value)
 				{
-					var info = RSDKv5.Objects.GetObjectInfo(new RSDKv5.NameIdentifier(value as string));
+					var info = RSDKv5.Objects.GetObjectName(new RSDKv5.NameIdentifier(value as string));
 					if (info == null)
 					{
 						MessageBox.Show("Unknown Object", "", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -745,9 +745,10 @@ namespace ManiacEditor
 					var obj = objects.FirstOrDefault(t => t.Name.Name == value as string);
 					if (obj != null)
 					{
-						entity.Attributes.Clear();
+                        var attribs = entity.Object.Attributes;
+                        entity.Attributes.Clear();
 						entity.attributesMap.Clear();
-						foreach (var attb in info.Attributes)
+						foreach (var attb in attribs)
 						{
 							var attributeValue = new RSDKv5.AttributeValue(attb.Type);
 							entity.Attributes.Add(attributeValue);
@@ -760,11 +761,11 @@ namespace ManiacEditor
 					else
 					{
 						// The new object
-						var sobj = new RSDKv5.SceneObject(info.Name, info.Attributes);
+						var sobj = new RSDKv5.SceneObject(entity.Object.Name, entity.Object.Attributes);
 
 						entity.Attributes.Clear();
 						entity.attributesMap.Clear();
-						foreach (var attb in info.Attributes)
+						foreach (var attb in entity.Object.Attributes)
 						{
 							var attributeValue = new RSDKv5.AttributeValue(attb.Type);
 							entity.Attributes.Add(attributeValue);

@@ -49,7 +49,10 @@ namespace ManiacEditor
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ManiacEditor.Resources.objects_attributes.ini"))
             {
-                Objects.InitObjects(stream, true);
+                string objIni = Environment.CurrentDirectory + @"\Resources\objects.ini";
+                string attribIni = Environment.CurrentDirectory + @"\Resources\attributes.ini";
+                Objects.InitObjectNames(new StreamReader(File.OpenRead(objIni)));
+                Objects.InitAttributeNames(new StreamReader(File.OpenRead(attribIni)));
             }
 
             _scene = new Scene(fileName);
