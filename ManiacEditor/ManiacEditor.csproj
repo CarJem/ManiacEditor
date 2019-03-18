@@ -1372,8 +1372,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Resource Include="blankicon.ico" />
-    <Resource Include="Resources\AttributeList.txt" />
-    <Resource Include="Resources\EntitiesList.txt" />
     <Content Include="Resources\Global\EditorIcons2.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
