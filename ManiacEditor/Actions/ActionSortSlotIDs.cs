@@ -5,31 +5,27 @@ using System.Linq;
 
 namespace ManiacEditor.Actions
 {
-    class ActionSortSlotIDs : IAction
+    class ActionOptimizeSlotIDs : IAction
     {
-        IList<SceneEntity> entities;
-        IList<ushort> EntitiesOrderedSlotIDs;
-        IList<ushort> orderedSlotIDs;
-        Action<IList<SceneEntity>, IList<ushort>> setValue;
+        List<SceneEntity> entities;
+        Action<List<SceneEntity>> setValue;
 
         public string Description => $"Sorting the Slot ID Order of {entities.Count} Entities";
 
-        public ActionSortSlotIDs(IList<SceneEntity> entities, IList<ushort> orderedSlotIDs, IList<ushort> EntitiesOrderedSlotIDs, Action<IList<SceneEntity>, IList<ushort>> setValue)
+        public ActionOptimizeSlotIDs(List<SceneEntity> entities, Action<List<SceneEntity>> setValue)
         {
             this.entities = entities;
-            this.orderedSlotIDs = orderedSlotIDs;
             this.setValue = setValue;
-            this.EntitiesOrderedSlotIDs = EntitiesOrderedSlotIDs;
         }
 
         public void Undo()
         {
-            setValue(entities, EntitiesOrderedSlotIDs);
+            setValue(entities);
         }
 
         public IAction Redo()
         {
-            return new ActionSortSlotIDs(entities, EntitiesOrderedSlotIDs, orderedSlotIDs, setValue);
+            return new ActionOptimizeSlotIDs(entities, setValue);
         }
     }
 }

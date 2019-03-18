@@ -79,7 +79,9 @@
                         <wpfTool:SplitButton.DropDownContent>
                             <StackPanel Background="{DynamicResource ContextMenuBackground}">
                                 <MenuItem x:Name="GoToObject" Header="Go to this Entity" Click="goToThisEntityToolStripMenuItem_Click"></MenuItem>
-                                <MenuItem x:Name="SortSelectedSlotIDs" Header="Sort Selected Object's Slot ID's" Click="SortSelectedSlotIDs_Click"></MenuItem>
+                                <MenuItem x:Name="SortSelectedSlotIDs" Header="Sort Selected Object's Slot IDs" Click="SortSelectedSlotIDs_Click"></MenuItem>
+                                <MenuItem x:Name="SortSelectedSlotIDsOptimized" Header="Sort Selected Object's Slot IDs (Optimized Mode)" Click="SortSelectedSlotIDsOptimized_Click"></MenuItem>
+
                             </StackPanel>
                         </wpfTool:SplitButton.DropDownContent>
                     </wpfTool:SplitButton>

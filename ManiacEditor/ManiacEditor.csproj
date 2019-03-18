@@ -409,6 +409,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActionOptimizeSlotIDs.cs" />
     <Compile Include="Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />

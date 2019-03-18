@@ -236,7 +236,7 @@ namespace ManiacEditor
 
 
 
-        public void OrderSelectedSlotIDs()
+        public void OrderSelectedSlotIDs(bool optimize = false)
         {
             IList<SceneEntity> OrderedEntities = new List<SceneEntity>();
             IList<ushort> OrderedSlotIDs = new List<ushort>();
@@ -247,15 +247,17 @@ namespace ManiacEditor
             }
             foreach (var entity in SelectedEntities.OrderBy(x => x.Entity.SlotID))
             {
-                OrderedSlotIDs.Add(entity.Entity.SlotID);
+                if (optimize) OrderedSlotIDs.Add(GetRealSlotID(entity.Entity));
+                else OrderedSlotIDs.Add(entity.Entity.SlotID);
+
             }
             foreach (var entity in OrderedEntities)
             {
                 UnorderedSlotIDs.Add(entity.SlotID);
             }
-            IAction action = new Actions.ActionSortSlotIDs(OrderedEntities, OrderedSlotIDs, UnorderedSlotIDs, new Action<IList<SceneEntity>, IList<ushort>>(SwapSeveralSlotIDs));
+            IAction action = new Actions.ActionSortSlotIDs(OrderedEntities, OrderedSlotIDs, UnorderedSlotIDs, new Action<IList<SceneEntity>, IList<ushort>>(ChangeSeveralSlotIDs));
             SlotIDSwapped?.Invoke(action);
-            SwapSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
+            ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
             EditorInstance.undo.Push(action);
             EditorInstance.redo.Clear();
@@ -277,7 +279,7 @@ namespace ManiacEditor
             EditorInstance.redo.Clear();
             EditorInstance.UI.UpdateControls();
         }
-        public void SwapSeveralSlotIDs(IList<SceneEntity> entities, IList<ushort> slots)
+        public void ChangeSeveralSlotIDs(IList<SceneEntity> entities, IList<ushort> slots)
         {
             for (int i = 0; i < entities.Count; i++)
             {
@@ -291,16 +293,25 @@ namespace ManiacEditor
             B.SlotID = slotA;
         }
 
-        public void OptimizeSlotIDs()
+        public void OptimizeAllSlotIDs()
         {
-            var entitiesSortedBySlot = Entities.OrderBy(e => e.Entity.SlotID).ToList();
-            int lastSlotID = EntitiesBySlot.Values.Last().Entity.SlotID;
-            int unusedSpaces = lastSlotID - entitiesSortedBySlot.Count;
-            for (int i = 0; i < Entities.Count; i++)
+            IList<SceneEntity> OrderedEntities = new List<SceneEntity>();
+            IList<ushort> OrderedSlotIDs = new List<ushort>();
+            IList<ushort> UnorderedSlotIDs = new List<ushort>();
+            foreach (var entity in Entities.OrderBy(x => x.Entity.SlotID))
             {
-                entitiesSortedBySlot[i].Entity.SlotID = (ushort)i;
+                OrderedEntities.Add(entity.Entity);
+                OrderedSlotIDs.Add(GetRealSlotID(entity.Entity));
+                UnorderedSlotIDs.Add(entity.Entity.SlotID);
             }
-            Entities = entitiesSortedBySlot;
+
+            IAction action = new Actions.ActionSortSlotIDs(OrderedEntities, OrderedSlotIDs, UnorderedSlotIDs, new Action<IList<SceneEntity>, IList<ushort>>(ChangeSeveralSlotIDs));
+            SlotIDSwapped?.Invoke(action);
+            ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
+
+            EditorInstance.undo.Push(action);
+            EditorInstance.redo.Clear();
+            EditorInstance.UI.UpdateControls();
         }
 
         /// <summary>

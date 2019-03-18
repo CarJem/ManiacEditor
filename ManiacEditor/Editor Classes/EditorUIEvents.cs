@@ -1151,7 +1151,7 @@ a valid Data Directory.",
 		{
 			if (Editor.EditorScene != null)
 			{
-				Editor.entities.OptimizeSlotIDs();
+				Editor.entities.OptimizeAllSlotIDs();
 			}
 		}
 		public void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e)

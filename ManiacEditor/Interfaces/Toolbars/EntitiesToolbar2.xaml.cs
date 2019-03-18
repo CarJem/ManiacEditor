@@ -1026,5 +1026,10 @@ namespace ManiacEditor
         {
             EditorInstance.entities.OrderSelectedSlotIDs();
         }
+
+        private void SortSelectedSlotIDsOptimized_Click(object sender, RoutedEventArgs e)
+        {
+            EditorInstance.entities.OrderSelectedSlotIDs(true);
+        }
     }
 }
