@@ -2265,7 +2265,7 @@ namespace ManiacEditor
 		private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ChangeEncorePaleteToolStripMenuItem_Click(sender, e); }
 		public void SetEncorePallete(object sender = null, string path = "") { UIEvents.SetEncorePallete(sender, path); }
 		private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.MoveExtraLayersToFrontToolStripMenuItem_Click(sender, e); }
-		private void ToolStripTextBox1_TextChanged(object sender, RoutedEventArgs e) { UIEvents.ToolStripTextBox1_TextChanged(sender, e); }
+		private void ToolStripTextBox1_TextChanged(object sender, TextChangedEventArgs e) { UIEvents.ToolStripTextBox1_TextChanged(sender, e); }
 		private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ShowEntitySelectionBoxesToolStripMenuItem_Click(sender, e); }
 		private void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ShowWaterLevelToolStripMenuItem_Click(sender, e); }
 		private void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e) { UIEvents.WaterLevelAlwaysShowItem_Click(sender, e); }
@@ -3092,6 +3092,18 @@ namespace ManiacEditor
 		}
         #endregion
 
+        #region Entity Context Menu Items
+        private void SortSelectedSlotIDs_Click(object sender, RoutedEventArgs e)
+        {
+            entities.OrderSelectedSlotIDs();
+        }
+
+        private void SortSelectedSlotIDsOptimized_Click(object sender, RoutedEventArgs e)
+        {
+            entities.OrderSelectedSlotIDs(true);
+        }
+        #endregion
+
         #region Temporary Region
 
         private void Spliter_DragDelta(object sender, DragDeltaEventArgs e)
@@ -3130,6 +3142,7 @@ namespace ManiacEditor
 
         public void ResetViewSize() { EditorView.ResetViewSize(); }
         public void ResizeGraphicPanel(int width = 0, int height = 0) { EditorView.ResizeGraphicPanel(width, height); }
+
 
         #endregion
 

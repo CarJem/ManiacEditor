@@ -15,6 +15,7 @@ using Color = System.Drawing.Color;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Controls;
 
 namespace ManiacEditor
 {
@@ -22,7 +23,7 @@ namespace ManiacEditor
 	public class EditorUIEvents
 	{
 		private Editor Editor;
-
+        bool lockTextBox = false;
 
 		public ManiacED_ManiaPal.Connector ManiaPalConnector;
 
@@ -681,19 +682,32 @@ a valid Data Directory.",
 			if (Editor.entityVisibilityType == 0)
 			{
 				Editor.showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked = true;
-				Editor.entityVisibilityType = 1;
+                Editor.showEntitiesAboveAllOtherLayersToolStripMenuItem2.IsChecked = true;
+                Editor.entityVisibilityType = 1;
 			}
 			else
 			{
 				Editor.showEntitiesAboveAllOtherLayersToolStripMenuItem.IsChecked = false;
-				Editor.entityVisibilityType = 0;
+                Editor.showEntitiesAboveAllOtherLayersToolStripMenuItem2.IsChecked = false;
+                Editor.entityVisibilityType = 0;
 			}
 
 		}
 
         public void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e)
         {
-            Editor.UIModes.EntitySelectionBoxesAlwaysPrioritized = Editor.SelectionBoxesAlwaysPrioritized.IsChecked;
+            if (Editor.UIModes.EntitySelectionBoxesAlwaysPrioritized)
+            {
+                Editor.UIModes.EntitySelectionBoxesAlwaysPrioritized = false;
+                Editor.SelectionBoxesAlwaysPrioritized.IsChecked = false;
+                Editor.SelectionBoxesAlwaysPrioritized2.IsChecked = false;
+            }
+            else
+            {
+                Editor.UIModes.EntitySelectionBoxesAlwaysPrioritized = true;
+                Editor.SelectionBoxesAlwaysPrioritized.IsChecked = true;
+                Editor.SelectionBoxesAlwaysPrioritized2.IsChecked = true;
+            }
         }
         public void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -701,12 +715,14 @@ a valid Data Directory.",
 			{
 				Settings.mySettings.PrioritizedObjectRendering = true;
 				Editor.prioritizedViewingToolStripMenuItem.IsChecked = true;
-			}
+                Editor.prioritizedViewingToolStripMenuItem2.IsChecked = true;
+            }
 			else
 			{
 				Settings.mySettings.PrioritizedObjectRendering = false;
 				Editor.prioritizedViewingToolStripMenuItem.IsChecked = false;
-			}
+                Editor.prioritizedViewingToolStripMenuItem2.IsChecked = false;
+            }
 
 		}
 
@@ -778,10 +794,20 @@ a valid Data Directory.",
 			}
 		}
 
-		public void ToolStripTextBox1_TextChanged(object sender, RoutedEventArgs e)
+		public void ToolStripTextBox1_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			Editor.entitiesTextFilter = Editor.toolStripTextBox1.Text;
-			Editor.entities.FilterRefreshNeeded = true;
+            if (sender is System.Windows.Controls.TextBox && lockTextBox == false)
+            {
+                lockTextBox = true;
+                System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
+                Editor.entitiesTextFilter = theSender.Text;
+                Editor.toolStripTextBox1.Text = Editor.entitiesTextFilter;
+                //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
+                Editor.entities.FilterRefreshNeeded = true;
+                lockTextBox = false;
+            }
+
+            
 		}
 
 		public void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e)

@@ -238,6 +238,7 @@ namespace ManiacEditor
 
         public void OrderSelectedSlotIDs(bool optimize = false)
         {
+            if (SelectedEntities == null || SelectedEntities.Count < 0) return;
             IList<SceneEntity> OrderedEntities = new List<SceneEntity>();
             IList<ushort> OrderedSlotIDs = new List<ushort>();
             IList<ushort> UnorderedSlotIDs = new List<ushort>();

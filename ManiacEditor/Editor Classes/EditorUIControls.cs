@@ -1585,82 +1585,83 @@ namespace ManiacEditor
 		{
             Point clicked_point = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
             Editor.GraphicsModel.GraphicPanel.Focus();
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right) ContextMenus();
+
+            void ContextMenus()
             {
                 if (Editor.InteractionToolButton.IsChecked.Value) InteractionTool();
-                else if (Editor.entities.GetEntityAt(clicked_point) != null && !IsTilesEdit() && Editor.entities.SelectedEntities.Count <= 1) EntitiesTooltip();
-            } 
+                else if (Editor.entities.GetEntityAt(clicked_point) != null && !IsTilesEdit() && (!Editor.UIModes.RightClicktoSwapSlotID || Editor.entities.SelectedEntities.Count <= 1)) EntitiesContextMenu();
 
-			void InteractionTool() {
-				if (IsTilesEdit())
-				{
-					Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-					int tile;
-					int tileA = (ushort)(Editor.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
-					int tileB = 0;
-					if (Editor.EditLayerB != null)
-					{
-						tileB = (ushort)(Editor.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
-						if (tileA > 1023 && tileB < 1023) tile = tileB;
-						else tile = tileA;
-					}
-					else tile = tileA;
-
-
-					Editor.SelectedTileID = tile;
-					Editor.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
-					Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning && Editor.EditorGame.CheckpointEnabled;
-					Editor.assetResetToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning && Editor.EditorGame.CheckpointEnabled;
+                void InteractionTool()
+                {
+                    if (IsTilesEdit())
+                    {
+                        Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+                        int tile;
+                        int tileA = (ushort)(Editor.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
+                        int tileB = 0;
+                        if (Editor.EditLayerB != null)
+                        {
+                            tileB = (ushort)(Editor.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
+                            if (tileA > 1023 && tileB < 1023) tile = tileB;
+                            else tile = tileA;
+                        }
+                        else tile = tileA;
 
 
-					Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
-					Editor.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-					Editor.ViewPanelContextMenu.IsOpen = true;
-				}
-				else
-				{
-					Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-					string tile = "N/A";
-					Editor.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
-					Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.moveThisPlayerToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.SelectedTileID = tile;
+                        Editor.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
+                        Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning && Editor.EditorGame.CheckpointEnabled;
+                        Editor.assetResetToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning && Editor.EditorGame.CheckpointEnabled;
 
-					Editor.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.assetResetToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
-					Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
 
-					Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
-					Editor.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-					Editor.ViewPanelContextMenu.IsOpen = true;
-				}
-			}
+                        Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+                        Editor.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                        Editor.ViewPanelContextMenu.IsOpen = true;
+                    }
+                    else
+                    {
+                        Point clicked_point_tile = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+                        string tile = "N/A";
+                        Editor.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
+                        Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.moveThisPlayerToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
 
-            void EntitiesTooltip()
-            {
-                string newLine = Environment.NewLine;
-                var currentEntity = Editor.entities.GetEntityAt(clicked_point);
-                System.Windows.Controls.ToolTip info = new System.Windows.Controls.ToolTip();
-                info.Content =
-                    String.Format("Entity Name: {0}", currentEntity.Name) + newLine +
-                    String.Format("Slot ID: {0}", currentEntity.Entity.SlotID) + newLine +
-                    String.Format("Runtime Slot ID: {0}", Editor.entities.GetRealSlotID(currentEntity.Entity)) + newLine +
-                    String.Format("X: {0}", currentEntity.Entity.Position.X.High) + newLine +
-                    String.Format("Y: {0}", currentEntity.Entity.Position.Y.High) + newLine +
-                    String.Format("{0}", "");
-                info.Foreground = (System.Windows.Media.SolidColorBrush)Editor.FindResource("NormalText");
-                info.Background = (System.Windows.Media.SolidColorBrush)Editor.FindResource("NormalBackground");
-                info.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-                info.StaysOpen = false;
-                info.IsOpen = true;
+                        Editor.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.assetResetToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
+                        Editor.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
+
+                        Editor.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+                        Editor.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                        Editor.ViewPanelContextMenu.IsOpen = true;
+                    }
+                }
+
+                void EntitiesContextMenu()
+                {
+                    string newLine = Environment.NewLine;
+                    var currentEntity = Editor.entities.GetEntityAt(clicked_point);
+                    System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
+                    Editor.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
+                    Editor.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", currentEntity.Entity.SlotID, Environment.NewLine, Editor.entities.GetRealSlotID(currentEntity.Entity));
+                    Editor.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Entity.Position.X.High, currentEntity.Entity.Position.Y.High);
+                    info.ItemsSource = Editor.EntityContext.Items;
+                    info.Foreground = (System.Windows.Media.SolidColorBrush)Editor.FindResource("NormalText");
+                    info.Background = (System.Windows.Media.SolidColorBrush)Editor.FindResource("NormalBackground");
+                    info.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                    info.StaysOpen = false;
+                    info.IsOpen = true;
+                }
             }
+
 		}
 		public void SetClickedXY(System.Windows.Forms.MouseEventArgs e) { ClickedX = e.X; ClickedY = e.Y; }
 		public void SetClickedXY(Point e) { ClickedX = e.X; ClickedY = e.Y;}

@@ -216,7 +216,7 @@
                         <MenuItem x:Name="SelectionBoxesAlwaysPrioritized" Header="Selection Boxes Always Prioritized" Click="SelectionBoxesAlwaysPrioritized_Click" IsCheckable="True" IsChecked="True"></MenuItem>
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         <MenuItem x:Name="objectFilterToolStripMenuItem" Header="Entity Filter:" IsEnabled="False"/>
-                        <TextBox x:Name="toolStripTextBox1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0" Height="15" UseLayoutRounding="False" Width="100" TextChanged="ToolStripTextBox1_TextChanged"/>
+                        <TextBox x:Name="toolStripTextBox1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,-5.5,0" Height="21.168" UseLayoutRounding="False" Width="181.5" TextChanged="ToolStripTextBox1_TextChanged"/>
                     </MenuItem>
                     <MenuItem x:Name="layerPriorityOptionsToolStripMenuItem" Header="Layer Priority Options...">
                         <MenuItem x:Name="moveExtraLayersToFrontToolStripMenuItem" Header="Move Extra Layers to Front" Click="MoveExtraLayersToFrontToolStripMenuItem_Click"/>
@@ -814,15 +814,46 @@
                 </StackPanel>
             </StatusBarItem>
 
-
-
-
-
             <MenuItem Header="Context 2" Visibility="Collapsed">
                 <MenuItem x:Name="moveThisPlayerToolStripMenuItem"/>
             </MenuItem>
 
-
+            <MenuItem x:Name="EntityContext" Header="Entity Tools" Visibility="Collapsed">
+                <MenuItem x:Name="EntityNameItem" IsEnabled="False"></MenuItem>
+                <MenuItem x:Name="EntitySlotIDItem" IsEnabled="False"></MenuItem>
+                <MenuItem x:Name="EntityPositionItem" IsEnabled="False"></MenuItem>
+                <MenuItem x:Name="EntityTools" Header="Edit...">
+                    <MenuItem IsEnabled="False" Header="Slot ID Sorting/Optimization"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem x:Name="SortSelectedSlotIDs" Header="Sort Selected Object Slot IDs" Click="SortSelectedSlotIDs_Click"></MenuItem>
+                    <MenuItem x:Name="SortSelectedSlotIDsOptimized" Header="Sort Selected Object Slot IDs (Optimized Mode)" Click="SortSelectedSlotIDsOptimized_Click"></MenuItem>
+                    <MenuItem x:Name="OptimizeSlotIDs2" Header="Optimize All Entity Slot IDs" Click="OptimizeEntitySlotIDsToolStripMenuItem_Click"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem x:Name="entityVisibilityOptionsToolStripMenuItem2" Header="Entity Visibility Options:" IsEnabled="False"/>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem2" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="prioritizedViewingToolStripMenuItem2" Header="Prioritized Viewing" Click="prioritizedViewingToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="SelectionBoxesAlwaysPrioritized2" Header="Selection Boxes Always Prioritized" Click="SelectionBoxesAlwaysPrioritized_Click" IsCheckable="True" IsChecked="True"></MenuItem>
+                    <!--Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <MenuItem x:Name="objectFilterToolStripMenuItem2" Header="Entity Filter:" IsEnabled="False"/>
+                    <MenuItem StaysOpenOnClick="True">
+                        <MenuItem.Header>
+                            <StackPanel>
+                                <TextBox x:Name="toolStripTextBox2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,-5.5,0" Height="21.168" UseLayoutRounding="False" Width="181.5" TextChanged="ToolStripTextBox1_TextChanged"/>
+                                <StackPanel.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=toolStripTextBox2, Path=IsVisible}" Value="True">
+                                                <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=toolStripTextBox2}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>-->
+                </MenuItem>
+            </MenuItem>
         </StatusBar>
         <StatusBar x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="2" Grid.ColumnSpan="5" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
             <Label x:Name="_levelIDLabel" Foreground="{DynamicResource NormalText}"/>
@@ -838,3 +869,5 @@
         </StatusBar>
     </Grid>
 </Window>
+    
+    
