@@ -283,12 +283,10 @@ namespace ManiacEditor
 			for (int i = 0; i < Instance.GameConfig.ObjectsNames.Count; i++)
 			{
 				Instance.ObjectList.Add(Instance.GameConfig.ObjectsNames[i]);
-                RSDKv5.Objects.AddObjectName(Instance.GameConfig.ObjectsNames[i]);
 			}
 			for (int i = 0; i < Instance.StageConfig.ObjectsNames.Count; i++)
 			{
 				Instance.ObjectList.Add(Instance.StageConfig.ObjectsNames[i]);
-                RSDKv5.Objects.AddObjectName(Instance.StageConfig.ObjectsNames[i]);
             }
 		}
 

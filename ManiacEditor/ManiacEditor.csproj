@@ -1442,9 +1442,13 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>KeyBindDefaults.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\attributes.ini" />
+    <EmbeddedResource Include="Resources\attributes.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Resources\LayerManagerWarning1.rtf" />
-    <None Include="Resources\objects.ini" />
+    <EmbeddedResource Include="Resources\objects.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
     <None Include="Resources\ScoreTotal.wav" />
