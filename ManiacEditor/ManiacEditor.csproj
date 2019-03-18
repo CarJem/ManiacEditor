@@ -1442,7 +1442,9 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>KeyBindDefaults.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\attributes.ini" />
     <None Include="Resources\LayerManagerWarning1.rtf" />
+    <None Include="Resources\objects.ini" />
     <None Include="Resources\ObjectWarning1.rtf" />
     <None Include="Resources\OhNo.wav" />
     <None Include="Resources\ScoreTotal.wav" />
@@ -1497,9 +1499,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <EmbeddedResource Include="Resources\objects_attributes.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Include="Resources\LayerManagerWarning.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

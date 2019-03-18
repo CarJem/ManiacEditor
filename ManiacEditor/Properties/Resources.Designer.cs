@@ -19,7 +19,7 @@ namespace ManiacEditor.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,74 @@ namespace ManiacEditor.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Acetone]
+        ///filter
+        ///interval
+        ///intervalOffset
+        ///duration
+        ///
+        ///[ActClear]
+        ///filter
+        ///
+        ///[AIZEncoreTutorial]
+        ///filter
+        ///
+        ///[AIZEggRobo]
+        ///filter
+        ///direction
+        ///oscillate
+        ///angle
+        ///forKnux
+        ///
+        ///[AIZKingClaw]
+        ///filter
+        ///
+        ///[AIZRockPile]
+        ///filter
+        ///size
+        ///smashTop
+        ///smashSides
+        ///onlyKnux
+        ///onlyMighty
+        ///
+        ///[AIZSetup]
+        ///filter
+        ///
+        ///[AIZTornado]
+        ///filter
+        ///
+        ///[AIZTornadoPath]
+        ///filter
+        ///type
+        ///targetSpeed
+        ///timer
+        ///easeToSpeed
+        ///
+        ///[AmoebaDroid]
+        ///filter
+        ///type
+        ///
+        ///[AnimalHBH]
+        ///filter
+        ///type
+        ///
+        ///[Animals]
+        ///filter
+        ///type
+        ///behaviour
+        ///
+        ///[Announcer]
+        ///filter
+        ///
+        ///[APICa [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string attributes {
+            get {
+                return ResourceManager.GetString("attributes", resourceCulture);
             }
         }
         
@@ -181,6 +249,59 @@ namespace ManiacEditor.Properties {
         internal static string objectRenderList {
             get {
                 return ResourceManager.GetString("objectRenderList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Acetone
+        ///ActClear
+        ///AIZEggRobo
+        ///AIZEncoreTutorial
+        ///AIZKingClaw
+        ///AIZRockPile
+        ///AIZSetup
+        ///AIZTornado
+        ///AIZTornadoPath
+        ///AmoebaDroid
+        ///AnimalHBH
+        ///Animals
+        ///Announcer
+        ///APICallback
+        ///Aquis
+        ///Armadiloid
+        ///BadnikHelpers
+        ///Ball
+        ///BallCannon
+        ///BallHog
+        ///BarStool
+        ///Batbot
+        ///Batbrain
+        ///Beanstalk
+        ///BGSwitch
+        ///BigSqueeze
+        ///BladePole
+        ///Blank Object
+        ///Blaster
+        ///Blastoid
+        ///Bloominator
+        ///Bomb
+        ///BouncePlant
+        ///BoundsMarker
+        ///BreakableWall
+        ///BreakBar
+        ///BSS_Collectable
+        ///BSS_Collected
+        ///BSS_Horizon
+        ///BSS_HUD
+        ///BSS_Message
+        ///BSS_Palette
+        ///BSS_Player
+        ///BSS_Setup
+        ///B [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string objects {
+            get {
+                return ResourceManager.GetString("objects", resourceCulture);
             }
         }
         
