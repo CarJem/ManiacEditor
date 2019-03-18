@@ -409,6 +409,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActionSortSlotIDs.cs" />
+    <Compile Include="Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
     <Compile Include="Editor Classes\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
@@ -763,52 +765,52 @@
     <Compile Include="Interfaces\UserControls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Editor Tools\CheatCodeManager.xaml.cs">
+    <Compile Include="Interfaces\Editor Tools\CheatCodeManager.xaml.cs">
       <DependentUpon>CheatCodeManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Editor Tools\RenderListManager.xaml.cs">
+    <Compile Include="Interfaces\Editor Tools\RenderListManager.xaml.cs">
       <DependentUpon>RenderListManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Editor Tools\FindandReplaceTool.xaml.cs">
+    <Compile Include="Interfaces\Editor Tools\FindandReplaceTool.xaml.cs">
       <DependentUpon>FindandReplaceTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Misc\UnloadingSceneWarning.xaml.cs">
+    <Compile Include="Interfaces\Misc\UnloadingSceneWarning.xaml.cs">
       <DependentUpon>UnloadingSceneWarning.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Mod Config Editor\ConfigManager.xaml.cs">
+    <Compile Include="Interfaces\Mod Config Editor\ConfigManager.xaml.cs">
       <DependentUpon>ConfigManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Editor.xaml.cs">
+    <Compile Include="Interfaces\Editor.xaml.cs">
       <DependentUpon>Editor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Mod Config Editor\ModConfigEditor.xaml.cs">
+    <Compile Include="Interfaces\Mod Config Editor\ModConfigEditor.xaml.cs">
       <DependentUpon>ModConfigEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Options + Dev\MD5HashGen.xaml.cs">
+    <Compile Include="Interfaces\Options + Dev\MD5HashGen.xaml.cs">
       <DependentUpon>MD5HashGen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Options + Dev\Updater.xaml.cs">
+    <Compile Include="Interfaces\Options + Dev\Updater.xaml.cs">
       <DependentUpon>Updater.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Editors\ManiacINIEditor.xaml.cs">
+    <Compile Include="Interfaces\Scene Editors\ManiacINIEditor.xaml.cs">
       <DependentUpon>ManiacINIEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Select\EditSceneSelectInfoWindow.xaml.cs">
+    <Compile Include="Interfaces\Scene Select\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Select\DataPackEditor.xaml.cs">
+    <Compile Include="Interfaces\Scene Select\DataPackEditor.xaml.cs">
       <DependentUpon>DataPackEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Select\NewSceneWindow.xaml.cs">
+    <Compile Include="Interfaces\Scene Select\NewSceneWindow.xaml.cs">
       <DependentUpon>NewSceneWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Select\SceneSelectWindow.xaml.cs">
+    <Compile Include="Interfaces\Scene Select\SceneSelectWindow.xaml.cs">
       <DependentUpon>SceneSelectWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Editors\Object Manager\SoundImporter.xaml.cs">
+    <Compile Include="Interfaces\Scene Editors\Object Manager\SoundImporter.xaml.cs">
       <DependentUpon>SoundImporter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Editors\Object Manager\ObjectImporter.xaml.cs">
+    <Compile Include="Interfaces\Scene Editors\Object Manager\ObjectImporter.xaml.cs">
       <DependentUpon>ObjectImporter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Actions\ActionAddDeleteEntities.cs" />
@@ -819,46 +821,46 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
-    <Compile Include="Interfaces\WPF UI\Options + Dev\AboutWindow.xaml.cs">
+    <Compile Include="Interfaces\Options + Dev\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Options + Dev\DeveloperInterface.xaml.cs">
+    <Compile Include="Interfaces\Options + Dev\DeveloperInterface.xaml.cs">
       <DependentUpon>DeveloperInterface.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Editor Tools\GoToPlayerWindow.xaml.cs">
+    <Compile Include="Interfaces\Editor Tools\GoToPlayerWindow.xaml.cs">
       <DependentUpon>GoToPlayerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Editor Tools\GoToPositionWindow.xaml.cs">
+    <Compile Include="Interfaces\Editor Tools\GoToPositionWindow.xaml.cs">
       <DependentUpon>GoToPositionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Options + Dev\KeyBindConfigurator.xaml.cs">
+    <Compile Include="Interfaces\Options + Dev\KeyBindConfigurator.xaml.cs">
       <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Editors\LayerEditor.xaml.cs">
+    <Compile Include="Interfaces\Scene Editors\LayerEditor.xaml.cs">
       <DependentUpon>LayerEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Editors\Object Manager\ObjectManager.xaml.cs">
+    <Compile Include="Interfaces\Scene Editors\Object Manager\ObjectManager.xaml.cs">
       <DependentUpon>ObjectManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Options + Dev\OptionsMenu.xaml.cs">
+    <Compile Include="Interfaces\Options + Dev\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Editors\Object Manager\AddAttributeWindow.xaml.cs">
+    <Compile Include="Interfaces\Scene Editors\Object Manager\AddAttributeWindow.xaml.cs">
       <DependentUpon>AddAttributeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Select\SceneSelect.xaml.cs">
+    <Compile Include="Interfaces\Scene Select\SceneSelect.xaml.cs">
       <DependentUpon>SceneSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\Scene Select\SceneSelectEditCategoryLabelWindow.xaml.cs">
+    <Compile Include="Interfaces\Scene Select\SceneSelectEditCategoryLabelWindow.xaml.cs">
       <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\StartScreen.xaml.cs">
+    <Compile Include="Interfaces\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\UserControls\EntitiesToolbar2.xaml.cs">
+    <Compile Include="Interfaces\Toolbars\EntitiesToolbar2.xaml.cs">
       <DependentUpon>EntitiesToolbar2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\WPF UI\UserControls\TilesToolbar.xaml.cs">
+    <Compile Include="Interfaces\Toolbars\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layers + Objects\AttributeValidater.cs" />
@@ -1647,31 +1649,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Editor Tools\CheatCodeManager.xaml">
+    <Page Include="Interfaces\Editor Tools\CheatCodeManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Editor Tools\RenderListManager.xaml">
+    <Page Include="Interfaces\Editor Tools\RenderListManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\WPF UI\Editor Tools\FindandReplaceTool.xaml">
+    <Page Include="Interfaces\Editor Tools\FindandReplaceTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Misc\UnloadingSceneWarning.xaml">
+    <Page Include="Interfaces\Misc\UnloadingSceneWarning.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Mod Config Editor\ConfigManager.xaml">
+    <Page Include="Interfaces\Mod Config Editor\ConfigManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Mod Config Editor\ModConfigEditor.xaml">
+    <Page Include="Interfaces\Mod Config Editor\ModConfigEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Options + Dev\AboutWindow.xaml">
+    <Page Include="Interfaces\Options + Dev\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1683,43 +1685,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\WPF UI\Options + Dev\DeveloperInterface.xaml">
+    <Page Include="Interfaces\Options + Dev\DeveloperInterface.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Editor.xaml">
+    <Page Include="Interfaces\Editor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Options + Dev\MD5HashGen.xaml">
+    <Page Include="Interfaces\Options + Dev\MD5HashGen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Options + Dev\Updater.xaml">
+    <Page Include="Interfaces\Options + Dev\Updater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Editors\ManiacINIEditor.xaml">
+    <Page Include="Interfaces\Scene Editors\ManiacINIEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Select\EditSceneSelectInfoWindow.xaml">
+    <Page Include="Interfaces\Scene Select\EditSceneSelectInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Editor Tools\GoToPlayerWindow.xaml">
+    <Page Include="Interfaces\Editor Tools\GoToPlayerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Editor Tools\GoToPositionWindow.xaml">
+    <Page Include="Interfaces\Editor Tools\GoToPositionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Options + Dev\KeyBindConfigurator.xaml">
+    <Page Include="Interfaces\Options + Dev\KeyBindConfigurator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Editors\LayerEditor.xaml">
+    <Page Include="Interfaces\Scene Editors\LayerEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1731,55 +1733,55 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Select\DataPackEditor.xaml">
+    <Page Include="Interfaces\Scene Select\DataPackEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Select\NewSceneWindow.xaml">
+    <Page Include="Interfaces\Scene Select\NewSceneWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Select\SceneSelectWindow.xaml">
+    <Page Include="Interfaces\Scene Select\SceneSelectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Editors\Object Manager\SoundImporter.xaml">
+    <Page Include="Interfaces\Scene Editors\Object Manager\SoundImporter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Editors\Object Manager\ObjectImporter.xaml">
+    <Page Include="Interfaces\Scene Editors\Object Manager\ObjectImporter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Editors\Object Manager\ObjectManager.xaml">
+    <Page Include="Interfaces\Scene Editors\Object Manager\ObjectManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Options + Dev\OptionsMenu.xaml">
+    <Page Include="Interfaces\Options + Dev\OptionsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Editors\Object Manager\AddAttributeWindow.xaml">
+    <Page Include="Interfaces\Scene Editors\Object Manager\AddAttributeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Select\SceneSelect.xaml">
+    <Page Include="Interfaces\Scene Select\SceneSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\Scene Select\SceneSelectEditCategoryLabelWindow.xaml">
+    <Page Include="Interfaces\Scene Select\SceneSelectEditCategoryLabelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\StartScreen.xaml">
+    <Page Include="Interfaces\StartScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\WPF UI\UserControls\EntitiesToolbar2.xaml">
+    <Page Include="Interfaces\Toolbars\EntitiesToolbar2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\WPF UI\UserControls\TilesToolbar.xaml">
+    <Page Include="Interfaces\Toolbars\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

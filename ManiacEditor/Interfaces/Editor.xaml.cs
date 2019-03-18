@@ -1963,7 +1963,7 @@ namespace ManiacEditor
 				entitiesToolbar.UpdateCurrentEntityProperites();
 
 				// Try to merge with last move
-				if (undo.Count > 0 && undo.Peek() is ActionMoveEntities && (undo.Peek() as ActionMoveEntities).UpdateFromKey(entities.SelectedEntities, new Point(x, y))) { }
+				if (undo.Count > 0 && undo.Peek() is ActionMoveEntities && (undo.Peek() as ActionMoveEntities).UpdateFromKey(entities.SelectedEntities.ToList(), new Point(x, y))) { }
 				else
 				{
 					undo.Push(new ActionMoveEntities(entities.SelectedEntities.ToList(), new Point(x, y), true));

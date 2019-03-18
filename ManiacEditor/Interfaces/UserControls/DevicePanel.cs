@@ -863,10 +863,26 @@ namespace ManiacEditor
                 ((bold) ? fontBold : font).DrawText(sprite, text, x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), new SharpDX.Color(color.R, color.G, color.B, color.A));
             }
         }
-        public void DrawTextSmall(string text, int x, int y, int width, Color color, bool bold)
+        public void DrawTextSmall(string text, int x, int y, int width, Color color, bool bold, bool hinting = false)
         {
 			Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
+
+            if (hinting)
+            {
+                sprite.Transform = Matrix.Scaling((float)zoom / 4, (float)zoom / 4, 1f);
+                Color invert = Color.FromArgb(color.ToArgb() ^ 0xffffff);
+                if (width >= 10)
+                {
+                    ((bold) ? fontBold : font).DrawText(sprite, text, new SharpDX.Rectangle((x - (int)(screen.X / zoom)) * 4 + 1, (y - (int)(screen.Y / zoom)) * 4 + 1, width * 4 + 1, 1000), FontDrawFlags.WordBreak, new SharpDX.Color(invert.R, invert.G, invert.B, invert.A - 50));
+                }
+                else
+                {
+                    ((bold) ? fontBold : font).DrawText(sprite, text, (x - (int)(screen.X / zoom)) * 4 + 1, (y - (int)(screen.Y / zoom)) * 4 + 1, new SharpDX.Color(invert.R, invert.G, invert.B, invert.A));
+                }
+                sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
+            }
+
             sprite.Transform = Matrix.Scaling((float)zoom / 4, (float)zoom / 4, 1f);
             if (width >= 10)
             {

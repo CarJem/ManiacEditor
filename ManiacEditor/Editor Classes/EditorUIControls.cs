@@ -27,7 +27,8 @@ namespace ManiacEditor
     {
         private Editor Editor;
 
-		[DllImport("User32.dll")]
+
+        [DllImport("User32.dll")]
 		private static extern bool SetCursorPos(int X, int Y);
 
 		#region Editor Definitions
@@ -1487,12 +1488,8 @@ namespace ManiacEditor
 				{
 					if (Editor.entities.SelectedEntities.Count == 2 && Editor.UIModes.RightClicktoSwapSlotID)
 					{
-						var entity1 = Editor.entities.SelectedEntities[0];
-						var entity2 = Editor.entities.SelectedEntities[1];
-						ushort slotID1 = entity1.Entity.SlotID;
-						ushort slotID2 = entity2.Entity.SlotID;
-						entity1.Entity.SlotID = slotID2;
-						entity2.Entity.SlotID = slotID1;
+
+                        Editor.entities.SwapSlotIDsFromPair();
 					}
 				}
 

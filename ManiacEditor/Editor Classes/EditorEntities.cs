@@ -8,6 +8,7 @@ using IronPython.Modules;
 using RSDKv5;
 using SharpDX.Direct3D9;
 using ManiacEditor.Entity_Renders;
+using ManiacEditor.Actions;
 
 namespace ManiacEditor
 {
@@ -22,10 +23,10 @@ namespace ManiacEditor
         private SortedDictionary<ushort, EditorEntity> _EntitiesBySlot = new SortedDictionary<ushort, EditorEntity>();
 
         public List<EditorEntity> Entities { get =>  GetEntities(); set => SetEntities(value); }
-        public List<EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
+        public IList<EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
         SortedDictionary<ushort, EditorEntity> EntitiesBySlot { get => GetSortedEntities(); }
 
-        public List<EditorEntity> tempSelection = new List<EditorEntity>();
+        public IList<EditorEntity> tempSelection = new List<EditorEntity>();
 
 
 
@@ -35,6 +36,7 @@ namespace ManiacEditor
         public class TooManyEntitiesException : Exception { }
 
         public Actions.IAction LastAction;
+        public Action<IAction> SlotIDSwapped;
 
         public int layerPrority = 0;
 
@@ -72,7 +74,7 @@ namespace ManiacEditor
             return new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
         }
 
-        private void SetSelectedEntities(List<EditorEntity> SelectedObj)
+        private void SetSelectedEntities(IList<EditorEntity> SelectedObj)
         {
             foreach (var entity in Entities.Where(X => SelectedObj.Contains(X)).ToList())
             {
@@ -209,6 +211,8 @@ namespace ManiacEditor
 
         }
 
+
+
         public void SelectSlot(int slot)
         {
             Deselect();
@@ -234,22 +238,57 @@ namespace ManiacEditor
 
         public void OrderSelectedSlotIDs()
         {
-            List<ushort> SelectedSlotIDs = new List<ushort>();
-            foreach (var entity in SelectedEntities)
+            IList<SceneEntity> OrderedEntities = new List<SceneEntity>();
+            IList<ushort> OrderedSlotIDs = new List<ushort>();
+            IList<ushort> UnorderedSlotIDs = new List<ushort>();
+            foreach (var entity in SelectedEntities.OrderBy(x => x.SelectedIndex))
             {
-                SelectedSlotIDs.Add(entity.Entity.SlotID);
+                OrderedEntities.Add(entity.Entity);
             }
-
-            SelectedSlotIDs.Sort();
-            int i = 0;
-            var tempEntities = Entities.ToList();
-            foreach (var entity in SelectedEntities.Where(e => SelectedEntities.Contains(e)))
+            foreach (var entity in SelectedEntities.OrderBy(x => x.Entity.SlotID))
             {
-                entity.Entity.SlotID = SelectedSlotIDs[i];
-                i++;
+                OrderedSlotIDs.Add(entity.Entity.SlotID);
             }
-            Entities = tempEntities;
+            foreach (var entity in OrderedEntities)
+            {
+                UnorderedSlotIDs.Add(entity.SlotID);
+            }
+            IAction action = new Actions.ActionSortSlotIDs(OrderedEntities, OrderedSlotIDs, UnorderedSlotIDs, new Action<IList<SceneEntity>, IList<ushort>>(SwapSeveralSlotIDs));
+            SlotIDSwapped?.Invoke(action);
+            SwapSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
+            EditorInstance.undo.Push(action);
+            EditorInstance.redo.Clear();
+            EditorInstance.UI.UpdateControls();
+
+        }
+
+        public void SwapSlotIDsFromPair()
+        {
+            EditorEntity entity1 = SelectedEntities[0];
+            EditorEntity entity2 = SelectedEntities[1];
+            ushort slotID_A = entity1.Entity.SlotID;
+            ushort slotID_B = entity2.Entity.SlotID;
+            IAction action = new Actions.ActionSwapSlotIDs(entity1.Entity, entity2.Entity, slotID_A, slotID_B, new Action<SceneEntity, SceneEntity, ushort, ushort>(SwapSlotIDs));
+            SlotIDSwapped?.Invoke(action);
+            SwapSlotIDs(entity1.Entity, entity2.Entity, slotID_A, slotID_B);
+
+            EditorInstance.undo.Push(action);
+            EditorInstance.redo.Clear();
+            EditorInstance.UI.UpdateControls();
+        }
+        public void SwapSeveralSlotIDs(IList<SceneEntity> entities, IList<ushort> slots)
+        {
+            for (int i = 0; i < entities.Count; i++)
+            {
+                entities[i].SlotID = slots[i];
+            }
+        }
+
+        public void SwapSlotIDs(SceneEntity A, SceneEntity B, ushort slotA, ushort slotB)
+        {
+            A.SlotID = slotB;
+            B.SlotID = slotA;
         }
 
         public void OptimizeSlotIDs()
@@ -322,7 +361,10 @@ namespace ManiacEditor
             if (new_entities.Count > 0)
                 LastAction = new Actions.ActionAddDeleteEntities(new_entities.ToList(), true, x => AddEntities(x), x => DeleteEntities(x));
             Deselect();
-            SelectedEntities.AddRange(new_entities);
+            foreach (var entity in new_entities)
+            {
+                SelectedEntities.Add(entity);
+            }
             foreach (var entity in new_entities)
                 entity.Selected = true;
         }
@@ -330,7 +372,7 @@ namespace ManiacEditor
         public void MoveSelected(Point oldPos, Point newPos, bool duplicate)
         {
             Point diff = new Point(newPos.X - oldPos.X, newPos.Y - oldPos.Y);
-            if (duplicate) DuplicateEntities(SelectedEntities);
+            if (duplicate) DuplicateEntities(SelectedEntities.ToList());
             foreach (var entity in SelectedEntities)
             {
                 entity.Move(diff);
@@ -346,7 +388,7 @@ namespace ManiacEditor
         {
             if (SelectedEntities.Count > 0)
                 LastAction = new Actions.ActionAddDeleteEntities(SelectedEntities.ToList(), false, x => AddEntities(x), x => DeleteEntities(x));
-            DeleteEntities(SelectedEntities);
+            DeleteEntities(SelectedEntities.ToList());
             Deselect();
         }
 
