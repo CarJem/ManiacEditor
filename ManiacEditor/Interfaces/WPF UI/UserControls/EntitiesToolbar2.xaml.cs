@@ -158,13 +158,13 @@ namespace ManiacEditor
 				encoreFilterCheck.Content = "Encore (0b0100)";
 				otherFilterCheck.Content = "Other (0b0000)";
 				bothFilterCheck.Content = "Both (0b0001)";
-				pinballFilterCheck.Content = "Pinball (0b11111111)";
+				pinballFilterCheck.Content = "All (0b11111111)";
 
 				maniaFilter.Content = "Mania (0b0010)";
 				encoreFilter.Content = "Encore (0b0100)";
 				otherFilter.Content = "Other (0b0000)";
 				bothFilter.Content = "Both (0b0001)";
-				pinballFilter.Content = "Pinball (0b11111111)";
+				pinballFilter.Content = "All (0b11111111)";
 			}
 			else
 			{
@@ -172,13 +172,13 @@ namespace ManiacEditor
 				encoreFilterCheck.Content = "Encore (4)";
 				otherFilterCheck.Content = "Other (0)";
 				bothFilterCheck.Content = "Both (1 & 5)";
-				pinballFilterCheck.Content = "Pinball (255)";
+				pinballFilterCheck.Content = "All (255)";
 
 				maniaFilter.Content = "Mania (2)";
 				encoreFilter.Content = "Encore (4)";
 				otherFilter.Content = "Other (0)";
 				bothFilter.Content = "Both (1 & 5)";
-				pinballFilter.Content = "Pinball (255)";
+				pinballFilter.Content = "All (255)";
 			}
 
 		}
@@ -453,8 +453,8 @@ namespace ManiacEditor
 					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
 					break;
 				case 255:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); //Pinball Filter
-					break;
+					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    break;
 				default:
 					ForeColor = (SolidColorBrush)this.FindResource("NormalText"); // NULL Filter
 					break;
@@ -480,8 +480,8 @@ namespace ManiacEditor
 					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
 					break;
 				case 255:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); //Pinball Filter
-					break;
+					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    break;
 				default:
 					ForeColor = (SolidColorBrush)this.FindResource("NormalText"); // NULL Filter
 					break;
