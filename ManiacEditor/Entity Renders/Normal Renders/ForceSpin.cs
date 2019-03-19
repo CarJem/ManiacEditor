@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
             var size = (int)(entity.attributesMap["size"].ValueVar) - 1;
             var angle = entity.attributesMap["angle"].ValueInt32;
 
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PlaneSwitch", d, 0, 4, true, false, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("PlaneSwitch", d, 0, 4, true, false, false);
 
             const int pivotOffsetX = -8, pivotOffsetY = 0;
             const int drawOffsetX = 0, drawOffsetY = -8;

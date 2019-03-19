@@ -332,14 +332,14 @@ namespace ManiacEditor
                     else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                     {
                         DisposeDeviceResources();
-                        Init(EditorInstance.GraphicsModel);
+                        Init(EditorInstance.FormsModel);
 
                     }
                     else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                     {
                         EditorInstance.BackupSceneBeforeCrash();
                         DisposeDeviceResources();
-                        Init(EditorInstance.GraphicsModel);
+                        Init(EditorInstance.FormsModel);
                     }
                     else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                     {
@@ -364,14 +364,14 @@ namespace ManiacEditor
                 else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
                 {
                     DisposeDeviceResources();
-                    Init(EditorInstance.GraphicsModel);
+                    Init(EditorInstance.FormsModel);
 
                 }
                 else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
                 {
                     EditorInstance.BackupSceneBeforeCrash();
                     DisposeDeviceResources();
-                    Init(EditorInstance.GraphicsModel);
+                    Init(EditorInstance.FormsModel);
                 }
                 else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
                 {
@@ -403,7 +403,7 @@ namespace ManiacEditor
 
                 sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
 
-                if (EditorInstance.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
+                if (EditorInstance.UIModes.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
                 else HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
 				sprite2.Begin(SpriteFlags.AlphaBlend);
 

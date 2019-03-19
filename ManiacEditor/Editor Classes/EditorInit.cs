@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ManiacEditor
 {
-    public class EditorCore
+    public class EditorInit
     {
         private Editor Editor;
-        public EditorCore(Editor instance)
+        public EditorInit(Editor instance)
         {
             Editor = instance;
         }

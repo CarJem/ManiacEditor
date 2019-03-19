@@ -56,8 +56,8 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Water", d, animID, -1, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Water", d, 0, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Water", d, animID, -1, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("Water", d, 0, -1, fliph, flipv, false);
 
             // Base Water + Bubble Source
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && (type == 2 || type == 0))
@@ -76,7 +76,7 @@ namespace ManiacEditor.Entity_Renders
             // HCZ Big Bubbles
             else if (HCZBubbles == true)
             {
-                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("BigBubble", d, 7, -1, fliph, flipv, false);
+                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("BigBubble", d, 7, -1, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -94,7 +94,7 @@ namespace ManiacEditor.Entity_Renders
             if (width != 0 && height != 0 && showBounds == true && HCZBubbles == false)
             {
                 //Draw Icon
-                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 8, fliph, flipv, false);
+                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 8, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -117,7 +117,7 @@ namespace ManiacEditor.Entity_Renders
 						{
 							if (!Properties.Settings.Default.SimplifiedWaterLevelRendering)
 							{
-								d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, heightX, e.EditorInstance.waterColor);
+								d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, heightX, e.EditorInstance.UIModes.waterColor);
 								d.DrawLine(0, heightX, e.EditorInstance.SceneWidth, heightX, SystemColors.White);
 								if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
 								{
@@ -134,7 +134,7 @@ namespace ManiacEditor.Entity_Renders
 							}
 							else
 							{
-								d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, heightX, e.EditorInstance.waterColor);
+								d.DrawRectangle(0, heightX, e.EditorInstance.SceneWidth, heightX, e.EditorInstance.UIModes.waterColor);
 								d.DrawLine(0, heightX, e.EditorInstance.SceneWidth, heightX, SystemColors.White);
 							}
 						}
@@ -147,7 +147,7 @@ namespace ManiacEditor.Entity_Renders
 									int startX = (e.EditorInstance.UIModes.SizeWaterLevelwithBounds ? x1 : 0);
 									int endX = (e.EditorInstance.UIModes.SizeWaterLevelwithBounds ? x2 : e.EditorInstance.SceneWidth);
 
-									d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
+									d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.UIModes.waterColor);
 									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
 									if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
 									{
@@ -170,7 +170,7 @@ namespace ManiacEditor.Entity_Renders
 								{
 									int startX = (e.EditorInstance.UIModes.SizeWaterLevelwithBounds ? x1 : 0);
 									int endX = (e.EditorInstance.UIModes.SizeWaterLevelwithBounds ? x2 : e.EditorInstance.SceneWidth);
-									d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.waterColor);
+									d.DrawRectangle(startX, heightX, endX, e.EditorInstance.SceneHeight, e.EditorInstance.UIModes.waterColor);
 									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
 								}
 							}
@@ -203,7 +203,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];

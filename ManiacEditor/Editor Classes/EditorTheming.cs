@@ -245,7 +245,7 @@ namespace ManiacEditor
             SetButtonColors(Instance.UndoButton, Color.RoyalBlue);
             SetButtonColors(Instance.RedoButton, Color.RoyalBlue);
             SetButtonColors(Instance.ReloadButton, Color.RoyalBlue);
-            SetButtonColors(Instance.PointerButton, MainThemeColor());
+            SetButtonColors(Instance.PointerToolButton, MainThemeColor());
             SetButtonColors(Instance.SelectToolButton, Color.MediumPurple);
             SetButtonColors(Instance.PlaceTilesButton, Color.Green);
             SetButtonColors(Instance.InteractionToolButton, Color.Gold);

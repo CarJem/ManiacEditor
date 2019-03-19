@@ -56,63 +56,6 @@ namespace ManiacEditor
 
         #region Definitions
 
-
-		//Scroll Lock States
-		public int ScrollDirection = 1;
-		public bool ScrollLocked = true;
-
-
-		//Editor Status States (Like are we pre-loading a scene)
-		public bool importingObjects = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
-		public bool isPreRending = false; //Determines if we are Preloading a Scene
-		public bool EncorePaletteExists = false; // Determines if an Encore Pallete Exists
-		public int SelectedTileID = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
-		public string CurrentLanguage = "EN"; //Current Selected Language
-		public Point TempWarpCoords = new Point(0, 0); //Temporary Warp Position for Shortcuts and Force Open
-		public bool ForceWarp = false; //For Shortcuts and Force Open.
-		public bool ShortcutHasZoom = false; //For Shortcuts and Force Open.
-		public int PlayerBeingTracked = -1;
-		public int CurrentControllerButtons = 2; //For Setting the Menu Control Button Images.
-		public bool isExportingImage = false; //For Setting the right options when exporting entitites.
-		public int LevelID = -1; //Self Explanatory
-		public int LastQuickButtonState = 0; //Gets the Last Quick Button State, so we can tell what action was used last
-		public bool MovingPlatformsChecked = true; //Self Explanatory
-		public bool AnnimationsChecked = true; //Self Explanatory
-		public bool PreRenderSceneSelectCheckbox = false; //Self Explanatory
-		public bool RemoveStageConfigEntriesAllowed = true; //Self Explanatory
-		public bool AddStageConfigEntriesAllowed = true; //Self Explanatory
-		public int InstanceID = 0; //Mega Maniac Instance ID
-		public bool CloseMegaManiacTab = false; //Tells Mega Maniac to Remove the Tab
-		public bool KickStartMegaManiacRenderLoop = false; //Used to start the render loop when starting the editor for Mega Maniac
-		public bool KickStartMegaManiacRenderLoopFinished = false; //Used to end the process of starting the render loop when starting the editor for Mega Maniac
-		public bool DebugStatsVisibleOnPanel = false;
-		public bool UseLargeDebugStats = false;
-		public bool collisionOpacityChanged = false;
-		public static bool UpdateUpdaterMessage = false;
-		public bool CopyAir = false;
-		public bool showMouseTooltip = false;
-		public bool MultiLayerEditMode = false;
-		public string MultiLayerA = "";
-		public string MultiLayerB = "";
-
-
-		//Editor Variable States (Like Scroll Lock is in the X Direction)
-		public int magnetSize = 16; //Determines the Magnets Size
-		public int EncoreSetupType; //Used to determine what kind of encore setup the stage uses
-		public string ToolbarSelectedTile; //Used to display the selected tile in the tiles toolbar
-		public int selectPlayerObject_GoTo = 0; //Used to determine which player object to go to
-		public bool cooldownDone = false; // For waiting on functions
-		public Color waterColor = new Color(); // The color used for the Water Entity
-		public string INILayerNameLower = ""; //Reserved String for INI Default Layer Prefrences
-		public string INILayerNameHigher = ""; //Reserved String for INI Default Layer Prefrences
-		public string entitiesTextFilter = ""; //Used to hide objects that don't match the discription
-		public int entityVisibilityType = 0; // Used to determine how to display entities
-		string LevelSelectCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";
-		string MenuCharS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!.";
-		string MenuCharS_Small = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ?.:'\"!-,&¡<>¿"; //49 out of 121
-		public char[] MenuChar;
-		public char[] LevelSelectChar;
-		public char[] MenuChar_Small;
 		public double ShortcutZoomValue = 0.0;
 
 		//Editor Paths
@@ -124,53 +67,40 @@ namespace ManiacEditor
 
 		// Extra Layer Buttons
 		public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
-		private IList<Separator> _extraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
+		private IList<Separator> ExtraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
 
 		// Editor Collections
 		public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
 		public List<Bitmap> CollisionLayerA = new List<Bitmap>(); //Collection of Collision Type A for the Loaded Scene
 		public List<Bitmap> CollisionLayerB = new List<Bitmap>(); //Collection of Collision Type B for the Loaded Scene
-		public Stack<IAction> undo = new Stack<IAction>(); //Undo Actions Stack
-		public Stack<IAction> redo = new Stack<IAction>(); //Redo Actions Stack
-		public List<string> entityRenderingObjects = EditorEntity_ini.GetSpecialRenderList(1); //Used to get the Render List for Objects
-		public List<string> renderOnScreenExlusions = EditorEntity_ini.GetSpecialRenderList(0); //Used to get the Always Render List for Objects
-		public IList<MenuItem> _recentDataItems; //Used to get items for the Data Directory Toolstrip Area
-		private IList<MenuItem> _recentDataItems_Button; //Used to get items for the Data Directory Button Toolstrip
+		public List<string> entityRenderingObjects = EditorEntityDrawing.GetSpecialRenderList(1); //Used to get the Render List for Objects
+		public List<string> renderOnScreenExlusions = EditorEntityDrawing.GetSpecialRenderList(0); //Used to get the Always Render List for Objects
+		public IList<MenuItem> RecentDataItemsMenu; //Used to get items for the Data Directory Toolstrip Area
+		private IList<MenuItem> RecentDataItemsButton; //Used to get items for the Data Directory Button Toolstrip
 		public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions
 		public List<string> userDefinedSpritePaths = new List<string>();
 		public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
 
-		//Used for Get Common Layers
-		internal EditorLayer FGHigher => EditorScene?.HighDetails;
+        //Undo + Redo
+        public Stack<IAction> UndoStack = new Stack<IAction>(); //Undo Actions Stack
+        public Stack<IAction> RedoStack = new Stack<IAction>(); //Redo Actions Stack
+
+        //Editor Layers
+        internal EditorLayer FGHigher => EditorScene?.HighDetails;
 		internal EditorLayer FGHigh => EditorScene?.ForegroundHigh;
 		internal EditorLayer FGLow => EditorScene?.ForegroundLow;
 		internal EditorLayer FGLower => EditorScene?.LowDetails;
 		internal EditorLayer ScratchLayer => EditorScene?.Scratch;
+        public EditorLayer EditLayerA { get; set; }
+        public EditorLayer EditLayerB { get; set; }
 
-		//internal IEnumerable<EditorLayer> AllLayers => EditorScene?.AllLayers;
-		//Used to Get the Maximum Layer Height and Width
-		internal int SceneWidth => (EditorScene != null ? EditorScene.Layers.Max(sl => sl.Width) * 16 : 0);
+        //Scene Width + Height (For Drawing)
+        internal int SceneWidth => (EditorScene != null ? EditorScene.Layers.Max(sl => sl.Width) * 16 : 0);
 		internal int SceneHeight => (EditorScene != null ? EditorScene.Layers.Max(sl => sl.Height) * 16 : 0);
 
-		//Used for "Run Scene"
-		public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
-		public bool GameRunning = false; //Tells us if the game is running
-		public string GamePath = ""; //Tells us where the game is located
-		public int P1_X = 0;
-		public int P1_Y = 0;
-		public int P2_X = 0;
-		public int P2_Y = 0;
-		public int P3_X = 0;
-		public int P3_Y = 0;
-		public int P4_X = 0;
-		public int P4_Y = 0;
-		public int SP_X = 0;
-		public int SP_Y = 0;
-		public int selectedPlayer = 0;
-		public bool playerSelected = false;
-		public bool checkpointSelected = false;
 
-		//Used to store information to Clipboards
+
+		//Clipboards
 		public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
 		public Dictionary<Point, ushort> FindReplaceClipboard;
 		public Dictionary<Point, ushort> TilesClipboardEditable;
@@ -180,50 +110,49 @@ namespace ManiacEditor
 		public Color CollisionAllSolid = Color.FromArgb(255, 255, 255, 255);
 		public Color CollisionTopOnlySolid = Color.FromArgb(255, 255, 255, 255);
 		public Color CollisionLRDSolid = Color.FromArgb(255, 255, 255, 0);
-		public int collisionPreset = 0; //For Collision Presets
+		public int CollisionPreset = 0; //For Collision Presets
 
         //Internal/Public/Vital Classes
+
 
         public EditorTiles EditorTiles;
 		public EditorScene EditorScene;
 		public StageConfig StageConfig;
 		public GameConfig GameConfig;
 		public EditorUIControl UIControl;
-		public EditorEntities entities;
-		internal EditorBackground EditorBackground;
-		public EditorLayer EditLayer { get => EditLayerA; set => EditLayerA = value; }
-		public EditorLayer EditLayerA { get; set; }
-		public EditorLayer EditLayerB { get; set; }
+		public EditorEntities Entities;
+		internal EditorBackground BackgroundDX;
 		public TilesToolbar TilesToolbar = null;
-		public EntitiesToolbar2 entitiesToolbar = null;
-		public EditorEntity_ini EditorEntity_ini;
+		public EntitiesToolbar EntitiesToolbar = null;
+		public EditorEntityDrawing EntityDrawing;
 		public EditorUpdater Updater;
-		public TileConfig TilesConfig;
-		public EditorInGame EditorGame;
+		public TileConfig TileConfig;
+		public EditorInGame InGame;
 		public StartScreen StartScreen;
-		public EditorState EditorState;
+		public EditorStateModel StateModel;
 		public UIText DebugTextHUD = new UIText();
-		public EditorChunk EditorChunk;
-		public System.Windows.Forms.Integration.WindowsFormsHost host;
-		public EditorGraphicsModel GraphicsModel;
+		public EditorChunk Chunks;
+		public EditorFormsModel FormsModel;
 		public EditorDiscordRP Discord;
 		public EditorUIEvents UIEvents;
-		public EditorPath EditorPath;
-		public EditorSceneLoading EditorSceneLoading;
-		public EditorDirectories EditorDirectories;
+		public EditorPath Paths;
+		public EditorFileHandler FileHandler;
+		public EditorDataPacks DataPacks;
 		public EditorFindReplace FindAndReplace;
-        public EditorViewModel EditorView;
-        public EditorTheming EditorTheming;
-        public EditorSettings EditorSettings;
+        public EditorZoomModel ZoomModel;
+        public EditorTheming Theming;
+        public EditorSettings Settings;
         public EditorManiacINI ManiacINI;
         public EditorUI UI;
         public EditorUIModes UIModes;
+        public EditorLaunch Launcher;
+        public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
+        public System.Windows.Forms.Integration.WindowsFormsHost FormsHost;
+        public TileManiac.MainWindow TileManiacInstance = new TileManiac.MainWindow();
 
-        //Tile Maniac + ManiaPal Instance
-        public TileManiac.MainWindow mainform = new TileManiac.MainWindow();
 
-		//Editor Misc. Variables
-		System.Windows.Forms.Timer StatusPanelTickTimer;
+        //Editor Misc. Variables
+        System.Windows.Forms.Timer StatusPanelTickTimer;
 
 		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's
 		#region DLL Import Stuff
@@ -292,11 +221,11 @@ namespace ManiacEditor
 		public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
 			SystemEvents.PowerModeChanged += CheckDeviceState;
-			InstanceID = MegaManiacInstanceID;
-            EditorTheming = new EditorTheming(this);
-            EditorSettings = new EditorSettings(this);
+            Theming = new EditorTheming(this);
+            Settings = new EditorSettings(this);
+            UIModes = new EditorUIModes(this);
 
-            EditorTheming.UseDarkTheme_WPF(Settings.mySettings.NightMode);
+            Theming.UseDarkTheme_WPF(ManiacEditor.Settings.mySettings.NightMode);
 			InitializeComponent();
 
             System.Windows.Application.Current.MainWindow = this;
@@ -319,7 +248,7 @@ namespace ManiacEditor
                 Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
             }
 
-			if (Settings.mySettings.UseAutoForcefulStartup && Settings.mySettings.UseForcefulStartup) OpenSceneForceFully();
+			if (ManiacEditor.Settings.mySettings.UseAutoForcefulStartup && ManiacEditor.Settings.mySettings.UseForcefulStartup) OpenSceneForceFully();
 
 			if (ShortcutLaunch)
 			{
@@ -337,62 +266,63 @@ namespace ManiacEditor
 		}
 		public void InitilizeEditor()
 		{
-			GraphicsModel = new EditorGraphicsModel(this);
+			FormsModel = new EditorFormsModel(this);
 
-			//this.editorView.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
-			this.GraphicsModel.vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
-			this.GraphicsModel.vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
-			this.GraphicsModel.vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
-			this.GraphicsModel.hScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.HScrollBar1_Scroll);
-			this.GraphicsModel.hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
-			this.GraphicsModel.hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
+			this.FormsModel.vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
+			this.FormsModel.vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
+			this.FormsModel.vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
+			this.FormsModel.hScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.HScrollBar1_Scroll);
+			this.FormsModel.hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
+			this.FormsModel.hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
 			this.Activated += new System.EventHandler(this.MapEditor_Activated);
-			this.GraphicsModel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
-			this.GraphicsModel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
+			this.FormsModel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
+			this.FormsModel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
 
-			this.GraphicsModel.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
-			this.GraphicsModel.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
-			this.GraphicsModel.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-			this.GraphicsModel.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-			this.GraphicsModel.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-			this.GraphicsModel.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-			this.GraphicsModel.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-			this.GraphicsModel.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-			this.GraphicsModel.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-			this.GraphicsModel.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-			this.GraphicsModel.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-			this.GraphicsModel.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-			this.GraphicsModel.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+			this.FormsModel.GraphicPanel.OnRender += new ManiacEditor.RenderEventHandler(this.GraphicPanel_OnRender);
+			this.FormsModel.GraphicPanel.OnCreateDevice += new ManiacEditor.CreateDeviceEventHandler(this.OnResetDevice);
+			this.FormsModel.GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+			this.FormsModel.GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+			this.FormsModel.GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+			this.FormsModel.GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+			this.FormsModel.GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+			this.FormsModel.GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+			this.FormsModel.GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+			this.FormsModel.GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+			this.FormsModel.GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+			this.FormsModel.GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+			this.FormsModel.GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
 
 			ExtraLayerEditViewButtons = new Dictionary<EditLayerToggleButton, EditLayerToggleButton>();
-			_extraLayerSeperators = new List<Separator>();
+			ExtraLayerSeperators = new List<Separator>();
 
-			_recentDataItems = new List<MenuItem>();
-			_recentDataItems_Button = new List<MenuItem>();
-			MenuChar = MenuCharS.ToCharArray();
-			MenuChar_Small = MenuCharS_Small.ToCharArray();
-			LevelSelectChar = LevelSelectCharS.ToCharArray();
-			EditorGame = new EditorInGame(this);
-			EditorEntity_ini = new EditorEntity_ini(this);
-            EditorState = new EditorState(this);
+
+			RecentDataItemsMenu = new List<MenuItem>();
+			RecentDataItemsButton = new List<MenuItem>();
+			UIModes.MenuChar = UIModes.MenuCharS.ToCharArray();
+			UIModes.MenuChar_Small = UIModes.MenuCharS_Small.ToCharArray();
+			UIModes.LevelSelectChar = UIModes.LevelSelectCharS.ToCharArray();
+			InGame = new EditorInGame(this);
+			EntityDrawing = new EditorEntityDrawing(this);
+            StateModel = new EditorStateModel(this);
 			UIControl = new EditorUIControl(this);
 			StartScreen = new StartScreen(this);
 			Discord = new EditorDiscordRP(this);
 			Updater = new EditorUpdater();
 			UIEvents = new EditorUIEvents(this);
-			EditorPath = new EditorPath(this);
-			EditorSceneLoading = new EditorSceneLoading(this);
-			EditorDirectories = new EditorDirectories(this);
+			Paths = new EditorPath(this);
+			FileHandler = new EditorFileHandler(this);
+			DataPacks = new EditorDataPacks(this);
 			FindAndReplace = new EditorFindReplace(this);
-            EditorView = new EditorViewModel(this);
+            ZoomModel = new EditorZoomModel(this);
             ManiacINI = new EditorManiacINI(this);
+            Launcher = new EditorLaunch(this);
             UI = new EditorUI(this);
-            UIModes = new EditorUIModes(this);
+
 
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
-			GraphicsModel.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
-			GraphicsModel.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
+			FormsModel.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
+			FormsModel.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
 
 			ViewPanelContextMenu.Foreground = (SolidColorBrush)FindResource("NormalText");
 			ViewPanelContextMenu.Background = (SolidColorBrush)FindResource("NormalBackground");
@@ -413,7 +343,7 @@ namespace ManiacEditor
 			RefreshCollisionColours();
 			SetViewSize();
             UI.UpdateControls();
-			EditorSettings.TryLoadSettings();
+			Settings.TryLoadSettings();
 			UpdateStartScreen(true, true);
 
 			StatusPanelTickTimer = new System.Windows.Forms.Timer
@@ -459,7 +389,7 @@ namespace ManiacEditor
 			}
 			else if (IsEntitiesEdit())
 			{
-				return entities.IsSelected();
+				return Entities.IsSelected();
 			}
 			return false;
 		}
@@ -488,49 +418,12 @@ namespace ManiacEditor
 
 			return false;
 		}
-		public bool AllowSceneUnloading()
-		{
-			bool AllowSceneChange = false;
-			if (IsSceneLoaded() == false)
-			{
-				AllowSceneChange = true;
-				return AllowSceneChange;
-			}
-			else if (IsSceneLoaded() == true && Settings.mySettings.DisableSaveWarnings == false)
-			{
-				var exitBox = new UnloadingSceneWarning();
-				exitBox.Owner = GetWindow(this);
-				exitBox.ShowDialog();
-				var exitBoxResult = exitBox.WindowResult;
-				if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.Yes)
-				{
-					Save_Click(null, null);
-					AllowSceneChange = true;
-				}
-				else if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.No)
-				{
-					AllowSceneChange = true;
-				}
-				else
-				{
-					AllowSceneChange = false;
-				}
-			}
-			else
-			{
-				AllowSceneChange = true;
-			}
-			return AllowSceneChange;
-
-
-		}
         #endregion
 
         #region Refresh UI
-
         public void UpdateEntitiesToolbarList()
 		{
-			entitiesToolbar.Entities = entities.Entities.Select(x => x.Entity).ToList();
+			EntitiesToolbar.Entities = Entities.Entities.Select(x => x.Entity).ToList();
 		}
 		public void UpdateTilesOptions()
 		{
@@ -573,46 +466,46 @@ namespace ManiacEditor
 			if (EditLayerA != null)
 			{
 				List<IAction> actions = EditLayerA?.Actions;
-				if (actions.Count > 0) redo.Clear();
+				if (actions.Count > 0) RedoStack.Clear();
 				while (actions.Count > 0)
 				{
 					bool create_new = false;
-					if (undo.Count == 0 || !(undo.Peek() is ActionsGroup))
+					if (UndoStack.Count == 0 || !(UndoStack.Peek() is ActionsGroup))
 					{
 						create_new = true;
 					}
 					else
 					{
-						create_new = (undo.Peek() as ActionsGroup).IsClosed;
+						create_new = (UndoStack.Peek() as ActionsGroup).IsClosed;
 					}
 					if (create_new)
 					{
-						undo.Push(new ActionsGroup());
+						UndoStack.Push(new ActionsGroup());
 					}
-					(undo.Peek() as ActionsGroup).AddAction(actions[0]);
+					(UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
 					actions.RemoveAt(0);
 				}
 			}
 			if (EditLayerB != null)
 			{
 				List<IAction> actions = EditLayerB?.Actions;
-				if (actions.Count > 0) redo.Clear();
+				if (actions.Count > 0) RedoStack.Clear();
 				while (actions.Count > 0)
 				{
 					bool create_new = false;
-					if (undo.Count == 0 || !(undo.Peek() is ActionsGroup))
+					if (UndoStack.Count == 0 || !(UndoStack.Peek() is ActionsGroup))
 					{
 						create_new = true;
 					}
 					else
 					{
-						create_new = (undo.Peek() as ActionsGroup).IsClosed;
+						create_new = (UndoStack.Peek() as ActionsGroup).IsClosed;
 					}
 					if (create_new)
 					{
-						undo.Push(new ActionsGroup());
+						UndoStack.Push(new ActionsGroup());
 					}
-					(undo.Peek() as ActionsGroup).AddAction(actions[0]);
+					(UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
 					actions.RemoveAt(0);
 				}
 			}
@@ -623,7 +516,7 @@ namespace ManiacEditor
 			// Tooltip Bar Info 
 			//
 
-			_levelIDLabel.Content = "Level ID: " + LevelID.ToString();
+			_levelIDLabel.Content = "Level ID: " + UIModes.LevelID.ToString();
 			seperator1.Visibility = Visibility.Visible;
 			seperator2.Visibility = Visibility.Visible;
 			seperator3.Visibility = Visibility.Visible;
@@ -636,36 +529,36 @@ namespace ManiacEditor
 
 			if (UIModes.EnablePixelCountMode == false)
 			{
-				selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)EditorState.SelectedTileX + ", Y: " + (int)EditorState.SelectedTileY;
+				selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)StateModel.SelectedTileX + ", Y: " + (int)StateModel.SelectedTileY;
 				selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
 			}
 			else
 			{
-				selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)EditorState.SelectedTileX * 16 + ", Y: " + (int)EditorState.SelectedTileY * 16;
+				selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)StateModel.SelectedTileX * 16 + ", Y: " + (int)StateModel.SelectedTileY * 16;
 				selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
 			}
 			if (UIModes.EnablePixelCountMode == false)
 			{
-				selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (EditorState.SelectedTilesCount - EditorState.DeselectTilesCount);
+				selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (StateModel.SelectedTilesCount - StateModel.DeselectTilesCount);
 				selectionSizeLabel.ToolTip = "The Size of the Selection";
 			}
 			else
 			{
-				selectionSizeLabel.Content = "Length of Pixels in Selection: " + (EditorState.SelectedTilesCount - EditorState.DeselectTilesCount) * 16;
+				selectionSizeLabel.Content = "Length of Pixels in Selection: " + (StateModel.SelectedTilesCount - StateModel.DeselectTilesCount) * 16;
 				selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
 			}
 
-			selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (EditorState.select_x2 - EditorState.select_x1) + ", Y: " + (EditorState.select_y2 - EditorState.select_y1);
+			selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (StateModel.select_x2 - StateModel.select_x1) + ", Y: " + (StateModel.select_y2 - StateModel.select_y1);
 
-			scrollLockDirLabel.Content = "Scroll Direction: " + (ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (ScrollLocked ? " (Locked)" : "");
+			scrollLockDirLabel.Content = "Scroll Direction: " + (UIModes.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (UIModes.ScrollLocked ? " (Locked)" : "");
 
 
-			hVScrollBarXYLabel.Content = "Zoom Value: " + EditorState.Zoom.ToString();
+			hVScrollBarXYLabel.Content = "Zoom Value: " + StateModel.Zoom.ToString();
 
-			if (UpdateUpdaterMessage)
+			if (EditorUIModes.UpdateUpdaterMessage)
 			{
 				if (StartScreen != null) StartScreen.UpdateStatusLabel(Updater.condition, Updater);
-				UpdateUpdaterMessage = false;
+                EditorUIModes.UpdateUpdaterMessage = false;
 			}
 
 			//
@@ -682,9 +575,8 @@ namespace ManiacEditor
 			StatusBar1.IsEnabled = enabled;
 			StatusBar2.IsEnabled = enabled;
 			if (TilesToolbar != null) TilesToolbar.IsEnabled = enabled;
-			if (entitiesToolbar != null) entitiesToolbar.IsEnabled = enabled;
+			if (EntitiesToolbar != null) EntitiesToolbar.IsEnabled = enabled;
 		}
-
 		#endregion
 
 		#region Editor Entity/Tile Management
@@ -696,14 +588,13 @@ namespace ManiacEditor
 			};
 			layer.PasteFromClipboard(position, tiles);
 		}
-
 		public void EditorTileReplaceTest(int findValue, int replaceValue, int applyState, bool copyResults, bool perserveColllision)
 		{
 			if (IsTilesEdit())
 			{
-				EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+				EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
 				UpdateEditLayerActions();
-				Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard(true);
+				Dictionary<Point, ushort> copyData = EditLayerA.CopyToClipboard(true);
 				FindReplaceClipboard = copyData;
 
 				List<ushort> listValue = new List<ushort> { };
@@ -774,7 +665,7 @@ namespace ManiacEditor
 				// if there's none, use the internal clipboard
 				if (FindReplaceClipboard != null)
 				{
-					EditLayer.PasteFromClipboard(new Point(0, 0), FindReplaceClipboard);
+					EditLayerA.PasteFromClipboard(new Point(0, 0), FindReplaceClipboard);
 					UpdateEditLayerActions();
 				}
 				UpdateEditLayerActions();
@@ -783,14 +674,13 @@ namespace ManiacEditor
 			}
 
 		}
-
 		public void EditorTileFindTest(int tile, int applyState, bool copyResults)
 		{
 			if (IsTilesEdit())
 			{
-				EditLayer.Select(new Rectangle(0, 0, 32768, 32768), true, false);
+				EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
 				UpdateEditLayerActions();
-				Dictionary<Point, ushort> copyData = EditLayer.CopyToClipboard(true);
+				Dictionary<Point, ushort> copyData = EditLayerA.CopyToClipboard(true);
 				FindReplaceClipboard = copyData;
 
 				List<ushort> listValue = new List<ushort> { };
@@ -833,16 +723,15 @@ namespace ManiacEditor
 			}
 
 		}
-
 		public void EditorTileFind(int tile, int applyState, bool copyResults)
 		{
 			List<Point> Points = new List<Point>();
 
-			for (int y = 0; y < EditLayer.Layer.Height; y++)
+			for (int y = 0; y < EditLayerA.Layer.Height; y++)
 			{
-				for (int x = 0; x < EditLayer.Layer.Width; x++)
+				for (int x = 0; x < EditLayerA.Layer.Width; x++)
 				{
-					ushort TileIndex = (ushort)(EditLayer.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
+					ushort TileIndex = (ushort)(EditLayerA.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
 					if (TileIndex == tile) //do the tiles match?
 					{
 						Points.Add(new Point(x * 16, y * 16)); //Add the found tile to our list of points!
@@ -851,16 +740,15 @@ namespace ManiacEditor
 				}
 			}
 		}
-
 		public void EditorTileFindReplace(int FindTile, int ReplaceTile, int applyState, bool copyResults)
 		{
 			List<Point> Points = new List<Point>();
 
-			for (int y = 0; y < EditLayer.Layer.Height; y++)
+			for (int y = 0; y < EditLayerA.Layer.Height; y++)
 			{
-				for (int x = 0; x < EditLayer.Layer.Width; x++)
+				for (int x = 0; x < EditLayerA.Layer.Width; x++)
 				{
-					ushort TileIndex = (ushort)(EditLayer.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
+					ushort TileIndex = (ushort)(EditLayerA.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
 					if (TileIndex == FindTile) //do the tiles match?
 					{
 						Points.Add(new Point(x * 16, y * 16)); //Add the found tile to our list of points!
@@ -884,14 +772,13 @@ namespace ManiacEditor
 						Tile = (ushort)SetBit(14, false, Tile);
 						Tile = (ushort)SetBit(15, false, Tile);
 
-						EditLayer.Layer.Tiles[y][x] = Tile; //Set our new tile Value
+						EditLayerA.Layer.Tiles[y][x] = Tile; //Set our new tile Value
 
 						//Console.WriteLine(x * 16 + " " + y * 16);
 					}
 				}
 			}
 		}
-
 		//Used to set individual Bits in an int
 		public static int SetBit(int pos, bool Set, int Value) //Shitty Maybe, but idc, it works
 		{
@@ -910,7 +797,6 @@ namespace ManiacEditor
 			}
 			return Value;
 		}
-
 		public void DeleteSelected()
 		{
 			EditLayerA?.DeleteSelected();
@@ -919,46 +805,43 @@ namespace ManiacEditor
 
 			if (IsEntitiesEdit())
 			{
-				entities.DeleteSelected();
+				Entities.DeleteSelected();
 				UpdateLastEntityAction();
 			}
 		}
-
 		public void UpdateLastEntityAction()
 		{
-			if (entities.LastAction != null)
+			if (Entities.LastAction != null)
 			{
-				redo.Clear();
-				undo.Push(entities.LastAction);
-				entities.LastAction = null;
+				RedoStack.Clear();
+				UndoStack.Push(Entities.LastAction);
+				Entities.LastAction = null;
                 UI.UpdateControls();
 			}
 
 		}
-
 		public void FlipEntities(FlipDirection direction)
 		{
 			Dictionary<EditorEntity, Point> initalPos = new Dictionary<EditorEntity, Point>();
 			Dictionary<EditorEntity, Point> postPos = new Dictionary<EditorEntity, Point>();
-			foreach (EditorEntity e in entities.SelectedEntities)
+			foreach (EditorEntity e in Entities.SelectedEntities)
 			{
 				initalPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
-			entities.Flip(direction);
-			entitiesToolbar.UpdateCurrentEntityProperites();
-			foreach (EditorEntity e in entities.SelectedEntities)
+			Entities.Flip(direction);
+			EntitiesToolbar.UpdateCurrentEntityProperites();
+			foreach (EditorEntity e in Entities.SelectedEntities)
 			{
 				postPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
 			IAction action = new ActionMultipleMoveEntities(initalPos, postPos);
-			undo.Push(action);
-			redo.Clear();
+			UndoStack.Push(action);
+			RedoStack.Clear();
 
 		}
 		#endregion
 
 		#region GameConfig/Data Folders
-
 		public string GetDataDirectory()
 		{
 			using (var folderBrowserDialog = new FolderSelectDialog())
@@ -971,7 +854,6 @@ namespace ManiacEditor
 				return folderBrowserDialog.FileName;
 			}
 		}
-
 		private MenuItem CreateDataDirectoryMenuLink(string target)
 		{
 			MenuItem newItem = new MenuItem();
@@ -980,14 +862,12 @@ namespace ManiacEditor
 			newItem.Click += RecentDataDirectoryClicked;
 			return newItem;
 		}
-
-		public bool SetGameConfig() { return EditorPath.SetGameConfig(); }
-		public bool IsDataDirectoryValid(string directoryToCheck) { return EditorPath.IsDataDirectoryValid(directoryToCheck); }
-
+		public bool SetGameConfig() { return Paths.SetGameConfig(); }
+		public bool IsDataDirectoryValid(string directoryToCheck) { return Paths.IsDataDirectoryValid(directoryToCheck); }
 		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e, String dataDirectory)
 		{
-			var dataDirectories = Settings.mySettings.DataDirectories;
-			Settings.mySettings.GamePath = GamePath;
+			var dataDirectories = ManiacEditor.Settings.mySettings.DataDirectories;
+            ManiacEditor.Settings.mySettings.GamePath = InGame.GamePath;
 			if (IsDataDirectoryValid(dataDirectory))
 			{
 				ResetDataDirectoryToAndResetScene(dataDirectory);
@@ -1002,14 +882,13 @@ namespace ManiacEditor
 				RefreshDataDirectories(dataDirectories);
 
 			}
-			Settings.mySettings.Save();
+            ManiacEditor.Settings.mySettings.Save();
 		}
-
 		public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
 		{
-			if (AllowSceneUnloading() != true) return;
+			if (FileHandler.AllowSceneUnloading() != true) return;
 			UnloadScene();
-            EditorSettings.UseDefaultPrefrences();
+            Settings.UseDefaultPrefrences();
 			DataDirectory = newDataDirectory;
 			AddRecentDataFolder(newDataDirectory);
 			bool goodGameConfig = SetGameConfig();
@@ -1017,19 +896,18 @@ namespace ManiacEditor
 			{
 				if (forceBrowse) OpenScene(true);
 				else if (forceSceneSelect) OpenScene(false);
-				else OpenScene(Settings.mySettings.forceBrowse);
+				else OpenScene(ManiacEditor.Settings.mySettings.forceBrowse);
 
 			}
 
 
 		}
-
 		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e)
 		{
 			var menuItem = sender as MenuItem;
 			string dataDirectory = menuItem.Tag.ToString();
-			var dataDirectories = Settings.mySettings.DataDirectories;
-			Settings.mySettings.GamePath = GamePath;
+			var dataDirectories = ManiacEditor.Settings.mySettings.DataDirectories;
+            ManiacEditor.Settings.mySettings.GamePath = InGame.GamePath;
 			if (IsDataDirectoryValid(dataDirectory))
 			{
 				ResetDataDirectoryToAndResetScene(dataDirectory);
@@ -1044,7 +922,7 @@ namespace ManiacEditor
 				RefreshDataDirectories(dataDirectories);
 
 			}
-			Settings.mySettings.Save();
+            ManiacEditor.Settings.mySettings.Save();
 		}
 
 		/// <summary>
@@ -1053,43 +931,42 @@ namespace ManiacEditor
 		/// <param name="settings">The settings file containing the </param>
 		public void RefreshDataDirectories(StringCollection recentDataDirectories)
 		{
-			if (Settings.mySettings.DataDirectories?.Count > 0)
+			if (ManiacEditor.Settings.mySettings.DataDirectories?.Count > 0)
 			{
-				recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
-				noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
-				CleanUpRecentList();
+                recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
+                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
+                CleanUpRecentList();
 
 				var startRecentItems = fileToolStripMenuItem.Items.IndexOf(recentDataDirectoriesToolStripMenuItem);
 				var startRecentItemsButton = RecentDataDirectories_DropDown.Items.IndexOf(noRecentDataDirectoriesToolStripMenuItem);
 
 				foreach (var dataDirectory in recentDataDirectories)
 				{
-					_recentDataItems.Add(CreateDataDirectoryMenuLink(dataDirectory));
-					_recentDataItems_Button.Add(CreateDataDirectoryMenuLink(dataDirectory));
+                    RecentDataItemsMenu.Add(CreateDataDirectoryMenuLink(dataDirectory));
+                    RecentDataItemsButton.Add(CreateDataDirectoryMenuLink(dataDirectory));
 
 				}
 
 
-				foreach (var menuItem in _recentDataItems.Reverse())
+				foreach (var menuItem in RecentDataItemsMenu.Reverse())
 				{
-					fileToolStripMenuItem.Items.Insert(startRecentItems, menuItem);
+                    fileToolStripMenuItem.Items.Insert(startRecentItems, menuItem);
 				}
 
-				foreach (var menuItem in _recentDataItems_Button.Reverse())
+				foreach (var menuItem in RecentDataItemsButton.Reverse())
 				{
-					RecentDataDirectories_DropDown.Items.Insert(startRecentItemsButton, menuItem);
+                    RecentDataDirectories_DropDown.Items.Insert(startRecentItemsButton, menuItem);
 				}
 			}
 			else
 			{
-				recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
-				noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
+                recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
+                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
 			}
 
 
 
 		}
-
 		public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
 		{
 			string dataFolderTag_Normal = "Data Directory: {0}";
@@ -1098,43 +975,40 @@ namespace ManiacEditor
 			UpdateDataFolderLabel();
 			UIModes.ShowingDataDirectory = true;
 		}
-
 		private void UpdateDataFolderLabel(string dataDirectory = null)
 		{
 			if (dataDirectory != null) _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
 			else _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), DataDirectory);
 		}
-
 		/// <summary>
 		/// Removes any recent Data directories from the File menu.
 		/// </summary>
 		private void CleanUpRecentList()
 		{
-			foreach (var menuItem in _recentDataItems)
+			foreach (var menuItem in RecentDataItemsMenu)
 			{
 				menuItem.Click -= RecentDataDirectoryClicked;
 				fileToolStripMenuItem.Items.Remove(menuItem);
 			}
-			foreach (var menuItem in _recentDataItems_Button)
+			foreach (var menuItem in RecentDataItemsButton)
 			{
 				menuItem.Click -= RecentDataDirectoryClicked;
 				RecentDataDirectories_DropDown.Items.Remove(menuItem);
 			}
-			_recentDataItems.Clear();
-			_recentDataItems_Button.Clear();
+			RecentDataItemsMenu.Clear();
+			RecentDataItemsButton.Clear();
 		}
-
 		public void AddRecentDataFolder(string dataDirectory)
 		{
 			try
 			{
 				var mySettings = Properties.Settings.Default;
-				var dataDirectories = Settings.mySettings.DataDirectories;
+				var dataDirectories = ManiacEditor.Settings.mySettings.DataDirectories;
 
 				if (dataDirectories == null)
 				{
 					dataDirectories = new StringCollection();
-					Settings.mySettings.DataDirectories = dataDirectories;
+                    ManiacEditor.Settings.mySettings.DataDirectories = dataDirectories;
 				}
 
 				if (dataDirectories.Contains(dataDirectory))
@@ -1152,7 +1026,7 @@ namespace ManiacEditor
 
 				dataDirectories.Insert(0, dataDirectory);
 
-				Settings.mySettings.Save();
+                ManiacEditor.Settings.mySettings.Save();
 
 				RefreshDataDirectories(dataDirectories);
 
@@ -1165,7 +1039,6 @@ namespace ManiacEditor
 				Debug.Write("Failed to add data folder to recent list: " + ex);
 			}
 		}
-
 		#endregion
 
 		#region Scene Loading / Unloading + Repair
@@ -1183,7 +1056,7 @@ namespace ManiacEditor
 				return;
 
 			UnloadScene();
-            EditorSettings.UseDefaultPrefrences();
+            Settings.UseDefaultPrefrences();
 
 			ObjectIDHealer healer = new ObjectIDHealer();
 			ShowConsoleWindow();
@@ -1197,17 +1070,17 @@ namespace ManiacEditor
 			EditorScene = null;
 			StageConfig = null;
 			_levelIDLabel.Content = "Level ID: NULL";
-			LevelID = -1;
-			EncorePaletteExists = false;
-			EncoreSetupType = 0;
+			UIModes.LevelID = -1;
+			UIModes.EncorePaletteExists = false;
+			UIModes.EncoreSetupType = 0;
 			playerObjectPosition = new List<SceneEntity> { };
-			INILayerNameHigher = "";
-			INILayerNameLower = "";
+			UIModes.INILayerNameHigher = "";
+			UIModes.INILayerNameLower = "";
 			ManiacINI.ClearSettings();
 			userDefinedEntityRenderSwaps = new Dictionary<string, string>();
 			userDefinedSpritePaths = new List<string>();
 			EncorePaletteButton.IsChecked = false;
-			EditorPath.UnloadScene();
+			Paths.UnloadScene();
 
 			if (EditorTiles != null) EditorTiles.Dispose();
             EditorTiles = null;
@@ -1216,15 +1089,15 @@ namespace ManiacEditor
 
 			Background = null;
 
-			EditorChunk = null;
+			Chunks = null;
 
 			// If copying between scenes is allowed...
-			if (Settings.mySettings.ForceCopyUnlock)
+			if (ManiacEditor.Settings.mySettings.ForceCopyUnlock)
 			{
 				// ...but not for entities...
-				if (Settings.mySettings.ProhibitEntityUseOnExternalClipboard)
-					// Clear local entities clipboard
-					entitiesClipboard = null;
+				if (ManiacEditor.Settings.mySettings.ProhibitEntityUseOnExternalClipboard)
+                    // Clear local entities clipboard
+                    entitiesClipboard = null;
 				else if (entitiesClipboard != null)
 					// Prepare entities for external copy
 					foreach (EditorEntity entity in entitiesClipboard)
@@ -1234,18 +1107,18 @@ namespace ManiacEditor
 			// If copying between scenes is NOT allowed...
 			else
 			{
-				// Clear local clipboards
-				TilesClipboard = null;
-				entitiesClipboard = null;
+                // Clear local clipboards
+                TilesClipboard = null;
+                entitiesClipboard = null;
 			}
 
-			entities = null;
+			Entities = null;
 
-			EditorState.Zoom = 1;
-			EditorState.ZoomLevel = 0;
+			StateModel.Zoom = 1;
+			StateModel.ZoomLevel = 0;
 
-			undo.Clear();
-			redo.Clear();
+			UndoStack.Clear();
+			RedoStack.Clear();
 
 			EditFGLow.ClearCheckedItems();
 			EditFGHigh.ClearCheckedItems();
@@ -1258,38 +1131,38 @@ namespace ManiacEditor
             UI.UpdateControls();
 
 			// clear memory a little more aggressively 
-			EditorEntity_ini.ReleaseResources();
+			EntityDrawing.ReleaseResources();
 			GC.Collect();
 
 			CollisionLayerA.Clear();
 			CollisionLayerB.Clear();
-			TilesConfig = null;
+			TileConfig = null;
 
-			MenuChar = MenuCharS.ToCharArray();
-			MenuChar_Small = MenuCharS_Small.ToCharArray();
-			LevelSelectChar = LevelSelectCharS.ToCharArray();
+			UIModes.MenuChar = UIModes.MenuCharS.ToCharArray();
+			UIModes.MenuChar_Small = UIModes.MenuCharS_Small.ToCharArray();
+			UIModes.LevelSelectChar = UIModes.LevelSelectCharS.ToCharArray();
 
 			UpdateStartScreen(true);
 		}
 		public void OpenSceneForceFully()
 		{
 
-			string dataDirectory = Settings.mySettings.DevForceRestartData;
+			string dataDirectory = ManiacEditor.Settings.mySettings.DevForceRestartData;
 			DataDirectory = dataDirectory;
-			string Result = Settings.mySettings.DevForceRestartScene;
-			int LevelID = Settings.mySettings.DeveForceRestartLevelID;
-			bool isEncore = Settings.mySettings.DevForceRestartEncore;
-			string CurrentZone = Settings.mySettings.DevForceRestartCurrentZone;
-			string CurrentName = Settings.mySettings.DevForceRestartCurrentName;
-			string CurrentSceneID = Settings.mySettings.DevForceRestartCurrentSceneID;
-			bool Browsed = Settings.mySettings.DevForceRestartBrowsed;
+			string Result = ManiacEditor.Settings.mySettings.DevForceRestartScene;
+			int LevelID = ManiacEditor.Settings.mySettings.DeveForceRestartLevelID;
+			bool isEncore = ManiacEditor.Settings.mySettings.DevForceRestartEncore;
+			string CurrentZone = ManiacEditor.Settings.mySettings.DevForceRestartCurrentZone;
+			string CurrentName = ManiacEditor.Settings.mySettings.DevForceRestartCurrentName;
+			string CurrentSceneID = ManiacEditor.Settings.mySettings.DevForceRestartCurrentSceneID;
+			bool Browsed = ManiacEditor.Settings.mySettings.DevForceRestartBrowsed;
 
-			int x = Settings.mySettings.DevForceRestartX;
-			int y = Settings.mySettings.DevForeRestartY;
-			TempWarpCoords = new Point(x, y);
-			ForceWarp = true;
+			int x = ManiacEditor.Settings.mySettings.DevForceRestartX;
+			int y = ManiacEditor.Settings.mySettings.DevForeRestartY;
+			UIModes.TempWarpCoords = new Point(x, y);
+			UIModes.ForceWarp = true;
 
-			EditorSceneLoading.OpenSceneForcefully(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed);
+			FileHandler.OpenSceneForcefully(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed);
 		}
 		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0, string SceneID = "", string Zone = "", string Name = "")
 		{
@@ -1327,11 +1200,11 @@ namespace ManiacEditor
 		private void OpenSceneForceFully(string dataDir)
 		{
 			DataDirectory = dataDir;
-			EditorSceneLoading.OpenSceneForcefullyUsingSceneSelect(DataDirectory);
+			FileHandler.OpenSceneForcefullyUsingSceneSelect(DataDirectory);
 		}
 		public void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
 		{
-			EditorSceneLoading.OpenSceneUsingSceneSelect();
+			FileHandler.OpenSceneUsingSceneSelect();
 		}
 		#endregion
 
@@ -1359,20 +1232,20 @@ namespace ManiacEditor
 		private void ParentGrid_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Create the interop host control.
-			host = new System.Windows.Forms.Integration.WindowsFormsHost();
+			FormsHost = new System.Windows.Forms.Integration.WindowsFormsHost();
 
 			// Create the MaskedTextBox control.
 
 			// Assign the MaskedTextBox control as the host control's child.
-			host.Child = GraphicsModel;
+			FormsHost.Child = FormsModel;
 
-			host.Foreground = (SolidColorBrush)FindResource("NormalText");
+			FormsHost.Foreground = (SolidColorBrush)FindResource("NormalText");
 
 			// Add the interop host control to the Grid
 			// control's collection of child controls.
-			this.ViewPanelForm.Children.Add(host);
+			this.ViewPanelForm.Children.Add(FormsHost);
 
-			GraphicsModel.GraphicPanel.Init(GraphicsModel);
+			FormsModel.GraphicPanel.Init(FormsModel);
 		}
 		private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
 		{
@@ -1382,22 +1255,22 @@ namespace ManiacEditor
 			bool showEntities = ShowEntities.IsChecked.Value && !EditEntities.IsCheckedAll;
 			bool showEntitiesEditing = EditEntities.IsCheckedAll;
 
-			bool PriorityMode = Settings.mySettings.PrioritizedObjectRendering;
-			bool AboveAllMode = entityVisibilityType == 1;
+			bool PriorityMode = ManiacEditor.Settings.mySettings.PrioritizedObjectRendering;
+			bool AboveAllMode = UIModes.entityVisibilityType == 1;
 
 
-			if (entitiesToolbar?.NeedRefresh ?? false) entitiesToolbar.PropertiesRefresh();
+			if (EntitiesToolbar?.NeedRefresh ?? false) EntitiesToolbar.PropertiesRefresh();
             if (EditorScene != null)
             {
-                if (!isExportingImage)
+                if (!UIModes.isExportingImage)
                 {
                     if (!IsTilesEdit())
-                        EditorBackground.Draw(GraphicsModel.GraphicPanel);
+                        BackgroundDX.Draw(FormsModel.GraphicPanel);
                     if (IsTilesEdit())
                     {
-                        if (Settings.mySettings.ShowEditLayerBackground == true)
+                        if (ManiacEditor.Settings.mySettings.ShowEditLayerBackground == true)
                         {
-                            EditorBackground.DrawEdit(GraphicsModel.GraphicPanel);
+                            BackgroundDX.DrawEdit(FormsModel.GraphicPanel);
                         }
                     }
                 }
@@ -1423,24 +1296,24 @@ namespace ManiacEditor
                 */
 
 
-                if (DebugStatsVisibleOnPanel && EditorScene != null)
+                if (UIModes.DebugStatsVisibleOnPanel && EditorScene != null)
                 {
                     Point point = new Point((short)(15), (short)(15));
 
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y, EditorState.GetDataFolder(), true, 255, 15);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 1, EditorState.GetMasterDataFolder(), true, 255, 22);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 2, EditorState.GetScenePath(), true, 255, 11);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 3, EditorState.GetSceneFilePath(), true, 255, 12);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 4, EditorState.GetZoom(), true, 255, 11);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 5, EditorState.GetSetupObject(), true, 255, 13);
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 6, EditorState.GetSelectedZone(), true, 255, 14);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y, StateModel.GetDataFolder(), true, 255, 15);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 1, StateModel.GetMasterDataFolder(), true, 255, 22);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 2, StateModel.GetScenePath(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 3, StateModel.GetSceneFilePath(), true, 255, 12);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 4, StateModel.GetZoom(), true, 255, 11);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 5, StateModel.GetSetupObject(), true, 255, 13);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 6, StateModel.GetSelectedZone(), true, 255, 14);
 
-                    DebugTextHUD.DrawEditorHUDText(this, GraphicsModel.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + UIControl.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, UIControl.KeyBindPraser("StatusBoxToggle").Length, 4);
+                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + UIControl.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, UIControl.KeyBindPraser("StatusBoxToggle").Length, 4);
                 }
 
 
 
-                if (EditorScene.OtherLayers.Contains(EditLayer)) EditLayer.Draw(GraphicsModel.GraphicPanel);
+                if (EditorScene.OtherLayers.Contains(EditLayerA)) EditLayerA.Draw(FormsModel.GraphicPanel);
 
                 if (!UIModes.ExtraLayersMoveToFront)
                 {
@@ -1450,41 +1323,41 @@ namespace ManiacEditor
                         if (elb.Key.IsCheckedAll || elb.Value.IsCheckedAll)
                         {
                             var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
-                            _extraViewLayer.Draw(GraphicsModel.GraphicPanel);
+                            _extraViewLayer.Draw(FormsModel.GraphicPanel);
                         }
                     }
                 }
 
-                if (ShowFGLower.IsChecked.Value || EditFGLower.IsCheckedAll) FGLower.Draw(GraphicsModel.GraphicPanel);
-                if (ShowFGLow.IsChecked.Value || EditFGLow.IsCheckedAll) FGLow.Draw(GraphicsModel.GraphicPanel);
+                if (ShowFGLower.IsChecked.Value || EditFGLower.IsCheckedAll) FGLower.Draw(FormsModel.GraphicPanel);
+                if (ShowFGLow.IsChecked.Value || EditFGLow.IsCheckedAll) FGLow.Draw(FormsModel.GraphicPanel);
 
 
                 if (showEntities && !AboveAllMode)
                 {
                     if (PriorityMode)
                     {
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, -1);
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, 0);
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, 1);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, -1);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 0);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 1);
                     }
                     else
                     {
-                        entities.Draw(GraphicsModel.GraphicPanel);
+                        Entities.Draw(FormsModel.GraphicPanel);
                     }
                 }
 
                 if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsCheckedAll)
-                    FGHigh.Draw(GraphicsModel.GraphicPanel);
+                    FGHigh.Draw(FormsModel.GraphicPanel);
 
 
                 if (showEntities && PriorityMode && !AboveAllMode)
                 {
-                    entities.DrawPriority(GraphicsModel.GraphicPanel, 2);
-                    entities.DrawPriority(GraphicsModel.GraphicPanel, 3);
+                    Entities.DrawPriority(FormsModel.GraphicPanel, 2);
+                    Entities.DrawPriority(FormsModel.GraphicPanel, 3);
                 }
 
                 if (ShowFGHigher.IsChecked.Value || EditFGHigher.IsCheckedAll)
-                    FGHigher.Draw(GraphicsModel.GraphicPanel);
+                    FGHigher.Draw(FormsModel.GraphicPanel);
 
                 if (UIModes.ExtraLayersMoveToFront)
                 {
@@ -1493,7 +1366,7 @@ namespace ManiacEditor
                         if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
                         {
                             var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
-                            _extraViewLayer.Draw(GraphicsModel.GraphicPanel);
+                            _extraViewLayer.Draw(FormsModel.GraphicPanel);
                         }
                     }
                 }
@@ -1502,112 +1375,112 @@ namespace ManiacEditor
                 {
                     if (PriorityMode)
                     {
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, -1);
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, 0);
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, 1);
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, 2);
-                        entities.DrawPriority(GraphicsModel.GraphicPanel, 3);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, -1);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 0);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 1);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 2);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 3);
                     }
                     else
                     {
-                        entities.Draw(GraphicsModel.GraphicPanel);
+                        Entities.Draw(FormsModel.GraphicPanel);
                     }
                 }
 
                 if (UIModes.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing))
                 {
-                    entities.DrawSelectionBoxes(GraphicsModel.GraphicPanel);
+                    Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
                 }
 
 			}
 
-			if (EditorState.draggingSelection)
+			if (StateModel.draggingSelection)
 			{
-				int bound_x1 = (int)(EditorState.selectingX / EditorState.Zoom); int bound_x2 = (int)(EditorState.lastX / EditorState.Zoom);
-				int bound_y1 = (int)(EditorState.selectingY / EditorState.Zoom); int bound_y2 = (int)(EditorState.lastY / EditorState.Zoom);
+				int bound_x1 = (int)(StateModel.selectingX / StateModel.Zoom); int bound_x2 = (int)(StateModel.lastX / StateModel.Zoom);
+				int bound_y1 = (int)(StateModel.selectingY / StateModel.Zoom); int bound_y2 = (int)(StateModel.lastY / StateModel.Zoom);
 				if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
 				{
 					if (bound_x1 > bound_x2)
 					{
-						bound_x1 = (int)(EditorState.lastX / EditorState.Zoom);
-						bound_x2 = (int)(EditorState.selectingX / EditorState.Zoom);
+						bound_x1 = (int)(StateModel.lastX / StateModel.Zoom);
+						bound_x2 = (int)(StateModel.selectingX / StateModel.Zoom);
 					}
 					if (bound_y1 > bound_y2)
 					{
-						bound_y1 = (int)(EditorState.lastY / EditorState.Zoom);
-						bound_y2 = (int)(EditorState.selectingY / EditorState.Zoom);
+						bound_y1 = (int)(StateModel.lastY / StateModel.Zoom);
+						bound_y2 = (int)(StateModel.selectingY / StateModel.Zoom);
 					}
 
 
 				}
 
-				GraphicsModel.GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, Color.FromArgb(100, Color.Purple));
-				GraphicsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, Color.Purple);
-				GraphicsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, Color.Purple);
-				GraphicsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, Color.Purple);
-				GraphicsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
+				FormsModel.GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, Color.FromArgb(100, Color.Purple));
+				FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, Color.Purple);
+				FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, Color.Purple);
+				FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, Color.Purple);
+				FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
 			}
 			else
 			{
-				EditorState.select_x1 = 0; EditorState.select_x2 = 0; EditorState.select_y1 = 0; EditorState.select_y2 = 0;
+				StateModel.select_x1 = 0; StateModel.select_x2 = 0; StateModel.select_y1 = 0; StateModel.select_y2 = 0;
 			}
 
 			if (UIModes.ShowGrid && EditorScene != null)
-				EditorBackground.DrawGrid(GraphicsModel.GraphicPanel);
+				BackgroundDX.DrawGrid(FormsModel.GraphicPanel);
 
-			if (GameRunning)
+			if (InGame.GameRunning)
 			{
-				EditorGame.DrawGameElements(GraphicsModel.GraphicPanel);
+				InGame.DrawGameElements(FormsModel.GraphicPanel);
 
-				if (playerSelected)
+				if (InGame.PlayerSelected)
 				{
-					EditorGame.MovePlayer(new Point(EditorState.lastX, EditorState.lastY), EditorState.Zoom, selectedPlayer);
+					InGame.MovePlayer(new Point(StateModel.lastX, StateModel.lastY), StateModel.Zoom, InGame.SelectedPlayer);
 				}
-				if (checkpointSelected)
+				if (InGame.CheckpointSelected)
 				{
-					Point clicked_point = new Point((int)(EditorState.lastX / EditorState.Zoom), (int)(EditorState.lastY / EditorState.Zoom));
-					EditorGame.UpdateCheckpoint(clicked_point);
+					Point clicked_point = new Point((int)(StateModel.lastX / StateModel.Zoom), (int)(StateModel.lastY / StateModel.Zoom));
+					InGame.UpdateCheckpoint(clicked_point);
 				}
 			}
 
-			if (EditorState.scrolling)
+			if (StateModel.scrolling)
 			{
-				if (GraphicsModel.vScrollBar1.IsVisible && GraphicsModel.hScrollBar1.IsVisible) GraphicsModel.GraphicPanel.Draw2DCursor(EditorState.scrollPosition.X, EditorState.scrollPosition.Y);
-				else if (GraphicsModel.vScrollBar1.IsVisible) GraphicsModel.GraphicPanel.DrawVertCursor(EditorState.scrollPosition.X, EditorState.scrollPosition.Y);
-				else if (GraphicsModel.hScrollBar1.IsVisible) GraphicsModel.GraphicPanel.DrawHorizCursor(EditorState.scrollPosition.X, EditorState.scrollPosition.Y);
+				if (FormsModel.vScrollBar1.IsVisible && FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.Draw2DCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
+				else if (FormsModel.vScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawVertCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
+				else if (FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawHorizCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
 			}
-			if (ForceWarp)
+			if (UIModes.ForceWarp)
 			{
-				if (ShortcutHasZoom) SetZoomLevel(0, TempWarpCoords, ShortcutZoomValue);
-				else SetZoomLevel(Settings.mySettings.DevForceRestartZoomLevel, TempWarpCoords);
-				GoToPosition(TempWarpCoords.X, TempWarpCoords.Y, false, true);
-				SetViewSize((int)(SceneWidth * EditorState.Zoom), (int)(SceneHeight * EditorState.Zoom));
+				if (UIModes.ShortcutHasZoom) SetZoomLevel(0, UIModes.TempWarpCoords, ShortcutZoomValue);
+				else SetZoomLevel(ManiacEditor.Settings.mySettings.DevForceRestartZoomLevel, UIModes.TempWarpCoords);
+				GoToPosition(UIModes.TempWarpCoords.X, UIModes.TempWarpCoords.Y, false, true);
+				SetViewSize((int)(SceneWidth * StateModel.Zoom), (int)(SceneHeight * StateModel.Zoom));
 
 			}
 		}
 		public void DrawLayers(int drawOrder = 0)
 		{
 			var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
-			_extraViewLayer.Draw(GraphicsModel.GraphicPanel);
+			_extraViewLayer.Draw(FormsModel.GraphicPanel);
 		}
 		public void Run()
 		{
 			Show();
 			Focus();
-			GraphicsModel.Show();
-			GraphicsModel.GraphicPanel.Run();
+			FormsModel.Show();
+			FormsModel.GraphicPanel.Run();
 
 		}
 		private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
 		{
-			if (!Settings.mySettings.DisableDraging)
+			if (!ManiacEditor.Settings.mySettings.DisableDraging)
 			{
 				if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
 				{
-					Point rel = GraphicsModel.GraphicPanel.PointToScreen(Point.Empty);
+                    Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
 					e.Effect = System.Windows.Forms.DragDropEffects.Move;
-					EditLayer?.StartDragOver(new Point((int)(((e.X - rel.X) + EditorState.ShiftX) / EditorState.Zoom), (int)(((e.Y - rel.Y) + EditorState.ShiftY) / EditorState.Zoom)), (ushort)TilesToolbar.SelectedTile);
-					UpdateEditLayerActions();
+                    EditLayerA?.StartDragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                    UpdateEditLayerActions();
 				}
 				else
 				{
@@ -1617,30 +1490,30 @@ namespace ManiacEditor
 		}
 		private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
 		{
-			if (!Settings.mySettings.DisableDraging)
+			if (!ManiacEditor.Settings.mySettings.DisableDraging)
 			{
 				if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
 				{
-					Point rel = GraphicsModel.GraphicPanel.PointToScreen(Point.Empty);
-					EditLayer?.DragOver(new Point((int)(((e.X - rel.X) + EditorState.ShiftX) / EditorState.Zoom), (int)(((e.Y - rel.Y) + EditorState.ShiftY) / EditorState.Zoom)), (ushort)TilesToolbar.SelectedTile);
-                    GraphicsModel.GraphicPanel.Render();
+                    Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
+                    EditLayerA?.DragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                    FormsModel.GraphicPanel.Render();
 
 				}
 			}
 		}
 		private void GraphicPanel_DragLeave(object sender, EventArgs e)
 		{
-			if (!Settings.mySettings.DisableDraging)
+			if (!ManiacEditor.Settings.mySettings.DisableDraging)
 			{
-				EditLayer?.EndDragOver(true);
-			    GraphicsModel.GraphicPanel.Render();
+                EditLayerA?.EndDragOver(true);
+                FormsModel.GraphicPanel.Render();
 			}
 		}
 		private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
 		{
-			if (!Settings.mySettings.DisableDraging)
+			if (!ManiacEditor.Settings.mySettings.DisableDraging)
 			{
-				EditLayer?.EndDragOver(false);
+                EditLayerA?.EndDragOver(false);
 			}
 		}
 		public void GraphicPanel_OnKeyDown(object    sender, System.Windows.Forms.KeyEventArgs e)
@@ -1671,8 +1544,8 @@ namespace ManiacEditor
 		}
 		private void MapEditor_Activated(object sender, EventArgs e)
 		{
-			GraphicsModel.GraphicPanel.Focus();
-			if (mainform.hasModified)
+			FormsModel.GraphicPanel.Focus();
+			if (TileManiacInstance.hasModified)
 			{
 				ReloadToolStripButton_Click(sender, null);
 			}
@@ -1680,30 +1553,30 @@ namespace ManiacEditor
 		}
 		private void MapEditor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			if (!GraphicsModel.GraphicPanel.Focused)
+			if (!FormsModel.GraphicPanel.Focused)
 			{
 				UIControl.GraphicPanel_OnKeyDown(sender, e);
 			}
 		}
 		private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if (UIEvents.ManiaPalConnector != null) UIEvents.ManiaPalConnector.Kill();
+			if (Launcher.ManiaPalConnector != null) Launcher.ManiaPalConnector.Kill();
 
 			try
 			{
-				GameRunning = false;
+                InGame.GameRunning = false;
 				var mySettings = Properties.Settings.Default;
-				Settings.mySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
-				Settings.mySettings.Save();
+                ManiacEditor.Settings.mySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
+                ManiacEditor.Settings.mySettings.Save();
 			}
 			catch (Exception ex)
 			{
 				Debug.Write("Failed to write settings: " + ex);
 			}
 
-			GraphicsModel.Dispose();
+			FormsModel.Dispose();
 			//editorView = null;
-			host.Child.Dispose();
+			FormsHost.Child.Dispose();
 			//host = null;
 
 
@@ -1711,7 +1584,7 @@ namespace ManiacEditor
 		}
 		private void MapEditor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			if (!GraphicsModel.GraphicPanel.Focused)
+			if (!FormsModel.GraphicPanel.Focused)
 			{
 				UIControl.GraphicPanel_OnKeyUp(sender, e);
 			}
@@ -1726,7 +1599,7 @@ namespace ManiacEditor
 			{
 				Thread thread = new Thread(() => {
 					Updater.CheckforUpdates(true, true);
-					Editor.UpdateUpdaterMessage = true;
+					EditorUIModes.UpdateUpdaterMessage = true;
 				});
 				thread.Start();
 				this.OverlayPanel.Children.Add(StartScreen);
@@ -1763,7 +1636,7 @@ namespace ManiacEditor
 				EditLayerA?.Deselect();
 				EditLayerB?.Deselect();
 
-				if (IsEntitiesEdit()) entities.Deselect();
+				if (IsEntitiesEdit()) Entities.Deselect();
                 UI.SetSelectOnlyButtonsState(false);
 				if (updateControls)
 					UpdateEditLayerActions();
@@ -1772,7 +1645,7 @@ namespace ManiacEditor
 
 		public void EditorUndo()
 		{
-			if (undo.Count > 0)
+			if (UndoStack.Count > 0)
 			{
 				if (IsTilesEdit())
 				{
@@ -1781,19 +1654,19 @@ namespace ManiacEditor
 				}
 				else if (IsEntitiesEdit())
 				{
-					if (undo.Peek() is ActionAddDeleteEntities)
+					if (UndoStack.Peek() is ActionAddDeleteEntities)
 					{
 						// deselect only if delete/create
 						Deselect();
 					}
 				}
-				IAction act = undo.Pop();
+				IAction act = UndoStack.Pop();
 				act.Undo();
-				redo.Push(act.Redo());
+				RedoStack.Push(act.Redo());
 				if (IsEntitiesEdit() && IsSelected())
 				{
 					// We need to update the properties of the selected entity
-					entitiesToolbar.UpdateCurrentEntityProperites();
+					EntitiesToolbar.UpdateCurrentEntityProperites();
 				}
 			}
             UI.UpdateControls();
@@ -1801,15 +1674,15 @@ namespace ManiacEditor
 
 		public void EditorRedo()
 		{
-			if (redo.Count > 0)
+			if (RedoStack.Count > 0)
 			{
-				IAction act = redo.Pop();
+				IAction act = RedoStack.Pop();
 				act.Undo();
-				undo.Push(act.Redo());
+				UndoStack.Push(act.Redo());
 				if (IsEntitiesEdit() && IsSelected())
 				{
 					// We need to update the properties of the selected entity
-					entitiesToolbar.UpdateCurrentEntityProperites();
+					EntitiesToolbar.UpdateCurrentEntityProperites();
 				}
 			}
             UI.UpdateControls();
@@ -1825,19 +1698,19 @@ namespace ManiacEditor
 				Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copyDataA, copyDataB);
 
 				// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-				if (Settings.mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
-					Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
+				if (ManiacEditor.Settings.mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
+                    Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
 
 				// Also copy to Maniac's clipboard in case it gets overwritten elsewhere
 				TilesClipboard = copyData;
 			}
-			else if (hasMultipleValidLayers && MultiLayerEditMode)
+			else if (hasMultipleValidLayers && UIModes.MultiLayerEditMode)
 			{
 				Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
 
 				// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-				if (Settings.mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
-					Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
+				if (ManiacEditor.Settings.mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
+                    Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
 
 				// Also copy to Maniac's clipboard in case it gets overwritten elsewhere
 				TilesClipboard = copyData;
@@ -1848,7 +1721,7 @@ namespace ManiacEditor
 
 		public void CopyEntitiesToClipboard()
 		{
-			if (entitiesToolbar.IsFocused == false)
+			if (EntitiesToolbar.IsFocused == false)
 			{
 				// Windows Clipboard mode (WPF Current Breaks this Apparently)
 				/*
@@ -1868,7 +1741,7 @@ namespace ManiacEditor
 				// Local Clipboard mode
 				{
 					// Clone the entities and stow them here
-					List<EditorEntity> copyData = entities.CopyToClipboard();
+					List<EditorEntity> copyData = Entities.CopyToClipboard();
 
 					// Send to Maniac's clipboard
 					entitiesClipboard = copyData;
@@ -1886,44 +1759,44 @@ namespace ManiacEditor
 			}
 			if (nudgeFasterButton.IsChecked == false)
 			{
-				Settings.mySettings.EnableFasterNudge = false;
+                ManiacEditor.Settings.mySettings.EnableFasterNudge = false;
 				nudgeFasterButton.IsChecked = false;
 			}
 			if (UIModes.UseMagnetMode)
 			{
 				switch (e.KeyData)
 				{
-					case Keys.Up: y = (UIModes.UseMagnetYAxis ? -magnetSize : -1); break;
-					case Keys.Down: y = (UIModes.UseMagnetYAxis ? magnetSize : 1); break;
-					case Keys.Left: x = (UIModes.UseMagnetXAxis ? -magnetSize : -1); break;
-					case Keys.Right: x = (UIModes.UseMagnetXAxis ? magnetSize : 1); break;
+					case Keys.Up: y = (UIModes.UseMagnetYAxis ? -UIModes.magnetSize : -1); break;
+					case Keys.Down: y = (UIModes.UseMagnetYAxis ? UIModes.magnetSize : 1); break;
+					case Keys.Left: x = (UIModes.UseMagnetXAxis ? -UIModes.magnetSize : -1); break;
+					case Keys.Right: x = (UIModes.UseMagnetXAxis ? UIModes.magnetSize : 1); break;
 				}
 			}
-			if (Settings.mySettings.EnableFasterNudge)
+			if (ManiacEditor.Settings.mySettings.EnableFasterNudge)
 			{
 				if (UIModes.UseMagnetMode)
 				{
 					switch (e.KeyData)
 					{
-						case Keys.Up: y = (UIModes.UseMagnetYAxis ? -magnetSize * Settings.mySettings.FasterNudgeValue : -1 - Settings.mySettings.FasterNudgeValue); break;
-						case Keys.Down: y = (UIModes.UseMagnetYAxis ? magnetSize * Settings.mySettings.FasterNudgeValue : 1 + Settings.mySettings.FasterNudgeValue); break;
-						case Keys.Left: x = (UIModes.UseMagnetXAxis ? -magnetSize * Settings.mySettings.FasterNudgeValue : -1 - Settings.mySettings.FasterNudgeValue); break;
-						case Keys.Right: x = (UIModes.UseMagnetXAxis ? magnetSize * Settings.mySettings.FasterNudgeValue : 1 + Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Up: y = (UIModes.UseMagnetYAxis ? -UIModes.magnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : -1 - ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Down: y = (UIModes.UseMagnetYAxis ? UIModes.magnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : 1 + ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Left: x = (UIModes.UseMagnetXAxis ? -UIModes.magnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : -1 - ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
+						case Keys.Right: x = (UIModes.UseMagnetXAxis ? UIModes.magnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : 1 + ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
 					}
 				}
 				else
 				{
 					switch (e.KeyData)
 					{
-						case Keys.Up: y = (-1 - Settings.mySettings.FasterNudgeValue) * modifier; break;
-						case Keys.Down: y = (1 + Settings.mySettings.FasterNudgeValue) * modifier; break;
-						case Keys.Left: x = (-1 - Settings.mySettings.FasterNudgeValue) * modifier; break;
-						case Keys.Right: x = (1 + Settings.mySettings.FasterNudgeValue) * modifier; break;
+						case Keys.Up: y = (-1 - ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
+						case Keys.Down: y = (1 + ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
+						case Keys.Left: x = (-1 - ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
+						case Keys.Right: x = (1 + ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
 					}
 				}
 
 			}
-			if (UIModes.UseMagnetMode == false && Settings.mySettings.EnableFasterNudge == false)
+			if (UIModes.UseMagnetMode == false && ManiacEditor.Settings.mySettings.EnableFasterNudge == false)
 			{
 				switch (e.KeyData)
 				{
@@ -1943,49 +1816,34 @@ namespace ManiacEditor
 			{
 				if (UIModes.UseMagnetMode)
 				{
-					int xE = entities.SelectedEntities[0].Entity.Position.X.High;
-					int yE = entities.SelectedEntities[0].Entity.Position.Y.High;
+					int xE = Entities.SelectedEntities[0].Entity.Position.X.High;
+					int yE = Entities.SelectedEntities[0].Entity.Position.Y.High;
 
-					if (xE % magnetSize != 0 && UIModes.UseMagnetXAxis)
+					if (xE % UIModes.magnetSize != 0 && UIModes.UseMagnetXAxis)
 					{
-						int offsetX = x % magnetSize;
+						int offsetX = x % UIModes.magnetSize;
 						x -= offsetX;
 					}
-					if (yE % magnetSize != 0 && UIModes.UseMagnetYAxis)
+					if (yE % UIModes.magnetSize != 0 && UIModes.UseMagnetYAxis)
 					{
-						int offsetY = y % magnetSize;
+						int offsetY = y % UIModes.magnetSize;
 						y -= offsetY;
 					}
 				}
 
 
-				entities.MoveSelected(new Point(0, 0), new Point(x, y), false);
-				entitiesToolbar.UpdateCurrentEntityProperites();
+				Entities.MoveSelected(new Point(0, 0), new Point(x, y), false);
+				EntitiesToolbar.UpdateCurrentEntityProperites();
 
 				// Try to merge with last move
-				if (undo.Count > 0 && undo.Peek() is ActionMoveEntities && (undo.Peek() as ActionMoveEntities).UpdateFromKey(entities.SelectedEntities.ToList(), new Point(x, y))) { }
+				if (UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(Entities.SelectedEntities.ToList(), new Point(x, y))) { }
 				else
 				{
-					undo.Push(new ActionMoveEntities(entities.SelectedEntities.ToList(), new Point(x, y), true));
-					redo.Clear();
+					UndoStack.Push(new ActionMoveEntities(Entities.SelectedEntities.ToList(), new Point(x, y), true));
+					RedoStack.Clear();
                     UI.UpdateControls();
 				}
 			}
-		}
-
-		public void MoveCameraFreely(object sender, KeyEventArgs e)
-		{
-			if (CtrlPressed() && ShiftPressed())
-			{
-				switch (e.Key)
-				{
-					case Key.Up: EditorState.CustomY -= 5; break;
-					case Key.Down: EditorState.CustomY += 5; break;
-					case Key.Left: EditorState.CustomX -= 5; break;
-					case Key.Right: EditorState.CustomX += 5; break;
-				}
-			}
-
 		}
 		public void CreateShortcut(string dataDir, string scenePath = "", string modPath = "", int X = 0, int Y = 0, bool isEncoreMode = false, int LevelSlotNum = -1, double ZoomedLevel = 0.0)
 		{
@@ -2020,44 +1878,44 @@ namespace ManiacEditor
 		}
 		public void ShowError(string message, string title = "Error!")
 		{
-			MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+			RSDKrU.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 		public void GoToPosition(int x, int y, bool CenterCoords = true, bool ShortcutClear = false)
 		{
 			if (CenterCoords)
 			{
-				Rectangle r = GraphicsModel.GraphicPanel.GetScreen();
-				int x2 = (int)(r.Width * EditorState.Zoom);
-				int y2 = (int)(r.Height * EditorState.Zoom);
+				Rectangle r = FormsModel.GraphicPanel.GetScreen();
+				int x2 = (int)(r.Width * StateModel.Zoom);
+				int y2 = (int)(r.Height * StateModel.Zoom);
 
-				int ResultX = (int)(x * EditorState.Zoom) - x2 / 2;
-				int ResultY = (int)(y * EditorState.Zoom) - y2 / 2;
+				int ResultX = (int)(x * StateModel.Zoom) - x2 / 2;
+				int ResultY = (int)(y * StateModel.Zoom) - y2 / 2;
 
 				if ((ResultX <= 0)) ResultX = 0;
 				if ((ResultY <= 0)) ResultY = 0;
 
 
-                EditorState.ShiftX = ResultX;
-				EditorState.ShiftY = ResultY;
+                StateModel.ShiftX = ResultX;
+				StateModel.ShiftY = ResultY;
 			}
 			else
 			{
-				int ResultX = (int)(x * EditorState.Zoom);
-				int ResultY = (int)(y * EditorState.Zoom);
+				int ResultX = (int)(x * StateModel.Zoom);
+				int ResultY = (int)(y * StateModel.Zoom);
 
 				if ((ResultX <= 0)) ResultX = 0;
 				if ((ResultY <= 0)) ResultY = 0;
 
-                EditorState.ShiftX = ResultX;
-                EditorState.ShiftY = ResultY;
+                StateModel.ShiftX = ResultX;
+                StateModel.ShiftY = ResultY;
             }
 
 
 			if (ShortcutClear)
 			{
-				ForceWarp = false;
-				TempWarpCoords = new Point(0, 0);
-				ShortcutHasZoom = false;
+				UIModes.ForceWarp = false;
+				UIModes.TempWarpCoords = new Point(0, 0);
+				UIModes.ShortcutHasZoom = false;
 				ShortcutZoomValue = 0.0;
 			}
 
@@ -2107,7 +1965,7 @@ namespace ManiacEditor
 		{
 			if (EditorScene != null && CollisionLayerA != null && CollisionLayerB != null)
 			{
-				switch (collisionPreset)
+				switch (CollisionPreset)
 				{
 					case 2:
 						CollisionAllSolid = Properties.Settings.Default.CollisionSAColour;
@@ -2175,17 +2033,17 @@ namespace ManiacEditor
 		#region Get + Set Methods
 		public Rectangle GetScreen()
 		{
-			if (Settings.mySettings.EntityFreeCam && !isExportingImage) return new Rectangle(EditorState.CustomX, EditorState.CustomY, GraphicsModel.mainPanel.Width, GraphicsModel.mainPanel.Height);
-			else if (isExportingImage) return new Rectangle(0, 0, SceneWidth, SceneHeight);
-			else return new Rectangle(EditorState.ShiftX, EditorState.ShiftY, GraphicsModel.mainPanel.Width, GraphicsModel.mainPanel.Height);
+			if (ManiacEditor.Settings.mySettings.EntityFreeCam && !UIModes.isExportingImage) return new Rectangle(StateModel.CustomX, StateModel.CustomY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
+			else if (UIModes.isExportingImage) return new Rectangle(0, 0, SceneWidth, SceneHeight);
+			else return new Rectangle(StateModel.ShiftX, StateModel.ShiftY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
 		}
 		public double GetZoom()
 		{
-			return EditorState.Zoom;
+			return StateModel.Zoom;
 		}
 		private void SetDeviceSleepState(bool state)
 		{
-			GraphicsModel.GraphicPanel.bRender = state;
+			FormsModel.GraphicPanel.bRender = state;
 			if (state == true)
 			{
 				ReloadToolStripButton_Click(null, null);
@@ -2218,20 +2076,18 @@ namespace ManiacEditor
 		#region Orginized Tab Event Handlers
 
 		#region File Tab Buttons
-
-		private void New_Click(object sender, RoutedEventArgs e) { UIEvents.New_Click(sender, e); }
-		public void Open_Click(object sender, RoutedEventArgs e) { UIEvents.Open_Click(sender, e); }
-		private void OpenToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OpenToolStripMenuItem_Click(sender, e); }
-		public void OpenDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OpenDataDirectoryToolStripMenuItem_Click(sender, e); }
-		public void Save_Click(object sender, RoutedEventArgs e) { UIEvents.Save_Click(sender, e); }
-		private void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ExitToolStripMenuItem_Click(sender, e); }
-		private void SaveAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SaveAspngToolStripMenuItem_Click(sender, e); }
-		private void ExportEachLayerAspngToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ExportEachLayerAspngToolStripMenuItem_Click(sender, e); }
-		public void SaveAsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SaveAsToolStripMenuItem_Click(sender, e); }
+		private void NewScene(object sender, RoutedEventArgs e) { FileHandler.NewScene(); }
+		public void OpenScene(object sender, RoutedEventArgs e) { FileHandler.OpenScene(); }
+		public void OpenDataDirectory(object sender, RoutedEventArgs e) { FileHandler.OpenDataDirectory(); }
+		public void SaveScene(object sender, RoutedEventArgs e) { FileHandler.Save(); }
+		private void ExitEditor(object sender, RoutedEventArgs e) { Close(); }
+		private void ExportAsPNG(object sender, RoutedEventArgs e) { FileHandler.ExportAsPNG(); }
+		private void ExportLayersAsPNG(object sender, RoutedEventArgs e) { FileHandler.ExportLayersAsPNG(); }
+		public void SaveSceneAs(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
 		private void BackupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.BackupToolStripMenuItem_Click(sender, e); }
 		private void BackupRecoverButton_Click(object sender, RoutedEventArgs e) { UIEvents.BackupRecoverButton_Click(sender, e); }
 		private void ObjectManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ObjectManagerToolStripMenuItem_Click(sender, e); }
-		public void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.UnloadSceneToolStripMenuItem_Click(sender, e); }
+		public void UnloadSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e) { FileHandler.UnloadScene(); }
 		private void StageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.StageConfigToolStripMenuItem_Click(sender, e); }
 		private void NormalToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.NormalToolStripMenuItem_Click(sender, e); }
 		#endregion
@@ -2253,28 +2109,27 @@ namespace ManiacEditor
 		#endregion
 
 		#region View Tab Buttons
-		public void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.statsToolStripMenuItem_Click(sender, e); }
-		private void PointerTooltipToggleToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.PointerTooltipToggleToolStripMenuItem_Click(sender, e); }
-		private void ResetZoomLevelToolstripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ResetZoomLevelToolstripMenuItem_Click(sender, e); }
-		private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.useLargeTextToolStripMenuItem_Click(sender, e); }
+		public void statsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.DebugStatsVisibleOnPanel.Invert(); }
+		private void ResetZoomLevelToolstripMenuItem_Click(object sender, RoutedEventArgs e) { SetZoomLevel(0, new Point(0, 0)); }
+		private void useLargeTextToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.UseLargeDebugStats.Invert(); }
 		public void SetMenuButtons(object sender, RoutedEventArgs e) { UIEvents.SetMenuButtons(sender, e); }
         public void SetMenuButtons(string tag) { UIEvents.SetMenuButtons(tag); }
 		private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(sender, e); }
-        private void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e) { UIEvents.SelectionBoxesAlwaysPrioritized_Click(sender, e); }
-        private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.prioritizedViewingToolStripMenuItem_Click(sender, e); }
-		private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ChangeEncorePaleteToolStripMenuItem_Click(sender, e); }
+        private void SelectionBoxesAlwaysPrioritized_Click(object sender, RoutedEventArgs e) { UIModes.EntitySelectionBoxesAlwaysPrioritized.Invert(); }
+        private void prioritizedViewingToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.PrioritizedEntityViewing.Invert(); }
+		private void ChangeEncorePaleteToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SetEncorePallete(sender); }
 		public void SetEncorePallete(object sender = null, string path = "") { UIEvents.SetEncorePallete(sender, path); }
-		private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.MoveExtraLayersToFrontToolStripMenuItem_Click(sender, e); }
+		private void MoveExtraLayersToFrontToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.ExtraLayersMoveToFront.Invert(); }
 		private void ToolStripTextBox1_TextChanged(object sender, TextChangedEventArgs e) { UIEvents.ToolStripTextBox1_TextChanged(sender, e); }
-		private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ShowEntitySelectionBoxesToolStripMenuItem_Click(sender, e); }
-		private void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ShowWaterLevelToolStripMenuItem_Click(sender, e); }
-		private void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e) { UIEvents.WaterLevelAlwaysShowItem_Click(sender, e); }
-		private void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(sender, e); }
+		private void ShowEntitySelectionBoxesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.ShowEntitySelectionBoxes.Invert(); }
+		private void ShowWaterLevelToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.ShowWaterLevel.Invert(); }
+		private void WaterLevelAlwaysShowItem_Click(object sender, RoutedEventArgs e) { UIModes.AlwaysShowWaterLevel.Invert(); }
+		private void SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.SizeWaterLevelwithBounds.Invert(); }
 		private void ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click(sender, e); }
-		private void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ShowParallaxSpritesToolStripMenuItem_Click(sender, e); }
-		private void XToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.XToolStripMenuItem_Click(sender, e); }
-		private void YToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.YToolStripMenuItem_Click(sender, e); }
-		private void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ShowEntityPathToolStripMenuItem_Click(sender, e); }
+		private void ShowParallaxSpritesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.ShowParallaxSprites.Invert(); }
+		private void XToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SetScrollLockDirection(); }
+		private void YToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SetScrollLockDirection(); }
+		private void ShowEntityPathToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.ShowEntityPathArrows = !UIModes.ShowEntityPathArrows; }
 		private void LangToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.LangToolStripMenuItem_Click(sender, e); }
 
 		#region Collision Options
@@ -2300,16 +2155,16 @@ namespace ManiacEditor
 		#endregion
 
 		#region Tools Tab Buttons
-		private void OptimizeEntitySlotIDsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OptimizeEntitySlotIDsToolStripMenuItem_Click(sender, e); }
-		private void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e) { UIEvents.RightClicktoSwapSlotIDs_Click(sender, e); }
-		private void CopyAirToggle_Click(object sender, RoutedEventArgs e) { UIEvents.CopyAirToggle_Click(sender, e); }
+		private void OptimizeEntitySlotIDsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { if (EditorScene != null) Entities.OptimizeAllSlotIDs(); }
+		private void RightClicktoSwapSlotIDs_Click(object sender, RoutedEventArgs e) { UIModes.RightClicktoSwapSlotID.Invert(); }
+		private void CopyAirToggle_Click(object sender, RoutedEventArgs e) { UIModes.CopyAir.Invert(); }
 		private void changeLevelIDToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.changeLevelIDToolStripMenuItem_Click(sender, e); }
-		private void MultiLayerSelectionToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.MultiLayerSelectionToolStripMenuItem_Click(sender, e); }
+		private void MultiLayerSelectionToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIModes.MultiLayerEditMode.Invert(); }
 		private void MakeForDataFolderOnlyToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.MakeForDataFolderOnlyToolStripMenuItem_Click(sender, e); }
 		private void WithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.WithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
 		private void WithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.WithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
 		private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SoundLooperToolStripMenuItem_Click(sender, e); }
-		private void FindUnusedTiles(object sender, RoutedEventArgs e) { UIEvents.FindUnusedTiles(sender, e); }
+		private void FindUnusedTiles(object sender, RoutedEventArgs e) { FindAndReplace.FindUnusedTiles(); }
 
 		#region Developer Stuff
 		public void GoToToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.GoToToolStripMenuItem_Click(sender, e); }
@@ -2323,54 +2178,84 @@ namespace ManiacEditor
 		private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UI.UpdateToolbars(false, true); } 
 		private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UI.UpdateToolbars(true, true); }
 		private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
-		private void NextGenSceneSelectTest_Click(object sender, RoutedEventArgs e) { EditorSceneLoading.OpenSceneUsingSceneSelect(); }
+		private void NextGenSceneSelectTest_Click(object sender, RoutedEventArgs e) { FileHandler.OpenSceneUsingSceneSelect(); }
 		#endregion
 
 		#endregion
 
 		#region Apps Tab Buttons
-		private void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.TileManiacToolStripMenuItem_Click(sender, e); }
-		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.InsanicManiacToolStripMenuItem_Click(sender, e); }
-		private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.RSDKAnnimationEditorToolStripMenuItem_Click(sender, e); }
-        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.RenderListManagerToolstripMenuItem_Click(sender, e); }
-        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ColorPaletteEditorToolStripMenuItem_Click(sender, e); }
-		private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { UIEvents.ManiaPalMenuItem_SubmenuOpened(sender, e); }
-		private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.DuplicateObjectIDHealerToolStripMenuItem_Click(sender, e); }
-		#endregion
+		private void TileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.TileManiacNormal(); }
+		private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.InsanicManiac(); }
+		private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.RSDKAnnimationEditor(); }
+        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.RenderListManager(); }
+        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.ManiaPal(sender, e); }
+        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { Launcher.ManiaPalSubmenuOpened(sender, e); }
+        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.DuplicateObjectIDHealer(); }
+        #endregion
 
-		#region Folders Tab Buttons
-		private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OpenSceneFolderToolStripMenuItem_Click(sender, e); }
-		private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OpenDataDirectoryFolderToolStripMenuItem_Click(sender, e); }
-		private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OpenSonicManiaFolderToolStripMenuItem_Click(sender, e); }
-		private void OpenModDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OpenModDataDirectoryToolStripMenuItem_Click(sender, e); }
-		private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { UIEvents.OpenASavedPlaceToolStripMenuItem_DropDownOpening(sender, e); }
-		private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { UIEvents.OpenASavedPlaceToolStripMenuItem_DropDownClosed(sender, e); }
+        #region Folders Tab Buttons
+        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenSceneFolder(); }
+		private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenDataDirectory(); }
+		private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenSonicManiaFolder(); }
+		private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Launcher.OpenASavedPlaceDropDownOpening(sender, e); }
+		private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Launcher.OpenASavedPlaceDropDownClosed(sender, e); }
 		#endregion
 
 		#region Other Tab Buttons
-		public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.AboutToolStripMenuItem_Click(sender, e); }
-		private void WikiToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.WikiToolStripMenuItem_Click(sender, e); }
-		public void OptionToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.OptionToolStripMenuItem_Click(sender, e); }
-		private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ControlsToolStripMenuItem_Click(sender, e); }
+		public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutBox = new ManiacEditor.Interfaces.AboutWindow();
+            aboutBox.Owner = this;
+            aboutBox.ShowDialog();
+        }
+		private void WikiToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
+        }
+        public void OptionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(this);
+            optionMenu.Owner = this;
+            optionMenu.ShowDialog();
+        }
+		private void ControlsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(this);
+            optionMenu.Owner = this;
+            optionMenu.MainTabControl.SelectedIndex = 2;
+            optionMenu.ShowDialog();
+        }
 		#endregion
 
 		#endregion
 
-		#region Main Toolstrip Item's Event Handlers
-		private void NewToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.NewToolStripMenuItem_Click(sender, e); }
-		private void SToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SToolStripMenuItem_Click(sender, e); }
-		private void MagnetMode_Click(object sender, RoutedEventArgs e) { UIEvents.MagnetMode_Click(sender, e); }
-		private void UndoButton_Click(object sender, RoutedEventArgs e) { UIEvents.UndoButton_Click(sender, e); }
-		private void RedoButton_Click(object sender, RoutedEventArgs e) { UIEvents.RedoButton_Click(sender, e); }
-		private void ZoomInButton_Click(object sender, RoutedEventArgs e) { UIEvents.ZoomInButton_Click(sender, e); }
-		private void ZoomOutButton_Click(object sender, RoutedEventArgs e) { UIEvents.ZoomOutButton_Click(sender, e); }
-		private void SelectTool_Click(object sender, RoutedEventArgs e) { UIEvents.SelectTool_Click(sender, e); }
-		private void PointerButton_Click(object sender, RoutedEventArgs e) { UIEvents.PointerButton_Click(sender, e); }
-		private void PlaceTilesButton_Click(object sender, RoutedEventArgs e) { UIEvents.PlaceTilesButton_Click(sender, e); }
-		private void InteractionToolButton_Click(object sender, RoutedEventArgs e) { UIEvents.InteractionToolButton_Click(sender, e); }
-		private void ChunkToolButton_Click(object sender, RoutedEventArgs e) { UIEvents.ChunkToolButton_Click(sender, e); }
-		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UIEvents.ReloadToolStripButton_Click(sender, e); }
-		public void ShowTileIDButton_Click(object sender, RoutedEventArgs e) { UIModes.ShowTileID = ShowTileIDButton.IsChecked.Value; }
+		#region Editor Tool Events
+		private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { UIModes.UseMagnetMode.Invert(); }
+		private void UndoEvent(object sender, RoutedEventArgs e) { EditorUndo(); }
+		private void RedoEvent(object sender, RoutedEventArgs e) { EditorRedo(); }
+		private void ZoomInEvent(object sender, RoutedEventArgs e) { UIEvents.ZoomInButton_Click(sender, e); }
+		private void ZoomOutEvent(object sender, RoutedEventArgs e) { UIEvents.ZoomOutButton_Click(sender, e); }
+		private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { UIModes.SelectionMode(); }
+		private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { UIModes.PointerMode(); }
+		private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { UIModes.DrawMode(); }
+		private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { UIModes.InteractionMode(); }
+		private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { UIModes.ChunksMode(); }
+		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UI.ReloadSpritesAndTextures(); }
+		public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { UIModes.ShowTileID.Invert(); }
+        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { UIModes.EnablePixelCountMode.Invert(); }
+        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { UIModes.ScrollLocked.Invert(); }
+        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { UIModes.EnableFasterNudge.Invert(); }
+        public void ApplyEditEntitiesTransparencyTrigger(object sender, RoutedEventArgs e)
+        {
+            if (sender == EditEntitiesTransparencyQuickToggle) UIModes.LastQuickButtonState = 2;
+            UIModes.ApplyEditEntitiesTransparency.Invert();
+        }
+        public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { UIModes.ShowCollisionA.Invert(); }
+        public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { UIModes.ShowCollisionB.Invert(); }
+        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { UIModes.ShowFlippedTileHelper.Invert(); }
+        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { UIModes.UseEncoreColors.Invert(); }
+        private void RunSceneEvent(object sender, RoutedEventArgs e) { InGame.RunScene(); }
+
 
         #endregion
 
@@ -2378,28 +2263,28 @@ namespace ManiacEditor
 
         private void X8ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			magnetSize = 8;
+			UIModes.magnetSize = 8;
 			ResetMagnetModeOptions();
 			x8ToolStripMenuItem.IsChecked = true;
 		}
 
 		private void X16ToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
 		{
-			magnetSize = 16;
+			UIModes.magnetSize = 16;
 			ResetMagnetModeOptions();
 			x16ToolStripMenuItem1.IsChecked = true;
 		}
 
 		private void X32ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			magnetSize = 32;
+			UIModes.magnetSize = 32;
 			ResetMagnetModeOptions();
 			x32ToolStripMenuItem.IsChecked = true;
 		}
 
 		private void X64ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			magnetSize = 64;
+			UIModes.magnetSize = 64;
 			ResetMagnetModeOptions();
 			x64ToolStripMenuItem.IsChecked = true;
 		}
@@ -2414,39 +2299,20 @@ namespace ManiacEditor
 
 		private void EnableXAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (UIModes.UseMagnetXAxis)
-			{
-				enableXAxisToolStripMenuItem.IsChecked = false;
-				UIModes.UseMagnetXAxis = false;
-			}
-			else
-			{
-				enableXAxisToolStripMenuItem.IsChecked = true;
-				UIModes.UseMagnetXAxis = true;
-			}
-		}
+            UIModes.UseMagnetXAxis = !UIModes.UseMagnetXAxis;
+        }
 
 		private void EnableYAxisToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (UIModes.UseMagnetYAxis)
-			{
-				enableYAxisToolStripMenuItem.IsChecked = false;
-				UIModes.UseMagnetYAxis = false;
-			}
-			else
-			{
-				enableYAxisToolStripMenuItem.IsChecked = true;
-				UIModes.UseMagnetYAxis = true;
-			}
-		}
+            UIModes.UseMagnetYAxis = !UIModes.UseMagnetYAxis;
+        }
 
 		#endregion
 
 		#region Run Scene Events
-		private void RunScene_Click(object sender, RoutedEventArgs e) { UIEvents.RunScene_Click(sender, e); }
 		private void OpenModManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			String modProcessName = Path.GetFileNameWithoutExtension(Settings.mySettings.RunModLoaderPath);
+            String modProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Settings.mySettings.RunModLoaderPath);
 			IntPtr hWnd = FindWindow(modProcessName, null); // this gives you the handle of the window you need.
 			Process processes = Process.GetProcessesByName(modProcessName).FirstOrDefault();
 			if (processes != null)
@@ -2464,27 +2330,27 @@ namespace ManiacEditor
 			else
 			{
 				// Ask where the Mania Mod Manager is located when not set
-				if (string.IsNullOrEmpty(Settings.mySettings.RunModLoaderPath))
+				if (string.IsNullOrEmpty(ManiacEditor.Settings.mySettings.RunModLoaderPath))
 				{
 					var ofd = new OpenFileDialog
-					{
+                    {
 						Title = "Select Mania Mod Manager.exe",
 						Filter = "Windows PE Executable|*.exe"
 					};
 					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						Settings.mySettings.RunModLoaderPath = ofd.FileName;
+                        ManiacEditor.Settings.mySettings.RunModLoaderPath = ofd.FileName;
 				}
 				else
 				{
-					if (!File.Exists(Settings.mySettings.RunGamePath))
+					if (!File.Exists(ManiacEditor.Settings.mySettings.RunGamePath))
 					{
-						Settings.mySettings.RunModLoaderPath = "";
+                        ManiacEditor.Settings.mySettings.RunModLoaderPath = "";
 						return;
 					}
 				}
 
-				if (File.Exists(Settings.mySettings.RunModLoaderPath))
-					Process.Start(Settings.mySettings.RunModLoaderPath);
+				if (File.Exists(ManiacEditor.Settings.mySettings.RunModLoaderPath))
+                    Process.Start(ManiacEditor.Settings.mySettings.RunModLoaderPath);
 			}
 		}
 		private void TrackPlayerToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -2498,12 +2364,12 @@ namespace ManiacEditor
 					UncheckAllPlayers();
 					item.IsChecked = true;
 					int.TryParse(item.Tag.ToString(), out int player);
-					PlayerBeingTracked = player;
+					UIModes.PlayerBeingTracked = player;
 				}
 				else
 				{
 					item.IsChecked = false;
-					PlayerBeingTracked = -1;
+					UIModes.PlayerBeingTracked = -1;
 				}
 
 
@@ -2521,13 +2387,13 @@ namespace ManiacEditor
 		#region Mod Config List Stuff
 		public MenuItem CreateModConfigMenuItem(int i)
 		{
-			MenuItem newItem = new MenuItem()
+            MenuItem newItem = new MenuItem()
 			{
-				Header = Settings.mySettings.modConfigsNames[i],
-				Tag = Settings.mySettings.modConfigs[i]
+				Header = ManiacEditor.Settings.mySettings.modConfigsNames[i],
+				Tag = ManiacEditor.Settings.mySettings.modConfigs[i]
 			};
 			newItem.Click += ModConfigItemClicked;
-			if (newItem.Tag.ToString() == Settings.mySettings.LastModConfig) newItem.IsChecked = true;
+			if (newItem.Tag.ToString() == ManiacEditor.Settings.mySettings.LastModConfig) newItem.IsChecked = true;
 			return newItem;
 		}
 
@@ -2535,7 +2401,7 @@ namespace ManiacEditor
 		{
 			var modConfig_CheckedItem = (sender as MenuItem);
 			SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
-			Settings.mySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
+            ManiacEditor.Settings.mySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
 		}
 
 		public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -2546,9 +2412,9 @@ namespace ManiacEditor
 
 			// TODO: Fix NullReferenceException on Settings.mySettings.modConfigs
 			selectConfigToolStripMenuItem.Items.Clear();
-			for (int i = 0; i < Settings.mySettings.modConfigs.Count; i++)
+			for (int i = 0; i < ManiacEditor.Settings.mySettings.modConfigs.Count; i++)
 			{
-				selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
+                selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
 			}
 		}
 
@@ -2578,12 +2444,7 @@ namespace ManiacEditor
         #endregion
 
         #region Main Toolbar Buttons
-        public void ShowCollisionAButton_Click(object sender, RoutedEventArgs e) { UIModes.ShowCollisionA = ShowCollisionAButton.IsChecked.Value; }
-		public void ShowCollisionBButton_Click(object sender, RoutedEventArgs e) { UIModes.ShowCollisionB = ShowCollisionAButton.IsChecked.Value; }
-		private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e) { UIEvents.OpenDataDirectoryMenuButton(sender, e); }
-		private void ResetDeviceButton_Click_1(object sender, RoutedEventArgs e) { UIEvents.ResetDeviceButton_Click_1(sender, e); }
-		private void ShowFlippedTileHelper_Click(object sender, RoutedEventArgs e) { UIEvents.ShowFlippedTileHelper_Click(sender, e); }
-		public void EnableEncorePalette_Click(object sender, RoutedEventArgs e) { UIModes.UseEncoreColors = EncorePaletteButton.IsChecked.Value; }
+        private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e) { UIEvents.OpenDataDirectoryMenuButton(sender, e); }
         #endregion
 
         #region Layer Toolbar Items
@@ -2640,30 +2501,30 @@ namespace ManiacEditor
 		#region Animations DropDown
 		private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (MovingPlatformsChecked == false)
+			if (UIModes.MovingPlatformsChecked == false)
 			{
 				movingPlatformsObjectsToolStripMenuItem.IsChecked = true;
-				MovingPlatformsChecked = true;
+				UIModes.MovingPlatformsChecked = true;
 			}
 			else
 			{
 				movingPlatformsObjectsToolStripMenuItem.IsChecked = false;
-				MovingPlatformsChecked = false;
+				UIModes.MovingPlatformsChecked = false;
 			}
 
 		}
 
 		private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (AnnimationsChecked == false)
+			if (UIModes.AnnimationsChecked == false)
 			{
 				spriteFramesToolStripMenuItem.IsChecked = true;
-				AnnimationsChecked = true;
+				UIModes.AnnimationsChecked = true;
 			}
 			else
 			{
 				spriteFramesToolStripMenuItem.IsChecked = false;
-				AnnimationsChecked = false;
+				UIModes.AnnimationsChecked = false;
 			}
 		}
 
@@ -2671,7 +2532,7 @@ namespace ManiacEditor
 
 		private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
 		{
-			if (MultiLayerEditMode)
+			if (UIModes.MultiLayerEditMode)
 			{
 				if (ClickType == MouseButton.Left) LayerA();
 				else if (ClickType == MouseButton.Right) LayerB();
@@ -2821,7 +2682,7 @@ namespace ManiacEditor
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
 					Text = el.Name,
-					Name = "Edit" + el.Name.Replace(" ", "")
+                    LayerName = "Edit" + el.Name
 				};
 				LayerToolbar.Items.Add(tsb);
 				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
@@ -2834,7 +2695,7 @@ namespace ManiacEditor
 			//EDIT BUTTONS SEPERATOR
 			Separator tss = new Separator();
 			LayerToolbar.Items.Add(tss);
-			_extraLayerSeperators.Add(tss);
+			ExtraLayerSeperators.Add(tss);
 
 			//VIEW BUTTONS
 			foreach (EditorLayer el in EditorScene.OtherLayers)
@@ -2842,9 +2703,8 @@ namespace ManiacEditor
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
 					Text = el.Name,
-					Name = "Show" + el.Name.Replace(" ", "")
+                    LayerName = "Show" + el.Name.Replace(" ", "")
 				};
-				//toolStrip1.Items.Add(tsb);
 				LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
 				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
 
@@ -2874,11 +2734,11 @@ namespace ManiacEditor
 			ExtraLayerEditViewButtons.Clear();
 
 
-			foreach (var els in _extraLayerSeperators)
+			foreach (var els in ExtraLayerSeperators)
 			{
 				LayerToolbar.Items.Remove(els);
 			}
-			_extraLayerSeperators.Clear();
+			ExtraLayerSeperators.Clear();
 
 		}
 
@@ -2912,9 +2772,9 @@ namespace ManiacEditor
 
 		private void AdHocLayerEdit(object sender, MouseButton ClickType)
 		{
-			if (ClickType == MouseButton.Left && !MultiLayerEditMode) Normal();
-			else if (ClickType == MouseButton.Left && MultiLayerEditMode) LayerA();
-			else if (ClickType == MouseButton.Right && MultiLayerEditMode) LayerB();
+			if (ClickType == MouseButton.Left && !UIModes.MultiLayerEditMode) Normal();
+			else if (ClickType == MouseButton.Left && UIModes.MultiLayerEditMode) LayerA();
+			else if (ClickType == MouseButton.Right && UIModes.MultiLayerEditMode) LayerB();
 
 			void Normal()
 			{
@@ -2922,12 +2782,12 @@ namespace ManiacEditor
 				Deselect(false);
 				if (tsb.IsCheckedN.Value)
 				{
-					if (!Settings.mySettings.KeepLayersVisible)
+					if (!ManiacEditor.Settings.mySettings.KeepLayersVisible)
 					{
-						ShowFGLow.IsChecked = false;
-						ShowFGHigh.IsChecked = false;
-						ShowFGLower.IsChecked = false;
-						ShowFGHigher.IsChecked = false;
+                        ShowFGLow.IsChecked = false;
+                        ShowFGHigh.IsChecked = false;
+                        ShowFGLower.IsChecked = false;
+                        ShowFGHigher.IsChecked = false;
 					}
 					EditFGLow.ClearCheckedItems(3);
 					EditFGHigh.ClearCheckedItems(3);
@@ -2950,12 +2810,12 @@ namespace ManiacEditor
 				Deselect(false);
 				if (tsb.IsCheckedA.Value)
 				{
-					if (!Settings.mySettings.KeepLayersVisible)
+					if (!ManiacEditor.Settings.mySettings.KeepLayersVisible)
 					{
-						ShowFGLow.IsChecked = false;
-						ShowFGHigh.IsChecked = false;
-						ShowFGLower.IsChecked = false;
-						ShowFGHigher.IsChecked = false;
+                        ShowFGLow.IsChecked = false;
+                        ShowFGHigh.IsChecked = false;
+                        ShowFGLower.IsChecked = false;
+                        ShowFGHigher.IsChecked = false;
 					}
 					EditFGLow.ClearCheckedItems(1);
 					EditFGHigh.ClearCheckedItems(1);
@@ -2978,12 +2838,12 @@ namespace ManiacEditor
 				Deselect(false);
 				if (tsb.IsCheckedB.Value)
 				{
-					if (!Settings.mySettings.KeepLayersVisible)
+					if (!ManiacEditor.Settings.mySettings.KeepLayersVisible)
 					{
-						ShowFGLow.IsChecked = false;
-						ShowFGHigh.IsChecked = false;
-						ShowFGLower.IsChecked = false;
-						ShowFGHigher.IsChecked = false;
+                        ShowFGLow.IsChecked = false;
+                        ShowFGHigh.IsChecked = false;
+                        ShowFGLower.IsChecked = false;
+                        ShowFGHigher.IsChecked = false;
 					}
 					EditFGLow.ClearCheckedItems(2);
 					EditFGHigh.ClearCheckedItems(2);
@@ -3014,16 +2874,32 @@ namespace ManiacEditor
 		#endregion
 
 		#region Status Bar Event Handlers
-		private void PixelModeButton_Click(object sender, RoutedEventArgs e) { UIEvents.PixelModeButton_Click(sender, e); }
-		public void TooltipButton_Click(object sender, RoutedEventArgs e) { UIEvents.TooltipButton_Click(sender, e); }
 
-        public void ScrollLockButton_Click(object sender, RoutedEventArgs e) { UIEvents.ScrollLockButton_Click(sender, e); }
-		public void NudgeFasterButton_Click(object sender, RoutedEventArgs e) { UIEvents.NudgeFasterButton_Click(sender, e); }
 
 		#region Quick Button Event Handlers
-		public void MoreSettingsButton_ButtonClick(object sender, RoutedEventArgs e) { UIEvents.MoreSettingsButton_ButtonClick(sender, e); }
-		public void SwapScrollLockDirectionToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SwapScrollLockDirectionToolStripMenuItem_Click(sender, e); }
-		public void EditEntitesTransparencyToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.EditEntitesTransparencyToolStripMenuItem_Click(sender, e); }
+		public void MoreSettingsButton_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            switch (UIModes.LastQuickButtonState)
+            {
+                case 1:
+                    SwapScrollLockDirectionToolStripMenuItem_Click(sender, e);
+                    break;
+                case 2:
+                    UIModes.ApplyEditEntitiesTransparency.Invert();
+                    break;
+                case 3:
+                    ToggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e);
+                    break;
+                default:
+                    SwapScrollLockDirectionToolStripMenuItem_Click(sender, e);
+                    break;
+            }
+        }
+		public void SwapScrollLockDirectionToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            UIModes.LastQuickButtonState = 1;
+            UIEvents.SetScrollLockDirection();
+        }
 		public void ToggleEncoreManiaEntitiesToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ToggleEncoreManiaEntitiesToolStripMenuItem_Click(sender, e); }
 		#endregion
 
@@ -3032,32 +2908,32 @@ namespace ManiacEditor
 		#region Interaction Tool Items
 		private void MoveThePlayerToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (GameRunning)
+			if (InGame.GameRunning)
 			{
 				int ObjectAddress = 0x85E9A0;
-				GameMemory.WriteInt16(ObjectAddress + 2, (short)(EditorState.lastX / EditorState.Zoom));
-				GameMemory.WriteInt16(ObjectAddress + 6, (short)(EditorState.lastY / EditorState.Zoom));
+				GameMemory.WriteInt16(ObjectAddress + 2, (short)(StateModel.lastX / StateModel.Zoom));
+				GameMemory.WriteInt16(ObjectAddress + 6, (short)(StateModel.lastY / StateModel.Zoom));
 			}
 		}
 
 		private void EditTileWithTileManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (mainform == null || mainform.IsClosed) mainform = new TileManiac.MainWindow();
-			if (mainform.Visibility != Visibility.Visible)
+			if (TileManiacInstance == null || TileManiacInstance.IsClosed) TileManiacInstance = new TileManiac.MainWindow();
+			if (TileManiacInstance.Visibility != Visibility.Visible)
 			{
-				mainform.Show();
+				TileManiacInstance.Show();
 			}
-			mainform.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
-			if (TilesConfig != null && EditorTiles.StageTiles != null)
+			TileManiacInstance.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
+			if (TileConfig != null && EditorTiles.StageTiles != null)
 			{
-				if (mainform.Visibility != Visibility.Visible || mainform.tcf == null)
+				if (TileManiacInstance.Visibility != Visibility.Visible || TileManiacInstance.tcf == null)
 				{
-					mainform.LoadTileConfigViaIntergration(TilesConfig, EditorPath.SceneFile_Directory, SelectedTileID);
+					TileManiacInstance.LoadTileConfigViaIntergration(TileConfig, Paths.SceneFile_Directory, UIModes.SelectedTileID);
 				}
 				else
 				{
-					mainform.SetCollisionIndex(SelectedTileID);
-					mainform.Activate();
+					TileManiacInstance.SetCollisionIndex(UIModes.SelectedTileID);
+					TileManiacInstance.Activate();
 				}
 
 			}
@@ -3065,42 +2941,42 @@ namespace ManiacEditor
 
 		private void SetPlayerRespawnToHereToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Point clicked_point = new Point((int)(EditorState.lastX / EditorState.Zoom), (int)(EditorState.lastY / EditorState.Zoom));
-			if (GameRunning)
+			Point clicked_point = new Point((int)(StateModel.lastX / StateModel.Zoom), (int)(StateModel.lastY / StateModel.Zoom));
+			if (InGame.GameRunning)
 			{
-				EditorGame.UpdateCheckpoint(clicked_point);
+				InGame.UpdateCheckpoint(clicked_point);
 			}
 		}
 
 		private void MoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			checkpointSelected = true;
+            InGame.CheckpointSelected = true;
 		}
 
 		private void RemoveCheckpointToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditorGame.UpdateCheckpoint(new Point(0, 0), false);
+			InGame.UpdateCheckpoint(new Point(0, 0), false);
 		}
         private void AssetResetToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditorGame.AssetReset();
+			InGame.AssetReset();
 		}
 
         private void RestartSceneToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditorGame.RestartScene();
+			InGame.RestartScene();
 		}
         #endregion
 
         #region Entity Context Menu Items
         private void SortSelectedSlotIDs_Click(object sender, RoutedEventArgs e)
         {
-            entities.OrderSelectedSlotIDs();
+            Entities.OrderSelectedSlotIDs();
         }
 
         private void SortSelectedSlotIDsOptimized_Click(object sender, RoutedEventArgs e)
         {
-            entities.OrderSelectedSlotIDs(true);
+            Entities.OrderSelectedSlotIDs(true);
         }
         #endregion
 
@@ -3113,35 +2989,40 @@ namespace ManiacEditor
 
         private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            SetZoomLevel(EditorState.ZoomLevel, new System.Drawing.Point(EditorState.ShiftX, EditorState.ShiftY), 0.0, false);
+            SetZoomLevel(StateModel.ZoomLevel, new System.Drawing.Point(StateModel.ShiftX, StateModel.ShiftY), 0.0, false);
         }
 
-        public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true) { EditorView.SetViewSize(width, height, resizeForm); }
+        public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true) { ZoomModel.SetViewSize(width, height, resizeForm); }
 
-        public void Form1_Resize(object sender, RoutedEventArgs e) { EditorView.Form1_Resize(sender, e); }
+        public void Form1_Resize(object sender, RoutedEventArgs e) { ZoomModel.Form1_Resize(sender, e); }
+
+        private void Global_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+
+        }
 
         #region Scrollbar Methods
 
-        private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { EditorView.VScrollBar1_Scroll(sender, e); }
+        private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { ZoomModel.VScrollBar1_Scroll(sender, e); }
 
-        private void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { EditorView.HScrollBar1_Scroll(sender, e); }
-
-
-        private void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { EditorView.VScrollBar1_ValueChanged(sender, e); }
-
-        private void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { EditorView.HScrollBar1_ValueChanged(sender, e); }
+        private void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { ZoomModel.HScrollBar1_Scroll(sender, e); }
 
 
-        private void VScrollBar1_Entered(object sender, EventArgs e) { EditorView.VScrollBar1_Entered(sender, e); }
+        private void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { ZoomModel.VScrollBar1_ValueChanged(sender, e); }
 
-        private void HScrollBar1_Entered(object sender, EventArgs e) { EditorView.HScrollBar1_Entered(sender, e); }
+        private void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { ZoomModel.HScrollBar1_ValueChanged(sender, e); }
+
+
+        private void VScrollBar1_Entered(object sender, EventArgs e) { ZoomModel.VScrollBar1_Entered(sender, e); }
+
+        private void HScrollBar1_Entered(object sender, EventArgs e) { ZoomModel.HScrollBar1_Entered(sender, e); }
 
         #region Zooming/Resizing Related Methods
 
-        public void SetZoomLevel(int zoom_level, Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true) { EditorView.SetZoomLevel(zoom_level, zoom_point, zoom_level_d, updateControls); }
+        public void SetZoomLevel(int zoom_level, Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true) { ZoomModel.SetZoomLevel(zoom_level, zoom_point, zoom_level_d, updateControls); }
+        public void ResetViewSize() { ZoomModel.ResetViewSize(); }
+        public void ResizeGraphicPanel(int width = 0, int height = 0) { ZoomModel.ResizeGraphicPanel(width, height); }
 
-        public void ResetViewSize() { EditorView.ResetViewSize(); }
-        public void ResizeGraphicPanel(int width = 0, int height = 0) { EditorView.ResizeGraphicPanel(width, height); }
 
 
         #endregion

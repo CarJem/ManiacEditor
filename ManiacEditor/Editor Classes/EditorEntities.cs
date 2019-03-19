@@ -260,8 +260,8 @@ namespace ManiacEditor
             SlotIDSwapped?.Invoke(action);
             ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
-            EditorInstance.undo.Push(action);
-            EditorInstance.redo.Clear();
+            EditorInstance.UndoStack.Push(action);
+            EditorInstance.RedoStack.Clear();
             EditorInstance.UI.UpdateControls();
 
         }
@@ -276,8 +276,8 @@ namespace ManiacEditor
             SlotIDSwapped?.Invoke(action);
             SwapSlotIDs(entity1.Entity, entity2.Entity, slotID_A, slotID_B);
 
-            EditorInstance.undo.Push(action);
-            EditorInstance.redo.Clear();
+            EditorInstance.UndoStack.Push(action);
+            EditorInstance.RedoStack.Clear();
             EditorInstance.UI.UpdateControls();
         }
         public void ChangeSeveralSlotIDs(IList<SceneEntity> entities, IList<ushort> slots)
@@ -310,8 +310,8 @@ namespace ManiacEditor
             SlotIDSwapped?.Invoke(action);
             ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
-            EditorInstance.undo.Push(action);
-            EditorInstance.redo.Clear();
+            EditorInstance.UndoStack.Push(action);
+            EditorInstance.RedoStack.Clear();
             EditorInstance.UI.UpdateControls();
         }
 

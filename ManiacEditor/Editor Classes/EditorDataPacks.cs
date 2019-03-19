@@ -9,12 +9,12 @@ using IniParser.Model;
 
 namespace ManiacEditor
 {
-	public class EditorDirectories
+	public class EditorDataPacks
 	{
 		public Editor Instance;
 		IniData ModPackInfo;
 		public List<Tuple<string, List<Tuple<string, string>>>> ModListInformation;
-		public EditorDirectories(Editor instance)
+		public EditorDataPacks(Editor instance)
 		{
 			Instance = instance;
 			LoadFile();

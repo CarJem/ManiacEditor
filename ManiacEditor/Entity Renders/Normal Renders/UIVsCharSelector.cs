@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + e.EditorInstance.CurrentLanguage;
+            string text = "Text" + e.EditorInstance.UIModes.CurrentLanguage;
             int playerID = (int)entity.attributesMap["playerID"].ValueUInt8;
             int player = 8;
             switch (playerID)
@@ -35,10 +35,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnimWaiting = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, 12, 7, false, false, false);
-            var editorAnimBackground = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, 14, 7, false, false, false);
-            var editorAnimPlayerText = e.EditorInstance.EditorEntity_ini.LoadAnimation(text, d, 12, player, false, false, false);
-            var editorAnimFrame = e.EditorInstance.EditorEntity_ini.LoadAnimation("EditorUIRender", d, 1, 0, false, false, false);
+            var editorAnimWaiting = e.EditorInstance.EntityDrawing.LoadAnimation(text, d, 12, 7, false, false, false);
+            var editorAnimBackground = e.EditorInstance.EntityDrawing.LoadAnimation("SaveSelect", d, 14, 7, false, false, false);
+            var editorAnimPlayerText = e.EditorInstance.EntityDrawing.LoadAnimation(text, d, 12, player, false, false, false);
+            var editorAnimFrame = e.EditorInstance.EntityDrawing.LoadAnimation("EditorUIRender", d, 1, 0, false, false, false);
 
             d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(128, 255, 255, 255));
 

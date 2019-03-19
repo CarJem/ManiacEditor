@@ -45,10 +45,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
             
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Decoration", d, type, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Decoration", d, type, -1, fliph, flipv, false);
             if (type == 2)
             {
-                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Decoration", d, type, -1, fliph, flipv, false);
+                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Decoration", d, type, -1, fliph, flipv, false);
             }
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)

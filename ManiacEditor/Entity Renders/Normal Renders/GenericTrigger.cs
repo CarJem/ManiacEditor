@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
             var height = (int)heightPixels / 16;
 
             //Draw Icon
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 5, false, false, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 5, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame2 = editorAnim.Frames[Animation.index];
@@ -32,7 +32,7 @@ namespace ManiacEditor.Entity_Renders
                     y + frame2.Frame.PivotY,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 
-                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
+                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
 
                 if (width != 0 && height != 0)
                 {
@@ -53,7 +53,7 @@ namespace ManiacEditor.Entity_Renders
                         bool right = (i & 1) > 0;
                         bool bottom = (i & 2) > 0;
 
-                        editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                        editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                         if (editorAnim != null && editorAnim.Frames.Count != 0)
                         {
                             var frame = editorAnim.Frames[Animation.index];

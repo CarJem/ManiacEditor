@@ -17,10 +17,10 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 0, 0, fliph, flipv, false);
-            var editorAnimSeat = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 0, 1, fliph, flipv, false);
-            var editorAnimLaunch = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 0, 2, fliph, flipv, false);
-            var editorAnimPropel = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ScrewMobile", d, 1, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("ScrewMobile", d, 0, 0, fliph, flipv, false);
+            var editorAnimSeat = e.EditorInstance.EntityDrawing.LoadAnimation2("ScrewMobile", d, 0, 1, fliph, flipv, false);
+            var editorAnimLaunch = e.EditorInstance.EntityDrawing.LoadAnimation2("ScrewMobile", d, 0, 2, fliph, flipv, false);
+            var editorAnimPropel = e.EditorInstance.EntityDrawing.LoadAnimation2("ScrewMobile", d, 1, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimSeat != null && editorAnimSeat.Frames.Count != 0 && editorAnimLaunch != null && editorAnimLaunch.Frames.Count != 0 && editorAnimPropel != null && editorAnimPropel.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

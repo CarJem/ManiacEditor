@@ -33,7 +33,7 @@ namespace ManiacEditor.Interfaces
 		{
 			InitializeComponent();
 			EditorInstance = instance;
-			if (EditorInstance.AddStageConfigEntriesAllowed)
+			if (EditorInstance.UIModes.AddStageConfigEntriesAllowed)
 			{
 				checkBox1.IsChecked = true;
 			}
@@ -101,7 +101,7 @@ namespace ManiacEditor.Interfaces
 					objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
 					_targetSceneObjects.Add(objectToImport);
 
-					if (EditorInstance.AddStageConfigEntriesAllowed)
+					if (EditorInstance.UIModes.AddStageConfigEntriesAllowed)
 					{
 						if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
 						{
@@ -129,11 +129,11 @@ namespace ManiacEditor.Interfaces
 		{
 			if (checkBox1.IsChecked.Value)
 			{
-				EditorInstance.AddStageConfigEntriesAllowed = true;
+				EditorInstance.UIModes.AddStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				EditorInstance.AddStageConfigEntriesAllowed = false;
+				EditorInstance.UIModes.AddStageConfigEntriesAllowed = false;
 			}
 		}
 	}

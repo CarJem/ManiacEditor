@@ -659,7 +659,7 @@ namespace ManiacEditor
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
                     }
-					else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.CopyAir)
+					else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.UIModes.CopyAir)
 					{ 
 						SelectedTiles.Add(new Point(x, y));
 						RefreshTileCount();
@@ -672,8 +672,8 @@ namespace ManiacEditor
         {
             if (!addSelection) Deselect();
             point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
-            EditorInstance.EditorState.SelectedTileX = point.X;
-            EditorInstance.EditorState.SelectedTileY = point.Y;
+            EditorInstance.StateModel.SelectedTileX = point.X;
+            EditorInstance.StateModel.SelectedTileY = point.Y;
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
                 if (deselectIfSelected && SelectedTiles.Contains(point))
@@ -682,7 +682,7 @@ namespace ManiacEditor
                     DeselectPoint(point);
                     RefreshTileCount();
                 }
-                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.CopyAir)
+                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.UIModes.CopyAir)
                 {
                     // Just add the point
                     SelectedTiles.Add(point);
@@ -700,7 +700,7 @@ namespace ManiacEditor
             {
                 for (int x = Math.Max(area.X / EditorConstants.TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, EditorConstants.TILE_SIZE), _layer.Width); ++x)
                 {
-                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || EditorInstance.CopyAir))
+                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || EditorInstance.UIModes.CopyAir))
                     {
                         TempSelectionTiles.Add(new Point(x, y));
                         if (SelectedTiles.Contains(new Point(x, y)) && TempSelectionTiles.Contains(new Point(x, y)))
@@ -773,7 +773,7 @@ namespace ManiacEditor
 
             SelectedTiles.Clear();
             SelectedTilesValue.Clear();
-            EditorInstance.EditorState.SelectedTilesCount = 0;
+            EditorInstance.StateModel.SelectedTilesCount = 0;
         }
 
         public bool IsPointSelected(Point point)
@@ -786,7 +786,7 @@ namespace ManiacEditor
             point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
-                return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.CopyAir);
+                return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.UIModes.CopyAir);
             }
             return false;
         }
@@ -1132,9 +1132,9 @@ namespace ManiacEditor
 			int Transperncy;
 
 
-			if (EditorInstance.EditLayer != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
+			if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
 				Transperncy = 0x32;
-			else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayer == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
+			else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
 				Transperncy = 0x32;
 			else
 				Transperncy = 0xFF;
@@ -1250,8 +1250,8 @@ namespace ManiacEditor
         public void RefreshTileCount()
         {
             GlobalSelectedTiles = SelectedTiles.Count + TempSelectionTiles.Count;
-            EditorInstance.EditorState.DeselectTilesCount = TempSelectionDeselectTiles.Count;
-            EditorInstance.EditorState.SelectedTilesCount = GlobalSelectedTiles - EditorInstance.EditorState.DeselectTilesCount;
+            EditorInstance.StateModel.DeselectTilesCount = TempSelectionDeselectTiles.Count;
+            EditorInstance.StateModel.SelectedTilesCount = GlobalSelectedTiles - EditorInstance.StateModel.DeselectTilesCount;
         }
     }
 }

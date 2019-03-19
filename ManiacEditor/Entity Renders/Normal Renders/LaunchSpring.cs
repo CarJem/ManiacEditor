@@ -57,7 +57,7 @@ namespace ManiacEditor.Entity_Renders
 
             //var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, false, false, false, rotation, true);
             //var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 0, -1, true, false, false, rotation, true);
-            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 1, -1, false, false, false);
+            var editorAnim3 = e.EditorInstance.EntityDrawing.LoadAnimation2("LaunchSpring", d, 1, -1, false, false, false);
             //var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("LaunchSpring", d, 2, -1, false, false, false, rotation, true);
 
             if (editorAnim3 != null && editorAnim3.Frames.Count != 0 && rotation != -1)

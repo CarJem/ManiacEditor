@@ -157,19 +157,19 @@ namespace ManiacEditor
                 Int32.TryParse(value, out int resultingInt);
                 if (resultingInt >= -1)
                 {
-                    Instance.LevelID = resultingInt;
+                    Instance.UIModes.LevelID = resultingInt;
                 }
 
             }
             if (ManiacINIClassicSettings.ContainsKey("FGLower"))
             {
                 ManiacINIClassicSettings.TryGetValue("FGLower", out value);
-                Instance.INILayerNameLower = value;
+                Instance.UIModes.INILayerNameLower = value;
             }
             if (ManiacINIClassicSettings.ContainsKey("FGHigher"))
             {
                 ManiacINIClassicSettings.TryGetValue("FGHigher", out value);
-                Instance.INILayerNameHigher = value;
+                Instance.UIModes.INILayerNameHigher = value;
             }
             if (ManiacINIClassicSettings.ContainsKey("WaterColor"))
             {
@@ -182,7 +182,7 @@ namespace ManiacEditor
                     Int32.TryParse(value2, out int alpha);
                     color = System.Drawing.Color.FromArgb(alpha, color.R, color.G, color.B);
                 }
-                Instance.waterColor = color;
+                Instance.UIModes.waterColor = color;
             }
             if (ManiacINIClassicSettings.ContainsKey("SpritePaths"))
             {
@@ -199,17 +199,17 @@ namespace ManiacEditor
             if (ManiacINIClassicSettings.ContainsKey("CustomMenuFontText"))
             {
                 ManiacINIClassicSettings.TryGetValue("CustomMenuFontText", out value);
-                Instance.MenuChar = value.ToCharArray();
+                Instance.UIModes.MenuChar = value.ToCharArray();
             }
             if (ManiacINIClassicSettings.ContainsKey("CustomLSelectFontText"))
             {
                 ManiacINIClassicSettings.TryGetValue("CustomLSelectFontText", out value);
-                Instance.LevelSelectChar = value.ToCharArray();
+                Instance.UIModes.LevelSelectChar = value.ToCharArray();
             }
             if (ManiacINIClassicSettings.ContainsKey("CustomMenuSmallFontText"))
             {
                 ManiacINIClassicSettings.TryGetValue("CustomMenuSmallFontText", out value);
-                Instance.MenuChar_Small = value.ToCharArray();
+                Instance.UIModes.MenuChar_Small = value.ToCharArray();
             }
 
 
@@ -217,12 +217,12 @@ namespace ManiacEditor
 
         public void UpdateFilePath()
         {
-            ManiacINIPath = Path.Combine(Instance.EditorPath.SceneFile_Directory, "Maniac.ini");
+            ManiacINIPath = Path.Combine(Instance.Paths.SceneFile_Directory, "Maniac.ini");
         }
 
         public string GetFilePath()
         {
-            return Path.Combine(Instance.EditorPath.SceneFile_Directory, "Maniac.ini");
+            return Path.Combine(Instance.Paths.SceneFile_Directory, "Maniac.ini");
         }
 
         public List<string> DataPackNamesToList()

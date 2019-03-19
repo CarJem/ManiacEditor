@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             int frameID = (int)entity.attributesMap["frameID"].ValueVar;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Trash", d, 0, frameID, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Trash", d, 0, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

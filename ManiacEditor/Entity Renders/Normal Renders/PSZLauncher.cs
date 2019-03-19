@@ -33,7 +33,7 @@ namespace ManiacEditor.Entity_Renders
                     flipv = true;
                     break;
             }
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PSZLauncher", d, 0, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("PSZLauncher", d, 0, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

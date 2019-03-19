@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 entity.attributesMap["type"].ValueVar = 2u;
             }
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Items", d, 0, id, false, false, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Items", d, 0, id, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

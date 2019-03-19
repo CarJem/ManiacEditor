@@ -214,9 +214,17 @@ namespace ManiacEditor
 		{
 			try
 			{
-				Instance.TilesConfig = new TileConfig(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin"));
-				TileConfig_Source = Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin");
-				return true;
+                if (File.Exists(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin")))
+                {
+                    Instance.TileConfig = new TileConfig(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin"));
+                    TileConfig_Source = Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin");
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
 			}
 			catch
 			{
@@ -229,7 +237,7 @@ namespace ManiacEditor
         {
             try
             {
-                Instance.TilesConfig = new TileConfig(Path.Combine(filepath, "TileConfig.bin"));
+                Instance.TileConfig = new TileConfig(Path.Combine(filepath, "TileConfig.bin"));
                 TileConfig_Source = Path.Combine(filepath, "TileConfig.bin");
                 return true;
             }

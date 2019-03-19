@@ -15,8 +15,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnimFrame = e.EditorInstance.EditorEntity_ini.LoadAnimation("EditorUIRender", d, 2, 0, false, false, false);
-            var editorAnimBackground = e.EditorInstance.EditorEntity_ini.LoadAnimation("SaveSelect", d, 7, -1, false, false, false);
+            var editorAnimFrame = e.EditorInstance.EntityDrawing.LoadAnimation("EditorUIRender", d, 2, 0, false, false, false);
+            var editorAnimBackground = e.EditorInstance.EntityDrawing.LoadAnimation("SaveSelect", d, 7, -1, false, false, false);
 
             if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
             {

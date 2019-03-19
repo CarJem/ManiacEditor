@@ -51,7 +51,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Ring", d, animID, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Ring", d, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

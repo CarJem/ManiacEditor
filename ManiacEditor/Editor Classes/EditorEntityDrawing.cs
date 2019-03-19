@@ -21,7 +21,7 @@ using Microsoft.Scripting.Utils;
 
 namespace ManiacEditor
 {
-    public class EditorEntity_ini
+    public class EditorEntityDrawing
     {
         // Object Render List
         public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
@@ -35,10 +35,10 @@ namespace ManiacEditor
         public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "EditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
         public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform" };
 
-        public List<EditorEntity_ini.LoadAnimationData> AnimsToLoad = new List<EditorEntity_ini.LoadAnimationData>();
+        public List<EditorEntityDrawing.LoadAnimationData> AnimsToLoad = new List<EditorEntityDrawing.LoadAnimationData>();
 
-        public Dictionary<string, EditorEntity_ini.EditorAnimation> Animations = new Dictionary<string, EditorEntity_ini.EditorAnimation>();
-        public Dictionary<string, EditorEntity_ini.EditorTilePlatforms> TilePlatforms = new Dictionary<string, EditorEntity_ini.EditorTilePlatforms>();
+        public Dictionary<string, EditorEntityDrawing.EditorAnimation> Animations = new Dictionary<string, EditorEntityDrawing.EditorAnimation>();
+        public Dictionary<string, EditorEntityDrawing.EditorTilePlatforms> TilePlatforms = new Dictionary<string, EditorEntityDrawing.EditorTilePlatforms>();
         public Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public bool Working = false;
 
@@ -53,7 +53,7 @@ namespace ManiacEditor
             Unknown = 4    
         }
 
-        public EditorEntity_ini(Editor instance)
+        public EditorEntityDrawing(Editor instance)
         {
             EditorInstance = instance;
             entityRenderingObjects = EditorInstance.entityRenderingObjects;
@@ -228,15 +228,15 @@ namespace ManiacEditor
         public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool legacyRotation = true)
         {
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotation}";
-            if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
+            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
             {
-                if (EditorInstance.EditorEntity_ini.Animations[key].Ready)
+                if (EditorInstance.EntityDrawing.Animations[key].Ready)
                 {
                     // Use the already loaded Amination
-                    return EditorInstance.EditorEntity_ini.Animations[key];
+                    return EditorInstance.EntityDrawing.Animations[key];
                 }
             }
-            var entry = new EditorEntity_ini.LoadAnimationData()
+            var entry = new EditorEntityDrawing.LoadAnimationData()
             {
                 name = name,
                 d = d,
@@ -248,7 +248,7 @@ namespace ManiacEditor
                 rotateImg = rotateImg,
                 legacyRotation = legacyRotation
             };
-            EditorInstance.EditorEntity_ini.AnimsToLoad.Add(entry);
+            EditorInstance.EntityDrawing.AnimsToLoad.Add(entry);
             return null;
         }
 
@@ -267,8 +267,8 @@ namespace ManiacEditor
         {
 
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
-            var anim = new EditorEntity_ini.EditorAnimation();
-            if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
+            var anim = new EditorEntityDrawing.EditorAnimation();
+            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
             {   
                 if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
                 else return null;
@@ -397,7 +397,7 @@ namespace ManiacEditor
                     texture = TextureCreator.FromBitmap(d._device, finalMap);
                 }
                 
-                var editorFrame = new EditorEntity_ini.EditorAnimation.EditorFrame()
+                var editorFrame = new EditorEntityDrawing.EditorAnimation.EditorFrame()
                 {
                     Texture = texture,
                     Frame = frame,
@@ -423,8 +423,8 @@ namespace ManiacEditor
         public EditorAnimation LoadAnimation3(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool StackFrames = false, bool LoadImageToDX = true, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false, int TextureRotation = 0, bool LegacyRotate = false, int StackStart = 0, int StackEnd = 0)
         {
             string key = $"{name}-{AnimID}-{FrameID}-{FlipH}-{FlipV}-{FlagAttributes}-{TextureRotation}-{Rotate}";
-            var anim = new EditorEntity_ini.EditorAnimation();
-            if (EditorInstance.EditorEntity_ini.Animations.ContainsKey(key))
+            var anim = new EditorEntityDrawing.EditorAnimation();
+            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
             {
                 if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
                 else return null;
@@ -540,11 +540,11 @@ namespace ManiacEditor
             return anim;
 
         }
-        public EditorEntity_ini.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
+        public EditorEntityDrawing.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
         {
             Texture texture = null;
             if (LoadImageToDX) texture = TextureCreator.FromBitmap(d._device, finalMap);
-            return new EditorEntity_ini.EditorAnimation.EditorFrame()
+            return new EditorEntityDrawing.EditorAnimation.EditorFrame()
             {
                 Texture = texture,
                 Frame = frame,
@@ -758,7 +758,7 @@ namespace ManiacEditor
 			string path, path2;
 			string dataDirectory = dataFolder;
 			// Checks the Stage Folder First
-			path = EditorInstance.EditorPath.CurrentZone + "\\" + name + ".bin";
+			path = EditorInstance.Paths.CurrentZone + "\\" + name + ".bin";
 			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 			if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
 			{
@@ -774,7 +774,7 @@ namespace ManiacEditor
 				}
 				if (!File.Exists(path2))
 				{
-					path = EditorInstance.EditorPath.CurrentZone + "\\" + name + ".bin";
+					path = EditorInstance.Paths.CurrentZone + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "\\Sprites") + "\\" + path;
 				}
 			}
@@ -788,18 +788,18 @@ namespace ManiacEditor
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
-					path = EditorInstance.EditorPath.CurrentZone.Substring(0, EditorInstance.EditorPath.CurrentZone.Length - 1) + "\\" + name + ".bin";
+					path = EditorInstance.Paths.CurrentZone.Substring(0, EditorInstance.Paths.CurrentZone.Length - 1) + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 					if (!File.Exists(path2))
 					{
 						// Checks for name without the last character and without the numbers in the entity name
 						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-						path = path = EditorInstance.EditorPath.CurrentZone.Substring(0, EditorInstance.EditorPath.CurrentZone.Length - 1) + "\\" + adjustedName + ".bin";
+						path = path = EditorInstance.Paths.CurrentZone.Substring(0, EditorInstance.Paths.CurrentZone.Length - 1) + "\\" + adjustedName + ".bin";
 						path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 						if (!File.Exists(path2))
 						{
 							// Checks for name without any numbers in the Zone name
-							string adjustedZone = Regex.Replace(EditorInstance.EditorPath.CurrentZone, @"[\d-]", string.Empty);
+							string adjustedZone = Regex.Replace(EditorInstance.Paths.CurrentZone, @"[\d-]", string.Empty);
 							path = path = adjustedZone + "\\" + name + ".bin";
 							path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 							if (!File.Exists(path2))
@@ -1091,32 +1091,32 @@ namespace ManiacEditor
                 x = childX;
                 y = childY;
             }
-            int Transparency = (EditorInstance.EditLayer == null) ? 0xff : 0x32;
+            int Transparency = (EditorInstance.EditLayerA == null) ? 0xff : 0x32;
             try
 			{		
 				if (!rendersWithErrors.Contains(entity.Object.Name.Name))
                 {
                     if (entity.Object.Name.Name.Contains("Setup"))
                     {
-                        if (e.renderer == null) e.renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
+                        if (e.renderer == null) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
                         if (e.renderer != null)
                             e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
 					else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
                     {
-                        if (e.renderer == null) e.renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
+                        if (e.renderer == null) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
                         if (e.renderer != null)
                             e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
                     else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
                     {
-                        if (e.renderer == null) e.renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
+                        if (e.renderer == null) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
                         if (e.renderer != null)
                             e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
                     else
                     {
-                        if (e.renderer == null || e.renderer.GetObjectName() != entity.Object.Name.Name) e.renderer = EditorInstance.EditorEntity_ini.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+                        if (e.renderer == null || e.renderer.GetObjectName() != entity.Object.Name.Name) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
                         if (e.renderer != null)
                             e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
@@ -1125,7 +1125,7 @@ namespace ManiacEditor
 			}
             catch (Exception ex)
             {
-				if (!EditorInstance.isPreRending)
+				if (!EditorInstance.UIModes.isPreRending)
 				{
 					MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
 					rendersWithErrors.Add(entity.Object.Name.Name);

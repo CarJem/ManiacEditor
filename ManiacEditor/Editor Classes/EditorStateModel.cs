@@ -13,12 +13,12 @@ using System.Windows.Forms;
 
 namespace ManiacEditor
 {
-    public class EditorState
+    public class EditorStateModel
     {
         string newLine = Environment.NewLine;
         public Editor EditorInstance;
         public bool panelMode = false;
-        public EditorState(Editor instance)
+        public EditorStateModel(Editor instance)
         {
             EditorInstance = instance;
             //t = new System.Windows.Forms.Timer();
@@ -31,7 +31,7 @@ namespace ManiacEditor
 
         public string GetSceneTileConfigPath()
         {
-            if (EditorInstance.EditorPath.TileConfig_Source != null && EditorInstance.EditorPath.TileConfig_Source != "") return "Scene TileConfig Path: " + Path.Combine(EditorInstance.EditorPath.TileConfig_Source, "TileConfig.bin").ToString();         
+            if (EditorInstance.Paths.TileConfig_Source != null && EditorInstance.Paths.TileConfig_Source != "") return "Scene TileConfig Path: " + Path.Combine(EditorInstance.Paths.TileConfig_Source, "TileConfig.bin").ToString();         
             else return "Scene TileConfig Path: N/A";           
         }
 
@@ -79,20 +79,20 @@ namespace ManiacEditor
 
         public string GetSelectedZone()
         {
-            if (EditorInstance.EditorPath.CurrentZone != null && EditorInstance.EditorPath.CurrentZone != "") return "Selected Zone: " + EditorInstance.EditorPath.CurrentZone;
+            if (EditorInstance.Paths.CurrentZone != null && EditorInstance.Paths.CurrentZone != "") return "Selected Zone: " + EditorInstance.Paths.CurrentZone;
             else return "Selected Zone: N/A";
         }
 
 		public string GetSceneFilePath()
 		{
-			if (EditorInstance.EditorPath.SceneFile_Source != null && EditorInstance.EditorPath.SceneFile_Source != "") return "Scene File: " + EditorInstance.EditorPath.SceneFile_Source;
+			if (EditorInstance.Paths.SceneFile_Source != null && EditorInstance.Paths.SceneFile_Source != "") return "Scene File: " + EditorInstance.Paths.SceneFile_Source;
 			else return "Scene File: N/A";
 		}
 
 		public string GetScenePath()
         {
 
-            if (EditorInstance.EditorPath.SceneFile_Directory != null && EditorInstance.EditorPath.SceneFile_Directory != "") return "Scene Path: " + EditorInstance.EditorPath.SceneFile_Directory;
+            if (EditorInstance.Paths.SceneFile_Directory != null && EditorInstance.Paths.SceneFile_Directory != "") return "Scene Path: " + EditorInstance.Paths.SceneFile_Directory;
             else return "Scene Path: N/A";
         }
 
@@ -109,9 +109,9 @@ namespace ManiacEditor
 
         public string GetSetupObject()
         {
-            if (EditorInstance.entities != null && EditorInstance.entities.SetupObject != null && EditorInstance.entities.SetupObject != "")
+            if (EditorInstance.Entities != null && EditorInstance.Entities.SetupObject != null && EditorInstance.Entities.SetupObject != "")
             {
-                return "Setup Object: " + EditorInstance.entities.SetupObject;
+                return "Setup Object: " + EditorInstance.Entities.SetupObject;
             }
             else
             {

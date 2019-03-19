@@ -20,16 +20,16 @@ namespace ManiacEditor.Entity_Renders
             int height = (int)entity.attributesMap["height"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 1, fliph, flipv, false);
-            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 2, false, false, false);
-            var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 3, false, false, false);
-            var editorAnim5 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 6, false, false, false);
-            var editorAnim6 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 7, false, false, false);
-            var editorAnim7 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 4, false, false, false);
-            var editorAnim8 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 5, false, false, false);
-            var editorAnim9 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 9, false, false, false);
-            var editorAnim10 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("PopcornMachine", d, 0, 10, false, false, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 1, fliph, flipv, false);
+            var editorAnim3 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 2, false, false, false);
+            var editorAnim4 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 3, false, false, false);
+            var editorAnim5 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 6, false, false, false);
+            var editorAnim6 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 7, false, false, false);
+            var editorAnim7 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 4, false, false, false);
+            var editorAnim8 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 5, false, false, false);
+            var editorAnim9 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 9, false, false, false);
+            var editorAnim10 = e.EditorInstance.EntityDrawing.LoadAnimation2("PopcornMachine", d, 0, 10, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0 && editorAnim10 != null && editorAnim10.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

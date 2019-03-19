@@ -27,7 +27,7 @@ namespace ManiacEditor
         {
             InitializeComponent();
             Instance = instance;
-            if (Instance.EditorDirectories.ModListInformation != null) ModListInformationUnedited = Instance.EditorDirectories.ModListInformation;
+            if (Instance.DataPacks.ModListInformation != null) ModListInformationUnedited = Instance.DataPacks.ModListInformation;
             RefreshKeyList();
 
             UpdateValueModButtons();
@@ -39,7 +39,7 @@ namespace ManiacEditor
             updatingKeys = true;
             if (ValueList.Items != null) ValueList.Items.Clear();
             if (KeyList.Items != null) KeyList.Items.Clear();
-            foreach (var item in Instance.EditorDirectories.ModListInformation)
+            foreach (var item in Instance.DataPacks.ModListInformation)
             {
                 KeyList.Items.Add(item.Item1);
             }
@@ -49,9 +49,9 @@ namespace ManiacEditor
         private bool KeyIndexValid()
         {
             if (KeyList.SelectedItem == null) return false;
-            if (Instance.EditorDirectories.ModListInformation.Count > KeyList.SelectedIndex)
+            if (Instance.DataPacks.ModListInformation.Count > KeyList.SelectedIndex)
             {
-                if (Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex] != null)
+                if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] != null)
                 {
                     return true;
                 }
@@ -65,9 +65,9 @@ namespace ManiacEditor
             if (KeyIndexValid())
             {
                 if (ValueList.SelectedItem == null) return false;
-                if (Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2.Count > ValueList.SelectedIndex)
+                if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Count > ValueList.SelectedIndex)
                 {
-                    if (Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex] != null)
+                    if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex] != null)
                     {
                         return true;
                     }
@@ -84,7 +84,7 @@ namespace ManiacEditor
             if (ValueList.Items != null) ValueList.Items.Clear();
             if (KeyIndexValid() == false) return;
 
-            foreach (var item in Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2)
+            foreach (var item in Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2)
             {
                 string entry = item.Item1 + "=" + item.Item2;
                 ValueList.Items.Add(entry);
@@ -128,14 +128,14 @@ namespace ManiacEditor
         private void RefreshKeyValues()
         {
             if (KeyIndexValid() == false) return;
-            KeyNameTextBox.Text = Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item1;
+            KeyNameTextBox.Text = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item1;
         }
 
         private void RefreshValueValues()
         {
             if (ValueIndexValid() == false) return;
-            ValueNameTextBox.Text = Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item1;
-            ValueTextBox.Text = Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item2;
+            ValueNameTextBox.Text = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item1;
+            ValueTextBox.Text = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item2;
         }
 
         private void ClearKeyValues()
@@ -156,7 +156,7 @@ namespace ManiacEditor
 
         private void AddKeyButton_Click(object sender, RoutedEventArgs e)
         {
-            Instance.EditorDirectories.ModListInformation.Add(new Tuple<string, List<Tuple<string, string>>>("New Entry", new List<Tuple<string, string>>()));
+            Instance.DataPacks.ModListInformation.Add(new Tuple<string, List<Tuple<string, string>>>("New Entry", new List<Tuple<string, string>>()));
             RefreshKeyList();
         }
 
@@ -166,7 +166,7 @@ namespace ManiacEditor
             MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.EditorDirectories.ModListInformation.RemoveAt(KeyList.SelectedIndex);
+                Instance.DataPacks.ModListInformation.RemoveAt(KeyList.SelectedIndex);
                 RefreshKeyList();
             }
         }
@@ -182,7 +182,7 @@ namespace ManiacEditor
         private void MoveDownKeyButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            if (KeyList.SelectedIndex + 1 > Instance.EditorDirectories.ModListInformation.Count) return;
+            if (KeyList.SelectedIndex + 1 > Instance.DataPacks.ModListInformation.Count) return;
             MoveKey(KeyList.SelectedIndex, KeyList.SelectedIndex + 1);
             RefreshKeyList();
         }
@@ -190,16 +190,16 @@ namespace ManiacEditor
 
         public void MoveKey(int oldIndex, int newIndex)
         {
-            Tuple<string, List<Tuple<string, string>>> item = Instance.EditorDirectories.ModListInformation[oldIndex];
-            Instance.EditorDirectories.ModListInformation.RemoveAt(oldIndex);
-            Instance.EditorDirectories.ModListInformation.Insert(newIndex, item);
+            Tuple<string, List<Tuple<string, string>>> item = Instance.DataPacks.ModListInformation[oldIndex];
+            Instance.DataPacks.ModListInformation.RemoveAt(oldIndex);
+            Instance.DataPacks.ModListInformation.Insert(newIndex, item);
         }
 
         public void MoveValue(int oldIndex, int newIndex)
         {
-            Tuple<string, string> item = Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2[oldIndex];
-            Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(oldIndex);
-            Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2.Insert(newIndex, item);
+            Tuple<string, string> item = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[oldIndex];
+            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(oldIndex);
+            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Insert(newIndex, item);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -207,7 +207,7 @@ namespace ManiacEditor
             MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.EditorDirectories.SaveFile();
+                Instance.DataPacks.SaveFile();
             }
 
         }
@@ -215,8 +215,8 @@ namespace ManiacEditor
         private void ChangeNameButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            var itemToEdit = Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex];
-            Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(KeyNameTextBox.Text, itemToEdit.Item2);
+            var itemToEdit = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex];
+            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(KeyNameTextBox.Text, itemToEdit.Item2);
             RefreshKeyList();
         }
 
@@ -228,12 +228,12 @@ namespace ManiacEditor
         private void ChangeValueButton_Click(object sender, RoutedEventArgs e, bool refreshList = true)
         {
             if (ValueIndexValid() == false) return;
-            var itemToEdit = Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex];
+            var itemToEdit = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex];
             var subItemtoEdit = itemToEdit.Item2;
             var valueItemToEdit = subItemtoEdit[ValueList.SelectedIndex];
             var valueItemEdited = new Tuple<string, string>(valueItemToEdit.Item1, ValueTextBox.Text);
             subItemtoEdit[ValueList.SelectedIndex] = valueItemEdited;
-            Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
+            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
             if (refreshList) RefreshValueList();
         }
 
@@ -245,12 +245,12 @@ namespace ManiacEditor
         private void ChangeValueNameButton_Click(object sender, RoutedEventArgs e, bool refreshList = true)
         {
             if (ValueIndexValid() == false) return;
-            var itemToEdit = Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex];
+            var itemToEdit = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex];
             var subItemtoEdit = itemToEdit.Item2;
             var valueItemToEdit = subItemtoEdit[ValueList.SelectedIndex];
             var valueItemEdited = new Tuple<string, string>(ValueNameTextBox.Text, valueItemToEdit.Item2);
             subItemtoEdit[ValueList.SelectedIndex] = valueItemEdited;
-            Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
+            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
             if (refreshList) RefreshValueList();
         }
 
@@ -272,8 +272,8 @@ namespace ManiacEditor
         private void AddValueButton_Click(object sender, RoutedEventArgs e)
         {
             //if (ValueIndexValid() == false) return;
-            if (Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2 == null) Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item1, new List<Tuple<string, string>>());
-            Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2.Add(new Tuple<string, string>("Mod", "n/a"));
+            if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2 == null) Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item1, new List<Tuple<string, string>>());
+            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Add(new Tuple<string, string>("Mod", "n/a"));
             RefreshValueList();
         }
 
@@ -283,7 +283,7 @@ namespace ManiacEditor
             MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
+                Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
                 RefreshValueList();
             }
         }
@@ -299,7 +299,7 @@ namespace ManiacEditor
         private void MoveDownValueButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValueIndexValid() == false) return;
-            if (ValueList.SelectedIndex + 1 > Instance.EditorDirectories.ModListInformation[KeyList.SelectedIndex].Item2.Count) return;
+            if (ValueList.SelectedIndex + 1 > Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Count) return;
             MoveValue(ValueList.SelectedIndex, ValueList.SelectedIndex + 1);
             RefreshValueList();
         }
@@ -322,12 +322,12 @@ namespace ManiacEditor
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Instance.EditorDirectories.ModListInformation != ModListInformationUnedited)
+            if (Instance.DataPacks.ModListInformation != ModListInformationUnedited)
             {
                 MessageBoxResult result = RSDKrU.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Instance.EditorDirectories.SaveFile();
+                    Instance.DataPacks.SaveFile();
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
@@ -335,7 +335,7 @@ namespace ManiacEditor
                 }
                 else if (result == MessageBoxResult.No)
                 {
-                    Instance.EditorDirectories.ModListInformation = ModListInformationUnedited;
+                    Instance.DataPacks.ModListInformation = ModListInformationUnedited;
                 }
                 else
                 {

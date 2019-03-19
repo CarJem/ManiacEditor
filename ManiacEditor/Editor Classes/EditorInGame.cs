@@ -81,9 +81,24 @@ namespace ManiacEditor
         const int SW_SHOW = 5;
         #endregion
 
+        public bool GameRunning = false; //Tells us if the game is running
+        public string GamePath = ""; //Tells us where the game is located
+        public int P1_X = 0;
+        public int P1_Y = 0;
+        public int P2_X = 0;
+        public int P2_Y = 0;
+        public int P3_X = 0;
+        public int P3_Y = 0;
+        public int P4_X = 0;
+        public int P4_Y = 0;
+        public int SP_X = 0;
+        public int SP_Y = 0;
+        public int SelectedPlayer = 0;
+        public bool PlayerSelected = false;
+        public bool CheckpointSelected = false;
+
         public static IList<string> GameVersion = new List<string> { "1.3", "1.4", "1.6", "N/A" };
         public static string SelectedGameVersion = "1.6";
-
 
         public static IList<bool> IsOffset = new List<bool> { false, false, true, false };
         public static IList<int> ObjectStart = new List<int> { 0x00A5DCC0, 0x0086FFA0, 0x0047B010, 0x00 };
@@ -167,16 +182,16 @@ namespace ManiacEditor
             switch (player)
             {
                 case 1:
-                    X = Editor.P1_X;
+                    X = P1_X;
                     break;
                 case 2:
-                    X = Editor.P2_X;
+                    X = P2_X;
                     break;
                 case 3:
-                    X = Editor.P3_X;
+                    X = P3_X;
                     break;
                 case 4:
-                    X = Editor.P4_X;
+                    X = P4_X;
                     break;
             }
             return X;
@@ -187,23 +202,23 @@ namespace ManiacEditor
             switch (player)
             {
                 case 1:
-                    Y = Editor.P1_Y;
+                    Y = P1_Y;
                     break;
                 case 2:
-                    Y = Editor.P2_Y;
+                    Y = P2_Y;
                     break;
                 case 3:
-                    Y = Editor.P3_Y;
+                    Y = P3_Y;
                     break;
                 case 4:
-                    Y = Editor.P4_Y;
+                    Y = P4_Y;
                     break;
             }
             return Y;
         }
         public void MovePlayer(Point p, double Zoom, int player)
         {
-            if (Editor.GameRunning)
+            if (GameRunning)
             {
                 // TODO: Find out if this is constent
                 switch (player)
@@ -237,29 +252,29 @@ namespace ManiacEditor
             switch (playerID)
             {
                 case 1:
-                    Editor.P1_X = Player1_X;
-                    Editor.P1_Y = Player1_Y;
+                    P1_X = Player1_X;
+                    P1_Y = Player1_Y;
                     x = Player1_X;
                     y = Player1_Y;
                     ID = Player1_State;
                     break;
                 case 2:
-                    Editor.P2_X = Player2_X;
-                    Editor.P2_Y = Player2_Y;
+                    P2_X = Player2_X;
+                    P2_Y = Player2_Y;
                     x = Player2_X;
                     y = Player2_Y;
                     ID = Player2_State;
                     break;
                 case 3:
-                    Editor.P3_X = Player3_X;
-                    Editor.P3_Y = Player3_Y;
+                    P3_X = Player3_X;
+                    P3_Y = Player3_Y;
                     x = Player3_X;
                     y = Player3_Y;
                     ID = Player3_State;
                     break;
                 case 4:
-                    Editor.P4_X = Player4_X;
-                    Editor.P4_Y = Player4_Y;
+                    P4_X = Player4_X;
+                    P4_Y = Player4_Y;
                     x = Player4_X;
                     y = Player4_Y;
                     ID = Player4_State;
@@ -269,7 +284,7 @@ namespace ManiacEditor
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == Editor.PlayerBeingTracked) Editor.GoToPosition(x, y);
+            if (playerID == Editor.UIModes.PlayerBeingTracked) Editor.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -324,7 +339,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    var editorAnim = Editor.EditorEntity_ini.LoadAnimation2("HUD", d, 2, frameID, false, false, false);
+                    var editorAnim = Editor.EntityDrawing.LoadAnimation2("HUD", d, 2, frameID, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0 && ID != 0)
                     {
                         var frame = editorAnim.Frames[0];
@@ -396,7 +411,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    var editorAnim = Editor.EditorEntity_ini.LoadAnimation2("StarPost", d, 1, 0, false, false, false);
+                    var editorAnim = Editor.EntityDrawing.LoadAnimation2("StarPost", d, 1, 0, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[0];
@@ -466,11 +481,11 @@ namespace ManiacEditor
             if (processes.MainWindowHandle == IntPtr.Zero) ShowWindow(processes.Handle, ShowWindowEnum.Restore); // the window is hidden so try to restore it before setting focus.
             // set user the focus to the window
             SetForegroundWindow(processes.MainWindowHandle);
-            if (!Editor.GameRunning) Editor.Dispatcher.Invoke(new Action(() => RunSequence(null, null, true)));
+            if (!GameRunning) Editor.Dispatcher.Invoke(new Action(() => RunSequence(null, null, true)));
         }
         private void StartSonicMania()
         {
-            if (!Editor.GameRunning)
+            if (!GameRunning)
             {
                 if (Settings.mySettings.RunModLoaderPath != null && Settings.mySettings.modConfigs?.Count > 0)
                 {
@@ -515,9 +530,9 @@ namespace ManiacEditor
             if (!attachMode) GameProcess = Process.Start(psi);
             else GameProcess = Process.GetProcessesByName("SonicMania").FirstOrDefault();
 
-            if (Editor.GameRunning == false)
+            if (GameRunning == false)
             {
-                Editor.GameRunning = true;
+                GameRunning = true;
 
                 #region Setup Sequence
                 new Thread(() =>
@@ -533,9 +548,9 @@ namespace ManiacEditor
                         while (Editor.GameMemory.ReadByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)]) == 0x00) Thread.Sleep(1);
 
                         // Swap the Scene
-                        if (Editor.LevelID != -1)
+                        if (Editor.UIModes.LevelID != -1)
                         {
-                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Editor.LevelID);
+                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Editor.UIModes.LevelID);
                             // Restart the Scene
                             Editor.GameMemory.WriteByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                         }
@@ -556,9 +571,9 @@ namespace ManiacEditor
                     while (Editor.GameMemory.ReadByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x02 || Properties.Settings.Default.DisableRunSceneMenuQuit == true)
                     {
                         // Check if the user closed the game
-                        if (GameProcess.HasExited || !Editor.GameRunning)
+                        if (GameProcess.HasExited || !GameRunning)
                         {
-                            Editor.GameRunning = false;
+                            GameRunning = false;
                             if (Editor.IsVisible)
                             {
                                 Editor.Dispatcher.Invoke(new Action(() => Editor.UI.UpdateControls()));
@@ -578,7 +593,7 @@ namespace ManiacEditor
                     // User is on the Main Menu
                     // Close the game
                     Editor.GameMemory.WriteByte(IsGameRunning_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
-                    Editor.GameRunning = false;
+                    GameRunning = false;
                     Editor.Dispatcher.Invoke(new Action(() => Editor.UI.UpdateControls()));
                 }).Start();
                 #endregion

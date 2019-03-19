@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:src="clr-namespace:ManiacEditor.Interfaces"
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"        
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"    
         Title="Maniac Editor - Generations Editon" Height="759" Width="1184" Loaded="ParentGrid_Loaded" Closing="Editor_FormClosing" SizeChanged="Form1_Resize" MinWidth="1184" MinHeight="759" KeyDown="EditorViewWPF_KeyDown" KeyUp="EditorViewWPF_KeyUp">
@@ -123,12 +122,12 @@
             </Grid.RowDefinitions>
             <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
                 <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0" >
-                    <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewToolStripMenuItem_Click" IsEnabled="True"/>
-                    <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="Open_Click"/>
-                    <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewScene" IsEnabled="True"/>
+                    <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="OpenScene"/>
+                    <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectory"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="Save_Click"/>
-                    <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As" Click="SaveAsToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="SaveScene"/>
+                    <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As" Click="SaveSceneAs"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem x:Name="unloadSceneToolStripMenuItem" Header="Unload Scene" Click="UnloadSceneToolStripMenuItem_Click"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
@@ -139,14 +138,14 @@
                     <MenuItem x:Name="backupRecoverButton" Header="Restore" Click="BackupRecoverButton_Click"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem x:Name="exportToolStripMenuItem" Header="Export">
-                        <MenuItem x:Name="saveAspngToolStripMenuItem" Header="Export as PNG..." Click="SaveAspngToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="exportEachLayerAspngToolStripMenuItem" Header="Export each layer as PNG..." Click="ExportEachLayerAspngToolStripMenuItem_Click"/>
+                        <MenuItem x:Name="saveAspngToolStripMenuItem" Header="Export as PNG..." Click="ExportAsPNG"/>
+                        <MenuItem x:Name="exportEachLayerAspngToolStripMenuItem" Header="Export each layer as PNG..." Click="ExportLayersAsPNG"/>
                         <MenuItem x:Name="settingsToolStripMenuItem" Header="Settings" IsEnabled="False"/>
                     </MenuItem>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem x:Name="recentDataDirectoriesToolStripMenuItem" Header="No Recent Data Directories" IsEnabled="False"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitEditor"/>
                 </MenuItem>
                 <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center" Margin="0,2,0,0" >
                     <MenuItem x:Name="undoToolStripMenuItem" Header="Undo" Click="UndoToolStripMenuItem_Click"/>
@@ -172,17 +171,12 @@
                     <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horizontal Individual" Click="FlipHorizontalIndividualToolStripMenuItem_Click"/>
                     <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualToolStripMenuItem_Click"/>
                 </MenuItem>
-                <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,2,0,0" >
-                    <MenuItem x:Name="showEntitySelectionBoxesToolStripMenuItem" Header="Show Entity Selection Boxes" Click="ShowEntitySelectionBoxesToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Header="Toggle Encore/Mania Object Visibility" Click="ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="PointerTooltipToggleToolStripMenuItem" Header="Toggle Pointer Tooltip Visibility" IsCheckable="True" Click="PointerTooltipToggleToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem x:Name="pixelModeToolStripMenuItem" Header="Enable Pixel Count Mode" Click="PixelModeButton_Click"/>
-                    <MenuItem x:Name="transparentLayersForEditingEntitiesToolStripMenuItem" Header="Transparent Layers for Editing Entities" Click="EditEntitesTransparencyToolStripMenuItem_Click"/>
+                <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,2,0,0">
+                    <MenuItem x:Name="pixelModeToolStripMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"/>
                     <MenuItem x:Name="changeEncorePaleteToolStripMenuItem" Header="Change Encore Palette..">
                         <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="ChangeEncorePaleteToolStripMenuItem_Click"/>
                         <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="ChangeEncorePaleteToolStripMenuItem_Click"/>
                     </MenuItem>
-                    <MenuItem x:Name="showParallaxSpritesToolStripMenuItem" Header="Show Full Parallax Sprites" Click="ShowParallaxSpritesToolStripMenuItem_Click"/>
                     <MenuItem x:Name="collisionColorsToolStripMenuItem" Header="Collison Colors...">
                         <MenuItem x:Name="defaultToolStripMenuItem" Header="Default (Mania)" Click="DefaultToolStripMenuItem_Click"/>
                         <MenuItem x:Name="invertedToolStripMenuItem" Header="Inverted" Click="InvertedToolStripMenuItem_Click"/>
@@ -208,83 +202,92 @@
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         <MenuItem x:Name="useLargeTextToolStripMenuItem" Header="Use Large Text" Click="useLargeTextToolStripMenuItem_Click"/>
                     </MenuItem>
-                    <MenuItem x:Name="editEntitiesOptionToolStrip" Header="Entity Options...">
+
+                    <MenuItem x:Name="EntitiesViewOptionsHost" Header="Entities Edit Options... " SubmenuClosed="Global_SubmenuOpened">
                         <MenuItem x:Name="entityVisibilityOptionsToolStripMenuItem" Header="Entity Visibility Options:" IsEnabled="False"/>
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
                         <MenuItem x:Name="prioritizedViewingToolStripMenuItem" Header="Prioritized Viewing" Click="prioritizedViewingToolStripMenuItem_Click"/>
                         <MenuItem x:Name="SelectionBoxesAlwaysPrioritized" Header="Selection Boxes Always Prioritized" Click="SelectionBoxesAlwaysPrioritized_Click" IsCheckable="True" IsChecked="True"></MenuItem>
+                        <MenuItem x:Name="showEntitySelectionBoxesToolStripMenuItem" Header="Show Entity Selection Boxes" Click="ShowEntitySelectionBoxesToolStripMenuItem_Click"/>
+                        <MenuItem x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Header="Toggle Encore/Mania Object Visibility" Click="ToggleEncoreManiaObjectVisibilityToolStripMenuItem_Click"/>
+                        <MenuItem x:Name="EditEntitiesTransparencyQuickToggle" Header="Transparent Layers for Editing Entities" Click="ApplyEditEntitiesTransparencyTrigger"/>
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         <MenuItem x:Name="objectFilterToolStripMenuItem" Header="Entity Filter:" IsEnabled="False"/>
                         <TextBox x:Name="toolStripTextBox1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,-5.5,0" Height="21.168" UseLayoutRounding="False" Width="181.5" TextChanged="ToolStripTextBox1_TextChanged"/>
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                        <MenuItem x:Name="entityViewSettingsLabel" IsEnabled="False" Header="Entity Specific Options:"/>
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                        <MenuItem x:Name="showParallaxSpritesToolStripMenuItem" Header="Show Full Parallax Sprites" Click="ShowParallaxSpritesToolStripMenuItem_Click"/>
+                        <MenuItem x:Name="showEntityPathArrowsToolstripItem" Header="Show WarpDoor/Entity Path Arrows" Click="ShowEntityPathToolStripMenuItem_Click"/>
+                        <MenuItem x:Name="waterLevelOptions" Header="Water Level...">
+                            <MenuItem x:Name="showWaterLevelToolStripMenuItem" Header="Show Water Level" Click="ShowWaterLevelToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="waterLevelAlwaysShowItem" Header="Always Show Regardless of Selection" Click="WaterLevelAlwaysShowItem_Click"/>
+                            <MenuItem x:Name="sizeWithBoundsWhenNotSelectedToolStripMenuItem" Header="Size with Bounds when Not Selected" Click="SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click"/>
+                        </MenuItem>
+                        <MenuItem x:Name="menuLanguageToolStripMenuItem" Header="Menu Language">
+                            <MenuItem x:Name="eNToolStripMenuItem" Header="EN" Tag="EN" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="fRToolStripMenuItem" Header="FR" Tag="FR" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="gEToolStripMenuItem" Header="GE" Tag="GE" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="iTToolStripMenuItem" Header="IT" Tag="IT" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="jPToolStripMenuItem" Header="JP" Tag="JP" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="kOToolStripMenuItem" Header="KO" Tag="KO" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="sCToolStripMenuItem" Header="SC" Tag="SC" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="sPToolStripMenuItem" Header="SP" Tag="SP" Click="LangToolStripMenuItem_Click"/>
+                            <MenuItem x:Name="tCToolStripMenuItem" Header="TC" Tag="TC" Click="LangToolStripMenuItem_Click"/>
+                        </MenuItem>
+                        <MenuItem x:Name="menuButtonsToolStripMenuItem" Header="Menu Buttons">
+                            <MenuItem x:Name="xboxToolStripMenuItem" Header="Xbox" Click="SetMenuButtons" Tag="Xbox"/>
+                            <MenuItem x:Name="pS4ToolStripMenuItem" Header="PS4" Click="SetMenuButtons" Tag="PS4"/>
+                            <MenuItem x:Name="nintendoSwitchToolStripMenuItem" Header="Nintendo Switch...">
+                                <MenuItem x:Name="normalToolStripMenuItem1" Header="Normal" Click="SetMenuButtons" Tag="Switch"/>
+                                <MenuItem x:Name="joyconLToolStripMenuItem" Header="Joycon (L)" Click="SetMenuButtons" Tag="Switch Joy L"/>
+                                <MenuItem x:Name="joyconRToolStripMenuItem" Header="Joycon (R)" Click="SetMenuButtons" Tag="Switch Joy R"/>
+                            </MenuItem>
+                            <MenuItem x:Name="saturnToolStripMenuItem" Header="Saturn...">
+                                <MenuItem x:Name="saturnBlackToolStripMenuItem" Header="Saturn (Black)" Tag="Saturn Black" Click="SetMenuButtons"/>
+                                <MenuItem x:Name="satrunWhiteToolStripMenuItem" Header="Saturn (White)" Tag="Saturn White" Click="SetMenuButtons"/>
+                            </MenuItem>
+                            <MenuItem x:Name="pCWIPToolStripMenuItem" Header="PC (WIP)...">
+                                <MenuItem x:Name="eNJPToolStripMenuItem" Header="EN/JP" Tag="PC EN/JP" Click="SetMenuButtons"/>
+                                <MenuItem x:Name="fRToolStripMenuItem1" Header="FR" Tag="PC FR" Click="SetMenuButtons"/>
+                                <MenuItem x:Name="gEToolStripMenuItem1" Header="GE" Tag="PC GE" Click="SetMenuButtons"/>
+                                <MenuItem x:Name="sPToolStripMenuItem1" Header="SP" Tag="PC SP" Click="SetMenuButtons"/>
+                            </MenuItem>
+                        </MenuItem>
                     </MenuItem>
-                    <MenuItem x:Name="layerPriorityOptionsToolStripMenuItem" Header="Layer Priority Options...">
+                    <MenuItem x:Name="LayerViewOptionsHost" Header="Layer Edit Options..." SubmenuClosed="Global_SubmenuOpened">
                         <MenuItem x:Name="moveExtraLayersToFrontToolStripMenuItem" Header="Move Extra Layers to Front" Click="MoveExtraLayersToFrontToolStripMenuItem_Click"/>
                     </MenuItem>
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem x:Name="entityViewSettingsLabel" IsEnabled="False" Header="Entity Specific Options:"/>
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem x:Name="showEntityPathArrowsToolstripItem" Header="Show WarpDoor/Entity Path Arrows" Click="ShowEntityPathToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="waterLevelOptions" Header="Water Level...">
-                        <MenuItem x:Name="showWaterLevelToolStripMenuItem" Header="Show Water Level" Click="ShowWaterLevelToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="waterLevelAlwaysShowItem" Header="Always Show Regardless of Selection" Click="WaterLevelAlwaysShowItem_Click"/>
-                        <MenuItem x:Name="sizeWithBoundsWhenNotSelectedToolStripMenuItem" Header="Size with Bounds when Not Selected" Click="SizeWithBoundsWhenNotSelectedToolStripMenuItem_Click"/>
+
                     </MenuItem>
-                    <MenuItem x:Name="menuLanguageToolStripMenuItem" Header="Menu Language">
-                        <MenuItem x:Name="eNToolStripMenuItem" Header="EN" Tag="EN" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="fRToolStripMenuItem" Header="FR" Tag="FR" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="gEToolStripMenuItem" Header="GE" Tag="GE" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="iTToolStripMenuItem" Header="IT" Tag="IT" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="jPToolStripMenuItem" Header="JP" Tag="JP" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="kOToolStripMenuItem" Header="KO" Tag="KO" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="sCToolStripMenuItem" Header="SC" Tag="SC" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="sPToolStripMenuItem" Header="SP" Tag="SP" Click="LangToolStripMenuItem_Click"/>
-                        <MenuItem x:Name="tCToolStripMenuItem" Header="TC" Tag="TC" Click="LangToolStripMenuItem_Click"/>
-                    </MenuItem>
-                    <MenuItem x:Name="menuButtonsToolStripMenuItem" Header="Menu Buttons">
-                        <MenuItem x:Name="xboxToolStripMenuItem" Header="Xbox" Click="SetMenuButtons" Tag="Xbox"/>
-                        <MenuItem x:Name="pS4ToolStripMenuItem" Header="PS4" Click="SetMenuButtons" Tag="PS4"/>
-                        <MenuItem x:Name="nintendoSwitchToolStripMenuItem" Header="Nintendo Switch...">
-                            <MenuItem x:Name="normalToolStripMenuItem1" Header="Normal" Click="SetMenuButtons" Tag="Switch"/>
-                            <MenuItem x:Name="joyconLToolStripMenuItem" Header="Joycon (L)" Click="SetMenuButtons" Tag="Switch Joy L"/>
-                            <MenuItem x:Name="joyconRToolStripMenuItem" Header="Joycon (R)" Click="SetMenuButtons" Tag="Switch Joy R"/>
-                        </MenuItem>
-                        <MenuItem x:Name="saturnToolStripMenuItem" Header="Saturn...">
-                            <MenuItem x:Name="saturnBlackToolStripMenuItem" Header="Saturn (Black)" Tag="Saturn Black" Click="SetMenuButtons"/>
-                            <MenuItem x:Name="satrunWhiteToolStripMenuItem" Header="Saturn (White)" Tag="Saturn White" Click="SetMenuButtons"/>
-                        </MenuItem>
-                        <MenuItem x:Name="pCWIPToolStripMenuItem" Header="PC (WIP)...">
-                            <MenuItem x:Name="eNJPToolStripMenuItem" Header="EN/JP" Tag="PC EN/JP" Click="SetMenuButtons"/>
-                            <MenuItem x:Name="fRToolStripMenuItem1" Header="FR" Tag="PC FR" Click="SetMenuButtons"/>
-                            <MenuItem x:Name="gEToolStripMenuItem1" Header="GE" Tag="PC GE" Click="SetMenuButtons"/>
-                            <MenuItem x:Name="sPToolStripMenuItem1" Header="SP" Tag="PC SP" Click="SetMenuButtons"/>
-                        </MenuItem>
-                    </MenuItem>
-                </MenuItem>
-                <MenuItem x:Name="toolsToolStripMenuItem1" Header="Tools" Margin="0,2,0,0" >
+                <MenuItem x:Name="toolsToolStripMenuItem1" Header="Tools" Margin="0,2,0,0">
                     <MenuItem x:Name="findAndReplaceToolStripMenuItem" Header="Find and Replace..." Click="FindToolStripMenuItem1_Click"/>
-                    <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles" Click="FindUnusedTiles"/>
                     <MenuItem x:Name="scrollLockToolStripMenuItem" Header="Scroll Lock...">
-                        <MenuItem x:Name="statusNAToolStripMenuItem" Header="Enabled" Click="ScrollLockButton_Click"/>
+                        <MenuItem x:Name="statusNAToolStripMenuItem" Header="Enabled" Click="ToggleScrollLockEvent"/>
                         <MenuItem x:Name="axisToolStripMenuItem" Header="Axis...">
                             <MenuItem x:Name="xToolStripMenuItem" Header="X" Click="XToolStripMenuItem_Click"/>
                             <MenuItem x:Name="yToolStripMenuItem" Header="Y" Click="YToolStripMenuItem_Click"/>
                         </MenuItem>
+                        <Separator></Separator>
+                        <MenuItem x:Name="swapScrollLockDirMenuToolstripButton" Header="Swap Scroll Lock Direction"  Click="XToolStripMenuItem_Click"/>
                     </MenuItem>
-                    <MenuItem x:Name="swapScrollLockDirMenuToolstripButton" Header="Swap Scroll Lock Direction"  Click="XToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="nudgeSelectionFasterToolStripMenuItem" Header="Nudge Selection Faster" Click="NudgeFasterButton_Click"/>
+                    <MenuItem x:Name="nudgeSelectionFasterToolStripMenuItem" Header="Nudge Selection Faster" Click="ToggleFasterNudgeEvent"/>
                     <MenuItem x:Name="resetZoomLevelToolstripMenuItem" Header="Reset Zoom Level" Click="ResetZoomLevelToolstripMenuItem_Click"/>
                     <MenuItem x:Name="goToToolStripMenuItem1" Header="Go to..">
                         <MenuItem x:Name="specificPlaceToolStripMenuItem" Header="Specific Place" Click="GoToToolStripMenuItem_Click"/>
                         <MenuItem x:Name="playerSpawnToolStripMenuItem" Header="Player Spawn" Click="PlayerSpawnToolStripMenuItem_Click"/>
                     </MenuItem>
                     <MenuItem x:Name="overlayImageToolStripMenuItem" Header="Overlay Image" IsEnabled="False"/>
-                    <MenuItem x:Name="multiLayerSelectionToolStripMenuItem" Click="MultiLayerSelectionToolStripMenuItem_Click" Header="Multi-Layer Selection Mode" IsEnabled="True"/>
                     <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID..." Click="changeLevelIDToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="editLayerOptionsToolStripMenuItem" Header="Edit Layer Options...">
+                    <MenuItem x:Name="layerEditOptionsHost" Header="Layer Edit Tools...">
+                        <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles" Click="FindUnusedTiles"/>
+                        <MenuItem x:Name="multiLayerSelectionToolStripMenuItem" Click="MultiLayerSelectionToolStripMenuItem_Click" Header="Multi-Layer Selection Mode" IsEnabled="True"/>
                         <MenuItem x:Name="copyAirToggle" Header="Copy Air Tiles" Click="CopyAirToggle_Click" IsCheckable="True"></MenuItem>
                     </MenuItem>
-                    <MenuItem x:Name="entityEditOptions" Header="Entities Edit Tools...">
+                    <MenuItem x:Name="entityEditOptionsHost" Header="Entities Edit Tools...">
+                        <MenuItem x:Name="optimizeEntitySlotIDsToolStripMenuItem" Header="Optimize Entity Slot IDs" Click="OptimizeEntitySlotIDsToolStripMenuItem_Click"/>
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                         <MenuItem x:Name="rightClicktoSwapSlotIDs" Header="Right Click to Swap Slot IDs" IsCheckable="True" Click="RightClicktoSwapSlotIDs_Click"/>
                         <MenuItem x:Name="rightClicktoSwapSlotIDsNote" IsEnabled="False">
                             <MenuItem.Header>
@@ -292,8 +295,6 @@
                             </MenuItem.Header>
                         </MenuItem>
                     </MenuItem>
-                    <MenuItem x:Name="optimizeEntitySlotIDsToolStripMenuItem" Header="Optimize Entity Slot IDs" Click="OptimizeEntitySlotIDsToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="preRenderSceneToolStripMenuItem" Header="Pre-Render Scene" Click="PreLoadSceneButton_Click"/>
                     <MenuItem x:Name="newShortcutToolStripMenuItem" Header="Create a Desktop Shortcut">
                         <MenuItem x:Name="toolStripMenuItem2" Header="From Current Config:" IsEnabled="False"/>
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
@@ -331,7 +332,6 @@
                     <MenuItem x:Name="openSceneFolderToolStripMenuItem" Header="Open Scene Folder" Click="OpenSceneFolderToolStripMenuItem_Click"/>
                     <MenuItem x:Name="openDataDirectoryFolderToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryFolderToolStripMenuItem_Click"/>
                     <MenuItem x:Name="openSonicManiaFolderToolStripMenuItem" Header="Open Sonic Mania Folder" Click="OpenSonicManiaFolderToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="openModDataDirectoryToolStripMenuItem" Header="Open Mod Data Directory" Click="OpenModDataDirectoryToolStripMenuItem_Click"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem x:Name="openASavedPlaceToolStripMenuItem" Header="Open a Saved Place" SubmenuOpened="OpenASavedPlaceToolStripMenuItem_DropDownOpening" SubmenuClosed="OpenASavedPlaceToolStripMenuItem_DropDownClosed">
                         <MenuItem x:Name="noSavedPlacesToolStripMenuItem" Header="No Saved Places" IsEnabled="False"/>
@@ -361,10 +361,31 @@
                     <MenuItem x:Name="controlsToolStripMenuItem" Header="Controls" Click="ControlsToolStripMenuItem_Click"/>
                     <MenuItem x:Name="wikiToolStripMenuItem" Header="Wiki" Click="WikiToolStripMenuItem_Click"/>
                 </MenuItem>
+                <MenuItem Header="Context 2" Visibility="Collapsed">
+                    <MenuItem x:Name="moveThisPlayerToolStripMenuItem"/>
+                </MenuItem>
+                <MenuItem x:Name="EntityContext" Visibility="Collapsed">
+                    <MenuItem x:Name="EntityNameItem" IsHitTestVisible="False"></MenuItem>
+                    <MenuItem x:Name="EntitySlotIDItem" IsHitTestVisible="False"></MenuItem>
+                    <MenuItem x:Name="EntityPositionItem" IsHitTestVisible="False"></MenuItem>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <MenuItem x:Name="EntityViewItemContext" Header="View..." IsEnabled="False"></MenuItem>
+                    <MenuItem x:Name="EntityToolsItemContext" Header="Tools..." IsEnabled="False"></MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="TilesContext" Visibility="Collapsed">
+                    <MenuItem x:Name="PixelPositionMenuItem" IsHitTestVisible="False"></MenuItem>
+                    <MenuItem x:Name="ChunkPositionMenuItem" IsHitTestVisible="False"></MenuItem>
+                    <MenuItem x:Name="TilePositionMenuItem" IsHitTestVisible="False"></MenuItem>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <MenuItem x:Name="TileViewItemContext" Header="View..." IsEnabled="False"></MenuItem>
+                    <MenuItem x:Name="TileToolsItemContext" Header="Tools..." IsEnabled="False"></MenuItem>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <MenuItem x:Name="TileManiacIntergrationItem" Header="Edit Tile {0} with Tile Maniac" Click="EditTileWithTileManiacToolStripMenuItem_Click"></MenuItem>
+                </MenuItem>
             </Menu>
             <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1" Margin="0,0,0,0" Background="{DynamicResource ToolbarBackground}" IsLocked="True" x:Name="ToolbarTray">
                 <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}">
-                    <Button x:Name="New" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="NewToolStripMenuItem_Click" IsEnabled="True" >
+                    <Button x:Name="New" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="NewScene" IsEnabled="True" >
                         <Button.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-2,0,0">
                                 <Rectangle.OpacityMask>
@@ -373,7 +394,7 @@
                             </Rectangle>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="Open" Width="32"  Click="OpenToolStripMenuItem_Click" Margin="0,0,0,0" Padding="0,0,0,0" >
+                    <Button x:Name="Open" Width="32"  Click="OpenScene" Margin="0,0,0,0" Padding="0,0,0,0" >
                         <Button.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                                 <Rectangle.OpacityMask>
@@ -410,7 +431,7 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="Save" Width="32"   Margin="0,0,0,0"  Padding="0,0,0,0" Click="SToolStripMenuItem_Click">
+                    <Button x:Name="Save" Width="32" Margin="0,0,0,0"  Padding="0,0,0,0" Click="SaveScene">
                         <Button.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                                 <Rectangle.OpacityMask>
@@ -420,7 +441,7 @@
                         </Button.Content>
                     </Button>
                     <Separator/>
-                    <Button x:Name="ZoomInButton" Width="32"    Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInButton_Click">
+                    <Button x:Name="ZoomInButton" Width="32"    Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInEvent">
                         <Button.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                                 <Rectangle.OpacityMask>
@@ -429,7 +450,7 @@
                             </Rectangle>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="ZoomOutButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutButton_Click">
+                    <Button x:Name="ZoomOutButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutEvent">
                         <Button.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
                                 <Rectangle.OpacityMask>
@@ -439,7 +460,7 @@
                         </Button.Content>
                     </Button>
                     <Separator/>
-                    <Button x:Name="RunSceneButton" Width="32"  Height="34"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RunScene_Click">
+                    <Button x:Name="RunSceneButton" Width="32"  Height="34"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RunSceneEvent">
                         <Button.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1">
                                 <Rectangle.OpacityMask>
@@ -461,7 +482,7 @@
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
                                         </MenuItem.Header>
-                                        <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus" Click="RunScene_Click"/>
+                                        <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus" Click="RunSceneEvent"/>
                                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                                         <MenuItem x:Name="trackThePlayerToolStripMenuItem" Header="Track the Player...">
                                             <MenuItem x:Name="trackP1ToolStripMenuItem" Header="Track P1" Tag="1" Click="TrackPlayerToolStripMenuItem_Click"/>
@@ -485,7 +506,7 @@
                         </Button.Content>
                     </Button>
                     <Separator/>
-                    <Button x:Name="UndoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoButton_Click" Tag="Undo {0} (Ctrl + Z)">
+                    <Button x:Name="UndoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoEvent" Tag="Undo {0} (Ctrl + Z)">
                         <Button.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0" x:Name="UndoRect">
                                 <Rectangle.OpacityMask>
@@ -494,7 +515,7 @@
                             </Rectangle>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="RedoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoButton_Click" Tag="Redo {0} (Ctrl + Y)">
+                    <Button x:Name="RedoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoEvent" Tag="Redo {0} (Ctrl + Y)">
                         <Button.Content>
                             <Rectangle x:Name="RedoRect" Width="26" Height="36" Fill="Black" Margin="0">
                                 <Rectangle.OpacityMask>
@@ -517,7 +538,7 @@
 
 
 
-                    <ToggleButton x:Name="PointerButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="PointerButton_Click">
+                    <ToggleButton x:Name="PointerToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="TogglePointerToolEvent">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                                 <Rectangle.OpacityMask>
@@ -526,7 +547,7 @@
                             </Rectangle>
                         </ToggleButton.Content>
                     </ToggleButton>
-                    <ToggleButton x:Name="SelectToolButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="SelectTool_Click">
+                    <ToggleButton x:Name="SelectToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0"  Click="ToggleSelectToolEvent">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                                 <Rectangle.OpacityMask>
@@ -535,7 +556,7 @@
                             </Rectangle>
                         </ToggleButton.Content>
                     </ToggleButton>
-                    <ToggleButton x:Name="PlaceTilesButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="PlaceTilesButton_Click">
+                    <ToggleButton x:Name="PlaceTilesButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleDrawToolEvent">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                                 <Rectangle.OpacityMask>
@@ -544,7 +565,7 @@
                             </Rectangle>
                         </ToggleButton.Content>
                     </ToggleButton>
-                    <ToggleButton x:Name="InteractionToolButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="InteractionToolButton_Click">
+                    <ToggleButton x:Name="InteractionToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleInteractionToolEvent">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                                 <Rectangle.OpacityMask>
@@ -553,7 +574,7 @@
                             </Rectangle>
                         </ToggleButton.Content>
                     </ToggleButton>
-                    <ToggleButton x:Name="MagnetMode" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="MagnetMode_Click">
+                    <ToggleButton x:Name="MagnetMode" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleMagnetToolEvent">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
                                 <Rectangle.OpacityMask>
@@ -588,7 +609,7 @@
                         </Button.Content>
                     </Button>
 
-                    <ToggleButton x:Name="ChunksToolButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ChunkToolButton_Click">
+                    <ToggleButton x:Name="ChunksToolButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleChunksToolEvent">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" >
                                 <Rectangle.OpacityMask>
@@ -600,19 +621,19 @@
 
 
                     <Separator/>
-                    <ToggleButton x:Name="EncorePaletteButton" Width="32" Height="34"  Margin="0,0,0,0" Padding="0,0,0,0" Click="EnableEncorePalette_Click" >
+                    <ToggleButton x:Name="EncorePaletteButton" Width="32" Height="34"  Margin="0,0,0,0" Padding="0,0,0,0" Click="EnableEncorePaletteEvent" >
                         <ToggleButton.Content>
                             <Image Source="pack://application:,,,/Resources/icons/ColorPalette_alt.png" Stretch="Uniform"  Height="34" Width="26" />
                         </ToggleButton.Content>
                     </ToggleButton>
-                    <ToggleButton x:Name="ShowTileIDButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowTileIDButton_Click">
+                    <ToggleButton x:Name="ShowTileIDButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleSlotIDEvent">
                         <Rectangle Width="26" Height="37" Fill="Black" Margin="-2,-2">
                             <Rectangle.OpacityMask>
                                 <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowTileID.png" Stretch="Uniform" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </ToggleButton>
-                    <ToggleButton x:Name="FlipAssistButton"  Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelper_Click">
+                    <ToggleButton x:Name="FlipAssistButton"  Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelperEvent">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="36" Fill="Black" Margin="-1,-1">
                                 <Rectangle.OpacityMask>
@@ -663,7 +684,7 @@
                         </Button.Content>
                     </Button>
                     <Separator/>
-                    <ToggleButton x:Name="ShowCollisionAButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAButton_Click" >
+                    <ToggleButton x:Name="ShowCollisionAButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAEvent" >
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
                                 <Rectangle.OpacityMask>
@@ -672,7 +693,7 @@
                             </Rectangle>
                         </ToggleButton.Content>
                     </ToggleButton>
-                    <ToggleButton x:Name="ShowCollisionBButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBButton_Click" >
+                    <ToggleButton x:Name="ShowCollisionBButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBEvent" >
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
                                 <Rectangle.OpacityMask>
@@ -682,7 +703,7 @@
                         </ToggleButton.Content>
                     </ToggleButton>
                     <Separator/>
-                    <ToggleButton x:Name="FreezeDeviceButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ResetDeviceButton_Click_1" >
+                    <ToggleButton x:Name="FreezeDeviceButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" IsEnabled="False">
                         <ToggleButton.Content>
                             <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
                                 <Rectangle.OpacityMask>
@@ -793,7 +814,7 @@
                     </wpfTool:SplitButton.Content>
                     <wpfTool:SplitButton.DropDownContent>
                         <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                            <MenuItem x:Name="editEntitesTransparencyToolStripMenuItem" Header="Edit Entites Transparency" Click="EditEntitesTransparencyToolStripMenuItem_Click"></MenuItem>
+                            <MenuItem x:Name="editEntitesTransparencyToolStripMenuItem" Header="Edit Entites Transparency" Click="ApplyEditEntitiesTransparencyTrigger"></MenuItem>
                             <MenuItem x:Name="toggleEncoreManiaEntitiesToolStripMenuItem" Header="Toggle Encore/Mania Entities" Click="ToggleEncoreManiaEntitiesToolStripMenuItem_Click"></MenuItem>
                             <MenuItem x:Name="swapScrollLockDirectionToolStripMenuItem" Header="Swap Scroll Lock Direction" Click="SwapScrollLockDirectionToolStripMenuItem_Click"></MenuItem>
                         </StackPanel>
@@ -803,57 +824,16 @@
             <StatusBarItem DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="tooltipButton" Content="Pointer Tooltip Mode" Click="TooltipButton_Click" HorizontalAlignment="Center" Padding="5"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="PixelModeButton_Click" HorizontalAlignment="Center" Padding="5"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="5"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="NudgeFasterButton_Click" Padding="5"/>
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="scrollLockButton" Content="Scroll Lock" Click="ScrollLockButton_Click" Padding="5"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource Flat}" x:Name="scrollLockButton" Content="Scroll Lock" Click="ToggleScrollLockEvent" Padding="5"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 </StackPanel>
             </StatusBarItem>
-
-            <MenuItem Header="Context 2" Visibility="Collapsed">
-                <MenuItem x:Name="moveThisPlayerToolStripMenuItem"/>
-            </MenuItem>
-
-            <MenuItem x:Name="EntityContext" Header="Entity Tools" Visibility="Collapsed">
-                <MenuItem x:Name="EntityNameItem" IsEnabled="False"></MenuItem>
-                <MenuItem x:Name="EntitySlotIDItem" IsEnabled="False"></MenuItem>
-                <MenuItem x:Name="EntityPositionItem" IsEnabled="False"></MenuItem>
-                <MenuItem x:Name="EntityTools" Header="Edit...">
-                    <MenuItem IsEnabled="False" Header="Slot ID Sorting/Optimization"></MenuItem>
-                    <Separator></Separator>
-                    <MenuItem x:Name="SortSelectedSlotIDs" Header="Sort Selected Object Slot IDs" Click="SortSelectedSlotIDs_Click"></MenuItem>
-                    <MenuItem x:Name="SortSelectedSlotIDsOptimized" Header="Sort Selected Object Slot IDs (Optimized Mode)" Click="SortSelectedSlotIDsOptimized_Click"></MenuItem>
-                    <MenuItem x:Name="OptimizeSlotIDs2" Header="Optimize All Entity Slot IDs" Click="OptimizeEntitySlotIDsToolStripMenuItem_Click"></MenuItem>
-                    <Separator></Separator>
-                    <MenuItem x:Name="entityVisibilityOptionsToolStripMenuItem2" Header="Entity Visibility Options:" IsEnabled="False"/>
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem2" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="prioritizedViewingToolStripMenuItem2" Header="Prioritized Viewing" Click="prioritizedViewingToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="SelectionBoxesAlwaysPrioritized2" Header="Selection Boxes Always Prioritized" Click="SelectionBoxesAlwaysPrioritized_Click" IsCheckable="True" IsChecked="True"></MenuItem>
-                    <!--Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem x:Name="objectFilterToolStripMenuItem2" Header="Entity Filter:" IsEnabled="False"/>
-                    <MenuItem StaysOpenOnClick="True">
-                        <MenuItem.Header>
-                            <StackPanel>
-                                <TextBox x:Name="toolStripTextBox2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,-5.5,0" Height="21.168" UseLayoutRounding="False" Width="181.5" TextChanged="ToolStripTextBox1_TextChanged"/>
-                                <StackPanel.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=toolStripTextBox2, Path=IsVisible}" Value="True">
-                                                <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=toolStripTextBox2}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </StackPanel.Style>
-                            </StackPanel>
-                        </MenuItem.Header>
-                    </MenuItem>-->
-                </MenuItem>
-            </MenuItem>
+            <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
+            </StatusBarItem>
         </StatusBar>
         <StatusBar x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="2" Grid.ColumnSpan="5" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
             <Label x:Name="_levelIDLabel" Foreground="{DynamicResource NormalText}"/>

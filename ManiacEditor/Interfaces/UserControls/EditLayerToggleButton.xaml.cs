@@ -20,7 +20,8 @@ namespace ManiacEditor
 	/// </summary>
 	public partial class EditLayerToggleButton : UserControl
 	{
-		public string Text
+        public string LayerName { get; set; }
+        public string Text
 		{
 			get { return (string)GetValue(TextBlockTextProperty); }
 			set { SetValue(TextBlockTextProperty, value); }

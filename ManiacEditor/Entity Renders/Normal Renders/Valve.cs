@@ -35,8 +35,8 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Valve", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Valve", d, 2, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Valve", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("Valve", d, 2, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

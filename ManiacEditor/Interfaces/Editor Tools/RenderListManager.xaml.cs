@@ -54,15 +54,15 @@ namespace ManiacEditor
         {
            if (ValueList.Items != null) ValueList.Items.Clear();
 
-            if (Instance.EditorEntity_ini.EntityRenderers.Count == 0)
+            if (Instance.EntityDrawing.EntityRenderers.Count == 0)
             {
                 var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(ManiacEditor.Entity_Renders.EntityRenderer)).ToList();
                 foreach (var type in types)
-                    Instance.EditorEntity_ini.EntityRenderers.Add((ManiacEditor.Entity_Renders.EntityRenderer)Activator.CreateInstance(type));
+                    Instance.EntityDrawing.EntityRenderers.Add((ManiacEditor.Entity_Renders.EntityRenderer)Activator.CreateInstance(type));
             }
 
             List<string> AllRenders = new List<string>();
-            foreach (var item in Instance.EditorEntity_ini.EntityRenderers) AllRenders.Add(item.GetObjectName());
+            foreach (var item in Instance.EntityDrawing.EntityRenderers) AllRenders.Add(item.GetObjectName());
 
             List<string> UnusedRenders = AllRenders.Except(Instance.entityRenderingObjects).ToList();
 

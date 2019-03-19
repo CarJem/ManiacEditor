@@ -25,7 +25,7 @@ namespace ManiacEditor
 	/// <summary>
 	/// Interaction logic for TilesToolbar.xaml
 	/// </summary>
-	public partial class EntitiesToolbar2 : UserControl
+	public partial class EntitiesToolbar : UserControl
 	{
 		public Action<int> SelectedEntity;
 		public Action<Actions.IAction> AddAction;
@@ -73,7 +73,7 @@ namespace ManiacEditor
 
 		public bool NeedRefresh;
 
-		public EntitiesToolbar2(List<RSDKv5.SceneObject> sceneObjects, Editor instance)
+		public EntitiesToolbar(List<RSDKv5.SceneObject> sceneObjects, Editor instance)
 		{
 			EditorInstance = instance;
 
@@ -186,7 +186,7 @@ namespace ManiacEditor
 		public void UpdateEntitiesList(bool FirstLoad = false)
 		{
 			//This if statement Triggers when the toolbar opens for the first time
-			if (FirstLoad) _entities = EditorInstance.entities.Entities.Select(x => x.Entity).ToList();
+			if (FirstLoad) _entities = EditorInstance.Entities.Entities.Select(x => x.Entity).ToList();
 			int j = 0;
 			for (int i = 0; i < 2048; i++)
 			{
@@ -229,7 +229,7 @@ namespace ManiacEditor
 			if (currentEntity != null) GoToObject.IsEnabled = true;
 			else GoToObject.IsEnabled = false;
 
-            if (EditorInstance.entities.SelectedEntities != null && EditorInstance.entities.SelectedEntities.Count > 1) SortSelectedSlotIDs.IsEnabled = true;
+            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 1) SortSelectedSlotIDs.IsEnabled = true;
             else SortSelectedSlotIDs.IsEnabled = false;
         }
 
@@ -386,7 +386,7 @@ namespace ManiacEditor
             if (currentEntity != null) GoToObject.IsEnabled = true;
             else GoToObject.IsEnabled = false;
 
-            if (EditorInstance.entities.SelectedEntities != null && EditorInstance.entities.SelectedEntities.Count > 0) SortSelectedSlotIDs.IsEnabled = true;
+            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 0) SortSelectedSlotIDs.IsEnabled = true;
             else SortSelectedSlotIDs.IsEnabled = false;
 
         }
@@ -919,19 +919,19 @@ namespace ManiacEditor
 					switch (Properties.Settings.Default.DefaultFilter[0])
 					{
 						case 'M':
-							EditorInstance.entities.DefaultFilter = 2;
+							EditorInstance.Entities.DefaultFilter = 2;
 							break;
 						case 'E':
-							EditorInstance.entities.DefaultFilter = 4;
+							EditorInstance.Entities.DefaultFilter = 4;
 							break;
 						case 'B':
-							EditorInstance.entities.DefaultFilter = 1;
+							EditorInstance.Entities.DefaultFilter = 1;
 							break;
 						case 'P':
-							EditorInstance.entities.DefaultFilter = 255;
+							EditorInstance.Entities.DefaultFilter = 255;
 							break;
 						default:
-							EditorInstance.entities.DefaultFilter = 0;
+							EditorInstance.Entities.DefaultFilter = 0;
 							break;
 					}
 					Spawn?.Invoke(obj);
@@ -942,27 +942,27 @@ namespace ManiacEditor
 
 		private void maniaFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.entities.FilterRefreshNeeded = true;	
+			EditorInstance.Entities.FilterRefreshNeeded = true;	
 		}
 
 		private void encoreFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.entities.FilterRefreshNeeded = true;
+			EditorInstance.Entities.FilterRefreshNeeded = true;
 		}
 
 		private void bothFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.entities.FilterRefreshNeeded = true;
+			EditorInstance.Entities.FilterRefreshNeeded = true;
 		}
 
 		private void PinballFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.entities.FilterRefreshNeeded = true;
+			EditorInstance.Entities.FilterRefreshNeeded = true;
 		}
 
 		private void otherFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.entities.FilterRefreshNeeded = true;
+			EditorInstance.Entities.FilterRefreshNeeded = true;
 		}
 
 		private void cbSpawn_KeyDown(object sender, KeyEventArgs e)
@@ -1024,12 +1024,12 @@ namespace ManiacEditor
 
         private void SortSelectedSlotIDs_Click(object sender, RoutedEventArgs e)
         {
-            EditorInstance.entities.OrderSelectedSlotIDs();
+            EditorInstance.Entities.OrderSelectedSlotIDs();
         }
 
         private void SortSelectedSlotIDsOptimized_Click(object sender, RoutedEventArgs e)
         {
-            EditorInstance.entities.OrderSelectedSlotIDs(true);
+            EditorInstance.Entities.OrderSelectedSlotIDs(true);
         }
     }
 }

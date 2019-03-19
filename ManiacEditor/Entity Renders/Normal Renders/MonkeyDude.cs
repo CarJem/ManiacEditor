@@ -17,11 +17,11 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 0, -1, fliph, flipv, false);
-            var editorAnimTail = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 1, -1, fliph, flipv, false);
-            var editorAnimArm = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 2, -1, fliph, flipv, false);
-            var editorAnimHand = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 3, -1, fliph, flipv, false);
-            var editorAnimCoconut = e.EditorInstance.EditorEntity_ini.LoadAnimation2("MonkeyDude", d, 4, -1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("MonkeyDude", d, 0, -1, fliph, flipv, false);
+            var editorAnimTail = e.EditorInstance.EntityDrawing.LoadAnimation2("MonkeyDude", d, 1, -1, fliph, flipv, false);
+            var editorAnimArm = e.EditorInstance.EntityDrawing.LoadAnimation2("MonkeyDude", d, 2, -1, fliph, flipv, false);
+            var editorAnimHand = e.EditorInstance.EntityDrawing.LoadAnimation2("MonkeyDude", d, 3, -1, fliph, flipv, false);
+            var editorAnimCoconut = e.EditorInstance.EntityDrawing.LoadAnimation2("MonkeyDude", d, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimTail != null && editorAnimTail.Frames.Count != 0 && editorAnimArm != null && editorAnimArm.Frames.Count != 0 && editorAnimCoconut != null && editorAnimCoconut.Frames.Count != 0 && editorAnimHand != null && editorAnimHand.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

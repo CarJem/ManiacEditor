@@ -470,7 +470,7 @@ namespace ManiacEditor.Interfaces
 			this.recentDataDirList.ImageList.Images.Add("Folder", Properties.Resources.folder);
 			this.recentDataDirList.ImageList.Images.Add("File", Properties.Resources.file);
 
-			foreach (System.Windows.Controls.MenuItem dataDir in EditorInstance._recentDataItems)
+			foreach (System.Windows.Controls.MenuItem dataDir in EditorInstance.RecentDataItemsMenu)
 			{
 				var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir.Tag.ToString());
 				node.Tag = dataDir.Tag.ToString();
@@ -496,12 +496,12 @@ namespace ManiacEditor.Interfaces
 				recentDataDirList.Nodes[1].ExpandAll();
 			}
 
-			if (EditorInstance.EditorDirectories != null && EditorInstance.EditorDirectories.ModListInformation?.Count > 0)
+			if (EditorInstance.DataPacks != null && EditorInstance.DataPacks.ModListInformation?.Count > 0)
 			{
                 List<string> modPacks = new List<string>();
                 this.recentDataDirList.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
                 int index = this.recentDataDirList.ImageList.Images.IndexOfKey("SubFolder");
-                modPacks = EditorInstance.EditorDirectories.DataPackNamesToList();
+                modPacks = EditorInstance.DataPacks.DataPackNamesToList();
                 foreach (string packs in modPacks)
                 {
                     var node = recentDataDirList.Nodes[2].Nodes.Add(packs, packs, index, index);
@@ -516,7 +516,7 @@ namespace ManiacEditor.Interfaces
 
 		private void selectButton_Click(object sender, EventArgs e)
 		{
-			EditorInstance.LevelID = LevelID;
+			EditorInstance.UIModes.LevelID = LevelID;
 			if (!isFilesView.IsChecked.Value)
 			{
 				Result = scenesTree.SelectedNode.Tag as string;
@@ -537,7 +537,10 @@ namespace ManiacEditor.Interfaces
 
 		private void Close()
 		{
-			if (!EditorInstance.importingObjects && withinAParentForm)EditorInstance.EditorSceneLoading.OpenSceneUsingExistingSceneSelect(this);
+            if (!EditorInstance.UIModes.importingObjects && withinAParentForm)
+            {
+                EditorInstance.FileHandler.OpenSceneUsingExistingSceneSelect(this);
+            }
 			if (Window != null) Window.Close();
 
 		}
@@ -721,7 +724,6 @@ namespace ManiacEditor.Interfaces
 		private void browse_Click(object sender, RoutedEventArgs e)
 		{
 			System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog();
-			open.InitialDirectory =
 			open.Filter = "Scene File|*.bin";
 			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
@@ -738,7 +740,7 @@ namespace ManiacEditor.Interfaces
 			open.Filter = "Scene File|*.bin";
 			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
-				Result = open.FileName;
+				Result = open.FileName;             
 				Browsed = true;
 				Close();
 			}
@@ -778,7 +780,7 @@ namespace ManiacEditor.Interfaces
 					cat.Scenes.Add(form.Scene);
 					LoadFromGameConfig(_GameConfig);
 					if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-						_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+						_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 					ReloadGameConfig();
 
 				}
@@ -815,7 +817,7 @@ namespace ManiacEditor.Interfaces
 						LoadFromGameConfig(_GameConfig);
 
 						if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-							_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+							_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 						ReloadGameConfig();
 					}
 
@@ -845,7 +847,7 @@ namespace ManiacEditor.Interfaces
 				{
 					LoadFromGameConfig(_GameConfig);
 					if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-						_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+						_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 					ReloadGameConfig();
 				}
 			}
@@ -868,7 +870,7 @@ namespace ManiacEditor.Interfaces
 			{
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+					_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 				ReloadGameConfig();
 			}
 
@@ -893,7 +895,7 @@ namespace ManiacEditor.Interfaces
 				cat.Scenes.RemoveAt(scene);
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+					_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 				ReloadGameConfig();
 			}
 		}
@@ -903,21 +905,28 @@ namespace ManiacEditor.Interfaces
 			_GameConfig.Categories.RemoveAt(scenesTree.SelectedNode.Index);
 			LoadFromGameConfig(_GameConfig);
 			if (MessageBox.Show("Write Changes to File? Please make sure you didn't delete something on accident!", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-				_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+				_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 			ReloadGameConfig();
 		}
 
 		private void load_Click(object sender, RoutedEventArgs e)
 		{
-            UnloadDataPack();
-            if (EditorInstance.importingObjects == true)
+            if (EditorInstance.UIModes.importingObjects == true)
             {
                 MessageBox.Show("You can't do that while importing objects!");
             }
             else
             {
-                if (recentDataDirList.SelectedNode.ImageKey == "DataFolder") LoadDataDirectory(recentDataDirList.SelectedNode.Tag.ToString());
-                else if (recentDataDirList.SelectedNode.ImageKey == "DataPack") LoadDataPack(recentDataDirList.SelectedNode.Tag.ToString());
+                if (recentDataDirList.SelectedNode.ImageKey == "DataFolder")
+                {
+                    UnloadDataPack();
+                    LoadDataDirectory(recentDataDirList.SelectedNode.Tag.ToString());
+                }
+                else if (recentDataDirList.SelectedNode.ImageKey == "DataPack")
+                {
+                    UnloadDataPack();
+                    LoadDataPack(recentDataDirList.SelectedNode.Tag.ToString());
+                }
                 else if (recentDataDirList.SelectedNode.ImageKey == "SavedPlace")
                 {
                     if (_GameConfig != null) selectable_browse_Click(recentDataDirList.SelectedNode.Tag.ToString());
@@ -945,7 +954,7 @@ namespace ManiacEditor.Interfaces
 				GameConfig GameConfig = null;
 				String SelectedDataDirectory;
                 SelectedDataDirectory = recentDataDirList.SelectedNode.Tag.ToString();
-                GameConfig = EditorInstance.EditorPath.SetandReturnGameConfig(SelectedDataDirectory);
+                GameConfig = EditorInstance.Paths.SetandReturnGameConfig(SelectedDataDirectory);
 				if (GameConfig != null)
 				{
 					LoadFromGameConfig(GameConfig);
@@ -983,7 +992,7 @@ namespace ManiacEditor.Interfaces
 
 		private void dataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (EditorInstance.importingObjects == false)
+			if (EditorInstance.UIModes.importingObjects == false)
 			{
 				string newDataDirectory = EditorInstance.GetDataDirectory();
 				string returnDataDirectory;
@@ -1165,11 +1174,11 @@ namespace ManiacEditor.Interfaces
             bool AllowedToProceed = true;
 
             prevDataDir = EditorInstance.DataDirectory;
-            if (EditorInstance.EditorDirectories == null) return;
+            if (EditorInstance.DataPacks == null) return;
             if (!Int32.TryParse(tag, out int Index)) return;
-            if (EditorInstance.EditorDirectories.ModListInformation == null) return;
+            if (EditorInstance.DataPacks.ModListInformation == null) return;
 
-            var pack = EditorInstance.EditorDirectories.ModListInformation[Index];
+            var pack = EditorInstance.DataPacks.ModListInformation[Index];
 
             EditorInstance.LoadedDataPack = pack.Item1;
 
@@ -1181,7 +1190,7 @@ namespace ManiacEditor.Interfaces
             }
 
             GameConfig GameConfig = null;
-            GameConfig = EditorInstance.EditorPath.SetandReturnGameConfig();
+            GameConfig = EditorInstance.Paths.SetandReturnGameConfig();
 
             if (GameConfig == null) AllowedToProceed = false;
             if (EditorInstance.DataDirectory == null) AllowedToProceed = false;
@@ -1229,7 +1238,7 @@ namespace ManiacEditor.Interfaces
 
 			LoadFromGameConfig(_GameConfig);
 			if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-				_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+				_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 			ReloadGameConfig();
 		}
 
@@ -1247,7 +1256,7 @@ namespace ManiacEditor.Interfaces
 
 			LoadFromGameConfig(_GameConfig);
 			if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-				_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+				_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 			ReloadGameConfig();
 		}
 
@@ -1320,7 +1329,7 @@ namespace ManiacEditor.Interfaces
 
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+					_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 				ReloadGameConfig();
 			}
 		}
@@ -1343,7 +1352,7 @@ namespace ManiacEditor.Interfaces
 
 				LoadFromGameConfig(_GameConfig);
 				if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-					_GameConfig.Write(EditorInstance.EditorPath.GameConfig_Source);
+					_GameConfig.Write(EditorInstance.Paths.GameConfig_Source);
 				ReloadGameConfig();
 			}
 		}

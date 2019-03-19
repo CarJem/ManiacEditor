@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             var value = entity.attributesMap["type"];
             bool fliph = false;
             bool flipv = false;
-			bool isFBZ = (e.EditorInstance.entities.SetupObject == "FBZSetup" ? true : false);
+			bool isFBZ = (e.EditorInstance.Entities.SetupObject == "FBZSetup" ? true : false);
             int animID = 0;
 
             // Down
@@ -49,10 +49,10 @@ namespace ManiacEditor.Entity_Renders
             bool extra = false;
             count *= 2; // I made all this with an incorrect assumption so here's a cheap fix
             int count2 = count >> 2;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Spikes", d, animID, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Spikes", d, animID, 0, fliph, flipv, false);
             if (isFBZ)
             {
-                editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Spikes", d, animID, -1, fliph, flipv, false);
+                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Spikes", d, animID, -1, fliph, flipv, false);
             }
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -134,7 +134,7 @@ namespace ManiacEditor.Entity_Renders
 
         public void IceDraw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Spikes", d, 0, 0, false, false, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Spikes", d, 0, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

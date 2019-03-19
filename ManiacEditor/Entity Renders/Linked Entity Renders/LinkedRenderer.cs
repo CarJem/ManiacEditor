@@ -163,7 +163,7 @@ namespace ManiacEditor.Entity_Renders
 
             if (EditorInstance != null)
             {
-                if (EditorInstance.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(EditorInstance.entitiesTextFilter))
+                if (EditorInstance.UIModes.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(EditorInstance.UIModes.entitiesTextFilter))
                 {
                     filteredOut = true;
                 }

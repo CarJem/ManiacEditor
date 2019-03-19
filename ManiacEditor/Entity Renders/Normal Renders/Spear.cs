@@ -33,8 +33,8 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Spear", d, animID, 0, fliph, flipv, false);
-            var editorAnimSpear = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Spear", d, animID, 1, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Spear", d, animID, 0, fliph, flipv, false);
+            var editorAnimSpear = e.EditorInstance.EntityDrawing.LoadAnimation2("Spear", d, animID, 1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimSpear != null && editorAnimSpear.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[0];

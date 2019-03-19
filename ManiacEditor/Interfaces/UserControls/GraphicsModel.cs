@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ManiacEditor.Interfaces
 {
-    public partial class EditorGraphicsModel : UserControl, IDrawArea
+    public partial class EditorFormsModel : UserControl, IDrawArea
     {
         public Editor EditorInstance;
         public ManiacEditor.DevicePanel GraphicPanel;
@@ -21,7 +21,7 @@ namespace ManiacEditor.Interfaces
 		public System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar.scroller; }
 		public System.Windows.Controls.Primitives.ScrollBar hScrollBar1 { get => hScrollBar.scroller; }
 
-		public EditorGraphicsModel(Editor instance)
+		public EditorFormsModel(Editor instance)
         {
             EditorInstance = instance;
             InitializeComponent();
@@ -49,8 +49,8 @@ namespace ManiacEditor.Interfaces
 
         public double GetZoom()
         {
-            if (EditorInstance.isExportingImage) return 1;
-            else return EditorInstance.EditorState.Zoom;
+            if (EditorInstance.UIModes.isExportingImage) return 1;
+            else return EditorInstance.StateModel.Zoom;
         }
 
 		public new void Dispose()
@@ -65,8 +65,8 @@ namespace ManiacEditor.Interfaces
 
         public Rectangle GetScreen()
         {
-            if (Settings.mySettings.EntityFreeCam) return new Rectangle(EditorInstance.EditorState.CustomX, EditorInstance.EditorState.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
-            else return new Rectangle((int)EditorInstance.EditorState.ShiftX, (int)EditorInstance.EditorState.ShiftY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            if (Settings.mySettings.EntityFreeCam) return new Rectangle(EditorInstance.StateModel.CustomX, EditorInstance.StateModel.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            else return new Rectangle((int)EditorInstance.StateModel.ShiftX, (int)EditorInstance.StateModel.ShiftY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
         }
 
         public void DisposeTextures()

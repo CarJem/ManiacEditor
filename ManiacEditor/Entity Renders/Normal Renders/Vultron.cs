@@ -44,7 +44,7 @@ namespace ManiacEditor.Entity_Renders
                     fliph = false;
                     break;
             }
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Vultron", d, 0, frameID, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Vultron", d, 0, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

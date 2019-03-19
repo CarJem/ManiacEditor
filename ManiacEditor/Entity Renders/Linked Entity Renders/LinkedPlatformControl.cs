@@ -34,8 +34,8 @@ namespace ManiacEditor.Entity_Renders
                 if (targetID2 >= maximumSlot)
                 {
                     targetID2 = minimumSlot;
-                    var target1 = ObjectInstance.EditorInstance.entities.Entities.Where(e => e.Entity.SlotID == targetID1).First();
-                    var target2 = ObjectInstance.EditorInstance.entities.Entities.Where(e => e.Entity.SlotID == targetID2).First();
+                    var target1 = ObjectInstance.EditorInstance.Entities.Entities.Where(e => e.Entity.SlotID == targetID1).First();
+                    var target2 = ObjectInstance.EditorInstance.Entities.Entities.Where(e => e.Entity.SlotID == targetID2).First();
 
                     NodePoints.Add(new Tuple<EditorEntity, EditorEntity>(target1, target2));
                 }
@@ -56,7 +56,7 @@ namespace ManiacEditor.Entity_Renders
                 int targetID = currentTargetSlotID;
 
 
-                var target1 = ObjectInstance.EditorInstance.entities.Entities.Where(e => e.Entity.SlotID == targetID).First();
+                var target1 = ObjectInstance.EditorInstance.Entities.Entities.Where(e => e.Entity.SlotID == targetID).First();
 
                 ChildPoints.Add(target1);
                 currentTargetSlotID = currentTargetSlotID + 1;
@@ -70,7 +70,7 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var tagged = ObjectInstance.EditorInstance.entities.Entities.Where(e => e.Entity.AttributeExists("tag", RSDKv5.AttributeTypes.UINT8));
+            var tagged = ObjectInstance.EditorInstance.Entities.Entities.Where(e => e.Entity.AttributeExists("tag", RSDKv5.AttributeTypes.UINT8));
             var triggers = tagged.Where(e => e.Entity.GetAttribute("tag").ValueUInt8 == ControlTag);
 
             if (triggers != null && triggers.Any())

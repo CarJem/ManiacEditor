@@ -289,9 +289,9 @@ namespace ManiacEditor
 
 		public void RemoveChunk(int index)
 		{
-			EditorInstance.EditorChunk.StageStamps.StampList.RemoveAt(index);
+			EditorInstance.Chunks.StageStamps.StampList.RemoveAt(index);
 			ChunkList.Images.Clear();
-			EditorInstance.EditorChunk.DisposeTextures();
+			EditorInstance.Chunks.DisposeTextures();
 			if (index != 0) ChunkList.SelectedIndex = index--;
 			else ChunkList.SelectedIndex = -1;
 
@@ -302,7 +302,7 @@ namespace ManiacEditor
 
 		public void DuplicateChunk(int index)
 		{
-			EditorInstance.EditorChunk.StageStamps.StampList.Add(EditorInstance.EditorChunk.StageStamps.StampList[index]);
+			EditorInstance.Chunks.StageStamps.StampList.Add(EditorInstance.Chunks.StageStamps.StampList[index]);
 
 			ChunksReload();
 		}
@@ -344,17 +344,17 @@ namespace ManiacEditor
 		{
 			if (disposing) return;
 			ChunkList.Images.Clear();
-			if (EditorInstance.EditorChunk != null)
+			if (EditorInstance.Chunks != null)
 			{
-				EditorInstance.EditorChunk.DisposeTextures();
+				EditorInstance.Chunks.DisposeTextures();
 
 				int indexStorage = ChunkList.SelectedIndex;
 				ChunkList.SelectedIndex = -1;
-				if (EditorInstance.EditorChunk.StageStamps != null)
+				if (EditorInstance.Chunks.StageStamps != null)
 				{
-					for (int i = 0; i < EditorInstance.EditorChunk.StageStamps.StampList.Count; i++)
+					for (int i = 0; i < EditorInstance.Chunks.StageStamps.StampList.Count; i++)
 					{
-						ChunkList.Images.Add(EditorInstance.EditorChunk.GetChunkTexture(i));
+						ChunkList.Images.Add(EditorInstance.Chunks.GetChunkTexture(i));
 					}
 					ChunkList.SelectedIndex = indexStorage;
 				}
@@ -457,7 +457,7 @@ namespace ManiacEditor
 		}
 		public void RefreshTileSelected()
 		{
-			EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + EditorInstance.ToolbarSelectedTile;
+			EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + EditorInstance.UIModes.ToolbarSelectedTile;
 		}
 
 		private void tabControl1_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
@@ -509,22 +509,22 @@ namespace ManiacEditor
 		{
 			try
 			{
-				if (EditorInstance.EditorChunk.StageStamps?.loadstate == Stamps.LoadState.Upgrade)
+				if (EditorInstance.Chunks.StageStamps?.loadstate == Stamps.LoadState.Upgrade)
 				{
 					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 					if (result == MessageBoxResult.Yes)
 					{
-						EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.EditorPath.Stamps_Source);
+						EditorInstance.Chunks.StageStamps?.Write(EditorInstance.Paths.Stamps_Source);
 					}
 				}
 				else
 				{
-					EditorInstance.EditorChunk.StageStamps?.Write(EditorInstance.EditorPath.Stamps_Source);
+					EditorInstance.Chunks.StageStamps?.Write(EditorInstance.Paths.Stamps_Source);
 				}
 			}
 			catch (Exception ex)
 			{
-				EditorInstance.ShowError($@"Failed to save StageStamps to file '{EditorInstance.EditorPath.Stamps_Source}'
+				EditorInstance.ShowError($@"Failed to save StageStamps to file '{EditorInstance.Paths.Stamps_Source}'
 Error: {ex.Message}");
 			}
 
@@ -535,7 +535,7 @@ Error: {ex.Message}");
         {
             if (EditorInstance.EditLayerA != null && EditorInstance.EditLayerB != null)
             {
-                EditorInstance.EditorChunk.AutoGenerateChunks(EditorInstance.EditLayerA, EditorInstance.EditLayerB);
+                EditorInstance.Chunks.AutoGenerateChunks(EditorInstance.EditLayerA, EditorInstance.EditLayerB);
                 ChunksReload();
             }
         }

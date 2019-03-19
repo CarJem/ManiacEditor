@@ -428,7 +428,7 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Properties.Settings.Default.WaterColorDefault = colorSelect.Color;
-				EditorInstance.waterColor = colorSelect.Color;
+				EditorInstance.UIModes.waterColor = colorSelect.Color;
 			}
 		}
 

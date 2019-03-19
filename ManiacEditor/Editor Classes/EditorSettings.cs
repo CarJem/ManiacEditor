@@ -198,7 +198,7 @@ namespace ManiacEditor
                 }
 
                 Instance.WindowState = Settings.mySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
-                Instance.GamePath = Settings.mySettings.GamePath;
+                Instance.InGame.GamePath = Settings.mySettings.GamePath;
 
 
                 Instance.RefreshDataDirectories(Settings.mySettings.DataDirectories);
@@ -230,17 +230,17 @@ namespace ManiacEditor
         {
             // These Prefrences are applied on Editor Load
             Instance.editEntitesTransparencyToolStripMenuItem.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
-            Instance.transparentLayersForEditingEntitiesToolStripMenuItem.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
+            Instance.EditEntitiesTransparencyQuickToggle.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
             Instance.UIModes.ApplyEditEntitiesTransparency = Settings.mySettings.EditEntitiesTransparencyDefault;
 
-            Instance.ScrollLocked = Settings.mySettings.ScrollLockEnabledDefault;
+            Instance.UIModes.ScrollLocked = Settings.mySettings.ScrollLockEnabledDefault;
             Instance.statusNAToolStripMenuItem.IsChecked = Settings.mySettings.ScrollLockEnabledDefault;
             Instance.scrollLockButton.IsChecked = Settings.mySettings.ScrollLockEnabledDefault;
 
-            Instance.ScrollDirection = Settings.mySettings.ScrollLockXYDefault;
+            Instance.UIModes.ScrollDirection = Settings.mySettings.ScrollLockXYDefault;
 
-            Instance.xToolStripMenuItem.IsChecked = Instance.ScrollDirection == (int)ScrollDir.X;
-            Instance.yToolStripMenuItem.IsChecked = Instance.ScrollDirection == (int)ScrollDir.Y;
+            Instance.xToolStripMenuItem.IsChecked = Instance.UIModes.ScrollDirection == (int)ScrollDir.X;
+            Instance.yToolStripMenuItem.IsChecked = Instance.UIModes.ScrollDirection == (int)ScrollDir.Y;
 
             Instance.pixelModeButton.IsChecked = Settings.mySettings.EnablePixelModeDefault;
             Instance.pixelModeToolStripMenuItem.IsChecked = Settings.mySettings.EnablePixelModeDefault;
@@ -266,8 +266,8 @@ namespace ManiacEditor
             Instance.showStatsToolStripMenuItem.IsChecked = Settings.mySettings.ShowStatsViewerDefault;
             Instance.useLargeTextToolStripMenuItem.IsChecked = Settings.mySettings.StatsViewerLargeTextDefault;
 
-            Instance.DebugStatsVisibleOnPanel = Settings.mySettings.ShowStatsViewerDefault;
-            Instance.UseLargeDebugStats = Settings.mySettings.StatsViewerLargeTextDefault;
+            Instance.UIModes.DebugStatsVisibleOnPanel = Settings.mySettings.ShowStatsViewerDefault;
+            Instance.UIModes.UseLargeDebugStats = Settings.mySettings.StatsViewerLargeTextDefault;
 
 
 
@@ -278,7 +278,7 @@ namespace ManiacEditor
                     if (item.Tag.ToString() == Settings.mySettings.LangDefault)
                     {
                         item.IsChecked = true;
-                        Instance.CurrentLanguage = item.Tag.ToString();
+                        Instance.UIModes.CurrentLanguage = item.Tag.ToString();
                     }
                 }
 
@@ -334,12 +334,12 @@ namespace ManiacEditor
 
             //Default Enabled Annimation Preferences
             Instance.movingPlatformsObjectsToolStripMenuItem.IsChecked = Settings.mySettings.MovingPlatformsDefault;
-            Instance.MovingPlatformsChecked = Settings.mySettings.MovingPlatformsDefault;
+            Instance.UIModes.MovingPlatformsChecked = Settings.mySettings.MovingPlatformsDefault;
 
             Instance.spriteFramesToolStripMenuItem.IsChecked = Settings.mySettings.AnimatedSpritesDefault;
-            Instance.AnnimationsChecked = Settings.mySettings.AnimatedSpritesDefault;
+            Instance.UIModes.AnnimationsChecked = Settings.mySettings.AnimatedSpritesDefault;
 
-            Instance.waterColor = Settings.mySettings.WaterColorDefault;
+            Instance.UIModes.waterColor = Settings.mySettings.WaterColorDefault;
 
 
 
@@ -358,18 +358,18 @@ namespace ManiacEditor
             Instance.defaultToolStripMenuItem.IsChecked = Settings.mySettings.CollisionColorsDefault == 0;
             Instance.invertedToolStripMenuItem.IsChecked = Settings.mySettings.CollisionColorsDefault == 1;
             Instance.customToolStripMenuItem1.IsChecked = Settings.mySettings.CollisionColorsDefault == 2;
-            Instance.collisionPreset = Settings.mySettings.CollisionColorsDefault;
+            Instance.CollisionPreset = Settings.mySettings.CollisionColorsDefault;
             Instance.RefreshCollisionColours();
 
             if (Settings.mySettings.ScrollLockXYDefault.Equals(ScrollDir.X))
             {
-                Instance.ScrollDirection = (int)ScrollDir.X;
+                Instance.UIModes.ScrollDirection = (int)ScrollDir.X;
                 Instance.UpdateStatusPanel(null, null);
 
             }
             else
             {
-                Instance.ScrollDirection = (int)ScrollDir.Y;
+                Instance.UIModes.ScrollDirection = (int)ScrollDir.Y;
                 Instance.UpdateStatusPanel(null, null);
             }
 

@@ -49,7 +49,7 @@ namespace ManiacEditor.Interfaces
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (EditorInstance.RemoveStageConfigEntriesAllowed)
+            if (EditorInstance.UIModes.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -294,7 +294,7 @@ namespace ManiacEditor.Interfaces
 						objectsToRemove.Entities.Clear(); // ditch instances of the object from the imported level
 						_targetSceneObjects.Remove(objectsToRemove);
 
-						if (EditorInstance.RemoveStageConfigEntriesAllowed)
+						if (EditorInstance.UIModes.RemoveStageConfigEntriesAllowed)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -436,11 +436,11 @@ namespace ManiacEditor.Interfaces
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				EditorInstance.RemoveStageConfigEntriesAllowed = true;
+				EditorInstance.UIModes.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				EditorInstance.RemoveStageConfigEntriesAllowed = false;
+				EditorInstance.UIModes.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 

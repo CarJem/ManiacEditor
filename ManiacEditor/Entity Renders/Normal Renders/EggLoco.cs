@@ -17,16 +17,16 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 1, -1, fliph, flipv, false);
-            var editorAnim3 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 2, -1, fliph, flipv, false);
-            var editorAnim4 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 5, 0, false, false, false);
-            var editorAnim5 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 7, -1, fliph, flipv, false);
-            var editorAnim6 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 6, 0, false, false, false);
-            var editorAnim7 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 3, -1, fliph, flipv, false);
-            var editorAnim8 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 4, -1, fliph, flipv, false);
-            var editorAnim9 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 10, -1, fliph, flipv, false);
-            var editorAnim10 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Train", d, 12, 0, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 1, -1, fliph, flipv, false);
+            var editorAnim3 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 2, -1, fliph, flipv, false);
+            var editorAnim4 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 5, 0, false, false, false);
+            var editorAnim5 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 7, -1, fliph, flipv, false);
+            var editorAnim6 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 6, 0, false, false, false);
+            var editorAnim7 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 3, -1, fliph, flipv, false);
+            var editorAnim8 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 4, -1, fliph, flipv, false);
+            var editorAnim9 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 10, -1, fliph, flipv, false);
+            var editorAnim10 = e.EditorInstance.EntityDrawing.LoadAnimation2("Train", d, 12, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0 && editorAnim10 != null && editorAnim10.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

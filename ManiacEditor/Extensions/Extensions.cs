@@ -22,6 +22,7 @@ namespace ManiacEditor
 {
     public static class Extensions
     {
+        public static bool Invert(this bool val) { return !val; }
         public static void EnableButtonList(object[] allItems)
         {
             foreach (var item in allItems)
@@ -250,7 +251,9 @@ namespace ManiacEditor
 			this.Mode = BindingMode.TwoWay;
 		}
 	}
-	public static class ButtonHelper
+
+
+    public static class ButtonHelper
 	{
 		// Boilerplate code to register attached property "bool? DialogResult"
 		public static bool? GetDialogResult(DependencyObject obj) { return (bool?)obj.GetValue(DialogResultProperty); }

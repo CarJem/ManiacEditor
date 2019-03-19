@@ -413,12 +413,13 @@
     <Compile Include="Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Editor Classes\EditorLaunch.cs" />
     <Compile Include="Editor Classes\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
-    <Compile Include="Editor Classes\EditorCore.cs" />
+    <Compile Include="Editor Classes\EditorInit.cs" />
     <Compile Include="Editor Classes\EditorManiacINI.cs" />
-    <Compile Include="Editor Classes\EditorDirectories.cs" />
+    <Compile Include="Editor Classes\EditorDataPacks.cs" />
     <Compile Include="Editor Classes\EditorDiscordRP.cs" />
     <Compile Include="Editor Classes\EditorFindReplace.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
@@ -430,7 +431,7 @@
     <Compile Include="Editor Classes\EditorTiles.cs" />
     <Compile Include="Editor Classes\EditorUI.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
-    <Compile Include="Editor Classes\EditorViewModel.cs" />
+    <Compile Include="Editor Classes\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedButton.cs" />
@@ -895,7 +896,7 @@
     <Compile Include="Enums + Shorthandings\DuplicateAction.cs" />
     <Compile Include="Editor Classes\EditorAnimations.cs" />
     <Compile Include="Editor Classes\EditorBackground.cs" />
-    <Compile Include="Editor Classes\EditorEntityFramework.cs" />
+    <Compile Include="Editor Classes\EditorEntityDrawing.cs" />
     <Compile Include="Editor Classes\EditorScene.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZRockPile.cs">

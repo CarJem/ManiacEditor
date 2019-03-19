@@ -30,8 +30,8 @@ namespace ManiacEditor.Entity_Renders
                         break;
 
                 }
-                var editorAnimBox = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
-                var editorAnimEffect = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ItemBox", d, 2, (int)value.ValueVar, fliph, flipv, false);
+                var editorAnimBox = e.EditorInstance.EntityDrawing.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
+                var editorAnimEffect = e.EditorInstance.EntityDrawing.LoadAnimation2("ItemBox", d, 2, (int)value.ValueVar, fliph, flipv, false);
                 if (editorAnimBox != null && editorAnimEffect != null && editorAnimEffect.Frames.Count != 0)
                 {
                     var frameBox = editorAnimBox.Frames[0];
@@ -48,8 +48,8 @@ namespace ManiacEditor.Entity_Renders
             var value = (forceType == -1 ? 0 : forceType);
             bool fliph = false;
             bool flipv = false;
-            var editorAnimBox = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
-            var editorAnimEffect = e.EditorInstance.EditorEntity_ini.LoadAnimation2("ItemBox", d, 2, (int)value, fliph, flipv, false);
+            var editorAnimBox = e.EditorInstance.EntityDrawing.LoadAnimation2("ItemBox", d, 0, 0, fliph, flipv, false);
+            var editorAnimEffect = e.EditorInstance.EntityDrawing.LoadAnimation2("ItemBox", d, 2, (int)value, fliph, flipv, false);
             if (editorAnimBox != null)
             {
                 var frameBox = editorAnimBox.Frames[0];

@@ -20,8 +20,8 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
             bool mirrorFrames = false;
             int frameID = (int)entity.attributesMap["type"].ValueVar;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Logo", d, frameID, -1, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Logo", d, frameID, -1, true, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Logo", d, frameID, -1, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("Logo", d, frameID, -1, true, flipv, false);
             if (frameID == 1 || frameID == 2 || frameID == 0) mirrorFrames = true;
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

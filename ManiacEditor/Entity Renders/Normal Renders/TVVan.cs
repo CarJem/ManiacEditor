@@ -73,19 +73,19 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 0, -1, true, flipv, false);
-            var editorAnim10 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 0, 9, fliph, flipv, false);
-            var editorAnim11 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 3, 3, fliph, flipv, false);
-            var editorAnim12 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 4, 3, fliph, flipv, false);
-            var editorAnim13 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, fliph, flipv, false);
-            var editorAnim14 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 1, fliph, flipv, false);
-            var editorAnim15 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 2, fliph, flipv, false);
-            var editorAnim16 = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 15, -1, fliph, flipv, false);
-            var normalSataliteReversedHV = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, true, true, false);
-            var normalSataliteReversedV = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, false, true, false);
-            var normalSataliteReversedH = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 0, true, false, false);
-            var downwardsSatalite = e.EditorInstance.EditorEntity_ini.LoadAnimation2("TVVan", d, 6, 1, fliph, true, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 0, -1, fliph, flipv, false);
+            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 0, -1, true, flipv, false);
+            var editorAnim10 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 0, 9, fliph, flipv, false);
+            var editorAnim11 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 3, 3, fliph, flipv, false);
+            var editorAnim12 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 4, 3, fliph, flipv, false);
+            var editorAnim13 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 6, 0, fliph, flipv, false);
+            var editorAnim14 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 6, 1, fliph, flipv, false);
+            var editorAnim15 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 6, 2, fliph, flipv, false);
+            var editorAnim16 = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 15, -1, fliph, flipv, false);
+            var normalSataliteReversedHV = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 6, 0, true, true, false);
+            var normalSataliteReversedV = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 6, 0, false, true, false);
+            var normalSataliteReversedH = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 6, 0, true, false, false);
+            var downwardsSatalite = e.EditorInstance.EntityDrawing.LoadAnimation2("TVVan", d, 6, 1, fliph, true, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

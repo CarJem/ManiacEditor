@@ -432,7 +432,7 @@ namespace ManiacEditor.Interfaces
 		{
 			if (EditorInstance.TilesClipboard != null)
 			{
-				EditorInstance.EditorChunk.ConvertClipboardtoMultiLayerChunk(EditorInstance.TilesClipboard.Item1, EditorInstance.TilesClipboard.Item2);
+				EditorInstance.Chunks.ConvertClipboardtoMultiLayerChunk(EditorInstance.TilesClipboard.Item1, EditorInstance.TilesClipboard.Item2);
 
 				EditorInstance.TilesToolbar?.ChunksReload();
 			}
@@ -440,22 +440,22 @@ namespace ManiacEditor.Interfaces
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (EditorInstance.mainform == null || EditorInstance.mainform.IsClosed) EditorInstance.mainform = new TileManiac.MainWindow();
-			if (EditorInstance.mainform.Visibility != System.Windows.Visibility.Visible)
+			if (EditorInstance.TileManiacInstance == null || EditorInstance.TileManiacInstance.IsClosed) EditorInstance.TileManiacInstance = new TileManiac.MainWindow();
+			if (EditorInstance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
-				EditorInstance.mainform.Show();
+				EditorInstance.TileManiacInstance.Show();
 			}
-			EditorInstance.mainform.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
-			if (EditorInstance.TilesConfig != null && EditorInstance.EditorTiles.StageTiles != null)
+			EditorInstance.TileManiacInstance.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
+			if (EditorInstance.TileConfig != null && EditorInstance.EditorTiles.StageTiles != null)
 			{
-				if (EditorInstance.mainform.Visibility != System.Windows.Visibility.Visible || EditorInstance.mainform.tcf == null)
+				if (EditorInstance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || EditorInstance.TileManiacInstance.tcf == null)
 				{
-					EditorInstance.mainform.LoadTileConfigViaIntergration(EditorInstance.TilesConfig, EditorInstance.EditorPath.SceneFile_Directory, SelectedIndex);
+					EditorInstance.TileManiacInstance.LoadTileConfigViaIntergration(EditorInstance.TileConfig, EditorInstance.Paths.SceneFile_Directory, SelectedIndex);
 				}
 				else
 				{
-					EditorInstance.mainform.SetCollisionIndex(SelectedIndex);
-					EditorInstance.mainform.Activate();
+					EditorInstance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
+					EditorInstance.TileManiacInstance.Activate();
 				}
 
 			}

@@ -16,7 +16,7 @@ namespace ManiacEditor
 
         public EditorLayer LowDetails
         {
-            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.INILayerNameLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.UIModes.INILayerNameLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
         }
         public EditorLayer ForegroundLow
         {
@@ -36,7 +36,7 @@ namespace ManiacEditor
 
         public EditorLayer HighDetails
         {
-            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.INILayerNameHigher) || el.Name.Equals(Properties.Settings.Default.CustomLayerHigh) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.UIModes.INILayerNameHigher) || el.Name.Equals(Properties.Settings.Default.CustomLayerHigh) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
         }
 
         

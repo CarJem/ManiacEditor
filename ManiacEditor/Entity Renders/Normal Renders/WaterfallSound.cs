@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorIcons2", d, 0, 6, fliph, flipv, false);
+            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 6, fliph, flipv, false);
             var width = (int)(entity.attributesMap["size"].ValuePosition.X.High*2 - 1);
             var height = (int)(entity.attributesMap["size"].ValuePosition.Y.High*2 - 1);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -53,7 +53,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];

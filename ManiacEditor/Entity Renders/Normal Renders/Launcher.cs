@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-                var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2("Platform", d, 1, 4, fliph, flipv, false);
+                var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Platform", d, 1, 4, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[0];
