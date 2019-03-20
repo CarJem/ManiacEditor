@@ -68,7 +68,7 @@ namespace ManiacEditor
 
                 Instance.Entities = new EditorEntities(Instance.EditorScene, Instance);
 
-                Instance.SetViewSize((int)(Instance.SceneWidth * Instance.StateModel.Zoom), (int)(Instance.SceneHeight * Instance.StateModel.Zoom));
+                Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * Instance.StateModel.Zoom), (int)(Instance.SceneHeight * Instance.StateModel.Zoom));
 
                 Instance.UI.UpdateControls(true);
             }
@@ -481,7 +481,7 @@ namespace ManiacEditor
                 Instance.UpdateStartScreen(false);
                 Instance.UpdateDataFolderLabel(null, null);
                 Instance.SetupLayerButtons();
-                Instance.SetViewSize((int)(Instance.SceneWidth * Instance.StateModel.Zoom), (int)(Instance.SceneHeight * Instance.StateModel.Zoom));
+                Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * Instance.StateModel.Zoom), (int)(Instance.SceneHeight * Instance.StateModel.Zoom));
                 Instance.UI.UpdateControls(true);
             }
             catch (Exception ex)

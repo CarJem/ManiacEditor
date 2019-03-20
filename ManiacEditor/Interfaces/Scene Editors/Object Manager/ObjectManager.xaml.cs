@@ -486,7 +486,7 @@ namespace ManiacEditor.Interfaces
 
 		private void importSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{			
-			EditorInstance.ImportSoundsToolStripMenuItem_Click(sender, null, GetWindow(this));
+			EditorInstance.ImportSoundsEvent(sender, null, GetWindow(this));
 			ReloadList();
 		}
 	}

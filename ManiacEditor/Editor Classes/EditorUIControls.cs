@@ -119,12 +119,12 @@ namespace ManiacEditor
 			// Scroll Lock Toggle
 			else if (isCombo(e, myKeyBinds.ScrollLock))
             {
-                Editor.ToggleScrollLockEvent(sender, null);
+                Editor.UIModes.ScrollLocked ^= true;
             }
             // Switch Scroll Lock Type
             else if (isCombo(e, myKeyBinds.ScrollLockTypeSwitch))
             {
-                Editor.SwapScrollLockDirectionToolStripMenuItem_Click(sender, null);
+                Editor.UIEvents.SetScrollLockDirection();
 
             }
 			// Tiles Toolbar Flip Vertical
@@ -142,11 +142,11 @@ namespace ManiacEditor
             // Open Click (Alt: Open Data Dir)
             else if ((isCombo(e, myKeyBinds.OpenDataDir)))
             {
-                Editor.OpenDataDirectory(null, null);
+                Editor.OpenDataDirectoryEvent(null, null);
             }
             else if ((isCombo(e, myKeyBinds.Open)))
 			{
-                Editor.OpenScene(null, null);
+                Editor.OpenSceneEvent(null, null);
             }
             // New Click
             else if (isCombo(e, myKeyBinds.New))
@@ -156,11 +156,11 @@ namespace ManiacEditor
             // Save Click (Alt: Save As)
             else if (isCombo(e, myKeyBinds.SaveAs))
             {
-                Editor.SaveSceneAs(null, null);
+                Editor.SaveSceneAsEvent(null, null);
             }
             else if (isCombo(e, myKeyBinds._Save))
             {
-                Editor.SaveScene(null, null);
+                Editor.SaveSceneEvent(null, null);
             }          
 			// Undo
 			else if (isCombo(e, myKeyBinds.Undo))
@@ -198,7 +198,7 @@ namespace ManiacEditor
             // Reset Zoom Level
             if (isCombo(e, myKeyBinds.ResetZoomLevel))
 			{
-				Editor.SetZoomLevel(0, new Point(0, 0));
+				Editor.ZoomModel.SetZoomLevel(0, new Point(0, 0));
 			}
 			//Refresh Tiles and Sprites
 			else if (isCombo(e, myKeyBinds.RefreshResources))
@@ -223,12 +223,12 @@ namespace ManiacEditor
 			//Unload Scene
 			else if (isCombo(e, myKeyBinds.UnloadScene))
 			{
-				Editor.UnloadSceneToolStripMenuItem_Click(null, null);
+				Editor.UnloadSceneEvent(null, null);
 			}
 			//Toggle Grid Visibility
 			else if (isCombo(e, myKeyBinds.ShowGrid))
 			{
-				Editor.ShowGridButton_Click(null, null);
+				Editor.ToggleGridEvent(null, null);
 			}
 			//Toggle Tile ID Visibility
 			else if (isCombo(e, myKeyBinds.ShowTileID))
@@ -238,7 +238,7 @@ namespace ManiacEditor
 			//Refresh Tiles and Sprites
 			else if (isCombo(e, myKeyBinds.StatusBoxToggle))
 			{
-				Editor.statsToolStripMenuItem_Click(null, null);
+				Editor.ToggleDebugHUDEvent(null, null);
 			}
 		}
 
@@ -247,17 +247,17 @@ namespace ManiacEditor
 			//Paste
 			if (isCombo(e, myKeyBinds.Paste))
 			{
-                Editor.PasteToolStripMenuItem_Click(sender, null);
+                Editor.PasteEvent(sender, null);
             }
 			//Paste to Chunk
 			if (isCombo(e, myKeyBinds.PasteToChunk))
 			{
-				Editor.chunkToolStripMenuItem_Click(sender, null);
+				Editor.PasteToChunksEvent(sender, null);
 			}
 			//Select All
 			if (isCombo(e, myKeyBinds.SelectAll))
 			{
-                Editor.SelectAllToolStripMenuItem_Click(sender, null);
+                Editor.SelectAllEvent(sender, null);
             }
             // Selected Key Shortcuts   
             if (IsSelected())
@@ -283,35 +283,35 @@ namespace ManiacEditor
 			//Cut 
 			if (isCombo(e, myKeyBinds.Cut))
 			{
-				Editor.CutToolStripMenuItem_Click(sender, null);
+				Editor.CutEvent(sender, null);
 			}
 			//Copy
 			else if (isCombo(e, myKeyBinds.Copy))
 			{
-				Editor.CopyToolStripMenuItem_Click(sender, null);
+				Editor.CopyEvent(sender, null);
 			}
 			//Duplicate
 			else if (isCombo(e, myKeyBinds.Duplicate))
 			{
-				Editor.DuplicateToolStripMenuItem_Click(sender, null);
+				Editor.DuplicateEvent(sender, null);
 			}
 			// Flip Vertical Individual
 			else if (isCombo(e, myKeyBinds.FlipVIndv))
 			{
 				if (IsTilesEdit())
-					Editor.FlipVerticalIndividualToolStripMenuItem_Click(sender, null);
+					Editor.FlipVerticalIndividualEvent(sender, null);
 			}
 			// Flip Horizontal Individual
 			else if (isCombo(e, myKeyBinds.FlipHIndv))
 			{
 				if (IsTilesEdit())
-					Editor.FlipHorizontalIndividualToolStripMenuItem_Click(sender, null);
+					Editor.FlipHorizontalIndividualEvent(sender, null);
 			}
 			// Flip Vertical
 			else if (isCombo(e, myKeyBinds.FlipV))
 			{
 				if (IsTilesEdit())
-					Editor.FlipVerticalToolStripMenuItem_Click(sender, null);
+					Editor.FlipVerticalEvent(sender, null);
 				else if (IsEntitiesEdit())
 					Editor.FlipEntities(FlipDirection.Veritcal);
 			}
@@ -320,7 +320,7 @@ namespace ManiacEditor
 			else if (isCombo(e, myKeyBinds.FlipH))
 			{
 				if (IsTilesEdit())
-					Editor.FlipHorizontalToolStripMenuItem_Click(sender, null);
+					Editor.FlipHorizontalEvent(sender, null);
 				else if (IsEntitiesEdit())
 					Editor.FlipEntities(FlipDirection.Horizontal);
 			}
@@ -739,7 +739,6 @@ namespace ManiacEditor
 		public void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			if (ForceUpdateMousePos) UpdateScrollerPosition(e);
-			if (Editor.UIModes.InstanceID != -1 && !Editor.UIModes.KickStartMegaManiacRenderLoopFinished) Editor.UIModes.KickStartMegaManiacRenderLoop = true;
             if (scrolling || scrollingDragged || draggingSelection || dragged) Editor.FormsModel.GraphicPanel.Render();
 
             Common();
@@ -826,7 +825,7 @@ namespace ManiacEditor
 						//EditLayer.Select(clicked_point, ShiftPressed || CtrlPressed, CtrlPressed);
 						if (!ShiftPressed() && !CtrlPressed())
 							Editor.Deselect();
-                        Editor.UpdateEditLayerActions();
+                        Editor.UI.UpdateEditLayerActions();
 
 						draggingSelection = true;
 						selectingX = ClickedX;
@@ -839,7 +838,7 @@ namespace ManiacEditor
 					// Start drag selection
 					if (!ShiftPressed() && !CtrlPressed())
 						Editor.Deselect();
-					Editor.UpdateEditLayerActions();
+					Editor.UI.UpdateEditLayerActions();
 
 					draggingSelection = true;
 					selectingX = ClickedX;
@@ -1144,7 +1143,7 @@ namespace ManiacEditor
 							Editor.EditLayerA?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
 							Editor.EditLayerB?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
 
-							Editor.UpdateTilesOptions();
+							Editor.UI.UpdateTilesOptions();
 						}
 					}
 					void Normal()
@@ -1168,7 +1167,7 @@ namespace ManiacEditor
 							Editor.EditLayerA?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
 							Editor.EditLayerB?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
 
-							Editor.UpdateTilesOptions();
+							Editor.UI.UpdateTilesOptions();
 
 							if (IsEntitiesEdit()) Editor.Entities.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
 						}
@@ -1176,10 +1175,10 @@ namespace ManiacEditor
 				}
 				void DragMoveItems()
 				{
-					int oldGridX = (int)((lastX / Zoom) / Editor.UIModes.magnetSize) * Editor.UIModes.magnetSize;
-					int oldGridY = (int)((lastY / Zoom) / Editor.UIModes.magnetSize) * Editor.UIModes.magnetSize;
-					int newGridX = (int)((e.X / Zoom) / Editor.UIModes.magnetSize) * Editor.UIModes.magnetSize;
-					int newGridY = (int)((e.Y / Zoom) / Editor.UIModes.magnetSize) * Editor.UIModes.magnetSize;
+					int oldGridX = (int)((lastX / Zoom) / Editor.UIModes.MagnetSize) * Editor.UIModes.MagnetSize;
+					int oldGridY = (int)((lastY / Zoom) / Editor.UIModes.MagnetSize) * Editor.UIModes.MagnetSize;
+					int newGridX = (int)((e.X / Zoom) / Editor.UIModes.MagnetSize) * Editor.UIModes.MagnetSize;
+					int newGridY = (int)((e.Y / Zoom) / Editor.UIModes.MagnetSize) * Editor.UIModes.MagnetSize;
 					Point oldPointGrid = new Point(0, 0);
 					Point newPointGrid = new Point(0, 0);
 					if (Editor.UIModes.UseMagnetMode && IsEntitiesEdit())
@@ -1212,7 +1211,7 @@ namespace ManiacEditor
 					Editor.EditLayerA?.MoveSelected(oldPoint, newPoint, CtrlPressed());
 					Editor.EditLayerB?.MoveSelected(oldPoint, newPoint, CtrlPressed());
 
-					Editor.UpdateEditLayerActions();
+					Editor.UI.UpdateEditLayerActions();
 					if (IsEntitiesEdit())
 					{
 						if (Editor.UIModes.UseMagnetMode)
@@ -1220,14 +1219,14 @@ namespace ManiacEditor
 							int x = Editor.Entities.SelectedEntities[0].Entity.Position.X.High;
 							int y = Editor.Entities.SelectedEntities[0].Entity.Position.Y.High;
 
-							if (x % Editor.UIModes.magnetSize != 0 && Editor.UIModes.UseMagnetXAxis)
+							if (x % Editor.UIModes.MagnetSize != 0 && Editor.UIModes.UseMagnetXAxis)
 							{
-								int offsetX = x % Editor.UIModes.magnetSize;
+								int offsetX = x % Editor.UIModes.MagnetSize;
 								oldPointGrid.X -= offsetX;
 							}
-							if (y % Editor.UIModes.magnetSize != 0 && Editor.UIModes.UseMagnetYAxis)
+							if (y % Editor.UIModes.MagnetSize != 0 && Editor.UIModes.UseMagnetYAxis)
 							{
-								int offsetY = y % Editor.UIModes.magnetSize;
+								int offsetY = y % Editor.UIModes.MagnetSize;
 								oldPointGrid.Y -= offsetY;
 							}
 						}
@@ -1264,7 +1263,7 @@ namespace ManiacEditor
 						}
 						if (CtrlPressed() && Editor.StateModel.startDragged)
 						{
-							Editor.UpdateEntitiesToolbarList();
+							Editor.UI.UpdateEntitiesToolbarList();
 							Editor.UI.SetSelectOnlyButtonsState();
 						}
 						Editor.EntitiesToolbar.UpdateCurrentEntityProperites();
@@ -1328,7 +1327,7 @@ namespace ManiacEditor
 
 							if (IsEntitiesEdit()) Editor.Entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.UI.SetSelectOnlyButtonsState();
-							Editor.UpdateEditLayerActions();
+							Editor.UI.UpdateEditLayerActions();
 
 						}
 						draggingSelection = false;
@@ -1359,7 +1358,7 @@ namespace ManiacEditor
 
 							if (IsEntitiesEdit()) Editor.Entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.UI.SetSelectOnlyButtonsState();
-							Editor.UpdateEditLayerActions();
+							Editor.UI.UpdateEditLayerActions();
 
 						}
 						draggingSelection = false;
@@ -1392,7 +1391,7 @@ namespace ManiacEditor
 						{
 							Editor.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-							Editor.UpdateEditLayerActions();
+							Editor.UI.UpdateEditLayerActions();
 						}
 						void ChunksEdit()
 						{
@@ -1400,7 +1399,7 @@ namespace ManiacEditor
 							Point clicked_chunk = new Point(chunk_point.X * 128, chunk_point.Y * 128);
 							Editor.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.EditLayerB?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
-							Editor.UpdateEditLayerActions();
+							Editor.UI.UpdateEditLayerActions();
 						}
 						void EntitiesEdit()
 						{
@@ -1472,7 +1471,7 @@ namespace ManiacEditor
 				if (ZoomLevel > maxZoom) ZoomLevel = maxZoom;
 				if (ZoomLevel < minZoom) ZoomLevel = minZoom;
 
-				Editor.SetZoomLevel(ZoomLevel, new Point(e.X - ShiftX, e.Y - ShiftY));
+				Editor.ZoomModel.SetZoomLevel(ZoomLevel, new Point(e.X - ShiftX, e.Y - ShiftY));
 			}
 			void NoCtrl()
 			{
@@ -1687,7 +1686,7 @@ namespace ManiacEditor
 			Editor.deleteToolStripMenuItem.InputGestureText = KeyBindPraser("Delete");
 			Editor.statusNAToolStripMenuItem.InputGestureText = KeyBindPraser("ScrollLock");
 			Editor.nudgeSelectionFasterToolStripMenuItem.InputGestureText = KeyBindPraser("NudgeFaster", false, true);
-			Editor.swapScrollLockDirectionToolStripMenuItem.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
+			Editor.QuickSwapScrollDirection.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
 			Editor.swapScrollLockDirMenuToolstripButton.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
 			Editor.resetZoomLevelToolstripMenuItem.InputGestureText = KeyBindPraser("ResetZoomLevel");
 			Editor.unloadSceneToolStripMenuItem.InputGestureText = KeyBindPraser("UnloadScene", false, true);

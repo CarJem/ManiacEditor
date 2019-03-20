@@ -451,15 +451,6 @@ namespace ManiacEditor
 			}
 		}
 
-		private void trackBar1_Scroll(object sender, EventArgs e)
-		{
-
-		}
-		public void RefreshTileSelected()
-		{
-			EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + EditorInstance.UIModes.ToolbarSelectedTile;
-		}
-
 		private void tabControl1_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (e.Source is TabControl)
@@ -478,17 +469,6 @@ namespace ManiacEditor
 				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
 				TileChunkOptionsMenu.IsEnabled = false;
 			}
-
-		}
-
-		private void TilesToolbar_Resize(object sender, EventArgs e)
-		{
-
-
-		}
-
-		private void selectedTileLabel_Click(object sender, EventArgs e)
-		{
 
 		}
 

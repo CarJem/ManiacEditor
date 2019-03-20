@@ -194,7 +194,7 @@ namespace ManiacEditor
             {
                 ManiacINIClassicSettings.TryGetValue("EncoreACTFile", out value);
                 value = value.Replace("\"", "");
-                Instance.SetEncorePallete(null, value);
+                Instance.SetEncorePalleteEvent(null, value);
             }
             if (ManiacINIClassicSettings.ContainsKey("CustomMenuFontText"))
             {

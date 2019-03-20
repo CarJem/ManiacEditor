@@ -73,26 +73,9 @@ namespace ManiacEditor
             SetEditButtonsState(enabled);
             UpdateTooltips();
 
-            if (Settings.mySettings.preRenderSceneOption == 3 && enabled && stageLoad)
-            {
-                Editor.PreLoadSceneButton_Click(null, null);
-            }
-            else if (Settings.mySettings.preRenderSceneOption == 2 && enabled && stageLoad)
-            {
-                MessageBoxResult result = RSDKrU.MessageBox.Show("Do you wish to Pre-Render this scene?", "Requesting to Pre-Render the Scene", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                if (result == MessageBoxResult.Yes)
-                {
-                    Editor.PreLoadSceneButton_Click(null, null);
-                }
-            }
-            else if (Settings.mySettings.preRenderSceneOption == 1 && Editor.UIModes.PreRenderSceneSelectCheckbox && enabled && stageLoad)
-            {
-                Editor.PreLoadSceneButton_Click(null, null);
-            }
-
             if (stageLoad)
             {
-                Editor.SetViewSize((int)(Editor.SceneWidth * Editor.StateModel.Zoom), (int)(Editor.SceneHeight * Editor.StateModel.Zoom));
+                Editor.ZoomModel.SetViewSize((int)(Editor.SceneWidth * Editor.StateModel.Zoom), (int)(Editor.SceneHeight * Editor.StateModel.Zoom));
             }
 
             Editor.Theming.UpdateButtonColors();
@@ -293,12 +276,12 @@ namespace ManiacEditor
                     Editor.ToolBarPanelRight.Children.Clear();
                     Editor.ToolBarPanelRight.Children.Add(Editor.TilesToolbar);
                     UpdateToolbars(true, true);
-                    Editor.Form1_Resize(null, null);
+                    Editor.Editor_Resize(null, null);
                     Editor.Focus();
                 }
                 if (Editor.IsChunksEdit()) Editor.TilesToolbar.TabControl.TabIndex = 1;
                 else Editor.TilesToolbar.TabControl.TabIndex = 0;
-                Editor.UpdateTilesOptions();
+                Editor.UI.UpdateTilesOptions();
                 Editor.TilesToolbar.ShowShortcuts = Editor.PlaceTilesButton.IsChecked.Value;
             }
             else
@@ -338,9 +321,9 @@ namespace ManiacEditor
                     Editor.ToolBarPanelRight.Children.Clear();
                     Editor.ToolBarPanelRight.Children.Add(Editor.EntitiesToolbar);
                     UpdateToolbars(true, true);
-                    Editor.Form1_Resize(null, null);
+                    Editor.Editor_Resize(null, null);
                 }
-                Editor.UpdateEntitiesToolbarList();
+                Editor.UI.UpdateEntitiesToolbarList();
                 Editor.EntitiesToolbar.SelectedEntities = Editor.Entities.SelectedEntities.Select(x => x.Entity).ToList();
             }
             else
@@ -365,7 +348,7 @@ namespace ManiacEditor
             {
                 Editor.ToolBarPanelRight.Children.Clear();
                 UpdateToolbars(true, false);
-                Editor.Form1_Resize(null, null);
+                Editor.Editor_Resize(null, null);
             }
 
             SetSelectOnlyButtonsState(enabled);
@@ -374,7 +357,163 @@ namespace ManiacEditor
 
         #endregion
 
-        #region Updating Element Event
+        #region Updating Elements Methods
+        public void ToggleEditorButtons(bool enabled)
+        {
+            Editor.MenuBar.IsEnabled = enabled;
+            Editor.LayerToolbar.IsEnabled = enabled;
+            Editor.MainToolbarButtons.IsEnabled = enabled;
+            Editor.UI.SetSceneOnlyButtonsState((enabled ? true : Editor.EditorScene != null));
+            Editor.LayerToolbar.IsEnabled = enabled;
+            Editor.StatusBar1.IsEnabled = enabled;
+            Editor.StatusBar2.IsEnabled = enabled;
+            if (Editor.TilesToolbar != null) Editor.TilesToolbar.IsEnabled = enabled;
+            if (Editor.EntitiesToolbar != null) Editor.EntitiesToolbar.IsEnabled = enabled;
+        }
+        public void UpdateStatusPanel()
+        {
+            //
+            // Tooltip Bar Info 
+            //
+
+            Editor._levelIDLabel.Content = "Level ID: " + Editor.UIModes.LevelID.ToString();
+            Editor.seperator1.Visibility = Visibility.Visible;
+            Editor.seperator2.Visibility = Visibility.Visible;
+            Editor.seperator3.Visibility = Visibility.Visible;
+            Editor.seperator4.Visibility = Visibility.Visible;
+            Editor.seperator5.Visibility = Visibility.Visible;
+            Editor.seperator6.Visibility = Visibility.Visible;
+            Editor.seperator7.Visibility = Visibility.Visible;
+            //seperator8.Visibility = Visibility.Visible;
+            //seperator9.Visibility = Visibility.Visible;
+
+            if (Editor.UIModes.EnablePixelCountMode == false)
+            {
+                Editor.selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Editor.StateModel.SelectedTileX + ", Y: " + (int)Editor.StateModel.SelectedTileY;
+                Editor.selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
+            }
+            else
+            {
+                Editor.selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Editor.StateModel.SelectedTileX * 16 + ", Y: " + (int)Editor.StateModel.SelectedTileY * 16;
+                Editor.selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
+            }
+            if (Editor.UIModes.EnablePixelCountMode == false)
+            {
+                Editor.selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Editor.StateModel.SelectedTilesCount - Editor.StateModel.DeselectTilesCount);
+                Editor.selectionSizeLabel.ToolTip = "The Size of the Selection";
+            }
+            else
+            {
+                Editor.selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Editor.StateModel.SelectedTilesCount - Editor.StateModel.DeselectTilesCount) * 16;
+                Editor.selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
+            }
+
+            Editor.selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Editor.StateModel.select_x2 - Editor.StateModel.select_x1) + ", Y: " + (Editor.StateModel.select_y2 - Editor.StateModel.select_y1);
+
+            Editor.scrollLockDirLabel.Content = "Scroll Direction: " + (Editor.UIModes.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (Editor.UIModes.ScrollLocked ? " (Locked)" : "");
+
+
+            Editor.hVScrollBarXYLabel.Content = "Zoom Value: " + Editor.StateModel.Zoom.ToString();
+
+            if (EditorUIModes.UpdateUpdaterMessage)
+            {
+                if (Editor.StartScreen != null) Editor.StartScreen.UpdateStatusLabel(Editor.Updater.condition, Editor.Updater);
+                EditorUIModes.UpdateUpdaterMessage = false;
+            }
+
+            //
+            // End of Tooltip Bar Info Section
+            //
+        }
+        public void UpdateTilesOptions()
+        {
+            if (Editor.IsTilesEdit() && !Editor.IsChunksEdit())
+            {
+                if (Editor.TilesToolbar != null)
+                {
+                    List<ushort> values = Editor.EditLayerA?.GetSelectedValues();
+                    List<ushort> valuesB = Editor.EditLayerB?.GetSelectedValues();
+                    if (valuesB != null) values.AddRange(valuesB);
+
+                    if (values.Count > 0)
+                    {
+                        for (int i = 0; i < 4; ++i)
+                        {
+                            bool set = ((values[0] & (1 << (i + 12))) != 0);
+                            bool unk = false;
+                            foreach (ushort value in values)
+                            {
+                                if (set != ((value & (1 << (i + 12))) != 0))
+                                {
+                                    unk = true;
+                                    break;
+                                }
+                            }
+                            Editor.TilesToolbar.SetTileOptionState(i, unk ? TilesToolbar.TileOptionState.Indeterminate : set ? TilesToolbar.TileOptionState.Checked : TilesToolbar.TileOptionState.Unchcked);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 4; ++i)
+                            Editor.TilesToolbar.SetTileOptionState(i, TilesToolbar.TileOptionState.Disabled);
+                    }
+                }
+
+            }
+        }
+        public void UpdateEntitiesToolbarList()
+        {
+            Editor.EntitiesToolbar.Entities = Editor.Entities.Entities.Select(x => x.Entity).ToList();
+        }
+        public void UpdateEditLayerActions()
+        {
+            if (Editor.EditLayerA != null)
+            {
+                List<IAction> actions = Editor.EditLayerA?.Actions;
+                if (actions.Count > 0) Editor.RedoStack.Clear();
+                while (actions.Count > 0)
+                {
+                    bool create_new = false;
+                    if (Editor.UndoStack.Count == 0 || !(Editor.UndoStack.Peek() is ActionsGroup))
+                    {
+                        create_new = true;
+                    }
+                    else
+                    {
+                        create_new = (Editor.UndoStack.Peek() as ActionsGroup).IsClosed;
+                    }
+                    if (create_new)
+                    {
+                        Editor.UndoStack.Push(new ActionsGroup());
+                    }
+                    (Editor.UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
+                    actions.RemoveAt(0);
+                }
+            }
+            if (Editor.EditLayerB != null)
+            {
+                List<IAction> actions = Editor.EditLayerB?.Actions;
+                if (actions.Count > 0) Editor.RedoStack.Clear();
+                while (actions.Count > 0)
+                {
+                    bool create_new = false;
+                    if (Editor.UndoStack.Count == 0 || !(Editor.UndoStack.Peek() is ActionsGroup))
+                    {
+                        create_new = true;
+                    }
+                    else
+                    {
+                        create_new = (Editor.UndoStack.Peek() as ActionsGroup).IsClosed;
+                    }
+                    if (create_new)
+                    {
+                        Editor.UndoStack.Push(new ActionsGroup());
+                    }
+                    (Editor.UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
+                    actions.RemoveAt(0);
+                }
+            }
+        }
         public void UpdateToolbars(bool rightToolbar = true, bool visible = false)
         {
             if (rightToolbar)
@@ -447,6 +586,8 @@ namespace ManiacEditor
                 Editor.FormsModel.vScrollBar1.IsEnabled = true;
                 Editor.FormsModel.hScrollBar1.IsEnabled = true;
             }
+
+            UpdateStatusPanel();
             SetSceneOnlyButtonsState(Editor.EditorScene != null, stageLoad);
         }
         public void UpdateGameRunningButton(bool enabled = true)

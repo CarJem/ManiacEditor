@@ -90,7 +90,7 @@ namespace ManiacEditor
             }
         }
 
-        public void Form1_Resize(object sender, RoutedEventArgs e)
+        public void Resize(object sender, RoutedEventArgs e)
         {
             
             // TODO: It hides right now few pixels at the edge
@@ -136,9 +136,9 @@ namespace ManiacEditor
             }
 
             while (Editor.StateModel.ScreenWidth > Editor.FormsModel.GraphicPanel.Width)
-                Editor.ResizeGraphicPanel(Editor.FormsModel.GraphicPanel.Width * 2, Editor.FormsModel.GraphicPanel.Height);
+                ResizeGraphicPanel(Editor.FormsModel.GraphicPanel.Width * 2, Editor.FormsModel.GraphicPanel.Height);
             while (Editor.StateModel.ScreenHeight > Editor.FormsModel.GraphicPanel.Height)
-                Editor.ResizeGraphicPanel(Editor.FormsModel.GraphicPanel.Width, Editor.FormsModel.GraphicPanel.Height * 2);
+                ResizeGraphicPanel(Editor.FormsModel.GraphicPanel.Width, Editor.FormsModel.GraphicPanel.Height * 2);
         }
 
         public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true)
@@ -155,7 +155,7 @@ namespace ManiacEditor
             Editor.FormsModel.GraphicPanel.DrawWidth = Math.Min((int)width, Editor.FormsModel.GraphicPanel.Width);
             Editor.FormsModel.GraphicPanel.DrawHeight = Math.Min((int)height, Editor.FormsModel.GraphicPanel.Height);
 
-            if (resizeForm) Form1_Resize(null, null);
+            if (resizeForm) Resize(null, null);
 
             if (!Settings.mySettings.EntityFreeCam)
             {

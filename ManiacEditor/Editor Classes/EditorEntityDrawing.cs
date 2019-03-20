@@ -1125,12 +1125,8 @@ namespace ManiacEditor
 			}
             catch (Exception ex)
             {
-				if (!EditorInstance.UIModes.isPreRending)
-				{
-					MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
-					rendersWithErrors.Add(entity.Object.Name.Name);
-				}
-
+                MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
+                rendersWithErrors.Add(entity.Object.Name.Name);
             }
 
 

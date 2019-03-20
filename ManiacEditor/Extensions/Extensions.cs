@@ -22,7 +22,6 @@ namespace ManiacEditor
 {
     public static class Extensions
     {
-        public static bool Invert(this bool val) { return !val; }
         public static void EnableButtonList(object[] allItems)
         {
             foreach (var item in allItems)

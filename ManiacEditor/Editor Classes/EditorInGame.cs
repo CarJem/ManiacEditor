@@ -167,6 +167,7 @@ namespace ManiacEditor
                     return i;
             return -1;
         }
+
         public bool PlayerContainsPoint(Point point, int player)
         {
             return GetDimensions(player).Contains(point);
@@ -635,6 +636,70 @@ namespace ManiacEditor
             if (Settings.mySettings.EnableDebugMode) Editor.GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug
             if (Settings.mySettings.EnableDevMenu) Editor.GameMemory.WriteByte(EnableDevMenu[GameVersion.IndexOf(SelectedGameVersion)], EnableDevMenu_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Allow DevMenu
             if (Settings.mySettings.DisableBackgroundPausing) Editor.GameMemory.WriteByte(DisableBackgroundPausing[GameVersion.IndexOf(SelectedGameVersion)], DisableBackgroundPausing_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Disable Background Pausing
+        }
+
+
+        #endregion
+
+
+        #region Editor Events
+
+        public void MoveThePlayerToHere()
+        {
+            if (Editor.InGame.GameRunning)
+            {
+                int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
+                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Editor.StateModel.lastX / Editor.StateModel.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Editor.StateModel.lastY / Editor.StateModel.Zoom));
+            }
+        }
+
+        public void SetPlayerRespawnToHere()
+        {
+            Point clicked_point = new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom), (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom));
+            if (GameRunning)
+            {
+                UpdateCheckpoint(clicked_point);
+            }
+        }
+
+        public void TrackthePlayer(object sender, System.Windows.RoutedEventArgs e)
+        {
+            System.Windows.Controls.MenuItem item = sender as System.Windows.Controls.MenuItem;
+            if (item != null)
+            {
+
+                if (!item.IsChecked)
+                {
+                    UncheckAllPlayers();
+                    item.IsChecked = true;
+                    int.TryParse(item.Tag.ToString(), out int player);
+                    Editor.UIModes.PlayerBeingTracked = player;
+                }
+                else
+                {
+                    item.IsChecked = false;
+                    Editor.UIModes.PlayerBeingTracked = -1;
+                }
+
+
+            }
+            void UncheckAllPlayers()
+            {
+                Editor.trackP1ToolStripMenuItem.IsChecked = false;
+                Editor.trackP2ToolStripMenuItem.IsChecked = false;
+                Editor.trackP3ToolStripMenuItem.IsChecked = false;
+                Editor.trackP4ToolStripMenuItem.IsChecked = false;
+            }
+        }
+
+        public void UpdateRunSceneDropdown()
+        {
+            Editor.trackThePlayerToolStripMenuItem.IsEnabled = GameRunning;
+            Editor.assetResetToolStripMenuItem1.IsEnabled = GameRunning;
+            Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
+            Editor.restartSceneToolStripMenuItem1.IsEnabled = GameRunning;
+            Editor.selectConfigToolStripMenuItem.IsEnabled = !GameRunning;
         }
 
 

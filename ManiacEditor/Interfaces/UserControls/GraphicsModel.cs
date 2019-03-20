@@ -49,8 +49,7 @@ namespace ManiacEditor.Interfaces
 
         public double GetZoom()
         {
-            if (EditorInstance.UIModes.isExportingImage) return 1;
-            else return EditorInstance.StateModel.Zoom;
+            return EditorInstance.StateModel.Zoom;
         }
 
 		public new void Dispose()

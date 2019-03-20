@@ -16,7 +16,6 @@ namespace ManiacEditor
         public const int TILE_SIZE = 16;
         public const int BOX_SIZE = 8;
         public const int TILE_BOX_SIZE = 1;
-        public static int GRID_TILE_SIZE = 16;
         public const int x128_CHUNK_SIZE = 128;
     }
 }

@@ -337,7 +337,7 @@ namespace ManiacEditor
         }
         public int GetTransparencyLevel()
         {
-            return (EditorInstance.EditLayerA == null || EditorInstance.UIModes.isExportingImage) ? 0xff : 0x32;
+            return (EditorInstance.EditLayerA == null) ? 0xff : 0x32;
         }
         public int GetChildX()
         {
@@ -357,11 +357,11 @@ namespace ManiacEditor
 		}
 		public virtual void DrawBoxOnly(DevicePanel d)
 		{
-			int Transparency = (EditorInstance.EditLayerA == null || EditorInstance.UIModes.isExportingImage) ? 0xff : 0x32;
+			int Transparency = (EditorInstance.EditLayerA == null) ? 0xff : 0x32;
 			int x = entity.Position.X.High;
 			int y = entity.Position.Y.High;
 
-			if (filteredOut && !EditorInstance.UIModes.isPreRending) return;
+			if (filteredOut) return;
 
             System.Drawing.Color color = GetBoxInsideColor();
             System.Drawing.Color color2 = GetFilterBoxColor();

@@ -93,12 +93,12 @@ namespace ManiacEditor.Interfaces
 
 		private void linkLabel4_LinkClicked(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.AboutToolStripMenuItem_Click(null, null);
+			EditorInstance.AboutScreenEvent(null, null);
 		}
 
 		private void linkLabel5_LinkClicked(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.OptionToolStripMenuItem_Click(null, null);
+			EditorInstance.OptionsMenuEvent(null, null);
 		}
 
 		private void linkLabel6_LinkClicked(object sender, RoutedEventArgs e)

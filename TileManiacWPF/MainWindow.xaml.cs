@@ -290,13 +290,12 @@ namespace TileManiac
 
 		public void LoadTileConfigViaIntergration(TileConfig tilesConfig, string scenePath, int selectedTile = 0)
 		{
-
 			indexedImagedLoaded = false;
 			curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
 			//tcf = tilesConfig;
 			//tcfBak = tilesConfig;
-			tcf = new TileConfig(Path.Combine(scenePath).ToString());
-			tcfBak = new TileConfig(Path.Combine(scenePath).ToString());
+			tcf = new TileConfig(Path.Combine(scenePath));
+			tcfBak = new TileConfig(Path.Combine(scenePath));
 			string tileBitmapPath = Path.Combine(Path.GetDirectoryName(scenePath), "16x16tiles.gif"); // get the path to the stage's tileset
 			LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
 			bitmappath = tileBitmapPath;

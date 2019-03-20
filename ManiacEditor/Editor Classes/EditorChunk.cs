@@ -170,7 +170,7 @@ namespace ManiacEditor
         public void AutoGenerateChunks(EditorLayer LayerA, EditorLayer LayerB)
         {
             EditorInstance.UI.UpdateWaitingScreen(true);
-            EditorInstance.ToggleEditorButtons(false);
+            EditorInstance.UI.ToggleEditorButtons(false);
 
             System.Threading.Thread thread = new System.Threading.Thread(() => {
                 int width = (LayerA.Width > LayerB.Width ? LayerA.Width : LayerB.Width);
@@ -207,7 +207,7 @@ namespace ManiacEditor
                     }
                 }
                 EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.UpdateWaitingScreen(false)));
-                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.ToggleEditorButtons(true)));
+                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.ToggleEditorButtons(true)));
 
             })
             { IsBackground = true };
@@ -292,7 +292,7 @@ namespace ManiacEditor
 
 			EditLayerA?.PasteFromClipboard(TileCoord, ConvertedChunkA);
 			EditLayerB?.PasteFromClipboard(TileCoord, ConvertedChunkB);
-			EditorInstance.UpdateEditLayerActions();
+			EditorInstance.UI.UpdateEditLayerActions();
 			EditLayerA?.Deselect();
 			EditLayerB?.Deselect();
 		}

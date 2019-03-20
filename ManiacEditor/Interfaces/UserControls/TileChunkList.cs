@@ -126,20 +126,24 @@ namespace ManiacEditor.Interfaces
         {
             try
             {
-                switch (Direction)
+                if (hScrollBar1 != null && vScrollBar1 != null)
                 {
-                    case Direction.Horizontal:
-                        int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / (imageHeight + 4), 1);
-                        hScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerCol) * (imageWidth + 4)) - Width, 0);
-                        hScrollBar1.SmallChange = hScrollBar1.LargeChange = imageHeight + 4;
-                        break;
-                    case Direction.Vertical:
-                        int tilesPerRow = (int)Math.Max((Width - vScrollBar1.Width) / (imageWidth + 4), 1);
-                        vScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerRow) * (imageHeight + 4)) - Height, 0);
-                        vScrollBar1.SmallChange = vScrollBar1.LargeChange = imageWidth + 4;
-                        break;
+                    switch (Direction)
+                    {
+                        case Direction.Horizontal:
+                            int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / (imageHeight + 4), 1);
+                            hScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerCol) * (imageWidth + 4)) - Width, 0);
+                            hScrollBar1.SmallChange = hScrollBar1.LargeChange = imageHeight + 4;
+                            break;
+                        case Direction.Vertical:
+                            int tilesPerRow = (int)Math.Max((Width - vScrollBar1.Width) / (imageWidth + 4), 1);
+                            vScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerRow) * (imageHeight + 4)) - Height, 0);
+                            vScrollBar1.SmallChange = vScrollBar1.LargeChange = imageWidth + 4;
+                            break;
+                    }
                 }
                 Invalidate();
+
             }
             catch (Exception ex) {
                 throw ex;
@@ -387,24 +391,27 @@ namespace ManiacEditor.Interfaces
             ChangeSize();
             int actualImageWidth = imageWidth + 4;
             int actualImageHeight = imageHeight + 4;
-            switch (Direction)
+            if (vScrollBar1 != null && hScrollBar1 != null)
             {
-                case Direction.Horizontal:
-                    int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / actualImageHeight, 1);
-                    int x = ((SelectedIndex / tilesPerCol) * actualImageWidth) - hScrollBar1.Value;
-                    if (x < 0)
-                        hScrollBar1.Value += x;
-                    if (x + actualImageWidth > Width)
-                        hScrollBar1.Value += (x + actualImageWidth) - Width;
-                    break;
-                case Direction.Vertical:
-                    int tilesPerRow = Math.Max((Width - (int)vScrollBar1.Width) / actualImageWidth, 1);
-                    int y = ((SelectedIndex / tilesPerRow) * actualImageHeight) - (int)vScrollBar1.Value;
-                    if (y < 0)
-                        vScrollBar1.Value += y;
-                    if (y + actualImageHeight > Height)
-                        vScrollBar1.Value += (y + actualImageHeight) - Height;
-					break;
+                switch (Direction)
+                {
+                    case Direction.Horizontal:
+                        int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / actualImageHeight, 1);
+                        int x = ((SelectedIndex / tilesPerCol) * actualImageWidth) - hScrollBar1.Value;
+                        if (x < 0)
+                            hScrollBar1.Value += x;
+                        if (x + actualImageWidth > Width)
+                            hScrollBar1.Value += (x + actualImageWidth) - Width;
+                        break;
+                    case Direction.Vertical:
+                        int tilesPerRow = Math.Max((Width - (int)vScrollBar1.Width) / actualImageWidth, 1);
+                        int y = ((SelectedIndex / tilesPerRow) * actualImageHeight) - (int)vScrollBar1.Value;
+                        if (y < 0)
+                            vScrollBar1.Value += y;
+                        if (y + actualImageHeight > Height)
+                            vScrollBar1.Value += (y + actualImageHeight) - Height;
+                        break;
+                }
             }
 
 		}
@@ -450,7 +457,7 @@ namespace ManiacEditor.Interfaces
 			{
 				if (EditorInstance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || EditorInstance.TileManiacInstance.tcf == null)
 				{
-					EditorInstance.TileManiacInstance.LoadTileConfigViaIntergration(EditorInstance.TileConfig, EditorInstance.Paths.SceneFile_Directory, SelectedIndex);
+					EditorInstance.TileManiacInstance.LoadTileConfigViaIntergration(EditorInstance.TileConfig, EditorInstance.Paths.TileConfig_Source, SelectedIndex);
 				}
 				else
 				{

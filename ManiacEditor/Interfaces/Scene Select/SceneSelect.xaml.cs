@@ -537,7 +537,7 @@ namespace ManiacEditor.Interfaces
 
 		private void Close()
 		{
-            if (!EditorInstance.UIModes.importingObjects && withinAParentForm)
+            if (!EditorInstance.UIModes.isImportingObjects && withinAParentForm)
             {
                 EditorInstance.FileHandler.OpenSceneUsingExistingSceneSelect(this);
             }
@@ -911,7 +911,7 @@ namespace ManiacEditor.Interfaces
 
 		private void load_Click(object sender, RoutedEventArgs e)
 		{
-            if (EditorInstance.UIModes.importingObjects == true)
+            if (EditorInstance.UIModes.isImportingObjects == true)
             {
                 MessageBox.Show("You can't do that while importing objects!");
             }
@@ -992,7 +992,7 @@ namespace ManiacEditor.Interfaces
 
 		private void dataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (EditorInstance.UIModes.importingObjects == false)
+			if (EditorInstance.UIModes.isImportingObjects == false)
 			{
 				string newDataDirectory = EditorInstance.GetDataDirectory();
 				string returnDataDirectory;

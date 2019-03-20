@@ -229,42 +229,26 @@ namespace ManiacEditor
         public void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            Instance.editEntitesTransparencyToolStripMenuItem.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
-            Instance.EditEntitiesTransparencyQuickToggle.IsChecked = Settings.mySettings.EditEntitiesTransparencyDefault;
             Instance.UIModes.ApplyEditEntitiesTransparency = Settings.mySettings.EditEntitiesTransparencyDefault;
 
             Instance.UIModes.ScrollLocked = Settings.mySettings.ScrollLockEnabledDefault;
-            Instance.statusNAToolStripMenuItem.IsChecked = Settings.mySettings.ScrollLockEnabledDefault;
-            Instance.scrollLockButton.IsChecked = Settings.mySettings.ScrollLockEnabledDefault;
-
             Instance.UIModes.ScrollDirection = Settings.mySettings.ScrollLockXYDefault;
 
             Instance.xToolStripMenuItem.IsChecked = Instance.UIModes.ScrollDirection == (int)ScrollDir.X;
             Instance.yToolStripMenuItem.IsChecked = Instance.UIModes.ScrollDirection == (int)ScrollDir.Y;
 
-            Instance.pixelModeButton.IsChecked = Settings.mySettings.EnablePixelModeDefault;
-            Instance.pixelModeToolStripMenuItem.IsChecked = Settings.mySettings.EnablePixelModeDefault;
             Instance.UIModes.EnablePixelCountMode = Settings.mySettings.EnablePixelModeDefault;
 
-            Instance.showEntityPathArrowsToolstripItem.IsChecked = Settings.mySettings.ShowEntityArrowPathsDefault;
             Instance.UIModes.ShowEntityPathArrows = Settings.mySettings.ShowEntityArrowPathsDefault;
 
-            Instance.showWaterLevelToolStripMenuItem.IsChecked = Settings.mySettings.showWaterLevelDefault;
             Instance.UIModes.ShowWaterLevel = Settings.mySettings.showWaterLevelDefault;
             Instance.UIModes.AlwaysShowWaterLevel = Settings.mySettings.AlwaysShowWaterLevelDefault;
             Instance.UIModes.SizeWaterLevelwithBounds = Settings.mySettings.SizeWaterLevelWithBoundsDefault;
-            Instance.waterLevelAlwaysShowItem.IsChecked = Settings.mySettings.AlwaysShowWaterLevelDefault;
-            Instance.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = Settings.mySettings.SizeWaterLevelWithBoundsDefault;
 
-            Instance.showParallaxSpritesToolStripMenuItem.IsChecked = Settings.mySettings.ShowFullParallaxEntityRenderDefault;
             Instance.UIModes.ShowParallaxSprites = Settings.mySettings.ShowFullParallaxEntityRenderDefault;
-            Instance.prioritizedViewingToolStripMenuItem.IsChecked = Settings.mySettings.PrioritizedObjectRendering;
+            Instance.UIModes.PrioritizedEntityViewing = Settings.mySettings.PrioritizedObjectRendering;
 
             Instance.UIModes.ShowEntitySelectionBoxes = Settings.mySettings.ShowEntitySelectionBoxesDefault;
-            Instance.showEntitySelectionBoxesToolStripMenuItem.IsChecked = Settings.mySettings.ShowEntitySelectionBoxesDefault;
-
-            Instance.showStatsToolStripMenuItem.IsChecked = Settings.mySettings.ShowStatsViewerDefault;
-            Instance.useLargeTextToolStripMenuItem.IsChecked = Settings.mySettings.StatsViewerLargeTextDefault;
 
             Instance.UIModes.DebugStatsVisibleOnPanel = Settings.mySettings.ShowStatsViewerDefault;
             Instance.UIModes.UseLargeDebugStats = Settings.mySettings.StatsViewerLargeTextDefault;
@@ -273,6 +257,17 @@ namespace ManiacEditor
 
             var allLangItems = Instance.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
+                if (item != null)
+                {
+                    if (item.Tag.ToString() == Settings.mySettings.LangDefault)
+                    {
+                        item.IsChecked = true;
+                        Instance.UIModes.CurrentLanguage = item.Tag.ToString();
+                    }
+                }
+
+            var allLangItems2 = Instance.menuLanguageToolStripMenuItem2.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            foreach (var item in allLangItems2)
                 if (item != null)
                 {
                     if (item.Tag.ToString() == Settings.mySettings.LangDefault)
@@ -292,7 +287,7 @@ namespace ManiacEditor
                     if (item.Tag.ToString() == Settings.mySettings.ButtonLayoutDefault && !endSearch)
                     {
                         item.IsChecked = true;
-                        Instance.SetMenuButtons(item.Tag.ToString());
+                        Instance.MenuButtonChangedEvent(item.Tag.ToString());
                         endSearch = true;
                     }
                     var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
@@ -303,7 +298,35 @@ namespace ManiacEditor
                             if (subItem.Tag.ToString() == Settings.mySettings.ButtonLayoutDefault && !endSearch)
                             {
                                 subItem.IsChecked = true;
-                                Instance.SetMenuButtons(subItem.Tag.ToString());
+                                Instance.MenuButtonChangedEvent(subItem.Tag.ToString());
+                                endSearch = true;
+                            }
+                        }
+                    }
+                }
+
+            }
+            endSearch = false;
+            var allButtonItems2 = Instance.menuButtonsToolStripMenuItem2.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            foreach (var item in allButtonItems2)
+            {
+                if (item.Tag != null)
+                {
+                    if (item.Tag.ToString() == Settings.mySettings.ButtonLayoutDefault && !endSearch)
+                    {
+                        item.IsChecked = true;
+                        Instance.MenuButtonChangedEvent(item.Tag.ToString());
+                        endSearch = true;
+                    }
+                    var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                    foreach (var subItem in allSubButtonItems)
+                    {
+                        if (subItem.Tag != null)
+                        {
+                            if (subItem.Tag.ToString() == Settings.mySettings.ButtonLayoutDefault && !endSearch)
+                            {
+                                subItem.IsChecked = true;
+                                Instance.MenuButtonChangedEvent(subItem.Tag.ToString());
                                 endSearch = true;
                             }
                         }
@@ -345,32 +368,32 @@ namespace ManiacEditor
 
 
             //Default Grid Preferences
-            if (!Settings.mySettings.x16Default) Instance.x16ToolStripMenuItem.IsChecked = false;
-            else Instance.x16ToolStripMenuItem.IsChecked = true;
-            if (!Settings.mySettings.x128Default) Instance.x128ToolStripMenuItem.IsChecked = false;
-            else Instance.x128ToolStripMenuItem.IsChecked = true;
-            if (!Settings.mySettings.x256Default) Instance.x256ToolStripMenuItem.IsChecked = false;
-            else Instance.x256ToolStripMenuItem.IsChecked = true;
-            if (!Settings.mySettings.CustomGridDefault) Instance.customToolStripMenuItem.IsChecked = false;
-            else Instance.customToolStripMenuItem.IsChecked = true;
+            if (!Settings.mySettings.x16Default) Instance.Grid16x16SizeMenuItem.IsChecked = false;
+            else Instance.Grid16x16SizeMenuItem.IsChecked = true;
+            if (!Settings.mySettings.x128Default) Instance.Grid128x128SizeMenuItem.IsChecked = false;
+            else Instance.Grid128x128SizeMenuItem.IsChecked = true;
+            if (!Settings.mySettings.x256Default) Instance.Grid256x256SizeMenuItem.IsChecked = false;
+            else Instance.Grid256x256SizeMenuItem.IsChecked = true;
+            if (!Settings.mySettings.CustomGridDefault) Instance.GridCustomSizeMenuItem.IsChecked = false;
+            else Instance.GridCustomSizeMenuItem.IsChecked = true;
 
             //Collision Color Presets
             Instance.defaultToolStripMenuItem.IsChecked = Settings.mySettings.CollisionColorsDefault == 0;
             Instance.invertedToolStripMenuItem.IsChecked = Settings.mySettings.CollisionColorsDefault == 1;
             Instance.customToolStripMenuItem1.IsChecked = Settings.mySettings.CollisionColorsDefault == 2;
-            Instance.CollisionPreset = Settings.mySettings.CollisionColorsDefault;
+            Instance.UIModes.CollisionPreset = Settings.mySettings.CollisionColorsDefault;
             Instance.RefreshCollisionColours();
 
             if (Settings.mySettings.ScrollLockXYDefault.Equals(ScrollDir.X))
             {
                 Instance.UIModes.ScrollDirection = (int)ScrollDir.X;
-                Instance.UpdateStatusPanel(null, null);
+                Instance.UI.UpdateStatusPanel();
 
             }
             else
             {
                 Instance.UIModes.ScrollDirection = (int)ScrollDir.Y;
-                Instance.UpdateStatusPanel(null, null);
+                Instance.UI.UpdateStatusPanel();
             }
 
         }
