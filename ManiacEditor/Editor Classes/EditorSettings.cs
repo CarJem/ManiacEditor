@@ -28,10 +28,18 @@ namespace ManiacEditor
 
         public static void exportSettings()
         {
+            var properties = Properties.Settings.Default.Properties;
+            IniData ini = new IniData();
             foreach (SettingsProperty currentProperty in Properties.Settings.Default.Properties)
             {
-                //Properties.Settings.Default[currentProperty.Name]
+                string name = (currentProperty.Name != null ? currentProperty.Name : "");
+                var section = new SectionData(name);
+                section.Keys.AddKey(currentProperty.PropertyType.ToString(), currentProperty.DefaultValue.ToString());
+                ini.Sections.Add(section);
             }
+            IniParser.FileIniDataParser praser = new FileIniDataParser();
+            praser.WriteFile(Path.Combine(Environment.CurrentDirectory, "ExportedSettings.ini"), ini);
+
         }
         public static void importSettings()
         {

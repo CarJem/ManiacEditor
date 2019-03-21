@@ -3848,7 +3848,7 @@
                     </GroupBox>
                     <StackPanel Margin="0,0,10,10" Width="186" Height="115" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                         <Button IsEnabled="False" Content="Import Settings" Height="20" Width="170" Margin="0,4"></Button>
-                        <Button IsEnabled="False" Content="Export Settings"  Height="20" Width="170" Margin="0,4"></Button>
+                        <Button IsEnabled="False" Content="Export Settings"  Height="20" Width="170" Margin="0,4" Click="button5_Click"></Button>
                         <Button Content="Reset Settings to Default" Click="ResetSettingsToDefault"  Height="20" Width="170" Margin="0,4"></Button>
                         <Button Content="Reset Controls to Default" Click="ResetControlsToDefault"  Height="20" Width="170" Margin="0,4"></Button>
                     </StackPanel>
