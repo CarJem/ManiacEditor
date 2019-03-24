@@ -27,7 +27,7 @@ namespace ManiacEditor
         Texture[] ChunksTextures;
 
         public PointsMap SelectedTiles;
-        
+
         public Dictionary<Point, ushort> SelectedTilesValue = new Dictionary<Point, ushort>();
 
         public PointsMap TempSelectionTiles;
@@ -44,7 +44,7 @@ namespace ManiacEditor
         {
             get
             {
-                
+
                 string internalName = _layer.Name;
                 return internalName?.TrimEnd('\0');
             }
@@ -58,25 +58,25 @@ namespace ManiacEditor
         }
 
         public byte Behaviour
-		{
+        {
             get => _layer.Behaviour;
             set => _layer.Behaviour = value;
         }
 
         public byte DrawingOrder
-		{
+        {
             get => _layer.DrawingOrder;
             set => _layer.DrawingOrder = value;
         }
 
         public short RelativeSpeed
-		{
+        {
             get => _layer.RelativeSpeed;
             set => _layer.RelativeSpeed = value;
         }
 
         public short ConstantSpeed
-		{
+        {
             get => _layer.ConstantSpeed;
             set => _layer.ConstantSpeed = value;
         }
@@ -97,6 +97,8 @@ namespace ManiacEditor
         {
             return (number + by - 1) / by;
         }
+
+
 
         public class PointsMap
         {
@@ -127,7 +129,7 @@ namespace ManiacEditor
                 h.Add(point);
                 Count += h.Count;
             }
-            
+
             public void Remove(Point point)
             {
                 HashSet<Point> h;
@@ -167,7 +169,7 @@ namespace ManiacEditor
                 return PointsChunks[y][x];
             }
 
-			public List<Point> PopAll()
+            public List<Point> PopAll()
             {
                 List<Point> points = GetAll();
                 Clear();
@@ -233,7 +235,7 @@ namespace ManiacEditor
                 var currentRule = _layer.ScrollingInfo[currentValue];
                 var currentCount = 0;
                 var start = i;
-                while (   i < ruleMapCount 
+                while (i < ruleMapCount
                        && currentValue == _layer.ScrollIndexes[i])
                 {
                     ++currentCount;
@@ -382,29 +384,51 @@ namespace ManiacEditor
             }
         }
 
-		public Point GetChunkCoordinates(int x, int y)
-		{
-			Point ChunkCoordinate = new Point();
-			if (x != 0) ChunkCoordinate.X = x / 128;
-			else ChunkCoordinate.X = 0;
-			if (y != 0) ChunkCoordinate.Y = y / 128;
-			else ChunkCoordinate.Y = 0;
+        public static Point GetChunkCoordinatesTopEdge(int x, int y)
+        {
+            Point ChunkCoordinate = new Point();
+            if (x != 0) ChunkCoordinate.X = x / 128;
+            else ChunkCoordinate.X = 0;
+            if (y != 0) ChunkCoordinate.Y = y / 128;
+            else ChunkCoordinate.Y = 0;
 
-			return ChunkCoordinate;
-		}
+            return new Point(ChunkCoordinate.X * 128, ChunkCoordinate.Y * 128);
+        }
 
-		public Point GetChunkCoordinates(double x, double y)
-		{
-			Point ChunkCoordinate = new Point();
-			if (x != 0) ChunkCoordinate.X = (int)(x / 128);
-			else ChunkCoordinate.X = 0;
-			if (y != 0) ChunkCoordinate.Y = (int)(y / 128);
-			else ChunkCoordinate.Y = 0;
+        public static Point GetChunkCoordinatesBottomEdge(int x, int y)
+        {
+            Point ChunkCoordinate = new Point();
+            if (x != 0) ChunkCoordinate.X = x / 128;
+            else ChunkCoordinate.X = 0;
+            if (y != 0) ChunkCoordinate.Y = y / 128;
+            else ChunkCoordinate.Y = 0;
 
-			return ChunkCoordinate;
-		}
+            return new Point((ChunkCoordinate.X * 128) + 16 * 8, (ChunkCoordinate.Y * 128) + 16 * 8);
+        }
 
-		public void MoveSelectedQuonta(Point change)
+        public static Point GetChunkCoordinates(int x, int y)
+        {
+            Point ChunkCoordinate = new Point();
+            if (x != 0) ChunkCoordinate.X = x / 128;
+            else ChunkCoordinate.X = 0;
+            if (y != 0) ChunkCoordinate.Y = y / 128;
+            else ChunkCoordinate.Y = 0;
+
+            return ChunkCoordinate;
+        }
+
+        public static Point GetChunkCoordinates(double x, double y)
+        {
+            Point ChunkCoordinate = new Point();
+            if (x != 0) ChunkCoordinate.X = (int)(x / 128);
+            else ChunkCoordinate.X = 0;
+            if (y != 0) ChunkCoordinate.Y = (int)(y / 128);
+            else ChunkCoordinate.Y = 0;
+
+            return ChunkCoordinate;
+        }
+
+        public void MoveSelectedQuonta(Point change)
         {
             MoveSelected(Point.Empty, new Point(change.X * EditorConstants.TILE_SIZE, change.Y * EditorConstants.TILE_SIZE), false);
         }
@@ -482,7 +506,7 @@ namespace ManiacEditor
             foreach (Point point in points)
             {
                 ushort tileValue = SelectedTilesValue[point];
-                Point newPoint; 
+                Point newPoint;
 
                 if (direction == FlipDirection.Horizontal)
                 {
@@ -555,7 +579,7 @@ namespace ManiacEditor
             if (SelectedTiles.Count == 0) return null;
             int minX = 0, minY = 0;
 
-            Dictionary<Point, ushort> copiedTiles = new Dictionary<Point, ushort>(SelectedTilesValue);;
+            Dictionary<Point, ushort> copiedTiles = new Dictionary<Point, ushort>(SelectedTilesValue); ;
             foreach (Point point in SelectedTiles.GetAll())
             {
                 if (!copiedTiles.ContainsKey(point))
@@ -572,44 +596,44 @@ namespace ManiacEditor
             return copiedTiles.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
         }
 
-		public static Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> CopyMultiSelectionToClipboard(EditorLayer layer1, EditorLayer layer2, bool keepPosition = false)
-		{
-			if (layer1.SelectedTiles.Count == 0 && layer2.SelectedTiles.Count == 0) return null;
-			int minX = 0, minY = 0;
+        public static Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> CopyMultiSelectionToClipboard(EditorLayer layer1, EditorLayer layer2, bool keepPosition = false)
+        {
+            if (layer1.SelectedTiles.Count == 0 && layer2.SelectedTiles.Count == 0) return null;
+            int minX = 0, minY = 0;
 
-			Dictionary<Point, ushort> copiedTilesA = new Dictionary<Point, ushort>(layer1.SelectedTilesValue);
-			Dictionary<Point, ushort> copiedTilesB = new Dictionary<Point, ushort>(layer2.SelectedTilesValue);
-			foreach (Point point in layer1.SelectedTiles.GetAll())
-			{
-				if (!copiedTilesA.ContainsKey(point))
-				{
-					// Not moved yet
-					copiedTilesA[point] = layer1.GetTile(point);
-				}
-			}
-			foreach (Point point in layer2.SelectedTiles.GetAll())
-			{
-				if (!copiedTilesB.ContainsKey(point))
-				{
-					// Not moved yet
-					copiedTilesB[point] = layer2.GetTile(point);
-				}
-			}
-			if (!keepPosition)
-			{
-				int minX_A = (copiedTilesA.Count != 0 ? copiedTilesA.Keys.Min(x => x.X) : 0);
-				int minY_A = (copiedTilesA.Count != 0 ? copiedTilesA.Keys.Min(x => x.Y) : 0);
+            Dictionary<Point, ushort> copiedTilesA = new Dictionary<Point, ushort>(layer1.SelectedTilesValue);
+            Dictionary<Point, ushort> copiedTilesB = new Dictionary<Point, ushort>(layer2.SelectedTilesValue);
+            foreach (Point point in layer1.SelectedTiles.GetAll())
+            {
+                if (!copiedTilesA.ContainsKey(point))
+                {
+                    // Not moved yet
+                    copiedTilesA[point] = layer1.GetTile(point);
+                }
+            }
+            foreach (Point point in layer2.SelectedTiles.GetAll())
+            {
+                if (!copiedTilesB.ContainsKey(point))
+                {
+                    // Not moved yet
+                    copiedTilesB[point] = layer2.GetTile(point);
+                }
+            }
+            if (!keepPosition)
+            {
+                int minX_A = (copiedTilesA.Count != 0 ? copiedTilesA.Keys.Min(x => x.X) : 0);
+                int minY_A = (copiedTilesA.Count != 0 ? copiedTilesA.Keys.Min(x => x.Y) : 0);
                 int minX_B = (copiedTilesB.Count != 0 ? copiedTilesB.Keys.Min(x => x.X) : 0);
                 int minY_B = (copiedTilesB.Count != 0 ? copiedTilesB.Keys.Min(x => x.Y) : 0);
                 minX = Math.Min(minX_A, minX_B);
-				minY = Math.Min(minY_A, minY_B);
-			}
-			copiedTilesA = copiedTilesA.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
-			copiedTilesB = copiedTilesB.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
-			return new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copiedTilesA, copiedTilesB);
-		}
+                minY = Math.Min(minY_A, minY_B);
+            }
+            copiedTilesA = copiedTilesA.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
+            copiedTilesB = copiedTilesB.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
+            return new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copiedTilesA, copiedTilesB);
+        }
 
-		public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points)
+        public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points)
         {
             try
             {
@@ -659,12 +683,12 @@ namespace ManiacEditor
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
                     }
-					else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.UIModes.CopyAir)
-					{ 
-						SelectedTiles.Add(new Point(x, y));
-						RefreshTileCount();
-					}
-				}
+                    else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.UIModes.CopyAir)
+                    {
+                        SelectedTiles.Add(new Point(x, y));
+                        RefreshTileCount();
+                    }
+                }
             }
         }
 
@@ -731,7 +755,7 @@ namespace ManiacEditor
         private ushort GetTile(Point point)
         {
             return _layer.Tiles[point.Y][point.X];
-            
+
         }
 
         private void SetTile(Point point, ushort value, bool addAction = true)
@@ -802,20 +826,20 @@ namespace ManiacEditor
             return 0xffff;
         }
 
-		public ushort GetTileAt(int x, int y)
-		{
-			Point point = new Point(x, y);
-			if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
-			{
-				if (SelectedTilesValue.ContainsKey(point)) return SelectedTilesValue[point];
-				else return _layer.Tiles[point.Y][point.X];
-			}
-			return 0xffff;
-		}
+        public ushort GetTileAt(int x, int y)
+        {
+            Point point = new Point(x, y);
+            if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
+            {
+                if (SelectedTilesValue.ContainsKey(point)) return SelectedTilesValue[point];
+                else return _layer.Tiles[point.Y][point.X];
+            }
+            return 0xffff;
+        }
 
 
 
-		private Rectangle GetChunkArea(int x, int y)
+        private Rectangle GetChunkArea(int x, int y)
         {
             return new Rectangle(x, y, 128, 128);
         }
@@ -835,34 +859,38 @@ namespace ManiacEditor
 
 
         public void DrawTile(DevicePanel d, ushort tile, int x, int y, bool selected, int Transperncy)
-		{
-			if (tile != 0xffff)
-			{
-				ushort TileIndex = (ushort)(tile & 0x3ff);
-				int TileIndexInt = (int)TileIndex;
-				bool flipX = ((tile >> 10) & 1) == 1;
-				bool flipY = ((tile >> 11) & 1) == 1;
-				bool SolidTopA = ((tile >> 12) & 1) == 1;
-				bool SolidLrbA = ((tile >> 13) & 1) == 1;
-				bool SolidTopB = ((tile >> 14) & 1) == 1;
-				bool SolidLrbB = ((tile >> 15) & 1) == 1;
+        {
+            if (tile != 0xffff)
+            {
+                if (TempSelectionDeselectTiles.Contains(new Point(x, y)) && selected)
+                {
+                    selected = false;
+                }
+                ushort TileIndex = (ushort)(tile & 0x3ff);
+                int TileIndexInt = (int)TileIndex;
+                bool flipX = ((tile >> 10) & 1) == 1;
+                bool flipY = ((tile >> 11) & 1) == 1;
+                bool SolidTopA = ((tile >> 12) & 1) == 1;
+                bool SolidLrbA = ((tile >> 13) & 1) == 1;
+                bool SolidTopB = ((tile >> 14) & 1) == 1;
+                bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-				d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
-				x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
+                d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
+                x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
 
-				if (EditorInstance.UIModes.ShowFlippedTileHelper == true)
-				{
-					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
-					x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
-				}
+                if (EditorInstance.UIModes.ShowFlippedTileHelper == true)
+                {
+                    d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.EditorImage.GetTexture(d._device, new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                    x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
+                }
 
-				if (EditorInstance.UIModes.ShowTileID == true)
-				{
-					d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
-					x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
-				}
-			}
-
+                if (EditorInstance.UIModes.ShowTileID == true)
+                {
+                    d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                    x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
+                }
+            }
+            
             if (selected)
             {
                 d.DrawLine(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, System.Drawing.Color.Brown);
@@ -881,36 +909,36 @@ namespace ManiacEditor
             bool SolidLrbA = ((tile >> 13) & 1) == 1;
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
-          
+
             g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                 new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             if (EditorInstance.UIModes.ShowCollisionA == true)
             {
                 if (SolidLrbA || SolidTopA)
                 {
-					//Get a bitmap of the collision
-					Bitmap cm = EditorInstance.CollisionLayerA[TileIndex].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
+                    //Get a bitmap of the collision
+                    Bitmap cm = EditorInstance.CollisionLayerA[TileIndex].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
 
-					System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
-					System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
-					System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
+                    System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
+                    System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
+                    System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
 
-					if (SolidTopA && SolidLrbA)
-					{
-						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
-					}
+                    if (SolidTopA && SolidLrbA)
+                    {
+                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
+                    }
 
-					if (SolidTopA && !SolidLrbA)
-					{
-						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
-					}
+                    if (SolidTopA && !SolidLrbA)
+                    {
+                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
+                    }
 
-					if (SolidLrbA && !SolidTopA)
-					{
-						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
-					}
+                    if (SolidLrbA && !SolidTopA)
+                    {
+                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
+                    }
 
-					if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
+                    if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
 
                     if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
 
@@ -924,26 +952,26 @@ namespace ManiacEditor
                     //Get a bitmap of the collision
                     Bitmap cm = EditorInstance.CollisionLayerB[TileIndex].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
 
-					System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
-					System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
-					System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
+                    System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
+                    System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
+                    System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
 
-					if (SolidTopB && SolidLrbB)
-					{
-						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
-					}
-
-					if (SolidTopB && !SolidLrbB)
+                    if (SolidTopB && SolidLrbB)
                     {
-						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
-					}
+                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
+                    }
+
+                    if (SolidTopB && !SolidLrbB)
+                    {
+                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
+                    }
 
                     if (SolidLrbB && !SolidTopB)
                     {
-						cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
-					}
+                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
+                    }
 
-					if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
+                    if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
 
                     if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
 
@@ -989,7 +1017,7 @@ namespace ManiacEditor
 
         private Texture GetTilesChunkTexture(DevicePanel d, int x, int y)
         {
-            if (this.TileChunksTextures[y][x] != null) return this.TileChunksTextures[y][x];
+            if (this.TileChunksTextures[y][x] != null && !SelectedTiles.IsChunkUsed(x,y)) return this.TileChunksTextures[y][x];
 
             Rectangle rect = GetTilesChunkArea(x, y);
 
@@ -1069,9 +1097,17 @@ namespace ManiacEditor
                     // We will draw those later
                     if (SelectedTiles.Contains(p) || TempSelectionTiles.Contains(p))
                     {
-                        continue;
+                        if (SelectedTilesValue.ContainsKey(p))
+                        {
+                            DrawTile(d, SelectedTilesValue[p], tx, ty, true, Transperncy);
+                        }
+                        else
+                        {
+                            DrawTile(d, this._layer.Tiles[ty][tx], tx, ty, true, Transperncy);
+                        }
+ 
                     }
-                    if (this._layer.Tiles[ty][tx] != 0xffff)
+                    else if (this._layer.Tiles[ty][tx] != 0xffff)
                     {
                         DrawTile(d, this._layer.Tiles[ty][tx], tx, ty, false, Transperncy);
                     }
@@ -1163,20 +1199,17 @@ namespace ManiacEditor
 					if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
 					{
 						Rectangle rect = GetTilesChunkArea(x, y);
+                        if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
+					    {
+						    // TODO: If the full chunk isDrawTilesChunk selected, cache it
+						    // draw one by one
+						    DrawTilesChunk(d, x, y, Transperncy);
+					    }
+					    else
+					    {
+                            d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * EditorConstants.TILE_SIZE, rect.Y * EditorConstants.TILE_SIZE, rect.Width * EditorConstants.TILE_SIZE, rect.Height * EditorConstants.TILE_SIZE, false, Transperncy);
+					    }
 
-
-					if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
-					{
-						// TODO: If the full chunk isDrawTilesChunk selected, cache it
-						// draw one by one
-						DrawTilesChunk(d, x, y, Transperncy);
-					}
-					else
-					{
-						d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * EditorConstants.TILE_SIZE, rect.Y * EditorConstants.TILE_SIZE, rect.Width * EditorConstants.TILE_SIZE, rect.Height * EditorConstants.TILE_SIZE, false, Transperncy);
-					}
-
-						DrawSelectedTiles(d, x, y, Transperncy);
 					}
 
 

@@ -416,7 +416,7 @@ namespace ManiacEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(DefaultsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ScrollLockDirectionDefault {
             get {
                 return ((bool)(this["ScrollLockDirectionDefault"]));
@@ -468,7 +468,7 @@ namespace ManiacEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(DefaultsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowPinballEntities {
             get {
                 return ((bool)(this["ShowPinballEntities"]));

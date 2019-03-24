@@ -150,17 +150,19 @@ namespace ManiacEditor.Interfaces
 				devLink.Visibility = Visibility.Hidden;
 			}
 
-			if (Properties.Settings.Default.ShowFirstTimeSetup)
-			{
-				FirstTimeOverlay.Visibility = Visibility.Visible;
-				SceneSelectHost.Visibility = Visibility.Hidden;
-			}
+			//if (Properties.Settings.Default.ShowFirstTimeSetup)
+			//{
+			//	FirstTimeOverlay.Visibility = Visibility.Visible;
+			//	SceneSelectHost.Visibility = Visibility.Hidden;
+			//}
 		}
 
 		private void DeveloperNoteAcceptedButton_Click(object sender, RoutedEventArgs e)
 		{
 			Properties.Settings.Default.NeverShowThisAgain = true;
-			DeveloperNoteOverlay.Visibility = Visibility.Hidden;
+            Properties.Settings.Default.Save();
+
+            DeveloperNoteOverlay.Visibility = Visibility.Hidden;
 		}
 
 		private void QuickSettingSetButton_Click(object sender, RoutedEventArgs e)
@@ -171,7 +173,8 @@ namespace ManiacEditor.Interfaces
 			else if (hyperRadioButton.IsChecked.Value) EditorSettings.ApplyPreset(3);
 
 			Properties.Settings.Default.ShowFirstTimeSetup = false;
-			FirstTimeOverlay.Visibility = Visibility.Hidden;
+            Properties.Settings.Default.Save();
+            FirstTimeOverlay.Visibility = Visibility.Hidden;
 			SceneSelectHost.Visibility = Visibility.Visible;
 		}
 	}

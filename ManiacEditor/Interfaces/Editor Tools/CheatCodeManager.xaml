@@ -6,8 +6,8 @@
         xmlns:maniac="clr-namespace:ManiacEditor"
         xmlns:local="clr-namespace:ManiacEditor.Interfaces.WPF_UI.Editor_Tools"
         mc:Ignorable="d"
-        Title="Game Lock On Options..." Height="450" Width="303" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NormalBackground}">
-    <Grid>
+        Title="Game Lock On Options..." Height="450" Width="326" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NormalBackground}">
+    <Grid HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -22,14 +22,14 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.ColumnSpan="2">
                 <TextBlock Text="Cheat Codes:" FontWeight="Bold" Foreground="{DynamicResource NormalText}"></TextBlock>
-                <CheckBox x:Name="DisableBackgroundPausingCheckbox" Content="Disable Background Pausing" IsChecked="{maniac:SettingBinding DisableBackgroundPausing}"></CheckBox>
-                <CheckBox x:Name="EnableDebugModeCheckbox" Content="Enable Debug Mode" IsChecked="{maniac:SettingBinding EnableDebugMode}"></CheckBox>
-                <CheckBox x:Name="EnableDevMenuCheckbox" Content="Enable Dev Menu" IsChecked="{maniac:SettingBinding EnableDevMenu}"></CheckBox>
+                <CheckBox x:Name="DisableBackgroundPausingCheckbox" Content="Disable Background Pausing" IsChecked="{maniac:GameSettingsBindingExtension DisableBackgroundPausing}"></CheckBox>
+                <CheckBox x:Name="EnableDebugModeCheckbox" Content="Enable Debug Mode" IsChecked="{maniac:GameSettingsBindingExtension EnableDebugMode}"></CheckBox>
+                <CheckBox x:Name="EnableDevMenuCheckbox" Content="Enable Dev Menu" IsChecked="{maniac:GameSettingsBindingExtension EnableDevMode}"></CheckBox>
                 <TextBlock Text="Editor Options:" FontWeight="Bold" Foreground="{DynamicResource NormalText}"></TextBlock>
-                <CheckBox Content="Just Run the Game" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding RunGameInsteadOfScene}"/>
-                <CheckBox Content="Disable Menu Quitting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneMenuQuit}"/>
-                <CheckBox Content="Disable Auto Input Binding" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableRunSceneAutoInput}"/>
-                <CheckBox Content="Enable Real Time Object Moving" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding EnableRealTimeObjectMovingInGame}"/>
+                <CheckBox Content="Just Run the Game" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension RunGameOnly}"/>
+                <CheckBox Content="Disable Menu Quitting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension GameQuitOnMenu}"/>
+                <CheckBox Content="Disable Auto Input Binding" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension GameAutoInput}"/>
+                <CheckBox Content="Enable Real Time Object Moving" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension RealTimeObjectMovementMode}"/>
                 <TextBlock Text="Compatibility Options:" FontWeight="Bold" Foreground="{DynamicResource NormalText}"></TextBlock>
                 <TextBlock Height="2"></TextBlock>
                 <Grid Margin="1,0,0,0" HorizontalAlignment="Left">
@@ -49,7 +49,7 @@
                     <TextBlock Text="Game Path: " FontWeight="Normal" Foreground="{DynamicResource NormalText}"></TextBlock>
                     <TextBlock Height="2"></TextBlock>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBox Width="254" HorizontalAlignment="Left" Text="{maniac:SettingBinding RunGamePath}"></TextBox>
+                        <TextBox Width="254" HorizontalAlignment="Left" Text="{maniac:DefaultSettingsBinding SonicManiaPath}"></TextBox>
                         <Button Width="20" Content="..." Click="button13_Click"></Button>
                     </StackPanel>
                 </StackPanel>
@@ -57,7 +57,7 @@
                     <TextBlock Text="Mod Loader Path:" FontWeight="Normal" Foreground="{DynamicResource NormalText}"></TextBlock>
                     <TextBlock Height="2"></TextBlock>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBox Width="254" HorizontalAlignment="Left" Text="{maniac:SettingBinding RunModLoaderPath}"></TextBox>
+                        <TextBox Width="254" HorizontalAlignment="Left" Text="{maniac:DefaultSettingsBinding ModLoaderPath}"></TextBox>
                         <Button Width="20" Content="..." Click="button14_Click"></Button>
                     </StackPanel>
                 </StackPanel>

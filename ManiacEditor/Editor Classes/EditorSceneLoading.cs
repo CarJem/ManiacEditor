@@ -482,7 +482,9 @@ namespace ManiacEditor
                 Instance.UpdateDataFolderLabel(null, null);
                 Instance.SetupLayerButtons();
                 Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * Instance.StateModel.Zoom), (int)(Instance.SceneHeight * Instance.StateModel.Zoom));
+                Instance.UIModes.UpdateMultiLayerSelectMode();
                 Instance.UI.UpdateControls(true);
+
             }
             catch (Exception ex)
             {

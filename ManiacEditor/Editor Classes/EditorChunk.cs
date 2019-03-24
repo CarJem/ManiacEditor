@@ -167,6 +167,53 @@ namespace ManiacEditor
 			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPoints));
 		}
 
+        public void AutoGenerateChunks(EditorLayer LayerA)
+        {
+            EditorInstance.UI.UpdateWaitingScreen(true);
+            EditorInstance.UI.ToggleEditorButtons(false);
+
+            System.Threading.Thread thread = new System.Threading.Thread(() => {
+                int width = LayerA.Width;
+                int height = LayerA.Height;
+                int ChunkWidth = width / 8;
+                int ChunkHeight = height / 8;
+
+                for (int i = 0; i < ChunkHeight; ++i)
+                {
+                    for (int j = 0; j < ChunkWidth; ++j)
+                    {
+                        int tileX = j * 8;
+                        int tileY = i * 8;
+
+                        int x1 = j * 8;
+                        int x2 = x1 + 8;
+                        int y1 = i * 8;
+                        int y2 = y1 + 8;
+                        ushort[][] ChunkMapA = new ushort[8][];
+                        ushort[][] ChunkMapB = new ushort[8][];
+                        for (int x = 0; x < 8; x++)
+                        {
+                            ChunkMapA[x] = new ushort[8];
+                            ChunkMapB[x] = new ushort[8];
+                            for (int y = 0; y < 8; y++)
+                            {
+                                ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
+                                ChunkMapB[x][y] = 0xffff;
+                            }
+                        }
+                        var newChunk = new RSDKv5.Stamps.TileChunk(ChunkMapA, ChunkMapB, 8);
+                        var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
+                        if (duplicate == false) StageStamps.StampList.Add(newChunk);
+                    }
+                }
+                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.UpdateWaitingScreen(false)));
+                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.ToggleEditorButtons(true)));
+
+            })
+            { IsBackground = true };
+            thread.Start();
+        }
+
         public void AutoGenerateChunks(EditorLayer LayerA, EditorLayer LayerB)
         {
             EditorInstance.UI.UpdateWaitingScreen(true);
@@ -297,7 +344,31 @@ namespace ManiacEditor
 			EditLayerB?.Deselect();
 		}
 
-		public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, EditorLayer EditLayer, int chunkSize = 8)
+        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, EditorLayer EditLayerA, EditorLayer EditLayerB, int chunkSize = 8)
+        {
+            Point TileCoord = new Point(point.X * 128, point.Y * 128);
+            for (int x = 0; x < chunkSize; x++)
+            {
+                for (int y = 0; y < chunkSize; y++)
+                {
+                    Point p = new Point((TileCoord.X / 16) + x, (TileCoord.Y / 16) + y);
+                    if (CompareChunk.TileMapA[x][y] == EditLayerA.GetTileAt(p.X, p.Y))
+                    {
+                        if (EditLayerB != null)
+                        {
+                            if (CompareChunk.TileMapB[x][y] == EditLayerB.GetTileAt(p.X, p.Y)) continue;
+                            else return false;
+                        }
+                        else continue;
+                    }
+                    else return false;
+
+                }
+            }
+            return true;
+        }
+
+        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, EditorLayer EditLayer, int chunkSize = 8)
 		{
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
 			for (int x = 0; x < chunkSize; x++)
@@ -351,9 +422,17 @@ namespace ManiacEditor
 			}
 			return true;
 		}
-		
+        public bool IsChunkEmpty(Point point, EditorLayer EditLayerA, EditorLayer EditLayerB, int chunkSize = 8)
+        {
+            bool isEmptyA = IsChunkEmpty(point, EditLayerA, chunkSize);
+            bool isEmptyB = IsChunkEmpty(point, EditLayerB, chunkSize);
 
-		public Dictionary<Point, ushort> ConvertChunkSideAtoClipboard(Stamps.TileChunk Chunk)
+            if (isEmptyA == false || isEmptyB == false) return false;
+            else return true;
+        }
+
+
+        public Dictionary<Point, ushort> ConvertChunkSideAtoClipboard(Stamps.TileChunk Chunk)
 		{
 			ushort[][] ChunkData = Chunk.TileMapA;
 			Dictionary<Point, ushort> ClipboardData = new Dictionary<Point, ushort>();

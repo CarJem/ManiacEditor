@@ -693,6 +693,8 @@
                             </Rectangle>
                         </ToggleButton.Content>
                     </ToggleButton>
+                    <Grid HorizontalAlignment="Left">
+                    </Grid>
                     <ToolBar.Resources>
                         <Style x:Key="ToolBarMainPanelBorderStyle" TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="0,0,0,0"/>
@@ -701,14 +703,6 @@
                 </ToolBar>
                 <ToolBar x:Name="LayerToolbar" Band="1" BandIndex="0" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}" Margin="0,0,-4,0" >
                     <Grid MinWidth="50" MaxWidth="90" HorizontalAlignment="Left">
-                        <Grid Visibility="Collapsed" x:Name="MultiLayerHint" Grid.Row="1" Margin="0,0,5,0" VerticalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <TextBlock x:Name="LayerALabel" Foreground="{DynamicResource EditLayerASelectedColor}" Grid.Row="0" Text="Layer A: R. Click"/>
-                            <TextBlock x:Name="LayerBLabel" Foreground="{DynamicResource EditLayerBSelectedColor}" Grid.Row="1" Text="Layer B: L. Click"/>
-                        </Grid>
                         <Grid x:Name="LayerHint" Grid.Row="1" Margin="0,0,5,0" VerticalAlignment="Center">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -759,6 +753,14 @@
                     </ToolBar.Resources>
                 </ToolBar>
             </ToolBarTray>
+            <Grid Visibility="Visible" x:Name="MultiLayerHint" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Top" Grid.Column="1">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center"  Text="Multi-Layer Select Controls:" Foreground="{DynamicResource NormalText}"></TextBlock>
+                    <Separator></Separator>
+                    <TextBlock x:Name="LayerALabel" HorizontalAlignment="Center" Foreground="{DynamicResource EditLayerASelectedColor}" Grid.Row="0" Text="Edit Layer A: Right Click"/>
+                    <TextBlock x:Name="LayerBLabel"  HorizontalAlignment="Center"  Foreground="{DynamicResource EditLayerBSelectedColor}" Grid.Row="1" Text="Edit Layer B: Left Click"/>
+                </StackPanel>
+            </Grid>
             <wpfTool:SplitButton x:Name="FutureAddonButton" Visibility="Collapsed" Grid.RowSpan="2" Margin="5,0,0,0" Width="19" Grid.Column="1">
                 <wpfTool:SplitButton.DropDownContent>
                     <StackPanel Background="{DynamicResource ContextMenuBackground}">

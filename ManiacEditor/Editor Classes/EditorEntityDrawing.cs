@@ -33,7 +33,7 @@ namespace ManiacEditor
         public List<string> rendersWithErrors = new List<string>();
         public List<string> linkedrendersWithErrors = new List<string>();
         public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "EditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
-        public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform" };
+        public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform", "CableWarp" };
 
         public List<EditorEntityDrawing.LoadAnimationData> AnimsToLoad = new List<EditorEntityDrawing.LoadAnimationData>();
 

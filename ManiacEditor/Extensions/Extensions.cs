@@ -311,6 +311,26 @@ namespace ManiacEditor
         }
     }
 
+    public class GameSettingsBindingExtension : Binding
+    {
+        public GameSettingsBindingExtension()
+        {
+            Initialize();
+        }
+
+        public GameSettingsBindingExtension(string path)
+            : base(path)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.Source = ManiacEditor.Properties.GameOptions.Default;
+            this.Mode = BindingMode.TwoWay;
+        }
+    }
+
 
     public static class ButtonHelper
 	{

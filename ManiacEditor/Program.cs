@@ -118,19 +118,40 @@ Missing file: {fnfe.FileName}");
 
         private static void SetupSettingFiles()
         {
-            bool exists = System.IO.Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"));
-            if (!exists) System.IO.Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"));
+            if (!File.Exists(Path.Combine(GetExecutingDirectoryName(), "Internal.settings"))) File.Create(Path.Combine(GetExecutingDirectoryName(), "Internal.settings"));
 
-            string settings1 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Performance"));
-            string settings2 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "DevOptions"));
-            string settings3 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Defaults"));
-            string settings4 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Keybinds"));
-            string settings5 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Settings"));
-            if (!File.Exists(settings1)) File.Create(settings1);
-            if (!File.Exists(settings2)) File.Create(settings2);
-            if (!File.Exists(settings3)) File.Create(settings3);
-            if (!File.Exists(settings4)) File.Create(settings4);
-            if (!File.Exists(settings5)) File.Create(settings5);
+            if (Properties.Internal.Default.PortableMode)
+            {
+                bool exists = System.IO.Directory.Exists(EditorConstants.SettingsPortableDirectory);
+                if (!exists) System.IO.Directory.CreateDirectory(EditorConstants.SettingsPortableDirectory);
+                string settings1 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Performance"));
+                string settings2 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "DevOptions"));
+                string settings3 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Defaults"));
+                string settings4 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Keybinds"));
+                string settings5 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Settings"));
+                if (!File.Exists(settings1)) File.Create(settings1).Close();
+                if (!File.Exists(settings2)) File.Create(settings2).Close();
+                if (!File.Exists(settings3)) File.Create(settings3).Close();
+                if (!File.Exists(settings4)) File.Create(settings4).Close();
+                if (!File.Exists(settings5)) File.Create(settings5).Close();
+            }
+            else
+            {
+                bool exists = System.IO.Directory.Exists(EditorConstants.SettingsStaticDirectory);
+                if (!exists) System.IO.Directory.CreateDirectory(EditorConstants.SettingsStaticDirectory);
+                string settings1 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Performance"));
+                string settings2 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "DevOptions"));
+                string settings3 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Defaults"));
+                string settings4 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Keybinds"));
+                string settings5 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Settings"));
+                if (!File.Exists(settings1)) File.Create(settings1).Close();
+                if (!File.Exists(settings2)) File.Create(settings2).Close();
+                if (!File.Exists(settings3)) File.Create(settings3).Close();
+                if (!File.Exists(settings4)) File.Create(settings4).Close();
+                if (!File.Exists(settings5)) File.Create(settings5).Close();
+            }
+
+
         }
 
         private static void DisplayLoadFailure(string message)

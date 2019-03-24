@@ -16,15 +16,14 @@ namespace ManiacEditor
         private const string _localSettingsNodeName = "localSettings";
         private const string _globalSettingsNodeName = "globalSettings";
         private const string _className = "PortableSettingsProvider";
-        private string MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private XmlDocument _xmlDocument;
 
         private string _filePath
         {
             get
             {
-                return Path.Combine(Path.Combine(MyDocuments, "ManiacEditor Config"),
-                   string.Format("{0}.settings", "Keybinds"));
+                string folder = (Properties.Internal.Default.PortableMode ? EditorConstants.SettingsPortableDirectory : EditorConstants.SettingsStaticDirectory);
+                return Path.Combine(folder, string.Format("{0}.settings", "Keybinds"));
             }
         }
 

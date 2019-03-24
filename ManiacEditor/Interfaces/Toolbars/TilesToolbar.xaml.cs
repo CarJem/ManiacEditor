@@ -404,6 +404,11 @@ namespace ManiacEditor
 			trackBar1.Value = Settings.MyDefaults.TilesDefaultZoom;
             trackBar2.Value = Settings.MyDefaults.ChunksDefaultZoom;
 
+            option3CheckBox.IsChecked = Settings.MyDefaults.SolidTopADefault;
+            option4CheckBox.IsChecked = Settings.MyDefaults.SolidAllButTopADefault;
+            option5CheckBox.IsChecked = Settings.MyDefaults.SolidTopBDefault;
+            option6CheckBox.IsChecked = Settings.MyDefaults.SolidAllButTopBDefault;
+
         }
 
 		private void option1CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
@@ -530,6 +535,15 @@ Error: {ex.Message}");
                 ChunkList.ImageSize = scale;
             }
 
+        }
+
+        private void AutoGenerateChunksSingle_Click(object sender, RoutedEventArgs e)
+        {
+            if (EditorInstance.EditLayerA != null)
+            {
+                EditorInstance.Chunks.AutoGenerateChunks(EditorInstance.EditLayerA);
+                ChunksReload();
+            }
         }
     }
 }

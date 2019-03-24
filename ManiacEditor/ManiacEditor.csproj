@@ -432,6 +432,7 @@
     <Compile Include="Editor Classes\EditorUI.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
     <Compile Include="Editor Classes\EditorZoomModel.cs" />
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedButton.cs" />
@@ -748,6 +749,7 @@
     <Compile Include="Enums + Shorthandings\Settings.cs" />
     <Compile Include="Extensions\DesignExtensions.cs" />
     <Compile Include="Extensions\SettingsProviders\DevSettingsProvider.cs" />
+    <Compile Include="Extensions\SettingsProviders\InternalSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\KeybindSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\PerformanceSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\DefaultsSettingsProvider.cs" />
@@ -871,8 +873,8 @@
     <Compile Include="Interfaces\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Toolbars\EntitiesToolbar2.xaml.cs">
-      <DependentUpon>EntitiesToolbar2.xaml</DependentUpon>
+    <Compile Include="Interfaces\Toolbars\EntitiesToolbar.xaml.cs">
+      <DependentUpon>EntitiesToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Toolbars\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
@@ -1331,6 +1333,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>DevSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Internal.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Internal.settings</DependentUpon>
+    </Compile>
     <Compile Include="Properties\InternalSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -1487,6 +1494,10 @@
     <None Include="Properties\GameOptions.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>GameOptions.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Internal.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Internal.Designer.cs</LastGenOutput>
     </None>
     <None Include="Properties\InternalSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -1836,7 +1847,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Toolbars\EntitiesToolbar2.xaml">
+    <Page Include="Interfaces\Toolbars\EntitiesToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

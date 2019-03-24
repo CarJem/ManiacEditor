@@ -217,16 +217,18 @@
                             <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
                             <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme (Requires Manual Restart)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0"/>
                             <CheckBox Content="Scoller Auto Centers with the Middle of the Scene Viewer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
-                            <maniac:SettingsHeader HeaderName="Performance Defaults"></maniac:SettingsHeader>
-                            <StackPanel Width="400" HorizontalAlignment="Left">
-                                <RadioButton x:Name="minimalRadioButton2" Content="Minimal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Minimal"/>
-                                <RadioButton x:Name="basicRadioButton2" Content="Basic" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Basic"/>
-                                <RadioButton x:Name="superRadioButton2" Content="Super" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Super"/>
-                                <RadioButton x:Name="hyperRadioButton2" Content="Hyper" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Hyper"/>
-                                <RadioButton x:Name="customRadioButton2" Content="Custom" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Custom" IsEnabled="False"/>
-                                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
-                                    <TextBlock Text="* Changing other settings outside of these settings will result in a custom configuration(this will not update immediately)" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
-                                </Label>
+                            <StackPanel Visibility="Collapsed">
+                                <maniac:SettingsHeader HeaderName="Performance Defaults"></maniac:SettingsHeader>
+                                <StackPanel Width="400" HorizontalAlignment="Left">
+                                    <RadioButton x:Name="minimalRadioButton2" Content="Minimal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Minimal"/>
+                                    <RadioButton x:Name="basicRadioButton2" Content="Basic" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Basic"/>
+                                    <RadioButton x:Name="superRadioButton2" Content="Super" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Super"/>
+                                    <RadioButton x:Name="hyperRadioButton2" Content="Hyper" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Hyper"/>
+                                    <RadioButton x:Name="customRadioButton2" Content="Custom" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Custom" IsEnabled="False"/>
+                                    <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+                                        <TextBlock Text="* Changing other settings outside of these settings will result in a custom configuration(this will not update immediately)" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
+                                    </Label>
+                                </StackPanel>
                             </StackPanel>
                             <maniac:SettingsHeader HeaderName="Performance Settings"></maniac:SettingsHeader>
                             <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ReduceZoom}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
@@ -729,23 +731,37 @@
             <StatusBarItem HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource NormalText}" Text="Settings Location: "></TextBlock>
-                    <RadioButton Margin="4,0" VerticalContentAlignment="Center" Content="Portable" IsEnabled="False"></RadioButton>
-                    <RadioButton Margin="4,0" VerticalContentAlignment="Center" Content="Fixed" IsChecked="True" IsEnabled="False"></RadioButton>
+                    <RadioButton Margin="4,0" x:Name="PortableCheckbox" VerticalContentAlignment="Center" Content="Portable" Click="DefaultSaveLocationChanged"></RadioButton>
+                    <RadioButton Margin="4,0" x:Name="NonPortableCheckbox" VerticalContentAlignment="Center" Content="Fixed" Click="DefaultSaveLocationChanged"></RadioButton>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
         <StatusBar Grid.Row="2" Height="Auto" Background="{DynamicResource StatusBarBackground}" Grid.ColumnSpan="2">
             <StatusBarItem HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
-                    <Button Width="75" Content="Import" Margin="2,0" IsEnabled="False"></Button>
-                    <Button Width="75" Content="Export" Margin="2,0" IsEnabled="False"></Button>
+                    <xctk:SplitButton Width="75" Content="Import" Margin="2,0">
+                        <xctk:SplitButton.DropDownContent>
+                            <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                                <MenuItem Header="Data Directories" Name="DataDirectoriesImport" Click="DataDirectoriesImport_Click"></MenuItem>
+                                <MenuItem Header="Saved Places" Name="SavedPlacesImport" Click="SavedPlacesImport_Click"></MenuItem>
+                            </StackPanel>
+                        </xctk:SplitButton.DropDownContent>
+                    </xctk:SplitButton>
+                    <xctk:SplitButton Width="75" Content="Export" Margin="2,0">
+                        <xctk:SplitButton.DropDownContent>
+                            <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                                <MenuItem Header="Data Directories" Name="DataDirectoriesExport" Click="DataDirectoriesExport_Click"></MenuItem>
+                                <MenuItem Header="Saved Places" Name="SavedPlacesExport" Click="SavedPlacesExport_Click"></MenuItem>
+                            </StackPanel>
+                        </xctk:SplitButton.DropDownContent>
+                    </xctk:SplitButton>
                     <Button Width="75" Content="Reset" Margin="2,0" Click="ResetToDefault"></Button>
                 </StackPanel>
             </StatusBarItem>
                         <StatusBarItem HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
                     <Button Width="75" Content="Save" Margin="2,0" Click="button11_Click"></Button>
-                    <Button Width="75" Content="OK" Margin="2,0" Click="Button_Click"></Button>
+                    <Button Width="75" Content="Cancel" Margin="2,0" Click="Button_Click"></Button>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

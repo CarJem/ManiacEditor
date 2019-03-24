@@ -351,7 +351,7 @@ namespace ManiacEditor
         #endregion
         #region EnableFasterNudge
         public bool EnableFasterNudge { get => GetEnableFasterNudge(); set => SetEnableFasterNudge(value); }
-        private bool _EnableFasterNudge = true;
+        private bool _EnableFasterNudge = false;
         private bool GetEnableFasterNudge()
         {
             return _EnableFasterNudge;
@@ -446,8 +446,15 @@ namespace ManiacEditor
         #region Multi Layer Mode
         public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
         private bool _MultiLayerEditMode = true;
+        private bool _MultiLayerFirstTimeCheck = true;
         private bool GetMultiLayerEditMode()
         {
+            if (_MultiLayerFirstTimeCheck)
+            {
+                _MultiLayerFirstTimeCheck = false;
+                SetMultiLayerEditMode(_MultiLayerEditMode);
+            }
+
             return _MultiLayerEditMode;
         }
         private void SetMultiLayerEditMode(bool value)
@@ -477,6 +484,30 @@ namespace ManiacEditor
             if (!enabled) Editor.EditLayerB = null;
 
             Editor.UI.UpdateControls();
+        }
+
+        public void UpdateMultiLayerSelectMode(bool updateControls = false)
+        {
+            bool enabled = (_MultiLayerEditMode == true ? true : false);
+            Editor.EditFGLower.DualSelect = enabled;
+            Editor.EditFGLow.DualSelect = enabled;
+            Editor.EditFGHigh.DualSelect = enabled;
+            Editor.EditFGHigher.DualSelect = enabled;
+
+            Editor.EditFGLower.SwapDefaultToA(!enabled);
+            Editor.EditFGLow.SwapDefaultToA(!enabled);
+            Editor.EditFGHigh.SwapDefaultToA(!enabled);
+            Editor.EditFGHigher.SwapDefaultToA(!enabled);
+
+            foreach (var elb in Editor.ExtraLayerEditViewButtons.Values)
+            {
+                elb.DualSelect = enabled;
+                elb.SwapDefaultToA(!enabled);
+            }
+
+            if (!enabled) Editor.EditLayerB = null;
+
+            if (updateControls) Editor.UI.UpdateControls();
         }
         #endregion
         #region Use Large Debug Text

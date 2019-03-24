@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:ManiacEditor"
              xmlns:maniac="clr-namespace:ManiacEditor"
             xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d" 
-             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+             mc:Ignorable="d"
              d:DesignHeight="525" d:DesignWidth="300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -104,14 +103,14 @@
         <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Entity Filter Settings" Foreground="{DynamicResource NormalText}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel>
-                    <CheckBox IsChecked="{maniac:SettingBinding showManiaEntities}" Checked="maniaFilterCheck_CheckedChanged" x:Name="maniaFilterCheck" Margin="5" Unchecked="maniaFilterCheck_CheckedChanged">Mania (000000)</CheckBox>
-                    <CheckBox IsChecked="{maniac:SettingBinding showBothEntities}" x:Name="bothFilterCheck" Unchecked="bothFilterCheck_CheckedChanged" Checked="bothFilterCheck_CheckedChanged" Margin="5" >Common (000000)</CheckBox>
-                    <CheckBox IsChecked="{maniac:SettingBinding showPinballEntities}" x:Name="pinballFilterCheck" Checked="PinballFilterCheck_CheckedChanged" Unchecked="PinballFilterCheck_CheckedChanged" Margin="5">Pinball (000000)</CheckBox>
+                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Checked="maniaFilterCheck_CheckedChanged" x:Name="maniaFilterCheck" Margin="5" Unchecked="maniaFilterCheck_CheckedChanged">Mania (000000)</CheckBox>
+                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}" x:Name="bothFilterCheck" Unchecked="bothFilterCheck_CheckedChanged" Checked="bothFilterCheck_CheckedChanged" Margin="5" >Common (000000)</CheckBox>
+                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}" x:Name="pinballFilterCheck" Checked="PinballFilterCheck_CheckedChanged" Unchecked="PinballFilterCheck_CheckedChanged" Margin="5">Pinball (000000)</CheckBox>
                 </StackPanel>
                 <StackPanel>
-                    <CheckBox IsChecked="{maniac:SettingBinding showEncoreEntities}" x:Name="encoreFilterCheck" Checked="encoreFilterCheck_CheckedChanged" Unchecked="encoreFilterCheck_CheckedChanged" Margin="5">Encore (000000)</CheckBox>
-                    <CheckBox IsChecked="{maniac:SettingBinding showOtherEntities}" x:Name="otherFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Other (000000)"></CheckBox>
-                    <CheckBox IsChecked="{maniac:SettingBinding showPrePlusEntities}" x:Name="prePlusFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
+                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}" x:Name="encoreFilterCheck" Checked="encoreFilterCheck_CheckedChanged" Unchecked="encoreFilterCheck_CheckedChanged" Margin="5">Encore (000000)</CheckBox>
+                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}" x:Name="otherFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Other (000000)"></CheckBox>
+                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}" x:Name="prePlusFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
                 </StackPanel> 
             </StackPanel>
         </GroupBox>

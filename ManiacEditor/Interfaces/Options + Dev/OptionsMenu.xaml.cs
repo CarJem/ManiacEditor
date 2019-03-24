@@ -28,23 +28,29 @@ namespace ManiacEditor.Interfaces
 {
 	/// <summary>
 	/// Interaction logic for OptionsMenu.xaml
-	/// </summary>
+	/// </summary> 
 	public partial class OptionsMenu : Window
 	{
 		bool collisionColorsRadioGroupCheckChangeAllowed = true;
 		public Editor EditorInstance;
 		System.Windows.Forms.Timer CheckGraphicalSettingTimer;
-		public OptionsMenu(Editor instance)
+
+
+        public OptionsMenu(Editor instance)
 		{
 			InitializeComponent();
 			EditorInstance = instance;
 
-			CheckGraphicalSettingTimer = new System.Windows.Forms.Timer();
+
+            CheckGraphicalSettingTimer = new System.Windows.Forms.Timer();
 			CheckGraphicalSettingTimer.Interval = 10;
 			CheckGraphicalSettingTimer.Tick += CheckGraphicalPresetModeState;
 
-			if (Settings.MyDefaults.ScrollLockDirectionDefault == true) radioButtonX.IsChecked = true;
+			if (Settings.MyDefaults.ScrollLockDirectionDefault == false) radioButtonX.IsChecked = true;
 			else radioButtonY.IsChecked = true;
+
+            if (Properties.Internal.Default.PortableMode) PortableCheckbox.IsChecked = true;
+            else NonPortableCheckbox.IsChecked = true;
 
             if (Settings.MyDefaults.SceneSelectFilesViewDefault) SceneSelectRadio2.IsChecked = true;
             else SceneSelectRadio1.IsChecked = true;
@@ -55,6 +61,9 @@ namespace ManiacEditor.Interfaces
 			if (Settings.MyDefaults.DefaultGridSizeOption == 1) uncheckOtherGridDefaults(2);
 			if (Settings.MyDefaults.DefaultGridSizeOption == 2) uncheckOtherGridDefaults(3);
 			if (Settings.MyDefaults.DefaultGridSizeOption == 3) uncheckOtherGridDefaults(4);
+
+            if (Properties.Internal.Default.PortableMode) PortableCheckbox.IsChecked = true;
+            else NonPortableCheckbox.IsChecked = true;
 
 			foreach (RadioButton rdo in Extensions.FindVisualChildren<RadioButton>(MenuLangGroup))
 			{
@@ -194,39 +203,11 @@ namespace ManiacEditor.Interfaces
 
         private void ResetToDefault(object sender, RoutedEventArgs e)
         {
-            if (MainSettings.IsSelected)
+            if (MessageBox.Show("Are you sure you want to wipe your settings? (This is includes all of your Keybinds, Data Directories, Defaults and so on...)", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                ResetSettingsToDefault(sender, e);
-            }
-            else if (Controls.IsSelected)
-            {
-                ResetControlsToDefault(sender, e);
+                EditorConstants.ResetAllSettings();
             }
         }
-
-        private void ResetSettingsToDefault(object sender, RoutedEventArgs e)
-		{
-			if (MessageBox.Show("Are you sure you want to wipe your settings?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-			{
-				Settings.MySettings.Reset();
-			}
-			else
-			{
-
-			}
-		}
-
-		private void ResetControlsToDefault(object sender, RoutedEventArgs e)
-		{
-			if (MessageBox.Show("Are you sure you want to reset your control configuration?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-			{
-				Properties.KeyBinds.Default.Reset();
-			}
-			else
-			{
-
-			}
-		}
 
 		private void RPCCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 		{
@@ -256,17 +237,9 @@ namespace ManiacEditor.Interfaces
 
 		private void button11_Click(object sender, RoutedEventArgs e)
 		{
-			String title = "Save Settings";
-			String details = "Are you sure you want to save your settings, if the editor breaks because of one of these settings, you will have to redownload or manually reset you editor's config file! It's best you use the OK button to 'test' out the features before you save them.";
-			if (MessageBox.Show(details, title, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-			{
-				Settings.MySettings.Save();
-			}
-			else
-			{
-				return;
-			}
-		}
+            EditorConstants.SaveAllSettings();
+            this.DialogResult = true;
+        }
 
         private void ModLoader_Click(object sender, RoutedEventArgs e)
         {
@@ -442,7 +415,7 @@ namespace ManiacEditor.Interfaces
 
 		private void OptionBox_FormClosing(object sender, CancelEventArgs e)
 		{
-			/*
+            /*
             if (checkBox15.Checked && !Settings.mySettings.NightMode)
             {
                 DialogResult result = MessageBox.Show("To apply this setting correctly, you will have to restart the editor, would you like to that now?", "Restart to Apply", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
@@ -466,7 +439,9 @@ namespace ManiacEditor.Interfaces
                 }
             }
             */
-			if (DarkModeCheckBox.IsChecked == true && !Settings.MySettings.NightMode)
+            EditorConstants.ReloadAllSettings();
+
+            if (DarkModeCheckBox.IsChecked == true && !Settings.MySettings.NightMode)
 			{
 				Settings.MySettings.NightMode = true;
 				Settings.MySettings.Save();
@@ -482,6 +457,9 @@ namespace ManiacEditor.Interfaces
 				App.SkinChanged = true;
 
 			}
+
+
+
 		}
 
 
@@ -682,8 +660,11 @@ namespace ManiacEditor.Interfaces
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
+            EditorConstants.ReloadAllSettings();
 			this.DialogResult = true;
 		}
+
+
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -697,6 +678,117 @@ namespace ManiacEditor.Interfaces
 
         }
 
+        private void DefaultSaveLocationChanged(object sender, RoutedEventArgs e)
+        {
+            if (PortableCheckbox.IsChecked == true)
+            {
+                if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                {
+                    Properties.Internal.Default.PortableMode = true;
+                    Properties.Internal.Default.Save();
+                    Environment.Exit(0);
+                }
 
+
+            }
+            else
+            {
+                if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                {
+                    Properties.Internal.Default.PortableMode = false;
+                    Properties.Internal.Default.Save();
+                    Environment.Exit(0);
+                }
+
+            }
+        }
+
+        private void DataDirectoriesExport_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (Settings.MySettings.DataDirectories != null && Settings.MySettings.DataDirectories.Count >= 1)
+            {
+                string[] output = new string[Settings.MySettings.DataDirectories.Count];
+                Settings.MySettings.DataDirectories.CopyTo(output, 0);
+                FolderSelectDialog fsd = new FolderSelectDialog();
+                fsd.InitialDirectory = EditorConstants.SettingsPortableDirectory;
+                fsd.Title = "Select a Place to Save the Output";
+                if (fsd.ShowDialog() == true)
+                {
+                    string result = System.IO.Path.Combine(fsd.FileName, "DataFolderExport.txt");
+                    if (!System.IO.File.Exists(result)) System.IO.File.Create(result).Close();
+                    System.IO.File.WriteAllLines(result, output);
+                }
+
+            }
+
+        }
+
+        private void SavedPlacesExport_Click(object sender, RoutedEventArgs e)
+        {
+            if (Settings.MySettings.SavedPlaces != null && Settings.MySettings.SavedPlaces.Count >= 1)
+            {
+                string[] output = new string[Settings.MySettings.SavedPlaces.Count];
+                Settings.MySettings.SavedPlaces.CopyTo(output, 0);
+                FolderSelectDialog fsd = new FolderSelectDialog();
+                fsd.InitialDirectory = EditorConstants.SettingsPortableDirectory;
+                fsd.Title = "Select a Place to Save the Output";
+                if (fsd.ShowDialog() == true)
+                {
+                    string result = System.IO.Path.Combine(fsd.FileName, "SavedPlacesExport.txt");
+                    if (!System.IO.File.Exists(result)) System.IO.File.Create(result).Close();
+                    System.IO.File.WriteAllLines(result, output);
+                }
+
+            }
+        }
+
+        private void DataDirectoriesImport_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "DataFolderExport"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                List<string> input = System.IO.File.ReadAllLines(filename).ToList();
+                foreach (var entry in input)
+                {
+                    if (!Settings.MySettings.DataDirectories.Contains(entry)) Settings.MySettings.DataDirectories.Add(entry);
+                }
+
+            }
+        }
+
+        private void SavedPlacesImport_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "SavedPlacesExport"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                List<string> input = System.IO.File.ReadAllLines(filename).ToList();
+                foreach (var entry in input)
+                {
+                    if (!Settings.MySettings.SavedPlaces.Contains(entry)) Settings.MySettings.SavedPlaces.Add(entry);
+                }
+
+            }
+        }
     }
 }

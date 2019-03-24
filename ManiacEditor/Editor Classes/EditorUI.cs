@@ -50,9 +50,6 @@ namespace ManiacEditor
             Editor.layerEditOptionsHost.IsEnabled = enabled;
             Editor.LayerViewOptionsHost.IsEnabled = enabled;
 
-            Editor.MultiLayerHint.Visibility = (Editor.UIModes.MultiLayerEditMode ? Visibility.Visible : Visibility.Collapsed);
-            Editor.LayerHint.Visibility = (Editor.UIModes.MultiLayerEditMode ? Visibility.Collapsed : Visibility.Visible);
-
 
             Editor.Save.IsEnabled = enabled;
 

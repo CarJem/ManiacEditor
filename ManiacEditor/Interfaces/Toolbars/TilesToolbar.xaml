@@ -63,6 +63,8 @@
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
+                    <MenuItem x:Name="AutoGenerateChunksSingle" Header="Auto Generate Chunks from Single Active Layer" Click="AutoGenerateChunksSingle_Click">
+                    </MenuItem>
                 </StackPanel>
             </wpfTool:SplitButton.DropDownContent>
         </wpfTool:SplitButton>

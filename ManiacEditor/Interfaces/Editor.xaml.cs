@@ -345,9 +345,9 @@ namespace ManiacEditor
 		{
 			return ChunksToolButton.IsChecked.Value && EditLayerA != null;
 		}
-		public bool IsEntitiesEdit()
-		{
-			return EditEntities.IsCheckedN.Value;
+        public bool IsEntitiesEdit()
+        {
+            return EditEntities.IsCheckedN.Value || EditEntities.IsCheckedA.Value || EditEntities.IsCheckedB.Value;
 		}
 		public bool IsSelected()
 		{
@@ -587,13 +587,27 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    switch (e.KeyData)
+                    if (IsChunksEdit())
                     {
-                        case Keys.Up: y = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
-                        case Keys.Down: y = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
-                        case Keys.Left: x = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
-                        case Keys.Right: x = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                        switch (e.KeyData)
+                        {
+                            case Keys.Up: y = -1 * modifier; break;
+                            case Keys.Down: y = 1 * modifier; break;
+                            case Keys.Left: x = -1 * modifier; break;
+                            case Keys.Right: x = 1 * modifier; break;
+                        }
                     }
+                    else
+                    {
+                        switch (e.KeyData)
+                        {
+                            case Keys.Up: y = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                            case Keys.Down: y = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                            case Keys.Left: x = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                            case Keys.Right: x = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                        }
+                    }
+
                 }
 
             }
@@ -1072,12 +1086,7 @@ namespace ManiacEditor
                 InGame.GameRunning = false;
                 var mySettings = Properties.Settings.Default;
                 ManiacEditor.Settings.MySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
-                ManiacEditor.Settings.MySettings.Save();
-                ManiacEditor.Settings.MyPerformance.Save();
-                ManiacEditor.Settings.MyDefaults.Save();
-                ManiacEditor.Settings.MyGameOptions.Save();
-                ManiacEditor.Settings.MyDevSettings.Save();
-                ManiacEditor.Settings.MyKeyBinds.Save();
+                EditorConstants.SaveAllSettings();
             }
             catch (Exception ex)
             {
@@ -1383,9 +1392,16 @@ namespace ManiacEditor
 						bound_y1 = (int)(StateModel.lastY / StateModel.Zoom);
 						bound_y2 = (int)(StateModel.selectingY / StateModel.Zoom);
 					}
+                    if (IsChunksEdit())
+                    {
+                        bound_x1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
+                        bound_y1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
+                        bound_x2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
+                        bound_y2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
+                    }
 
 
-				}
+                }
 
 				FormsModel.GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, Color.FromArgb(100, Color.Purple));
 				FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, Color.Purple);
@@ -1918,11 +1934,14 @@ namespace ManiacEditor
 		}
 		private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
 		{
-			if (UIModes.MultiLayerEditMode)
+ 
+
+            if (UIModes.MultiLayerEditMode)
 			{
-				if (ClickType == MouseButton.Left) LayerA();
-				else if (ClickType == MouseButton.Right) LayerB();
-			}
+                if (button == EditEntities) EditEntitiesMode();
+                else if(ClickType == MouseButton.Left) LayerA();
+                else if (ClickType == MouseButton.Right) LayerB();
+            }
 			else
 			{
 				if (ClickType == MouseButton.Left) Normal();
@@ -1930,8 +1949,42 @@ namespace ManiacEditor
             UI.UpdateControls();
 
 
+            void EditEntitiesMode()
+            {
+                Deselect(false);
+                if (!button.IsCheckedN.Value)
+                {
+                    button.IsCheckedN = false;
+                }
+                else
+                {
 
-			void Normal()
+                    EditEntities.IsCheckedN = true;
+
+                    EditFGLow.IsCheckedN = false;
+                    EditFGHigh.IsCheckedN = false;
+                    EditFGLower.IsCheckedN = false;
+                    EditFGHigher.IsCheckedN = false;
+                    EditFGLow.IsCheckedA = false;
+                    EditFGHigh.IsCheckedA = false;
+                    EditFGLower.IsCheckedA = false;
+                    EditFGHigher.IsCheckedA = false;
+                    EditFGLow.IsCheckedB = false;
+                    EditFGHigh.IsCheckedB = false;
+                    EditFGLower.IsCheckedB = false;
+                    EditFGHigher.IsCheckedB = false;
+                }
+
+                foreach (var elb in ExtraLayerEditViewButtons.Values)
+                {
+                    elb.IsCheckedN = false;
+                    elb.IsCheckedA = false;
+                    elb.IsCheckedB = false;
+                }
+
+            }
+
+            void Normal()
 			{
 				Deselect(false);
 				if (!button.IsCheckedN.Value)
@@ -1950,13 +2003,14 @@ namespace ManiacEditor
 
 				foreach (var elb in ExtraLayerEditViewButtons.Values)
 				{
-					elb.IsCheckedN = false;
+                    if (elb != button) elb.IsCheckedN = false;
 				}
 
 
 
 			}
-			void LayerA()
+
+            void LayerA()
 			{
 				Deselect(false);
 				if (!button.IsCheckedA.Value)
@@ -1969,13 +2023,13 @@ namespace ManiacEditor
 					EditFGHigh.IsCheckedA = false;
 					EditFGLower.IsCheckedA = false;
 					EditFGHigher.IsCheckedA = false;
-					EditEntities.IsCheckedA = false;
+					EditEntities.IsCheckedN = false;
 					button.IsCheckedA = true;
 				}
 
 				foreach (var elb in ExtraLayerEditViewButtons.Values)
 				{
-					elb.IsCheckedA = false;
+                    if (elb != button) elb.IsCheckedA = false;
 				}
 			}
 			void LayerB()
@@ -1991,13 +2045,13 @@ namespace ManiacEditor
 					EditFGHigh.IsCheckedB = false;
 					EditFGLower.IsCheckedB = false;
 					EditFGHigher.IsCheckedB = false;
-					EditEntities.IsCheckedB = false;
+					EditEntities.IsCheckedN = false;
 					button.IsCheckedB = true;
 				}
 
 				foreach (var elb in ExtraLayerEditViewButtons.Values)
 				{
-					elb.IsCheckedB = false;
+					if (elb != button) elb.IsCheckedB = false;
 				}
 			}
 		}
@@ -2103,6 +2157,7 @@ namespace ManiacEditor
 			foreach (var elb in ExtraLayerEditViewButtons)
 			{
 				LayerToolbar.Items.Remove(elb.Key);
+                elb.Value.Click -= AdHocLayerEdit_Click;
 				elb.Value.RightClick -= AdHocLayerEdit_RightClick;
 				LayerToolbar.Items.Remove(elb.Value);
 			}

@@ -93,7 +93,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ScrollLockDirectionDefault" Provider="DefaultsSettingsProvider" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="MenuButtonLayoutDefault" Provider="DefaultsSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">Xbox</Value>
@@ -105,7 +105,7 @@
       <Value Profile="(Default)">Blue</Value>
     </Setting>
     <Setting Name="ShowPinballEntities" Provider="DefaultsSettingsProvider" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ShowFilterlessEntities" Provider="DefaultsSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

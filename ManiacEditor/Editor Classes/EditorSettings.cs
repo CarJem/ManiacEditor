@@ -149,21 +149,9 @@ namespace ManiacEditor
             {
                 if (Settings.MySettings.UpgradeRequired)
                 {
-                    Settings.MySettings.Upgrade();
+                    EditorConstants.UpgradeAllSettings();
                     Settings.MySettings.UpgradeRequired = false;
-                    Settings.MySettings.Save();
-
-                    Settings.MyPerformance.Upgrade();
-                    Settings.MyPerformance.Save();
-                    Settings.MyDefaults.Upgrade();
-                    Settings.MyDefaults.Save();
-                    Settings.MyGameOptions.Upgrade();
-                    Settings.MyGameOptions.Save();
-                    Settings.MyDevSettings.Upgrade();
-                    Settings.MyDevSettings.Save();
-                    Settings.MyKeyBinds.Upgrade();
-                    Settings.MyKeyBinds.Save();
-
+                    EditorConstants.SaveAllSettings();
                 }
 
                 Instance.WindowState = Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;

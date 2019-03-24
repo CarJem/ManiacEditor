@@ -634,7 +634,7 @@ namespace ManiacEditor
 					void ChunksEdit()
 					{
 						Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-						Point pC = Editor.EditLayerA.GetChunkCoordinates(p.X, p.Y);
+						Point pC = EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
 						if (Editor.PlaceTilesButton.IsChecked.Value)
 						{
@@ -642,7 +642,7 @@ namespace ManiacEditor
 							// Place Stamp
 							if (selectedIndex != -1)
 							{
-								if (!Editor.Chunks.DoesChunkMatch(pC, Editor.Chunks.StageStamps.StampList[selectedIndex], Editor.EditLayerA))
+                                if (!Editor.Chunks.DoesChunkMatch(pC, Editor.Chunks.StageStamps.StampList[selectedIndex], Editor.EditLayerA, Editor.EditLayerB))
 								{
 									Editor.Chunks.PasteStamp(pC, selectedIndex, Editor.EditLayerA, Editor.EditLayerB);
 								}
@@ -658,7 +658,7 @@ namespace ManiacEditor
 								Editor.EditLayerB?.Select(new Rectangle(pC.X * 128, pC.Y * 128, 8 * 16, 8 * 16), true, true);
 
 							}
-							else if (Editor.Chunks.IsChunkEmpty(pC, Editor.EditLayerA))
+							else if (Editor.Chunks.IsChunkEmpty(pC, Editor.EditLayerA) && Editor.Chunks.IsChunkEmpty(pC, Editor.EditLayerB))
 							{
 								//Deselect Everything
 								Editor.EditLayerA?.Deselect();
@@ -668,8 +668,9 @@ namespace ManiacEditor
 						}
 						else if (Editor.SelectToolButton.IsChecked.Value)
 						{
-							SetClickedXY(new Point((int)((pC.X * 128) * Zoom), (int)((pC.Y * 128) * Zoom)));
-						}
+							//SetClickedXY(new Point((int)((pC.X * 128) * Zoom), (int)((pC.Y * 128) * Zoom)));
+                            SetClickedXY(e);
+                        }
 					}
 					void EntitiesEdit()
 					{
@@ -726,9 +727,9 @@ namespace ManiacEditor
 				void ChunksEdit()
 				{
 					Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-					Point pC = Editor.EditLayerA.GetChunkCoordinates(p.X, p.Y);
+					Point pC = EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
-					if (!Editor.Chunks.IsChunkEmpty(pC, Editor.EditLayerA))
+					if (!Editor.Chunks.IsChunkEmpty(pC, Editor.EditLayerA, Editor.EditLayerB))
 					{
 						// Remove Stamp Sized Area
 						Editor.Chunks.PasteStamp(pC, 0, Editor.EditLayerA, Editor.EditLayerB, true);
@@ -751,11 +752,9 @@ namespace ManiacEditor
 
 			if (IsChunksEdit())
 			{
-				Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-				Point pC = Editor.EditLayerA.GetChunkCoordinates(p.X, p.Y);
-				lastX = (int)((pC.X * 128) * Zoom);
-				lastY = (int)((pC.Y * 128) * Zoom);
-			}
+                lastX = e.X;
+                lastY = e.Y;
+            }
 			else
 			{
 				lastX = e.X;
@@ -1031,7 +1030,7 @@ namespace ManiacEditor
 				void ChunksEdit()
 				{
 					Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-					Point pC = Editor.EditLayerA.GetChunkCoordinates(p.X, p.Y);
+					Point pC = EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
 					if (e.Button == MouseButtons.Left)
 					{
@@ -1041,7 +1040,7 @@ namespace ManiacEditor
 							// Place Stamp
 							if (selectedIndex != -1)
 							{
-								if (!Editor.Chunks.DoesChunkMatch(pC, Editor.Chunks.StageStamps.StampList[selectedIndex], Editor.EditLayerA))
+								if (!Editor.Chunks.DoesChunkMatch(pC, Editor.Chunks.StageStamps.StampList[selectedIndex], Editor.EditLayerA, Editor.EditLayerB))
 								{
 									Editor.Chunks.PasteStamp(pC, selectedIndex, Editor.EditLayerA, Editor.EditLayerB);
 								}
@@ -1054,12 +1053,13 @@ namespace ManiacEditor
 					{
 						if (Editor.PlaceTilesButton.IsChecked.Value)
 						{
-							if (!Editor.Chunks.IsChunkEmpty(pC, Editor.EditLayerA))
-							{
-								// Remove Stamp Sized Area
-								Editor.Chunks.PasteStamp(pC, 0, Editor.EditLayerA, Editor.EditLayerB, true);
-							}
-						}
+
+                            if (!Editor.Chunks.IsChunkEmpty(pC, Editor.EditLayerA, Editor.EditLayerB))
+                            {
+                                // Remove Stamp Sized Area
+                                Editor.Chunks.PasteStamp(pC, 0, Editor.EditLayerA, Editor.EditLayerB, true);
+                            }
+                        }
 
 					}
 				}
@@ -1120,32 +1120,33 @@ namespace ManiacEditor
 
 					void ChunkMode()
 					{
-						Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-						Point pC = Editor.EditLayerA.GetChunkCoordinates(p.X, p.Y);
-						Point eC = new Point((int)(pC.X * 128 * Zoom), (int)(pC.Y * 128 * Zoom));
+                        if (selectingX != e.X && selectingY != e.Y)
+                        {
 
-						if (selectingX != eC.X && selectingY != eC.Y)
-						{
-							select_x1 = (int)(selectingX / Zoom);
-							select_x2 = (int)(eC.X / Zoom);
-							select_y1 = (int)(selectingY / Zoom);
-							select_y2 = (int)(eC.Y / Zoom);
-							if (select_x1 > select_x2)
-							{
-								select_x1 = (int)(eC.X / Zoom);
-								select_x2 = (int)(selectingX / Zoom);
-							}
-							if (select_y1 > select_y2)
-							{
-								select_y1 = (int)(eC.Y / Zoom);
-								select_y2 = (int)(selectingY / Zoom);
-							}
-							Editor.EditLayerA?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
-							Editor.EditLayerB?.TempSelection(new Rectangle(select_x1, select_y1, select_x2 - select_x1, select_y2 - select_y1), CtrlPressed());
+                            select_x1 = (int)(selectingX / Zoom);
+                            select_x2 = (int)(e.X / Zoom);
+                            select_y1 = (int)(selectingY / Zoom);
+                            select_y2 = (int)(e.Y / Zoom);
+                            if (select_x1 > select_x2)
+                            {
+                                select_x1 = (int)(e.X / Zoom);
+                                select_x2 = (int)(selectingX / Zoom);
+                            }
+                            if (select_y1 > select_y2)
+                            {
+                                select_y1 = (int)(e.Y / Zoom);
+                                select_y2 = (int)(selectingY / Zoom);
+                            }
 
-							Editor.UI.UpdateTilesOptions();
-						}
-					}
+                            Point selectStart = EditorLayer.GetChunkCoordinatesTopEdge(select_x1, select_y1);
+                            Point selectEnd = EditorLayer.GetChunkCoordinatesBottomEdge(select_x2, select_y2);
+
+                            Editor.EditLayerA?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
+                            Editor.EditLayerB?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
+
+                            Editor.UI.UpdateTilesOptions();
+                        }
+                    }
 					void Normal()
 					{
 						if (selectingX != e.X && selectingY != e.Y)
@@ -1303,29 +1304,27 @@ namespace ManiacEditor
 
 					void ChunksMode()
 					{
-						Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-						Point pC = Editor.EditLayerA.GetChunkCoordinates(p.X, p.Y);
-						Point eC = new Point((int)((pC.X * 128) * Zoom), (int)((pC.Y * 128) * Zoom));
-
-						if (selectingX != (int)(eC.X) && selectingY != (int)(eC.Y))
+						if (selectingX != (int)(e.X) && selectingY != (int)(e.Y))
 						{
 
-							int x1 = (int)(selectingX / Zoom), x2 = (int)(eC.X / Zoom);
-							int y1 = (int)(selectingY / Zoom), y2 = (int)(eC.Y / Zoom);
+							int x1 = (int)(selectingX / Zoom), x2 = (int)(e.X / Zoom);
+							int y1 = (int)(selectingY / Zoom), y2 = (int)(e.Y / Zoom);
 							if (x1 > x2)
 							{
-								x1 = (int)(eC.X / Zoom);
+								x1 = (int)(e.X / Zoom);
 								x2 = (int)(selectingX / Zoom);
 							}
 							if (y1 > y2)
 							{
-								y1 = (int)(eC.Y / Zoom);
+								y1 = (int)(e.Y / Zoom);
 								y2 = (int)(selectingY / Zoom);
 							}
-							Editor.EditLayerA?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
-							Editor.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
+                            Point selectStart = EditorLayer.GetChunkCoordinatesTopEdge(select_x1, select_y1);
+                            Point selectEnd = EditorLayer.GetChunkCoordinatesBottomEdge(select_x2, select_y2);
+                            
+                            Editor.EditLayerA?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
+                            Editor.EditLayerB?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
 
-							if (IsEntitiesEdit()) Editor.Entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.UI.SetSelectOnlyButtonsState();
 							Editor.UI.UpdateEditLayerActions();
 
@@ -1395,7 +1394,7 @@ namespace ManiacEditor
 						}
 						void ChunksEdit()
 						{
-							Point chunk_point = Editor.EditLayerA.GetChunkCoordinates(clicked_point.X, clicked_point.Y);
+							Point chunk_point = EditorLayer.GetChunkCoordinates(clicked_point.X, clicked_point.Y);
 							Point clicked_chunk = new Point(chunk_point.X * 128, chunk_point.Y * 128);
 							Editor.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
 							Editor.EditLayerB?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
@@ -1626,7 +1625,7 @@ namespace ManiacEditor
                 void TilesContextMenu()
                 {
                     string newLine = Environment.NewLine;
-                    Point chunkPos = Editor.EditLayerA.GetChunkCoordinates(e.X / Zoom, e.Y / Zoom);
+                    Point chunkPos = EditorLayer.GetChunkCoordinates(e.X / Zoom, e.Y / Zoom);
                     Point tilePos;
                     if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
                     else tilePos = new Point(e.X / 16, e.Y / 16);
