@@ -1,6 +1,6 @@
 .. toctree::
    :maxdepth: 2
-   :hidden:
+   :glob:
    :caption: Entities Database
 
    entities/Player
