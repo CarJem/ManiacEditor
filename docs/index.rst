@@ -1,6 +1,9 @@
 .. toctree::
-   :maxdepth: 1
-   :caption: About Read the Docs
+   :maxdepth: 2
+   :hidden:
+   :caption: Entities Database
 
-General
-Entities
+   entities/Player
+   entities/ForceSpin
+   entities/Water
+   entities/Platform
