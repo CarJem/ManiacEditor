@@ -488,9 +488,9 @@ namespace ManiacEditor
         {
             if (!GameRunning)
             {
-                if (Settings.mySettings.RunModLoaderPath != null && Settings.mySettings.modConfigs?.Count > 0)
+                if (Settings.MyDefaults.ModLoaderPath != null && Settings.MySettings.ModLoaderConfigs?.Count > 0)
                 {
-                    string ConfigPath = Settings.mySettings.RunGamePath;
+                    string ConfigPath = Settings.MyDefaults.SonicManiaPath;
                     System.Windows.Controls.MenuItem dropDownItem = Editor.selectConfigToolStripMenuItem.Items[0] as System.Windows.Controls.MenuItem;
                     ConfigPath = ConfigPath.Replace('/', '\\');
                     ConfigPath = ConfigPath.Replace("SonicMania.exe", "//mods//ManiaModLoader.ini");
@@ -569,7 +569,7 @@ namespace ManiacEditor
                     while (!GameReady)
                         Thread.Sleep(10);
                     /* Level != Main Menu*/
-                    while (Editor.GameMemory.ReadByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x02 || Properties.Settings.Default.DisableRunSceneMenuQuit == true)
+                    while (Editor.GameMemory.ReadByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x02 || Settings.MyGameOptions.GameQuitOnMenu == true)
                     {
                         // Check if the user closed the game
                         if (GameProcess.HasExited || !GameRunning)
@@ -584,7 +584,7 @@ namespace ManiacEditor
                         UseCheatCodes(GameProcess);
                         // Makes sure the process is attached and patches are applied
                         // Set Player 1 Controller Set to 1 (If we set it to AnyController (0x00) we can't use Debug Mode In-Game)
-                        if (Editor.GameMemory.ReadByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x01 && Properties.Settings.Default.DisableRunSceneAutoInput == false)
+                        if (Editor.GameMemory.ReadByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x01 && Settings.MyGameOptions.GameAutoInput == false)
                         {
                             Editor.GameMemory.WriteByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0x01); //setting this to 0x00 causes the inability to use debug mode
                             Editor.GameMemory.WriteByte(Player2_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0xFF);
@@ -604,7 +604,7 @@ namespace ManiacEditor
         private string GetSonicManiaPath()
         {
             //"steam://run/584400"
-            if (string.IsNullOrEmpty(Settings.mySettings.RunGamePath))
+            if (string.IsNullOrEmpty(Settings.MyDefaults.SonicManiaPath))
             {
                 var ofd = new OpenFileDialog
                 {
@@ -612,17 +612,17 @@ namespace ManiacEditor
                     Filter = "Windows PE Executable|*.exe"
                 };
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    Settings.mySettings.RunGamePath = ofd.FileName;
+                    Settings.MyDefaults.SonicManiaPath = ofd.FileName;
             }
             else
             {
-                if (!File.Exists(Settings.mySettings.RunGamePath))
+                if (!File.Exists(Settings.MyDefaults.SonicManiaPath))
                 {
-                    Settings.mySettings.RunGamePath = "";
+                    Settings.MyDefaults.SonicManiaPath = "";
                     return "";
                 }
             }
-            return Settings.mySettings.RunGamePath;
+            return Settings.MyDefaults.SonicManiaPath;
         }
         public void UseCheatCodes(Process p)
         {
@@ -633,9 +633,9 @@ namespace ManiacEditor
                 Editor.GameMemory.Offset = 0;
 
             // Mania Plus Patches
-            if (Settings.mySettings.EnableDebugMode) Editor.GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug
-            if (Settings.mySettings.EnableDevMenu) Editor.GameMemory.WriteByte(EnableDevMenu[GameVersion.IndexOf(SelectedGameVersion)], EnableDevMenu_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Allow DevMenu
-            if (Settings.mySettings.DisableBackgroundPausing) Editor.GameMemory.WriteByte(DisableBackgroundPausing[GameVersion.IndexOf(SelectedGameVersion)], DisableBackgroundPausing_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Disable Background Pausing
+            if (Settings.MyGameOptions.EnableDebugMode) Editor.GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug
+            if (Settings.MyGameOptions.EnableDevMode) Editor.GameMemory.WriteByte(EnableDevMenu[GameVersion.IndexOf(SelectedGameVersion)], EnableDevMenu_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Allow DevMenu
+            if (Settings.MyGameOptions.DisableBackgroundPausing) Editor.GameMemory.WriteByte(DisableBackgroundPausing[GameVersion.IndexOf(SelectedGameVersion)], DisableBackgroundPausing_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Disable Background Pausing
         }
 
 

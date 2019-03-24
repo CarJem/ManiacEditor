@@ -56,7 +56,7 @@ namespace ManiacEditor
 
             Editor.Save.IsEnabled = enabled;
 
-            if (Settings.mySettings.ReduceZoom)
+            if (Settings.MyPerformance.ReduceZoom)
             {
                 Editor.ZoomInButton.IsEnabled = enabled && Editor.StateModel.ZoomLevel < 5;
                 Editor.ZoomOutButton.IsEnabled = enabled && Editor.StateModel.ZoomLevel > -2;
@@ -576,7 +576,7 @@ namespace ManiacEditor
         }
         public void UpdateControls(bool stageLoad = false)
         {
-            if (Settings.mySettings.EntityFreeCam)
+            if (Settings.MySettings.EntityFreeCam)
             {
                 Editor.FormsModel.vScrollBar1.IsEnabled = false;
                 Editor.FormsModel.hScrollBar1.IsEnabled = false;

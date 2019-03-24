@@ -1456,7 +1456,7 @@ namespace ManiacEditor
 			{
 				int maxZoom;
 				int minZoom;
-				if (mySettings.ReduceZoom)
+				if (Settings.MyPerformance.ReduceZoom)
 				{
 					maxZoom = 5;
 					minZoom = -2;

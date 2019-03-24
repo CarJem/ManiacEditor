@@ -31,7 +31,7 @@ namespace ManiacEditor.Interfaces
 		public SoundImporter(StageConfig sourceSceneSounds, StageConfig stageConfig)
 		{
 			InitializeComponent();
-			if (Settings.mySettings.NightMode)
+			if (Settings.MySettings.NightMode)
 				SetRTFText(ManiacEditor.Properties.Resources.SoundWarningDarkTheme);
 			else
 				SetRTFText(ManiacEditor.Properties.Resources.SoundWarning);

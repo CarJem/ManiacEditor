@@ -93,10 +93,8 @@ namespace ManiacEditor.Interfaces
 
 		public SceneSelect(GameConfig config = null, Editor instance = null, bool parented = false, SceneSelectWindow window = null)
 		{
-			if (Settings.mySettings.ModFolders != null) Settings.mySettings.ModFolders.Remove(null);
-			if (Settings.mySettings.DataDirectories != null)  Settings.mySettings.DataDirectories.Remove(null);
-			if (Settings.mySettings.SavedPlaces != null)  Settings.mySettings.SavedPlaces.Remove(null);
-			if (Settings.mySettings.ModFolderCustomNames != null) Settings.mySettings.ModFolderCustomNames.Remove(null);
+			if (Settings.MySettings.DataDirectories != null)  Settings.MySettings.DataDirectories.Remove(null);
+			if (Settings.MySettings.SavedPlaces != null)  Settings.MySettings.SavedPlaces.Remove(null);
 
 			EditorInstance = instance;
 			InitializeComponent();
@@ -126,7 +124,7 @@ namespace ManiacEditor.Interfaces
 
 			scenesTree.Visible = true;
 
-			if (Settings.mySettings.NightMode)
+			if (Settings.MySettings.NightMode)
 			{
 				scenesTree.BackColor = EditorTheming.darkTheme1;
 				scenesTree.ForeColor = EditorTheming.darkTheme3;
@@ -426,7 +424,7 @@ namespace ManiacEditor.Interfaces
 			this.scenesTree.ImageList.Images.Add("File", Properties.Resources.file);
 
 			UpdateTree();
-			if (Properties.Settings.Default.IsFilesViewDefault)
+			if (Settings.MyDefaults.SceneSelectFilesViewDefault)
 			{
 				this.isFilesView.IsChecked = true;
 			}
@@ -1101,50 +1099,12 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
-		public void AddANewMod(string modFolder)
-		{
-			try
-			{
-				var mySettings = Properties.Settings.Default;
-				var modFolders = mySettings.ModFolders;
-				var modFoldersCustomNames = mySettings.ModFolderCustomNames;
-
-				if (modFolders == null)
-				{
-					modFolders = new StringCollection();
-					mySettings.ModFolders = modFolders;
-				}
-
-				if (modFoldersCustomNames == null)
-				{
-					modFoldersCustomNames = new StringCollection();
-					mySettings.ModFolderCustomNames = modFoldersCustomNames;
-				}
-
-				if (modFolders.Contains(modFolder))
-				{
-					modFolders.Remove(modFolder);
-				}
-
-				modFolders.Insert(0, modFolder);
-				modFoldersCustomNames.Insert(modFolders.IndexOf(modFolder), "");
-
-				mySettings.Save();
-
-				ReloadQuickPanel();
-			}
-			catch (Exception ex)
-			{
-				Debug.Print("Failed to add Saved Place to list: " + ex);
-			}
-		}
-
 		private void removeSavedFolderToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			String toRemove = recentDataDirList.SelectedNode.Tag.ToString();
-			if (Settings.mySettings.SavedPlaces.Contains(toRemove))
+			if (Settings.MySettings.SavedPlaces.Contains(toRemove))
 			{
-				Settings.mySettings.SavedPlaces.Remove(toRemove);
+				Settings.MySettings.SavedPlaces.Remove(toRemove);
 			}
 			ReloadQuickPanel();
 		}
@@ -1152,9 +1112,9 @@ namespace ManiacEditor.Interfaces
 		private void removeDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			String toRemove = recentDataDirList.SelectedNode.Tag.ToString();
-			if (Settings.mySettings.DataDirectories.Contains(toRemove))
+			if (Settings.MySettings.DataDirectories.Contains(toRemove))
 			{
-				Settings.mySettings.DataDirectories.Remove(toRemove);
+				Settings.MySettings.DataDirectories.Remove(toRemove);
 			}
 			EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
 			ReloadQuickPanel();
@@ -1361,9 +1321,9 @@ namespace ManiacEditor.Interfaces
 		{
 			if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Data Directories", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				if (Settings.mySettings.DataDirectories != null)
+				if (Settings.MySettings.DataDirectories != null)
 				{
-					Settings.mySettings.DataDirectories.Clear();
+					Settings.MySettings.DataDirectories.Clear();
 					EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
 					ReloadQuickPanel();
 				}
@@ -1377,58 +1337,24 @@ namespace ManiacEditor.Interfaces
 		{
 			if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Saved Places", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				if (Settings.mySettings.SavedPlaces != null)
+				if (Settings.MySettings.SavedPlaces != null)
 				{
-					Settings.mySettings.SavedPlaces.Clear();
+					Settings.MySettings.SavedPlaces.Clear();
 					ReloadQuickPanel();
 				}
 			}
 		}
 
-		private void modToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			String newMod;
-			using (var folderBrowserDialog = new FolderSelectDialog())
-			{
-				folderBrowserDialog.Title = "Select A Folder";
 
-				if (!folderBrowserDialog.ShowDialog())
-				{
-					newMod = null;
-				}
-				else
-				{
-					newMod = folderBrowserDialog.FileName.ToString();
-				}
-
-			}
-			MessageBox.Show(newMod);
-			AddANewMod(newMod);
-		}
 
 		private void removeModToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			String toRemove = recentDataDirList.SelectedNode.Tag.ToString();
-			if (Settings.mySettings.ModFolders.Contains(toRemove))
-			{
-				int index = Settings.mySettings.ModFolders.IndexOf(toRemove);
-				Settings.mySettings.ModFolders.Remove(toRemove);
-				Settings.mySettings.ModFolderCustomNames.RemoveAt(index);
-			}
-			ReloadQuickPanel();
+
 		}
 
 		private void removeAllModsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Mods", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-			{
-				if (Settings.mySettings.ModFolders != null)
-				{
-					Settings.mySettings.ModFolders.Clear();
-					Settings.mySettings.ModFolderCustomNames.Clear();
-					ReloadQuickPanel();
-				}
-			}
+
 		}
 
 		private void EditDataPacksMenuItem_Click(object sender, EventArgs e)
@@ -1439,19 +1365,6 @@ namespace ManiacEditor.Interfaces
 		private void toolStripDropDownButton1_Click(object sender, RoutedEventArgs e)
 		{
 			LoadDataDirectory(recentDataDirList.SelectedNode.Tag.ToString());
-		}
-
-		private void restoreOriginalNameToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			String toNameRevert = recentDataDirList.SelectedNode.Tag.ToString();
-			int index = Settings.mySettings.ModFolders.IndexOf(toNameRevert);
-
-			if (Settings.mySettings.ModFolders[index] != null)
-			{
-				Settings.mySettings.ModFolderCustomNames[index] = "";
-				ReloadQuickPanel();
-			}
-
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)

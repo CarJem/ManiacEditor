@@ -37,7 +37,7 @@ namespace ManiacEditor.Interfaces
 			{
 				checkBox1.IsChecked = true;
 			}
-			if (Settings.mySettings.NightMode)
+			if (Settings.MySettings.NightMode)
 				SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
 			else
 				SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);

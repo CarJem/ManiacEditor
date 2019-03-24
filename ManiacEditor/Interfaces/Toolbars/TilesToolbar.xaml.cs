@@ -401,9 +401,10 @@ namespace ManiacEditor
 		private void TilesToolbar_Load(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("Send to debug output.");
-			trackBar1.Value = Properties.Settings.Default.tileToolbarDefaultZoomLevel;
+			trackBar1.Value = Settings.MyDefaults.TilesDefaultZoom;
+            trackBar2.Value = Settings.MyDefaults.ChunksDefaultZoom;
 
-		}
+        }
 
 		private void option1CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 		{

@@ -65,7 +65,7 @@ namespace ManiacEditor.Interfaces
 		{
 			InitializeComponent();
 			_editorScene = editorScene;
-			if (Settings.mySettings.NightMode)
+			if (Settings.MySettings.NightMode)
 			{
 				SetRTFText(ManiacEditor.Properties.Resources.LayerManagerWarningDarkTheme);
 			}
@@ -499,7 +499,6 @@ namespace ManiacEditor.Interfaces
 			EditorLayer copyData = layerToCopy;
 
 			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-			if (Settings.mySettings.EnableWindowsClipboard)
 			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
 
 			// Also copy to Maniac's clipboard in case it gets overwritten elsewhere
@@ -512,7 +511,7 @@ namespace ManiacEditor.Interfaces
 			// check if there is a layer on the Windows clipboard; if so, use those
 
 			// For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
-			if (Settings.mySettings.EnableWindowsClipboard && Clipboard.ContainsData("ManiacLayer") && false)
+			if (Clipboard.ContainsData("ManiacLayer") && false)
 			{
 				var layerToPaste = (EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
 

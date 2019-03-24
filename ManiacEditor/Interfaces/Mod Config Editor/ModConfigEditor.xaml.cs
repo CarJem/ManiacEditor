@@ -36,8 +36,8 @@ namespace ManiacEditor
 			InitializeComponent();
 			if (edit == true)
 			{
-				richTextBox1.AppendText(Properties.Settings.Default.modConfigs[editIndex]);
-				textBox1.Text = Properties.Settings.Default.modConfigsNames[editIndex];
+				richTextBox1.AppendText(Properties.Settings.Default.ModLoaderConfigs[editIndex]);
+				textBox1.Text = Properties.Settings.Default.ModLoaderConfigsNames[editIndex];
 				textBox1.Text = textBox1.Text.Remove(textBox1.Text.Length - 4);
 				originalName = textBox1.Text;
 				isEditing = true;

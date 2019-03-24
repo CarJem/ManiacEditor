@@ -24,6 +24,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -37,6 +38,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public global::System.Collections.Specialized.StringCollection DataDirectories {
@@ -49,6 +51,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -62,32 +65,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public string GamePath {
-            get {
-                return ((string)(this["GamePath"]));
-            }
-            set {
-                this["GamePath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ForceCopyUnlock {
-            get {
-                return ((bool)(this["ForceCopyUnlock"]));
-            }
-            set {
-                this["ForceCopyUnlock"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -101,279 +79,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool NeverLoadEntityTextures {
-            get {
-                return ((bool)(this["NeverLoadEntityTextures"]));
-            }
-            set {
-                this["NeverLoadEntityTextures"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool SolidTopDefault {
-            get {
-                return ((bool)(this["SolidTopDefault"]));
-            }
-            set {
-                this["SolidTopDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool SolidAllButTopDefault {
-            get {
-                return ((bool)(this["SolidAllButTopDefault"]));
-            }
-            set {
-                this["SolidAllButTopDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool Unkown1Default {
-            get {
-                return ((bool)(this["Unkown1Default"]));
-            }
-            set {
-                this["Unkown1Default"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool Unkown2Default {
-            get {
-                return ((bool)(this["Unkown2Default"]));
-            }
-            set {
-                this["Unkown2Default"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public string CustomLayerHigh {
-            get {
-                return ((string)(this["CustomLayerHigh"]));
-            }
-            set {
-                this["CustomLayerHigh"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public string CustomLayerLow {
-            get {
-                return ((string)(this["CustomLayerLow"]));
-            }
-            set {
-                this["CustomLayerLow"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool FGLowerDefault {
-            get {
-                return ((bool)(this["FGLowerDefault"]));
-            }
-            set {
-                this["FGLowerDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool FGLowDefault {
-            get {
-                return ((bool)(this["FGLowDefault"]));
-            }
-            set {
-                this["FGLowDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool FGHighDefault {
-            get {
-                return ((bool)(this["FGHighDefault"]));
-            }
-            set {
-                this["FGHighDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool FGHigherDefault {
-            get {
-                return ((bool)(this["FGHigherDefault"]));
-            }
-            set {
-                this["FGHigherDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool EntitiesDefault {
-            get {
-                return ((bool)(this["EntitiesDefault"]));
-            }
-            set {
-                this["EntitiesDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AnimationsDefault {
-            get {
-                return ((bool)(this["AnimationsDefault"]));
-            }
-            set {
-                this["AnimationsDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public int tileToolbarDefaultZoomLevel {
-            get {
-                return ((int)(this["tileToolbarDefaultZoomLevel"]));
-            }
-            set {
-                this["tileToolbarDefaultZoomLevel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool showManiaEntities {
-            get {
-                return ((bool)(this["showManiaEntities"]));
-            }
-            set {
-                this["showManiaEntities"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool showEncoreEntities {
-            get {
-                return ((bool)(this["showEncoreEntities"]));
-            }
-            set {
-                this["showEncoreEntities"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool showBothEntities {
-            get {
-                return ((bool)(this["showBothEntities"]));
-            }
-            set {
-                this["showBothEntities"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool showOtherEntities {
-            get {
-                return ((bool)(this["showOtherEntities"]));
-            }
-            set {
-                this["showOtherEntities"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Mania (2)")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public string DefaultFilter {
-            get {
-                return ((string)(this["DefaultFilter"]));
-            }
-            set {
-                this["DefaultFilter"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool EnableWindowsClipboard {
-            get {
-                return ((bool)(this["EnableWindowsClipboard"]));
-            }
-            set {
-                this["EnableWindowsClipboard"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ReduceZoom {
-            get {
-                return ((bool)(this["ReduceZoom"]));
-            }
-            set {
-                this["ReduceZoom"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -387,45 +93,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool IsFilesViewDefault {
-            get {
-                return ((bool)(this["IsFilesViewDefault"]));
-            }
-            set {
-                this["IsFilesViewDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool SceneSelectRadioButton1On {
-            get {
-                return ((bool)(this["SceneSelectRadioButton1On"]));
-            }
-            set {
-                this["SceneSelectRadioButton1On"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool SceneSelectRadioButton2On {
-            get {
-                return ((bool)(this["SceneSelectRadioButton2On"]));
-            }
-            set {
-                this["SceneSelectRadioButton2On"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -439,84 +107,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool EnableFasterNudge {
-            get {
-                return ((bool)(this["EnableFasterNudge"]));
-            }
-            set {
-                this["EnableFasterNudge"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public int FasterNudgeValue {
-            get {
-                return ((int)(this["FasterNudgeValue"]));
-            }
-            set {
-                this["FasterNudgeValue"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool RunGameInsteadOfScene {
-            get {
-                return ((bool)(this["RunGameInsteadOfScene"]));
-            }
-            set {
-                this["RunGameInsteadOfScene"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool UsePrePlusOffsets {
-            get {
-                return ((bool)(this["UsePrePlusOffsets"]));
-            }
-            set {
-                this["UsePrePlusOffsets"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public string RunGamePath {
-            get {
-                return ((string)(this["RunGamePath"]));
-            }
-            set {
-                this["RunGamePath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ProhibitEntityUseOnExternalClipboard {
-            get {
-                return ((bool)(this["ProhibitEntityUseOnExternalClipboard"]));
-            }
-            set {
-                this["ProhibitEntityUseOnExternalClipboard"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -530,19 +121,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool forceBrowse {
-            get {
-                return ((bool)(this["forceBrowse"]));
-            }
-            set {
-                this["forceBrowse"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -556,57 +135,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool UseObjectRenderingImprovements {
-            get {
-                return ((bool)(this["UseObjectRenderingImprovements"]));
-            }
-            set {
-                this["UseObjectRenderingImprovements"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool ShowEditLayerBackground {
-            get {
-                return ((bool)(this["ShowEditLayerBackground"]));
-            }
-            set {
-                this["ShowEditLayerBackground"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AllowMoreRenderUpdates {
-            get {
-                return ((bool)(this["AllowMoreRenderUpdates"]));
-            }
-            set {
-                this["AllowMoreRenderUpdates"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AlternativeRenderingMethod {
-            get {
-                return ((bool)(this["AlternativeRenderingMethod"]));
-            }
-            set {
-                this["AlternativeRenderingMethod"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DisableEntityReading {
@@ -619,126 +148,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RunModLoaderPath {
-            get {
-                return ((string)(this["RunModLoaderPath"]));
-            }
-            set {
-                this["RunModLoaderPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RunTileManiacPath {
-            get {
-                return ((string)(this["RunTileManiacPath"]));
-            }
-            set {
-                this["RunTileManiacPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RunAniEdPath {
-            get {
-                return ((string)(this["RunAniEdPath"]));
-            }
-            set {
-                this["RunAniEdPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RunPalleteEditorPath {
-            get {
-                return ((string)(this["RunPalleteEditorPath"]));
-            }
-            set {
-                this["RunPalleteEditorPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int CustomGridSizeValue {
-            get {
-                return ((int)(this["CustomGridSizeValue"]));
-            }
-            set {
-                this["CustomGridSizeValue"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool x16Default {
-            get {
-                return ((bool)(this["x16Default"]));
-            }
-            set {
-                this["x16Default"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool x128Default {
-            get {
-                return ((bool)(this["x128Default"]));
-            }
-            set {
-                this["x128Default"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool x256Default {
-            get {
-                return ((bool)(this["x256Default"]));
-            }
-            set {
-                this["x256Default"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CustomGridDefault {
-            get {
-                return ((bool)(this["CustomGridDefault"]));
-            }
-            set {
-                this["CustomGridDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool allowForSmoothSelection {
-            get {
-                return ((bool)(this["allowForSmoothSelection"]));
-            }
-            set {
-                this["allowForSmoothSelection"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection SavedPlaces {
             get {
@@ -750,580 +160,44 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int preRenderSceneOption {
+        public global::System.Collections.Specialized.StringCollection ModLoaderConfigs {
             get {
-                return ((int)(this["preRenderSceneOption"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["ModLoaderConfigs"]));
             }
             set {
-                this["preRenderSceneOption"] = value;
+                this["ModLoaderConfigs"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection modConfigs {
+        public global::System.Collections.Specialized.StringCollection ModLoaderConfigsNames {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["modConfigs"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["ModLoaderConfigsNames"]));
             }
             set {
-                this["modConfigs"] = value;
+                this["ModLoaderConfigsNames"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection modConfigsNames {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["modConfigsNames"]));
-            }
-            set {
-                this["modConfigsNames"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool useBitOperators {
+        public bool UseBitOperators {
             get {
-                return ((bool)(this["useBitOperators"]));
+                return ((bool)(this["UseBitOperators"]));
             }
             set {
-                this["useBitOperators"] = value;
+                this["UseBitOperators"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DisableRenderExlusions {
-            get {
-                return ((bool)(this["DisableRenderExlusions"]));
-            }
-            set {
-                this["DisableRenderExlusions"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DisableRunSceneMenuQuit {
-            get {
-                return ((bool)(this["DisableRunSceneMenuQuit"]));
-            }
-            set {
-                this["DisableRunSceneMenuQuit"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DisableRunSceneAutoInput {
-            get {
-                return ((bool)(this["DisableRunSceneAutoInput"]));
-            }
-            set {
-                this["DisableRunSceneAutoInput"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt2 {
-            get {
-                return ((decimal)(this["devInt2"]));
-            }
-            set {
-                this["devInt2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt3 {
-            get {
-                return ((decimal)(this["devInt3"]));
-            }
-            set {
-                this["devInt3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt4 {
-            get {
-                return ((decimal)(this["devInt4"]));
-            }
-            set {
-                this["devInt4"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt5 {
-            get {
-                return ((decimal)(this["devInt5"]));
-            }
-            set {
-                this["devInt5"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt6 {
-            get {
-                return ((decimal)(this["devInt6"]));
-            }
-            set {
-                this["devInt6"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt7 {
-            get {
-                return ((decimal)(this["devInt7"]));
-            }
-            set {
-                this["devInt7"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt8 {
-            get {
-                return ((decimal)(this["devInt8"]));
-            }
-            set {
-                this["devInt8"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt9 {
-            get {
-                return ((decimal)(this["devInt9"]));
-            }
-            set {
-                this["devInt9"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt10 {
-            get {
-                return ((decimal)(this["devInt10"]));
-            }
-            set {
-                this["devInt10"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public decimal devInt {
-            get {
-                return ((decimal)(this["devInt"]));
-            }
-            set {
-                this["devInt"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseAltEntityRenderMode {
-            get {
-                return ((bool)(this["UseAltEntityRenderMode"]));
-            }
-            set {
-                this["UseAltEntityRenderMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool EnableRealTimeObjectMovingInGame {
-            get {
-                return ((bool)(this["EnableRealTimeObjectMovingInGame"]));
-            }
-            set {
-                this["EnableRealTimeObjectMovingInGame"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool PrioritizedObjectRendering {
-            get {
-                return ((bool)(this["PrioritizedObjectRendering"]));
-            }
-            set {
-                this["PrioritizedObjectRendering"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool preRenderTURBOMode {
-            get {
-                return ((bool)(this["preRenderTURBOMode"]));
-            }
-            set {
-                this["preRenderTURBOMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseForcefulStartup {
-            get {
-                return ((bool)(this["UseForcefulStartup"]));
-            }
-            set {
-                this["UseForcefulStartup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool checkForUpdatesAuto {
-            get {
-                return ((bool)(this["checkForUpdatesAuto"]));
-            }
-            set {
-                this["checkForUpdatesAuto"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowFullParallaxEntityRenderDefault {
-            get {
-                return ((bool)(this["ShowFullParallaxEntityRenderDefault"]));
-            }
-            set {
-                this["ShowFullParallaxEntityRenderDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("White")]
-        public global::System.Drawing.Color CollisionSAColour {
-            get {
-                return ((global::System.Drawing.Color)(this["CollisionSAColour"]));
-            }
-            set {
-                this["CollisionSAColour"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
-        public global::System.Drawing.Color CollisionTOColour {
-            get {
-                return ((global::System.Drawing.Color)(this["CollisionTOColour"]));
-            }
-            set {
-                this["CollisionTOColour"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
-        public global::System.Drawing.Color CollisionLRDColour {
-            get {
-                return ((global::System.Drawing.Color)(this["CollisionLRDColour"]));
-            }
-            set {
-                this["CollisionLRDColour"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int CollisionColorsDefault {
-            get {
-                return ((int)(this["CollisionColorsDefault"]));
-            }
-            set {
-                this["CollisionColorsDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowEntityArrowPathsDefault {
-            get {
-                return ((bool)(this["ShowEntityArrowPathsDefault"]));
-            }
-            set {
-                this["ShowEntityArrowPathsDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnablePixelModeDefault {
-            get {
-                return ((bool)(this["EnablePixelModeDefault"]));
-            }
-            set {
-                this["EnablePixelModeDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EditEntitiesTransparencyDefault {
-            get {
-                return ((bool)(this["EditEntitiesTransparencyDefault"]));
-            }
-            set {
-                this["EditEntitiesTransparencyDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool AnimatedSpritesDefault {
-            get {
-                return ((bool)(this["AnimatedSpritesDefault"]));
-            }
-            set {
-                this["AnimatedSpritesDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool MovingPlatformsDefault {
-            get {
-                return ((bool)(this["MovingPlatformsDefault"]));
-            }
-            set {
-                this["MovingPlatformsDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int ScrollLockXYDefault {
-            get {
-                return ((int)(this["ScrollLockXYDefault"]));
-            }
-            set {
-                this["ScrollLockXYDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DevForceRestartData {
-            get {
-                return ((string)(this["DevForceRestartData"]));
-            }
-            set {
-                this["DevForceRestartData"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DevForceRestartScene {
-            get {
-                return ((string)(this["DevForceRestartScene"]));
-            }
-            set {
-                this["DevForceRestartScene"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DevForceRestartEncore {
-            get {
-                return ((bool)(this["DevForceRestartEncore"]));
-            }
-            set {
-                this["DevForceRestartEncore"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DevForceRestartX {
-            get {
-                return ((int)(this["DevForceRestartX"]));
-            }
-            set {
-                this["DevForceRestartX"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DevForeRestartY {
-            get {
-                return ((int)(this["DevForeRestartY"]));
-            }
-            set {
-                this["DevForeRestartY"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DeveForceRestartLevelID {
-            get {
-                return ((int)(this["DeveForceRestartLevelID"]));
-            }
-            set {
-                this["DeveForceRestartLevelID"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DevForceRestartZoomLevel {
-            get {
-                return ((int)(this["DevForceRestartZoomLevel"]));
-            }
-            set {
-                this["DevForceRestartZoomLevel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool showWaterLevelDefault {
-            get {
-                return ((bool)(this["showWaterLevelDefault"]));
-            }
-            set {
-                this["showWaterLevelDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
-        public global::System.Drawing.Color WaterColorDefault {
-            get {
-                return ((global::System.Drawing.Color)(this["WaterColorDefault"]));
-            }
-            set {
-                this["WaterColorDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color GridColorDefault {
-            get {
-                return ((global::System.Drawing.Color)(this["GridColorDefault"]));
-            }
-            set {
-                this["GridColorDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SimplifiedWaterLevelRendering {
-            get {
-                return ((bool)(this["SimplifiedWaterLevelRendering"]));
-            }
-            set {
-                this["SimplifiedWaterLevelRendering"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AlwaysShowWaterLevelDefault {
-            get {
-                return ((bool)(this["AlwaysShowWaterLevelDefault"]));
-            }
-            set {
-                this["AlwaysShowWaterLevelDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SizeWaterLevelWithBoundsDefault {
-            get {
-                return ((bool)(this["SizeWaterLevelWithBoundsDefault"]));
-            }
-            set {
-                this["SizeWaterLevelWithBoundsDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\"Basic\"")]
-        public string EditorGeneralConfigMode {
-            get {
-                return ((string)(this["EditorGeneralConfigMode"]));
-            }
-            set {
-                this["EditorGeneralConfigMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowFirstTimeSetup {
@@ -1336,18 +210,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DisableDraging {
-            get {
-                return ((bool)(this["DisableDraging"]));
-            }
-            set {
-                this["DisableDraging"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool NightMode {
@@ -1360,64 +223,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string EntityFilter {
-            get {
-                return ((string)(this["EntityFilter"]));
-            }
-            set {
-                this["EntityFilter"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MasterDataDirectory {
-            get {
-                return ((string)(this["MasterDataDirectory"]));
-            }
-            set {
-                this["MasterDataDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AllowAutomaticTextureDisposal {
-            get {
-                return ((bool)(this["AllowAutomaticTextureDisposal"]));
-            }
-            set {
-                this["AllowAutomaticTextureDisposal"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection ModFolders {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["ModFolders"]));
-            }
-            set {
-                this["ModFolders"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection ModFolderCustomNames {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["ModFolderCustomNames"]));
-            }
-            set {
-                this["ModFolderCustomNames"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool EntityFreeCam {
@@ -1430,6 +236,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastModConfig {
@@ -1442,152 +249,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("EN")]
-        public string LangDefault {
-            get {
-                return ((string)(this["LangDefault"]));
-            }
-            set {
-                this["LangDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Xbox")]
-        public string ButtonLayoutDefault {
-            get {
-                return ((string)(this["ButtonLayoutDefault"]));
-            }
-            set {
-                this["ButtonLayoutDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ExperimentalPropertyGridView {
-            get {
-                return ((bool)(this["ExperimentalPropertyGridView"]));
-            }
-            set {
-                this["ExperimentalPropertyGridView"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowEntitySelectionBoxesDefault {
-            get {
-                return ((bool)(this["ShowEntitySelectionBoxesDefault"]));
-            }
-            set {
-                this["ShowEntitySelectionBoxesDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("The DirectX Device just ran out of memory!\r\nIf your using the x86 version of Mani" +
-            "ac Editor, you should upgrade to the x64 version!\r\nWould you like to save your p" +
-            "rogress before Maniac Editor Closes?")]
-        public string DeviceCrashedString {
-            get {
-                return ((string)(this["DeviceCrashedString"]));
-            }
-            set {
-                this["DeviceCrashedString"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ShowStatsViewerDefault {
-            get {
-                return ((bool)(this["ShowStatsViewerDefault"]));
-            }
-            set {
-                this["ShowStatsViewerDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool StatsViewerLargeTextDefault {
-            get {
-                return ((bool)(this["StatsViewerLargeTextDefault"]));
-            }
-            set {
-                this["StatsViewerLargeTextDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseAutoForcefulStartup {
-            get {
-                return ((bool)(this["UseAutoForcefulStartup"]));
-            }
-            set {
-                this["UseAutoForcefulStartup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int DeveloperForceOpenMode {
-            get {
-                return ((int)(this["DeveloperForceOpenMode"]));
-            }
-            set {
-                this["DeveloperForceOpenMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool showPinballEntities {
-            get {
-                return ((bool)(this["showPinballEntities"]));
-            }
-            set {
-                this["showPinballEntities"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool showPrePlusEntities {
-            get {
-                return ((bool)(this["showPrePlusEntities"]));
-            }
-            set {
-                this["showPrePlusEntities"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ScrollLockEnabledDefault {
-            get {
-                return ((bool)(this["ScrollLockEnabledDefault"]));
-            }
-            set {
-                this["ScrollLockEnabledDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ScrollerAutoCenters {
@@ -1596,90 +258,6 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["ScrollerAutoCenters"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DevForceRestartBrowsed {
-            get {
-                return ((bool)(this["DevForceRestartBrowsed"]));
-            }
-            set {
-                this["DevForceRestartBrowsed"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DevForceRestartCurrentZone {
-            get {
-                return ((string)(this["DevForceRestartCurrentZone"]));
-            }
-            set {
-                this["DevForceRestartCurrentZone"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DevForceRestartCurrentName {
-            get {
-                return ((string)(this["DevForceRestartCurrentName"]));
-            }
-            set {
-                this["DevForceRestartCurrentName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DevForceRestartCurrentSceneID {
-            get {
-                return ((string)(this["DevForceRestartCurrentSceneID"]));
-            }
-            set {
-                this["DevForceRestartCurrentSceneID"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool EnableDevMenu {
-            get {
-                return ((bool)(this["EnableDevMenu"]));
-            }
-            set {
-                this["EnableDevMenu"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DisableBackgroundPausing {
-            get {
-                return ((bool)(this["DisableBackgroundPausing"]));
-            }
-            set {
-                this["DisableBackgroundPausing"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool EnableDebugMode {
-            get {
-                return ((bool)(this["EnableDebugMode"]));
-            }
-            set {
-                this["EnableDebugMode"] = value;
             }
         }
     }

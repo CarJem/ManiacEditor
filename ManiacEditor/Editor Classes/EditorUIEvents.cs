@@ -246,7 +246,7 @@ namespace ManiacEditor
 			if (Editor.IsTilesEdit())
 			{
 				// check if there are tiles on the Windows clipboard; if so, use those
-				if (Settings.mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacTiles"))
+				if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
 				{
 					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>) System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
 					Point pastePoint = new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1);
@@ -274,7 +274,7 @@ namespace ManiacEditor
 					{
 
 						// check if there are entities on the Windows clipboard; if so, use those
-						if (Settings.mySettings.EnableWindowsClipboard && System.Windows.Clipboard.ContainsData("ManiacEntities"))
+						if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
 						{
 
 							Editor.Entities.PasteFromClipboard(new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom), (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
@@ -700,17 +700,17 @@ namespace ManiacEditor
 		}
 		public void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Settings.mySettings.DevForceRestartData = Editor.DataDirectory;
-			Settings.mySettings.DevForceRestartScene = Editor.Paths.SceneFilePath;
-			Settings.mySettings.DevForceRestartX = (short)(Editor.StateModel.ShiftX / Editor.StateModel.Zoom);
-			Settings.mySettings.DevForeRestartY = (short)(Editor.StateModel.ShiftY / Editor.StateModel.Zoom);
-			Settings.mySettings.DevForceRestartZoomLevel = Editor.StateModel.ZoomLevel;
-			Settings.mySettings.DevForceRestartEncore = Editor.Paths.isEncoreMode;
-			Settings.mySettings.DeveForceRestartLevelID = Editor.UIModes.LevelID;
-			Settings.mySettings.DevForceRestartCurrentName = Editor.Paths.CurrentName;
-			Settings.mySettings.DevForceRestartCurrentZone = Editor.Paths.CurrentZone;
-			Settings.mySettings.DevForceRestartCurrentSceneID = Editor.Paths.CurrentSceneID;
-			Settings.mySettings.DevForceRestartBrowsed = Editor.Paths.Browsed;
+			Settings.MyDevSettings.DevForceRestartData = Editor.DataDirectory;
+			Settings.MyDevSettings.DevForceRestartScene = Editor.Paths.SceneFilePath;
+			Settings.MyDevSettings.DevForceRestartX = (short)(Editor.StateModel.ShiftX / Editor.StateModel.Zoom);
+			Settings.MyDevSettings.DevForceRestartY = (short)(Editor.StateModel.ShiftY / Editor.StateModel.Zoom);
+			Settings.MyDevSettings.DevForceRestartZoomLevel = Editor.StateModel.ZoomLevel;
+			Settings.MyDevSettings.DevForceRestartIsEncore = Editor.Paths.isEncoreMode;
+			Settings.MyDevSettings.DevForceRestartID = Editor.UIModes.LevelID;
+			Settings.MyDevSettings.DevForceRestartCurrentName = Editor.Paths.CurrentName;
+			Settings.MyDevSettings.DevForceRestartCurrentZone = Editor.Paths.CurrentZone;
+			Settings.MyDevSettings.DevForceRestartSceneID = Editor.Paths.CurrentSceneID;
+			Settings.MyDevSettings.DevForceRestartIsBrowsed = Editor.Paths.Browsed;
 		}
 
 		public void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -764,20 +764,20 @@ namespace ManiacEditor
 		#region Quick Button Buttons
 		public void SwapEncoreManiaEntityVisibility()
 		{
-			if (Settings.mySettings.showEncoreEntities == true && Settings.mySettings.showManiaEntities == true)
+			if (Settings.MyDefaults.ShowEncoreEntities == true && Settings.MyDefaults.ShowManiaEntities == true)
 			{
-				Settings.mySettings.showManiaEntities = true;
-				Settings.mySettings.showEncoreEntities = false;
+				Settings.MyDefaults.ShowManiaEntities = true;
+				Settings.MyDefaults.ShowEncoreEntities = false;
 			}
-			if (Settings.mySettings.showEncoreEntities == true && Settings.mySettings.showManiaEntities == false)
+			if (Settings.MyDefaults.ShowEncoreEntities == true && Settings.MyDefaults.ShowManiaEntities == false)
 			{
-				Settings.mySettings.showManiaEntities = true;
-				Settings.mySettings.showEncoreEntities = false;
+				Settings.MyDefaults.ShowManiaEntities = true;
+				Settings.MyDefaults.ShowEncoreEntities = false;
 			}
 			else
 			{
-				Settings.mySettings.showManiaEntities = false;
-				Settings.mySettings.showEncoreEntities = true;
+				Settings.MyDefaults.ShowManiaEntities = false;
+				Settings.MyDefaults.ShowEncoreEntities = true;
 			}
 
 		}

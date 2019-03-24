@@ -78,7 +78,7 @@ namespace ManiacEditor
             if (Instance.FileHandler.AllowSceneUnloading() != true) return;
             Instance.UnloadScene();
 
-            Instance.OpenScene(Settings.mySettings.forceBrowse);
+            Instance.OpenScene();
         }
         public void OpenDataDirectory()
         {
@@ -136,7 +136,7 @@ namespace ManiacEditor
                 AllowSceneChange = true;
                 return AllowSceneChange;
             }
-            else if (Instance.IsSceneLoaded() == true && Settings.mySettings.DisableSaveWarnings == false)
+            else if (Instance.IsSceneLoaded() == true && Settings.MySettings.DisableSaveWarnings == false)
             {
                 var exitBox = new UnloadingSceneWarning();
                 exitBox.Owner = Window.GetWindow(Instance);

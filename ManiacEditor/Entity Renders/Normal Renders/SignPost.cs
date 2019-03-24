@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
-            if (Properties.Settings.Default.UsePrePlusOffsets)
+            if (EditorInGame.SelectedGameVersion == "1.3")
             {
                 editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("SignPost", d, 4, -1, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)

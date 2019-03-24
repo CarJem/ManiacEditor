@@ -144,7 +144,7 @@ namespace ManiacEditor.Interfaces
 				DeveloperNoteOverlay.Visibility = Visibility.Visible;
 			}
 
-			if (!Properties.Settings.Default.UseForcefulStartup)
+			if (!Properties.DevSettings.Default.DevAutoStart)
 			{
 				devCheck.Visibility = Visibility.Hidden;
 				devLink.Visibility = Visibility.Hidden;

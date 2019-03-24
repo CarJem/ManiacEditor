@@ -276,7 +276,7 @@ namespace ManiacEditor
             if (CWC != null) NormalColor = CWC.Value;
             else NormalColor = Color.Black;
 
-            return (Settings.mySettings.NightMode ? NightColor : NormalColor);
+            return (Settings.MySettings.NightMode ? NightColor : NormalColor);
         }
         #endregion
 

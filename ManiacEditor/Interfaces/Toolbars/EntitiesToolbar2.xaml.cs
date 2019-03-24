@@ -82,7 +82,7 @@ namespace ManiacEditor
 
 
 
-			if (!Settings.mySettings.ExperimentalPropertyGridView)
+			if (!Settings.MyDevSettings.ExperimentalPropertyGridView)
 			{
 				entityPropertiesLegacy.Visibility = Visibility.Visible;
 				entityProperties2.Visibility = Visibility.Hidden;
@@ -152,7 +152,7 @@ namespace ManiacEditor
 				bothFilterCheck.Foreground = GetColorBrush(1);
 				pinballFilterCheck.Foreground = GetColorBrush(255);
 			}
-			if (Properties.Settings.Default.useBitOperators)
+			if (Settings.MySettings.UseBitOperators)
 			{
 				maniaFilterCheck.Content = "Mania (0b0010)";
 				encoreFilterCheck.Content = "Encore (0b0100)";
@@ -272,7 +272,7 @@ namespace ManiacEditor
 		{
 			if (startup)
 			{
-				switch(Properties.Settings.Default.DefaultFilter[0])
+				switch(Settings.MyDefaults.DefaultFilter[0])
 				{
 					case 'M':
 						defaultFilter.SelectedIndex = 0;
@@ -299,22 +299,22 @@ namespace ManiacEditor
 				switch (defaultFilter.SelectedIndex)
 				{
 					case 0:
-						Properties.Settings.Default.DefaultFilter = "M";
+						Settings.MyDefaults.DefaultFilter = "M";
 						break;
 					case 1:
-						Properties.Settings.Default.DefaultFilter = "E";
+						Settings.MyDefaults.DefaultFilter = "E";
 						break;
 					case 2:
-						Properties.Settings.Default.DefaultFilter = "B";
+						Settings.MyDefaults.DefaultFilter = "B";
 						break;
 					case 3:
-						Properties.Settings.Default.DefaultFilter = "P";
+						Settings.MyDefaults.DefaultFilter = "P";
 						break;
 					case 4:
-						Properties.Settings.Default.DefaultFilter = "O";
+						Settings.MyDefaults.DefaultFilter = "O";
 						break;
 					default:
-						Properties.Settings.Default.DefaultFilter = "M";
+						Settings.MyDefaults.DefaultFilter = "M";
 						break;
 				}
 			}
@@ -414,22 +414,22 @@ namespace ManiacEditor
 		{
 			if (colorID == "Blue")
 			{
-				if (Settings.mySettings.NightMode) return System.Drawing.Color.LightBlue;
+				if (Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
 				else return System.Drawing.Color.Blue;
 			}
 			else if (colorID == "Green")
 			{
-				if (Settings.mySettings.NightMode) return System.Drawing.Color.LightGreen;
+				if (Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
 				else return System.Drawing.Color.Green;
 			}
 			else if (colorID == "Red")
 			{
-				if (Settings.mySettings.NightMode) return System.Drawing.Color.FromArgb(211,76,49);
+				if (Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211,76,49);
 				else return System.Drawing.Color.Red;
 			}
 			else
 			{
-				if (Settings.mySettings.NightMode) return System.Drawing.Color.White;
+				if (Settings.MySettings.NightMode) return System.Drawing.Color.White;
 				else return System.Drawing.Color.Black;
 			}
 		}
@@ -526,7 +526,7 @@ namespace ManiacEditor
 
 			if (selectedEntities.Count != 1)
 			{
-				if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = null;
+				if (Settings.MyDevSettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = null;
 				else entityProperties.SelectedObject = null;
 				currentEntity = null;
 				_selectedEntitySlots.Clear();
@@ -635,13 +635,13 @@ namespace ManiacEditor
 				}
 				--category_index;
 			}
-			if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = new LocalPropertyGridObject(objProperties);
+			if (Settings.MyDevSettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = new LocalPropertyGridObject(objProperties);
 			else entityProperties.SelectedObject = new LocalPropertyGridObject(objProperties);
 		}
 
 		public void UpdateCurrentEntityProperites()
 		{
-			object selectedObject = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject : entityProperties.SelectedObject);
+			object selectedObject = (Settings.MyDevSettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject : entityProperties.SelectedObject);
 			if (selectedObject is LocalPropertyGridObject obj)
 			{
 				obj.setValue("position,x", currentEntity.Position.X.High + ((float)currentEntity.Position.X.Low / 0x10000));
@@ -696,7 +696,7 @@ namespace ManiacEditor
 
 		public void PropertiesRefresh()
 		{
-			if (Settings.mySettings.ExperimentalPropertyGridView) entityProperties2.Update();
+			if (Settings.MyDevSettings.ExperimentalPropertyGridView) entityProperties2.Update();
 			else entityProperties.Refresh();
 			NeedRefresh = false;
 		}
@@ -711,7 +711,7 @@ namespace ManiacEditor
 				if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
 				{
 					// Invalid
-					var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
+					var obj = (Settings.MyDevSettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
 					obj.setValue(tag, oldValue);
 					return;
 				}
@@ -849,7 +849,7 @@ namespace ManiacEditor
 						if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
 						{
 							// Invalid
-							var obj = (Settings.mySettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
+							var obj = (Settings.MyDevSettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
 							obj.setValue(tag, oldValue);
 							return;
 						}
@@ -879,7 +879,7 @@ namespace ManiacEditor
 
 		private void entityProperties_PropertyValueChanged(object s, System.Windows.Forms.PropertyValueChangedEventArgs e)
 		{
-			if (!Settings.mySettings.ExperimentalPropertyGridView)
+			if (!Settings.MyDevSettings.ExperimentalPropertyGridView)
 			{
 				string tag = e.ChangedItem.PropertyDescriptor.Name;
 				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.ChangedItem.Value, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
@@ -891,7 +891,7 @@ namespace ManiacEditor
 
 		private void entityProperties2_PropertyValueChanged(object s, Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventArgs e)
 		{
-			if (Settings.mySettings.ExperimentalPropertyGridView)
+			if (Settings.MyDevSettings.ExperimentalPropertyGridView)
 			{
 				string tag = e.OriginalSource.ToString();
 				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
@@ -916,7 +916,7 @@ namespace ManiacEditor
 				if (selectedItem.Tag is RSDKv5.SceneObject)
 				{
 					var obj = selectedItem.Tag as RSDKv5.SceneObject;
-					switch (Properties.Settings.Default.DefaultFilter[0])
+					switch (Settings.MyDefaults.DefaultFilter[0])
 					{
 						case 'M':
 							EditorInstance.Entities.DefaultFilter = 2;

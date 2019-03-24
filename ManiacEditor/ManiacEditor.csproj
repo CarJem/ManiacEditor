@@ -413,6 +413,7 @@
     <Compile Include="Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Editor Classes\EditorNewSettings.cs" />
     <Compile Include="Editor Classes\EditorLaunch.cs" />
     <Compile Include="Editor Classes\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
@@ -746,9 +747,18 @@
     </Compile>
     <Compile Include="Enums + Shorthandings\ScrollDir.cs" />
     <Compile Include="Enums + Shorthandings\Settings.cs" />
+    <Compile Include="Extensions\DesignExtensions.cs" />
+    <Compile Include="Extensions\SettingsProviders\DevSettingsProvider.cs" />
+    <Compile Include="Extensions\SettingsProviders\KeybindSettingsProvider.cs" />
+    <Compile Include="Extensions\SettingsProviders\PerformanceSettingsProvider.cs" />
+    <Compile Include="Extensions\SettingsProviders\DefaultsSettingsProvider.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\SettingsProviders\DocumentsSettingsProvider.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="Graphics\ImageExtensions.cs" />
+    <Compile Include="Interfaces\Options + Dev\SettingsHeader.xaml.cs">
+      <DependentUpon>SettingsHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\UserControls\GraphicsModel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -757,6 +767,9 @@
     </Compile>
     <Compile Include="Interfaces\UserControls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\UserControls\SettingsItem.xaml.cs">
+      <DependentUpon>SettingsItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\UserControls\SplitButton.xaml.cs">
       <DependentUpon>SplitButton.xaml</DependentUpon>
@@ -1309,17 +1322,38 @@
     <Compile Include="Interfaces\WinForm UI\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\KeyBindDefaults.Designer.cs">
-      <DependentUpon>KeyBindDefaults.settings</DependentUpon>
+    <Compile Include="Properties\Defaults.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Defaults.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\DevSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>DevSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\InternalSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>InternalSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\KeyBinds.cs" />
+    <Compile Include="Properties\GameOptions.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GameOptions.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Performance.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Performance.settings</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="WPF + Winform Stuff\KeyEventExt.cs" />
     <Compile Include="Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
@@ -1440,13 +1474,29 @@
     <Resource Include="Resources\Icons\InteractionTool.png" />
     <Resource Include="Resources\Icons\FreezeDevice.png" />
     <Resource Include="Resources\Icons\ColorPalette_alt.png" />
-    <None Include="Properties\KeyBindDefaults.settings">
+    <None Include="Properties\Defaults.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>KeyBindDefaults.Designer.cs</LastGenOutput>
+      <LastGenOutput>Defaults.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\DevSettings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>DevSettings.Designer.cs</LastGenOutput>
     </None>
     <EmbeddedResource Include="Resources\attributes.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Properties\GameOptions.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GameOptions.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\InternalSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>InternalSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Performance.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Performance.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\LayerManagerWarning1.rtf" />
     <EmbeddedResource Include="Resources\objects.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1643,7 +1693,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interfaces\Options + Dev\SettingsHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interfaces\UserControls\EditLayerToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\UserControls\SettingsItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

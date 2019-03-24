@@ -30,7 +30,7 @@ namespace ManiacEditor
             ofd.Title = "Select SonicMania.exe";
             ofd.Filter = "Windows PE Executable|*.exe";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Properties.Settings.Default.RunGamePath = ofd.FileName;
+                Properties.Defaults.Default.SonicManiaPath = ofd.FileName;
         }
 
         private void button14_Click(object sender, RoutedEventArgs e)
@@ -39,13 +39,13 @@ namespace ManiacEditor
             ofd.Title = "Select ManiaModManager.exe";
             ofd.Filter = "Windows PE Executable|*.exe";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Properties.Settings.Default.RunModLoaderPath = ofd.FileName;
+                Properties.Defaults.Default.ModLoaderPath = ofd.FileName;
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Settings.mySettings.Save();
+            Settings.MySettings.Save();
             DialogResult = true;
         }
 

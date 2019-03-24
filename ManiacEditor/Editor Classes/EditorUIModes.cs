@@ -445,7 +445,7 @@ namespace ManiacEditor
         #endregion
         #region Multi Layer Mode
         public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
-        private bool _MultiLayerEditMode = false;
+        private bool _MultiLayerEditMode = true;
         private bool GetMultiLayerEditMode()
         {
             return _MultiLayerEditMode;
@@ -515,7 +515,6 @@ namespace ManiacEditor
         private void SetPrioritizedEntityViewing(bool value)
         {
             _PrioritizedEntityViewing = value;
-            Properties.Settings.Default.PrioritizedObjectRendering = value;
             Editor.prioritizedViewingToolStripMenuItem.IsChecked = value;
             Editor.prioritizedViewingToolStripMenuItem2.IsChecked = value;
         }

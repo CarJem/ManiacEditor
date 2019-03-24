@@ -150,15 +150,15 @@ namespace ManiacEditor.Entity_Renders
                  * 
                  */
                 filteredOut =
-                    ((filter == 1 || filter == 5) && !Properties.Settings.Default.showBothEntities) ||
-                    (filter == 2 && !Properties.Settings.Default.showManiaEntities) ||
-                    (filter == 4 && !Properties.Settings.Default.showEncoreEntities) ||
-                    (filter == 255 && !Properties.Settings.Default.showPinballEntities) ||
-                    ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !Properties.Settings.Default.showOtherEntities);
+                    ((filter == 1 || filter == 5) && !Settings.MyDefaults.ShowBothEntities) ||
+                    (filter == 2 && !Settings.MyDefaults.ShowManiaEntities) ||
+                    (filter == 4 && !Settings.MyDefaults.ShowEncoreEntities) ||
+                    (filter == 255 && !Settings.MyDefaults.ShowPinballEntities) ||
+                    ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !Settings.MyDefaults.ShowOtherEntities);
             }
             else
             {
-                filteredOut = !Properties.Settings.Default.showPrePlusEntities;
+                filteredOut = !Settings.MyDefaults.ShowFilterlessEntities;
             }
 
             if (EditorInstance != null)

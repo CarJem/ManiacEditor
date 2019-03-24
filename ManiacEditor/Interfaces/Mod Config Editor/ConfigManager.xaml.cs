@@ -38,10 +38,10 @@ namespace ManiacEditor.Interfaces.WPF_UI
 		{
 			try
 			{
-				if (Properties.Settings.Default.modConfigs != null && Properties.Settings.Default.modConfigsNames != null)
+				if (Properties.Settings.Default.ModLoaderConfigs != null && Properties.Settings.Default.ModLoaderConfigsNames != null)
 				{
-					Properties.Settings.Default.modConfigs.Clear();
-					Properties.Settings.Default.modConfigsNames.Clear();
+					Properties.Settings.Default.ModLoaderConfigs.Clear();
+					Properties.Settings.Default.ModLoaderConfigsNames.Clear();
 				}
 				string[] filePaths = Directory.GetFiles(Path.GetFullPath(Environment.CurrentDirectory + "\\Config\\"), "*.ini", SearchOption.TopDirectoryOnly);
 				if (filePaths != null)
@@ -50,9 +50,9 @@ namespace ManiacEditor.Interfaces.WPF_UI
 					{
 						string config = File.ReadAllText(file);
 						string fileName = file.Substring(file.LastIndexOf("\\") + 1);
-						if (Properties.Settings.Default.modConfigs == null)
+						if (Properties.Settings.Default.ModLoaderConfigs == null)
 						{
-							Properties.Settings.Default.modConfigs = new StringCollection();
+							Properties.Settings.Default.ModLoaderConfigs = new StringCollection();
 						}
 						addModConfig(config);
 						addModConfigName(fileName);
@@ -74,12 +74,12 @@ namespace ManiacEditor.Interfaces.WPF_UI
 			try
 			{
 				var mySettings = Properties.Settings.Default;
-				var modConfigs = mySettings.modConfigs;
+				var modConfigs = mySettings.ModLoaderConfigs;
 
 				if (modConfigs == null)
 				{
 					modConfigs = new StringCollection();
-					mySettings.modConfigs = modConfigs;
+					mySettings.ModLoaderConfigs = modConfigs;
 				}
 
 				modConfigs.Insert(0, config);
@@ -98,12 +98,12 @@ namespace ManiacEditor.Interfaces.WPF_UI
 			try
 			{
 				var mySettings2 = Properties.Settings.Default;
-				var modConfigNames = mySettings2.modConfigsNames;
+				var modConfigNames = mySettings2.ModLoaderConfigsNames;
 
 				if (modConfigNames == null)
 				{
 					modConfigNames = new StringCollection();
-					mySettings2.modConfigsNames = modConfigNames;
+					mySettings2.ModLoaderConfigsNames = modConfigNames;
 				}
 
 				modConfigNames.Insert(0, config);
@@ -120,7 +120,7 @@ namespace ManiacEditor.Interfaces.WPF_UI
 		{
 			try
 			{
-				foreach (String s in Properties.Settings.Default.modConfigsNames)
+				foreach (String s in Properties.Settings.Default.ModLoaderConfigsNames)
 				{
 					Label configFile = new Label()
 					{
@@ -160,8 +160,8 @@ namespace ManiacEditor.Interfaces.WPF_UI
 
 			File.Delete(Environment.CurrentDirectory + "\\Config\\" + nameToRemove);
 			listView1.Items.Clear();
-			Properties.Settings.Default.modConfigsNames.RemoveAt(position);
-			Properties.Settings.Default.modConfigs.RemoveAt(position);
+			Properties.Settings.Default.ModLoaderConfigsNames.RemoveAt(position);
+			Properties.Settings.Default.ModLoaderConfigs.RemoveAt(position);
 			getPaths();
 			InitList();
 

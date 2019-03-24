@@ -89,7 +89,6 @@
                 <StackPanel Background="{DynamicResource ContextMenuBackground}">
                     <MenuItem Header="Data Directory" Click="dataDirectoryToolStripMenuItem_Click"></MenuItem>
                     <MenuItem Header="Saved Place" Click="savedPlaceToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Mod" Click="modToolStripMenuItem_Click"></MenuItem>
                 </StackPanel>
             </wpfTool:SplitButton.DropDownContent>
         </wpfTool:SplitButton>

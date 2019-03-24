@@ -141,6 +141,7 @@ namespace ManiacEditor
         public EditorUI UI;
         public EditorUIModes UIModes;
         public EditorLaunch Launcher;
+        public EditorNewSettings NewSettings;
         public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost FormsHost;
         public TileManiac.MainWindow TileManiacInstance = new TileManiac.MainWindow();
@@ -215,7 +216,7 @@ namespace ManiacEditor
             Settings = new EditorSettings(this);
             UIModes = new EditorUIModes(this);
 
-            Theming.UseDarkTheme_WPF(ManiacEditor.Settings.mySettings.NightMode);
+            Theming.UseDarkTheme_WPF(ManiacEditor.Settings.MySettings.NightMode);
 			InitializeComponent();
 
             System.Windows.Application.Current.MainWindow = this;
@@ -238,7 +239,7 @@ namespace ManiacEditor
                 Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
             }
 
-			if (ManiacEditor.Settings.mySettings.UseAutoForcefulStartup && ManiacEditor.Settings.mySettings.UseForcefulStartup) OpenSceneForceFully();
+			if (ManiacEditor.Settings.MyDevSettings.DevAutoStart) OpenSceneForceFully();
 
 			if (ShortcutLaunch)
 			{
@@ -307,6 +308,7 @@ namespace ManiacEditor
             ManiacINI = new EditorManiacINI(this);
             Launcher = new EditorLaunch(this);
             UI = new EditorUI(this);
+            NewSettings = new EditorNewSettings(this);
 
 
 
@@ -522,7 +524,7 @@ namespace ManiacEditor
                 Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copyDataA, copyDataB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-                if (ManiacEditor.Settings.mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
+                if (!doNotUseWindowsClipboard)
                     Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
 
                 // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
@@ -533,7 +535,7 @@ namespace ManiacEditor
                 Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-                if (ManiacEditor.Settings.mySettings.EnableWindowsClipboard && !doNotUseWindowsClipboard)
+                if (!doNotUseWindowsClipboard)
                     Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData), true);
 
                 // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
@@ -575,15 +577,6 @@ namespace ManiacEditor
         {
             int x = 0, y = 0;
             int modifier = (IsChunksEdit() ? 8 : 1);
-            if (MagnetMode.IsChecked == false)
-            {
-                UIModes.UseMagnetMode = false;
-            }
-            if (nudgeFasterButton.IsChecked == false)
-            {
-                ManiacEditor.Settings.mySettings.EnableFasterNudge = false;
-                nudgeFasterButton.IsChecked = false;
-            }
             if (UIModes.UseMagnetMode)
             {
                 switch (e.KeyData)
@@ -594,31 +587,31 @@ namespace ManiacEditor
                     case Keys.Right: x = (UIModes.UseMagnetXAxis ? UIModes.MagnetSize : 1); break;
                 }
             }
-            if (ManiacEditor.Settings.mySettings.EnableFasterNudge)
+            if (UIModes.EnableFasterNudge)
             {
                 if (UIModes.UseMagnetMode)
                 {
                     switch (e.KeyData)
                     {
-                        case Keys.Up: y = (UIModes.UseMagnetYAxis ? -UIModes.MagnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : -1 - ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
-                        case Keys.Down: y = (UIModes.UseMagnetYAxis ? UIModes.MagnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : 1 + ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
-                        case Keys.Left: x = (UIModes.UseMagnetXAxis ? -UIModes.MagnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : -1 - ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
-                        case Keys.Right: x = (UIModes.UseMagnetXAxis ? UIModes.MagnetSize * ManiacEditor.Settings.mySettings.FasterNudgeValue : 1 + ManiacEditor.Settings.mySettings.FasterNudgeValue); break;
+                        case Keys.Up: y = (UIModes.UseMagnetYAxis ? -UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : -1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
+                        case Keys.Down: y = (UIModes.UseMagnetYAxis ? UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : 1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
+                        case Keys.Left: x = (UIModes.UseMagnetXAxis ? -UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : -1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
+                        case Keys.Right: x = (UIModes.UseMagnetXAxis ? UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : 1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
                     }
                 }
                 else
                 {
                     switch (e.KeyData)
                     {
-                        case Keys.Up: y = (-1 - ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
-                        case Keys.Down: y = (1 + ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
-                        case Keys.Left: x = (-1 - ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
-                        case Keys.Right: x = (1 + ManiacEditor.Settings.mySettings.FasterNudgeValue) * modifier; break;
+                        case Keys.Up: y = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                        case Keys.Down: y = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                        case Keys.Left: x = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                        case Keys.Right: x = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
                     }
                 }
 
             }
-            if (UIModes.UseMagnetMode == false && ManiacEditor.Settings.mySettings.EnableFasterNudge == false)
+            if (UIModes.UseMagnetMode == false && UIModes.EnableFasterNudge == false)
             {
                 switch (e.KeyData)
                 {
@@ -769,26 +762,13 @@ namespace ManiacEditor
 
             Chunks = null;
 
-            // If copying between scenes is allowed...
-            if (ManiacEditor.Settings.mySettings.ForceCopyUnlock)
-            {
-                // ...but not for entities...
-                if (ManiacEditor.Settings.mySettings.ProhibitEntityUseOnExternalClipboard)
-                    // Clear local entities clipboard
-                    entitiesClipboard = null;
-                else if (entitiesClipboard != null)
-                    // Prepare entities for external copy
-                    foreach (EditorEntity entity in entitiesClipboard)
-                        entity.PrepareForExternalCopy();
-            }
 
-            // If copying between scenes is NOT allowed...
-            else
-            {
-                // Clear local clipboards
-                TilesClipboard = null;
-                entitiesClipboard = null;
-            }
+            //foreach (EditorEntity entity in entitiesClipboard)
+            //   entity.PrepareForExternalCopy();
+
+            // Clear local clipboards
+            TilesClipboard = null;
+            entitiesClipboard = null;
 
             Entities = null;
 
@@ -848,8 +828,8 @@ namespace ManiacEditor
 		public bool IsDataDirectoryValid(string directoryToCheck) { return Paths.IsDataDirectoryValid(directoryToCheck); }
 		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e, String dataDirectory)
 		{
-			var dataDirectories = ManiacEditor.Settings.mySettings.DataDirectories;
-            ManiacEditor.Settings.mySettings.GamePath = InGame.GamePath;
+			var dataDirectories = ManiacEditor.Settings.MySettings.DataDirectories;
+            ManiacEditor.Settings.MyDefaults.SonicManiaPath = InGame.GamePath;
 			if (IsDataDirectoryValid(dataDirectory))
 			{
 				ResetDataDirectoryToAndResetScene(dataDirectory);
@@ -864,7 +844,7 @@ namespace ManiacEditor
 				RefreshDataDirectories(dataDirectories);
 
 			}
-            ManiacEditor.Settings.mySettings.Save();
+            ManiacEditor.Settings.MySettings.Save();
 		}
 		public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
 		{
@@ -878,7 +858,7 @@ namespace ManiacEditor
 			{
 				if (forceBrowse) OpenScene(true);
 				else if (forceSceneSelect) OpenScene(false);
-				else OpenScene(ManiacEditor.Settings.mySettings.forceBrowse);
+				else OpenScene();
 
 			}
 
@@ -888,8 +868,8 @@ namespace ManiacEditor
 		{
 			var menuItem = sender as MenuItem;
 			string dataDirectory = menuItem.Tag.ToString();
-			var dataDirectories = ManiacEditor.Settings.mySettings.DataDirectories;
-            ManiacEditor.Settings.mySettings.GamePath = InGame.GamePath;
+			var dataDirectories = ManiacEditor.Settings.MySettings.DataDirectories;
+            ManiacEditor.Settings.MyDefaults.SonicManiaPath = InGame.GamePath;
 			if (IsDataDirectoryValid(dataDirectory))
 			{
 				ResetDataDirectoryToAndResetScene(dataDirectory);
@@ -904,7 +884,7 @@ namespace ManiacEditor
 				RefreshDataDirectories(dataDirectories);
 
 			}
-            ManiacEditor.Settings.mySettings.Save();
+            ManiacEditor.Settings.MySettings.Save();
 		}
 
 		/// <summary>
@@ -913,7 +893,7 @@ namespace ManiacEditor
 		/// <param name="settings">The settings file containing the </param>
 		public void RefreshDataDirectories(StringCollection recentDataDirectories)
 		{
-			if (ManiacEditor.Settings.mySettings.DataDirectories?.Count > 0)
+			if (ManiacEditor.Settings.MySettings.DataDirectories?.Count > 0)
 			{
                 recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
                 noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
@@ -985,12 +965,12 @@ namespace ManiacEditor
 			try
 			{
 				var mySettings = Properties.Settings.Default;
-				var dataDirectories = ManiacEditor.Settings.mySettings.DataDirectories;
+				var dataDirectories = ManiacEditor.Settings.MySettings.DataDirectories;
 
 				if (dataDirectories == null)
 				{
 					dataDirectories = new StringCollection();
-                    ManiacEditor.Settings.mySettings.DataDirectories = dataDirectories;
+                    ManiacEditor.Settings.MySettings.DataDirectories = dataDirectories;
 				}
 
 				if (dataDirectories.Contains(dataDirectory))
@@ -1008,7 +988,7 @@ namespace ManiacEditor
 
 				dataDirectories.Insert(0, dataDirectory);
 
-                ManiacEditor.Settings.mySettings.Save();
+                ManiacEditor.Settings.MySettings.Save();
 
 				RefreshDataDirectories(dataDirectories);
 
@@ -1026,18 +1006,18 @@ namespace ManiacEditor
 		public void OpenSceneForceFully()
 		{
 
-			string dataDirectory = ManiacEditor.Settings.mySettings.DevForceRestartData;
+			string dataDirectory = ManiacEditor.Settings.MyDevSettings.DevForceRestartData;
 			DataDirectory = dataDirectory;
-			string Result = ManiacEditor.Settings.mySettings.DevForceRestartScene;
-			int LevelID = ManiacEditor.Settings.mySettings.DeveForceRestartLevelID;
-			bool isEncore = ManiacEditor.Settings.mySettings.DevForceRestartEncore;
-			string CurrentZone = ManiacEditor.Settings.mySettings.DevForceRestartCurrentZone;
-			string CurrentName = ManiacEditor.Settings.mySettings.DevForceRestartCurrentName;
-			string CurrentSceneID = ManiacEditor.Settings.mySettings.DevForceRestartCurrentSceneID;
-			bool Browsed = ManiacEditor.Settings.mySettings.DevForceRestartBrowsed;
+			string Result = ManiacEditor.Settings.MyDevSettings.DevForceRestartScene;
+			int LevelID = ManiacEditor.Settings.MyDevSettings.DevForceRestartID;
+			bool isEncore = ManiacEditor.Settings.MyDevSettings.DevForceRestartIsEncore;
+			string CurrentZone = ManiacEditor.Settings.MyDevSettings.DevForceRestartCurrentZone;
+			string CurrentName = ManiacEditor.Settings.MyDevSettings.DevForceRestartCurrentName;
+			string CurrentSceneID = ManiacEditor.Settings.MyDevSettings.DevForceRestartSceneID;
+			bool Browsed = ManiacEditor.Settings.MyDevSettings.DevForceRestartIsBrowsed;
 
-			int x = ManiacEditor.Settings.mySettings.DevForceRestartX;
-			int y = ManiacEditor.Settings.mySettings.DevForeRestartY;
+			int x = ManiacEditor.Settings.MyDevSettings.DevForceRestartX;
+			int y = ManiacEditor.Settings.MyDevSettings.DevForceRestartY;
 			UIModes.TempWarpCoords = new Point(x, y);
 			UIModes.ForceWarp = true;
 
@@ -1105,8 +1085,13 @@ namespace ManiacEditor
             {
                 InGame.GameRunning = false;
                 var mySettings = Properties.Settings.Default;
-                ManiacEditor.Settings.mySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
-                ManiacEditor.Settings.mySettings.Save();
+                ManiacEditor.Settings.MySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
+                ManiacEditor.Settings.MySettings.Save();
+                ManiacEditor.Settings.MyPerformance.Save();
+                ManiacEditor.Settings.MyDefaults.Save();
+                ManiacEditor.Settings.MyGameOptions.Save();
+                ManiacEditor.Settings.MyDevSettings.Save();
+                ManiacEditor.Settings.MyKeyBinds.Save();
             }
             catch (Exception ex)
             {
@@ -1176,48 +1161,36 @@ namespace ManiacEditor
         #region Graphics Panel Events
         private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            if (!ManiacEditor.Settings.mySettings.DisableDraging)
+            if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
             {
-                if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
-                {
-                    Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
-                    e.Effect = System.Windows.Forms.DragDropEffects.Move;
-                    EditLayerA?.StartDragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
-                    UI.UpdateEditLayerActions();
-                }
-                else
-                {
-                    e.Effect = System.Windows.Forms.DragDropEffects.None;
-                }
+                Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
+                e.Effect = System.Windows.Forms.DragDropEffects.Move;
+                EditLayerA?.StartDragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                UI.UpdateEditLayerActions();
+            }
+            else
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.None;
             }
         }
         private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            if (!ManiacEditor.Settings.mySettings.DisableDraging)
+            if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
             {
-                if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
-                {
-                    Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
-                    EditLayerA?.DragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
-                    FormsModel.GraphicPanel.Render();
+                Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
+                EditLayerA?.DragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                FormsModel.GraphicPanel.Render();
 
-                }
             }
         }
         private void GraphicPanel_DragLeave(object sender, EventArgs e)
         {
-            if (!ManiacEditor.Settings.mySettings.DisableDraging)
-            {
-                EditLayerA?.EndDragOver(true);
-                FormsModel.GraphicPanel.Render();
-            }
+            EditLayerA?.EndDragOver(true);
+            FormsModel.GraphicPanel.Render();
         }
         private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            if (!ManiacEditor.Settings.mySettings.DisableDraging)
-            {
-                EditLayerA?.EndDragOver(false);
-            }
+            EditLayerA?.EndDragOver(false);
         }
         public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
@@ -1272,7 +1245,7 @@ namespace ManiacEditor
 			bool showEntities = ShowEntities.IsChecked.Value && !EditEntities.IsCheckedAll;
 			bool showEntitiesEditing = EditEntities.IsCheckedAll;
 
-			bool PriorityMode = ManiacEditor.Settings.mySettings.PrioritizedObjectRendering;
+			bool PriorityMode = UIModes.PrioritizedEntityViewing;
             bool AboveAllMode = UIModes.EntitiesVisibileAboveAllLayers;
 
 
@@ -1283,7 +1256,7 @@ namespace ManiacEditor
                     BackgroundDX.Draw(FormsModel.GraphicPanel);
                 if (IsTilesEdit())
                 {
-                    if (ManiacEditor.Settings.mySettings.ShowEditLayerBackground == true)
+                    if (ManiacEditor.Settings.MyPerformance.ShowEditLayerBackground == true)
                     {
                         BackgroundDX.DrawEdit(FormsModel.GraphicPanel);
                     }
@@ -1466,7 +1439,7 @@ namespace ManiacEditor
 			if (UIModes.ForceWarp)
 			{
 				if (UIModes.ShortcutHasZoom) ZoomModel.SetZoomLevel(0, UIModes.TempWarpCoords, UIModes.ShortcutZoomValue);
-				else ZoomModel.SetZoomLevel(ManiacEditor.Settings.mySettings.DevForceRestartZoomLevel, UIModes.TempWarpCoords);
+				else ZoomModel.SetZoomLevel(ManiacEditor.Settings.MyDevSettings.DevForceRestartZoomLevel, UIModes.TempWarpCoords);
 				GoToPosition(UIModes.TempWarpCoords.X, UIModes.TempWarpCoords.Y, false, true);
                 ZoomModel.SetViewSize((int)(SceneWidth * StateModel.Zoom), (int)(SceneHeight * StateModel.Zoom));
 
@@ -1564,9 +1537,9 @@ namespace ManiacEditor
 				switch (UIModes.CollisionPreset)
 				{
 					case 2:
-						CollisionAllSolid = Properties.Settings.Default.CollisionSAColour;
-						CollisionTopOnlySolid = Properties.Settings.Default.CollisionTOColour;
-						CollisionLRDSolid = Properties.Settings.Default.CollisionLRDColour;
+						CollisionAllSolid = Properties.Defaults.Default.CollisionSAColour;
+						CollisionTopOnlySolid = Properties.Defaults.Default.CollisionTOColour;
+						CollisionLRDSolid = Properties.Defaults.Default.CollisionLRDColour;
 						break;
 					case 1:
 						CollisionAllSolid = Color.Black;
@@ -1627,7 +1600,7 @@ namespace ManiacEditor
 		#region Get + Set Methods
 		public Rectangle GetScreen()
 		{
-			if (ManiacEditor.Settings.mySettings.EntityFreeCam) return new Rectangle(StateModel.CustomX, StateModel.CustomY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
+			if (ManiacEditor.Settings.MySettings.EntityFreeCam) return new Rectangle(StateModel.CustomX, StateModel.CustomY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
 			else return new Rectangle(StateModel.ShiftX, StateModel.ShiftY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
 		}
 		public double GetZoom()
@@ -1856,7 +1829,7 @@ namespace ManiacEditor
         private void SetGrid16x16Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 16; }
         private void SetGrid128x128Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 128; }
         private void SetGrid256x256Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 128; }
-        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { UIModes.GridSize = Properties.Settings.Default.CustomGridSizeValue; }
+        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { UIModes.GridSize = Properties.Defaults.Default.CustomGridSizeValue; }
         #endregion
 
         #region Apps
@@ -2194,7 +2167,7 @@ namespace ManiacEditor
 				Deselect(false);
 				if (tsb.IsCheckedN.Value)
 				{
-					if (!ManiacEditor.Settings.mySettings.KeepLayersVisible)
+					if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
 					{
                         ShowFGLow.IsChecked = false;
                         ShowFGHigh.IsChecked = false;
@@ -2222,7 +2195,7 @@ namespace ManiacEditor
 				Deselect(false);
 				if (tsb.IsCheckedA.Value)
 				{
-					if (!ManiacEditor.Settings.mySettings.KeepLayersVisible)
+					if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
 					{
                         ShowFGLow.IsChecked = false;
                         ShowFGHigh.IsChecked = false;
@@ -2250,7 +2223,7 @@ namespace ManiacEditor
 				Deselect(false);
 				if (tsb.IsCheckedB.Value)
 				{
-					if (!ManiacEditor.Settings.mySettings.KeepLayersVisible)
+					if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
 					{
                         ShowFGLow.IsChecked = false;
                         ShowFGHigh.IsChecked = false;
@@ -2281,18 +2254,18 @@ namespace ManiacEditor
         {
             MenuItem newItem = new MenuItem()
             {
-                Header = ManiacEditor.Settings.mySettings.modConfigsNames[i],
-                Tag = ManiacEditor.Settings.mySettings.modConfigs[i]
+                Header = ManiacEditor.Settings.MySettings.ModLoaderConfigsNames[i],
+                Tag = ManiacEditor.Settings.MySettings.ModLoaderConfigs[i]
             };
             newItem.Click += ModConfigItemClicked;
-            if (newItem.Tag.ToString() == ManiacEditor.Settings.mySettings.LastModConfig) newItem.IsChecked = true;
+            if (newItem.Tag.ToString() == ManiacEditor.Settings.MySettings.LastModConfig) newItem.IsChecked = true;
             return newItem;
         }
         private void ModConfigItemClicked(object sender, RoutedEventArgs e)
         {
             var modConfig_CheckedItem = (sender as MenuItem);
             SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
-            ManiacEditor.Settings.mySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
+            ManiacEditor.Settings.MySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
         }
         public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -2302,7 +2275,7 @@ namespace ManiacEditor
 
             // TODO: Fix NullReferenceException on Settings.mySettings.modConfigs
             selectConfigToolStripMenuItem.Items.Clear();
-            for (int i = 0; i < ManiacEditor.Settings.mySettings.modConfigs.Count; i++)
+            for (int i = 0; i < ManiacEditor.Settings.MySettings.ModLoaderConfigs.Count; i++)
             {
                 selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
             }

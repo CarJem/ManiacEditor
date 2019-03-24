@@ -143,7 +143,7 @@ namespace ManiacEditor
 
         public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true)
         {
-            if (Settings.mySettings.EntityFreeCam)
+            if (Settings.MySettings.EntityFreeCam)
             {
                 width = 10000000;
                 height = 10000000;
@@ -157,7 +157,7 @@ namespace ManiacEditor
 
             if (resizeForm) Resize(null, null);
 
-            if (!Settings.mySettings.EntityFreeCam)
+            if (!Settings.MySettings.EntityFreeCam)
             {
                 Editor.FormsModel.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.FormsModel.hScrollBar1.Value, Editor.FormsModel.hScrollBar1.Maximum));
                 Editor.FormsModel.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.FormsModel.vScrollBar1.Value, Editor.FormsModel.vScrollBar1.Maximum));
@@ -232,7 +232,7 @@ namespace ManiacEditor
         }
         public void ResizeGraphicPanel(int width = 0, int height = 0)
         {
-            if (Settings.mySettings.EntityFreeCam)
+            if (Settings.MySettings.EntityFreeCam)
             {
                 width = Editor.SceneWidth;
                 height = Editor.SceneHeight;
