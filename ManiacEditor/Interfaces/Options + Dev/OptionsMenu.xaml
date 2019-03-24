@@ -8,7 +8,7 @@
         xmlns:p="clr-namespace:ManiacEditor.Properties"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Maniac Editor Options" Height="569" Width="1138" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="OptionBox_FormClosing" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+        Title="Maniac Editor Options" Height="663" Width="648.5" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="OptionBox_FormClosing" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="156*"/>
@@ -17,9 +17,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TabControl x:Name="MainTabControl" SelectionChanged="MainTabControl_SelectionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,0,0" BorderBrush="{DynamicResource DisabledText}" Background="{DynamicResource NormalBackground}">
-            <TabItem Header="Common" x:Name="NewSettings2" Foreground="{DynamicResource NormalText}">
+            <TabItem Header="Main" x:Name="MainSettings" Foreground="{DynamicResource NormalText}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -29,52 +30,52 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="500">
+                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="1000">
                         <StackPanel x:Name="SettingsViewer2" Margin="10">
                             <maniac:SettingsHeader HeaderName="Tiles Toolbar Defaults"></maniac:SettingsHeader>
-                            <CheckBox Content="Solid (Top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding SolidTopDefault}"/>
-                            <CheckBox Content="Solid (All excl. top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding SolidAllButTopDefault}"/>
-                            <CheckBox Content="Solid (Top)  (Plane 2)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding Unkown1Default}"/>
-                            <CheckBox Content="Solid (All excl. top)  (Plane 2)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding Unkown2Default}"/>
+                            <CheckBox Content="Solid (Top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidTopADefault}"/>
+                            <CheckBox Content="Solid (All excl. top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidAllButTopADefault}"/>
+                            <CheckBox Content="Solid (Top)  (Plane 2)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding SolidTopBDefault}"/>
+                            <CheckBox Content="Solid (All excl. top)  (Plane 2)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding SolidAllButTopBDefault}"/>
                             <GroupBox Header="Default Zoom Levels:" Width="200" HorizontalAlignment="Left">
                                 <DockPanel>
                                     <StackPanel HorizontalAlignment="Left">
                                         <TextBlock Text="Tiles:" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                                        <Slider HorizontalAlignment="Left" Height="30" Width="181" Margin="5,0,0,1" Ticks="0 1 2 3" TickPlacement="Both" Maximum="3" Value="{maniac:SettingBinding tileToolbarDefaultZoomLevel}"/>
+                                        <Slider HorizontalAlignment="Left" Height="30" Width="181" Margin="5,0,0,1" Ticks="0 1 2 3" TickPlacement="Both" Maximum="3" Value="{maniac:DefaultSettingsBinding TilesDefaultZoom}"/>
                                         <TextBlock Text="Chunks:" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                                        <Slider HorizontalAlignment="Left" Height="30" Width="181" Margin="5,0,0,1" Ticks="0 1 2 3" TickPlacement="Both" Maximum="3" Value="{maniac:SettingBinding tileToolbarDefaultZoomLevel}"/>
+                                        <Slider HorizontalAlignment="Left" Height="30" Width="181" Margin="5,0,0,1" Ticks="0 1 2 3" TickPlacement="Both" Maximum="3" Value="{maniac:DefaultSettingsBinding ChunksDefaultZoom}"/>
                                     </StackPanel>
                                 </DockPanel>
                             </GroupBox>
                             <maniac:SettingsHeader HeaderName="Entities Toolbar Defaults"></maniac:SettingsHeader>
-                            <CheckBox Content="Mania" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding showManiaEntities}"/>
-                            <CheckBox Content="Encore" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding showEncoreEntities}"/>
-                            <CheckBox Content="Both" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding showBothEntities}"/>
-                            <CheckBox Content="Other" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding showOtherEntities}"/>
-                            <CheckBox Content="Pinball" HorizontalAlignment="Left" IsChecked="{maniac:SettingBinding showPinballEntities}"/>
-                            <CheckBox Content="Filterless" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding showPrePlusEntities}"/>
+                            <CheckBox Content="Mania" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}"/>
+                            <CheckBox Content="Encore" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}"/>
+                            <CheckBox Content="Both" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}"/>
+                            <CheckBox Content="Other" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}"/>
+                            <CheckBox Content="Pinball" HorizontalAlignment="Left" IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}"/>
+                            <CheckBox Content="Filterless" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}"/>
                             <Separator Width="200" Margin="0,5" HorizontalAlignment="Left"></Separator>
-                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" IsChecked="{maniac:SettingBinding useBitOperators}">
+                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" IsChecked="{maniac:SettingBinding UseBitOperators}">
                                 <TextBlock Text="Use Bit Operators" TextWrapping="Wrap"/>
                             </CheckBox>
 
                             <maniac:SettingsHeader HeaderName="Layer Defaults"></maniac:SettingsHeader>
-                            <CheckBox Content="FG Lower" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{maniac:SettingBinding FGLowerDefault}"/>
-                            <CheckBox Content="FG Low" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{maniac:SettingBinding FGLowDefault}"/>
-                            <CheckBox Content="FG High" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding FGHighDefault}"/>
-                            <CheckBox Content="FG Higher" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:SettingBinding FGHigherDefault}"/>
-                            <CheckBox Content="Entities" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="16" IsChecked="{maniac:SettingBinding EntitiesDefault}"/>
-                            <CheckBox Content="Animations" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" IsChecked="{maniac:SettingBinding AnimationsDefault}"/>
-                            <CheckBox Content="Sprite Animations" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" IsChecked="{maniac:SettingBinding AnimatedSpritesDefault}"/>
-                            <CheckBox Content="Platform Animations" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Grid.ColumnSpan="2" Width="128" IsChecked="{maniac:SettingBinding MovingPlatformsDefault}"/>
+                            <CheckBox Content="FG Lower" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{maniac:DefaultSettingsBinding FGLowerDefault}"/>
+                            <CheckBox Content="FG Low" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{maniac:DefaultSettingsBinding FGLowDefault}"/>
+                            <CheckBox Content="FG High" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding FGHighDefault}"/>
+                            <CheckBox Content="FG Higher" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding FGHigherDefault}"/>
+                            <CheckBox Content="Entities" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="16" IsChecked="{maniac:DefaultSettingsBinding EntitiesDefault}"/>
+                            <CheckBox Content="Animations" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" IsChecked="{maniac:DefaultSettingsBinding AnimationsDefault}"/>
+                            <CheckBox Content="Sprite Animations" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" IsChecked="{maniac:DefaultSettingsBinding SpriteAnimationsDefault}"/>
+                            <CheckBox Content="Platform Animations" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Grid.ColumnSpan="2" Width="128" IsChecked="{maniac:DefaultSettingsBinding PlatformAnimationsDefault}"/>
                             <maniac:SettingsHeader HeaderName="Numerical Defaults"></maniac:SettingsHeader>
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal" Margin="0,1">
-                                    <xctk:IntegerUpDown Name="myUpDownControl" HorizontalAlignment="Left" Width="55" Value="{maniac:SettingBinding FasterNudgeValue}"/>
+                                    <xctk:IntegerUpDown Name="myUpDownControl" HorizontalAlignment="Left" Width="55" Value="{maniac:DefaultSettingsBinding FasterNudgeValue}"/>
                                     <Label Content="Faster Nudge Amount" HorizontalAlignment="Left" VerticalAlignment="Top" Width="128" Height="26"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,1">
-                                    <xctk:IntegerUpDown x:Name="myUpDownControl_Copy" HorizontalAlignment="Left" Width="55" Text="{maniac:SettingBinding CustomGridSizeValue}" />
+                                    <xctk:IntegerUpDown x:Name="myUpDownControl_Copy" HorizontalAlignment="Left" Width="55" Text="{maniac:DefaultSettingsBinding CustomGridSizeValue}" />
                                     <Label Content="Custom Grid Size" HorizontalAlignment="Left" VerticalAlignment="Top" Width="103" Height="26"/>
                                 </StackPanel>
                             </StackPanel>
@@ -138,11 +139,11 @@
                             <maniac:SettingsHeader HeaderName="Custom FG Layers"></maniac:SettingsHeader>
                             <DockPanel Margin="0,1">
                                 <Label Content="Lower Layer:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85"/>
-                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:SettingBinding CustomLayerLow}" VerticalAlignment="Top" Width="161"/>
+                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:DefaultSettingsBinding CustomFGHigher}" VerticalAlignment="Top" Width="161"/>
                             </DockPanel>
                             <DockPanel Margin="0,1">
                                 <Label Content="Higher Layer:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85"/>
-                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:SettingBinding CustomLayerHigh}" VerticalAlignment="Top" Width="161"/>
+                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:DefaultSettingsBinding CustomFGLower}" VerticalAlignment="Top" Width="161"/>
                             </DockPanel>
                             <maniac:SettingsHeader HeaderName="Varrious Defaults"></maniac:SettingsHeader>
                             <DockPanel Margin="0,1">
@@ -158,19 +159,19 @@
                                 <RadioButton x:Name="radioButton3" Content="Inverted" Margin="5,0"/>
                                 <RadioButton x:Name="radioButton1" Content="Custom" Margin="5,0"/>
                             </DockPanel>
-                            <CheckBox Content="Show Full Parallax Entity Render" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding ShowFullParallaxEntityRenderDefault}"/>
-                            <CheckBox Content="Show Warp Door / Entity Arrow Paths" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding ShowEntityArrowPathsDefault}"/>
-                            <CheckBox Content="Use Transparency when Editing Entities" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding EditEntitiesTransparencyDefault}"/>
-                            <CheckBox Content="Enable Pixel Count Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding EnablePixelModeDefault}"/>
-                            <CheckBox Content="Enable Scroll Lock" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding ScrollLockEnabledDefault}"/>
-                            <CheckBox Content="Show Entity Selection Boxes" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding ShowEntitySelectionBoxesDefault}"/>
-                            <CheckBox Content="Show Water Level" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding showWaterLevelDefault}"/>
-                            <CheckBox Content="Always Show Water Level" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding AlwaysShowWaterLevelDefault}"/>
-                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding SizeWaterLevelWithBoundsDefault}">
+                            <CheckBox Content="Show Full Parallax Entity Render" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ShowFullParallaxSpritesDefault}"/>
+                            <CheckBox Content="Show Warp Door / Entity Arrow Paths" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ShowEntityArrowPathsDefault}"/>
+                            <CheckBox Content="Use Transparency when Editing Entities" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding EditEntitiesTransparentLayersDefault}"/>
+                            <CheckBox Content="Enable Pixel Count Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding EnablePixelModeDefault}"/>
+                            <CheckBox Content="Enable Scroll Lock" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ScrollLockDefault}"/>
+                            <CheckBox Content="Show Entity Selection Boxes" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ShowEntitySelectionBoxesDefault}"/>
+                            <CheckBox Content="Show Water Level" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ShowWaterEntityLevelDefault}"/>
+                            <CheckBox Content="Always Show Water Level" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding AlwaysShowWaterLevelDefault}"/>
+                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SizeWaterLevelWithBoundsDefault}">
                                 <TextBlock Text="Size Water Level with Bounds when Not Selected" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
-                            <CheckBox Content="Show Debug HUD" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding ShowStatsViewerDefault}"/>
-                            <CheckBox Content="Use Large Debug HUD Text" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:SettingBinding StatsViewerLargeTextDefault}"/>
+                            <CheckBox Content="Show Debug HUD" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ShowDebugStatsDefault}"/>
+                            <CheckBox Content="Use Large Debug HUD Text" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding LargeDebugStatsDefault}"/>
                             <DockPanel Margin="0,1">
                                 <TextBlock Text="Default Scroll Lock Direction: " VerticalAlignment="Center" Width="160"></TextBlock>
                                 <RadioButton Checked="radioButtonX_CheckedChanged_1" Margin="0,0" Unchecked="radioButtonX_CheckedChanged_1" x:Name="radioButtonX" Content="X" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -178,36 +179,43 @@
                             </DockPanel>
                             <DockPanel Margin="0,1">
                                 <TextBlock Text="Scene Select Default View: " VerticalAlignment="Center" Width="160"></TextBlock>
-                                <RadioButton x:Name="SceneSelectRadio2" VerticalAlignment="Center" Checked="radioButton2_CheckedChanged" Unchecked="radioButton2_CheckedChanged" Content="Files View" Margin="0,0" IsChecked="{maniac:SettingBinding SceneSelectRadioButton2On}"/>
-                                <RadioButton x:Name="SceneSelectRadio1" VerticalAlignment="Center" Checked="radioButton1_CheckedChanged" Unchecked="radioButton1_CheckedChanged" Content="GameConfig View" Margin="5,0" IsChecked="{maniac:SettingBinding SceneSelectRadioButton1On}"/>
+                                <RadioButton x:Name="SceneSelectRadio2" VerticalAlignment="Center" Checked="radioButton2_CheckedChanged" Unchecked="radioButton2_CheckedChanged" Content="Files View" Margin="0,0"/>
+                                <RadioButton x:Name="SceneSelectRadio1" VerticalAlignment="Center" Checked="radioButton1_CheckedChanged" Unchecked="radioButton1_CheckedChanged" Content="GameConfig View" Margin="5,0"/>
                             </DockPanel>
                             <maniac:SettingsHeader HeaderName="Game Utilities"></maniac:SettingsHeader>
-                            <DockPanel>
+                            <DockPanel Margin="0,1">
+                                <TextBlock Text="Sonic Mania Path" Width="160"></TextBlock>
+                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="{maniac:DefaultSettingsBinding SonicManiaPath}" IsEnabled="False"></TextBox>
+                                <Button Width="20" Content="..." Click="SonicMania_Click" HorizontalAlignment="Left"></Button>
+                            </DockPanel>
+                            <DockPanel Margin="0,1">
+                                <TextBlock Text="Mania Mod Manager Path" Width="160"></TextBlock>
+                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="{maniac:DefaultSettingsBinding ModLoaderPath}" IsEnabled="False"></TextBox>
+                                <Button Width="20" Content="..." Click="ModLoader_Click" HorizontalAlignment="Left"></Button>
+                            </DockPanel>
+                            <DockPanel Margin="0,1">
                                 <TextBlock Text="RSDK Animation Editor Path" Width="160"></TextBlock>
-                                <TextBox Width="130" Text="{maniac:SettingBinding RunAniEdPath}"></TextBox>
+                                <TextBox Width="130" Text="{maniac:DefaultSettingsBinding AnimationEditorPath}"></TextBox>
                                 <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left"></Button>
                             </DockPanel>
-                            <DockPanel>
+                            <DockPanel Margin="0,1">
                                 <TextBlock Text="Color Palette Editor Path" Width="160"></TextBlock>
                                 <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="Removed" IsEnabled="False"></TextBox>
                                 <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left" IsEnabled="False"></Button>
                             </DockPanel>
-                            <DockPanel>
+                            <DockPanel Margin="0,1">
                                 <TextBlock Text="Tile Maniac Path" Width="160"></TextBlock>
                                 <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="Removed" IsEnabled="False"></TextBox>
                                 <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left" IsEnabled="False"></Button>
                             </DockPanel>
-                            <DockPanel>
+                            <DockPanel Margin="0,1">
                                 <TextBlock Text="Game Lock On Options" Width="160" HorizontalAlignment="Left"></TextBlock>
                                 <Button Content="Settings..." Margin="0" Click="Button_Click_1" Width="150" HorizontalAlignment="Left"></Button>
                             </DockPanel>
                             <maniac:SettingsHeader HeaderName="Other Settings"></maniac:SettingsHeader>
-                            <CheckBox Foreground="Red" Content="Enable Copy between Scenes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding ForceCopyUnlock}"/>
-                            <CheckBox Foreground="Red" Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
-                            <CheckBox Foreground="Red" Content="Use File Explorer instead of Scene Select for Browsing Stages." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding forceBrowse}"/>
+                            <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
                             <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
                             <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme (Requires Manual Restart)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0"/>
-                            <CheckBox Foreground="Red" Content="Pre-Render TURBO Mode (Highly Experimental)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding preRenderTURBOMode}"/>
                             <CheckBox Content="Scoller Auto Centers with the Middle of the Scene Viewer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
                             <maniac:SettingsHeader HeaderName="Performance Defaults"></maniac:SettingsHeader>
                             <StackPanel Width="400" HorizontalAlignment="Left">
@@ -221,64 +229,43 @@
                                 </Label>
                             </StackPanel>
                             <maniac:SettingsHeader HeaderName="Performance Settings"></maniac:SettingsHeader>
-                            <CheckBox IsChecked="{maniac:SettingBinding ReduceZoom}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ReduceZoom}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
                                 <TextBlock Text="Reduce Maximum Zooming Level (Helps prevent crashes and slowdowns)" TextWrapping="WrapWithOverflow"/>
                             </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding ShowEditLayerBackground}"  Content="Show Edit Layer Cosmetic Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <CheckBox IsChecked="{maniac:SettingBinding AllowMoreRenderUpdates}"  HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <TextBlock Text="Allow More Render Updates(Makes a smoother experience)" TextWrapping="WrapWithOverflow"/>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding allowForSmoothSelection}" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <TextBlock Text="Allow for Smoother Selecting/Moving*(Slows down Status Information)" Foreground="DarkRed" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding DisableDraging}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <TextBlock Text="Disable Tiles Toolbar Dragging" TextWrapping="WrapWithOverflow"/>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding NeverLoadEntityTextures}" Content="Never load Entity Textures/Annimations" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                            <CheckBox IsChecked="{maniac:SettingBinding UseObjectRenderingImprovements}"  HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ShowEditLayerBackground}"  Content="Show Edit Layer Cosmetic Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding NeverLoadEntityTextures}" Content="Never load Entity Textures/Annimations" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding DisableEntitySelectionBoxText}"  HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock Text="Remove Text from Objects (Will Boost Performance)" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding DisableRenderExlusions}"  Content="Disable Always Render Entities" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                            <CheckBox IsChecked="{maniac:SettingBinding UseAltEntityRenderMode}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding DisableRendererExclusions}"  Content="Disable Always Render Entities" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseAlternativeRenderingMode}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock Text="Use Alt. Object Rendering Method (May leave blank entities, but will only load the objects as they are seen)" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding PrioritizedObjectRendering}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
-                                <TextBlock Text="Prioritized Entity Rendering (Useful but Performance Hungry)" TextWrapping="WrapWithOverflow"></TextBlock>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding SimplifiedWaterLevelRendering}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseSimplifedWaterRendering}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock  Text="Simplified Water Level Rendering (Perferable for Performance Reasons)" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
                             <maniac:SettingsHeader HeaderName="Experimental Options"></maniac:SettingsHeader>
-                            <CheckBox IsChecked="{maniac:SettingBinding EnableWindowsClipboard}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                                <TextBlock Text="Enable Windows Clipboard" TextWrapping="WrapWithOverflow" Width="154"></TextBlock>
-                            </CheckBox>
                             <CheckBox IsChecked="{maniac:SettingBinding RemoveObjectImportLock}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
                                 <TextBlock Text="Remove Object Import Lock" TextWrapping="WrapWithOverflow" Width="154"></TextBlock>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding ProhibitEntityUseOnExternalClipboard}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                                <TextBlock Text="Prohibit Entities from Using Windows Clipboard and Between Scenes Copying" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
                             <CheckBox IsChecked="{maniac:SettingBinding DisableEntityReading}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
                                 <TextBlock Text="Disable Entity Reading (Scene Rescue Mode)" TextAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
                             <CheckBox IsChecked="{maniac:SettingBinding EntityFreeCam}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                                <TextBlock Text="Entity FreeCam Mode (Disables Layer Viewing)(Allows You to see outside of the normal bounds)" TextAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
+                                <TextBlock Text="Entity FreeCam Mode (Disables Layer Viewing; Allows You to see outside of the normal bounds)" TextAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
                             <maniac:SettingsHeader HeaderName="Misc. Settings"></maniac:SettingsHeader>
                             <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence" Margin="0,0"/>
-                            <CheckBox IsEnabled="False" IsChecked="{maniac:SettingBinding checkForUpdatesAuto}" Margin="0,0">
-                                <TextBlock Text="Check for Updates on Startup" TextWrapping="WrapWithOverflow"/>
-                            </CheckBox>
                             <maniac:SettingsHeader HeaderName="Developer Options"></maniac:SettingsHeader>
-                            <CheckBox IsChecked="{maniac:SettingBinding UseForcefulStartup}" Content="Open Scene forcefully on Startup" HorizontalContentAlignment="Left" Margin="0,0"></CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding ExperimentalPropertyGridView}" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0">
+                            <CheckBox IsChecked="{maniac:DevSettingsBinding DevAutoStart}" Content="Open Scene forcefully on Startup" HorizontalContentAlignment="Left" Margin="0,0"></CheckBox>
+                            <CheckBox IsChecked="{maniac:DevSettingsBinding ExperimentalPropertyGridView}" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0">
                                 <TextBlock Text="Experimental New Properties Grid (BROKEN; DO NOT USE)" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Controls" Foreground="{DynamicResource NormalText}">
+            <TabItem Header="Controls" Name="Controls" Foreground="{DynamicResource NormalText}">
                 <Grid>
                     <ScrollViewer  maniac:CustomDesignAttributes.VerticalScrollTo="10000">
                         <StackPanel x:Name="ControlsPage">
@@ -697,33 +684,33 @@
                             <maniac:SettingsHeader HeaderName="Non-Bindable Controls"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel  Visibility="Visible">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="LOCK"></Button>
                                         <Label>
                                             <TextBlock Text="Toggle Scroller (While Mouse within Editor View)"></TextBlock>
                                         </Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" >
-                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Right Click" Height="26" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Right Click" Height="26" Tag="LOCK" VerticalAlignment="Top"></Button>
                                         <Label>
                                             <TextBlock Text="Draw Tool / Stamp Tool Mode: Remove Tiles&#x0d;Selection Tool Mode: Select Tiles&#x0d;Interaction Tool Mode: Show Tool Context Menu &#x0d;Tiles Toolbar Tile: Show Tile Context Menu &#x0d;Chunk Panel: Show Chunk Context Menu"></TextBlock>
                                         </Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" >
-                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Left Click" Height="26" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Left Click" Height="26" Tag="LOCK" VerticalAlignment="Top"></Button>
                                         <Label>
                                             <TextBlock Text="Place Tiles Tool / Stamp Tool Mode: Place Tiles&#x0d;Selection Tool Mode: Select Tiles/Entities&#x0d;Pointer Tool Mode: Select Tiles/Entities"></TextBlock>
                                         </Label>
                                     </StackPanel>
                                     <Label Content="Selection Tool Controls:"></Label>
                                     <StackPanel Orientation="Horizontal" >
-                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Content="Right Click + Ctrl&#x0d;(While Dragging)" Height="52" Tag="NULL" VerticalAlignment="Top"></Button>
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Content="Right Click + Ctrl&#x0d;(While Dragging)" Height="52" Tag="LOCK" VerticalAlignment="Top"></Button>
                                         <Label>
                                             <TextBlock Text="Tiles Edit: Deselect Tiles&#x0d;Entities Edit: Deselect Objects&#x0d;(Both will not deselect your current selection if you already have objects selected)"></TextBlock>
                                         </Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" >
-                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Height="52" Tag="NULL" VerticalAlignment="Top">
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Height="52" Tag="LOCK" VerticalAlignment="Top">
                                             <TextBlock IsEnabled="False" Foreground="{DynamicResource DisabledText}" TextAlignment="Center" Text="Right Click + Ctrl&#x0d;(Over Selected Item(s))"></TextBlock>
                                         </Button>
                                         <Label>
@@ -738,11 +725,27 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <StatusBar Grid.Row="1" Height="30" Background="{DynamicResource StatusBarBackground}" Grid.ColumnSpan="2">
-            <StatusBarItem HorizontalAlignment="Right">
+        <StatusBar Grid.Row="1" Height="Auto" Background="{DynamicResource StatusBarBackground}" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource NormalText}" Text="Settings Location: "></TextBlock>
+                    <RadioButton Margin="4,0" VerticalContentAlignment="Center" Content="Portable" IsEnabled="False"></RadioButton>
+                    <RadioButton Margin="4,0" VerticalContentAlignment="Center" Content="Fixed" IsChecked="True" IsEnabled="False"></RadioButton>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+        <StatusBar Grid.Row="2" Height="Auto" Background="{DynamicResource StatusBarBackground}" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
-                    <Button Width="65" Content="Save" Margin="5,0" Click="button11_Click"></Button>
-                    <Button Width="65" Content="OK" Margin="5,0" Click="Button_Click"></Button>
+                    <Button Width="75" Content="Import" Margin="2,0" IsEnabled="False"></Button>
+                    <Button Width="75" Content="Export" Margin="2,0" IsEnabled="False"></Button>
+                    <Button Width="75" Content="Reset" Margin="2,0" Click="ResetToDefault"></Button>
+                </StackPanel>
+            </StatusBarItem>
+                        <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="75" Content="Save" Margin="2,0" Click="button11_Click"></Button>
+                    <Button Width="75" Content="OK" Margin="2,0" Click="Button_Click"></Button>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

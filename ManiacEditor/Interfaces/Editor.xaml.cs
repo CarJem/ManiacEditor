@@ -11,38 +11,26 @@ using ManiacEditor.Actions;
 using RSDKv5;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
-using System.Reflection;
 using ManiacEditor.Interfaces;
-using Cyotek.Windows.Forms;
 using Microsoft.Scripting.Utils;
 using Microsoft.Win32;
 using ManiacEditor.Entity_Renders;
 using IWshRuntimeLibrary;
 using System.Drawing;
 using File = System.IO.File;
-using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Xceed.Wpf.Toolkit;
 using Point = System.Drawing.Point;
-using DragEventArgs = System.Windows.DragEventArgs;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Path = System.IO.Path;
 using System.Windows.Controls.Primitives;
 using Rectangle = System.Drawing.Rectangle;
-using SystemColors = System.Drawing.SystemColors;
 using MenuItem = System.Windows.Controls.MenuItem;
-using Control = System.Windows.Forms.Control;
 using Clipboard = System.Windows.Clipboard;
 using DataObject = System.Windows.DataObject;
-using Button = System.Windows.Controls.Button;
-using Cursors = System.Windows.Input.Cursors;
-using RSDKrU;
 using MessageBox = RSDKrU.MessageBox;
 
 
@@ -141,7 +129,6 @@ namespace ManiacEditor
         public EditorUI UI;
         public EditorUIModes UIModes;
         public EditorLaunch Launcher;
-        public EditorNewSettings NewSettings;
         public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost FormsHost;
         public TileManiac.MainWindow TileManiacInstance = new TileManiac.MainWindow();
@@ -308,7 +295,6 @@ namespace ManiacEditor
             ManiacINI = new EditorManiacINI(this);
             Launcher = new EditorLaunch(this);
             UI = new EditorUI(this);
-            NewSettings = new EditorNewSettings(this);
 
 
 

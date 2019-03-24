@@ -23,7 +23,7 @@ namespace ManiacEditor
         {
             get
             {
-                return Path.Combine(Path.Combine(MyDocuments, "ManiacEditor Prefrences"),
+                return Path.Combine(Path.Combine(MyDocuments, "ManiacEditor Config"),
                    string.Format("{0}.settings", "Keybinds"));
             }
         }

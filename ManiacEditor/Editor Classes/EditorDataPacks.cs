@@ -14,7 +14,8 @@ namespace ManiacEditor
 		public Editor Instance;
 		IniData ModPackInfo;
 		public List<Tuple<string, List<Tuple<string, string>>>> ModListInformation;
-		public EditorDataPacks(Editor instance)
+        private string MyDocuments = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config");
+        public EditorDataPacks(Editor instance)
 		{
 			Instance = instance;
 			LoadFile();
@@ -34,7 +35,7 @@ namespace ManiacEditor
 		{
 			if (GetFile() == false)
 			{
-				var ModListFile = File.Create(Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini"));
+				var ModListFile = File.Create(Path.Combine(MyDocuments, "ModPackLists.ini"));
 				ModListFile.Close();
 				if (GetFile() == false) return;
 			}
@@ -83,7 +84,7 @@ namespace ManiacEditor
 				}
 				SaveData.Sections.Add(section);
 			}
-			string path = Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini");
+			string path = Path.Combine(MyDocuments, "ModPackLists.ini");
 			var parser = new FileIniDataParser();
 			parser.WriteFile(path, SaveData);
 		}
@@ -97,13 +98,13 @@ namespace ManiacEditor
 		public bool GetFile()
 		{
 			var parser = new FileIniDataParser();
-            if (!File.Exists(Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini")))
+            if (!File.Exists(Path.Combine(MyDocuments, "ModPackLists.ini")))
             {
                 return false;
             }
 			else
 			{
-                IniData file = parser.ReadFile(Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini"));
+                IniData file = parser.ReadFile(Path.Combine(MyDocuments, "ModPackLists.ini"));
                 ModPackInfo = file;
 			}
 			return true;

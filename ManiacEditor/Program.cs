@@ -118,11 +118,14 @@ Missing file: {fnfe.FileName}");
 
         private static void SetupSettingFiles()
         {
-            string settings1 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Prefrences"), string.Format("{0}.settings", "Performance"));
-            string settings2 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Prefrences"), string.Format("{0}.settings", "DevOptions"));
-            string settings3 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Prefrences"), string.Format("{0}.settings", "Defaults"));
-            string settings4 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Prefrences"), string.Format("{0}.settings", "Keybinds"));
-            string settings5 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Prefrences"), string.Format("{0}.settings", "Settings"));
+            bool exists = System.IO.Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"));
+            if (!exists) System.IO.Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"));
+
+            string settings1 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Performance"));
+            string settings2 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "DevOptions"));
+            string settings3 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Defaults"));
+            string settings4 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Keybinds"));
+            string settings5 = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config"), string.Format("{0}.settings", "Settings"));
             if (!File.Exists(settings1)) File.Create(settings1);
             if (!File.Exists(settings2)) File.Create(settings2);
             if (!File.Exists(settings3)) File.Create(settings3);

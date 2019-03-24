@@ -43,10 +43,13 @@ namespace ManiacEditor.Interfaces
 			CheckGraphicalSettingTimer.Interval = 10;
 			CheckGraphicalSettingTimer.Tick += CheckGraphicalPresetModeState;
 
-			if (Settings.MyDefaults.ScrollLockDirectionDefault == false) radioButtonX.IsChecked = true;
+			if (Settings.MyDefaults.ScrollLockDirectionDefault == true) radioButtonX.IsChecked = true;
 			else radioButtonY.IsChecked = true;
 
-			collisionColorsRadioGroupUpdate(Settings.MyDefaults.DefaultCollisionColors);
+            if (Settings.MyDefaults.SceneSelectFilesViewDefault) SceneSelectRadio2.IsChecked = true;
+            else SceneSelectRadio1.IsChecked = true;
+
+            collisionColorsRadioGroupUpdate(Settings.MyDefaults.DefaultCollisionColors);
 			collisionColorsRadioGroupCheckChangeAllowed = true;
 			if (Settings.MyDefaults.DefaultGridSizeOption == 0) uncheckOtherGridDefaults(1);
 			if (Settings.MyDefaults.DefaultGridSizeOption == 1) uncheckOtherGridDefaults(2);
@@ -189,7 +192,19 @@ namespace ManiacEditor.Interfaces
 
 		}
 
-		private void ResetSettingsToDefault(object sender, RoutedEventArgs e)
+        private void ResetToDefault(object sender, RoutedEventArgs e)
+        {
+            if (MainSettings.IsSelected)
+            {
+                ResetSettingsToDefault(sender, e);
+            }
+            else if (Controls.IsSelected)
+            {
+                ResetControlsToDefault(sender, e);
+            }
+        }
+
+        private void ResetSettingsToDefault(object sender, RoutedEventArgs e)
 		{
 			if (MessageBox.Show("Are you sure you want to wipe your settings?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
@@ -253,9 +268,25 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
+        private void ModLoader_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new System.Windows.Forms.OpenFileDialog();
+            ofd.Title = "Select Mania Mod Manager.exe";
+            ofd.Filter = "Windows PE Executable|*.exe";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                Settings.MyDefaults.ModLoaderPath = ofd.FileName;
+        }
 
+        private void SonicMania_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new System.Windows.Forms.OpenFileDialog();
+            ofd.Title = "Select Sonic Mania.exe";
+            ofd.Filter = "Windows PE Executable|*.exe";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                Settings.MyDefaults.SonicManiaPath = ofd.FileName;
+        }
 
-		private void button15_Click(object sender, RoutedEventArgs e)
+        private void button15_Click(object sender, RoutedEventArgs e)
 		{
 			var ofd = new System.Windows.Forms.OpenFileDialog();
 			ofd.Title = "Select RSDK Animation Editor.exe";
@@ -537,20 +568,22 @@ namespace ManiacEditor.Interfaces
 
 			}
 		}
-		private void SetKeybindTextboxes()
-		{
-			RefreshKeybindList();
-			foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(ControlsPage))
-			{
-				foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
-				{
-					ProcessKeybindingButtons(t);
-				}
-			}
+        private void SetKeybindTextboxes()
+        {
+            RefreshKeybindList();
+            foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(ControlsPage))
+            {
+                foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+                {
+                    ProcessKeybindingButtons(t);
+                }
+
+            }
 		}
 
 		private void ProcessKeybindingButtons(Button t)
 		{
+            if (t.Tag != null && t.Tag.ToString() == "LOCK") return;
 			t.Foreground = (SolidColorBrush)FindResource("NormalText");
 			if (t.Tag != null)
 			{

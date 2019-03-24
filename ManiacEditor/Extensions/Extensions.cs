@@ -251,6 +251,66 @@ namespace ManiacEditor
 		}
 	}
 
+    public class DefaultSettingsBindingExtension : Binding
+    {
+        public DefaultSettingsBindingExtension()
+        {
+            Initialize();
+        }
+
+        public DefaultSettingsBindingExtension(string path)
+            : base(path)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.Source = ManiacEditor.Properties.Defaults.Default;
+            this.Mode = BindingMode.TwoWay;
+        }
+    }
+
+    public class PerformanceSettingsBindingExtension : Binding
+    {
+        public PerformanceSettingsBindingExtension()
+        {
+            Initialize();
+        }
+
+        public PerformanceSettingsBindingExtension(string path)
+            : base(path)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.Source = ManiacEditor.Properties.Performance.Default;
+            this.Mode = BindingMode.TwoWay;
+        }
+    }
+
+    public class DevSettingsBindingExtension : Binding
+    {
+        public DevSettingsBindingExtension()
+        {
+            Initialize();
+        }
+
+        public DevSettingsBindingExtension(string path)
+            : base(path)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.Source = ManiacEditor.Properties.DevSettings.Default;
+            this.Mode = BindingMode.TwoWay;
+        }
+    }
+
 
     public static class ButtonHelper
 	{
