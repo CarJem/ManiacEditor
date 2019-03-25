@@ -461,7 +461,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._MultiLayerEditMode = value;
             Editor.multiLayerSelectionToolStripMenuItem.IsChecked = value;
-            Editor.multiLayerSelectionToolStripMenuItem2.IsChecked = value;
 
 
             bool enabled = (value == true ? true : false);

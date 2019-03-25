@@ -518,6 +518,7 @@ namespace ManiacEditor
 
             }
         }
+
         public void RunSequence(object sender, EventArgs e, bool attachMode = false)
         {
             //TO-DO: Fix No Attach on First Start
@@ -531,7 +532,7 @@ namespace ManiacEditor
             if (!attachMode) GameProcess = Process.Start(psi);
             else GameProcess = Process.GetProcessesByName("SonicMania").FirstOrDefault();
 
-            if (GameRunning == false)
+            if (GameRunning == false && attachMode)
             {
                 GameRunning = true;
 

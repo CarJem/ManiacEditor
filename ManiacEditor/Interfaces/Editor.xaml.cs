@@ -1836,7 +1836,8 @@ namespace ManiacEditor
 
         #region Apps
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Launcher.TileManiacIntergration(); }
-        private void OpenModManagerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.ManiaModManager(); }
+        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { Launcher.SonicManiaHeadless(); }
+        private void ModManager(object sender, RoutedEventArgs e) { Launcher.ManiaModManager(); }
         private void TileManiacNormal(object sender, RoutedEventArgs e) { Launcher.TileManiacNormal(); }
         private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.InsanicManiac(); }
         private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.RSDKAnnimationEditor(); }

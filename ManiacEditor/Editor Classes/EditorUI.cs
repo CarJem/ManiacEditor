@@ -121,11 +121,6 @@ namespace ManiacEditor
                 SetEditLayerB();
             }
 
-            if (Editor.TilesToolbar != null)
-            {
-                Editor.TilesToolbar.ChunksReload();
-            }
-
             void SetEditLayerA()
             {
                 if (enabled && Editor.EditFGLow.IsCheckedA.Value) Editor.EditLayerA = Editor.FGLow;

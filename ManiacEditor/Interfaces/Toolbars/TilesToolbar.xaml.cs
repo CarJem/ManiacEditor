@@ -466,14 +466,12 @@ namespace ManiacEditor
 				{
 					EditorInstance.ChunksToolButton.IsChecked = true;
 					EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
-					TileChunkOptionsMenu.IsEnabled = true;
 				}
 			}
 			if (TabControl.SelectedIndex == 0)
 			{
 				TilesReload();
 				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
-				TileChunkOptionsMenu.IsEnabled = false;
 			}
 
 		}
@@ -513,8 +511,6 @@ namespace ManiacEditor
 				EditorInstance.ShowError($@"Failed to save StageStamps to file '{EditorInstance.Paths.Stamps_Source}'
 Error: {ex.Message}");
 			}
-
-			TileChunkOptionsMenu.IsOpen = false;
 		}
 
         private void AutoGenerateChunks_Click(object sender, RoutedEventArgs e)
@@ -544,6 +540,19 @@ Error: {ex.Message}");
                 EditorInstance.Chunks.AutoGenerateChunks(EditorInstance.EditLayerA);
                 ChunksReload();
             }
+        }
+
+        private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            if (!EditorInstance.IsChunksEdit()) SetDropdownItemsState(false);
+            else SetDropdownItemsState(true);
+        }
+
+        private void SetDropdownItemsState(bool enabled)
+        {
+            AutoGenerateChunksSingle.IsEnabled = enabled;
+            AutoGenerateChunks.IsEnabled = enabled;
+            SaveChunksManually.IsEnabled = enabled;
         }
     }
 }

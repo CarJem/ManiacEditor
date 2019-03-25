@@ -51,23 +51,28 @@
 
             </TabItem>
         </TabControl>
-        <wpfTool:SplitButton IsEnabled="False" x:Name="TileChunkOptionsMenu" Grid.Column="2" Height="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,2">
-            <wpfTool:SplitButton.DropDownContent>
-                <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                    <MenuItem Header="Save Current Chunks to File" x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
-                    <MenuItem x:Name="AutoGenerateChunks" Click="AutoGenerateChunks_Click">
-                        <MenuItem.Header>
-                            <StackPanel>
-                                <TextBlock>Auto Generate Chunks from Current Layers</TextBlock>
-                                <TextBlock>(Make Sure that you have Both Multi-Layers Selected)</TextBlock>
-                            </StackPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <MenuItem x:Name="AutoGenerateChunksSingle" Header="Auto Generate Chunks from Single Active Layer" Click="AutoGenerateChunksSingle_Click">
-                    </MenuItem>
-                </StackPanel>
-            </wpfTool:SplitButton.DropDownContent>
-        </wpfTool:SplitButton>
+        <Menu Background="{DynamicResource MenuBar}" Height="27" Foreground="{DynamicResource NormalText}" x:Name="TileChunkOptionsMenu" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,3">
+            <MenuItem SubmenuOpened="MenuItem_SubmenuOpened">
+                <MenuItem.Header>
+                    <Rectangle Width="22" Height="22" Fill="{DynamicResource NormalText}" Margin="-8,2,-8,0" IsEnabled="False">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </MenuItem.Header>
+                <MenuItem Header="Save Current Chunks to File" x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
+                <MenuItem x:Name="AutoGenerateChunks" Click="AutoGenerateChunks_Click">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <TextBlock>Auto Generate Chunks from Current Layers</TextBlock>
+                            <TextBlock>(Make Sure that you have Both Multi-Layers Selected)</TextBlock>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem x:Name="AutoGenerateChunksSingle" Header="Auto Generate Chunks from Single Active Layer" Click="AutoGenerateChunksSingle_Click">
+                </MenuItem>
+            </MenuItem>
+        </Menu>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
             <StackPanel>
                 <CheckBox x:Name="option1CheckBox" Margin="5" Content="Flip Horizontal &#xD;&#xA;(Ctrl)" Checked="option1CheckBox_CheckedChanged" Unchecked="option1CheckBox_CheckedChanged"></CheckBox>

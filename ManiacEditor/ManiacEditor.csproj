@@ -769,6 +769,9 @@
     <Compile Include="Interfaces\UserControls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\UserControls\ManiaHost.xaml.cs">
+      <DependentUpon>ManiaHost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\UserControls\SettingsItem.xaml.cs">
       <DependentUpon>SettingsItem.xaml</DependentUpon>
     </Compile>
@@ -1708,6 +1711,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interfaces\UserControls\EditLayerToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\UserControls\ManiaHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

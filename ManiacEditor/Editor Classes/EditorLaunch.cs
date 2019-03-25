@@ -235,6 +235,11 @@ namespace ManiacEditor
         {
             Editor.maniaPalHint.Header = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
         }
+
+        public void SonicManiaHeadless()
+        {
+            Editor.InGame.RunSequence(null, null, false);
+        }
         public void DuplicateObjectIDHealer()
         {
             MessageBoxResult result = RSDKrU.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);

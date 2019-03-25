@@ -345,9 +345,8 @@ namespace ManiacEditor
             }
         }
 
-        public void MoveSelected(Point oldPos, Point newPos, bool duplicate)
+        public void MoveSelected(Point oldPos, Point newPos, bool duplicate, bool chunkAlign = false)
         {
-            //if (Properties.Settings.Default.AllowMoreRenderUpdates == true) EditorInstance.UpdateRender();
             oldPos = new Point(oldPos.X / EditorConstants.TILE_SIZE, oldPos.Y / EditorConstants.TILE_SIZE);
             newPos = new Point(newPos.X / EditorConstants.TILE_SIZE, newPos.Y / EditorConstants.TILE_SIZE);
             if (oldPos != newPos)
@@ -803,6 +802,22 @@ namespace ManiacEditor
         public bool IsPointSelected(Point point)
         {
             return SelectedTiles.Contains(new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE));
+        }
+
+        public bool DoesChunkContainASelectedTile(Point point)
+        {
+            Point startingPoint = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
+            List<Point> chunkPoints = new List<Point>();
+            for (int x = 0; x < (EditorConstants.x128_CHUNK_SIZE / EditorConstants.TILE_SIZE); x++)
+            {
+                for (int y = 0; y < (EditorConstants.x128_CHUNK_SIZE / EditorConstants.TILE_SIZE); y++)
+                {
+                    Point p = new Point(startingPoint.X + x, startingPoint.Y + y);
+                    if (SelectedTiles.Contains(p)) return true;
+                    else continue;
+                }
+            }
+            return false;
         }
 
         public bool HasTileAt(Point point)
