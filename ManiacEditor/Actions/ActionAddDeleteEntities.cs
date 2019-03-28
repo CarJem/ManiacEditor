@@ -39,11 +39,11 @@ namespace ManiacEditor.Actions
             string name = null;
             if (add)
             {
-                action = "adding";
+                action = "Adding";
             }
             else
             {
-                action = "deleting";
+                action = "Deleting";
             }
 
             if (null == entities)
@@ -57,7 +57,7 @@ namespace ManiacEditor.Actions
             }
             else
             {
-                name = $"{entities.Count} objects";
+                name = $"{entities.Count} Objects";
             }
 
             if (string.IsNullOrWhiteSpace(name))

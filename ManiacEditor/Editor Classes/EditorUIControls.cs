@@ -1701,7 +1701,7 @@ namespace ManiacEditor
 			Editor.flipHorizontalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipHIndv");
 			Editor.flipHorizontalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipH");
 			Editor.flipVerticalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipV");
-			Editor.chunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
+			Editor.pasteTochunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
 			Editor.developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
 			Editor.saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
 			Editor.copyAirToggle.InputGestureText = KeyBindPraser("CopyAirTiles", false, true);

@@ -80,11 +80,13 @@ namespace ManiacEditor
         }
         public void SetSelectOnlyButtonsState(bool enabled = true)
         {
+            SetPasteButtonsState(true);
             enabled &= Editor.IsSelected();
             Editor.deleteToolStripMenuItem.IsEnabled = enabled;
             Editor.copyToolStripMenuItem.IsEnabled = enabled;
             Editor.cutToolStripMenuItem.IsEnabled = enabled;
             Editor.duplicateToolStripMenuItem.IsEnabled = enabled;
+
 
             Editor.flipHorizontalToolStripMenuItem.IsEnabled = enabled && Editor.IsTilesEdit();
             Editor.flipVerticalToolStripMenuItem.IsEnabled = enabled && Editor.IsTilesEdit();
@@ -97,6 +99,51 @@ namespace ManiacEditor
             {
                 Editor.EntitiesToolbar.SelectedEntities = Editor.Entities.SelectedEntities.Select(x => x.Entity).ToList();
             }
+        }
+
+        public void SetPasteButtonsState(bool enabled)
+        {
+            bool windowsClipboardState;
+            bool windowsEntityClipboardState;
+            //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
+            try
+            {
+                if (Editor.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
+                else windowsClipboardState = false;
+                if (Editor.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
+                else windowsEntityClipboardState = false;
+            }
+            catch
+            {
+                windowsClipboardState = false;
+                windowsEntityClipboardState = false;
+            }
+
+
+            if (Editor.IsTilesEdit())
+            {
+                if (enabled && HasCopyDataTiles()) SetPasteEnabledButtons(true);
+                else SetPasteEnabledButtons(false);
+            }
+            else if (Editor.IsEntitiesEdit())
+            {
+                if (enabled && HasCopyDataEntities()) SetPasteEnabledButtons(true);
+                else SetPasteEnabledButtons(false);
+            }
+            else
+            {
+                SetPasteEnabledButtons(false);
+            }
+
+            void SetPasteEnabledButtons(bool pasteEnabled)
+            {
+                Editor.pasteToolStripMenuItem.IsEnabled = pasteEnabled;
+                Editor.pasteToToolStripMenuItem.IsEnabled = pasteEnabled;
+                Editor.pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && Editor.IsTilesEdit();
+            }
+
+            bool HasCopyDataTiles() { return Editor.TilesClipboard != null || windowsClipboardState == true; }
+            bool HasCopyDataEntities() { return Editor.entitiesClipboard != null || windowsEntityClipboardState == true; }
         }
         private void SetLayerEditButtonsState(bool enabled)
         {
@@ -155,8 +202,7 @@ namespace ManiacEditor
         }
         private void SetEditButtonsState(bool enabled)
         {
-            bool windowsClipboardState;
-            bool windowsEntityClipboardState;
+
             Editor.EditFGLow.IsEnabled = enabled && Editor.FGLow != null;
             Editor.EditFGHigh.IsEnabled = enabled && Editor.FGHigh != null;
             Editor.EditFGLower.IsEnabled = enabled && Editor.FGLower != null;
@@ -215,35 +261,6 @@ namespace ManiacEditor
             Editor.GridSizeButton.IsEnabled = enabled && Editor.StageConfig != null;
             Editor.EncorePaletteButton.IsEnabled = enabled && Editor.UIModes.EncorePaletteExists;
             Editor.FlipAssistButton.IsEnabled = enabled;
-
-
-
-            //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
-            try
-            {
-                if (Editor.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
-                else windowsClipboardState = false;
-                if (Editor.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
-                else windowsEntityClipboardState = false;
-            }
-            catch
-            {
-                windowsClipboardState = false;
-                windowsEntityClipboardState = false;
-            }
-
-
-
-            if (enabled && (Editor.IsTilesEdit() || ((Editor.TilesClipboard != null || windowsClipboardState))))
-                Editor.pasteToolStripMenuItem.IsEnabled = true;
-            else
-                Editor.pasteToolStripMenuItem.IsEnabled = false;
-
-            if (enabled && (Editor.IsEntitiesEdit() || ((Editor.entitiesClipboard != null || windowsEntityClipboardState))))
-                Editor.pasteToolStripMenuItem.IsEnabled = true;
-            else
-                Editor.pasteToolStripMenuItem.IsEnabled = false;
-
 
             if (Editor.IsTilesEdit())
             {
@@ -459,6 +476,7 @@ namespace ManiacEditor
         }
         public void UpdateEditLayerActions()
         {
+            bool pushActions = false;
             if (Editor.EditLayerA != null)
             {
                 List<IAction> actions = Editor.EditLayerA?.Actions;
@@ -601,6 +619,8 @@ namespace ManiacEditor
         {
             UpdateTooltipForStacks(Editor.UndoButton, Editor.UndoStack);
             UpdateTooltipForStacks(Editor.RedoButton, Editor.RedoStack);
+            UpdateTextBlockForStacks(Editor.UndoMenuItemInfo, Editor.UndoStack);
+            UpdateTextBlockForStacks(Editor.RedoMenuItemInfo, Editor.RedoStack);
             if (Editor.UIControl != null)
             {
                 if (Editor.IsVisible)
@@ -612,9 +632,22 @@ namespace ManiacEditor
             }
 
         }
+        private void UpdateTextBlockForStacks(TextBlock tsb, Stack<IAction> actionStack)
+        {
+            if (actionStack?.Count > 0)
+            {
+                IAction action = actionStack.Peek();
+                tsb.Visibility = Visibility.Visible;
+                tsb.Text = string.Format("({0})", action.Description);
+            }
+            else
+            {
+                tsb.Visibility = Visibility.Collapsed;
+                tsb.Text = string.Empty;
+            }
+        }
         private void UpdateTooltipForStacks(Button tsb, Stack<IAction> actionStack)
         {
-
             if (actionStack?.Count > 0)
             {
                 IAction action = actionStack.Peek();

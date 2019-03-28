@@ -197,9 +197,9 @@ namespace ManiacEditor
 		{
 			if (Editor.IsTilesEdit())
 			{
-				Editor.EditLayerA?.PasteFromClipboard(new Point(16, 16), Editor.EditLayerA?.CopyToClipboard(true));
-				Editor.EditLayerB?.PasteFromClipboard(new Point(16, 16), Editor.EditLayerB?.CopyToClipboard(true));
-				Editor.UI.UpdateEditLayerActions();
+                Editor.EditLayerA?.PasteFromClipboard(new Point(16, 16), Editor.EditLayerA?.CopyToClipboard(true));
+                Editor.EditLayerB?.PasteFromClipboard(new Point(16, 16), Editor.EditLayerB?.CopyToClipboard(true));
+                Editor.UI.UpdateEditLayerActions();
 			}
 			else if (Editor.IsEntitiesEdit())
 			{
@@ -249,7 +249,7 @@ namespace ManiacEditor
 				if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
 				{
 					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>) System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
-					Point pastePoint = new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1);
+                    Point pastePoint = GetPastePoint();
 					if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
 					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
 
@@ -259,8 +259,8 @@ namespace ManiacEditor
 				// if there's none, use the internal clipboard
 				else if (Editor.TilesClipboard != null)
 				{
-					Point pastePoint = new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1);
-					if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item1);
+                    Point pastePoint = GetPastePoint();
+                    if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item1);
 					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item2);
 					Editor.UI.UpdateEditLayerActions();
 				}
@@ -297,6 +297,21 @@ namespace ManiacEditor
 					Editor.UI.SetSelectOnlyButtonsState();
 				}
 			}
+
+            Point GetPastePoint()
+            {
+                if (Editor.IsChunksEdit())
+                {
+
+                    Point p = new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom), (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom));
+                    return EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                }
+                else
+                {
+                    return new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1);
+
+                }
+            }
 		}
 
 		public void FlipVertical()

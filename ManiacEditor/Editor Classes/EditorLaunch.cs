@@ -49,6 +49,51 @@ namespace ManiacEditor
         }
 
         #region Apps
+
+        public void CheatEngine()
+        {
+            String cheatEngineProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Settings.MyDefaults.CheatEnginePath);
+            IntPtr hWnd = FindWindow(cheatEngineProcessName, null); // this gives you the handle of the window you need.
+            Process processes = Process.GetProcessesByName(cheatEngineProcessName).FirstOrDefault();
+            if (processes != null)
+            {
+                // check if the window is hidden / minimized
+                if (processes.MainWindowHandle == IntPtr.Zero)
+                {
+                    // the window is hidden so try to restore it before setting focus.
+                    ShowWindow(processes.Handle, ShowWindowEnum.Restore);
+                }
+
+                // set user the focus to the window
+                SetForegroundWindow(processes.MainWindowHandle);
+            }
+            else
+            {
+                // Ask where the Mania Mod Manager is located when not set
+                if (string.IsNullOrEmpty(ManiacEditor.Settings.MyDefaults.CheatEnginePath))
+                {
+                    var ofd = new OpenFileDialog
+                    {
+                        Title = "Select Cheat Engine Executable",
+                        Filter = "Windows PE Executable|*.exe"
+                    };
+                    if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        ManiacEditor.Settings.MyDefaults.CheatEnginePath = ofd.FileName;
+                }
+                else
+                {
+                    if (!File.Exists(ManiacEditor.Settings.MyDefaults.CheatEnginePath))
+                    {
+                        ManiacEditor.Settings.MyDefaults.CheatEnginePath = "";
+                        return;
+                    }
+                }
+
+                if (File.Exists(ManiacEditor.Settings.MyDefaults.CheatEnginePath))
+                    Process.Start(ManiacEditor.Settings.MyDefaults.CheatEnginePath);
+            }
+        }
+
         public void TileManiacNormal()
         {
             if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new TileManiac.MainWindow();

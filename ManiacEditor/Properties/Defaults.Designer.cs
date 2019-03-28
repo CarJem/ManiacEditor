@@ -698,5 +698,17 @@ namespace ManiacEditor.Properties {
                 this["PresetSetting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CheatEnginePath {
+            get {
+                return ((string)(this["CheatEnginePath"]));
+            }
+            set {
+                this["CheatEnginePath"] = value;
+            }
+        }
     }
 }

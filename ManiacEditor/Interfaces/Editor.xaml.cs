@@ -43,6 +43,7 @@ namespace ManiacEditor
 	{
 
         #region Definitions
+        public static Editor Instance;
 
 		//Editor Paths
 		public string DataDirectory; //Used to get the current Data Directory
@@ -198,13 +199,14 @@ namespace ManiacEditor
 		#region Editor Initalizing Methods
 		public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
-			SystemEvents.PowerModeChanged += CheckDeviceState;
+            SystemEvents.PowerModeChanged += CheckDeviceState;
             Theming = new EditorTheming(this);
             Settings = new EditorSettings(this);
             UIModes = new EditorUIModes(this);
 
             Theming.UseDarkTheme_WPF(ManiacEditor.Settings.MySettings.NightMode);
 			InitializeComponent();
+            Instance = this;
 
             System.Windows.Application.Current.MainWindow = this;
 
@@ -349,13 +351,15 @@ namespace ManiacEditor
         {
             return EditEntities.IsCheckedN.Value || EditEntities.IsCheckedA.Value || EditEntities.IsCheckedB.Value;
 		}
-		public bool IsSelected()
+		public bool IsSelected(bool dualModeSelect = false)
 		{
 			if (IsTilesEdit())
 			{
+
 				bool SelectedA = EditLayerA?.SelectedTiles.Count > 0 || EditLayerA?.TempSelectionTiles.Count > 0;
 				bool SelectedB = EditLayerB?.SelectedTiles.Count > 0 || EditLayerB?.TempSelectionTiles.Count > 0;
-				return SelectedA || SelectedB;
+                if (dualModeSelect) return SelectedA && SelectedB;
+                else return SelectedA || SelectedB;
 			}
 			else if (IsEntitiesEdit())
 			{
@@ -1091,6 +1095,11 @@ namespace ManiacEditor
             catch (Exception ex)
             {
                 Debug.Write("Failed to write settings: " + ex);
+            }
+
+            if (ManiaHost._process != null)
+            {
+                ManiaHost.ForceKillSonicMania();
             }
 
             FormsModel.Dispose();
@@ -1837,6 +1846,7 @@ namespace ManiacEditor
         #region Apps
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Launcher.TileManiacIntergration(); }
         private void SonicManiaHeadless(object sender, RoutedEventArgs e) { Launcher.SonicManiaHeadless(); }
+        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { Launcher.CheatEngine(); }
         private void ModManager(object sender, RoutedEventArgs e) { Launcher.ManiaModManager(); }
         private void TileManiacNormal(object sender, RoutedEventArgs e) { Launcher.TileManiacNormal(); }
         private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.InsanicManiac(); }

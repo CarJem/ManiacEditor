@@ -23,7 +23,8 @@ namespace ManiacEditor
     public partial class ManiaHost : UserControl
     {
         private System.Windows.Forms.Panel _panel;
-        private Process _process;
+        public Process _process;
+        //private ManiacED_CodenameWalla.Form1 WallaInstance;
 
         public ManiaHost()
         {
@@ -78,6 +79,7 @@ namespace ManiacEditor
             Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
             if (processes != null)
             {
+                _process = processes;
                 SetParent(processes.MainWindowHandle, _panel.Handle);
 
                 /*
@@ -91,6 +93,15 @@ namespace ManiacEditor
             }
 
 
+        }
+
+        private void LockWallaToHost(object sender, RoutedEventArgs e)
+        {
+            /*if (WallaInstance != null)
+            {
+                WallaInstance.FrmOverlay.TopLevel = false;
+                WallaInstance.FrmOverlay.Parent = _panel.Parent;
+            }*/
         }
         
         private void OnGameClosing(object sender, RoutedEventArgs e)
@@ -124,12 +135,52 @@ namespace ManiacEditor
 
         private void ForceKillMania_Click(object sender, RoutedEventArgs e)
         {
+            ForceKillSonicMania();
+        }
 
+        public void ForceKillSonicMania()
+        {
+            foreach (var process in Process.GetProcessesByName("SonicMania"))
+            {
+                process.Kill();
+            }
         }
 
         private void OptionsButton_Click(object sender, RoutedEventArgs e)
         {
             OptionsButton.IsOpen = true;
+        }
+
+        private void DevWalla_Click(object sender, RoutedEventArgs e)
+        {
+            /*if (WallaInstance == null)
+            {
+                WallaInstance = new ManiacED_CodenameWalla.Form1();
+                WallaInstance.checkBox1.Enabled = false;
+                WallaInstance.TopMost = true;
+                WallaInstance.Show();
+            }*/
+
+        }
+
+        private void LaunchModLoader_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Instance.Launcher.ManiaModManager();
+        }
+
+        private void LaunchSM_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Instance.Launcher.SonicManiaHeadless();
+        }
+
+        private void LauncherButton_Click(object sender, RoutedEventArgs e)
+        {
+            LauncherButton.IsOpen = true;
+        }
+
+        private void LaunchCheatEngine_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Instance.Launcher.CheatEngine();
         }
     }
 }

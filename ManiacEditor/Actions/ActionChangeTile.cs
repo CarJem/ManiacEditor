@@ -9,7 +9,7 @@ namespace ManiacEditor.Actions
         Point position;
         private ushort oldValue, newValue;
 
-        public string Description => $"placing tile at postion ({position.X},{position.Y})";
+        public string Description => $"Placing tile at postion ({position.X},{position.Y})";
 
         public ActionChangeTile(Action<Point, ushort> setLayer, Point position, ushort oldValue, ushort newValue)
         {

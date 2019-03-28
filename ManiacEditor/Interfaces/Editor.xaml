@@ -250,7 +250,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Game" HorizontalAlignment="Right" Foreground="{DynamicResource NormalText}">
-                <local:ManiaHost VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></local:ManiaHost>
+                <local:ManiaHost x:Name="ManiaHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></local:ManiaHost>
             </TabItem>
             <TabControl.Resources>
                 <Style TargetType="TabPanel">
@@ -286,14 +286,28 @@
                 <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitEditorEvent"/>
             </MenuItem>
             <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center" Margin="0,0,0,0" >
-                <MenuItem x:Name="undoToolStripMenuItem" Header="Undo" Click="UndoEvent"/>
-                <MenuItem x:Name="redoToolStripMenuItem" Header="Redo" Click="RedoEvent"/>
+                <MenuItem x:Name="undoToolStripMenuItem" Click="UndoEvent">
+                    <MenuItem.Header>
+                        <StackPanel Background="Transparent">
+                            <TextBlock Text="Undo"></TextBlock>
+                            <TextBlock Name="UndoMenuItemInfo" Visibility="Collapsed"></TextBlock>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem x:Name="redoToolStripMenuItem" Click="RedoEvent">
+                    <MenuItem.Header>
+                        <StackPanel Background="Transparent">
+                            <TextBlock Text="Redo"></TextBlock>
+                            <TextBlock Name="RedoMenuItemInfo" Visibility="Collapsed"></TextBlock>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="cutToolStripMenuItem" Header="Cut" Click="CutEvent"/>
                 <MenuItem x:Name="copyToolStripMenuItem" Header="Copy" Click="CopyEvent"/>
                 <MenuItem x:Name="pasteToolStripMenuItem" Header="Paste" Click="PasteEvent"/>
                 <MenuItem x:Name="pasteToToolStripMenuItem" Header="Paste to">
-                    <MenuItem x:Name="chunkToolStripMenuItem" Header="Chunk" Click="PasteToChunksEvent"/>
+                    <MenuItem x:Name="pasteTochunkToolStripMenuItem" Header="Chunk" Click="PasteToChunksEvent"/>
                 </MenuItem>
                 <MenuItem x:Name="duplicateToolStripMenuItem" Header="Duplicate" Click="DuplicateEvent"/>
                 <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllEvent"/>
@@ -480,9 +494,9 @@
                 <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Tile Maniac (Collision Editor)" Click="TileManiacNormal"/>
                 <MenuItem x:Name="insanicManiacToolStripMenuItem" Header="Insanic Maniac (Game Config Editor)" Click="InsanicManiacToolStripMenuItem_Click"/>
                 <MenuItem x:Name="duplicateObjectIDHealerToolStripMenuItem" Header="Fixer Maniac (Duplicate Object ID Fixer)" Click="DuplicateObjectIDHealerToolStripMenuItem_Click"/>
-                <MenuItem x:Name="animationManiacToolStripMenuItem" Header="Animation Maniac (Animation Editor)" IsEnabled="False"/>
                 <MenuItem x:Name="rSDKAnnimationEditorToolStripMenuItem" Header="RSDK Animation Editor" Click="RSDKAnnimationEditorToolStripMenuItem_Click"/>
-                <MenuItem x:Name="RenderListManagerToolstripMenuItem" Header="Render List Manager" Click="RenderListManagerToolstripMenuItem_Click" IsEnabled="False"></MenuItem>
+                <MenuItem x:Name="RenderListManagerToolstripMenuItem" Header="Render List Manager" Click="RenderListManagerToolstripMenuItem_Click" Visibility="Collapsed" IsEnabled="False"></MenuItem>
+                <MenuItem x:Name="MenuAppsCheatEngine" Header="Cheat Engine (Memory Editing)" Click="MenuAppsCheatEngine_Click"></MenuItem>
                 <MenuItem SubmenuOpened="ManiaPalMenuItem_SubmenuOpened" IsEnabled="True">
                     <MenuItem.Header>
                         <TextBlock PreviewMouseDown="ColorPaletteEditorToolStripMenuItem_Click" x:Name="colorPaletteEditorToolStripMenuItem" Text="ManiaPal (Color Palette Editor)"></TextBlock>

@@ -632,7 +632,7 @@ namespace ManiacEditor
             return new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copiedTilesA, copiedTilesB);
         }
 
-        public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points)
+        public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points, bool updateActions = true)
         {
             try
             {
@@ -645,7 +645,7 @@ namespace ManiacEditor
                     SelectedTilesValue[tilePos] = point.Value;
                 }
                 // Create new actions group
-                Actions.Add(new ActionDummy());
+                if (updateActions) Actions.Add(new ActionDummy());
                 RefreshTileCount();
             }
             catch

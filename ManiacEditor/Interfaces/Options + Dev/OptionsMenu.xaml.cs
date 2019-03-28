@@ -678,29 +678,47 @@ namespace ManiacEditor.Interfaces
 
         }
 
+        bool settingsTypeChangeLock = false;
         private void DefaultSaveLocationChanged(object sender, RoutedEventArgs e)
         {
-            if (PortableCheckbox.IsChecked == true)
+            if (settingsTypeChangeLock == false)
             {
-                if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                if (PortableCheckbox.IsChecked == true)
                 {
-                    Properties.Internal.Default.PortableMode = true;
-                    Properties.Internal.Default.Save();
-                    Environment.Exit(0);
+                    settingsTypeChangeLock = true;
+                    if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+                        Properties.Internal.Default.PortableMode = true;
+                        Properties.Internal.Default.Save();
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        PortableCheckbox.IsChecked = false;
+                        NonPortableCheckbox.IsChecked = true;
+                    }
+
+                    settingsTypeChangeLock = false;
                 }
-
-
-            }
-            else
-            {
-                if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                else
                 {
-                    Properties.Internal.Default.PortableMode = false;
-                    Properties.Internal.Default.Save();
-                    Environment.Exit(0);
-                }
+                    settingsTypeChangeLock = true;
+                    if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+                        Properties.Internal.Default.PortableMode = false;
+                        Properties.Internal.Default.Save();
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        PortableCheckbox.IsChecked = true;
+                        NonPortableCheckbox.IsChecked = false;
+                    }
 
+                    settingsTypeChangeLock = false;
+                }
             }
+
         }
 
         private void DataDirectoriesExport_Click(object sender, RoutedEventArgs e)

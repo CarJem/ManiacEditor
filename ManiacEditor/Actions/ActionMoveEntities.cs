@@ -35,7 +35,7 @@ namespace ManiacEditor.Actions
                 name = "object";
             }
 
-            return $"moving {name} ({-(diff.X)},{-(diff.Y)})";
+            return $"Moving {name} ({-(diff.X)},{-(diff.Y)})";
         }
 
         public ActionMoveEntities(List<EditorEntity> entities, Point diff, bool key=false)
