@@ -30,7 +30,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="1000">
+                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="2000">
                         <StackPanel x:Name="SettingsViewer2" Margin="10">
                             <maniac:SettingsHeader HeaderName="Tiles Toolbar Defaults"></maniac:SettingsHeader>
                             <CheckBox Content="Solid (Top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidTopADefault}"/>
@@ -258,6 +258,7 @@
                             </CheckBox>
                             <maniac:SettingsHeader HeaderName="Misc. Settings"></maniac:SettingsHeader>
                             <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence" Margin="0,0"/>
+                            <CheckBox x:Name="UnhandledExcpetionsCheckBox" Content="Show Unhandled Exceptions (Applies" IsChecked="{maniac:SettingBinding ShowUnhandledExceptions}" Margin="0,0"/>
                             <maniac:SettingsHeader HeaderName="Developer Options"></maniac:SettingsHeader>
                             <CheckBox IsChecked="{maniac:DevSettingsBinding DevAutoStart}" Content="Open Scene forcefully on Startup" HorizontalContentAlignment="Left" Margin="0,0"></CheckBox>
                             <CheckBox IsChecked="{maniac:DevSettingsBinding ExperimentalPropertyGridView}" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0">

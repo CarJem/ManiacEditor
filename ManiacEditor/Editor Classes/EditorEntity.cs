@@ -32,6 +32,7 @@ namespace ManiacEditor
         public bool Selected { get => GetSelected(); set => SetSelected(value); }
         private bool isSelected = false;
         public int SelectedIndex = -1;
+        public DateTimeOffset? TimeWhenSelected = null;
 
         public bool GetSelected()
         {
@@ -43,13 +44,16 @@ namespace ManiacEditor
             if (value == true)
             {
                 isSelected = value;
-                if (SelectedIndex == -1 && EditorInstance.Entities.SelectedEntities != null) SelectedIndex = EditorInstance.Entities.SelectedEntities.Count() - 1;
+                TimeWhenSelected = DateTimeOffset.Now;
             }
             else
             {
                 isSelected = value;
+                TimeWhenSelected = null;
                 SelectedIndex = -1;
             }
+
+            EditorInstance.Entities.UpdateSelectedIndexForEntities();
         }
 
         public bool InTempSelection = false;
@@ -71,16 +75,10 @@ namespace ManiacEditor
 		public bool drawSelectionBoxInFront = true;
 		public bool renderNotFound = false;
 
-
-
-
 		//Rotating/Moving Platforms
 		public int platformAngle = 0;
         public int platformpositionX = 0;
         public int platformpositionY = 0;
-        //bool platformdisableX = false;
-        //bool platformdisableY = false;
-        //bool platformreverse = false;
 
 
 
@@ -160,21 +158,26 @@ namespace ManiacEditor
             width += 1;
             height += 1;
 
+
+
             bool wEven = width % 2 == 0;
             bool hEven = height % 2 == 0;
+
+            int zoomOffset = (EditorInstance.GetZoom() % 1 == 0 ? 0 : 1);
 
             int x2 = x;
             int y2 = y;
             if (width != 0) x2 -= width / 2;
             if (height != 0) y2 -= height / 2;
 
-            d.DrawRectangle(x2, y2, x2 + width, y2 + height, System.Drawing.Color.FromArgb(Transparency, 0, 0, 0));
+            
+            d.DrawRectangle(x2, y2, x2 + width + (!wEven ? zoomOffset : 0), y2 + height + (!hEven ? zoomOffset : 0), System.Drawing.Color.FromArgb(Transparency, 0, 0, 0));
 
             System.Drawing.Color colur = System.Drawing.Color.FromArgb(Transparency, 0, 0, 0);
             //Left Triangle         
             for (int i = 1; i <= (height); i++)
             {
-                d.DrawLine(x2 - height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, x2, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+                d.DrawLine(x2 - height + i, (int)(y + (!hEven ? 1 : 0) + (height / 2) - i), x2,(int)(y + (!hEven ? 1 : 0) + (height / 2) - i), colur, true);
             }
 
             int x3 = x2 + width;
@@ -183,7 +186,7 @@ namespace ManiacEditor
             //Right Triangle
             for (int i = 1; i <= height; i++)
             {
-                d.DrawLine(x3, y + (!hEven ? 1 : 0) + (height / 2) - i, x3 + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+                d.DrawLine(x3, y + (!hEven ? 1 : 0) + (height / 2) - i, x3 + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur, true);
             }
         }
         public void DrawTriangle(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW, int state = 0, int Transparency = 0xFF)
@@ -198,7 +201,7 @@ namespace ManiacEditor
                 //Left Triangle         
                 for (int i = 1; i <= (height); i++)
                 {
-                    d.DrawLine(x - height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, x, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+                    d.DrawLine(x - height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, x, y + (!hEven ? 1 : 0) + (height / 2) - i, colur, true);
                 }
             }
             else if (state == 1)
@@ -206,7 +209,7 @@ namespace ManiacEditor
                 //Right Triangle
                 for (int i = 1; i <= height; i++)
                 {
-                    d.DrawLine(x, y + (!hEven ? 1 : 0) + (height / 2) - i, x + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur);
+                    d.DrawLine(x, y + (!hEven ? 1 : 0) + (height / 2) - i, x + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur, true);
                 }
             }
 
@@ -367,6 +370,7 @@ namespace ManiacEditor
             System.Drawing.Color color2 = GetFilterBoxColor();
 
             DrawSelectionBox(d, x, y, Transparency, color, color2);
+
 		}
         public virtual void Draw(DevicePanel d)
         {
@@ -502,7 +506,13 @@ namespace ManiacEditor
                     {
                         d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }
-                }                
+                }
+
+                if (SelectedIndex != -1)
+                { 
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x + 1, y + 1, EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x, y, EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
+                }
             }
         }
 

@@ -237,7 +237,6 @@ namespace ManiacEditor
         {
             SetButtonColors(Instance.New, MainThemeColor());
             SetButtonColors(Instance.Open, MainThemeColor(Color.FromArgb(255, 231, 147), Color.FromArgb(250, 217, 98)));
-            SetButtonColors(Instance.RecentDataDirectories, MainThemeColor(Color.FromArgb(255, 231, 147), Color.FromArgb(250, 217, 98)));
             SetButtonColors(Instance.Save, Color.RoyalBlue);
             SetButtonColors(Instance.ZoomInButton, Color.SlateBlue);
             SetButtonColors(Instance.ZoomOutButton, Color.SlateBlue);
@@ -259,7 +258,6 @@ namespace ManiacEditor
             SetButtonColors(Instance.MagnetModeSplitButton, MainThemeColor());
             SetButtonColors(Instance.GridSizeButton, MainThemeColor());
             SetButtonColors(Instance.RunSceneDropDown, MainThemeColor());
-            SetButtonColors(Instance.RecentDataDirectories_DropDown, MainThemeColor());
             SetButtonColors(Instance.MagnetModeSplitDropDown, MainThemeColor());
             SetButtonColors(Instance.GridSizeButton, MainThemeColor());
             SetButtonColors(Instance.animationsSplitButton_Dropdown, MainThemeColor());

@@ -129,6 +129,9 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="EntityToolsItemContext" Header="Edit...">
+                    <MenuItem x:Name="SortSelectedSlotIDs" Header="Sort Selected Object's Slot IDs" Click="SortSelectedSlotIDsEvent"></MenuItem>
+                    <MenuItem x:Name="SortSelectedSlotIDsOptimized" Header="Sort Selected Object's Slot IDs (Optimized Mode)" Click="SortSelectedSlotIDsOptimizedEvent"></MenuItem>
+                    <MenuItem x:Name="SortSelectedSlotIDsOrdered" Header="Sort Selected Object's Slot IDs (Ordered Mode)" Click="SortSelectedSlotIDsOrderedEvent"></MenuItem>
                     <MenuItem x:Name="optimizeEntitySlotIDsToolStripMenuItem2" Header="Optimize Entity Slot IDs" Click="OptimizeEntitySlotIDsEvent"/>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem x:Name="rightClicktoSwapSlotIDs2" Header="Right Click to Swap Slot IDs" IsCheckable="True" Click="ToggleRightClickSlotIDSwapEvent"/>
@@ -281,7 +284,12 @@
                     <MenuItem x:Name="settingsToolStripMenuItem" Header="Settings" IsEnabled="False"/>
                 </MenuItem>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="recentDataDirectoriesToolStripMenuItem" Header="No Recent Data Directories" IsEnabled="False"/>
+                <MenuItem x:Name="RecentScenes" Header="Open Recently Opened Scenes" SubmenuOpened="RecentScenes_SubmenuOpened">
+                    <MenuItem x:Name="NoRecentScenesItem" Header="No Recently Opened Scenes" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="RecentDataSources" Header="Open Recently Opened Data Folders / Packs" SubmenuOpened="RecentDataSources_SubmenuOpened">
+                    <MenuItem x:Name="NoRecentDataSources" Header="No Recently Opened Data Folders / Packs" IsEnabled="False"/>
+                </MenuItem>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitEditorEvent"/>
             </MenuItem>
@@ -544,34 +552,6 @@
                                     <ImageBrush ImageSource="pack://application:,,,/Resources/icons/OpenFolder_Alt.png" Stretch="Uniform"></ImageBrush>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="RecentDataDirectories" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="OpenDataDirectoryMenuButton">
-                        <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/OpenDocumentFolder.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
-                    <Button BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
-                        <Button.Content>
-                            <StackPanel Background="{DynamicResource ToolbarBackground}">
-                                <Menu Background="{DynamicResource ToolbarBackground}" Height="36">
-                                    <MenuItem x:Name="RecentDataDirectories_DropDown" Width="22" Height="22" Foreground="{DynamicResource NormalText}">
-                                        <MenuItem.Header>
-                                            <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
-                                                <Rectangle.OpacityMask>
-                                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Header>
-                                        <MenuItem x:Name="noRecentDataDirectoriesToolStripMenuItem" Header="No Recent Data Directories" IsEnabled="False">
-                                        </MenuItem>
-                                    </MenuItem>
-                                </Menu>
-                            </StackPanel>
                         </Button.Content>
                     </Button>
                     <Button x:Name="Save" Width="32" Margin="0,0,0,0"  Padding="0,0,0,0" Click="SaveSceneEvent">

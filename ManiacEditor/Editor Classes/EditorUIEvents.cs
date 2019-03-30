@@ -725,8 +725,10 @@ namespace ManiacEditor
 			Settings.MyDevSettings.DevForceRestartCurrentName = Editor.Paths.CurrentName;
 			Settings.MyDevSettings.DevForceRestartCurrentZone = Editor.Paths.CurrentZone;
 			Settings.MyDevSettings.DevForceRestartSceneID = Editor.Paths.CurrentSceneID;
-			Settings.MyDevSettings.DevForceRestartIsBrowsed = Editor.Paths.Browsed;
-		}
+            Settings.MyDevSettings.DevForceRestartIsBrowsed = Editor.Paths.Browsed;
+            Settings.MyDevSettings.DevForceRestartResourcePacks = new System.Collections.Specialized.StringCollection();
+            Settings.MyDevSettings.DevForceRestartResourcePacks.AddRange(Editor.ResourcePackList.ToArray());
+        }
 
 		public void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -757,18 +759,6 @@ namespace ManiacEditor
 			if (Editor.StateModel.ZoomLevel <= -5) Editor.StateModel.ZoomLevel = -5;
 
 			Editor.ZoomModel.SetZoomLevel(Editor.StateModel.ZoomLevel, new Point(0, 0));
-		}
-
-		public void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e)
-		{
-			if (Editor.RecentDataItemsMenu != null)
-			{
-				string dataDirectory = Editor.RecentDataItemsMenu[1].Tag.ToString();
-				if (dataDirectory != null || dataDirectory != "")
-				{
-					Editor.RecentDataDirectoryClicked(sender, e, dataDirectory);
-				}
-			}
 		}
 
 

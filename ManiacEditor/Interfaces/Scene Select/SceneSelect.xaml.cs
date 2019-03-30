@@ -468,13 +468,17 @@ namespace ManiacEditor.Interfaces
 			this.recentDataDirList.ImageList.Images.Add("Folder", Properties.Resources.folder);
 			this.recentDataDirList.ImageList.Images.Add("File", Properties.Resources.file);
 
-			foreach (System.Windows.Controls.MenuItem dataDir in EditorInstance.RecentDataItemsMenu)
-			{
-				var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir.Tag.ToString());
-				node.Tag = dataDir.Tag.ToString();
-				node.ToolTipText = dataDir.Tag.ToString();
-				node.ImageKey = "DataFolder";
-			}
+            if (Settings.MySettings.DataDirectories != null)
+            {
+                foreach (string dataDir in Settings.MySettings.DataDirectories)
+                {
+                    var node = recentDataDirList.Nodes[0].Nodes.Add(dataDir);
+                    node.Tag = dataDir;
+                    node.ToolTipText = dataDir;
+                    node.ImageKey = "DataFolder";
+                }
+            }
+
 
 			recentDataDirList.Nodes[0].ExpandAll();
 
@@ -923,7 +927,7 @@ namespace ManiacEditor.Interfaces
                 else if (recentDataDirList.SelectedNode.ImageKey == "DataPack")
                 {
                     UnloadDataPack();
-                    LoadDataPack(recentDataDirList.SelectedNode.Tag.ToString());
+                    LoadDataPackFromTag(recentDataDirList.SelectedNode.Tag.ToString());
                 }
                 else if (recentDataDirList.SelectedNode.ImageKey == "SavedPlace")
                 {
@@ -934,7 +938,7 @@ namespace ManiacEditor.Interfaces
 
         }
 
-		private void LoadDataDirectory(string dataDirectory)
+		public void LoadDataDirectory(string dataDirectory)
 		{
             EditorInstance.DataDirectory = dataDirectory;
 
@@ -1004,7 +1008,6 @@ namespace ManiacEditor.Interfaces
 					if (goodDataDir == true)
 					{
 						EditorInstance.AddRecentDataFolder(EditorInstance.DataDirectory);
-						EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
 						ReloadQuickPanel();
 					}
 
@@ -1025,7 +1028,7 @@ namespace ManiacEditor.Interfaces
 		private void clearDataDirectoriesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.DataDirectories.Clear();
-			EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+			
 			ReloadQuickPanel();
 
 
@@ -1116,7 +1119,7 @@ namespace ManiacEditor.Interfaces
 			{
 				Settings.MySettings.DataDirectories.Remove(toRemove);
 			}
-			EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+			
 			ReloadQuickPanel();
 		}
 
@@ -1126,13 +1129,11 @@ namespace ManiacEditor.Interfaces
             EditorInstance.UIModes.DataDirectoryReadOnlyMode = false;
             EditorInstance.DataDirectory = null;
             dataPackStatusLabel.Content = "";
-            EditorInstance.DataDirectory = "Data Directory: NULL";
+            dataLabelToolStripItem.Content = "Data Directory: NULL";
         }
 
-        public void LoadDataPack(string tag)
+        public void LoadDataPackFromTag(string tag)
         {
-            bool AllowedToProceed = true;
-
             prevDataDir = EditorInstance.DataDirectory;
             if (EditorInstance.DataPacks == null) return;
             if (!Int32.TryParse(tag, out int Index)) return;
@@ -1140,9 +1141,26 @@ namespace ManiacEditor.Interfaces
 
             var pack = EditorInstance.DataPacks.ModListInformation[Index];
 
+            LoadDataPack(pack);
+        }
+
+        public void LoadDataPackFromName(string packName)
+        {
+            prevDataDir = EditorInstance.DataDirectory;
+            if (EditorInstance.DataPacks == null) return;
+            if (EditorInstance.DataPacks.ModListInformation == null) return;
+
+            var pack = EditorInstance.DataPacks.ModListInformation.Where(x => x.Item1 == packName).FirstOrDefault();
+
+            LoadDataPack(pack);
+        }
+
+        public void LoadDataPack(Tuple<string,List<Tuple<string,string>>> pack)
+        {
+            bool AllowedToProceed = true;
             EditorInstance.LoadedDataPack = pack.Item1;
 
-            foreach(var item in pack.Item2)
+            foreach (var item in pack.Item2)
             {
                 if (item.Item1 == "DataDir") EditorInstance.DataDirectory = item.Item2;
                 else if (item.Item1 == "Mod") EditorInstance.ResourcePackList.Add(item.Item2);
@@ -1170,7 +1188,7 @@ namespace ManiacEditor.Interfaces
         }
 
 
-		private void recentDataDirList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void recentDataDirList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
@@ -1324,7 +1342,7 @@ namespace ManiacEditor.Interfaces
 				if (Settings.MySettings.DataDirectories != null)
 				{
 					Settings.MySettings.DataDirectories.Clear();
-					EditorInstance.RefreshDataDirectories(Properties.Settings.Default.DataDirectories);
+					
 					ReloadQuickPanel();
 				}
 
@@ -1364,7 +1382,7 @@ namespace ManiacEditor.Interfaces
 
 		private void toolStripDropDownButton1_Click(object sender, RoutedEventArgs e)
 		{
-			LoadDataDirectory(recentDataDirList.SelectedNode.Tag.ToString());
+            if (recentDataDirList.SelectedNode != null) LoadDataDirectory(recentDataDirList.SelectedNode.Tag.ToString());
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)

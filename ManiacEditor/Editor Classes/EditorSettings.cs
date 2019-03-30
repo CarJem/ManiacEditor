@@ -157,10 +157,6 @@ namespace ManiacEditor
                 Instance.WindowState = Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
                 Instance.InGame.GamePath = Settings.MyDefaults.SonicManiaPath;
 
-
-                Instance.RefreshDataDirectories(Settings.MySettings.DataDirectories);
-
-
                 if (Settings.MySettings.ModLoaderConfigs?.Count > 0)
                 {
                     Instance.selectConfigToolStripMenuItem.Items.Clear();

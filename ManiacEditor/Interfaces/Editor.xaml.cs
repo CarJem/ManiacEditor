@@ -1,45 +1,45 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using ManiacEditor.Actions;
+using ManiacEditor.Entity_Renders;
+using ManiacEditor.Interfaces;
+using Microsoft.Scripting.Utils;
+using Microsoft.Win32;
+using RSDKv5;
+using SharpDX.Direct3D9;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Forms;
-using ManiacEditor.Actions;
-using RSDKv5;
-using SharpDX.Direct3D9;
-using Color = System.Drawing.Color;
-using ManiacEditor.Interfaces;
-using Microsoft.Scripting.Utils;
-using Microsoft.Win32;
-using ManiacEditor.Entity_Renders;
-using IWshRuntimeLibrary;
-using System.Drawing;
-using File = System.IO.File;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using Point = System.Drawing.Point;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using Path = System.IO.Path;
-using System.Windows.Controls.Primitives;
-using Rectangle = System.Drawing.Rectangle;
-using MenuItem = System.Windows.Controls.MenuItem;
 using Clipboard = System.Windows.Clipboard;
+using Color = System.Drawing.Color;
 using DataObject = System.Windows.DataObject;
+using File = System.IO.File;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MenuItem = System.Windows.Controls.MenuItem;
 using MessageBox = RSDKrU.MessageBox;
+using Path = System.IO.Path;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
 
 
 namespace ManiacEditor
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class Editor : Window
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class Editor : Window
 	{
 
         #region Definitions
@@ -62,9 +62,9 @@ namespace ManiacEditor
 		public List<Bitmap> CollisionLayerB = new List<Bitmap>(); //Collection of Collision Type B for the Loaded Scene
 		public List<string> entityRenderingObjects = EditorEntityDrawing.GetSpecialRenderList(1); //Used to get the Render List for Objects
 		public List<string> renderOnScreenExlusions = EditorEntityDrawing.GetSpecialRenderList(0); //Used to get the Always Render List for Objects
-		public IList<MenuItem> RecentDataItemsMenu; //Used to get items for the Data Directory Toolstrip Area
-		private IList<MenuItem> RecentDataItemsButton; //Used to get items for the Data Directory Button Toolstrip
-		public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions
+        public IList<MenuItem> RecentSceneItems;
+        public IList<MenuItem> RecentDataSourceItems;
+        public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions
 		public List<string> userDefinedSpritePaths = new List<string>();
 		public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
 
@@ -129,6 +129,8 @@ namespace ManiacEditor
         public EditorManiacINI ManiacINI;
         public EditorUI UI;
         public EditorUIModes UIModes;
+        public EditorRecentSceneSourcesList RecentsList;
+        public EditorRecentDataSourcesList RecentDataSourcesList;
         public EditorLaunch Launcher;
         public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost FormsHost;
@@ -228,7 +230,7 @@ namespace ManiacEditor
                 Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
             }
 
-			if (ManiacEditor.Settings.MyDevSettings.DevAutoStart) OpenSceneForceFully();
+			//if (ManiacEditor.Settings.MyDevSettings.DevAutoStart) OpenSceneForceFully();
 
 			if (ShortcutLaunch)
 			{
@@ -275,10 +277,9 @@ namespace ManiacEditor
 			ExtraLayerEditViewButtons = new Dictionary<EditLayerToggleButton, EditLayerToggleButton>();
 			ExtraLayerSeperators = new List<Separator>();
 
-
-			RecentDataItemsMenu = new List<MenuItem>();
-			RecentDataItemsButton = new List<MenuItem>();
-			UIModes.MenuChar = UIModes.MenuCharS.ToCharArray();
+            RecentSceneItems = new List<MenuItem>();
+            RecentDataSourceItems = new List<MenuItem>();
+            UIModes.MenuChar = UIModes.MenuCharS.ToCharArray();
 			UIModes.MenuChar_Small = UIModes.MenuCharS_Small.ToCharArray();
 			UIModes.LevelSelectChar = UIModes.LevelSelectCharS.ToCharArray();
 			InGame = new EditorInGame(this);
@@ -297,6 +298,8 @@ namespace ManiacEditor
             ManiacINI = new EditorManiacINI(this);
             Launcher = new EditorLaunch(this);
             UI = new EditorUI(this);
+            RecentsList = new EditorRecentSceneSourcesList(this);
+            RecentDataSourcesList = new EditorRecentDataSourcesList(this);
 
 
 
@@ -820,198 +823,15 @@ namespace ManiacEditor
 				return folderBrowserDialog.FileName;
 			}
 		}
-		private MenuItem CreateDataDirectoryMenuLink(string target)
-		{
-			MenuItem newItem = new MenuItem();
-			newItem.Header = target;
-			newItem.Tag = target;
-			newItem.Click += RecentDataDirectoryClicked;
-			return newItem;
-		}
+
 		public bool SetGameConfig() { return Paths.SetGameConfig(); }
 		public bool IsDataDirectoryValid(string directoryToCheck) { return Paths.IsDataDirectoryValid(directoryToCheck); }
-		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e, String dataDirectory)
+        #endregion
+        #region Open Scene Methods
+        public void OpenSceneForceFully()
 		{
-			var dataDirectories = ManiacEditor.Settings.MySettings.DataDirectories;
-            ManiacEditor.Settings.MyDefaults.SonicManiaPath = InGame.GamePath;
-			if (IsDataDirectoryValid(dataDirectory))
-			{
-				ResetDataDirectoryToAndResetScene(dataDirectory);
-			}
-			else
-			{
-				MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
-								"Invalid Data Directory!",
-								MessageBoxButton.OK,
-								MessageBoxImage.Error);
-				dataDirectories.Remove(dataDirectory);
-				RefreshDataDirectories(dataDirectories);
-
-			}
-            ManiacEditor.Settings.MySettings.Save();
-		}
-		public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
-		{
-			if (FileHandler.AllowSceneUnloading() != true) return;
-			UnloadScene();
-            Settings.UseDefaultPrefrences();
-			DataDirectory = newDataDirectory;
-			AddRecentDataFolder(newDataDirectory);
-			bool goodGameConfig = SetGameConfig();
-			if (goodGameConfig == true)
-			{
-				if (forceBrowse) OpenScene(true);
-				else if (forceSceneSelect) OpenScene(false);
-				else OpenScene();
-
-			}
-
-
-		}
-		public void RecentDataDirectoryClicked(object sender, RoutedEventArgs e)
-		{
-			var menuItem = sender as MenuItem;
-			string dataDirectory = menuItem.Tag.ToString();
-			var dataDirectories = ManiacEditor.Settings.MySettings.DataDirectories;
-            ManiacEditor.Settings.MyDefaults.SonicManiaPath = InGame.GamePath;
-			if (IsDataDirectoryValid(dataDirectory))
-			{
-				ResetDataDirectoryToAndResetScene(dataDirectory);
-			}
-			else
-			{
-				RSDKrU.MessageBox.Show($"The specified Data Directory {dataDirectory} is not valid.",
-								"Invalid Data Directory!",
-								MessageBoxButton.OK,
-								MessageBoxImage.Error);
-				dataDirectories.Remove(dataDirectory);
-				RefreshDataDirectories(dataDirectories);
-
-			}
-            ManiacEditor.Settings.MySettings.Save();
-		}
-
-		/// <summary>
-		/// Refreshes the Data directories displayed in the recent list under the File menu.
-		/// </summary>
-		/// <param name="settings">The settings file containing the </param>
-		public void RefreshDataDirectories(StringCollection recentDataDirectories)
-		{
-			if (ManiacEditor.Settings.MySettings.DataDirectories?.Count > 0)
-			{
-                recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
-                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Collapsed;
-                CleanUpRecentList();
-
-				var startRecentItems = fileToolStripMenuItem.Items.IndexOf(recentDataDirectoriesToolStripMenuItem);
-				var startRecentItemsButton = RecentDataDirectories_DropDown.Items.IndexOf(noRecentDataDirectoriesToolStripMenuItem);
-
-				foreach (var dataDirectory in recentDataDirectories)
-				{
-                    RecentDataItemsMenu.Add(CreateDataDirectoryMenuLink(dataDirectory));
-                    RecentDataItemsButton.Add(CreateDataDirectoryMenuLink(dataDirectory));
-
-				}
-
-
-				foreach (var menuItem in RecentDataItemsMenu.Reverse())
-				{
-                    fileToolStripMenuItem.Items.Insert(startRecentItems, menuItem);
-				}
-
-				foreach (var menuItem in RecentDataItemsButton.Reverse())
-				{
-                    RecentDataDirectories_DropDown.Items.Insert(startRecentItemsButton, menuItem);
-				}
-			}
-			else
-			{
-                recentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
-                noRecentDataDirectoriesToolStripMenuItem.Visibility = Visibility.Visible;
-			}
-
-
-
-		}
-		public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
-		{
-			string dataFolderTag_Normal = "Data Directory: {0}";
-
-			_baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
-			UpdateDataFolderLabel();
-			UIModes.ShowingDataDirectory = true;
-		}
-		private void UpdateDataFolderLabel(string dataDirectory = null)
-		{
-			if (dataDirectory != null) _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
-			else _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), DataDirectory);
-		}
-		/// <summary>
-		/// Removes any recent Data directories from the File menu.
-		/// </summary>
-		private void CleanUpRecentList()
-		{
-			foreach (var menuItem in RecentDataItemsMenu)
-			{
-				menuItem.Click -= RecentDataDirectoryClicked;
-				fileToolStripMenuItem.Items.Remove(menuItem);
-			}
-			foreach (var menuItem in RecentDataItemsButton)
-			{
-				menuItem.Click -= RecentDataDirectoryClicked;
-				RecentDataDirectories_DropDown.Items.Remove(menuItem);
-			}
-			RecentDataItemsMenu.Clear();
-			RecentDataItemsButton.Clear();
-		}
-		public void AddRecentDataFolder(string dataDirectory)
-		{
-			try
-			{
-				var mySettings = Properties.Settings.Default;
-				var dataDirectories = ManiacEditor.Settings.MySettings.DataDirectories;
-
-				if (dataDirectories == null)
-				{
-					dataDirectories = new StringCollection();
-                    ManiacEditor.Settings.MySettings.DataDirectories = dataDirectories;
-				}
-
-				if (dataDirectories.Contains(dataDirectory))
-				{
-					dataDirectories.Remove(dataDirectory);
-				}
-
-				if (dataDirectories.Count >= 10)
-				{
-					for (int i = 9; i < dataDirectories.Count; i++)
-					{
-						dataDirectories.RemoveAt(i);
-					}
-				}
-
-				dataDirectories.Insert(0, dataDirectory);
-
-                ManiacEditor.Settings.MySettings.Save();
-
-				RefreshDataDirectories(dataDirectories);
-
-				UpdateDataFolderLabel(dataDirectory);
-
-
-			}
-			catch (Exception ex)
-			{
-				Debug.Write("Failed to add data folder to recent list: " + ex);
-			}
-		}
-		#endregion
-		#region Open Scene Methods
-		public void OpenSceneForceFully()
-		{
-
 			string dataDirectory = ManiacEditor.Settings.MyDevSettings.DevForceRestartData;
-			DataDirectory = dataDirectory;
+			if (dataDirectory != null) DataDirectory = dataDirectory;
 			string Result = ManiacEditor.Settings.MyDevSettings.DevForceRestartScene;
 			int LevelID = ManiacEditor.Settings.MyDevSettings.DevForceRestartID;
 			bool isEncore = ManiacEditor.Settings.MyDevSettings.DevForceRestartIsEncore;
@@ -1019,13 +839,14 @@ namespace ManiacEditor
 			string CurrentName = ManiacEditor.Settings.MyDevSettings.DevForceRestartCurrentName;
 			string CurrentSceneID = ManiacEditor.Settings.MyDevSettings.DevForceRestartSceneID;
 			bool Browsed = ManiacEditor.Settings.MyDevSettings.DevForceRestartIsBrowsed;
-
-			int x = ManiacEditor.Settings.MyDevSettings.DevForceRestartX;
+            IList<string> DevResourcePacks = new List<string>();
+            if (ManiacEditor.Settings.MyDevSettings.DevForceRestartResourcePacks != null) DevResourcePacks = ManiacEditor.Settings.MyDevSettings.DevForceRestartResourcePacks.Cast<string>().ToList();
+            int x = ManiacEditor.Settings.MyDevSettings.DevForceRestartX;
 			int y = ManiacEditor.Settings.MyDevSettings.DevForceRestartY;
 			UIModes.TempWarpCoords = new Point(x, y);
 			UIModes.ForceWarp = true;
 
-			FileHandler.OpenSceneForcefully(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed);
+			FileHandler.OpenSceneFromSaveState(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed, DevResourcePacks);
 		}
 		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0, string SceneID = "", string Zone = "", string Name = "")
 		{
@@ -1063,7 +884,7 @@ namespace ManiacEditor
 		private void OpenSceneForceFully(string dataDir)
 		{
 			DataDirectory = dataDir;
-			FileHandler.OpenSceneForcefullyUsingSceneSelect(DataDirectory);
+			FileHandler.OpenSceneSelectWithPrefrences(DataDirectory);
 		}
 		public void OpenScene(bool manual = false, string Result = null, int LevelID = -1, bool isEncore = false, bool modLoaded = false, string modDir = "")
 		{
@@ -1722,7 +1543,6 @@ namespace ManiacEditor
         private void GoToPlayerSpawnEvent(object sender, RoutedEventArgs e) { UIEvents.PlayerSpawnToolStripMenuItem_Click(sender, e); }
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { UIEvents.GoToPosition(sender, e); }
         private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { UIModes.UseMagnetMode ^= true; }
-        private void OpenDataDirectoryMenuButton(object sender, RoutedEventArgs e) { UIEvents.OpenDataDirectoryMenuButton(sender, e); }
         private void UndoEvent(object sender, RoutedEventArgs e) { EditorUndo(); }
 		private void RedoEvent(object sender, RoutedEventArgs e) { EditorRedo(); }
 		private void ZoomInEvent(object sender, RoutedEventArgs e) { UIEvents.ZoomIn(sender, e); }
@@ -1760,6 +1580,7 @@ namespace ManiacEditor
         private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { UIModes.AlwaysShowWaterLevel ^= true; }
         private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { Entities.OrderSelectedSlotIDs(); }
         private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Entities.OrderSelectedSlotIDs(true); }
+        private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Entities.OrderSelectedSlotIDs(false, true); }
         private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { UIModes.SizeWaterLevelwithBounds ^= true; }
         private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { UIEvents.SwapEncoreManiaEntityVisibility(); }
         private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { UIModes.ShowParallaxSprites ^= true; }
@@ -2342,6 +2163,183 @@ namespace ManiacEditor
             modConfig_CheckedItem.IsChecked = true;
 
         }
+        #endregion
+
+
+        #region Recent Data Folder Methods
+        public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
+        {
+            if (FileHandler.AllowSceneUnloading() != true) return;
+            UnloadScene();
+            Settings.UseDefaultPrefrences();
+            DataDirectory = newDataDirectory;
+            AddRecentDataFolder(newDataDirectory);
+            bool goodGameConfig = SetGameConfig();
+            if (goodGameConfig == true)
+            {
+                if (forceBrowse) OpenScene(true);
+                else if (forceSceneSelect) OpenScene(false);
+                else OpenScene();
+
+            }
+
+
+        }
+        public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
+        {
+            string dataFolderTag_Normal = "Data Directory: {0}";
+
+            _baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
+            UpdateDataFolderLabel();
+            UIModes.ShowingDataDirectory = true;
+        }
+        private void UpdateDataFolderLabel(string dataDirectory = null)
+        {
+            if (dataDirectory != null) _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
+            else _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), DataDirectory);
+        }
+        public void AddRecentDataFolder(string dataDirectory)
+        {
+            try
+            {
+                var mySettings = Properties.Settings.Default;
+                var dataDirectories = ManiacEditor.Settings.MySettings.DataDirectories;
+
+                if (dataDirectories == null)
+                {
+                    dataDirectories = new StringCollection();
+                    ManiacEditor.Settings.MySettings.DataDirectories = dataDirectories;
+                }
+
+                if (dataDirectories.Contains(dataDirectory)) dataDirectories.Remove(dataDirectory);
+
+                if (dataDirectories.Count >= 10)
+                {
+                    for (int i = 9; i < dataDirectories.Count; i++) dataDirectories.RemoveAt(i);
+                }
+
+                dataDirectories.Insert(0, dataDirectory);
+
+                ManiacEditor.Settings.MySettings.Save();
+
+                UpdateDataFolderLabel(dataDirectory);
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Write("Failed to add data folder to recent list: " + ex);
+            }
+        }
+        #endregion
+        #region Recent Scenes Methods
+        private void RecentScenes_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            if (RecentsList.Collection.List.Count > 0)
+            {
+
+                NoRecentScenesItem.Visibility = Visibility.Collapsed;
+                CleanUpRecentScenesList();
+
+                foreach (var RecentItem in RecentsList.Collection.List)
+                {
+                    RecentSceneItems.Add(CreateRecentScenesMenuLink(RecentItem.EntryName));
+                }
+
+                foreach (var menuItem in RecentSceneItems.Reverse())
+                {
+                    RecentScenes.Items.Insert(0, menuItem);
+                }
+            }
+            else
+            {
+                NoRecentScenesItem.Visibility = Visibility.Visible;
+            }
+        }
+        private MenuItem CreateRecentScenesMenuLink(string target)
+        {
+            
+            MenuItem newItem = new MenuItem();
+            newItem.Header = target.Replace("/n/n", Environment.NewLine);
+            newItem.Tag = target;
+            newItem.Click += RecentSceneEntryClicked;
+            return newItem;
+        }
+        public void RecentSceneEntryClicked(object sender, RoutedEventArgs e)
+        {
+            if (FileHandler.AllowSceneUnloading() != true) return;
+            UnloadScene();
+            var menuItem = sender as MenuItem;
+            string entryName = menuItem.Tag.ToString();
+            var item = RecentsList.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
+            DataDirectory = item.DataDirectory;
+            FileHandler.OpenSceneFromSaveState(item.DataDirectory, item.Result, item.LevelID, item.isEncore, item.CurrentName, item.CurrentZone, item.CurrentSceneID, item.Browsed, item.ResourcePacks);
+            RecentsList.AddRecentFile(item);
+        }
+        private void CleanUpRecentScenesList()
+        {
+            foreach (var menuItem in RecentSceneItems)
+            {
+                menuItem.Click -= RecentSceneEntryClicked;
+                RecentScenes.Items.Remove(menuItem);
+            }
+            RecentSceneItems.Clear();
+        }
+
+        #endregion
+        #region Recent Data Sources Methods
+        private void RecentDataSources_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            if (RecentDataSourcesList.Collection.List.Count > 0)
+            {
+
+                NoRecentDataSources.Visibility = Visibility.Collapsed;
+                CleanUpDataSourcesList();
+
+                foreach (var RecentItem in RecentDataSourcesList.Collection.List)
+                {
+                    RecentDataSourceItems.Add(CreateRecentDataSourceMenuLink(RecentItem.EntryName));
+                }
+
+                foreach (var menuItem in RecentDataSourceItems.Reverse())
+                {
+                    RecentDataSources.Items.Insert(0, menuItem);
+                }
+            }
+            else
+            {
+                NoRecentDataSources.Visibility = Visibility.Visible;
+            }
+        }
+        private MenuItem CreateRecentDataSourceMenuLink(string target)
+        {
+            MenuItem newItem = new MenuItem();
+            newItem.Header = target.Replace("/n/n", Environment.NewLine);
+            newItem.Tag = target;
+            newItem.Click += RecentDataSourceEntryClicked;
+            return newItem;
+        }
+        public void RecentDataSourceEntryClicked(object sender, RoutedEventArgs e)
+        {
+            if (FileHandler.AllowSceneUnloading() != true) return;
+            UnloadScene();
+            var menuItem = sender as MenuItem;
+            string entryName = menuItem.Tag.ToString();
+            var item = RecentDataSourcesList.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
+            DataDirectory = item.DataDirectory;
+            FileHandler.OpenSceneSelectFromPreviousConfiguration(item);
+            RecentDataSourcesList.AddRecentFile(item);
+        }
+        private void CleanUpDataSourcesList()
+        {
+            foreach (var menuItem in RecentDataSourceItems)
+            {
+                menuItem.Click -= RecentDataSourceEntryClicked;
+                RecentDataSources.Items.Remove(menuItem);
+            }
+            RecentDataSourceItems.Clear();
+        }
+
         #endregion
     }
 }

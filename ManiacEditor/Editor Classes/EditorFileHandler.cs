@@ -33,6 +33,7 @@ namespace ManiacEditor
 
         public void NewScene()
         {
+            if (AllowSceneUnloading() != true) return;
             Instance.UnloadScene();
             ManiacEditor.Interfaces.NewSceneWindow makerDialog = new ManiacEditor.Interfaces.NewSceneWindow();
             makerDialog.Owner = Editor.GetWindow(Instance);
@@ -138,23 +139,32 @@ namespace ManiacEditor
             }
             else if (Instance.IsSceneLoaded() == true && Settings.MySettings.DisableSaveWarnings == false)
             {
-                var exitBox = new UnloadingSceneWarning();
-                exitBox.Owner = Window.GetWindow(Instance);
-                exitBox.ShowDialog();
-                var exitBoxResult = exitBox.WindowResult;
-                if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.Yes)
+
+                if (Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0)
                 {
-                    SaveScene();
-                    AllowSceneChange = true;
-                }
-                else if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.No)
-                {
-                    AllowSceneChange = true;
+                    var exitBox = new UnloadingSceneWarning();
+                    exitBox.Owner = Window.GetWindow(Instance);
+                    exitBox.ShowDialog();
+                    var exitBoxResult = exitBox.WindowResult;
+                    if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.Yes)
+                    {
+                        SaveScene();
+                        AllowSceneChange = true;
+                    }
+                    else if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.No)
+                    {
+                        AllowSceneChange = true;
+                    }
+                    else
+                    {
+                        AllowSceneChange = false;
+                    }
                 }
                 else
                 {
-                    AllowSceneChange = false;
+                    AllowSceneChange = true;
                 }
+
             }
             else
             {
@@ -268,7 +278,45 @@ namespace ManiacEditor
 
         }
 
-        public void OpenSceneForcefullyUsingSceneSelect(string dataDirectory)
+        public void OpenSceneSelectFromPreviousConfiguration(DataSaveStateCollection.SaveState SaveState)
+        {
+            ManiacEditor.Interfaces.SceneSelectWindow select;
+            Instance.Paths.SetGameConfig(SaveState.DataDirectory);
+
+            select = new ManiacEditor.Interfaces.SceneSelectWindow((EditorLoad() ? Instance.GameConfig : null), Instance);
+
+            select.Owner = Instance;
+
+            if (SaveState.isDataPack)
+            {
+                select.SceneSelect.UnloadDataPack();
+                select.SceneSelect.LoadDataPackFromName(SaveState.LoadedDataPack);
+            }
+            else
+            {
+                select.SceneSelect.UnloadDataPack();
+            }
+
+            select.ShowDialog();
+
+
+            if (select.DialogResult != true) return;
+            if (PreLoad() == false) return;
+
+            GetSceneSelectData(select.SceneSelect, select.SceneSelect.Browsed);
+
+            if (Instance.Paths.Browsed)
+            {
+                AddTemporaryResourcePack();
+                LoadFromFiles();
+            }
+            else
+            {
+                LoadFromSceneSelect();
+            }
+        }
+
+        public void OpenSceneSelectWithPrefrences(string dataDirectory)
         {
             ManiacEditor.Interfaces.SceneSelectWindow select;
             Instance.Paths.SetGameConfig(dataDirectory);
@@ -303,17 +351,18 @@ namespace ManiacEditor
 
         }
 
-        public void OpenSceneForcefully(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile)
+        public void OpenSceneFromSaveState(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile, IList<string> ResourcePacks)
         {
             if (PreLoad() == false) return;
 
             if (Instance.Paths.SetGameConfig(dataDirectory) == false) return;
 
-            GetSceneSelectData(dataDirectory, Result, LevelID, isEncore, CurrentName, CurrentZone, CurrentSceneID, browsedFile);
+            GetSceneSelectData(dataDirectory, Result, LevelID, isEncore, CurrentName, CurrentZone, CurrentSceneID, browsedFile, true);
+
+            Instance.ResourcePackList = ResourcePacks;
 
             if (Instance.Paths.Browsed)
             {
-                AddTemporaryResourcePack();
                 LoadFromFiles();
             }
             else
@@ -339,7 +388,7 @@ namespace ManiacEditor
             }
         }
 
-        public void GetSceneSelectData(ManiacEditor.Interfaces.SceneSelect select, bool browsedFile = false)
+        public void GetSceneSelectData(ManiacEditor.Interfaces.SceneSelect select, bool browsedFile = false, bool skipResourcePacks = false)
         {
             if (browsedFile == true)
             {
@@ -351,7 +400,7 @@ namespace ManiacEditor
                 Instance.Paths.CurrentName = select.CurrentName;
                 Instance.Paths.CurrentSceneID = select.CurrentSceneID;
                 Instance.Paths.Browsed = select.Browsed;
-                AddTemporaryResourcePack();
+                if (!skipResourcePacks) AddTemporaryResourcePack();
             }
             else
             {
@@ -366,7 +415,7 @@ namespace ManiacEditor
             }
         }
 
-        public void GetSceneSelectData(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile)
+        public void GetSceneSelectData(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile, bool skipResourcePacks = false)
         {
             if (browsedFile == true)
             {
@@ -378,7 +427,7 @@ namespace ManiacEditor
                 Instance.Paths.CurrentName = CurrentName;
                 Instance.Paths.CurrentSceneID = CurrentSceneID;
                 Instance.Paths.Browsed = browsedFile;
-                AddTemporaryResourcePack();
+                if (!skipResourcePacks) AddTemporaryResourcePack();
             }
             else
             {
@@ -484,6 +533,8 @@ namespace ManiacEditor
                 Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * Instance.StateModel.Zoom), (int)(Instance.SceneHeight * Instance.StateModel.Zoom));
                 Instance.UIModes.UpdateMultiLayerSelectMode();
                 Instance.UI.UpdateControls(true);
+                Instance.RecentsList.AddRecentFile(Instance.RecentsList.GenerateNewEntry());
+                Instance.RecentDataSourcesList.AddRecentFile(Instance.RecentDataSourcesList.GenerateNewEntry());
 
             }
             catch (Exception ex)

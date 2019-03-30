@@ -252,7 +252,18 @@ namespace ManiacEditor
                 }
             }
 
-
+            if (Editor.Entities != null && Editor.Entities.SelectedEntities != null && Editor.Entities.SelectedEntities.Count > 1)
+            {
+                Editor.SortSelectedSlotIDs.IsEnabled = true;
+                Editor.SortSelectedSlotIDsOptimized.IsEnabled = true;
+                Editor.SortSelectedSlotIDsOrdered.IsEnabled = true;
+            }
+            else
+            {
+                Editor.SortSelectedSlotIDs.IsEnabled = false;
+                Editor.SortSelectedSlotIDsOptimized.IsEnabled = false;
+                Editor.SortSelectedSlotIDsOptimized.IsEnabled = false;
+            }
 
             Editor.ShowGridButton.IsEnabled = enabled && Editor.StageConfig != null;
             Editor.ShowCollisionAButton.IsEnabled = enabled && Editor.TileConfig != null;

@@ -76,7 +76,8 @@ namespace ManiacEditor
 
         private void SetSelectedEntities(IList<EditorEntity> SelectedObj)
         {
-            foreach (var entity in Entities.Where(X => SelectedObj.Contains(X)).ToList())
+            List<EditorEntity> SortedList = Entities.OrderBy(x => x.SelectedIndex).ToList();
+            foreach (var entity in SortedList.Where(X => SelectedObj.Contains(X)).ToList())
             {
                 Entities.Where(X =>  X == entity).FirstOrDefault().Selected = entity.Selected;
             }
@@ -234,24 +235,62 @@ namespace ManiacEditor
             GetSortedEntities();
         }
 
+        public List<int> GetAllUsedSlotIDs()
+        {
+            return Entities.Select(x => (int)x.Entity.SlotID).ToList();
+        }
 
 
-        public void OrderSelectedSlotIDs(bool optimize = false)
+        public void OrderSelectedSlotIDs(bool optimize = false, bool ordered = false)
         {
             if (SelectedEntities == null || SelectedEntities.Count < 0) return;
+
+            IList<ushort> RangedSlotIDs = new List<ushort>();
+            bool RangedSlotIDsFound = false;
+            int RangedIndex = 0;
+
             IList<SceneEntity> OrderedEntities = new List<SceneEntity>();
             IList<ushort> OrderedSlotIDs = new List<ushort>();
             IList<ushort> UnorderedSlotIDs = new List<ushort>();
+            if (ordered)
+            {
+                var range = Enumerable.Range(0, 2048);
+                var a = range.Except(GetAllUsedSlotIDs()).ToList();
+                var b = Extensions.GroupConsecutive(a);
+                int amountOfSlotsNeeded = SelectedEntities.Count();
+                foreach (var list in b)
+                {
+                    if (list.Count() >= amountOfSlotsNeeded)
+                    {
+                        RangedSlotIDsFound = true;
+                        RangedSlotIDs = list.Select(i => (ushort)i).ToList().GetRange(0, amountOfSlotsNeeded);
+                        break;
+                    }
+                }
+
+
+                if (!RangedSlotIDsFound)
+                {
+                    MessageBox.Show(string.Format("Unable to Find an avaliable range that can fit {0} Entities!", amountOfSlotsNeeded));
+                    return;
+                }
+            }
             foreach (var entity in SelectedEntities.OrderBy(x => x.SelectedIndex))
             {
                 OrderedEntities.Add(entity.Entity);
             }
+
             foreach (var entity in SelectedEntities.OrderBy(x => x.Entity.SlotID))
             {
                 if (optimize) OrderedSlotIDs.Add(GetRealSlotID(entity.Entity));
+                else if (ordered)
+                {
+                    OrderedSlotIDs.Add(RangedSlotIDs[RangedIndex]);
+                    RangedIndex++;
+                }
                 else OrderedSlotIDs.Add(entity.Entity.SlotID);
-
             }
+
             foreach (var entity in OrderedEntities)
             {
                 UnorderedSlotIDs.Add(entity.SlotID);
@@ -469,6 +508,16 @@ namespace ManiacEditor
             foreach (var entity in Entities.OrderBy(e => e.Entity.SlotID))
             {
                 if (entity.IsObjectOnScreen(d)) entity.Draw(d);
+            }
+        }
+
+        public void UpdateSelectedIndexForEntities()
+        {
+            int index = 0;
+            foreach (var entity in SelectedEntities.OrderBy(x => x.TimeWhenSelected))
+            {
+                entity.SelectedIndex = index;
+                index++;
             }
         }
 

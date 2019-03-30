@@ -1711,7 +1711,6 @@ namespace ManiacEditor
 		{
 			Editor.New.ToolTip = "New Scene" + KeyBindPraser("New", true);
 			Editor.Open.ToolTip = "Open Scene" + KeyBindPraser("Open", true);
-			Editor.RecentDataDirectories.ToolTip = "Open Recent Data Folder";
 			Editor.Save.ToolTip = "Save Scene" + KeyBindPraser("_Save", true);
 			Editor.RunSceneButton.ToolTip = "Run Scene" + KeyBindPraser("RunScene", true, true);
 			Editor.ReloadButton.ToolTip = "Reload Tiles and Sprites" + KeyBindPraser("RefreshResources", true, true);

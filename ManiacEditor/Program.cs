@@ -101,19 +101,32 @@ Missing file: {fnfe.FileName}");
             SetupSettingFiles();
             if (allowedToLoad)
             {
-                try
+                if (Settings.MySettings.ShowUnhandledExceptions)
                 {
-                    var application = new ManiacEditor.App();
-                    application.InitializeComponent();
-                    application.Load(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
+                    try
+                    {
+                        StartApp();
+                    }
+                    catch (Exception ex)
+                    {
+                       MessageBox.Show(ex.ToString());
+                       throw ex;
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.ToString());
-                    throw ex;
+                    StartApp();
                 }
 
+
             }
+        }
+
+        private static void StartApp()
+        {
+            var application = new ManiacEditor.App();
+            application.InitializeComponent();
+            application.Load(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
         }
 
         private static void SetupSettingFiles()

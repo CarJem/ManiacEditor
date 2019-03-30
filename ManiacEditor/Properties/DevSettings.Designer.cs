@@ -321,5 +321,17 @@ namespace ManiacEditor.Properties {
                 this["ExperimentalPropertyGridView"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DevSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection DevForceRestartResourcePacks {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DevForceRestartResourcePacks"]));
+            }
+            set {
+                this["DevForceRestartResourcePacks"] = value;
+            }
+        }
     }
 }

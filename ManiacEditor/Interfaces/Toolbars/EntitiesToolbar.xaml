@@ -80,6 +80,7 @@
                                 <MenuItem x:Name="GoToObject" Header="Go to this Entity" Click="goToThisEntityToolStripMenuItem_Click"></MenuItem>
                                 <MenuItem x:Name="SortSelectedSlotIDs" Header="Sort Selected Object's Slot IDs" Click="SortSelectedSlotIDs_Click"></MenuItem>
                                 <MenuItem x:Name="SortSelectedSlotIDsOptimized" Header="Sort Selected Object's Slot IDs (Optimized Mode)" Click="SortSelectedSlotIDsOptimized_Click"></MenuItem>
+                                <MenuItem x:Name="SortSelectedSlotIDsOrdered" Header="Sort Selected Object's Slot IDs (Ordered Mode)" Click="SortSelectedSlotIDsOrdered_Click"></MenuItem>
 
                             </StackPanel>
                         </wpfTool:SplitButton.DropDownContent>
@@ -91,9 +92,21 @@
                     <Grid>
                         <wpfTool:PropertyGrid x:Name="entityProperties2" IsEnabled="false" Visibility="Collapsed" PropertyValueChanged="entityProperties2_PropertyValueChanged"></wpfTool:PropertyGrid>
                     </Grid>
-                    <Grid Background="{DynamicResource ButtonBackground}">
-                        <WindowsFormsHost x:Name="entityPropertiesLegacy"></WindowsFormsHost>
-                    </Grid>
+                    <TabControl Background="{DynamicResource ButtonBackground}">
+                        <TabItem Header="Properties" Foreground="{DynamicResource NormalText}">
+                            <Grid Background="{DynamicResource ButtonBackground}">
+                                <WindowsFormsHost x:Name="entityPropertiesLegacy"></WindowsFormsHost>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Selection Info" Foreground="{DynamicResource NormalText}">
+                            <Grid Background="{DynamicResource ButtonBackground}">
+                                <ScrollViewer>
+                                    <StackPanel x:Name="SelectionViewer"></StackPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+
+                    </TabControl>
                 </Grid>
                 <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Search Box">
                     <TextBox x:Name="searchBox" TextChanged="SearchBox_TextChanged" Height="20"></TextBox>

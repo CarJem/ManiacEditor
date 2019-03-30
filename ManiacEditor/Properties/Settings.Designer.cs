@@ -260,5 +260,31 @@ namespace ManiacEditor.Properties {
                 this["ScrollerAutoCenters"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowUnhandledExceptions {
+            get {
+                return ((bool)(this["ShowUnhandledExceptions"]));
+            }
+            set {
+                this["ShowUnhandledExceptions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveStates {
+            get {
+                return ((bool)(this["SaveStates"]));
+            }
+            set {
+                this["SaveStates"] = value;
+            }
+        }
     }
 }

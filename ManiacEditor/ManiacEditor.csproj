@@ -413,6 +413,7 @@
     <Compile Include="Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Editor Classes\EditorRecentsList.cs" />
     <Compile Include="Editor Classes\EditorLaunch.cs" />
     <Compile Include="Editor Classes\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
@@ -426,7 +427,7 @@
     <Compile Include="Editor Classes\EditorChunk.cs" />
     <Compile Include="Editor Classes\EditorUIEvents.cs" />
     <Compile Include="Editor Classes\EditorPath.cs" />
-    <Compile Include="Editor Classes\EditorSceneLoading.cs" />
+    <Compile Include="Editor Classes\EditorFileHandler.cs" />
     <Compile Include="Editor Classes\EditorTheming.cs" />
     <Compile Include="Editor Classes\EditorTiles.cs" />
     <Compile Include="Editor Classes\EditorUI.cs" />
@@ -1331,6 +1332,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Defaults.settings</DependentUpon>
     </Compile>
+    <Compile Include="Properties\DevSettings.cs" />
     <Compile Include="Properties\DevSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

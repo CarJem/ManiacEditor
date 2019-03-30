@@ -730,11 +730,11 @@ namespace ManiacEditor
 					Tuple<string, string> Findings = GetAssetSourcePath(dataDir, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)
 					{
-						AssetFound = true;
-						path = Findings.Item1;
-						dataDirectory = Findings.Item2;
-						break;
-					}
+                        AssetFound = true;
+                        path = Findings.Item1;
+                        dataDirectory = Findings.Item2;
+                        break;
+                    }
 				}
 
 				if (!AssetFound)

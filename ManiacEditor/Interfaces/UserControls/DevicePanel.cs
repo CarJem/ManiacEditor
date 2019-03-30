@@ -588,7 +588,7 @@ namespace ManiacEditor
             DrawHUD(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x, y, 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
         }
 
-        public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color())
+        public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
@@ -604,10 +604,12 @@ namespace ManiacEditor
             sprite.Transform = Matrix.Scaling(1f, 1f, 1f); 
             if (width == 0 || height == 0)
             {
-                if (width == 0) width = pixel_width;
-                else width = (int)(width * zoom);
-                if (height == 0) height = pixel_width;
-                else height = (int)(height * zoom);
+                int zoomOffset = (zoom % 1 == 0 ? 0 : 1);
+                if (!useZoomOffseting) zoomOffset = 0;
+                if (width == 0) width = pixel_width + zoomOffset;
+                else width = (int)(width * zoom) + zoomOffset;
+                if (height == 0) height = pixel_width + zoomOffset;
+                else height = (int)(height * zoom) + zoomOffset;
                 DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x - (int)(screen.X / zoom)) * zoom), (int)((y - (int)(screen.Y / zoom)) * zoom), 0), color);
             }
             else
@@ -716,7 +718,7 @@ namespace ManiacEditor
             return (int)(n1 + (diff * perc));
         }
 
-        void DrawLinePBP(int x0, int y0, int x1, int y1, Color color)
+        public void DrawLinePBP(int x0, int y0, int x1, int y1, Color color)
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
@@ -850,7 +852,16 @@ namespace ManiacEditor
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
 
-		public void DrawText(string text, int x, int y, int width, Color color, bool bold)
+        public void DrawQuad(int x1, int y1, int x2, int y2, Color color)
+        {
+            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
+            Rectangle screen = _parent.GetScreen();
+            double zoom = _parent.GetZoom();
+
+            DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
+        }
+
+        public void DrawText(string text, int x, int y, int width, Color color, bool bold)
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();

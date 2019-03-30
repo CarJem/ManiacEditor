@@ -229,8 +229,18 @@ namespace ManiacEditor
 			if (currentEntity != null) GoToObject.IsEnabled = true;
 			else GoToObject.IsEnabled = false;
 
-            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 1) SortSelectedSlotIDs.IsEnabled = true;
-            else SortSelectedSlotIDs.IsEnabled = false;
+            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 1)
+            {
+                SortSelectedSlotIDs.IsEnabled = true;
+                SortSelectedSlotIDsOptimized.IsEnabled = true;
+                SortSelectedSlotIDsOrdered.IsEnabled = true;
+            }
+            else
+            {
+                SortSelectedSlotIDs.IsEnabled = false;
+                SortSelectedSlotIDsOptimized.IsEnabled = false;
+                SortSelectedSlotIDsOrdered.IsEnabled = true;
+            }
         }
 
 		public Visibility GetObjectListItemVisiblity(string name, ushort slotID)
@@ -513,12 +523,28 @@ namespace ManiacEditor
 			}
 		}
 
+        private void UpdateSelectedEntitiesList()
+        {
+            SelectionViewer.Children.Clear();
+            if (EditorInstance.Entities.SelectedEntities != null)
+            {
+                foreach (var entity in EditorInstance.Entities.SelectedEntities.OrderBy(x => x.TimeWhenSelected))
+                {
+                    TextBlock entry = new TextBlock();
+                    entry.Text = string.Format("{0} | {1} | ID:{2} | X:{3},Y:{4}", string.Format("{0}", entity.SelectedIndex + 1), entity.Name, entity.Entity.SlotID, entity.Entity.Position.X.High, entity.Entity.Position.Y.High);
+                    SelectionViewer.Children.Add(entry);
+                }
+            }
+
+        }
+
 		private void UpdateEntitiesProperties(List<RSDKv5.SceneEntity> selectedEntities)
 		{
 			// Reset the List Item if the Current Entity is nothing or if it's a multi-selection
 			if (selectedEntities.Count !=  1 || currentEntity == null) entitiesList.SelectedItem = null;
+            UpdateSelectedEntitiesList();
 
-			multipleObjects = false;
+            multipleObjects = false;
 			bool isCommonObjects = false;
 			SelectedObjectListIndexes.Clear();
 
@@ -1030,6 +1056,11 @@ namespace ManiacEditor
         private void SortSelectedSlotIDsOptimized_Click(object sender, RoutedEventArgs e)
         {
             EditorInstance.Entities.OrderSelectedSlotIDs(true);
+        }
+
+        private void SortSelectedSlotIDsOrdered_Click(object sender, RoutedEventArgs e)
+        {
+            EditorInstance.Entities.OrderSelectedSlotIDs(false, true);
         }
     }
 }
