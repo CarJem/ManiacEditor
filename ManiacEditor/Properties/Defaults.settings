@@ -158,7 +158,7 @@
     <Setting Name="PresetSetting" Provider="DefaultsSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">"Basic"</Value>
     </Setting>
-    <Setting Name="CheatEnginePath" Type="System.String" Scope="User">
+    <Setting Name="CheatEnginePath" Provider="DefaultsSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

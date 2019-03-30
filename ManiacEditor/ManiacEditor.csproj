@@ -752,6 +752,7 @@
     <Compile Include="Extensions\SettingsProviders\DevSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\InternalSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\KeybindSettingsProvider.cs" />
+    <Compile Include="Extensions\SettingsProviders\GameSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\PerformanceSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\DefaultsSettingsProvider.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -1327,6 +1328,7 @@
     <Compile Include="Interfaces\WinForm UI\SoundLooper.Designer.cs">
       <DependentUpon>SoundLooper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Defaults.cs" />
     <Compile Include="Properties\Defaults.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -1342,11 +1344,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Internal.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\InternalSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>InternalSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\KeyBinds.cs" />
     <Compile Include="Properties\GameOptions.Designer.cs">
@@ -1503,10 +1500,6 @@
     <None Include="Properties\Internal.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Internal.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Properties\InternalSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>InternalSettings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Properties\Performance.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

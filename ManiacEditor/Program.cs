@@ -142,11 +142,13 @@ Missing file: {fnfe.FileName}");
                 string settings3 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Defaults"));
                 string settings4 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Keybinds"));
                 string settings5 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Settings"));
+                string settings6 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "GameOptions"));
                 if (!File.Exists(settings1)) File.Create(settings1).Close();
                 if (!File.Exists(settings2)) File.Create(settings2).Close();
-                if (!File.Exists(settings3)) File.Create(settings3).Close();
+                if (!File.Exists(settings3)) File.Create(settings3).Close(); 
                 if (!File.Exists(settings4)) File.Create(settings4).Close();
                 if (!File.Exists(settings5)) File.Create(settings5).Close();
+                if (!File.Exists(settings6)) File.Create(settings6).Close();
             }
             else
             {
@@ -157,11 +159,13 @@ Missing file: {fnfe.FileName}");
                 string settings3 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Defaults"));
                 string settings4 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Keybinds"));
                 string settings5 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Settings"));
+                string settings6 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "GameOptions"));
                 if (!File.Exists(settings1)) File.Create(settings1).Close();
                 if (!File.Exists(settings2)) File.Create(settings2).Close();
                 if (!File.Exists(settings3)) File.Create(settings3).Close();
                 if (!File.Exists(settings4)) File.Create(settings4).Close();
                 if (!File.Exists(settings5)) File.Create(settings5).Close();
+                if (!File.Exists(settings6)) File.Create(settings6).Close();
             }
 
 

@@ -2,25 +2,25 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ManiacEditor.Properties" GeneratedClassName="GameOptions">
   <Profiles />
   <Settings>
-    <Setting Name="RunGameOnly" Type="System.Boolean" Scope="User">
+    <Setting Name="RunGameOnly" Provider="GameSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="GameQuitOnMenu" Type="System.Boolean" Scope="User">
+    <Setting Name="GameQuitOnMenu" Provider="GameSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="GameAutoInput" Type="System.Boolean" Scope="User">
+    <Setting Name="GameAutoInput" Provider="GameSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="RealTimeObjectMovementMode" Type="System.Boolean" Scope="User">
+    <Setting Name="RealTimeObjectMovementMode" Provider="GameSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="EnableDevMode" Type="System.Boolean" Scope="User">
+    <Setting Name="EnableDevMode" Provider="GameSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DisableBackgroundPausing" Type="System.Boolean" Scope="User">
+    <Setting Name="DisableBackgroundPausing" Provider="GameSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="EnableDebugMode" Type="System.Boolean" Scope="User">
+    <Setting Name="EnableDebugMode" Provider="GameSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
