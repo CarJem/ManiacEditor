@@ -1300,7 +1300,7 @@ namespace ManiacEditor
                 });
                 thread.Start();
                 this.OverlayPanel.Children.Add(StartScreen);
-                StartScreen.SelectScreen.ReloadQuickPanel();
+                StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
 
 
@@ -1308,13 +1308,13 @@ namespace ManiacEditor
             if (visible)
             {
                 StartScreen.Visibility = Visibility.Visible;
-                StartScreen.SelectScreen.ReloadQuickPanel();
+                StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
             }
             else
             {
                 StartScreen.Visibility = Visibility.Hidden;
-                StartScreen.SelectScreen.ReloadQuickPanel();
+                StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Visible;
             }
 
@@ -1454,9 +1454,9 @@ namespace ManiacEditor
 			ManiacEditor.Interfaces.SceneSelectWindow select = new ManiacEditor.Interfaces.SceneSelectWindow(GameConfig, this);
 			select.Owner = Window.GetWindow(this);
 			select.ShowDialog();
-			if (select.SceneSelect.Result == null)
+			if (select.SceneSelect.SelectedSceneResult == null)
 				return null;
-			selectedScene = select.SceneSelect.Result;
+			selectedScene = select.SceneSelect.SelectedSceneResult;
 
 			if (!File.Exists(selectedScene))
 			{

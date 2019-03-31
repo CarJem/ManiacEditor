@@ -34,7 +34,7 @@ namespace ManiacEditor.Interfaces
 		{
 			InitializeComponent();
 			EditorInstance = instance;
-			SelectScreen = new SceneSelect(null, instance, true);
+			SelectScreen = new SceneSelect(null, instance);
 			SceneSelectHost.Children.Add(SelectScreen);
 			SelectScreen.Refresh();
 		}

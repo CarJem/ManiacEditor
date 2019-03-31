@@ -24,7 +24,7 @@ namespace ManiacEditor.Interfaces
 		public SceneSelectWindow(RSDKv5.GameConfig config = null, Editor instance = null)
 		{
 			InitializeComponent();
-			SceneSelect = new SceneSelect(config, instance, true, this);
+			SceneSelect = new SceneSelect(config, instance, this);
 			FrameHost.Children.Add(SceneSelect);
 		}
 	}

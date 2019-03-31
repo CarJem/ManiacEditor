@@ -302,11 +302,10 @@ namespace ManiacEditor.Interfaces
 								_stageConfig.ObjectsNames.Remove(item.Content.ToString());
 							}
 						}
-
-
-						ReloadList();
 					}
-				}
+
+                    ReloadList();
+                }
 			}
 		}
 

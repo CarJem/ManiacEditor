@@ -392,7 +392,7 @@ namespace ManiacEditor
         {
             if (browsedFile == true)
             {
-                Instance.Paths.SceneFilePath = select.Result;
+                Instance.Paths.SceneFilePath = select.SelectedSceneResult;
                 Instance.Paths.CurrentLevelID = select.LevelID;
                 Instance.Paths.isEncoreMode = select.isEncore;
                 Instance.Paths.SceneDirectory = Path.GetDirectoryName(Instance.Paths.SceneFilePath);
@@ -404,7 +404,7 @@ namespace ManiacEditor
             }
             else
             {
-                Instance.Paths.SceneFilePath = select.Result;
+                Instance.Paths.SceneFilePath = select.SelectedSceneResult;
                 Instance.Paths.CurrentLevelID = select.LevelID;
                 Instance.Paths.isEncoreMode = select.isEncore;
                 Instance.Paths.SceneDirectory = Path.GetDirectoryName(Instance.Paths.SceneFilePath);
