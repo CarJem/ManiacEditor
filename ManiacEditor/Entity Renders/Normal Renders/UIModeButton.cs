@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + e.EditorInstance.UIModes.CurrentLanguage;
+            string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
             int buttonID = (int)entity.attributesMap["buttonID"].ValueVar;
             bool disabled = entity.attributesMap["disabled"].ValueBool;
 			if (buttonID == 3)
@@ -23,11 +23,11 @@ namespace ManiacEditor.Entity_Renders
 				buttonID = 4;
 			}
 			double alignmentVal = 0;
-			var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation("MainIcons", d, 0, buttonID, false, false, false);
-			var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation("MainIcons", d, 1, buttonID, false, false, false);
-			var editorAnim3 = e.EditorInstance.EntityDrawing.LoadAnimation("MainIcons", d, 0, 3, false, false, false);
-			var editorAnim4 = e.EditorInstance.EntityDrawing.LoadAnimation("MainIcons", d, 1, 3, false, false, false);
-			var editorAnim5 = e.EditorInstance.EntityDrawing.LoadAnimation(text, d, 1, buttonID, false, false, false);
+			var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("MainIcons", d, 0, buttonID, false, false, false);
+			var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation("MainIcons", d, 1, buttonID, false, false, false);
+			var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation("MainIcons", d, 0, 3, false, false, false);
+			var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation("MainIcons", d, 1, 3, false, false, false);
+			var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation(text, d, 1, buttonID, false, false, false);
 			if (editorAnim != null && editorAnim.Frames.Count != 0 && !disabled)
             {
                 var frame = editorAnim.Frames[0];

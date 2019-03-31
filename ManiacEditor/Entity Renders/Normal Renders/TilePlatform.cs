@@ -27,7 +27,7 @@ namespace ManiacEditor.Entity_Renders
             int height = (int)entity.attributesMap["size"].ValuePosition.Y.High - 1;
             int x2 = (int)entity.attributesMap["targetPos"].ValuePosition.X.High - 1;
             int y2 = (int)entity.attributesMap["targetPos"].ValuePosition.Y.High - 1;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 7, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 7, fliph, flipv, false);
 
             //int widthD = (int)Math.Round(width / 16, MidpointRounding.ToEven);
             //int heightD = (int)Math.Round(height / 16, MidpointRounding.ToEven);
@@ -42,7 +42,7 @@ namespace ManiacEditor.Entity_Renders
 
 
             // The position for some platforms are still off a bit (but it's very decent)
-            var GroupTexture = e.EditorInstance.EntityDrawing.LoadTilePlatform(d, x2D, y2D, widthD, heightD);
+            var GroupTexture = Editor.Instance.EntityDrawing.LoadTilePlatform(d, x2D, y2D, widthD, heightD);
             if (GroupTexture != null)
             {
                 d.DrawBitmap(GroupTexture.Texture, x - (int)(RoundNum(width, 16)/ 2), y - (int)(RoundNum(height, 16) / 2), width, height, false, Transparency);

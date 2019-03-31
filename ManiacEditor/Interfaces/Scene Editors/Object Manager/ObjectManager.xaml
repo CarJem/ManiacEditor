@@ -17,7 +17,10 @@
             </Grid.RowDefinitions>
             <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.Row="0" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
                 <MenuItem x:Name="fileTab" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0" >
-                    <MenuItem Header="Import Objects" Click="importObjectsToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Import Objects">
+                        <MenuItem Header="Using Existing Scene..." Click="ImportObjectsUsingExistingEvent"></MenuItem>
+                        <MenuItem Header="Using Megalist..." Click="ImportObjectsUsingMegalistEvent"></MenuItem>
+                    </MenuItem>
                     <MenuItem Header="Import Sounds" Click="importSoundsToolStripMenuItem_Click"></MenuItem>
                     <MenuItem Header="Backup Stage Config" Click="backupStageConfigToolStripMenuItem_Click"></MenuItem>
                     <MenuItem Header="Restore Stage Config" IsEnabled="False"></MenuItem>
@@ -64,7 +67,7 @@
                     <Button Content="Add" Click="addAttributeBtn_Click" Width="72" Height="30" Margin="10,0,10,0"></Button>
                     <Button Content="Remove" Click="removeAttributeBtn_Click" Width="72" Height="30" Margin="0,0,10,0"></Button>
                 </StackPanel>
-                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" x:Name="label1"></Label>
+                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" x:Name="label1" Visibility="Collapsed"></Label>
                 <Button Click="btnRemoveEntries_Click" Content="Remove Checked Objects from Scene" Margin="10,3,10,3" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch"></Button>
                 <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="10,0">
                     <TextBlock Foreground="Red" Text="RED means that the object is not listed in ethier the StageConfig or GameConfig"></TextBlock>

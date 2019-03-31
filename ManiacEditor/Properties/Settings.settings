@@ -62,5 +62,8 @@
     <Setting Name="SaveStates" Provider="DocumentsSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ScrollerPressReleaseMode" Provider="DocumentsSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

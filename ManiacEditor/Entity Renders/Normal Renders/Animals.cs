@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int type = (int)entity.attributesMap["type"].ValueVar;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Animals", d, type, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Animals", d, type, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && type >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

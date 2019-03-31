@@ -303,7 +303,7 @@ namespace ManiacEditor
 		{
 			try
 			{
-				Instance.EditorTiles.StageTiles = new StageTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
+				Editor.Instance.EditorTiles.StageTiles = new StageTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
 				StageTiles_Source = Path.Combine(tilePath, "Stages", CurrentZone);
 				return true;
 			}
@@ -318,7 +318,7 @@ namespace ManiacEditor
         {
             try
             {
-                Instance.EditorTiles.StageTiles = new StageTiles(Path.Combine(filePath), colors);
+                Editor.Instance.EditorTiles.StageTiles = new StageTiles(Path.Combine(filePath), colors);
                 StageTiles_Source = Path.Combine(filePath);
                 return true;
             }

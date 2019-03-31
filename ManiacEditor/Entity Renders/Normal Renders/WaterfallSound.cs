@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 6, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 6, fliph, flipv, false);
             var width = (int)(entity.attributesMap["size"].ValuePosition.X.High*2 - 1);
             var height = (int)(entity.attributesMap["size"].ValuePosition.Y.High*2 - 1);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -48,21 +48,51 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawLine(x2, y2, x2, y1, SystemColors.White);
 
                 // draw corners
-                for (int i = 0; i < 4; i++)
+
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, false, false, false);
+                if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
-                    bool right = (i & 1) > 0;
-                    bool bottom = (i & 2) > 0;
+                    var frame = editorAnim.Frames[Animation.index];
+                    d.DrawBitmap(frame.Texture,
+                        (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (false ? width : 0)) * frame.Frame.Width),
+                        (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (false ? height : 0)) * frame.Frame.Height),
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                    editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        var frame = editorAnim.Frames[Animation.index];
-                        d.DrawBitmap(frame.Texture,
-                            (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Frame.Width),
-                            (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Frame.Height),
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                }
 
-                    }
+
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, false, true, false);
+                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                {
+                    var frame = editorAnim.Frames[Animation.index];
+                    d.DrawBitmap(frame.Texture,
+                        (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (false ? width : 0)) * frame.Frame.Width),
+                        (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (true ? height : 0)) * frame.Frame.Height),
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+
+                }
+
+
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, true, false, false);
+                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                {
+                    var frame = editorAnim.Frames[Animation.index];
+                    d.DrawBitmap(frame.Texture,
+                        (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (true ? width : 0)) * frame.Frame.Width),
+                        (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (false ? height : 0)) * frame.Frame.Height),
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+
+                }
+
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, true, true, false);
+                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                {
+                    var frame = editorAnim.Frames[Animation.index];
+                    d.DrawBitmap(frame.Texture,
+                        (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (true ? width : 0)) * frame.Frame.Width),
+                        (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (true ? height : 0)) * frame.Frame.Height),
+                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
+
                 }
             }
         }

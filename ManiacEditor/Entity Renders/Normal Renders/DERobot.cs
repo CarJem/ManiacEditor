@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
             int frameID = (int)entity.attributesMap["frameID"].ValueVar;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("DERobot", d, aniID, frameID, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("DERobot", d, aniID, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

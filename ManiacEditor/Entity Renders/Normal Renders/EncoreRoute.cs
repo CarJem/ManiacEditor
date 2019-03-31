@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-           EditorLayer Scratch = e.EditorInstance.EditorScene?.Scratch;
+           EditorLayer Scratch = Editor.Instance.EditorScene?.Scratch;
 
             _layer = Scratch.Layer;
             bool fliph = false;
@@ -38,11 +38,11 @@ namespace ManiacEditor.Entity_Renders
             {
                 bool outOfBoundsX = false;
                 bool outOfBoundsY = false;
-                if (x2 > e.EditorInstance.ScratchLayer.Width)
+                if (x2 > Editor.Instance.ScratchLayer.Width)
                 {
                     outOfBoundsX = true;
                 }
-                if (y2 > e.EditorInstance.ScratchLayer.Height)
+                if (y2 > Editor.Instance.ScratchLayer.Height)
                 {
                     outOfBoundsY = true;
                 }
@@ -74,12 +74,12 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 7, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 7, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 //Draw the Encore Route Tiles
-                DrawTileGroup(d, x / 16, y / 16, x2, y2, height, width, Transparency, entity, e.EditorInstance);
+                DrawTileGroup(d, x / 16, y / 16, x2, y2, height, width, Transparency, entity, Editor.Instance);
 
                 var frame = editorAnim.Frames[Animation.index];
 
@@ -122,7 +122,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(EditorInstance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
         }
 

@@ -60,7 +60,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 flipv = true;
             }
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("JuggleSaw", d, animID, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("JuggleSaw", d, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

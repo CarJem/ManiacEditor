@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("LRZRockPile", d, type, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LRZRockPile", d, type, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Knuckles icon
             if (knux)
             {
-                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("HUD", d, 2, 2, false, false, false);
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("HUD", d, 2, 2, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -46,7 +46,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Mighty icon
             if (mighty)
             {
-                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("HUD", d, 2, 3, false, false, false);
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("HUD", d, 2, 3, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];

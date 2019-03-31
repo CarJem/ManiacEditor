@@ -132,11 +132,13 @@ Missing file: {fnfe.FileName}");
         private static void SetupSettingFiles()
         {
             if (!File.Exists(Path.Combine(GetExecutingDirectoryName(), "Internal.settings"))) File.Create(Path.Combine(GetExecutingDirectoryName(), "Internal.settings"));
+            bool PortableExists = System.IO.Directory.Exists(EditorConstants.SettingsPortableDirectory);
+            if (!PortableExists) System.IO.Directory.CreateDirectory(EditorConstants.SettingsPortableDirectory);
+            bool FixedExists = System.IO.Directory.Exists(EditorConstants.SettingsStaticDirectory);
+            if (!FixedExists) System.IO.Directory.CreateDirectory(EditorConstants.SettingsStaticDirectory);
 
             if (Properties.Internal.Default.PortableMode)
             {
-                bool exists = System.IO.Directory.Exists(EditorConstants.SettingsPortableDirectory);
-                if (!exists) System.IO.Directory.CreateDirectory(EditorConstants.SettingsPortableDirectory);
                 string settings1 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Performance"));
                 string settings2 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "DevOptions"));
                 string settings3 = Path.Combine(EditorConstants.SettingsPortableDirectory, string.Format("{0}.settings", "Defaults"));
@@ -152,8 +154,7 @@ Missing file: {fnfe.FileName}");
             }
             else
             {
-                bool exists = System.IO.Directory.Exists(EditorConstants.SettingsStaticDirectory);
-                if (!exists) System.IO.Directory.CreateDirectory(EditorConstants.SettingsStaticDirectory);
+
                 string settings1 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Performance"));
                 string settings2 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "DevOptions"));
                 string settings3 = Path.Combine(EditorConstants.SettingsStaticDirectory, string.Format("{0}.settings", "Defaults"));

@@ -286,13 +286,38 @@ namespace ManiacEditor.Interfaces
 
 				if (MessageBox.Show("Are you sure you want to remove the following objects from this Scene?" + Environment.NewLine + itemNames + "This will also remove all entities of them!","Remove Objects and Entities?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
 				{
-					for (int i = 0; i < CheckedItems; i++)
-					{
-						var item = lvObjects_CheckedItems[i] as CheckBox;
-						int.TryParse(item.Tag.ToString(), out int ID);
-						SceneObject objectsToRemove = _targetSceneObjects[ID];
-						objectsToRemove.Entities.Clear(); // ditch instances of the object from the imported level
-						_targetSceneObjects.Remove(objectsToRemove);
+                    for (int i = 0; i < CheckedItems; i++)
+                    {
+                        var item = lvObjects_CheckedItems[i] as CheckBox;
+                        int.TryParse(item.Tag.ToString(), out int ID);
+                        List<SceneObject> AllInstancesOfThisObject = _targetSceneObjects.Where(x => x.Name.Name == item.Content.ToString()).ToList();
+                        SceneObject objectToRemove;
+
+                        if (AllInstancesOfThisObject.Count >= 1)
+                        {
+                            objectToRemove = AllInstancesOfThisObject.ElementAtOrDefault(ID);
+                        }
+                        else
+                        {
+                            objectToRemove = AllInstancesOfThisObject[0];
+                        }
+
+                        if (AllInstancesOfThisObject != null && objectToRemove != null)
+                        {
+                            objectToRemove.Entities.Clear(); // ditch instances of the object from the imported level
+                            _targetSceneObjects.Remove(objectToRemove);
+                        }
+                        else
+                        {
+                            if (_targetSceneObjects.Where(x => x.Name.Name == item.Content.ToString()) != null)
+                            {
+                                foreach (var sceneObj in _targetSceneObjects.Where(x => x.Name.Name == item.Content.ToString()).ToList()) 
+                                {
+                                    sceneObj.Entities.Clear();
+                                    _targetSceneObjects.Remove(sceneObj); // ditch instances of the object from the imported level
+                                }
+                            }
+                        }
 
 						if (EditorInstance.UIModes.RemoveStageConfigEntriesAllowed)
 						{
@@ -303,7 +328,7 @@ namespace ManiacEditor.Interfaces
 							}
 						}
 					}
-
+                    fullRefreshNeeded = true;
                     ReloadList();
                 }
 			}
@@ -314,15 +339,24 @@ namespace ManiacEditor.Interfaces
 			objectCheckMemory.Clear();
 		}
 
-		private void importObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		private void ImportObjectsUsingExistingEvent(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.ImportObjectsToolStripMenuItem_Click(sender, null, GetWindow(this));
+			EditorInstance.ImportObjectsToolStripMenuItem_Click(GetWindow(this));
 			fullRefreshNeeded = true;
 			ReloadList();
 			// Blanks the list for some reason should consider fixing badly
 		}
 
-		private void LvObjectsViewer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void ImportObjectsUsingMegalistEvent(object sender, RoutedEventArgs e)
+        {
+            EditorInstance.ImportObjectsWithMegaList(GetWindow(this));
+            fullRefreshNeeded = true;
+            ReloadList();
+            // Blanks the list for some reason should consider fixing badly
+        }
+
+        private void LvObjectsViewer_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			updateSelectedText();
 			if (lvObjectsViewer.SelectedItem != null)
@@ -485,7 +519,7 @@ namespace ManiacEditor.Interfaces
 
 		private void importSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{			
-			EditorInstance.ImportSoundsEvent(sender, null, GetWindow(this));
+			EditorInstance.ImportSoundsEvent(GetWindow(this));
 			ReloadList();
 		}
 	}

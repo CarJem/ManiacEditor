@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
         {
             var width = (int)(entity.attributesMap["width"].ValueUInt8);
             var height = (int)(entity.attributesMap["height"].ValueUInt8);
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("ItemBox", d, 2, 10, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d, 2, 10, false, false, false);
 
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {

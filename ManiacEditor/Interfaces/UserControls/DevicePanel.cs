@@ -253,7 +253,7 @@ namespace ManiacEditor
             try { _device.Reset(presentParams); }
             catch { Init(_parent); }
             InitDeviceResources();
-            if (EditorInstance.EditorScene != null) EditorInstance.ReloadToolStripButton_Click(null, null);
+            if (Editor.Instance.EditorScene != null) EditorInstance.ReloadToolStripButton_Click(null, null);
             deviceLost = false;
          }
 

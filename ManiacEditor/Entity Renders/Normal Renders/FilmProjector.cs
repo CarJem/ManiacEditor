@@ -19,13 +19,13 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("FilmProjector", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("FilmProjector", d, 0, 1, fliph, flipv, false);
-            var editorAnim4 = e.EditorInstance.EntityDrawing.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
-            var editorAnim5 = e.EditorInstance.EntityDrawing.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
-            var editorAnim6 = e.EditorInstance.EntityDrawing.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
-            var editorAnim7 = e.EditorInstance.EntityDrawing.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
-            var editorAnim3 = e.EditorInstance.EntityDrawing.LoadAnimation2("FilmProjector", d, 3, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d, 0, 1, fliph, flipv, false);
+            var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
+            var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
+            var editorAnim6 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d, 1, 0, fliph, flipv, false);
+            var editorAnim7 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d, 2, 0, fliph, flipv, false);
+            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d, 3, -1, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0)
             {
@@ -66,7 +66,7 @@ namespace ManiacEditor.Entity_Renders
                     y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 
-                ProcessAnimation(frame3.Entry.SpeedMultiplyer, frame3.Entry.Frames.Count, frame3.Frame.Delay, 0, e.EditorInstance);
+                ProcessAnimation(frame3.Entry.SpeedMultiplyer, frame3.Entry.Frames.Count, frame3.Frame.Delay, 0, Editor.Instance);
 
                 d.DrawBitmap(frame3.Texture,
                     x + 185 + frame3.Frame.PivotX - (fliph ? (frame3.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),

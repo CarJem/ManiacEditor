@@ -21,6 +21,7 @@ using Microsoft.Scripting.Utils;
 
 namespace ManiacEditor
 {
+    [Serializable]
     public class EditorEntityDrawing
     {
         // Object Render List
@@ -614,7 +615,7 @@ namespace ManiacEditor
         public EditorTilePlatforms LoadTilePlatform(DevicePanel d, int x2, int y2, int width, int height)
         {
 
-            SceneLayer _layer = EditorInstance.EditorScene?.Move.Layer;
+            SceneLayer _layer = Editor.Instance.EditorScene?.Move.Layer;
             string key = $"{x2}-{y2}-{width}-{height}";
             var anim = new EditorTilePlatforms();
             if (TilePlatforms.ContainsKey(key))
@@ -677,7 +678,7 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
@@ -1058,7 +1059,7 @@ namespace ManiacEditor
             ColorPalette[] stageConfigColors = new ColorPalette[8];
             for (int i = 0; i < 8; i++)
             {
-                stageConfigColors[i] = EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+                stageConfigColors[i] = Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
             }
             for (int i = 0; i < 8; i++)
             {

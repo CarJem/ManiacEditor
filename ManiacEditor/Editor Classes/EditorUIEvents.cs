@@ -213,7 +213,6 @@ namespace ManiacEditor
 					RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
 					return;
 				}
-				Editor.UI.UpdateEntitiesToolbarList();
 				Editor.UI.SetSelectOnlyButtonsState();
 				Editor.UI.UpdateEntitiesToolbarList();
 
@@ -268,35 +267,8 @@ namespace ManiacEditor
 			}
 			else if (Editor.IsEntitiesEdit())
 			{
-				if (Editor.EntitiesToolbar.IsFocused.Equals(false))
-				{
-					try
-					{
-
-						// check if there are entities on the Windows clipboard; if so, use those
-						if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
-						{
-
-							Editor.Entities.PasteFromClipboard(new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom), (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
-							Editor.UpdateLastEntityAction();
-						}
-
-						// if there's none, use the internal clipboard
-						else if (Editor.entitiesClipboard != null)
-						{
-							Editor.Entities.PasteFromClipboard(new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom), (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom)), Editor.entitiesClipboard);
-							Editor.UpdateLastEntityAction();
-						}
-					}
-					catch (EditorEntities.TooManyEntitiesException)
-					{
-						RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
-						return;
-					}
-					Editor.UI.UpdateEntitiesToolbarList();
-					Editor.UI.SetSelectOnlyButtonsState();
-				}
-			}
+                Editor.PasteEntitiesToClipboard();
+            }
 
             Point GetPastePoint()
             {
@@ -689,11 +661,11 @@ namespace ManiacEditor
 
 				if (replaceMode)
 				{
-					Editor.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
+					Editor.Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
 				}
 				else
 				{
-					Editor.FindAndReplace.EditorTileFind(find, applyState, copyResults);
+					Editor.Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
 				}
 
 			}

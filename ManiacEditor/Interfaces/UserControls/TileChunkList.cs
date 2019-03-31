@@ -453,7 +453,7 @@ namespace ManiacEditor.Interfaces
 				EditorInstance.TileManiacInstance.Show();
 			}
 			EditorInstance.TileManiacInstance.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
-			if (EditorInstance.TileConfig != null && EditorInstance.EditorTiles.StageTiles != null)
+			if (EditorInstance.TileConfig != null && Editor.Instance.EditorTiles.StageTiles != null)
 			{
 				if (EditorInstance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || EditorInstance.TileManiacInstance.tcf == null)
 				{

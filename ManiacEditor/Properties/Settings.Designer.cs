@@ -286,5 +286,18 @@ namespace ManiacEditor.Properties {
                 this["SaveStates"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(DocumentsSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ScrollerPressReleaseMode {
+            get {
+                return ((bool)(this["ScrollerPressReleaseMode"]));
+            }
+            set {
+                this["ScrollerPressReleaseMode"] = value;
+            }
+        }
     }
 }

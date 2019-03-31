@@ -40,7 +40,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("ButtonDoor", d, 0, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("ButtonDoor", d, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

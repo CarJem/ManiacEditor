@@ -15,12 +15,12 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + e.EditorInstance.UIModes.CurrentLanguage;
+            string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
             int promptID = (int)entity.attributesMap["promptID"].ValueVar;
             int buttonID = (int)entity.attributesMap["buttonID"].ValueVar;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation("Buttons", d, e.EditorInstance.UIModes.CurrentControllerButtons, buttonID, false, false, false);
-            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation("Buttons", d, 0, 0, false, false, false);
-            var editorAnimButton = e.EditorInstance.EntityDrawing.LoadAnimation(text, d, 0, promptID, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Buttons", d, Editor.Instance.UIModes.CurrentControllerButtons, buttonID, false, false, false);
+            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation("Buttons", d, 0, 0, false, false, false);
+            var editorAnimButton = Editor.Instance.EntityDrawing.LoadAnimation(text, d, 0, promptID, false, false, false);
             if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim2.Frames[Animation.index];

@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             bool invisible = entity.attributesMap["invisible"].ValueBool;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("ElectroMagnet", d, 0, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("ElectroMagnet", d, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && invisible == false)
             {
                 var frame = editorAnim.Frames[0];

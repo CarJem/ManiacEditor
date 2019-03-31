@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
             int shape = (int)entity.attributesMap["shape"].ValueUInt8;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Constellation", d, shape, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Constellation", d, shape, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && shape >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

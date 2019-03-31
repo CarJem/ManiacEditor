@@ -216,7 +216,6 @@
                             <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
                             <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
                             <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme (Requires Manual Restart)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0"/>
-                            <CheckBox Content="Scoller Auto Centers with the Middle of the Scene Viewer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
                             <StackPanel Visibility="Collapsed">
                                 <maniac:SettingsHeader HeaderName="Performance Defaults"></maniac:SettingsHeader>
                                 <StackPanel Width="400" HorizontalAlignment="Left">
@@ -684,15 +683,26 @@
                                 <Button Width="100" Click="EditKeyCombo" Tag="ForceOpenOnStartup"></Button>
                                 <Label Content="Save For Force Open On Startup"></Label>
                             </StackPanel>
-                            <maniac:SettingsHeader HeaderName="Non-Bindable Controls"></maniac:SettingsHeader>
+                            <maniac:SettingsHeader HeaderName="Non-ReBindable Controls"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel  Visibility="Visible">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="LOCK"></Button>
-                                        <Label>
-                                            <TextBlock Text="Toggle Scroller (While Mouse within Editor View)"></TextBlock>
-                                        </Label>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="LOCK"></Button>
+                                            <Label>
+                                                <TextBlock Text="Toggle Scroller (While Mouse within Editor View)"></TextBlock>
+                                            </Label>
+                                        </StackPanel>
+                                        <maniac:SettingsHeader HeaderName="Settings: " Margin="105,0,0,0"></maniac:SettingsHeader>
+                                        <CheckBox Margin="109,5,0,0" Content="Auto Center on Toggle" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
+                                        <StackPanel Margin="105,0,0,0" Orientation="Horizontal">
+                                            <Label Content="Toggle Mode:"></Label>
+                                            <RadioButton Name="ScrollerToggleModePressReleaseButton" Click="ScrollerToggleTypeClickEvent" VerticalAlignment="Center" Content="Press/Release"></RadioButton>
+                                            <RadioButton Name="ScrollerToggleModeClickButton" Click="ScrollerToggleTypeClickEvent" VerticalAlignment="Center" Margin="5,0,0,0" Content="Click"></RadioButton>
+                                        </StackPanel>
+                                        <maniac:SettingsHeader Margin="105,0,0,0"></maniac:SettingsHeader>
                                     </StackPanel>
+ 
                                     <StackPanel Orientation="Horizontal" >
                                         <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Right Click" Height="26" Tag="LOCK" VerticalAlignment="Top"></Button>
                                         <Label>

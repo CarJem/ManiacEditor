@@ -239,7 +239,7 @@ namespace ManiacEditor
             {
                 SortSelectedSlotIDs.IsEnabled = false;
                 SortSelectedSlotIDsOptimized.IsEnabled = false;
-                SortSelectedSlotIDsOrdered.IsEnabled = true;
+                SortSelectedSlotIDsOrdered.IsEnabled = false;
             }
         }
 

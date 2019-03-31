@@ -124,8 +124,8 @@ namespace ManiacEditor
 
         #region Editing States 
         //Editor Editing States
-        public bool dragged { get; set; }
-        public bool startDragged { get; set; }
+        public bool dragged { get; set; } = false;
+        public bool startDragged { get; set; } = false;
         public int lastX { get; set; }
         public int lastY { get; set; }
         public int draggedX { get; set; }

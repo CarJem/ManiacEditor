@@ -48,7 +48,7 @@ namespace ManiacEditor
 		//Editor Paths
 		public string DataDirectory; //Used to get the current Data Directory
 		public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
-		public IList<string> ResourcePackList = new List<string>();
+		public IList<string> ResourcePackList { get; set; } = new List<string>();
         public string LoadedDataPack = "";
 		public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
 
@@ -145,7 +145,10 @@ namespace ManiacEditor
 		[DllImport("USER32.DLL")]
 		public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern IntPtr CloseClipboard();
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
 		private enum ShowWindowEnum
@@ -285,7 +288,7 @@ namespace ManiacEditor
 			InGame = new EditorInGame(this);
 			EntityDrawing = new EditorEntityDrawing(this);
             StateModel = new EditorStateModel(this);
-			UIControl = new EditorUIControl(this);
+			UIControl = new EditorUIControl();
 			StartScreen = new StartScreen(this);
 			Discord = new EditorDiscordRP(this);
 			Updater = new EditorUpdater();
@@ -541,31 +544,54 @@ namespace ManiacEditor
         {
             if (EntitiesToolbar.IsFocused == false)
             {
-                // Windows Clipboard mode (WPF Current Breaks this Apparently)
+                List<EditorEntity> copyData = Entities.CopyToClipboard();
+
                 /*
-				if (Settings.mySettings.EnableWindowsClipboard && !Settings.mySettings.ProhibitEntityUseOnExternalClipboard)
-				{
-					// Clone the entities and stow them here
-					List<EditorEntity> copyData = entities.CopyToClipboard();
+                // Prepare each Entity for the copy to release unnecessary data
+                foreach (EditorEntity entity in copyData)
+                   entity.PrepareForExternalCopy();
 
-					// Prepare each Entity for the copy to release unnecessary data
-					foreach (EditorEntity entity in copyData)
-						entity.PrepareForExternalCopy();
+                CloseClipboard();
 
-					// Make a DataObject for the data and send it to the Windows clipboard for cross-instance copying
-					Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData), true);
-				}*/
+                // Make a DataObject for the data and send it to the Windows clipboard for cross-instance copying
+                Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData));*/
 
-                // Local Clipboard mode
-                {
-                    // Clone the entities and stow them here
-                    List<EditorEntity> copyData = Entities.CopyToClipboard();
-
-                    // Send to Maniac's clipboard
-                    entitiesClipboard = copyData;
-                }
+                // Send to Maniac's clipboard
+                entitiesClipboard = copyData;
             }
         }
+
+        public void PasteEntitiesToClipboard()
+        {
+            if (EntitiesToolbar.IsFocused.Equals(false))
+            {
+                try
+                {
+
+                    // check if there are entities on the Windows clipboard; if so, use those
+                    if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
+                    {
+                        Entities.PasteFromClipboard(new Point((int)(StateModel.lastX / StateModel.Zoom), (int)(StateModel.lastY / StateModel.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+                        UpdateLastEntityAction();
+                    }
+
+                    // if there's none, use the internal clipboard
+                    else if (entitiesClipboard != null)
+                    {
+                        Entities.PasteFromClipboard(new Point((int)(StateModel.lastX / StateModel.Zoom), (int)(StateModel.lastY / StateModel.Zoom)), entitiesClipboard);
+                        UpdateLastEntityAction();
+                    }
+                }
+                catch (EditorEntities.TooManyEntitiesException)
+                {
+                    RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
+                    return;
+                }
+                UI.UpdateEntitiesToolbarList();
+                UI.SetSelectOnlyButtonsState();
+            }
+        }
+
         public void MoveEntityOrTiles(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             int x = 0, y = 0;
@@ -759,6 +785,7 @@ namespace ManiacEditor
             userDefinedSpritePaths = new List<string>();
             EncorePaletteButton.IsChecked = false;
             Paths.UnloadScene();
+            UIModes.RequireSaveCheck = false;
 
             if (EditorTiles != null) EditorTiles.Dispose();
             EditorTiles = null;
@@ -770,11 +797,15 @@ namespace ManiacEditor
             Chunks = null;
 
 
-            //foreach (EditorEntity entity in entitiesClipboard)
-            //   entity.PrepareForExternalCopy();
+            /*if (entitiesClipboard != null)
+            {
+                foreach (EditorEntity entity in entitiesClipboard)
+                    entity.PrepareForExternalCopy();
+            }*/
+
 
             // Clear local clipboards
-            TilesClipboard = null;
+            //TilesClipboard = null;
             entitiesClipboard = null;
 
             Entities = null;
@@ -1680,17 +1711,23 @@ namespace ManiacEditor
 
         #region Folders
         private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenSceneFolder(); }
+        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenManiacEditorFolder(); }
+        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenManiacEditorFixedSettingsFolder(); }
+        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenManiacEditorPortableSettingsFolder(); }
         private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenDataDirectory(); }
         private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenSonicManiaFolder(); }
         private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Launcher.OpenASavedPlaceDropDownOpening(sender, e); }
         private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Launcher.OpenASavedPlaceDropDownClosed(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Launcher.OpenAResourcePackFolderDropDownOpening(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Launcher.OpenAResourcePackFolderDropDownClosed(sender, e); }
         #endregion
 
         #region Settings and Other Menu Events
         public void AboutScreenEvent(object sender, RoutedEventArgs e) { Launcher.AboutScreen(); }
-        public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null) { Launcher.ImportObjectsToolStripMenuItem_Click(sender, e); }
+        public void ImportObjectsToolStripMenuItem_Click(Window window = null) { Launcher.ImportObjectsToolStripMenuItem_Click(window); }
+        public void ImportObjectsWithMegaList(Window window = null) { Launcher.ImportObjectsWithMegaList(window); }
         public void ImportSoundsEvent(object sender, RoutedEventArgs e) { Launcher.ImportSoundsToolStripMenuItem_Click(sender, e); }
-        public void ImportSoundsEvent(object sender, RoutedEventArgs e, Window window = null) { Launcher.ImportSounds(sender, e, window); }
+        public void ImportSoundsEvent(Window window = null) { Launcher.ImportSounds(window); }
         private void LayerManagerEvent(object sender, RoutedEventArgs e) { Launcher.LayerManager(sender, e); }
         private void ManiacINIEditorEvent(object sender, RoutedEventArgs e) { Launcher.ManiacINIEditor(sender, e); }
         private void ChangePrimaryBackgroundColorEvent(object sender, RoutedEventArgs e) { Launcher.ChangePrimaryBackgroundColor(sender, e); }

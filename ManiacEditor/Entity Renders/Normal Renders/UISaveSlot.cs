@@ -18,14 +18,14 @@ namespace ManiacEditor.Entity_Renders
 
             //int frameID = (int)entity.attributesMap["listID"].ValueVar;
             int type = (int)entity.attributesMap["type"].ValueVar;
-            string text = "Text" + e.EditorInstance.UIModes.CurrentLanguage;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation("SaveSelect", d, 0, 0, false, false, false);
-            var editorAnimBorder = e.EditorInstance.EntityDrawing.LoadAnimation("SaveSelect", d, 0, 1, false, false, false);
-            var editorAnimBackground = e.EditorInstance.EntityDrawing.LoadAnimation("SaveSelect", d, 0, 2, false, false, false);
-            var editorAnimActualRender = e.EditorInstance.EntityDrawing.LoadAnimation("EditorUIRender", d, 3, 0, false, false, false);
-            var editorAnimActualRenderBorder = e.EditorInstance.EntityDrawing.LoadAnimation("EditorUIRender", d, 3, 1, false, false, false);
-            var editorAnimText = e.EditorInstance.EntityDrawing.LoadAnimation(text, d, 2, 0, false, false, false);
-            var editorAnimNoSave = e.EditorInstance.EntityDrawing.LoadAnimation(text, d, 2, 2, false, false, false);
+            string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d, 0, 0, false, false, false);
+            var editorAnimBorder = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d, 0, 1, false, false, false);
+            var editorAnimBackground = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d, 0, 2, false, false, false);
+            var editorAnimActualRender = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d, 3, 0, false, false, false);
+            var editorAnimActualRenderBorder = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d, 3, 1, false, false, false);
+            var editorAnimText = Editor.Instance.EntityDrawing.LoadAnimation(text, d, 2, 0, false, false, false);
+            var editorAnimNoSave = Editor.Instance.EntityDrawing.LoadAnimation(text, d, 2, 2, false, false, false);
             if (type == 1)
             {
                 if (editorAnim != null && editorAnim.Frames.Count != 0)

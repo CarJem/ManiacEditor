@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int distance = entity.attributesMap["distance"].ValueUInt16;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("MicDrop", d, 0, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("MicDrop", d, 0, -1, fliph, flipv, false);
             d.DrawLine(x, y, x, y + distance, System.Drawing.Color.Black);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

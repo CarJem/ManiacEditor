@@ -79,9 +79,9 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var ballAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("LottoBall", d, 0, frameID1, fliph, flipv, false);
-            var numAnimL = e.EditorInstance.EntityDrawing.LoadAnimation2("LottoBall", d, 1, frameID2, fliph, flipv, false);
-            var numAnimR = e.EditorInstance.EntityDrawing.LoadAnimation2("LottoBall", d, 2, frameID3, fliph, flipv, false);
+            var ballAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d, 0, frameID1, fliph, flipv, false);
+            var numAnimL = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d, 1, frameID2, fliph, flipv, false);
+            var numAnimR = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d, 2, frameID3, fliph, flipv, false);
             if (ballAnim != null && ballAnim.Frames.Count != 0 && numAnimL != null && numAnimL.Frames.Count != 0 && numAnimR != null && numAnimR.Frames.Count != 0)
             {
                 var frame = ballAnim.Frames[Animation.index];

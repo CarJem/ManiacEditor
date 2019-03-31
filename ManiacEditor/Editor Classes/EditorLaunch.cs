@@ -314,12 +314,23 @@ namespace ManiacEditor
         #endregion
 
         #region Folders
+
+        public void OpenFolder(string folderPath)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = folderPath,
+                UseShellExecute = true,
+                Verb = "open"
+            });
+        }
+
         public void OpenSceneFolder()
         {
             if (Editor.Paths.SceneFile_Directory != null && Editor.Paths.SceneFile_Directory != "")
             {
                 string SceneFilename_mod = Editor.Paths.SceneFile_Directory.Replace('/', '\\');
-                Process.Start("explorer.exe", "/select, " + SceneFilename_mod);
+                OpenFolder(SceneFilename_mod);
             }
             else
             {
@@ -327,12 +338,28 @@ namespace ManiacEditor
             }
 
         }
+
+        public void OpenManiacEditorFolder()
+        {
+            OpenFolder(Environment.CurrentDirectory);
+        }
+
+        public void OpenManiacEditorFixedSettingsFolder()
+        {
+            OpenFolder(EditorConstants.SettingsStaticDirectory);
+        }
+
+        public void OpenManiacEditorPortableSettingsFolder()
+        {
+            OpenFolder(EditorConstants.SettingsPortableDirectory);
+        }
+
         public void OpenDataDirectory()
         {
             string DataDirectory_mod = Editor.DataDirectory.Replace('/', '\\');
             if (DataDirectory_mod != null && DataDirectory_mod != "" && Directory.Exists(DataDirectory_mod))
             {
-                Process.Start("explorer.exe", "/select, " + DataDirectory_mod);
+                OpenFolder(DataDirectory_mod);
             }
             else
             {
@@ -355,6 +382,7 @@ namespace ManiacEditor
             }
 
         }
+        #region Saved Place
         public void OpenASavedPlaceDropDownOpening(object sender, RoutedEventArgs e)
         {
             if (Settings.MySettings.SavedPlaces != null && Settings.MySettings.SavedPlaces.Count > 0)
@@ -379,7 +407,14 @@ namespace ManiacEditor
         {
             System.Windows.Controls.MenuItem item = sender as System.Windows.Controls.MenuItem;
             string savedPlaceDir = item.Header.ToString().Replace('/', '\\');
-            Process.Start("explorer.exe", "/select, " + savedPlaceDir);
+            if (Directory.Exists(savedPlaceDir))
+            {
+                OpenFolder(savedPlaceDir);
+            }
+            else
+            {
+                RSDKrU.MessageBox.Show("This Folder does not exist! " + string.Format("({0})", savedPlaceDir), "ERROR");
+            }
         }
 
         public void OpenASavedPlaceDropDownClosed(object sender, RoutedEventArgs e)
@@ -387,13 +422,57 @@ namespace ManiacEditor
             Editor.openASavedPlaceToolStripMenuItem.Items.Clear();
             Editor.openASavedPlaceToolStripMenuItem.Items.Add("No Saved Places");
         }
+        #endregion
+
+        #region Data Packs
+        public void OpenAResourcePackFolderDropDownOpening(object sender, RoutedEventArgs e)
+        {
+            if (Editor.EditorScene == null) Editor.ResourcePackList.Clear();
+            if (Editor.ResourcePackList != null && Editor.ResourcePackList.Count > 0)
+            {
+                Editor.openAResourcePackFolderToolStripMenuItem.Items.Clear();
+                var allItems = Editor.openAResourcePackFolderToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                foreach (string savedPlace in Editor.ResourcePackList)
+                {
+                    var savedPlaceItem = new System.Windows.Controls.MenuItem()
+                    {
+                        Header = savedPlace,
+                        Tag = savedPlace
+                    };
+                    savedPlaceItem.Click += OpenAResourcePackFolderTrigger;
+                    Editor.openAResourcePackFolderToolStripMenuItem.Items.Add(savedPlaceItem);
+                }
+            }
+
+        }
+
+        public void OpenAResourcePackFolderTrigger(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.MenuItem item = sender as System.Windows.Controls.MenuItem;
+            string resourcePackDir = item.Header.ToString().Replace('/', '\\');
+            if (Directory.Exists(resourcePackDir))
+            {
+                OpenFolder(resourcePackDir);
+            }
+            else
+            {
+                RSDKrU.MessageBox.Show("This Folder does not exist! " + string.Format("({0})", resourcePackDir), "ERROR");
+            }
+        }
+
+        public void OpenAResourcePackFolderDropDownClosed(object sender, RoutedEventArgs e)
+        {
+            Editor.openAResourcePackFolderToolStripMenuItem.Items.Clear();
+            Editor.openAResourcePackFolderToolStripMenuItem.Items.Add("No Resource Packs Loaded");
+        }
+        #endregion
 
         #endregion
 
         #region Scene Tools
 
         #region Scene Tab Buttons
-        public void ImportObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e, Window window = null)
+        public void ImportObjectsToolStripMenuItem_Click(Window window = null)
         {
             Editor.UIModes.isImportingObjects = true;
             try
@@ -419,11 +498,46 @@ namespace ManiacEditor
             Editor.UIModes.isImportingObjects = false;
         }
 
+        public void ImportObjectsWithMegaList(Window window = null)
+        {
+            Editor.UIModes.isImportingObjects = true;
+            try
+            {
+                FolderSelectDialog ofd = new FolderSelectDialog();
+                ofd.Title = "Select a clean Data Folder";
+                if (ofd.ShowDialog() == true)
+                {
+                    string gameConfigPath = System.IO.Path.Combine(ofd.FileName, "Game", "GameConfig.bin");
+                    if (File.Exists(gameConfigPath))
+                    {
+                        GameConfig SourceConfig = new GameConfig(gameConfigPath);
+                        var objectImporter = new ManiacEditor.Interfaces.ObjectImporter(ofd.FileName, SourceConfig, Editor.EditorScene.Objects, Editor.StageConfig, Editor);
+                        if (window != null) objectImporter.Owner = window;
+                        objectImporter.ShowDialog();
+
+                        if (objectImporter.DialogResult != true)
+                            return; // nothing to do
+
+                        // user clicked Import, get to it!
+                        Editor.UI.UpdateControls();
+                        Editor.EntitiesToolbar?.RefreshSpawningObjects(Editor.EditorScene.Objects);
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                RSDKrU.MessageBox.Show("Unable to import Objects. " + ex.Message);
+            }
+            Editor.UIModes.isImportingObjects = false;
+        }
+
         public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ImportSounds(sender, e, Window.GetWindow(Editor));
+            ImportSounds(Window.GetWindow(Editor));
         }
-        public void ImportSounds(object sender, RoutedEventArgs e, Window window = null)
+        public void ImportSounds(Window window = null)
         {
             try
             {
@@ -464,6 +578,7 @@ namespace ManiacEditor
             {
                 RSDKrU.MessageBox.Show("Unable to import sounds. " + ex.Message);
             }
+            Editor.Instance.UIModes.RequireSaveCheck = true;
         }
 
         public void ManiacINIEditor(object sender, RoutedEventArgs e)
@@ -485,6 +600,7 @@ namespace ManiacEditor
             Editor.SetupLayerButtons();
             Editor.ZoomModel.ResetViewSize();
             Editor.UI.UpdateControls();
+            Editor.Instance.UIModes.RequireSaveCheck = true;
         }
 
         public void ObjectManager()
@@ -492,6 +608,7 @@ namespace ManiacEditor
             var objectManager = new ManiacEditor.Interfaces.ObjectManager(Editor.EditorScene.Objects, Editor.StageConfig, Editor);
             objectManager.Owner = Window.GetWindow(Editor);
             objectManager.ShowDialog();
+            Editor.Instance.UIModes.RequireSaveCheck = true;
         }
 
         public void AboutScreen()

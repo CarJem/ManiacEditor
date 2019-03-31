@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
             ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
             uint ButtonTag = currentEntity.GetAttribute("tag").ValueUInt8;
 
-            var tagged = ObjectInstance.EditorInstance.Entities.Entities.Where(e => e.Entity.AttributeExists("buttonTag", RSDKv5.AttributeTypes.VAR));
+            var tagged = Editor.Instance.Entities.Entities.Where(e => e.Entity.AttributeExists("buttonTag", RSDKv5.AttributeTypes.VAR));
             var triggers = tagged.Where(e => e.Entity.GetAttribute("buttonTag").ValueVar == ButtonTag);
 
             if (triggers != null && triggers.Any())

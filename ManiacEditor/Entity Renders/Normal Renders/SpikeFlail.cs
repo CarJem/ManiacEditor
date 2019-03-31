@@ -18,11 +18,11 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int chainLength = (int)entity.attributesMap["chainLength"].ValueUInt8;            
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 0, 0, fliph, flipv, false);
-            var editorAnimBall = e.EditorInstance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 1, 0, fliph, flipv, false);
-            var editorAnimRing1 = e.EditorInstance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 2, 0, fliph, flipv, false);
-            var editorAnimRing2 = e.EditorInstance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 3, 0, fliph, flipv, false);
-            var editorAnimRing3 = e.EditorInstance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 4, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 0, 0, fliph, flipv, false);
+            var editorAnimBall = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 1, 0, fliph, flipv, false);
+            var editorAnimRing1 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 2, 0, fliph, flipv, false);
+            var editorAnimRing2 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 3, 0, fliph, flipv, false);
+            var editorAnimRing3 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 4, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBall != null && editorAnimBall.Frames.Count != 0 && editorAnimRing1 != null && editorAnimRing1.Frames.Count != 0 && editorAnimRing2 != null && editorAnimRing2.Frames.Count != 0 && editorAnimRing3 != null && editorAnimRing3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

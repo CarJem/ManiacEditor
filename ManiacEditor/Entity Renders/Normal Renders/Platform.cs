@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
             int angleStateX = 0;
             int angleStateY = 0;
 
-            var platformIcon = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 20, false, false, false);
+            var platformIcon = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 20, false, false, false);
 
             
             if (childCount != previousChildCount)
@@ -52,7 +52,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     try
                     {
-                        EditorEntity childEntity = e.EditorInstance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                        EditorEntity childEntity = Editor.Instance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                         childEntity.childDraw = false;
                         childEntity.childDrawAddMode = false;
                         childEntity.childX = 0;
@@ -88,8 +88,8 @@ namespace ManiacEditor.Entity_Renders
                 try
                 {
                     if (targetFrameID == -1) doNotShow = true;
-                    editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
-                    if (type == 4) editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
+                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
+                    if (type == 4) editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
                     if (editorAnim == null)
                     {
                         return; // no animation, bail out
@@ -110,10 +110,10 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var tensionBall = e.EditorInstance.EntityDrawing.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
-            var tensionBallCenter = e.EditorInstance.EntityDrawing.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
-            if (type == 4) tensionBall = e.EditorInstance.EntityDrawing.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
-            if (type == 4) tensionBallCenter = e.EditorInstance.EntityDrawing.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
+            var tensionBall = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
+            var tensionBallCenter = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
+            if (type == 4) tensionBall = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
+            if (type == 4) tensionBallCenter = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
 
             if (editorAnim.Frames.Count != 0 && platformIcon != null && editorAnim != null && platformIcon.Frames.Count != 0)
             {
@@ -182,14 +182,14 @@ namespace ManiacEditor.Entity_Renders
                             position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
                         }
 
-                        if (childCount != 0 && e.EditorInstance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
+                        if (childCount != 0 && Editor.Instance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
                             {
                                 try
                                 {
-                                    EditorEntity childEntity = e.EditorInstance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                    EditorEntity childEntity = Editor.Instance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                     childEntity.childDraw = true;
                                     childEntity.childX = position[0];
                                     childEntity.childY = -position[1];
@@ -247,12 +247,12 @@ namespace ManiacEditor.Entity_Renders
                             }
                         }
 
-                        if (childCount != 0 && e.EditorInstance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
+                        if (childCount != 0 && Editor.Instance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
                             {
-                                EditorEntity childEntity = e.EditorInstance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                EditorEntity childEntity = Editor.Instance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                 childEntity.childDraw = true;
                                 childEntity.childX = newX;
                                 childEntity.childY = -newY;
@@ -305,12 +305,12 @@ namespace ManiacEditor.Entity_Renders
                                     d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.PivotX, linePoints[1] + frame.Frame.PivotY,
                                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
-                                    if (childCount != 0 && e.EditorInstance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
+                                    if (childCount != 0 && Editor.Instance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
                                     {
                                         previousChildCount = childCount;
                                         for (int z = 0; z < childCount; z++)
                                         {
-                                            EditorEntity childEntity = e.EditorInstance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                                            EditorEntity childEntity = Editor.Instance.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                                             if (childEntity != null)
                                             {
                                                 childEntity.childDraw = true;

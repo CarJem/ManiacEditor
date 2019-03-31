@@ -71,15 +71,15 @@ namespace ManiacEditor.Interfaces
         public void DisposeTextures()
         {
             // Make sure to dispose the textures of the extra layers too
-            EditorInstance.EditorTiles?.Dispose();
+            Editor.Instance.EditorTiles?.Dispose();
             if (EditorInstance.FGHigh != null) EditorInstance.FGHigh?.DisposeTextures();
             if (EditorInstance.FGLow != null) EditorInstance.FGLow?.DisposeTextures();
             if (EditorInstance.FGHigher != null) EditorInstance.FGHigher?.DisposeTextures();
             if (EditorInstance.FGLower != null) EditorInstance.FGLower?.DisposeTextures();
 
-			if (EditorInstance.EditorScene != null)
+			if (Editor.Instance.EditorScene != null)
 			{
-				foreach (var el in EditorInstance.EditorScene?.OtherLayers)
+				foreach (var el in Editor.Instance.EditorScene?.OtherLayers)
 				{
 					el.DisposeTextures();
 				}

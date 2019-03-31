@@ -25,8 +25,8 @@ namespace ManiacEditor.Entity_Renders
             int x2 = x - (width / 4);
             foreach (char symb in text)
             {
-                int frameID = GetFrameID(symb, e.EditorInstance.UIModes.MenuChar_Small);
-                var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation("UIElements", d, 4, frameID, false, false, false);
+                int frameID = GetFrameID(symb, Editor.Instance.UIModes.MenuChar_Small);
+                var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d, 4, frameID, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];

@@ -35,9 +35,9 @@ namespace ManiacEditor.Entity_Renders
             {
                 flipv = true;
             }
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("Button", d, animID, -1, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("Button", d, animID, 1, fliph, flipv, false);
-            var editorAnim3 = e.EditorInstance.EntityDrawing.LoadAnimation2("Button", d, animID, 2, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Button", d, animID, -1, fliph, flipv, false);
+            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("Button", d, animID, 1, fliph, flipv, false);
+            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("Button", d, animID, 2, fliph, flipv, false);
             if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame2 = editorAnim2.Frames[Animation.index];

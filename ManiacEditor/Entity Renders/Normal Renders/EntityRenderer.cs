@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor.Entity_Renders
 {
+    [Serializable]
     public abstract class EntityRenderer
     {
 

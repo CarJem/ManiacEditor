@@ -41,7 +41,7 @@ namespace ManiacEditor.Interfaces
 			InitializeComponent();
 			EditorInstance = instance;
 
-
+            SetScrollerToggleTypeRadioButtonState(Settings.MySettings.ScrollerPressReleaseMode);
             CheckGraphicalSettingTimer = new System.Windows.Forms.Timer();
 			CheckGraphicalSettingTimer.Interval = 10;
 			CheckGraphicalSettingTimer.Tick += CheckGraphicalPresetModeState;
@@ -807,6 +807,27 @@ namespace ManiacEditor.Interfaces
                 }
 
             }
+        }
+
+        private void ScrollerToggleTypeClickEvent(object sender, RoutedEventArgs e)
+        {
+            RadioButton button = sender as RadioButton;
+            if (button == ScrollerToggleModeClickButton)
+            {
+                SetScrollerToggleTypeRadioButtonState(false);
+                Settings.MySettings.ScrollerPressReleaseMode = false;
+            }
+            else
+            {
+                SetScrollerToggleTypeRadioButtonState(true);
+                Settings.MySettings.ScrollerPressReleaseMode = true;
+            }
+        }
+
+        private void SetScrollerToggleTypeRadioButtonState(bool enabled)
+        {
+            ScrollerToggleModeClickButton.IsChecked = !enabled;
+            ScrollerToggleModePressReleaseButton.IsChecked = enabled;
         }
     }
 }

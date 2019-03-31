@@ -62,7 +62,7 @@ namespace ManiacEditor
 						                "var flipv = new Boolean(false);" +
 						                "var amplitudeX = attribMap.AttributesMapPositionHighX(\"amplitude\", entity);" +
 						                "var amplitudeY = attribMap.AttributesMapPositionHighY(\"amplitude\", entity);" +
-						                "var editorAnim = e.EditorInstance.EditorEntity_ini.LoadAnimation2(\"Ring\", d, 0, -1, false, false, false);" +
+						                "var editorAnim = EditorInstancEditorEntity_ini.LoadAnimation2(\"Ring\", d, 0, -1, false, false, false);" +
 						                "if (editorAnim != null && editorAnim.Frames.Count != 0)" +
 						                "{" +
 						                "var frame = editorAnim.Frames[0];" +

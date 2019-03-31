@@ -491,9 +491,18 @@
                 <MenuItem x:Name="openSceneFolderToolStripMenuItem" Header="Open Scene Folder" Click="OpenSceneFolderToolStripMenuItem_Click"/>
                 <MenuItem x:Name="openDataDirectoryFolderToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryFolderToolStripMenuItem_Click"/>
                 <MenuItem x:Name="openSonicManiaFolderToolStripMenuItem" Header="Open Sonic Mania Folder" Click="OpenSonicManiaFolderToolStripMenuItem_Click"/>
+                <MenuItem x:Name="OpenManiacFolders" Header="Maniac Editor...">
+                    <MenuItem x:Name="openManiacEditorFolderToolStripMenuItem" Header="Open Maniac Editor Directory" Click="OpenManiacEditorFolderToolStripMenuItem_Click"/>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <MenuItem x:Name="openManiacEditorFixedSettingsFolderToolStripMenuItem" Header="Open Fixed Settings Directory" Click="OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="openManiacEditorPortableSettingsFolderToolStripMenuItem" Header="Open Portable Settings Directory" Click="OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click"/>
+                </MenuItem>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="openASavedPlaceToolStripMenuItem" Header="Open a Saved Place" SubmenuOpened="OpenASavedPlaceToolStripMenuItem_DropDownOpening" SubmenuClosed="OpenASavedPlaceToolStripMenuItem_DropDownClosed">
                     <MenuItem x:Name="noSavedPlacesToolStripMenuItem" Header="No Saved Places" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="openAResourcePackFolderToolStripMenuItem" Header="Open a Resource Pack Folder" SubmenuOpened="OpenAResourcePackFolderToolStripMenuItem_DropDownOpening" SubmenuClosed="OpenAResourcePackFolderToolStripMenuItem_DropDownClosed">
+                    <MenuItem x:Name="noResourcePackFolderToolStripMenuItem" Header="No Resource Packs Loaded" IsEnabled="False"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem x:Name="toolsToolStripMenuItem" Header="Apps" Margin="0,0,0,0" >

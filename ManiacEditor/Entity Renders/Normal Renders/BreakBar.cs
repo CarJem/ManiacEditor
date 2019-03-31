@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 orientation = 0;
             }
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("BreakBar", d, orientation, -1, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("BreakBar", d, orientation, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frameTop = editorAnim.Frames[0];

@@ -15,12 +15,12 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + e.EditorInstance.UIModes.CurrentLanguage;
+            string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int frameID = (int)entity.attributesMap["frameID"].ValueVar;
             int listID = (int)entity.attributesMap["listID"].ValueVar;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation(text, d, listID, frameID, false, false, false);
-            var editorAnimType = e.EditorInstance.EntityDrawing.LoadAnimation("ButtonLabel", d, 0, type, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(text, d, listID, frameID, false, false, false);
+            var editorAnimType = Editor.Instance.EntityDrawing.LoadAnimation("ButtonLabel", d, 0, type, false, false, false);
             if (editorAnimType != null && editorAnimType.Frames.Count != 0)
             {
                 var frame = editorAnimType.Frames[Animation.index];

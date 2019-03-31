@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int animID = 0;
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("OneWayDoor", d, animID, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("OneWayDoor", d, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

@@ -23,18 +23,18 @@ namespace ManiacEditor.Entity_Renders
             int aniID = (int)entity.attributesMap["aniID"].ValueUInt8;
             if (Animation.parallaxSprite == "")
             {
-                Animation.parallaxSprite = GetParallaxPath(e.EditorInstance);
+                Animation.parallaxSprite = GetParallaxPath(Editor.Instance);
             }
 
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
-            if (e.EditorInstance.UIModes.ShowParallaxSprites)
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 12, fliph, flipv, false);
+            if (Editor.Instance.UIModes.ShowParallaxSprites)
             {
-                editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2(Animation.parallaxSprite, d, aniID, -1, fliph, flipv, false);
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2(Animation.parallaxSprite, d, aniID, -1, fliph, flipv, false);
             }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                if (e.EditorInstance.UIModes.ShowParallaxSprites)
+                if (Editor.Instance.UIModes.ShowParallaxSprites)
                 {
                     frame = editorAnim.Frames[Animation.index];
                 }

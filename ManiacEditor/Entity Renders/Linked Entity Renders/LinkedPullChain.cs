@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
 
             if (!decorMode)
             {
-                var tagged = ObjectInstance.EditorInstance.Entities.Entities.Where(e => e.Entity.AttributeExists("buttonTag", RSDKv5.AttributeTypes.VAR));
+                var tagged = Editor.Instance.Entities.Entities.Where(e => e.Entity.AttributeExists("buttonTag", RSDKv5.AttributeTypes.VAR));
                 var triggers = tagged.Where(e => e.Entity.GetAttribute("buttonTag").ValueVar == ButtonTag);
 
                 if (triggers != null && triggers.Any())

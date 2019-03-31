@@ -36,7 +36,7 @@ namespace ManiacEditor
 			StageStamps = stageStamps;
 			EditorStamps = new Stamps();
 			AddBlankMap();
-			Tiles = instance.EditorTiles.StageTiles;
+			Tiles = Editor.Instance.EditorTiles.StageTiles;
 		}
 
 
@@ -53,12 +53,12 @@ namespace ManiacEditor
 
             if (semitransparent)
             {
-                g.DrawImage(EditorInstance.EditorTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                g.DrawImage(Editor.Instance.EditorTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
             }
             else
             {
-                g.DrawImage(EditorInstance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                g.DrawImage(Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
             }
 

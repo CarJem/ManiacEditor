@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation("LRZFireball", d, 1, 0, fliph, flipv, false, rotation, true, false, false, true);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d, 1, 0, fliph, flipv, false, rotation, true, false, false, true);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

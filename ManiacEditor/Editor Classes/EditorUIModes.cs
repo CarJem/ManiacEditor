@@ -568,6 +568,8 @@ namespace ManiacEditor
             else if (value == 16) Editor.x16ToolStripMenuItem1.IsChecked = true;
             else if (value == 32) Editor.x32ToolStripMenuItem.IsChecked = true;
             else if (value == 64) Editor.x64ToolStripMenuItem.IsChecked = true;
+
+            _MagnetSize = value;
         }
         #endregion
         #region Grid Size 
@@ -639,6 +641,8 @@ namespace ManiacEditor
         public bool collisionOpacityChanged { get; set; } = false;
 
         public static bool UpdateUpdaterMessage = false;
+
+        public bool RequireSaveCheck { get; set; } = false;
 
 
 

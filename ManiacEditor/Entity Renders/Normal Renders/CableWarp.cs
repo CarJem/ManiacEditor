@@ -31,8 +31,8 @@ namespace ManiacEditor.Entity_Renders
                 animID = 0;
                 frameID = 0;
             }
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("CableWarp", d, animID, frameID, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("PlaneSwitch", d, 0, 5, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("CableWarp", d, animID, frameID, fliph, flipv, false);
+            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("PlaneSwitch", d, 0, 5, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

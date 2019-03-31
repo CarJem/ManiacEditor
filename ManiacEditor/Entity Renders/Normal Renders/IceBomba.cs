@@ -27,9 +27,9 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnim = e.EditorInstance.EntityDrawing.LoadAnimation2("IceBomba", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = e.EditorInstance.EntityDrawing.LoadAnimation2("IceBomba", d, 1, -1, fliph, flipv, false);
-            var editorAnim3 = e.EditorInstance.EntityDrawing.LoadAnimation2("IceBomba", d, 2, frameID, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("IceBomba", d, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("IceBomba", d, 1, -1, fliph, flipv, false);
+            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("IceBomba", d, 2, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
