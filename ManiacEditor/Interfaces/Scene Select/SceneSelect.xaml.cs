@@ -1208,7 +1208,7 @@ namespace ManiacEditor.Interfaces
         }
         private void Close()
         {
-            if (!EditorInstance.UIModes.isImportingObjects && WithinAParentForm)
+            if (!EditorInstance.UIModes.isImportingObjects)
             {
                 EditorInstance.FileHandler.OpenSceneUsingExistingSceneSelect(this);
             }
