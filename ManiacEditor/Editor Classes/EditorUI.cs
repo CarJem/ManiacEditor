@@ -623,6 +623,7 @@ namespace ManiacEditor
                     Editor.Instance.ToolbarLeft.MaxWidth = Editor.Instance.ViewPanelForm.ActualWidth / 3;
                     Editor.Instance.SplitterLeft.Width = new GridLength(3);
                     Editor.Instance.SplitterLeft.MinWidth = 3;
+                    Editor.Instance.LeftToolbarToolbox.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -701,11 +702,11 @@ namespace ManiacEditor
 
         public void UpdateCustomColors()
         {
-            Editor.Instance.CSAC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Settings.MyDefaults.CollisionSAColour.A, Settings.MyDefaults.CollisionSAColour.R, Settings.MyDefaults.CollisionSAColour.G, Settings.MyDefaults.CollisionSAColour.B));
-            Editor.Instance.SSTOC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Settings.MyDefaults.CollisionTOColour.A, Settings.MyDefaults.CollisionTOColour.R, Settings.MyDefaults.CollisionTOColour.G, Settings.MyDefaults.CollisionTOColour.B));
-            Editor.Instance.CSLRDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Settings.MyDefaults.CollisionLRDColour.A, Settings.MyDefaults.CollisionLRDColour.R, Settings.MyDefaults.CollisionLRDColour.G, Settings.MyDefaults.CollisionLRDColour.B));
-            Editor.Instance.WLC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Settings.MyDefaults.WaterEntityColorDefault.A, Settings.MyDefaults.WaterEntityColorDefault.R, Settings.MyDefaults.WaterEntityColorDefault.G, Settings.MyDefaults.WaterEntityColorDefault.B));
-            Editor.Instance.GDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Settings.MyDefaults.DefaultGridColor.A, Settings.MyDefaults.DefaultGridColor.R, Settings.MyDefaults.DefaultGridColor.G, Settings.MyDefaults.DefaultGridColor.B));
+            Editor.Instance.CSAC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Editor.Instance.UIModes.CollisionSAColour.A, Editor.Instance.UIModes.CollisionSAColour.R, Editor.Instance.UIModes.CollisionSAColour.G, Editor.Instance.UIModes.CollisionSAColour.B));
+            Editor.Instance.SSTOC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Editor.Instance.UIModes.CollisionTOColour.A, Editor.Instance.UIModes.CollisionTOColour.R, Editor.Instance.UIModes.CollisionTOColour.G, Editor.Instance.UIModes.CollisionTOColour.B));
+            Editor.Instance.CSLRDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Editor.Instance.UIModes.CollisionLRDColour.A, Editor.Instance.UIModes.CollisionLRDColour.R, Editor.Instance.UIModes.CollisionLRDColour.G, Editor.Instance.UIModes.CollisionLRDColour.B));
+            Editor.Instance.WLC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Editor.Instance.UIModes.waterColor.A, Editor.Instance.UIModes.waterColor.R, Editor.Instance.UIModes.waterColor.G, Editor.Instance.UIModes.waterColor.B));
+            Editor.Instance.GDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Editor.Instance.UIModes.GridColor.A, Editor.Instance.UIModes.GridColor.R, Editor.Instance.UIModes.GridColor.G, Editor.Instance.UIModes.GridColor.B));
         }
 
         public void UpdateControls(bool stageLoad = false)

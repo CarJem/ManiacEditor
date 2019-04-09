@@ -323,19 +323,7 @@ namespace ManiacEditor
                             if (subItem.Tag == null || subItem.Tag.ToString() != menuItem.Tag.ToString()) subItem.IsChecked = false;
                             else if (subItem.Tag.ToString() == menuItem.Tag.ToString()) subItem.IsChecked = true;
                         }
-					}
-                    var allItems2 = Editor.menuButtonsToolStripMenuItem2.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                    foreach (System.Windows.Controls.MenuItem item in allItems2)
-                    {
-                        if (item.Tag == null || item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
-                        else if (item.Tag.ToString() == menuItem.Tag.ToString()) item.IsChecked = true;
-                        var allSubItems2 = Editor.menuButtonsToolStripMenuItem2.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                        foreach (System.Windows.Controls.MenuItem subItem in allSubItems2)
-                        {
-                            if (subItem.Tag == null || subItem.Tag.ToString() != menuItem.Tag.ToString()) subItem.IsChecked = false;
-                            else if (subItem.Tag.ToString() == menuItem.Tag.ToString()) subItem.IsChecked = true;
-                        }
-                    }            
+					}            
 					switch (tag)
 					{
 						case "Xbox":
@@ -514,12 +502,6 @@ namespace ManiacEditor
             Editor.UIModes.CurrentLanguage = menuItem.Tag.ToString();
             var allLangItems = Editor.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
-            {
-                if (item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
-                else if (item.Tag.ToString() == menuItem.Tag.ToString()) item.IsChecked = true;
-            }
-            var allLangItems2 = Editor.menuLanguageToolStripMenuItem2.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-            foreach (var item in allLangItems2)
             {
                 if (item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
                 else if (item.Tag.ToString() == menuItem.Tag.ToString()) item.IsChecked = true;

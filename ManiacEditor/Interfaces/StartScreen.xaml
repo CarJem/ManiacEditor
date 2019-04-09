@@ -15,9 +15,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="300"></ColumnDefinition>
-            <ColumnDefinition Width="260"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="1"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
@@ -46,23 +46,82 @@
                 </GroupBox>
             </Grid>
         </Border>
-        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="1">
+        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="1">
             <Grid>
-                <Grid Background="{DynamicResource StatusBarBackground}">
-                    <StackPanel Margin="4">
-                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel4_LinkClicked" ><Run Text="About"/></Hyperlink></TextBlock>
-                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel5_LinkClicked"><Run Text="Settings"/></Hyperlink></TextBlock>
-                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel6_LinkClicked"><Run Text="Wiki"/></Hyperlink></TextBlock>
-                        <TextBlock></TextBlock>
-                        <TextBlock></TextBlock>
-                        <TextBlock x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
-                        <TextBlock x:Name="devCheck"><TextBlock Text="        "/><CheckBox IsChecked="{maniac:SettingBinding UseAutoForcefulStartup}"><TextBlock><Hyperlink ><Run Text="Automatically Open"/></Hyperlink></TextBlock></CheckBox></TextBlock>
-                        <TextBlock></TextBlock>
-                        <TextBlock></TextBlock>
-                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel7_LinkClicked"><Run Text="Github"/></Hyperlink></TextBlock>
-                        <TextBlock><TextBlock Text="● "/><Hyperlink Click="linkLabel8_LinkClicked"><Run Text="Appveyor"/></Hyperlink></TextBlock>
-                    </StackPanel>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="120"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Background="{DynamicResource StatusBarBackground}" FontWeight="Bold"  Grid.Row="2" Content="Recent Data Folders / Packs"></Label>
+                    <ScrollViewer Grid.Row="3" IsDeferredScrollingEnabled="False">
+                        <StackPanel>
+                            <Label Content="No Recent Data Folders / Packs" Name="NoRecentsLabel2" IsEnabled="False"></Label>
+                            <StackPanel x:Name="RecentDataContextList">
+
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Label Background="{DynamicResource StatusBarBackground}" FontWeight="Bold"  Grid.Row="0" Content="Recent Scenes"></Label>
+                    <ScrollViewer Grid.Row="1" IsDeferredScrollingEnabled="False">
+                        <StackPanel>
+                            <Label Content="No Recent Scenes" Name="NoRecentsLabel1" IsEnabled="False"></Label>
+                            <StackPanel x:Name="RecentScenesList">
+
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
+
+                <Grid Background="{DynamicResource StatusBarBackground}" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.ColumnSpan="2" Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel4_LinkClicked" ><Run Text="About"/></Hyperlink></TextBlock>
+                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel5_LinkClicked"><Run Text="Settings"/></Hyperlink></TextBlock>
+                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel6_LinkClicked"><Run Text="Wiki"/></Hyperlink></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="4" Grid.Column="2" Grid.ColumnSpan="2">
+                            <TextBlock Width="Auto" Height="17" x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
+                            <TextBlock Width="Auto" Height="17" x:Name="devCheck"><TextBlock Text="         "/><CheckBox IsChecked="{maniac:SettingBinding UseAutoForcefulStartup}"><TextBlock ><Hyperlink><Run Text="Auto Launch"/></Hyperlink></TextBlock></CheckBox></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Height="40" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Grid.Row="1" Background="{DynamicResource NormalBackground}">
+                        <ToolBarTray Background="{DynamicResource NormalBackground}" IsLocked="True">
+                            <ToolBar Background="{DynamicResource NormalBackground}" VerticalContentAlignment="Center">
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Width="90" Text="Support CarJem:"></TextBlock>
+                                <Button x:Name="PatreonButton" ToolTip="Support me on Patreon" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Patreon}" Style="{StaticResource DisabledState2}" Click="PatreonButton_Click"></Button>
+                                <Button x:Name="YoutubeButton" ToolTip="Subscribe to my Youtube" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Youtube}" Style="{StaticResource DisabledState2}" Click="YoutubeButton_Click"></Button>
+                                <Button x:Name="TwitterButton" ToolTip="Find me on Twitter" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Twitter}" Style="{StaticResource DisabledState2}" Click="TwitterButton_Click"></Button>
+                                <Button x:Name="DiscordButton" ToolTip="Chat me on Discord" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Discord}" Style="{StaticResource DisabledState2}" Click="DiscordButton_Click"></Button>
+                                <Button x:Name="GitHubButton"  ToolTip="Get Releases on Github" Click="linkLabel7_LinkClicked" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Github}" Style="{StaticResource DisabledState2}"></Button>
+                                <Button x:Name="AppveyorButton" ToolTip="Get Betas on Appveyor" Click="linkLabel8_LinkClicked" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Appveyor}" Style="{StaticResource DisabledState2}"></Button>
+
+
+                            </ToolBar>
+                        </ToolBarTray>
+                    </StackPanel>
+              </Grid>
                 <Grid x:Name="DeveloperNoteOverlay" Visibility="Hidden" Background="{DynamicResource StatusBarBackground}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="220"></RowDefinition>
@@ -77,7 +136,7 @@
                 </Grid>
             </Grid>
         </Border>
-        <Border Margin="4"  BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Grid>
                 <Grid Background="{DynamicResource StartScreenBackground}" x:Name="SceneSelectHost"/>
                 <Grid x:Name="FirstTimeOverlay" Background="{DynamicResource StatusBarBackground}" Visibility="Hidden">

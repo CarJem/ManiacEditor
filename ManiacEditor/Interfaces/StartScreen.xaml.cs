@@ -177,5 +177,25 @@ namespace ManiacEditor.Interfaces
             FirstTimeOverlay.Visibility = Visibility.Hidden;
 			SceneSelectHost.Visibility = Visibility.Visible;
 		}
-	}
+
+        private void YoutubeButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.youtube.com/channel/UC4-VHCZD7eLdxRr5aUXAQ5w");
+        }
+
+        private void PatreonButton_Click(object sender, RoutedEventArgs e)
+        {
+            RSDKrU.MessageBox.Show("Comming Soon!", "Sorry!", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void TwitterButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://twitter.com/carter5467_99");
+        }
+
+        private void DiscordButton_Click(object sender, RoutedEventArgs e)
+        {
+            RSDKrU.MessageBox.Show("You can reach me via discord by: CarJem Generations#7078", "Discord Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+    }
 }

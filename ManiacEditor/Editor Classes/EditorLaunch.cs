@@ -597,6 +597,7 @@ namespace ManiacEditor
             lm.Owner = Window.GetWindow(Editor);
             lm.ShowDialog();
 
+            
             Editor.SetupLayerButtons();
             Editor.ZoomModel.ResetViewSize();
             Editor.UI.UpdateControls();

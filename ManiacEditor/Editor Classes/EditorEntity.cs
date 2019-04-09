@@ -480,8 +480,13 @@ namespace ManiacEditor
         }
         public virtual void FallbackDraw(DevicePanel d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)
         {
-            int __X = _entity.Position.X.High;
-            int __Y = _entity.Position.Y.High;
+            int __X = GetChildX();
+            int __Y = GetChildY();
+            if (overridePosition)
+            {
+                __X = x;
+                __Y = y;
+            }
             bool fliph = false;
             bool flipv = false;
             bool rotate = false;

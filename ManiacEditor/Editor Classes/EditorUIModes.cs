@@ -142,7 +142,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._ShowEntityPathArrows = value;
             Editor.showEntityPathArrowsToolstripItem.IsChecked = value;
-            Editor.showEntityPathArrowsToolstripItem2.IsChecked = value;
         }
         #endregion
         #region ShowWaterLevel
@@ -156,7 +155,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._ShowWaterLevel = value;
             Editor.showWaterLevelToolStripMenuItem.IsChecked = value;
-            Editor.showWaterLevelToolStripMenuItem2.IsChecked = value;
         }
         #endregion
         #region AlwaysShowWaterLevel
@@ -170,7 +168,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._AlwaysShowWaterLevel = value;
             Editor.waterLevelAlwaysShowItem.IsChecked = value;
-            Editor.waterLevelAlwaysShowItem2.IsChecked = value;
         }
         #endregion
         #region SizeWaterLevelwithBounds
@@ -184,7 +181,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._SizeWaterLevelwithBounds = value;
             Editor.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
-            Editor.sizeWithBoundsWhenNotSelectedToolStripMenuItem2.IsChecked = value;
         }
         #endregion
         #region ExtraLayersMoveToFront
@@ -197,8 +193,7 @@ namespace ManiacEditor
         private void SetExtraLayersMoveToFront(bool value)
         {
             Editor.UIModes._ExtraLayersMoveToFront = value;
-            Editor.moveExtraLayersToFrontToolStripMenuItem.IsChecked = true;
-            Editor.moveExtraLayersToFrontToolStripMenuItem2.IsChecked = true;
+            Editor.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region ShowFlippedTileHelper
@@ -237,7 +232,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._ShowParallaxSprites = value;
             Editor.showParallaxSpritesToolStripMenuItem.IsChecked = value;
-            Editor.showParallaxSpritesToolStripMenuItem2.IsChecked = value;
         }
         #endregion
         #region ApplyEditEntitiesTransparency
@@ -251,7 +245,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._ApplyEditEntitiesTransparency = value;
             Editor.EditEntitiesTransparencyToggle.IsChecked = value;
-            Editor.EditEntitiesTransparencyToggle2.IsChecked = value;
             Editor.QuickEditEntitiesTransparentLayers.IsChecked = value;
         }
         #endregion
@@ -266,7 +259,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._ShowEntitySelectionBoxes = value;
             Editor.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
-            Editor.showEntitySelectionBoxesToolStripMenuItem2.IsChecked = value;
         }
         #endregion
         #region EnablePixelCountMode
@@ -306,7 +298,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._RightClicktoSwapSlotID = value;
             Editor.rightClicktoSwapSlotIDs.IsChecked = value;
-            Editor.rightClicktoSwapSlotIDs2.IsChecked = value;
         }
         #endregion
         #region EntitySelectionBoxesAlwaysPrioritized
@@ -320,7 +311,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._EntitySelectionBoxesAlwaysPrioritized = value;
             Editor.SelectionBoxesAlwaysPrioritized.IsChecked = value;
-            Editor.SelectionBoxesAlwaysPrioritized2.IsChecked = value;
         }
         #endregion
         #region DataDirectoryReadOnlyMode
@@ -349,7 +339,10 @@ namespace ManiacEditor
             Editor.statusNAToolStripMenuItem.IsChecked = value;
         }
         #endregion
-        #region EnableFasterNudge
+        #region FasterNudge
+
+        #region Toggle
+
         public bool EnableFasterNudge { get => GetEnableFasterNudge(); set => SetEnableFasterNudge(value); }
         private bool _EnableFasterNudge = false;
         private bool GetEnableFasterNudge()
@@ -362,6 +355,25 @@ namespace ManiacEditor
             Editor.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
             _EnableFasterNudge = value;
         }
+
+        #endregion
+
+
+        #region Amount
+
+        public int FasterNudgeAmount { get => GetFasterNudgeAmount(); set => SetFasterNudgeAmount(value); }
+        private int _FasterNudgeAmount = 5;
+        private int GetFasterNudgeAmount()
+        {
+            return _FasterNudgeAmount;
+        }
+        private void SetFasterNudgeAmount(int value)
+        {
+            _FasterNudgeAmount = value;
+        }
+
+        #endregion
+
         #endregion
         #region MovingPlatformsChecked
         public bool MovingPlatformsChecked { get => GetMovingPlatformsChecked(); set => SetMovingPlatformsChecked(value); }
@@ -410,7 +422,6 @@ namespace ManiacEditor
         {
             _CopyAir = value;
             Editor.copyAirToggle.IsChecked = value;
-            Editor.copyAirToggle2.IsChecked = value;
         }
         #endregion
         #region Tools/Brushes
@@ -642,7 +653,6 @@ namespace ManiacEditor
         {
             _PrioritizedEntityViewing = value;
             Editor.prioritizedViewingToolStripMenuItem.IsChecked = value;
-            Editor.prioritizedViewingToolStripMenuItem2.IsChecked = value;
         }
         #endregion
         #region Magnet Mode Size 
@@ -684,6 +694,21 @@ namespace ManiacEditor
         //Determines the Magnets Size
         public int GridSize { get => GetGridSize(); set => SetGridSize(value); }
         private int _GridSize = 16;
+        public int GridCustomSize { get => GetCustomSize(); set => ChangeCustomSize(value); }
+        private int _GridCustomSize = Properties.Defaults.Default.CustomGridSizeValue;
+
+        private void ChangeCustomSize(int value)
+        {
+            _GridCustomSize = value;
+            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), _GridCustomSize);
+        }
+
+        private int GetCustomSize()
+        {
+            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), _GridCustomSize);
+            return _GridCustomSize;
+        }
+
         private int GetGridSize()
         {
             return _GridSize;
@@ -707,10 +732,10 @@ namespace ManiacEditor
                 Editor.GridCustomSizeMenuItem.IsChecked = true;
             }
 
-            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), Properties.Defaults.Default.CustomGridSizeValue);
+            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), GridCustomSize);
 
             if (!isCustom) _GridSize = value;
-            else _GridSize = Properties.Defaults.Default.CustomGridSizeValue;
+            else _GridSize = GridCustomSize;
         }
         #endregion
         #region Entities Visibile Above All Other Layers
@@ -724,7 +749,6 @@ namespace ManiacEditor
         {
             Editor.UIModes._EntitiesVisibileAboveAllLayers = value;
             Editor.SelectionBoxesAlwaysPrioritized.IsChecked = value;
-            Editor.SelectionBoxesAlwaysPrioritized2.IsChecked = value;
         }
 
         #endregion
@@ -752,6 +776,40 @@ namespace ManiacEditor
             Editor.RefreshCollisionColours(true);
         }
         #endregion
+
+        #region Collision Colors
+
+        public System.Drawing.Color CollisionTOColour { get => GetCollisionTOColour(); set => SetCollisionTOColour(value); }
+        private System.Drawing.Color _CollisionTOColour = System.Drawing.Color.Yellow;
+        private System.Drawing.Color GetCollisionTOColour() { return _CollisionTOColour; }
+        private void SetCollisionTOColour(System.Drawing.Color value) {  _CollisionTOColour = value; }
+
+        public System.Drawing.Color CollisionLRDColour { get => GetCollisionLRDColour(); set => SetCollisionLRDColour(value); }
+        private System.Drawing.Color _CollisionLRDColour = System.Drawing.Color.Red;
+        private System.Drawing.Color GetCollisionLRDColour() { return _CollisionLRDColour; }
+        private void SetCollisionLRDColour(System.Drawing.Color value) { _CollisionLRDColour = value; }
+
+        public System.Drawing.Color CollisionSAColour { get => GetCollisionSAColour(); set => SetCollisionSAColour(value); }
+        private System.Drawing.Color _CollisionSAColour = System.Drawing.Color.White;
+        private System.Drawing.Color GetCollisionSAColour() { return _CollisionSAColour; }
+        private void SetCollisionSAColour(System.Drawing.Color value) { _CollisionSAColour = value; }
+
+        #endregion
+
+        #region Grid, Water And Other Colors
+
+        public System.Drawing.Color waterColor { get => GetWaterEntityColor(); set => SetWaterEntityColor(value); }
+        private System.Drawing.Color _WaterEntityColor = System.Drawing.Color.Blue;
+        private System.Drawing.Color GetWaterEntityColor() { return _WaterEntityColor; }
+        private void SetWaterEntityColor(System.Drawing.Color value) { _WaterEntityColor = value; }
+
+        public System.Drawing.Color GridColor { get => GetGridColor(); set => SetGridColor(value); }
+        private System.Drawing.Color _GridColor = System.Drawing.Color.Red;
+        private System.Drawing.Color GetGridColor() { return _GridColor; }
+        private void SetGridColor(System.Drawing.Color value) { _GridColor = value; }
+
+        #endregion
+
         public bool AddStageConfigEntriesAllowed { get; set; } = true; //Self Explanatory
         public bool isImportingObjects { get; set; } = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
         public bool EncorePaletteExists { get; set; } = false; // Determines if an Encore Pallete Exists
@@ -776,8 +834,6 @@ namespace ManiacEditor
         public int LevelID { get; set; } = -1; //Self Explanatory
         public int LastQuickButtonState { get; set; } = 0; //Gets the Last Quick Button State, so we can tell what action was used last
         public int SelectedTileID { get; set; } = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
-
-        public System.Drawing.Color waterColor = new System.Drawing.Color(); // The color used for the Water Entity
         public string CurrentLanguage { get; set; } = "EN"; //Current Selected Language
         public string INILayerNameLower { get; set; } = ""; //Reserved String for INI Default Layer Prefrences
         public string INILayerNameHigher { get; set; } = ""; //Reserved String for INI Default Layer Prefrences

@@ -166,130 +166,14 @@ namespace ManiacEditor
 
                     }
                 }
-
-                ApplyDefaults();
-
-
-
-
-
+                Editor.Instance.Defaulter.ApplyDefaults();
             }
             catch (Exception ex)
             {
                 Debug.Write("Failed to load settings: " + ex);
             }
         }
-        public void ApplyDefaults()
-        {
-            // These Prefrences are applied on Editor Load
-            Instance.UIModes.ApplyEditEntitiesTransparency = Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
-            Instance.UIModes.ScrollLocked = Settings.MyDefaults.ScrollLockDefault;
-            Instance.UIModes.ScrollDirection = (Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
-
-            Instance.xToolStripMenuItem.IsChecked = Instance.UIModes.ScrollDirection == (int)ScrollDir.X;
-            Instance.yToolStripMenuItem.IsChecked = Instance.UIModes.ScrollDirection == (int)ScrollDir.Y;
-
-            Instance.UIModes.EnablePixelCountMode = Settings.MyDefaults.EnablePixelModeDefault;
-
-            Instance.UIModes.ShowEntityPathArrows = Settings.MyDefaults.ShowEntityArrowPathsDefault;
-
-            Instance.UIModes.ShowWaterLevel = Settings.MyDefaults.ShowWaterEntityLevelDefault;
-            Instance.UIModes.AlwaysShowWaterLevel = Settings.MyDefaults.AlwaysShowWaterLevelDefault;
-            Instance.UIModes.SizeWaterLevelwithBounds = Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
-
-            Instance.UIModes.ShowParallaxSprites = Settings.MyDefaults.ShowFullParallaxSpritesDefault;
-            Instance.UIModes.PrioritizedEntityViewing = Settings.MyDefaults.PrioritizedObjectRenderingDefault;
-
-            Instance.UIModes.ShowEntitySelectionBoxes = Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
-
-            Instance.UIModes.DebugStatsVisibleOnPanel = Settings.MyDefaults.ShowDebugStatsDefault;
-            Instance.UIModes.UseLargeDebugStats = Settings.MyDefaults.LargeDebugStatsDefault;
-
-
-
-            var allLangItems = Instance.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-            foreach (var item in allLangItems)
-                if (item != null)
-                {
-                    if (item.Tag.ToString() == Settings.MyDefaults.MenuLanguageDefault)
-                    {
-                        item.IsChecked = true;
-                        Instance.UIModes.CurrentLanguage = item.Tag.ToString();
-                    }
-                }
-
-            var allLangItems2 = Instance.menuLanguageToolStripMenuItem2.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-            foreach (var item in allLangItems2)
-                if (item != null)
-                {
-                    if (item.Tag.ToString() == Settings.MyDefaults.MenuLanguageDefault)
-                    {
-                        item.IsChecked = true;
-                        Instance.UIModes.CurrentLanguage = item.Tag.ToString();
-                    }
-                }
-
-
-            bool endSearch = false;
-            var allButtonItems = Instance.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-            foreach (var item in allButtonItems)
-            {
-                if (item.Tag != null)
-                {
-                    if (item.Tag.ToString() == Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
-                    {
-                        item.IsChecked = true;
-                        Instance.MenuButtonChangedEvent(item.Tag.ToString());
-                        endSearch = true;
-                    }
-                    var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                    foreach (var subItem in allSubButtonItems)
-                    {
-                        if (subItem.Tag != null)
-                        {
-                            if (subItem.Tag.ToString() == Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
-                            {
-                                subItem.IsChecked = true;
-                                Instance.MenuButtonChangedEvent(subItem.Tag.ToString());
-                                endSearch = true;
-                            }
-                        }
-                    }
-                }
-
-            }
-            endSearch = false;
-            var allButtonItems2 = Instance.menuButtonsToolStripMenuItem2.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-            foreach (var item in allButtonItems2)
-            {
-                if (item.Tag != null)
-                {
-                    if (item.Tag.ToString() == Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
-                    {
-                        item.IsChecked = true;
-                        Instance.MenuButtonChangedEvent(item.Tag.ToString());
-                        endSearch = true;
-                    }
-                    var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                    foreach (var subItem in allSubButtonItems)
-                    {
-                        if (subItem.Tag != null)
-                        {
-                            if (subItem.Tag.ToString() == Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
-                            {
-                                subItem.IsChecked = true;
-                                Instance.MenuButtonChangedEvent(subItem.Tag.ToString());
-                                endSearch = true;
-                            }
-                        }
-                    }
-                }
-
-            }
-
-
-        }
         public void UseDefaultPrefrences()
         {
             //These Prefrences are applied on Stage Load

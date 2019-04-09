@@ -467,7 +467,7 @@ namespace ManiacEditor
 			Editor.Instance.pasteTochunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
 			Editor.Instance.developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
 			Editor.Instance.saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
-			Editor.Instance.copyAirToggle.InputGestureText = KeyBindPraser("CopyAirTiles", false, true);
+            Editor.Instance.CopyAirLabel.Text = string.Format("Copy Air Tiles {1} ({0})", KeyBindPraser("CopyAirTiles", false, true), Environment.NewLine);
 		}
 
 		public void UpdateTooltips()

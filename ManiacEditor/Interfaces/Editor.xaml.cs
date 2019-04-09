@@ -63,8 +63,8 @@ namespace ManiacEditor
 		public List<Bitmap> CollisionLayerB = new List<Bitmap>(); //Collection of Collision Type B for the Loaded Scene
 		public List<string> entityRenderingObjects = EditorEntityDrawing.GetSpecialRenderList(1); //Used to get the Render List for Objects
 		public List<string> renderOnScreenExlusions = EditorEntityDrawing.GetSpecialRenderList(0); //Used to get the Always Render List for Objects
-        public IList<MenuItem> RecentSceneItems;
-        public IList<MenuItem> RecentDataSourceItems;
+        public IList<Tuple<MenuItem, MenuItem>> RecentSceneItems;
+        public IList<Tuple<MenuItem, MenuItem>> RecentDataSourceItems;
         public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions
 		public List<string> userDefinedSpritePaths = new List<string>();
 		public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
@@ -137,6 +137,7 @@ namespace ManiacEditor
         public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost FormsHost;
         public TileManiac.MainWindow TileManiacInstance = new TileManiac.MainWindow();
+        public EditorDefaults Defaulter;
 
 		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's
 		#region DLL Import Stuff
@@ -282,8 +283,8 @@ namespace ManiacEditor
 			ExtraLayerEditViewButtons = new Dictionary<EditLayerToggleButton, EditLayerToggleButton>();
 			ExtraLayerSeperators = new List<Separator>();
 
-            RecentSceneItems = new List<MenuItem>();
-            RecentDataSourceItems = new List<MenuItem>();
+            RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
+            RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
             UIModes.MenuChar = UIModes.MenuCharS.ToCharArray();
 			UIModes.MenuChar_Small = UIModes.MenuCharS_Small.ToCharArray();
 			UIModes.LevelSelectChar = UIModes.LevelSelectCharS.ToCharArray();
@@ -306,6 +307,7 @@ namespace ManiacEditor
             UI = new EditorUI();
             RecentsList = new EditorRecentSceneSourcesList(this);
             RecentDataSourcesList = new EditorRecentDataSourcesList(this);
+            Defaulter = new EditorDefaults();
 
             UI.UpdateFilterButtonApperance(true);
 
@@ -335,8 +337,9 @@ namespace ManiacEditor
             ZoomModel.SetViewSize();
             UI.UpdateControls();
 			Settings.TryLoadSettings();
+
+            
 			UpdateStartScreen(true, true);
-            UI.UpdateToolbars(false, false);
 		}
 		#endregion
 		#region Boolean States
@@ -625,10 +628,10 @@ namespace ManiacEditor
                 {
                     switch (e.KeyData)
                     {
-                        case Keys.Up: y = (UIModes.UseMagnetYAxis ? -UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : -1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
-                        case Keys.Down: y = (UIModes.UseMagnetYAxis ? UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : 1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
-                        case Keys.Left: x = (UIModes.UseMagnetXAxis ? -UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : -1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
-                        case Keys.Right: x = (UIModes.UseMagnetXAxis ? UIModes.MagnetSize * ManiacEditor.Settings.MyDefaults.FasterNudgeValue : 1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue); break;
+                        case Keys.Up: y = (UIModes.UseMagnetYAxis ? -UIModes.MagnetSize * UIModes.FasterNudgeAmount : -1 - UIModes.FasterNudgeAmount); break;
+                        case Keys.Down: y = (UIModes.UseMagnetYAxis ? UIModes.MagnetSize * UIModes.FasterNudgeAmount : 1 + UIModes.FasterNudgeAmount); break;
+                        case Keys.Left: x = (UIModes.UseMagnetXAxis ? -UIModes.MagnetSize * UIModes.FasterNudgeAmount : -1 - UIModes.FasterNudgeAmount); break;
+                        case Keys.Right: x = (UIModes.UseMagnetXAxis ? UIModes.MagnetSize * UIModes.FasterNudgeAmount : 1 + UIModes.FasterNudgeAmount); break;
                     }
                 }
                 else
@@ -647,10 +650,10 @@ namespace ManiacEditor
                     {
                         switch (e.KeyData)
                         {
-                            case Keys.Up: y = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
-                            case Keys.Down: y = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
-                            case Keys.Left: x = (-1 - ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
-                            case Keys.Right: x = (1 + ManiacEditor.Settings.MyDefaults.FasterNudgeValue) * modifier; break;
+                            case Keys.Up: y = (-1 - UIModes.FasterNudgeAmount) * modifier; break;
+                            case Keys.Down: y = (1 + UIModes.FasterNudgeAmount) * modifier; break;
+                            case Keys.Left: x = (-1 - UIModes.FasterNudgeAmount) * modifier; break;
+                            case Keys.Right: x = (1 + UIModes.FasterNudgeAmount) * modifier; break;
                         }
                     }
 
@@ -1357,6 +1360,9 @@ namespace ManiacEditor
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
                 UI.UpdateToolbars(false, false, true);
+                RefreshRecentScenes();
+                RefreshDataSources();
+
 
             }
             if (visible)
@@ -1365,6 +1371,8 @@ namespace ManiacEditor
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
                 UI.UpdateToolbars(false, false, true);
+                RefreshRecentScenes();
+                RefreshDataSources();
             }
             else
             {
@@ -1682,6 +1690,7 @@ namespace ManiacEditor
         private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { UIModes.EnablePixelCountMode ^= true; }
         public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { UIModes.ScrollLocked ^= true; }
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { UIModes.EnableFasterNudge ^= true; }
+        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { UIModes.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { UIModes.ApplyEditEntitiesTransparency ^= true; }
         public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { UIModes.ShowCollisionA ^= true; }
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { UIModes.ShowCollisionB ^= true; }
@@ -1785,7 +1794,6 @@ namespace ManiacEditor
         private void CustomMagnetSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             UIModes.CustomMagnetSize = CustomMagnetSizeAdjuster.Value.Value;
-            UIModes.MagnetSize = -1;
         }
 
         private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { UIModes.UseMagnetXAxis ^= true; }
@@ -1799,6 +1807,12 @@ namespace ManiacEditor
         private void SetGrid128x128Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 128; }
         private void SetGrid256x256Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 256; }
         private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { UIModes.GridSize = -1; }
+
+        private void CustomGridSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            UIModes.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
+            UIModes.GridSize = -1;
+        }
         #endregion
 
         #region Apps
@@ -2090,7 +2104,8 @@ namespace ManiacEditor
                     LayerName = "Edit" + el.Name
 				};
 				LayerToolbar.Items.Add(tsb);
-				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
+                tsb.DualSelect = true;
+                tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
 				tsb.RightClick += AdHocLayerEdit_RightClick;
 				tsb.Click += AdHocLayerEdit_Click;
 
@@ -2122,7 +2137,7 @@ namespace ManiacEditor
 				ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
 			}
 
-			UpdateDualButtonsControlsForLayer(FGLow, ShowFGLow, EditFGLow);
+            UpdateDualButtonsControlsForLayer(FGLow, ShowFGLow, EditFGLow);
 			UpdateDualButtonsControlsForLayer(FGHigh, ShowFGHigh, EditFGHigh);
 			UpdateDualButtonsControlsForLayer(FGLower, ShowFGLower, EditFGLower);
 			UpdateDualButtonsControlsForLayer(FGHigher, ShowFGHigher, EditFGHigher);
@@ -2376,33 +2391,45 @@ namespace ManiacEditor
         #region Recent Scenes Methods
         private void RecentScenes_SubmenuOpened(object sender, RoutedEventArgs e)
         {
+            RefreshRecentScenes();
+        }
+
+        private void RefreshRecentScenes()
+        {
             if (RecentsList.Collection.List.Count > 0)
             {
 
                 NoRecentScenesItem.Visibility = Visibility.Collapsed;
+                StartScreen.NoRecentsLabel1.Visibility = Visibility.Collapsed;
                 CleanUpRecentScenesList();
 
                 foreach (var RecentItem in RecentsList.Collection.List)
                 {
-                    RecentSceneItems.Add(CreateRecentScenesMenuLink(RecentItem.EntryName));
+                    RecentSceneItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentScenesMenuLink(RecentItem.EntryName), CreateRecentScenesMenuLink(RecentItem.EntryName, true)));
                 }
 
                 foreach (var menuItem in RecentSceneItems.Reverse())
                 {
-                    RecentScenes.Items.Insert(0, menuItem);
+                    RecentScenes.Items.Insert(0, menuItem.Item1);
+                    StartScreen.RecentScenesList.Children.Insert(0, menuItem.Item2);
                 }
             }
             else
             {
                 NoRecentScenesItem.Visibility = Visibility.Visible;
+                StartScreen.NoRecentsLabel1.Visibility = Visibility.Visible;
             }
         }
-        private MenuItem CreateRecentScenesMenuLink(string target)
+
+        private MenuItem CreateRecentScenesMenuLink(string target, bool startScreenEntry = false)
         {
-            
+
             MenuItem newItem = new MenuItem();
-            newItem.Header = target.Replace("/n/n", Environment.NewLine);
+            TextBlock label = new TextBlock();
+
+            label.Text = target.Replace("/n/n", Environment.NewLine);
             newItem.Tag = target;
+            newItem.Header = label;
             newItem.Click += RecentSceneEntryClicked;
             return newItem;
         }
@@ -2421,8 +2448,10 @@ namespace ManiacEditor
         {
             foreach (var menuItem in RecentSceneItems)
             {
-                menuItem.Click -= RecentSceneEntryClicked;
-                RecentScenes.Items.Remove(menuItem);
+                menuItem.Item1.Click -= RecentSceneEntryClicked;
+                menuItem.Item2.Click -= RecentSceneEntryClicked;
+                RecentScenes.Items.Remove(menuItem.Item1);
+                StartScreen.RecentScenesList.Children.Remove(menuItem.Item2);
             }
             RecentSceneItems.Clear();
         }
@@ -2431,31 +2460,44 @@ namespace ManiacEditor
         #region Recent Data Sources Methods
         private void RecentDataSources_SubmenuOpened(object sender, RoutedEventArgs e)
         {
+            RefreshDataSources();
+        }
+
+        public void RefreshDataSources()
+        {
             if (RecentDataSourcesList.Collection.List.Count > 0)
             {
 
                 NoRecentDataSources.Visibility = Visibility.Collapsed;
+                StartScreen.NoRecentsLabel2.Visibility = Visibility.Collapsed;
+
                 CleanUpDataSourcesList();
 
                 foreach (var RecentItem in RecentDataSourcesList.Collection.List)
                 {
-                    RecentDataSourceItems.Add(CreateRecentDataSourceMenuLink(RecentItem.EntryName));
+                    RecentDataSourceItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentDataSourceMenuLink(RecentItem.EntryName), CreateRecentDataSourceMenuLink(RecentItem.EntryName, true)));
                 }
 
                 foreach (var menuItem in RecentDataSourceItems.Reverse())
                 {
-                    RecentDataSources.Items.Insert(0, menuItem);
+                    RecentDataSources.Items.Insert(0, menuItem.Item1);
+                    StartScreen.RecentDataContextList.Children.Insert(0, menuItem.Item2);
                 }
             }
             else
             {
                 NoRecentDataSources.Visibility = Visibility.Visible;
+                StartScreen.NoRecentsLabel2.Visibility = Visibility.Visible;
             }
         }
-        private MenuItem CreateRecentDataSourceMenuLink(string target)
+
+        private MenuItem CreateRecentDataSourceMenuLink(string target, bool wrapText = false)
         {
             MenuItem newItem = new MenuItem();
-            newItem.Header = target.Replace("/n/n", Environment.NewLine);
+            TextBlock label = new TextBlock();
+            label.Text = target.Replace("/n/n", Environment.NewLine);
+            if (wrapText) label.TextWrapping = TextWrapping.Wrap;
+            newItem.Header = label;
             newItem.Tag = target;
             newItem.Click += RecentDataSourceEntryClicked;
             return newItem;
@@ -2475,10 +2517,13 @@ namespace ManiacEditor
         {
             foreach (var menuItem in RecentDataSourceItems)
             {
-                menuItem.Click -= RecentDataSourceEntryClicked;
-                RecentDataSources.Items.Remove(menuItem);
+                menuItem.Item1.Click -= RecentDataSourceEntryClicked;
+                menuItem.Item2.Click -= RecentDataSourceEntryClicked;
+                RecentDataSources.Items.Remove(menuItem.Item1);
+                StartScreen.RecentDataContextList.Children.Remove(menuItem.Item2);
             }
             RecentDataSourceItems.Clear();
+
         }
 
 
@@ -2486,7 +2531,7 @@ namespace ManiacEditor
 
         private void LeftToolbarToolbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (UI != null && ZoomModel != null)
+            if (UI != null && ZoomModel != null && StartScreen.Visibility != Visibility.Visible)
             {
                 if (LeftToolbarToolbox.SelectedIndex == 0)
                 {
@@ -2502,7 +2547,7 @@ namespace ManiacEditor
         }
 
 
-
+        #region Custom Color Picker Events
         private void comboBox8_DropDown(object sender, RoutedEventArgs e)
         {
             //Grid Default Color
@@ -2510,8 +2555,7 @@ namespace ManiacEditor
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                ManiacEditor.Settings.MyDefaults.DefaultGridColor = colorSelect.Color;
-                ManiacEditor.Settings.MyDefaults.Save();
+                UIModes.GridColor = colorSelect.Color;
                 UI.UpdateCustomColors();
             }
         }
@@ -2523,9 +2567,7 @@ namespace ManiacEditor
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                ManiacEditor.Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
                 UIModes.waterColor = colorSelect.Color;
-                ManiacEditor.Settings.MyDefaults.Save();
                 UI.UpdateCustomColors();
             }
         }
@@ -2537,8 +2579,7 @@ namespace ManiacEditor
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                ManiacEditor.Settings.MyDefaults.CollisionTOColour = colorSelect.Color;
-                ManiacEditor.Settings.MyDefaults.Save();
+                UIModes.CollisionTOColour = colorSelect.Color;
                 UI.UpdateCustomColors();
             }
         }
@@ -2550,8 +2591,7 @@ namespace ManiacEditor
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                ManiacEditor.Settings.MyDefaults.CollisionLRDColour = colorSelect.Color;
-                ManiacEditor.Settings.MyDefaults.Save();
+                UIModes.CollisionLRDColour = colorSelect.Color;
                 UI.UpdateCustomColors();
             }
         }
@@ -2563,11 +2603,10 @@ namespace ManiacEditor
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                ManiacEditor.Settings.MyDefaults.CollisionSAColour = colorSelect.Color;
-                ManiacEditor.Settings.MyDefaults.Save();
+                UIModes.CollisionSAColour = colorSelect.Color;
                 UI.UpdateCustomColors();
             }
         }
-
+        #endregion
     }
 }

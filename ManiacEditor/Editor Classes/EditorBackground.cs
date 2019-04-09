@@ -104,7 +104,7 @@ namespace ManiacEditor
             int GridSize = (EditorInstance != null ? EditorInstance.UIModes.GridSize : 0);
             Rectangle screen = d.GetScreen();
 
-			Color GridColor = Color.FromArgb((int)EditorInstance.gridOpacitySlider.Value, Settings.MyDefaults.DefaultGridColor.R, Settings.MyDefaults.DefaultGridColor.B, Settings.MyDefaults.DefaultGridColor.G);
+			Color GridColor = Color.FromArgb((int)EditorInstance.gridOpacitySlider.Value, Editor.Instance.UIModes.GridColor.R, Editor.Instance.UIModes.GridColor.B, Editor.Instance.UIModes.GridColor.G);
 
             int start_x = screen.X / (EditorConstants.TILE_BOX_SIZE * GridSize);
             int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, EditorConstants.TILE_BOX_SIZE * GridSize), EditorInstance.SceneWidth);
