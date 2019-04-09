@@ -67,7 +67,7 @@ namespace ManiacEditor
 
                 Instance.BackgroundDX = new EditorBackground(Instance);
 
-                Instance.Entities = new EditorEntities(Editor.Instance.EditorScene, Instance);
+                Instance.Entities = new EditorEntities(Editor.Instance.EditorScene);
 
                 Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * Instance.StateModel.Zoom), (int)(Instance.SceneHeight * Instance.StateModel.Zoom));
 
@@ -524,7 +524,7 @@ namespace ManiacEditor
                 Stamps StageStamps = Instance.Paths.GetEditorStamps(Instance.Paths.CurrentZone);
                 Instance.Chunks = new EditorChunk(Instance, Editor.Instance.EditorTiles.StageTiles, StageStamps);
                 Instance.BackgroundDX = new EditorBackground(Instance);
-                Instance.Entities = new EditorEntities(Editor.Instance.EditorScene, Instance);
+                Instance.Entities = new EditorEntities(Editor.Instance.EditorScene);
 
                 ReadManiacINIFile();
                 Instance.UpdateStartScreen(false);

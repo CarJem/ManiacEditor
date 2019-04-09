@@ -30,7 +30,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="2000">
+                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="300">
                         <StackPanel x:Name="SettingsViewer2" Margin="10">
                             <maniac:SettingsHeader HeaderName="Tiles Toolbar Defaults"></maniac:SettingsHeader>
                             <CheckBox Content="Solid (Top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidTopADefault}"/>

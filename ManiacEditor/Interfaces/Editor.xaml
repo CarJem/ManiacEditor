@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interop;assembly=PresentationCore"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"        
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"    
@@ -10,7 +11,7 @@
     <Grid x:Name="ParentGrid" SizeChanged="Editor_Resize" Background="{DynamicResource NormalBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="533*"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
@@ -40,22 +41,29 @@
             <Label x:Name="vScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator9" Visibility="Collapsed"/>
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
-                <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="QuickButtonClickEvent">
-                    <wpfTool:SplitButton.Content>
-                        <Rectangle Width="26" Height="26" Fill="Black" Margin="-2">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Settings.png" Stretch="Uniform" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </wpfTool:SplitButton.Content>
-                    <wpfTool:SplitButton.DropDownContent>
-                        <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                            <MenuItem x:Name="QuickEditEntitiesTransparentLayers" Header="Edit Entites Transparency" Click="QuickButtonClickEvent"></MenuItem>
-                            <MenuItem x:Name="QuickSwapEncoreManiaEntitVisibility" Header="Toggle Encore/Mania Entities" Click="QuickButtonClickEvent"></MenuItem>
-                            <MenuItem x:Name="QuickSwapScrollDirection" Header="Swap Scroll Lock Direction" Click="QuickButtonClickEvent"></MenuItem>
-                        </StackPanel>
-                    </wpfTool:SplitButton.DropDownContent>
-                </wpfTool:SplitButton>
+                <StackPanel Orientation="Horizontal">
+                    <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2" Content="{StaticResource Gear}">
+                        <wpfTool:SplitButton.DropDownContent>
+                            <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                                <MenuItem x:Name="QuickEditEntitiesTransparentLayers" Header="Edit Entites Transparency" Click="QuickButtonClickEvent"></MenuItem>
+                                <MenuItem x:Name="QuickSwapEncoreManiaEntitVisibility" Header="Toggle Encore/Mania Entities" Click="QuickButtonClickEvent"></MenuItem>
+                                <MenuItem x:Name="QuickSwapScrollDirection" Header="Swap Scroll Lock Direction" Click="QuickButtonClickEvent"></MenuItem>
+                            </StackPanel>
+                        </wpfTool:SplitButton.DropDownContent>
+                    </wpfTool:SplitButton>
+                    <Button Name="FilterButton" Margin="4,-2,0,-2" Content="..." Padding="4" Click="FilterButtonOpenContextMenuEvent">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <CheckBox IsChecked="{local:DefaultSettingsBinding ShowManiaEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="maniaFilterCheck" Margin="5">Mania (000000)</CheckBox>
+                                <CheckBox IsChecked="{local:DefaultSettingsBinding ShowBothEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="bothFilterCheck" Margin="5">Common (000000)</CheckBox>
+                                <CheckBox IsChecked="{local:DefaultSettingsBinding ShowPinballEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="pinballFilterCheck" Margin="5">Pinball (000000)</CheckBox>
+                                <CheckBox IsChecked="{local:DefaultSettingsBinding ShowEncoreEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="encoreFilterCheck" Margin="5">Encore (000000)</CheckBox>
+                                <CheckBox IsChecked="{local:DefaultSettingsBinding ShowOtherEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="otherFilterCheck" Margin="5" Content="Other (000000)"></CheckBox>
+                                <CheckBox IsChecked="{local:DefaultSettingsBinding ShowFilterlessEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="prePlusFilterCheck" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                </StackPanel>
             </StatusBarItem>
             <StatusBarItem DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">
@@ -205,19 +213,146 @@
                                 <Grid x:Name="SplitContianer">
                                     <Grid Name="gridMain">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition x:Name="ToolbarLeft" Width="150" MaxWidth="0" MinWidth="0"/>
+                                            <ColumnDefinition x:Name="ToolbarLeft" Width="10" MaxWidth="10" MinWidth="10"/>
                                             <ColumnDefinition x:Name="SplitterLeft" Width="6" MaxWidth="0" MinWidth="0"/>
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition x:Name="SplitterRight" Width="6" MinWidth="0" MaxWidth="0"/>
                                             <ColumnDefinition x:Name="ToolbarRight" Width="0" MinWidth="0" MaxWidth="0"/>
                                         </Grid.ColumnDefinitions>
-                                        <WindowsFormsHost Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelLeft" Grid.Column="0"></WindowsFormsHost>
+
+
+                                        <TabControl Margin="-15,0,0,0" BorderThickness="0" Background="{DynamicResource ToolbarBackground}" x:Name="LeftToolbarToolbox" Grid.Column="0" TabStripPlacement="Left" SelectionChanged="LeftToolbarToolbox_SelectionChanged">
+                                            <TabItem Header="X" Foreground="{DynamicResource NormalText}">
+                                            </TabItem>
+                                            <TabItem Header="General" Foreground="{DynamicResource NormalText}">
+                                                <TabItem.LayoutTransform>
+                                                    <RotateTransform Angle="270"></RotateTransform>
+                                                </TabItem.LayoutTransform>
+                                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                    <StackPanel>
+                                                        <Expander Header="Magnet Settings" Foreground="{DynamicResource NormalText}">
+                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                <StackPanel Margin="5">
+                                                                    <Label Foreground="{DynamicResource DisabledText}" x:Name="gridAlignmentSizeToolStripMenuItem" Content="Grid Alignment Size:"></Label>
+                                                                    <CheckBox x:Name="x8ToolStripMenuItem" Content="8x8" Click="Magnet8x8Event"></CheckBox>
+                                                                    <CheckBox x:Name="x16ToolStripMenuItem1" Content="16x16" Click="Magnet16x16Event" IsChecked="true"></CheckBox>
+                                                                    <CheckBox x:Name="x32ToolStripMenuItem" Content="32x32" Click="Magnet32x32Event"></CheckBox>
+                                                                    <CheckBox x:Name="x64ToolStripMenuItem" Content="64x64" Click="Magnet64x64Event"></CheckBox>
+                                                                    <CheckBox x:Name="MagnetCustomSizeToolStripMenuItem" Click="MagnetCustomEvent">
+                                                                        <CheckBox.Content>
+                                                                            <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
+                                                                                <TextBlock Name="CustomMagnetLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                                                                <wpfTool:IntegerUpDown Width="20" Name="CustomMagnetSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent" DefaultValue="16" ValueChanged="CustomMagnetSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
+                                                                            </StackPanel>
+                                                                        </CheckBox.Content>
+                                                                    </CheckBox>
+                                                                    <Label Foreground="{DynamicResource DisabledText}" x:Name="optionsToolStripMenuItem1" Content="Options: "></Label>
+                                                                    <CheckBox IsChecked="True" x:Name="enableXAxisToolStripMenuItem" Content="Enable X Axis" Click="EnableMagnetXAxisLockEvent"></CheckBox>
+                                                                    <CheckBox IsChecked="True" x:Name="enableYAxisToolStripMenuItem" Content="Enable Y Axis" Click="EnableMagnetYAxisLockEvent"></CheckBox>
+                                                                </StackPanel>
+                                                            </Border>
+
+                                                        </Expander>
+                                                        <Expander Header="Grid Options" Foreground="{DynamicResource NormalText}">
+                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                    <Label Foreground="{DynamicResource DisabledText}" x:Name="toolStripMenuItem1" Content="Grid Size:"></Label>
+                                                                    <CheckBox x:Name="Grid16x16SizeMenuItem" Content="16x16" Click="SetGrid16x16Event"></CheckBox>
+                                                                    <CheckBox x:Name="Grid128x128SizeMenuItem" Content="128x128" Click="SetGrid128x128Event"></CheckBox>
+                                                                    <CheckBox x:Name="Grid256x256SizeMenuItem" Content="256x256" Click="SetGrid256x256Event"></CheckBox>
+                                                                    <CheckBox x:Name="GridCustomSizeMenuItem" Click="SetGridCustomSizeEvent">
+                                                                        <CheckBox.Content>
+                                                                            <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
+                                                                                <TextBlock Name="CustomGridLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                                                                <wpfTool:IntegerUpDown Width="20" Name="CustomGridSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent" DefaultValue="16" Value="{local:DefaultSettingsBinding CustomGridSizeValue}" ValueChanged="CustomMagnetSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
+                                                                            </StackPanel>
+                                                                        </CheckBox.Content>
+                                                                    </CheckBox>
+                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Black" x:Name="GDC" Click="comboBox8_DropDown"></Button>
+                                                                        <Label Content="Grid Default Color"></Label>
+                                                                    </StackPanel>
+                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                    <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
+                                                                    <Slider x:Name="gridOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch"></Slider>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </Expander>
+                                                        <Expander Header="Collision Color Settings" Foreground="{DynamicResource NormalText}">
+                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                    <CheckBox x:Name="defaultToolStripMenuItem" Content="Default (Mania)" Click="UseNormalCollisionEvent"/>
+                                                                    <CheckBox x:Name="invertedToolStripMenuItem" Content="Inverted" Click="UseInvertedCollisionEvent"/>
+                                                                    <CheckBox x:Name="customToolStripMenuItem1" Content="Custom" Click="UseCustomCollisionEvent"/>
+                                                                    <Expander Header="Custom Values..." Foreground="{DynamicResource NormalText}">
+                                                                        <StackPanel>
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="White" x:Name="CSAC" Click="comboBox4_DropDown"></Button>
+                                                                                <Label Content="All"></Label>
+                                                                            </StackPanel>
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Yellow" x:Name="SSTOC" Click="comboBox6_DropDown"></Button>
+                                                                                <Label Content="Top Only"></Label>
+                                                                            </StackPanel>
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Red" x:Name="CSLRDC" Click="comboBox5_DropDown"></Button>
+                                                                                <Label Content="LRD"></Label>
+                                                                            </StackPanel>
+                                                                        </StackPanel>
+                                                                    </Expander>
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
+                                                                        <Slider LostFocus="CollisionOpacitySliderLostFocusEvent" Thumb.DragCompleted="CollisionOpacitySliderDragCompletedEvent" x:Name="collisionOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </Expander>
+                                                        <Expander Header="Other" Foreground="{DynamicResource NormalText}">
+                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                                                                        <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Blue" x:Name="WLC" Click="comboBox7_DropDown"></Button>
+                                                                        <Label Content="Water Color"></Label>
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </Expander>
+                                                    </StackPanel>
+                                                </ScrollViewer>
+                                            </TabItem>
+                                            <TabItem Header="Spline" Foreground="{DynamicResource NormalText}">
+                                                <TabItem.LayoutTransform>
+                                                    <RotateTransform Angle="270"></RotateTransform>
+                                                </TabItem.LayoutTransform>
+                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                    <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                        <Label Content="Frequency of Points" x:Name="SplinePointSeperationLabel"></Label>
+                                                        <Slider Value="128" Minimum="4" Maximum="600" x:Name="SplinePointSeperationSlider" ValueChanged="SplinePointFrequenceChangedEvent"></Slider>
+                                                        <wpfTool:IntegerUpDown x:Name="SplinePointSeperationNUD" Value="128" Minimum="4" Maximum="600" ValueChanged="SplinePointFrequenceChangedEvent"></wpfTool:IntegerUpDown>
+                                                        <Separator Margin="0,10"></Separator>
+                                                        <CheckBox Content="Show Line" Name="SplineShowLineCheckbox" IsChecked="True" Checked="SplineShowLineCheckboxCheckChanged" Unchecked="SplineShowLineCheckboxCheckChanged"></CheckBox>
+                                                        <CheckBox Content="Show Points" Name="SplineShowPointsCheckbox" IsChecked="True" Checked="SplineShowPointsCheckboxCheckChanged" Unchecked="SplineShowPointsCheckboxCheckChanged"></CheckBox>
+                                                        <CheckBox Content="Show Object Preview" Name="SplineShowObjectsCheckbox" Checked="SplineShowObjectsCheckboxCheckChanged" Unchecked="SplineShowObjectsCheckboxCheckChanged"></CheckBox>
+                                                        <Separator Margin="0,10"></Separator>
+                                                        <Label Content="Spline Shape: "></Label>
+                                                        <RadioButton Content="Square" Name="SplineLineMode" IsEnabled="False" IsChecked="True" Click="SplineLineMode_Click"></RadioButton>
+                                                        <RadioButton Content="Oval" Name="SplineOvalMode" Click="SplineOvalMode_Click" IsChecked="True"></RadioButton>
+                                                        <TextBlock x:Name="SplineInfoLabel1" Visibility="Collapsed" Text="Number of Spline Objects: {0}"></TextBlock>
+                                                        <TextBlock x:Name="SplineInfoLabel2" Visibility="Collapsed" Text="Point Frequency: {0}"></TextBlock>
+                                                        <TextBlock x:Name="SplineInfoLabel3" Visibility="Collapsed" Text="Total Number of Spawing Objects: {0}"></TextBlock>
+                                                        <Separator Margin="0,10"></Separator>
+                                                        <Button Content="Render Splines"></Button>
+                                                    </StackPanel>
+                                                </Border>
+                                            </TabItem>
+                                        </TabControl>
 
                                         <GridSplitter SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                   ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
                                         <Grid x:Name="CenterPanel" Grid.Column="2">
-                                            <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <Grid Panel.ZIndex="-4" x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                                 <Grid.ContextMenu>
                                                     <ContextMenu x:Name="ViewPanelContextMenu">
                                                         <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
@@ -336,24 +471,6 @@
                 <MenuItem x:Name="changeEncorePaleteToolStripMenuItem" Header="Change Encore Palette..">
                     <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="SetEncorePalleteEvent"/>
                     <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="SetEncorePalleteEvent"/>
-                </MenuItem>
-                <MenuItem x:Name="collisionColorsToolStripMenuItem" Header="Collison Colors...">
-                    <MenuItem x:Name="defaultToolStripMenuItem" Header="Default (Mania)" Click="UseNormalCollisionEvent"/>
-                    <MenuItem x:Name="invertedToolStripMenuItem" Header="Inverted" Click="UseInvertedCollisionEvent"/>
-                    <MenuItem x:Name="customToolStripMenuItem1" Header="Custom" Click="UseCustomCollisionEvent"/>
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem IsEnabled="False" Header="Display Options:"/>
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <MenuItem>
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
-                                <Slider LostFocus="CollisionOpacitySliderLostFocusEvent" Thumb.DragCompleted="CollisionOpacitySliderDragCompletedEvent" x:Name="collisionOpacitySlider" Value="255" Maximum="255" Width="100" VerticalAlignment="Center" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
-                            </StackPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-
-
                 </MenuItem>
                 <MenuItem x:Name="statsViewerToolStripMenuItem" Header="Stat Viewer...">
                     <MenuItem x:Name="showStatsToolStripMenuItem" Header="Show Stats" Click="ToggleDebugHUDEvent"/>
@@ -545,75 +662,49 @@
             </Grid.RowDefinitions>
             <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1" Margin="0,0,0,0" Background="{DynamicResource ToolbarBackground}" IsLocked="True" x:Name="ToolbarTray">
                 <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}">
-                    <Button x:Name="New" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="NewSceneEvent" IsEnabled="True" >
+                    <Button x:Name="New" Style="{StaticResource DisabledState2}" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="NewSceneEvent" IsEnabled="True" Content="{StaticResource AddFile}"></Button>
+                    <Button x:Name="Open" Width="32" Style="{StaticResource DisabledState2}"  Click="OpenSceneEvent" Margin="0,0,0,0" Padding="0,0,0,0">
                         <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-2,0,0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/NewFile.png" Stretch="Uniform"></ImageBrush>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
+                            <DockPanel Width="26" Height="36">
+                                <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg318" Width="24" Height="24">
+                                    <Canvas.RenderTransform>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </Canvas.RenderTransform>
+                                    <Canvas.Resources/>
+                                    <!--Unknown tag: metadata-->
+                                    <!--Unknown tag: sodipodi:namedview-->
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path314" Data="M0 0h24v24H0V0z"/>
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="FolderIcon" Fill="#FFE793" Data="M10 4H2v16h20V6H12l-2-2z"/>
+                                </Canvas>
+                            </DockPanel>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="Open" Width="32"  Click="OpenSceneEvent" Margin="0,0,0,0" Padding="0,0,0,0" >
-                        <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/OpenFolder_Alt.png" Stretch="Uniform"></ImageBrush>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="Save" Width="32" Margin="0,0,0,0"  Padding="0,0,0,0" Click="SaveSceneEvent">
-                        <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Save_.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
+                    <Button x:Name="Save" Style="{StaticResource DisabledState2}" Width="32" Margin="0,0,0,0"  Padding="0,0,0,0" Click="SaveSceneEvent" Content="{StaticResource SaveFloppy}"></Button>
                     <Separator/>
-                    <Button x:Name="ZoomInButton" Width="32"    Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInEvent">
-                        <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ZoomIn.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="ZoomOutButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutEvent">
-                        <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1,0,0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ZoomOut.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
+                    <Button x:Name="ZoomInButton" Style="{StaticResource DisabledState2}" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomInEvent" Content="{StaticResource ZoomIn}"></Button>
+                    <Button x:Name="ZoomOutButton" Style="{StaticResource DisabledState2}" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ZoomOutEvent" Content="{StaticResource ZoomOut}"></Button>
                     <Separator/>
-                    <Button x:Name="RunSceneButton" Width="32"  Height="34"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RunSceneEvent">
+                    <Button x:Name="RunSceneButton" Width="32" Height="34"  Margin="0,0,0,0" Padding="0,0,0,0" Click="RunSceneEvent" Style="{StaticResource DisabledState2}">
                         <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0,-1">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/RunGame.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
+                            <DockPanel Width="26" Height="36">
+                                <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg128" Width="24" Height="24">
+                                    <Canvas.RenderTransform>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </Canvas.RenderTransform>
+                                    <Canvas.Resources/>
+                                    <!--Unknown tag: metadata-->
+                                    <!--Unknown tag: sodipodi:namedview-->
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path124" Data="M0 0h24v24H0z"/>
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="RunSceneIcon" Fill="Green" Data="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/>
+                                </Canvas>
+                            </DockPanel>
                         </Button.Content>
                     </Button>
-
-                    <Button BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
+                    <Button BorderThickness="0" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Style="{DynamicResource RemoveMouseOverEffectType2}" VerticalAlignment="Center">
                         <Button.Content>
-                            <StackPanel Background="{DynamicResource ToolbarBackground}">
-                                <Menu Background="{DynamicResource ToolbarBackground}" Height="36">
-                                    <MenuItem x:Name="RunSceneDropDown" Width="22" Height="22" Foreground="{DynamicResource NormalText}" >
-                                        <MenuItem.Header>
-                                            <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
-                                                <Rectangle.OpacityMask>
-                                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Header>
+                            <StackPanel Background="{DynamicResource ToolbarBackground}" Height="32" Width="32">
+                                <Menu Background="{DynamicResource ToolbarBackground}" Padding="0" BorderThickness="0" Margin="0,-1,0,0">
+                                    <MenuItem x:Name="RunSceneDropDown" Foreground="{DynamicResource NormalText}" Header="{StaticResource DownArrow}" Height="34">
                                         <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus" Click="RunSceneEvent"/>
                                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                                         <MenuItem x:Name="trackThePlayerToolStripMenuItem" Header="Track the Player...">
@@ -638,212 +729,49 @@
                         </Button.Content>
                     </Button>
                     <Separator/>
-                    <Button x:Name="UndoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoEvent" Tag="Undo {0} (Ctrl + Z)">
-                        <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0" x:Name="UndoRect">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Undo.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="RedoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoEvent" Tag="Redo {0} (Ctrl + Y)">
-                        <Button.Content>
-                            <Rectangle x:Name="RedoRect" Width="26" Height="36" Fill="Black" Margin="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Redo.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
+                    <Button x:Name="UndoButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="UndoEvent" Tag="Undo {0} (Ctrl + Z)" Content="{StaticResource UndoIcon}" Style="{StaticResource DisabledState2}"></Button>
+                    <Button x:Name="RedoButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="RedoEvent" Tag="Redo {0} (Ctrl + Y)" Content="{StaticResource RedoIcon}" Style="{StaticResource DisabledState2}"></Button>
                     <Separator/>
-                    <Button x:Name="ReloadButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click">
-                        <Button.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Refresh.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
+                    <Button x:Name="ReloadButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click" Content="{StaticResource Refresh}" Style="{StaticResource DisabledState2}"></Button>
                     <Separator/>
-
-
-
-                    <ToggleButton x:Name="PointerToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="TogglePointerToolEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Pointer_alt.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <ToggleButton x:Name="SelectToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0"  Click="ToggleSelectToolEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/Select.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <ToggleButton x:Name="PlaceTilesButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleDrawToolEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/PlaceTiles.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <ToggleButton x:Name="InteractionToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleInteractionToolEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/InteractionTool.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <ToggleButton x:Name="MagnetMode" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleMagnetToolEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/MagnetTool.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <Button x:Name="MagnetModeSplitButton" BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
+                    <ToggleButton x:Name="PointerToolButton" Content="{StaticResource Pointer}"  Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="TogglePointerToolEvent" Style="{StaticResource DisabledState1}"></ToggleButton>
+                    <ToggleButton x:Name="SelectToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0"  Click="ToggleSelectToolEvent" Content="{StaticResource Select}" Foreground="Red" Style="{StaticResource DisabledState1}"></ToggleButton>
+                    <ToggleButton x:Name="DrawToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleDrawToolEvent" Content="{StaticResource Draw}" Style="{StaticResource DisabledState1}"></ToggleButton>
+                    <ToggleButton x:Name="SplineToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleSplineToolEvent" Content="{StaticResource Shapes}" Style="{StaticResource DisabledState1}"></ToggleButton>
+                    <ToggleButton x:Name="InteractionToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleInteractionToolEvent" Content="{StaticResource Interaction}" Style="{StaticResource DisabledState1}"></ToggleButton>
+                    <ToggleButton x:Name="MagnetMode" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleMagnetToolEvent" Content="{StaticResource Magnet}" Style="{StaticResource DisabledState1}"></ToggleButton>
+                    <Button Visibility="Collapsed" x:Name="MagnetModeSplitButton" BorderThickness="0" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Style="{DynamicResource RemoveMouseOverEffectType2}" VerticalAlignment="Center">
                         <Button.Content>
-                            <StackPanel Background="{DynamicResource ToolbarBackground}">
-                                <Menu Background="{DynamicResource ToolbarBackground}" Height="36">
-                                    <MenuItem x:Name="MagnetModeSplitDropDown" Width="22" Height="22" Foreground="{DynamicResource NormalText}">
-                                        <MenuItem.Header>
-                                            <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
-                                                <Rectangle.OpacityMask>
-                                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Header>
-                                        <MenuItem x:Name="gridAlignmentSizeToolStripMenuItem" Header="Grid Alignment Size:" IsEnabled="False"></MenuItem>
-                                        <MenuItem x:Name="x8ToolStripMenuItem" Header="8x8" Click="Magnet8x8Event"></MenuItem>
-                                        <MenuItem x:Name="x16ToolStripMenuItem1" Header="16x16" Click="Magnet16x16Event" IsChecked="true"></MenuItem>
-                                        <MenuItem x:Name="x32ToolStripMenuItem" Header="32x32" Click="Magnet32x32Event"></MenuItem>
-                                        <MenuItem x:Name="x64ToolStripMenuItem" Header="64x64" Click="Magnet64x64Event"></MenuItem>
-                                        <MenuItem x:Name="optionsToolStripMenuItem1" Header="Options: " IsEnabled="False"></MenuItem>
-                                        <MenuItem IsChecked="True" x:Name="enableXAxisToolStripMenuItem" Header="Enable X Axis" Click="EnableMagnetXAxisLockEvent"></MenuItem>
-                                        <MenuItem IsChecked="True" x:Name="enableYAxisToolStripMenuItem" Header="Enable Y Axis" Click="EnableMagnetYAxisLockEvent"></MenuItem>
+                            <StackPanel Background="{DynamicResource ToolbarBackground}" Height="32" Width="32">
+                                <Menu Background="{DynamicResource ToolbarBackground}" Padding="0" BorderThickness="0" Margin="0,-1,0,0">
+                                    <MenuItem x:Name="MagnetModeSplitDropDown" Foreground="{DynamicResource NormalText}" Header="{StaticResource DownArrow2}" Height="34">
+
                                     </MenuItem>
                                 </Menu>
                             </StackPanel>
                         </Button.Content>
                     </Button>
 
-                    <ToggleButton x:Name="ChunksToolButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleChunksToolEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" >
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/StampTool.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-
-
+                    <ToggleButton x:Name="ChunksToolButton" Style="{StaticResource DisabledState1}"   Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleChunksToolEvent" Content="{StaticResource Stamp}"></ToggleButton>
                     <Separator/>
-                    <ToggleButton x:Name="EncorePaletteButton" Width="32" Height="34"  Margin="0,0,0,0" Padding="0,0,0,0" Click="EnableEncorePaletteEvent" >
-                        <ToggleButton.Content>
-                            <Image Source="pack://application:,,,/Resources/icons/ColorPalette_alt.png" Stretch="Uniform"  Height="34" Width="26" />
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <ToggleButton x:Name="ShowTileIDButton"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleSlotIDEvent">
-                        <Rectangle Width="26" Height="37" Fill="Black" Margin="-2,-2">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowTileID.png" Stretch="Uniform" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton>
-                    <ToggleButton x:Name="FlipAssistButton"  Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelperEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="36" Fill="Black" Margin="-1,-1">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/RotateAssist.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <ToggleButton x:Name="ShowGridButton" Width="32"   Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleGridEvent">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-1">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowGrid.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <Button BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
+                    <ToggleButton x:Name="EncorePaletteButton" Style="{StaticResource DisabledState1}" Width="32" Height="34"  Margin="0,0,0,0" Padding="0,0,0,0" Click="EnableEncorePaletteEvent" Content="{StaticResource PaletteWheel}"></ToggleButton>
+                    <ToggleButton x:Name="ShowTileIDButton" Style="{StaticResource DisabledState1}"  Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleSlotIDEvent" Content="{StaticResource Info}"></ToggleButton>
+                    <ToggleButton x:Name="FlipAssistButton" Style="{StaticResource DisabledState1}"  Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowFlippedTileHelperEvent" Content="{StaticResource RotateFlip}"></ToggleButton>
+                    <ToggleButton x:Name="ShowGridButton" Style="{StaticResource DisabledState1}" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleGridEvent" Content="{StaticResource Grid}"></ToggleButton>
+                    <Button Visibility="Collapsed" BorderThickness="0" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Style="{DynamicResource RemoveMouseOverEffectType2}" VerticalAlignment="Center">
                         <Button.Content>
-                            <StackPanel Background="{DynamicResource ToolbarBackground}">
-                                <Menu Background="{DynamicResource ToolbarBackground}" Height="36">
-                                    <MenuItem x:Name="GridSizeButton" Width="22" Height="22" Foreground="{DynamicResource NormalText}">
-                                        <MenuItem.Header>
-                                            <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
-                                                <Rectangle.OpacityMask>
-                                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Header>
-                                        <MenuItem x:Name="toolStripMenuItem1" Header="Grid Size:" IsEnabled="False"></MenuItem>
-                                        <MenuItem x:Name="Grid16x16SizeMenuItem" Header="16x16" Click="SetGrid16x16Event"></MenuItem>
-                                        <MenuItem x:Name="Grid128x128SizeMenuItem" Header="128x128" Click="SetGrid128x128Event"></MenuItem>
-                                        <MenuItem x:Name="Grid256x256SizeMenuItem" Header="256x256" Click="SetGrid256x256Event"></MenuItem>
-                                        <MenuItem x:Name="GridCustomSizeMenuItem" Header="Custom..." Click="SetGridCustomSizeEvent"></MenuItem>
-                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <MenuItem>
-                                            <MenuItem.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
-                                                    <Slider x:Name="gridOpacitySlider" Value="255" Maximum="255" Width="100" VerticalAlignment="Center"></Slider>
-                                                </StackPanel>
-                                            </MenuItem.Header>
-                                        </MenuItem>
-
+                            <StackPanel Background="{DynamicResource ToolbarBackground}" Height="32" Width="32">
+                                <Menu Background="{DynamicResource ToolbarBackground}" Padding="0" BorderThickness="0" Margin="0,-1,0,0">
+                                    <MenuItem x:Name="GridSizeButton" Foreground="{DynamicResource NormalText}" Header="{StaticResource DownArrow3}" Height="34">
                                     </MenuItem>
                                 </Menu>
                             </StackPanel>
                         </Button.Content>
                     </Button>
                     <Separator/>
-                    <ToggleButton x:Name="ShowCollisionAButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAEvent" >
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowCollisionPathA.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
-                    <ToggleButton x:Name="ShowCollisionBButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBEvent" >
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/ShowCollisionPathB.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
+                    <ToggleButton x:Name="ShowCollisionAButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionAEvent" Style="{StaticResource DisabledState1}" Content="{StaticResource PathA}"></ToggleButton>
+                    <ToggleButton x:Name="ShowCollisionBButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" Click="ShowCollisionBEvent" Style="{StaticResource DisabledState1}" Content="{StaticResource PathB}"></ToggleButton>
                     <Separator/>
-                    <ToggleButton x:Name="FreezeDeviceButton" Width="32"  Margin="0,0,0,0" Padding="0,0,0,0" IsEnabled="False">
-                        <ToggleButton.Content>
-                            <Rectangle Width="26" Height="37" Fill="Black" Margin="-1,-2">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/FreezeDevice.png" Stretch="Uniform" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ToggleButton.Content>
-                    </ToggleButton>
                     <Grid HorizontalAlignment="Left">
                     </Grid>
                     <ToolBar.Resources>
@@ -868,18 +796,11 @@
                     <ToggleButton x:Name="ShowFGHigher" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="FG Higher" Click="ShowFGHigher_Click" Style="{DynamicResource EditLayerFlat}"/>
                     <ToggleButton x:Name="ShowEntities" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="Entites" Click="ShowEntities_Click" Style="{DynamicResource EditLayerFlat}"/>
                     <ToggleButton x:Name="ShowAnimations" Click="ShowAnimations_Click" Foreground="{DynamicResource NormalText}" Content="Animations" Background="Transparent" Style="{DynamicResource EditLayerFlat}" IsEnabled="False"/>
-                    <Button BorderThickness="0" Style="{DynamicResource RemoveMouseOverEffect}">
+                    <Button BorderThickness="0" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Style="{DynamicResource RemoveMouseOverEffectType2}" VerticalAlignment="Center">
                         <Button.Content>
-                            <StackPanel Background="{DynamicResource ToolbarBackground}">
-                                <Menu Background="{DynamicResource ToolbarBackground}" Height="22">
-                                    <MenuItem x:Name="animationsSplitButton_Dropdown" Width="22" Height="22" Foreground="{DynamicResource NormalText}">
-                                        <MenuItem.Header>
-                                            <Rectangle Width="22" Height="22" Fill="Black" Margin="-8,2,-8,0" IsEnabled="False">
-                                                <Rectangle.OpacityMask>
-                                                    <ImageBrush ImageSource="pack://application:,,,/Resources/icons/DropDownArrow.png" Stretch="Uniform" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Header>
+                            <StackPanel Background="{DynamicResource ToolbarBackground}" Height="32" Width="32">
+                                <Menu Background="{DynamicResource ToolbarBackground}" Padding="0" BorderThickness="0" Margin="0,-1,0,0">
+                                    <MenuItem x:Name="animationsSplitButton_Dropdown" Foreground="{DynamicResource NormalText}" Header="{StaticResource DownArrow4}" Height="34">
                                         <MenuItem x:Name="movingPlatformsObjectsToolStripMenuItem" Header="Moving Platforms / Objects" Click="MovingPlatformsObjectsToolStripMenuItem_Click"></MenuItem>
                                         <MenuItem x:Name="spriteFramesToolStripMenuItem" Header="Sprite Frames" Click="SpriteFramesToolStripMenuItem_Click"></MenuItem>
                                     </MenuItem>
@@ -904,6 +825,7 @@
                     </ToolBar.Resources>
                 </ToolBar>
             </ToolBarTray>
+
             <Grid Visibility="Visible" x:Name="MultiLayerHint" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Top" Grid.Column="1">
                 <StackPanel>
                     <TextBlock HorizontalAlignment="Center"  Text="Multi-Layer Select Controls:" Foreground="{DynamicResource NormalText}"></TextBlock>
@@ -920,6 +842,7 @@
                 </wpfTool:SplitButton.DropDownContent>
             </wpfTool:SplitButton>
         </Grid>
+
     </Grid>
 </Window>
     

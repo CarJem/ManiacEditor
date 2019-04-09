@@ -32,9 +32,9 @@ namespace ManiacEditor
         public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
         public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
 
-        public EditorTheming(Editor instance)
+        public EditorTheming(Editor _instance)
         {
-            Instance = instance;
+            Instance = _instance;
         }
 
         #region Theming Stuff
@@ -235,33 +235,15 @@ namespace ManiacEditor
         }
         public void UpdateButtonColors()
         {
-            SetButtonColors(Instance.New, MainThemeColor());
-            SetButtonColors(Instance.Open, MainThemeColor(Color.FromArgb(255, 231, 147), Color.FromArgb(250, 217, 98)));
-            SetButtonColors(Instance.Save, Color.RoyalBlue);
-            SetButtonColors(Instance.ZoomInButton, Color.SlateBlue);
-            SetButtonColors(Instance.ZoomOutButton, Color.SlateBlue);
-            SetButtonColors(Instance.FreezeDeviceButton, Color.Red);
-            SetButtonColors(Instance.UndoButton, Color.RoyalBlue);
-            SetButtonColors(Instance.RedoButton, Color.RoyalBlue);
-            SetButtonColors(Instance.ReloadButton, Color.RoyalBlue);
-            SetButtonColors(Instance.PointerToolButton, MainThemeColor());
-            SetButtonColors(Instance.SelectToolButton, Color.MediumPurple);
-            SetButtonColors(Instance.PlaceTilesButton, Color.Green);
-            SetButtonColors(Instance.InteractionToolButton, Color.Gold);
-            SetButtonColors(Instance.MagnetMode, Color.Red);
-            SetButtonColors(Instance.ChunksToolButton, Color.SandyBrown);
-            SetButtonColors(Instance.ShowTileIDButton, MainThemeColor());
-            SetButtonColors(Instance.ShowGridButton, MainThemeColor(Color.Gray));
-            SetButtonColors(Instance.ShowCollisionAButton, Color.DeepSkyBlue);
-            SetButtonColors(Instance.ShowCollisionBButton, Color.DeepSkyBlue);
-            SetButtonColors(Instance.FlipAssistButton, MainThemeColor());
-            SetButtonColors(Instance.MagnetModeSplitButton, MainThemeColor());
-            SetButtonColors(Instance.GridSizeButton, MainThemeColor());
-            SetButtonColors(Instance.RunSceneDropDown, MainThemeColor());
-            SetButtonColors(Instance.MagnetModeSplitDropDown, MainThemeColor());
-            SetButtonColors(Instance.GridSizeButton, MainThemeColor());
-            SetButtonColors(Instance.animationsSplitButton_Dropdown, MainThemeColor());
-            SetButtonColors(Instance.MoreSettingsButton, MainThemeColor());
+            var converter = new System.Windows.Media.BrushConverter();
+            if (Settings.MySettings.NightMode)
+            {
+                Editor.Instance.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
+            }
+            else
+            {
+                Editor.Instance.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
+            }
 
         }
         public Color MainThemeColor(Color? CDC = null, Color? CWC = null)
@@ -275,6 +257,100 @@ namespace ManiacEditor
             else NormalColor = Color.Black;
 
             return (Settings.MySettings.NightMode ? NightColor : NormalColor);
+        }
+        #endregion
+
+        #region Entities Related Color Fetching
+        public System.Drawing.Color GetSenstiveFilterColors(string colorID)
+        {
+            if (colorID == "Blue")
+            {
+                if (Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
+                else return System.Drawing.Color.Blue;
+            }
+            else if (colorID == "Green")
+            {
+                if (Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
+                else return System.Drawing.Color.Green;
+            }
+            else if (colorID == "Red")
+            {
+                if (Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211, 76, 49);
+                else return System.Drawing.Color.Red;
+            }
+            else
+            {
+                if (Settings.MySettings.NightMode) return System.Drawing.Color.White;
+                else return System.Drawing.Color.Black;
+            }
+        }
+
+        public int GetFilter(RSDKv5.SceneEntity entity)
+        {
+            if (entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == RSDKv5.AttributeTypes.UINT8)
+            {
+                int filter = entity.attributesMap["filter"].ValueUInt8;
+                return filter;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        public SolidColorBrush GetColorBrush(RSDKv5.SceneEntity entity)
+        {
+            int filter = GetFilter(entity);
+            SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
+            switch (filter)
+            {
+                case var _ when (filter == 0 || filter >= 5 && filter != 255):
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
+                    break;
+                case var _ when (filter == 1 || filter == 5):
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
+                    break;
+                case 2:
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
+                    break;
+                case 4:
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
+                    break;
+                case 255:
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    break;
+                default:
+                    ForeColor = (SolidColorBrush)Instance.FindResource("NormalText"); // NULL Filter
+                    break;
+            }
+            return ForeColor;
+        }
+
+        public SolidColorBrush GetColorBrush(int filter)
+        {
+            SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
+            switch (filter)
+            {
+                case var _ when (filter == 0 || filter >= 5 && filter != 255):
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
+                    break;
+                case var _ when (filter == 1 || filter == 5):
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
+                    break;
+                case 2:
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
+                    break;
+                case 4:
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
+                    break;
+                case 255:
+                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    break;
+                default:
+                    ForeColor = (SolidColorBrush)Instance.FindResource("NormalText"); // NULL Filter
+                    break;
+            }
+            return ForeColor;
         }
         #endregion
 

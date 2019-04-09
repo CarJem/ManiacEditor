@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using RSDKv5;
 using System.Diagnostics;
 using Microsoft.Scripting.Utils;
-using WPFGrid = Xceed.Wpf.Toolkit.PropertyGrid.PropertyGrid;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
@@ -30,8 +29,10 @@ namespace ManiacEditor
 		public Action<int> SelectedEntity;
 		public Action<Actions.IAction> AddAction;
 		public Action<RSDKv5.SceneObject> Spawn;
+        public Action<RSDKv5.SceneObject> SpawnInternal;
 
-		public bool multipleObjects = false;
+
+        public bool multipleObjects = false;
 		public bool IndexChangeLock = false;
 
 		List<int> SelectedObjectListIndexes = new List<int>();
@@ -42,7 +43,7 @@ namespace ManiacEditor
 
 		private List<RSDKv5.SceneEntity> _entities;
 
-		private TextBlock[] ObjectList= new TextBlock[2048];
+		private Button[] ObjectList = new Button[2301];
 
 
 		private List<int> _selectedEntitySlots = new List<int>();
@@ -66,12 +67,19 @@ namespace ManiacEditor
 		{
 			set
 			{
-				UpdateEntitiesProperties(value);
-			}
+                if (Editor.Instance.SplineToolButton.IsChecked.Value && Editor.Instance.Entities.SplineObjectRenderingTemplate != null)
+                {
+                    UpdateEntitiesProperties(new List<SceneEntity>() { Editor.Instance.Entities.SplineObjectRenderingTemplate.Entity });
+                }
+                else
+                {
+                    UpdateEntitiesProperties(value);
+                }
+            }
 
 		}
 
-		public bool NeedRefresh;
+        public bool NeedRefresh;
 
 		public EntitiesToolbar(List<RSDKv5.SceneObject> sceneObjects, Editor instance)
 		{
@@ -79,87 +87,83 @@ namespace ManiacEditor
 
 			InitializeComponent();
 
+            SetupWinFormsPropertyGrid();
 
-
-
-			if (!Settings.MyDevSettings.ExperimentalPropertyGridView)
-			{
-				entityPropertiesLegacy.Visibility = Visibility.Visible;
-				entityProperties2.Visibility = Visibility.Hidden;
-				entityPropertiesLegacy.IsEnabled = true;
-				entityProperties2.IsEnabled = false;
-
-				entityProperties = new System.Windows.Forms.PropertyGrid();
-				this.entityProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-				this.entityProperties.BackColor = System.Drawing.Color.White;
-				this.entityProperties.CategoryForeColor = System.Drawing.Color.Black;
-				this.entityProperties.CommandsBorderColor = System.Drawing.Color.DarkGray;
-				this.entityProperties.CommandsForeColor = System.Drawing.Color.Black;
-				this.entityProperties.HelpBackColor = System.Drawing.Color.White;
-				this.entityProperties.HelpBorderColor = System.Drawing.Color.DarkGray;
-				this.entityProperties.HelpForeColor = System.Drawing.Color.Black;
-				this.entityProperties.HelpVisible = false;
-				this.entityProperties.LineColor = System.Drawing.Color.Silver;
-				this.entityProperties.Location = new System.Drawing.Point(7, 46);
-				this.entityProperties.Name = "entityProperties";
-				this.entityProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-				this.entityProperties.SelectedItemWithFocusBackColor = System.Drawing.Color.DodgerBlue;
-				this.entityProperties.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
-				this.entityProperties.Size = new System.Drawing.Size(234, 236);
-				this.entityProperties.TabIndex = 1;
-				this.entityProperties.ToolbarVisible = false;
-				this.entityProperties.ViewBackColor = System.Drawing.Color.White;
-				this.entityProperties.ViewBorderColor = System.Drawing.Color.DarkGray;
-				this.entityProperties.ViewForeColor = System.Drawing.Color.Black;
-				this.entityProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.entityProperties_PropertyValueChanged);
-				entityPropertiesLegacy.Child = entityProperties;
-				entityProperties.Show();
-			}
-			else
-			{
-				entityPropertiesLegacy.Visibility = Visibility.Hidden;
-				entityProperties2.Visibility = Visibility.Visible;
-				entityPropertiesLegacy.IsEnabled = false;
-				entityProperties2.IsEnabled = true;
-			}
-
-			RefreshSpawningObjects(sceneObjects);
+            RefreshSpawningObjects(sceneObjects);
 
 			UpdateDefaultFilter(true);
 
-			UpdateFilterNames(true);
-
 			UpdateEntitiesList(true);
 
-			entitiesList.ItemsSource = ObjectList;
+            UpdateFilterNames(true);
 
 
-		}
+
+        }
+
+        public void SetupWinFormsPropertyGrid()
+        {
+            entityProperties = new System.Windows.Forms.PropertyGrid();
+
+            this.entityProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.entityProperties.HelpVisible = false;
+            this.entityProperties.Location = new System.Drawing.Point(7, 46);
+            this.entityProperties.Name = "entityProperties";
+            this.entityProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.entityProperties.Size = new System.Drawing.Size(234, 236);
+            this.entityProperties.TabIndex = 1;
+            this.entityProperties.ToolbarVisible = false;
+
+            if (Settings.MySettings.NightMode)
+            {
+                this.entityProperties.BackColor = EditorTheming.darkTheme0;
+                this.entityProperties.CategoryForeColor = EditorTheming.darkTheme3;
+                this.entityProperties.CommandsBorderColor = System.Drawing.Color.DarkGray;
+                this.entityProperties.CommandsForeColor = System.Drawing.Color.Black;
+                this.entityProperties.HelpBackColor = System.Drawing.Color.White;
+                this.entityProperties.HelpBorderColor = System.Drawing.Color.DarkGray;
+                this.entityProperties.HelpForeColor = System.Drawing.Color.Black;
+                this.entityProperties.LineColor = EditorTheming.darkTheme5;
+                this.entityProperties.SelectedItemWithFocusBackColor = System.Drawing.Color.Blue;
+                this.entityProperties.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
+                this.entityProperties.ViewBackColor = EditorTheming.darkTheme0;
+                this.entityProperties.ViewBorderColor = EditorTheming.darkTheme1;
+                this.entityProperties.ViewForeColor = EditorTheming.darkTheme3;
+            }
+            else
+            {
+                this.entityProperties.BackColor = System.Drawing.Color.White;
+                this.entityProperties.CategoryForeColor = System.Drawing.Color.Black;
+                this.entityProperties.CommandsBorderColor = System.Drawing.Color.DarkGray;
+                this.entityProperties.CommandsForeColor = System.Drawing.Color.Black;
+                this.entityProperties.HelpBackColor = System.Drawing.Color.White;
+                this.entityProperties.HelpBorderColor = System.Drawing.Color.DarkGray;
+                this.entityProperties.HelpForeColor = System.Drawing.Color.Black;
+                this.entityProperties.LineColor = System.Drawing.Color.Silver;
+                this.entityProperties.SelectedItemWithFocusBackColor = System.Drawing.Color.DodgerBlue;
+                this.entityProperties.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
+                this.entityProperties.ViewBackColor = System.Drawing.Color.White;
+                this.entityProperties.ViewBorderColor = System.Drawing.Color.DarkGray;
+                this.entityProperties.ViewForeColor = System.Drawing.Color.Black;
+            }
+
+            this.entityProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.entityProperties_PropertyValueChanged);
+            entityPropertiesLegacy.Child = entityProperties;
+            entityProperties.Show();
+        }
 
 		public void UpdateFilterNames(bool startup = false)
 		{
 			if (startup)
 			{
-				maniaFilter.Foreground = GetColorBrush(2);
-				encoreFilter.Foreground = GetColorBrush(4);
-				pinballFilter.Foreground = GetColorBrush(255);
-				bothFilter.Foreground = GetColorBrush(1);
-				otherFilter.Foreground = GetColorBrush(0);
-
-				maniaFilterCheck.Foreground = GetColorBrush(2);
-				encoreFilterCheck.Foreground = GetColorBrush(4);
-				otherFilterCheck.Foreground = GetColorBrush(0);
-				bothFilterCheck.Foreground = GetColorBrush(1);
-				pinballFilterCheck.Foreground = GetColorBrush(255);
+				maniaFilter.Foreground = Editor.Instance.Theming.GetColorBrush(2);
+				encoreFilter.Foreground = Editor.Instance.Theming.GetColorBrush(4);
+				pinballFilter.Foreground = Editor.Instance.Theming.GetColorBrush(255);
+				bothFilter.Foreground = Editor.Instance.Theming.GetColorBrush(1);
+				otherFilter.Foreground = Editor.Instance.Theming.GetColorBrush(0);
 			}
 			if (Settings.MySettings.UseBitOperators)
 			{
-				maniaFilterCheck.Content = "Mania (0b0010)";
-				encoreFilterCheck.Content = "Encore (0b0100)";
-				otherFilterCheck.Content = "Other (0b0000)";
-				bothFilterCheck.Content = "Both (0b0001)";
-				pinballFilterCheck.Content = "All (0b11111111)";
-
 				maniaFilter.Content = "Mania (0b0010)";
 				encoreFilter.Content = "Encore (0b0100)";
 				otherFilter.Content = "Other (0b0000)";
@@ -168,12 +172,6 @@ namespace ManiacEditor
 			}
 			else
 			{
-				maniaFilterCheck.Content = "Mania (2)";
-				encoreFilterCheck.Content = "Encore (4)";
-				otherFilterCheck.Content = "Other (0)";
-				bothFilterCheck.Content = "Both (1 & 5)";
-				pinballFilterCheck.Content = "All (255)";
-
 				maniaFilter.Content = "Mania (2)";
 				encoreFilter.Content = "Encore (4)";
 				otherFilter.Content = "Other (0)";
@@ -185,51 +183,71 @@ namespace ManiacEditor
 
 		public void UpdateEntitiesList(bool FirstLoad = false)
 		{
+
 			//This if statement Triggers when the toolbar opens for the first time
 			if (FirstLoad) _entities = EditorInstance.Entities.Entities.Select(x => x.Entity).ToList();
-			int j = 0;
-			for (int i = 0; i < 2048; i++)
-			{
-				SceneEntity entity;
-				if (j < _entities.Count)
-				{
-					entity = _entities[j];
-				}
-				else
-				{
-					entity = null;
-				}
+            SceneEntitiesList.Items.Clear();
 
-				if (entity != null && entity.SlotID == i)
-				{
-					Visibility VisibilityStatus = GetObjectListItemVisiblity(entity.Object.Name.Name, entity.SlotID);
-					ObjectList[i] = new TextBlock()
-					{
-						Text = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
-						Foreground = GetColorBrush(entity),
-						Tag = entity.SlotID.ToString(),
-						Visibility = VisibilityStatus
-					};
-					j++;
-				}
-				else
-				{
+            int count = (2301 > _entities.Count() ? _entities.Count() : 2031);
 
-					ObjectList[i] = new TextBlock()
-					{
-						Text = String.Format("{0} - {1}", "UNUSED", i),
-						Foreground = GetColorBrush(256),
-						Height = 0,
-						Visibility = Visibility.Collapsed,
-						Tag = "NULL"
-						
-					};					
-				}
-			}
-			if (currentEntity != null) GoToObject.IsEnabled = true;
+            for (int i = 0; i < count; i++)
+            {
+                var entity = _entities[i];
+                if (entity != null)
+                {
+                    Visibility VisibilityStatus = GetObjectListItemVisiblity(entity.Object.Name.Name, entity.SlotID);
+                    if (ObjectList[i] == null)
+                    {
+                        ObjectList[i] = new System.Windows.Controls.Button()
+                        {
+                            Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
+                            Foreground = Editor.Instance.Theming.GetColorBrush(entity),
+                            Tag = entity.SlotID.ToString(),
+                            Visibility = VisibilityStatus
+                        };
+                        ObjectList[i].Click += EntitiesListEntryClicked;
+                    }
+                    else
+                    {
+                        ObjectList[i].Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
+                        ObjectList[i].Foreground = Editor.Instance.Theming.GetColorBrush(entity);
+                        ObjectList[i].Tag = entity.SlotID.ToString();
+                        ObjectList[i].Visibility = VisibilityStatus;
+                    }
+
+                }
+                else
+                {
+                    if (ObjectList[i] == null)
+                    {
+                        ObjectList[i] = new System.Windows.Controls.Button()
+                        {
+                            Content = String.Format("{0} - {1}", "UNUSED", i),
+                            Foreground = Editor.Instance.Theming.GetColorBrush(256),
+                            Height = 0,
+                            Visibility = Visibility.Collapsed,
+                            Tag = "NULL"
+
+                        };
+                        ObjectList[i].Click += EntitiesListEntryClicked;
+                    }
+                    else
+                    {
+                        ObjectList[i].Content = String.Format("{0} - {1}", "UNUSED", i);
+                        ObjectList[i].Foreground = Editor.Instance.Theming.GetColorBrush(256);
+                        ObjectList[i].Height = 0;
+                        ObjectList[i].Visibility = Visibility.Collapsed;
+                        ObjectList[i].Tag = "NULL";
+                    }
+
+                }
+                if (ObjectList[i].Visibility != Visibility.Collapsed) SceneEntitiesList.Items.Add(ObjectList[i]);
+            }
+
+            if (currentEntity != null) GoToObject.IsEnabled = true;
 			else GoToObject.IsEnabled = false;
 
-            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 1)
+            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 1 && !EditorInstance.Entities.SelectedEntities.ToList().Exists(x => x.IsInternalObject))
             {
                 SortSelectedSlotIDs.IsEnabled = true;
                 SortSelectedSlotIDsOptimized.IsEnabled = true;
@@ -369,35 +387,6 @@ namespace ManiacEditor
 
 		public void EntitiesList_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (currentEntity != null)
-			{
-				if (entitiesList.SelectedIndex == -1) return;
-				if (entitiesList.SelectedIndex != currentEntity.SlotID)
-				{
-					Int32.TryParse(ObjectList[entitiesList.SelectedIndex].Tag.ToString(), out int selectedIndexInt);
-					SelectedEntity?.Invoke(_entities.Where(x => x.SlotID == selectedIndexInt).First().SlotID);
-				}
-			}
-			else if (multipleObjects == true)
-			{
-				if (entitiesList.SelectedIndex == -1) return;
-
-				Int32.TryParse(ObjectList[entitiesList.SelectedIndex].Tag.ToString(), out int selectedIndexInt);
-				SelectedEntity?.Invoke(_entities.Where(x => x.SlotID == selectedIndexInt).First().SlotID);
-				
-			}
-			else if (currentEntity == null)
-			{
-				if (entitiesList.SelectedIndex == -1) return;
-
-				Int32.TryParse(ObjectList[entitiesList.SelectedIndex].Tag.ToString(), out int selectedIndexInt);
-				SelectedEntity?.Invoke(_entities.Where(x => x.SlotID == selectedIndexInt).First().SlotID);
-			}
-            if (currentEntity != null) GoToObject.IsEnabled = true;
-            else GoToObject.IsEnabled = false;
-
-            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 0) SortSelectedSlotIDs.IsEnabled = true;
-            else SortSelectedSlotIDs.IsEnabled = false;
 
         }
 
@@ -420,85 +409,6 @@ namespace ManiacEditor
 
 		}
 
-		public System.Drawing.Color GetSenstiveFilterColors(string colorID)
-		{
-			if (colorID == "Blue")
-			{
-				if (Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
-				else return System.Drawing.Color.Blue;
-			}
-			else if (colorID == "Green")
-			{
-				if (Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
-				else return System.Drawing.Color.Green;
-			}
-			else if (colorID == "Red")
-			{
-				if (Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211,76,49);
-				else return System.Drawing.Color.Red;
-			}
-			else
-			{
-				if (Settings.MySettings.NightMode) return System.Drawing.Color.White;
-				else return System.Drawing.Color.Black;
-			}
-		}
-
-		public SolidColorBrush GetColorBrush(SceneEntity entity)
-		{
-			int filter = GetFilter(entity);
-			SolidColorBrush ForeColor = (SolidColorBrush)this.FindResource("NormalText");
-			switch (filter)
-			{
-				case var _ when(filter == 0 || filter >= 5 && filter != 255):
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
-					break;
-				case var _ when (filter == 1 || filter == 5):
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
-					break;
-				case 2:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
-					break;
-				case 4:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
-					break;
-				case 255:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
-                    break;
-				default:
-					ForeColor = (SolidColorBrush)this.FindResource("NormalText"); // NULL Filter
-					break;
-			}
-			return ForeColor; 
-		}
-
-		public SolidColorBrush GetColorBrush(int filter)
-		{
-			SolidColorBrush ForeColor = (SolidColorBrush)this.FindResource("NormalText");
-			switch (filter)
-			{
-				case var _ when (filter == 0 || filter >= 5 && filter != 255):
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
-					break;
-				case var _ when (filter == 1 || filter == 5):
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
-					break;
-				case 2:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
-					break;
-				case 4:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
-					break;
-				case 255:
-					ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
-                    break;
-				default:
-					ForeColor = (SolidColorBrush)this.FindResource("NormalText"); // NULL Filter
-					break;
-			}
-			return ForeColor;
-		}
-
 		public void Dispose()
 		{
 			if (this.entityProperties != null)
@@ -507,20 +417,6 @@ namespace ManiacEditor
 				this.entityProperties = null;
 			}
 
-		}
-
-
-		public int GetFilter(SceneEntity entity)
-		{
-			if (entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8)
-			{
-				int filter = entity.attributesMap["filter"].ValueUInt8;
-				return filter;
-			}
-			else
-			{
-				return -1;
-			}
 		}
 
         private void UpdateSelectedEntitiesList()
@@ -540,8 +436,12 @@ namespace ManiacEditor
 
 		private void UpdateEntitiesProperties(List<RSDKv5.SceneEntity> selectedEntities)
 		{
-			// Reset the List Item if the Current Entity is nothing or if it's a multi-selection
-			if (selectedEntities.Count !=  1 || currentEntity == null) entitiesList.SelectedItem = null;
+            // Reset the List Item if the Current Entity is nothing or if it's a multi-selection
+            if (currentEntity == null)
+            {
+                entitiesList.Content = null;
+                TabControl.SelectedIndex = 0;
+            }
             UpdateSelectedEntitiesList();
 
             multipleObjects = false;
@@ -552,12 +452,12 @@ namespace ManiacEditor
 
 			if (selectedEntities.Count != 1)
 			{
-				if (Settings.MyDevSettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = null;
-				else entityProperties.SelectedObject = null;
+                entityProperties.SelectedObject = null;
 				currentEntity = null;
 				_selectedEntitySlots.Clear();
 				if (selectedEntities.Count > 1)
 				{
+
 					// Then we are selecting multiple objects				
 					isCommonObjects = true;
 					EntityEditor.Header =  "Entity Editor | " + String.Format("{0} entities selected", selectedEntities.Count);
@@ -571,19 +471,27 @@ namespace ManiacEditor
 							isCommonObjects = false;
 						}
 					}
-
-				}
+                    TabControl.SelectedIndex = 1;
+                }
+                else
+                {
+                    TabControl.SelectedIndex = 0;
+                }
 				if (isCommonObjects == true)
 				{
-					//Keep Going (if Implemented; which it's not)
-					return;
+                    //Keep Going (if Implemented; which it's not)
+                    return;
 				}
 				else
 				{
-					return;
+                    return;
 				}
 
-			}
+            }
+            else
+            {
+                TabControl.SelectedIndex = 0;
+            }
 
 			
 
@@ -592,16 +500,31 @@ namespace ManiacEditor
 			if (entity == currentEntity) return;
 			currentEntity = entity;
 
-			if (entitiesList.SelectedIndex >= 0 && entitiesList.SelectedIndex < _entities.Count && _entities[entitiesList.SelectedIndex] == currentEntity)
-			{
-				// Than it is called from selected item in the menu, so changeing the text will remove it, we don't want that
-			}
-			else
-			{
-				//Select the Only Item that is Selected
-				entitiesList.SelectedItem = ObjectList[entity.SlotID];
-			}
-			UpdateEntitiesList();
+            UpdateEntitiesList();
+
+            if (entity.Object.Name.Name != "Spline")
+            {
+                var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
+                if (entry != null)
+                {
+                    entitiesList.Content = entry.Content;
+                    entitiesList.Foreground = entry.Foreground;
+                    entitiesList.Tag = entry.Tag;
+                }
+                else
+                {
+                    entitiesList.Content = null;
+                    entitiesList.Tag = null;
+                }
+            }
+            else
+            {
+                entitiesList.Content = null;
+                entitiesList.Tag = null;
+            }
+
+
+
 			AssignEntityProperties(entity);
 		}
 
@@ -661,13 +584,13 @@ namespace ManiacEditor
 				}
 				--category_index;
 			}
-			if (Settings.MyDevSettings.ExperimentalPropertyGridView) entityProperties2.SelectedObject = new LocalPropertyGridObject(objProperties);
-			else entityProperties.SelectedObject = new LocalPropertyGridObject(objProperties);
+
+            entityProperties.SelectedObject = new LocalPropertyGridObject(objProperties);
 		}
 
 		public void UpdateCurrentEntityProperites()
 		{
-			object selectedObject = (Settings.MyDevSettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject : entityProperties.SelectedObject);
+			object selectedObject = entityProperties.SelectedObject;
 			if (selectedObject is LocalPropertyGridObject obj)
 			{
 				obj.setValue("position,x", currentEntity.Position.X.High + ((float)currentEntity.Position.X.Low / 0x10000));
@@ -722,8 +645,7 @@ namespace ManiacEditor
 
 		public void PropertiesRefresh()
 		{
-			if (Settings.MyDevSettings.ExperimentalPropertyGridView) entityProperties2.Update();
-			else entityProperties.Refresh();
+            entityProperties.Refresh();
 			NeedRefresh = false;
 		}
 		private void setEntitiyProperty(RSDKv5.SceneEntity entity, string tag, object value, object oldValue)
@@ -736,8 +658,8 @@ namespace ManiacEditor
 				float fvalue = (float)value;
 				if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
 				{
-					// Invalid
-					var obj = (Settings.MyDevSettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
+                    // Invalid
+                    var obj = entityProperties.SelectedObject as LocalPropertyGridObject;
 					obj.setValue(tag, oldValue);
 					return;
 				}
@@ -875,7 +797,7 @@ namespace ManiacEditor
 						if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
 						{
 							// Invalid
-							var obj = (Settings.MyDevSettings.ExperimentalPropertyGridView ? entityProperties2.SelectedObject as LocalPropertyGridObject : entityProperties.SelectedObject as LocalPropertyGridObject);
+							var obj = entityProperties.SelectedObject as LocalPropertyGridObject;
 							obj.setValue(tag, oldValue);
 							return;
 						}
@@ -899,97 +821,55 @@ namespace ManiacEditor
 						attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
 						break;
 				}
-			}
-		}
+                UpdateEntitiesProperties(new List<RSDKv5.SceneEntity>() { entity });
+
+            }
+        }
 
 
 		private void entityProperties_PropertyValueChanged(object s, System.Windows.Forms.PropertyValueChangedEventArgs e)
 		{
-			if (!Settings.MyDevSettings.ExperimentalPropertyGridView)
-			{
-				string tag = e.ChangedItem.PropertyDescriptor.Name;
-				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.ChangedItem.Value, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
-				setEntitiyProperty(currentEntity, tag, e.ChangedItem.Value, e.OldValue);
-			}
-
-
-		}
-
-		private void entityProperties2_PropertyValueChanged(object s, Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventArgs e)
-		{
-			if (Settings.MyDevSettings.ExperimentalPropertyGridView)
-			{
-				string tag = e.OriginalSource.ToString();
-				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
-				setEntitiyProperty(currentEntity, tag, e.NewValue, e.OldValue);
-			}
-		}
-
-		private void entitiesList_DropDown(object sender, EventArgs e)
-		{
-			entitiesList.ItemsSource = null;
-			entitiesList.Items.Clear();
-			UpdateEntitiesList();
-			entitiesList.ItemsSource = ObjectList;
-		}
+            string tag = e.ChangedItem.PropertyDescriptor.Name;
+            AddAction?.Invoke(new Actions.ActionEntityPropertyChange(currentEntity, tag, e.OldValue, e.ChangedItem.Value, new Action<RSDKv5.SceneEntity, string, object, object>(setEntitiyProperty)));
+            setEntitiyProperty(currentEntity, tag, e.ChangedItem.Value, e.OldValue);
+        }
 
 		private void btnSpawn_Click(object sender, RoutedEventArgs e)
 		{
-			if (cbSpawn?.SelectedItem != null && cbSpawn.SelectedItem is TextBlock)
-			{
-				var selectedItem = cbSpawn.SelectedItem as TextBlock;
-				if (selectedItem.Tag == null) return;
-				if (selectedItem.Tag is RSDKv5.SceneObject)
-				{
-					var obj = selectedItem.Tag as RSDKv5.SceneObject;
-					switch (Settings.MyDefaults.DefaultFilter[0])
-					{
-						case 'M':
-							EditorInstance.Entities.DefaultFilter = 2;
-							break;
-						case 'E':
-							EditorInstance.Entities.DefaultFilter = 4;
-							break;
-						case 'B':
-							EditorInstance.Entities.DefaultFilter = 1;
-							break;
-						case 'P':
-							EditorInstance.Entities.DefaultFilter = 255;
-							break;
-						default:
-							EditorInstance.Entities.DefaultFilter = 0;
-							break;
-					}
-					Spawn?.Invoke(obj);
-				}
-			}
-		}
+            SpawnObject();
+        }
 
-
-		private void maniaFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			EditorInstance.Entities.FilterRefreshNeeded = true;	
-		}
-
-		private void encoreFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			EditorInstance.Entities.FilterRefreshNeeded = true;
-		}
-
-		private void bothFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			EditorInstance.Entities.FilterRefreshNeeded = true;
-		}
-
-		private void PinballFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			EditorInstance.Entities.FilterRefreshNeeded = true;
-		}
-
-		private void otherFilterCheck_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			EditorInstance.Entities.FilterRefreshNeeded = true;
-		}
+        public void SpawnObject()
+        {
+            if (cbSpawn?.SelectedItem != null && cbSpawn.SelectedItem is TextBlock)
+            {
+                var selectedItem = cbSpawn.SelectedItem as TextBlock;
+                if (selectedItem.Tag == null) return;
+                if (selectedItem.Tag is RSDKv5.SceneObject)
+                {
+                    var obj = selectedItem.Tag as RSDKv5.SceneObject;
+                    switch (Settings.MyDefaults.DefaultFilter[0])
+                    {
+                        case 'M':
+                            EditorInstance.Entities.DefaultFilter = 2;
+                            break;
+                        case 'E':
+                            EditorInstance.Entities.DefaultFilter = 4;
+                            break;
+                        case 'B':
+                            EditorInstance.Entities.DefaultFilter = 1;
+                            break;
+                        case 'P':
+                            EditorInstance.Entities.DefaultFilter = 255;
+                            break;
+                        default:
+                            EditorInstance.Entities.DefaultFilter = 0;
+                            break;
+                    }
+                    Spawn?.Invoke(obj);
+                }
+            }
+        }
 
 		private void cbSpawn_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -1029,7 +909,7 @@ namespace ManiacEditor
 		{
 			if (currentEntity != null)
 			{
-				entitiesList.SelectedItem = ObjectList[(int)currentEntity.SlotID];
+				//entitiesList.SelectedItem = ObjectList[(int)currentEntity.SlotID];
 			}
 		}
 
@@ -1042,11 +922,6 @@ namespace ManiacEditor
 		{
 
 		}
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void SortSelectedSlotIDs_Click(object sender, RoutedEventArgs e)
         {
@@ -1061,6 +936,91 @@ namespace ManiacEditor
         private void SortSelectedSlotIDsOrdered_Click(object sender, RoutedEventArgs e)
         {
             EditorInstance.Entities.OrderSelectedSlotIDs(false, true);
+        }
+
+        private void EntitiesList_Click(object sender, RoutedEventArgs e)
+        {
+            if (TabControl.SelectedIndex != 2)
+            {
+                TabControl.SelectedIndex = 2;
+                if (currentEntity != null)
+                {
+                    var currObject = ObjectList.Where(x => x.Tag.ToString() == currentEntity.SlotID.ToString()).FirstOrDefault();
+                    if (currObject != null)
+                    {
+                        SceneEntitiesList.ScrollIntoView(currObject);
+                    }
+                }
+
+            }
+            else
+            {
+                TabControl.SelectedIndex = 0;
+            }
+        }
+
+        private void EntitiesListEntryClicked(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
+            Editor.Instance.Entities.Deselect();
+            Editor.Instance.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
+            TabControl.SelectedIndex = 0;
+            SelectedEntities = Editor.Instance.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ButtonSpinner_Spin(object sender, Xceed.Wpf.Toolkit.SpinEventArgs e)
+        {
+            if (currentEntity != null)
+            {
+                int index = ObjectList.IndexOf(ObjectList.Where(x => x.Tag.ToString() == currentEntity.SlotID.ToString()).FirstOrDefault());
+
+                if (e.Direction == Xceed.Wpf.Toolkit.SpinDirection.Decrease) index--;
+                else index++;
+
+                if (ObjectList.Length <= index || index < 0) return;
+
+                if (ObjectList[index] != null)
+                {
+                    Editor.Instance.Entities.Deselect();
+                    Editor.Instance.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
+                    TabControl.SelectedIndex = 0;
+                    SelectedEntities = Editor.Instance.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+                }
+            }
+
+        }
+
+        private void EntitiesList_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 1)
+            {
+                ButtonSpinner_Spin(null, new Xceed.Wpf.Toolkit.SpinEventArgs(Xceed.Wpf.Toolkit.SpinDirection.Increase));
+            }
+            else
+            {
+                ButtonSpinner_Spin(null, new Xceed.Wpf.Toolkit.SpinEventArgs(Xceed.Wpf.Toolkit.SpinDirection.Decrease));
+            }
+        }
+
+        private void CbSpawn_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Editor.Instance.Entities != null && Editor.Instance.SplineToolButton.IsChecked.Value)
+            {
+                var selectedItem = cbSpawn.SelectedItem as TextBlock;
+                if (selectedItem.Tag == null) return;
+                if (selectedItem.Tag is RSDKv5.SceneObject)
+                {
+                    var obj = selectedItem.Tag as RSDKv5.SceneObject;
+                    Editor.Instance.Entities.SplineObjectRenderingTemplate = Editor.Instance.Entities.GenerateEditorEntity(new SceneEntity(obj, 0));
+                    UpdateEntitiesProperties(new List<SceneEntity>() { Editor.Instance.Entities.SplineObjectRenderingTemplate.Entity });
+                }
+
+            }
         }
     }
 }

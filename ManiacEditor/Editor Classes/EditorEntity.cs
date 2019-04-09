@@ -26,8 +26,6 @@ namespace ManiacEditor
     [Serializable]
     public class EditorEntity : IDrawable
 	{
-		private bool is64Bit = false;
-
         public bool Selected { get => GetSelected(); set => SetSelected(value); }
         private bool isSelected = false;
         public int SelectedIndex = -1;
@@ -37,7 +35,6 @@ namespace ManiacEditor
         {
             return isSelected;
         }
-
         public void SetSelected(bool value)
         {
             if (value == true)
@@ -58,31 +55,29 @@ namespace ManiacEditor
         public bool InTempSelection = false;
         public bool TempSelected = false;
 
-        public bool rotateImageLegacyMode = false;
-		public bool PreLoadDrawing = false;
-
         //public static EditorEntity Instance;
         public EditorAnimations EditorAnimations;
         public AttributeValidater AttributeValidater;
-        public EntityRenderer renderer;
+        public EntityRenderer RenderDrawing;
+        public LinkedRenderer LinkedRenderDrawing;
 
-        private SceneEntity entity;
+
+
         public bool filteredOut;
         public bool filteredOutByParent;
         public string uniqueKey = "";
 		public bool useOtherSelectionVisiblityMethod = false; //Not Universal; Only for Renders that need it
 		public bool drawSelectionBoxInFront = true;
 		public bool renderNotFound = false;
+        public bool IsInternalObject = false;
 
-		//Rotating/Moving Platforms
-		public int platformAngle = 0;
+        #region Animation + Child Stuff
+        //Rotating/Moving Platforms
+        public int platformAngle = 0;
         public int platformpositionX = 0;
         public int platformpositionY = 0;
 
-
-
         //For Drawing Extra Child Objects
-
         public bool childDraw = false;
         public int childX = 0;
         public int childY = 0;
@@ -92,22 +87,38 @@ namespace ManiacEditor
         public DateTime lastFrametime;
         public int index = 0;
         public int layerPriority = 0;
-        public SceneEntity Entity { get { return entity; }}
+        #endregion
 
-        public int PositionX = 0;
-        public int PositionY = 0;
-        public string Name = "";
+        public SceneEntity Entity { get { return _entity; }}
+        private SceneEntity _entity;
+
+        public int PositionX { get => GetPosition(true); set => SetPosition(true, (short)value); }
+        public int PositionY { get => GetPosition(false); set => SetPosition(false, (short)value); }
+        public string Name { get => GetName(); }
+
+        private int GetPosition(bool useX)
+        {
+            if (useX) return _entity.Position.X.High;
+            else return _entity.Position.Y.High;
+        }
+
+        private string GetName()
+        {
+            return _entity.Object.Name.Name;
+        }
+
+        private void SetPosition(bool useX, short value)
+        {
+            if (useX) _entity.Position.X.High = value;
+            else _entity.Position.Y.High = value;
+        }
 
         public EditorEntity(SceneEntity entity)
         {
-            this.entity = entity;
-            PositionX = entity.Position.X.High;
-            PositionY = entity.Position.Y.High;
-            Name = entity.Object.Name.Name;
+            this._entity = entity;
             lastFrametime = DateTime.Now;
             EditorAnimations = new EditorAnimations(Editor.Instance);
             AttributeValidater = new AttributeValidater();
-			is64Bit = Environment.Is64BitProcess;
 
             if (Editor.Instance.EntityDrawing.EntityRenderers.Count == 0)
             {
@@ -130,6 +141,13 @@ namespace ManiacEditor
 
 
         }
+
+        public EditorEntity(SceneEntity entity, bool IsInternal)
+        {
+            IsInternalObject = IsInternal;
+            this._entity = entity;
+        }
+
 
         public void Draw(Graphics g)
         {
@@ -224,39 +242,54 @@ namespace ManiacEditor
         {
             if (relative)
             {
-                entity.Position.X.High += (short)diff.X;
-                entity.Position.Y.High += (short)diff.Y;
+                _entity.Position.X.High += (short)diff.X;
+                _entity.Position.Y.High += (short)diff.Y;
             }
             else
             {
-                entity.Position.X.High = (short)diff.X;
-                entity.Position.Y.High = (short)diff.Y;
+                _entity.Position.X.High = (short)diff.X;
+                _entity.Position.Y.High = (short)diff.Y;
             }
 
-            if (Editor.Instance.InGame.GameRunning && Settings.MyGameOptions.RealTimeObjectMovementMode)
+            if (Editor.Instance.InGame.GameRunning && Settings.MyGameOptions.RealTimeObjectMovementMode && !IsInternalObject)
             {
 
                 int ObjectStart = EditorInGame.ObjectStart[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
                 int ObjectSize =  EditorInGame.ObjectSize[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
 
-                int ObjectAddress = ObjectStart + (ObjectSize * Editor.Instance.Entities.GetRealSlotID(entity));
-                Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, entity.Position.X.High);
-                Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, entity.Position.Y.High);
+                int ObjectAddress = ObjectStart + (ObjectSize * Editor.Instance.Entities.GetRealSlotID(_entity));
+                Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
+                Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
             }
 
 
         }
 
-        public Rectangle GetDimensions()
+        public Rectangle GetDimensions(bool GridAlignment = false)
         {
-            return new Rectangle(entity.Position.X.High, entity.Position.Y.High, EditorConstants.ENTITY_NAME_BOX_WIDTH, EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+
+            if (GridAlignment)
+            {
+                if (Editor.Instance.UIModes.UseMagnetMode)
+                {
+                    int x = Editor.Instance.UIModes.MagnetSize * (_entity.Position.X.High / Editor.Instance.UIModes.MagnetSize);
+                    int y = Editor.Instance.UIModes.MagnetSize * (_entity.Position.Y.High / Editor.Instance.UIModes.MagnetSize);
+                    return new Rectangle(x, y, Editor.Instance.UIModes.MagnetSize, Editor.Instance.UIModes.MagnetSize);
+                }
+                else
+                {
+                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, EditorConstants.ENTITY_NAME_BOX_WIDTH, EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+                }
+
+            }
+            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, EditorConstants.ENTITY_NAME_BOX_WIDTH, EditorConstants.ENTITY_NAME_BOX_HEIGHT);
         }
 
         public bool SetFilter()
         {
 			if (HasFilter())
 			{
-				int filter = entity.GetAttribute("filter").ValueUInt8;
+				int filter = _entity.GetAttribute("filter").ValueUInt8;
 
 				/**
                  * 1 or 5 = Both
@@ -278,7 +311,7 @@ namespace ManiacEditor
 			}
 
 
-            if (Editor.Instance.UIModes.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Editor.Instance.UIModes.entitiesTextFilter))
+            if (Editor.Instance.UIModes.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Editor.Instance.UIModes.entitiesTextFilter))
             {
                 filteredOut = true;
             }
@@ -288,9 +321,9 @@ namespace ManiacEditor
 
         public void TestIfPlayerObject()
         {
-            if (entity.Object.Name.Name == "Player" && !Editor.Instance.playerObjectPosition.Contains(entity))
+            if (_entity.Object.Name.Name == "Player" && !Editor.Instance.playerObjectPosition.Contains(_entity))
             {
-                Editor.Instance.playerObjectPosition.Add(entity);
+                Editor.Instance.playerObjectPosition.Add(_entity);
             }
         }
         public System.Drawing.Color GetFilterBoxColor()
@@ -340,16 +373,16 @@ namespace ManiacEditor
         }
         public int GetChildX()
         {
-            return  (childDrawAddMode == false ? childX : entity.Position.X.High + (childDraw ? childX : 0));
+            return  (childDrawAddMode == false ? childX : _entity.Position.X.High + (childDraw ? childX : 0));
         }
         public int GetChildY()
         {
-            return (childDrawAddMode == false ? childY : entity.Position.Y.High + (childDraw ? childY : 0));
+            return (childDrawAddMode == false ? childY : _entity.Position.Y.High + (childDraw ? childY : 0));
         }
         public bool ValidPriorityPlane(int priority)
 		{
 			bool validPlane = false;
-			if (priority != 0) validPlane = AttributeValidater.PlaneFilterCheck(entity, priority);
+			if (priority != 0) validPlane = AttributeValidater.PlaneFilterCheck(_entity, priority);
 			else validPlane = true;
 			
 			return validPlane;
@@ -357,8 +390,8 @@ namespace ManiacEditor
 		public virtual void DrawBoxOnly(DevicePanel d)
 		{
 			int Transparency = (Editor.Instance.EditLayerA == null) ? 0xff : 0x32;
-			int x = entity.Position.X.High;
-			int y = entity.Position.Y.High;
+			int x = _entity.Position.X.High;
+			int y = _entity.Position.Y.High;
 
 			if (filteredOut) return;
 
@@ -371,17 +404,17 @@ namespace ManiacEditor
         public virtual void Draw(DevicePanel d)
         {
             if (filteredOut) return;
-            if (EditorEntityDrawing.LinkedRendersNames.Contains(entity.Object.Name.Name) && Editor.Instance.UIModes.ShowEntityPathArrows)
+            if (EditorEntityDrawing.LinkedRendersNames.Contains(_entity.Object.Name.Name) && Editor.Instance.UIModes.ShowEntityPathArrows)
             {
                 try
                 {
-                    LinkedRenderer renderer = Editor.Instance.EntityDrawing.LinkedEntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name.ToString()).FirstOrDefault();
-                    if (renderer != null) renderer.Draw(d, entity, this);
+                    LinkedRenderer renderer = Editor.Instance.EntityDrawing.LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name.ToString()).FirstOrDefault();
+                    if (renderer != null) renderer.Draw(d, _entity, this);
                 }
                 catch (Exception ex)
                 {
-                    RSDKrU.MessageBox.Show("Unable to load the linked render for " + entity.Object.Name.Name + "! " + ex.ToString());
-                    Editor.Instance.EntityDrawing.linkedrendersWithErrors.Add(entity.Object.Name.Name);
+                    RSDKrU.MessageBox.Show("Unable to load the linked render for " + _entity.Object.Name.Name + "! " + ex.ToString());
+                    Editor.Instance.EntityDrawing.linkedrendersWithErrors.Add(_entity.Object.Name.Name);
 
                 }
 
@@ -391,6 +424,16 @@ namespace ManiacEditor
                 DrawBase(d);
             }
         }
+        public virtual void DrawInternal(DevicePanel d)
+        {
+            int Transparency = GetTransparencyLevel();
+
+            int x = _entity.Position.X.High;
+            int y = _entity.Position.Y.High;
+
+            DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red);
+        }
+
         public virtual void DrawBase(DevicePanel d)
         {
             TestIfPlayerObject();
@@ -398,21 +441,21 @@ namespace ManiacEditor
             List<string> entityRenderList = Editor.Instance.EntityDrawing.entityRenderingObjects;
             List<string> onScreenExlusionList = (Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : Editor.Instance.EntityDrawing.renderOnScreenExlusions);
          
-            if (!onScreenExlusionList.Contains(entity.Object.Name.Name)) if (!this.IsObjectOnScreen(d)) return;
+            if (!onScreenExlusionList.Contains(_entity.Object.Name.Name)) if (!this.IsObjectOnScreen(d)) return;
             System.Drawing.Color color = GetBoxInsideColor();
             System.Drawing.Color color2 = GetFilterBoxColor();
             int Transparency = GetTransparencyLevel();
-            if (!Settings.MyPerformance.NeverLoadEntityTextures) Editor.Instance.EntityDrawing.LoadNextAnimation(this);
+            Editor.Instance.EntityDrawing.LoadNextAnimation(this);
 
-            int x = entity.Position.X.High;
-            int y = entity.Position.Y.High;
+            int x = _entity.Position.X.High;
+            int y = _entity.Position.Y.High;
             int _ChildX = GetChildX();
             int _ChildY = GetChildY();
             bool fliph = false;
             bool flipv = false;
             bool rotate = false;
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
-            string name = entity.Object.Name.Name;
+            string name = _entity.Object.Name.Name;
 
 			if (!drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
@@ -426,22 +469,24 @@ namespace ManiacEditor
 		}
         public virtual void PrimaryDraw(DevicePanel d, List<string> onScreenExlusionList)
         {
-            if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(entity.Object.Name.Name)) && Settings.MyPerformance.UseAlternativeRenderingMode)
+            if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(_entity.Object.Name.Name)) && Settings.MyPerformance.UseAlternativeRenderingMode)
             {
-                Editor.Instance.EntityDrawing.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                Editor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
             }
             else if (!Settings.MyPerformance.UseAlternativeRenderingMode)
             {
-                Editor.Instance.EntityDrawing.DrawOthers(d, entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                Editor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
             }
         }
-        public virtual void FallbackDraw(DevicePanel d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color)
+        public virtual void FallbackDraw(DevicePanel d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)
         {
+            int __X = _entity.Position.X.High;
+            int __Y = _entity.Position.Y.High;
             bool fliph = false;
             bool flipv = false;
             bool rotate = false;
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
-            string name = entity.Object.Name.Name;
+            string name = _entity.Object.Name.Name;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
             if (editorAnim != null && editorAnim.Frames.Count > 0)
             {
@@ -449,7 +494,7 @@ namespace ManiacEditor
                 // Special cases that always display a set frame(?)
                 if (Editor.Instance.ShowAnimations.IsEnabled == true)
                 {
-                    if (entity.Object.Name.Name == "StarPost")
+                    if (_entity.Object.Name.Name == "StarPost")
                         index = 1;
                 }
                 // Just incase
@@ -457,14 +502,14 @@ namespace ManiacEditor
                     index = 0;
                 var frame = editorAnim.Frames[index];
 
-                if (entity.attributesMap.ContainsKey("frameID"))
-                    frame = GetFrameFromAttribute(editorAnim, entity.attributesMap["frameID"]);
+                if (_entity.attributesMap.ContainsKey("frameID"))
+                    frame = GetFrameFromAttribute(editorAnim, _entity.attributesMap["frameID"]);
 
                 if (frame != null)
                 {
-                    EditorAnimations.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+                    EditorAnimations.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay, index);
                     // Draw the normal filled Rectangle but Its visible if you have the entity selected
-                    d.DrawBitmap(frame.Texture, _ChildX + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), _ChildY + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
+                    d.DrawBitmap(frame.Texture, __X + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), __Y + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
@@ -477,7 +522,7 @@ namespace ManiacEditor
             }
             else
             {
-                renderNotFound = true;
+               renderNotFound = true;
             }
         }
         public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
@@ -500,7 +545,7 @@ namespace ManiacEditor
                 {
                     if (Editor.Instance.GetZoom() >= 1)
                     {
-                        d.DrawTextSmall(String.Format("{0} (ID: {1})", entity.Object.Name, entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                        d.DrawTextSmall(String.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }
                 }
 
@@ -530,13 +575,13 @@ namespace ManiacEditor
             switch (attribute.Type)
             {
                 case AttributeTypes.UINT8:
-                    frameID = entity.attributesMap[key].ValueUInt8;
+                    frameID = _entity.attributesMap[key].ValueUInt8;
                     break;
                 case AttributeTypes.INT8:
-                    frameID = entity.attributesMap[key].ValueInt8;
+                    frameID = _entity.attributesMap[key].ValueInt8;
                     break;
                 case AttributeTypes.VAR:
-                    frameID = (int)entity.attributesMap[key].ValueVar;
+                    frameID = (int)_entity.attributesMap[key].ValueVar;
                     break;
             }
             if (frameID >= anim.Frames.Count)
@@ -558,7 +603,7 @@ namespace ManiacEditor
         public SharpDX.Vector2 GetRotationFromAttributes(ref bool fliph, ref bool flipv, ref bool rotate)
         {
             AttributeValue attribute = null;
-            var attributes = entity.attributesMap;
+            var attributes = _entity.attributesMap;
             int dir = 0;
             var offset = new SharpDX.Vector2();
             if (attributes.ContainsKey("orientation"))
@@ -640,8 +685,8 @@ namespace ManiacEditor
         public bool IsObjectOnScreen(DevicePanel d)
         {
             
-            int x = entity.Position.X.High + childX;
-            int y = entity.Position.Y.High + childY;
+            int x = _entity.Position.X.High + childX;
+            int y = _entity.Position.Y.High + childY;
             if (childDrawAddMode == false)
             {
                 x = childX;
@@ -654,10 +699,10 @@ namespace ManiacEditor
             
 			if (!filteredOut)
 			{
-                if (renderer == null || renderer.GetObjectName() != entity.Object.Name.Name) renderer = Editor.Instance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
-                if (renderer != null)
+                if (RenderDrawing == null || RenderDrawing.GetObjectName() != _entity.Object.Name.Name) RenderDrawing = Editor.Instance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name).FirstOrDefault();
+                if (RenderDrawing != null)
 				{
-					isObjectVisibile = renderer.isObjectOnScreen(d, entity, null, x, y, 0);
+					isObjectVisibile = RenderDrawing.isObjectOnScreen(d, _entity, null, x, y, 0);
 				}
 				else
 				{
@@ -672,18 +717,18 @@ namespace ManiacEditor
         }
         public bool HasFilter()
         {
-            return entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8;
+            return _entity.attributesMap.ContainsKey("filter") && _entity.attributesMap["filter"].Type == AttributeTypes.UINT8;
         }
 
         public bool HasSpecificFilter(uint input, bool checkHigher = false)
         {
-            if (entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8)
+            if (_entity.attributesMap.ContainsKey("filter") && _entity.attributesMap["filter"].Type == AttributeTypes.UINT8)
             {
-                if (entity.attributesMap["filter"].ValueUInt8 == input && checkHigher == false)
+                if (_entity.attributesMap["filter"].ValueUInt8 == input && checkHigher == false)
                 {
                     return true;
                 }
-                else if (entity.attributesMap["filter"].ValueUInt8 >= input && checkHigher)
+                else if (_entity.attributesMap["filter"].ValueUInt8 >= input && checkHigher)
                 {
                     return true;
                 }
@@ -699,9 +744,9 @@ namespace ManiacEditor
         }
         public bool HasFilterOther()
         {
-            if (entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8)
+            if (_entity.attributesMap.ContainsKey("filter") && _entity.attributesMap["filter"].Type == AttributeTypes.UINT8)
             {
-                int filter = entity.attributesMap["filter"].ValueUInt8;
+                int filter = _entity.attributesMap["filter"].ValueUInt8;
                 if (filter < 1 || filter == 3 || filter > 5)
                 {
                     return true;
@@ -719,25 +764,25 @@ namespace ManiacEditor
 
         public void PrepareForExternalCopy()
         {
-            entity.PrepareForExternalCopy();
+            _entity.PrepareForExternalCopy();
         }
 
         public bool IsExternal()
         {
-            return entity.IsExternal();
+            return _entity.IsExternal();
         }
 
         internal void Flip(FlipDirection flipDirection)
         {
-            if (entity.attributesMap.ContainsKey("flipFlag"))
+            if (_entity.attributesMap.ContainsKey("flipFlag"))
             {
                 if (flipDirection == FlipDirection.Horizontal)
                 {
-                    entity.attributesMap["flipFlag"].ValueVar ^= 0x01;
+                    _entity.attributesMap["flipFlag"].ValueVar ^= 0x01;
                 }
                 else
                 {
-                    entity.attributesMap["flipFlag"].ValueVar ^= 0x02;
+                    _entity.attributesMap["flipFlag"].ValueVar ^= 0x02;
                 }
             }
         }

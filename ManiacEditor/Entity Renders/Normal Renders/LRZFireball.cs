@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-
+            int type = (int)(entity.attributesMap["type"].ValueUInt8);
             int rotation = (int)(entity.attributesMap["rotation"].ValueInt32 / 1.42);
             int pageID = GetRotationFrame(rotation);
 
@@ -26,7 +26,7 @@ namespace ManiacEditor.Entity_Renders
 
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d, 1, 0, fliph, flipv, false, rotation, true, false, false, true);
 
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            if (editorAnim != null && editorAnim.Frames.Count != 0 && type != 0)
             {
                 var frame = editorAnim.Frames[0];
                 int thickness = (pageID == 1 ? frame.Frame.Width : frame.Frame.Height);

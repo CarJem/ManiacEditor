@@ -424,11 +424,16 @@ namespace ManiacEditor
         }
         public void DrawMode()
         {
-            SetToolModes(2, Editor.PlaceTilesButton.IsChecked.Value);
+            SetToolModes(2, Editor.DrawToolButton.IsChecked.Value);
         }
         public void InteractionMode()
         {
             SetToolModes(3, Editor.InteractionToolButton.IsChecked.Value);
+        }
+
+        public void SplineMode()
+        {
+            SetToolModes(4, Editor.SplineToolButton.IsChecked.Value);
         }
         public void ChunksMode()
         {
@@ -438,10 +443,101 @@ namespace ManiacEditor
         {
             Editor.PointerToolButton.IsChecked = (selectedID == 0 ? value : false);
             Editor.SelectToolButton.IsChecked = (selectedID == 1 ? value : false);
-            Editor.PlaceTilesButton.IsChecked = (selectedID == 2 ? value : false);
+            Editor.DrawToolButton.IsChecked = (selectedID == 2 ? value : false);
             Editor.InteractionToolButton.IsChecked = (selectedID == 3 ? value : false);
+            Editor.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
             Editor.UI.UpdateControls();
         }
+
+        #region Spline Related Modes
+        #region Spline Point Seperation Size 
+        //Determines the Spline Point Frequency
+        public int SplineSize { get => GetSplineSize(); set => SetSplineSize(value); }
+        private int _SplineSize = 128;
+        private int GetSplineSize()
+        {
+            return _SplineSize;
+        }
+        private void SetSplineSize(int value)
+        {
+            _SplineSize = value;
+            if (Editor.UI != null) Editor.UI.UpdateControls();
+        }
+
+
+        #endregion
+        public bool SplineToolShowLines { get; set; } = true; //Self Explanatory
+        public int SplineCurrentPointsDrawn { get; set; } = 0; //Self Explanatory
+        public int SplineTotalNumberOfObjects { get; set; } = 0; //Self Explanatory
+        public bool SplineToolShowPoints { get; set; } = true; //Self Explanatory
+        public bool SplineToolShowObject { get; set; } = false; //Self Explanatory
+
+        #region Spline Line Modes
+        public bool SplineLineMode { get => GetSplineLineMode(); set => SetSplineLineMode(value); } //Self Explanatory
+        public bool SplineOvalMode { get => GetSplineOvalMode(); set => SetSplineOvalMode(value); } //Self Explanatory
+
+        private bool _SplineLineMode = false;
+        private bool _SplineOvalMode = true;
+        private bool GetSplineLineMode()
+        {
+            return _SplineLineMode;
+        }
+        private void SetSplineLineMode(bool value)
+        {
+            _SplineLineMode = value;
+            UpdateSplineStates(1, value);
+        }
+
+        private bool GetSplineOvalMode()
+        {
+            return _SplineOvalMode;
+        }
+        private void SetSplineOvalMode(bool value)
+        {
+            _SplineOvalMode = value;
+            UpdateSplineStates(0, value);
+        }
+
+        private void UpdateSplineStates(int mode, bool state)
+        {
+            if (mode == 1)
+            {
+                if (state)
+                {
+                    Editor.SplineLineMode.IsChecked = true;
+                    _SplineLineMode = true;
+                    Editor.SplineOvalMode.IsChecked = false;
+                    _SplineOvalMode = false;
+                }
+                else
+                {
+                    Editor.SplineLineMode.IsChecked = false;
+                    _SplineLineMode = false;
+                    Editor.SplineOvalMode.IsChecked = true;
+                    _SplineOvalMode = true;
+                }
+            }
+            else
+            {
+                if (state)
+                {
+                    Editor.SplineLineMode.IsChecked = false;
+                    _SplineLineMode = false;
+                    Editor.SplineOvalMode.IsChecked = true;
+                    _SplineOvalMode = true;
+                }
+                else
+                {
+                    Editor.SplineLineMode.IsChecked = true;
+                    _SplineLineMode = true;
+                    Editor.SplineOvalMode.IsChecked = false;
+                    _SplineOvalMode = false;
+                }
+            }
+        }
+        #endregion
+
+        #endregion
         #endregion
         #region Multi Layer Mode
         public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
@@ -553,24 +649,36 @@ namespace ManiacEditor
         //Determines the Magnets Size
         public int MagnetSize { get => GetMagnetSize(); set => SetMagnetSize(value); }
         private int _MagnetSize = 16;
+        public int CustomMagnetSize = 16;
         private int GetMagnetSize()
         {
             return _MagnetSize;
         }
         private void SetMagnetSize(int value)
         {
+            bool isCustom = false;
             Editor.x8ToolStripMenuItem.IsChecked = false;
             Editor.x16ToolStripMenuItem1.IsChecked = false;
             Editor.x32ToolStripMenuItem.IsChecked = false;
             Editor.x64ToolStripMenuItem.IsChecked = false;
+            Editor.MagnetCustomSizeToolStripMenuItem.IsChecked = false;
 
             if (value == 8) Editor.x8ToolStripMenuItem.IsChecked = true;
             else if (value == 16) Editor.x16ToolStripMenuItem1.IsChecked = true;
             else if (value == 32) Editor.x32ToolStripMenuItem.IsChecked = true;
             else if (value == 64) Editor.x64ToolStripMenuItem.IsChecked = true;
+            else if (value == -1)
+            {
+                isCustom = true;
+                Editor.MagnetCustomSizeToolStripMenuItem.IsChecked = true;
+            }
 
-            _MagnetSize = value;
+            Editor.CustomMagnetLabel.Text = string.Format(Editor.CustomMagnetLabel.Tag.ToString(), CustomMagnetSize);
+
+            if (!isCustom) _MagnetSize = value;
+            else _MagnetSize = CustomMagnetSize;
         }
+
         #endregion
         #region Grid Size 
         //Determines the Magnets Size
@@ -582,6 +690,7 @@ namespace ManiacEditor
         }
         private void SetGridSize(int value)
         {
+            bool isCustom = false;
             _GridSize = value;
 
             Editor.Grid16x16SizeMenuItem.IsChecked = false;
@@ -592,7 +701,16 @@ namespace ManiacEditor
             if (value == 16) Editor.Grid16x16SizeMenuItem.IsChecked = true;
             else if (value == 128) Editor.Grid128x128SizeMenuItem.IsChecked = true;
             else if (value == 256) Editor.Grid256x256SizeMenuItem.IsChecked = true;
-            else Editor.GridCustomSizeMenuItem.IsChecked = true;
+            else if (value == -1)
+            {
+                isCustom = true;
+                Editor.GridCustomSizeMenuItem.IsChecked = true;
+            }
+
+            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), Properties.Defaults.Default.CustomGridSizeValue);
+
+            if (!isCustom) _GridSize = value;
+            else _GridSize = Properties.Defaults.Default.CustomGridSizeValue;
         }
         #endregion
         #region Entities Visibile Above All Other Layers
@@ -626,11 +744,12 @@ namespace ManiacEditor
             Editor.customToolStripMenuItem1.IsChecked = false;
             Editor.defaultToolStripMenuItem.IsChecked = false;
 
-            if (value == 0) Editor.invertedToolStripMenuItem.IsChecked = true;
-            else if (value == 1) Editor.customToolStripMenuItem1.IsChecked = true;
-            else if (value == 2) Editor.defaultToolStripMenuItem.IsChecked = true;
+            if (value == 1) Editor.invertedToolStripMenuItem.IsChecked = true;
+            else if (value == 2) Editor.customToolStripMenuItem1.IsChecked = true;
+            else if (value == 0) Editor.defaultToolStripMenuItem.IsChecked = true;
 
             Editor.ReloadSpecificTextures(null, null);
+            Editor.RefreshCollisionColours(true);
         }
         #endregion
         public bool AddStageConfigEntriesAllowed { get; set; } = true; //Self Explanatory
@@ -643,9 +762,6 @@ namespace ManiacEditor
         public static bool UpdateUpdaterMessage = false;
 
         public bool RequireSaveCheck { get; set; } = false;
-
-
-
 
 
         public System.Drawing.Point TempWarpCoords = new System.Drawing.Point(0, 0); //Temporary Warp Position for Shortcuts and Force Open

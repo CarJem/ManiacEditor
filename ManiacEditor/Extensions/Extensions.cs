@@ -22,9 +22,22 @@ using System.Xml.Serialization;
 namespace ManiacEditor
 {
 
+
     public static class Extensions
     {
 
+        public static List<System.Drawing.Point> CreateDataPoints(float[] x, float[] y)
+        {
+            System.Diagnostics.Debug.Assert(x.Length == y.Length);
+            List<System.Drawing.Point> points = new List<System.Drawing.Point>();
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                points.Add(new System.Drawing.Point((int)x[i], (int)y[i]));
+            }
+
+            return points;
+        }
         public static IEnumerable<IEnumerable<int>> GroupConsecutive(this IEnumerable<int> list)
         {
             var group = new List<int>();

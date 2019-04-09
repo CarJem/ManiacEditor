@@ -157,8 +157,8 @@ namespace ManiacEditor
 				Editor.Entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
 			}
 			Editor.UI.SetSelectOnlyButtonsState();
-			Editor.StateModel.ClickedX = -1;
-			Editor.StateModel.ClickedY = -1;
+			Editor.StateModel.SelectionX1 = -1;
+			Editor.StateModel.SelectionY1 = -1;
 		}
 
 		public void FlipHorizontal()

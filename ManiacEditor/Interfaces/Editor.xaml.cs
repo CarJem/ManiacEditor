@@ -32,6 +32,7 @@ using MessageBox = RSDKrU.MessageBox;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
+using Cyotek.Windows.Forms;
 
 
 namespace ManiacEditor
@@ -104,6 +105,7 @@ namespace ManiacEditor
 		public StageConfig StageConfig;
 		public GameConfig GameConfig;
 		public EditorUIControl UIControl;
+        public EditorMouseControls MouseControls;
 		public EditorEntities Entities;
 		internal EditorBackground BackgroundDX;
 		public TilesToolbar TilesToolbar = null;
@@ -233,7 +235,7 @@ namespace ManiacEditor
                 Debug.Print("Discord RP couldn't start! Exception Error:" + ex.ToString());
             }
 
-			//if (ManiacEditor.Settings.MyDevSettings.DevAutoStart) OpenSceneForceFully();
+			if (ManiacEditor.Settings.MyDevSettings.DevAutoStart) OpenSceneForceFully();
 
 			if (ShortcutLaunch)
 			{
@@ -300,9 +302,12 @@ namespace ManiacEditor
             ZoomModel = new EditorZoomModel(this);
             ManiacINI = new EditorManiacINI(this);
             Launcher = new EditorLaunch(this);
-            UI = new EditorUI(this);
+            MouseControls = new EditorMouseControls();
+            UI = new EditorUI();
             RecentsList = new EditorRecentSceneSourcesList(this);
             RecentDataSourcesList = new EditorRecentDataSourcesList(this);
+
+            UI.UpdateFilterButtonApperance(true);
 
 
 
@@ -331,6 +336,7 @@ namespace ManiacEditor
             UI.UpdateControls();
 			Settings.TryLoadSettings();
 			UpdateStartScreen(true, true);
+            UI.UpdateToolbars(false, false);
 		}
 		#endregion
 		#region Boolean States
@@ -420,17 +426,22 @@ namespace ManiacEditor
 				UpdateLastEntityAction();
 			}
 		}
-		public void UpdateLastEntityAction()
-		{
-			if (Entities.LastAction != null)
+        public void UpdateLastEntityAction()
+        {
+            if (Entities.LastAction != null || Entities.LastActionInternal != null) RedoStack.Clear();
+            if (Entities.LastAction != null)
 			{
-				RedoStack.Clear();
 				UndoStack.Push(Entities.LastAction);
 				Entities.LastAction = null;
-                UI.UpdateControls();
 			}
+            if (Entities.LastActionInternal != null)
+            {
+                UndoStack.Push(Entities.LastActionInternal);
+                Entities.LastActionInternal = null;
+            }
+            if (Entities.LastAction != null || Entities.LastActionInternal != null) UI.UpdateControls();
 
-		}
+        }
 		public void FlipEntities(FlipDirection direction)
 		{
 			Dictionary<EditorEntity, Point> initalPos = new Dictionary<EditorEntity, Point>();
@@ -493,6 +504,7 @@ namespace ManiacEditor
                     EntitiesToolbar.UpdateCurrentEntityProperites();
                 }
             }
+            FormsModel.GraphicPanel.Render();
             UI.UpdateControls();
         }
         public void EditorRedo()
@@ -508,6 +520,7 @@ namespace ManiacEditor
                     EntitiesToolbar.UpdateCurrentEntityProperites();
                 }
             }
+            FormsModel.GraphicPanel.Render();
             UI.UpdateControls();
         }
         public void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
@@ -684,10 +697,17 @@ namespace ManiacEditor
                 EntitiesToolbar.UpdateCurrentEntityProperites();
 
                 // Try to merge with last move
-                if (UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(Entities.SelectedEntities.ToList(), new Point(x, y))) { }
+                List<EditorEntity> SelectedList = Entities.SelectedEntities.ToList();
+                List<EditorEntity> SelectedInternalList = Entities.SelectedInternalEntities.ToList();
+                bool selectedActionsState = UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedList, new Point(x, y));
+                bool selectedInternalActionsState = UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedInternalList, new Point(x, y));
+
+                if (selectedActionsState || selectedInternalActionsState) { }
                 else
                 {
-                    UndoStack.Push(new ActionMoveEntities(Entities.SelectedEntities.ToList(), new Point(x, y), true));
+                    if (SelectedList.Count != 0) UndoStack.Push(new ActionMoveEntities(SelectedList, new Point(x, y), true));
+                    if (SelectedInternalList.Count != 0) UndoStack.Push(new ActionMoveEntities(SelectedInternalList, new Point(x, y), true));
+
                     RedoStack.Clear();
                     UI.UpdateControls();
                 }
@@ -1058,11 +1078,11 @@ namespace ManiacEditor
         }
         #endregion
         #region Mouse Actions Event Handlers
-        private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { UIControl.MouseMove(sender, e); }
-        private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { UIControl.MouseDown(sender, e); }
-        private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { UIControl.MouseUp(sender, e); }
-        private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { UIControl.MouseWheel(sender, e); }
-        private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { UIControl.MouseClick(sender, e); }
+        private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { MouseControls.MouseMove(sender, e); }
+        private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { MouseControls.MouseDown(sender, e); }
+        private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { MouseControls.MouseUp(sender, e); }
+        private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { MouseControls.MouseWheel(sender, e); }
+        private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { MouseControls.MouseClick(sender, e); }
         #endregion
         #region Splitter Events
         private void Spliter_DragDelta(object sender, DragDeltaEventArgs e) { ZoomModel.Resize(sender, e); }
@@ -1230,6 +1250,8 @@ namespace ManiacEditor
                     }
                 }
 
+                if (EditorScene != null) Entities.DrawInternalObjects(FormsModel.GraphicPanel);
+
                 if (UIModes.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing))
                 {
                     Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
@@ -1237,21 +1259,21 @@ namespace ManiacEditor
 
 			}
 
-			if (StateModel.draggingSelection)
+            if (StateModel.draggingSelection)
 			{
-				int bound_x1 = (int)(StateModel.selectingX / StateModel.Zoom); int bound_x2 = (int)(StateModel.lastX / StateModel.Zoom);
-				int bound_y1 = (int)(StateModel.selectingY / StateModel.Zoom); int bound_y2 = (int)(StateModel.lastY / StateModel.Zoom);
+				int bound_x1 = (int)(StateModel.SelectionX2 / StateModel.Zoom); int bound_x2 = (int)(StateModel.lastX / StateModel.Zoom);
+				int bound_y1 = (int)(StateModel.SelectionY2 / StateModel.Zoom); int bound_y2 = (int)(StateModel.lastY / StateModel.Zoom);
 				if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
 				{
 					if (bound_x1 > bound_x2)
 					{
 						bound_x1 = (int)(StateModel.lastX / StateModel.Zoom);
-						bound_x2 = (int)(StateModel.selectingX / StateModel.Zoom);
+						bound_x2 = (int)(StateModel.SelectionX2 / StateModel.Zoom);
 					}
 					if (bound_y1 > bound_y2)
 					{
 						bound_y1 = (int)(StateModel.lastY / StateModel.Zoom);
-						bound_y2 = (int)(StateModel.selectingY / StateModel.Zoom);
+						bound_y2 = (int)(StateModel.SelectionY2 / StateModel.Zoom);
 					}
                     if (IsChunksEdit())
                     {
@@ -1308,7 +1330,8 @@ namespace ManiacEditor
 
 			}
 		}
-		public void DrawLayers(int drawOrder = 0)
+
+        public void DrawLayers(int drawOrder = 0)
 		{
 			var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
 			_extraViewLayer.Draw(FormsModel.GraphicPanel);
@@ -1333,7 +1356,7 @@ namespace ManiacEditor
                 this.OverlayPanel.Children.Add(StartScreen);
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
-
+                UI.UpdateToolbars(false, false, true);
 
             }
             if (visible)
@@ -1341,12 +1364,14 @@ namespace ManiacEditor
                 StartScreen.Visibility = Visibility.Visible;
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
+                UI.UpdateToolbars(false, false, true);
             }
             else
             {
                 StartScreen.Visibility = Visibility.Hidden;
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Visible;
+                UI.UpdateToolbars(false, false, false);
             }
 
         }
@@ -1571,6 +1596,74 @@ namespace ManiacEditor
         }
 
         #endregion
+        #region Spline Tool Events
+        private void SplineShowLineCheckboxCheckChanged(object sender, RoutedEventArgs e)
+        {
+            UIModes.SplineToolShowLines = SplineShowLineCheckbox.IsChecked.Value;
+        }
+
+        private void SplineShowPointsCheckboxCheckChanged(object sender, RoutedEventArgs e)
+        {
+            UIModes.SplineToolShowPoints = SplineShowPointsCheckbox.IsChecked.Value;
+        }
+
+        private void SplineLineModeCheckChanged(object sender, RoutedEventArgs e)
+        {
+            UIModes.SplineToolShowObject = SplineShowObjectsCheckbox.IsChecked.Value;
+        }
+
+        private void SplineShowObjectsCheckboxCheckChanged(object sender, RoutedEventArgs e)
+        {
+            UIModes.SplineToolShowObject = SplineShowObjectsCheckbox.IsChecked.Value;
+        }
+
+        bool AllowSplineFreqeunceUpdate = true;
+
+
+        private void SplineToolbox_Closed(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SplineToolbox_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (UIModes != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
+            {
+                AllowSplineFreqeunceUpdate = false;
+                int size = (int)SplinePointSeperationNUD.Value;
+                SplinePointSeperationSlider.Value = size;
+                UIModes.SplineSize = size;
+                AllowSplineFreqeunceUpdate = true;
+            }
+        }
+
+        private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (UIModes != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
+            {
+                AllowSplineFreqeunceUpdate = false;
+                int size = (int)SplinePointSeperationSlider.Value;
+                SplinePointSeperationNUD.Value = size;
+                UIModes.SplineSize = size;
+                AllowSplineFreqeunceUpdate = true;
+            }
+        }
+
+        private void SplineLineMode_Click(object sender, RoutedEventArgs e)
+        {
+            UIModes.SplineLineMode = SplineLineMode.IsChecked.Value;
+        }
+
+        private void SplineOvalMode_Click(object sender, RoutedEventArgs e)
+        {
+            UIModes.SplineOvalMode = SplineOvalMode.IsChecked.Value;
+        }
+
+        #endregion
         private void GoToPlayerSpawnEvent(object sender, RoutedEventArgs e) { UIEvents.PlayerSpawnToolStripMenuItem_Click(sender, e); }
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { UIEvents.GoToPosition(sender, e); }
         private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { UIModes.UseMagnetMode ^= true; }
@@ -1582,7 +1675,8 @@ namespace ManiacEditor
 		private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { UIModes.PointerMode(); }
 		private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { UIModes.DrawMode(); }
 		private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { UIModes.InteractionMode(); }
-		private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { UIModes.ChunksMode(); }
+        private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { UIModes.SplineMode(); }
+        private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { UIModes.ChunksMode(); }
 		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UI.ReloadSpritesAndTextures(); }
 		public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { UIModes.ShowTileID ^= true; }
         private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { UIModes.EnablePixelCountMode ^= true; }
@@ -1669,6 +1763,11 @@ namespace ManiacEditor
         private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { UIModes.CollisionPreset = 0; }
         private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { UIModes.CollisionPreset = 1; }
         private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { UIModes.CollisionPreset = 2; }
+        private void FilterButtonOpenContextMenuEvent(object sender, RoutedEventArgs e) { FilterButton.ContextMenu.IsOpen = true; }
+        private void FilterCheckChangedEvent(object sender, RoutedEventArgs e)
+        {
+            if (Entities != null) Entities.FilterRefreshNeeded = true;
+        }
 
         #region Collision Slider Events
         private void CollisionOpacitySliderDragCompletedEvent(object sender, DragCompletedEventArgs e) { UIEvents.CollisionOpacitySliderDragEnd(sender, e); }
@@ -1682,6 +1781,13 @@ namespace ManiacEditor
         private void Magnet16x16Event(object sender, RoutedEventArgs e) { UIModes.MagnetSize = 16; }
         private void Magnet32x32Event(object sender, RoutedEventArgs e) { UIModes.MagnetSize = 32; }
         private void Magnet64x64Event(object sender, RoutedEventArgs e) { UIModes.MagnetSize = 64; }
+        private void MagnetCustomEvent(object sender, RoutedEventArgs e) { UIModes.MagnetSize = -1; }
+        private void CustomMagnetSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            UIModes.CustomMagnetSize = CustomMagnetSizeAdjuster.Value.Value;
+            UIModes.MagnetSize = -1;
+        }
+
         private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { UIModes.UseMagnetXAxis ^= true; }
         private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) { UIModes.UseMagnetYAxis ^= true; }
 
@@ -1691,8 +1797,8 @@ namespace ManiacEditor
         public void ToggleGridEvent(object sender, RoutedEventArgs e) { UIModes.ShowGrid ^= true; }
         private void SetGrid16x16Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 16; }
         private void SetGrid128x128Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 128; }
-        private void SetGrid256x256Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 128; }
-        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { UIModes.GridSize = Properties.Defaults.Default.CustomGridSizeValue; }
+        private void SetGrid256x256Event(object sender, RoutedEventArgs e) { UIModes.GridSize = 256; }
+        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { UIModes.GridSize = -1; }
         #endregion
 
         #region Apps
@@ -2201,8 +2307,6 @@ namespace ManiacEditor
 
         }
         #endregion
-
-
         #region Recent Data Folder Methods
         public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
         {
@@ -2377,6 +2481,93 @@ namespace ManiacEditor
             RecentDataSourceItems.Clear();
         }
 
+
         #endregion
+
+        private void LeftToolbarToolbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (UI != null && ZoomModel != null)
+            {
+                if (LeftToolbarToolbox.SelectedIndex == 0)
+                {
+                    UI.UpdateToolbars(false, false);
+                }
+                else
+                {
+                    UI.UpdateToolbars(false, true);
+                }
+                Editor.Instance.Editor_Resize(null, null);
+            }
+
+        }
+
+
+
+        private void comboBox8_DropDown(object sender, RoutedEventArgs e)
+        {
+            //Grid Default Color
+            ColorPickerDialog colorSelect = new ColorPickerDialog();
+            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                ManiacEditor.Settings.MyDefaults.DefaultGridColor = colorSelect.Color;
+                ManiacEditor.Settings.MyDefaults.Save();
+                UI.UpdateCustomColors();
+            }
+        }
+
+        private void comboBox7_DropDown(object sender, RoutedEventArgs e)
+        {
+            //Water Color
+            ColorPickerDialog colorSelect = new ColorPickerDialog();
+            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                ManiacEditor.Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
+                UIModes.waterColor = colorSelect.Color;
+                ManiacEditor.Settings.MyDefaults.Save();
+                UI.UpdateCustomColors();
+            }
+        }
+
+        private void comboBox6_DropDown(object sender, RoutedEventArgs e)
+        {
+            //Collision Solid(Top Only) Color
+            ColorPickerDialog colorSelect = new ColorPickerDialog();
+            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                ManiacEditor.Settings.MyDefaults.CollisionTOColour = colorSelect.Color;
+                ManiacEditor.Settings.MyDefaults.Save();
+                UI.UpdateCustomColors();
+            }
+        }
+
+        private void comboBox5_DropDown(object sender, RoutedEventArgs e)
+        {
+            //Collision Solid(LRD) Color
+            ColorPickerDialog colorSelect = new ColorPickerDialog();
+            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                ManiacEditor.Settings.MyDefaults.CollisionLRDColour = colorSelect.Color;
+                ManiacEditor.Settings.MyDefaults.Save();
+                UI.UpdateCustomColors();
+            }
+        }
+
+        private void comboBox4_DropDown(object sender, RoutedEventArgs e)
+        {
+            //Collision Solid(All) Color
+            ColorPickerDialog colorSelect = new ColorPickerDialog();
+            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                ManiacEditor.Settings.MyDefaults.CollisionSAColour = colorSelect.Color;
+                ManiacEditor.Settings.MyDefaults.Save();
+                UI.UpdateCustomColors();
+            }
+        }
+
     }
 }

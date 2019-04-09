@@ -17,7 +17,7 @@
             <RowDefinition Height="70"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="105"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
         </Grid.RowDefinitions>
         <GroupBox Header="Entity Spawner" Foreground="{DynamicResource NormalText}" Grid.ColumnSpan="2">
             <Grid Height="30">
@@ -26,7 +26,7 @@
                     <ColumnDefinition Width="45"></ColumnDefinition>
                     <ColumnDefinition Width="114"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ComboBox Foreground="{DynamicResource NormalText}" KeyDown="cbSpawn_KeyDown" x:Name="cbSpawn" Height="20" Margin="0,0" Grid.Column="0"></ComboBox>
+                <ComboBox SelectionChanged="CbSpawn_SelectionChanged" Foreground="{DynamicResource NormalText}" KeyDown="cbSpawn_KeyDown" x:Name="cbSpawn" Height="20" Margin="0,0" Grid.Column="0"></ComboBox>
                 <Button Click="btnSpawn_Click" Margin="2,0,0,0" Content="Spawn" Width="40" Height="20" Grid.Column="1"></Button>
                 <ComboBox SelectionChanged="FilterBox_SelectionChanged" SelectedIndex="0" Foreground="{DynamicResource NormalText}" x:Name="defaultFilter" Margin="2,0" Width="110" Height="20" Grid.Column="2">
                     <ComboBoxItem x:Name="maniaFilter" Content="Mania (2)" Tag="M" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
@@ -46,7 +46,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="60"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
@@ -57,24 +56,15 @@
                         <RowDefinition Height="40"></RowDefinition>
                         <RowDefinition Height="1*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ComboBox Foreground="{DynamicResource NormalText}" SelectionChanged="EntitiesList_SelectedIndexChanged" DropDownOpened="entitiesList_DropDown" x:Name="entitiesList" Height="30" Margin="0,0,0,0" DropDownClosed="EntitiesList_DropDownClosed">
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=Visibility}" Value="Collapsed">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Setter Property="Height" Value="0" />
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Path=Visibility}" Value="Visible">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
-                    </ComboBox>
-                    <wpfTool:SplitButton x:Name="MoreButton" Height="30" Margin="5,0,0,0" Width="19" Grid.Column="1" Click="button2_Click">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="18"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button MouseWheel="EntitiesList_MouseWheel" Foreground="{DynamicResource NormalText}" x:Name="entitiesList" Height="30" Margin="0,0,0,0" Click="EntitiesList_Click"></Button>
+                        <wpfTool:ButtonSpinner Grid.Column="1" Height="30" BorderThickness="0" Width="17" Spin="ButtonSpinner_Spin"></wpfTool:ButtonSpinner>
+                    </Grid>
+                        <wpfTool:SplitButton x:Name="MoreButton" Height="30" Margin="5,0,0,0" Width="19" Grid.Column="1" Click="button2_Click">
                         <wpfTool:SplitButton.DropDownContent>
                             <StackPanel Background="{DynamicResource ContextMenuBackground}">
                                 <MenuItem x:Name="GoToObject" Header="Go to this Entity" Click="goToThisEntityToolStripMenuItem_Click"></MenuItem>
@@ -89,44 +79,61 @@
 
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
-                    <Grid>
-                        <wpfTool:PropertyGrid x:Name="entityProperties2" IsEnabled="false" Visibility="Collapsed" PropertyValueChanged="entityProperties2_PropertyValueChanged"></wpfTool:PropertyGrid>
-                    </Grid>
-                    <TabControl Background="{DynamicResource ButtonBackground}">
-                        <TabItem Header="Properties" Foreground="{DynamicResource NormalText}">
+                    <TabControl Name="TabControl" SelectionChanged="TabControl_SelectionChanged" Background="{DynamicResource ButtonBackground}">
+                        <TabItem Visibility="Collapsed" Header="Properties" Name="PropertiesTab" Foreground="{DynamicResource NormalText}">
                             <Grid Background="{DynamicResource ButtonBackground}">
                                 <WindowsFormsHost x:Name="entityPropertiesLegacy"></WindowsFormsHost>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Selection Info" Foreground="{DynamicResource NormalText}">
+                        <TabItem Visibility="Collapsed" Header="Selection Info" Name="SelectionInfoTab" Foreground="{DynamicResource NormalText}">
                             <Grid Background="{DynamicResource ButtonBackground}">
                                 <ScrollViewer>
                                     <StackPanel x:Name="SelectionViewer"></StackPanel>
                                 </ScrollViewer>
                             </Grid>
                         </TabItem>
+                        <TabItem Visibility="Collapsed" Name="SceneEntitiesListTab">
+                            <Grid Background="{DynamicResource NormalBackground}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="60"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <ListBox x:Name="SceneEntitiesList">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate >
+                                            <VirtualizingStackPanel IsItemsHost="True" Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListBoxItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                        <ContentPresenter/>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                                <GroupBox Foreground="{DynamicResource NormalText}" Grid.Row="1" Header="Search Box">
+                                    <TextBox x:Name="searchBox" TextChanged="SearchBox_TextChanged" Height="20"></TextBox>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
 
                     </TabControl>
                 </Grid>
-                <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Search Box">
-                    <TextBox x:Name="searchBox" TextChanged="SearchBox_TextChanged" Height="20"></TextBox>
-                </GroupBox>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Entity Filter Settings" Foreground="{DynamicResource NormalText}">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel>
-                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Checked="maniaFilterCheck_CheckedChanged" x:Name="maniaFilterCheck" Margin="5" Unchecked="maniaFilterCheck_CheckedChanged">Mania (000000)</CheckBox>
-                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}" x:Name="bothFilterCheck" Unchecked="bothFilterCheck_CheckedChanged" Checked="bothFilterCheck_CheckedChanged" Margin="5" >Common (000000)</CheckBox>
-                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}" x:Name="pinballFilterCheck" Checked="PinballFilterCheck_CheckedChanged" Unchecked="PinballFilterCheck_CheckedChanged" Margin="5">Pinball (000000)</CheckBox>
-                </StackPanel>
-                <StackPanel>
-                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}" x:Name="encoreFilterCheck" Checked="encoreFilterCheck_CheckedChanged" Unchecked="encoreFilterCheck_CheckedChanged" Margin="5">Encore (000000)</CheckBox>
-                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}" x:Name="otherFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Other (000000)"></CheckBox>
-                    <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}" x:Name="prePlusFilterCheck" Checked="otherFilterCheck_CheckedChanged" Unchecked="otherFilterCheck_CheckedChanged" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
-                </StackPanel> 
-            </StackPanel>
-        </GroupBox>
+        <Grid Grid.Row="3" Grid.ColumnSpan="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox Foreground="{DynamicResource NormalText}" Grid.Row="0" Header="Value Editor">
+                <wpfTool:IntegerUpDown Name="CurrentValue"></wpfTool:IntegerUpDown>
+            </GroupBox>
+        </Grid>
     </Grid>
     <UserControl.Resources>
         <ResourceDictionary>

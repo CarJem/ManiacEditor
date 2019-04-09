@@ -231,11 +231,13 @@ namespace ManiacEditor
             string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotation}";
             if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
             {
-                if (EditorInstance.EntityDrawing.Animations[key].Ready)
+                if (Animations[key].Ready)
                 {
                     // Use the already loaded Amination
-                    return EditorInstance.EntityDrawing.Animations[key];
+                    return Animations[key];
                 }
+                else
+                    return null;
             }
             var entry = new EditorEntityDrawing.LoadAnimationData()
             {
@@ -249,7 +251,7 @@ namespace ManiacEditor
                 rotateImg = rotateImg,
                 legacyRotation = legacyRotation
             };
-            EditorInstance.EntityDrawing.AnimsToLoad.Add(entry);
+            AnimsToLoad.Add(entry);
             return null;
         }
 
@@ -1099,27 +1101,27 @@ namespace ManiacEditor
                 {
                     if (entity.Object.Name.Name.Contains("Setup"))
                     {
-                        if (e.renderer == null) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
-                        if (e.renderer != null)
-                            e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                        if (e.RenderDrawing == null) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
+                        if (e.RenderDrawing != null)
+                            e.RenderDrawing.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
 					else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
                     {
-                        if (e.renderer == null) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
-                        if (e.renderer != null)
-                            e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                        if (e.RenderDrawing == null) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
+                        if (e.RenderDrawing != null)
+                            e.RenderDrawing.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
                     else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
                     {
-                        if (e.renderer == null) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
-                        if (e.renderer != null)
-                            e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                        if (e.RenderDrawing == null) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
+                        if (e.RenderDrawing != null)
+                            e.RenderDrawing.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
                     else
                     {
-                        if (e.renderer == null || e.renderer.GetObjectName() != entity.Object.Name.Name) e.renderer = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
-                        if (e.renderer != null)
-                            e.renderer.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
+                        if (e.RenderDrawing == null || e.RenderDrawing.GetObjectName() != entity.Object.Name.Name) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
+                        if (e.RenderDrawing != null)
+                            e.RenderDrawing.Draw(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater);
                     }
 				}
 

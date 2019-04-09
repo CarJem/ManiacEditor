@@ -365,8 +365,9 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Settings.MyDefaults.DefaultGridColor = colorSelect.Color;
-			}
-		}
+                UpdateCustomColors();
+            }
+        }
 
 		private void comboBox7_DropDown(object sender, RoutedEventArgs e)
 		{
@@ -388,8 +389,9 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Settings.MyDefaults.CollisionTOColour = colorSelect.Color;
-			}
-		}
+                UpdateCustomColors();
+            }
+        }
 
 		private void comboBox5_DropDown(object sender, RoutedEventArgs e)
 		{
@@ -399,8 +401,9 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Settings.MyDefaults.CollisionLRDColour = colorSelect.Color;
-			}
-		}
+                UpdateCustomColors();
+            }
+        }
 
 		private void comboBox4_DropDown(object sender, RoutedEventArgs e)
 		{
@@ -410,8 +413,9 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Settings.MyDefaults.CollisionSAColour = colorSelect.Color;
-			}
-		}
+                UpdateCustomColors();
+            }
+        }
 
 		private void OptionBox_FormClosing(object sender, CancelEventArgs e)
 		{

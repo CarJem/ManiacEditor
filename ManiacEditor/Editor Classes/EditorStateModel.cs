@@ -140,11 +140,11 @@ namespace ManiacEditor
         public int select_x2 { get; set; }
         public int select_y1 { get; set; }
         public int select_y2 { get; set; }
-        public int ClickedX { get; set; }
-        public int ClickedY { get; set; }
+        public int SelectionX1 { get; set; } = -1;
+        public int SelectionY1 { get; set; } = -1;
         public bool draggingSelection { get; set; } = false; //Determines if we are dragging a selection
-        public int selectingX { get; set; }
-        public int selectingY { get; set; }
+        public int SelectionX2 { get; set; }
+        public int SelectionY2 { get; set; }
         public bool zooming { get; set; } = false;  //Detects if we are zooming
         public double Zoom { get; set; } = 1; //Double Value for Zoom Levels
         public int ZoomLevel { get; set; } = 0; //Interger Value for Zoom Levels
