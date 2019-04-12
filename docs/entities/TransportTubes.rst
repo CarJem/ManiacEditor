@@ -14,14 +14,15 @@ These Variables rely heavily on very specific combinations, they are listed belo
 
 #### Type 0 Dir Masks - The Most Common and Most Potent; Generic Transport Tube Moving
 	
-	5: North-West
-	6: South-West
-	9: North-East
-	10: South-East
-	20: North East-West
-	40: North West-West
-	68: South East-West 
-	136: South West - East
+5: North-West
+6: South-West
+9: North-East
+10: South-East
+20: North East-West
+40: North West-West
+68: South East-West 
+136: South West - East
+	
 #### Type 1 Dir Masks - Entry and Exit Tubes
 	3 - Up and Down Roll
 #### Type 5 Dir Masks - Selector Tubes
