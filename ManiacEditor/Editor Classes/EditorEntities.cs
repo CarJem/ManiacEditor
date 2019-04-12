@@ -75,7 +75,7 @@ namespace ManiacEditor
             Attributes.Add(SplineID);
             ushort Slot = 0;
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
-            Entity.attributesMap["SplineID"].ValueInt32 = 1;
+            Entity.attributesMap["SplineID"].ValueInt32 = Editor.Instance.SplineSpawnID.Value.Value;
 
             return new EditorEntity(Entity, true);
         }
@@ -107,7 +107,7 @@ namespace ManiacEditor
         private SortedDictionary<ushort, EditorEntity> GetInternalSortedEntities()
         {
             ushort SlotID = 0;
-            foreach(var entity in InternalEntities)
+            foreach (var entity in InternalEntities)
             {
                 entity.Entity.SlotID = SlotID;
                 SlotID++;
@@ -117,7 +117,7 @@ namespace ManiacEditor
             return new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
         }
 
-        private SortedDictionary<ushort,EditorEntity> GetSortedEntities()
+        private SortedDictionary<ushort, EditorEntity> GetSortedEntities()
         {
             var keyValuePairs = Entities.ToDictionary(x => x.Entity.SlotID);
             _EntitiesBySlot = new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
@@ -143,7 +143,7 @@ namespace ManiacEditor
             List<EditorEntity> SortedList = Entities.OrderBy(x => x.SelectedIndex).ToList();
             foreach (var entity in SortedList.Where(X => SelectedObj.Contains(X)).ToList())
             {
-                Entities.Where(X =>  X == entity).FirstOrDefault().Selected = entity.Selected;
+                Entities.Where(X => X == entity).FirstOrDefault().Selected = entity.Selected;
             }
         }
 
@@ -154,7 +154,7 @@ namespace ManiacEditor
 
         public EditorEntity GetSelectedEntity()
         {
-            if (SelectedEntities[0] != null) return SelectedEntities[0];
+            if (SelectedEntities.Count > 0 && SelectedEntities[0] != null) return SelectedEntities[0];
             else return SelectedInternalEntities[0];
         }
 
@@ -226,6 +226,20 @@ namespace ManiacEditor
         #endregion
 
         #region Entity Generation / Removal / Selection
+
+        public void SelectAll()
+        {
+            foreach (var entity in Entities)
+            {
+                entity.Selected = true;
+            }
+
+            foreach (var entity in InternalEntities)
+            {
+                entity.Selected = true;
+            }
+
+        }
 
         public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
@@ -882,60 +896,76 @@ namespace ManiacEditor
             }
         }
 
-        List<float> SplineXPos = new List<float>();
-        List<float> SplineYPos = new List<float>();
-        public EditorEntity SplineObjectRenderingTemplate { get; set; }
+        Dictionary<int, List<float>> SplineXPos = new Dictionary<int, List<float>>();
+        Dictionary<int, List<float>> SplineYPos = new Dictionary<int, List<float>>();
 
         public void DrawInternalObjects(DevicePanel d)
         {
             if (FilterRefreshNeeded)
                 UpdateViewFilters();
 
-            int SplinePoints = 0;
 
             foreach (var entity in InternalEntities)
             {
                 if (entity.IsObjectOnScreen(d)) entity.DrawInternal(d);
                 if (entity.Name == "Spline")
                 {
-                    SplineXPos.Add(entity.Entity.Position.X.High);
-                    SplineYPos.Add(entity.Entity.Position.Y.High);
-                    SplinePoints++;
+                    int id = entity.Entity.attributesMap["SplineID"].ValueInt32;
+                    if (!Editor.Instance.UIModes.SplineOptionsGroup.ContainsKey(id)) Editor.Instance.UIModes.AddSplineOptionsGroup(id);
+                    if (SplineXPos.ContainsKey(id))
+                    {
+                        SplineXPos[id].Add(entity.Entity.Position.X.High);
+                        SplineYPos[id].Add(entity.Entity.Position.Y.High);
+                    }
+                    else
+                    {
+                        SplineXPos.Add(id, new List<float>() { entity.Entity.Position.X.High });
+                        SplineYPos.Add(id, new List<float>() { entity.Entity.Position.Y.High });
+                    }
                 }
             }
 
-            if (SplineXPos.Count > 1)
+            foreach (var path in SplineXPos)
             {
-                float[] xs, ys;
-                TestMySpline.CubicSpline.FitParametric(SplineXPos.ToArray(), SplineYPos.ToArray(), (Editor.Instance.UIModes.SplineSize > 0 ? Editor.Instance.UIModes.SplineSize : 1), out xs, out ys);
-                Point lastPoint = new Point(-1, -1);
-                foreach (var p in Extensions.CreateDataPoints(xs, ys))
+                int splineID = path.Key;
+                EditorUIModes.SplineOptions selectedOptions = Editor.Instance.UIModes.SplineOptionsGroup[splineID];
+                if (SplineXPos[splineID].Count > 1)
                 {
-                    if (lastPoint.X != -1)
+                    float[] xs, ys;
+                    TestMySpline.CubicSpline.FitParametric(SplineXPos[splineID].ToArray(), SplineYPos[splineID].ToArray(), (selectedOptions.SplineSize > 0 ? selectedOptions.SplineSize : 1), out xs, out ys);
+                    Point lastPoint = new Point(-1, -1);
+                    foreach (var p in Extensions.CreateDataPoints(xs, ys))
                     {
-                        if (Editor.Instance.UIModes.SplineToolShowLines) d.DrawLine(p.X, p.Y, lastPoint.X, lastPoint.Y, System.Drawing.Color.Red);
-                    }
-                    if (Editor.Instance.UIModes.SplineToolShowPoints) d.DrawRectangle(p.X, p.Y, p.X + 2, p.Y + 2, System.Drawing.Color.Red);
-                    if (Editor.Instance.UIModes.SplineToolShowObject && SplineObjectRenderingTemplate != null)
-                    {
-                        if (Editor.Instance.EntityDrawing.entityRenderingObjects.Contains(SplineObjectRenderingTemplate.Entity.Object.Name.Name))
+                        if (lastPoint.X != -1)
                         {
-                            Editor.Instance.EntityDrawing.DrawOthers(d, SplineObjectRenderingTemplate.Entity, SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, SplineObjectRenderingTemplate.EditorAnimations, SplineObjectRenderingTemplate.Selected, SplineObjectRenderingTemplate.AttributeValidater, true);
+                            if (selectedOptions.SplineToolShowLines) d.DrawLine(p.X, p.Y, lastPoint.X, lastPoint.Y, System.Drawing.Color.Red);
                         }
-                        else
+                        if (selectedOptions.SplineToolShowPoints) d.DrawRectangle(p.X, p.Y, p.X + 2, p.Y + 2, System.Drawing.Color.Red);
+                        if (selectedOptions.SplineToolShowObject && selectedOptions.SplineObjectRenderingTemplate != null)
                         {
-                            SplineObjectRenderingTemplate.FallbackDraw(d, p.X, p.Y, 0, 0, 255, System.Drawing.Color.Transparent, true);
+                            if (Editor.Instance.EntityDrawing.entityRenderingObjects.Contains(selectedOptions.SplineObjectRenderingTemplate.Entity.Object.Name.Name))
+                            {
+                                Editor.Instance.EntityDrawing.DrawOthers(d, selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
+                            }
+                            else
+                            {
+                                selectedOptions.SplineObjectRenderingTemplate.FallbackDraw(d, p.X, p.Y, 0, 0, 255, System.Drawing.Color.Transparent, true);
+                            }
                         }
+                        lastPoint = new Point(p.X, p.Y);
                     }
-                    lastPoint = new Point(p.X, p.Y);
                 }
-
-
-                SplineXPos.Clear();
-                SplineYPos.Clear();
+                SplineXPos[path.Key].Clear();
+                SplineYPos[path.Key].Clear();
             }
+
+
+
+
 
         }
+
+
         public void DrawPriority(DevicePanel d, int prority)
         {
             if (FilterRefreshNeeded)

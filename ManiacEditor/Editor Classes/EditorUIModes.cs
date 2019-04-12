@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor
 {
-	public class EditorUIModes
+    public class EditorUIModes
     {
-		private Editor Editor;
         #region ShowTileID
         public bool ShowTileID { get => GetShowTileIDMode(); set => SetShowTileIDMode(value); } //Show Tile ID Status
         private bool _ShowTileID;
@@ -18,8 +17,8 @@ namespace ManiacEditor
         }
         private void SetShowTileIDMode(bool value)
         {
-            Editor.ShowTileIDButton.IsChecked = value;
-            Editor.ReloadSpecificTextures(null, null);
+            Editor.Instance.ShowTileIDButton.IsChecked = value;
+            Editor.Instance.ReloadSpecificTextures(null, null);
             _ShowTileID = value;
         }
         #endregion
@@ -32,8 +31,8 @@ namespace ManiacEditor
         }
         private void SetShowGridMode(bool value)
         {
-            Editor.ShowGridButton.IsChecked = value;
-            Editor.UIModes._ShowGrid = value;
+            Editor.Instance.ShowGridButton.IsChecked = value;
+            Editor.Instance.UIModes._ShowGrid = value;
         }
         #endregion
         #region UseEncoreColors
@@ -45,12 +44,12 @@ namespace ManiacEditor
         }
         private void SetUseEncoreColorsState(bool value)
         {
-            Editor.DisposeTextures();
-            Editor.EncorePaletteButton.IsChecked = value;
-            Editor.UIModes._UseEncoreColors = value;
-            Editor.EditorTiles.StageTiles?.Image.Reload((value ? Editor.EncorePalette[0] : null));
-            Editor.TilesToolbar?.Reload((value ? Editor.EncorePalette[0] : null));
-            Editor.EntityDrawing.ReleaseResources();
+            Editor.Instance.DisposeTextures();
+            Editor.Instance.EncorePaletteButton.IsChecked = value;
+            Editor.Instance.UIModes._UseEncoreColors = value;
+            Editor.Instance.EditorTiles.StageTiles?.Image.Reload((value ? Editor.Instance.EncorePalette[0] : null));
+            Editor.Instance.TilesToolbar?.Reload((value ? Editor.Instance.EncorePalette[0] : null));
+            Editor.Instance.EntityDrawing.ReleaseResources();
         }
 
         #endregion
@@ -65,11 +64,11 @@ namespace ManiacEditor
         }
         private void SetShowCollisionA(bool value)
         {
-            Editor.ShowCollisionAButton.IsChecked = value;
-            Editor.UIModes._ShowCollisionA = value;
-            Editor.ShowCollisionBButton.IsChecked = false;
-            Editor.UIModes._ShowCollisionB = false;
-            Editor.ReloadSpecificTextures(null, null);
+            Editor.Instance.ShowCollisionAButton.IsChecked = value;
+            Editor.Instance.UIModes._ShowCollisionA = value;
+            Editor.Instance.ShowCollisionBButton.IsChecked = false;
+            Editor.Instance.UIModes._ShowCollisionB = false;
+            Editor.Instance.ReloadSpecificTextures(null, null);
         }
         #endregion
         #region ShowCollisionB
@@ -83,12 +82,12 @@ namespace ManiacEditor
         }
         private void SetShowCollisionB(bool value)
         {
-            
-            Editor.ShowCollisionAButton.IsChecked = false;
-            Editor.UIModes._ShowCollisionA = false;
-            Editor.ShowCollisionBButton.IsChecked = value;
-            Editor.UIModes._ShowCollisionB = value;
-            Editor.ReloadSpecificTextures(null, null);
+
+            Editor.Instance.ShowCollisionAButton.IsChecked = false;
+            Editor.Instance.UIModes._ShowCollisionA = false;
+            Editor.Instance.ShowCollisionBButton.IsChecked = value;
+            Editor.Instance.UIModes._ShowCollisionB = value;
+            Editor.Instance.ReloadSpecificTextures(null, null);
         }
         #endregion
         public int BackupType = 0; //Determines What Kind of Backup to Make
@@ -101,8 +100,8 @@ namespace ManiacEditor
         }
         private void SetUseMagnetMode(bool value)
         {
-            Editor.UIModes._UseMagnetMode = value;
-            Editor.MagnetMode.IsChecked = value;
+            Editor.Instance.UIModes._UseMagnetMode = value;
+            Editor.Instance.MagnetMode.IsChecked = value;
         }
         #endregion
         #region UseMagnetXAxis
@@ -114,8 +113,8 @@ namespace ManiacEditor
         }
         private void SetUseMagnetXAxis(bool value)
         {
-            Editor.UIModes._UseMagnetXAxis = value;
-            Editor.enableXAxisToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._UseMagnetXAxis = value;
+            Editor.Instance.enableXAxisToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region UseMagnetYAxis
@@ -127,8 +126,8 @@ namespace ManiacEditor
         }
         private void SetUseMagnetYAxis(bool value)
         {
-            Editor.UIModes._UseMagnetYAxis = value;
-            Editor.enableYAxisToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._UseMagnetYAxis = value;
+            Editor.Instance.enableYAxisToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region ShowEntityPathArrows
@@ -140,8 +139,8 @@ namespace ManiacEditor
         }
         private void SetShowEntityPathArrows(bool value)
         {
-            Editor.UIModes._ShowEntityPathArrows = value;
-            Editor.showEntityPathArrowsToolstripItem.IsChecked = value;
+            Editor.Instance.UIModes._ShowEntityPathArrows = value;
+            Editor.Instance.showEntityPathArrowsToolstripItem.IsChecked = value;
         }
         #endregion
         #region ShowWaterLevel
@@ -153,8 +152,8 @@ namespace ManiacEditor
         }
         private void SetShowWaterLevel(bool value)
         {
-            Editor.UIModes._ShowWaterLevel = value;
-            Editor.showWaterLevelToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._ShowWaterLevel = value;
+            Editor.Instance.showWaterLevelToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region AlwaysShowWaterLevel
@@ -166,8 +165,8 @@ namespace ManiacEditor
         }
         private void SetAlwaysShowWaterLevel(bool value)
         {
-            Editor.UIModes._AlwaysShowWaterLevel = value;
-            Editor.waterLevelAlwaysShowItem.IsChecked = value;
+            Editor.Instance.UIModes._AlwaysShowWaterLevel = value;
+            Editor.Instance.waterLevelAlwaysShowItem.IsChecked = value;
         }
         #endregion
         #region SizeWaterLevelwithBounds
@@ -179,8 +178,8 @@ namespace ManiacEditor
         }
         private void SetSizeWaterLevelwithBounds(bool value)
         {
-            Editor.UIModes._SizeWaterLevelwithBounds = value;
-            Editor.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._SizeWaterLevelwithBounds = value;
+            Editor.Instance.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region ExtraLayersMoveToFront
@@ -192,8 +191,8 @@ namespace ManiacEditor
         }
         private void SetExtraLayersMoveToFront(bool value)
         {
-            Editor.UIModes._ExtraLayersMoveToFront = value;
-            Editor.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._ExtraLayersMoveToFront = value;
+            Editor.Instance.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region ShowFlippedTileHelper
@@ -205,8 +204,8 @@ namespace ManiacEditor
         }
         private void SetShowFlippedTileHelper(bool value)
         {
-            Editor.UIModes._ShowFlippedTileHelper = value;
-            Editor.ReloadSpecificTextures(null, null);
+            Editor.Instance.UIModes._ShowFlippedTileHelper = value;
+            Editor.Instance.ReloadSpecificTextures(null, null);
         }
         #endregion
         #region ShowingDataDirectory
@@ -218,7 +217,7 @@ namespace ManiacEditor
         }
         private void SetShowingDataDirectory(bool value)
         {
-            Editor.UIModes._ShowingDataDirectory = value;
+            Editor.Instance.UIModes._ShowingDataDirectory = value;
         }
         #endregion
         #region ShowParallaxSprites
@@ -230,8 +229,8 @@ namespace ManiacEditor
         }
         private void SetShowParallaxSprites(bool value)
         {
-            Editor.UIModes._ShowParallaxSprites = value;
-            Editor.showParallaxSpritesToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._ShowParallaxSprites = value;
+            Editor.Instance.showParallaxSpritesToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region ApplyEditEntitiesTransparency
@@ -243,9 +242,9 @@ namespace ManiacEditor
         }
         private void SetApplyEditEntitiesTransparency(bool value)
         {
-            Editor.UIModes._ApplyEditEntitiesTransparency = value;
-            Editor.EditEntitiesTransparencyToggle.IsChecked = value;
-            Editor.QuickEditEntitiesTransparentLayers.IsChecked = value;
+            Editor.Instance.UIModes._ApplyEditEntitiesTransparency = value;
+            Editor.Instance.EditEntitiesTransparencyToggle.IsChecked = value;
+            Editor.Instance.QuickEditEntitiesTransparentLayers.IsChecked = value;
         }
         #endregion
         #region ShowEntitySelectionBoxes
@@ -257,8 +256,8 @@ namespace ManiacEditor
         }
         private void SetShowEntitySelectionBoxes(bool value)
         {
-            Editor.UIModes._ShowEntitySelectionBoxes = value;
-            Editor.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._ShowEntitySelectionBoxes = value;
+            Editor.Instance.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region EnablePixelCountMode
@@ -270,9 +269,9 @@ namespace ManiacEditor
         }
         private void SetEnablePixelCountMode(bool value)
         {
-            Editor.UIModes._EnablePixelCountMode = value;
-            Editor.pixelModeButton.IsChecked = value;
-            Editor.pixelModeToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._EnablePixelCountMode = value;
+            Editor.Instance.pixelModeButton.IsChecked = value;
+            Editor.Instance.pixelModeToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region IsConsoleWindowOpen
@@ -284,7 +283,7 @@ namespace ManiacEditor
         }
         private void SetIsConsoleWindowOpen(bool value)
         {
-            Editor.UIModes._IsConsoleWindowOpen = value;
+            Editor.Instance.UIModes._IsConsoleWindowOpen = value;
         }
         #endregion
         #region RightClicktoSwapSlotID
@@ -296,8 +295,8 @@ namespace ManiacEditor
         }
         private void SetRightClicktoSwapSlotID(bool value)
         {
-            Editor.UIModes._RightClicktoSwapSlotID = value;
-            Editor.rightClicktoSwapSlotIDs.IsChecked = value;
+            Editor.Instance.UIModes._RightClicktoSwapSlotID = value;
+            Editor.Instance.rightClicktoSwapSlotIDs.IsChecked = value;
         }
         #endregion
         #region EntitySelectionBoxesAlwaysPrioritized
@@ -309,8 +308,8 @@ namespace ManiacEditor
         }
         private void SetEntitySelectionBoxesAlwaysPrioritized(bool value)
         {
-            Editor.UIModes._EntitySelectionBoxesAlwaysPrioritized = value;
-            Editor.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+            Editor.Instance.UIModes._EntitySelectionBoxesAlwaysPrioritized = value;
+            Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
         }
         #endregion
         #region DataDirectoryReadOnlyMode
@@ -322,7 +321,7 @@ namespace ManiacEditor
         }
         private void SetDataDirectoryReadOnlyMode(bool value)
         {
-            Editor.UIModes._DataDirectoryReadOnlyMode = value;
+            Editor.Instance.UIModes._DataDirectoryReadOnlyMode = value;
         }
         #endregion
         #region ScrollLocked
@@ -334,9 +333,9 @@ namespace ManiacEditor
         }
         private void SetScrollLocked(bool value)
         {
-            Editor.UIModes._ScrollLocked = value;
-            Editor.scrollLockButton.IsChecked = value;
-            Editor.statusNAToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._ScrollLocked = value;
+            Editor.Instance.scrollLockButton.IsChecked = value;
+            Editor.Instance.statusNAToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region FasterNudge
@@ -351,8 +350,8 @@ namespace ManiacEditor
         }
         private void SetEnableFasterNudge(bool value)
         {
-            Editor.nudgeFasterButton.IsChecked = value;
-            Editor.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
+            Editor.Instance.nudgeFasterButton.IsChecked = value;
+            Editor.Instance.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
             _EnableFasterNudge = value;
         }
 
@@ -384,7 +383,7 @@ namespace ManiacEditor
         }
         private void SetMovingPlatformsChecked(bool value)
         {
-            Editor.UIModes._MovingPlatformsChecked = value;
+            Editor.Instance.UIModes._MovingPlatformsChecked = value;
         }
         #endregion
         #region AnnimationsChecked
@@ -396,7 +395,7 @@ namespace ManiacEditor
         }
         private void SetAnnimationsChecked(bool value)
         {
-            Editor.UIModes._AnnimationsChecked = value;
+            Editor.Instance.UIModes._AnnimationsChecked = value;
         }
         #endregion
         #region RemoveStageConfigEntriesAllowed
@@ -408,11 +407,11 @@ namespace ManiacEditor
         }
         private void SetRemoveStageConfigEntriesAllowed(bool value)
         {
-            Editor.UIModes._RemoveStageConfigEntriesAllowed = value;
+            Editor.Instance.UIModes._RemoveStageConfigEntriesAllowed = value;
         }
         #endregion
         #region CopyAir
-        public bool CopyAir { get => GetCopyAirMode(); set => SetCopyAirMode(value); } 
+        public bool CopyAir { get => GetCopyAirMode(); set => SetCopyAirMode(value); }
         private bool _CopyAir = false;
         private bool GetCopyAirMode()
         {
@@ -421,134 +420,276 @@ namespace ManiacEditor
         private void SetCopyAirMode(bool value)
         {
             _CopyAir = value;
-            Editor.copyAirToggle.IsChecked = value;
+            Editor.Instance.copyAirToggle.IsChecked = value;
         }
         #endregion
         #region Tools/Brushes
-        public void PointerMode()
+        public void PointerMode(bool? value = null)
         {
-            SetToolModes(0, Editor.PointerToolButton.IsChecked.Value);
+            if (value != null) SetToolModes(0, value.Value);
+            else SetToolModes(0, Editor.Instance.PointerToolButton.IsChecked.Value);
         }
-        public void SelectionMode()
+        public void SelectionMode(bool? value = null)
         {
-            SetToolModes(1, Editor.SelectToolButton.IsChecked.Value);
+            if (value != null) SetToolModes(1, value.Value);
+            else SetToolModes(1, Editor.Instance.SelectToolButton.IsChecked.Value);
         }
-        public void DrawMode()
+        public void DrawMode(bool? value = null)
         {
-            SetToolModes(2, Editor.DrawToolButton.IsChecked.Value);
+            if (value != null) SetToolModes(2, value.Value);
+            else SetToolModes(2, Editor.Instance.DrawToolButton.IsChecked.Value);
         }
-        public void InteractionMode()
+        public void InteractionMode(bool? value = null)
         {
-            SetToolModes(3, Editor.InteractionToolButton.IsChecked.Value);
+            SetToolModes(3, Editor.Instance.InteractionToolButton.IsChecked.Value);
         }
 
-        public void SplineMode()
+        public void SplineMode(bool? value = null)
         {
-            SetToolModes(4, Editor.SplineToolButton.IsChecked.Value);
+            if (value != null) SetToolModes(4, value.Value);
+            else SetToolModes(4, Editor.Instance.SplineToolButton.IsChecked.Value);
         }
         public void ChunksMode()
         {
-            Editor.UI.UpdateControls();
+            if (Editor.Instance.IsTilesEdit()) Editor.Instance.ChunksToolButton.IsChecked ^= true;
+            Editor.Instance.UI.UpdateControls();
         }
         public void SetToolModes(int selectedID, bool value)
         {
-            Editor.PointerToolButton.IsChecked = (selectedID == 0 ? value : false);
-            Editor.SelectToolButton.IsChecked = (selectedID == 1 ? value : false);
-            Editor.DrawToolButton.IsChecked = (selectedID == 2 ? value : false);
-            Editor.InteractionToolButton.IsChecked = (selectedID == 3 ? value : false);
-            Editor.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
-            Editor.UI.UpdateControls();
+            Editor.Instance.PointerToolButton.IsChecked = (selectedID == 0 ? value : false);
+            Editor.Instance.SelectToolButton.IsChecked = (selectedID == 1 ? value : false);
+            Editor.Instance.DrawToolButton.IsChecked = (selectedID == 2 ? value : false);
+            Editor.Instance.InteractionToolButton.IsChecked = (selectedID == 3 ? value : false);
+            Editor.Instance.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
+            Editor.Instance.UI.UpdateControls();
         }
 
-        #region Spline Related Modes
-        #region Spline Point Seperation Size 
-        //Determines the Spline Point Frequency
-        public int SplineSize { get => GetSplineSize(); set => SetSplineSize(value); }
-        private int _SplineSize = 128;
-        private int GetSplineSize()
+        #region Spline Stuff
+        public class SplineOptions
         {
-            return _SplineSize;
-        }
-        private void SetSplineSize(int value)
-        {
-            _SplineSize = value;
-            if (Editor.UI != null) Editor.UI.UpdateControls();
-        }
-
-
-        #endregion
-        public bool SplineToolShowLines { get; set; } = true; //Self Explanatory
-        public int SplineCurrentPointsDrawn { get; set; } = 0; //Self Explanatory
-        public int SplineTotalNumberOfObjects { get; set; } = 0; //Self Explanatory
-        public bool SplineToolShowPoints { get; set; } = true; //Self Explanatory
-        public bool SplineToolShowObject { get; set; } = false; //Self Explanatory
-
-        #region Spline Line Modes
-        public bool SplineLineMode { get => GetSplineLineMode(); set => SetSplineLineMode(value); } //Self Explanatory
-        public bool SplineOvalMode { get => GetSplineOvalMode(); set => SetSplineOvalMode(value); } //Self Explanatory
-
-        private bool _SplineLineMode = false;
-        private bool _SplineOvalMode = true;
-        private bool GetSplineLineMode()
-        {
-            return _SplineLineMode;
-        }
-        private void SetSplineLineMode(bool value)
-        {
-            _SplineLineMode = value;
-            UpdateSplineStates(1, value);
-        }
-
-        private bool GetSplineOvalMode()
-        {
-            return _SplineOvalMode;
-        }
-        private void SetSplineOvalMode(bool value)
-        {
-            _SplineOvalMode = value;
-            UpdateSplineStates(0, value);
-        }
-
-        private void UpdateSplineStates(int mode, bool state)
-        {
-            if (mode == 1)
+            #region Spline Related Modes
+            #region Spline Point Seperation Size 
+            //Determines the Spline Point Frequency
+            public int SplineSize { get => GetSplineSize(); set => SetSplineSize(value); }
+            private int _SplineSize = 128;
+            private int GetSplineSize()
             {
-                if (state)
+                return _SplineSize;
+            }
+            private void SetSplineSize(int value)
+            {
+                _SplineSize = value;
+                if (Editor.Instance.UI != null) Editor.Instance.UI.UpdateControls();
+            }
+
+
+            #endregion
+            public bool SplineToolShowLines { get; set; } = true; //Self Explanatory
+            public int SplineCurrentPointsDrawn { get; set; } = 0; //Self Explanatory
+            public int SplineTotalNumberOfObjects { get; set; } = 0; //Self Explanatory
+            public bool SplineToolShowPoints { get; set; } = true; //Self Explanatory
+            public bool SplineToolShowObject { get; set; } = false; //Self Explanatory
+
+            #region Spline Line Modes
+            public bool SplineLineMode { get => GetSplineLineMode(); set => SetSplineLineMode(value); } //Self Explanatory
+            public bool SplineOvalMode { get => GetSplineOvalMode(); set => SetSplineOvalMode(value); } //Self Explanatory
+
+            private bool _SplineLineMode = false;
+            private bool _SplineOvalMode = true;
+            private bool GetSplineLineMode()
+            {
+                return _SplineLineMode;
+            }
+            private void SetSplineLineMode(bool value)
+            {
+                _SplineLineMode = value;
+                UpdateSplineStates(1, value);
+            }
+
+            private bool GetSplineOvalMode()
+            {
+                return _SplineOvalMode;
+            }
+            private void SetSplineOvalMode(bool value)
+            {
+                _SplineOvalMode = value;
+                UpdateSplineStates(0, value);
+            }
+
+            private void UpdateSplineStates(int mode, bool state)
+            {
+                if (mode == 1)
                 {
-                    Editor.SplineLineMode.IsChecked = true;
-                    _SplineLineMode = true;
-                    Editor.SplineOvalMode.IsChecked = false;
-                    _SplineOvalMode = false;
+                    if (state)
+                    {
+                        Editor.Instance.SplineLineMode.IsChecked = true;
+                        _SplineLineMode = true;
+                        Editor.Instance.SplineOvalMode.IsChecked = false;
+                        _SplineOvalMode = false;
+                    }
+                    else
+                    {
+                        Editor.Instance.SplineLineMode.IsChecked = false;
+                        _SplineLineMode = false;
+                        Editor.Instance.SplineOvalMode.IsChecked = true;
+                        _SplineOvalMode = true;
+                    }
                 }
                 else
                 {
-                    Editor.SplineLineMode.IsChecked = false;
-                    _SplineLineMode = false;
-                    Editor.SplineOvalMode.IsChecked = true;
-                    _SplineOvalMode = true;
+                    if (state)
+                    {
+                        Editor.Instance.SplineLineMode.IsChecked = false;
+                        _SplineLineMode = false;
+                        Editor.Instance.SplineOvalMode.IsChecked = true;
+                        _SplineOvalMode = true;
+                    }
+                    else
+                    {
+                        Editor.Instance.SplineLineMode.IsChecked = true;
+                        _SplineLineMode = true;
+                        Editor.Instance.SplineOvalMode.IsChecked = false;
+                        _SplineOvalMode = false;
+                    }
                 }
             }
-            else
+
+            public EditorEntity SplineObjectRenderingTemplate { get; set; }
+
+            public string SplineRenderingObjectName { get => GetSplineRenderingObjectName(); }
+
+            private string GetSplineRenderingObjectName()
             {
-                if (state)
-                {
-                    Editor.SplineLineMode.IsChecked = false;
-                    _SplineLineMode = false;
-                    Editor.SplineOvalMode.IsChecked = true;
-                    _SplineOvalMode = true;
-                }
-                else
-                {
-                    Editor.SplineLineMode.IsChecked = true;
-                    _SplineLineMode = true;
-                    Editor.SplineOvalMode.IsChecked = false;
-                    _SplineOvalMode = false;
-                }
+                return SplineObjectRenderingTemplate.Entity.Object.Name.Name;
             }
+
+            #endregion
+
+            #endregion
+        }
+        public Dictionary<int, SplineOptions> SplineOptionsGroup { get => GetSplineOptionsGroup(); set => SetSplineOptionsGroup(value); }
+
+        private Dictionary<int, SplineOptions> _SplineOptionsGroup = new Dictionary<int, SplineOptions>();
+
+        public void AddSplineOptionsGroup(int splineID)
+        {
+            SplineOptionsGroup.Add(splineID, new SplineOptions());
+        }
+
+        private Dictionary<int, SplineOptions> GetSplineOptionsGroup()
+        {
+            return _SplineOptionsGroup;
+        }
+
+        private void SetSplineOptionsGroup(Dictionary<int, SplineOptions> value)
+        {
+            _SplineOptionsGroup = value;
+        }
+
+
+        public bool AllowSplineOptionsUpdate = true;
+
+        public enum SplineOption
+        {
+            Size,
+            LineMode,
+            OvalMode,
+            ShowLines,
+            ShowObjects,
+            ShowPoints,
+            SpawnObject
+        }
+
+        public void AdjustSplineGroupOptions(SplineOption option, object value)
+        {
+            if (!AllowSplineOptionsUpdate) return;
+            switch (option)
+            {
+                case SplineOption.Size:
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineSize = (int)value;
+                    else
+                    {
+                        SplineOptions options = new SplineOptions();
+                        options.SplineSize = (int)value;
+                        SplineOptionsGroup.Add(SelectedSplineID, options);
+                    }
+                    break;
+                case SplineOption.LineMode:
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineLineMode = (bool)value;
+                    else
+                    {
+                        SplineOptions options = new SplineOptions();
+                        options.SplineLineMode = (bool)value;
+                        SplineOptionsGroup.Add(SelectedSplineID, options);
+                    }
+                    break;
+                case SplineOption.OvalMode:
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineOvalMode = (bool)value;
+                    else
+                    {
+                        SplineOptions options = new SplineOptions();
+                        options.SplineOvalMode = (bool)value;
+                        SplineOptionsGroup.Add(SelectedSplineID, options);
+                    }
+                    break;
+                case SplineOption.ShowLines:
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineToolShowLines = (bool)value;
+                    else
+                    {
+                        SplineOptions options = new SplineOptions();
+                        options.SplineToolShowLines = (bool)value;
+                        SplineOptionsGroup.Add(SelectedSplineID, options);
+                    }
+                    break;
+                case SplineOption.ShowObjects:
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineToolShowObject = (bool)value;
+                    else
+                    {
+                        SplineOptions options = new SplineOptions();
+                        options.SplineToolShowObject = (bool)value;
+                        SplineOptionsGroup.Add(SelectedSplineID, options);
+                    }
+                    break;
+                case SplineOption.ShowPoints:
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineToolShowPoints = (bool)value;
+                    else
+                    {
+                        SplineOptions options = new SplineOptions();
+                        options.SplineToolShowPoints = (bool)value;
+                        SplineOptionsGroup.Add(SelectedSplineID, options);
+                    }
+                    break;
+                case SplineOption.SpawnObject:
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineObjectRenderingTemplate = (EditorEntity)value;
+                    else
+                    {
+                        SplineOptions options = new SplineOptions();
+                        options.SplineObjectRenderingTemplate = (EditorEntity)value;
+                        SplineOptionsGroup.Add(SelectedSplineID, options);
+                    }
+                    break;
+
+            }
+        }
+
+        #region Selected Spline ID
+        public int SelectedSplineID { get => GetSplineSelectedID(); set => SetSplineSelectedID(value); }
+        private int _SelectedSplineID = 0;
+
+        private int GetSplineSelectedID()
+        {
+            return _SelectedSplineID;
+        }
+        private void SetSplineSelectedID(int value)
+        {
+            _SelectedSplineID = value;
         }
         #endregion
 
         #endregion
+
+
+
         #endregion
         #region Multi Layer Mode
         public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
@@ -566,54 +707,54 @@ namespace ManiacEditor
         }
         private void SetMultiLayerEditMode(bool value)
         {
-            Editor.UIModes._MultiLayerEditMode = value;
-            Editor.multiLayerSelectionToolStripMenuItem.IsChecked = value;
+            Editor.Instance.UIModes._MultiLayerEditMode = value;
+            Editor.Instance.multiLayerSelectionToolStripMenuItem.IsChecked = value;
 
 
             bool enabled = (value == true ? true : false);
-            Editor.EditFGLower.DualSelect = enabled;
-            Editor.EditFGLow.DualSelect = enabled;
-            Editor.EditFGHigh.DualSelect = enabled;
-            Editor.EditFGHigher.DualSelect = enabled;
+            Editor.Instance.EditFGLower.DualSelect = enabled;
+            Editor.Instance.EditFGLow.DualSelect = enabled;
+            Editor.Instance.EditFGHigh.DualSelect = enabled;
+            Editor.Instance.EditFGHigher.DualSelect = enabled;
 
-            Editor.EditFGLower.SwapDefaultToA(!enabled);
-            Editor.EditFGLow.SwapDefaultToA(!enabled);
-            Editor.EditFGHigh.SwapDefaultToA(!enabled);
-            Editor.EditFGHigher.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGLower.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGLow.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGHigh.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGHigher.SwapDefaultToA(!enabled);
 
-            foreach (var elb in Editor.ExtraLayerEditViewButtons.Values)
+            foreach (var elb in Editor.Instance.ExtraLayerEditViewButtons.Values)
             {
                 elb.DualSelect = enabled;
                 elb.SwapDefaultToA(!enabled);
             }
 
-            if (!enabled) Editor.EditLayerB = null;
+            if (!enabled) Editor.Instance.EditLayerB = null;
 
-            Editor.UI.UpdateControls();
+            Editor.Instance.UI.UpdateControls();
         }
 
         public void UpdateMultiLayerSelectMode(bool updateControls = false)
         {
             bool enabled = (_MultiLayerEditMode == true ? true : false);
-            Editor.EditFGLower.DualSelect = enabled;
-            Editor.EditFGLow.DualSelect = enabled;
-            Editor.EditFGHigh.DualSelect = enabled;
-            Editor.EditFGHigher.DualSelect = enabled;
+            Editor.Instance.EditFGLower.DualSelect = enabled;
+            Editor.Instance.EditFGLow.DualSelect = enabled;
+            Editor.Instance.EditFGHigh.DualSelect = enabled;
+            Editor.Instance.EditFGHigher.DualSelect = enabled;
 
-            Editor.EditFGLower.SwapDefaultToA(!enabled);
-            Editor.EditFGLow.SwapDefaultToA(!enabled);
-            Editor.EditFGHigh.SwapDefaultToA(!enabled);
-            Editor.EditFGHigher.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGLower.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGLow.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGHigh.SwapDefaultToA(!enabled);
+            Editor.Instance.EditFGHigher.SwapDefaultToA(!enabled);
 
-            foreach (var elb in Editor.ExtraLayerEditViewButtons.Values)
+            foreach (var elb in Editor.Instance.ExtraLayerEditViewButtons.Values)
             {
                 elb.DualSelect = enabled;
                 elb.SwapDefaultToA(!enabled);
             }
 
-            if (!enabled) Editor.EditLayerB = null;
+            if (!enabled) Editor.Instance.EditLayerB = null;
 
-            if (updateControls) Editor.UI.UpdateControls();
+            if (updateControls) Editor.Instance.UI.UpdateControls();
         }
         #endregion
         #region Use Large Debug Text
@@ -626,7 +767,7 @@ namespace ManiacEditor
         private void SetUseLargeDebugStats(bool value)
         {
             _UseLargeDebugStats = value;
-            Editor.useLargeTextToolStripMenuItem.IsChecked = value;
+            Editor.Instance.useLargeTextToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region Show Debug Text
@@ -639,7 +780,7 @@ namespace ManiacEditor
         private void SetDebugStatsVisibleOnPanel(bool value)
         {
             _DebugStatsVisibleOnPanel = value;
-            Editor.showStatsToolStripMenuItem.IsChecked = value;
+            Editor.Instance.showStatsToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region Prioritized Entity Viewing
@@ -652,7 +793,7 @@ namespace ManiacEditor
         private void SetPrioritizedEntityViewing(bool value)
         {
             _PrioritizedEntityViewing = value;
-            Editor.prioritizedViewingToolStripMenuItem.IsChecked = value;
+            Editor.Instance.prioritizedViewingToolStripMenuItem.IsChecked = value;
         }
         #endregion
         #region Magnet Mode Size 
@@ -667,23 +808,23 @@ namespace ManiacEditor
         private void SetMagnetSize(int value)
         {
             bool isCustom = false;
-            Editor.x8ToolStripMenuItem.IsChecked = false;
-            Editor.x16ToolStripMenuItem1.IsChecked = false;
-            Editor.x32ToolStripMenuItem.IsChecked = false;
-            Editor.x64ToolStripMenuItem.IsChecked = false;
-            Editor.MagnetCustomSizeToolStripMenuItem.IsChecked = false;
+            Editor.Instance.x8ToolStripMenuItem.IsChecked = false;
+            Editor.Instance.x16ToolStripMenuItem1.IsChecked = false;
+            Editor.Instance.x32ToolStripMenuItem.IsChecked = false;
+            Editor.Instance.x64ToolStripMenuItem.IsChecked = false;
+            Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = false;
 
-            if (value == 8) Editor.x8ToolStripMenuItem.IsChecked = true;
-            else if (value == 16) Editor.x16ToolStripMenuItem1.IsChecked = true;
-            else if (value == 32) Editor.x32ToolStripMenuItem.IsChecked = true;
-            else if (value == 64) Editor.x64ToolStripMenuItem.IsChecked = true;
+            if (value == 8) Editor.Instance.x8ToolStripMenuItem.IsChecked = true;
+            else if (value == 16) Editor.Instance.x16ToolStripMenuItem1.IsChecked = true;
+            else if (value == 32) Editor.Instance.x32ToolStripMenuItem.IsChecked = true;
+            else if (value == 64) Editor.Instance.x64ToolStripMenuItem.IsChecked = true;
             else if (value == -1)
             {
                 isCustom = true;
-                Editor.MagnetCustomSizeToolStripMenuItem.IsChecked = true;
+                Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = true;
             }
 
-            Editor.CustomMagnetLabel.Text = string.Format(Editor.CustomMagnetLabel.Tag.ToString(), CustomMagnetSize);
+            Editor.Instance.CustomMagnetLabel.Text = string.Format(Editor.Instance.CustomMagnetLabel.Tag.ToString(), CustomMagnetSize);
 
             if (!isCustom) _MagnetSize = value;
             else _MagnetSize = CustomMagnetSize;
@@ -700,12 +841,12 @@ namespace ManiacEditor
         private void ChangeCustomSize(int value)
         {
             _GridCustomSize = value;
-            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), _GridCustomSize);
+            Editor.Instance.CustomGridLabel.Text = string.Format(Editor.Instance.CustomGridLabel.Tag.ToString(), _GridCustomSize);
         }
 
         private int GetCustomSize()
         {
-            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), _GridCustomSize);
+            Editor.Instance.CustomGridLabel.Text = string.Format(Editor.Instance.CustomGridLabel.Tag.ToString(), _GridCustomSize);
             return _GridCustomSize;
         }
 
@@ -718,21 +859,21 @@ namespace ManiacEditor
             bool isCustom = false;
             _GridSize = value;
 
-            Editor.Grid16x16SizeMenuItem.IsChecked = false;
-            Editor.Grid128x128SizeMenuItem.IsChecked = false;
-            Editor.Grid256x256SizeMenuItem.IsChecked = false;
-            Editor.GridCustomSizeMenuItem.IsChecked = false;
+            Editor.Instance.Grid16x16SizeMenuItem.IsChecked = false;
+            Editor.Instance.Grid128x128SizeMenuItem.IsChecked = false;
+            Editor.Instance.Grid256x256SizeMenuItem.IsChecked = false;
+            Editor.Instance.GridCustomSizeMenuItem.IsChecked = false;
 
-            if (value == 16) Editor.Grid16x16SizeMenuItem.IsChecked = true;
-            else if (value == 128) Editor.Grid128x128SizeMenuItem.IsChecked = true;
-            else if (value == 256) Editor.Grid256x256SizeMenuItem.IsChecked = true;
+            if (value == 16) Editor.Instance.Grid16x16SizeMenuItem.IsChecked = true;
+            else if (value == 128) Editor.Instance.Grid128x128SizeMenuItem.IsChecked = true;
+            else if (value == 256) Editor.Instance.Grid256x256SizeMenuItem.IsChecked = true;
             else if (value == -1)
             {
                 isCustom = true;
-                Editor.GridCustomSizeMenuItem.IsChecked = true;
+                Editor.Instance.GridCustomSizeMenuItem.IsChecked = true;
             }
 
-            Editor.CustomGridLabel.Text = string.Format(Editor.CustomGridLabel.Tag.ToString(), GridCustomSize);
+            Editor.Instance.CustomGridLabel.Text = string.Format(Editor.Instance.CustomGridLabel.Tag.ToString(), GridCustomSize);
 
             if (!isCustom) _GridSize = value;
             else _GridSize = GridCustomSize;
@@ -747,8 +888,8 @@ namespace ManiacEditor
         }
         private void SetEntitiesVisibileAboveAllLayers(bool value)
         {
-            Editor.UIModes._EntitiesVisibileAboveAllLayers = value;
-            Editor.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+            Editor.Instance.UIModes._EntitiesVisibileAboveAllLayers = value;
+            Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
         }
 
         #endregion
@@ -764,16 +905,17 @@ namespace ManiacEditor
         {
             _CollisionPreset = value;
 
-            Editor.invertedToolStripMenuItem.IsChecked = false;
-            Editor.customToolStripMenuItem1.IsChecked = false;
-            Editor.defaultToolStripMenuItem.IsChecked = false;
+            Editor.Instance.invertedToolStripMenuItem.IsChecked = false;
+            Editor.Instance.customToolStripMenuItem1.IsChecked = false;
+            Editor.Instance.defaultToolStripMenuItem.IsChecked = false;
 
-            if (value == 1) Editor.invertedToolStripMenuItem.IsChecked = true;
-            else if (value == 2) Editor.customToolStripMenuItem1.IsChecked = true;
-            else if (value == 0) Editor.defaultToolStripMenuItem.IsChecked = true;
+            if (value == 0) Editor.Instance.defaultToolStripMenuItem.IsChecked = true;
+            else if(value == 1) Editor.Instance.invertedToolStripMenuItem.IsChecked = true;
+            else if (value == 2) Editor.Instance.customToolStripMenuItem1.IsChecked = true;
 
-            Editor.ReloadSpecificTextures(null, null);
-            Editor.RefreshCollisionColours(true);
+
+            Editor.Instance.ReloadSpecificTextures(null, null);
+            Editor.Instance.RefreshCollisionColours(true);
         }
         #endregion
 
@@ -850,11 +992,9 @@ namespace ManiacEditor
 
         public double ShortcutZoomValue { get; set; } = 0.0;
 
-
-
-        public EditorUIModes(Editor instance)
+        public EditorUIModes()
 		{
-			Editor = instance;
+
 		}
 
 

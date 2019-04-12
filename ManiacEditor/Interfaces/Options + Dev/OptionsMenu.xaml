@@ -215,7 +215,7 @@
                             <maniac:SettingsHeader HeaderName="Other Settings"></maniac:SettingsHeader>
                             <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
                             <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
-                            <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme (Requires Manual Restart)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0"/>
+                            <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0"/>
                             <StackPanel Visibility="Collapsed">
                                 <maniac:SettingsHeader HeaderName="Performance Defaults"></maniac:SettingsHeader>
                                 <StackPanel Width="400" HorizontalAlignment="Left">
@@ -269,7 +269,7 @@
             </TabItem>
             <TabItem Header="Controls" Name="Controls" Foreground="{DynamicResource NormalText}">
                 <Grid>
-                    <ScrollViewer  maniac:CustomDesignAttributes.VerticalScrollTo="10000">
+                    <ScrollViewer  maniac:CustomDesignAttributes.VerticalScrollTo="10">
                         <StackPanel x:Name="ControlsPage">
                             <maniac:SettingsHeader HeaderName="File"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
@@ -297,24 +297,24 @@
                                 <Label Content="Unload Scene"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Backup Normal"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Backup Normal"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Backup Stage Config"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Backup Stage Config"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Export as PNG..."></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Export as PNG..."></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Export Each Layer as PNG..."></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Export Each Layer as PNG..."></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Exit"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Exit"></Label>
                             </StackPanel>
                             <maniac:SettingsHeader HeaderName="Edit"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
@@ -384,69 +384,65 @@
                             </StackPanel>
                             <maniac:SettingsHeader HeaderName="View"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show Selection Boxes"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show Selection Boxes"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Toggle Mania/Encore Entities"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Toggle Mania/Encore Entities"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="PointerTooltipToggle" IsEnabled="True"></Button>
-                                <Label Content="Toggle Pointer Tooltip Visibility"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Pixel Count Mode"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Pixel Count Mode"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show Edit Entities Transparency"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show Edit Entities Transparency"></Label>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show Full Parallax Sprites"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show Full Parallax Sprites"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
                                 <Button Width="100" Click="EditKeyCombo" Tag="StatusBoxToggle"></Button>
                                 <Label Content="Show Status Viewer"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show Larger Status Text"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show Larger Status Text"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Enable Entities Always On Top"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Enable Entities Always On Top"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Enable Prioritized Entity Rendering"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Enable Prioritized Entity Rendering"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Move Extra Layers to Front"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Move Extra Layers to Front"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show Entity/WarpDoor Path Arrows"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show Entity/WarpDoor Path Arrows"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Water Level"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Water Level"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Always Show Water Level"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Always Show Water Level"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Bound Water Level to Size"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Bound Water Level to Size"></Label>
                             </StackPanel>
                             <maniac:SettingsHeader HeaderName="Tools"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Find and Replace"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Find and Replace"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
                                 <Button Width="100" Click="EditKeyCombo" Tag="ScrollLock"></Button>
@@ -465,112 +461,112 @@
                                 <Label Content="Toggle Faster Nudge"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Go to Specific Place"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Go to Specific Place"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Go to Player Spawn"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Go to Player Spawn"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Change Level ID"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Change Level ID"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
                                 <Button Width="100" Click="EditKeyCombo" Tag="CopyAirTiles"></Button>
                                 <Label Content="Copy Air Tiles"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Right Click to Swap Object IDs"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Right Click to Swap Object IDs"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Optimize Slot IDs"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Optimize Slot IDs"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Pre-Render Scene"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Pre-Render Scene"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Desktop Shortcut Dropdown"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Desktop Shortcut Dropdown"></Label>
                             </StackPanel>
-                            <maniac:SettingsHeader HeaderName="Scene"></maniac:SettingsHeader>
+                            <maniac:SettingsHeader HeaderName="Scene" Visibility="Collapsed"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Entity Manager"></Label>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Import Sounds"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Entity Manager"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Layer Manager"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Import Sounds"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Background Colors Dropdown"></Label>
-                            </StackPanel>
-                            <maniac:SettingsHeader HeaderName="Folders"></maniac:SettingsHeader>
-                            <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Open Scene Folder"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Layer Manager"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Open Data Directory"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Background Colors Dropdown"></Label>
+                            </StackPanel>
+                            <maniac:SettingsHeader HeaderName="Folders" Visibility="Collapsed"></maniac:SettingsHeader>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Open Scene Folder"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Open Sonic Mania Directory"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Open Data Directory"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Open Mod Folder"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Open Sonic Mania Directory"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Open Saved Places Dropdown"></Label>
-                            </StackPanel>
-                            <maniac:SettingsHeader HeaderName="Apps"></maniac:SettingsHeader>
-                            <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Tile Maniac"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Open Mod Folder"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Insanic Maniac"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Open Saved Places Dropdown"></Label>
+                            </StackPanel>
+                            <maniac:SettingsHeader HeaderName="Apps" Visibility="Collapsed"></maniac:SettingsHeader>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Tile Maniac"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Fixer Maniac"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Insanic Maniac"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="RSDK Animation Editor"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Fixer Maniac"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="ManiaPal Launcher"></Label>
-                            </StackPanel>
-                            <maniac:SettingsHeader HeaderName="Other"></maniac:SettingsHeader>
-                            <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="About"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="RSDK Animation Editor"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Settings"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="ManiaPal Launcher"></Label>
+                            </StackPanel>
+                            <maniac:SettingsHeader HeaderName="Other" Visibility="Collapsed"></maniac:SettingsHeader>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="About"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Controls"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Settings"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Wiki"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Controls"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Wiki"></Label>
                             </StackPanel>
                             <maniac:SettingsHeader HeaderName="Menu Items"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
@@ -582,36 +578,36 @@
                                 <Label Content="Run Scene"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Pointer Tool"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Pointer Tool"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Selection Tool"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Selection Tool"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Draw Tool"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Draw Tool"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Interaction Tool"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Interaction Tool"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Magnet Tool"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Magnet Tool"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Stamp Tool"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Stamp Tool"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
                                 <Button Width="100" Click="EditKeyCombo" Tag="ShowTileID"></Button>
                                 <Label Content="Show Tile ID"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Rotate Assist Tool"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Rotate Assist Tool"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
                                 <Button Width="100" Click="EditKeyCombo" Tag="ShowGrid"></Button>
@@ -625,54 +621,79 @@
                                 <Button Width="100" Click="EditKeyCombo" Tag="ShowPathB"></Button>
                                 <Label Content="Show Collision (B)"></Label>
                             </StackPanel>
-                            <maniac:SettingsHeader HeaderName="Layers"></maniac:SettingsHeader>
+                            <maniac:SettingsHeader HeaderName="Layers" Visibility="Collapsed"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Swap Layers Left"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Swap Layers Left"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Swap Layers Right"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Swap Layers Right"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Hide All Extra Layers"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Hide All Extra Layers"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show All Extra Layers"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show All Extra Layers"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show All Normal Layers"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show All Normal Layers"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Hide All Normal Layers"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Hide All Normal Layers"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Show/Hide Entities"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Show/Hide Entities"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Edit Last Selected Layer"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Edit Last Selected Layer"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Edit Entities"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Edit Entities"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Enable Animations"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Enable Animations"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Toggle Sprite Animations"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Toggle Sprite Animations"></Label>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"  Visibility="Visible">
-                                <Button Width="100" Click="EditKeyCombo" Tag="NULL" IsEnabled="False"></Button>
-                                <Label Content="Toggle Moving Platforms"></Label>
+                                <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>
+                                <Label Visibility="Collapsed" Content="Toggle Moving Platforms"></Label>
+                            </StackPanel>
+                            <maniac:SettingsHeader HeaderName="Toolbox Items"></maniac:SettingsHeader>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Tag="PointerTool" IsEnabled="True"></Button>
+                                <Label Content="Pointer Tool"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Tag="SelectTool" IsEnabled="True"></Button>
+                                <Label Content="Select Tool"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Tag="DrawTool" IsEnabled="True"></Button>
+                                <Label Content="Draw Tool"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Tag="SplineTool" IsEnabled="True"></Button>
+                                <Label Content="Spline Tool"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Tag="MagnetTool" IsEnabled="True"></Button>
+                                <Label Content="Toggle Magnet Mode"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Width="100" Click="EditKeyCombo" Tag="StampTool" IsEnabled="True"></Button>
+                                <Label Content="Stamp Tool"></Label>
                             </StackPanel>
                             <maniac:SettingsHeader HeaderName="Misc"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >

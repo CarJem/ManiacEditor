@@ -148,14 +148,14 @@ namespace ManiacEditor
 		{
 			if (Editor.IsTilesEdit() && !Editor.IsChunksEdit())
 			{
-				Editor.EditLayerA?.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-				//EditLayerB?.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-				Editor.UI.UpdateEditLayerActions();
+                if (Editor.EditLayerA != null) Editor.EditLayerA?.SelectAll();
+                if (Editor.EditLayerB != null) Editor.EditLayerB?.SelectAll();
+                Editor.UI.UpdateEditLayerActions();
 			}
 			else if (Editor.IsEntitiesEdit())
 			{
-				Editor.Entities.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-			}
+                Editor.Entities.SelectAll();
+            }
 			Editor.UI.SetSelectOnlyButtonsState();
 			Editor.StateModel.SelectionX1 = -1;
 			Editor.StateModel.SelectionY1 = -1;

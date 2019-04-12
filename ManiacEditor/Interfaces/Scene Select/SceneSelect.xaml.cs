@@ -87,7 +87,7 @@ namespace ManiacEditor.Interfaces
 			Window = _Window;
 			ReloadRecentsTree();
             SetupGameConfig(config);
-            SetupSceneSelect();
+            UpdateSceneSelectTheme();
             ScenesTree.Visible = true;
 		}
 
@@ -349,18 +349,27 @@ namespace ManiacEditor.Interfaces
             RecentsTree.Show();
         }
 
-        public void SetupSceneSelect()
+        public void UpdateSceneSelectTheme()
         {
             RemoveAllDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
             RemoveAllDropDown.Background = (SolidColorBrush)FindResource("NormalBackground");
 
-            if (Settings.MySettings.NightMode)
+            if (App.Skin == Skin.Dark)
             {
                 ScenesTree.BackColor = EditorTheming.darkTheme1;
                 ScenesTree.ForeColor = EditorTheming.darkTheme3;
 
                 RecentsTree.BackColor = EditorTheming.darkTheme1;
                 RecentsTree.ForeColor = EditorTheming.darkTheme3;
+            }
+
+            else
+            {
+                ScenesTree.BackColor = System.Drawing.Color.White;
+                ScenesTree.ForeColor = System.Drawing.Color.Black;
+
+                RecentsTree.BackColor = System.Drawing.Color.White;
+                RecentsTree.ForeColor = System.Drawing.Color.Black;
             }
         }
 

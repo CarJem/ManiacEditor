@@ -88,16 +88,30 @@ namespace ManiacEditor
             Editor.Instance.duplicateToolStripMenuItem.IsEnabled = enabled;
 
 
-            Editor.Instance.flipHorizontalToolStripMenuItem.IsEnabled = enabled && Editor.Instance.IsTilesEdit();
-            Editor.Instance.flipVerticalToolStripMenuItem.IsEnabled = enabled && Editor.Instance.IsTilesEdit();
-            Editor.Instance.flipHorizontalIndvidualToolStripMenuItem.IsEnabled = enabled && Editor.Instance.IsTilesEdit();
-            Editor.Instance.flipVerticalIndvidualToolStripMenuItem.IsEnabled = enabled && Editor.Instance.IsTilesEdit();
+            Editor.Instance.flipHorizontalToolStripMenuItem.IsEnabled = enabled && CanFlip(0);
+            Editor.Instance.flipVerticalToolStripMenuItem.IsEnabled = enabled && CanFlip(0);
+            Editor.Instance.flipHorizontalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
+            Editor.Instance.flipVerticalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
 
             Editor.Instance.selectAllToolStripMenuItem.IsEnabled = (Editor.Instance.IsTilesEdit() && !Editor.Instance.IsChunksEdit()) || Editor.Instance.IsEntitiesEdit();
 
             if (Editor.Instance.IsEntitiesEdit() && Editor.Instance.EntitiesToolbar != null)
             {
                 Editor.Instance.EntitiesToolbar.SelectedEntities = Editor.Instance.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+            }
+
+            bool CanFlip(int option)
+            {
+                switch (option)
+                {
+                    case 0:
+                        if (Editor.Instance.IsEntitiesEdit() && Editor.Instance.IsSelected()) return true;
+                        else if (Editor.Instance.IsTilesEdit()) return true;
+                        break;
+                    case 1:
+                        return Editor.Instance.IsTilesEdit();
+                }
+                return false;
             }
         }
 
@@ -665,11 +679,58 @@ namespace ManiacEditor
 
         }
 
+        public void UpdateSplineSpawnObjectsList(List<RSDKv5.SceneObject> sceneObjects)
+        {
+            Editor.Instance.UIModes.AllowSplineOptionsUpdate = false;
+            sceneObjects.Sort((x, y) => x.Name.ToString().CompareTo(y.Name.ToString()));
+            var bindingSceneObjectsList = new System.ComponentModel.BindingList<RSDKv5.SceneObject>(sceneObjects);
+
+
+            Editor.Instance.SplineSelectedObjectSpawnList.Clear();
+            foreach (var _object in bindingSceneObjectsList)
+            {
+                TextBlock item = new TextBlock()
+                {
+                    Tag = _object,
+                    Text = _object.Name.Name
+                };
+                Editor.Instance.SplineSelectedObjectSpawnList.Add(item);
+            }
+
+            if (Editor.Instance.SplineSelectedObjectSpawnList != null && Editor.Instance.SplineSelectedObjectSpawnList.Count > 1)
+            {
+                Editor.Instance.SelectedSplineRender.ItemsSource = Editor.Instance.SplineSelectedObjectSpawnList;
+                Editor.Instance.SelectedSplineRender.SelectedItem = Editor.Instance.SelectedSplineRender.Items[0];
+                var SelectedItem = Editor.Instance.SelectedSplineRender.SelectedItem as TextBlock;
+                if (SelectedItem == null) return;              
+                SelectedItem.Foreground = (System.Windows.Media.SolidColorBrush)Editor.Instance.FindResource("NormalText");
+                Editor.Instance.UIModes.AllowSplineOptionsUpdate = true;
+
+            }
+        }
+
+        public void UpdateSplineSettings(int splineID)
+        {
+            if (!Editor.Instance.UIModes.SplineOptionsGroup.ContainsKey(splineID)) Editor.Instance.UIModes.SplineOptionsGroup.Add(splineID, new EditorUIModes.SplineOptions());
+            Editor.Instance.SplineLineMode.IsChecked = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineLineMode;
+            Editor.Instance.SplineOvalMode.IsChecked = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineOvalMode;
+            Editor.Instance.SplineShowLineCheckbox.IsChecked = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineToolShowLines;
+            Editor.Instance.SplineShowObjectsCheckbox.IsChecked = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineToolShowObject;
+            Editor.Instance.SplineShowPointsCheckbox.IsChecked = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineToolShowPoints;
+            Editor.Instance.SplinePointSeperationNUD.Value = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineSize;
+            Editor.Instance.SplinePointSeperationSlider.Value = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineSize;
+
+            if (Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+                Editor.Instance.SplineRenderObjectName.Content = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
+            else
+                Editor.Instance.SplineRenderObjectName.Content = "None";
+        }
+
         public void UpdateSplineToolbox()
         {
-            Editor.Instance.SplineInfoLabel1.Text = string.Format("Number of Spline Objects: {0}", Editor.Instance.UIModes.SplineTotalNumberOfObjects);
-            Editor.Instance.SplineInfoLabel2.Text = string.Format("Point Frequency: {0}", Editor.Instance.UIModes.SplineSize);
-            Editor.Instance.SplineInfoLabel3.Text = string.Format("Total Number of Rendered Points: {0}", Editor.Instance.UIModes.SplineCurrentPointsDrawn);
+            //Editor.Instance.SplineInfoLabel1.Text = string.Format("Number of Spline Objects: {0}", Editor.Instance.UIModes.SplineTotalNumberOfObjects);
+            //Editor.Instance.SplineInfoLabel2.Text = string.Format("Point Frequency: {0}", Editor.Instance.UIModes.SplineSize);
+            //Editor.Instance.SplineInfoLabel3.Text = string.Format("Total Number of Rendered Points: {0}", Editor.Instance.UIModes.SplineCurrentPointsDrawn);
         }
 
         public void UpdateFilterButtonApperance(bool startup)
@@ -722,6 +783,7 @@ namespace ManiacEditor
                 Editor.Instance.FormsModel.hScrollBar1.IsEnabled = true;
             }
 
+            Editor.Instance.Theming.UpdateThemeForItemsWaiting();
             UpdateFilterButtonApperance(false);
             UpdateStatusPanel();
             SetSceneOnlyButtonsState(Editor.Instance.EditorScene != null, stageLoad);

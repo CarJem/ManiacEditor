@@ -451,6 +451,7 @@ namespace ManiacEditor.Interfaces
 				Settings.MySettings.Save();
 				App.ChangeSkin(Skin.Dark);
 				App.SkinChanged = true;
+                Editor.Instance.Theming.RefreshTheme();
 
 			}
 			else if (!DarkModeCheckBox.IsChecked == true && Settings.MySettings.NightMode)
@@ -459,12 +460,13 @@ namespace ManiacEditor.Interfaces
 				Settings.MySettings.Save();
 				App.ChangeSkin(Skin.Light);
 				App.SkinChanged = true;
+                Editor.Instance.Theming.RefreshTheme();
 
-			}
+            }
 
 
 
-		}
+        }
 
 
 

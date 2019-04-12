@@ -489,6 +489,7 @@ namespace ManiacEditor
                 // user clicked Import, get to it!
                 Editor.UI.UpdateControls();
                 Editor.EntitiesToolbar?.RefreshSpawningObjects(Editor.EditorScene.Objects);
+                Editor.UI.UpdateSplineSpawnObjectsList(Editor.EditorScene.Objects);
 
             }
             catch (Exception ex)
@@ -521,6 +522,7 @@ namespace ManiacEditor
                         // user clicked Import, get to it!
                         Editor.UI.UpdateControls();
                         Editor.EntitiesToolbar?.RefreshSpawningObjects(Editor.EditorScene.Objects);
+                        Editor.UI.UpdateSplineSpawnObjectsList(Editor.EditorScene.Objects);
                     }
                 }
 

@@ -116,7 +116,12 @@ namespace ManiacEditor.Interfaces
 			System.Diagnostics.Process.Start("https://ci.appveyor.com/project/CarJem/maniaceditor-generationsedition");
 		}
 
-		private void BasicRadioButton_GotFocus(object sender, RoutedEventArgs e)
+        private void linkLabel9_LinkClicked(object sender, RoutedEventArgs e)
+        {
+            RSDKrU.MessageBox.Show("Comming Soon!", "Sorry!", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void BasicRadioButton_GotFocus(object sender, RoutedEventArgs e)
 		{
 			modeLabel.Content = "Basic - A step up from minimal.";
 		}

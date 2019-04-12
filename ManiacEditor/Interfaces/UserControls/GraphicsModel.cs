@@ -18,20 +18,36 @@ namespace ManiacEditor.Interfaces
 		public HScrollBar hScrollBar;
 		public VScrollBar vScrollBar;
 
-		public System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar.scroller; }
-		public System.Windows.Controls.Primitives.ScrollBar hScrollBar1 { get => hScrollBar.scroller; }
+		public System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => GetScrollBarV(); }
+		public System.Windows.Controls.Primitives.ScrollBar hScrollBar1 { get => GetScrollBarH(); }
 
-		public EditorFormsModel(Editor instance)
+        private System.Windows.Controls.Primitives.ScrollBar GetScrollBarV()
+        {
+            return vScrollBar.scroller;
+        }
+
+        private System.Windows.Controls.Primitives.ScrollBar GetScrollBarH()
+        {
+            return hScrollBar.scroller;
+        }
+
+
+        public EditorFormsModel(Editor instance)
         {
             EditorInstance = instance;
             InitializeComponent();
+            UpdateScrollbars();
             SetupGraphicsPanel();
-
-			hScrollBar = new HScrollBar();
-			vScrollBar = new VScrollBar();
-			hScrollBar1Host.Child = hScrollBar;
-			vScrollBar1Host.Child = vScrollBar;
 		}
+
+        public void UpdateScrollbars(bool refreshing = false)
+        {
+            hScrollBar = new HScrollBar();
+            vScrollBar = new VScrollBar();
+            hScrollBar1Host.Child = hScrollBar;
+            vScrollBar1Host.Child = vScrollBar;
+            if (refreshing) Editor.Instance.UpdateScrollBars();
+        }
 
         public void SetupGraphicsPanel()
         {

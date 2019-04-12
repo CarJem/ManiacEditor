@@ -20,7 +20,7 @@ namespace ManiacEditor.Interfaces
 		private Editor EditorInstance;
         private int selectedIndex = -1;
 		private System.Windows.Forms.Integration.ElementHost elementHost1;
-		private VScrollBar vScrollBar1Host;
+		public VScrollBar vScrollBar1Host;
 		private System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar1Host.scroller; }
 
 		[Browsable(false)]

@@ -118,7 +118,7 @@ namespace ManiacEditor.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>Del</string>\r\n</ArrayOfString>")]
+            "tring>Delete</string>\r\n</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection Delete {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["Delete"]));
@@ -605,6 +605,90 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["PointerTooltipToggle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>1</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection PointerTool {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["PointerTool"]));
+            }
+            set {
+                this["PointerTool"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>2</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection SelectTool {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SelectTool"]));
+            }
+            set {
+                this["SelectTool"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>3</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DrawTool {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DrawTool"]));
+            }
+            set {
+                this["DrawTool"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>4</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection SplineTool {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SplineTool"]));
+            }
+            set {
+                this["SplineTool"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>5</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection StampTool {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["StampTool"]));
+            }
+            set {
+                this["StampTool"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>6</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection MagnetTool {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["MagnetTool"]));
+            }
+            set {
+                this["MagnetTool"] = value;
             }
         }
     }

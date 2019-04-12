@@ -67,9 +67,10 @@ namespace ManiacEditor
 		{
 			set
 			{
-                if (Editor.Instance.SplineToolButton.IsChecked.Value && Editor.Instance.Entities.SplineObjectRenderingTemplate != null)
+                int splineID = Editor.Instance.UIModes.SelectedSplineID;
+                if (Editor.Instance.SplineToolButton.IsChecked.Value && Editor.Instance.UIModes.SplineOptionsGroup.ContainsKey(splineID) && Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
                 {
-                    UpdateEntitiesProperties(new List<SceneEntity>() { Editor.Instance.Entities.SplineObjectRenderingTemplate.Entity });
+                    UpdateEntitiesProperties(new List<SceneEntity>() { Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
                 }
                 else
                 {
@@ -114,7 +115,16 @@ namespace ManiacEditor
             this.entityProperties.TabIndex = 1;
             this.entityProperties.ToolbarVisible = false;
 
-            if (Settings.MySettings.NightMode)
+            UpdatePropertyGridTheme();
+
+            this.entityProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.entityProperties_PropertyValueChanged);
+            entityPropertiesLegacy.Child = entityProperties;
+            entityProperties.Show();
+        }
+
+        public void UpdatePropertyGridTheme(bool ForceRefresh = false)
+        {
+            if (App.Skin == Skin.Dark)
             {
                 this.entityProperties.BackColor = EditorTheming.darkTheme0;
                 this.entityProperties.CategoryForeColor = EditorTheming.darkTheme3;
@@ -147,9 +157,7 @@ namespace ManiacEditor
                 this.entityProperties.ViewForeColor = System.Drawing.Color.Black;
             }
 
-            this.entityProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.entityProperties_PropertyValueChanged);
-            entityPropertiesLegacy.Child = entityProperties;
-            entityProperties.Show();
+            if (ForceRefresh) this.entityProperties.Update();
         }
 
 		public void UpdateFilterNames(bool startup = false)
@@ -432,6 +440,11 @@ namespace ManiacEditor
                 }
             }
 
+        }
+
+        public void UpdateEntityProperties(List<RSDKv5.SceneEntity> selectedEntities)
+        {
+            UpdateEntitiesProperties(selectedEntities);
         }
 
 		private void UpdateEntitiesProperties(List<RSDKv5.SceneEntity> selectedEntities)
@@ -1009,18 +1022,7 @@ namespace ManiacEditor
 
         private void CbSpawn_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Editor.Instance.Entities != null && Editor.Instance.SplineToolButton.IsChecked.Value)
-            {
-                var selectedItem = cbSpawn.SelectedItem as TextBlock;
-                if (selectedItem.Tag == null) return;
-                if (selectedItem.Tag is RSDKv5.SceneObject)
-                {
-                    var obj = selectedItem.Tag as RSDKv5.SceneObject;
-                    Editor.Instance.Entities.SplineObjectRenderingTemplate = Editor.Instance.Entities.GenerateEditorEntity(new SceneEntity(obj, 0));
-                    UpdateEntitiesProperties(new List<SceneEntity>() { Editor.Instance.Entities.SplineObjectRenderingTemplate.Entity });
-                }
 
-            }
         }
     }
 }

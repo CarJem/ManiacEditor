@@ -526,6 +526,8 @@ namespace ManiacEditor
                 Instance.BackgroundDX = new EditorBackground(Instance);
                 Instance.Entities = new EditorEntities(Editor.Instance.EditorScene);
 
+                Instance.UI.UpdateSplineSpawnObjectsList(Editor.Instance.EditorScene.Objects);
+
                 ReadManiacINIFile();
                 Instance.UpdateStartScreen(false);
                 Instance.UpdateDataFolderLabel(null, null);

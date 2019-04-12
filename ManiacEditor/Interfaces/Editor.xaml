@@ -105,397 +105,449 @@
             </StatusBarItem>
         </StatusBar>
 
-        <TabControl Grid.ColumnSpan="6" Grid.RowSpan="1" Grid.Row="2" BorderThickness="0 1 0 0" Background="{DynamicResource NormalBackground}" Margin="0,-15,0,0">
-            <TabItem Header="Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
-                <Grid>
-                    <Border Grid.ColumnSpan="5" Margin="10" BorderBrush="Transparent" BorderThickness="1">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="5"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="5"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="5"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="5"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Rectangle x:Name="ScrollBorderNE" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
-                            <Rectangle x:Name="ScrollBorderE" Grid.Column="3" Grid.Row="0" Grid.RowSpan="4"  Fill="Transparent"></Rectangle>
-                            <Rectangle x:Name="ScrollBorderSE" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
+        <Grid Panel.ZIndex="1" Grid.ColumnSpan="6" Grid.RowSpan="1" Grid.Row="2"  Background="{DynamicResource ToolbarBackground}" Margin="0,-15,0,0">
+            <TabControl BorderThickness="0 1 0 0" Background="{DynamicResource ToolbarBackground}">
+                <TabItem Header="Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
+                    <Grid>
+                        <Border Grid.ColumnSpan="5" Margin="10" BorderBrush="Transparent" BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="5"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="5"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="5"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Rectangle x:Name="ScrollBorderNE" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
+                                <Rectangle x:Name="ScrollBorderE" Grid.Column="3" Grid.Row="0" Grid.RowSpan="4"  Fill="Transparent"></Rectangle>
+                                <Rectangle x:Name="ScrollBorderSE" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
 
-                            <Rectangle x:Name="ScrollBorderNW" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
-                            <Rectangle x:Name="ScrollBorderW" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"  Fill="Transparent"></Rectangle>
-                            <Rectangle x:Name="ScrollBorderSW" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="2" Fill="Transparent"></Rectangle>
+                                <Rectangle x:Name="ScrollBorderNW" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
+                                <Rectangle x:Name="ScrollBorderW" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"  Fill="Transparent"></Rectangle>
+                                <Rectangle x:Name="ScrollBorderSW" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="2" Fill="Transparent"></Rectangle>
 
-                            <Rectangle x:Name="ScrollBorderN" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Fill="Transparent"></Rectangle>
-                            <Rectangle x:Name="ScrollBorderS" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Fill="Transparent"></Rectangle>
-                            <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}" Margin="3">
-                                <Grid x:Name="SplitContianer">
-                                    <Grid Name="gridMain">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition x:Name="ToolbarLeft" Width="180" MaxWidth="180" MinWidth="0"/>
-                                            <ColumnDefinition x:Name="SplitterLeft" Width="6" MaxWidth="0" MinWidth="0"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition x:Name="SplitterRight" Width="6" MinWidth="0" MaxWidth="0"/>
-                                            <ColumnDefinition x:Name="ToolbarRight" Width="0" MinWidth="0" MaxWidth="0"/>
-                                        </Grid.ColumnDefinitions>
+                                <Rectangle x:Name="ScrollBorderN" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Fill="Transparent"></Rectangle>
+                                <Rectangle x:Name="ScrollBorderS" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Fill="Transparent"></Rectangle>
+                                <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}" Margin="3">
+                                    <Grid x:Name="SplitContianer">
+                                        <Grid Name="gridMain">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition x:Name="ToolbarLeft" Width="180" MaxWidth="180" MinWidth="0"/>
+                                                <ColumnDefinition x:Name="SplitterLeft" Width="6" MaxWidth="0" MinWidth="0"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition x:Name="SplitterRight" Width="6" MinWidth="0" MaxWidth="0"/>
+                                                <ColumnDefinition x:Name="ToolbarRight" Width="0" MinWidth="0" MaxWidth="0"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <Grid x:Name="WaitingPanel" Grid.Column="2" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Opacity="0.2">
-                                            <TextBlock FontSize="30" TextAlignment="Center" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Working..."/><LineBreak/><Run Text="(Please Wait!)"/></TextBlock>
-                                        </Grid>
-                                        <TabControl Margin="-15,0,0,0" BorderThickness="0" Background="{DynamicResource ToolbarBackground}" x:Name="LeftToolbarToolbox" Grid.Column="0" TabStripPlacement="Left" SelectionChanged="LeftToolbarToolbox_SelectionChanged">
-                                            <TabItem Header="X" Foreground="{DynamicResource NormalText}">
-                                            </TabItem>
-                                            <TabItem Header="Tools" Foreground="{DynamicResource NormalText}">
-                                                <TabItem.LayoutTransform>
-                                                    <RotateTransform Angle="270"></RotateTransform>
-                                                </TabItem.LayoutTransform>
-                                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                                    <StackPanel>
-                                                        <Expander IsExpanded="False" Header="Spline Options" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
-                                                                    <Label Content="Frequency of Points" x:Name="SplinePointSeperationLabel"></Label>
-                                                                    <Slider Value="128" Minimum="4" Maximum="600" x:Name="SplinePointSeperationSlider" ValueChanged="SplinePointFrequenceChangedEvent"></Slider>
-                                                                    <wpfTool:IntegerUpDown x:Name="SplinePointSeperationNUD" Value="128" Minimum="4" Maximum="600" ValueChanged="SplinePointFrequenceChangedEvent"></wpfTool:IntegerUpDown>
-                                                                    <Separator Margin="0,10"></Separator>
-                                                                    <CheckBox Content="Show Line" Name="SplineShowLineCheckbox" IsChecked="True" Checked="SplineShowLineCheckboxCheckChanged" Unchecked="SplineShowLineCheckboxCheckChanged"></CheckBox>
-                                                                    <CheckBox Content="Show Points" Name="SplineShowPointsCheckbox" IsChecked="True" Checked="SplineShowPointsCheckboxCheckChanged" Unchecked="SplineShowPointsCheckboxCheckChanged"></CheckBox>
-                                                                    <CheckBox Content="Show Object Preview" Name="SplineShowObjectsCheckbox" Checked="SplineShowObjectsCheckboxCheckChanged" Unchecked="SplineShowObjectsCheckboxCheckChanged"></CheckBox>
-                                                                    <Separator Margin="0,10"></Separator>
-                                                                    <Label Content="Spline Shape: "></Label>
-                                                                    <RadioButton Content="Square" Name="SplineLineMode" IsEnabled="False" IsChecked="True" Click="SplineLineMode_Click"></RadioButton>
-                                                                    <RadioButton Content="Oval" Name="SplineOvalMode" Click="SplineOvalMode_Click" IsChecked="True"></RadioButton>
-                                                                    <TextBlock x:Name="SplineInfoLabel1" Visibility="Collapsed" Text="Number of Spline Objects: {0}"></TextBlock>
-                                                                    <TextBlock x:Name="SplineInfoLabel2" Visibility="Collapsed" Text="Point Frequency: {0}"></TextBlock>
-                                                                    <TextBlock x:Name="SplineInfoLabel3" Visibility="Collapsed" Text="Total Number of Spawing Objects: {0}"></TextBlock>
-                                                                    <Separator Margin="0,10"></Separator>
-                                                                    <Button Content="Render Splines"></Button>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                        <Expander IsExpanded="False" Header="Magnet Options" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Margin="5">
-                                                                    <Label Foreground="{DynamicResource DisabledText}" x:Name="gridAlignmentSizeToolStripMenuItem" Content="Grid Alignment Size:"></Label>
-                                                                    <CheckBox x:Name="x8ToolStripMenuItem" Content="8x8" Click="Magnet8x8Event"></CheckBox>
-                                                                    <CheckBox x:Name="x16ToolStripMenuItem1" Content="16x16" Click="Magnet16x16Event" IsChecked="true"></CheckBox>
-                                                                    <CheckBox x:Name="x32ToolStripMenuItem" Content="32x32" Click="Magnet32x32Event"></CheckBox>
-                                                                    <CheckBox x:Name="x64ToolStripMenuItem" Content="64x64" Click="Magnet64x64Event"></CheckBox>
-                                                                    <CheckBox x:Name="MagnetCustomSizeToolStripMenuItem" Click="MagnetCustomEvent">
-                                                                        <CheckBox.Content>
-                                                                            <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
-                                                                                <TextBlock Name="CustomMagnetLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
-                                                                                <wpfTool:IntegerUpDown Width="20" Name="CustomMagnetSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent" DefaultValue="16" ValueChanged="CustomMagnetSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
-                                                                            </StackPanel>
-                                                                        </CheckBox.Content>
-                                                                    </CheckBox>
-                                                                    <Label Foreground="{DynamicResource DisabledText}" x:Name="optionsToolStripMenuItem1" Content="Options: "></Label>
-                                                                    <CheckBox IsChecked="True" x:Name="enableXAxisToolStripMenuItem" Content="Enable X Axis" Click="EnableMagnetXAxisLockEvent"></CheckBox>
-                                                                    <CheckBox IsChecked="True" x:Name="enableYAxisToolStripMenuItem" Content="Enable Y Axis" Click="EnableMagnetYAxisLockEvent"></CheckBox>
-                                                                </StackPanel>
-                                                            </Border>
+                                            <Grid x:Name="WaitingPanel" Grid.Column="2" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Opacity="0.2">
+                                                <TextBlock FontSize="30" TextAlignment="Center" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Working..."/><LineBreak/><Run Text="(Please Wait!)"/></TextBlock>
+                                            </Grid>
+                                            <TabControl Margin="-15,0,0,0" BorderThickness="0" Background="{DynamicResource ToolbarBackground}" x:Name="LeftToolbarToolbox" Grid.Column="0" TabStripPlacement="Left" SelectionChanged="LeftToolbarToolbox_SelectionChanged">
+                                                <TabItem Header="X" Foreground="{DynamicResource NormalText}">
+                                                </TabItem>
+                                                <TabItem Header="Tools" Foreground="{DynamicResource NormalText}">
+                                                    <TabItem.LayoutTransform>
+                                                        <RotateTransform Angle="270"></RotateTransform>
+                                                    </TabItem.LayoutTransform>
+                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                        <StackPanel>
+                                                            <Expander IsExpanded="False" Header="Spline Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                        <Label Content="Spline Spawn Group ID:"></Label>
+                                                                        <wpfTool:IntegerUpDown x:Name="SplineSpawnID" Value="0" Minimum="0" Maximum="600"></wpfTool:IntegerUpDown>
+                                                                        <Expander IsExpanded="False" Header="Group Options" Foreground="{DynamicResource NormalText}">
+                                                                            <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                                <Label Content="Spline Group ID"></Label>
+                                                                                <wpfTool:IntegerUpDown Value="0" Minimum="0" Maximum="600" x:Name="SplineGroupID" ValueChanged="SplineOptionsIDChangedEvent"></wpfTool:IntegerUpDown>
+                                                                                <Separator Margin="0,10"></Separator>
+                                                                                <Label Content="Group Options:" IsEnabled="False"></Label>
+                                                                                <Separator Margin="0,10"></Separator>
+                                                                                <Label Content="Frequency of Points" x:Name="SplinePointSeperationLabel"></Label>
+                                                                                <Slider Value="128" Minimum="4" Maximum="600" x:Name="SplinePointSeperationSlider" ValueChanged="SplinePointFrequenceChangedEvent"></Slider>
+                                                                                <wpfTool:IntegerUpDown x:Name="SplinePointSeperationNUD" Value="128" Minimum="4" Maximum="600" ValueChanged="SplinePointFrequenceChangedEvent"></wpfTool:IntegerUpDown>
+                                                                                <CheckBox Content="Show Line" Name="SplineShowLineCheckbox" IsChecked="True" Checked="SplineShowLineCheckboxCheckChanged" Unchecked="SplineShowLineCheckboxCheckChanged"></CheckBox>
+                                                                                <CheckBox Content="Show Points" Name="SplineShowPointsCheckbox" IsChecked="True" Checked="SplineShowPointsCheckboxCheckChanged" Unchecked="SplineShowPointsCheckboxCheckChanged"></CheckBox>
+                                                                                <CheckBox Name="SplineShowObjectsCheckbox" Checked="SplineShowObjectsCheckboxCheckChanged" Unchecked="SplineShowObjectsCheckboxCheckChanged">
+                                                                                    <CheckBox.Content>
+                                                                                        <TextBlock Text="Show Object Preview" TextWrapping="Wrap"></TextBlock>
+                                                                                    </CheckBox.Content>
+                                                                                </CheckBox>
+                                                                                <Separator Margin="0,10"></Separator>
 
-                                                        </Expander>
-                                                        <Expander IsExpanded="False" Header="Grid Options" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
-                                                                    <Label Foreground="{DynamicResource DisabledText}" x:Name="toolStripMenuItem1" Content="Grid Size:"></Label>
-                                                                    <CheckBox x:Name="Grid16x16SizeMenuItem" Content="16x16" Click="SetGrid16x16Event"></CheckBox>
-                                                                    <CheckBox x:Name="Grid128x128SizeMenuItem" Content="128x128" Click="SetGrid128x128Event"></CheckBox>
-                                                                    <CheckBox x:Name="Grid256x256SizeMenuItem" Content="256x256" Click="SetGrid256x256Event"></CheckBox>
-                                                                    <CheckBox x:Name="GridCustomSizeMenuItem" Click="SetGridCustomSizeEvent">
-                                                                        <CheckBox.Content>
-                                                                            <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
-                                                                                <TextBlock Name="CustomGridLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
-                                                                                <wpfTool:IntegerUpDown Width="20" Name="CustomGridSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent"  ValueChanged="CustomGridSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
-                                                                            </StackPanel>
-                                                                        </CheckBox.Content>
-                                                                    </CheckBox>
-                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Black" x:Name="GDC" Click="comboBox8_DropDown"></Button>
-                                                                        <Label Content="Grid Color"></Label>
-                                                                    </StackPanel>
-                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                                                    <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
-                                                                    <Slider x:Name="gridOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch"></Slider>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                        <Expander IsExpanded="False" Header="Collision Options" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
-                                                                    <CheckBox x:Name="defaultToolStripMenuItem" Content="Default (Mania)" Click="UseNormalCollisionEvent"/>
-                                                                    <CheckBox x:Name="invertedToolStripMenuItem" Content="Inverted" Click="UseInvertedCollisionEvent"/>
-                                                                    <CheckBox x:Name="customToolStripMenuItem1" Content="Custom" Click="UseCustomCollisionEvent"/>
-                                                                    <Expander Header="Custom Values..." Foreground="{DynamicResource NormalText}">
-                                                                        <StackPanel>
-                                                                            <StackPanel Orientation="Horizontal">
-                                                                                <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="White" x:Name="CSAC" Click="comboBox4_DropDown"></Button>
-                                                                                <Label Content="All"></Label>
-                                                                            </StackPanel>
-                                                                            <StackPanel Orientation="Horizontal">
-                                                                                <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Yellow" x:Name="SSTOC" Click="comboBox6_DropDown"></Button>
-                                                                                <Label Content="Top Only"></Label>
-                                                                            </StackPanel>
-                                                                            <StackPanel Orientation="Horizontal">
-                                                                                <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Red" x:Name="CSLRDC" Click="comboBox5_DropDown"></Button>
-                                                                                <Label Content="LRD"></Label>
-                                                                            </StackPanel>
-                                                                        </StackPanel>
-                                                                    </Expander>
-                                                                    <StackPanel Orientation="Vertical">
-                                                                        <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
-                                                                        <Slider LostFocus="CollisionOpacitySliderLostFocusEvent" Thumb.DragCompleted="CollisionOpacitySliderDragCompletedEvent" x:Name="collisionOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
-                                                                    </StackPanel>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                        <Expander IsExpanded="False" Header="Other Options" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
-                                                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
-                                                                        <Button Width="20" Height="20" HorizontalAlignment="Left" Margin="2" Background="Blue" x:Name="WLC" Click="comboBox7_DropDown"></Button>
-                                                                        <Label Content="Water Color"></Label>
-                                                                    </StackPanel>
-                                                                    <StackPanel Orientation="Vertical" Margin="0,1">
-                                                                        <Label Content="Faster Nudge Amount" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
-                                                                        <wpfTool:IntegerUpDown Name="FasterNudgeValueNUD" HorizontalAlignment="Left" Width="55" ValueChanged="FasterNudgeValueNUD_ValueChanged"/>
-                                                                    </StackPanel>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                    </StackPanel>
-                                                </ScrollViewer>
-                                            </TabItem>
-                                            <TabItem Header="Scene" Foreground="{DynamicResource NormalText}">
-                                                <TabItem.LayoutTransform>
-                                                    <RotateTransform Angle="270"></RotateTransform>
-                                                </TabItem.LayoutTransform>
-                                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                                    <StackPanel>
-                                                        <Expander Header="Layer Tools" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Margin="5">
-                                                                    <Expander IsExpanded="False" Name="LayerViewOptionsHost" Header="View Options" Foreground="{DynamicResource NormalText}">
-                                                                        <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                            <StackPanel Margin="5">
-                                                                                <CheckBox x:Name="moveExtraLayersToFrontToolStripMenuItem" Click="MoveExtraLayersToFrontEvent">
-                                                                                    <TextBlock Text="Move Extra Layers to Front" TextWrapping="Wrap"></TextBlock>
-                                                                                </CheckBox>
-                                                                            </StackPanel>
-                                                                        </Border>
-                                                                    </Expander>
-                                                                    <Expander IsExpanded="False" Name="layerEditOptionsHost" Header="Edit Options" Foreground="{DynamicResource NormalText}">
-                                                                        <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                            <StackPanel Margin="5">
-                                                                                <CheckBox x:Name="findUnusedTilesToolStripMenuItem" Content="Find Unused Tiles" Click="FindUnusedTiles"/>
-                                                                                <CheckBox x:Name="multiLayerSelectionToolStripMenuItem" Click="ToggleMultiLayerSelectEvent" Content="Multi-Layer Selection Mode" IsEnabled="True" Visibility="Collapsed" IsChecked="True"/>
-                                                                                <CheckBox x:Name="copyAirToggle"  Click="ToggleCopyAirEvent">
-                                                                                    <TextBlock Text="Copy Air Tiles" Name="CopyAirLabel" TextWrapping="Wrap"></TextBlock>
-                                                                                </CheckBox>
-                                                                            </StackPanel>
-                                                                        </Border>
-                                                                    </Expander>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                        <Expander Header="Entity Tools" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Margin="5">
-                                                                    <Expander IsExpanded="False" x:Name="EntitiesViewOptionsHost" Header="View Options" Foreground="{DynamicResource NormalText}">
-                                                                        <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                            <StackPanel Margin="5">
-                                                                                <Label x:Name="entityVisibilityOptionsToolStripMenuItem" IsEnabled="False">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Entity Visibility Options:"></TextBlock>
-                                                                                </Label>
-                                                                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                                                                <CheckBox x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" Content="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
-                                                                                <CheckBox x:Name="prioritizedViewingToolStripMenuItem" Content="Prioritized Viewing" Click="PrioritizedEntityViewingEvent"/>
-                                                                                <CheckBox x:Name="SelectionBoxesAlwaysPrioritized" Click="EntitySelectionBoxesAlwaysPrioritizedEvent" IsChecked="True">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Selection Boxes Always Prioritized"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <CheckBox x:Name="showEntitySelectionBoxesToolStripMenuItem" Click="ShowEntitySelectionBoxesEvent">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Show Entity Selection Boxes"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <CheckBox x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Click="SwapEncoreManiaEntityVisibilityEvent">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Toggle Encore/Mania Object Visibility"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <CheckBox x:Name="EditEntitiesTransparencyToggle" Click="ApplyEditEntitiesTransparencyEvent">
-                                                                                    <TextBlock Text="Transparent Layers for Editing Entities" TextWrapping="Wrap"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                                                                <Label x:Name="objectFilterToolStripMenuItem" Content="Entity Filter:" IsEnabled="False"/>
-                                                                                <TextBox x:Name="toolStripTextBox1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" UseLayoutRounding="False" TextChanged="EntityFilterTextChangedEvent"/>
-                                                                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                                                                <Label x:Name="entityViewSettingsLabel" IsEnabled="False">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Entity Specific Options:"></TextBlock>
-                                                                                </Label>
-                                                                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                                                                <CheckBox x:Name="showParallaxSpritesToolStripMenuItem" Click="ShowParallaxSpritesEvent">
-                                                                                    <TextBlock Text="Show Full Parallax Sprites" TextWrapping="Wrap"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <CheckBox x:Name="showEntityPathArrowsToolstripItem" Click="ShowEntityPathArrowsEvent">
-                                                                                    <TextBlock Text="Show WarpDoor/Entity Path Arrows" TextWrapping="Wrap"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <Border BorderThickness="1" BorderBrush="{DynamicResource NormalText}" Margin="5">
-                                                                                    <Label HorizontalContentAlignment="Center">
-                                                                                        <Menu Background="Transparent" HorizontalAlignment="Center" BorderBrush="{DynamicResource NormalText}">
-                                                                                            <MenuItem Foreground="{DynamicResource NormalText}" Header="Menu Settings...">
-                                                                                                <MenuItem x:Name="waterLevelOptions" Header="Water Level...">
-                                                                                                    <MenuItem x:Name="showWaterLevelToolStripMenuItem" Header="Show Water Level" Click="ShowWaterLevelEvent"/>
-                                                                                                    <MenuItem x:Name="waterLevelAlwaysShowItem" Header="Always Show Regardless of Selection" Click="AlwaysShowWaterLevelEvent"/>
-                                                                                                    <MenuItem x:Name="sizeWithBoundsWhenNotSelectedToolStripMenuItem" Header="Size with Bounds when Not Selected" Click="WaterSizeWithBoundsEvent"/>
-                                                                                                </MenuItem>
-                                                                                                <MenuItem x:Name="menuLanguageToolStripMenuItem" Header="Menu Language">
-                                                                                                    <MenuItem x:Name="eNToolStripMenuItem" Header="EN" Tag="EN" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="fRToolStripMenuItem" Header="FR" Tag="FR" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="gEToolStripMenuItem" Header="GE" Tag="GE" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="iTToolStripMenuItem" Header="IT" Tag="IT" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="jPToolStripMenuItem" Header="JP" Tag="JP" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="kOToolStripMenuItem" Header="KO" Tag="KO" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="sCToolStripMenuItem" Header="SC" Tag="SC" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="sPToolStripMenuItem" Header="SP" Tag="SP" Click="MenuLanguageChangedEvent"/>
-                                                                                                    <MenuItem x:Name="tCToolStripMenuItem" Header="TC" Tag="TC" Click="MenuLanguageChangedEvent"/>
-                                                                                                </MenuItem>
-                                                                                                <MenuItem x:Name="menuButtonsToolStripMenuItem" Header="Menu Buttons">
-                                                                                                    <MenuItem x:Name="xboxToolStripMenuItem" Header="Xbox" Click="MenuButtonChangedEvent" Tag="Xbox"/>
-                                                                                                    <MenuItem x:Name="pS4ToolStripMenuItem" Header="PS4" Click="MenuButtonChangedEvent" Tag="PS4"/>
-                                                                                                    <MenuItem x:Name="nintendoSwitchToolStripMenuItem" Header="Nintendo Switch...">
-                                                                                                        <MenuItem x:Name="normalToolStripMenuItem1" Header="Normal" Click="MenuButtonChangedEvent" Tag="Switch"/>
-                                                                                                        <MenuItem x:Name="joyconLToolStripMenuItem" Header="Joycon (L)" Click="MenuButtonChangedEvent" Tag="Switch Joy L"/>
-                                                                                                        <MenuItem x:Name="joyconRToolStripMenuItem" Header="Joycon (R)" Click="MenuButtonChangedEvent" Tag="Switch Joy R"/>
-                                                                                                    </MenuItem>
-                                                                                                    <MenuItem x:Name="saturnToolStripMenuItem" Header="Saturn...">
-                                                                                                        <MenuItem x:Name="saturnBlackToolStripMenuItem" Header="Saturn (Black)" Tag="Saturn Black" Click="MenuButtonChangedEvent"/>
-                                                                                                        <MenuItem x:Name="satrunWhiteToolStripMenuItem" Header="Saturn (White)" Tag="Saturn White" Click="MenuButtonChangedEvent"/>
-                                                                                                    </MenuItem>
-                                                                                                    <MenuItem x:Name="pCWIPToolStripMenuItem" Header="PC (WIP)...">
-                                                                                                        <MenuItem x:Name="eNJPToolStripMenuItem" Header="EN/JP" Tag="PC EN/JP" Click="MenuButtonChangedEvent"/>
-                                                                                                        <MenuItem x:Name="fRToolStripMenuItem1" Header="FR" Tag="PC FR" Click="MenuButtonChangedEvent"/>
-                                                                                                        <MenuItem x:Name="gEToolStripMenuItem1" Header="GE" Tag="PC GE" Click="MenuButtonChangedEvent"/>
-                                                                                                        <MenuItem x:Name="sPToolStripMenuItem1" Header="SP" Tag="PC SP" Click="MenuButtonChangedEvent"/>
-                                                                                                    </MenuItem>
-                                                                                                </MenuItem>
-                                                                                            </MenuItem>
-                                                                                        </Menu>
-                                                                                    </Label>
-                                                                                </Border>
+                                                                                <Label Content="Spline Shape: "></Label>
+                                                                                <RadioButton Content="Square" Name="SplineLineMode" IsEnabled="False" IsChecked="True" Click="SplineLineMode_Click"></RadioButton>
+                                                                                <RadioButton Content="Oval" Name="SplineOvalMode" Click="SplineOvalMode_Click" IsChecked="True"></RadioButton>
+                                                                                <Separator Margin="0,10"></Separator>
+                                                                                <Label>
 
-
-                                                                            </StackPanel>
-                                                                        </Border>
-                                                                    </Expander>
-                                                                    <Expander IsExpanded="False" Header="Edit Options" Name="entityEditOptionsHost" Foreground="{DynamicResource NormalText}">
-                                                                        <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                            <StackPanel Margin="5">
-                                                                                <CheckBox x:Name="SortSelectedSlotIDs" Click="SortSelectedSlotIDsEvent">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Sort Selected Object's Slot IDs"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <CheckBox x:Name="SortSelectedSlotIDsOptimized" Click="SortSelectedSlotIDsOptimizedEvent">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Sort Selected Object's Slot IDs (Optimized Mode)"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <CheckBox x:Name="SortSelectedSlotIDsOrdered" Click="SortSelectedSlotIDsOrderedEvent">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Sort Selected Object's Slot IDs (Ordered Mode)"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <CheckBox x:Name="optimizeEntitySlotIDsToolStripMenuItem" Click="OptimizeEntitySlotIDsEvent">
-                                                                                    <TextBlock TextWrapping="Wrap" Text="Optimize Entity Slot IDs"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,5"/>
-                                                                                <CheckBox x:Name="rightClicktoSwapSlotIDs" Click="ToggleRightClickSlotIDSwapEvent">
-                                                                                    <TextBlock Text="Right Click to Swap Slot IDs" TextWrapping="Wrap"></TextBlock>
-                                                                                </CheckBox>
-                                                                                <Label x:Name="rightClicktoSwapSlotIDsNote" IsEnabled="False">
                                                                                     <Label.Content>
-                                                                                        <TextBlock Text="NOTE: Only works on selections of two entities" TextWrapping="Wrap"></TextBlock>
+                                                                                        <TextBlock Text="Spline Spawn Object" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
                                                                                     </Label.Content>
                                                                                 </Label>
+                                                                                <Grid>
+                                                                                    <ComboBox x:Name="SelectedSplineRender" SelectionChanged="SplineSpawnRender_SelectionChanged"></ComboBox>
+                                                                                    <Button Content="None" VerticalAlignment="Stretch" x:Name="SplineRenderObjectName" Click="SplineRenderObjectName_Click"></Button>
+                                                                                </Grid>
                                                                             </StackPanel>
-                                                                        </Border>
-                                                                    </Expander>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                    </StackPanel>
-                                                </ScrollViewer>
-                                            </TabItem>
-                                            <TabItem Header="Template" Visibility="Collapsed" Foreground="{DynamicResource NormalText}">
-                                                <TabItem.LayoutTransform>
-                                                    <RotateTransform Angle="270"></RotateTransform>
-                                                </TabItem.LayoutTransform>
-                                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                                    <StackPanel>
-                                                        <Expander Header="View Options" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Margin="5">
 
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                        <Expander Header="Edit Options" Foreground="{DynamicResource NormalText}">
-                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                                                <StackPanel Margin="5">
+                                                                        </Expander>
+     
 
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Expander>
-                                                    </StackPanel>
-                                                </ScrollViewer>
-                                            </TabItem>
-                                        </TabControl>
-
-                                        <GridSplitter SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" 
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                  ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
-                                        <Grid x:Name="CenterPanel" Grid.Column="2">
-                                            <Grid Panel.ZIndex="-4" x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                <Grid.ContextMenu>
-                                                    <ContextMenu x:Name="ViewPanelContextMenu">
-                                                        <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
-                                                        <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHere"></MenuItem>
-                                                        <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHere"></MenuItem>
-                                                        <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpoint"></MenuItem>
-                                                        <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetReset"></MenuItem>
-                                                        <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartScene"></MenuItem>
-                                                        <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpoint"></MenuItem>
-                                                        <ContextMenu.Template>
-                                                            <ControlTemplate>
-                                                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                                                    <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                                                                        <TextBlock x:Name="SplineInfoLabel1" Visibility="Collapsed" Text="Number of Spline Objects: {0}"></TextBlock>
+                                                                        <TextBlock x:Name="SplineInfoLabel2" Visibility="Collapsed" Text="Point Frequency: {0}"></TextBlock>
+                                                                        <TextBlock x:Name="SplineInfoLabel3" Visibility="Collapsed" Text="Total Number of Spawing Objects: {0}"></TextBlock>
+                                                                        <Button Content="Render Selected Spline"></Button>
+                                                                        <Button Content="Render All Splines"></Button>
                                                                     </StackPanel>
                                                                 </Border>
-                                                            </ControlTemplate>
-                                                        </ContextMenu.Template>
-                                                    </ContextMenu>
-                                                </Grid.ContextMenu>
-                                            </Grid>
-                                        </Grid>
+                                                            </Expander>
+                                                            <Expander IsExpanded="False" Header="Magnet Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Margin="5">
+                                                                        <Label Foreground="{DynamicResource DisabledText}" x:Name="gridAlignmentSizeToolStripMenuItem" Content="Grid Alignment Size:"></Label>
+                                                                        <CheckBox x:Name="x8ToolStripMenuItem" Content="8x8" Click="Magnet8x8Event"></CheckBox>
+                                                                        <CheckBox x:Name="x16ToolStripMenuItem1" Content="16x16" Click="Magnet16x16Event" IsChecked="true"></CheckBox>
+                                                                        <CheckBox x:Name="x32ToolStripMenuItem" Content="32x32" Click="Magnet32x32Event"></CheckBox>
+                                                                        <CheckBox x:Name="x64ToolStripMenuItem" Content="64x64" Click="Magnet64x64Event"></CheckBox>
+                                                                        <CheckBox x:Name="MagnetCustomSizeToolStripMenuItem" Click="MagnetCustomEvent">
+                                                                            <CheckBox.Content>
+                                                                                <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
+                                                                                    <TextBlock Name="CustomMagnetLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                                                                    <wpfTool:IntegerUpDown Width="20" Name="CustomMagnetSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent" DefaultValue="16" ValueChanged="CustomMagnetSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
+                                                                                </StackPanel>
+                                                                            </CheckBox.Content>
+                                                                        </CheckBox>
+                                                                        <Label Foreground="{DynamicResource DisabledText}" x:Name="optionsToolStripMenuItem1" Content="Options: "></Label>
+                                                                        <CheckBox IsChecked="True" x:Name="enableXAxisToolStripMenuItem" Content="Enable X Axis" Click="EnableMagnetXAxisLockEvent"></CheckBox>
+                                                                        <CheckBox IsChecked="True" x:Name="enableYAxisToolStripMenuItem" Content="Enable Y Axis" Click="EnableMagnetYAxisLockEvent"></CheckBox>
+                                                                    </StackPanel>
+                                                                </Border>
 
-                                        <GridSplitter x:Name="SpliterRight" SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" 
+                                                            </Expander>
+                                                            <Expander IsExpanded="False" Header="Grid Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                        <Label Foreground="{DynamicResource DisabledText}" x:Name="toolStripMenuItem1" Content="Grid Size:"></Label>
+                                                                        <CheckBox x:Name="Grid16x16SizeMenuItem" Content="16x16" Click="SetGrid16x16Event"></CheckBox>
+                                                                        <CheckBox x:Name="Grid128x128SizeMenuItem" Content="128x128" Click="SetGrid128x128Event"></CheckBox>
+                                                                        <CheckBox x:Name="Grid256x256SizeMenuItem" Content="256x256" Click="SetGrid256x256Event"></CheckBox>
+                                                                        <CheckBox x:Name="GridCustomSizeMenuItem" Click="SetGridCustomSizeEvent">
+                                                                            <CheckBox.Content>
+                                                                                <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
+                                                                                    <TextBlock Name="CustomGridLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                                                                    <wpfTool:IntegerUpDown Width="20" Name="CustomGridSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent"  ValueChanged="CustomGridSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
+                                                                                </StackPanel>
+                                                                            </CheckBox.Content>
+                                                                        </CheckBox>
+                                                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition></ColumnDefinition>
+                                                                                <ColumnDefinition></ColumnDefinition>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Label Content="Grid Color"></Label>
+                                                                            <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
+                                                                        </Grid>
+                                                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                        <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
+                                                                        <Slider x:Name="gridOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch"></Slider>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
+                                                            <Expander IsExpanded="False" Header="Collision Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                        <CheckBox x:Name="defaultToolStripMenuItem" Content="Default (Mania)" Click="UseNormalCollisionEvent"/>
+                                                                        <CheckBox x:Name="invertedToolStripMenuItem" Content="Inverted" Click="UseInvertedCollisionEvent"/>
+                                                                        <CheckBox x:Name="customToolStripMenuItem1" Content="Custom" Click="UseCustomCollisionEvent"/>
+                                                                        <Expander Header="Custom Values..." Foreground="{DynamicResource NormalText}">
+                                                                            <StackPanel>
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition></ColumnDefinition>
+                                                                                        <ColumnDefinition></ColumnDefinition>
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <Label Content="All"></Label>
+                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
+                                                                                </Grid>
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition></ColumnDefinition>
+                                                                                        <ColumnDefinition></ColumnDefinition>
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <Label Content="Top Only"></Label>
+                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
+                                                                                </Grid>
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition></ColumnDefinition>
+                                                                                        <ColumnDefinition></ColumnDefinition>
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
+                                                                                    <Label Content="LRD"></Label>
+                                                                                </Grid>
+                                                                            </StackPanel>
+                                                                        </Expander>
+                                                                        <StackPanel Orientation="Vertical">
+                                                                            <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
+                                                                            <Slider LostFocus="CollisionOpacitySliderLostFocusEvent" Thumb.DragCompleted="CollisionOpacitySliderDragCompletedEvent" x:Name="collisionOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
+                                                            <Expander IsExpanded="False" Header="Other Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition></ColumnDefinition>
+                                                                                <ColumnDefinition></ColumnDefinition>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <wpfTool:ColorPicker Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" x:Name="WLC" SelectedColorChanged="comboBox7_DropDown" Style="{DynamicResource ColorPicker1}"></wpfTool:ColorPicker>
+                                                                            <Label Content="Water Color" Grid.ColumnSpan="2"></Label>
+                                                                        </Grid>
+                                                                        <StackPanel Orientation="Vertical" Margin="0,1">
+                                                                            <Label Content="Faster Nudge Amount" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
+                                                                            <wpfTool:IntegerUpDown Name="FasterNudgeValueNUD" HorizontalAlignment="Left" Width="55" ValueChanged="FasterNudgeValueNUD_ValueChanged"/>
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
+                                                        </StackPanel>
+                                                    </ScrollViewer>
+                                                </TabItem>
+                                                <TabItem Header="Scene" Foreground="{DynamicResource NormalText}">
+                                                    <TabItem.LayoutTransform>
+                                                        <RotateTransform Angle="270"></RotateTransform>
+                                                    </TabItem.LayoutTransform>
+                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                        <StackPanel>
+                                                            <Expander Header="Layer Tools" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Margin="5">
+                                                                        <Expander IsExpanded="False" Name="LayerViewOptionsHost" Header="View Options" Foreground="{DynamicResource NormalText}">
+                                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                                <StackPanel Margin="5">
+                                                                                    <CheckBox x:Name="moveExtraLayersToFrontToolStripMenuItem" Click="MoveExtraLayersToFrontEvent">
+                                                                                        <TextBlock Text="Move Extra Layers to Front" TextWrapping="Wrap"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </Expander>
+                                                                        <Expander IsExpanded="False" Name="layerEditOptionsHost" Header="Edit Options" Foreground="{DynamicResource NormalText}">
+                                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                                <StackPanel Margin="5">
+                                                                                    <CheckBox x:Name="findUnusedTilesToolStripMenuItem" Content="Find Unused Tiles" Click="FindUnusedTiles"/>
+                                                                                    <CheckBox x:Name="multiLayerSelectionToolStripMenuItem" Click="ToggleMultiLayerSelectEvent" Content="Multi-Layer Selection Mode" IsEnabled="True" Visibility="Collapsed" IsChecked="True"/>
+                                                                                    <CheckBox x:Name="copyAirToggle"  Click="ToggleCopyAirEvent">
+                                                                                        <TextBlock Text="Copy Air Tiles" Name="CopyAirLabel" TextWrapping="Wrap"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </Expander>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
+                                                            <Expander Header="Entity Tools" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Margin="5">
+                                                                        <Expander IsExpanded="False" x:Name="EntitiesViewOptionsHost" Header="View Options" Foreground="{DynamicResource NormalText}">
+                                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                                <StackPanel Margin="5">
+                                                                                    <Label x:Name="entityVisibilityOptionsToolStripMenuItem" IsEnabled="False">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Entity Visibility Options:"></TextBlock>
+                                                                                    </Label>
+                                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                                    <CheckBox x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" Content="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
+                                                                                    <CheckBox x:Name="prioritizedViewingToolStripMenuItem" Content="Prioritized Viewing" Click="PrioritizedEntityViewingEvent"/>
+                                                                                    <CheckBox x:Name="SelectionBoxesAlwaysPrioritized" Click="EntitySelectionBoxesAlwaysPrioritizedEvent" IsChecked="True">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Selection Boxes Always Prioritized"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <CheckBox x:Name="showEntitySelectionBoxesToolStripMenuItem" Click="ShowEntitySelectionBoxesEvent">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Show Entity Selection Boxes"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <CheckBox x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Click="SwapEncoreManiaEntityVisibilityEvent">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Toggle Encore/Mania Object Visibility"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <CheckBox x:Name="EditEntitiesTransparencyToggle" Click="ApplyEditEntitiesTransparencyEvent">
+                                                                                        <TextBlock Text="Transparent Layers for Editing Entities" TextWrapping="Wrap"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                                    <Label x:Name="objectFilterToolStripMenuItem" Content="Entity Filter:" IsEnabled="False"/>
+                                                                                    <TextBox x:Name="toolStripTextBox1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" UseLayoutRounding="False" TextChanged="EntityFilterTextChangedEvent"/>
+                                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                                    <Label x:Name="entityViewSettingsLabel" IsEnabled="False">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Entity Specific Options:"></TextBlock>
+                                                                                    </Label>
+                                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                                                    <CheckBox x:Name="showParallaxSpritesToolStripMenuItem" Click="ShowParallaxSpritesEvent">
+                                                                                        <TextBlock Text="Show Full Parallax Sprites" TextWrapping="Wrap"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <CheckBox x:Name="showEntityPathArrowsToolstripItem" Click="ShowEntityPathArrowsEvent">
+                                                                                        <TextBlock Text="Show WarpDoor/Entity Path Arrows" TextWrapping="Wrap"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <Border BorderThickness="1" BorderBrush="{DynamicResource NormalText}" Margin="5">
+                                                                                        <Label HorizontalContentAlignment="Center">
+                                                                                            <Menu Background="Transparent" HorizontalAlignment="Center" BorderBrush="{DynamicResource NormalText}">
+                                                                                                <MenuItem Foreground="{DynamicResource NormalText}" Header="Menu Settings...">
+                                                                                                    <MenuItem x:Name="waterLevelOptions" Header="Water Level...">
+                                                                                                        <MenuItem x:Name="showWaterLevelToolStripMenuItem" Header="Show Water Level" Click="ShowWaterLevelEvent"/>
+                                                                                                        <MenuItem x:Name="waterLevelAlwaysShowItem" Header="Always Show Regardless of Selection" Click="AlwaysShowWaterLevelEvent"/>
+                                                                                                        <MenuItem x:Name="sizeWithBoundsWhenNotSelectedToolStripMenuItem" Header="Size with Bounds when Not Selected" Click="WaterSizeWithBoundsEvent"/>
+                                                                                                    </MenuItem>
+                                                                                                    <MenuItem x:Name="menuLanguageToolStripMenuItem" Header="Menu Language">
+                                                                                                        <MenuItem x:Name="eNToolStripMenuItem" Header="EN" Tag="EN" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="fRToolStripMenuItem" Header="FR" Tag="FR" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="gEToolStripMenuItem" Header="GE" Tag="GE" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="iTToolStripMenuItem" Header="IT" Tag="IT" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="jPToolStripMenuItem" Header="JP" Tag="JP" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="kOToolStripMenuItem" Header="KO" Tag="KO" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="sCToolStripMenuItem" Header="SC" Tag="SC" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="sPToolStripMenuItem" Header="SP" Tag="SP" Click="MenuLanguageChangedEvent"/>
+                                                                                                        <MenuItem x:Name="tCToolStripMenuItem" Header="TC" Tag="TC" Click="MenuLanguageChangedEvent"/>
+                                                                                                    </MenuItem>
+                                                                                                    <MenuItem x:Name="menuButtonsToolStripMenuItem" Header="Menu Buttons">
+                                                                                                        <MenuItem x:Name="xboxToolStripMenuItem" Header="Xbox" Click="MenuButtonChangedEvent" Tag="Xbox"/>
+                                                                                                        <MenuItem x:Name="pS4ToolStripMenuItem" Header="PS4" Click="MenuButtonChangedEvent" Tag="PS4"/>
+                                                                                                        <MenuItem x:Name="nintendoSwitchToolStripMenuItem" Header="Nintendo Switch...">
+                                                                                                            <MenuItem x:Name="normalToolStripMenuItem1" Header="Normal" Click="MenuButtonChangedEvent" Tag="Switch"/>
+                                                                                                            <MenuItem x:Name="joyconLToolStripMenuItem" Header="Joycon (L)" Click="MenuButtonChangedEvent" Tag="Switch Joy L"/>
+                                                                                                            <MenuItem x:Name="joyconRToolStripMenuItem" Header="Joycon (R)" Click="MenuButtonChangedEvent" Tag="Switch Joy R"/>
+                                                                                                        </MenuItem>
+                                                                                                        <MenuItem x:Name="saturnToolStripMenuItem" Header="Saturn...">
+                                                                                                            <MenuItem x:Name="saturnBlackToolStripMenuItem" Header="Saturn (Black)" Tag="Saturn Black" Click="MenuButtonChangedEvent"/>
+                                                                                                            <MenuItem x:Name="satrunWhiteToolStripMenuItem" Header="Saturn (White)" Tag="Saturn White" Click="MenuButtonChangedEvent"/>
+                                                                                                        </MenuItem>
+                                                                                                        <MenuItem x:Name="pCWIPToolStripMenuItem" Header="PC (WIP)...">
+                                                                                                            <MenuItem x:Name="eNJPToolStripMenuItem" Header="EN/JP" Tag="PC EN/JP" Click="MenuButtonChangedEvent"/>
+                                                                                                            <MenuItem x:Name="fRToolStripMenuItem1" Header="FR" Tag="PC FR" Click="MenuButtonChangedEvent"/>
+                                                                                                            <MenuItem x:Name="gEToolStripMenuItem1" Header="GE" Tag="PC GE" Click="MenuButtonChangedEvent"/>
+                                                                                                            <MenuItem x:Name="sPToolStripMenuItem1" Header="SP" Tag="PC SP" Click="MenuButtonChangedEvent"/>
+                                                                                                        </MenuItem>
+                                                                                                    </MenuItem>
+                                                                                                </MenuItem>
+                                                                                            </Menu>
+                                                                                        </Label>
+                                                                                    </Border>
+
+
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </Expander>
+                                                                        <Expander IsExpanded="False" Header="Edit Options" Name="entityEditOptionsHost" Foreground="{DynamicResource NormalText}">
+                                                                            <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                                <StackPanel Margin="5">
+                                                                                    <CheckBox x:Name="SortSelectedSlotIDs" Click="SortSelectedSlotIDsEvent">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Sort Selected Object's Slot IDs"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <CheckBox x:Name="SortSelectedSlotIDsOptimized" Click="SortSelectedSlotIDsOptimizedEvent">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Sort Selected Object's Slot IDs (Optimized Mode)"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <CheckBox x:Name="SortSelectedSlotIDsOrdered" Click="SortSelectedSlotIDsOrderedEvent">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Sort Selected Object's Slot IDs (Ordered Mode)"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <CheckBox x:Name="optimizeEntitySlotIDsToolStripMenuItem" Click="OptimizeEntitySlotIDsEvent">
+                                                                                        <TextBlock TextWrapping="Wrap" Text="Optimize Entity Slot IDs"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,5"/>
+                                                                                    <CheckBox x:Name="rightClicktoSwapSlotIDs" Click="ToggleRightClickSlotIDSwapEvent">
+                                                                                        <TextBlock Text="Right Click to Swap Slot IDs" TextWrapping="Wrap"></TextBlock>
+                                                                                    </CheckBox>
+                                                                                    <Label x:Name="rightClicktoSwapSlotIDsNote" IsEnabled="False">
+                                                                                        <Label.Content>
+                                                                                            <TextBlock Text="NOTE: Only works on selections of two entities" TextWrapping="Wrap"></TextBlock>
+                                                                                        </Label.Content>
+                                                                                    </Label>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </Expander>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
+                                                        </StackPanel>
+                                                    </ScrollViewer>
+                                                </TabItem>
+                                                <TabItem Header="Template" Visibility="Collapsed" Foreground="{DynamicResource NormalText}">
+                                                    <TabItem.LayoutTransform>
+                                                        <RotateTransform Angle="270"></RotateTransform>
+                                                    </TabItem.LayoutTransform>
+                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                        <StackPanel>
+                                                            <Expander Header="View Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Margin="5">
+
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
+                                                            <Expander Header="Edit Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Margin="5">
+
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
+                                                        </StackPanel>
+                                                    </ScrollViewer>
+                                                </TabItem>
+                                            </TabControl>
+
+                                            <GridSplitter SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
+                                            <Grid x:Name="CenterPanel" Grid.Column="2">
+                                                <Grid Panel.ZIndex="-4" x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                    <Grid.ContextMenu>
+                                                        <ContextMenu x:Name="ViewPanelContextMenu">
+                                                            <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
+                                                            <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHere"></MenuItem>
+                                                            <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHere"></MenuItem>
+                                                            <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpoint"></MenuItem>
+                                                            <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetReset"></MenuItem>
+                                                            <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartScene"></MenuItem>
+                                                            <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpoint"></MenuItem>
+                                                            <ContextMenu.Template>
+                                                                <ControlTemplate>
+                                                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </ContextMenu.Template>
+                                                        </ContextMenu>
+                                                    </Grid.ContextMenu>
+                                                </Grid>
+                                            </Grid>
+
+                                            <GridSplitter x:Name="SpliterRight" SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                   ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
 
-                                        <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelRight" Grid.Column="4"></Grid>
+                                            <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelRight" Grid.Column="4"></Grid>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </Border>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Game" HorizontalAlignment="Right" Foreground="{DynamicResource NormalText}">
-                <local:ManiaHost x:Name="ManiaHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></local:ManiaHost>
-            </TabItem>
-            <TabControl.Resources>
-                <Style TargetType="TabPanel">
-                    <Setter Property="HorizontalAlignment" Value="Right"/>
-                </Style>
-            </TabControl.Resources>
-        </TabControl>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Game" HorizontalAlignment="Right" Foreground="{DynamicResource NormalText}">
+                    <local:ManiaHost x:Name="ManiaHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></local:ManiaHost>
+                </TabItem>
+                <TabControl.Resources>
+                    <Style TargetType="TabPanel">
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                    </Style>
+                </TabControl.Resources>
+            </TabControl>
+        </Grid>        
+
         <Menu x:Name="MenuBar" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="22" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="4,0,0,0" >
                 <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"/>
@@ -679,7 +731,7 @@
                 <MenuItem x:Name="moveThisPlayerToolStripMenuItem"/>
             </MenuItem>
         </Menu>
-        <Grid Grid.ColumnSpan="5" Grid.Row="1">
+        <Grid Grid.ColumnSpan="5" Grid.Row="1" Background="{DynamicResource ToolbarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -761,7 +813,7 @@
                     <Separator/>
                     <Button x:Name="ReloadButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ReloadToolStripButton_Click" Content="{StaticResource Refresh}" Style="{StaticResource DisabledState2}"></Button>
                     <Separator/>
-                    <ToggleButton x:Name="PointerToolButton" Content="{StaticResource Pointer}"  Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="TogglePointerToolEvent" Style="{StaticResource DisabledState1}"></ToggleButton>
+                    <ToggleButton x:Name="PointerToolButton" Content="{StaticResource Pointer}" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="TogglePointerToolEvent" Style="{StaticResource DisabledState1}"></ToggleButton>
                     <ToggleButton x:Name="SelectToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0"  Click="ToggleSelectToolEvent" Content="{StaticResource Select}" Foreground="Red" Style="{StaticResource DisabledState1}"></ToggleButton>
                     <ToggleButton x:Name="DrawToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleDrawToolEvent" Content="{StaticResource Draw}" Style="{StaticResource DisabledState1}"></ToggleButton>
                     <ToggleButton x:Name="SplineToolButton" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Click="ToggleSplineToolEvent" Content="{StaticResource Shapes}" Style="{StaticResource DisabledState1}"></ToggleButton>
@@ -854,7 +906,7 @@
             </ToolBarTray>
 
             <Grid Visibility="Visible" x:Name="MultiLayerHint" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Top" Grid.Column="1">
-                <StackPanel>
+                <StackPanel Background="Transparent">
                     <TextBlock HorizontalAlignment="Center"  Text="Multi-Layer Select Controls:" Foreground="{DynamicResource NormalText}"></TextBlock>
                     <Separator></Separator>
                     <TextBlock x:Name="LayerALabel" HorizontalAlignment="Center" Foreground="{DynamicResource EditLayerASelectedColor}" Grid.Row="0" Text="Edit Layer A: Right Click"/>

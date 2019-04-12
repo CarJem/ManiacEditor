@@ -655,6 +655,28 @@ namespace ManiacEditor
 
         }
 
+        public void SelectAll()
+        {
+            for (int y = 0; y < _layer.Tiles.Length; y += 1)
+            {
+                for (int x = 0; x < _layer.Tiles[y].Length; x += 1)
+                {
+                    if (_layer.Tiles[y][x] != 0xffff)
+                    {
+                        SelectedTiles.Add(new Point(x, y));
+                        RefreshTileCount();
+                    }
+                    else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.UIModes.CopyAir)
+                    {
+                        SelectedTiles.Add(new Point(x, y));
+                        RefreshTileCount();
+                    }
+
+                }
+            }
+            RefreshTileCount();
+        }
+
         public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
             if (!addSelection) Deselect();

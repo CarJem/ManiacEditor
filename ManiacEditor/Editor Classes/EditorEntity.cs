@@ -30,6 +30,12 @@ namespace ManiacEditor
         private bool isSelected = false;
         public int SelectedIndex = -1;
         public DateTimeOffset? TimeWhenSelected = null;
+        public Action<ManiacEditor.Actions.IAction> ValueChanged = new Action<ManiacEditor.Actions.IAction>(x =>
+        {
+            Editor.Instance.UndoStack.Push(x);
+            Editor.Instance.RedoStack.Clear();      
+        });
+
 
         public bool GetSelected()
         {
@@ -39,6 +45,7 @@ namespace ManiacEditor
         {
             if (value == true)
             {
+                if (_entity.Object.Name.Name == "Spline" && IsInternalObject) Editor.Instance.SelectedSplineIDChangedEvent(_entity.attributesMap["SplineID"].ValueInt32);
                 isSelected = value;
                 TimeWhenSelected = DateTimeOffset.Now;
             }
@@ -777,18 +784,74 @@ namespace ManiacEditor
             return _entity.IsExternal();
         }
 
+
+        private void SetObjectProperties(SceneEntity entity, string name, object oldValue, object newValue, AttributeTypes Type)
+        {
+            switch (Type)
+            {
+                case AttributeTypes.UINT8:
+                    entity.attributesMap[name].ValueUInt8 = (byte)newValue;
+                    break;
+                case AttributeTypes.UINT16:
+                    entity.attributesMap[name].ValueUInt16 = (ushort)newValue;
+                    break;
+                case AttributeTypes.UINT32:
+                    entity.attributesMap[name].ValueUInt32 = (uint)newValue;
+                    break;
+                case AttributeTypes.INT8:
+                    entity.attributesMap[name].ValueInt8 = (sbyte)newValue;
+                    break;
+                case AttributeTypes.INT16:
+                    entity.attributesMap[name].ValueInt16 = (short)newValue;
+                    break;
+                case AttributeTypes.INT32:
+                    entity.attributesMap[name].ValueInt32 = (int)newValue;
+                    break;
+                case AttributeTypes.VAR:
+                    entity.attributesMap[name].ValueVar = (uint)newValue;
+                    break;
+                case AttributeTypes.BOOL:
+                    entity.attributesMap[name].ValueBool = (bool)newValue;
+                    break;
+                case AttributeTypes.COLOR:
+                    entity.attributesMap[name].ValueColor = (RSDKv5.Color)newValue;
+                    break;
+                case AttributeTypes.POSITION:
+                    entity.attributesMap[name].ValuePosition = (Position)newValue;
+                    break;
+                case AttributeTypes.STRING:
+                    entity.attributesMap[name].ValueString = (string)newValue;
+                    break;
+
+            }
+        }
+
+
+
         internal void Flip(FlipDirection flipDirection)
         {
-            if (_entity.attributesMap.ContainsKey("flipFlag"))
+            if (_entity.AttributeExists("flipFlag", AttributeTypes.VAR))
             {
-                if (flipDirection == FlipDirection.Horizontal)
-                {
-                    _entity.attributesMap["flipFlag"].ValueVar ^= 0x01;
-                }
-                else
-                {
-                    _entity.attributesMap["flipFlag"].ValueVar ^= 0x02;
-                }
+                uint oldValue = _entity.attributesMap["flipFlag"].ValueVar;
+                uint newValue = oldValue;
+                if (flipDirection == FlipDirection.Horizontal) newValue ^= 0x01;
+                else newValue ^= 0x02;
+                InvokeAction("flipFlag", oldValue, newValue, AttributeTypes.VAR);
+            }
+
+            if (_entity.AttributeExists("direction", AttributeTypes.UINT8))
+            {
+                byte oldValue = _entity.attributesMap["direction"].ValueUInt8;
+                byte newValue = oldValue;
+                if (flipDirection == FlipDirection.Horizontal) newValue ^= 0x01;
+                else newValue ^= 0x02;
+                InvokeAction("direction", oldValue, newValue, AttributeTypes.UINT8);
+            }
+
+            void InvokeAction(string tag, object oldValue, object newValue, AttributeTypes type)
+            {
+                ValueChanged?.Invoke(new Actions.ActionEntityAttributeChange(_entity, tag, oldValue, newValue, type, new Action<RSDKv5.SceneEntity, string, object, object, AttributeTypes>(SetObjectProperties)));
+                SetObjectProperties(_entity, tag, oldValue, newValue, type);
             }
         }
 

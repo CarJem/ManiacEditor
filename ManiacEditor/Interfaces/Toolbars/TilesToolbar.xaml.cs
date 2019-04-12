@@ -25,7 +25,7 @@ namespace ManiacEditor
 		public string CurrentColorPalette;
 
 		public Interfaces.RetroEDTileList ChunkList;
-		private Interfaces.RetroEDTileList TilesList;
+        public Interfaces.RetroEDTileList TilesList;
 
 		public System.Windows.Forms.Integration.WindowsFormsHost host;
 		public System.Windows.Forms.Integration.WindowsFormsHost host3;
@@ -120,18 +120,28 @@ namespace ManiacEditor
 
 		}
 
-		public void SetupTilesList(Editor instance)
+        public void UpdateThemeColors()
+        {
+            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark ? EditorTheming.darkTheme0 : System.Drawing.Color.White);
+            this.ChunkList.BackColor = ListBackColor;
+            this.tilePanel.BackColor = ListBackColor;
+            this.TilesList.BackColor = ListBackColor;
+        }
+
+        public void SetupTilesList(Editor instance)
 		{
 			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
 			this.ChunkList = new ManiacEditor.Interfaces.RetroEDTileList(instance);
 
 			this.tilePanel = new System.Windows.Forms.Panel();
-			// 
-			// ChunkList
-			// 
-			this.ChunkList.BackColor = System.Drawing.SystemColors.Window;
-			this.ChunkList.Dock = System.Windows.Forms.DockStyle.Fill;
+
+
+
+            // 
+            // ChunkList
+            // 
+            this.ChunkList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ChunkList.ImageHeight = 16 * 8;
 			this.ChunkList.ImageSize = 16 * 8;
 			this.ChunkList.ImageWidth = 16 * 8;
@@ -148,8 +158,7 @@ namespace ManiacEditor
 			// TileList
 			//
 			this.TilesList = new Interfaces.RetroEDTileList(instance);
-			this.TilesList.BackColor = System.Drawing.SystemColors.Window;
-			this.TilesList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TilesList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TilesList.ImageHeight = 16 * 1;
 			this.TilesList.ImageSize = 16 * 1;
 			this.TilesList.ImageWidth = 16 * 1;
@@ -171,15 +180,16 @@ namespace ManiacEditor
 			this.tilePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 			| System.Windows.Forms.AnchorStyles.Left)
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.tilePanel.BackColor = System.Drawing.SystemColors.Control;
-			this.tilePanel.Location = new System.Drawing.Point(0, 45);
+            this.tilePanel.Location = new System.Drawing.Point(0, 45);
 			this.tilePanel.Name = "tilePanel";
 			this.tilePanel.Size = new System.Drawing.Size(241, 253);
 			this.tilePanel.TabIndex = 2;
 			this.tilePanel.Dock = System.Windows.Forms.DockStyle.Fill;
 
+            UpdateThemeColors();
 
-			host.Child = tilePanel;
+
+            host.Child = tilePanel;
 			host3.Child = ChunkList;
 			TileViewer.Children.Add(host);
 			ChunksPage.Children.Add(host3);

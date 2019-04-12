@@ -1,0 +1,9 @@
+.. toctree::
+   :maxdepth: 2
+   :glob:
+   :caption: Entities Database
+
+   entities/Player
+   entities/ForceSpin
+   entities/Water
+   entities/Platform

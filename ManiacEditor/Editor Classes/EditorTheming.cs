@@ -354,6 +354,70 @@ namespace ManiacEditor
         }
         #endregion
 
+        #region Theming Refresh
+
+        public bool TilesToolbarAwaitingRefresh = false;
+        public bool EntitiesToolbarAwaitingRefresh = false;
+        public bool FormsModelAwaitingRefresh = false;
+        public bool StartScreenAwaitingRefresh = false;
+
+        public void UpdateThemeForItemsWaiting()
+        {
+            if (FormsModelAwaitingRefresh && Editor.Instance.FormsModel != null) RefreshFormsModel();
+            if (TilesToolbarAwaitingRefresh && Editor.Instance.TilesToolbar != null) RefreshTilesToolbar();
+            if (EntitiesToolbarAwaitingRefresh && Editor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            if (StartScreenAwaitingRefresh && Editor.Instance.StartScreen != null) RefreshStartScreen();
+
+        }
+
+        public void RefreshTheme()
+        {
+            Editor.Instance.Refresh();
+            if (Editor.Instance.FormsModel != null) RefreshFormsModel();
+            else FormsModelAwaitingRefresh = true;
+            if (Editor.Instance.StartScreen != null) RefreshStartScreen();
+            else StartScreenAwaitingRefresh = true;
+            if (Editor.Instance.TilesToolbar != null) RefreshTilesToolbar();
+            else TilesToolbarAwaitingRefresh = true;
+            if (Editor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            else EntitiesToolbarAwaitingRefresh = true;
+        }
+
+        public void RefreshStartScreen()
+        {
+            Editor.Instance.StartScreen.SelectScreen.UpdateSceneSelectTheme();
+            StartScreenAwaitingRefresh = false;
+        }
+
+        public void RefreshTilesToolbar()
+        {
+            Editor.Instance.TilesToolbar.Refresh();
+            Editor.Instance.TilesToolbar.ChunkList.Refresh();
+            Editor.Instance.TilesToolbar.TilesList.Refresh();
+            Editor.Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
+            Editor.Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
+            Editor.Instance.TilesToolbar.UpdateThemeColors();
+            TilesToolbarAwaitingRefresh = false;
+        }
+
+        public void RefreshEntitiesToolbar()
+        {
+            Editor.Instance.EntitiesToolbar.Refresh();
+            Editor.Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
+            EntitiesToolbarAwaitingRefresh = false;
+        }
+
+        public void RefreshFormsModel()
+        {
+            Editor.Instance.FormsModel.Refresh();
+            Editor.Instance.FormsModel.UpdateScrollbars(true);
+            FormsModelAwaitingRefresh = false;
+        }
+
+
+
+        #endregion
+
         public class SystemColorsUtility
         {
             public SystemColorsUtility()

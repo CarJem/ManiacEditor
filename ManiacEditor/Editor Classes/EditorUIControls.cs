@@ -189,6 +189,7 @@ namespace ManiacEditor
             {
                 GraphicPanel_OnKeyDownEditing(sender, e);
             }
+            OnKeyDownTools(sender, e);
         }
 
 		public void GraphicPanel_OnKeyDownLoaded(object sender, KeyEventArgs e)
@@ -323,10 +324,21 @@ namespace ManiacEditor
 					Editor.Instance.FlipEntities(FlipDirection.Horizontal);
 			}
 		}
-		#endregion
 
-		#region Keybind Checking and Prasing
-		public bool isCombo(KeyEventArgs e, StringCollection keyCollection, bool singleKey = false)
+        public void OnKeyDownTools(object sender, KeyEventArgs e)
+        {
+            if (isCombo(e, myKeyBinds.PointerTool) && Editor.Instance.PointerToolButton.IsEnabled) Editor.Instance.UIModes.PointerMode(true);
+            else if (isCombo(e, myKeyBinds.SelectTool) && Editor.Instance.SelectToolButton.IsEnabled) Editor.Instance.UIModes.SelectionMode(true);
+            else if (isCombo(e, myKeyBinds.DrawTool) && Editor.Instance.DrawToolButton.IsEnabled) Editor.Instance.UIModes.DrawMode(true);
+            else if (isCombo(e, myKeyBinds.MagnetTool) && Editor.Instance.MagnetMode.IsEnabled) Editor.Instance.UIModes.UseMagnetMode ^= true;
+            else if (isCombo(e, myKeyBinds.SplineTool) && Editor.Instance.SplineToolButton.IsEnabled) Editor.Instance.UIModes.SplineMode(true);
+            else if (isCombo(e, myKeyBinds.StampTool) && Editor.Instance.ChunksToolButton.IsEnabled) Editor.Instance.UIModes.ChunksMode();
+
+        }
+        #endregion
+
+        #region Keybind Checking and Prasing
+        public bool isCombo(KeyEventArgs e, StringCollection keyCollection, bool singleKey = false)
 		{
 
 			if (keyCollection == null) return false;
@@ -356,7 +368,7 @@ namespace ManiacEditor
 			try
 			{
 				if (key.Contains("Ctrl")) key = key.Replace("Ctrl", "Control");
-				if (key.Contains("Del")) key = key.Replace("Del", "Delete");
+				if (key.Contains("Del") && !key.Contains("Delete")) key = key.Replace("Del", "Delete");
 				KeysConverter kc = new KeysConverter();
 
 				if (e.KeyData == (Keys)kc.ConvertFromString(key)) return true;
@@ -477,8 +489,8 @@ namespace ManiacEditor
 			Editor.Instance.Save.ToolTip = "Save Scene" + KeyBindPraser("_Save", true);
 			Editor.Instance.RunSceneButton.ToolTip = "Run Scene" + KeyBindPraser("RunScene", true, true);
 			Editor.Instance.ReloadButton.ToolTip = "Reload Tiles and Sprites" + KeyBindPraser("RefreshResources", true, true);
-			Editor.Instance.PointerToolButton.ToolTip = "Select/Move Tool";
-			Editor.Instance.MagnetMode.ToolTip = "Magnet Mode";
+			Editor.Instance.PointerToolButton.ToolTip = "Pointer Tool" + KeyBindPraser("PointerTool", true);
+            Editor.Instance.MagnetMode.ToolTip = "Magnet Mode" + KeyBindPraser("MagnetTool", true);
 			Editor.Instance.positionLabel.ToolTip = "The position relative to your mouse (Pixels Only for Now)";
 			Editor.Instance.selectionSizeLabel.ToolTip = "The Size of the Selection";
 			Editor.Instance.selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
@@ -488,14 +500,15 @@ namespace ManiacEditor
 			Editor.Instance.scrollLockButton.ToolTip = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key: " + KeyBindPraser("ScrollLock");
 			Editor.Instance.ZoomInButton.ToolTip = "Zoom In (Ctrl + Wheel Up)";
 			Editor.Instance.ZoomOutButton.ToolTip = "Zoom In (Ctrl + Wheel Down)";
-			Editor.Instance.SelectToolButton.ToolTip = "Selection Tool (To select groups of tiles and not dragged the clicked tile)";
-			Editor.Instance.DrawToolButton.ToolTip = "Place tiles (Right click [+drag] - place, Left click [+drag] - delete)";
+			Editor.Instance.SelectToolButton.ToolTip = "Selection Tool" + KeyBindPraser("SelectTool", true);
+			Editor.Instance.DrawToolButton.ToolTip = "Draw Tool" + KeyBindPraser("DrawTool", true);
 			Editor.Instance.InteractionToolButton.ToolTip = "Interaction Tool";
 			Editor.Instance.ShowCollisionAButton.ToolTip = "Show Collision Layer A" + KeyBindPraser("ShowPathA", true, true);
 			Editor.Instance.ShowCollisionBButton.ToolTip = "Show Collision Layer B" + KeyBindPraser("ShowPathB", true, true);
 			Editor.Instance.FlipAssistButton.ToolTip = "Show Flipped Tile Helper";
-			Editor.Instance.ChunksToolButton.ToolTip = "Stamp Tool";
-			Editor.Instance.EncorePaletteButton.ToolTip = "Show Encore Colors";
+			Editor.Instance.ChunksToolButton.ToolTip = "Stamp Tool" + KeyBindPraser("StampTool", true);
+            Editor.Instance.SplineToolButton.ToolTip = "Spline Tool" + KeyBindPraser("SplineTool", true);
+            Editor.Instance.EncorePaletteButton.ToolTip = "Show Encore Colors";
 			Editor.Instance.ShowTileIDButton.ToolTip = "Toggle Tile ID Visibility" + KeyBindPraser("ShowTileID", true, true);
 			Editor.Instance.ShowGridButton.ToolTip = "Toggle Grid Visibility" + KeyBindPraser("ShowGrid", true, true);
 

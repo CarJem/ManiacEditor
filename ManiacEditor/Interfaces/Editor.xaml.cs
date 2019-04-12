@@ -68,6 +68,7 @@ namespace ManiacEditor
         public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions
 		public List<string> userDefinedSpritePaths = new List<string>();
 		public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
+        public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
 
         //Undo + Redo
         public Stack<IAction> UndoStack = new Stack<IAction>(); //Undo Actions Stack
@@ -94,10 +95,10 @@ namespace ManiacEditor
 		public Dictionary<Point, ushort> TilesClipboardEditable;
 		public List<EditorEntity> entitiesClipboard;
 
-		//Collision Colours
-		public Color CollisionAllSolid = Color.FromArgb(255, 255, 255, 255);
-		public Color CollisionTopOnlySolid = Color.FromArgb(255, 255, 255, 255);
-		public Color CollisionLRDSolid = Color.FromArgb(255, 255, 255, 0);
+        //Collision Colours
+        public Color CollisionAllSolid = Color.White;
+        public Color CollisionTopOnlySolid = Color.Yellow;
+        public Color CollisionLRDSolid = Color.Red;
 
         //Internal/Public/Vital Classes
         public EditorTiles EditorTiles;
@@ -210,7 +211,7 @@ namespace ManiacEditor
             SystemEvents.PowerModeChanged += CheckDeviceState;
             Theming = new EditorTheming(this);
             Settings = new EditorSettings(this);
-            UIModes = new EditorUIModes(this);
+            UIModes = new EditorUIModes();
 
             Theming.UseDarkTheme_WPF(ManiacEditor.Settings.MySettings.NightMode);
 			InitializeComponent();
@@ -341,6 +342,17 @@ namespace ManiacEditor
             
 			UpdateStartScreen(true, true);
 		}
+
+        public void UpdateScrollBars()
+        {
+            this.FormsModel.vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
+            this.FormsModel.vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
+            this.FormsModel.vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
+            this.FormsModel.hScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.HScrollBar1_Scroll);
+            this.FormsModel.hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
+            this.FormsModel.hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
+        }
+
 		#endregion
 		#region Boolean States
 		public bool IsEditing()
@@ -1430,12 +1442,12 @@ namespace ManiacEditor
 		{
 			if (EditorScene != null && CollisionLayerA != null && CollisionLayerB != null)
 			{
-				switch (UIModes.CollisionPreset)
-				{
-					case 2:
-						CollisionAllSolid = Properties.Defaults.Default.CollisionSAColour;
-						CollisionTopOnlySolid = Properties.Defaults.Default.CollisionTOColour;
-						CollisionLRDSolid = Properties.Defaults.Default.CollisionLRDColour;
+                switch (UIModes.CollisionPreset)
+                {
+                    case 2:
+                        CollisionAllSolid = UIModes.CollisionSAColour;
+						CollisionTopOnlySolid = UIModes.CollisionTOColour;
+						CollisionLRDSolid = UIModes.CollisionLRDColour;
 						break;
 					case 1:
 						CollisionAllSolid = Color.Black;
@@ -1607,25 +1619,21 @@ namespace ManiacEditor
         #region Spline Tool Events
         private void SplineShowLineCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            UIModes.SplineToolShowLines = SplineShowLineCheckbox.IsChecked.Value;
+            UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.ShowLines, SplineShowLineCheckbox.IsChecked.Value);
         }
 
         private void SplineShowPointsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            UIModes.SplineToolShowPoints = SplineShowPointsCheckbox.IsChecked.Value;
-        }
-
-        private void SplineLineModeCheckChanged(object sender, RoutedEventArgs e)
-        {
-            UIModes.SplineToolShowObject = SplineShowObjectsCheckbox.IsChecked.Value;
+            UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.ShowPoints, SplineShowPointsCheckbox.IsChecked.Value);
         }
 
         private void SplineShowObjectsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            UIModes.SplineToolShowObject = SplineShowObjectsCheckbox.IsChecked.Value;
+            UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.ShowObjects, SplineShowObjectsCheckbox.IsChecked.Value);
         }
 
         bool AllowSplineFreqeunceUpdate = true;
+        bool AllowSplineUpdateEvent = true;
 
 
         private void SplineToolbox_Closed(object sender, RoutedEventArgs e)
@@ -1637,38 +1645,89 @@ namespace ManiacEditor
         {
         }
 
+        private void SplineOptionsIDChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (UIModes != null && UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && SplineGroupID != null && AllowSplineUpdateEvent)
+            {
+                SelectedSplineIDChangedEvent(SplineGroupID.Value.Value);
+            }
+        }
+
+        public void SelectedSplineIDChangedEvent(int value)
+        {
+            AllowSplineUpdateEvent = false;
+            UIModes.AllowSplineOptionsUpdate = false;
+            SplineGroupID.Value = value;
+            UIModes.SelectedSplineID = value;
+            SplineSpawnID.Value = value;
+            UI.UpdateSplineSettings(value);
+            UIModes.AllowSplineOptionsUpdate = true;
+            AllowSplineUpdateEvent = true;
+
+        }
+
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (UIModes != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
+            if (!UIModes.AllowSplineOptionsUpdate) return;
+            if (UIModes != null && UI != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationNUD.Value;
                 SplinePointSeperationSlider.Value = size;
-                UIModes.SplineSize = size;
+                UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.Size, size);
                 AllowSplineFreqeunceUpdate = true;
             }
         }
 
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (UIModes != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
+            if (!UIModes.AllowSplineOptionsUpdate) return;
+            if (UIModes != null&& UI != null  && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationSlider.Value;
                 SplinePointSeperationNUD.Value = size;
-                UIModes.SplineSize = size;
+                UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.Size, size);
                 AllowSplineFreqeunceUpdate = true;
             }
         }
 
         private void SplineLineMode_Click(object sender, RoutedEventArgs e)
         {
-            UIModes.SplineLineMode = SplineLineMode.IsChecked.Value;
+            UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.LineMode, SplineLineMode.IsChecked.Value);
         }
 
         private void SplineOvalMode_Click(object sender, RoutedEventArgs e)
         {
-            UIModes.SplineOvalMode = SplineOvalMode.IsChecked.Value;
+            UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.OvalMode, SplineOvalMode.IsChecked.Value);
+        }
+        private void SplineSpawnRender_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Editor.Instance.Entities != null && UIModes.AllowSplineOptionsUpdate)
+            {
+                var selectedItem = SelectedSplineRender.SelectedItem as TextBlock;
+                if (selectedItem.Tag == null) return;
+                if (selectedItem.Tag is RSDKv5.SceneObject)
+                {
+                    var obj = selectedItem.Tag as RSDKv5.SceneObject;
+                    int splineID = Editor.Instance.UIModes.SelectedSplineID;
+                    UIModes.AdjustSplineGroupOptions(EditorUIModes.SplineOption.SpawnObject, Editor.Instance.Entities.GenerateEditorEntity(new SceneEntity(obj, 0)));
+                    EntitiesToolbar?.UpdateEntityProperties(new List<SceneEntity>() { Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
+
+                    if (Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+                        Editor.Instance.SplineRenderObjectName.Content = Editor.Instance.UIModes.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
+                    else
+                        Editor.Instance.SplineRenderObjectName.Content = "None";
+
+                }
+
+            }
+        }
+
+        private void SplineRenderObjectName_Click(object sender, RoutedEventArgs e)
+        {
+            if (!SelectedSplineRender.IsDropDownOpen) SelectedSplineRender.IsDropDownOpen = true;
+            else SelectedSplineRender.IsDropDownOpen = false;
         }
 
         #endregion
@@ -2546,67 +2605,58 @@ namespace ManiacEditor
 
         }
 
-
         #region Custom Color Picker Events
-        private void comboBox8_DropDown(object sender, RoutedEventArgs e)
+        private void comboBox8_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Grid Default Color
-            ColorPickerDialog colorSelect = new ColorPickerDialog();
-            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (e.NewValue.Value != null)
             {
-                UIModes.GridColor = colorSelect.Color;
-                UI.UpdateCustomColors();
+                UIModes.GridColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
-        private void comboBox7_DropDown(object sender, RoutedEventArgs e)
+        private void comboBox7_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Water Color
-            ColorPickerDialog colorSelect = new ColorPickerDialog();
-            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (e.NewValue.Value != null)
             {
-                UIModes.waterColor = colorSelect.Color;
-                UI.UpdateCustomColors();
+                UIModes.waterColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
-        private void comboBox6_DropDown(object sender, RoutedEventArgs e)
+        private void comboBox6_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Collision Solid(Top Only) Color
-            ColorPickerDialog colorSelect = new ColorPickerDialog();
-            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (e.NewValue.Value != null)
             {
-                UIModes.CollisionTOColour = colorSelect.Color;
-                UI.UpdateCustomColors();
+                UIModes.CollisionTOColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
-        private void comboBox5_DropDown(object sender, RoutedEventArgs e)
+        private void comboBox5_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Collision Solid(LRD) Color
-            ColorPickerDialog colorSelect = new ColorPickerDialog();
-            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (e.NewValue.Value != null)
             {
-                UIModes.CollisionLRDColour = colorSelect.Color;
-                UI.UpdateCustomColors();
+                UIModes.CollisionLRDColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
-        private void comboBox4_DropDown(object sender, RoutedEventArgs e)
+        private void comboBox4_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Collision Solid(All) Color
-            ColorPickerDialog colorSelect = new ColorPickerDialog();
-            System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (e.NewValue.Value != null)
             {
-                UIModes.CollisionSAColour = colorSelect.Color;
-                UI.UpdateCustomColors();
+                UIModes.CollisionSAColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
+
+        private void CollisionColorPickerClosed(object sender, RoutedEventArgs e)
+        {
+            ReloadSpecificTextures(sender, e);
+            RefreshCollisionColours(true);
+        }
+
         #endregion
     }
 }
