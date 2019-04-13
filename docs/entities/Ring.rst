@@ -9,6 +9,7 @@ Attributes
 ------------
 
 **Type:** 
+
 Changes the Type of Ring
 
 	* 0 - Normal (Common)
