@@ -7,17 +7,13 @@ Maniac Editor - Generations Edition Documentation
 =========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :glob:
-   :hidden:
    :caption: Getting Started
    
-
    
-Entities Documentation
-=========================================
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :glob:
    :caption: Entities Documentation
 
