@@ -1,7 +1,9 @@
 .. toctree::
    :maxdepth: 1
    :glob:
-   :caption: Getting Started
+   :caption: Introduction
+   
+   index
 
 
 .. toctree::
