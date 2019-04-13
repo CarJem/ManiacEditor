@@ -30,3 +30,4 @@ These Variables rely heavily on very specific combinations, they are listed belo
 * Type 6 Dir Masks - Sprinting Exits?
 	- 12 - East?	
 * Type 2/4 Dir Masks - Freely Mid-Transport Paths?
+	- N/A
