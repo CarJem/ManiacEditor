@@ -16,7 +16,7 @@ Now it gets complicated. Alright, so select the background layer in the right ta
     * Behavior: 
     Effects vary from zone to zone. Here’s an example with Chemical Plant:
     
-    https://giant.gfycat.com/ScentedSpanishDromaeosaur.webm)
+    https://giant.gfycat.com/ScentedSpanishDromaeosaur.webm
     
     * DrawOrder: 
     We don't know for sure what this does exactly, but we assume something like what layer it's on?
