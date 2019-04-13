@@ -10,15 +10,21 @@ Make your background. Self Explanatory. You'll have to have your background set 
 Open up the layer manager. You can find it under the scenes tab at the top. If you're saying "it's not there", you probably haven't downloaded the latest version, so go do that now. If you're saying "There's no Scenes option", when the hell was the last time you updated your Maniac editor? are you using a version from like, November 2017 or something?
 
 + STEP 3: 
+
 Now it gets complicated. Alright, so select the background layer in the right tab of the new window that just popped up. On the right, you'll be seeing a bunch of scary looking numbers!!! Oh no!! Don't fret though, my friend, because I'll explain to you what these numbers are. First things first, disregard the stuff in the middle. That's a topic for another day, this tutorial merely covers basic parallax editing. The numbers on the right are what we're focusing on. Here's what each one means:
-    - Behavior: 
+
+    * Behavior: 
     Effects vary from zone to zone. Here’s an example with Chemical Plant: 
+    
     ![Alt Text](https://giant.gfycat.com/ScentedSpanishDromaeosaur.gif)
-    - Unknown Byte 2: 
+    
+    * Unknown Byte 2: 
     Unknown for a reason! We don't really know what it does yet.
-    - Relative Speed: 
+    
+    * Relative Speed: 
     Finally, something interesting! Relative Speed determines how fast rows defined by a horizontal rule (more on that later) scroll when the screen moves. The higher the number, the faster it scrolls.
-    - Constant Speed: 
+    
+    * Constant Speed: 
     Same as the above, except it determines how fast rows defined by a horizontal rule move on their own. Useful for stuff like clouds or moving setpieces (like the trains in Studiopolis Act 1). Keep in mind this is not either/or, if you leave your Relative Speed value blank, it will just be a static image moving across the screen, which looks very not good.
 
 
