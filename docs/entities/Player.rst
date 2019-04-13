@@ -4,7 +4,7 @@ Player
 
 This entity is where the player will spawn when the scene is loaded. You can have multiple Player Entities in a scene, but depending on its attributes, if there is a confliction, it will always prioritize based on a higher Slot ID.
 
-Attributes:
+Attributes
 -------------
 
 **CharacterID:**
