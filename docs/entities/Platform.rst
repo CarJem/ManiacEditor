@@ -38,6 +38,7 @@ Determines where the platform will move (relative to the place it’s placed) if
 Determines how fast the platform will move if it’s a type that moves. Must be higher than 0 for the platform to able to move, the larger it is, the faster the platform will move into position.
 
 **HasTension:**
+
 When using Type 3, determines if you want to see the tension bars (the chains that attach the platform the it’s initial position) or not.
 
 **FrameID:**
