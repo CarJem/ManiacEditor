@@ -5,14 +5,15 @@ Platform
 TODO: Unfinished Documentation
 ```
 
-Bio: 
+**Bio** 
 
 Found in Almost Every Zone in Sonic Mania, this object allows Sonic to either cross gaps and get to places he otherwise couldn’t do on his own, or simply get to places without doing anything at all, lazily. However, some aren’t meant to carry sonic, some move objects, some can even hurt Sonic if you set them up correctly. There’s plenty of things you can do with platforms.
 
 Attributes:
 -----------
 
-* Type
+**Type**
+
 Determines the Platform’s Behavior
 
     * 0 - Default
@@ -28,19 +29,23 @@ Determines the Platform’s Behavior
     * 10 - Follows Player?
     * 11 - Circular TMZ2 Style Platform Lift Thing? (IDK)
 
-* Amplitude
+**Amplitude**
+
 Determines where the platform will move (relative to the place it’s placed) if it is a moving type set by the type variable.
 
-* Speed
+**Speed**
+
 Determines how fast the platform will move if it’s a type that moves. Must be higher than 0 for the platform to able to move, the larger it is, the faster the platform will move into position.
 
-* HasTension
+**HasTension**
 When using Type 3, determines if you want to see the tension bars (the chains that attach the platform the it’s initial position) or not.
 
-* FrameID
+**FrameID**
+
 Determines what Texture/Frame to use. The Frames it uses can be found in the Platform.bin for the Zone in it’s Sprite Folder. Attribute has an upper limit of 127. If set to -1, it will appear Invisible, useful in combination with ChildCount.
 
-* Collision
+**Collision**
+
 Determines how the platform will behave when an player interacts with it. Your Results may vary depending on what your Type Attribute is set to.
 
 	* 0 - Solid on Top only
@@ -59,11 +64,14 @@ Determines how the platform will behave when an player interacts with it. Your R
 	* 13 - Sticky from bottom side only
 	* 14 - Platform makes Sonic look like he is on a barstool
 
-* TileOrigin
+**TileOrigin**
+
 Usage Unknown
 
-* ChildCount
+**ChildCount**
+
 Depending on it’s value, this attribute causes objects to move with the platform. For Example, if you set childCount to 2, and the Entity Slot is 287, Entities with a Slot of 288, and 289 will move with the platform.
 
-* Angle
+**Angle**
+
 When Using Type 3, sets the starting point for the platform on its circular path.
