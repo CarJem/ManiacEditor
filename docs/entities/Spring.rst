@@ -4,7 +4,8 @@ Spring
 
 Usable in almost every zone, the spring is essential to building mania stages, allowing you to get over anything with enough momentum. The Red Springs provide more momentum than the other springs
 
-## Attributes:
+Attributes
+--------------
 
 **Type:**
 
