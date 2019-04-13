@@ -5,12 +5,14 @@ TODO: Unfinished Documentation
 
 
 **Bio:**
+
 The Heart of Chemical Plant and Plenty of Other Smaller Uses throughout mania, these entities act as a pipeline highway for Sonic and co. They are very complex, but this guide aims to tell you all the possible variations you can make with this object.
 
 Attributes
 ------------
 
 **Types/DirMask:**
+
 These Variables rely heavily on very specific combinations, they are listed below.
 
 * Type 0 Dir Masks - The Most Common and Most Potent; Generic Transport Tube Moving	
