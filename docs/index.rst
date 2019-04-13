@@ -10,8 +10,7 @@ Welcome to Maniac Editor's documentation!
    :maxdepth: 2
    :glob:
    :caption: Getting Started
-
-   intro
+   
    
 .. toctree::
    :maxdepth: 2

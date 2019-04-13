@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Maniac Editor N/A documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-maniac-editor-s-documentation">
+<h1>Welcome to Maniac Editor’s documentation!<a class="headerlink" href="#welcome-to-maniac-editor-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+<span id="document-entities/ForceSpin"></span><div class="section" id="forcespin">
+<h2>ForceSpin<a class="headerlink" href="#forcespin" title="Permalink to this headline">¶</a></h2>
+<p># ForceSpin
+## Bio:
+This entity forces the player into “spin” state, useful for 2 tile high tubes.</p>
+<p>## Attributes:</p>
+<p>### Direction:
+Determines the Direction the Player will Roll In. Note that for the player to stop rolling once used, the player must come in contact with another ForceSpin Entity with the opposite direction.</p>
+<blockquote>
+<div><p>0 - Forwards
+1 - Backwards</p>
+</div></blockquote>
+<p>### Size:
+Changes the Size in Which the ForceSpin Will Be Applied.</p>
+<p>### Angle:
+Changes the Angle in which the ForceSpin Object will trigger.</p>
+</div>
+<span id="document-entities/GasPlatform"></span><div class="section" id="gasplatform">
+<h2>GasPlatform<a class="headerlink" href="#gasplatform" title="Permalink to this headline">¶</a></h2>
+<p>## Bio:
+This entity is found in Oil Ocean Zone (OOZ), and acts very differently from the other types of platforms. Exclusively used in OOZ Officially, this platform will “pop-up” depending on it’s settings</p>
+<p>## Attributes:</p>
+<p>### Type
+Sets how the GasPlatform with behave.</p>
+<blockquote>
+<div><p>0 - Pop Up on set interval; Interval set by the Interval and IntervalOffset attributes.
+1 - Pop Up with a added Spring-Like Effect
+2 (and Beyond) - Nothing; Solid Dumb Platform</p>
+</div></blockquote>
+<p>### ChildCount
+Depending on it’s value, this attribute causes objects to move with the platform. For Example, if you set childCount to 2, and the Entity Slot is 287, Entities with a Slot of 288, and 289 will move with the platform.</p>
+<p>### Interval
+Handles how long between the gas platform coming to a stop, and poping up next time.</p>
+<p>### IntervalOffset
+Sets the Time in the Interval you want to start at when the stage loads</p>
+</div>
+<span id="document-entities/Platform"></span><div class="section" id="platform">
+<h2>Platform<a class="headerlink" href="#platform" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">TODO:</span> <span class="pre">Unfinished</span> <span class="pre">Documentation</span>
+<span class="pre">`</span></code></p>
+<p>## Bio:
+Found in Almost Every Zone in Sonic Mania, this object allows Sonic to either cross gaps and get to places he otherwise couldn’t do on his own, or simply get to places without doing anything at all, lazily. However, some aren’t meant to carry sonic, some move objects, some can even hurt Sonic if you set them up correctly. There’s plenty of things you can do with platforms.</p>
+<p>## Attributes:</p>
+<p>### Type
+Determines the Platform’s Behavior</p>
+<blockquote>
+<div><p>0 - Default
+1 - Collapsing Platform; Shortly after the player stands on this type, the platform will begin to fall. This type is known to respawn after the matter however once the player goes far away enough.
+2 - Normal Up and Down Moving Platforms
+3 - Circular Path Moving Platforms
+4 - Back and Forth Moving Platforms; Move from side to side.
+5 - A Dud Platform?
+6 - Player Pushable Platform
+7 - OOZ Moving Spike Platforms; They move back and forth when they hit walls.
+8 - Waiting Moving Platforms; These Wait for the Player to be on top of them, and when the player is, it will move to its destination.
+9 - Waiting Moving Platforms(with Bobbing); These Wait for the Player to be on top of them, and when the player is, it will move to its destination.
+10 - Follows Player?
+11 - Circular TMZ2 Style Platform Lift Thing? (IDK)</p>
+</div></blockquote>
+<p>### Amplitude
+Determines where the platform will move (relative to the place it’s placed) if it is a moving type set by the type variable.</p>
+<p>### Speed
+Determines how fast the platform will move if it’s a type that moves. Must be higher than 0 for the platform to able to move, the larger it is, the faster the platform will move into position.</p>
+<p>### HasTension
+When using Type 3, determines if you want to see the tension bars (the chains that attach the platform the it’s initial position) or not.</p>
+<p>### FrameID
+Determines what Texture/Frame to use. The Frames it uses can be found in the Platform.bin for the Zone in it’s Sprite Folder. Attribute has an upper limit of 127. If set to -1, it will appear Invisible, useful in combination with ChildCount.</p>
+<p>### Collision
+Determines how the platform will behave when an player interacts with it. Your Results may vary depending on what your Type Attribute is set to.</p>
+<blockquote>
+<div><p>0 - Solid on Top only
+1 - Solid from all sides
+2 - ???
+3 - Hazardous from all sides
+4 - ???
+5 - Hazardous from left and right sides
+6 - Hazardous from bottom only
+7 - Hazardous from top only
+8 - Platform makes Sonic look like he is on a turntable
+9 - Sticky from all sides
+10 - Sticky from top only
+11 - Sticky from left side only
+12 - Sticky from right side only
+13 - Sticky from bottom side only
+14 - Platform makes Sonic look like he is on a barstool</p>
+</div></blockquote>
+<p>### TileOrigin
+Usage Unknown</p>
+<p>### ChildCount
+Depending on it’s value, this attribute causes objects to move with the platform. For Example, if you set childCount to 2, and the Entity Slot is 287, Entities with a Slot of 288, and 289 will move with the platform.</p>
+<p>### Angle
+When Using Type 3, sets the starting point for the platform on its circular path.</p>
+</div>
+<span id="document-entities/Player"></span><div class="section" id="player">
+<h2>Player<a class="headerlink" href="#player" title="Permalink to this headline">¶</a></h2>
+<p>## Bio:</p>
+<p>This entity is where the player will spawn when the scene is loaded. You can have multiple Player Entities in a scene, but depending on its attributes, if there is a confliction, it will always prioritize based on a higher Slot ID.</p>
+<p>## Attributes:</p>
+<p>### CharacterID:
+Determines who spawns at the object</p>
+<blockquote>
+<div><p>0 - World?
+1 - Sonic
+2 - Tails
+3 - Sonic and Tails
+4 - Knuckles
+5 - Sonic and Knuckles
+6 - Tails and Knuckles
+7 - Team Sonic (Sonic,Tails and Knuckles)</p>
+</div></blockquote>
+<p>NOTES: Sonic and Tails will simply be handled as Sonic if you used for say Sonic Only. Also, Mighty and Ray are Handled as Sonic, Meaning wherever Sonic can spawn, mighty and ray will and only will spawn if the CharacterID is set to Sonic.</p>
+</div>
+<span id="document-entities/Ring"></span><div class="section" id="ring">
+<h2>Ring<a class="headerlink" href="#ring" title="Permalink to this headline">¶</a></h2>
+<p>## Bio:
+Where coins are for Mario, rings are for Sonic. These collectables are everywhere. They are essential for staying alive safely. They are also pretty complex given their abundance.</p>
+<p>## Attributes:</p>
+<p>### Type:
+Changes the Type of Ring</p>
+<blockquote>
+<div><p>0 - Normal (Common)
+1 - Large Rings (Wields 5 Rings)
+2 - Sparkling Rings (Wields 1 Ring; Twinkles instead of displaying a ring)</p>
+</div></blockquote>
+<p>### PlaneFilter:
+Determines the FG Layer the Ring is On; The outcome of the value depends on Layer Setup of your scene.</p>
+<p>### Move Type: Determines if and how the the ring will move</p>
+<blockquote>
+<div><p>0 - Normal (No Movement)
+1 - Left/Right/Up/Down Movement
+2-  Circular Movement
+&lt;= 3 - No Ring At All? (Needs Checking)</p>
+<p>Note: Movement also relies on the following attributes.</p>
+</div></blockquote>
+<p>### Amplitude:
+Only works on rings with a movement type higher than 0, for type 1, allows you to set how far the ring will go up and down and or left and right. For type 2, make the circle that the ring will circumfurimate around larger or smaller. The object simply will not do much without this attribute being set to something other than 0.</p>
+<p>### Speed:
+At 0, rings will not move along their movement path defined by their movement type at all. It gets faster the more you increment the number.</p>
+<p>### Angle:
+Determines the Starting Position for the Ring when using Type 2 Movement. As seen in Studiopolis Act 2.</p>
+</div>
+<span id="document-entities/SpinBooster"></span><div class="section" id="spinbooster">
+<h2>SpinBooster<a class="headerlink" href="#spinbooster" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">TODO:</span> <span class="pre">Unfinished</span> <span class="pre">Documentation</span>
+<span class="pre">`</span></code></p>
+<p>## Bio:
+Much like the ForceSpin this object is useful when making 2 tile high tube sections. This in specific, gives the player a bit of a “boost” so he can gain more momentum.</p>
+<p>## Attributes:</p>
+<p>Direction: Determines the Direction in which the “boost” will be applied.</p>
+<blockquote>
+<div><p>0 - Forwards
+1 - Backwards</p>
+</div></blockquote>
+<p>### Size:
+Changes the Size in Which the SpinBooster Effect Will Be Applied.</p>
+<p>### AutoGrip:
+IDK</p>
+<p>### Bias:
+IDK</p>
+<p>### BoostPower:
+The Multiplier for the amount of boost a SpinBooster Entity will give off</p>
+<p>### Boost Always:
+Whether the SpinBooster should be allowed to boost regardless of the situation or not.</p>
+<p>### ForwardOnly:
+Whether the Spin Booster should only work in the Forwards Direction or not.</p>
+<p>### PlaySound:
+Whether the Spin Booster Should Play the Spin SFX or not.</p>
+<p>### AllowTubeInput:
+Where the SpinBooster can work with the TransportTube entities or not.</p>
+</div>
+<span id="document-entities/Spring"></span><div class="section" id="spring">
+<h2>Spring<a class="headerlink" href="#spring" title="Permalink to this headline">¶</a></h2>
+<p>## Bio:</p>
+<p>Usable in almost every zone, the spring is essential to building mania stages, allowing you to get over anything with enough momentum. The Red Springs provide more momentum than the other springs</p>
+<p>## Attributes:</p>
+<p>### Type:
+This Attribute Controls the Direction of the Spring, as well as the type of spring.</p>
+<blockquote>
+<div><p>0 - Upwards Facing Yellow Spring
+1 - Upwards Facing Red Spring
+2 - Sideways Facing Yellow Spring
+3 - Sideways Facing Red Spring
+4 - Upwards Facing Yellow Spring
+5 - Upwards Facing Red Spring</p>
+</div></blockquote>
+<p>### FlipFlag:
+This attribute can rotate the spring’s orientation. Note that types 0 and 1 have some funky functions with this attribute.</p>
+<blockquote>
+<div><p>0 - Disabled; Normal State
+1 - Flip Horizontally
+2 - Flip Upside-Down
+3 - Flip Upside-Down Horizontally</p>
+</div></blockquote>
+<p>### OnGround:
+Determines if the Spring is “IN” the Ground, so it can react accordingly.</p>
+<p>### PlaneFilter:
+Determines the FG Layer the Spring is On; The outcome of the value depends on Layer Setup of your scene.</p>
+</div>
+<span id="document-entities/TransportTubes"></span><div class="section" id="transporttube">
+<h2>TransportTube<a class="headerlink" href="#transporttube" title="Permalink to this headline">¶</a></h2>
+<p>TODO: Unfinished Documentation</p>
+<p>## Bio:
+The Heart of Chemical Plant and Plenty of Other Smaller Uses throughout mania, these entities act as a pipeline highway for Sonic and co. They are very complex, but this guide aims to tell you all the possible variations you can make with this object.</p>
+<p>## Attributes:</p>
+<p>### Types/DirMask:
+These Variables rely heavily on very specific combinations, they are listed below.</p>
+<p>#### Type 0 Dir Masks - The Most Common and Most Potent; Generic Transport Tube Moving</p>
+<blockquote>
+<div><p>5: North-West
+6: South-West
+9: North-East
+10: South-East
+20: North East-West
+40: North West-West
+68: South East-West
+136: South West - East</p>
+</div></blockquote>
+<dl class="simple">
+<dt>#### Type 1 Dir Masks - Entry and Exit Tubes</dt><dd><p>3 - Up and Down Roll</p>
+</dd>
+</dl>
+<p>#### Type 5 Dir Masks - Selector Tubes
+15 - All Directions
+14 - Left, Right and Down</p>
+<dl class="simple">
+<dt>#### Type 6 Dir Masks - Sprinting Exits?</dt><dd><p>12 - East?</p>
+</dd>
+</dl>
+<p>#### Type 2/4 Dir Masks - Freely Mid-Transport Paths?</p>
+</div>
+<span id="document-entities/Water"></span><div class="section" id="water">
+<h2>Water<a class="headerlink" href="#water" title="Permalink to this headline">¶</a></h2>
+<p>## Bio:
+Sonic’s Greatest Weakness and the Most Deadly Hazard. Comes in Many Different Variations. Some of which have functions that are specifically stage locked.</p>
+<p>## Attributes:</p>
+<p>### Type:
+Determines the Type of Water that is being used.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>0 - Initial Water Height Position Marker;</dt><dd><p>Uses CPZ/HCZ/AIZ Style Water; Starting Height Based on Entity Position (not the values it has)</p>
+</dd>
+</dl>
+<p>1 - Bounded Water Box; GHZ Style Water
+2 - Water Bubbles
+3 - Bounding Boxes for Adjusting Water Height.</p>
+</div></blockquote>
+<p>### Size:
+Used for type 1, for the water box itself, and type 3 for the area in which the player can activate the water height adjustment.</p>
+<p>### Height:
+Used in type 3 for setting the water height. In a CPZ/Normal setup, the water level can go up and down between the x and y values of this attribute. In a HCZ however, it will not bob and stay at the level defined by either x or y.</p>
+<p>### Speed:
+For Type 2, Must be higher than 0 for the water to able to change height, the larger it is, the faster the water will move into position.</p>
+<p>### Button Tag:
+Used in HCZ often, with a type 2, this will make the object un-intractable unless the button tag is triggered with a “Button” with the same “tag”.</p>
+<p>### R, G, and B:
+For type 1 only, sets the color of the water, with RGB being all 0 being black, and RGB being all 255 being transparent.</p>
+<p>### Priority:
+Determines the layer the water is Interactable with; The outcome of the value depends on Layer Setup of your scene.</p>
+<p>### Destroy on Trigger:
+Removes the object once the “trigger” from the “Button” to the “tag” we have set has been sent.
+NOTES: CPZ/HCZ/AIZ Style Water CAN NOT be given a custom water pallet outside of those stage setups. They are hard locked to those stage setup entities. Attempting to use these in zones without water palettes will cause the water to appear transparent (AKA No palette adjustment).</p>
+</div>
+<span id="document-entities/entityBase"></span><p># Object
+## Bio:</p>
+<p>## Attributes:</p>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html#document-index">Maniac Editor</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Entities Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/ForceSpin">ForceSpin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/GasPlatform">GasPlatform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/Platform">Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/Player">Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/Ring">Ring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/SpinBooster">SpinBooster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/Spring">Spring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/TransportTubes">TransportTube</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-entities/Water">Water</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html#document-index">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, CarJem Generations.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
