@@ -34,6 +34,7 @@ namespace ManiacEditor
         public PointsMap TempSelectionDeselectTiles;
         bool TempSelectionDeselect;
         public int GlobalSelectedTiles;
+        public bool ShowHorizontalLayerRules { get; set; } = false;
 
         bool FirstDrag;
         bool isDragOver;
@@ -632,6 +633,33 @@ namespace ManiacEditor
             return new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copiedTilesA, copiedTilesB);
         }
 
+        public void DrawAsBrush(Point newPos, Dictionary<Point, ushort> points)
+        {
+            try
+            {
+                bool updateActions = false;
+                newPos = new Point(newPos.X / EditorConstants.TILE_SIZE, newPos.Y / EditorConstants.TILE_SIZE);
+                Deselect();
+                foreach (KeyValuePair<Point, ushort> point in points)
+                {
+                    Point tilePos = new Point(point.Key.X + newPos.X, point.Key.Y + newPos.Y);
+                    if (point.Value != _layer.Tiles[tilePos.Y][tilePos.X])
+                    {
+                        SelectedTiles.Add(tilePos);
+                        SelectedTilesValue[tilePos] = point.Value;
+                        updateActions = true;
+                    }
+                }
+                // Create new actions group
+                if (updateActions) Actions.Add(new ActionDummy());
+                RefreshTileCount();
+            }
+            catch
+            {
+                MessageBox.Show("Clipboard Content Problem!");
+            }
+        }
+
         public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points, bool updateActions = true)
         {
             try
@@ -850,6 +878,28 @@ namespace ManiacEditor
                 return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.UIModes.CopyAir);
             }
             return false;
+        }
+
+        public bool OnlyHasTileIn(Rectangle area, ushort tile)
+        {
+            area = new Rectangle(area.X / EditorConstants.TILE_SIZE, area.Y / EditorConstants.TILE_SIZE, area.Width / EditorConstants.TILE_SIZE, area.Height / EditorConstants.TILE_SIZE);
+            for (int x = area.X; x < area.X + area.Width; x++)
+            {
+                for (int y = area.Y; y < area.Y + area.Height; y++)
+                {
+                    Point point = new Point(x, y);
+
+                    if (SelectedTilesValue.ContainsKey(point))
+                    {
+                        if (SelectedTilesValue[point] != tile) return false;
+                    }
+                    else
+                    {
+                        if (_layer.Tiles[point.Y][point.X] != tile) return false;
+                    } 
+                }
+            }
+            return true;
         }
 
         public ushort GetTileAt(Point point)
@@ -1254,10 +1304,28 @@ namespace ManiacEditor
 
 				}
 			}
-            
 
-            
-            
+            if (ShowHorizontalLayerRules) DrawLayerScroll(d);
+        }
+
+        public void DrawLayerScroll(DevicePanel d)
+        {
+            int Transperncy = 0xFF;
+
+            if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
+                Transperncy = 0x32;
+            else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
+                Transperncy = 0x32;
+            else
+                Transperncy = 0xFF;
+
+            foreach (var layer in HorizontalLayerScroll)
+            {
+                foreach (var lines in layer.LinesMapList)
+                {
+                    d.DrawLine(0, lines.StartIndex, _layer.Width * EditorConstants.TILE_SIZE, lines.StartIndex, System.Drawing.Color.FromArgb(Transperncy, System.Drawing.Color.Red));
+                }
+            }
         }
 
         /// <summary>

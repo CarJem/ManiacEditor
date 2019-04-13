@@ -558,7 +558,6 @@ namespace ManiacEditor
         }
         public void UpdateEditLayerActions()
         {
-            bool pushActions = false;
             if (Editor.Instance.EditLayerA != null)
             {
                 List<IAction> actions = Editor.Instance.EditLayerA?.Actions;
@@ -783,6 +782,7 @@ namespace ManiacEditor
                 Editor.Instance.FormsModel.hScrollBar1.IsEnabled = true;
             }
 
+            UpdateGameRunningButton(Editor.Instance.EditorScene != null);
             Editor.Instance.Theming.UpdateThemeForItemsWaiting();
             UpdateFilterButtonApperance(false);
             UpdateStatusPanel();

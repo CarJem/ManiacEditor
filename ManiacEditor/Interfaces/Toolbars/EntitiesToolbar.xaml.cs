@@ -124,7 +124,7 @@ namespace ManiacEditor
 
         public void UpdatePropertyGridTheme(bool ForceRefresh = false)
         {
-            if (App.Skin == Skin.Dark)
+            if (App.Skin == Skin.Dark || App.Skin == Skin.CarJem)
             {
                 this.entityProperties.BackColor = EditorTheming.darkTheme0;
                 this.entityProperties.CategoryForeColor = EditorTheming.darkTheme3;

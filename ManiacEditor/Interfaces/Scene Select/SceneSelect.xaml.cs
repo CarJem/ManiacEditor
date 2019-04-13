@@ -354,7 +354,7 @@ namespace ManiacEditor.Interfaces
             RemoveAllDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
             RemoveAllDropDown.Background = (SolidColorBrush)FindResource("NormalBackground");
 
-            if (App.Skin == Skin.Dark)
+            if (App.Skin == Skin.Dark || App.Skin == Skin.CarJem)
             {
                 ScenesTree.BackColor = EditorTheming.darkTheme1;
                 ScenesTree.ForeColor = EditorTheming.darkTheme3;
@@ -362,6 +362,8 @@ namespace ManiacEditor.Interfaces
                 RecentsTree.BackColor = EditorTheming.darkTheme1;
                 RecentsTree.ForeColor = EditorTheming.darkTheme3;
             }
+
+
 
             else
             {

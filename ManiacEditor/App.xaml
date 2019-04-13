@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <local:SkinResourceDictionary DarkSource="pack://application:,,,/RSDKrU;component/WPF/DarkTheme.xaml" 
+                                              JemSource="pack://application:,,,/RSDKrU;component/WPF/CarJemTheme.xaml" 
                                               LightSource="pack://application:,,,/RSDKrU;component/WPF/LightTheme.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/RSDKrU;component/WPF/RSDK.Skining.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/RSDKrU;component/WPF/RSDK.ContextMenu.xaml"></ResourceDictionary>

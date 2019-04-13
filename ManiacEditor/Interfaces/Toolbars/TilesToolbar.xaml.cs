@@ -122,7 +122,7 @@ namespace ManiacEditor
 
         public void UpdateThemeColors()
         {
-            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark ? EditorTheming.darkTheme0 : System.Drawing.Color.White);
+            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark || App.Skin == Skin.CarJem ? EditorTheming.darkTheme0 : System.Drawing.Color.White);
             this.ChunkList.BackColor = ListBackColor;
             this.tilePanel.BackColor = ListBackColor;
             this.TilesList.BackColor = ListBackColor;

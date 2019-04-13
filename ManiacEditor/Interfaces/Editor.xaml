@@ -17,15 +17,16 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="275*"/>
-            <ColumnDefinition Width="580*"/>
-            <ColumnDefinition Width="275*"/>
+            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="604*"/>
+            <ColumnDefinition Width="286*"/>
         </Grid.ColumnDefinitions>
 
 
 
 
-        <StatusBar x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="5" Height="35" Grid.Row="3" BorderThickness="1" Foreground="{DynamicResource NormalText}" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
+        <StatusBar x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Height="35" Grid.Row="3" BorderThickness="1" Foreground="{DynamicResource NormalText}" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
             <Label x:Name="positionLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator1" Visibility="Collapsed"/>
             <Label x:Name="selectedPositionLabel" Foreground="{DynamicResource NormalText}"/>
@@ -92,7 +93,7 @@
                 <MenuItem x:Name="TileManiacIntergrationItem" Header="Edit Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
             </MenuItem>
         </StatusBar>
-        <StatusBar x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="4" Grid.ColumnSpan="5" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
+        <StatusBar x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="4" Grid.ColumnSpan="4" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
             <Label x:Name="_levelIDLabel" Foreground="{DynamicResource NormalText}"/>
             <Separator x:Name="seperator7" Visibility="Collapsed"/>
             <Label x:Name="_baseDataDirectoryLabel" Tag=" " Foreground="{DynamicResource NormalText}"/>
@@ -105,7 +106,7 @@
             </StatusBarItem>
         </StatusBar>
 
-        <Grid Panel.ZIndex="1" Grid.ColumnSpan="6" Grid.RowSpan="1" Grid.Row="2"  Background="{DynamicResource ToolbarBackground}" Margin="0,-15,0,0">
+        <Grid Panel.ZIndex="1" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="1"  Background="{DynamicResource ToolbarBackground}" Margin="0,85,0,0">
             <TabControl BorderThickness="0 1 0 0" Background="{DynamicResource ToolbarBackground}">
                 <TabItem Header="Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
                     <Grid>
@@ -197,7 +198,7 @@
                                                                             </StackPanel>
 
                                                                         </Expander>
-     
+
 
                                                                         <TextBlock x:Name="SplineInfoLabel1" Visibility="Collapsed" Text="Number of Spline Objects: {0}"></TextBlock>
                                                                         <TextBlock x:Name="SplineInfoLabel2" Visibility="Collapsed" Text="Point Frequency: {0}"></TextBlock>
@@ -261,7 +262,7 @@
                                                                                 <ColumnDefinition></ColumnDefinition>
                                                                             </Grid.ColumnDefinitions>
                                                                             <Label Content="Grid Color"></Label>
-                                                                            <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
+                                                                            <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
                                                                         </Grid>
                                                                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                                                                         <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
@@ -283,7 +284,7 @@
                                                                                         <ColumnDefinition></ColumnDefinition>
                                                                                     </Grid.ColumnDefinitions>
                                                                                     <Label Content="All"></Label>
-                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
+                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
                                                                                 </Grid>
                                                                                 <Grid>
                                                                                     <Grid.ColumnDefinitions>
@@ -291,14 +292,14 @@
                                                                                         <ColumnDefinition></ColumnDefinition>
                                                                                     </Grid.ColumnDefinitions>
                                                                                     <Label Content="Top Only"></Label>
-                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
+                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
                                                                                 </Grid>
                                                                                 <Grid>
                                                                                     <Grid.ColumnDefinitions>
                                                                                         <ColumnDefinition></ColumnDefinition>
                                                                                         <ColumnDefinition></ColumnDefinition>
                                                                                     </Grid.ColumnDefinitions>
-                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
+                                                                                    <wpfTool:ColorPicker Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
                                                                                     <Label Content="LRD"></Label>
                                                                                 </Grid>
                                                                             </StackPanel>
@@ -318,8 +319,8 @@
                                                                                 <ColumnDefinition></ColumnDefinition>
                                                                                 <ColumnDefinition></ColumnDefinition>
                                                                             </Grid.ColumnDefinitions>
-                                                                            <wpfTool:ColorPicker Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" x:Name="WLC" SelectedColorChanged="comboBox7_DropDown" Style="{DynamicResource ColorPicker1}"></wpfTool:ColorPicker>
-                                                                            <Label Content="Water Color" Grid.ColumnSpan="2"></Label>
+                                                                            <wpfTool:ColorPicker ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" x:Name="WLC" SelectedColorChanged="comboBox7_DropDown" Style="{DynamicResource ColorPicker1}"></wpfTool:ColorPicker>
+                                                                            <Label Content="Water Color" Grid.ColumnSpan="1"></Label>
                                                                         </Grid>
                                                                         <StackPanel Orientation="Vertical" Margin="0,1">
                                                                             <Label Content="Faster Nudge Amount" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
@@ -562,9 +563,9 @@
                     </Style>
                 </TabControl.Resources>
             </TabControl>
-        </Grid>        
+        </Grid>
 
-        <Menu x:Name="MenuBar" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="22" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
+        <Menu x:Name="MenuBar" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="22" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}" Grid.RowSpan="2">
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="4,0,0,0" >
                 <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"/>
                 <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="OpenSceneEvent"/>
@@ -747,7 +748,7 @@
                 <MenuItem x:Name="moveThisPlayerToolStripMenuItem"/>
             </MenuItem>
         </Menu>
-        <Grid Grid.ColumnSpan="5" Grid.Row="1" Background="{DynamicResource ToolbarBackground}">
+        <Grid Grid.ColumnSpan="4" Grid.Row="1" Background="{DynamicResource ToolbarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -906,10 +907,10 @@
 
                     <Separator Margin="0,2"/>
                     <Separator x:Name="extraViewLayersSeperator" Margin="0,2" Visibility="Collapsed"/>
-                    <local:EditLayerToggleButton x:Name="EditFGLower" Text="FG Lower" TextForeground="Red" Click="EditFGLower_Click" RightClick="EditFGLower_RightClick"></local:EditLayerToggleButton>
-                    <local:EditLayerToggleButton x:Name="EditFGLow" Text="FG Low" OverridesDefaultStyle="True" TextForeground="Red" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></local:EditLayerToggleButton>
-                    <local:EditLayerToggleButton x:Name="EditFGHigh" Text="FG High" OverridesDefaultStyle="True" TextForeground="Red" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></local:EditLayerToggleButton>
-                    <local:EditLayerToggleButton x:Name="EditFGHigher" Text="FG Higher" TextForeground="Red" Click="EditFGHigher_Click" RightClick="EditFGHigher_RightClick"></local:EditLayerToggleButton>
+                    <local:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLower" Text="FG Lower" TextForeground="Red" Click="EditFGLower_Click" RightClick="EditFGLower_RightClick"></local:EditLayerToggleButton>
+                    <local:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLow" Text="FG Low" TextForeground="Red" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></local:EditLayerToggleButton>
+                    <local:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigh" Text="FG High" TextForeground="Red" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></local:EditLayerToggleButton>
+                    <local:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigher" Text="FG Higher" TextForeground="Red" Click="EditFGHigher_Click" RightClick="EditFGHigher_RightClick"></local:EditLayerToggleButton>
                     <local:EditLayerToggleButton x:Name="EditEntities" Text="Entities" TextForeground="Red" Click="EditEntities_Click"/>
 
 

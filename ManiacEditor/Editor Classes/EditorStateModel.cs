@@ -156,6 +156,7 @@ namespace ManiacEditor
         public bool scrollingDragged { get; set; } = false;
         public bool wheelClicked { get; set; } = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
         public Point scrollPosition { get; set; } //For Getting the Scroll Position
+        public bool isTileDrawing { get; set; } = false;
         #endregion
     }
 }

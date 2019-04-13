@@ -21,6 +21,51 @@ namespace ManiacEditor
 	public partial class EditLayerToggleButton : UserControl
 	{
         public string LayerName { get; set; }
+
+        public bool ShowLayerScrollLines { get => GetShowLayerScrollLines(); set => SetShowLayerScrollLines(value); }
+        private bool _ShowLayerScrollLines = false;
+
+        private bool GetShowLayerScrollLines()
+        {
+            try
+            {
+                if (Editor.Instance.EditorScene.AllLayers.Any(x => x.Name == Text))
+                {
+                    var sourceLayer = Editor.Instance.EditorScene.AllLayers.Single(el => el.Name.Equals(Text));
+                    _ShowLayerScrollLines = Editor.Instance.EditorScene.AllLayers.Single(el => el.Name.Equals(Text)).ShowHorizontalLayerRules;
+                    ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
+                    return _ShowLayerScrollLines;
+                }
+                else
+                {
+                    _ShowLayerScrollLines = false;
+                    ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
+                    return _ShowLayerScrollLines;
+                }
+
+            }
+            catch
+            {
+                _ShowLayerScrollLines = false;
+                ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
+                return _ShowLayerScrollLines;
+            }
+        }
+
+        private void SetShowLayerScrollLines(bool value)
+        {
+            Editor.Instance.EditorScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowHorizontalLayerRules = value;
+            _ShowLayerScrollLines = Editor.Instance.EditorScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowHorizontalLayerRules;
+            ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
+        }
+
+
+        public bool IsLayerOptionsEnabled { get; set; }
+
+
+
+
+
         public string Text
 		{
 			get { return (string)GetValue(TextBlockTextProperty); }
@@ -194,7 +239,7 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 		{
 			if (DualSelect)
 			{
-				if (e.ChangedButton == MouseButton.Left)
+				if (e.ChangedButton == MouseButton.Left && !Keyboard.IsKeyDown(Key.LeftCtrl))
 				{
 					LayerAToggle.IsChecked = !LayerAToggle.IsChecked.Value;
 					if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
@@ -206,34 +251,49 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 					if (LayerAToggle.IsChecked.Value) LayerAToggle.IsChecked = false;
 					this.RightClick(this, e);
 				}
-			}
+                else if (e.ChangedButton == MouseButton.Left && Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    if (IsLayerOptionsEnabled)
+                        LayerOptionsDropdownButton.IsOpen = true;
+                }
+            }
 			else
 			{
-				if (e.ChangedButton == MouseButton.Left)
+				if (e.ChangedButton == MouseButton.Left && !Keyboard.IsKeyDown(Key.LeftCtrl))
 				{
 					LayerToggle.IsChecked = !LayerToggle.IsChecked.Value;
 					this.Click(this, e);
 				}
-			}
+                else if (e.ChangedButton == MouseButton.Left && Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    if (IsLayerOptionsEnabled)
+                        LayerOptionsDropdownButton.IsOpen = true;
+                }
+            }
 
 
 		}
 
 		protected void ToggleButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (DualSelect)
+			if (DualSelect && !Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
 				LayerAToggle.IsChecked = !LayerAToggle.IsChecked.Value;
 				if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
 				if (this.Click != null) this.Click(this, e);
 			}
-			else
+            else if (!Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
 				LayerToggle.IsChecked = !LayerToggle.IsChecked.Value;
 				if (this.Click != null) this.Click(this, e);
 			}
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (IsLayerOptionsEnabled)
+                    LayerOptionsDropdownButton.IsOpen = true;
+            }
 
-		}
+        }
 
 		protected void ToggleButton_MouseLeave(object sender, MouseEventArgs e)
 		{
@@ -242,6 +302,17 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 			else if (LayerBToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 3);
 			else SetLayerSelectedButtonColors(ToggleButton, 0);
 		}
-	}
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowLayerScrollDetails.IsChecked) ShowLayerScrollLines = true;
+            else ShowLayerScrollLines = false;
+        }
+
+        private void LayerOptionsDropdownButton_Opened(object sender, RoutedEventArgs e)
+        {
+            GetShowLayerScrollLines();
+        }
+    }
 
 }

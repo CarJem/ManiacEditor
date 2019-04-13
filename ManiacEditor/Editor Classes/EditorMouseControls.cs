@@ -62,6 +62,7 @@ namespace ManiacEditor
 
         private bool scrollingDragged { get => Editor.Instance.StateModel.scrollingDragged; set => Editor.Instance.StateModel.scrollingDragged = value; }
         private bool scrolling { get => Editor.Instance.StateModel.scrolling; set => Editor.Instance.StateModel.scrolling = value; }
+        private bool isTileDrawing { get => Editor.Instance.StateModel.isTileDrawing; set => Editor.Instance.StateModel.isTileDrawing = value; }
         private bool dragged { get => Editor.Instance.StateModel.dragged; set => Editor.Instance.StateModel.dragged = value; }
         private bool startDragged { get => Editor.Instance.StateModel.startDragged; set => Editor.Instance.StateModel.startDragged = value; }
         private bool draggingSelection { get => Editor.Instance.StateModel.draggingSelection; set => Editor.Instance.StateModel.draggingSelection = value; }
@@ -317,8 +318,7 @@ namespace ManiacEditor
             if (ForceUpdateMousePos) UpdateScrollerPosition(e);
             if (scrolling || scrollingDragged || draggingSelection || dragged) Editor.Instance.FormsModel.GraphicPanel.Render();
 
-            UpdatePositionLabel(e);
-            Editor.Instance.UI.UpdateGameRunningButton(Editor.Instance.EditorScene != null);
+            UpdatePositionLabel(e);           
 
             if (GameRunning) InteractiveMouseMove(e);
 
@@ -347,6 +347,7 @@ namespace ManiacEditor
         #region Mouse Up Controls
         public void MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            isTileDrawing = false;
             if (draggingSelection) MouseUpDraggingSelection(e);
             else
             {
@@ -368,6 +369,7 @@ namespace ManiacEditor
             }
             ScrollerMouseUp(e);
 
+            Editor.Instance.UI.UpdateEditLayerActions();
             Editor.Instance.UI.UpdateControls();
 
 
@@ -563,6 +565,7 @@ namespace ManiacEditor
         {
             if (e.Button == MouseButtons.Left)
             {
+                Point clicked_point = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
                 if (Editor.Instance.DrawToolButton.IsChecked.Value)
                 {
                     TilesEditDrawTool(e, true);
@@ -582,7 +585,6 @@ namespace ManiacEditor
             Point clicked_point = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
             Editor.Instance.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
             Editor.Instance.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-            Editor.Instance.UI.UpdateEditLayerActions();
         }
         public void TilesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
@@ -627,62 +629,72 @@ namespace ManiacEditor
         public void TilesEditDrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
         {
             Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-
             if (click)
             {
                 if (e.Button == MouseButtons.Left)
                 {
+                    isTileDrawing = true;
                     PlaceTile();
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
-                    // Remove tile
-                    int size = (Editor.Instance.UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
-                    Editor.Instance.EditLayerA?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
-                    Editor.Instance.EditLayerB?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
-                    Editor.Instance.DeleteSelected();
+                    isTileDrawing = true;
+                    RemoveTile();
                 }
             }
             else
             {
                 if (e.Button == MouseButtons.Left)
                 {
+                    isTileDrawing = true;
                     PlaceTile();
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
-
-                    // Remove tile
-                    int size = (Editor.Instance.UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
-                    Editor.Instance.EditLayerA?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
-                    Editor.Instance.EditLayerB?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
-                    Editor.Instance.DeleteSelected();
-
+                    isTileDrawing = true;
+                    RemoveTile();
                 }
             }
 
+            void RemoveTile()
+            {
+                // Remove tile
+                if (Editor.Instance.UIModes.DrawBrushSize == 1)
+                {
+                    Editor.Instance.EditLayerA?.Select(p);
+                    Editor.Instance.EditLayerB?.Select(p);
+                    Editor.Instance.DeleteSelected();
+                } 
+                else
+                {
+                    double size = (Editor.Instance.UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                    Editor.Instance.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE, Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE));
+                    Editor.Instance.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE, Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE));
+                    Editor.Instance.DeleteSelected();
+                }
+            }
 
             void PlaceTile()
             {
-                if (click)
+                if (Editor.Instance.UIModes.DrawBrushSize == 1)
                 {
                     if (Editor.Instance.TilesToolbar.SelectedTile != -1)
                     {
-                        Editor.Instance.EditorPlaceTile(new Point((int)(e.X / Zoom), (int)(e.Y / Zoom)), Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA, true);
+                        if (Editor.Instance.EditLayerA.GetTileAt(p) != Editor.Instance.TilesToolbar.SelectedTile)
+                        {
+                            Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA);
+                        }
+                        else if (!Editor.Instance.EditLayerA.IsPointSelected(p))
+                        {
+                            Editor.Instance.EditLayerA.Select(p);
+                        }
                     }
                 }
                 else
                 {
                     if (Editor.Instance.TilesToolbar.SelectedTile != -1)
                     {
-                        if (Editor.Instance.EditLayerA.GetTileAt(p) != Editor.Instance.TilesToolbar.SelectedTile)
-                        {
-                            Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA, true);
-                        }
-                        else if (!Editor.Instance.EditLayerA.IsPointSelected(p))
-                        {
-                            Editor.Instance.EditLayerA.Select(p);
-                        }
+                        Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA, true);
                     }
                 }
             }

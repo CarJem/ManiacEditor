@@ -425,8 +425,8 @@ namespace ManiacEditor
 		{
             if (isDrawing)
             {
-                int offset = UIModes.DrawBrushSize - 1;
-                Point finalPosition = new Point(position.X - offset, position.Y - offset);
+                double offset = (UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                Point finalPosition = new Point((int)(position.X - offset), (int)(position.Y - offset));
                 Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>();
                 for (int x = 0; x < UIModes.DrawBrushSize; x++)
                 {
@@ -435,7 +435,7 @@ namespace ManiacEditor
                         if (!tiles.ContainsKey(new Point(x, y))) tiles.Add(new Point(x, y), (ushort)tile);
                     }
                 }
-                layer.PasteFromClipboard(position, tiles);
+                layer.DrawAsBrush(finalPosition, tiles);
             }
             else
             {
@@ -1147,8 +1147,6 @@ namespace ManiacEditor
 		}
 		private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
 		{
-			// hmm, if I call refresh when I update the values, for some reason it will stop to render until I stop calling refrsh
-			// So I will refresh it here
 
 			bool showEntities = ShowEntities.IsChecked.Value && !EditEntities.IsCheckedAll;
 			bool showEntitiesEditing = EditEntities.IsCheckedAll;
@@ -1160,212 +1158,244 @@ namespace ManiacEditor
 			if (EntitiesToolbar?.NeedRefresh ?? false) EntitiesToolbar.PropertiesRefresh();
             if (EditorScene != null)
             {
-                if (!IsTilesEdit())
-                    BackgroundDX.Draw(FormsModel.GraphicPanel);
-                if (IsTilesEdit())
-                {
-                    if (ManiacEditor.Settings.MyPerformance.ShowEditLayerBackground == true)
-                    {
-                        BackgroundDX.DrawEdit(FormsModel.GraphicPanel);
-                    }
-                }
+                DrawBackground();
 
-
-                // Future Implementation
-
-                /*
-                List<int> layerDrawingOrder = new List<int> { };
-                var allLayers = EditorScene.AllLayers;
-                foreach (var layer in allLayers)
-                {
-                    layerDrawingOrder.Add(layer.Layer.UnknownByte2);
-                }
-                layerDrawingOrder.Sort();
-                for (int i = 0; i < layerDrawingOrder.Count; i++)
-                {
-                    DrawLayers(layerDrawingOrder[i]);
-                }
-
-
-                DrawLayers();
-                */
-
-
-                if (UIModes.DebugStatsVisibleOnPanel && EditorScene != null)
-                {
-                    Point point = new Point((short)(15), (short)(15));
-
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y, StateModel.GetDataFolder(), true, 255, 15);
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 1, StateModel.GetMasterDataFolder(), true, 255, 22);
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 2, StateModel.GetScenePath(), true, 255, 11);
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 3, StateModel.GetSceneFilePath(), true, 255, 12);
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 4, StateModel.GetZoom(), true, 255, 11);
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 5, StateModel.GetSetupObject(), true, 255, 13);
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 6, StateModel.GetSelectedZone(), true, 255, 14);
-
-                    DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + UIControl.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, UIControl.KeyBindPraser("StatusBoxToggle").Length, 4);
-                }
-
-
+                if (UIModes.DebugStatsVisibleOnPanel && EditorScene != null) DrawDebugHUD();
 
                 if (EditorScene.OtherLayers.Contains(EditLayerA)) EditLayerA.Draw(FormsModel.GraphicPanel);
 
-                if (!UIModes.ExtraLayersMoveToFront)
-                {
+                if (!UIModes.ExtraLayersMoveToFront) DrawExtraLayers();
 
-                    foreach (var elb in ExtraLayerEditViewButtons)
-                    {
-                        if (elb.Key.IsCheckedAll || elb.Value.IsCheckedAll)
-                        {
-                            var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
-                            _extraViewLayer.Draw(FormsModel.GraphicPanel);
-                        }
-                    }
-                }
+                DrawLayer(ShowFGLower.IsChecked.Value, EditFGLower.IsCheckedAll, FGLower);
 
-                if (ShowFGLower.IsChecked.Value || EditFGLower.IsCheckedAll) FGLower.Draw(FormsModel.GraphicPanel);
-                if (ShowFGLow.IsChecked.Value || EditFGLow.IsCheckedAll) FGLow.Draw(FormsModel.GraphicPanel);
+                DrawLayer(ShowFGLow.IsChecked.Value, EditFGLow.IsCheckedAll, FGLow);
 
 
                 if (showEntities && !AboveAllMode)
-                {
-                    if (PriorityMode)
-                    {
-                        Entities.DrawPriority(FormsModel.GraphicPanel, -1);
-                        Entities.DrawPriority(FormsModel.GraphicPanel, 0);
-                        Entities.DrawPriority(FormsModel.GraphicPanel, 1);
-                    }
-                    else
-                    {
-                        Entities.Draw(FormsModel.GraphicPanel);
-                    }
-                }
+                    if (PriorityMode) EntitiesDraw(2);
+                    else EntitiesDraw(0);
 
-                if (ShowFGHigh.IsChecked.Value || EditFGHigh.IsCheckedAll)
-                    FGHigh.Draw(FormsModel.GraphicPanel);
+                DrawLayer(ShowFGHigh.IsChecked.Value, EditFGHigh.IsCheckedAll, FGHigh);
 
+                if (showEntities && PriorityMode && !AboveAllMode) EntitiesDraw(3);
 
-                if (showEntities && PriorityMode && !AboveAllMode)
-                {
-                    Entities.DrawPriority(FormsModel.GraphicPanel, 2);
-                    Entities.DrawPriority(FormsModel.GraphicPanel, 3);
-                }
+                DrawLayer(ShowFGHigher.IsChecked.Value, EditFGHigher.IsCheckedAll, FGHigher);
 
-                if (ShowFGHigher.IsChecked.Value || EditFGHigher.IsCheckedAll)
-                    FGHigher.Draw(FormsModel.GraphicPanel);
-
-                if (UIModes.ExtraLayersMoveToFront)
-                {
-                    foreach (var elb in ExtraLayerEditViewButtons)
-                    {
-                        if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
-                        {
-                            var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
-                            _extraViewLayer.Draw(FormsModel.GraphicPanel);
-                        }
-                    }
-                }
+                if (UIModes.ExtraLayersMoveToFront) DrawExtraLayers();
 
                 if (showEntitiesEditing || AboveAllMode)
+                    if (PriorityMode) EntitiesDraw(1);
+                    else EntitiesDraw(0);
+
+                if (EditorScene != null) Entities.DrawInternalObjects(FormsModel.GraphicPanel);
+
+                if (UIModes.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing)) Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
+
+            }
+
+            if (StateModel.draggingSelection) DrawSelectionBox();
+            else DrawSelectionBox(true);
+
+            if (StateModel.isTileDrawing && UIModes.DrawBrushSize != 1) DrawBrushBox();
+
+            if (UIModes.ShowGrid && EditorScene != null) BackgroundDX.DrawGrid(FormsModel.GraphicPanel);
+
+
+            if (InGame.GameRunning) DrawGameElements();
+
+            if (StateModel.scrolling) DrawScroller();
+
+            if (UIModes.ForceWarp) ForceWarp();
+
+            void DrawBackground()
+            {
+                if (!IsTilesEdit()) BackgroundDX.Draw(FormsModel.GraphicPanel);
+                if (IsTilesEdit()) if (ManiacEditor.Settings.MyPerformance.ShowEditLayerBackground == true) BackgroundDX.DrawEdit(FormsModel.GraphicPanel);
+            }
+
+            void DrawScroller()
+            {
+                if (FormsModel.vScrollBar1.IsVisible && FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.Draw2DCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
+                else if (FormsModel.vScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawVertCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
+                else if (FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawHorizCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
+            }
+
+            void DrawExtraLayers()
+            {
+                foreach (var elb in ExtraLayerEditViewButtons)
                 {
-                    if (PriorityMode)
+                    if (elb.Key.IsCheckedAll || elb.Value.IsCheckedAll)
                     {
+                        var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
+                        _extraViewLayer.Draw(FormsModel.GraphicPanel);
+                    }
+                }
+            }
+
+            void EntitiesDraw(int mode)
+            {
+                switch (mode)
+                {
+                    case 0:
+                        Entities.Draw(FormsModel.GraphicPanel);
+                        break;
+                    case 1:
                         Entities.DrawPriority(FormsModel.GraphicPanel, -1);
                         Entities.DrawPriority(FormsModel.GraphicPanel, 0);
                         Entities.DrawPriority(FormsModel.GraphicPanel, 1);
                         Entities.DrawPriority(FormsModel.GraphicPanel, 2);
                         Entities.DrawPriority(FormsModel.GraphicPanel, 3);
-                    }
-                    else
-                    {
-                        Entities.Draw(FormsModel.GraphicPanel);
-                    }
+                        break;
+                    case 2:
+                        Entities.DrawPriority(FormsModel.GraphicPanel, -1);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 0);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 1);
+                        break;
+                    case 3:
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 2);
+                        Entities.DrawPriority(FormsModel.GraphicPanel, 3);
+                        break;
                 }
+            }
 
-                if (EditorScene != null) Entities.DrawInternalObjects(FormsModel.GraphicPanel);
+            void DrawDebugHUD()
+            {
+                Point point = new Point((short)(15), (short)(15));
 
-                if (UIModes.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing))
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y, StateModel.GetDataFolder(), true, 255, 15);
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 1, StateModel.GetMasterDataFolder(), true, 255, 22);
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 2, StateModel.GetScenePath(), true, 255, 11);
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 3, StateModel.GetSceneFilePath(), true, 255, 12);
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 4, StateModel.GetZoom(), true, 255, 11);
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 5, StateModel.GetSetupObject(), true, 255, 13);
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 6, StateModel.GetSelectedZone(), true, 255, 14);
+
+                DebugTextHUD.DrawEditorHUDText(this, FormsModel.GraphicPanel, point.X, point.Y + 12 * 8, "Use " + UIControl.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, UIControl.KeyBindPraser("StatusBoxToggle").Length, 4);
+            }
+
+            void DrawSelectionBox(bool resetSelection = false)
+            {
+                if (!resetSelection)
                 {
-                    Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
-                }
-
-			}
-
-            if (StateModel.draggingSelection)
-			{
-				int bound_x1 = (int)(StateModel.SelectionX2 / StateModel.Zoom); int bound_x2 = (int)(StateModel.lastX / StateModel.Zoom);
-				int bound_y1 = (int)(StateModel.SelectionY2 / StateModel.Zoom); int bound_y2 = (int)(StateModel.lastY / StateModel.Zoom);
-				if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
-				{
-					if (bound_x1 > bound_x2)
-					{
-						bound_x1 = (int)(StateModel.lastX / StateModel.Zoom);
-						bound_x2 = (int)(StateModel.SelectionX2 / StateModel.Zoom);
-					}
-					if (bound_y1 > bound_y2)
-					{
-						bound_y1 = (int)(StateModel.lastY / StateModel.Zoom);
-						bound_y2 = (int)(StateModel.SelectionY2 / StateModel.Zoom);
-					}
-                    if (IsChunksEdit())
+                    int bound_x1 = (int)(StateModel.SelectionX2 / StateModel.Zoom); int bound_x2 = (int)(StateModel.lastX / StateModel.Zoom);
+                    int bound_y1 = (int)(StateModel.SelectionY2 / StateModel.Zoom); int bound_y2 = (int)(StateModel.lastY / StateModel.Zoom);
+                    if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
                     {
-                        bound_x1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
-                        bound_y1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
-                        bound_x2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
-                        bound_y2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
+                        if (bound_x1 > bound_x2)
+                        {
+                            bound_x1 = (int)(StateModel.lastX / StateModel.Zoom);
+                            bound_x2 = (int)(StateModel.SelectionX2 / StateModel.Zoom);
+                        }
+                        if (bound_y1 > bound_y2)
+                        {
+                            bound_y1 = (int)(StateModel.lastY / StateModel.Zoom);
+                            bound_y2 = (int)(StateModel.SelectionY2 / StateModel.Zoom);
+                        }
+                        if (IsChunksEdit())
+                        {
+                            bound_x1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
+                            bound_y1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
+                            bound_x2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
+                            bound_y2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
+                        }
+
+
                     }
 
+                    FormsModel.GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, Color.FromArgb(100, Color.Purple));
+                    FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, Color.Purple);
+                    FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, Color.Purple);
+                    FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, Color.Purple);
+                    FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
+                }
+                else
+                {
+                    StateModel.select_x1 = 0; StateModel.select_x2 = 0; StateModel.select_y1 = 0; StateModel.select_y2 = 0;
+                }
+            }
 
+            void DrawBrushBox()
+            {
+
+                int offset = (UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                int x1 = (int)(StateModel.lastX / StateModel.Zoom) - offset;
+                int x2 = (int)(StateModel.lastX / StateModel.Zoom) + offset;
+                int y1 = (int)(StateModel.lastY / StateModel.Zoom) - offset;
+                int y2 = (int)(StateModel.lastY / StateModel.Zoom) + offset;
+
+
+                int bound_x1 = (int)(x1); int bound_x2 = (int)(x2);
+                int bound_y1 = (int)(y1); int bound_y2 = (int)(y2);
+                if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
+                {
+                    if (bound_x1 > bound_x2)
+                    {
+                        bound_x1 = (int)(x2);
+                        bound_x2 = (int)(x1);
+                    }
+                    if (bound_y1 > bound_y2)
+                    {
+                        bound_y1 = (int)(y2);
+                        bound_y2 = (int)(y1);
+                    }
                 }
 
-				FormsModel.GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, Color.FromArgb(100, Color.Purple));
-				FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, Color.Purple);
-				FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, Color.Purple);
-				FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, Color.Purple);
-				FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
-			}
-			else
-			{
-				StateModel.select_x1 = 0; StateModel.select_x2 = 0; StateModel.select_y1 = 0; StateModel.select_y2 = 0;
-			}
+                FormsModel.GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, Color.FromArgb(100, Color.Purple));
+                FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, Color.Purple);
+                FormsModel.GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, Color.Purple);
+                FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, Color.Purple);
+                FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
+            }
 
-			if (UIModes.ShowGrid && EditorScene != null)
-				BackgroundDX.DrawGrid(FormsModel.GraphicPanel);
+            void DrawLayer(bool ShowLayer, bool EditLayer, EditorLayer layer)
+            {
+                if (ShowLayer || EditLayer) layer.Draw(FormsModel.GraphicPanel);
+            }
 
-			if (InGame.GameRunning)
-			{
-				InGame.DrawGameElements(FormsModel.GraphicPanel);
+            void DrawGameElements()
+            {
+                InGame.DrawGameElements(FormsModel.GraphicPanel);
 
-				if (InGame.PlayerSelected)
-				{
-					InGame.MovePlayer(new Point(StateModel.lastX, StateModel.lastY), StateModel.Zoom, InGame.SelectedPlayer);
-				}
-				if (InGame.CheckpointSelected)
-				{
-					Point clicked_point = new Point((int)(StateModel.lastX / StateModel.Zoom), (int)(StateModel.lastY / StateModel.Zoom));
-					InGame.UpdateCheckpoint(clicked_point);
-				}
-			}
+                if (InGame.PlayerSelected) InGame.MovePlayer(new Point(StateModel.lastX, StateModel.lastY), StateModel.Zoom, InGame.SelectedPlayer);
+                if (InGame.CheckpointSelected)
+                {
+                    Point clicked_point = new Point((int)(StateModel.lastX / StateModel.Zoom), (int)(StateModel.lastY / StateModel.Zoom));
+                    InGame.UpdateCheckpoint(clicked_point);
+                }
+            }
 
-			if (StateModel.scrolling)
-			{
-				if (FormsModel.vScrollBar1.IsVisible && FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.Draw2DCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
-				else if (FormsModel.vScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawVertCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
-				else if (FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawHorizCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
-			}
-			if (UIModes.ForceWarp)
-			{
-				if (UIModes.ShortcutHasZoom) ZoomModel.SetZoomLevel(0, UIModes.TempWarpCoords, UIModes.ShortcutZoomValue);
-				else ZoomModel.SetZoomLevel(ManiacEditor.Settings.MyDevSettings.DevForceRestartZoomLevel, UIModes.TempWarpCoords);
-				GoToPosition(UIModes.TempWarpCoords.X, UIModes.TempWarpCoords.Y, false, true);
+            void ForceWarp()
+            {
+                if (UIModes.ShortcutHasZoom) ZoomModel.SetZoomLevel(0, UIModes.TempWarpCoords, UIModes.ShortcutZoomValue);
+                else ZoomModel.SetZoomLevel(ManiacEditor.Settings.MyDevSettings.DevForceRestartZoomLevel, UIModes.TempWarpCoords);
+                GoToPosition(UIModes.TempWarpCoords.X, UIModes.TempWarpCoords.Y, false, true);
                 ZoomModel.SetViewSize((int)(SceneWidth * StateModel.Zoom), (int)(SceneHeight * StateModel.Zoom));
-
-			}
+            }
 		}
 
         public void DrawLayers(int drawOrder = 0)
 		{
-			var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
+
+            // Future Implementation
+
+            /*
+            List<int> layerDrawingOrder = new List<int> { };
+            var allLayers = EditorScene.AllLayers;
+            foreach (var layer in allLayers)
+            {
+                layerDrawingOrder.Add(layer.Layer.UnknownByte2);
+            }
+            layerDrawingOrder.Sort();
+            for (int i = 0; i < layerDrawingOrder.Count; i++)
+            {
+                DrawLayers(layerDrawingOrder[i]);
+            }
+
+
+            DrawLayers();
+            */
+
+            var _extraViewLayer = EditorScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
 			_extraViewLayer.Draw(FormsModel.GraphicPanel);
 		}
 		public void Run()
@@ -2209,7 +2239,9 @@ namespace ManiacEditor
                 tsb.DualSelect = true;
                 tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
 				tsb.RightClick += AdHocLayerEdit_RightClick;
-				tsb.Click += AdHocLayerEdit_Click;
+                tsb.IsLayerOptionsEnabled = true;
+
+                tsb.Click += AdHocLayerEdit_Click;
 
 				_extraLayerEditButtons.Add(tsb);
 			}
@@ -2229,8 +2261,10 @@ namespace ManiacEditor
 				};
 				LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
 				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
+                tsb.IsLayerOptionsEnabled = true;
 
-				_extraLayerViewButtons.Add(tsb);
+
+                _extraLayerViewButtons.Add(tsb);
 			}
 
 			//EDIT + VIEW BUTTONS LIST

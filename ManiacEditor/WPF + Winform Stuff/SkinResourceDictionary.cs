@@ -11,6 +11,7 @@ namespace ManiacEditor
     {
         private Uri _DarkSource;
         private Uri _LightSource;
+        private Uri _JemSource;
 
         public Uri DarkSource
         {
@@ -31,11 +32,39 @@ namespace ManiacEditor
             }
         }
 
+        public Uri JemSource
+        {
+            get { return _JemSource; }
+            set
+            {
+                _JemSource = value;
+                UpdateSource();
+            }
+        }
+
         public void UpdateSource()
         {
-            var val = App.Skin == Skin.Dark ? DarkSource : LightSource;
+            var val = GetSkin();
             if (val != null && base.Source != val)
                 base.Source = val;
+        }
+
+        public Uri GetSkin()
+        {
+            if (App.Skin == Skin.Light)
+            {
+                return LightSource;
+            }
+            else if (App.Skin == Skin.Dark)
+            {
+                return DarkSource;
+
+            }
+            else if (App.Skin == Skin.CarJem)
+            {
+                return JemSource;
+            }
+            else return LightSource;
         }
     }
 }

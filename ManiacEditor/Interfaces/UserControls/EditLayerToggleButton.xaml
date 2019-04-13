@@ -4,10 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ManiacEditor"
+             xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="65">
     <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Button MouseLeave="ToggleButton_MouseLeave" Click="ToggleButton_Click" Background="Transparent" Foreground="{Binding Path=TextForeground}" Content="{Binding Path=Text}" BorderBrush="Transparent" MouseDown="ToggleButton_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{DynamicResource EditLayerFlatButton}" x:Name="ToggleButton"/>
+        <wpfTool:SplitButton Name="LayerOptionsDropdownButton" wpfTool:DropDownButton.Opened="LayerOptionsDropdownButton_Opened" Width="0" Height="0">
+            <wpfTool:SplitButton.DropDownContent>
+                <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                    <Label Content="Layer Options:" IsEnabled="False"></Label>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <MenuItem Header="Show Layer Scroll Information" IsCheckable="True" Name="ShowLayerScrollDetails" Click="MenuItem_Click"></MenuItem>
+                </StackPanel>
+            </wpfTool:SplitButton.DropDownContent>
+        </wpfTool:SplitButton>
         <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerToggle" IsChecked="{Binding Path=IsCheckedN}"></ToggleButton>
         <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerAToggle" IsChecked="{Binding Path=IsCheckedA}"></ToggleButton>
         <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerBToggle" IsChecked="{Binding Path=IsCheckedB}"></ToggleButton>
