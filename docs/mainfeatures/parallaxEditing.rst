@@ -16,10 +16,10 @@ Now it gets complicated. Alright, so select the background layer in the right ta
     * Behavior: 
     Effects vary from zone to zone. Here’s an example with Chemical Plant:
     
-    https://giant.gfycat.com/ScentedSpanishDromaeosaur.webm)
+    https://giant.gfycat.com/ScentedSpanishDromaeosaur.webm
     
-    * Unknown Byte 2: 
-    Unknown for a reason! We don't really know what it does yet.
+    * DrawOrder: 
+    We don't know for sure what this does exactly, but we assume something like what layer it's on?
     
     * Relative Speed: 
     Finally, something interesting! Relative Speed determines how fast rows defined by a horizontal rule (more on that later) scroll when the screen moves. The higher the number, the faster it scrolls.

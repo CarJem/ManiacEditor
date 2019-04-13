@@ -1,8 +1,12 @@
+Table Of Contents
+======
+
 .. toctree::
    :maxdepth: 1
    :glob:
    :caption: Getting Started
    
+   index
    introduction/intro
    
 .. toctree::

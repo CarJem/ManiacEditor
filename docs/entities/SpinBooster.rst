@@ -5,36 +5,48 @@ SpinBooster
 TODO: Unfinished Documentation
 ```
 
-## Bio: 
+**Bio:**
+
 Much like the ForceSpin this object is useful when making 2 tile high tube sections. This in specific, gives the player a bit of a “boost” so he can gain more momentum.
 
-## Attributes:
+Attributes
+-----------
 
-Direction: Determines the Direction in which the “boost” will be applied. 
+**Direction:** 
 
-	0 - Forwards
-	1 - Backwards
+Determines the Direction in which the “boost” will be applied. 
 
-### Size: 
+	* 0 - Forwards
+	* 1 - Backwards
+
+**Size:** 
+
 Changes the Size in Which the SpinBooster Effect Will Be Applied.
 
-### AutoGrip: 
+**AutoGrip:** 
+
 IDK
 
-### Bias: 
+**Bias:** 
+
 IDK
 
-### BoostPower: 
+**BoostPower:** 
+
 The Multiplier for the amount of boost a SpinBooster Entity will give off
 
-### Boost Always: 
+**Boost Always:** 
+
 Whether the SpinBooster should be allowed to boost regardless of the situation or not.
 
-### ForwardOnly: 
+**ForwardOnly:**
+
 Whether the Spin Booster should only work in the Forwards Direction or not.
 
-### PlaySound: 
+**PlaySound:** 
+
 Whether the Spin Booster Should Play the Spin SFX or not.
 
-### AllowTubeInput: 
+**AllowTubeInput:** 
+
 Where the SpinBooster can work with the TransportTube entities or not.
