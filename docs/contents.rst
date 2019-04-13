@@ -3,6 +3,7 @@
    :glob:
    :caption: Getting Started
    
+   index
    introduction/intro
    
 .. toctree::
