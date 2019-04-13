@@ -17,7 +17,7 @@ This Attribute Controls the Direction of the Spring, as well as the type of spri
 	* 4 - Upwards Facing Yellow Spring 
 	* 5 - Upwards Facing Red Spring 
 
- **FlipFlag:**
+**FlipFlag:**
  
 This attribute can rotate the spring’s orientation. Note that types 0 and 1 have some funky functions with this attribute.
 
