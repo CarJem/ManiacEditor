@@ -421,13 +421,30 @@ namespace ManiacEditor
 		}
         #endregion
 		#region Common Editor Functions
-		public void EditorPlaceTile(Point position, int tile, EditorLayer layer)
+		public void EditorPlaceTile(Point position, int tile, EditorLayer layer, bool isDrawing = false)
 		{
-			Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>
-			{
-				[new Point(0, 0)] = (ushort)tile
-			};
-			layer.PasteFromClipboard(position, tiles);
+            if (isDrawing)
+            {
+                int offset = UIModes.DrawBrushSize - 1;
+                Point finalPosition = new Point(position.X - offset, position.Y - offset);
+                Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>();
+                for (int x = 0; x < UIModes.DrawBrushSize; x++)
+                {
+                    for (int y = 0; y < UIModes.DrawBrushSize; y++)
+                    {
+                        if (!tiles.ContainsKey(new Point(x, y))) tiles.Add(new Point(x, y), (ushort)tile);
+                    }
+                }
+                layer.PasteFromClipboard(position, tiles);
+            }
+            else
+            {
+                Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>
+                {
+                    [new Point(0, 0)] = (ushort)tile
+                };
+                layer.PasteFromClipboard(position, tiles);
+            }
 		}
 		public void DeleteSelected()
 		{
@@ -1728,6 +1745,32 @@ namespace ManiacEditor
         {
             if (!SelectedSplineRender.IsDropDownOpen) SelectedSplineRender.IsDropDownOpen = true;
             else SelectedSplineRender.IsDropDownOpen = false;
+        }
+
+        #endregion
+        #region Draw Tool Options Events
+        bool AllowDrawBrushSizeChange = true;
+        private void DrawToolSizeChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            DrawToolSizeChanged();
+        }
+
+        private void DrawToolSizeChanged(bool wasSlider = false)
+        {
+            if (UIModes != null && UI != null && DrawTileSizeNUD != null && DrawTileSizeSlider != null && AllowDrawBrushSizeChange)
+            {
+                AllowDrawBrushSizeChange = false;
+                int size = (wasSlider ? (int)DrawTileSizeSlider.Value : (int)DrawTileSizeNUD.Value);
+                DrawTileSizeSlider.Value = size;
+                DrawTileSizeNUD.Value = size;
+                UIModes.DrawBrushSize = size;
+                AllowDrawBrushSizeChange = true;
+            }
+        }
+
+        private void DrawToolSizeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            DrawToolSizeChanged(true);
         }
 
         #endregion

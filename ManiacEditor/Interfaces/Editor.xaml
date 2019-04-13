@@ -207,6 +207,15 @@
                                                                     </StackPanel>
                                                                 </Border>
                                                             </Expander>
+                                                            <Expander Header="Draw Options" Foreground="{DynamicResource NormalText}">
+                                                                <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
+                                                                    <StackPanel Margin="5">
+                                                                        <Label Content="Brush Size (Tiles Edit Only)" x:Name="DrawTileSizeLabel"></Label>
+                                                                        <Slider Value="1" Minimum="1" Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
+                                                                        <wpfTool:IntegerUpDown x:Name="DrawTileSizeNUD" Value="1" Minimum="1" Maximum="16" ValueChanged="DrawToolSizeChanged"></wpfTool:IntegerUpDown>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Expander>
                                                             <Expander IsExpanded="False" Header="Magnet Options" Foreground="{DynamicResource NormalText}">
                                                                 <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
                                                                     <StackPanel Margin="5">
@@ -395,12 +404,19 @@
                                                                                     <Border BorderThickness="1" BorderBrush="{DynamicResource NormalText}" Margin="5">
                                                                                         <Label HorizontalContentAlignment="Center">
                                                                                             <Menu Background="Transparent" HorizontalAlignment="Center" BorderBrush="{DynamicResource NormalText}">
+                                                                                                <MenuItem Foreground="{DynamicResource NormalText}" Header="Water Level...">
+                                                                                                    <MenuItem x:Name="showWaterLevelToolStripMenuItem" Header="Show Water Level" Click="ShowWaterLevelEvent"/>
+                                                                                                    <MenuItem x:Name="waterLevelAlwaysShowItem" Header="Always Show Regardless of Selection" Click="AlwaysShowWaterLevelEvent"/>
+                                                                                                    <MenuItem x:Name="sizeWithBoundsWhenNotSelectedToolStripMenuItem" Header="Size with Bounds when Not Selected" Click="WaterSizeWithBoundsEvent"/>
+                                                                                                </MenuItem>
+                                                                                            </Menu>
+                                                                                        </Label>
+                                                                                    </Border>
+
+                                                                                    <Border BorderThickness="1" BorderBrush="{DynamicResource NormalText}" Margin="5">
+                                                                                        <Label HorizontalContentAlignment="Center">
+                                                                                            <Menu Background="Transparent" HorizontalAlignment="Center" BorderBrush="{DynamicResource NormalText}">
                                                                                                 <MenuItem Foreground="{DynamicResource NormalText}" Header="Menu Settings...">
-                                                                                                    <MenuItem x:Name="waterLevelOptions" Header="Water Level...">
-                                                                                                        <MenuItem x:Name="showWaterLevelToolStripMenuItem" Header="Show Water Level" Click="ShowWaterLevelEvent"/>
-                                                                                                        <MenuItem x:Name="waterLevelAlwaysShowItem" Header="Always Show Regardless of Selection" Click="AlwaysShowWaterLevelEvent"/>
-                                                                                                        <MenuItem x:Name="sizeWithBoundsWhenNotSelectedToolStripMenuItem" Header="Size with Bounds when Not Selected" Click="WaterSizeWithBoundsEvent"/>
-                                                                                                    </MenuItem>
                                                                                                     <MenuItem x:Name="menuLanguageToolStripMenuItem" Header="Menu Language">
                                                                                                         <MenuItem x:Name="eNToolStripMenuItem" Header="EN" Tag="EN" Click="MenuLanguageChangedEvent"/>
                                                                                                         <MenuItem x:Name="fRToolStripMenuItem" Header="FR" Tag="FR" Click="MenuLanguageChangedEvent"/>

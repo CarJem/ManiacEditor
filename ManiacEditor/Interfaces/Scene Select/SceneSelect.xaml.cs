@@ -528,8 +528,21 @@ namespace ManiacEditor.Interfaces
         }
 
         #region GameConfig Events
+
+        bool isFunctional = false;
+
+        public void GameConfigThrowError()
+        {
+            RSDKrU.MessageBox.Show("RSDK-Reverse's GameConfig Library for RSDKv5 currently is Broken, and to prvent unwanted corruption to you gameconfigs, I have disabled this feature for this build.", "Feature Disabled");
+        }
+
         private void GameConfigAddSceneEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var form = new EditSceneSelectInfoWindow();
             if (Window != null)
             {
@@ -553,6 +566,11 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigAddCategoryEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var form = new EditSceneSelectInfoWindow();
             if (Window != null)
             {
@@ -588,6 +606,11 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigEditSceneEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var cat = _GameConfig.Categories.Where(t => t.Name == ScenesTree.SelectedNode.Parent.Text).FirstOrDefault();
             if (cat != null)
             {
@@ -611,6 +634,11 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigEditCategoryEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var Category = _GameConfig.Categories[ScenesTree.SelectedNode.Index];
             var form = new SceneSelectEditCategoryLabelWindow(Category, Category.Scenes);
             if (Window != null)
@@ -631,6 +659,11 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigDeleteSceneEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var cat = _GameConfig.Categories.Where(t => t.Name == ScenesTree.SelectedNode.Parent.Text).FirstOrDefault();
             if (cat != null)
             {
@@ -653,12 +686,22 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigDeleteCategoryEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             _GameConfig.Categories.RemoveAt(ScenesTree.SelectedNode.Index);
             LoadFromGameConfig(_GameConfig);
             WriteGameConfigChangesToFile();
         }
         private void GameConfigMoveCategoryUpEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var item = _GameConfig.Categories[ScenesTree.SelectedNode.Index];
             int OldIndex = _GameConfig.Categories.IndexOf(item);
             var itemAbove = _GameConfig.Categories[ScenesTree.SelectedNode.Index - 1];
@@ -675,6 +718,11 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigMoveCategoryDownEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var item = _GameConfig.Categories[ScenesTree.SelectedNode.Index];
             int OldIndex = _GameConfig.Categories.IndexOf(item);
             var itemAbove = _GameConfig.Categories[ScenesTree.SelectedNode.Index + 1];
@@ -691,6 +739,11 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigMoveSceneUpEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var cat = _GameConfig.Categories.Where(t => t.Name == ScenesTree.SelectedNode.Parent.Text).FirstOrDefault();
             if (cat != null)
             {
@@ -710,6 +763,11 @@ namespace ManiacEditor.Interfaces
         }
         private void GameConfigMoveSceneDownEvent(object sender, EventArgs e)
         {
+            if (!isFunctional)
+            {
+                GameConfigThrowError();
+                return;
+            }
             var cat = _GameConfig.Categories.Where(t => t.Name == ScenesTree.SelectedNode.Parent.Text).FirstOrDefault();
             if (cat != null)
             {

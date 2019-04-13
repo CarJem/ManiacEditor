@@ -308,7 +308,7 @@ namespace ManiacEditor
             {
                 Editor.Instance.SortSelectedSlotIDs.IsEnabled = false;
                 Editor.Instance.SortSelectedSlotIDsOptimized.IsEnabled = false;
-                Editor.Instance.SortSelectedSlotIDsOptimized.IsEnabled = false;
+                Editor.Instance.SortSelectedSlotIDsOrdered.IsEnabled = false;
             }
 
             Editor.Instance.ShowGridButton.IsEnabled = enabled && Editor.Instance.StageConfig != null;
@@ -632,8 +632,8 @@ namespace ManiacEditor
             {
                 if (visible)
                 {
-                    Editor.Instance.ToolbarLeft.Width = new GridLength(170);
-                    Editor.Instance.ToolbarLeft.MinWidth = 170;
+                    Editor.Instance.ToolbarLeft.Width = new GridLength(200);
+                    Editor.Instance.ToolbarLeft.MinWidth = 200;
                     Editor.Instance.ToolbarLeft.MaxWidth = Editor.Instance.ViewPanelForm.ActualWidth / 3;
                     Editor.Instance.SplitterLeft.Width = new GridLength(3);
                     Editor.Instance.SplitterLeft.MinWidth = 3;

@@ -638,7 +638,7 @@ namespace ManiacEditor
 
         public void WikiLink()
         {
-            System.Diagnostics.Process.Start("https://docs.google.com/document/d/1NBvcqzvOzqeTVzgAYBR0ttAc5vLoFaQ4yh_cdf-7ceQ/edit?usp=sharing");
+            System.Diagnostics.Process.Start("https://maniaceditor-generationsedition.readthedocs.io/en/latest/");
         }
 
         public void InGameSettings()

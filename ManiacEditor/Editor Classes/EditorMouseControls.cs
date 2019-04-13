@@ -515,35 +515,9 @@ namespace ManiacEditor
 
         public void TilesEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
             if (Editor.Instance.DrawToolButton.IsChecked.Value)
             {
-                if (e.Button == MouseButtons.Left)
-                {
-                    // Place tile
-                    if (Editor.Instance.TilesToolbar.SelectedTile != -1)
-                    {
-                        if (Editor.Instance.EditLayerA.GetTileAt(p) != Editor.Instance.TilesToolbar.SelectedTile)
-                        {
-                            Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA);
-                        }
-                        else if (!Editor.Instance.EditLayerA.IsPointSelected(p))
-                        {
-                            Editor.Instance.EditLayerA.Select(p);
-                        }
-                    }
-                }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    // Remove tile
-                    if (!(bool)Editor.Instance.EditLayerA?.IsPointSelected(p) || !(bool)Editor.Instance.EditLayerB?.IsPointSelected(p))
-                    {
-                        Editor.Instance.EditLayerA?.Select(p);
-                        Editor.Instance.EditLayerB?.Select(p);
-                    }
-                    Editor.Instance.DeleteSelected();
-
-                }
+                TilesEditDrawTool(e, false);
             }
         }
         public void TilesEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
@@ -591,21 +565,16 @@ namespace ManiacEditor
             {
                 if (Editor.Instance.DrawToolButton.IsChecked.Value)
                 {
-                    // Place tile
-                    if (Editor.Instance.TilesToolbar.SelectedTile != -1)
-                    {
-                        Editor.Instance.EditorPlaceTile(new Point((int)(e.X / Zoom), (int)(e.Y / Zoom)), Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA);
-                    }
+                    TilesEditDrawTool(e, true);
                 }
                 else SetClickedXY(e);
             }
             else if (e.Button == MouseButtons.Right)
             {
-                // Remove tile
-                Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
-                if (!Editor.Instance.EditLayerA.IsPointSelected(p)) Editor.Instance.EditLayerA?.Select(p);
-                if (Editor.Instance.EditLayerB != null && !Editor.Instance.EditLayerB.IsPointSelected(p)) Editor.Instance.EditLayerB?.Select(p);
-                Editor.Instance.DeleteSelected();
+                if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                {
+                    TilesEditDrawTool(e, true);
+                }
             }
         }
         public void TilesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
@@ -653,6 +622,74 @@ namespace ManiacEditor
             info.IsOpen = true;
         }
 
+        #region Universal Tool Actions
+
+        public void TilesEditDrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
+        {
+            Point p = new Point((int)(e.X / Zoom), (int)(e.Y / Zoom));
+
+            if (click)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    PlaceTile();
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    // Remove tile
+                    int size = (Editor.Instance.UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                    Editor.Instance.EditLayerA?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
+                    Editor.Instance.EditLayerB?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
+                    Editor.Instance.DeleteSelected();
+                }
+            }
+            else
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    PlaceTile();
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+
+                    // Remove tile
+                    int size = (Editor.Instance.UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                    Editor.Instance.EditLayerA?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
+                    Editor.Instance.EditLayerB?.Select(new Rectangle(p.X - size, p.Y - size, size, size));
+                    Editor.Instance.DeleteSelected();
+
+                }
+            }
+
+
+            void PlaceTile()
+            {
+                if (click)
+                {
+                    if (Editor.Instance.TilesToolbar.SelectedTile != -1)
+                    {
+                        Editor.Instance.EditorPlaceTile(new Point((int)(e.X / Zoom), (int)(e.Y / Zoom)), Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA, true);
+                    }
+                }
+                else
+                {
+                    if (Editor.Instance.TilesToolbar.SelectedTile != -1)
+                    {
+                        if (Editor.Instance.EditLayerA.GetTileAt(p) != Editor.Instance.TilesToolbar.SelectedTile)
+                        {
+                            Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA, true);
+                        }
+                        else if (!Editor.Instance.EditLayerA.IsPointSelected(p))
+                        {
+                            Editor.Instance.EditLayerA.Select(p);
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
 
         #endregion
 
@@ -660,7 +697,7 @@ namespace ManiacEditor
 
         public void EntitiesEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Editor.Instance.DrawToolButton.IsChecked.Value) DrawTool(e);
+            if (Editor.Instance.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e);
         }
         public void EntitiesEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
         {
@@ -714,7 +751,7 @@ namespace ManiacEditor
                         SetClickedXY(e);
                     }
                 }
-                else if (Editor.Instance.DrawToolButton.IsChecked.Value) DrawTool(e, true);
+                else if (Editor.Instance.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e, true);
             }
             if (Editor.Instance.SplineToolButton.IsChecked.Value) SplineTool(e);
         }
@@ -765,7 +802,7 @@ namespace ManiacEditor
 
         #region Universal Tool Actions
 
-        public void DrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
+        public void EntitiesEditDrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
         {
             if (click)
             {

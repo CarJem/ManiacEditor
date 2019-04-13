@@ -444,6 +444,22 @@ namespace ManiacEditor
             SetToolModes(3, Editor.Instance.InteractionToolButton.IsChecked.Value);
         }
 
+        #region Draw Tile Size
+        //Determines the Draw Tool's Brush Size (Tiles Only)
+        public int DrawBrushSize { get => GetDrawBrushSize(); set => SetDrawBrushSize(value); }
+        private int _DrawBrushSize = 1;
+
+        private int GetDrawBrushSize()
+        {
+            return _DrawBrushSize;
+        }
+        private void SetDrawBrushSize(int value)
+        {
+            _DrawBrushSize = value;
+        }
+
+        #endregion
+
         public void SplineMode(bool? value = null)
         {
             if (value != null) SetToolModes(4, value.Value);
