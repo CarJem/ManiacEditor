@@ -1,9 +1,4 @@
-.. Maniac Editor documentation master file, created by
-   sphinx-quickstart on Fri Apr 12 18:16:34 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Maniac Editor - Generations Edition Documentation
+Welcome Page
 =========================================
 
 Welcome to the Landing Page!
