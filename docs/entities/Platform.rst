@@ -6,6 +6,7 @@ TODO: Unfinished Documentation
 ```
 
 Bio: 
+
 Found in Almost Every Zone in Sonic Mania, this object allows Sonic to either cross gaps and get to places he otherwise couldn’t do on his own, or simply get to places without doing anything at all, lazily. However, some aren’t meant to carry sonic, some move objects, some can even hurt Sonic if you set them up correctly. There’s plenty of things you can do with platforms.
 
 Attributes:
