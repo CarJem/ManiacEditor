@@ -14,7 +14,9 @@ Open up the layer manager. You can find it under the scenes tab at the top. If y
 Now it gets complicated. Alright, so select the background layer in the right tab of the new window that just popped up. On the right, you'll be seeing a bunch of scary looking numbers!!! Oh no!! Don't fret though, my friend, because I'll explain to you what these numbers are. First things first, disregard the stuff in the middle. That's a topic for another day, this tutorial merely covers basic parallax editing. The numbers on the right are what we're focusing on. Here's what each one means:
 
     * Behavior: 
-    Effects vary from zone to zone. Here’s an example with Chemical Plant:  [Link](https://giant.gfycat.com/ScentedSpanishDromaeosaur.webm)
+    Effects vary from zone to zone. Here’s an example with Chemical Plant:
+    
+    https://giant.gfycat.com/ScentedSpanishDromaeosaur.webm)
     
     * Unknown Byte 2: 
     Unknown for a reason! We don't really know what it does yet.
