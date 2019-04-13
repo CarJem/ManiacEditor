@@ -3,26 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Maniac Editor's documentation!
+Maniac Editor - Generations Edition Documentation
 =========================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :glob:
+   :hidden:
    :caption: Getting Started
    
+
    
+Entities Documentation
+=========================================
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :glob:
    :caption: Entities Documentation
 
    entities/*
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 
