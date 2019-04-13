@@ -6,7 +6,7 @@ GasPlatform
 
 This entity is found in Oil Ocean Zone (OOZ), and acts very differently from the other types of platforms. Exclusively used in OOZ Officially, this platform will “pop-up” depending on it’s settings
 
-Attributes:
+Attributes
 ----------
 
 **Type:**
