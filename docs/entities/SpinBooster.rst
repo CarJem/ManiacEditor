@@ -9,7 +9,7 @@ TODO: Unfinished Documentation
 
 Much like the ForceSpin this object is useful when making 2 tile high tube sections. This in specific, gives the player a bit of a “boost” so he can gain more momentum.
 
-Attributes:
+Attributes
 -----------
 
 **Direction:** 
