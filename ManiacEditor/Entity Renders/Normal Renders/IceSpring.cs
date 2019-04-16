@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class IceSpring : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int animID = (int)entity.attributesMap["type"].ValueVar;
             var flipFlag = entity.attributesMap["flipFlag"].ValueVar;
@@ -28,30 +28,30 @@ namespace ManiacEditor.Entity_Renders
             if ((flipFlag & 0x01) == 0x01)
                 fliph = true;
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d, animID % 3, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d.DevicePanel, animID % 3, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
         }
 
-        public void IceDraw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public void IceDraw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             int animID = 0;
             bool fliph = false;
             bool flipv = false;
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d, 0, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d.DevicePanel, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[0];
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);

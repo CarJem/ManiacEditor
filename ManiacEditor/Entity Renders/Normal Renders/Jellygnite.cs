@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Jellygnite : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
@@ -34,31 +34,31 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d, 0, 0, fliph, flipv, false);
-            var editorAnimFront = Editor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d, 3, 0, fliph, flipv, false);
-            var editorAnimBack = Editor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d, 5, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimFront = Editor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d.DevicePanel, 3, 0, fliph, flipv, false);
+            var editorAnimBack = Editor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d.DevicePanel, 5, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimFront != null && editorAnimFront.Frames.Count != 0 && editorAnimBack != null && editorAnimBack.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
                 var frameFront = editorAnimFront.Frames[0];
                 var frameBack = editorAnimBack.Frames[0];
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 for (int i = 0; i < 4; i++)
                 {
-                    d.DrawBitmap(frameFront.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameFront),
                         x + frameFront.Frame.PivotX + 12,
                         y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameFront.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameFront),
                         x + frameFront.Frame.PivotX - 12,
                         y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameBack.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameBack),
                         x + frameBack.Frame.PivotX,
                         y + frameBack.Frame.PivotY + 6 + 6 * i,
                         frameBack.Frame.Width, frameBack.Frame.Height, false, Transparency);

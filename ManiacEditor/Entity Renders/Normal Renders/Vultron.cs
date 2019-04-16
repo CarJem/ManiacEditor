@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Vultron : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int direction = (int)entity.attributesMap["direction"].ValueUInt8; 
@@ -44,12 +44,12 @@ namespace ManiacEditor.Entity_Renders
                     fliph = false;
                     break;
             }
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Vultron", d, 0, frameID, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Vultron", d.DevicePanel, 0, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);

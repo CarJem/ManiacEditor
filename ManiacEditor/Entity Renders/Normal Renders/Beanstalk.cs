@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Beanstalk : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -46,8 +46,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnimNode = Editor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d, 0, 0, fliph, flipv, false);
-            var editorAnimType = Editor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d, animID, frameID, fliph, flipv, false);
+            var editorAnimNode = Editor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimType = Editor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, animID, frameID, fliph, flipv, false);
             if (editorAnimNode != null && editorAnimNode.Frames.Count != 0 && editorAnimType != null && editorAnimType.Frames.Count != 0)
             {
                 var frame = editorAnimNode.Frames[0];
@@ -60,11 +60,11 @@ namespace ManiacEditor.Entity_Renders
                 }
 
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnimNode.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnimNode.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(frameHead.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameHead),
                     x + (plantType ? (fliph ? frameHead.Frame.PivotX*2 : frameHead.Frame.PivotX) : (fliph ? -frameHead.Frame.Width : frameHead.Frame.PivotX)),
                     y + frameHead.Frame.PivotY,
                     frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);

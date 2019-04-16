@@ -173,7 +173,7 @@ namespace ManiacEditor
             return GetDimensions().Contains(point);
         }
 
-        public void DrawUIButtonBack(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW, int Transparency)
+        public void DrawUIButtonBack(GraphicsHandler d, int x, int y, int width, int height, int frameH, int frameW, int Transparency)
         {
             width += 1;
             height += 1;
@@ -209,7 +209,7 @@ namespace ManiacEditor
                 d.DrawLine(x3, y + (!hEven ? 1 : 0) + (height / 2) - i, x3 + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur, true);
             }
         }
-        public void DrawTriangle(DevicePanel d, int x, int y, int width, int height, int frameH, int frameW, int state = 0, int Transparency = 0xFF)
+        public void DrawTriangle(GraphicsHandler d, int x, int y, int width, int height, int frameH, int frameW, int state = 0, int Transparency = 0xFF)
         {
 
             bool wEven = width % 2 == 0;
@@ -405,10 +405,15 @@ namespace ManiacEditor
             System.Drawing.Color color = GetBoxInsideColor();
             System.Drawing.Color color2 = GetFilterBoxColor();
 
-            DrawSelectionBox(d, x, y, Transparency, color, color2);
+            DrawSelectionBox(new GraphicsHandler(d), x, y, Transparency, color, color2);
 
 		}
         public virtual void Draw(DevicePanel d)
+        {
+            Draw(new GraphicsHandler(d));
+        }
+
+        public virtual void Draw(GraphicsHandler d)
         {
             if (filteredOut) return;
             if (EditorEntityDrawing.LinkedRendersNames.Contains(_entity.Object.Name.Name) && Editor.Instance.UIModes.ShowEntityPathArrows)
@@ -431,6 +436,7 @@ namespace ManiacEditor
                 DrawBase(d);
             }
         }
+
         public virtual void DrawInternal(DevicePanel d)
         {
             int Transparency = GetTransparencyLevel();
@@ -438,10 +444,10 @@ namespace ManiacEditor
             int x = _entity.Position.X.High;
             int y = _entity.Position.Y.High;
 
-            DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red);
+            DrawSelectionBox(new GraphicsHandler(d), x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red);
         }
 
-        public virtual void DrawBase(DevicePanel d)
+        public virtual void DrawBase(GraphicsHandler d)
         {
             TestIfPlayerObject();
 
@@ -474,7 +480,7 @@ namespace ManiacEditor
 
             if (drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
-        public virtual void PrimaryDraw(DevicePanel d, List<string> onScreenExlusionList)
+        public virtual void PrimaryDraw(GraphicsHandler d, List<string> onScreenExlusionList)
         {
             if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(_entity.Object.Name.Name)) && Settings.MyPerformance.UseAlternativeRenderingMode)
             {
@@ -485,7 +491,7 @@ namespace ManiacEditor
                 Editor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
             }
         }
-        public virtual void FallbackDraw(DevicePanel d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)
+        public virtual void FallbackDraw(GraphicsHandler d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)
         {
             int __X = GetChildX();
             int __Y = GetChildY();
@@ -499,7 +505,7 @@ namespace ManiacEditor
             bool rotate = false;
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = _entity.Object.Name.Name;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2(name, d, -1, -1, fliph, flipv, rotate);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2(name, d.DevicePanel, -1, -1, fliph, flipv, rotate);
             if (editorAnim != null && editorAnim.Frames.Count > 0)
             {
                 renderNotFound = false;
@@ -521,7 +527,7 @@ namespace ManiacEditor
                 {
                     EditorAnimations.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay, index);
                     // Draw the normal filled Rectangle but Its visible if you have the entity selected
-                    d.DrawBitmap(frame.Texture, __X + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), __Y + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame.Texture), __X + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), __Y + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
@@ -537,7 +543,7 @@ namespace ManiacEditor
                renderNotFound = true;
             }
         }
-        public void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
+        public void DrawSelectionBox(GraphicsHandler d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
         {
             if (Editor.Instance.UIModes.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
             {
@@ -694,7 +700,7 @@ namespace ManiacEditor
             }
             return offset;
         }
-        public bool IsObjectOnScreen(DevicePanel d)
+        public bool IsObjectOnScreen(GraphicsHandler d)
         {
             
             int x = _entity.Position.X.High + childX;

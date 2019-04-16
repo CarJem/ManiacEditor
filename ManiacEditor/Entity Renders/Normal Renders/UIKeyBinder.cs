@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIKeyBinder : EntityRenderer
     {
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -55,19 +55,19 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(text, d, listID, frameID, false, false, false);
-            var editorAnimKey = Editor.Instance.EntityDrawing.LoadAnimation("Buttons", d, 1, 0, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
+            var editorAnimKey = Editor.Instance.EntityDrawing.LoadAnimation("Buttons", d.DevicePanel, 1, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
                 e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height, Transparency);
-                d.DrawBitmap(frame.Texture, x, y + frame.Frame.PivotY,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnimKey != null && editorAnimKey.Frames.Count != 0)
             {
                 var frame = editorAnimKey.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX - 16, y + frame.Frame.PivotY,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - 16, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

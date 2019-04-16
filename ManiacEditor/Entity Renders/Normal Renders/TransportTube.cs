@@ -13,30 +13,30 @@ namespace ManiacEditor.Entity_Renders
     public class TransportTube : EntityRenderer
     {
 
-		public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+		public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
 		{
 			bool hideFrame = false;
 			int type = (int)entity.attributesMap["type"].ValueUInt8;
 			int dirMask = (int)entity.attributesMap["dirMask"].ValueUInt8;
-			var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTube", d, 0, 0, false, false, false);
-			var upAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 0, false, false, false);
-			var downAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 1, false, false, false);
-			var rightAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 2, false, false, false);
-			var leftAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 3, false, false, false);
-			var upleftAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 4, false, false, false);
-			var downleftAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 5, false, false, false);
-			var uprightAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 6, false, false, false);
-			var downrightAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 0, 7, false, false, false);
-			var centerAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 1, false, false, false);
-			var A_Anim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 2, false, false, false);
-			var B_Anim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 3, false, false, false);
-			var C_Anim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 4, false, false, false);
-			var inOutAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 5, false, false, false);
-			var junctionAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 7, false, false, false);
-			var runAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 6, false, false, false);
-			var unknownAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 8, false, false, false);
-			var unsafeAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 0, false, false, false);
-			var notValidAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d, 1, 9, false, false, false);
+			var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTube", d.DevicePanel, 0, 0, false, false, false);
+			var upAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 0, false, false, false);
+			var downAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 1, false, false, false);
+			var rightAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 2, false, false, false);
+			var leftAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 3, false, false, false);
+			var upleftAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 4, false, false, false);
+			var downleftAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 5, false, false, false);
+			var uprightAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 6, false, false, false);
+			var downrightAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 7, false, false, false);
+			var centerAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 1, false, false, false);
+			var A_Anim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 2, false, false, false);
+			var B_Anim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 3, false, false, false);
+			var C_Anim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 4, false, false, false);
+			var inOutAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 5, false, false, false);
+			var junctionAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 7, false, false, false);
+			var runAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 6, false, false, false);
+			var unknownAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 8, false, false, false);
+			var unsafeAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 0, false, false, false);
+			var notValidAnim = Editor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 9, false, false, false);
 
 			bool showUp = false, showDown = false, showLeft = false, showRight = false, showUpLeft = false, showDownLeft = false, showUpRight = false, showDownRight = false, showCenter = false, showA = false, showB = false, showC = false, showInOut = false, showJunction = false, showRun = false, showUnkown = false, showInvalid = false;
 			/* Types:
@@ -230,7 +230,7 @@ namespace ManiacEditor.Entity_Renders
 
 					if (!hideFrame)
 					{
-						d.DrawBitmap(frame.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
 							x + frame.Frame.PivotX,
 							y + frame.Frame.PivotY,
 							frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -238,56 +238,56 @@ namespace ManiacEditor.Entity_Renders
 
 					if (showUp == true)
 					{
-						d.DrawBitmap(frame2.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
 							x + frame2.Frame.PivotX,
 							y + frame2.Frame.PivotY,
 							frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 					}
 					if (showDown == true)
 					{
-						d.DrawBitmap(frame3.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
 							x + frame3.Frame.PivotX,
 							y + frame3.Frame.PivotY,
 							frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 					}
 					if (showRight == true)
 					{
-						d.DrawBitmap(frame4.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
 							x + frame4.Frame.PivotX,
 							y + frame4.Frame.PivotY,
 							frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
 					}
 					if (showLeft == true)
 					{
-						d.DrawBitmap(frame5.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame5),
 							x + frame5.Frame.PivotX,
 							y + frame5.Frame.PivotY,
 							frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 					}
 					if (showUpRight == true)
 					{
-						d.DrawBitmap(frame6.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame6),
 							x + frame6.Frame.PivotX,
 							y + frame6.Frame.PivotY,
 							frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
 					}
 					if (showDownRight == true)
 					{
-						d.DrawBitmap(frame7.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame7),
 							x + frame7.Frame.PivotX,
 							y + frame7.Frame.PivotY,
 							frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
 					}
 					if (showUpLeft == true)
 					{
-						d.DrawBitmap(frame8.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame8),
 							x + frame8.Frame.PivotX,
 							y + frame8.Frame.PivotY,
 							frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
 					}
 					if (showDownLeft == true)
 					{
-						d.DrawBitmap(frame9.Texture,
+						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame9),
 							x + frame9.Frame.PivotX,
 							y + frame9.Frame.PivotY,
 							frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
@@ -309,49 +309,49 @@ namespace ManiacEditor.Entity_Renders
 
 				if (showCenter == true)
 				{
-					d.DrawBitmap(frame.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
 						x + frame.Frame.PivotX,
 						y + frame.Frame.PivotY,
 						frame.Frame.Width, frame.Frame.Height, false, Transparency);
 				}
 				if (showA == true)
 				{
-					d.DrawBitmap(frame2.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
 						x + frame2.Frame.PivotX,
 						y + frame2.Frame.PivotY,
 						frame2.Frame.Width, frame2.Frame.Height, e.Selected, Transparency);
 				}
 				if (showB == true)
 				{
-					d.DrawBitmap(frame3.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
 						x + frame3.Frame.PivotX,
 						y + frame3.Frame.PivotY,
 						frame3.Frame.Width, frame3.Frame.Height, e.Selected, Transparency);
 				}
 				if (showC == true)
 				{
-					d.DrawBitmap(frame4.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
 						x + frame4.Frame.PivotX,
 						y + frame4.Frame.PivotY,
 						frame4.Frame.Width, frame4.Frame.Height, e.Selected, Transparency);
 				}
 				if (showInOut == true)
 				{
-					d.DrawBitmap(frame5.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame5),
 						x + frame5.Frame.PivotX,
 						y + frame5.Frame.PivotY,
 						frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 				}
 				if (showJunction == true)
 				{
-					d.DrawBitmap(frame6.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame6),
 						x + frame6.Frame.PivotX,
 						y + frame6.Frame.PivotY,
 						frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
 				}
 				if (showRun == true)
 				{
-					d.DrawBitmap(frame7.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame7),
 						x + frame7.Frame.PivotX,
 						y + frame7.Frame.PivotY,
 						frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
@@ -359,7 +359,7 @@ namespace ManiacEditor.Entity_Renders
 
 				if (isUnsafe == true)
 				{
-					d.DrawBitmap(frame9.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame9),
 						x + frame9.Frame.PivotX,
 						y + frame9.Frame.PivotY,
 						frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
@@ -367,14 +367,14 @@ namespace ManiacEditor.Entity_Renders
 
 				if (showUnkown == true)
 				{
-					d.DrawBitmap(frame8.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame8),
 						x + frame8.Frame.PivotX,
 						y + frame8.Frame.PivotY,
 						frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
 				}
 				if (showInvalid == true)
 				{
-					d.DrawBitmap(frame10.Texture,
+					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame10),
 						x + frame10.Frame.PivotX,
 						y + frame10.Frame.PivotY,
 						frame10.Frame.Width, frame10.Frame.Height, false, Transparency);

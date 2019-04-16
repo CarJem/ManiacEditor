@@ -803,6 +803,7 @@
     <Compile Include="Extensions\SettingsProviders\DocumentsSettingsProvider.cs" />
     <Compile Include="Extensions\TriDiagonalMatrix.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
+    <Compile Include="Graphics\GraphicsHandler.cs" />
     <Compile Include="Graphics\ImageExtensions.cs" />
     <Compile Include="Interfaces\Options + Dev\SettingsHeader.xaml.cs">
       <DependentUpon>SettingsHeader.xaml</DependentUpon>

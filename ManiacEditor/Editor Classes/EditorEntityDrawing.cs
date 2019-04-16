@@ -202,9 +202,12 @@ namespace ManiacEditor
                     AnimsToLoad.RemoveAt(0);
                     return;
                 }
-                val.anim.Frames[val.anim.loadedFrames].Texture = TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
-                val.anim.Frames[val.anim.loadedFrames]._Bitmap.Dispose();
-                val.anim.Frames[val.anim.loadedFrames]._Bitmap = null;
+                if (val.d != null)
+                {
+                    val.anim.Frames[val.anim.loadedFrames].Texture = TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
+                    //val.anim.Frames[val.anim.loadedFrames]._Bitmap.Dispose();
+                    //val.anim.Frames[val.anim.loadedFrames]._Bitmap = null;
+                }
                 ++val.anim.loadedFrames;
                 if (val.anim.loadedFrames == val.anim.Frames.Count)
                 {
@@ -313,8 +316,8 @@ namespace ManiacEditor
                 var animiation = rsdkAnim.Animations[AnimId];
                 var frame = animiation.Frames[i];
                 if (frameId >= 0 && frameId < animiation.Frames.Count) frame = animiation.Frames[frameId];
-				Bitmap map = null;
-				bool noEncoreColors = false;
+                Bitmap map = null;
+                bool noEncoreColors = false;
                 if (assetName == "EditorAssets" || assetName == "EditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
 
                 if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = (byte)(rsdkAnim.SpriteSheets.Count - 1);
@@ -340,25 +343,25 @@ namespace ManiacEditor
                     }
                     else
                     {
-						using (Stream stream = File.OpenRead(targetFile))
-						{
-							Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
-							map = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
-							//Encore Colors
-							if (EditorInstance.UIModes.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
-							Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
-							disposable.Dispose();
-						}
+                        using (Stream stream = File.OpenRead(targetFile))
+                        {
+                            Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
+                            map = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
+                            //Encore Colors
+                            if (EditorInstance.UIModes.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+                            Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
+                            disposable.Dispose();
+                        }
 
 
                     }
                 }
                 else if (Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]] != null)
                 {
-						map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
-						//Encore Colors
-						if (EditorInstance.UIModes.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);		
-				}
+                    map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
+                    //Encore Colors
+                    if (EditorInstance.UIModes.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);
+                }
 
 
                 if (frame.Width == 0 || frame.Height == 0) continue;
@@ -366,40 +369,40 @@ namespace ManiacEditor
                 // can't load the animation, it probably doesn't exist in the User's Sprites folder
                 if (map == null) return null;
 
-				// We are storing the first colour from the palette so we can use it to make sprites transparent
-				var colour = map.Palette.Entries[0];
+                // We are storing the first colour from the palette so we can use it to make sprites transparent
+                var colour = map.Palette.Entries[0];
 
-				// Slow
-				if (PartialEngineRotation || FullEngineRotation)
-				{
-					map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour);
-					map = RotateImage(map, rotateImg, colour);
-					map = FitForSharpDXTexture(map);
-				}
-				else 
-				{
-					map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
-					if (rotateImg != 0 && legacyRotate)
-					{
-						map = RotateImageLegacy(map, rotateImg, colour);
-						frame.Height = (short)(frame.Width + frame.Height + 64);
-						frame.Width = (short)(frame.Height + frame.Width + 32);
-					}
-				}
+                // Slow
+                if (PartialEngineRotation || FullEngineRotation)
+                {
+                    map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour);
+                    map = RotateImage(map, rotateImg, colour);
+                    map = FitForSharpDXTexture(map);
+                }
+                else
+                {
+                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
+                    if (rotateImg != 0 && legacyRotate)
+                    {
+                        map = RotateImageLegacy(map, rotateImg, colour);
+                        frame.Height = (short)(frame.Width + frame.Height + 64);
+                        frame.Width = (short)(frame.Height + frame.Width + 32);
+                    }
+                }
 
 
 
                 map = RemoveColourImage(map, colour, map.Width, map.Height);
 
-				Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
-				map.Dispose();
+                Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
+                map.Dispose();
 
-				Texture texture = null;
-                if (loadImageToDX)
+                Texture texture = null;
+                if (loadImageToDX && d != null)
                 {
                     texture = TextureCreator.FromBitmap(d._device, finalMap);
                 }
-                
+
                 var editorFrame = new EditorEntityDrawing.EditorAnimation.EditorFrame()
                 {
                     Texture = texture,
@@ -407,10 +410,10 @@ namespace ManiacEditor
                     Entry = rsdkAnim.Animations[AnimId],
                     ImageWidth = finalMap.Size.Width,
                     ImageHeight = finalMap.Size.Height
-                    
-                    
+
+
                 };
-                if (loadImageToDX == false) editorFrame._Bitmap = finalMap;
+                if (loadImageToDX == false || d == null) editorFrame._Bitmap = finalMap;
                 anim.Frames.Add(editorFrame);
                 if (frameId != -1) break;
             }
@@ -1085,7 +1088,7 @@ namespace ManiacEditor
 
         // These are special
 
-        public void DrawOthers(DevicePanel d, SceneEntity entity, EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
+        public void DrawOthers(ManiacEditor.GraphicsHandler d, SceneEntity entity, EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;
@@ -1171,19 +1174,6 @@ namespace ManiacEditor
             public bool fliph, flipv, rotate, legacyRotation;
             public int rotateImg;
             public EditorAnimation anim;
-        }
-
-        public class GraphicsHandler
-        {
-            public void DrawBitmap(DevicePanel d, EditorAnimation.EditorFrame image, int x, int y, int width, int height, bool selected, int transparency, System.Drawing.Color? CustomColor = null)
-            {
-                d.DrawBitmap(image.Texture, x, y, width, height, selected, transparency, CustomColor);
-            }
-
-            public void DrawBitmap(Graphics g, EditorAnimation.EditorFrame frame)
-            {
-
-            }
         }
 
 

@@ -13,11 +13,11 @@ namespace ManiacEditor.Entity_Renders
     public class SSZEggman : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EggmanSSZ", d, 0, -1, false, false, false);
-            var editorAnimMobile = Editor.Instance.EntityDrawing.LoadAnimation2("EggmanSSZ", d, 5, -1, false, false, false);
-            var editorAnimSeat = Editor.Instance.EntityDrawing.LoadAnimation2("EggmanSSZ", d, 4, -1, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EggmanSSZ", d.DevicePanel, 0, -1, false, false, false);
+            var editorAnimMobile = Editor.Instance.EntityDrawing.LoadAnimation2("EggmanSSZ", d.DevicePanel, 5, -1, false, false, false);
+            var editorAnimSeat = Editor.Instance.EntityDrawing.LoadAnimation2("EggmanSSZ", d.DevicePanel, 4, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimMobile != null && editorAnimMobile.Frames.Count != 0 && editorAnimSeat != null && editorAnimSeat.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -26,15 +26,15 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(frameSeat.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameSeat),
                     x + frameSeat.Frame.PivotX,
                     y + frameSeat.Frame.PivotY,
                     frameSeat.Frame.Width, frameSeat.Frame.Height, false, Transparency);
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(frameMobile.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameMobile),
                     x + frameMobile.Frame.PivotX,
                     y + frameMobile.Frame.PivotY,
                     frameMobile.Frame.Width, frameMobile.Frame.Height, false, Transparency);

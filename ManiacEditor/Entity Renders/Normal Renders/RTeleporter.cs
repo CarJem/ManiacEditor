@@ -13,13 +13,13 @@ namespace ManiacEditor.Entity_Renders
     public class RTeleporter : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d, 0, -1, fliph, flipv, false);
-            var editorAnimBottom = Editor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d, 0, -1, false, true, false);
-            var editorAnimElectric = Editor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d, 1, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimBottom = Editor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, false, true, false);
+            var editorAnimElectric = Editor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 1, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBottom != null && editorAnimBottom.Frames.Count != 0 && editorAnimElectric != null && editorAnimElectric.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -29,25 +29,25 @@ namespace ManiacEditor.Entity_Renders
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                 Animation.ProcessAnimation2(frameE.Entry.SpeedMultiplyer, frameE.Entry.Frames.Count, frameE.Frame.Delay);
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(frameB.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameB),
                     x + frameB.Frame.PivotX - (fliph ? (frameB.Frame.Width - editorAnimBottom.Frames[0].Frame.Width) : 0),
                     y + frameE.Frame.Height/2,
                     frameB.Frame.Width, frameB.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(frameE.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameE),
                     x + frameE.Frame.PivotX - 22,
                     y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(frameE.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameE),
                     x + frameE.Frame.PivotX - 6,
                     y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(frameE.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameE),
                     x + frameE.Frame.PivotX + 10,
                     y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);

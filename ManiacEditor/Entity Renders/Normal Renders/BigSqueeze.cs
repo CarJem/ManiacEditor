@@ -13,20 +13,20 @@ namespace ManiacEditor.Entity_Renders
     public class BigSqueeze : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueVar;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 0, -1, true, flipv, false);
-            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 1, -1, fliph, flipv, false);
-            var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 2, -1, fliph, flipv, false);
-            var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 3, -1, fliph, flipv, false);
-            var editorAnim6 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 4, -1, fliph, flipv, false);
-            var editorAnim7 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 4, -1, true, flipv, false);
-            var editorAnim8 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d, 5, -1, true, flipv, false);
-            var editorAnim9 = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 14, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 0, -1, true, flipv, false);
+            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnim6 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 4, -1, fliph, flipv, false);
+            var editorAnim7 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 4, -1, true, flipv, false);
+            var editorAnim8 = Editor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 5, -1, true, flipv, false);
+            var editorAnim9 = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0)
             {
                 var wall1 = editorAnim.Frames[0];
@@ -51,30 +51,30 @@ namespace ManiacEditor.Entity_Renders
 
                 if (type == 2)
                 {
-                    d.DrawBitmap(wall1.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wall1),
                         x + wall1.Frame.PivotX - (fliph ? (wall1.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                         y + wall1.Frame.PivotY + (flipv ? (wall1.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         wall1.Frame.Width, wall1.Frame.Height, false, Transparency);
-                    d.DrawBitmap(wall2.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wall2),
                         x + wall2.Frame.PivotX - (fliph ? (wall2.Frame.Width - editorAnim.Frames[1].Frame.Width) : 0),
                         y + wall2.Frame.PivotY + (flipv ? (wall2.Frame.Height - editorAnim.Frames[1].Frame.Height) : 0),
                         wall2.Frame.Width, wall2.Frame.Height, false, Transparency);
-                    d.DrawBitmap(wall3.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wall3),
                         x + wall3.Frame.PivotX - (fliph ? (wall3.Frame.Width - editorAnim.Frames[2].Frame.Width) : 0),
                         y + wall3.Frame.PivotY + (flipv ? (wall3.Frame.Height - editorAnim.Frames[2].Frame.Height) : 0),
                         wall3.Frame.Width, wall3.Frame.Height, false, Transparency);
                 }
                 else if (type == 3)
                 {
-                    d.DrawBitmap(wall1r.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wall1r),
                         x + wall1r.Frame.PivotX,
                         y + wall1r.Frame.PivotY + (flipv ? (wall1r.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                         wall1r.Frame.Width, wall1r.Frame.Height, false, Transparency);
-                    d.DrawBitmap(wall2r.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wall2r),
                         x + wall2r.Frame.PivotX + -wall2r.Frame.PivotX + 23,
                         y + wall2r.Frame.PivotY + (flipv ? (wall2r.Frame.Height - editorAnim2.Frames[1].Frame.Height) : 0),
                         wall2.Frame.Width, wall2.Frame.Height, false, Transparency);
-                    d.DrawBitmap(wall3r.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wall3r),
                         x + wall3r.Frame.PivotX + -wall3r.Frame.PivotX + 55,
                         y + wall3r.Frame.PivotY + (flipv ? (wall3r.Frame.Height - editorAnim2.Frames[2].Frame.Height) : 0),
                         wall3r.Frame.Width, wall3r.Frame.Height, false, Transparency);
@@ -82,23 +82,23 @@ namespace ManiacEditor.Entity_Renders
 
                 else if (type == 1)
                 {
-                    d.DrawBitmap(electroMagBase.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(electroMagBase),
                         x + electroMagBase.Frame.PivotX - (fliph ? (electroMagBase.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
                         y + electroMagBase.Frame.PivotY + (flipv ? (electroMagBase.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
                         electroMagBase.Frame.Width, electroMagBase.Frame.Height, false, Transparency);
-                    d.DrawBitmap(electroMagDome.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(electroMagDome),
                         x + electroMagDome.Frame.PivotX - (fliph ? (electroMagDome.Frame.Width - editorAnim4.Frames[0].Frame.Width) : 0),
                         y + electroMagDome.Frame.PivotY + (flipv ? (electroMagDome.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
                         electroMagDome.Frame.Width, electroMagDome.Frame.Height, false, Transparency);
-                    d.DrawBitmap(electroMagProngs.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(electroMagProngs),
                         x + electroMagProngs.Frame.PivotX - (fliph ? (electroMagProngs.Frame.Width - editorAnim5.Frames[0].Frame.Width) : 0),
                         y + electroMagProngs.Frame.PivotY + (flipv ? (electroMagProngs.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
                         electroMagProngs.Frame.Width, electroMagProngs.Frame.Height, false, Transparency);
-                    d.DrawBitmap(wheels.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wheels),
                         x + wheels.Frame.PivotX - (fliph ? (wheels.Frame.Width - editorAnim6.Frames[0].Frame.Width) : 0) - 20,
                         y + wheels.Frame.PivotY + (flipv ? (wheels.Frame.Height - editorAnim6.Frames[0].Frame.Height) : 0),
                         wheels.Frame.Width, wheels.Frame.Height, false, Transparency);
-                    d.DrawBitmap(wheelsr.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(wheelsr),
                         x + wheelsr.Frame.PivotX + 20,
                         y + wheelsr.Frame.PivotY + (flipv ? (wheelsr.Frame.Height - editorAnim7.Frames[0].Frame.Height) : 0),
                         wheelsr.Frame.Width, wheelsr.Frame.Height, false, Transparency);
@@ -106,7 +106,7 @@ namespace ManiacEditor.Entity_Renders
                     if (Editor.Instance.ShowAnimations.Checked && Properties.EditorState.Default.annimationsChecked)
                     {
 
-                        d.DrawBitmap(shocking.Texture,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(shocking),
                             x + shocking.Frame.PivotX,
                             y + shocking.Frame.PivotY + (flipv ? (shocking.Frame.Height - editorAnim8.Frames[0].Frame.Height) : 0),
                             shocking.Frame.Width, shocking.Frame.Height, false, Transparency);
@@ -119,7 +119,7 @@ namespace ManiacEditor.Entity_Renders
 
                 else if (type == 0)
                 {
-                    d.DrawBitmap(frame.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                         y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);

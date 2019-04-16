@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIOptionPanel : EntityRenderer
     {
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
             int topListID = (int)entity.attributesMap["topListID"].ValueVar;
@@ -44,8 +44,8 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var editorAnimTop = Editor.Instance.EntityDrawing.LoadAnimation(text, d, topListID, topFrameID, false, false, false);
-            var editorAnimBot = Editor.Instance.EntityDrawing.LoadAnimation(text, d, botListID, botFrameID, false, false, false);
+            var editorAnimTop = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, topListID, topFrameID, false, false, false);
+            var editorAnimBot = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, botListID, botFrameID, false, false, false);
             if (editorAnimTop != null && editorAnimTop.Frames.Count != 0)
             {
                 var frame = editorAnimTop.Frames[Animation.index];
@@ -53,7 +53,7 @@ namespace ManiacEditor.Entity_Renders
                 int topX = top + 68;
                 int topY = left + 12;
 
-                d.DrawBitmap(frame.Texture, topX + frame.Frame.PivotX, topY + frame.Frame.PivotY,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), topX + frame.Frame.PivotX, topY + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnimBot != null && editorAnimBot.Frames.Count != 0 && !botHidden)
@@ -63,7 +63,7 @@ namespace ManiacEditor.Entity_Renders
                 int botX = x + (botAlignRight ? frame.Frame.Width - 6 : 0);
                 int botY = right - 12;
 
-                d.DrawBitmap(frame.Texture, botX + frame.Frame.PivotX, botY + frame.Frame.PivotY,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), botX + frame.Frame.PivotX, botY + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

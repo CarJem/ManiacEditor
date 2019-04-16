@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
 
         static int TILE_SIZE = 16;
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             if (Editor.Instance.EditorScene?.Scratch != null)
             {
@@ -76,7 +76,7 @@ namespace ManiacEditor.Entity_Renders
                     }
                 }
 
-                var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 7, fliph, flipv, false);
+                var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 7, fliph, flipv, false);
 
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
@@ -85,7 +85,7 @@ namespace ManiacEditor.Entity_Renders
 
                     var frame = editorAnim.Frames[Animation.index];
 
-                    d.DrawBitmap(frame.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                         y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -95,7 +95,7 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
         }
-        public void DrawTileGroup(DevicePanel d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity, Editor EditorInstance)
+        public void DrawTileGroup(GraphicsHandler d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity, Editor EditorInstance)
         {
 
             Rectangle rect = GetTileArea(x2, y2, width, height);
@@ -121,11 +121,11 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-        public void DrawTile(DevicePanel d, ushort tile, int x, int y, bool selected, int Transperncy, Editor EditorInstance)
+        public void DrawTile(GraphicsHandler d, ushort tile, int x, int y, bool selected, int Transperncy, Editor EditorInstance)
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
         }
 
@@ -140,7 +140,7 @@ namespace ManiacEditor.Entity_Renders
             return new Rectangle(x, y, x + width, y + height);
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
             int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
@@ -150,7 +150,7 @@ namespace ManiacEditor.Entity_Renders
             int boundsX = width * 16;
             int boundsY = height * 16;
 
-            return d.IsObjectOnScreen(x - boundsX / 2, y - boundsY / 2, boundsX, boundsY);
+            return d.DevicePanel.IsObjectOnScreen(x - boundsX / 2, y - boundsY / 2, boundsX, boundsY);
         }
 
         public override string GetObjectName()

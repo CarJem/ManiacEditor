@@ -193,7 +193,7 @@ namespace ManiacEditor
                     Instance.FGLow?.Draw(g);
                     Instance.FGHigh?.Draw(g);
                     Instance.FGHigher?.Draw(g);
-                    //entities?.GraphicsDraw(editorView.GraphicPanel, g);
+                    Instance.Entities?.Draw(g);
 
                     bitmap.Save(save.FileName);
                 }

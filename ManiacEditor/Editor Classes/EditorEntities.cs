@@ -884,7 +884,10 @@ namespace ManiacEditor
         #region Drawing
         public void Draw(Graphics g)
         {
-
+            foreach (var entity in Entities.OrderBy(e => e.Entity.SlotID))
+            {
+                entity.Draw(new GraphicsHandler(g));
+            }
         }
         public void Draw(DevicePanel d)
         {
@@ -892,7 +895,7 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in Entities.OrderBy(e => e.Entity.SlotID))
             {
-                if (entity.IsObjectOnScreen(d)) entity.Draw(d);
+                if (entity.IsObjectOnScreen(new GraphicsHandler(d))) entity.Draw(d);
             }
         }
 
@@ -907,7 +910,7 @@ namespace ManiacEditor
 
             foreach (var entity in InternalEntities)
             {
-                if (entity.IsObjectOnScreen(d)) entity.DrawInternal(d);
+                if (entity.IsObjectOnScreen(new GraphicsHandler(d))) entity.DrawInternal(d);
                 if (entity.Name == "Spline")
                 {
                     int id = entity.Entity.attributesMap["SplineID"].ValueInt32;
@@ -945,11 +948,11 @@ namespace ManiacEditor
                         {
                             if (Editor.Instance.EntityDrawing.entityRenderingObjects.Contains(selectedOptions.SplineObjectRenderingTemplate.Entity.Object.Name.Name))
                             {
-                                Editor.Instance.EntityDrawing.DrawOthers(d, selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
+                                Editor.Instance.EntityDrawing.DrawOthers(new GraphicsHandler(d), selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
                             }
                             else
                             {
-                                selectedOptions.SplineObjectRenderingTemplate.FallbackDraw(d, p.X, p.Y, 0, 0, 255, System.Drawing.Color.Transparent, true);
+                                selectedOptions.SplineObjectRenderingTemplate.FallbackDraw(new GraphicsHandler(d), p.X, p.Y, 0, 0, 255, System.Drawing.Color.Transparent, true);
                             }
                         }
                         lastPoint = new Point(p.X, p.Y);
@@ -972,14 +975,14 @@ namespace ManiacEditor
                 UpdateViewFilters();
             foreach (var entity in Entities.OrderBy(e => e.Entity.SlotID))
             {
-                if (entity.ValidPriorityPlane(prority) && entity.IsObjectOnScreen(d)) entity.Draw(d);
+                if (entity.ValidPriorityPlane(prority) && entity.IsObjectOnScreen(new GraphicsHandler(d))) entity.Draw(d);
             }
         }
         public void DrawSelectionBoxes(DevicePanel d)
         {
             foreach (var entity in Entities.OrderBy(e => e.Entity.SlotID))
             {
-                if (entity.IsObjectOnScreen(d)) entity.DrawBoxOnly(d);
+                if (entity.IsObjectOnScreen(new GraphicsHandler(d))) entity.DrawBoxOnly(d);
             }
         }
         #endregion

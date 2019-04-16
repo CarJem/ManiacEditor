@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class Decoration : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool flipv = false;
             bool fliph = false;
@@ -45,10 +45,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
             
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Decoration", d, type, -1, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
             if (type == 2)
             {
-                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Decoration", d, type, -1, fliph, flipv, false);
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
             }
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -62,7 +62,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     for (int xx = 0; xx <= repeatX; xx++)
                     {
-                        d.DrawBitmap(frame.Texture, (x + frame.Frame.RelCenterX(fliph) + offsetX * xx) - (offsetX * repeatX / 2), (y + frame.Frame.RelCenterY(flipv) + offsetY * yy) - (offsetY * repeatY / 2),
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), (x + frame.Frame.RelCenterX(fliph) + offsetX * xx) - (offsetX * repeatX / 2), (y + frame.Frame.RelCenterY(flipv) + offsetY * yy) - (offsetY * repeatY / 2),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }

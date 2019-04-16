@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class UIVsCharSelector : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
             int playerID = (int)entity.attributesMap["playerID"].ValueUInt8;
@@ -35,38 +35,38 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnimWaiting = Editor.Instance.EntityDrawing.LoadAnimation(text, d, 12, 7, false, false, false);
-            var editorAnimBackground = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d, 14, 7, false, false, false);
-            var editorAnimPlayerText = Editor.Instance.EntityDrawing.LoadAnimation(text, d, 12, player, false, false, false);
-            var editorAnimFrame = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d, 1, 0, false, false, false);
+            var editorAnimWaiting = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 12, 7, false, false, false);
+            var editorAnimBackground = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 14, 7, false, false, false);
+            var editorAnimPlayerText = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 12, player, false, false, false);
+            var editorAnimFrame = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 1, 0, false, false, false);
 
             d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(128, 255, 255, 255));
 
             if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
             {
                 var frame = editorAnimFrame.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
             {
                 var frame = editorAnimBackground.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimWaiting != null && editorAnimWaiting.Frames.Count != 0)
             {
                 var frame = editorAnimWaiting.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimPlayerText != null && editorAnimPlayerText.Frames.Count != 0)
             {
                 var frame = editorAnimPlayerText.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 38,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 38,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class PSZDoor : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int orientation = entity.attributesMap["orientation"].ValueUInt8;
             bool open = entity.attributesMap["open"].ValueBool;
@@ -38,9 +38,9 @@ namespace ManiacEditor.Entity_Renders
                     flipv = true;
                     break;
             }
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d, 0, frameID, fliph, flipv, false);
-            var cogPart2 = Editor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d, 0, 2, fliph, flipv, false);
-            var cogPart1 = Editor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d, 1, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 0, frameID, fliph, flipv, false);
+            var cogPart2 = Editor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 0, 2, fliph, flipv, false);
+            var cogPart1 = Editor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && frameID >= 0 && cogPart1 != null && cogPart1.Frames.Count != 0 && cogPart2 != null && cogPart2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -112,29 +112,29 @@ namespace ManiacEditor.Entity_Renders
                         break;
                 }
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX + (open ? doorAdjX : 0),
                     y + frame.Frame.PivotY + (open ? doorAdjY : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 //Upper Cog
-                d.DrawBitmap(cog1.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(cog1),
                     x + cog1.Frame.PivotX + cogSpaceW,
                     y + cog1.Frame.PivotY + cogSpaceH,
                     cog1.Frame.Width, cog1.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(cog2.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(cog2),
                     x + cog2.Frame.PivotX + cogSpaceW,
                     y + cog2.Frame.PivotY + cogSpaceH,
                     cog2.Frame.Width, cog2.Frame.Height, false, Transparency);
 
                 //Lower Cog
-                d.DrawBitmap(cog1.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(cog1),
                     x + cog1.Frame.PivotX + cogSpaceW_2,
                     y + cog1.Frame.PivotY + cogSpaceH_2,
                     cog1.Frame.Width, cog1.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(cog2.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(cog2),
                     x + cog2.Frame.PivotX + cogSpaceW_2,
                     y + cog2.Frame.PivotY + cogSpaceH_2,
                     cog2.Frame.Width, cog2.Frame.Height, false, Transparency);

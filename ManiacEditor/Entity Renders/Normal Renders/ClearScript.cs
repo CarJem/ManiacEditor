@@ -32,7 +32,7 @@ namespace ManiacEditor
 			engine.AddHostType("AttributeValidater", typeof(AttributeValidater));
 			engine.AddHostType("EditorAnimations", typeof(EditorAnimations));
 		}
-		public void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+		public void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
 		{
             script_x = x;
             script_y = y;
@@ -62,11 +62,11 @@ namespace ManiacEditor
 						                "var flipv = new Boolean(false);" +
 						                "var amplitudeX = attribMap.AttributesMapPositionHighX(\"amplitude\", entity);" +
 						                "var amplitudeY = attribMap.AttributesMapPositionHighY(\"amplitude\", entity);" +
-						                "var editorAnim = EditorInstancEditorEntity_ini.LoadAnimation2(\"Ring\", d, 0, -1, false, false, false);" +
+						                "var editorAnim = EditorInstancEditorEntity_ini.LoadAnimation2(\"Ring\", d.DevicePanel, 0, -1, false, false, false);" +
 						                "if (editorAnim != null && editorAnim.Frames.Count != 0)" +
 						                "{" +
 						                "var frame = editorAnim.Frames[0];" +
-						                "d.DrawBitmap(frame.Texture, 0 + frame.Frame.PivotX, 0 + frame.Frame.PivotY, frame.Frame.Width, frame.Frame.Height, false, 255); " +
+						                "d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), 0 + frame.Frame.PivotX, 0 + frame.Frame.PivotY, frame.Frame.Width, frame.Frame.Height, false, 255); " +
 						                "}"
 						                );
 			}

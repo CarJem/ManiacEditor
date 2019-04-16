@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class LRZFireball : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)(entity.attributesMap["type"].ValueUInt8);
             int rotation = (int)(entity.attributesMap["rotation"].ValueInt32 / 1.42);
@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d, 1, 0, fliph, flipv, false, rotation, true, false, false, true);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d.DevicePanel, 1, 0, fliph, flipv, false, rotation, true, false, false, true);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && type != 0)
             {
@@ -32,7 +32,7 @@ namespace ManiacEditor.Entity_Renders
                 int thickness = (pageID == 1 ? frame.Frame.Width : frame.Frame.Height);
                 int offset = thickness / 2;
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x - (fliph ? offset : -offset) - (int)(frame.ImageWidth / 2),
                     y - (flipv ? -offset : 0)  - (int)(frame.ImageHeight / 2),
                     frame.ImageWidth, frame.ImageHeight, false, Transparency);

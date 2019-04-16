@@ -15,13 +15,13 @@ namespace ManiacEditor.Entity_Renders
     {
         public Editor EditorInstance;
 
-        public virtual void Draw(DevicePanel d, RSDKv5.SceneEntity currentEntity, EditorEntity ObjectInstance)
+        public virtual void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, EditorEntity ObjectInstance)
         {
             
         }
 
         public abstract string GetObjectName();
-        public void DrawLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
+        public void DrawLinkArrow(GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;
@@ -74,7 +74,7 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         Color.GreenYellow);
         }
-        public void DrawCenteredLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Color? colur = null)
+        public void DrawCenteredLinkArrow(GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Color? colur = null)
         {
             if (SetFilter(end) == true) return;
             Color color = (colur != null ? colur.Value : Color.GreenYellow);
@@ -97,7 +97,7 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         color);
         }
-        public void DrawCenteredSpline(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
+        public void DrawCenteredSpline(GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;

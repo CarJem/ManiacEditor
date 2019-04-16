@@ -14,11 +14,11 @@ namespace ManiacEditor.Entity_Renders
     public class PropellerShaft : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d, 0, 6, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
             var height_value = (int)(entity.attributesMap["size"].ValueVar);
             var height = (height_value > 0 ? height_value / 2 : height_value);
             var width = 6;
@@ -45,11 +45,11 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
-                        d.DrawBitmap(frame.Texture,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                             (right ? x1 - frame.Frame.Width + 1 : x2),
                             (bottom ? y1 - frame.Frame.Height + 1 : y2),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -58,13 +58,13 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d, 0, 6, fliph, flipv, false);
+            editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -73,7 +73,7 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(13) * 16;
             var heightPixels = (int)(entity.attributesMap["size"].ValueVar * 2 - 1) * 16;

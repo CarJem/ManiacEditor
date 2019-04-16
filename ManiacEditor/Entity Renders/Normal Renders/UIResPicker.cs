@@ -13,13 +13,13 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIResPicker : EntityRenderer
     {
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
             int arrowWidth = (int)entity.attributesMap["arrowWidth"].ValueVar;
             if (arrowWidth != 0) arrowWidth /= 2;
-            var leftArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d, 2, 0, false, false, false);
-            var rightArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d, 2, 1, false, false, false);
+            var leftArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
+            var rightArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
             int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
             int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
             double alignmentVal = 0;
@@ -38,13 +38,13 @@ namespace ManiacEditor.Entity_Renders
             if (leftArrow != null && leftArrow.Frames.Count != 0)
             {
                 var frame = leftArrow.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX - arrowWidth + (int)alignmentVal, y + frame.Frame.PivotY,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - arrowWidth + (int)alignmentVal, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (rightArrow != null && rightArrow.Frames.Count != 0)
             {
                 var frame = rightArrow.Frames[Animation.index];
-                d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + arrowWidth + (int)alignmentVal, y + frame.Frame.PivotY,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + arrowWidth + (int)alignmentVal, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

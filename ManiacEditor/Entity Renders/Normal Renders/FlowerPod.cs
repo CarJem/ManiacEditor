@@ -13,12 +13,12 @@ namespace ManiacEditor.Entity_Renders
     public class FlowerPod : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("FlowerPod", d, 0, 0, fliph, flipv, false);
-            var editorAnimHead = Editor.Instance.EntityDrawing.LoadAnimation2("FlowerPod", d, 1, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("FlowerPod", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimHead = Editor.Instance.EntityDrawing.LoadAnimation2("FlowerPod", d.DevicePanel, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHead != null && editorAnimHead.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -27,11 +27,11 @@ namespace ManiacEditor.Entity_Renders
                 //Animation Currently Doesn't work
                 //Animation.ProcessAnimation(frameHead.Entry.SpeedMultiplyer, frameHead.Entry.Frames.Count, frameHead.Frame.Delay);
 
-                d.DrawBitmap(frameHead.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameHead),
                     x + frameHead.Frame.PivotX,
                     y + frameHead.Frame.PivotY,
                     frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);

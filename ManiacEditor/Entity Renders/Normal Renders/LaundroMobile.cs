@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
         //Shorthanding Setting Files
         Properties.Settings mySettings = Properties.Settings.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -32,16 +32,16 @@ namespace ManiacEditor.Entity_Renders
                     blockID = randomNum+3;
                     break;
             }
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 9, blockID, fliph, flipv, false);
-            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 1, -1, fliph, flipv, false);
-            var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 3, -1, fliph, flipv, false);
-            var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 8, -1, fliph, flipv, false);
-            var editorAnim6 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 2, -1, fliph, flipv, false);
-            var editorAnim7 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 0, 3, fliph, flipv, false);
-            var editorAnim8 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 0, 2, fliph, flipv, false);
-            var editorAnim9 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d, 0, 4, fliph, flipv, false);
-            var editorAnimIcon = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 14, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 9, blockID, fliph, flipv, false);
+            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 8, -1, fliph, flipv, false);
+            var editorAnim6 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim7 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 3, fliph, flipv, false);
+            var editorAnim8 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 2, fliph, flipv, false);
+            var editorAnim9 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 4, fliph, flipv, false);
+            var editorAnimIcon = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -57,30 +57,30 @@ namespace ManiacEditor.Entity_Renders
 
                 if (type == 0) {
                     Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay);
-                    d.DrawBitmap(frameRockets.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameRockets),
                         x + frameRockets.Frame.PivotX - 4,
                         y + frameRockets.Frame.PivotY - 27,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frame.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    d.DrawBitmap(framePropel.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(framePropel),
                         x + framePropel.Frame.PivotX,
                         y + framePropel.Frame.PivotY,
                         framePropel.Frame.Width, framePropel.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameRockets.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameRockets),
                         x + frameRockets.Frame.PivotX - 18,
                         y + frameRockets.Frame.PivotY + 20,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameRockets.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameRockets),
                         x + frameRockets.Frame.PivotX - 18,
                         y + frameRockets.Frame.PivotY - 27,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
                 }
                     else if (type == 1) {
                     Animation.ProcessAnimation3(frameBomb.Entry.SpeedMultiplyer, frameBomb.Entry.Frames.Count, frameBomb.Frame.Delay);
-                    d.DrawBitmap(frameBomb.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameBomb),
                             x + frameBomb.Frame.PivotX,
                             y + frameBomb.Frame.PivotY,
                             frameBomb.Frame.Width, frameBomb.Frame.Height, false, Transparency);
@@ -88,40 +88,40 @@ namespace ManiacEditor.Entity_Renders
                     else if (type == 2)
                     {
                     Animation.ProcessAnimation2(frameLaundry.Entry.SpeedMultiplyer, frameLaundry.Entry.Frames.Count, frameLaundry.Frame.Delay);
-                    d.DrawBitmap(frameLaundry.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y + frameLaundry.Frame.PivotY + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameLaundry.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y + frameLaundry.Frame.PivotY + frameLaundry.Frame.PivotY + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameLaundry.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y + frameLaundry.Frame.PivotY + -(frameLaundry.Frame.PivotY * 2) + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
-                    d.DrawBitmap(frameLaundry.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y - frameLaundry.Frame.PivotY + -(frameLaundry.Frame.PivotY * 2) + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(frameLaundryCenterBottom.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaundryCenterBottom),
                         x + frameLaundryCenterBottom.Frame.PivotX,
                         y + frameLaundryCenterBottom.Frame.PivotY + frameLaundryCenterBottom.Frame.PivotY * 3 + 16,
                         frameLaundryCenterBottom.Frame.Width, frameLaundryCenterBottom.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(frameLaundryCenterTop.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaundryCenterTop),
                         x + frameLaundryCenterTop.Frame.PivotX,
                         y + frameLaundryCenterTop.Frame.PivotY,
                         frameLaundryCenterTop.Frame.Width, frameLaundryCenterTop.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(frameLaundryCenter.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaundryCenter),
                         x + frameLaundryCenter.Frame.PivotX,
                         y + frameLaundryCenter.Frame.PivotY + frameLaundryCenter.Frame.PivotY*2 + 16,
                         frameLaundryCenter.Frame.Width, frameLaundryCenter.Frame.Height, false, Transparency);
                     }
                     else if (type == 4 || type == 5) {
-                    d.DrawBitmap(frameBlock.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameBlock),
                             x + frameBlock.Frame.PivotX,
                             y + frameBlock.Frame.PivotY,
                             frameBlock.Frame.Width, frameBlock.Frame.Height, false, Transparency);
@@ -131,7 +131,7 @@ namespace ManiacEditor.Entity_Renders
                         if (editorAnimIcon != null && editorAnimIcon.Frames.Count != 0)
                         {
                             var frameIcon = editorAnimIcon.Frames[0];
-                            d.DrawBitmap(frameIcon.Texture, x + frameIcon.Frame.PivotX, y + frameIcon.Frame.PivotY,
+                            d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameIcon), x + frameIcon.Frame.PivotX, y + frameIcon.Frame.PivotY,
                                 frameIcon.Frame.Width, frameIcon.Frame.Height, false, Transparency);
                         }
                     }

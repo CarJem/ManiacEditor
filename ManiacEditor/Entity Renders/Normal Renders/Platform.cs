@@ -27,7 +27,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int frameID = 0;
             int targetFrameID = -1;
@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
             int angleStateX = 0;
             int angleStateY = 0;
 
-            var platformIcon = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d, 0, 20, false, false, false);
+            var platformIcon = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 20, false, false, false);
 
             
             if (childCount != previousChildCount)
@@ -88,8 +88,8 @@ namespace ManiacEditor.Entity_Renders
                 try
                 {
                     if (targetFrameID == -1) doNotShow = true;
-                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, aminID, -1, false, false, false, 0);
-                    if (type == 4) editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, 1, 0, false, false, false, 0);
+                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, -1, false, false, false, 0);
+                    if (type == 4) editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 0, false, false, false, 0);
                     if (editorAnim == null)
                     {
                         return; // no animation, bail out
@@ -110,10 +110,10 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var tensionBall = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, aminID, frameID + 1, false, false, false, 0);
-            var tensionBallCenter = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, aminID, frameID + 2, false, false, false, 0);
-            if (type == 4) tensionBall = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, 1, 1, false, false, false, 0);
-            if (type == 4) tensionBallCenter = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d, 1, 2, false, false, false, 0);
+            var tensionBall = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, frameID + 1, false, false, false, 0);
+            var tensionBallCenter = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, frameID + 2, false, false, false, 0);
+            if (type == 4) tensionBall = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 1, false, false, false, 0);
+            if (type == 4) tensionBallCenter = Editor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 2, false, false, false, 0);
 
             if (editorAnim.Frames.Count != 0 && platformIcon != null && editorAnim != null && platformIcon.Frames.Count != 0)
             {
@@ -144,11 +144,11 @@ namespace ManiacEditor.Entity_Renders
 
                     if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && selected)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + amplitudeX, y + frame.Frame.PivotY + amplitudeY,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + amplitudeX, y + frame.Frame.PivotY + amplitudeY,
                             frame.ImageWidth, frame.ImageHeight, false, 125);
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX - amplitudeX, y + frame.Frame.PivotY - amplitudeY,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - amplitudeX, y + frame.Frame.PivotY - amplitudeY,
                             frame.ImageWidth, frame.ImageHeight, false, 125);
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                             frame.ImageWidth, frame.ImageHeight, false, Transparency);
                     }
 
@@ -203,7 +203,7 @@ namespace ManiacEditor.Entity_Renders
                         }
 
 
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + position[0], y + frame.Frame.PivotY - position[1],
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + position[0], y + frame.Frame.PivotY - position[1],
                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                     }
@@ -231,14 +231,14 @@ namespace ManiacEditor.Entity_Renders
                                 int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
                                 if (i == 0)
                                 {
-                                    d.DrawBitmap(frame4.Texture,
+                                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
                                         linePoints[0] + frame4.Frame.PivotX,
                                         linePoints[1] + frame4.Frame.PivotY,
                                         frame4.ImageWidth, frame4.ImageHeight, false, Transparency);
                                 }
                                 else
                                 {
-                                    d.DrawBitmap(frame3.Texture,
+                                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
                                         linePoints[0] + frame3.Frame.PivotX,
                                         linePoints[1] + frame3.Frame.PivotY,
                                         frame3.ImageWidth, frame3.ImageHeight, false, Transparency);
@@ -259,7 +259,7 @@ namespace ManiacEditor.Entity_Renders
                             }
                         }
 
-                        d.DrawBitmap(frame.Texture, (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                     }
@@ -295,14 +295,14 @@ namespace ManiacEditor.Entity_Renders
                                 linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
                                 if (i == 0)
                                 {
-                                    d.DrawBitmap(frame4.Texture,
+                                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
                                         linePoints[0] + frame4.Frame.PivotX,
                                         linePoints[1] + frame4.Frame.PivotY,
                                         frame4.ImageWidth, frame4.ImageHeight, false, Transparency);
                                 }
                                 else if (i == tensionCount)
                                 {
-                                    d.DrawBitmap(frame.Texture, linePoints[0] + frame.Frame.PivotX, linePoints[1] + frame.Frame.PivotY,
+                                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), linePoints[0] + frame.Frame.PivotX, linePoints[1] + frame.Frame.PivotY,
                                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                                     if (childCount != 0 && Editor.Instance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
@@ -345,7 +345,7 @@ namespace ManiacEditor.Entity_Renders
                                 }
                                 else
                                 {
-                                    d.DrawBitmap(frame3.Texture,
+                                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
                                         linePoints[0] + frame3.Frame.PivotX,
                                         linePoints[1] + frame3.Frame.PivotY,
                                         frame3.ImageWidth, frame3.ImageHeight, false, Transparency);
@@ -356,7 +356,7 @@ namespace ManiacEditor.Entity_Renders
                     else
                     {
 
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + angleStateX, y + frame.Frame.PivotY - angleStateY,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + angleStateX, y + frame.Frame.PivotY - angleStateY,
                             frame.ImageWidth, frame.ImageHeight, false, Transparency);
                     }
                 }             
@@ -387,7 +387,7 @@ namespace ManiacEditor.Entity_Renders
             return results;
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             var attribute = entity.attributesMap["frameID"];
             int angle = (int)entity.attributesMap["angle"].ValueInt32;

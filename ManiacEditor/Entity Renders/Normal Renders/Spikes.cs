@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class Spikes : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var value = entity.attributesMap["type"];
             bool fliph = false;
@@ -49,10 +49,10 @@ namespace ManiacEditor.Entity_Renders
             bool extra = false;
             count *= 2; // I made all this with an incorrect assumption so here's a cheap fix
             int count2 = count >> 2;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Spikes", d, animID, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, animID, 0, fliph, flipv, false);
             if (isFBZ)
             {
-                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Spikes", d, animID, -1, fliph, flipv, false);
+                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, animID, -1, fliph, flipv, false);
             }
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -85,14 +85,14 @@ namespace ManiacEditor.Entity_Renders
                     int max = (count2 + 1) / 2;
                     for (int i = -count2 / 2; i < max; ++i)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + (i * (frame.Frame.Width)) - offset1 + offset2, y + frame.Frame.PivotY,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (i * (frame.Frame.Width)) - offset1 + offset2, y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
 
                     // Draw one more overlapping if needed
                     if (extra)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + ((max - 1) * (frame.Frame.Width)) + offset1 + offset2, y + frame.Frame.PivotY,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + ((max - 1) * (frame.Frame.Width)) + offset1 + offset2, y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
@@ -116,14 +116,14 @@ namespace ManiacEditor.Entity_Renders
                     int max = (count2 + 1) / 2;
                     for (int i = -count2 / 2; i < max; ++i)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY + (i * (frame.Frame.Height)) - offset1 + offset2,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY + (i * (frame.Frame.Height)) - offset1 + offset2,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
 
                     // Draw one more overlapping if needed
                     if (extra)
                     {
-                        d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX, y + frame.Frame.PivotY + ((max - 1) * (frame.Frame.Height)) + offset1 + offset2,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY + ((max - 1) * (frame.Frame.Height)) + offset1 + offset2,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
@@ -132,13 +132,13 @@ namespace ManiacEditor.Entity_Renders
         }
 
 
-        public void IceDraw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public void IceDraw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Spikes", d, 0, 0, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, 0, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -147,7 +147,7 @@ namespace ManiacEditor.Entity_Renders
             
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             var value = entity.attributesMap["type"];
             int count = (entity.attributesMap.ContainsKey("count") ? (int)entity.attributesMap["count"].ValueUInt8 : 0);

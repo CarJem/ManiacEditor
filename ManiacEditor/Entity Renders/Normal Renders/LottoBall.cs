@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class LottoBall : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int lottoNum = (int)entity.attributesMap["lottoNum"].ValueUInt8;
@@ -79,9 +79,9 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var ballAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d, 0, frameID1, fliph, flipv, false);
-            var numAnimL = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d, 1, frameID2, fliph, flipv, false);
-            var numAnimR = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d, 2, frameID3, fliph, flipv, false);
+            var ballAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d.DevicePanel, 0, frameID1, fliph, flipv, false);
+            var numAnimL = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d.DevicePanel, 1, frameID2, fliph, flipv, false);
+            var numAnimR = Editor.Instance.EntityDrawing.LoadAnimation2("LottoBall", d.DevicePanel, 2, frameID3, fliph, flipv, false);
             if (ballAnim != null && ballAnim.Frames.Count != 0 && numAnimL != null && numAnimL.Frames.Count != 0 && numAnimR != null && numAnimR.Frames.Count != 0)
             {
                 var frame = ballAnim.Frames[Animation.index];
@@ -89,17 +89,17 @@ namespace ManiacEditor.Entity_Renders
                 var frame3 = numAnimR.Frames[Animation.index];
 
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - ballAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - ballAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(frame2.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
                     x + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - numAnimL.Frames[0].Frame.Width) : 0),
                     y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - numAnimL.Frames[0].Frame.Height) : 0),
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                 if (ignoreNum != true)
                 {
-                    d.DrawBitmap(frame3.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
                         x + frame3.Frame.PivotX - (fliph ? (frame3.Frame.Width - numAnimR.Frames[0].Frame.Width) : 0),
                         y + frame3.Frame.PivotY + (flipv ? (frame3.Frame.Height - numAnimR.Frames[0].Frame.Height) : 0),
                         frame3.Frame.Width, frame3.Frame.Height, false, Transparency);

@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class SSZSpikeBall : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -35,8 +35,8 @@ namespace ManiacEditor.Entity_Renders
                     animID = 3;
                     break;
             } 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d, 0, animID, fliph, flipv, false);
-            var editorAnimSpikeBall = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d, 1, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 0, animID, fliph, flipv, false);
+            var editorAnimSpikeBall = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnimSpikeBall != null && editorAnim.Frames.Count != 0 && editorAnimSpikeBall.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -44,14 +44,14 @@ namespace ManiacEditor.Entity_Renders
 
                 if (type == 0)
                 {
-                    d.DrawBitmap(frame.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                        x + frame.Frame.PivotX,
                        y + frame.Frame.PivotY,
                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
                 {
-                    d.DrawBitmap(frameSpike.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameSpike),
                        x + frameSpike.Frame.PivotX,
                        y + frameSpike.Frame.PivotY,
                        frameSpike.Frame.Width, frameSpike.Frame.Height, false, Transparency);

@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class UIControl : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High);
             var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High);
@@ -40,11 +40,11 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d, 0, 1, right, bottom, false);
+                    var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
                     if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                     {
                         var frame = editorAnim2.Frames[Animation.index];
-                        d.DrawBitmap(frame.Texture,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                             (x + widthPixels / (right ? 2 : -2)) - (right ? frame.Frame.Width : 0),
                             (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);

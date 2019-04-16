@@ -13,16 +13,16 @@ namespace ManiacEditor.Entity_Renders
     public class SpikeFlail : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
             int chainLength = (int)entity.attributesMap["chainLength"].ValueUInt8;            
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 0, 0, fliph, flipv, false);
-            var editorAnimBall = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 1, 0, fliph, flipv, false);
-            var editorAnimRing1 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 2, 0, fliph, flipv, false);
-            var editorAnimRing2 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 3, 0, fliph, flipv, false);
-            var editorAnimRing3 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d, 4, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimBall = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnimRing1 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 2, 0, fliph, flipv, false);
+            var editorAnimRing2 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 3, 0, fliph, flipv, false);
+            var editorAnimRing3 = Editor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 4, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBall != null && editorAnimBall.Frames.Count != 0 && editorAnimRing1 != null && editorAnimRing1.Frames.Count != 0 && editorAnimRing2 != null && editorAnimRing2.Frames.Count != 0 && editorAnimRing3 != null && editorAnimRing3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -33,7 +33,7 @@ namespace ManiacEditor.Entity_Renders
 
                 //Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(frame.Texture,
+                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -60,12 +60,12 @@ namespace ManiacEditor.Entity_Renders
                             frameRingI = editorAnimRing1.Frames[0];
                         }
 
-                        d.DrawBitmap(frameRingI.Texture,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameRingI),
                             x + frameRingI.Frame.PivotX + frame.Frame.Width + frameRingI.Frame.Width*(i),
                             y + frameRingI.Frame.PivotY,
                             frameRingI.Frame.Width, frameRingI.Frame.Height, false, Transparency);
                     }
-                    d.DrawBitmap(frameBall.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameBall),
                         x + frameBall.Frame.PivotX + frame.Frame.Width + frameRing1.Frame.Width*(chainLength+1),
                         y + frameBall.Frame.PivotY + (flipv ? (frameBall.Frame.Height - editorAnimBall.Frames[0].Frame.Height) : 0),
                         frameBall.Frame.Width, frameBall.Frame.Height, false, Transparency);

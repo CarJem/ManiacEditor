@@ -13,11 +13,11 @@ namespace ManiacEditor.Entity_Renders
     public class InvisibleBlock : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var width = (int)(entity.attributesMap["width"].ValueUInt8);
             var height = (int)(entity.attributesMap["height"].ValueUInt8);
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d, 2, 10, false, false, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, 10, false, false, false);
 
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
@@ -29,7 +29,7 @@ namespace ManiacEditor.Entity_Renders
                     {
                         for (int yy = 0; yy <= height; ++yy)
                         {
-                            d.DrawBitmap(frame.Texture,
+                            d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                                 x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + xx) * frame.Frame.Width,
                                 y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + yy) * frame.Frame.Height,
                                 frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -39,7 +39,7 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             var width = (int)(entity.attributesMap["width"].ValueUInt8);
             var height = (int)(entity.attributesMap["height"].ValueUInt8);

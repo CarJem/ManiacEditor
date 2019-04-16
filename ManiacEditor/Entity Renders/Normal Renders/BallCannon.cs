@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
     public class BallCannon : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int x2 = x;
             int y2 = y;
@@ -92,16 +92,16 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation);
-            var editorAnimHolo = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d, 0, -1, fliph, flipv, false, rotation2);
-            var editorAnimCork = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d, CorkState, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, false, rotation);
+            var editorAnimHolo = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, false, rotation2);
+            var editorAnimCork = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, CorkState, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHolo != null && editorAnimHolo.Frames.Count != 0 && editorAnimCork != null && editorAnimCork.Frames.Count != 0)
             {
                 if (type == 1)
                 {
                     var frame = editorAnimCork.Frames[0];
 
-                    d.DrawBitmap(frame.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);
@@ -110,7 +110,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frame = editorAnimCork.Frames[0];
 
-                    d.DrawBitmap(frame.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);
@@ -122,13 +122,13 @@ namespace ManiacEditor.Entity_Renders
 
                     if (selected)
                     {
-                        d.DrawBitmap(frame3.Texture,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
                             x2 + frame3.Frame.PivotX,
                             y2 + frame3.Frame.PivotY,
                             frame3.Frame.Height, frame3.Frame.Height, false, 125);
                     }
 
-                    d.DrawBitmap(frame.Texture,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);

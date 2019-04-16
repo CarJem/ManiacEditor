@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
     public class HCZOneWayDoor : EntityRenderer
     {
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int length = (int)(entity.attributesMap["length"].ValueVar) - 1;
             int orientation = (int)(entity.attributesMap["orientation"].ValueUInt8);
@@ -40,7 +40,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("ButtonDoor", d, 0, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("ButtonDoor", d.DevicePanel, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -51,7 +51,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     for (int yy = 0; yy <= height; ++yy)
                     {
-                        d.DrawBitmap(frame.Texture,
+                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
                             x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + xx) * frame.Frame.Width,
                             y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + yy) * frame.Frame.Height,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);

@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             HUDLevelSelectChar = HUDLevelSelectCharS.ToCharArray();
         }
 
-        public override void Draw(DevicePanel d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             
             string text = entity.attributesMap["text"].ValueString;
@@ -32,12 +32,12 @@ namespace ManiacEditor.Entity_Renders
             {
                 int frameID = GetFrameID(symb, Editor.Instance.UIModes.LevelSelectChar);
                 int listID = (highlighted ? 1 : 0);
-                var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Text", d, listID, frameID, false, false, false);
+                var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Text", d.DevicePanel, listID, frameID, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
                     //Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(frame.Texture, x + frame.Frame.PivotX + spacingAmount, y + frame.Frame.PivotY,
+                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + spacingAmount, y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     spacingAmount = spacingAmount + frame.Frame.Width;
                 }
