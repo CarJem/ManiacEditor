@@ -107,7 +107,7 @@
         </StatusBar>
 
         <Grid Panel.ZIndex="1" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="1"  Background="{DynamicResource ToolbarBackground}" Margin="0,85,0,0">
-            <TabControl BorderThickness="0 1 0 0" Background="{DynamicResource ToolbarBackground}">
+            <TabControl Name="EditorTabControl" BorderThickness="0 1 0 0" Background="{DynamicResource ToolbarBackground}">
                 <TabItem Header="Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
                     <Grid>
                         <Border Grid.ColumnSpan="5" Margin="10" BorderBrush="Transparent" BorderThickness="1">
@@ -891,7 +891,7 @@
                     <ToggleButton x:Name="ShowFGHigh" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="FG High" Click="ShowFGHigh_Click" Style="{DynamicResource EditLayerFlat}"/>
                     <ToggleButton x:Name="ShowFGHigher" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="FG Higher" Click="ShowFGHigher_Click" Style="{DynamicResource EditLayerFlat}"/>
                     <ToggleButton x:Name="ShowEntities" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="Entites" Click="ShowEntities_Click" Style="{DynamicResource EditLayerFlat}"/>
-                    <ToggleButton x:Name="ShowAnimations" Click="ShowAnimations_Click" Foreground="{DynamicResource NormalText}" Content="Animations" Background="Transparent" Style="{DynamicResource EditLayerFlat}" IsEnabled="False"/>
+                    <ToggleButton x:Name="ShowAnimations" Click="ShowAnimations_Click" Checked="ShowAnimations_Checked" Unchecked="ShowAnimations_Unchecked" Foreground="{DynamicResource NormalText}" Content="Animations" Background="Transparent" Style="{DynamicResource EditLayerFlat}" IsEnabled="False"/>
                     <Button BorderThickness="0" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Style="{DynamicResource RemoveMouseOverEffectType2}" VerticalAlignment="Center">
                         <Button.Content>
                             <StackPanel Background="{DynamicResource ToolbarBackground}" Height="32" Width="32">
@@ -899,6 +899,7 @@
                                     <MenuItem x:Name="animationsSplitButton_Dropdown" Foreground="{DynamicResource NormalText}" Header="{StaticResource DownArrow4}" Height="34">
                                         <MenuItem x:Name="movingPlatformsObjectsToolStripMenuItem" Header="Moving Platforms / Objects" Click="MovingPlatformsObjectsToolStripMenuItem_Click"></MenuItem>
                                         <MenuItem x:Name="spriteFramesToolStripMenuItem" Header="Sprite Frames" Click="SpriteFramesToolStripMenuItem_Click"></MenuItem>
+                                        <MenuItem x:Name="parallaxAnimationMenuItem" Header="Parallax Animation (Will Disable Editing)" Click="ParallaxAnimationMenuItem_Click"></MenuItem>
                                     </MenuItem>
                                 </Menu>
                             </StackPanel>

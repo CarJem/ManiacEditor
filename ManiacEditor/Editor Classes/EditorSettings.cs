@@ -189,17 +189,21 @@ namespace ManiacEditor
             else Instance.ShowFGHigher.IsChecked = true;
             if (!Settings.MyDefaults.EntitiesDefault) Instance.ShowEntities.IsChecked = false;
             else Instance.ShowEntities.IsChecked = true;
-            if (!Settings.MyDefaults.AnimationsDefault) Instance.ShowAnimations.IsChecked = false;
-            else Instance.ShowAnimations.IsChecked = true;
-            if (!Settings.MyDefaults.AnimationsDefault) Instance.ShowAnimations.IsChecked = false;
-            else Instance.ShowAnimations.IsChecked = true;
+            Instance.ShowAnimations.IsChecked = Settings.MyDefaults.AnimationsDefault;
+            Instance.UIModes.AnimationsEnabled = Settings.MyDefaults.AnimationsDefault;
+
 
             //Default Enabled Annimation Preferences
             Instance.movingPlatformsObjectsToolStripMenuItem.IsChecked = Settings.MyDefaults.PlatformAnimationsDefault;
             Instance.UIModes.MovingPlatformsChecked = Settings.MyDefaults.PlatformAnimationsDefault;
 
             Instance.spriteFramesToolStripMenuItem.IsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
-            Instance.UIModes.AnnimationsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
+            Instance.UIModes.SpriteAnimationsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
+
+
+            //TO DO: Add Default For this.
+            Instance.parallaxAnimationMenuItem.IsChecked = false;
+            Instance.UIModes.ParallaxAnimationChecked = false;
 
             Instance.UIModes.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
 

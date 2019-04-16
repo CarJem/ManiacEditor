@@ -387,15 +387,42 @@ namespace ManiacEditor
         }
         #endregion
         #region AnnimationsChecked
-        public bool AnnimationsChecked { get => GetAnnimationsChecked(); set => SetAnnimationsChecked(value); }
-        private bool _AnnimationsChecked = true;
-        private bool GetAnnimationsChecked()
+        public bool AnimationsEnabled { get => GetAnimationsEnabled(); set => SetAnimationsEnabled(value); }
+        private bool _AnimationsEnabled = true;
+        private bool GetAnimationsEnabled()
         {
-            return _AnnimationsChecked;
+            return _AnimationsEnabled;
         }
-        private void SetAnnimationsChecked(bool value)
+        private void SetAnimationsEnabled(bool value)
         {
-            Editor.Instance.UIModes._AnnimationsChecked = value;
+            Editor.Instance.UIModes._AnimationsEnabled = value;
+            Editor.Instance.UI.UpdateControls();
+        }
+        #endregion
+        #region SpriteAnimationsChecked
+        public bool SpriteAnimationsChecked { get => GetSpriteAnimationsChecked(); set => SetSpriteAnimationsChecked(value); }
+        private bool _SpriteAnimationsChecked = true;
+        private bool GetSpriteAnimationsChecked()
+        {
+            return _SpriteAnimationsChecked;
+        }
+        private void SetSpriteAnimationsChecked(bool value)
+        {
+            Editor.Instance.UIModes._SpriteAnimationsChecked = value;
+        }
+        #endregion
+
+        #region ParallaxAnimation
+        public bool ParallaxAnimationChecked { get => GetParallaxAnimationChecked(); set => SetParallaxAnimationChecked(value); }
+        private bool _ParallaxAnimationChecked = false;
+        private bool GetParallaxAnimationChecked()
+        {
+            return _ParallaxAnimationChecked;
+        }
+        private void SetParallaxAnimationChecked(bool value)
+        {
+            _ParallaxAnimationChecked = value;
+            Editor.Instance.UI.UpdateControls();
         }
         #endregion
         #region RemoveStageConfigEntriesAllowed

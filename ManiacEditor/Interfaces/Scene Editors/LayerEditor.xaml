@@ -6,264 +6,266 @@
         xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Title="Layer Manager" Loaded="LayerManager_Load" Height="510" Width="1015" ResizeMode="NoResize" Background="{DynamicResource NormalBackground}" Foreground="{DynamicResource NormalText}" WindowStartupLocation="CenterScreen">
+        Title="Layer Manager" Loaded="LayerManager_Load" Height="510" Width="1009" ResizeMode="NoResize" Background="{DynamicResource NormalBackground}" Foreground="{DynamicResource NormalText}" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*"></ColumnDefinition>
-            <ColumnDefinition Width="30*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="28*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <ListBox x:Name="lbLayers" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37" SelectionChanged="LbLayers_SelectionChanged" MouseDown="lbLayers_MouseUp">
-            <ListBox.ContextMenu>
-                <ContextMenu x:Name="contextMenu1">
-                    <MenuItem x:Name="cutBtn" Header="Cut Selected Layer" Click="btnCut_Click"></MenuItem>
-                    <MenuItem Header="Copy Selected Layer" Click="btnCopy_Click"></MenuItem>
-                    <MenuItem Header="Paste Selected Layer" Click="btnPaste_Click"></MenuItem>
-                    <MenuItem Header="Duplicate Selected Layer" Click="btnDuplicate_Click"></MenuItem>
-                    <MenuItem Header="Delete Selected Layer" Click="btnDelete_Click"></MenuItem>
-                    <Separator></Separator>
-                    <MenuItem Header="Move Selected Up" Click="btnUp_Click"></MenuItem>
-                    <MenuItem Header="Move Selected Down" Click="btnDown_Click"></MenuItem>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>
-        <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">
-                <Button Content="↑" Width="24" Height="24" Margin="4" Click="btnUp_Click"></Button>
-                <Button Content="↓" Width="24" Height="24" Margin="4" Click="btnDown_Click"></Button>
-                <Button x:Name="btnAdd" Content="+" Background="LightGreen" Width="24" Height="24" Margin="4" Foreground="Black" Click="btnAdd_Click"></Button>
-                <Button x:Name="btnDelete" Content="-" Background="LightCoral" Width="24" Height="24" Margin="4" Foreground="Black" Click="btnDelete_Click"></Button>
-            </StackPanel>
-        </Border>
-        <RichTextBox IsEnabled="False" x:Name="rtbWarn" Grid.Column="1" Grid.ColumnSpan="3" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True" Style="{DynamicResource RichTextBoxStyle1}"/>
-        <GroupBox x:Name="gbName" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="2" Header="Attributes">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid Height="24" Grid.ColumnSpan="2" Grid.RowSpan="1">
+        <Grid Width="1009">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+                <ColumnDefinition Width="30*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="28*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ListBox x:Name="lbLayers" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37" SelectionChanged="LbLayers_SelectionChanged" MouseDown="lbLayers_MouseUp">
+                <ListBox.ContextMenu>
+                    <ContextMenu x:Name="contextMenu1">
+                        <MenuItem x:Name="cutBtn" Header="Cut Selected Layer" Click="btnCut_Click"></MenuItem>
+                        <MenuItem Header="Copy Selected Layer" Click="btnCopy_Click"></MenuItem>
+                        <MenuItem Header="Paste Selected Layer" Click="btnPaste_Click"></MenuItem>
+                        <MenuItem Header="Duplicate Selected Layer" Click="btnDuplicate_Click"></MenuItem>
+                        <MenuItem Header="Delete Selected Layer" Click="btnDelete_Click"></MenuItem>
+                        <Separator></Separator>
+                        <MenuItem Header="Move Selected Up" Click="btnUp_Click"></MenuItem>
+                        <MenuItem Header="Move Selected Down" Click="btnDown_Click"></MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+            <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">
+                    <Button Content="↑" Width="24" Height="24" Margin="4" Click="btnUp_Click"></Button>
+                    <Button Content="↓" Width="24" Height="24" Margin="4" Click="btnDown_Click"></Button>
+                    <Button x:Name="btnAdd" Content="+" Background="LightGreen" Width="24" Height="24" Margin="4" Foreground="Black" Click="btnAdd_Click"></Button>
+                    <Button x:Name="btnDelete" Content="-" Background="LightCoral" Width="24" Height="24" Margin="4" Foreground="Black" Click="btnDelete_Click"></Button>
+                </StackPanel>
+            </Border>
+            <RichTextBox IsEnabled="False" x:Name="rtbWarn" Grid.Column="1" Grid.ColumnSpan="3" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True" Style="{DynamicResource RichTextBoxStyle1}"/>
+            <GroupBox x:Name="gbName" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="2" Header="Attributes">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Height="24" Grid.ColumnSpan="2" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="lblName" Content="Name:"></Label>
+                        <TextBox x:Name="tbName" HorizontalAlignment="Stretch" Grid.Column="1"></TextBox>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="lblVertical" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="Behavior:"></Label>
+                        <wpfTool:IntegerUpDown x:Name="nudVerticalScroll" Height="24" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Left" Height="46">
+                            <TextBlock Text="Relative Vertical Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
+                        </Label>
+                        <wpfTool:IntegerUpDown x:Name="nudUnknownWord1" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Left" Height="46">
+                            <TextBlock Text="Constant Vertical Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
+                        </Label>
+                        <wpfTool:IntegerUpDown x:Name="nudUnknownWord2" Height="24" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Grid Height="26" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="lblUnknownByte2" HorizontalContentAlignment="Left" Content="Drawing Order:"></Label>
+                        <wpfTool:IntegerUpDown x:Name="nudUnknownByte2" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1" Header="Current Size">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="lblName" Content="Name:"></Label>
-                    <TextBox x:Name="tbName" HorizontalAlignment="Stretch" Grid.Column="1"></TextBox>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Height="24" Grid.ColumnSpan="2" Grid.RowSpan="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Raw:"></Label>
+                            <Label Content="Width:"></Label>
+                            <Label x:Name="lblRawWidthValue" Content="0"></Label>
+                            <Label Content="Height:"></Label>
+                            <Label x:Name="lblRawHeightValue" Content="0"></Label>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Height="24" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Effective:"></Label>
+                            <Label Content="Width:"></Label>
+                            <Label x:Name="lblEffSizeWidth" Content="0"></Label>
+                            <Label Content="Height:"></Label>
+                            <Label x:Name="lblEffSizeHeight" Content="0"></Label>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
-                <Grid Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1">
+            </GroupBox>
+            <GroupBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="1" Grid.RowSpan="2" Header="Resize">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="3*"></RowDefinition>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="lblVertical" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="Behavior:"></Label>
-                    <wpfTool:IntegerUpDown x:Name="nudVerticalScroll" Height="24" Grid.Column="1"></wpfTool:IntegerUpDown>
-                </Grid>
-                <Grid Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label HorizontalContentAlignment="Left" Height="46">
-                        <TextBlock Text="Relative Vertical Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
-                    </Label>
-                    <wpfTool:IntegerUpDown x:Name="nudUnknownWord1" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
-                </Grid>
-                <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label HorizontalContentAlignment="Left" Height="46">
-                        <TextBlock Text="Constant Vertical Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
-                    </Label>
-                    <wpfTool:IntegerUpDown x:Name="nudUnknownWord2" Height="24" Grid.Column="1"></wpfTool:IntegerUpDown>
-                </Grid>
-                <Grid Height="26" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label x:Name="lblUnknownByte2" HorizontalContentAlignment="Left" Content="Drawing Order:"></Label>
-                    <wpfTool:IntegerUpDown x:Name="nudUnknownByte2" Grid.Column="1"></wpfTool:IntegerUpDown>
-                </Grid>
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1" Header="Current Size">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid Height="24" Grid.ColumnSpan="2" Grid.RowSpan="1">
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Raw:"></Label>
-                        <Label Content="Width:"></Label>
-                        <Label x:Name="lblRawWidthValue" Content="0"></Label>
-                        <Label Content="Height:"></Label>
-                        <Label x:Name="lblRawHeightValue" Content="0"></Label>
+                        <Label Content="Width:" Height="26"></Label>
+                        <wpfTool:IntegerUpDown ValueChanged="DesiredSizeChanged" x:Name="nudWidth" Height="26" Width="145"></wpfTool:IntegerUpDown>
                     </StackPanel>
-                </Grid>
-                <Grid Height="24" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Effective:"></Label>
-                        <Label Content="Width:"></Label>
-                        <Label x:Name="lblEffSizeWidth" Content="0"></Label>
-                        <Label Content="Height:"></Label>
-                        <Label x:Name="lblEffSizeHeight" Content="0"></Label>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Label Content="Height:" Height="26"></Label>
+                        <wpfTool:IntegerUpDown ValueChanged="DesiredSizeChanged" x:Name="nudHeight" Height="26" Width="145"></wpfTool:IntegerUpDown>
                     </StackPanel>
-                </Grid>
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="1" Grid.RowSpan="2" Header="Resize">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="3*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Width:" Height="26"></Label>
-                    <wpfTool:IntegerUpDown ValueChanged="DesiredSizeChanged" x:Name="nudWidth" Height="26" Width="145"></wpfTool:IntegerUpDown>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <Label Content="Height:" Height="26"></Label>
-                    <wpfTool:IntegerUpDown ValueChanged="DesiredSizeChanged" x:Name="nudHeight" Height="26" Width="145"></wpfTool:IntegerUpDown>
-                </StackPanel>
-                <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-                    <Label x:Name="lblResizedEffective" Content="Effictive Resize:" ></Label>
-                </StackPanel>
-                <Label Height="46" Grid.Row="1" Grid.ColumnSpan="2">
-                    <TextBlock Text="It is recommended to keep any Foreground layers (normally named FG Low and FG High) the same size." TextWrapping="WrapWithOverflow"></TextBlock>
-                </Label>
-                <Button Click="btnResize_Click" x:Name="btnResize" Height="23" Grid.Row="1" Grid.ColumnSpan="2" Content="Resize Layer" VerticalAlignment="Bottom"></Button>
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                        <Label x:Name="lblResizedEffective" Content="Effictive Resize:" ></Label>
+                    </StackPanel>
+                    <Label Height="46" Grid.Row="1" Grid.ColumnSpan="2">
+                        <TextBlock Text="It is recommended to keep any Foreground layers (normally named FG Low and FG High) the same size." TextWrapping="WrapWithOverflow"></TextBlock>
+                    </Label>
+                    <Button Click="btnResize_Click" x:Name="btnResize" Height="23" Grid.Row="1" Grid.ColumnSpan="2" Content="Resize Layer" VerticalAlignment="Bottom"></Button>
 
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="3" Header="Horizontal Rules">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                    <ColumnDefinition Width="3*"></ColumnDefinition>
-                    <ColumnDefinition Width="3*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <ListBox SelectionChanged="LbHorizontalRules_SelectionChanged" x:Name="lbHorizontalRules" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
-                </ListBox>
-                <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
-                    <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">
-                        <Button Click="btnAddHorizontalRule_Click" Content="+" Background="LightGreen" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
-                        <Button Click="btnRemoveHorizontalRule_Click" Content="-" Background="LightCoral" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
-                    </StackPanel>
-                </Border>
-                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label HorizontalContentAlignment="Center" Content="Behavior:" VerticalContentAlignment="Center"></Label>
-                    <wpfTool:IntegerUpDown x:Name="nudHorizontalEffect" Height="24" Grid.Column="1"></wpfTool:IntegerUpDown>
                 </Grid>
-                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                        <TextBlock Text="Relative Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
-                    </Label>
-                    <wpfTool:IntegerUpDown x:Name="nudHorizVal1" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
-                </Grid>
-                <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                        <TextBlock Text="Constant Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
-                    </Label>
-                    <wpfTool:IntegerUpDown x:Name="nudHorizVal2" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
-                </Grid>
-                <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                        <TextBlock Text="Drawing Order:" TextWrapping="WrapWithOverflow"></TextBlock>
-                    </Label>
-                    <wpfTool:IntegerUpDown x:Name="nudHorizByte2" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
-                </Grid>
-                <Label VerticalAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2">
-                    <TextBlock Text="These rules are applied to rows of pixels by the below mappings." TextWrapping="WrapWithOverflow" TextAlignment="Center"></TextBlock>
-                </Label>
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1" Grid.RowSpan="2" Header="Horizontal Mappings">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="2*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <ListBox SelectionChanged="LbMappings_SelectionChanged" x:Name="lbMappings" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
-                </ListBox>
-                <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
-                    <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">
-                        <Button Click="btnAddHorizontalMapping_Click" Content="+" Background="LightGreen" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
-                        <Button Click="btnRemoveHorizontalMapping_Click" Content="-" Background="LightCoral" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
-                    </StackPanel>
-                </Border>
-                <Grid x:Name="___No_Name_" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1">
+            </GroupBox>
+            <GroupBox Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="3" Header="Horizontal Rules">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Start Line:" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
-                    <wpfTool:IntegerUpDown x:Name="nudStartLine" Height="24" Grid.Column="1" Width="80" HorizontalAlignment="Left"></wpfTool:IntegerUpDown>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox SelectionChanged="LbHorizontalRules_SelectionChanged" x:Name="lbHorizontalRules" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
+                    </ListBox>
+                    <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">
+                            <Button Click="btnAddHorizontalRule_Click" Content="+" Background="LightGreen" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
+                            <Button Click="btnRemoveHorizontalRule_Click" Content="-" Background="LightCoral" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
+                        </StackPanel>
+                    </Border>
+                    <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Center" Content="Behavior:" VerticalContentAlignment="Center"></Label>
+                        <wpfTool:IntegerUpDown x:Name="nudHorizontalEffect" Height="24" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <TextBlock Text="Relative Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
+                        </Label>
+                        <wpfTool:IntegerUpDown x:Name="nudHorizVal1" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <TextBlock Text="Constant Speed:" TextWrapping="WrapWithOverflow"></TextBlock>
+                        </Label>
+                        <wpfTool:IntegerUpDown x:Name="nudHorizVal2" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <TextBlock Text="Drawing Order:" TextWrapping="WrapWithOverflow"></TextBlock>
+                        </Label>
+                        <wpfTool:IntegerUpDown x:Name="nudHorizByte2" Height="26" Grid.Column="1"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Label VerticalAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2">
+                        <TextBlock Text="These rules are applied to rows of pixels by the below mappings." TextWrapping="WrapWithOverflow" TextAlignment="Center"></TextBlock>
+                    </Label>
                 </Grid>
-                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1">
+            </GroupBox>
+            <GroupBox Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1" Grid.RowSpan="2" Header="Horizontal Mappings">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                        <TextBlock Text="Line Count:" TextWrapping="WrapWithOverflow"></TextBlock>
-                    </Label>
-                    <wpfTool:IntegerUpDown x:Name="nudLineCount" Height="26" Grid.Column="1" Width="80" HorizontalAlignment="Left"></wpfTool:IntegerUpDown>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox SelectionChanged="LbMappings_SelectionChanged" x:Name="lbMappings" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
+                    </ListBox>
+                    <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">
+                            <Button Click="btnAddHorizontalMapping_Click" Content="+" Background="LightGreen" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
+                            <Button Click="btnRemoveHorizontalMapping_Click" Content="-" Background="LightCoral" Width="24" Height="24" Margin="4" Foreground="Black"></Button>
+                        </StackPanel>
+                    </Border>
+                    <Grid x:Name="___No_Name_" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Start Line:" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                        <wpfTool:IntegerUpDown x:Name="nudStartLine" Height="24" Grid.Column="1" Width="80" HorizontalAlignment="Left" ValueChanged="HorizontalMappingChanged"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <TextBlock Text="Line Count:" TextWrapping="WrapWithOverflow"></TextBlock>
+                        </Label>
+                        <wpfTool:IntegerUpDown ValueChanged="HorizontalMappingChanged" x:Name="nudLineCount" Height="26" Grid.Column="1" Width="80" HorizontalAlignment="Left"></wpfTool:IntegerUpDown>
+                    </Grid>
+                    <Label x:Name="overflowMessage" VerticalAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"/>
                 </Grid>
-                <Label x:Name="overflowMessage" VerticalAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"/>
-            </Grid>
-        </GroupBox>
+            </GroupBox>
 
+        </Grid>
     </Grid>
 </Window>

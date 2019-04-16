@@ -59,8 +59,6 @@ namespace ManiacEditor
 
 		// Editor Collections
 		public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
-		public List<Bitmap> CollisionLayerA = new List<Bitmap>(); //Collection of Collision Type A for the Loaded Scene
-		public List<Bitmap> CollisionLayerB = new List<Bitmap>(); //Collection of Collision Type B for the Loaded Scene
 		public List<string> entityRenderingObjects = EditorEntityDrawing.GetSpecialRenderList(1); //Used to get the Render List for Objects
 		public List<string> renderOnScreenExlusions = EditorEntityDrawing.GetSpecialRenderList(0); //Used to get the Always Render List for Objects
         public IList<Tuple<MenuItem, MenuItem>> RecentSceneItems;
@@ -69,6 +67,7 @@ namespace ManiacEditor
 		public List<string> userDefinedSpritePaths = new List<string>();
 		public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
         public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
+        public System.Timers.Timer Timer = new System.Timers.Timer();
 
         //Undo + Redo
         public Stack<IAction> UndoStack = new Stack<IAction>(); //Undo Actions Stack
@@ -213,6 +212,10 @@ namespace ManiacEditor
             Settings = new EditorSettings(this);
             UIModes = new EditorUIModes();
 
+            Timer.Interval = 1;
+            Timer.Elapsed += Timer_Elapsed;
+            Timer.Start();
+
             Theming.UseDarkTheme_WPF(ManiacEditor.Settings.MySettings.NightMode);
 			InitializeComponent();
             Instance = this;
@@ -253,7 +256,19 @@ namespace ManiacEditor
 				}
 			}
 		}
-		public void InitilizeEditor()
+
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (EditorScene != null)
+            {
+                foreach (var layer in EditorScene.AllLayers)
+                {
+                    layer.UpdateLayerScrollIndex();
+                }
+            }
+        }
+
+        public void InitilizeEditor()
 		{
 			FormsModel = new EditorFormsModel(this);
 
@@ -848,6 +863,8 @@ namespace ManiacEditor
 
             Chunks = null;
 
+            EditorAnimations.AnimationTiming.Clear();
+
 
             /*if (entitiesClipboard != null)
             {
@@ -881,9 +898,6 @@ namespace ManiacEditor
             // clear memory a little more aggressively 
             EntityDrawing.ReleaseResources();
             GC.Collect();
-
-            CollisionLayerA.Clear();
-            CollisionLayerB.Clear();
             TileConfig = null;
 
             UIModes.MenuChar = UIModes.MenuCharS.ToCharArray();
@@ -1224,7 +1238,7 @@ namespace ManiacEditor
             {
                 foreach (var elb in ExtraLayerEditViewButtons)
                 {
-                    if (elb.Key.IsCheckedAll || elb.Value.IsCheckedAll)
+                    if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
                     {
                         var _extraViewLayer = EditorScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
                         _extraViewLayer.Draw(FormsModel.GraphicPanel);
@@ -1487,7 +1501,7 @@ namespace ManiacEditor
 		}
 		public void RefreshCollisionColours(bool RefreshMasks = false)
 		{
-			if (EditorScene != null && CollisionLayerA != null && CollisionLayerB != null)
+			if (EditorScene != null && EditorTiles.StageTiles != null)
 			{
                 switch (UIModes.CollisionPreset)
                 {
@@ -1508,20 +1522,10 @@ namespace ManiacEditor
 						break;
 				}
 
-
-
-
 				if (RefreshMasks)
 				{
-					CollisionLayerA.Clear();
-					CollisionLayerB.Clear();
-
-					for (int i = 0; i < 1024; i++)
-					{
-						CollisionLayerA.Add(EditorTiles.StageTiles.Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-						CollisionLayerB.Add(EditorTiles.StageTiles.Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionAllSolid));
-					}
-				}
+                    UI.ReloadSpritesAndTextures();
+                }
 			}
 
 		}
@@ -1650,15 +1654,29 @@ namespace ManiacEditor
 
         private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (UIModes.AnnimationsChecked == false)
+            if (UIModes.SpriteAnimationsChecked == false)
             {
                 spriteFramesToolStripMenuItem.IsChecked = true;
-                UIModes.AnnimationsChecked = true;
+                UIModes.SpriteAnimationsChecked = true;
             }
             else
             {
                 spriteFramesToolStripMenuItem.IsChecked = false;
-                UIModes.AnnimationsChecked = false;
+                UIModes.SpriteAnimationsChecked = false;
+            }
+        }
+
+        private void ParallaxAnimationMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (UIModes.ParallaxAnimationChecked == false)
+            {
+                parallaxAnimationMenuItem.IsChecked = true;
+                UIModes.ParallaxAnimationChecked = true;
+            }
+            else
+            {
+                parallaxAnimationMenuItem.IsChecked = false;
+                UIModes.ParallaxAnimationChecked = false;
             }
         }
 
@@ -2051,9 +2069,20 @@ namespace ManiacEditor
 		{
 			ToggleButton toggle = sender as ToggleButton;
 			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowAnimations, "Animations");
+            LayerShowButton_Click(ShowAnimations, "Animations");
 		}
-		private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
+
+        private void ShowAnimations_Checked(object sender, RoutedEventArgs e)
+        {
+            UIModes.AnimationsEnabled = true;
+        }
+
+        private void ShowAnimations_Unchecked(object sender, RoutedEventArgs e)
+        {
+            UIModes.AnimationsEnabled = false;
+        }
+
+        private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
 		{
  
 

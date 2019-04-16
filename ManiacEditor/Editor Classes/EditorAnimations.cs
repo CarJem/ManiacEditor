@@ -36,6 +36,17 @@ namespace ManiacEditor
         public int PaperRollerIndex = 0;
         public Editor EditorInstance;
 
+        public class Timing
+        {
+            public System.DateTime LastParallaxTime = System.DateTime.Now;
+            public int FrameIndex = 0;
+        }
+
+        public static Dictionary<string, Timing> AnimationTiming = new Dictionary<string, Timing>();
+
+
+
+
         //Parallax Sprite Location Storing
         public string parallaxSprite = "";
 
@@ -47,7 +58,7 @@ namespace ManiacEditor
         public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.AnnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
             {
 				if (speed > 0)
                 {
@@ -66,6 +77,9 @@ namespace ManiacEditor
                 index = 0;
 
         }
+
+
+
 
         public void ProcessMovingPlatform(int angleDefault, UInt32 speed = 3)
         {
@@ -370,7 +384,7 @@ namespace ManiacEditor
         public void ProcessAnimation2(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.AnnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
             {
                 if (speed > 0)
                 {
@@ -392,7 +406,7 @@ namespace ManiacEditor
         public void ProcessAnimation3(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.AnnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
             {
                 if (speed > 0)
                 {
@@ -414,7 +428,7 @@ namespace ManiacEditor
 
         public void ProcessPaperRollerRotatingColors()
         {
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.AnnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
             {
                 if ((DateTime.Now - lastFrametime2).TotalMilliseconds > 1024)
                 {

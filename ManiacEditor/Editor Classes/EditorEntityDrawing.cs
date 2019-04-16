@@ -1173,6 +1173,19 @@ namespace ManiacEditor
             public EditorAnimation anim;
         }
 
+        public class GraphicsHandler
+        {
+            public void DrawBitmap(DevicePanel d, EditorAnimation.EditorFrame image, int x, int y, int width, int height, bool selected, int transparency, System.Drawing.Color? CustomColor = null)
+            {
+                d.DrawBitmap(image.Texture, x, y, width, height, selected, transparency, CustomColor);
+            }
+
+            public void DrawBitmap(Graphics g, EditorAnimation.EditorFrame frame)
+            {
+
+            }
+        }
+
 
         public void ReleaseResources()
         {

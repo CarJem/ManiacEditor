@@ -25,7 +25,13 @@ namespace ManiacEditor
 
     public static class Extensions
     {
-
+        public static System.Drawing.Color Blend(this System.Drawing.Color color, System.Drawing.Color backcolor, double amount)
+        {
+            byte r = (byte)((color.R * amount) + backcolor.R * (1 - amount));
+            byte g = (byte)((color.G * amount) + backcolor.G * (1 - amount));
+            byte b = (byte)((color.B * amount) + backcolor.B * (1 - amount));
+            return System.Drawing.Color.FromArgb(r, g, b);
+        }
         public static List<System.Drawing.Point> CreateDataPoints(float[] x, float[] y)
         {
             System.Diagnostics.Debug.Assert(x.Length == y.Length);

@@ -39,8 +39,7 @@ namespace ManiacEditor
         /// Internal identifier.
         /// </summary>
         /// <remarks>This is NOT persisted to any RSDKv5 backing field!</remarks>
-        public byte Id { get => _id; set => _id = value; }
-
+        public byte Id { get => _id; set => _id = value; }       
         public byte Behavior { get => _scrollInfo.Behaviour; set => _scrollInfo.Behaviour = value; }
         public byte DrawOrder { get => _scrollInfo.DrawOrder; set => _scrollInfo.DrawOrder = value; }
         public short RelativeSpeed { get => _scrollInfo.RelativeSpeed; set => _scrollInfo.RelativeSpeed = value; }
@@ -68,5 +67,9 @@ namespace ManiacEditor
         {
             AddMapping(0, 0);
         }
+
+
+
+
     }
 }

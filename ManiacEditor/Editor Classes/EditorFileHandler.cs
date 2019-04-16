@@ -174,6 +174,7 @@ namespace ManiacEditor
         }
         public void ExportAsPNG()
         {
+            
             if (Editor.Instance.EditorScene == null) return;
 
             System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
@@ -490,18 +491,7 @@ namespace ManiacEditor
                 }
 
                 //Tile Config
-                Instance.CollisionLayerA.Clear();
-                Instance.CollisionLayerB.Clear();
                 Instance.Paths.GetTileConfig(Instance.Paths.CurrentZone);
-                if (Instance.TileConfig != null)
-                {
-                    for (int i = 0; i < 1024; i++)
-                    {
-                        Instance.CollisionLayerA.Add(Instance.TileConfig.CollisionPath1[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
-                        Instance.CollisionLayerB.Add(Instance.TileConfig.CollisionPath2[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
-                    }
-                }
-
                 Instance.Paths.GetStageConfig(Instance.Paths.CurrentZone);
             }
             catch (Exception ex)
@@ -607,18 +597,7 @@ namespace ManiacEditor
                 }
 
                 //Tile Config
-                Instance.CollisionLayerA.Clear();
-                Instance.CollisionLayerB.Clear();
                 Instance.Paths.GetTileConfig(Instance.Paths.CurrentZone, Instance.Paths.Browsed);
-                if (Instance.TileConfig != null)
-                {
-                    for (int i = 0; i < 1024; i++)
-                    {
-                        Instance.CollisionLayerA.Add(Instance.TileConfig.CollisionPath1[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
-                        Instance.CollisionLayerB.Add(Instance.TileConfig.CollisionPath2[i].DrawCMask(System.Drawing.Color.FromArgb(0, 0, 0, 0), Instance.CollisionAllSolid));
-                    }
-                }
-
                 Instance.Paths.GetStageConfig(Instance.Paths.CurrentZone, Instance.Paths.Browsed);
             }
             catch (Exception ex)

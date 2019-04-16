@@ -21,6 +21,28 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int aniID = (int)entity.attributesMap["aniID"].ValueUInt8;
+            int attribute = (int)entity.attributesMap["attribute"].ValueUInt8;
+            RSDKv5.Position parallaxFactor = entity.attributesMap["parallaxFactor"].ValuePosition;
+            RSDKv5.Position loopPoint = entity.attributesMap["loopPoint"].ValuePosition;
+
+            /*
+            if (Editor.Instance.UIModes.AnimationsEnabled && Editor.Instance.UIModes.ParallaxAnimationChecked)
+            {
+                EditorLayer layer = Editor.Instance.EditorScene.AllLayers.ElementAtOrDefault(attribute);
+                if (layer != null)
+                {
+                    int speed = (layer.RelativeSpeed == 0 ? 1 : layer.RelativeSpeed);
+                    string groupKey = string.Format("{0},{1}", speed, layer.WidthPixels);
+                    x = x - ManiacEditor.EditorAnimations.AnimationTiming[groupKey].FrameIndex;
+
+                    int xBefore = x - ManiacEditor.EditorAnimations.AnimationTiming[groupKey].FrameIndex;
+                    int offsetX = layer.WidthPixels - x;
+
+                    if (x <= 0) x = loopPoint.X.High - offsetX;
+                    if (y <= 0) y = loopPoint.Y.High;
+                }
+            }*/
+
             if (Animation.parallaxSprite == "")
             {
                 Animation.parallaxSprite = GetParallaxPath(Editor.Instance);

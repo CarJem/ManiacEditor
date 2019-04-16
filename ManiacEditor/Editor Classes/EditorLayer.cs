@@ -34,7 +34,10 @@ namespace ManiacEditor
         public PointsMap TempSelectionDeselectTiles;
         bool TempSelectionDeselect;
         public int GlobalSelectedTiles;
-        public bool ShowHorizontalLayerRules { get; set; } = false;
+        public bool ShowLayerScrollLines { get; set; } = false;
+        public bool HasHorizontalLayerScrollInitilized { get; set; } = false;
+        public bool AllowLayerToAnimateParallax { get; set; } = false;
+
 
         bool FirstDrag;
         bool isDragOver;
@@ -85,7 +88,7 @@ namespace ManiacEditor
         public ushort Height { get => _layer.Height; }
         public ushort Width { get => _layer.Width; }
         public int HeightPixels { get => _layer.Height * EditorConstants.TILE_SIZE; }
-        public int WidthPixels { get => _layer.Height * EditorConstants.TILE_SIZE; }
+        public int WidthPixels { get => _layer.Width * EditorConstants.TILE_SIZE; }
 
         /// <summary>
         /// Collection of rules and mappings representing the horizontal scrolling info
@@ -962,8 +965,31 @@ namespace ManiacEditor
                 bool SolidTopB = ((tile >> 14) & 1) == 1;
                 bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
+                System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
+                System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
+                System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
+
                 d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.Image.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                 x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
+
+                if (Editor.Instance.UIModes.ShowCollisionA)
+                {
+                    if (SolidLrbA || SolidTopA)
+                    {
+                        if (SolidTopA && SolidLrbA) DrawCollision(true, AllSolid);
+                        if (SolidTopA && !SolidLrbA) DrawCollision(true, TopOnlySolid);
+                        if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid);
+                    }
+                }
+                if (Editor.Instance.UIModes.ShowCollisionB)
+                {
+                    if (SolidLrbB || SolidTopB)
+                    {
+                        if (SolidTopB && SolidLrbB) DrawCollision(false, AllSolid);
+                        if (SolidTopB && !SolidLrbB) DrawCollision(false, TopOnlySolid);
+                        if (SolidLrbB && !SolidTopB) DrawCollision(false, LRDSolid);
+                    }
+                }
 
                 if (EditorInstance.UIModes.ShowFlippedTileHelper == true)
                 {
@@ -976,6 +1002,13 @@ namespace ManiacEditor
                     d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.IDImage.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                     x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
                 }
+
+                void DrawCollision(bool drawA, System.Drawing.Color colur)
+                {
+                    if (drawA) d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.CollisionMaskA.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy, colur);
+                    else d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.CollisionMaskB.GetTexture(d._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy, colur);
+                }
+
             }
             
             if (selected)
@@ -985,6 +1018,8 @@ namespace ManiacEditor
                 d.DrawLine(x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, System.Drawing.Color.Brown);
                 d.DrawLine(x * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE + EditorConstants.TILE_SIZE, System.Drawing.Color.Brown);
             }
+
+
         }
         public void DrawTile(Graphics g, ushort tile, int x, int y)
         {
@@ -997,72 +1032,29 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
+            System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
+            System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
+            System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
+
             g.DrawImage(Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                 new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
-            if (EditorInstance.UIModes.ShowCollisionA == true)
+
+            if (Editor.Instance.UIModes.ShowCollisionA)
             {
                 if (SolidLrbA || SolidTopA)
                 {
-                    //Get a bitmap of the collision
-                    Bitmap cm = EditorInstance.CollisionLayerA[TileIndex].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
-
-                    System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
-                    System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
-                    System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
-
-                    if (SolidTopA && SolidLrbA)
-                    {
-                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
-                    }
-
-                    if (SolidTopA && !SolidLrbA)
-                    {
-                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
-                    }
-
-                    if (SolidLrbA && !SolidTopA)
-                    {
-                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
-                    }
-
-                    if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
-
-                    if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
-
-                    g.DrawImage(cm, new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                    if (SolidTopA && SolidLrbA) DrawCollision(true, AllSolid);
+                    if (SolidTopA && !SolidLrbA) DrawCollision(true, TopOnlySolid);
+                    if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid);
                 }
             }
-            if (EditorInstance.UIModes.ShowCollisionB == true)
+            if (Editor.Instance.UIModes.ShowCollisionB)
             {
                 if (SolidLrbB || SolidTopB)
                 {
-                    //Get a bitmap of the collision
-                    Bitmap cm = EditorInstance.CollisionLayerB[TileIndex].Clone(new Rectangle(0, 0, 16, 16), System.Drawing.Imaging.PixelFormat.DontCare);
-
-                    System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
-                    System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
-                    System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
-
-                    if (SolidTopB && SolidLrbB)
-                    {
-                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, AllSolid);
-                    }
-
-                    if (SolidTopB && !SolidLrbB)
-                    {
-                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, TopOnlySolid);
-                    }
-
-                    if (SolidLrbB && !SolidTopB)
-                    {
-                        cm = Extensions.ChangeImageColor(cm, EditorInstance.CollisionAllSolid, LRDSolid);
-                    }
-
-                    if (flipX) { cm.RotateFlip(RotateFlipType.RotateNoneFlipX); }
-
-                    if (flipY) { cm.RotateFlip(RotateFlipType.RotateNoneFlipY); }
-
-                    g.DrawImage(cm, new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                    if (SolidTopB && SolidLrbB) DrawCollision(false, AllSolid);
+                    if (SolidTopB && !SolidLrbB) DrawCollision(false, TopOnlySolid);
+                    if (SolidLrbB && !SolidTopB) DrawCollision(false, LRDSolid);
                 }
             }
 
@@ -1075,6 +1067,17 @@ namespace ManiacEditor
             {
                 g.DrawImage(Editor.Instance.EditorTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                             new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+            }
+
+            void DrawCollision(bool drawA, System.Drawing.Color colur)
+            {
+                Bitmap Map;
+                if (drawA) Map = Editor.Instance.EditorTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                else Map = Editor.Instance.EditorTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+
+                Map = Extensions.ChangeImageColor(Map, System.Drawing.Color.White, colur);
+
+                g.DrawImage(Map, x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE);
             }
 
 
@@ -1252,81 +1255,243 @@ namespace ManiacEditor
 
         public void Draw(DevicePanel d)
         {
-			int Transperncy;
+            if (!AllowLayerToAnimateParallax)
+            {
+                int Transperncy;
 
 
-			if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
-				Transperncy = 0x32;
-			else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
-				Transperncy = 0x32;
-			else
-				Transperncy = 0xFF;
+                if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
+                    Transperncy = 0x32;
+                else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
+                    Transperncy = 0x32;
+                else
+                    Transperncy = 0xFF;
 
-			Rectangle screen = d.GetScreen();
-			int startX = screen.X, startY = screen.Y;
-			int width = screen.Width, height = screen.Height;
+                Rectangle screen = d.GetScreen();
+                int startX = screen.X, startY = screen.Y;
+                int width = screen.Width, height = screen.Height;
 
-			if (screen.X < 0 || screen.Y < 0 || (screen.X + screen.Width > this.Width * 128) || Properties.Settings.Default.EntityFreeCam)
-			{
-				startX = 0;
-				startY = 0;
-				width = this.Width * 128;
-				height = this.Height * 128;
-			}
+                if (screen.X < 0 || screen.Y < 0 || (screen.X + screen.Width > this.Width * 128) || Properties.Settings.Default.EntityFreeCam)
+                {
+                    startX = 0;
+                    startY = 0;
+                    width = this.Width * 128;
+                    height = this.Height * 128;
+                }
 
-			int start_x = startX / (EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE);
-			int end_x = Math.Min(DivideRoundUp(startX + width, EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE), TileChunksTextures[0].Length);
-			int start_y = startY / (EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE);
-			int end_y = Math.Min(DivideRoundUp(startY + height, EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE), TileChunksTextures.Length);
+                int start_x = startX / (EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE);
+                int end_x = Math.Min(DivideRoundUp(startX + width, EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE), TileChunksTextures[0].Length);
+                int start_y = startY / (EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE);
+                int end_y = Math.Min(DivideRoundUp(startY + height, EditorConstants.TILES_CHUNK_SIZE * EditorConstants.TILE_SIZE), TileChunksTextures.Length);
 
-			for (int y = start_y; y < end_y; ++y)
-			{
-				for (int x = start_x; x < end_x; ++x)
-				{
-					if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
-					{
-						Rectangle rect = GetTilesChunkArea(x, y);
-                        if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
-					    {
-						    // TODO: If the full chunk isDrawTilesChunk selected, cache it
-						    // draw one by one
-						    DrawTilesChunk(d, x, y, Transperncy);
-					    }
-					    else
-					    {
-                            d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * EditorConstants.TILE_SIZE, rect.Y * EditorConstants.TILE_SIZE, rect.Width * EditorConstants.TILE_SIZE, rect.Height * EditorConstants.TILE_SIZE, false, Transperncy);
-					    }
+                for (int y = start_y; y < end_y; ++y)
+                {
+                    for (int x = start_x; x < end_x; ++x)
+                    {
+                        if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
+                        {
+                            Rectangle rect = GetTilesChunkArea(x, y);
+                            if (SelectedTiles.IsChunkUsed(x, y) || TempSelectionTiles.IsChunkUsed(x, y))
+                            {
+                                // TODO: If the full chunk isDrawTilesChunk selected, cache it
+                                // draw one by one
+                                DrawTilesChunk(d, x, y, Transperncy);
+                            }
+                            else
+                            {
+                                d.DrawBitmap(GetTilesChunkTexture(d, x, y), rect.X * EditorConstants.TILE_SIZE, rect.Y * EditorConstants.TILE_SIZE, rect.Width * EditorConstants.TILE_SIZE, rect.Height * EditorConstants.TILE_SIZE, false, Transperncy);
+                            }
 
-					}
-
-
+                        }
 
 
-				}
-			}
 
-            if (ShowHorizontalLayerRules) DrawLayerScroll(d);
+
+                    }
+                }
+            }
+            else DrawLayerScroll(d);
+            DrawScrollLines(d);
         }
 
-        public void DrawLayerScroll(DevicePanel d)
-        {
-            int Transperncy = 0xFF;
+        #region Horizontal Layer Scroll Rendering
 
-            if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
-                Transperncy = 0x32;
-            else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
-                Transperncy = 0x32;
-            else
-                Transperncy = 0xFF;
+        Dictionary<string, EditorEntityDrawing.EditorAnimation.EditorFrame> HorizontalLayerScrollAnimationList = new Dictionary<string, EditorEntityDrawing.EditorAnimation.EditorFrame>();
+
+        private static Bitmap cropImage(Bitmap img, Rectangle cropArea)
+        {
+            Bitmap bmpImage = new Bitmap(img);
+            return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
+        }
+
+        public void DrawLayerForScrollRender(int startIndex, int lineCount, int HRI, int HRMI, string name, DevicePanel d = null)
+        {
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(WidthPixels, HeightPixels);
+            System.Drawing.Bitmap section = new System.Drawing.Bitmap(WidthPixels, lineCount);
+            string filePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config", "Test", string.Format("{0}{1}{2}.png", name, HRI, HRMI));
+
+            using (bitmap)
+            {
+                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap))
+                {
+                    Draw(g);
+                }
+                section = cropImage(bitmap, new Rectangle(0, startIndex, WidthPixels, lineCount));
+            }
+
+            List<EditorEntityDrawing.EditorAnimation.EditorFrame> LayerFrames = new List<EditorEntityDrawing.EditorAnimation.EditorFrame>();
+            System.Drawing.Bitmap parallax = new System.Drawing.Bitmap(WidthPixels, lineCount);
+            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(parallax))
+            {
+                int section1CropWidth = WidthPixels;
+                Bitmap section1 = cropImage(section, new Rectangle(0, 0, section1CropWidth, lineCount));
+                g.DrawImage(section1, 0, 0);
+            }
+
+            Texture texture = null;
+            texture = TextureCreator.FromBitmap(d._device, parallax);
+            var animFrame = new Animation.AnimationEntry.Frame()
+            {
+                X = 0,
+                Y = (short)startIndex,
+                Width = (short)parallax.Size.Width,
+                Height = (short)lineCount
+            };
+            var frame = new EditorEntityDrawing.EditorAnimation.EditorFrame()
+            {
+                Texture = texture,
+                Frame = animFrame,
+                Entry = new Animation.AnimationEntry(),
+                ImageWidth = parallax.Size.Width,
+                ImageHeight = parallax.Size.Height
+            };
+
+            string key = string.Format("{0}{1}.png", HRI, HRMI);
+            HorizontalLayerScrollAnimationList.Add(key, frame);
+        }
+
+        public void RenderParallaxToFramesForAnimation()
+        {
+            foreach (var frame in HorizontalLayerScrollAnimationList.Values)
+            {
+                frame.Texture?.Dispose();
+            }
+            HorizontalLayerScrollAnimationList.Clear();
+
+            int HorizontalRuleIndex = 0;
+            int HorizontalRuleMapIndex = 0;
 
             foreach (var layer in HorizontalLayerScroll)
             {
                 foreach (var lines in layer.LinesMapList)
                 {
-                    d.DrawLine(0, lines.StartIndex, _layer.Width * EditorConstants.TILE_SIZE, lines.StartIndex, System.Drawing.Color.FromArgb(Transperncy, System.Drawing.Color.Red));
+                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", Editor.Instance.FormsModel.GraphicPanel);
+                    HorizontalRuleMapIndex++;
+                }
+                HorizontalRuleMapIndex = 0;
+                HorizontalRuleIndex++;
+            }
+
+            HasHorizontalLayerScrollInitilized = true;
+        }
+
+
+        //Parallax Animating
+
+        public int ProcessParallax(ManiacEditor.HorizontalLayerScroll layer, int maxWidth, int speed = 1, int duration = 0)
+        {
+            if (speed <= 0) speed = 1;
+            string group = string.Format("{0},{1}", speed, maxWidth);
+            if (!ManiacEditor.EditorAnimations.AnimationTiming.ContainsKey(group)) ManiacEditor.EditorAnimations.AnimationTiming.Add(group, new ManiacEditor.EditorAnimations.Timing());
+            // Playback
+            if (Editor.Instance.UIModes.ParallaxAnimationChecked && Editor.Instance.UIModes.AnimationsEnabled)
+            {
+                if ((DateTime.Now - ManiacEditor.EditorAnimations.AnimationTiming[group].LastParallaxTime).TotalMilliseconds > 1024 / speed)
+                {
+                    ManiacEditor.EditorAnimations.AnimationTiming[group].LastParallaxTime = DateTime.Now;
+                    ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex++;
+                }
+            }
+            else ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex = 0;
+            if (ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex >= maxWidth)
+                ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex = 0;
+
+
+            return ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex;
+
+
+        }
+
+        public void DrawLayerScroll(DevicePanel d)
+        {
+
+            if (!HasHorizontalLayerScrollInitilized) RenderParallaxToFramesForAnimation();
+
+            if (HasHorizontalLayerScrollInitilized && AllowLayerToAnimateParallax)
+            {
+                foreach (var layer in HorizontalLayerScroll)
+                {
+                    foreach (var lines in layer.LinesMapList)
+                    {
+                        int speed = (layer.RelativeSpeed == 0 ? 1 : layer.RelativeSpeed);
+                        string groupKey = string.Format("{0},{1}", speed, WidthPixels);
+                        int index = HorizontalLayerScroll.IndexOf(layer);
+                        string key = string.Format("{0}{1}.png", index, HorizontalLayerScroll[index].LinesMapList.IndexOf(lines));
+                        int scrollPoint = ManiacEditor.EditorAnimations.AnimationTiming[groupKey].FrameIndex;
+                        int section1CropWidth = WidthPixels - scrollPoint;
+                        int section2CropWidth = scrollPoint;
+
+                        var frame = HorizontalLayerScrollAnimationList[key];
+
+                        if (frame != null)
+                        {
+                            d.DrawBitmap(frame.Texture, frame.Frame.X + WidthPixels - scrollPoint, frame.Frame.Y, scrollPoint, frame.Frame.Height, false, 0xFF);
+                            d.DrawBitmap(frame.Texture, frame.Frame.X - scrollPoint, frame.Frame.Y, frame.Frame.Width, frame.Frame.Height, false, 0xFF);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        public void DrawScrollLines(DevicePanel d)
+        {
+            if (ShowLayerScrollLines)
+            {
+                int Transperncy = 0xFF;
+
+                if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
+                    Transperncy = 0x32;
+                else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
+                    Transperncy = 0x32;
+                else
+                    Transperncy = 0xFF;
+
+                foreach (var layer in HorizontalLayerScroll)
+                {
+                    foreach (var lines in layer.LinesMapList)
+                    {
+
+                        d.DrawLine(0, lines.StartIndex, _layer.Width * EditorConstants.TILE_SIZE, lines.StartIndex, System.Drawing.Color.FromArgb(Transperncy, System.Drawing.Color.Red));
+                        d.DrawLine(0, lines.StartIndex + lines.LineCount, _layer.Width * EditorConstants.TILE_SIZE, lines.StartIndex + lines.LineCount, System.Drawing.Color.FromArgb(Transperncy, System.Drawing.Color.Red));
+                    }
+                }
+            }
+
+        }
+
+        public void UpdateLayerScrollIndex()
+        {
+            foreach (var layer in HorizontalLayerScroll)
+            {
+                foreach (var lines in layer.LinesMapList)
+                {
+                    ProcessParallax(layer, WidthPixels, layer.RelativeSpeed);
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Resizes both this EditorLayer, and the underlying SceneLayer

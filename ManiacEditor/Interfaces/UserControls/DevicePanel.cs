@@ -405,44 +405,28 @@ namespace ManiacEditor
 
                 if (EditorInstance.UIModes.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
                 else HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
-				sprite2.Begin(SpriteFlags.AlphaBlend);
 
-
-				var state1 = _device.GetSamplerState(0, SamplerState.MinFilter);
-				var state2 = _device.GetSamplerState(0, SamplerState.MagFilter);
-				var state3 = _device.GetSamplerState(0, SamplerState.MipFilter);
-				// If zoomin, just do near-neighbor scaling
-				_device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
-                _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
-                _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
-
+                sprite2.Begin(SpriteFlags.AlphaBlend);
                 HUD.Begin(SpriteFlags.AlphaBlend);
 
-				_device.SetSamplerState(0, SamplerState.MinFilter, state1);
-				_device.SetSamplerState(0, SamplerState.MagFilter, state2);
-				_device.SetSamplerState(0, SamplerState.MipFilter, state3);
-				if (zoom > 1)
+                if (zoom > 1)
                 {
                     // If zoomin, just do near-neighbor scaling
                     _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                     _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                     _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                 }
-                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack | SpriteFlags.DoNotModifyRenderState);
+                else
+                {
+                    _device.SetSamplerState(0, SamplerState.MinFilter, _device.GetSamplerState(0, SamplerState.MinFilter));
+                    _device.SetSamplerState(0, SamplerState.MagFilter, _device.GetSamplerState(0, SamplerState.MagFilter));
+                    _device.SetSamplerState(0, SamplerState.MipFilter, _device.GetSamplerState(0, SamplerState.MinFilter));
+                }
+                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
 
                 // Render of scene here
                 if (OnRender != null) OnRender(this, new DeviceEventArgs(_device));
 
-                sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
-                HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
-
-
-				Rectangle rect1 = new Rectangle(DrawWidth - screen.X, 0, Width - DrawWidth, Height);
-				rect1.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
-				Rectangle rect2 = new Rectangle(0, DrawHeight - screen.Y, DrawWidth, Height - DrawHeight);
-				rect2.Intersect(new Rectangle(0, 0, screen.Width, screen.Height));
-				DrawTexture(tx, new Rectangle(0, 0, rect1.Width, rect1.Height), new Vector3(0, 0, 0), new Vector3(rect1.X, rect1.Y, 0), SystemColors.Control);
-				DrawTexture(tx, new Rectangle(0, 0, rect2.Width, rect2.Height), new Vector3(0, 0, 0), new Vector3(rect2.X, rect2.Y, 0), SystemColors.Control);
 				sprite.End();
 				sprite2.End();
 				HUD.End();
@@ -567,11 +551,20 @@ namespace ManiacEditor
             HUD.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
         }
 
-        public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
+        public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency, Color? CustomColor = null)
         {
+            Color CustomSelectedColor = Color.BlueViolet;
+            if (CustomColor == null)
+            {
+                CustomColor = Color.White;
+            }
+            else
+            {
+                CustomSelectedColor = Extensions.Blend(Color.Purple, CustomColor.Value, 100);
+            }
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
-            DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
+            DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? CustomSelectedColor : Color.FromArgb(transparency, CustomColor.Value));
         }
 
 		public void DrawHUDRectangle(int x1, int y1, int x2, int y2, Color color)

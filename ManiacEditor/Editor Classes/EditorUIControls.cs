@@ -109,6 +109,9 @@ namespace ManiacEditor
 
 		public void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {
+            bool parallaxAnimationInProgress = Editor.Instance.UIModes.AnimationsEnabled && Editor.Instance.UIModes.ParallaxAnimationChecked;
+            if (parallaxAnimationInProgress) return;
+
             // Faster Nudge Toggle
             if (isCombo(e, myKeyBinds.NudgeFaster))
             {

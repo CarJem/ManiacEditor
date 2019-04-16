@@ -47,6 +47,8 @@ namespace ManiacEditor.Interfaces
 			get => GetSelectedLayerScroll();
 		}
 
+        private EditorLayer SelectedLayer;
+
 		private bool LockSelectionChangedTriggers = false;
 		private bool _layerArrangementChanged = false;
 		bool initilzing = true;
@@ -180,9 +182,10 @@ namespace ManiacEditor.Interfaces
 			}
 
 
+            SelectedLayer = Layers.ElementAtOrDefault(SelectedLayerIndex);
 
 
-				DataContext = new
+                DataContext = new
 				{
 					bsLayers = Layers.ElementAtOrDefault(SelectedLayerIndex),
 					_bsHorizontal = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll.ElementAtOrDefault(SelectedLayerScrollIndex),
@@ -240,9 +243,7 @@ namespace ManiacEditor.Interfaces
 		{
 
 			if (LockSelectionChangedTriggers) return;
-
 			LockSelectionChangedTriggers = true;
-			lbHorizontalRules.SelectedIndex = 0;
 			SelectionChanged(3);
 			LockSelectionChangedTriggers = false;
 		}
@@ -535,5 +536,14 @@ namespace ManiacEditor.Interfaces
 
 			}
 		}
-	}
+
+        private void SaveLayers_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void HorizontalMappingChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            lbMappings.Items.Refresh();
+        }
+    }
 }
