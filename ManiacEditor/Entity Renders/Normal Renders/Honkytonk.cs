@@ -21,10 +21,10 @@ namespace ManiacEditor.Entity_Renders
             int rotation = (int)(angle / -0.71);
 
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("HonkyTonk", d.DevicePanel, 0, 1, fliph, flipv, true, rotation, true, false, false, true);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("HonkyTonk", d.DevicePanel, 0, 1, fliph, flipv, true, rotation, true, false, EditorEntityDrawing.Flag.PartialEngineRotation, true);
 
 
-			if (editorAnim != null && editorAnim.Frames.Count != 0)
+            if (editorAnim != null && editorAnim.Frames.Count != 0)
 			{
 				var frame = editorAnim.Frames[0];
 

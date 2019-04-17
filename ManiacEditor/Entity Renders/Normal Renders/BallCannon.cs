@@ -32,48 +32,70 @@ namespace ManiacEditor.Entity_Renders
                         rotation = 90;
                         rotation2 = 180;
                         y += 16;
-                        y2 += 16;
+                        x += 8;
+                        y2 += 24;
+                        x2 += 0;
                         break;
                     case 1:
                         rotation = 180;
                         rotation2 = 270;
-                        y += 16;
+                        y += 24;
+                        x -= 0;
                         y2 += 16;
-                        x2 -= 16;
+                        x2 += -8;
                         break;
                     case 2:
                         rotation = 270;
                         y += 16;
-                        x -= 16;
+                        x -= 8;
+                        y2 += 8;
+                        x2 += 0;
                         break;
                     case 3:
                         rotation2 = 90;
+                        y += 8;
+                        x += 0;
                         y2 += 16;
+                        x2 += 8;
                         break;
                     case 4:
                         rotation2 = 90;
-                        y2 += 16;
                         rotation = 180;
-                        y += 16;
+                        y += 24;
+                        x += 0;
+                        y2 += 16;
+                        x2 += 8;
                         break;
                     case 5:
                         rotation = 270;
                         rotation2 = 180;
-                        y2 += 16;
                         y += 16;
-                        x -= 16;
+                        x -= 8;
+                        y2 += 24;
+                        x2 += 0;
                         break;
                     case 6:
                         rotation2 = 270;
+                        y += 8;
+                        x += 0;
                         y2 += 16;
-                        x2 -= 16;
+                        x2 -= 8;
                         break;
                     case 7:
                         rotation2 = 0;
                         rotation = 90;
                         y += 16;
+                        x += 8;
+                        y2 += 8;
+                        x2 += 0;
                         break;
                     default:
+                        rotation = 90;
+                        rotation2 = 180;
+                        y += 16;
+                        x += 8;
+                        y2 += 24;
+                        x2 += 0;
                         break;
                 }
             }
@@ -92,9 +114,9 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, false, rotation);
-            var editorAnimHolo = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, false, rotation2);
-            var editorAnimCork = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, CorkState, 0, fliph, flipv, false);
+            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation);
+            var editorAnimHolo = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation2);
+            var editorAnimCork = Editor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, CorkState, 0, fliph, flipv, true);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHolo != null && editorAnimHolo.Frames.Count != 0 && editorAnimCork != null && editorAnimCork.Frames.Count != 0)
             {
                 if (type == 1)
@@ -125,7 +147,7 @@ namespace ManiacEditor.Entity_Renders
                         d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
                             x2 + frame3.Frame.PivotX,
                             y2 + frame3.Frame.PivotY,
-                            frame3.Frame.Height, frame3.Frame.Height, false, 125);
+                            frame3.Frame.Height, frame3.Frame.Height, false, Transparency - 125);
                     }
 
                     d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),

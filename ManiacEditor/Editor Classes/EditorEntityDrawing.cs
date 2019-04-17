@@ -36,10 +36,13 @@ namespace ManiacEditor
         public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "EditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
         public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform", "CableWarp" };
 
-        public List<EditorEntityDrawing.LoadAnimationData> AnimsToLoad = new List<EditorEntityDrawing.LoadAnimationData>();
+        public string GetAnimationLoadingKey(string name, int AnimID, int FrameID, bool FlipH, bool FlipV, Flag FlagAttributes, int TextureRotation, bool Rotate, bool LegacyRotate, bool StackFrames, int StackStart, int StackEnd)
+        {
+            return $"{name}-{AnimID}-{FrameID}-{FlipH}-{FlipV}-{FlagAttributes}-{TextureRotation}-{Rotate}-{LegacyRotate}-{StackFrames}-{StackStart}-{StackEnd}";
+        }
 
+        public List<EditorEntityDrawing.LoadAnimationData> AnimsToLoad = new List<EditorEntityDrawing.LoadAnimationData>();
         public Dictionary<string, EditorEntityDrawing.EditorAnimation> Animations = new Dictionary<string, EditorEntityDrawing.EditorAnimation>();
-        public Dictionary<string, EditorEntityDrawing.EditorTilePlatforms> TilePlatforms = new Dictionary<string, EditorEntityDrawing.EditorTilePlatforms>();
         public Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public bool Working = false;
 
@@ -150,10 +153,103 @@ namespace ManiacEditor
 
         public static Animation rsdkAnim;
 
-        //For Drawing/Saving Tile Platforms
+        #region New Animation System
+        /// <summary>
+        /// Loads / Gets the Sprite Animation
+        /// </summary>
+        /// <param name="name">The Name of the object</param>
+        /// <param name="d">The DevicePanel</param>
+        /// <param name="AnimID">The Animation ID (-1 to Load Normal)</param>
+        /// <param name="FrameID">The Frame ID for the specified Animation (-1 to load all frames)</param>
+        /// <param name="FlipH">Flip the Texture Horizontally</param>
+        /// <param name="FlipV">Flip the Texture Vertically</param>
+        /// <param name="Rotate">Flip the Texture Vertically</param>
+        /// <param name="TextureRotation">The Angle at Which the Texture is Rotated</param>
+        /// <param name="LoadImageToDX">Load the Image to a SharpDX Texture</param>
+        /// <param name="LegacyRotate">Use the Old Method for Rotating the Images</param>
+        /// <param name="FlagAttributes">Determines the Animation Procecedure When Processing the Animation</param>
+        /// <param name="StackFrames">Whether the Images Should Be Merged On Top of Each Other Or Not</param>
+        /// <param name="StackStart">Start Point in the Stack (When StackFrames is True)</param>
+        /// <param name="StackEnd">End Point in the Stack (When StackFrames is True)</param>
+        /// <returns>The fully loaded Animation</returns>
+        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool Rotate = false, int TextureRotation = 0, bool LoadImageToDX = true, bool LegacyRotate = false, Flag FlagAttributes = Flag.DefaultBehavior, bool StackFrames = false, int StackStart = 0, int StackEnd = 0)
+        {
+            string key = GetAnimationLoadingKey(name, AnimID, FrameID, FlipH, FlipV, FlagAttributes, TextureRotation, Rotate, LegacyRotate, StackFrames, StackStart, StackEnd);
+            var anim = new EditorEntityDrawing.EditorAnimation();
+            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
+            {
+                if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
+                else return null;
+            }
 
-        public static string[] DataDirectoryList = null;
+            Animations.Add(key, anim);
 
+            // Get the path of the object's textures
+            string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
+            Tuple<string, string> AssetInfo = GetAssetPath(name);
+            string path2 = AssetInfo.Item1;
+            string dataFolderLocation = AssetInfo.Item2;
+            if (!File.Exists(path2) || path2 == null) return null;
+            using (var stream = File.OpenRead(path2)) { rsdkAnim = new Animation(new RSDKv5.Reader(stream)); }
+            if (AnimID >= rsdkAnim.Animations.Count) AnimID = rsdkAnim.Animations.Count - 1;
+            
+            if (StackFrames) anim = ProcessAnimationFramesAsStack(name, d, AnimID, FrameID, StackStart, StackEnd, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
+            else anim = ProcessAnimationFrames(name, d, AnimID, FrameID, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
+
+            anim.ImageLoaded = true;
+            if (LoadImageToDX) anim.Ready = true;
+            Working = false;
+            return anim;
+        }
+        /// <summary>
+        /// Gets the Sprite Animation, and if not found send a new LoadAnimationData to put it in the queue to be loaded
+        /// </summary>
+        /// <param name="name">The Name of the object</param>
+        /// <param name="d">The DevicePanel</param>
+        /// <param name="AnimID">The Animation ID (-1 to Load Normal)</param>
+        /// <param name="FrameID">The Frame ID for the specified Animation (-1 to load all frames)</param>
+        /// <param name="FlipH">Flip the Texture Horizontally</param>
+        /// <param name="FlipV">Flip the Texture Vertically</param>
+        /// <param name="Rotate">Flip the Texture Vertically</param>
+        /// <param name="TextureRotation">The Angle at Which the Texture is Rotated</param>
+        /// <param name="LoadImageToDX">Load the Image to a SharpDX Texture</param>
+        /// <param name="LegacyRotate">Use the Old Method for Rotating the Images</param>
+        /// <param name="FlagAttributes">Determines the Animation Procecedure When Processing the Animation</param>
+        /// <param name="StackFrames">Whether the Images Should Be Merged On Top of Each Other Or Not</param>
+        /// <param name="StackStart">Start Point in the Stack (When StackFrames is True)</param>
+        /// <param name="StackEnd">End Point in the Stack (When StackFrames is True)</param>
+        /// <returns>The fully loaded Animation</returns>
+        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool Rotate = false, int TextureRotation = 0, bool LoadImageToDX = true, bool LegacyRotate = false, Flag FlagAttributes = Flag.DefaultBehavior, bool StackFrames = false, int StackStart = 0, int StackEnd = 0)
+        {
+            string key = GetAnimationLoadingKey(name, AnimID, FrameID, FlipH, FlipV, FlagAttributes, TextureRotation, Rotate, LegacyRotate, StackFrames, StackStart, StackEnd);
+            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
+            {
+                if (Animations[key].Ready)
+                {
+                    // Use the already loaded Amination
+                    return Animations[key];
+                }
+                else
+                    return null;
+            }
+            var entry = new EditorEntityDrawing.LoadAnimationData()
+            {
+                name = name,
+                d = d,
+                AnimId = AnimID,
+                frameId = FrameID,
+                fliph = FlipH,
+                flipv = FlipV,
+                rotate = Rotate,
+                textureRotation = TextureRotation,
+                flag = FlagAttributes,
+                stackStart = StackStart,
+                stackEnd = StackEnd,
+                legacyRotation = LegacyRotate
+            };
+            AnimsToLoad.Add(entry);
+            return null;
+        }
         public void LoadNextAnimation(EditorEntity entity)
         {
             if (AnimsToLoad.Count == 0)
@@ -165,15 +261,15 @@ namespace ManiacEditor
             var val = AnimsToLoad[0];
             if (val.anim == null)
             {
-                string key = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}-{val.legacyRotation}";
+                string key = GetAnimationLoadingKey(val.name, val.AnimId, val.frameId, val.fliph, val.flipv, val.flag, val.textureRotation, val.rotate, val.legacyRotation, val.stackFrames, val.stackStart, val.stackEnd);
                 if (!Animations.ContainsKey(key))
                 {
                     if (!Working)
                     {
                         try
-                        {                           
-                            LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, val.rotateImg, false, val.legacyRotation);
-                            entity.uniqueKey = $"{val.name}-{val.AnimId}-{val.frameId}-{val.fliph}-{val.flipv}-{val.rotate}-{val.rotateImg}-{val.legacyRotation}";
+                        {
+                            LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, val.textureRotation, false, val.legacyRotation, val.flag, val.stackFrames, val.stackStart, val.stackEnd);
+                            entity.uniqueKey = GetAnimationLoadingKey(val.name, val.AnimId, val.frameId, val.fliph, val.flipv, val.flag, val.textureRotation, val.rotate, val.legacyRotation, val.stackFrames, val.stackStart, val.stackEnd);
                         }
                         catch (Exception)
                         {
@@ -217,251 +313,14 @@ namespace ManiacEditor
 
             }
         }
-
-        /// <summary>
-        /// Loads / Gets the Sprite Animation
-        /// NOTE: 
-        /// </summary>
-        /// <param name="name">The Name of the object</param>
-        /// <param name="d">The DevicePanel</param>
-        /// <param name="AnimId">The Animation ID (-1 to Load Normal)</param>
-        /// <param name="frameId">The Frame ID for the specified Animation (-1 to load all frames)</param>
-        /// <param name="fliph">Flip the Texture Horizontally</param>
-        /// <param name="flipv">Flip the Texture Vertically</param>
-        /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool legacyRotation = true)
-        {
-            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotation}";
-            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
-            {
-                if (Animations[key].Ready)
-                {
-                    // Use the already loaded Amination
-                    return Animations[key];
-                }
-                else
-                    return null;
-            }
-            var entry = new EditorEntityDrawing.LoadAnimationData()
-            {
-                name = name,
-                d = d,
-                AnimId = AnimId,
-                frameId = frameId,
-                fliph = fliph,
-                flipv = flipv,
-                rotate = rotate,
-                rotateImg = rotateImg,
-                legacyRotation = legacyRotation
-            };
-            AnimsToLoad.Add(entry);
-            return null;
-        }
-
-        /// <summary>
-        /// Loads / Gets the Sprite Animation
-        /// NOTE: 
-        /// </summary>
-        /// <param name="name">The Name of the object</param>
-        /// <param name="d">The DevicePanel</param>
-        /// <param name="AnimId">The Animation ID (-1 to Load Normal)</param>
-        /// <param name="frameId">The Frame ID for the specified Animation (-1 to load all frames)</param>
-        /// <param name="fliph">Flip the Texture Horizontally</param>
-        /// <param name="flipv">Flip the Texture Vertically</param>
-        /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimId, int frameId, bool fliph, bool flipv, bool rotate, int rotateImg = 0, bool loadImageToDX = true, bool legacyRotate = true, bool PartialEngineRotation = false, bool FullEngineRotation = false, bool stacker = false)
-        {
-
-            string key = $"{name}-{AnimId}-{frameId}-{fliph}-{flipv}-{rotate}-{rotateImg}-{legacyRotate}";
-            var anim = new EditorEntityDrawing.EditorAnimation();
-            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
-            {   
-                if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
-                else return null;
-            }
-
-            Animations.Add(key, anim);
-
-            // Get the path of the object's textures
-            string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
-            var assetInfo = GetAssetPath(name);
-
-            string path2 = assetInfo.Item1;
-            string dataFolderLocation = assetInfo.Item2;
-            if (!File.Exists(path2) || path2 == null) return null;
-
-
-            using (var stream = File.OpenRead(path2))
-            {
-                rsdkAnim = new Animation(new RSDKv5.Reader(stream));
-            }
-            if (AnimId == -1)
-            {
-                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Normal"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Normal"));
-                else AnimId = 0;
-                // Use Vertical Amination if one exists
-                if (rotate && rsdkAnim.Animations.Any(t => t.AnimName.EndsWith(" V"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.EndsWith(" V"));
-            }
-            if (AnimId == -2)
-            {
-                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Swing"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Swing"));
-                else AnimId = 0;
-            }
-            if (AnimId >= rsdkAnim.Animations.Count) AnimId = rsdkAnim.Animations.Count - 1;
-            for (int i = 0; i < rsdkAnim.Animations[AnimId].Frames.Count; ++i)
-            {
-                // check we don't stray outside our loaded animations/frames
-                // if user enters a value that would take us there, just show
-                // a valid frame instead
-                var animiation = rsdkAnim.Animations[AnimId];
-                var frame = animiation.Frames[i];
-                if (frameId >= 0 && frameId < animiation.Frames.Count) frame = animiation.Frames[frameId];
-                Bitmap map = null;
-                bool noEncoreColors = false;
-                if (assetName == "EditorAssets" || assetName == "EditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender") noEncoreColors = true;
-
-                if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = (byte)(rsdkAnim.SpriteSheets.Count - 1);
-                if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
-                {
-                    string targetFile;
-
-                    if (assetName == "EditorAssets" || assetName == "HUDEditorText" || assetName == "SuperSpecialRing" || assetName == "EditorIcons2" || assetName == "TransportTubes" || name == "EditorUIRender")
-                    {
-                        if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.gif");
-                        else if (assetName == "HUDEditorText") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.gif");
-                        else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.gif");
-                        else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.gif");
-                        else if (assetName == "EditorUIRender") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "MenuRenders.gif");
-                        else targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.gif");
-                    }
-                    else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
-                    if (!File.Exists(targetFile))
-                    {
-                        map = null;
-                        // add a Null to our lookup, so we can avoid looking again in the future
-                        Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
-                    }
-                    else
-                    {
-                        using (Stream stream = File.OpenRead(targetFile))
-                        {
-                            Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
-                            map = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
-                            //Encore Colors
-                            if (EditorInstance.UIModes.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
-                            Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
-                            disposable.Dispose();
-                        }
-
-
-                    }
-                }
-                else if (Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]] != null)
-                {
-                    map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
-                    //Encore Colors
-                    if (EditorInstance.UIModes.UseEncoreColors && noEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) map = SetEncoreColors(map, EditorInstance.EncorePalette[0]);
-                }
-
-
-                if (frame.Width == 0 || frame.Height == 0) continue;
-
-                // can't load the animation, it probably doesn't exist in the User's Sprites folder
-                if (map == null) return null;
-
-                // We are storing the first colour from the palette so we can use it to make sprites transparent
-                var colour = map.Palette.Entries[0];
-
-                // Slow
-                if (PartialEngineRotation || FullEngineRotation)
-                {
-                    map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour);
-                    map = RotateImage(map, rotateImg, colour);
-                    map = FitForSharpDXTexture(map);
-                }
-                else
-                {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), fliph, flipv, colour, rotateImg, rotate, legacyRotate);
-                    if (rotateImg != 0 && legacyRotate)
-                    {
-                        map = RotateImageLegacy(map, rotateImg, colour);
-                        frame.Height = (short)(frame.Width + frame.Height + 64);
-                        frame.Width = (short)(frame.Height + frame.Width + 32);
-                    }
-                }
-
-
-
-                map = RemoveColourImage(map, colour, map.Width, map.Height);
-
-                Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
-                map.Dispose();
-
-                Texture texture = null;
-                if (loadImageToDX && d != null)
-                {
-                    texture = TextureCreator.FromBitmap(d._device, finalMap);
-                }
-
-                var editorFrame = new EditorEntityDrawing.EditorAnimation.EditorFrame()
-                {
-                    Texture = texture,
-                    Frame = frame,
-                    Entry = rsdkAnim.Animations[AnimId],
-                    ImageWidth = finalMap.Size.Width,
-                    ImageHeight = finalMap.Size.Height
-
-
-                };
-                if (loadImageToDX == false || d == null) editorFrame._Bitmap = finalMap;
-                anim.Frames.Add(editorFrame);
-                if (frameId != -1) break;
-            }
-            anim.ImageLoaded = true;
-            if (loadImageToDX) anim.Ready = true;
-            Working = false;
-			
-			return anim;
-
-        }
-
-        #region New Animation System (Untested)
-        public EditorAnimation LoadAnimation3(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool StackFrames = false, bool LoadImageToDX = true, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false, int TextureRotation = 0, bool LegacyRotate = false, int StackStart = 0, int StackEnd = 0)
-        {
-            string key = $"{name}-{AnimID}-{FrameID}-{FlipH}-{FlipV}-{FlagAttributes}-{TextureRotation}-{Rotate}";
-            var anim = new EditorEntityDrawing.EditorAnimation();
-            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
-            {
-                if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
-                else return null;
-            }
-
-            Animations.Add(key, anim);
-
-            // Get the path of the object's textures
-            string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
-            Tuple<string, string> AssetInfo = GetAssetPath(name);
-            string path2 = AssetInfo.Item1;
-            string dataFolderLocation = AssetInfo.Item2;
-            if (!File.Exists(path2) || path2 == null) return null;
-            using (var stream = File.OpenRead(path2)) { rsdkAnim = new Animation(new RSDKv5.Reader(stream)); }
-            if (AnimID >= rsdkAnim.Animations.Count) AnimID = rsdkAnim.Animations.Count - 1;
-            
-            if (StackFrames) anim = ProcessAnimationFramesAsStack(name, d, AnimID, FrameID, StackStart, StackEnd, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
-            else anim = ProcessAnimationFrames(name, d, AnimID, FrameID, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
-
-            anim.ImageLoaded = true;
-            if (LoadImageToDX) anim.Ready = true;
-            Working = false;
-            return anim;
-        }
         public EditorAnimation ProcessAnimationFrames(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, string assetName, string dataFolderLocation, bool LoadImageToDX, EditorAnimation anim, bool LegacyRotate, int TextureRotation, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false)
         {
+            AnimID = CheckAnimID(AnimID, Rotate);
             for (int i = 0; i < rsdkAnim.Animations[AnimID].Frames.Count; ++i)
             {
                 var animiation = rsdkAnim.Animations[AnimID];
                 var frame = animiation.Frames[i];
-                if (FrameID >= 0 && FrameID < animiation.Frames.Count) frame = animiation.Frames[FrameID];
+                if (FrameID >= 0 && FrameID < animiation.Frames.Count && FrameID != -1) frame = animiation.Frames[FrameID];
                 Bitmap map = null;
                 bool noEncoreColors = false;
                 map = GetAnimationBitmap(name, AnimID, FrameID, assetName, dataFolderLocation, i, map, frame, noEncoreColors);
@@ -615,62 +474,26 @@ namespace ManiacEditor
 
             return targetFile;
         }
-        #endregion
 
-        public EditorTilePlatforms LoadTilePlatform(DevicePanel d, int x2, int y2, int width, int height)
+        public int CheckAnimID(int AnimId, bool rotate)
         {
+            if (AnimId == -1)
+            {
+                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Normal"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Normal"));
+                else AnimId = 0;
+                // Use Vertical Amination if one exists
+                if (rotate && rsdkAnim.Animations.Any(t => t.AnimName.EndsWith(" V"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.EndsWith(" V"));
+            }
+            if (AnimId == -2)
+            {
+                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Swing"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Swing"));
+                else AnimId = 0;
+            }
 
-            SceneLayer _layer = Editor.Instance.EditorScene?.Move.Layer;
-            string key = $"{x2}-{y2}-{width}-{height}";
-            var anim = new EditorTilePlatforms();
-            if (TilePlatforms.ContainsKey(key))
-            {
-                if (TilePlatforms[key].Ready)
-                {
-                    // Use the already loaded Amination
-                    return TilePlatforms[key];
-                }
-                else
-                    return null;
-            }
-            TilePlatforms.Add(key, anim);
-            Texture GroupTexture;
-            Rectangle rect = GetTilePlatformArea(x2 * 16, y2 * 16, height * 16, width * 16);
-            try
-            {
-
-                using (Bitmap bmp = new Bitmap(_layer.Width * 16, _layer.Height * 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-                {
-                    using (Graphics g = Graphics.FromImage(bmp))
-                    {
-                        for (int tx = 0; tx <= x2 + width; ++tx)
-                        {
-                            for (int ty = 0; ty <= y2 + height; ++ty)
-                            {
-                                // We will draw those later
-                                if (_layer.Tiles?[ty][tx] != 0xffff)
-                                {
-                                    DrawObjectTile(g, _layer.Tiles[ty][tx], tx - x2 + width / 2, ty - y2 + height / 2);
-                                }
-                            }
-                        }
-                    }
-                    GroupTexture = TextureCreator.FromBitmap(d._device, bmp);
-                    anim.Texture = GroupTexture;
-                    if (GroupTexture != null)
-                    {
-                        anim.Ready = true;
-                    }
-                    anim.Height = bmp.Height;
-                    anim.Width = bmp.Width;
-                    return anim;
-                }
-            }
-            catch
-            {
-                return null;
-            }
+            return AnimId;
         }
+
+        #endregion
 
         public void DrawObjectTile(Graphics g, ushort tile, int x, int y)
         {
@@ -1157,22 +980,15 @@ namespace ManiacEditor
         }
 
         [Serializable]
-        public class EditorTilePlatforms
-        {
-            public bool Ready = false;
-            public int Width = 0;
-            public int Height = 0;
-            public Texture Texture;
-        }
-
-        [Serializable]
         public class LoadAnimationData
         {
             public string name;
             public DevicePanel d;
             public int AnimId, frameId;
-            public bool fliph, flipv, rotate, legacyRotation;
-            public int rotateImg;
+            public bool fliph, flipv, rotate, legacyRotation, stackFrames;
+            public int stackStart, stackEnd, textureRotation;
+            public Flag flag;
+
             public EditorAnimation anim;
         }
 
@@ -1184,15 +1000,12 @@ namespace ManiacEditor
                 pair.Value?.Dispose();
             Sheets.Clear();
 
-            TilePlatforms.Clear();
-
 
             foreach (var pair in Animations)
                 foreach (var pair2 in pair.Value.Frames)
                     pair2.Texture?.Dispose();
 
             Animations.Clear();
-            TilePlatforms.Clear();
         }
 
     }

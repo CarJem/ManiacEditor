@@ -686,7 +686,7 @@ namespace ManiacEditor
                 {
                     fliph = true;
                     offset.X = 0;
-                    rotate = true;
+                    //rotate = true;
                 }
                 else if (dir == 2) // Up
                 {
