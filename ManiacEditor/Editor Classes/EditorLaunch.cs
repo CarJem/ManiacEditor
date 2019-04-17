@@ -606,6 +606,14 @@ namespace ManiacEditor
             Editor.Instance.UIModes.RequireSaveCheck = true;
         }
 
+        public void ExportGUI(object sender, RoutedEventArgs e)
+        {
+            var eG = new ManiacEditor.Interfaces.ExportAsImageGUI(Editor.EditorScene);
+            eG.Owner = Window.GetWindow(Editor);
+            eG.ShowDialog();
+
+        }
+
         public void ObjectManager()
         {
             var objectManager = new ManiacEditor.Interfaces.ObjectManager(Editor.EditorScene.Objects, Editor.StageConfig, Editor);

@@ -814,6 +814,9 @@
     <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="Graphics\GraphicsHandler.cs" />
     <Compile Include="Graphics\ImageExtensions.cs" />
+    <Compile Include="Interfaces\Editor Tools\ExportAsImageGUI.xaml.cs">
+      <DependentUpon>ExportAsImageGUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\Options + Dev\SettingsHeader.xaml.cs">
       <DependentUpon>SettingsHeader.xaml</DependentUpon>
     </Compile>
@@ -1753,6 +1756,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="ContextMenuPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces\Editor Tools\ExportAsImageGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

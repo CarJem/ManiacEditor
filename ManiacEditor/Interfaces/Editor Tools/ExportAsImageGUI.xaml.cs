@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace ManiacEditor.Interfaces
+{
+    /// <summary>
+    /// Interaction logic for ExportAsImageGUI.xaml
+    /// </summary>
+    public partial class ExportAsImageGUI : Window
+    {
+        public ExportAsImageGUI(EditorScene editorScene)
+        {
+            InitializeComponent();
+            foreach (var layer in editorScene.OtherLayers)
+            {
+                CheckBox layerCheckbox = new CheckBox()
+                {
+                    Content = layer.Name
+                };
+                ExtraLayersSection.Children.Add(layerCheckbox);
+            }
+
+            foreach (var obj in editorScene.Objects)
+            {
+                CheckBox entityCheckbox = new CheckBox()
+                {
+                    Content = obj.Name
+                };
+
+                RenderableObjects.Items.Add(entityCheckbox);
+            }
+        }
+
+        private void RenderableObjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RenderableObjects.SelectedIndex = -1;
+        }
+
+        private void CheckAll_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var checkbox in RenderableObjects.Items)
+            {
+                if (checkbox is CheckBox)
+                {
+                    (checkbox as CheckBox).IsChecked = true;
+                }
+            }
+        }
+
+        private void UncheckAll_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var checkbox in RenderableObjects.Items)
+            {
+                if (checkbox is CheckBox)
+                {
+                    (checkbox as CheckBox).IsChecked = false;
+                }
+            }
+        }
+
+        private void RenderableObjectRenders_Click(object sender, RoutedEventArgs e)
+        {
+            RenderableObjects.IsDropDownOpen = true;
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (OnlyRenderSpecificObjects.IsChecked.Value)
+            {
+                RenderableObjectsDropDownButton.IsEnabled = true;
+            }
+            else
+            {
+                RenderableObjectsDropDownButton.IsEnabled = false;
+            }
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+}

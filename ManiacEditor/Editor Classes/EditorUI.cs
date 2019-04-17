@@ -31,6 +31,7 @@ namespace ManiacEditor
             Editor.Instance.playerSpawnToolStripMenuItem.IsEnabled = enabled;
             Editor.Instance.findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
             Editor.Instance.maniacinieditorToolStripMenuItem.IsEnabled = enabled;
+            Editor.Instance.exportToolStripMenuItem.IsEnabled = enabled;
 
             Editor.Instance.ShowFGHigh.IsEnabled = enabled && Editor.Instance.FGHigh != null;
             Editor.Instance.ShowFGLow.IsEnabled = enabled && Editor.Instance.FGLow != null;

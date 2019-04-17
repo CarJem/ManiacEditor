@@ -511,34 +511,18 @@ namespace ManiacEditor
 		}
 
 		#region Collision Options
-		public void CollisionOpacitySliderDragEnd(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-		{
-			if (Editor.UIModes.collisionOpacityChanged)
-			{
-				Editor.UIModes.collisionOpacityChanged = false;
-				Editor.ReloadSpecificTextures(sender, e);
-				Editor.RefreshCollisionColours(true);
-			}
-		}
-		public void CollisionOpacitySliderLostFocus(object sender, RoutedEventArgs e)
-		{
-			if (Editor.UIModes.collisionOpacityChanged)
-			{
-				Editor.UIModes.collisionOpacityChanged = false;
-				Editor.ReloadSpecificTextures(sender, e);
-				Editor.RefreshCollisionColours(true);
-			}
-		}
 		public void CollisionOpacitySliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			Editor.UIModes.collisionOpacityChanged = true;
-		}
-		#endregion
+            Editor.UIModes.collisionOpacityChanged = true;
+            Editor.ReloadSpecificTextures(sender, e);
+            Editor.RefreshCollisionColours(true);
+        }
+        #endregion
 
-		#endregion
+        #endregion
 
-		#region Tools Tab Buttons
-		public void ChangeLevelID(object sender, RoutedEventArgs e)
+        #region Tools Tab Buttons
+        public void ChangeLevelID(object sender, RoutedEventArgs e)
 		{
 			string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.UIModes.LevelID.ToString());
 			int.TryParse(inputValue.ToString(), out int output);

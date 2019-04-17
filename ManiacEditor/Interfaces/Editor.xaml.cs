@@ -1524,7 +1524,7 @@ namespace ManiacEditor
 
 				if (RefreshMasks)
 				{
-                    UI.ReloadSpritesAndTextures();
+                    //UI.ReloadSpritesAndTextures();
                 }
 			}
 
@@ -1606,6 +1606,7 @@ namespace ManiacEditor
         private void ExitEditorEvent(object sender, RoutedEventArgs e) { Close(); }
         private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportAsPNG(); }
         private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportLayersAsPNG(); }
+        private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
         private void BackupEvent(object sender, RoutedEventArgs e) { UIEvents.BackupToolStripMenuItem_Click(sender, e); }
         private void RecoverEvent(object sender, RoutedEventArgs e) { UIEvents.BackupRecoverButton_Click(sender, e); }
@@ -1929,8 +1930,6 @@ namespace ManiacEditor
         }
 
         #region Collision Slider Events
-        private void CollisionOpacitySliderDragCompletedEvent(object sender, DragCompletedEventArgs e) { UIEvents.CollisionOpacitySliderDragEnd(sender, e); }
-        private void CollisionOpacitySliderLostFocusEvent(object sender, RoutedEventArgs e) { UIEvents.CollisionOpacitySliderLostFocus(sender, e); }
         private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
         #endregion
 
@@ -2736,6 +2735,7 @@ namespace ManiacEditor
             if (e.NewValue.Value != null)
             {
                 UIModes.CollisionTOColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                RefreshCollisionColours(true);
             }
         }
 
@@ -2745,6 +2745,7 @@ namespace ManiacEditor
             if (e.NewValue.Value != null)
             {
                 UIModes.CollisionLRDColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                RefreshCollisionColours(true);
             }
         }
 
@@ -2754,6 +2755,7 @@ namespace ManiacEditor
             if (e.NewValue.Value != null)
             {
                 UIModes.CollisionSAColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                RefreshCollisionColours(true);
             }
         }
 
@@ -2764,5 +2766,7 @@ namespace ManiacEditor
         }
 
         #endregion
+
+
     }
 }

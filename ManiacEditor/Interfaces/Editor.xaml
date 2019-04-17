@@ -306,7 +306,7 @@
                                                                         </Expander>
                                                                         <StackPanel Orientation="Vertical">
                                                                             <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
-                                                                            <Slider LostFocus="CollisionOpacitySliderLostFocusEvent" Thumb.DragCompleted="CollisionOpacitySliderDragCompletedEvent" x:Name="collisionOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
+                                                                            <Slider x:Name="collisionOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
                                                                         </StackPanel>
                                                                     </StackPanel>
                                                                 </Border>
@@ -582,12 +582,8 @@
                 </MenuItem>
                 <MenuItem x:Name="backupRecoverButton" Header="Restore" Click="RecoverEvent"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="exportToolStripMenuItem" Header="Export">
-                    <MenuItem x:Name="saveAspngToolStripMenuItem" Header="Export as PNG..." Click="ExportAsPNGEvent"/>
-                    <MenuItem x:Name="exportEachLayerAspngToolStripMenuItem" Header="Export each layer as PNG..." Click="ExportLayersAsPNGEvent"/>
-                    <MenuItem x:Name="settingsToolStripMenuItem" Header="Settings" IsEnabled="False"/>
-                </MenuItem>
-                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                <MenuItem x:Name="exportToolStripMenuItem" Header="Export..." Click="ExportToolStripMenuItem_Click"></MenuItem>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="RecentScenes" Header="Open Recently Opened Scenes" SubmenuOpened="RecentScenes_SubmenuOpened">
                     <MenuItem x:Name="NoRecentScenesItem" Header="No Recently Opened Scenes" IsEnabled="False"/>
                 </MenuItem>
