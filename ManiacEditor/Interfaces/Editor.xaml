@@ -582,7 +582,11 @@
                 </MenuItem>
                 <MenuItem x:Name="backupRecoverButton" Header="Restore" Click="RecoverEvent"/>
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <MenuItem x:Name="exportToolStripMenuItem" Header="Export..." Click="ExportToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="exportToolStripMenuItem" Header="Export...">
+                    <MenuItem Header="Export as PNG..." Click="ExportAsPNGEvent"></MenuItem>
+                    <MenuItem Header="Export Layers as PNG..." Click="ExportLayersAsPNGEvent"></MenuItem>
+                    <MenuItem Header="Options..." Click="ExportToolStripMenuItem_Click"></MenuItem>
+                </MenuItem>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 <MenuItem x:Name="RecentScenes" Header="Open Recently Opened Scenes" SubmenuOpened="RecentScenes_SubmenuOpened">
                     <MenuItem x:Name="NoRecentScenesItem" Header="No Recently Opened Scenes" IsEnabled="False"/>
