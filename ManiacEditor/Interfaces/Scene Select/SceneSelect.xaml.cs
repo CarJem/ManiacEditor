@@ -531,7 +531,7 @@ namespace ManiacEditor.Interfaces
 
         #region GameConfig Events
 
-        bool isFunctional = false;
+        bool isFunctional = true;
 
         public void GameConfigThrowError()
         {
