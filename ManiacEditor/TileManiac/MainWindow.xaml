@@ -1,0 +1,721 @@
+﻿<Window x:Class="ManiacEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:ManiacEditor"
+        mc:Ignorable="d"
+        Title="Tile Maniac - RSDKv5 Collision Editor" Height="549" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Width="919" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="67"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="377"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="157"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
+            <MenuItem Header="File" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="newInstanceMenuItem" Header="New Instance" Click="newInstanceToolStripMenuItem_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="openMenuItem" Header="Open" Click="OpenToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="saveMenuItem" Header="Save" Click="saveToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="saveAsMenuItem" Header="Save As..." Click="saveAsToolStripMenuItem_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="saveUncompressedMenuItem" Header="Save (Uncompressed)" Click="saveUncompressedToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="saveAsUncompressedMenuItem" Header="Save As... (Uncompressed)" Click="saveAsUncompressedToolStripMenuItem_Click"></MenuItem>
+                <MenuItem Header="Backup...">
+                    <MenuItem x:Name="backupTilesMenuItem" Header="16x16Tiles.gif" Click="x16TilesgifToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="backupTilesConfigMenuItem" Header="Tilesconfig.bin" Click="tileConfigbinToolStripMenuItem_Click"></MenuItem>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="OpenSingleColMaskMenuItem" Header="Open Single Collision Mask" Click="openSingleCollisionMaskToolStripMenuItem_Click_1"></MenuItem>
+                <MenuItem x:Name="exportCurrentMaskMenuItem" Header="Export Current Collision Mask As..." Click="exportCurrentCollisionMaskAsToolStripMenuItem_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="importMenuItem" Header="Import from older RSDK Version" Click="importFromOlderRSDKVersionToolStripMenuItem_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Edit" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="copyMenuItem" Click="copyToolStripMenuItem_Click" Header="Copy"></MenuItem>
+                <MenuItem x:Name="copyToOtherPathMenuItem" Click="copyToOtherPathToolStripMenuItem_Click" Header="Copy to Other Path"></MenuItem>
+                <MenuItem x:Name="pasteMenuItem" Click="pasteToolStripMenuItem_Click" Header="Paste"></MenuItem>
+                <Separator></Separator>
+                <MenuItem IsCheckable="True" Click="mirrorPathsToolStripMenuItem_Click" x:Name="mirrorPathsToolStripMenuItem1" Header="Mirror Mode"></MenuItem>
+                <MenuItem Header="Restore Mask from Memory">
+                    <MenuItem x:Name="restoreBothMenuItem" Click="bothToolStripMenuItem_Click" Header="Both"></MenuItem>
+                    <MenuItem x:Name="restorePathAMenuItem" Click="pathBToolStripMenuItem_Click" Header="Path A"></MenuItem>
+                    <MenuItem x:Name="restorePathBMenuItem" Click="pathAToolStripMenuItem_Click" Header="Path B"></MenuItem>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="View" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem IsCheckable="True" Click="showPathBToolStripMenuItem_Click" x:Name="showPathBToolStripMenuItem" Header="Show Path B"></MenuItem>
+                <MenuItem IsCheckable="True" Click="showGridToolStripMenuItem_Click" Header="Show Grid" x:Name="showGridToolStripMenuItem"></MenuItem>
+                <MenuItem IsCheckable="True" Click="classicViewModeToolStripMenuItem_Click" x:Name="classicViewModeToolStripMenuItem" Header="Classic View Mode"></MenuItem>
+                <MenuItem x:Name="viewSettingsToolStripMenuItem" Header="View Settings">
+                    <MenuItem Header="Appearance:" IsEnabled="False"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Click="overlayToolStripMenuItem_Click" x:Name="overlayToolStripMenuItem" Header="Overlay"></MenuItem>
+                    <MenuItem Click="collisionToolStripMenuItem_Click" x:Name="collisionToolStripMenuItem" Header="Collision"></MenuItem>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem IsCheckable="True" x:Name="windowAlwaysOnTop" Click="WindowAlwaysOnTop_Click" Header="Window Always On Top"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Tools" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="splitFileMenuItem" Click="splitFileToolStripMenuItem_Click" Header="Split File"></MenuItem>
+                <MenuItem Header="Developer">
+                    <MenuItem Click="developerInterfaceToolStripMenuItem_Click" Header="Developer Interface"></MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="flipTileHMenuItem" Click="flipTileHorizontallyToolStripMenuItem_Click" Header="Flip Tile Horizontally"></MenuItem>
+                <MenuItem x:Name="flipTileVMenuItem" Click="flipTileVerticallyToolStripMenuItem_Click" Header="Flip Tile Vertically"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Folders" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="openCollisionHomeFolderToolStripMenuItem" Click="openCollisionHomeFolderToolStripMenuItem_Click" Header="Open Collision Home Folder"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Other" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="aboutMenuItem" Click="aboutToolStripMenuItem1_Click" Header="About"></MenuItem>
+                <MenuItem x:Name="settingsMenuItem" Click="settingsToolStripMenuItem_Click" Header="Settings"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <GroupBox Grid.Column="0" Grid.Row="1" Foreground="{DynamicResource NormalText}" Header="Tile Collision Data">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="100"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="ClassicMode" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged"  x:Name="lb00" Grid.RowSpan="16" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb01" Grid.RowSpan="16" Grid.Column="1" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb02" Grid.RowSpan="16" Grid.Column="2" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb03" Grid.RowSpan="16" Grid.Column="3" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb04" Grid.RowSpan="16" Grid.Column="4" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb05" Grid.RowSpan="16" Grid.Column="5" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb06" Grid.RowSpan="16" Grid.Column="6" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb07" Grid.RowSpan="16" Grid.Column="7" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb08" Grid.RowSpan="16" Grid.Column="8" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb09" Grid.RowSpan="16" Grid.Column="9" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb10" Grid.RowSpan="16" Grid.Column="10" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb11" Grid.RowSpan="16" Grid.Column="11" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb12" Grid.RowSpan="16" Grid.Column="12" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb13" Grid.RowSpan="16" Grid.Column="13" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb14" Grid.RowSpan="16" Grid.Column="14" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb15" Grid.RowSpan="16" Grid.Column="15" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBoxItem Padding="0">0</ListBoxItem>
+                        <ListBoxItem Padding="0">1</ListBoxItem>
+                        <ListBoxItem Padding="0">2</ListBoxItem>
+                        <ListBoxItem Padding="0">3</ListBoxItem>
+                        <ListBoxItem Padding="0">4</ListBoxItem>
+                        <ListBoxItem Padding="0">5</ListBoxItem>
+                        <ListBoxItem Padding="0">6</ListBoxItem>
+                        <ListBoxItem Padding="0">7</ListBoxItem>
+                        <ListBoxItem Padding="0">8</ListBoxItem>
+                        <ListBoxItem Padding="0">9</ListBoxItem>
+                        <ListBoxItem Padding="0">A</ListBoxItem>
+                        <ListBoxItem Padding="0">B</ListBoxItem>
+                        <ListBoxItem Padding="0">C</ListBoxItem>
+                        <ListBoxItem Padding="0">D</ListBoxItem>
+                        <ListBoxItem Padding="0">E</ListBoxItem>
+                        <ListBoxItem Padding="0">F</ListBoxItem>
+                    </ListBox>
+                </Grid>
+
+                <Grid MouseLeave="CollisionViewer_MouseLeave" Height="280" x:Name="CollisionViewer" VerticalAlignment="Bottom" MouseEnter="CollisionViewer_MouseHover" MouseDown="CollisionViewer_MouseDown" MouseMove="CollisionViewer_MouseMove" HorizontalAlignment="Stretch" IsEnabled="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+
+
+
+
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb00" Grid.Row="16" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb01" Grid.Row="16" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb02"  Grid.Row="16" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb03"  Grid.Row="16" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb04"  Grid.Row="16" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb05"  Grid.Row="16" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb06" Grid.Row="16" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb07" Grid.Row="16" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb08" Grid.Row="16" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb09" Grid.Row="16" Grid.Column="9" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb10" Grid.Row="16" Grid.Column="10" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb11" Grid.Row="16" Grid.Column="11" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb12" Grid.Row="16" Grid.Column="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb13" Grid.Row="16" Grid.Column="13" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb14" Grid.Row="16" Grid.Column="14" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb15" Grid.Row="16" Grid.Column="15" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                </Grid>
+                <Grid  Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="52*"></ColumnDefinition>
+                        <ColumnDefinition Width="56*"></ColumnDefinition>
+                        <ColumnDefinition Width="75*"></ColumnDefinition>
+                        <ColumnDefinition Width="64*"></ColumnDefinition>
+                        <ColumnDefinition Width="51*"></ColumnDefinition>
+                        <ColumnDefinition Width="59*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Margin="2">
+                        <Label Content="Slope"></Label>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="SlopeNUD_ValueChanged" x:Name="SlopeNUD" ToolTip="Controls the slope angle of the tile in degrees" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="2,0">
+                        <Label Content="Slope (°D)"></Label>
+                        <Grid Width="48" Height="20" HorizontalAlignment="Left">
+                            <wpfTool:IntegerUpDown IsEnabled="False" x:Name="RawSlopeNUD" DefaultValue="0" Value="0" Height="20" Width="48"></wpfTool:IntegerUpDown>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="2">
+                        <Label Content="Physics"></Label>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="PhysicsNUD_ValueChanged" x:Name="PhysicsNUD" ToolTip="Controls the physics of the player interacting with the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2"  Margin="2">
+                        <Label Content="Momentum"></Label>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="MomentumNUD_ValueChanged" x:Name="MomentumNUD" ToolTip="Controls the momentum the player gets from the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Margin="2">
+                        <Label Content="Unknown"></Label>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="UnknownNUD_ValueChanged" x:Name="UnknownNUD" ToolTip="Controls the Unknown Value of the tile" DefaultValue="0" Value="0" IsEnabled="False"></wpfTool:IntegerUpDown>
+                    </StackPanel>
+                    <StackPanel Grid.Column="4" Margin="2">
+                        <Label Content="Special"></Label>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" x:Name="SpecialNUD" ValueChanged="SpecialNUD_ValueChanged" ToolTip="Controls the the tile's 'Special' Properties, like whether it's a conveyor belt or not" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
+                    </StackPanel>
+                    <StackPanel Grid.Column="5" Margin="2">
+                        <Label Content="IsCelling"></Label>
+                        <CheckBox x:Name="IsCeilingButton" Checked="IsCeilingButton_CheckedChanged" Unchecked="IsCeilingButton_CheckedChanged" IsEnabled="False"></CheckBox>
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+
+        </GroupBox>
+        <Grid Grid.Row="2" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center">
+                <TextBlock Height="27"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Collision Mask" VerticalContentAlignment="Center"></Label>
+                    <wpfTool:IntegerUpDown ValueChanged="GotoNUD_ValueChanged"  Minimum="0" Maximum="1023" x:Name="GotoNUD" DefaultValue="0" Value="0" Height="20" Width="50" IsEnabled="False"></wpfTool:IntegerUpDown>
+                    <Label Content="of 1023" VerticalContentAlignment="Center"></Label>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical">
+                <Label x:Name="VPLabel" Content="Currently Viewing: Path A" HorizontalAlignment="Center"></Label>
+                <Button x:Name="swapPathButton" Click="showPathBToolStripMenuItem_Click" Content="Swap Path" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="140" IsEnabled="False"></Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="240"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <GroupBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="330" Height="216" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Header="Collision View" Foreground="{DynamicResource NormalText}">
+                <Grid Height="190" HorizontalAlignment="Center" x:Name="OldColViewer">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="160"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" ></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderThickness="0" Margin="0" Padding="0" Grid.Column="0" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer1" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Padding="0" Grid.Column="1" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer2" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="2" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer3" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="3" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer4" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="4" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer5" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="5" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer6" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="6" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer7" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="7" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer8" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="8" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer9" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="9" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer10" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="10" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer11" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="11" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer12" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="12" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer13" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="13" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer14" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="14" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer15" Stretch="Fill" Width="12"></Image>
+                    </Border>
+                    <Border BorderThickness="0" Margin="0" Grid.Column="15" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="Viewer16" Stretch="Fill" Width="12"></Image>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="0" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox0" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="1" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox1" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="2" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox2" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="3" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox3" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="4" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox4" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="5" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox5" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="6" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox6" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="7" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox7" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="8" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox8" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="9" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBox9" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="10" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBoxA" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="11" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBoxB" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="12" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBoxC" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="13" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBoxD" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="14" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBoxE" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="15" BorderBrush="{DynamicResource DisabledText}">
+                        <Image x:Name="RGBoxF" Stretch="Fill" Width="12" Height="12"></Image>
+                    </Border>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Width="125" Height="125" VerticalAlignment="Top" Header="Current Tile" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">
+                <Grid>
+                    <WindowsFormsHost Visibility="Hidden" Width="96" Height="96" x:Name="PicBoxHost1Overlay">
+                    </WindowsFormsHost>
+                    <WindowsFormsHost Visibility="Hidden"  Width="96" Height="96" x:Name="PicBoxHost2Tile">
+                    </WindowsFormsHost>
+                    <WindowsFormsHost Visibility="Hidden"  Width="96" Height="96" x:Name="PicBoxHost3Collision">
+                    </WindowsFormsHost>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Grid.Column="1" Height="92" VerticalAlignment="Top" Header="Viewer Mode" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <RadioButton Unchecked="radioButton1_CheckedChanged" Checked="radioButton1_CheckedChanged" x:Name="colllisionViewButton" Content="Collision" Margin="4,2"></RadioButton>
+                    <RadioButton Unchecked="radioButton2_CheckedChanged" Checked="radioButton2_CheckedChanged" x:Name="tileViewButton" Content="Tile" Margin="4,2"></RadioButton>
+                    <RadioButton Unchecked="radioButton3_CheckedChanged" Checked="radioButton3_CheckedChanged" x:Name="overlayViewButton" Content="Overlay" Margin="4,2"></RadioButton>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+            <Label Content="Checkbox Controls:&#xD;&#xA;Left Click - Check&#xD;&#xA;Right Click - Uncheck"></Label>
+        </StackPanel>
+        <Label x:Name="mirrorModeStatusLabel" Content="Mirror Mode: OFF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="1"></Label>
+        <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <WindowsFormsHost x:Name="TilesListHost" Background="{DynamicResource StatusBarBackground}"></WindowsFormsHost>
+            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="View:" Margin="0"></Label>
+                <RadioButton Checked="tileViewRadioButton_CheckedChanged" Unchecked="tileViewRadioButton_CheckedChanged" x:Name="tileViewRadioButton" Content="Tiles" VerticalAlignment="Center" Margin="2"></RadioButton>
+                <RadioButton Checked="collisionViewRadioButton_CheckedChanged" Unchecked="collisionViewRadioButton_CheckedChanged" x:Name="collisionViewRadioButton" Content="Collision" VerticalAlignment="Center" Margin="2"></RadioButton>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

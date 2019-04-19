@@ -32,6 +32,60 @@ namespace ManiacEditor
             byte b = (byte)((color.B * amount) + backcolor.B * (1 - amount));
             return System.Drawing.Color.FromArgb(r, g, b);
         }
+
+        public static void GetRowColIndex(this System.Windows.Controls.Grid @this, System.Windows.Point position, out int row, out int column)
+        {
+            column = -1;
+            double total = 0;
+            foreach (System.Windows.Controls.ColumnDefinition clm in @this.ColumnDefinitions)
+            {
+                if (position.X < total)
+                {
+                    break;
+                }
+                column++;
+                total += clm.ActualWidth;
+            }
+            row = -1;
+            total = 0;
+            foreach (System.Windows.Controls.RowDefinition rowDef in @this.RowDefinitions)
+            {
+                if (position.Y < total)
+                {
+                    break;
+                }
+                row++;
+                total += rowDef.ActualHeight;
+            }
+        }
+        public static System.Drawing.Color FindNearestMatch(this System.Drawing.Color col, out int distance, params System.Drawing.Color[] palette)
+        {
+            if (Array.IndexOf(palette, col) != -1)
+            {
+                distance = 0;
+                return col;
+            }
+            System.Drawing.Color nearest_color = System.Drawing.Color.Empty;
+            distance = int.MaxValue;
+            foreach (System.Drawing.Color o in palette)
+            {
+                int test_red = o.R - col.R;
+                test_red *= test_red;
+                int test_green = o.G - col.G;
+                test_green *= test_green;
+                int test_blue = o.B - col.B;
+                test_blue *= test_blue;
+                int temp = test_blue + test_green + test_red;
+                if (temp == 0)
+                    return o;
+                else if (temp < distance)
+                {
+                    distance = temp;
+                    nearest_color = o;
+                }
+            }
+            return nearest_color;
+        }
         public static List<System.Drawing.Point> CreateDataPoints(float[] x, float[] y)
         {
             System.Diagnostics.Debug.Assert(x.Length == y.Length);

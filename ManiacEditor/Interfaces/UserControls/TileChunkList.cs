@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using TileManiac;
+using ManiacEditor;
 
 namespace ManiacEditor.Interfaces
 {
@@ -17,7 +17,6 @@ namespace ManiacEditor.Interfaces
     [DefaultEvent("SelectedIndexChanged")]
     public partial class RetroEDTileList : UserControl
     {
-		private Editor EditorInstance;
         private int selectedIndex = -1;
 		private System.Windows.Forms.Integration.ElementHost elementHost1;
 		public VScrollBar vScrollBar1Host;
@@ -94,9 +93,8 @@ namespace ManiacEditor.Interfaces
 
         public List<Bitmap> Images = new List<Bitmap>();
 
-        public RetroEDTileList(Editor instance)
+        public RetroEDTileList()
         {
-			EditorInstance = instance;
             InitializeComponent();
 			SetupHostScrollBar();
 			vScrollBar1Host.scroller.Scroll += vScrollBar1_Scroll;
@@ -166,7 +164,7 @@ namespace ManiacEditor.Interfaces
                     int stc = hScrollBar1.Value / actualImageWidth;
                     int edc = Math.Min((int)Math.Ceiling((hScrollBar1.Value + Width) / (double)actualImageWidth), numCols);
                     Graphics g = e.Graphics;
-                    g.SetOptions();
+                    //g.SetOptions();
                     g.Clear(BackColor);
                     int i = stc * tilesPerCol;
                     for (int c = stc; c < edc; c++)
@@ -185,7 +183,7 @@ namespace ManiacEditor.Interfaces
                     int str = (int)vScrollBar1.Value / actualImageHeight;
                     int edr = Math.Min((int)Math.Ceiling((vScrollBar1.Value + Height) / (double)actualImageHeight), numRows);
                     g = e.Graphics;
-                    g.SetOptions();
+                    //g.SetOptions();
                     g.Clear(BackColor);
                     i = str * tilesPerRow;
                     for (int r = str; r < edr; r++)
@@ -424,45 +422,44 @@ namespace ManiacEditor.Interfaces
 
 		private void removeChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			EditorInstance.TilesToolbar.RemoveChunk(selectedIndex);
+			Editor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
 		}
 
 		private void duplicateChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (SelectedIndex != -1)
 			{
-				EditorInstance.TilesToolbar.DuplicateChunk(SelectedIndex);
+				Editor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
 			}
 		}
 
 		private void importChunkFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (EditorInstance.TilesClipboard != null)
+			if (Editor.Instance.TilesClipboard != null)
 			{
-				EditorInstance.Chunks.ConvertClipboardtoMultiLayerChunk(EditorInstance.TilesClipboard.Item1, EditorInstance.TilesClipboard.Item2);
+				Editor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Editor.Instance.TilesClipboard.Item1, Editor.Instance.TilesClipboard.Item2);
 
-				EditorInstance.TilesToolbar?.ChunksReload();
+				Editor.Instance.TilesToolbar?.ChunksReload();
 			}
 		}
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (EditorInstance.TileManiacInstance == null || EditorInstance.TileManiacInstance.IsClosed) EditorInstance.TileManiacInstance = new TileManiac.MainWindow();
-			if (EditorInstance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
+			if (Editor.Instance.TileManiacInstance == null || Editor.Instance.TileManiacInstance.IsClosed) Editor.Instance.TileManiacInstance = new MainWindow();
+			if (Editor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
-				EditorInstance.TileManiacInstance.Show();
+				Editor.Instance.TileManiacInstance.Show();
 			}
-			EditorInstance.TileManiacInstance.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
-			if (EditorInstance.TileConfig != null && Editor.Instance.EditorTiles.StageTiles != null)
+			if (Editor.Instance.TileConfig != null && Editor.Instance.EditorTiles.StageTiles != null)
 			{
-				if (EditorInstance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || EditorInstance.TileManiacInstance.tcf == null)
+				if (Editor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Editor.Instance.TileManiacInstance.tcf == null)
 				{
-					EditorInstance.TileManiacInstance.LoadTileConfigViaIntergration(EditorInstance.TileConfig, EditorInstance.Paths.TileConfig_Source, SelectedIndex);
+					Editor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Editor.Instance.TileConfig, Editor.Instance.Paths.TileConfig_Source, SelectedIndex);
 				}
 				else
 				{
-					EditorInstance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
-					EditorInstance.TileManiacInstance.Activate();
+					Editor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
+					Editor.Instance.TileManiacInstance.Activate();
 				}
 
 			}

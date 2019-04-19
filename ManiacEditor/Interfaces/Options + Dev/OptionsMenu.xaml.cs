@@ -32,14 +32,12 @@ namespace ManiacEditor.Interfaces
 	public partial class OptionsMenu : Window
 	{
 		bool collisionColorsRadioGroupCheckChangeAllowed = true;
-		public Editor EditorInstance;
 		System.Windows.Forms.Timer CheckGraphicalSettingTimer;
 
 
-        public OptionsMenu(Editor instance)
+        public OptionsMenu()
 		{
 			InitializeComponent();
-			EditorInstance = instance;
 
             SetScrollerToggleTypeRadioButtonState(Settings.MySettings.ScrollerPressReleaseMode);
             CheckGraphicalSettingTimer = new System.Windows.Forms.Timer();
@@ -90,10 +88,41 @@ namespace ManiacEditor.Interfaces
 
 			CheckGraphicalPresetModeState(null, null);
 
-			SetKeybindTextboxes();
+			SetAllKeybindTextboxes();
 			UpdateCustomColors();
 
-		}
+            switch (Properties.Defaults.Default.TileManiacListSetting)
+            {
+                case 0:
+                    collisionListRadioButton.IsChecked = true;
+                    break;
+                case 1:
+                    tileListRadioButton.IsChecked = true;
+                    break;
+            }
+            switch (Properties.Defaults.Default.TileManiacViewAppearanceMode)
+            {
+                case 0:
+                    overlayEditorViewRadioButton.IsChecked = true;
+                    break;
+                case 1:
+                    collisionEditorViewRadioButton.IsChecked = true;
+                    break;
+            }
+            switch (Properties.Defaults.Default.TileManiacRenderViewerSetting)
+            {
+                case 0:
+                    tileRenderViewRadioButton.IsChecked = true;
+                    break;
+                case 1:
+                    collisionRenderViewRadioButton.IsChecked = true;
+                    break;
+                case 2:
+                    overlayRenderViewRadioButton.IsChecked = true;
+                    break;
+            }
+
+        }
 
 		private void UpdateCustomColors()
 		{
@@ -215,13 +244,13 @@ namespace ManiacEditor.Interfaces
 			{
 				RPCCheckBox.IsChecked = true;
 				Settings.MySettings.ShowDiscordRPC = true;
-				EditorInstance.Discord.UpdateDiscord(EditorInstance.Discord.ScenePath);
+				Editor.Instance.Discord.UpdateDiscord(Editor.Instance.Discord.ScenePath);
 			}
 			else
 			{
 				RPCCheckBox.IsChecked = false;
 				Settings.MySettings.ShowDiscordRPC = false;
-				EditorInstance.Discord.UpdateDiscord();
+				Editor.Instance.Discord.UpdateDiscord();
 			}
 		}
 
@@ -377,7 +406,7 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
-				EditorInstance.UIModes.waterColor = colorSelect.Color;
+				Editor.Instance.UIModes.waterColor = colorSelect.Color;
 			}
 		}
 
@@ -522,7 +551,7 @@ namespace ManiacEditor.Interfaces
 					Settings.MyKeyBinds[keybindName] = keybindDict;
 				}
 			}
-			SetKeybindTextboxes();
+			SetAllKeybindTextboxes();
 
 		}
 		List<string> AllKeyBinds = new List<string>();
@@ -552,18 +581,29 @@ namespace ManiacEditor.Interfaces
 
 			}
 		}
-        private void SetKeybindTextboxes()
+        private void SetAllKeybindTextboxes()
         {
             RefreshKeybindList();
-            foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(ControlsPage))
+            SetKeybindTextboxes(ControlsPage);
+            SetKeybindTextboxes(TileManiacOptions1);
+            SetKeybindTextboxes(TileManiacOptions2);
+            SetKeybindTextboxes(TileManiacOptions3);
+            SetKeybindTextboxes(TileManiacOptions4);
+            SetKeybindTextboxes(TileManiacOptions5);
+            SetKeybindTextboxes(TileManiacOptions6);
+
+        }
+
+        private void SetKeybindTextboxes(StackPanel panel)
+        {
+            foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(panel))
             {
                 foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
                 {
                     ProcessKeybindingButtons(t);
                 }
-
             }
-		}
+        }
 
 		private void ProcessKeybindingButtons(Button t)
 		{
@@ -675,7 +715,7 @@ namespace ManiacEditor.Interfaces
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             CheatCodeManager cheatCodeManager = new CheatCodeManager();
-            cheatCodeManager.Owner = EditorInstance;
+            cheatCodeManager.Owner = this;
             cheatCodeManager.ShowDialog();
         }
 
@@ -835,5 +875,66 @@ namespace ManiacEditor.Interfaces
             ScrollerToggleModeClickButton.IsChecked = !enabled;
             ScrollerToggleModePressReleaseButton.IsChecked = enabled;
         }
+
+        #region Tile Maniac Settings
+
+        private void ListViewModeChanged(object sender, RoutedEventArgs e)
+        {
+            tileListRadioButton.IsChecked = false;
+            collisionListRadioButton.IsChecked = false;
+
+            if (e.Source == tileListRadioButton)
+            {
+                Properties.Defaults.Default.TileManiacListSetting = 1;
+                tileListRadioButton.IsChecked = true;
+            }
+            else if (e.Source == collisionListRadioButton)
+            {
+                Properties.Defaults.Default.TileManiacListSetting = 0;
+                collisionListRadioButton.IsChecked = true;
+            }
+        }
+
+        private void EditorViewModeChanged(object sender, RoutedEventArgs e)
+        {
+            collisionEditorViewRadioButton.IsChecked = false;
+            overlayEditorViewRadioButton.IsChecked = false;
+
+            if (e.Source == collisionEditorViewRadioButton)
+            {
+                Properties.Defaults.Default.TileManiacViewAppearanceMode = 1;
+                collisionEditorViewRadioButton.IsChecked = true;
+            }
+            else if (e.Source == overlayEditorViewRadioButton)
+            {
+                Properties.Defaults.Default.TileManiacViewAppearanceMode = 0;
+                overlayEditorViewRadioButton.IsChecked = true;
+            }
+        }
+
+        private void RenderViewModeChanged(object sender, RoutedEventArgs e)
+        {
+            tileRenderViewRadioButton.IsChecked = false;
+            collisionRenderViewRadioButton.IsChecked = false;
+            overlayRenderViewRadioButton.IsChecked = false;
+
+            if (e.Source == tileRenderViewRadioButton)
+            {
+                Properties.Defaults.Default.TileManiacRenderViewerSetting = 0;
+                tileRenderViewRadioButton.IsChecked = true;
+            }
+            else if (e.Source == collisionRenderViewRadioButton)
+            {
+                Properties.Defaults.Default.TileManiacRenderViewerSetting = 1;
+                collisionRenderViewRadioButton.IsChecked = true;
+            }
+            else if (e.Source == overlayRenderViewRadioButton)
+            {
+                Properties.Defaults.Default.TileManiacRenderViewerSetting = 2;
+                overlayRenderViewRadioButton.IsChecked = true;
+            }
+        }
+
+        #endregion
     }
 }

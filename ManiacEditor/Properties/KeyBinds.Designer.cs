@@ -12,7 +12,7 @@ namespace ManiacEditor.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.1.0.0")]
     public sealed partial class KeyBinds : global::System.Configuration.ApplicationSettingsBase {
         
         private static KeyBinds defaultInstance = ((KeyBinds)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new KeyBinds())));
@@ -609,6 +609,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
@@ -623,6 +624,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
@@ -637,6 +639,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
@@ -651,6 +654,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
@@ -665,6 +669,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
@@ -679,6 +684,7 @@ namespace ManiacEditor.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
@@ -689,6 +695,396 @@ namespace ManiacEditor.Properties {
             }
             set {
                 this["MagnetTool"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+N</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacNewInstance {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacNewInstance"]));
+            }
+            set {
+                this["TileManiacNewInstance"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+O</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacOpen {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacOpen"]));
+            }
+            set {
+                this["TileManiacOpen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+S</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacSave {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacSave"]));
+            }
+            set {
+                this["TileManiacSave"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+Alt+S</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacSaveAs {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacSaveAs"]));
+            }
+            set {
+                this["TileManiacSaveAs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+Alt+U</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacSaveAsUncompressed {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacSaveAsUncompressed"]));
+            }
+            set {
+                this["TileManiacSaveAsUncompressed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+U</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacSaveUncompressed {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacSaveUncompressed"]));
+            }
+            set {
+                this["TileManiacSaveUncompressed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacbackupConfig {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacbackupConfig"]));
+            }
+            set {
+                this["TileManiacbackupConfig"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacbackupImage {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacbackupImage"]));
+            }
+            set {
+                this["TileManiacbackupImage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacImportFromOlderRSDK {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacImportFromOlderRSDK"]));
+            }
+            set {
+                this["TileManiacImportFromOlderRSDK"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacOpenSingleColMask {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacOpenSingleColMask"]));
+            }
+            set {
+                this["TileManiacOpenSingleColMask"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacExportColMask {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacExportColMask"]));
+            }
+            set {
+                this["TileManiacExportColMask"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+C</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacCopy {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacCopy"]));
+            }
+            set {
+                this["TileManiacCopy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+V</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacPaste {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacPaste"]));
+            }
+            set {
+                this["TileManiacPaste"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+Alt+V</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacPastetoOther {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacPastetoOther"]));
+            }
+            set {
+                this["TileManiacPastetoOther"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+M</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacMirrorMode {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacMirrorMode"]));
+            }
+            set {
+                this["TileManiacMirrorMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacRestorePathA {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacRestorePathA"]));
+            }
+            set {
+                this["TileManiacRestorePathA"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacRestorePathB {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacRestorePathB"]));
+            }
+            set {
+                this["TileManiacRestorePathB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacRestorePaths {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacRestorePaths"]));
+            }
+            set {
+                this["TileManiacRestorePaths"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+B</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacShowPathB {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacShowPathB"]));
+            }
+            set {
+                this["TileManiacShowPathB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+G</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacShowGrid {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacShowGrid"]));
+            }
+            set {
+                this["TileManiacShowGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacClassicMode {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacClassicMode"]));
+            }
+            set {
+                this["TileManiacClassicMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacSplitFile {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacSplitFile"]));
+            }
+            set {
+                this["TileManiacSplitFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacFlipTileH {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacFlipTileH"]));
+            }
+            set {
+                this["TileManiacFlipTileH"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacFlipTileV {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacFlipTileV"]));
+            }
+            set {
+                this["TileManiacFlipTileV"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacHomeFolderOpen {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacHomeFolderOpen"]));
+            }
+            set {
+                this["TileManiacHomeFolderOpen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacAbout {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacAbout"]));
+            }
+            set {
+                this["TileManiacAbout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection TileManiacSettings {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacSettings"]));
+            }
+            set {
+                this["TileManiacSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+T</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TileManiacWindowAlwaysOnTop {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacWindowAlwaysOnTop"]));
+            }
+            set {
+                this["TileManiacWindowAlwaysOnTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(KeybindSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Ctrl+X</string>\r\n</ArrayOfString>")]
+        public string TileManiacCut {
+            get {
+                return ((string)(this["TileManiacCut"]));
+            }
+            set {
+                this["TileManiacCut"] = value;
             }
         }
     }

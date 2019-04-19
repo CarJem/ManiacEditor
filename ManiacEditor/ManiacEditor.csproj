@@ -1420,6 +1420,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="TileManiac\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TileManiac\NearestNighborhoodPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WPF + Winform Stuff\KeyEventExt.cs" />
     <Compile Include="Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
@@ -1464,6 +1470,44 @@
     <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Resource Include="TileManiac\Resources\Maniac.bmp" />
+    <Resource Include="TileManiac\Resources\Green.png" />
+    <Resource Include="TileManiac\Resources\9.png" />
+    <Resource Include="TileManiac\Resources\8.png" />
+    <Resource Include="TileManiac\Resources\7.png" />
+    <Resource Include="TileManiac\Resources\6.png" />
+    <Resource Include="TileManiac\Resources\5.png" />
+    <Resource Include="TileManiac\Resources\4.png" />
+    <Resource Include="TileManiac\Resources\3.png" />
+    <Resource Include="TileManiac\Resources\2.png" />
+    <Resource Include="TileManiac\Resources\16.png" />
+    <Resource Include="TileManiac\Resources\15.png" />
+    <Resource Include="TileManiac\Resources\14.png" />
+    <Resource Include="TileManiac\Resources\13.png" />
+    <Resource Include="TileManiac\Resources\12.png" />
+    <Resource Include="TileManiac\Resources\11.png" />
+    <Resource Include="TileManiac\Resources\10.png" />
+    <Resource Include="TileManiac\Resources\1.png" />
+    <Resource Include="TileManiac\Resources\0.png" />
+    <Resource Include="TileManiac\Resources\_9_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_8_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_7_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_6_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_6.png" />
+    <Resource Include="TileManiac\Resources\_5_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_4_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_3_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_2_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_16_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_15_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_14_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_13_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_12_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_11_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_10_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_1_NoCol.png" />
+    <Resource Include="TileManiac\Resources\_0_NoCol.png" />
+    <Resource Include="TileManiac\Resources\Red.png" />
     <Resource Include="Resources\App Icons\64x64_2.ico" />
     <Content Include="Config\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1722,9 +1766,9 @@
       <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
       <Name>RSDKv5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TileManiacWPF\Tile Maniac.csproj">
-      <Project>{d4bebcd3-438f-4f11-9b31-e9b25aa53bfc}</Project>
-      <Name>Tile Maniac</Name>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKvB\RSDKvB.csproj">
+      <Project>{1a58ba31-c9e1-4d18-876e-ec73799e7a9f}</Project>
+      <Name>RSDKvB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1928,6 +1972,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Icons\shape.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TileManiac\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TileManiac\ManiacResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

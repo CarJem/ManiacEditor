@@ -132,7 +132,7 @@ namespace ManiacEditor
 		{
 			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
-			this.ChunkList = new ManiacEditor.Interfaces.RetroEDTileList(instance);
+			this.ChunkList = new ManiacEditor.Interfaces.RetroEDTileList();
 
 			this.tilePanel = new System.Windows.Forms.Panel();
 
@@ -157,7 +157,7 @@ namespace ManiacEditor
 			// 
 			// TileList
 			//
-			this.TilesList = new Interfaces.RetroEDTileList(instance);
+			this.TilesList = new Interfaces.RetroEDTileList();
             this.TilesList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TilesList.ImageHeight = 16 * 1;
 			this.TilesList.ImageSize = 16 * 1;

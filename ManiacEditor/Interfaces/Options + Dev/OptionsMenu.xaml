@@ -30,7 +30,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="300">
+                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="1000">
                         <StackPanel x:Name="SettingsViewer2" Margin="10">
                             <maniac:SettingsHeader HeaderName="Tiles Toolbar Defaults"></maniac:SettingsHeader>
                             <CheckBox Content="Solid (Top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidTopADefault}"/>
@@ -212,6 +212,43 @@
                                 <TextBlock Text="Game Lock On Options" Width="160" HorizontalAlignment="Left"></TextBlock>
                                 <Button Content="Settings..." Margin="0" Click="Button_Click_1" Width="150" HorizontalAlignment="Left"></Button>
                             </DockPanel>
+                            <maniac:SettingsHeader HeaderName="Tile Maniac Settings"></maniac:SettingsHeader>
+                            <GroupBox Header="Common Defaults" Width="250" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <CheckBox Content="Show Grid" Margin="2"  IsChecked="{maniac:DefaultSettingsBinding TileManiacShowGrid}"></CheckBox>
+                                    <CheckBox Content="Enable Classic Mode" Margin="2"  IsChecked="{maniac:DefaultSettingsBinding TileManiacClassicMode}"></CheckBox>
+                                    <CheckBox Content="Enable Mirror Mode" Margin="2"  IsChecked="{maniac:DefaultSettingsBinding TileManiacMirrorMode}"></CheckBox>
+                                    <CheckBox Content="Window Always On Top" Margin="2"  IsChecked="{maniac:DefaultSettingsBinding TileManiacWindowAlwaysOnTop}"></CheckBox>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Default List View" Width="250" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <RadioButton x:Name="collisionListRadioButton" Content="Collision" Margin="2" Click="ListViewModeChanged"></RadioButton>
+                                    <RadioButton x:Name="tileListRadioButton" Content="Tiles" Margin="2" Click="ListViewModeChanged"></RadioButton>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Tile Viewer Default View" Width="250" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <RadioButton x:Name="collisionRenderViewRadioButton" Content="Collision" Margin="2" Click="RenderViewModeChanged"></RadioButton>
+                                    <RadioButton x:Name="tileRenderViewRadioButton" Content="Tile" Margin="2" Click="RenderViewModeChanged"></RadioButton>
+                                    <RadioButton x:Name="overlayRenderViewRadioButton" Content="Hybrid Overlay (Collision + Tiles)" Margin="2" Click="RenderViewModeChanged"></RadioButton>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Editor View Setting*" Width="250" Height="100" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <RadioButton x:Name="collisionEditorViewRadioButton" Content="Collision" Margin="2" Click="EditorViewModeChanged"></RadioButton>
+                                    <RadioButton x:Name="overlayEditorViewRadioButton" Content="Hybrid Overlay (Collision + Tiles)" Margin="2"  Click="EditorViewModeChanged"></RadioButton>
+                                    <TextBlock></TextBlock>
+                                    <TextBlock>*Not for Classic Mode</TextBlock>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Misc Settings" Width="250" Height="100" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <CheckBox x:Name="enableWindowsClipboard" Content="Enable Windows Clipboard*" Margin="2" IsChecked="{maniac:DefaultSettingsBinding TileManiacEnableWindowsClipboard}"></CheckBox>
+                                    <TextBlock></TextBlock>
+                                    <TextBlock>*Not Working ATM</TextBlock>
+                                </StackPanel>
+                            </GroupBox>
                             <maniac:SettingsHeader HeaderName="Other Settings"></maniac:SettingsHeader>
                             <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
                             <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
@@ -269,7 +306,7 @@
             </TabItem>
             <TabItem Header="Controls" Name="Controls" Foreground="{DynamicResource NormalText}">
                 <Grid>
-                    <ScrollViewer  maniac:CustomDesignAttributes.VerticalScrollTo="10">
+                    <ScrollViewer  maniac:CustomDesignAttributes.VerticalScrollTo="1000">
                         <StackPanel x:Name="ControlsPage">
                             <maniac:SettingsHeader HeaderName="File"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
@@ -695,6 +732,185 @@
                                 <Button Width="100" Click="EditKeyCombo" Tag="StampTool" IsEnabled="True"></Button>
                                 <Label Content="Stamp Tool"></Label>
                             </StackPanel>
+                            <maniac:SettingsHeader HeaderName="Tile Maniac Controls"></maniac:SettingsHeader>
+                            <Expander>
+                                <Expander.Header>
+                                    <maniac:SettingsHeader HeaderName="File"></maniac:SettingsHeader>
+                                </Expander.Header>
+                                <StackPanel  Visibility="Visible" x:Name="TileManiacOptions1">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacNewInstance"></Button>
+                                        <Label Content="New Instance"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacOpen"></Button>
+                                        <Label Content="Open"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacSave"></Button>
+                                        <Label Content="Save"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacSaveAs"></Button>
+                                        <Label Content="Save As"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacSaveUncompressed"></Button>
+                                        <Label Content="Save (Uncompressed)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacSaveAsUncompressed"></Button>
+                                        <Label Content="Save As (Uncompressed)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacOpenSingleColMask"></Button>
+                                        <Label Content="Open Single Collision Mask"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacExportColMask"></Button>
+                                        <Label Content="Export Current Collision Mask"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacImportFromOlderRSDK"></Button>
+                                        <Label Content="Import from older RSDK Version"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacbackupConfig"></Button>
+                                        <Label Content="Backup TileConfig"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacbackupImage"></Button>
+                                        <Label Content="Backup 16x16Tiles Image"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+                            <Expander>
+                                <Expander.Header>
+                                    <maniac:SettingsHeader HeaderName="Edit"></maniac:SettingsHeader>
+                                </Expander.Header>
+                                <StackPanel x:Name="TileManiacOptions2">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacCut"></Button>
+                                        <Label Content="Cut"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacCopy"></Button>
+                                        <Label Content="Copy"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacPaste"></Button>
+                                        <Label Content="Paste"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacPastetoOther"></Button>
+                                        <Label Content="Paste to Other Path"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacMirrorMode"></Button>
+                                        <Label Content="Mirror Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacRestorePathA"></Button>
+                                        <Label Content="Restore Mask (Path A)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacRestorePathB"></Button>
+                                        <Label Content="Restore Mask (Path B)"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacRestorePaths"></Button>
+                                        <Label Content="Restore Mask (Both)"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+                            <Expander>
+                                <Expander.Header>
+                                    <maniac:SettingsHeader HeaderName="View"></maniac:SettingsHeader>
+                                </Expander.Header>
+                                <StackPanel x:Name="TileManiacOptions3">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacShowPathB"></Button>
+                                        <Label Content="Show Path B"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacShowGrid"></Button>
+                                        <Label Content="Show Grid"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacClassicMode"></Button>
+                                        <Label Content="Classic View Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacWindowAlwaysOnTop"></Button>
+                                        <Label Content="Toggle Window Always On Top"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+                            <Expander>
+                                <Expander.Header>
+                                    <maniac:SettingsHeader HeaderName="Tools"></maniac:SettingsHeader>
+                                </Expander.Header>
+                                <StackPanel x:Name="TileManiacOptions4">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacSplitFile"></Button>
+                                        <Label Content="Split File"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacFlipTileH"></Button>
+                                        <Label Content="Flip Tile Horizontally"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacFlipTileV"></Button>
+                                        <Label Content="Flip Tile Vertically"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+                            <Expander>
+                                <Expander.Header>
+                                    <maniac:SettingsHeader HeaderName="Folders"></maniac:SettingsHeader>
+                                </Expander.Header>
+                                <StackPanel x:Name="TileManiacOptions5">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacHomeFolderOpen"></Button>
+                                        <Label Content="Open Collision Home Folder"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+                            <Expander>
+                                <Expander.Header>
+                                    <maniac:SettingsHeader HeaderName="Other"></maniac:SettingsHeader>
+                                </Expander.Header>
+                                <StackPanel x:Name="TileManiacOptions6">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacSettings"></Button>
+                                        <Label Content="Settings"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="100" Click="EditKeyCombo" Tag="TileManiacAbout"></Button>
+                                        <Label Content="About"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Hidden">
+                                        <Button Width="100" Click="EditKeyCombo" Tag="NULL"></Button>
+                                        <Label Content="Title"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacCycleEditorViewMode"></Button>
+                                        <Label Content="Cycle Editor View Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacCycleListViewMode"></Button>
+                                        <Label Content="Cycle List View Mode"></Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                                        <Button  IsEnabled="False" Width="100" Click="EditKeyCombo" Tag="TileManiacCycleMainViewerMode"></Button>
+                                        <Label Content="Cycle Viewer Mode"></Label>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
                             <maniac:SettingsHeader HeaderName="Misc"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
                                 <Button Width="100" Click="EditKeyCombo" Tag="DeveloperInterface"></Button>

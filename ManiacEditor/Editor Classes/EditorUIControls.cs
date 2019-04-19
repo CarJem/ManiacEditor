@@ -340,6 +340,177 @@ namespace ManiacEditor
         }
         #endregion
 
+        #region Tile Maniac Controls
+
+        public void TileManiac_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (isCombo(e, myKeyBinds.TileManiacNewInstance))
+            {
+                MainWindow.Instance.newInstanceToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacOpen))
+            {
+                MainWindow.Instance.OpenToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacSave))
+            {
+                MainWindow.Instance.saveToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacSaveAs))
+            {
+                MainWindow.Instance.saveAsToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacSaveUncompressed))
+            {
+                MainWindow.Instance.saveUncompressedToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacSaveAsUncompressed))
+            {
+                MainWindow.Instance.saveAsUncompressedToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacbackupConfig))
+            {
+                MainWindow.Instance.tileConfigbinToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacbackupImage))
+            {
+                MainWindow.Instance.x16TilesgifToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacExportColMask))
+            {
+                MainWindow.Instance.exportCurrentCollisionMaskAsToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacOpenSingleColMask))
+            {
+                MainWindow.Instance.openSingleCollisionMaskToolStripMenuItem_Click_1(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacImportFromOlderRSDK))
+            {
+                MainWindow.Instance.importFromOlderRSDKVersionToolStripMenuItem_Click(null, null);
+            }
+
+            if (isCombo(e, myKeyBinds.TileManiacCopy))
+            {
+                MainWindow.Instance.copyToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacPastetoOther))
+            {
+                MainWindow.Instance.copyToOtherPathToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacPaste))
+            {
+                MainWindow.Instance.pasteToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacMirrorMode))
+            {
+                MainWindow.Instance.mirrorPathsToolStripMenuItem1.IsChecked = !MainWindow.Instance.mirrorPathsToolStripMenuItem1.IsChecked;
+                MainWindow.Instance.mirrorPathsToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacRestorePathA))
+            {
+                MainWindow.Instance.pathAToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacRestorePathB))
+            {
+                MainWindow.Instance.pathBToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacRestorePaths))
+            {
+                MainWindow.Instance.bothToolStripMenuItem_Click(null, null);
+            }
+
+            if (isCombo(e, myKeyBinds.TileManiacShowPathB))
+            {
+                MainWindow.Instance.showPathBToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacShowGrid))
+            {
+                MainWindow.Instance.showGridToolStripMenuItem.IsChecked = !MainWindow.Instance.showGridToolStripMenuItem.IsChecked;
+                MainWindow.Instance.showGridToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacClassicMode))
+            {
+                MainWindow.Instance.classicViewModeToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacWindowAlwaysOnTop))
+            {
+                MainWindow.Instance.windowAlwaysOnTop.IsChecked = !MainWindow.Instance.windowAlwaysOnTop.IsChecked;
+                MainWindow.Instance.WindowAlwaysOnTop_Click(null, null);
+            }
+
+            if (isCombo(e, myKeyBinds.TileManiacSplitFile))
+            {
+                MainWindow.Instance.splitFileToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacFlipTileH))
+            {
+                MainWindow.Instance.flipTileHorizontallyToolStripMenuItem_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacFlipTileV))
+            {
+                MainWindow.Instance.flipTileVerticallyToolStripMenuItem_Click(null, null);
+            }
+
+            if (isCombo(e, myKeyBinds.TileManiacHomeFolderOpen))
+            {
+                MainWindow.Instance.openCollisionHomeFolderToolStripMenuItem_Click(null, null);
+            }
+
+            if (isCombo(e, myKeyBinds.TileManiacAbout))
+            {
+                MainWindow.Instance.aboutToolStripMenuItem1_Click(null, null);
+            }
+            if (isCombo(e, myKeyBinds.TileManiacSettings))
+            {
+                MainWindow.Instance.settingsToolStripMenuItem_Click(null, null);
+            }
+        }
+
+        public void TileManiac_OnKeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        public void TileManiac_UpdateMenuItems()
+        {
+            MainWindow.Instance.newInstanceMenuItem.InputGestureText = KeyBindPraser("NewInstance");
+            MainWindow.Instance.openMenuItem.InputGestureText = KeyBindPraser("TileManiacOpen");
+            MainWindow.Instance.saveMenuItem.InputGestureText = KeyBindPraser("TileManiacSave");
+            MainWindow.Instance.saveAsMenuItem.InputGestureText = KeyBindPraser("TileManiacSaveAs");
+            MainWindow.Instance.saveAsUncompressedMenuItem.InputGestureText = KeyBindPraser("TileManiacSaveAsUncompressed");
+            MainWindow.Instance.saveUncompressedMenuItem.InputGestureText = KeyBindPraser("TileManiacSaveUncompressed");
+            MainWindow.Instance.backupTilesConfigMenuItem.InputGestureText = KeyBindPraser("TileManiacbackupConfig", false, true);
+            MainWindow.Instance.backupTilesMenuItem.InputGestureText = KeyBindPraser("TileManiacbackupImage", false, true);
+            MainWindow.Instance.importMenuItem.InputGestureText = KeyBindPraser("TileManiacImportFromOlderRSDK", false, true);
+            MainWindow.Instance.OpenSingleColMaskMenuItem.InputGestureText = KeyBindPraser("TileManiacOpenSingleColMask", false, true);
+            MainWindow.Instance.exportCurrentMaskMenuItem.InputGestureText = KeyBindPraser("TileManiacExportColMask", false, true);
+
+            MainWindow.Instance.copyMenuItem.InputGestureText = KeyBindPraser("TileManiacCopy");
+            MainWindow.Instance.copyToOtherPathMenuItem.InputGestureText = KeyBindPraser("TileManiacPastetoOther");
+            MainWindow.Instance.pasteMenuItem.InputGestureText = KeyBindPraser("TileManiacPaste");
+            MainWindow.Instance.mirrorPathsToolStripMenuItem1.InputGestureText = KeyBindPraser("TileManiacMirrorMode");
+            MainWindow.Instance.restorePathAMenuItem.InputGestureText = KeyBindPraser("TileManiacRestorePathA", false, true);
+            MainWindow.Instance.restorePathBMenuItem.InputGestureText = KeyBindPraser("TileManiacRestorePathB", false, true);
+            MainWindow.Instance.restoreBothMenuItem.InputGestureText = KeyBindPraser("TileManiacRestorePaths", false, true);
+
+            MainWindow.Instance.showPathBToolStripMenuItem.InputGestureText = KeyBindPraser("TileManiacShowPathB");
+            MainWindow.Instance.showGridToolStripMenuItem.InputGestureText = KeyBindPraser("TileManiacShowGrid");
+            MainWindow.Instance.classicViewModeToolStripMenuItem.InputGestureText = KeyBindPraser("TileManiacClassicMode", false, true);
+            MainWindow.Instance.windowAlwaysOnTop.InputGestureText = KeyBindPraser("TileManiacWindowAlwaysOnTop");
+
+
+            MainWindow.Instance.splitFileMenuItem.InputGestureText = KeyBindPraser("TileManiacSplitFile", false, true);
+            MainWindow.Instance.flipTileHMenuItem.InputGestureText = KeyBindPraser("TileManiacFlipTileH", false, true);
+            MainWindow.Instance.flipTileVMenuItem.InputGestureText = KeyBindPraser("TileManiacFlipTileV", false, true);
+
+            MainWindow.Instance.openCollisionHomeFolderToolStripMenuItem.InputGestureText = KeyBindPraser("TileManiacHomeFolderOpen", false, true);
+
+            MainWindow.Instance.aboutMenuItem.InputGestureText = KeyBindPraser("TileManiacAbout", false, true);
+            MainWindow.Instance.settingsMenuItem.InputGestureText = KeyBindPraser("TileManiacSettings", false, true);
+        }
+
+        #endregion
+
         #region Keybind Checking and Prasing
         public bool isCombo(KeyEventArgs e, StringCollection keyCollection, bool singleKey = false)
 		{

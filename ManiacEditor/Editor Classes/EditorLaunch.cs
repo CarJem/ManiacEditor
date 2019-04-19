@@ -96,7 +96,7 @@ namespace ManiacEditor
 
         public void TileManiacNormal()
         {
-            if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new TileManiac.MainWindow();
+            if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.MainWindow();
             Editor.TileManiacInstance.Show();
             if (Editor.TileConfig != null && Editor.EditorTiles.StageTiles != null)
             {
@@ -117,12 +117,11 @@ namespace ManiacEditor
         {
             try
             {
-                if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new TileManiac.MainWindow();
+                if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.MainWindow();
                 if (Editor.TileManiacInstance.Visibility != Visibility.Visible)
                 {
                     Editor.TileManiacInstance.Show();
                 }
-                Editor.TileManiacInstance.SetIntergrationNightMode(Properties.Settings.Default.NightMode);
                 if (Editor.TileConfig != null && Editor.EditorTiles.StageTiles != null)
                 {
                     if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
@@ -631,14 +630,14 @@ namespace ManiacEditor
 
         public void OptionsMenu()
         {
-            var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(Editor);
+            var optionMenu = new ManiacEditor.Interfaces.OptionsMenu();
             optionMenu.Owner = Editor;
             optionMenu.ShowDialog();
         }
 
         public void ControlMenu()
         {
-            var optionMenu = new ManiacEditor.Interfaces.OptionsMenu(Editor);
+            var optionMenu = new ManiacEditor.Interfaces.OptionsMenu();
             optionMenu.Owner = Editor;
             optionMenu.MainTabControl.SelectedIndex = 2;
             optionMenu.ShowDialog();

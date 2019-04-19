@@ -360,6 +360,7 @@ namespace ManiacEditor
         public bool EntitiesToolbarAwaitingRefresh = false;
         public bool FormsModelAwaitingRefresh = false;
         public bool StartScreenAwaitingRefresh = false;
+        public bool TileManiacAwaitingRefresh = false;
 
         public void UpdateThemeForItemsWaiting()
         {
@@ -367,7 +368,6 @@ namespace ManiacEditor
             if (TilesToolbarAwaitingRefresh && Editor.Instance.TilesToolbar != null) RefreshTilesToolbar();
             if (EntitiesToolbarAwaitingRefresh && Editor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
             if (StartScreenAwaitingRefresh && Editor.Instance.StartScreen != null) RefreshStartScreen();
-
         }
 
         public void RefreshTheme()

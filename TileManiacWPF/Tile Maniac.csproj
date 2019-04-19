@@ -134,6 +134,7 @@
     <Compile Include="KeyBindConfigurator.xaml.cs">
       <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\KeyBinds.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
