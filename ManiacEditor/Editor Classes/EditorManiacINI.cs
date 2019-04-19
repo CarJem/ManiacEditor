@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using IniParser;
 using IniParser.Model;
 
 namespace ManiacEditor
 {
-	public class EditorManiacINI
+    public class EditorManiacINI
 	{
 		private Editor Instance;
 		IniData ManiacINIData;

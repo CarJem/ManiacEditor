@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MessageBox = RSDKrU.MessageBox;
 using System.Windows;
 using System.IO;
 using RSDKv5;
-using System.Text.RegularExpressions;
 
 namespace ManiacEditor
 {

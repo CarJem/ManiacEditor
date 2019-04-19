@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using IronPython.Modules;
 using RSDKv5;
-using SharpDX.Direct3D9;
-using ManiacEditor.Entity_Renders;
 using ManiacEditor.Actions;
 
 namespace ManiacEditor

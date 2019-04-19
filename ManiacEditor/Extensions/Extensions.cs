@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Threading;
-using ManiacEditor;
-using Microsoft.Xna.Framework;
-using RSDKv5;
-using Xceed.Wpf.Toolkit;
-using System.Collections.Specialized;
 using System.Configuration;
 using System.Windows.Data;
-using System.Xml.Serialization;
 
 namespace ManiacEditor
 {

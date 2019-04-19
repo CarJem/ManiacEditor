@@ -1,35 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SharpDX;
 using System.Configuration;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Collections.Specialized;
-using System.Windows.Forms.PropertyGridInternal;
 using Cyotek.Windows.Forms;
-using ManiacEditor.Interfaces;
-using Keys = System.Windows.Forms.Keys;
 using KeysConverter = System.Windows.Forms.KeysConverter;
 using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {
-	/// <summary>
-	/// Interaction logic for OptionsMenu.xaml
-	/// </summary> 
-	public partial class OptionsMenu : Window
+    /// <summary>
+    /// Interaction logic for OptionsMenu.xaml
+    /// </summary> 
+    public partial class OptionsMenu : Window
 	{
 		bool collisionColorsRadioGroupCheckChangeAllowed = true;
 		public Editor EditorInstance;

@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using RSDKv5;
 using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {
-	/// <summary>
-	/// Interaction logic for AddAttributeWindow.xaml
-	/// </summary>
-	public partial class AddAttributeWindow : Window
+    /// <summary>
+    /// Interaction logic for AddAttributeWindow.xaml
+    /// </summary>
+    public partial class AddAttributeWindow : Window
 	{
 		private SceneObject[] objs;
 

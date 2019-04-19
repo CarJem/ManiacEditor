@@ -1,30 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using RSDKv5;
-using System.Diagnostics;
 using Microsoft.Scripting.Utils;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 
 namespace ManiacEditor
 {
-	/// <summary>
-	/// Interaction logic for TilesToolbar.xaml
-	/// </summary>
-	public partial class EntitiesToolbar : UserControl
+    /// <summary>
+    /// Interaction logic for TilesToolbar.xaml
+    /// </summary>
+    public partial class EntitiesToolbar : UserControl
 	{
 		public Action<int> SelectedEntity;
 		public Action<Actions.IAction> AddAction;

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManiacEditor
 {
-	public class EditorDiscordRP
+    public class EditorDiscordRP
 	{
 		//Used For Discord Rich Pressence
 		public SharpPresence.Discord.RichPresence RPCcontrol = new SharpPresence.Discord.RichPresence();

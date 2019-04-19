@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using ManiacEditor;
-using System.Drawing;
-using SharpDX.Direct3D9;
+﻿using System.Drawing;
 using RSDKv5;
-using System.Windows.Forms;
-using System.Diagnostics;
-using IronPython.Compiler.Ast;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 
 namespace ManiacEditor.Entity_Renders
 {

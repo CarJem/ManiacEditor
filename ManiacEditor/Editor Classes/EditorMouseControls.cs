@@ -1,25 +1,10 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
-using System.ComponentModel;
 using ManiacEditor.Actions;
-using ManiacEditor.Properties;
 using RSDKv5;
-using SharpDX.Direct3D9;
-using Color = System.Drawing.Color;
-using System.Runtime.CompilerServices;
-using System.Collections;
-using System.Reflection;
 
 namespace ManiacEditor
 {

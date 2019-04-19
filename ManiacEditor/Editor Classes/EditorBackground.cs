@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using RSDKv5Color = RSDKv5.Color;
-using IronPython.Modules;
-using System.Net.Http.Headers;
 
 namespace ManiacEditor
 {

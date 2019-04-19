@@ -1,28 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.IO;
 using Path = System.IO.Path;
-using System.ComponentModel;
 using MessageBox = RSDKrU.MessageBox;
 
 
 namespace ManiacEditor
 {
-	/// <summary>
-	/// Interaction logic for ModConfigEditor.xaml
-	/// </summary>
-	public partial class ModConfigEditor : Window
+    /// <summary>
+    /// Interaction logic for ModConfigEditor.xaml
+    /// </summary>
+    public partial class ModConfigEditor : Window
 	{
 		bool isEditing = false;
 		string originalName = "";

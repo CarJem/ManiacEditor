@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.ClearScript.V8;
 using RSDKv5;
 using SystemColors = System.Drawing.Color;
-using System.Threading;
 
 namespace ManiacEditor
 {
-	public class ClearScript
+    public class ClearScript
 	{
 		public bool objectsAdded = false;
 		public V8Script script;

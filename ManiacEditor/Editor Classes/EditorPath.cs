@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RSDKv5;
+﻿using RSDKv5;
 using System.IO;
 
 namespace ManiacEditor
 {
-	public class EditorPath
+    public class EditorPath
 	{
 		private Editor Instance;
 		public string GameConfig_Source = ""; //Holds the Path the Actual Path for the GameConfig

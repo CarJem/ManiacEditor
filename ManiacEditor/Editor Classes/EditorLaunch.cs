@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
 using System.Windows.Forms;
 using RSDKv5;
-using System.Drawing;
-using Point = System.Drawing.Point;
-using ManiacEditor.Interfaces;
 using Cyotek.Windows.Forms;
 using Color = System.Drawing.Color;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System.Threading;
-using System.Windows.Controls;
 
 namespace ManiacEditor
 {

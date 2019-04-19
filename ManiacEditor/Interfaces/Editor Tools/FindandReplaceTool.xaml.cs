@@ -1,24 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MessageBox = RSDKrU.MessageBox;
+﻿using System.Windows;
 
 namespace ManiacEditor.Interfaces.WPF_UI.Editor_Tools
 {
-	/// <summary>
-	/// Interaction logic for FindandReplaceTool.xaml
-	/// </summary>
-	public partial class FindandReplaceTool : Window
+    /// <summary>
+    /// Interaction logic for FindandReplaceTool.xaml
+    /// </summary>
+    public partial class FindandReplaceTool : Window
 	{
 		int FindValue = 0;
 		int ReplaceValue = 0;
