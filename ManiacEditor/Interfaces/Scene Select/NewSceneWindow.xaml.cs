@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MessageBox = RSDKrU.MessageBox;
+﻿using System.Windows;
 
 namespace ManiacEditor.Interfaces
 {
-	public partial class NewSceneWindow : Window
+    public partial class NewSceneWindow : Window
 	{
 		public int Scene_Width = 128;
 		public int Scene_Height = 128;

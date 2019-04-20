@@ -1,23 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Controls;
 using System.Reflection;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 using Control = System.Windows.Forms.Control;
 using Color = System.Drawing.Color;
 using MenuItem = System.Windows.Controls.MenuItem;
-using DataObject = System.Windows.DataObject;
 using Button = System.Windows.Controls.Button;
-using Cursors = System.Windows.Input.Cursors;
-using RSDKrU;
-using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor
 {

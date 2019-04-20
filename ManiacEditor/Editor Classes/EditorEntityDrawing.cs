@@ -1,23 +1,18 @@
 ﻿using RSDKv5;
 using SharpDX.Direct3D9;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
-using System.Diagnostics;
 using ManiacEditor.Entity_Renders;
 using SystemColor = System.Drawing.Color;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using ImageMagick;
-using Microsoft.Scripting.Utils;
 
 namespace ManiacEditor
 {

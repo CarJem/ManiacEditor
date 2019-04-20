@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -32,7 +31,6 @@ using MessageBox = RSDKrU.MessageBox;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
-using Cyotek.Windows.Forms;
 
 
 namespace ManiacEditor

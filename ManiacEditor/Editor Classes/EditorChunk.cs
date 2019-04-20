@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using RSDKv5;
-using ManiacEditor.Actions;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows.Forms;
-using IronPython.Modules;
-using SharpDX.Direct3D9;
 using Microsoft.Scripting.Utils;
-using System.Drawing.Imaging;
 
 namespace ManiacEditor
 {
-	public class EditorChunk
+    public class EditorChunk
 	{
 
 		public Editor EditorInstance;

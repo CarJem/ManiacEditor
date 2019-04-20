@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using ManiacEditor;
 using System.Drawing;
-using SharpDX.Direct3D9;
 using RSDKv5;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace ManiacEditor.Entity_Renders
 {

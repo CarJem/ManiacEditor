@@ -1,15 +1,9 @@
-﻿using IronPython.Runtime.Operations;
-using ManiacEditor.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ManiacEditor
 {

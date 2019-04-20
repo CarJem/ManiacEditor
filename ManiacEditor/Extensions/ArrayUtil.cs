@@ -1,12 +1,11 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace TestMySpline
 {
-	/// <summary>
-	/// Utility methods for arrays.
-	/// </summary>
-	public static class ArrayUtil
+    /// <summary>
+    /// Utility methods for arrays.
+    /// </summary>
+    public static class ArrayUtil
 	{
 		/// <summary>
 		/// Create a string to display the array values.

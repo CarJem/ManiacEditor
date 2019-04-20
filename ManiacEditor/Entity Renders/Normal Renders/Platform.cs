@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using ManiacEditor;
-using Microsoft.Xna.Framework;
 using RSDKv5;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Diagnostics;
-using SharpDX;
-using System.Runtime.InteropServices;
 using System.Data;
 
 namespace ManiacEditor.Entity_Renders

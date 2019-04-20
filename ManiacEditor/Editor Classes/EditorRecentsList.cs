@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using IniParser;
 using IniParser.Model;
 
 namespace ManiacEditor
 {
-	public class EditorRecentSceneSourcesList
+    public class EditorRecentSceneSourcesList
 	{
 		private Editor Instance;
         public SceneSaveStateCollection Collection = new SceneSaveStateCollection();

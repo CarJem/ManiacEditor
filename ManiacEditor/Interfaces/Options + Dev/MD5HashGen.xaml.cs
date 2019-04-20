@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces.WPF_UI.Options___Dev
 {
-	/// <summary>
-	/// Interaction logic for MD5HashGen.xaml
-	/// </summary>
-	public partial class MD5HashGen : Window
+    /// <summary>
+    /// Interaction logic for MD5HashGen.xaml
+    /// </summary>
+    public partial class MD5HashGen : Window
 	{
 
 		public MD5HashGen(Editor instance)

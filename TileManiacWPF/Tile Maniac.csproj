@@ -84,7 +84,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetProjects.Wpf.Extended.Toolkit">
+    <Reference Include="DotNetProjects.Wpf.Extended.Toolkit, Version=3.2.57.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetProjects.Extended.Wpf.Toolkit.3.2.57\lib\net40\DotNetProjects.Wpf.Extended.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
@@ -229,6 +229,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\KeyBinds.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>KeyBinds.Designer.cs</LastGenOutput>

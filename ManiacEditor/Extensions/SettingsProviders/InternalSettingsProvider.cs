@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Windows.Forms;
 using System.Collections.Specialized;
@@ -10,7 +8,7 @@ using System.IO;
 
 namespace ManiacEditor
 {
-   public class InternalSettingsProvider : SettingsProvider, IApplicationSettingsProvider
+    public class InternalSettingsProvider : SettingsProvider, IApplicationSettingsProvider
    {
         private const string _rootNodeName = "settings";
         private const string _localSettingsNodeName = "localSettings";

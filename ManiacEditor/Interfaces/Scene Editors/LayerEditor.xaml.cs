@@ -3,28 +3,19 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Drawing;
-using ManiacEditor.Properties;
-using Microsoft.Xna.Framework;
-using HexInnovation;
-using System.Collections.ObjectModel;
 using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {
-	/// <summary>
-	/// Interaction logic for LayerEditor.xaml
-	/// </summary>
-	public partial class LayerManager : Window
+    /// <summary>
+    /// Interaction logic for LayerEditor.xaml
+    /// </summary>
+    public partial class LayerManager : Window
 	{
 		private EditorScene _editorScene;
 		private IList<EditorLayer> Layers

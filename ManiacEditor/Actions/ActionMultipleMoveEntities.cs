@@ -1,7 +1,5 @@
-﻿using Microsoft.Scripting.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 
 namespace ManiacEditor.Actions
 {

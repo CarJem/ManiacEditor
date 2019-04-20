@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using NAudio;
 using NAudio.Vorbis;
 using NAudio.Wave;
 
 namespace ManiacEditor.Interfaces
 {
-	public partial class SoundLooper : Form
+    public partial class SoundLooper : Form
 	{
 		string currentSoundFile = "";
 		UInt32 currentLoopPosition = 0;
