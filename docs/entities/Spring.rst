@@ -24,8 +24,8 @@ This attribute can rotate the spring’s orientation. Note that types 0 and 1 ha
 
 	* 0 - Disabled; Normal State
 	* 1 - Flip Horizontally
-	* 2 - Flip Upside-Down
-	* 3 - Flip Upside-Down Horizontally
+	* 2 - Flip Vertically
+	* 3 - Flip Horizontallly AND Vertically
 
 **OnGround:** 
 
