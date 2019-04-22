@@ -275,9 +275,6 @@
       <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.9.0.1\lib\net40\Magick.NET-Q8-AnyCPU.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MathConverter, Version=1.2.1.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathConverter.1.2.1.5\lib\net40-client\MathConverter.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.2.2.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicLanguageRuntime.1.2.2\lib\net45\Microsoft.Dynamic.dll</HintPath>
       <Private>False</Private>
@@ -370,6 +367,7 @@
     <Compile Include="Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Converters\TilePixelConverter.cs" />
     <Compile Include="Editor Classes\EditorMouseControls.cs" />
     <Compile Include="Editor Classes\EditorRecentsList.cs" />
     <Compile Include="Editor Classes\EditorLaunch.cs" />

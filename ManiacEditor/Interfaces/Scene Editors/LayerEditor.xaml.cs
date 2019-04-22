@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using ManiacEditor.Converters;
 using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
@@ -111,8 +112,7 @@ namespace ManiacEditor.Interfaces
 			binding.Source = DataContext;
 			binding.Mode = BindingMode.OneWay;
 			binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-			binding.Converter = new HexInnovation.MathConverter();
-			binding.ConverterParameter = "x*16";
+            binding.Converter = new TilePixelConverter();
 			BindingOperations.SetBinding(control, prop, binding);
 		}
 
