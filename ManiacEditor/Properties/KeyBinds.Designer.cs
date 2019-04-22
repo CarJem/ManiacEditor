@@ -1079,9 +1079,9 @@ namespace ManiacEditor.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
             "tring>Ctrl+X</string>\r\n</ArrayOfString>")]
-        public string TileManiacCut {
+        public global::System.Collections.Specialized.StringCollection TileManiacCut {
             get {
-                return ((string)(this["TileManiacCut"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["TileManiacCut"]));
             }
             set {
                 this["TileManiacCut"] = value;

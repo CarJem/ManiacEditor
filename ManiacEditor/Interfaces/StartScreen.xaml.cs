@@ -106,7 +106,7 @@ namespace ManiacEditor.Interfaces
 
         private void linkLabel9_LinkClicked(object sender, RoutedEventArgs e)
         {
-            RSDKrU.MessageBox.Show("Comming Soon!", "Sorry!", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=RNZMRCMNX3SJY&currency_code=USD&source=url");
         }
 
         private void linkLabel10_LinkClicked(object sender, RoutedEventArgs e)

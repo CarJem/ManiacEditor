@@ -34,6 +34,10 @@
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Button Width="100" Height="25" Content="Extract Data File" Margin="0,0,5,0" Name="ExtractDataButton" Click="ExtractDataButton_Click"></Button>
                     <Button Width="100" Height="25" Content="Select File List" Name="SelectListButton" Click="SelectListButton_Click"></Button>
+                    <StackPanel Orientation="Horizontal" Name="LoadingSection" Visibility="Hidden">
+                        <Label Content="Working..."></Label>
+                        <ProgressBar Width="100" Margin="5,0"></ProgressBar>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
