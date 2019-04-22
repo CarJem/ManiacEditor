@@ -110,7 +110,7 @@
                     <StackPanel Orientation="Horizontal" Height="40" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Grid.Row="1" Background="{DynamicResource NormalBackground}">
                         <ToolBarTray Background="{DynamicResource NormalBackground}" IsLocked="True">
                             <ToolBar Background="{DynamicResource NormalBackground}" VerticalContentAlignment="Center">
-                                <Button x:Name="PatreonButton" ToolTip="Support me on Patreon" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Patreon}" Style="{StaticResource DisabledState2}" Click="PatreonButton_Click"></Button>
+                                <Button x:Name="PatreonButton" ToolTip="Support me on Patreon" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Patreon}" Style="{StaticResource DisabledState2}" Click="PatreonButton_Click" Visibility="Collapsed"></Button>
                                 <Button x:Name="YoutubeButton" ToolTip="Subscribe to my Youtube" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Youtube}" Style="{StaticResource DisabledState2}" Click="YoutubeButton_Click"></Button>
                                 <Button x:Name="TwitterButton" ToolTip="Find me on Twitter" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Twitter}" Style="{StaticResource DisabledState2}" Click="TwitterButton_Click"></Button>
                                 <Button x:Name="DiscordButton" ToolTip="Chat me on Discord" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Discord}" Style="{StaticResource DisabledState2}" Click="DiscordButton_Click"></Button>

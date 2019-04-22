@@ -180,6 +180,13 @@ namespace ManiacEditor
             }
         }
 
+        public void RSDKUnpacker()
+        {
+            RSDK_Unpacker.MainWindow window = new RSDK_Unpacker.MainWindow();
+            window.Owner = Editor.Instance;
+            window.Show();
+        }
+
         public void InsanicManiac()
         {
             //Sanic2Maniac sanic = new Sanic2Maniac(null, this);

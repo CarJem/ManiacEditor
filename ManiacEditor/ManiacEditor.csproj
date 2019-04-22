@@ -1721,6 +1721,10 @@
       <Project>{1a58ba31-c9e1-4d18-876e-ec73799e7a9f}</Project>
       <Name>RSDKvB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RSDK-Unpacker\RSDK-Unpacker.csproj">
+      <Project>{1d70cc15-7257-44ca-8dbb-3dd003808375}</Project>
+      <Name>RSDK-Unpacker</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

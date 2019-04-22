@@ -736,7 +736,10 @@
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem x:Name="maniaPalHint" Header="Hint:" IsEnabled="False" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
                 </MenuItem>
-                <MenuItem x:Name="optionsToolStripMenuItem2" Header="Options" IsEnabled="False"/>
+                <MenuItem Header="RetroED Tools...">
+                    <MenuItem Header="RSDK Unpacker" Name="RSDKUnpacker" Click="RSDKUnpackerEvent"></MenuItem>
+                </MenuItem>
+                <MenuItem Visibility="Collapsed" x:Name="optionsToolStripMenuItem2" Header="Options" IsEnabled="False"/>
             </MenuItem>
             <MenuItem x:Name="helpToolStripMenuItem" Header="Other" Margin="0,0,0,0" >
                 <MenuItem x:Name="aboutToolStripMenuItem" Header="About" Click="AboutScreenEvent"/>

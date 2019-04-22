@@ -1964,6 +1964,7 @@ namespace ManiacEditor
 
         #region Apps
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Launcher.TileManiacIntergration(); }
+        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { Launcher.RSDKUnpacker(); }
         private void SonicManiaHeadless(object sender, RoutedEventArgs e) { Launcher.SonicManiaHeadless(); }
         private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { Launcher.CheatEngine(); }
         private void ModManager(object sender, RoutedEventArgs e) { Launcher.ManiaModManager(); }
@@ -2762,6 +2763,7 @@ namespace ManiacEditor
             ReloadSpecificTextures(sender, e);
             RefreshCollisionColours(true);
         }
+
 
         #endregion
 
