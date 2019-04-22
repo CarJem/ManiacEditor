@@ -271,22 +271,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
-    <Reference Include="IronPython, Version=2.7.9.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPython.2.7.9\lib\net45\IronPython.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="IronPython.Modules, Version=2.7.9.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPython.2.7.9\lib\net45\IronPython.Modules.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="IronPython.SQLite, Version=2.7.9.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPython.2.7.9\lib\net45\IronPython.SQLite.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="IronPython.Wpf, Version=2.7.9.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPython.2.7.9\lib\net45\IronPython.Wpf.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Magick.NET-Q8-AnyCPU, Version=7.9.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
       <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.9.0.1\lib\net40\Magick.NET-Q8-AnyCPU.dll</HintPath>
       <Private>True</Private>
