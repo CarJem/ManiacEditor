@@ -893,7 +893,7 @@
                     <ToggleButton x:Name="ShowFGLow" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="FG Low" Click="ShowFGLow_Click" Style="{DynamicResource EditLayerFlat}"/>
                     <ToggleButton x:Name="ShowFGHigh" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="FG High" Click="ShowFGHigh_Click" Style="{DynamicResource EditLayerFlat}"/>
                     <ToggleButton x:Name="ShowFGHigher" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="FG Higher" Click="ShowFGHigher_Click" Style="{DynamicResource EditLayerFlat}"/>
-                    <ToggleButton x:Name="ShowEntities" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="Entites" Click="ShowEntities_Click" Style="{DynamicResource EditLayerFlat}"/>
+                    <ToggleButton x:Name="ShowEntities" Background="Transparent" Foreground="{DynamicResource NormalText}" Content="Entities" Click="ShowEntities_Click" Style="{DynamicResource EditLayerFlat}"/>
                     <ToggleButton x:Name="ShowAnimations" Click="ShowAnimations_Click" Checked="ShowAnimations_Checked" Unchecked="ShowAnimations_Unchecked" Foreground="{DynamicResource NormalText}" Content="Animations" Background="Transparent" Style="{DynamicResource EditLayerFlat}" IsEnabled="False"/>
                     <Button BorderThickness="0" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Style="{DynamicResource RemoveMouseOverEffectType2}" VerticalAlignment="Center">
                         <Button.Content>
