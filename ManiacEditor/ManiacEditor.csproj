@@ -35,7 +35,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -730,8 +730,10 @@
     <Compile Include="Extensions\SettingsProviders\DocumentsSettingsProvider.cs" />
     <Compile Include="Extensions\TriDiagonalMatrix.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
+    <Compile Include="Graphics\GIF.cs" />
     <Compile Include="Graphics\GraphicsHandler.cs" />
     <Compile Include="Graphics\ImageExtensions.cs" />
+    <Compile Include="Graphics\StageTiles.cs" />
     <Compile Include="Interfaces\Editor Tools\ExportAsImageGUI.xaml.cs">
       <DependentUpon>ExportAsImageGUI.xaml</DependentUpon>
     </Compile>
