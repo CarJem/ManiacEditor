@@ -191,6 +191,8 @@ namespace ManiacEditor
             if (StackFrames) anim = ProcessAnimationFramesAsStack(name, d, AnimID, FrameID, StackStart, StackEnd, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
             else anim = ProcessAnimationFrames(name, d, AnimID, FrameID, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
 
+            if (anim == null) return null;
+
             anim.ImageLoaded = true;
             if (LoadImageToDX) anim.Ready = true;
             Working = false;
@@ -316,6 +318,8 @@ namespace ManiacEditor
                 var animiation = rsdkAnim.Animations[AnimID];
                 var frame = animiation.Frames[i];
                 if (FrameID >= 0 && FrameID < animiation.Frames.Count && FrameID != -1) frame = animiation.Frames[FrameID];
+                frame = OptimizeFrame(frame);
+                if (frame == null) return null;
                 Bitmap map = null;
                 bool noEncoreColors = false;
                 map = GetAnimationBitmap(name, AnimID, FrameID, assetName, dataFolderLocation, i, map, frame, noEncoreColors);
@@ -332,7 +336,7 @@ namespace ManiacEditor
                     map = FitForSharpDXTexture(map);
                 }
                 else
-                {
+                {                    
                     map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour, TextureRotation, Rotate, LegacyRotate);
                     if (TextureRotation != 0 && LegacyRotate)
                     {
@@ -353,6 +357,19 @@ namespace ManiacEditor
             return anim;
 
         }
+
+        public Animation.AnimationEntry.Frame OptimizeFrame(Animation.AnimationEntry.Frame frame)
+        {
+            if (frame.X <= -1) frame.X = 0;
+            if (frame.Y <= -1) frame.Y = 0;
+            if (frame.Width <= -1) frame.Width = 0;
+            if (frame.Height <= -1) frame.Height = 0;
+            if (frame.Width == 0) return null;
+            if (frame.Height == 0) return null;
+            return frame;
+        }
+
+
         public EditorAnimation ProcessAnimationFramesAsStack(string name, DevicePanel d, int AnimID, int FrameID, int StartID, int EndID, bool FlipH, bool FlipV, string assetName, string dataFolderLocation, bool LoadImageToDX, EditorAnimation anim, bool LegacyRotate, int TextureRotation, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false)
         {
             //Copied Unmodified Code from ProcessAnimationFrames, still need to implement this section correctly.
@@ -362,11 +379,11 @@ namespace ManiacEditor
                 var animiation = rsdkAnim.Animations[AnimID];
                 var frame = animiation.Frames[i];
                 if (FrameID >= 0 && FrameID < animiation.Frames.Count) frame = animiation.Frames[FrameID];
+                frame = OptimizeFrame(frame);
+                if (frame == null) return null;
                 Bitmap map = null;
                 bool noEncoreColors = false;
                 map = GetAnimationBitmap(name, AnimID, FrameID, assetName, dataFolderLocation, i, map, frame, noEncoreColors);
-
-
                 // We are storing the first colour from the palette so we can use it to make sprites transparent
                 var colour = map.Palette.Entries[0];
 

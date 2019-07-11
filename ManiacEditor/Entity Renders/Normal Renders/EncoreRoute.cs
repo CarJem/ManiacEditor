@@ -98,10 +98,20 @@ namespace ManiacEditor.Entity_Renders
                     for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
                     {
                         // We will draw those later
-                        if (this._layer.Tiles?[ty][tx] != 0xffff)
+                        if (this._layer.Tiles.Length <= ty)
+                        {
+                            //Skip
+                        }
+                        else if (this._layer.Tiles[ty].Length <= tx)
+                        {
+                            //Skip
+                        }
+                        else if (this._layer.Tiles?[ty][tx] != 0xffff)
                         {
                             DrawTile(d, this._layer.Tiles[ty][tx], (x) + tx - x2, (y) + ty - y2, false, Transperncy, EditorInstance);
                         }
+
+
                     }
                 }
             }
