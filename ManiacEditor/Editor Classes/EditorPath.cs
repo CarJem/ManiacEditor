@@ -501,14 +501,35 @@ namespace ManiacEditor
 		public Stamps GetEditorStamps(string Zone)
 		{
             Stamps_SourceID = SceneFile_SourceID;
-            Stamps_Source = Path.Combine(SceneFile_Directory, "ManiacStamps.bin");
-            if (IsEditorStampsValid()) return new Stamps(Path.Combine(SceneFile_Directory, "ManiacStamps.bin"));
-            else return new Stamps();
+            Stamps_Source = Path.Combine(SceneFile_Directory, Editor.Instance.EditorScene.EditorMetadata.StampName.Replace("\0", ""));
+            if (IsEditorStampsValid())
+            {
+                return new Stamps(Path.Combine(SceneFile_Directory, Editor.Instance.EditorScene.EditorMetadata.StampName.Replace("\0", "")));
+            }
+            else
+            {
+                //Check if default name exists (for backwards compatability)
+                if (File.Exists(Path.Combine(SceneFile_Directory, "ManiacStamps.bin")))
+                {
+                    SetEditorStampsName("ManiacStamps.bin");
+                    return new Stamps(Path.Combine(SceneFile_Directory, "ManiacStamps.bin"));
+                }
+                else
+                {
+                    return new Stamps();
+                }
+            }
         }
 
-		public bool IsEditorStampsValid()
+        public void SetEditorStampsName(string Name)
+        {
+            Stamps_SourceID = SceneFile_SourceID;
+            Editor.Instance.EditorScene.EditorMetadata.StampName = Name;
+        }
+
+        public bool IsEditorStampsValid()
 		{
-			return File.Exists(Path.Combine(SceneFile_Directory, "ManiacStamps.bin"));
+			return File.Exists(Path.Combine(SceneFile_Directory, Editor.Instance.EditorScene.EditorMetadata.StampName.Replace("\0", "")));
 		}
 		#endregion
 
