@@ -28,7 +28,7 @@ namespace ManiacEditor
         public List<string> renderOnScreenExlusions;
         public List<string> rendersWithErrors = new List<string>();
         public List<string> linkedrendersWithErrors = new List<string>();
-        public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "EditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
+        public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "HUDEditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
         public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform", "CableWarp" };
 
         public string GetAnimationLoadingKey(string name, int AnimID, int FrameID, bool FlipH, bool FlipV, Flag FlagAttributes, int TextureRotation, bool Rotate, bool LegacyRotate, bool StackFrames, int StackStart, int StackEnd)
@@ -562,6 +562,7 @@ namespace ManiacEditor
                     default:
                         return null;
                 }
+                //dataDirectory = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\");
             }
             else
             {
