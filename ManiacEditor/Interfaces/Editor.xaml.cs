@@ -1604,6 +1604,7 @@ namespace ManiacEditor
         private void ExitEditorEvent(object sender, RoutedEventArgs e) { Close(); }
         private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportAsPNG(); }
         private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportLayersAsPNG(); }
+        private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportObjLayoutAsPNG(); }
         private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
         private void BackupEvent(object sender, RoutedEventArgs e) { UIEvents.BackupToolStripMenuItem_Click(sender, e); }

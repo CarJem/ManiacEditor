@@ -240,6 +240,58 @@ namespace ManiacEditor
             }
         }
 
+        public void ExportObjLayoutAsPNG()
+        {
+            int i = 0;
+            try
+            {
+                if (Editor.Instance.EditorScene?._editorLayers == null || !Editor.Instance.EditorScene._editorLayers.Any()) return;
+
+                var dialog = new FolderSelectDialog()
+                {
+                    Title = "Select folder to save each exported object layout image to"
+                };
+
+                if (!dialog.ShowDialog()) return;
+
+                int fileCount = 0;
+
+                string fileName = System.IO.Path.Combine(dialog.FileName, "Objects.png");
+
+                using (var bitmap = new System.Drawing.Bitmap(1024 * EditorConstants.TILE_SIZE, 1024 * EditorConstants.TILE_SIZE))
+                {
+                    using (var g = System.Drawing.Graphics.FromImage(bitmap))
+                    {
+                        for (i = 0; i < Editor.Instance.Entities.Entities.Count; i++)
+                        {
+                            //if (!Instance.CanWriteFile(fileName))
+                            // {
+                            //    Instance.ShowError($"Layout export aborted. {fileCount} images saved.");
+                            //    return;
+                            //}
+                            try
+                            {
+                                Editor.Instance.Entities.Entities[i].ExportDraw(g,false);
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
+                    bitmap.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
+                    ++fileCount;
+                }
+
+                RSDKrU.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
+                                MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                Instance.ShowError("An error occurred: " + ex.Message);
+            }
+        }
+
         #endregion
 
         #region Opening

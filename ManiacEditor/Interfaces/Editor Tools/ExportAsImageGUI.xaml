@@ -37,13 +37,13 @@
                             <CheckBox Name="OnlyRenderSpecificObjects" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked">
                                 <TextBlock Text="Only Render Specific Objects" TextWrapping="Wrap"></TextBlock>
                             </CheckBox>
-                            <StackPanel IsEnabled="False" Name="RenderableObjectsDropDownButton">
+                            <StackPanel IsEnabled="False" Name="RenderableObjectsDropDownButton" Height="102">
                                 <Grid>
-                                    <ComboBox Name="RenderableObjects" Margin="5" SelectionChanged="RenderableObjects_SelectionChanged"></ComboBox>
-                                    <Button Content="Renderable Objects..." Name="RenderableObjectRenders" Click="RenderableObjectRenders_Click" Margin="5"></Button>
+                                    <ComboBox x:Name="RenderableObjects" Margin="5" SelectionChanged="RenderableObjects_SelectionChanged"/>
+                                    <Button Content="Renderable Objects..." x:Name="RenderableObjectRenders" Click="RenderableObjectRenders_Click" Margin="5"/>
                                 </Grid>
-                                <Button Content="Check All" Margin="3" Click="CheckAll_Click"></Button>
-                                <Button Content="Uncheck All" Margin="3" Click="UncheckAll_Click"></Button>
+                                <Button Content="Check All" Margin="3" Click="CheckAll_Click"/>
+                                <Button Content="Uncheck All" Margin="3" Click="UncheckAll_Click"/>
                             </StackPanel>
 
 

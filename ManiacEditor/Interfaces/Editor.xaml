@@ -585,6 +585,7 @@
                 <MenuItem x:Name="exportToolStripMenuItem" Header="Export...">
                     <MenuItem Header="Export as PNG..." Click="ExportAsPNGEvent"></MenuItem>
                     <MenuItem Header="Export Layers as PNG..." Click="ExportLayersAsPNGEvent"></MenuItem>
+                    <MenuItem Header="Export Object Layout as PNG" Click="ExportObjLayoutAsPNGEvent"></MenuItem>
                     <MenuItem Header="Options..." Click="ExportToolStripMenuItem_Click"></MenuItem>
                 </MenuItem>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />

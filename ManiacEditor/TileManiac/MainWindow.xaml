@@ -492,34 +492,34 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" Margin="2">
-                        <Label Content="Slope"></Label>
+                        <Label Content="Floor Angle" FontSize="9" Margin="-7,0,0,0"></Label>
                         <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="SlopeNUD_ValueChanged" x:Name="SlopeNUD" ToolTip="Controls the slope angle of the tile in degrees" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="2,0">
-                        <Label Content="Slope (°D)"></Label>
+                        <Label Content="Floor Angle (°D)"></Label>
                         <Grid Width="48" Height="20" HorizontalAlignment="Left">
                             <wpfTool:IntegerUpDown IsEnabled="False" x:Name="RawSlopeNUD" DefaultValue="0" Value="0" Height="20" Width="48"></wpfTool:IntegerUpDown>
                         </Grid>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="2">
-                        <Label Content="Physics"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="PhysicsNUD_ValueChanged" x:Name="PhysicsNUD" ToolTip="Controls the physics of the player interacting with the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
+                        <Label Content="RWall Angle" FontSize="9" Margin="-8,0,0,0"/>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="PhysicsNUD_ValueChanged" x:Name="PhysicsNUD" ToolTip="Controls the physics of the player interacting with the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2"  Margin="2">
-                        <Label Content="Momentum"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="MomentumNUD_ValueChanged" x:Name="MomentumNUD" ToolTip="Controls the momentum the player gets from the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
+                        <Label Content="LWall Angle" FontSize="9"></Label>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="MomentumNUD_ValueChanged" x:Name="MomentumNUD" ToolTip="Controls the momentum the player gets from the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3" Margin="2">
-                        <Label Content="Unknown"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="UnknownNUD_ValueChanged" x:Name="UnknownNUD" ToolTip="Controls the Unknown Value of the tile" DefaultValue="0" Value="0" IsEnabled="False"></wpfTool:IntegerUpDown>
+                        <Label Content="Ceiling Angle" FontSize="9" Margin="-7,0,0,0"></Label>
+                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="UnknownNUD_ValueChanged" x:Name="UnknownNUD" ToolTip="Controls the Unknown Value of the tile" DefaultValue="0" Value="0" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Grid.Column="4" Margin="2">
-                        <Label Content="Special"></Label>
+                        <Label Content="Behaviour" FontSize="9" Margin="-5,0,0,0"></Label>
                         <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" x:Name="SpecialNUD" ValueChanged="SpecialNUD_ValueChanged" ToolTip="Controls the the tile's 'Special' Properties, like whether it's a conveyor belt or not" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Grid.Column="5" Margin="2">
-                        <Label Content="IsCelling"></Label>
-                        <CheckBox x:Name="IsCeilingButton" Checked="IsCeilingButton_CheckedChanged" Unchecked="IsCeilingButton_CheckedChanged" IsEnabled="False"></CheckBox>
+                        <Label Content="IsCelling" FontSize="9"/>
+                        <CheckBox x:Name="IsCeilingButton" Checked="IsCeilingButton_CheckedChanged" Unchecked="IsCeilingButton_CheckedChanged" IsEnabled="False"/>
                     </StackPanel>
                 </Grid>
 

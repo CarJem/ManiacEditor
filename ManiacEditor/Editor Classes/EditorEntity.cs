@@ -139,10 +139,14 @@ namespace ManiacEditor
             this._entity = entity;
         }
 
+        public void ExportDraw(Graphics g, bool Editor = true)
+        {
+            DrawBase(new GraphicsHandler(g), Editor);
+        }
 
         public void Draw(Graphics g)
         {
-
+            DrawBase(new GraphicsHandler(g));
         }
 
         public EditorEntity GetSelf()
@@ -427,11 +431,10 @@ namespace ManiacEditor
 
             int x = _entity.Position.X.High;
             int y = _entity.Position.Y.High;
-
             DrawSelectionBox(new GraphicsHandler(d), x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red);
         }
 
-        public virtual void DrawBase(GraphicsHandler d)
+        public virtual void DrawBase(GraphicsHandler d, bool drawSelectionBox = true)
         {
             TestIfPlayerObject();
 
@@ -454,7 +457,7 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = _entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
             if (!Settings.MyPerformance.NeverLoadEntityTextures)
             {
@@ -462,7 +465,7 @@ namespace ManiacEditor
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
             }
 
-            if (drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized) DrawSelectionBox(d, x, y, Transparency, color, color2);
+            if (drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
         public virtual void PrimaryDraw(GraphicsHandler d, List<string> onScreenExlusionList)
         {
