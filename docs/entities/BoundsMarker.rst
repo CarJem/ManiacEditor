@@ -18,7 +18,6 @@ Changes the behaviour of the boundary
 how much extra width to give the camera lock
 
 **VsDisable:** 
-
 Disable the object in VS mode?
 
 **Offset:** 
