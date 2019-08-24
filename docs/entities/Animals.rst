@@ -24,9 +24,9 @@ Attributes:
 
 Determines how the animal behaves in the level
 
-	0 – Animal runs away like normal
-	1 – Animal will follow the player around
-	2 – Animal will move in random directions
+	* 0 – Animal runs away like normal
+	* 1 – Animal will follow the player around
+	* 2 – Animal will move in random directions
 
 **NOTE**: Do not set type over 11, the game will crash due to file I/O error!
 
