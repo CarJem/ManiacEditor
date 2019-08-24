@@ -26,7 +26,7 @@ Determines the Platform’s Behavior
     * 7 - OOZ Moving Spike Platforms; They move back and forth when they hit walls.
     * 8 - Waiting Moving Platforms; These Wait for the Player to be on top of them, and when the player is, it will move to its destination.
     * 9 - Waiting Moving Platforms(with Bobbing); These Wait for the Player to be on top of them, and when the player is, it will move to its destination.
-    * 10 - Follows Player?
+    * 10 - Moves when player is standing on them
     * 11 - Circular TMZ2 Style Platform Lift Thing? (IDK)
 
 **Amplitude:**
@@ -51,7 +51,7 @@ Determines how the platform will behave when an player interacts with it. Your R
 
 	* 0 - Solid on Top only
 	* 1 - Solid from all sides
-	* 2 - ???
+	* 2 - No collision
 	* 3 - Hazardous from all sides
 	* 4 - ???
 	* 5 - Hazardous from left and right sides
