@@ -23,12 +23,12 @@ namespace ManiacEditor.Entity_Renders
             var attribute = entity.attributesMap["frameID"];
             int angle = (int)entity.attributesMap["angle"].ValueInt32;
             int angleRotate = (int)entity.attributesMap["angle"].ValueInt32;
-            int type = (int)entity.attributesMap["type"].ValueVar;
-            int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
-            int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
-            int childCount = (int)entity.attributesMap["childCount"].ValueVar;
+            int type = (int)entity.attributesMap["type"].ValueEnum;
+            int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
+            int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
+            int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
             bool hasTension = entity.attributesMap["hasTension"].ValueBool;
-            UInt32 speed = attribMap.AttributesMapVar("speed", entity);
+            int speed = attribMap.AttributesMapVar("speed", entity);
             int angleStateX = 0;
             int angleStateY = 0;
 
@@ -64,8 +64,8 @@ namespace ManiacEditor.Entity_Renders
                 case AttributeTypes.INT8:
                     targetFrameID = attribute.ValueInt8;
                     break;
-                case AttributeTypes.VAR:
-                    targetFrameID = (int)attribute.ValueVar;
+                case AttributeTypes.ENUM:
+                    targetFrameID = (int)attribute.ValueEnum;
                     break;
             }
             int aminID = 0;
@@ -159,16 +159,16 @@ namespace ManiacEditor.Entity_Renders
 
                         if (amplitudeX != 0 && amplitudeY == 0)
                         {
-                            position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                            position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
                         }
                         if (amplitudeX == 0 && amplitudeY != 0)
                         {
-                            position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                            position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
                         }
                         if (amplitudeX != 0 && amplitudeY != 0)
                         {
                             // Since we can don't know how to do it other than x or y yet
-                            position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                            position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
                         }
 
                         if (childCount != 0 && Editor.Instance.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
@@ -381,10 +381,10 @@ namespace ManiacEditor.Entity_Renders
             var attribute = entity.attributesMap["frameID"];
             int angle = (int)entity.attributesMap["angle"].ValueInt32;
             int angleRotate = (int)entity.attributesMap["angle"].ValueInt32;
-            int type = (int)entity.attributesMap["type"].ValueVar;
-            int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
-            int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
-            int childCount = (int)entity.attributesMap["childCount"].ValueVar;
+            int type = (int)entity.attributesMap["type"].ValueEnum;
+            int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
+            int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
+            int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
             bool hasTension = entity.attributesMap["hasTension"].ValueBool;
 
             if (type == 0 || type == 1)

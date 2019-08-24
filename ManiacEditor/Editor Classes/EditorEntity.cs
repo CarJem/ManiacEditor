@@ -585,8 +585,8 @@ namespace ManiacEditor
                 case AttributeTypes.INT8:
                     frameID = _entity.attributesMap[key].ValueInt8;
                     break;
-                case AttributeTypes.VAR:
-                    frameID = (int)_entity.attributesMap[key].ValueVar;
+                case AttributeTypes.ENUM:
+                    frameID = (int)_entity.attributesMap[key].ValueEnum;
                     break;
             }
             if (frameID >= anim.Frames.Count)
@@ -622,8 +622,8 @@ namespace ManiacEditor
                     case AttributeTypes.INT8:
                         dir = attribute.ValueInt8;
                         break;
-                    case AttributeTypes.VAR:
-                        dir = (int) attribute.ValueVar;
+                    case AttributeTypes.ENUM:
+                        dir = (int) attribute.ValueEnum;
                         break;
                 }
                 if (dir == 0) // Up
@@ -662,8 +662,8 @@ namespace ManiacEditor
                     case AttributeTypes.INT8:
                         dir = attribute.ValueInt8;
                         break;
-                    case AttributeTypes.VAR:
-                        dir = (int)attribute.ValueVar;
+                    case AttributeTypes.ENUM:
+                        dir = (int)attribute.ValueEnum;
                         break;
                 }
                 if (dir == 0) // Right
@@ -800,8 +800,8 @@ namespace ManiacEditor
                 case AttributeTypes.INT32:
                     entity.attributesMap[name].ValueInt32 = (int)newValue;
                     break;
-                case AttributeTypes.VAR:
-                    entity.attributesMap[name].ValueVar = (uint)newValue;
+                case AttributeTypes.ENUM:
+                    entity.attributesMap[name].ValueEnum = (int)newValue;
                     break;
                 case AttributeTypes.BOOL:
                     entity.attributesMap[name].ValueBool = (bool)newValue;
@@ -809,8 +809,11 @@ namespace ManiacEditor
                 case AttributeTypes.COLOR:
                     entity.attributesMap[name].ValueColor = (RSDKv5.Color)newValue;
                     break;
-                case AttributeTypes.POSITION:
-                    entity.attributesMap[name].ValuePosition = (Position)newValue;
+                case AttributeTypes.VECTOR2:
+                    entity.attributesMap[name].ValueVector2 = (Position)newValue;
+                    break;
+                case AttributeTypes.VECTOR3:
+                    entity.attributesMap[name].ValueVector3 = (Position)newValue;
                     break;
                 case AttributeTypes.STRING:
                     entity.attributesMap[name].ValueString = (string)newValue;
@@ -823,13 +826,13 @@ namespace ManiacEditor
 
         internal void Flip(FlipDirection flipDirection)
         {
-            if (_entity.AttributeExists("flipFlag", AttributeTypes.VAR))
+            if (_entity.AttributeExists("flipFlag", AttributeTypes.ENUM))
             {
-                uint oldValue = _entity.attributesMap["flipFlag"].ValueVar;
-                uint newValue = oldValue;
+                int oldValue = _entity.attributesMap["flipFlag"].ValueEnum;
+                int newValue = oldValue;
                 if (flipDirection == FlipDirection.Horizontal) newValue ^= 0x01;
                 else newValue ^= 0x02;
-                InvokeAction("flipFlag", oldValue, newValue, AttributeTypes.VAR);
+                InvokeAction("flipFlag", oldValue, newValue, AttributeTypes.ENUM);
             }
 
             if (_entity.AttributeExists("direction", AttributeTypes.UINT8))

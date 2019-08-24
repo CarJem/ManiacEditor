@@ -11,7 +11,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
-            var height_value = (int)(entity.attributesMap["size"].ValueVar);
+            var height_value = (int)(entity.attributesMap["size"].ValueEnum);
             var height = (height_value > 0 ? height_value / 2 : height_value);
             var width = 6;
 
@@ -68,7 +68,7 @@ namespace ManiacEditor.Entity_Renders
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(13) * 16;
-            var heightPixels = (int)(entity.attributesMap["size"].ValueVar * 2 - 1) * 16;
+            var heightPixels = (int)(entity.attributesMap["size"].ValueEnum * 2 - 1) * 16;
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels + 15, heightPixels + 15);
         }
 

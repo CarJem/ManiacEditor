@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
 
-            var size = (int)(entity.attributesMap["size"].ValueVar) - 1;
+            var size = (int)(entity.attributesMap["size"].ValueEnum) - 1;
             int angle = 0;
             var direction = (int)entity.attributesMap["direction"].ValueUInt8;
 

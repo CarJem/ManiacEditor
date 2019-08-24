@@ -12,8 +12,8 @@ namespace ManiacEditor.Entity_Renders
                       RightDist = 4,
                       RightPlane = 8;
 
-            var flags = (int)entity.attributesMap["flags"].ValueVar;
-            var size = (int)(entity.attributesMap["size"].ValueVar) - 1;
+            var flags = (int)entity.attributesMap["flags"].ValueEnum;
+            var size = (int)(entity.attributesMap["size"].ValueEnum) - 1;
             var angle = entity.attributesMap["angle"].ValueInt32;
 
             int frameDist = (flags & LeftDist) > 0 ? 1 : 0;
@@ -84,7 +84,7 @@ namespace ManiacEditor.Entity_Renders
         }
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var size = (int)(entity.attributesMap["size"].ValueVar);
+            var size = (int)(entity.attributesMap["size"].ValueEnum);
             int bounds = (16 * size);
 
             return d.IsObjectOnScreen(x - bounds, y - bounds, bounds*2, bounds*2);

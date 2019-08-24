@@ -8,12 +8,12 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var widthPixels = (int)(entity.attributesMap["subOff2"].ValuePosition.X.High) * 16;
-            var heightPixels = (int)(entity.attributesMap["subOff2"].ValuePosition.Y.High) * 16;
+            var widthPixels = (int)(entity.attributesMap["subOff2"].ValueVector2.X.High) * 16;
+            var heightPixels = (int)(entity.attributesMap["subOff2"].ValueVector2.Y.High) * 16;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
-            int offsetX = (int)(entity.attributesMap["subOff1"].ValuePosition.X.High);
-            int offsetY = (int)(entity.attributesMap["subOff1"].ValuePosition.Y.High);
+            int offsetX = (int)(entity.attributesMap["subOff1"].ValueVector2.X.High);
+            int offsetY = (int)(entity.attributesMap["subOff1"].ValueVector2.Y.High);
 
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, false, false);
 

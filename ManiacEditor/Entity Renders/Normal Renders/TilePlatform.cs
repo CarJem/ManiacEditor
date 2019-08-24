@@ -13,10 +13,10 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
-            int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
-            int TargetX = (int)entity.attributesMap["targetPos"].ValuePosition.X.High;
-            int TargetY = (int)entity.attributesMap["targetPos"].ValuePosition.Y.High;
+            int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
+            int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
+            int TargetX = (int)entity.attributesMap["targetPos"].ValueVector2.X.High;
+            int TargetY = (int)entity.attributesMap["targetPos"].ValueVector2.Y.High;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 7, fliph, flipv, false);
 
             width = RoundNum(width, EditorConstants.TILE_SIZE) / EditorConstants.TILE_SIZE;

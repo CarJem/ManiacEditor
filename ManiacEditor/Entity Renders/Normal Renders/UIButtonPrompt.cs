@@ -8,8 +8,8 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
-            int promptID = (int)entity.attributesMap["promptID"].ValueVar;
-            int buttonID = (int)entity.attributesMap["buttonID"].ValueVar;
+            int promptID = (int)entity.attributesMap["promptID"].ValueEnum;
+            int buttonID = (int)entity.attributesMap["buttonID"].ValueEnum;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Buttons", d.DevicePanel, Editor.Instance.UIModes.CurrentControllerButtons, buttonID, false, false, false);
             var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation("Buttons", d.DevicePanel, 0, 0, false, false, false);
             var editorAnimButton = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 0, promptID, false, false, false);

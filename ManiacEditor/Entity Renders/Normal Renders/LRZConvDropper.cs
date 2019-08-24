@@ -11,10 +11,10 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LRZConvDropper", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var width = (int)(entity.attributesMap["detectSize"].ValuePosition.X.High - 1) / 16;
-            var height = (int)(entity.attributesMap["detectSize"].ValuePosition.Y.High - 1) / 16;
-            var offsetX = (int)(entity.attributesMap["detectOffset"].ValuePosition.X.High - 1) / 16;
-            var offsetY = (int)(entity.attributesMap["detectOffset"].ValuePosition.Y.High - 1) / 16;
+            var width = (int)(entity.attributesMap["detectSize"].ValueVector2.X.High - 1) / 16;
+            var height = (int)(entity.attributesMap["detectSize"].ValueVector2.Y.High - 1) / 16;
+            var offsetX = (int)(entity.attributesMap["detectOffset"].ValueVector2.X.High - 1) / 16;
+            var offsetY = (int)(entity.attributesMap["detectOffset"].ValueVector2.Y.High - 1) / 16;
 
             x += offsetX;
             y += offsetY;
@@ -97,10 +97,10 @@ namespace ManiacEditor.Entity_Renders
 
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var widthPixels = (int)(entity.attributesMap["detectSize"].ValuePosition.X.High - 1) / 16;
-            var heightPixels = (int)(entity.attributesMap["detectSize"].ValuePosition.Y.High - 1) / 16;
-            var offsetX = (int)(entity.attributesMap["detectOffset"].ValuePosition.X.High - 1) / 16;
-            var offsetY = (int)(entity.attributesMap["detectOffset"].ValuePosition.Y.High - 1) / 16;
+            var widthPixels = (int)(entity.attributesMap["detectSize"].ValueVector2.X.High - 1) / 16;
+            var heightPixels = (int)(entity.attributesMap["detectSize"].ValueVector2.Y.High - 1) / 16;
+            var offsetX = (int)(entity.attributesMap["detectOffset"].ValueVector2.X.High - 1) / 16;
+            var offsetY = (int)(entity.attributesMap["detectOffset"].ValueVector2.Y.High - 1) / 16;
 
             x += offsetX;
             y += offsetY;

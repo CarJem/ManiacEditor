@@ -258,7 +258,7 @@ namespace ManiacEditor
 
                 string fileName = System.IO.Path.Combine(dialog.FileName, "Objects.png");
 
-                using (var bitmap = new System.Drawing.Bitmap(1024 * EditorConstants.TILE_SIZE, 1024 * EditorConstants.TILE_SIZE))
+                using (var bitmap = new System.Drawing.Bitmap(1024 * EditorConstants.TILE_SIZE, 256 * EditorConstants.TILE_SIZE))
                 {
                     using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {

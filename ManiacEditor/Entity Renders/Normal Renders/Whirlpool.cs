@@ -8,8 +8,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High) + 16;
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High) + 16;
+            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High) + 16;
+            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High) + 16;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
@@ -51,8 +51,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High) + 16;
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High) + 16;
+            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High) + 16;
+            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High) + 16;
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels, heightPixels);
         }
 

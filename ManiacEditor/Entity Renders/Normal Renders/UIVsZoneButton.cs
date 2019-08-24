@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int zoneID = (int)entity.attributesMap["zoneID"].ValueVar;
+            int zoneID = (int)entity.attributesMap["zoneID"].ValueEnum;
 
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 17, zoneID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)

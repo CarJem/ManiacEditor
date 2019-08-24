@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int frameID = (int)entity.attributesMap["frameID"].ValueVar;
+            int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Trash", d.DevicePanel, 0, frameID, fliph, flipv, false);

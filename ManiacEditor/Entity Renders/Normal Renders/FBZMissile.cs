@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            int type = (int)entity.attributesMap["type"].ValueVar;
+            int type = (int)entity.attributesMap["type"].ValueEnum;
             int frameID = 0;
             if (type == 2)
             {

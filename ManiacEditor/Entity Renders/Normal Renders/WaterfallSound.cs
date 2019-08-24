@@ -11,8 +11,8 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 6, fliph, flipv, false);
-            var width = (int)(entity.attributesMap["size"].ValuePosition.X.High*2 - 1);
-            var height = (int)(entity.attributesMap["size"].ValuePosition.Y.High*2 - 1);
+            var width = (int)(entity.attributesMap["size"].ValueVector2.X.High*2 - 1);
+            var height = (int)(entity.attributesMap["size"].ValueVector2.Y.High*2 - 1);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -91,8 +91,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High * 2 - 1) * 16;
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High * 2 - 1) * 16;
+            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High * 2 - 1) * 16;
+            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High * 2 - 1) * 16;
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels + 15, heightPixels + 15);
         }
 

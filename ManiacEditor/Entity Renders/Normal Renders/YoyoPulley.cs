@@ -10,8 +10,8 @@ namespace ManiacEditor.Entity_Renders
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int pullDir = (int)entity.attributesMap["pullDir"].ValueUInt8;
-            int length = (int)(entity.attributesMap["length"].ValueVar);
-            int angle = (int)(entity.attributesMap["angle"].ValueVar);
+            int length = (int)(entity.attributesMap["length"].ValueEnum);
+            int angle = (int)(entity.attributesMap["angle"].ValueEnum);
             bool fliph = false;
             bool flipSides = false;
             bool flipv = false;

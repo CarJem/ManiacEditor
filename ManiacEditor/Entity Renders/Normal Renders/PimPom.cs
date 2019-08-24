@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
         Boolean boolState = true;
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int type = (int)entity.attributesMap["type"].ValueVar;
+            int type = (int)entity.attributesMap["type"].ValueEnum;
             int color = (int)entity.attributesMap["color"].ValueUInt8;
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int angle = (int)entity.attributesMap["angle"].ValueInt32;

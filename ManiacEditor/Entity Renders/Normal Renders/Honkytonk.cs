@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            int angle = (int)entity.attributesMap["angle"].ValueVar;
+            int angle = (int)entity.attributesMap["angle"].ValueEnum;
             int rotation = (int)(angle / -0.71);
 
 

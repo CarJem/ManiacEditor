@@ -8,11 +8,11 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int type = (int)entity.attributesMap["type"].ValueVar;
-            int speed = (int)entity.attributesMap["speed"].ValueVar;
+            int type = (int)entity.attributesMap["type"].ValueEnum;
+            int speed = (int)entity.attributesMap["speed"].ValueEnum;
             int angle = (int)entity.attributesMap["angle"].ValueInt32;
-            int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
-            int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High; 
+            int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
+            int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High; 
             bool fliph = false;
             bool flipv = false;
             int animID = 0;

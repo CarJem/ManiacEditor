@@ -13,8 +13,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int length = (int)entity.attributesMap["length"].ValueVar;
-            int angle = (int)entity.attributesMap["angle"].ValueVar;
+            int length = (int)entity.attributesMap["length"].ValueEnum;
+            int angle = (int)entity.attributesMap["angle"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("PaperRoller", d.DevicePanel, 0, -1, fliph, flipv, false);

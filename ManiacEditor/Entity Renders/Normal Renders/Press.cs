@@ -8,8 +8,8 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int size = (int)entity.attributesMap["size"].ValueUInt16;
-            int offTop = (int)entity.attributesMap["offTop"].ValueVar;
-            int offBottom = (int)entity.attributesMap["offBottom"].ValueVar;
+            int offTop = (int)entity.attributesMap["offTop"].ValueEnum;
+            int offBottom = (int)entity.attributesMap["offBottom"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Press", d.DevicePanel, 0, -1, fliph, flipv, false);

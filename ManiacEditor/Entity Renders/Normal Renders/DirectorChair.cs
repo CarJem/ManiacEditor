@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             //int type = (int)entity.attributesMap["type"].ValueUInt8;
-            int size = (int)entity.attributesMap["size"].ValueVar;
+            int size = (int)entity.attributesMap["size"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("DirectorChair", d.DevicePanel, 1, 0, fliph, flipv, false);

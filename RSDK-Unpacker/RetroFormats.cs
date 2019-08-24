@@ -126,7 +126,7 @@ namespace Retro_Formats
                         objects[i].subtype = ScenevB.objects[i].subtype;
                         objects[i].xPos = ScenevB.objects[i].xPos;
                         objects[i].yPos = ScenevB.objects[i].yPos;
-                        objects[i].attribute = ScenevB.objects[i].attribute;
+                        //objects[i].attribute = ScenevB.objects[i].attribute;
                         objects[i].AttributeType = ScenevB.objects[i].AttributeType;
                     }
                     break;
@@ -218,7 +218,7 @@ namespace Retro_Formats
                         ScenevB.objects[i].type = objects[i].subtype;
                         ScenevB.objects[i].xPos = objects[i].xPos;
                         ScenevB.objects[i].yPos = objects[i].yPos;
-                        ScenevB.objects[i].attribute = objects[i].attribute;
+                        //ScenevB.objects[i].attribute = objects[i].attribute;
                         ScenevB.objects[i].AttributeType = objects[i].AttributeType;
                     }
                     ScenevB.Write(filepath);
@@ -429,7 +429,7 @@ namespace Retro_Formats
             /// <summary>
             /// indexes to HLine values
             /// </summary>
-            public List<byte> LineIndexes = new List<byte>();
+            public byte[] LineIndexes = new byte[0];
 
             public BackgroundLayer()
             {

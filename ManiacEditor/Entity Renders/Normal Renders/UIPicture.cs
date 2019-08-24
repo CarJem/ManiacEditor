@@ -21,8 +21,8 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            int frameID = (int)entity.attributesMap["frameID"].ValueVar;
-            int listID = (int)entity.attributesMap["listID"].ValueVar;
+            int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
+            int listID = (int)entity.attributesMap["listID"].ValueEnum;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(binFile, d.DevicePanel, listID, frameID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

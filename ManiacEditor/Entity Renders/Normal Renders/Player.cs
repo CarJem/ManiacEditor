@@ -7,10 +7,10 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int id = (int)entity.attributesMap["characterID"].ValueVar;
+            int id = (int)entity.attributesMap["characterID"].ValueEnum;
             if (id > 7)
             {
-                entity.attributesMap["characterID"].ValueVar = 7u;
+                entity.attributesMap["characterID"].ValueEnum = 7;
             }
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("PlayerIcons", d.DevicePanel, 0, id, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)

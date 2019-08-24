@@ -10,8 +10,8 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            int startOff = (int)entity.attributesMap["startOff"].ValueVar;
-            int length = (int)entity.attributesMap["length"].ValueVar;
+            int startOff = (int)entity.attributesMap["startOff"].ValueEnum;
+            int length = (int)entity.attributesMap["length"].ValueEnum;
 
             var widthPixels = (int)(64);
             var heightPixels = (int)(length);

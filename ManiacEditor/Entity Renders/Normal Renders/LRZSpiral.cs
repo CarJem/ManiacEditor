@@ -26,8 +26,8 @@ namespace ManiacEditor.Entity_Renders
                     multiplierY = 3;
                     break;
             }
-            var widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-            var heightPixels = (int)(entity.attributesMap["height"].ValueVar) * multiplierY;
+            var widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+            var heightPixels = (int)(entity.attributesMap["height"].ValueEnum) * multiplierY;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
@@ -87,8 +87,8 @@ namespace ManiacEditor.Entity_Renders
                     multiplierY = 3;
                     break;
             }
-            var widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-            var heightPixels = (int)(entity.attributesMap["height"].ValueVar) * multiplierY;
+            var widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+            var heightPixels = (int)(entity.attributesMap["height"].ValueEnum) * multiplierY;
             if (widthPixels != 0 && heightPixels != 0)
             {
                 return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels, heightPixels);

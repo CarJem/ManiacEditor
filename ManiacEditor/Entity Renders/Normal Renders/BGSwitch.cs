@@ -16,8 +16,8 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High) * 2;
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High) * 2;
+            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High) * 2;
+            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High) * 2;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
@@ -59,8 +59,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High) * 2;
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High) * 2;
+            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High) * 2;
+            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High) * 2;
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels, heightPixels);
         }
 

@@ -7,14 +7,14 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
-            int arrowWidth = (int)entity.attributesMap["arrowWidth"].ValueVar;
+            int arrowWidth = (int)entity.attributesMap["arrowWidth"].ValueEnum;
             if (arrowWidth != 0) arrowWidth /= 2;
             var leftArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
             var rightArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
-            int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
-            int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
+            int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
+            int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
             double alignmentVal = 0;
-            int align = (int)entity.attributesMap["align"].ValueVar;
+            int align = (int)entity.attributesMap["align"].ValueEnum;
             switch (align)
             {
                 case 0:
