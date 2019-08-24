@@ -18,6 +18,10 @@ Determines the Type of Water that is being used.
     * 2 - Water Bubbles
     * 3 - Bounding Boxes for Adjusting Water Height.
 
+**NumDuds:** 
+
+???
+
 **Size:**  
 
 Used for type 1, for the water box itself, and type 3 for the area in which the player can activate the water height adjustment.
