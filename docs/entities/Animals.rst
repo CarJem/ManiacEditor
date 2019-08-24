@@ -30,4 +30,4 @@ Determines how the animal behaves in the level
 
 **NOTE**: Do not set type over 11, the game will crash due to file I/O error!
 
-**NOTE 2**: Animals have behaviour controlled by static objects, such behaviours as speeds are in this file!
+**NOTE 2**: Animals have behaviour controlled by a static object file, such behaviours as speeds are in this file! other behaviours this file controls are not known
