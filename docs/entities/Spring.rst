@@ -15,8 +15,8 @@ This Attribute Controls the Direction of the Spring, as well as the type of spri
 	* 1 - Upwards Facing Red Spring
 	* 2 - Sideways Facing Yellow Spring
 	* 3 - Sideways Facing Red Spring
-	* 4 - Upwards Facing Yellow Spring 
-	* 5 - Upwards Facing Red Spring 
+	* 4 - Diagonal Facing Yellow Spring 
+	* 5 - Diagonal Facing Red Spring 
 
 **FlipFlag:**
  
