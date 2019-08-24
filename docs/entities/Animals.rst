@@ -6,6 +6,7 @@ Places one of the 8 animals into the area
 Attributes:
 ------------
 **Type**:	 
+
 	* 0 – Flicky (Blue Bird)
 	* 1 – Ricky (Chipmunk)
 	* 2 – Pocky (Rabbit)
@@ -20,10 +21,13 @@ Attributes:
 	* 11 – Micky (Rat)
 
 **Behaviour**:
+
 Determines how the animal behaves in the level
+
 	0 – Animal runs away like normal
 	1 – Animal will follow the player around
 	2 – Animal will move in random directions
 
 **NOTE**: Do not set type over 11, the game will crash due to file I/O error!
+
 **NOTE 2**: Animals have behaviour controlled by static objects, such behaviours as speeds are in this file!
