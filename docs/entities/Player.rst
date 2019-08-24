@@ -11,7 +11,7 @@ Attributes
 
 Determines who spawns at the object
 
-* 0 - World?
+* 0 - No one (Free Cam mode)
 * 1 - Sonic
 * 2 - Tails
 * 3 - Sonic and Tails
