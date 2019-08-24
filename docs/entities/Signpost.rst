@@ -10,9 +10,9 @@ Attributes
 **Type:**
 Determines the behaviour of the signpost
 
-* 0 - ???
-* 1 - ???
-* 2 - ???
+* 0 - Regular
+* 1 - Signpost Falls after boss
+* 2 - Signpost appears only in VS mode
 
 **VS Bounds Size:**
 the size of the screen bounds in VS mode
