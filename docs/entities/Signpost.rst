@@ -8,6 +8,7 @@ Attributes
 -------------
 
 **Type:**
+
 Determines the behaviour of the signpost
 
 * 0 - Regular
@@ -15,13 +16,17 @@ Determines the behaviour of the signpost
 * 2 - Signpost appears only in VS mode
 
 **VS Bounds Size:**
+
 the size of the screen bounds in VS mode
 
 **VS Bounds Offset:**
+
 how much the bounds are offset in VS mode
 
 **VS Extend Top:**
+
 How much the bounds extend upwards in VS mode
 
 **VS Extend Bottom:**
+
 How much the bounds extend downwards in VS mode
