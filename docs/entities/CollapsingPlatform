@@ -16,7 +16,7 @@ Defines whether the platform will respawn after going off screen. Set as True/Fa
 
 **TargetLayer**:
 
-Defines which layer the platform will affect. Experiment with different		values to get the correct layer setting. 0, 1=FG High, 2 etc
+Defines which layer the platform will affect. Experiment with different values to get the correct layer setting. 0=FG Low, 1=FG High, 2 etc
 
 **Type**:
 
@@ -30,11 +30,11 @@ Time delay before platform collapses. 60 = 1 second, 90 = 1.5 seconds, you do th
 
 **EventOnly**:
 
-Collapses upon a stage event
+Determines if it collapses upon a stage event
 
 **MightyOnly**:
 
-Only Collapsable by mighty
+Determines if its only Collapsable by mighty
 
 
 **NOTES**: 
