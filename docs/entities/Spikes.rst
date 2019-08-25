@@ -15,16 +15,21 @@ What direction the spikes are facing
 * 3 - Left
 
 **Moving:**
+
 Determines if the spikes move in and out or not
 
 **Count:**
+
 How Many Spikes will be loaded
 
 **Stagger:**
+
 ???
 
 **Timer:**
+
 What the timer for moving starts on
 
 **Plane Filter:**
+
 Determines the FG Layer the Ring is On; The outcome of the value depends on Layer Setup of your scene.
