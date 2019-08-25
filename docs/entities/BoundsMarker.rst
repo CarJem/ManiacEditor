@@ -8,6 +8,7 @@ Fancy object that sets camera boundaries
 Attributes
 ------------
 **Type:** 
+
 Changes the behaviour of the boundary
 
 	* 0 - ???
@@ -15,10 +16,13 @@ Changes the behaviour of the boundary
 	* 2 - Sets Top camera bounds
 
 **Width:** 
+
 ???
 
 **VsDisable:** 
+
 Disable the object in VS mode
 
 **Offset:** 
+
 ???
