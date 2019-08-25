@@ -25,11 +25,11 @@ Changes the Size in Which the SpinBooster Effect Will Be Applied.
 
 **AutoGrip:** 
 
-IDK
+???
 
 **Bias:** 
 
-IDK
+???
 
 **BoostPower:** 
 
