@@ -1,8 +1,6 @@
 Parallax Editing
 =========================================
 
-```I’m c/ping this from discord, we can change this later right (Modern)```
-
 + STEP 1: 
 Make your background. Self Explanatory. You'll have to have your background set up and organized into Maniac editor before you can start editing parallax. Remember to make your background loop properly for the game, as in, when the screen scrolls all the way to the right end of your background, it can repeat itself again without looking cut off. We want it as clean as possible!
 
