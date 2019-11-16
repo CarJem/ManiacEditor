@@ -68,7 +68,7 @@ namespace ManiacEditor
         public System.Timers.Timer Timer = new System.Timers.Timer();
 
         //Undo + Redo
-        public Stack<IAction> UndoStack = new Stack<IAction>(); //Undo Actions Stack
+        public Stack<IAction> UndoStack { get; set; } = new Stack<IAction>(); //Undo Actions Stack
         public Stack<IAction> RedoStack = new Stack<IAction>(); //Redo Actions Stack
 
         //Editor Layers

@@ -40,6 +40,7 @@ namespace ManiacEditor.Entity_Renders
 
         public void DrawEditorHUDText(Editor instance, DevicePanel d, int x, int y, string text, bool highlighted, int Transparency = 0xff, int highlightDistance = -1, int highlightStart = 0)
         {
+            /*
 			d.DrawHUDRectangle(x - 4, y - 4, x + text.Length * 8, y + 4, System.Drawing.Color.FromArgb(128, 0, 0, 0));
 			int spacingAmount = 0;
 			int loopCount = 0;
@@ -86,7 +87,7 @@ namespace ManiacEditor.Entity_Renders
 
 				}
 				
-            }
+            }*/
 
         }
 

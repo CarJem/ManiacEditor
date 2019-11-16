@@ -22,13 +22,12 @@ namespace ManiacEditor
 {
     public partial class DevicePanel : UserControl
     {
-        public Editor EditorInstance;
 
         #region Members
 
+
+
         public bool mouseMoved = false;
-        public bool renderInProgress = false;
-        DialogResult deviceExceptionResult;
 
         public int DrawWidth;
         public int DrawHeight;
@@ -37,28 +36,25 @@ namespace ManiacEditor
         public int ScreenPosHeight;
 
         private Sprite sprite;
-		private Sprite sprite2;
-		private Sprite HUD;
+        private Sprite sprite2;
         Texture tx;
         Bitmap txb;
-		Texture hvcursor;
-		Bitmap hvcursorb;
-		Texture vcursor;
-		Bitmap vcursorb;
-		Texture hcursor;
-		Bitmap hcursorb;
+        Texture hvcursor;
+        Bitmap hvcursorb;
+        Texture vcursor;
+        Bitmap vcursorb;
+        Texture hcursor;
+        Bitmap hcursorb;
 
 
-		public bool bRender = true;
-		public bool tRender = false;
+        public bool bRender = true;
 
-		// The DirectX device
-		public Device _device = null;
+        // The DirectX device
+        public Device _device = null;
         public bool deviceLost;
         private Direct3D direct3d = new Direct3D();
         private Font font;
         private Font fontBold;
-        public VertexBuffer vb;
         // The Form to place the DevicePanel onto
         public IDrawArea _parent = null;
         private PresentParameters presentParams;
@@ -70,7 +66,34 @@ namespace ManiacEditor
 
         public MouseEventArgs lastEvent;
 
-        
+
+        public static FontDescription fontDescription = new FontDescription()
+        {
+            Height = 18,
+            Italic = false,
+            CharacterSet = FontCharacterSet.Ansi,
+            FaceName = "Microsoft Sans Serif",
+            MipLevels = 0,
+            OutputPrecision = FontPrecision.TrueType,
+            PitchAndFamily = FontPitchAndFamily.Default,
+            Quality = FontQuality.Antialiased,
+            Weight = FontWeight.Regular
+        };
+
+        public static FontDescription fontDescriptionBold = new FontDescription()
+        {
+            Height = 18,
+            Italic = false,
+            CharacterSet = FontCharacterSet.Ansi,
+            FaceName = "Microsoft Sans Serif",
+            MipLevels = 0,
+            OutputPrecision = FontPrecision.TrueType,
+            PitchAndFamily = FontPitchAndFamily.Default,
+            Quality = FontQuality.Antialiased,
+            Weight = FontWeight.Bold
+        };
+
+
 
         #endregion
 
@@ -79,7 +102,6 @@ namespace ManiacEditor
         public DevicePanel(Editor instance = null)
         {
             InitializeComponent();
-            EditorInstance = instance;
         }
 
         #endregion
@@ -127,47 +149,39 @@ namespace ManiacEditor
                 _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
-                _device.SetRenderState(RenderState.ZWriteEnable, false);
-                _device.SetRenderState(RenderState.ZEnable, false);
+                //_device.SetRenderState(RenderState.ZWriteEnable, false);
+                //_device.SetRenderState(RenderState.ZEnable, false);
 
-				if (OnCreateDevice != null)
+                if (OnCreateDevice != null)
                 {
                     OnCreateDevice(this, new DeviceEventArgs(_device));
                 }
 
 
 
-				txb = new Bitmap(1, 1);
+                txb = new Bitmap(1, 1);
                 using (Graphics g = Graphics.FromImage(txb))
                     g.Clear(Color.White);
-				hcursorb = new Bitmap(32, 32);
-				using (Graphics g = Graphics.FromImage(hcursorb))
-					Cursors.NoMoveHoriz.Draw(g, new Rectangle(0, 0, 32, 32));
-				MakeGray(hcursorb);
+                hcursorb = new Bitmap(32, 32);
+                using (Graphics g = Graphics.FromImage(hcursorb))
+                    Cursors.NoMoveHoriz.Draw(g, new Rectangle(0, 0, 32, 32));
+                MakeGray(hcursorb);
 
-				vcursorb = new Bitmap(32, 32);
-				using (Graphics g = Graphics.FromImage(vcursorb))
-					Cursors.NoMoveVert.Draw(g, new Rectangle(0, 0, 32, 32));
-				MakeGray(vcursorb);
+                vcursorb = new Bitmap(32, 32);
+                using (Graphics g = Graphics.FromImage(vcursorb))
+                    Cursors.NoMoveVert.Draw(g, new Rectangle(0, 0, 32, 32));
+                MakeGray(vcursorb);
 
-				hvcursorb = new Bitmap(32, 32);
-				using (Graphics g = Graphics.FromImage(hvcursorb))
-					Cursors.NoMove2D.Draw(g, new Rectangle(0, 0, 32, 32));
-				MakeGray(hvcursorb);
-				if (parent != null) InitDeviceResources();
+                hvcursorb = new Bitmap(32, 32);
+                using (Graphics g = Graphics.FromImage(hvcursorb))
+                    Cursors.NoMove2D.Draw(g, new Rectangle(0, 0, 32, 32));
+                MakeGray(hvcursorb);
 
+                InitDeviceResources();
             }
             catch (SharpDXException ex)
             {
-                try
-                {
-                    ResetDevice();
-                }
-                catch
-                {
-                    throw new ArgumentException("Error initializing DirectX", ex);
-                }
-
+                throw new ArgumentException("Error initializing DirectX", ex);
             }
             catch (DllNotFoundException)
             {
@@ -179,77 +193,65 @@ namespace ManiacEditor
 
         public void Run()
         {
-			
-			RenderLoop.Run(this, () =>
-			{
-				// Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
-				if (bRender || tRender)
-				{
-					Render();
-					//bRender = false;
-				}
-				if (mouseMoved)
-				{
-					OnMouseMove(lastEvent);
-					mouseMoved = false;
-				}
-				// Application.DoEvents();
-			});
-		}
+
+            RenderLoop.Run(this, () =>
+            {
+                // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
+                if (bRender) Render();
+                if (mouseMoved)
+                {
+                    OnMouseMove(lastEvent);
+                    mouseMoved = false;
+                }
+                // Application.DoEvents();
+            });
+        }
 
         public void InitDeviceResources()
         {
             sprite = new Sprite(_device);
             sprite2 = new Sprite(_device);
-            HUD = new Sprite(_device);
 
             tx = TextureCreator.FromBitmap(_device, txb);
-            //tcircle = TextureCreator.FromBitmap(_device, tcircleb);
-            //tecircle = TextureCreator.FromBitmap(_device, tecircleb);
             hcursor = TextureCreator.FromBitmap(_device, hcursorb);
             vcursor = TextureCreator.FromBitmap(_device, vcursorb);
             hvcursor = TextureCreator.FromBitmap(_device, hvcursorb);
 
-            FontDescription fontDescription = new FontDescription()
-            {
-                Height = 18,
-                Italic = false,
-                CharacterSet = FontCharacterSet.Ansi,
-                FaceName = "Microsoft Sans Serif",
-                MipLevels = 0,
-                OutputPrecision = FontPrecision.TrueType,
-                PitchAndFamily = FontPitchAndFamily.Default,
-                Quality = FontQuality.Antialiased,
-                Weight = FontWeight.Regular
-            };
-
-            FontDescription fontDescriptionBold = new FontDescription()
-            {
-                Height = 18,
-                Italic = false,
-                CharacterSet = FontCharacterSet.Ansi,
-                FaceName = "Microsoft Sans Serif",
-                MipLevels = 0,
-                OutputPrecision = FontPrecision.TrueType,
-                PitchAndFamily = FontPitchAndFamily.Default,
-                Quality = FontQuality.Antialiased,
-                Weight = FontWeight.Bold
-            };
-
             font = new Font(_device, fontDescription);
             fontBold = new Font(_device, fontDescriptionBold);
+        }
+        /// <summary>
+        /// Attempt to recover the device if it is lost.
+        /// </summary>
+        protected void AttemptRecovery()
+        {
+            if (_device == null) return;
+
+            Result result = _device.TestCooperativeLevel();
+            if (result == ResultCode.DeviceLost) return;
+            if (result == ResultCode.DeviceNotReset)
+            {
+                try
+                {
+                    ResetDevice();
+                }
+                catch (SharpDXException ex)
+                {
+                    // If it's still lost or lost again, just do nothing
+                    if (ex.ResultCode == ResultCode.DeviceLost) return;
+                    else throw ex;
+                }
+            }
         }
 
         public void ResetDevice()
         {
             DisposeDeviceResources();
             _parent.DisposeTextures();
-            try { _device.Reset(presentParams); }
-            catch { Init(_parent); }
-            InitDeviceResources();
-            if (Editor.Instance.EditorScene != null) EditorInstance.ReloadToolStripButton_Click(null, null);
+            _device.Reset(presentParams);
             deviceLost = false;
-         }
+            InitDeviceResources();
+        }
 
         private void MakeGray(Bitmap image)
         {
@@ -285,95 +287,6 @@ namespace ManiacEditor
 
         #region Rendering
 
-        public void DeviceExceptionDialog(int state, SharpDXException ex, SharpDXException ex2, AccessViolationException ex3 = null)
-        {
-            String error = "No Error. OH-NO!";
-            String error2 = "";
-            String error3 = "";
-            String errorCode = "404 (No Error Code Found)";
-            String errorCode2 = "404 (No Secondary Error Code Found)";
-            String errorCode3 = "404 (No Trimary Error Code Found)";
-
-            if (ex != null)
-            {
-                 error = ex.ToString();
-                 errorCode = ex.ResultCode.ToString();
-            }
-            if (ex3 != null)
-            {
-                error3 = ex3.ToString();
-                errorCode3 = ex3.HResult.ToString();
-            }
-            if (ex2 != null)
-            {
-                 error2 = ex2.ToString();
-                 errorCode2 = ex2.ResultCode.ToString();
-            }
-
-            if (state == 0)
-            {
-                    using (var deviceLostBox = new DeviceLostBox(error, error2, error3, errorCode, errorCode2, error3))
-                    {
-                        deviceLostBox.ShowDialog();
-                        deviceExceptionResult = deviceLostBox.DialogResult;
-                    }
-                    if (deviceExceptionResult == DialogResult.Yes) //Yes and Exit
-                    {
-                        EditorInstance.BackupSceneBeforeCrash();
-                        Environment.Exit(1);
-
-                    }
-                    else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
-                    {
-                        DisposeDeviceResources();
-                        Init(EditorInstance.FormsModel);
-
-                    }
-                    else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
-                    {
-                        EditorInstance.BackupSceneBeforeCrash();
-                        DisposeDeviceResources();
-                        Init(EditorInstance.FormsModel);
-                    }
-                    else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
-                    {
-                        Environment.Exit(1);
-                    }
-            }
-            else if (state == 1)
-            {
-
-                using (var deviceLostBox = new DeviceLostBox(error, error2, error3, errorCode, errorCode2, errorCode3, 1))
-                {
-                    deviceLostBox.ShowDialog();
-                    deviceExceptionResult = deviceLostBox.DialogResult;
-
-                }
-                if (deviceExceptionResult == DialogResult.Yes) //Yes and Exit
-                {
-                    EditorInstance.BackupSceneBeforeCrash();
-                    Environment.Exit(1);
-
-                }
-                else if (deviceExceptionResult == DialogResult.No) //No and try to Restart
-                {
-                    DisposeDeviceResources();
-                    Init(EditorInstance.FormsModel);
-
-                }
-                else if (deviceExceptionResult == DialogResult.Retry) //Yes and try to Restart
-                {
-                    EditorInstance.BackupSceneBeforeCrash();
-                    DisposeDeviceResources();
-                    Init(EditorInstance.FormsModel);
-                }
-                else if (deviceExceptionResult == DialogResult.Ignore) //No and Exit
-                {
-                    Environment.Exit(1);
-                }
-            }
-        }
-
         /// <summary>
         /// Rendering-method
         /// </summary>
@@ -381,7 +294,11 @@ namespace ManiacEditor
         {
 
 
-			if (Parent == null || _device == null || deviceLost || direct3d == null) return;
+            if (deviceLost) AttemptRecovery();
+            if (deviceLost) return;
+
+            if (_device == null)
+                return;
 
 
             try
@@ -397,11 +314,8 @@ namespace ManiacEditor
 
                 sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
 
-                if (EditorInstance.UIModes.UseLargeDebugStats) HUD.Transform = Matrix.Scaling(2f, 2f, 2f);
-                else HUD.Transform = Matrix.Scaling(1f, 1f, 1f);
 
                 sprite2.Begin(SpriteFlags.AlphaBlend);
-                HUD.Begin(SpriteFlags.AlphaBlend);
 
                 if (zoom > 1)
                 {
@@ -410,98 +324,91 @@ namespace ManiacEditor
                     _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                     _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                 }
-                else
-                {
-                    _device.SetSamplerState(0, SamplerState.MinFilter, _device.GetSamplerState(0, SamplerState.MinFilter));
-                    _device.SetSamplerState(0, SamplerState.MagFilter, _device.GetSamplerState(0, SamplerState.MagFilter));
-                    _device.SetSamplerState(0, SamplerState.MipFilter, _device.GetSamplerState(0, SamplerState.MinFilter));
-                }
+
                 sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
 
                 // Render of scene here
                 if (OnRender != null) OnRender(this, new DeviceEventArgs(_device));
 
-				sprite.End();
-				sprite2.End();
-				HUD.End();
+                sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
+
+                sprite.End();
+                sprite2.End();
                 //End the scene
                 _device.EndScene();
                 _device.Present();
 
             }
-			catch
-			{
-                ResetDevice();
-			}
-}
+            catch (SharpDXException ex)
+            {
+                if (ex.ResultCode == ResultCode.DeviceLost)
+                    deviceLost = true;
+                else
+                    throw ex;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Overrides
+        #region Overrides
 
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			this.Render();
-		}
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            this.Render();
+        }
 
-		protected override bool IsInputKey(Keys keyData)
-		{
-			switch (keyData)
-			{
-				case Keys.Up: return true;
-				case Keys.Down: return true;
-				case Keys.Right: return true;
-				case Keys.Left: return true;
-				case Keys.PageUp: return true;
-				case Keys.PageDown: return true;
-			}
-			return base.IsInputKey(keyData);
-		}
-		protected override Point ScrollToControl(Control activeControl)
+        protected override bool IsInputKey(Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Up: return true;
+                case Keys.Down: return true;
+                case Keys.Right: return true;
+                case Keys.Left: return true;
+                case Keys.PageUp: return true;
+                case Keys.PageDown: return true;
+            }
+            return base.IsInputKey(keyData);
+        }
+        protected override Point ScrollToControl(Control activeControl)
         {
             return this.AutoScrollPosition;
         }
 
-		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
-		{
-			lastEvent = e;
-			base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-			bRender = true;
-		}
+        protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
+        {
+            lastEvent = e;
+            base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+        }
 
-		protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
-		{
-			base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-			bRender = true;
-		}
+        protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
+        {
+            base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+        }
 
-		protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
-		{
-			base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-			bRender = true;
-		}
+        protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
+        {
+            base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+        }
 
-		protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
-		{
-			base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-			bRender = true;
-		}
+        protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
+        {
+            base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+        }
 
-		protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
-		{
-			base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-			bRender = true;
-		}
+        protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
+        {
+            base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+        }
 
-		protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
-		{
-			base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
-			bRender = true;
-		}
+        protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
+        {
+            base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+        }
 
-		#endregion
+        #endregion
 
-		public Rectangle GetScreen()
+        public Rectangle GetScreen()
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
@@ -532,21 +439,18 @@ namespace ManiacEditor
 
         private void DrawTexture(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
-            sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);        
+            sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
         }
-		private void DrawTexture2(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
-		{
-			sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
-
-		}
-
-		private void DrawHUD(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+        private void DrawTexture2(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
-            HUD.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+            sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+
         }
 
         public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency, Color? CustomColor = null)
         {
+            if (!IsObjectOnScreen(x, y, width, height)) return;
+
             Color CustomSelectedColor = Color.BlueViolet;
             if (CustomColor == null)
             {
@@ -559,20 +463,6 @@ namespace ManiacEditor
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
             DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? CustomSelectedColor : Color.FromArgb(transparency, CustomColor.Value));
-        }
-
-		public void DrawHUDRectangle(int x1, int y1, int x2, int y2, Color color)
-		{
-			Rectangle screen = _parent.GetScreen();
-			double zoom = _parent.GetZoom();
-			DrawHUD(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(), new Vector3(x1, y1, 0), color);
-		}
-
-		public void DrawHUDBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
-        {
-            Rectangle screen = _parent.GetScreen();
-            double zoom = _parent.GetZoom();
-            DrawHUD(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x, y, 0), (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
         }
 
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
@@ -588,7 +478,7 @@ namespace ManiacEditor
             if (!IsObjectOnScreen(x, y, width, height)) return;
 
 
-            sprite.Transform = Matrix.Scaling(1f, 1f, 1f); 
+            sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
             if (width == 0 || height == 0)
             {
                 int zoomOffset = (zoom % 1 == 0 ? 0 : 1);
@@ -631,7 +521,7 @@ namespace ManiacEditor
             }
             else
             {*/
-                DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
+            DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
             //}
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
@@ -863,7 +753,7 @@ namespace ManiacEditor
         }
         public void DrawTextSmall(string text, int x, int y, int width, Color color, bool bold)
         {
-			Rectangle screen = _parent.GetScreen();
+            Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
 
             sprite.Transform = Matrix.Scaling((float)zoom / 4, (float)zoom / 4, 1f);
@@ -877,27 +767,27 @@ namespace ManiacEditor
             }
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
-		public void Draw2DCursor(int x, int y)
-		{
-			DrawTexture2(hvcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-
-		}
-		public void DrawHorizCursor(int x, int y)
-		{
-			//hcursor = new Texture(_device, hcursorb, Usage.Dynamic, Pool.Default);
-			DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-		}
-
-		public void DrawVertCursor(int x, int y)
-		{
-			//vcursor = new Texture(_device, vcursorb, Usage.Dynamic, Pool.Default);
-			DrawTexture2(vcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-			DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
-		}
-		public void OnMouseMoveEventCreate()
+        public void Draw2DCursor(int x, int y)
         {
-           Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y);
-		}
+            DrawTexture2(hvcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+
+        }
+        public void DrawHorizCursor(int x, int y)
+        {
+            //hcursor = new Texture(_device, hcursorb, Usage.Dynamic, Pool.Default);
+            DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+        }
+
+        public void DrawVertCursor(int x, int y)
+        {
+            //vcursor = new Texture(_device, vcursorb, Usage.Dynamic, Pool.Default);
+            DrawTexture2(vcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+            DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+        }
+        public void OnMouseMoveEventCreate()
+        {
+            Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y);
+        }
 
         public void DisposeDeviceResources(int type = 0)
         {
@@ -905,6 +795,21 @@ namespace ManiacEditor
             {
                 tx.Dispose();
                 tx = null;
+            }
+            if (hvcursor != null)
+            {
+                hvcursor.Dispose();
+                hvcursor = null;
+            }
+            if (vcursor != null)
+            {
+                vcursor.Dispose();
+                vcursor = null;
+            }
+            if (hcursor != null)
+            {
+                hcursor.Dispose();
+                hcursor = null;
             }
 
             if (font != null)
@@ -918,33 +823,17 @@ namespace ManiacEditor
                 fontBold = null;
             }
 
-            if (sprite != null || type == 1)
+            if (sprite != null)
             {
                 sprite.Dispose();
                 sprite = null;
             }
-            if (HUD != null || type == 1)
+            if (sprite2 != null)
             {
-                HUD.Dispose();
-                HUD = null;
+                sprite2.Dispose();
+                sprite2 = null;
             }
 
-            if (_parent != null && type == 1)
-            {
-                _parent.DisposeTextures();
-                _parent = null;
-            }
-            if (_device != null && type == 1)
-            {
-                _device.Dispose();
-                _device = null;
-            }
-            if (direct3d != null && type == 1)
-            {
-                direct3d.Dispose();
-                direct3d = null;
-            }
-            
         }
 
         public new void Dispose()

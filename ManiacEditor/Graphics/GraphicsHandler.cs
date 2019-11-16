@@ -82,18 +82,18 @@ namespace ManiacEditor
 
         public void DrawHUDRectangle(int x1, int y1, int x2, int y2, System.Drawing.Color color)
         {
-            if (GraphicsMode == GraphicsType.SharpDX)
+            /*if (GraphicsMode == GraphicsType.SharpDX)
             {
                 DevicePanel.DrawHUDRectangle( x1,  y1,  x2,  y2, color);
-            }
+            }*/
         }
 
         public void DrawHUDBitmap(SharpDX.Direct3D9.Texture image, int x, int y, int width, int height, bool selected, int transparency)
         {
-            if (GraphicsMode == GraphicsType.SharpDX)
+            /*if (GraphicsMode == GraphicsType.SharpDX)
             {
                 DevicePanel.DrawHUDBitmap(image, x, y, width, height, selected, transparency);
-            }
+            }*/
         }
 
         public void DrawLine(int X1, int Y1, int X2, int Y2, System.Drawing.Color color = new System.Drawing.Color(), bool useZoomOffseting = false)
