@@ -10,7 +10,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             bool enabled = entity.attributesMap["enabled"].ValueBool;
-            int size = (int)entity.attributesMap["size"].ValueVar;
+            int size = (int)entity.attributesMap["size"].ValueEnum;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, flipv, false);
             var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, true, false);
             var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, 1, fliph, flipv, false);

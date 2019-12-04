@@ -8,18 +8,18 @@ namespace ManiacEditor.Interfaces
     /// </summary>
     public partial class EditSceneSelectInfoWindow : Window
 	{
-		public RSDKv5.GameConfig.SceneInfo Scene;
+		public RSDKv5.Gameconfig.SceneInfo Scene;
 
 		public EditSceneSelectInfoWindow()
 		{
-			Scene = new RSDKv5.GameConfig.SceneInfo();
+			Scene = new RSDKv5.Gameconfig.SceneInfo();
 			InitializeComponent();
 		}
 
-		public EditSceneSelectInfoWindow(RSDKv5.GameConfig.SceneInfo scene)
+		public EditSceneSelectInfoWindow(RSDKv5.Gameconfig.SceneInfo scene)
 		{
 			if (scene == null)
-				Scene = new RSDKv5.GameConfig.SceneInfo();
+				Scene = new RSDKv5.Gameconfig.SceneInfo();
 			else
 				Scene = scene;
 			InitializeComponent();

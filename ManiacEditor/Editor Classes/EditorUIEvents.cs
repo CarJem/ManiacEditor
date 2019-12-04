@@ -202,7 +202,7 @@ namespace ManiacEditor
 				}
 				catch (EditorEntities.TooManyEntitiesException)
 				{
-					RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
+					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
 					return;
 				}
 				Editor.UI.SetSelectOnlyButtonsState();
@@ -434,7 +434,7 @@ namespace ManiacEditor
 				}
 				catch (Exception ex)
 				{
-					RSDKrU.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
+					System.Windows.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
 				}
 			}
 			else if (path != "")
@@ -448,7 +448,7 @@ namespace ManiacEditor
 				}
 				else
 				{
-					RSDKrU.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
+					System.Windows.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
 				}
 			}
 
@@ -516,8 +516,10 @@ namespace ManiacEditor
         #region Tools Tab Buttons
         public void ChangeLevelID(object sender, RoutedEventArgs e)
 		{
-			string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.UIModes.LevelID.ToString());
-			int.TryParse(inputValue.ToString(), out int output);
+            //TODO Reimplement RSDKrU TextPrompt2
+            //string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.UIModes.LevelID.ToString());
+            string inputValue = "1";
+            int.TryParse(inputValue.ToString(), out int output);
 			Editor.UIModes.LevelID = output;
 			Editor._levelIDLabel.Content = "Level ID: " + Editor.UIModes.LevelID.ToString();
 		}

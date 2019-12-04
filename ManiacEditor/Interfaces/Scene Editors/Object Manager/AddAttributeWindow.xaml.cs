@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using RSDKv5;
-using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {
@@ -87,8 +86,8 @@ namespace ManiacEditor.Interfaces
 										attVal.ValueUInt32 = uint.Parse(defaultBox.Text);
 										break;
 
-									case AttributeTypes.VAR:
-										attVal.ValueVar = uint.Parse(defaultBox.Text);
+									case AttributeTypes.ENUM:
+										attVal.ValueEnum = int.Parse(defaultBox.Text);
 										break;
 
 									case AttributeTypes.BOOL:
@@ -99,8 +98,9 @@ namespace ManiacEditor.Interfaces
 										attVal.ValueColor = getColor(defaultBox.Text);
 										break;
 
-									case AttributeTypes.POSITION:
-										attVal.ValuePosition = getPosition(defaultBox.Text);
+                                    case AttributeTypes.VECTOR2:
+									case AttributeTypes.VECTOR3:
+										attVal.ValueVector3 = getPosition(defaultBox.Text);
 										break;
 
 									case AttributeTypes.STRING:

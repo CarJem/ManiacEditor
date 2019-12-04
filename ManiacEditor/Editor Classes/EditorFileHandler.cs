@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MessageBox = RSDKrU.MessageBox;
 using System.Windows;
 using System.IO;
 using RSDKv5;
@@ -39,7 +38,7 @@ namespace ManiacEditor
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
 
                 Editor.Instance.EditorScene = new EditorScene(Instance.FormsModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
-                Instance.TileConfig = new TileConfig();
+                Instance.TileConfig = new Tileconfig();
                 Editor.Instance.EditorTiles.StageTiles = new StageTiles();
                 Instance.StageConfig = new StageConfig();
 
@@ -87,7 +86,7 @@ namespace ManiacEditor
             if (newDataDirectory.Equals(Instance.DataDirectory)) return;
 
             if (Instance.IsDataDirectoryValid(newDataDirectory)) Instance.ResetDataDirectoryToAndResetScene(newDataDirectory);
-            else RSDKrU.MessageBox.Show($@"{newDataDirectory} is not a valid Data Directory.", "Invalid Data Directory!", MessageBoxButton.OK, MessageBoxImage.Error);
+            else MessageBox.Show($@"{newDataDirectory} is not a valid Data Directory.", "Invalid Data Directory!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         public void Save()
         {
@@ -231,7 +230,7 @@ namespace ManiacEditor
                     }
                 }
 
-                RSDKrU.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
+                MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
                                 MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -657,7 +656,7 @@ namespace ManiacEditor
                 if (!stageTilesExists) missingFiles += newLine + "16x16Tiles.gif";
                 if (!tilesConfigExists) missingFiles += newLine + "TileConfig.bin";
                 missingFiles += newLine + newLine + "Would you like to make these files? (If you don't this may screw up the loading system)";
-                MessageBoxResult result = RSDKrU.MessageBox.Show(missingFiles, "Missing Files", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult result = MessageBox.Show(missingFiles, "Missing Files", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     if (!stageConfigExists) SaveStageConfig(true, stageConfig);
@@ -722,7 +721,7 @@ namespace ManiacEditor
             {
                 if (Instance.Chunks.StageStamps?.loadstate == RSDKv5.Stamps.LoadState.Upgrade)
                 {
-                    MessageBoxResult result = RSDKrU.MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (result != MessageBoxResult.Yes) return;
                 }
                 if (saveAsMode)

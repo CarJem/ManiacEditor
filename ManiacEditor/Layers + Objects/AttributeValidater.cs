@@ -81,11 +81,11 @@ namespace ManiacEditor
                 return 0;
             }
         }
-        public uint AttributesMapVar(string name, SceneEntity entity)
+        public int AttributesMapVar(string name, SceneEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
-                uint value = entity.attributesMap[name].ValueVar;
+                int value = entity.attributesMap[name].ValueEnum;
                 return value;
             }
             else
@@ -137,7 +137,7 @@ namespace ManiacEditor
         {
             if (entity.attributesMap.ContainsKey(name))
             {
-                Position value = entity.attributesMap[name].ValuePosition;
+                Position value = entity.attributesMap[name].ValueVector3;
                 return value;
             }
             else
@@ -150,7 +150,7 @@ namespace ManiacEditor
         {
             if (entity.attributesMap.ContainsKey(name))
             {
-                int value = entity.attributesMap[name].ValuePosition.X.High;
+                int value = entity.attributesMap[name].ValueVector3.X.High;
                 return value;
             }
             else
@@ -162,7 +162,7 @@ namespace ManiacEditor
         {
             if (entity.attributesMap.ContainsKey(name))
             {
-                int value = entity.attributesMap[name].ValuePosition.X.Low;
+                int value = entity.attributesMap[name].ValueVector3.X.Low;
                 return value;
             }
             else
@@ -175,7 +175,7 @@ namespace ManiacEditor
         {
             if (entity.attributesMap.ContainsKey(name))
             {
-                int value = entity.attributesMap[name].ValuePosition.Y.High;
+                int value = entity.attributesMap[name].ValueVector3.Y.High;
                 return value;
             }
             else
@@ -188,7 +188,7 @@ namespace ManiacEditor
         {
             if (entity.attributesMap.ContainsKey(name))
             {
-                int value = entity.attributesMap[name].ValuePosition.Y.Low;
+                int value = entity.attributesMap[name].ValueVector3.Y.Low;
                 return value;
             }
             else
@@ -201,7 +201,7 @@ namespace ManiacEditor
         {
             if (entity.attributesMap.ContainsKey("priority"))
             {
-                int plane = (int)entity.attributesMap["priority"].ValueVar;
+                int plane = (int)entity.attributesMap["priority"].ValueEnum;
                 if (plane == 0)
                 {
                     plane = (int)entity.attributesMap["priority"].ValueUInt8;
@@ -259,7 +259,7 @@ namespace ManiacEditor
             }
             else if (entity.attributesMap.ContainsKey("planeFilter"))
             {
-                int plane = (int)entity.attributesMap["planeFilter"].ValueVar;
+                int plane = (int)entity.attributesMap["planeFilter"].ValueEnum;
                 if (plane == 0)
                 {
                     plane = (int)entity.attributesMap["planeFilter"].ValueUInt8;

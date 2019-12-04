@@ -183,7 +183,7 @@ namespace ManiacEditor.Interfaces
 
         private void PatreonButton_Click(object sender, RoutedEventArgs e)
         {
-            RSDKrU.MessageBox.Show("Comming Soon!", "Sorry!", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show("Comming Soon!", "Sorry!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void TwitterButton_Click(object sender, RoutedEventArgs e)
@@ -193,7 +193,7 @@ namespace ManiacEditor.Interfaces
 
         private void DiscordButton_Click(object sender, RoutedEventArgs e)
         {
-            RSDKrU.MessageBox.Show("You can reach me via discord by: CarJem Generations#7078", "Discord Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show("You can reach me via discord by: CarJem Generations#7078", "Discord Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

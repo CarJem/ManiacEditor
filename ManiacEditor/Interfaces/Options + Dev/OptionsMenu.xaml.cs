@@ -10,7 +10,6 @@ using System.Data;
 using System.Collections.Specialized;
 using Cyotek.Windows.Forms;
 using KeysConverter = System.Windows.Forms.KeysConverter;
-using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

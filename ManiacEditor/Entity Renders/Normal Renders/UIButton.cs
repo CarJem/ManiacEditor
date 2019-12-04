@@ -7,11 +7,11 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
-            int frameID = (int)entity.attributesMap["frameID"].ValueVar;
-            int listID = (int)entity.attributesMap["listID"].ValueVar;
-            int align = (int)entity.attributesMap["align"].ValueVar;
-            int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
-            int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
+            int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
+            int listID = (int)entity.attributesMap["listID"].ValueEnum;
+            int align = (int)entity.attributesMap["align"].ValueEnum;
+            int width = (int)entity.attributesMap["size"].ValueVector3.X.High;
+            int height = (int)entity.attributesMap["size"].ValueVector3.Y.High;
             bool invisible = entity.attributesMap["invisible"].ValueBool;
             double alignmentVal = 0;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);

@@ -8,8 +8,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var period = (int)(entity.attributesMap["period"].ValueVar);
-            var amplitude = (int)(entity.attributesMap["amplitude"].ValueVar * 3.5);
+            var period = (int)(entity.attributesMap["period"].ValueEnum);
+            var amplitude = (int)(entity.attributesMap["amplitude"].ValueEnum * 3.5);
             var width = (int)period / 16;
             var height = (int)amplitude / 16;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 4, false, false, false);

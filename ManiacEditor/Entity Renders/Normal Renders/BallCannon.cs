@@ -11,7 +11,7 @@ namespace ManiacEditor.Entity_Renders
             int y2 = y;
             bool flipv = false;
             bool fliph = false;
-            int angle = (int)entity.attributesMap["angle"].ValueVar;
+            int angle = (int)entity.attributesMap["angle"].ValueEnum;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int rotation = 0;
             int rotation2 = 0;

@@ -7,11 +7,11 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
-            int topListID = (int)entity.attributesMap["topListID"].ValueVar;
-            int topFrameID = (int)entity.attributesMap["topFrameID"].ValueVar;
-            int botListID = (int)entity.attributesMap["botListID"].ValueVar;
-            int botFrameID = (int)entity.attributesMap["botFrameID"].ValueVar;
-            int panelSize = (int)entity.attributesMap["panelSize"].ValueVar;
+            int topListID = (int)entity.attributesMap["topListID"].ValueEnum;
+            int topFrameID = (int)entity.attributesMap["topFrameID"].ValueEnum;
+            int botListID = (int)entity.attributesMap["botListID"].ValueEnum;
+            int botFrameID = (int)entity.attributesMap["botFrameID"].ValueEnum;
+            int panelSize = (int)entity.attributesMap["panelSize"].ValueEnum;
             bool botAlignRight = entity.attributesMap["botAlignRight"].ValueBool;
             bool botHidden = entity.attributesMap["botHidden"].ValueBool;
 

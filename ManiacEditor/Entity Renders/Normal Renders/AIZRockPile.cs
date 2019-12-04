@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            int size = (int)entity.attributesMap["size"].ValueVar;
+            int size = (int)entity.attributesMap["size"].ValueEnum;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("AIZ\\Platform", d.DevicePanel, 0, size + 3, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

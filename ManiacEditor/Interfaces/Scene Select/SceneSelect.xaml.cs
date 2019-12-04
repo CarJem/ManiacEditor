@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ImageList = System.Windows.Forms.ImageList;
-using MessageBox = RSDKrU.MessageBox;
 using MouseButtons = System.Windows.Forms.MouseButtons;
 using TreeNode = System.Windows.Forms.TreeNode;
 using TreeNodeMouseClickEventArgs = System.Windows.Forms.TreeNodeMouseClickEventArgs;
@@ -21,11 +20,11 @@ namespace ManiacEditor.Interfaces
     public partial class SceneSelect : UserControl
 	{
 		public List<Tuple<string, List<Tuple<string, string>>>> Categories = new List<Tuple<string, List<Tuple<string, string>>>>();
-		public Dictionary<string, List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>> Directories = new Dictionary<string, List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>>();
+		public Dictionary<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>> Directories = new Dictionary<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>>();
 
 		public bool isFileViewMode { get => isFilesView.IsChecked.Value; }
 
-		public GameConfig _GameConfig;
+		public Gameconfig _GameConfig;
 		public SceneSelectWindow Window;
 
 		
@@ -72,7 +71,7 @@ namespace ManiacEditor.Interfaces
 		private System.Windows.Forms.TreeView RecentsTree;
         #endregion
 
-        public SceneSelect(GameConfig config = null, Editor _Instance = null, SceneSelectWindow _Window = null)
+        public SceneSelect(Gameconfig config = null, Editor _Instance = null, SceneSelectWindow _Window = null)
 		{
 			if (Settings.MySettings.DataDirectories != null)  Settings.MySettings.DataDirectories.Remove(null);
 			if (Settings.MySettings.SavedPlaces != null)  Settings.MySettings.SavedPlaces.Remove(null);
@@ -351,7 +350,7 @@ namespace ManiacEditor.Interfaces
             RemoveAllDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
             RemoveAllDropDown.Background = (SolidColorBrush)FindResource("NormalBackground");
 
-            if (App.Skin == Skin.Dark || App.Skin == Skin.CarJem)
+            if (App.Skin == Skin.Dark)
             {
                 ScenesTree.BackColor = EditorTheming.darkTheme1;
                 ScenesTree.ForeColor = EditorTheming.darkTheme3;
@@ -372,7 +371,7 @@ namespace ManiacEditor.Interfaces
             }
         }
 
-        public void SetupGameConfig(GameConfig config)
+        public void SetupGameConfig(Gameconfig config)
         {
             if (config != null)
             {
@@ -532,7 +531,7 @@ namespace ManiacEditor.Interfaces
 
         public void GameConfigThrowError()
         {
-            RSDKrU.MessageBox.Show("RSDK-Reverse's GameConfig Library for RSDKv5 currently is Broken, and to prvent unwanted corruption to you gameconfigs, I have disabled this feature for this build.", "Feature Disabled");
+            System.Windows.MessageBox.Show("RSDK-Reverse's GameConfig Library for RSDKv5 currently is Broken, and to prvent unwanted corruption to you gameconfigs, I have disabled this feature for this build.", "Feature Disabled");
         }
 
         private void GameConfigAddSceneEvent(object sender, EventArgs e)
@@ -582,7 +581,7 @@ namespace ManiacEditor.Interfaces
             form.ShowDialog();
             if (form.DialogResult == true)
             {
-                var scenes = new List<RSDKv5.GameConfig.SceneInfo>();
+                var scenes = new List<RSDKv5.Gameconfig.SceneInfo>();
                 scenes.Add(form.Scene);
 
                 var form2 = new SceneSelectEditCategoryLabelWindow();
@@ -939,7 +938,7 @@ namespace ManiacEditor.Interfaces
             if (AllowedToProceed)
             {
                 String SelectedDataDirectory = RecentsTree.SelectedNode.Tag.ToString();
-                GameConfig GameConfig = EditorInstance.Paths.SetandReturnGameConfig(SelectedDataDirectory);
+                Gameconfig GameConfig = EditorInstance.Paths.SetandReturnGameConfig(SelectedDataDirectory);
                 if (GameConfig != null)
                 {
                     _GameConfig = GameConfig;
@@ -996,7 +995,7 @@ namespace ManiacEditor.Interfaces
                 else if (item.Item1 == "Mod") EditorInstance.ResourcePackList.Add(item.Item2);
                 else if (item.Item1 == "ReadOnlyDataFolder" && item.Item2 == "TRUE") EditorInstance.UIModes.DataDirectoryReadOnlyMode = true;
             }
-            GameConfig GameConfig = EditorInstance.Paths.SetandReturnGameConfig();
+            Gameconfig GameConfig = EditorInstance.Paths.SetandReturnGameConfig();
 
             if (GameConfig == null) AllowedToProceed = false;
             if (EditorInstance.DataDirectory == null) AllowedToProceed = false;
@@ -1016,32 +1015,32 @@ namespace ManiacEditor.Interfaces
                 ReloadScenesTree(_GameConfig);
             }
         }
-        public void LoadFromGameConfig(GameConfig config)
+        public void LoadFromGameConfig(Gameconfig config)
         {
             ReloadScenesTree(config);
             if (Settings.MyDefaults.SceneSelectFilesViewDefault) this.isFilesView.IsChecked = true;
             else this.isFilesView.IsChecked = false;
         }
-        public void ReloadScenesTree(GameConfig config)
+        public void ReloadScenesTree(Gameconfig config)
         {
             Categories.Clear();
             Directories.Clear();
 
             if (config == null) return; 
-            foreach (GameConfig.Category category in config.Categories)
+            foreach (Gameconfig.Category category in config.Categories)
             {
                 List<Tuple<string, string>> scenes = new List<Tuple<string, string>>();
-                foreach (GameConfig.SceneInfo scene in category.Scenes)
+                foreach (Gameconfig.SceneInfo scene in category.Scenes)
                 {
                     scenes.Add(new Tuple<string, string>(scene.Name, scene.Zone + "\\Scene" + scene.SceneID + ".bin"));
 
-                    List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>> files;
+                    List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>> files;
                     if (!Directories.TryGetValue(scene.Zone, out files))
                     {
-                        files = new List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>();
+                        files = new List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>();
                         Directories[scene.Zone] = files;
                     }
-                    files.Add(new Tuple<string, Tuple<GameConfig.SceneInfo, string>>("Scene" + scene.SceneID + ".bin" + (scene.ModeFilter == 5 ? " (Encore)" : ""), new Tuple<GameConfig.SceneInfo, string>(scene, scene.Zone + "\\Scene" + scene.SceneID + ".bin")));
+                    files.Add(new Tuple<string, Tuple<Gameconfig.SceneInfo, string>>("Scene" + scene.SceneID + ".bin" + (scene.ModeFilter == 5 ? " (Encore)" : ""), new Tuple<Gameconfig.SceneInfo, string>(scene, scene.Zone + "\\Scene" + scene.SceneID + ".bin")));
                 }
                 Categories.Add(new Tuple<string, List<Tuple<string, string>>>(category.Name, scenes));
             }
@@ -1064,13 +1063,13 @@ namespace ManiacEditor.Interfaces
             ScenesTree.Nodes.Clear();
             if ((bool)isFilesView.IsChecked)
             {
-                foreach (KeyValuePair<string, List<Tuple<string, Tuple<GameConfig.SceneInfo, string>>>> directory in Directories)
+                foreach (KeyValuePair<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>> directory in Directories)
                 {
                     TreeNode dir_node = new TreeNode(directory.Key);
                     dir_node.ImageKey = "Folder";
                     dir_node.SelectedImageKey = "Folder";
                     dir_node.ContextMenuStrip = contextMenuStrip1;
-                    foreach (Tuple<string, Tuple<GameConfig.SceneInfo, string>> file in directory.Value)
+                    foreach (Tuple<string, Tuple<Gameconfig.SceneInfo, string>> file in directory.Value)
                     {
                         TreeNode file_node = new TreeNode(file.Item1);
                         file_node.Tag = file.Item2;
@@ -1129,10 +1128,10 @@ namespace ManiacEditor.Interfaces
                 {
                     if (isFilesView.IsChecked.Value)
                     {
-                        Tuple<GameConfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
+                        Tuple<Gameconfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<Gameconfig.SceneInfo, string>;
                         if (tag != null)
                         {
-                            GameConfig.SceneInfo scene = tag.Item1;
+                            Gameconfig.SceneInfo scene = tag.Item1;
                             if (scene != null)
                             {
                                 CurrentSceneID = scene.SceneID;
@@ -1297,7 +1296,7 @@ namespace ManiacEditor.Interfaces
             }
             else
             {
-                Tuple<GameConfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
+                Tuple<Gameconfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<Gameconfig.SceneInfo, string>;
                 if (tag != null)
                 {
                     SelectedSceneResult = tag.Item2;

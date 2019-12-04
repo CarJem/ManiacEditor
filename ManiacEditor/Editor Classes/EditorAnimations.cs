@@ -107,9 +107,9 @@ namespace ManiacEditor
 
         }
 
-        public int[] ProcessMovingPlatform2(int ampX, int ampY, int x, int y, int width, int height, UInt32 speed = 1)
+        public int[] ProcessMovingPlatform2(int ampX, int ampY, int x, int y, int width, int height, int speed = 1)
         {
-            if (speed >= 4294967290)
+            if (speed >= int.MaxValue)
             {
                 speed = 10;
             }

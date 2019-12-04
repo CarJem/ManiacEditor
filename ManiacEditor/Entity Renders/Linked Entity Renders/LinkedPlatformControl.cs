@@ -11,9 +11,9 @@ namespace ManiacEditor.Entity_Renders
         {
             ushort slotID = currentEntity.SlotID;
             ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
-            uint NodeCount = currentEntity.attributesMap["nodeCount"].ValueVar;
-            uint ControlTag = currentEntity.attributesMap["buttonTag"].ValueVar;
-            uint ChildCount = currentEntity.attributesMap["childCount"].ValueVar;
+            int NodeCount = currentEntity.attributesMap["nodeCount"].ValueEnum;
+            int ControlTag = currentEntity.attributesMap["buttonTag"].ValueEnum;
+            int ChildCount = currentEntity.attributesMap["childCount"].ValueEnum;
 
             ObjectInstance.DrawBase(d);
             int minimumSlot = (int)targetSlotID;

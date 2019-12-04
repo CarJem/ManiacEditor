@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             Transparency = 95;
-            var type = entity.attributesMap["type"].ValueVar;
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High);
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High);
+            var type = entity.attributesMap["type"].ValueEnum;
+            var widthPixels = (int)(entity.attributesMap["size"].ValueVector3.X.High);
+            var heightPixels = (int)(entity.attributesMap["size"].ValueVector3.Y.High);
             var width = (int)widthPixels / 16 - 1;
             var height = (int)heightPixels / 16 - 1;
 
@@ -61,8 +61,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            var widthPixels = (int)(entity.attributesMap["size"].ValuePosition.X.High);
-            var heightPixels = (int)(entity.attributesMap["size"].ValuePosition.Y.High);
+            var widthPixels = (int)(entity.attributesMap["size"].ValueVector3.X.High);
+            var heightPixels = (int)(entity.attributesMap["size"].ValueVector3.Y.High);
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels, heightPixels);
         }
 

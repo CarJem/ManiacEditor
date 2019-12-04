@@ -9,8 +9,8 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
-            double angleStart = entity.attributesMap["angleStart"].ValueVar; //Because they used values over the int limit
-            double angleEnd = entity.attributesMap["angleEnd"].ValueVar; //Because they used values over the int limit
+            double angleStart = entity.attributesMap["angleStart"].ValueEnum; //Because they used values over the int limit
+            double angleEnd = entity.attributesMap["angleEnd"].ValueEnum; //Because they used values over the int limit
             int chainCount = (int)entity.attributesMap["chainCount"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;

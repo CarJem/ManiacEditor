@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
         {
             ushort slotID = currentEntity.SlotID;
             ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
-            int type = (int)currentEntity.attributesMap["type"].ValueVar;
+            int type = (int)currentEntity.attributesMap["type"].ValueEnum;
 
             ObjectInstance.DrawBase(d);
 
@@ -21,9 +21,9 @@ namespace ManiacEditor.Entity_Renders
                 {
                     if (tp.Object.Name.ToString() == "CableWarp")
                     {
-                        if (tp.AttributeExists("type", RSDKv5.AttributeTypes.VAR))
+                        if (tp.AttributeExists("type", RSDKv5.AttributeTypes.ENUM))
                         {
-                            int targetType = (int)tp.attributesMap["type"].ValueVar;
+                            int targetType = (int)tp.attributesMap["type"].ValueEnum;
                             if (targetType == 1 || targetType == 2) DrawCenteredLinkArrow(d, currentEntity, tp);
                         }
 

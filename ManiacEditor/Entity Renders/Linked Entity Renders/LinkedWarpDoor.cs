@@ -6,8 +6,8 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, EditorEntity ObjectInstance)
         {
-            uint goProperty = currentEntity.GetAttribute("go").ValueVar;
-            uint destinationTag = currentEntity.GetAttribute("destinationTag").ValueVar;
+            int goProperty = currentEntity.GetAttribute("go").ValueEnum;
+            int destinationTag = currentEntity.GetAttribute("destinationTag").ValueEnum;
             byte tag = currentEntity.GetAttribute("tag").ValueUInt8;
 
             ObjectInstance.DrawBase(d);

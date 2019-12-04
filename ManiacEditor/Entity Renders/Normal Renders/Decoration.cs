@@ -11,9 +11,9 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             var type = entity.attributesMap["type"].ValueUInt8;
             var direction = entity.attributesMap["direction"].ValueUInt8;
-            var repeatSpacing = entity.attributesMap["repeatSpacing"].ValuePosition;
-            var repeatTimes = entity.attributesMap["repeatTimes"].ValuePosition;
-            var rotSpeed = entity.attributesMap["rotSpeed"].ValueVar;
+            var repeatSpacing = entity.attributesMap["repeatSpacing"].ValueVector3;
+            var repeatTimes = entity.attributesMap["repeatTimes"].ValueVector3;
+            var rotSpeed = entity.attributesMap["rotSpeed"].ValueEnum;
 
             int offsetX = (int)repeatSpacing.X.High;
             int repeatX = (int)repeatTimes.X.High;

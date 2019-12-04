@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            int type = (int)entity.attributesMap["type"].ValueVar;
+            int type = (int)entity.attributesMap["type"].ValueEnum;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Animals", d.DevicePanel, type, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && type >= 0)
             {

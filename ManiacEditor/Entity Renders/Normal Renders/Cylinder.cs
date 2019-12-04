@@ -18,46 +18,46 @@ namespace ManiacEditor.Entity_Renders
                 case 0:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 1:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
                 case 2:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
                 case 3: //Reverse Direction of 3
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
                 case 4:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 5: // Nothing Apparently
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 6: // Nothing Apparently
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 7:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
             }
 
@@ -154,46 +154,46 @@ namespace ManiacEditor.Entity_Renders
                 case 0:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 1:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
                 case 2:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
                 case 3: //Reverse Direction of 3
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
                 case 4:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 5: // Nothing Apparently
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 6: // Nothing Apparently
-                    widthPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierY;
                     break;
                 case 7:
                     multiplierX = 2;
                     multiplierY = 2;
-                    widthPixels = (int)(entity.attributesMap["radius"].ValueVar) * multiplierX;
-                    heightPixels = (int)(entity.attributesMap["length"].ValueVar) * multiplierY;
+                    widthPixels = (int)(entity.attributesMap["radius"].ValueEnum) * multiplierX;
+                    heightPixels = (int)(entity.attributesMap["length"].ValueEnum) * multiplierY;
                     break;
             }
             if (widthPixels != 0 && heightPixels != 0)

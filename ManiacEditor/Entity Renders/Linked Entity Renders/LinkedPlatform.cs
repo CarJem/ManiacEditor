@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, EditorEntity ObjectInstance)
         {
             ushort slotID = currentEntity.SlotID;
-            uint childCount = currentEntity.GetAttribute("childCount").ValueVar;
+            int childCount = currentEntity.GetAttribute("childCount").ValueEnum;
             ushort[] targetSlotIDs = new ushort[childCount];
             for (int i = 0; i < childCount; i++)
             {

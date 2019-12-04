@@ -7,8 +7,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int animID = (int)entity.attributesMap["type"].ValueVar;
-            var flipFlag = entity.attributesMap["flipFlag"].ValueVar;
+            int animID = (int)entity.attributesMap["type"].ValueEnum;
+            var flipFlag = entity.attributesMap["flipFlag"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
 

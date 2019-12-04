@@ -21,10 +21,10 @@ namespace ManiacEditor.Entity_Renders
                 _layer = Scratch.Layer;
                 bool fliph = false;
                 bool flipv = false;
-                int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
-                int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
-                int x2 = (int)entity.attributesMap["offset"].ValuePosition.X.High;
-                int y2 = (int)entity.attributesMap["offset"].ValuePosition.Y.High;
+                int width = (int)entity.attributesMap["size"].ValueVector3.X.High;
+                int height = (int)entity.attributesMap["size"].ValueVector3.Y.High;
+                int x2 = (int)entity.attributesMap["offset"].ValueVector3.X.High;
+                int y2 = (int)entity.attributesMap["offset"].ValueVector3.Y.High;
 
                 // Prevents Out of Bounds with EncoreRoute
                 if (entity.Object.Name.Name == "EncoreRoute")
@@ -43,26 +43,26 @@ namespace ManiacEditor.Entity_Renders
                     {
                         if (outOfBoundsY)
                         {
-                            RSDKrU.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                            entity.attributesMap["offset"].ValuePosition = new Position((short)x2, 0);
+                            System.Windows.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                            entity.attributesMap["offset"].ValueVector3 = new Position((short)x2, 0);
                         }
                         else
                         {
-                            RSDKrU.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                            entity.attributesMap["size"].ValuePosition = new Position((short)width, 0);
+                            System.Windows.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "Y2: " + y2 + "\n" + "Height: " + height + "\n" + "Combined: " + (y2 + height) + "\n" + "Layer Height: " + Scratch.Layer.Height, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                            entity.attributesMap["size"].ValueVector3 = new Position((short)width, 0);
                         }
                     }
                     if ((x2 + width) > Scratch.Layer.Width)
                     {
                         if (outOfBoundsX)
                         {
-                            RSDKrU.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "X2: " + x2 + "\n" + "Width: " + width + "\n" + "Combined: " + (x2 + width) + "\n" + "Layer Width: " + Scratch.Layer.Width, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                            entity.attributesMap["offset"].ValuePosition = new Position(0, (short)y2);
+                            System.Windows.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "X2: " + x2 + "\n" + "Width: " + width + "\n" + "Combined: " + (x2 + width) + "\n" + "Layer Width: " + Scratch.Layer.Width, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                            entity.attributesMap["offset"].ValueVector3 = new Position(0, (short)y2);
                         }
                         else
                         {
-                            RSDKrU.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "X2: " + x2 + "\n" + "Width: " + width + "\n" + "Combined: " + (x2 + width) + "\n" + "Layer Width: " + Scratch.Layer.Width);
-                            entity.attributesMap["size"].ValuePosition = new Position(0, (short)height);
+                            System.Windows.MessageBox.Show("Layer Out of Bounds!    " + "\n" + "X2: " + x2 + "\n" + "Width: " + width + "\n" + "Combined: " + (x2 + width) + "\n" + "Layer Width: " + Scratch.Layer.Width);
+                            entity.attributesMap["size"].ValueVector3 = new Position(0, (short)height);
                         }
                     }
                 }
@@ -143,10 +143,10 @@ namespace ManiacEditor.Entity_Renders
 
         public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
         {
-            int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
-            int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
-            int x2 = (int)entity.attributesMap["offset"].ValuePosition.X.High;
-            int y2 = (int)entity.attributesMap["offset"].ValuePosition.Y.High;
+            int width = (int)entity.attributesMap["size"].ValueVector3.X.High;
+            int height = (int)entity.attributesMap["size"].ValueVector3.Y.High;
+            int x2 = (int)entity.attributesMap["offset"].ValueVector3.X.High;
+            int y2 = (int)entity.attributesMap["offset"].ValueVector3.Y.High;
 
             int boundsX = width * 16;
             int boundsY = height * 16;

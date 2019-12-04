@@ -12,8 +12,8 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
             int aniID = (int)entity.attributesMap["aniID"].ValueUInt8;
             int attribute = (int)entity.attributesMap["attribute"].ValueUInt8;
-            RSDKv5.Position parallaxFactor = entity.attributesMap["parallaxFactor"].ValuePosition;
-            RSDKv5.Position loopPoint = entity.attributesMap["loopPoint"].ValuePosition;
+            RSDKv5.Position parallaxFactor = entity.attributesMap["parallaxFactor"].ValueVector3;
+            RSDKv5.Position loopPoint = entity.attributesMap["loopPoint"].ValueVector3;
 
             /*
             if (Editor.Instance.UIModes.AnimationsEnabled && Editor.Instance.UIModes.ParallaxAnimationChecked)

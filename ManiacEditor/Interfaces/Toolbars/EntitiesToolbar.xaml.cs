@@ -115,7 +115,7 @@ namespace ManiacEditor
 
         public void UpdatePropertyGridTheme(bool ForceRefresh = false)
         {
-            if (App.Skin == Skin.Dark || App.Skin == Skin.CarJem)
+            if (App.Skin == Skin.Dark)
             {
                 this.entityProperties.BackColor = EditorTheming.darkTheme0;
                 this.entityProperties.CategoryForeColor = EditorTheming.darkTheme3;
@@ -568,8 +568,8 @@ namespace ManiacEditor
 					case RSDKv5.AttributeTypes.INT32:
 						AddProperty(objProperties, category_index, attribute_name, "int32", "int", attribute_value.ValueInt32);
 						break;
-					case RSDKv5.AttributeTypes.VAR:
-						AddProperty(objProperties, category_index, attribute_name, "var", "uint", attribute_value.ValueVar);
+					case RSDKv5.AttributeTypes.ENUM:
+						AddProperty(objProperties, category_index, attribute_name, "var", "uint", attribute_value.ValueEnum);
 						break;
 					case RSDKv5.AttributeTypes.BOOL:
 						AddProperty(objProperties, category_index, attribute_name, "bool", "bool", attribute_value.ValueBool);
@@ -577,9 +577,9 @@ namespace ManiacEditor
 					case RSDKv5.AttributeTypes.STRING:
 						AddProperty(objProperties, category_index, attribute_name, "string", "string", attribute_value.ValueString);
 						break;
-					case RSDKv5.AttributeTypes.POSITION:
-						AddProperty(objProperties, category_index, attribute_name, "x", "float", attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
-						AddProperty(objProperties, category_index, attribute_name, "y", "float", attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
+					case RSDKv5.AttributeTypes.VECTOR3:
+						AddProperty(objProperties, category_index, attribute_name, "x", "float", attribute_value.ValueVector3.X.High + ((float)attribute_value.ValueVector3.X.Low / 0x10000));
+						AddProperty(objProperties, category_index, attribute_name, "y", "float", attribute_value.ValueVector3.Y.High + ((float)attribute_value.ValueVector3.Y.Low / 0x10000));
 						break;
 					case RSDKv5.AttributeTypes.COLOR:
 						var color = attribute_value.ValueColor;
@@ -623,8 +623,8 @@ namespace ManiacEditor
 						case RSDKv5.AttributeTypes.INT32:
 							obj.setValue(String.Format("{0},{1}", attribute_name, "int32"), attribute_value.ValueInt32);
 							break;
-						case RSDKv5.AttributeTypes.VAR:
-							obj.setValue(String.Format("{0},{1}", attribute_name, "var"), attribute_value.ValueVar);
+						case RSDKv5.AttributeTypes.ENUM:
+							obj.setValue(String.Format("{0},{1}", attribute_name, "var"), attribute_value.ValueEnum);
 							break;
 						case RSDKv5.AttributeTypes.BOOL:
 							obj.setValue(String.Format("{0},{1}", attribute_name, "bool"), attribute_value.ValueBool);
@@ -632,9 +632,9 @@ namespace ManiacEditor
 						case RSDKv5.AttributeTypes.STRING:
 							obj.setValue(String.Format("{0},{1}", attribute_name, "string"), attribute_value.ValueString);
 							break;
-						case RSDKv5.AttributeTypes.POSITION:
-							obj.setValue(String.Format("{0},{1}", attribute_name, "x"), attribute_value.ValuePosition.X.High + ((float)attribute_value.ValuePosition.X.Low / 0x10000));
-							obj.setValue(String.Format("{0},{1}", attribute_name, "y"), attribute_value.ValuePosition.Y.High + ((float)attribute_value.ValuePosition.Y.Low / 0x10000));
+						case RSDKv5.AttributeTypes.VECTOR3:
+							obj.setValue(String.Format("{0},{1}", attribute_name, "x"), attribute_value.ValueVector3.X.High + ((float)attribute_value.ValueVector3.X.Low / 0x10000));
+							obj.setValue(String.Format("{0},{1}", attribute_name, "y"), attribute_value.ValueVector3.Y.High + ((float)attribute_value.ValueVector3.Y.Low / 0x10000));
 							break;
 						case RSDKv5.AttributeTypes.COLOR:
 							var color = attribute_value.ValueColor;
@@ -787,8 +787,8 @@ namespace ManiacEditor
 					case RSDKv5.AttributeTypes.INT32:
 						attribute.ValueInt32 = (int)value;
 						break;
-					case RSDKv5.AttributeTypes.VAR:
-						attribute.ValueVar = (uint)value;
+					case RSDKv5.AttributeTypes.ENUM:
+						attribute.ValueEnum = (int)value;
 						break;
 					case RSDKv5.AttributeTypes.BOOL:
 						attribute.ValueBool = (bool)value;
@@ -796,7 +796,7 @@ namespace ManiacEditor
 					case RSDKv5.AttributeTypes.STRING:
 						attribute.ValueString = (string)value;
 						break;
-					case RSDKv5.AttributeTypes.POSITION:
+					case RSDKv5.AttributeTypes.VECTOR3:
 						float fvalue = (float)value;
 						if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
 						{
@@ -805,7 +805,7 @@ namespace ManiacEditor
 							obj.setValue(tag, oldValue);
 							return;
 						}
-						var pos = attribute.ValuePosition;
+						var pos = attribute.ValueVector3;
 						if (name == "x")
 						{
 							pos.X.High = (short)fvalue;
@@ -816,7 +816,7 @@ namespace ManiacEditor
 							pos.Y.High = (short)fvalue;
 							pos.Y.Low = (ushort)(fvalue * 0x10000);
 						}
-						attribute.ValuePosition = pos;
+						attribute.ValueVector3 = pos;
 						if (entity == currentEntity)
 							UpdateCurrentEntityProperites();
 						break;

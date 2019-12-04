@@ -87,7 +87,8 @@ namespace ManiacEditor
                         message += string.Format("{0}", UnusedTiles[i]);
                     }
                 }
-                System.Windows.MessageBoxResult result = RSDKrU.MessageBox.ShowYesNo("Tiles not used are: " + Environment.NewLine + message, "Results", "Copy to Clipboard", "OK", System.Windows.MessageBoxImage.Information);
+                //System.Windows.MessageBoxResult result = System.Windows.MessageBox.ShowYesNo("Tiles not used are: " + Environment.NewLine + message, "Results", "Copy to Clipboard", "OK", System.Windows.MessageBoxImage.Information);
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("Tiles not used are: " + Environment.NewLine + message, "Results", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Information);
                 if (result == System.Windows.MessageBoxResult.Yes)
                 {
                     System.Windows.Forms.Clipboard.SetText(message);
@@ -95,7 +96,7 @@ namespace ManiacEditor
             }
             else
             {
-                RSDKrU.MessageBox.Show("Found Nothing", "Results", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("Found Nothing", "Results", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
             Editor.UI.UpdateWaitingScreen(false);
             Editor.UI.ToggleEditorButtons(true);
@@ -221,7 +222,7 @@ namespace ManiacEditor
                 if (listLocations != null || listLocations.Count != 0)
                 {
                     var message = string.Join(Environment.NewLine, listLocations);
-                    RSDKrU.MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
+                    System.Windows.MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
                     if (copyResults && message != null)
                     {
                         Clipboard.SetText(message);
@@ -229,7 +230,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    RSDKrU.MessageBox.Show("Found Nothing", "Results");
+                    System.Windows.MessageBox.Show("Found Nothing", "Results");
                 }
                 Editor.FindReplaceClipboard.Clear();
                 Editor.Deselect();

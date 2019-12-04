@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
 
                 }
                 var editorAnimBox = Editor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 0, 0, fliph, flipv, false);
-                var editorAnimEffect = Editor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, (int)value.ValueVar, fliph, flipv, false);
+                var editorAnimEffect = Editor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, (int)value.ValueEnum, fliph, flipv, false);
                 if (editorAnimBox != null && editorAnimEffect != null && editorAnimEffect.Frames.Count != 0)
                 {
                     var frameBox = editorAnimBox.Frames[0];

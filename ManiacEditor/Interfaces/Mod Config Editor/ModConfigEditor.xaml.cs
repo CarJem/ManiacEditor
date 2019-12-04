@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Documents;
 using System.IO;
 using Path = System.IO.Path;
-using MessageBox = RSDKrU.MessageBox;
 
 
 namespace ManiacEditor

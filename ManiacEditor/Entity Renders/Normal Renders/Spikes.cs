@@ -14,18 +14,18 @@ namespace ManiacEditor.Entity_Renders
             int animID = 0;
 
             // Down
-            if (value.ValueVar == 1)
+            if (value.ValueEnum == 1)
             {
                 flipv = true;
                 animID = 0;
             }
             // Right
-            if (value.ValueVar == 2)
+            if (value.ValueEnum == 2)
             {
                 animID = 1;
             }
             // Left
-            if (value.ValueVar == 3)
+            if (value.ValueEnum == 3)
             {
                 fliph = true;
                 animID = 1;
@@ -57,7 +57,7 @@ namespace ManiacEditor.Entity_Renders
                 }
 
 
-                if (value.ValueVar == 0 || value.ValueVar == 1)
+                if (value.ValueEnum == 0 || value.ValueEnum == 1)
                 {
                     // Is count indivisible by 4?
                     if (count % 4 != 0)
@@ -88,7 +88,7 @@ namespace ManiacEditor.Entity_Renders
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
-                else if (value.ValueVar == 2 || value.ValueVar == 3)
+                else if (value.ValueEnum == 2 || value.ValueEnum == 3)
                 {
                     // Is count indivisible by 4?
                     if (count % 4 != 0)

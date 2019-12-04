@@ -8,7 +8,7 @@ namespace ManiacEditor.Interfaces
     public partial class SceneSelectWindow : Window
 	{
 		public SceneSelect SceneSelect;
-		public SceneSelectWindow(RSDKv5.GameConfig config = null, Editor instance = null)
+		public SceneSelectWindow(RSDKv5.Gameconfig config = null, Editor instance = null)
 		{
 			InitializeComponent();
 			SceneSelect = new SceneSelect(config, instance, this);

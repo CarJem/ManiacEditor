@@ -941,14 +941,14 @@ namespace ManiacEditor
                     Editor.Instance.TilesToolbar?.Reload();
                 }
 
-                Editor.Instance.TileConfig = new TileConfig(Editor.Instance.Paths.TileConfig_Source);
+                Editor.Instance.TileConfig = new Tileconfig(Editor.Instance.Paths.TileConfig_Source);
 
 
 
             }
             catch (Exception ex)
             {
-                RSDKrU.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 

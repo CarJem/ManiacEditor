@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            int frameID = (int)entity.attributesMap["frame"].ValueVar;
+            int frameID = (int)entity.attributesMap["frame"].ValueEnum;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Background", d.DevicePanel, 5, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

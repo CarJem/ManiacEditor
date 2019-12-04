@@ -9,8 +9,8 @@ namespace ManiacEditor.Entity_Renders
         {
             
             string text = entity.attributesMap["text"].ValueString;
-            int width = (int)entity.attributesMap["size"].ValuePosition.X.High;
-            int height = (int)entity.attributesMap["size"].ValuePosition.Y.High;
+            int width = (int)entity.attributesMap["size"].ValueVector3.X.High;
+            int height = (int)entity.attributesMap["size"].ValueVector3.Y.High;
             int spacingAmount = 0;
             e.DrawUIButtonBack(d, x, y, width, height, width, height, Transparency);
             if (width == 0) width = 1;

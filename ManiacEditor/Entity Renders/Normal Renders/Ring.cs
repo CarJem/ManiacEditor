@@ -7,8 +7,8 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            //int type = (int)entity.attributesMap["type"].ValueVar;
-            //int moveType = (int)entity.attributesMap["moveType"].ValueVar;
+            //int type = (int)entity.attributesMap["type"].ValueEnum;
+            //int moveType = (int)entity.attributesMap["moveType"].ValueEnum;
             //int angle = (int)entity.attributesMap["angle"].ValueInt32;
 
             int type = (int)attribMap.AttributesMapVar("type", entity);
@@ -19,8 +19,8 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            //int amplitudeX = (int)entity.attributesMap["amplitude"].ValuePosition.X.High;
-            //int amplitudeY = (int)entity.attributesMap["amplitude"].ValuePosition.Y.High;
+            //int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector3.X.High;
+            //int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector3.Y.High;
 
             int amplitudeX = (int)attribMap.AttributesMapPositionHighX("amplitude", entity);
             int amplitudeY = (int)attribMap.AttributesMapPositionHighY("amplitude", entity);
@@ -98,16 +98,16 @@ namespace ManiacEditor.Entity_Renders
 
                     if (amplitudeX != 0 && amplitudeY == 0)
                     {
-                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
                     if (amplitudeX == 0 && amplitudeY != 0)
                     {
-                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
                         // Since we can don't know how to do it other than x or y yet
-                        position = Animation.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, speed);
+                        position = Animation.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
 
                     d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), (x + position[0]) + frame.Frame.PivotX, (y - position[1]) + frame.Frame.PivotY,

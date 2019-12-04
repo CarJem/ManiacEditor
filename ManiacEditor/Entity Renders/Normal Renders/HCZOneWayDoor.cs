@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            int length = (int)(entity.attributesMap["length"].ValueVar) - 1;
+            int length = (int)(entity.attributesMap["length"].ValueEnum) - 1;
             int orientation = (int)(entity.attributesMap["orientation"].ValueUInt8);
             bool fliph = false;
             bool flipv = false;

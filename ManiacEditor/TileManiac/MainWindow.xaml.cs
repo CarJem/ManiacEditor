@@ -25,7 +25,6 @@ using Clipboard = System.Windows.Clipboard;
 using Grid = System.Windows.Controls.Grid;
 using System.Threading;
 using ManiacEditor.Interfaces;
-using MessageBox = RSDKrU.MessageBox;
 
 
 namespace ManiacEditor
@@ -34,7 +33,7 @@ namespace ManiacEditor
 	{
 		bool lockRadioButtons = false; //for locking radio button updates when switching single select options
 
-		RSDKv5.TileConfig.CollisionMask TileClipboard;
+		RSDKv5.Tileconfig.CollisionMask TileClipboard;
 
         public static MainWindow Instance;
 
@@ -76,8 +75,8 @@ namespace ManiacEditor
 
 		bool changingModes = false; //To prevent updating the radio buttons until after we change the viewer mode
 
-		public RSDKv5.TileConfig tcf; //The ColllisionMask Data
-		public RSDKv5.TileConfig tcfBak; //Backup ColllisionMask Data
+		public RSDKv5.Tileconfig tcf; //The ColllisionMask Data
+		public RSDKv5.Tileconfig tcfBak; //Backup ColllisionMask Data
 
 		List<Bitmap> Tiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles
 		List<Bitmap> IndexedTiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles (Preserving Color Pallete)
@@ -283,14 +282,14 @@ namespace ManiacEditor
 			}
 		}
 
-		public void LoadTileConfigViaIntergration(TileConfig tilesConfig, string scenePath, int selectedTile = 0)
+		public void LoadTileConfigViaIntergration(RSDKv5.Tileconfig tilesConfig, string scenePath, int selectedTile = 0)
 		{
 			indexedImagedLoaded = false;
 			curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
 			//tcf = tilesConfig;
 			//tcfBak = tilesConfig;
-			tcf = new TileConfig(Path.Combine(scenePath));
-			tcfBak = new TileConfig(Path.Combine(scenePath));
+			tcf = new RSDKv5.Tileconfig(Path.Combine(scenePath));
+			tcfBak = new RSDKv5.Tileconfig(Path.Combine(scenePath));
 			string tileBitmapPath = Path.Combine(Path.GetDirectoryName(scenePath), "16x16tiles.gif"); // get the path to the stage's tileset
 			LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
 			bitmappath = tileBitmapPath;
@@ -373,8 +372,8 @@ namespace ManiacEditor
 				indexedImagedLoaded = false;
 				curColisionMask = 0; // Set the current collision mask to zero (avoids rare errors)
 				filepath = dlg.FileName;
-				tcf = new RSDKv5.TileConfig(dlg.FileName);
-				tcfBak = new RSDKv5.TileConfig(dlg.FileName);
+				tcf = new RSDKv5.Tileconfig(dlg.FileName);
+				tcfBak = new RSDKv5.Tileconfig(dlg.FileName);
 				string tileBitmapPath = Path.Combine(Path.GetDirectoryName(filepath), "16x16tiles.gif"); // get the path to the stage's tileset
 				LoadTileSet(new Bitmap(tileBitmapPath)); // load each 16x16 tile into the list
 				bitmappath = tileBitmapPath;
@@ -469,7 +468,7 @@ namespace ManiacEditor
 				}
 				else
 				{
-					MessageBox.Show("No Collision Present!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show("No Collision Present!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 			catch (Exception ex)
@@ -504,7 +503,7 @@ namespace ManiacEditor
 						{
 							if (Properties.Defaults.Default.TileManiacPromptForChoiceOnImageWrite)
 							{
-								MessageBoxResult result = MessageBox.Show("You have made changes that require the 16x16Tiles.gif to be modifed. While this feature should normally work just fine, it may cause some issues, which is why you may choose if you want to or not. So do you want to save directly to the 16x16Tiles.gif? (Click No will save to 16x16Tiles_Copy.gif, and Cancel with not write this file at all) (You also can change this dialog's visibility in options)", "Saving 16x16Tiles.gif", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+								MessageBoxResult result = System.Windows.MessageBox.Show("You have made changes that require the 16x16Tiles.gif to be modifed. While this feature should normally work just fine, it may cause some issues, which is why you may choose if you want to or not. So do you want to save directly to the 16x16Tiles.gif? (Click No will save to 16x16Tiles_Copy.gif, and Cancel with not write this file at all) (You also can change this dialog's visibility in options)", "Saving 16x16Tiles.gif", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 								if (result == MessageBoxResult.Yes)
 								{
 									SaveTileSet("16x16Tiles.gif");
@@ -544,7 +543,7 @@ namespace ManiacEditor
 
 		private void ShowError(string message, string title = "Error!")
 		{
-			MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
 		public void splitFileToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -738,10 +737,10 @@ namespace ManiacEditor
                     Collisionpic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionColor);
                     CollisionPicBox.Image = Collisionpic;
                     Overlaypic = tcf.CollisionPath1[curColisionMask].DrawCMask(Color.FromArgb(255, 0, 0, 0), CollisionColor, Tiles[curColisionMask]);
-                    PhysicsNUD.Value = tcf.CollisionPath1[curColisionMask].physics;
-                    MomentumNUD.Value = tcf.CollisionPath1[curColisionMask].momentum;
-                    UnknownNUD.Value = tcf.CollisionPath1[curColisionMask].unknown;
-                    SpecialNUD.Value = tcf.CollisionPath1[curColisionMask].special;
+                    PhysicsNUD.Value = tcf.CollisionPath1[curColisionMask].RWallAngle;
+                    MomentumNUD.Value = tcf.CollisionPath1[curColisionMask].LWallAngle;
+                    UnknownNUD.Value = tcf.CollisionPath1[curColisionMask].CeilingAngle;
+                    SpecialNUD.Value = tcf.CollisionPath1[curColisionMask].Behaviour;
                     IsCeilingButton.IsChecked = tcf.CollisionPath1[curColisionMask].IsCeiling;
 
                     RefreshPathA();
@@ -753,11 +752,11 @@ namespace ManiacEditor
                     Collisionpic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(0, 255, 0));
                     CollisionPicBox.Image = Collisionpic;
                     Overlaypic = tcf.CollisionPath2[curColisionMask].DrawCMask(Color.FromArgb(0, 0, 0, 0), CollisionColor, Tiles[curColisionMask]);
-                    SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].slopeAngle;
-                    PhysicsNUD.Value = tcf.CollisionPath2[curColisionMask].physics;
-                    MomentumNUD.Value = tcf.CollisionPath2[curColisionMask].momentum;
-                    UnknownNUD.Value = tcf.CollisionPath2[curColisionMask].unknown;
-                    SpecialNUD.Value = tcf.CollisionPath2[curColisionMask].special;
+                    SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].FloorAngle;
+                    PhysicsNUD.Value = tcf.CollisionPath2[curColisionMask].RWallAngle;
+                    MomentumNUD.Value = tcf.CollisionPath2[curColisionMask].LWallAngle;
+                    UnknownNUD.Value = tcf.CollisionPath2[curColisionMask].CeilingAngle;
+                    SpecialNUD.Value = tcf.CollisionPath2[curColisionMask].Behaviour;
                     IsCeilingButton.IsChecked = tcf.CollisionPath2[curColisionMask].IsCeiling;
 
                     RefreshPathB();
@@ -1292,16 +1291,16 @@ namespace ManiacEditor
 			{
 				if (!showPathB)
 				{
-					SlopeNUD.Value = tcf.CollisionPath1[curColisionMask].slopeAngle;
-					int calculationSlopeA = (int)((decimal)tcf.CollisionPath1[curColisionMask].slopeAngle / 256 * 360);
+					SlopeNUD.Value = tcf.CollisionPath1[curColisionMask].FloorAngle;
+					int calculationSlopeA = (int)((decimal)tcf.CollisionPath1[curColisionMask].FloorAngle / 256 * 360);
 					//degreeLabel.Text = "Degree of Slope: " + calculationSlopeA.ToString();
 					RawSlopeNUD.Value = calculationSlopeA;
 
 				}
 				else
 				{
-					SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].slopeAngle;
-					int calculationSlopeB = (int)((decimal)tcf.CollisionPath2[curColisionMask].slopeAngle / 256 * 360);
+					SlopeNUD.Value = tcf.CollisionPath2[curColisionMask].FloorAngle;
+					int calculationSlopeB = (int)((decimal)tcf.CollisionPath2[curColisionMask].FloorAngle / 256 * 360);
 					//degreeLabel.Text = "Degree of Slope: " + calculationSlopeB.ToString();
 					RawSlopeNUD.Value = calculationSlopeB;
 
@@ -1389,8 +1388,8 @@ namespace ManiacEditor
 
 					if (SlopeNUD.Value <= 255)
 					{
-						tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path B
-						tcf.CollisionPath1[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path A
+						tcf.CollisionPath2[curColisionMask].FloorAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path B
+						tcf.CollisionPath1[curColisionMask].FloorAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path A
 					}
 					else
 					{
@@ -1404,7 +1403,7 @@ namespace ManiacEditor
 					{
 						if (SlopeNUD.Value <= 255)
 						{
-							tcf.CollisionPath1[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path A
+							tcf.CollisionPath1[curColisionMask].FloorAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path A
 						}
 						else
 						{
@@ -1417,7 +1416,7 @@ namespace ManiacEditor
 					{
 						if (SlopeNUD.Value <= 255)
 						{
-							tcf.CollisionPath2[curColisionMask].slopeAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path B
+							tcf.CollisionPath2[curColisionMask].FloorAngle = (byte)SlopeNUD.Value; //Set Slope angle for Path B
 						}
 						else
 						{
@@ -1439,18 +1438,18 @@ namespace ManiacEditor
 			{
 				if (mirrorMode)
 				{
-					tcf.CollisionPath1[curColisionMask].physics = (byte)PhysicsNUD.Value; //Set the Physics for Path A
-					tcf.CollisionPath2[curColisionMask].physics = (byte)PhysicsNUD.Value; //Set the Physics for Path B
+					tcf.CollisionPath1[curColisionMask].RWallAngle = (byte)PhysicsNUD.Value; //Set the Physics for Path A
+					tcf.CollisionPath2[curColisionMask].RWallAngle = (byte)PhysicsNUD.Value; //Set the Physics for Path B
 				}
 				else
 				{
 					if (!showPathB)
 					{
-						tcf.CollisionPath1[curColisionMask].physics = (byte)PhysicsNUD.Value; //Set the Physics for Path A
+						tcf.CollisionPath1[curColisionMask].RWallAngle = (byte)PhysicsNUD.Value; //Set the Physics for Path A
 					}
 					if (showPathB)
 					{
-						tcf.CollisionPath2[curColisionMask].physics = (byte)PhysicsNUD.Value; //Set the Physics for Path B
+						tcf.CollisionPath2[curColisionMask].RWallAngle = (byte)PhysicsNUD.Value; //Set the Physics for Path B
 					}
 				}
 
@@ -1464,18 +1463,18 @@ namespace ManiacEditor
 			{
 				if (mirrorMode)
 				{
-					tcf.CollisionPath1[curColisionMask].momentum = (byte)MomentumNUD.Value; //Set the Momentum value for Path A
-					tcf.CollisionPath2[curColisionMask].momentum = (byte)MomentumNUD.Value; //Set the Momentum value for Path B
+					tcf.CollisionPath1[curColisionMask].LWallAngle = (byte)MomentumNUD.Value; //Set the Momentum value for Path A
+					tcf.CollisionPath2[curColisionMask].LWallAngle = (byte)MomentumNUD.Value; //Set the Momentum value for Path B
 				}
 				else
 				{
 					if (!showPathB)
 					{
-						tcf.CollisionPath1[curColisionMask].momentum = (byte)MomentumNUD.Value; //Set the Momentum value for Path A
+						tcf.CollisionPath1[curColisionMask].LWallAngle = (byte)MomentumNUD.Value; //Set the Momentum value for Path A
 					}
 					if (showPathB)
 					{
-						tcf.CollisionPath2[curColisionMask].momentum = (byte)MomentumNUD.Value; //Set the Momentum value for Path B
+						tcf.CollisionPath2[curColisionMask].LWallAngle = (byte)MomentumNUD.Value; //Set the Momentum value for Path B
 					}
 				}
 
@@ -1489,18 +1488,18 @@ namespace ManiacEditor
 			{
 				if (mirrorMode)
 				{
-					tcf.CollisionPath1[curColisionMask].unknown = (byte)UnknownNUD.Value; //Set the unknown value for Path A
-					tcf.CollisionPath2[curColisionMask].unknown = (byte)UnknownNUD.Value; //Set the unknown value for Path B
+					tcf.CollisionPath1[curColisionMask].CeilingAngle = (byte)UnknownNUD.Value; //Set the unknown value for Path A
+					tcf.CollisionPath2[curColisionMask].CeilingAngle = (byte)UnknownNUD.Value; //Set the unknown value for Path B
 				}
 				else
 				{
 					if (!showPathB)
 					{
-						tcf.CollisionPath1[curColisionMask].unknown = (byte)UnknownNUD.Value; //Set the unknown value for Path A
+						tcf.CollisionPath1[curColisionMask].CeilingAngle = (byte)UnknownNUD.Value; //Set the unknown value for Path A
 					}
 					if (showPathB)
 					{
-						tcf.CollisionPath2[curColisionMask].unknown = (byte)UnknownNUD.Value; //Set the unknown value for Path B
+						tcf.CollisionPath2[curColisionMask].CeilingAngle = (byte)UnknownNUD.Value; //Set the unknown value for Path B
 					}
 				}
 
@@ -1514,18 +1513,18 @@ namespace ManiacEditor
 			{
 				if (mirrorMode)
 				{
-					tcf.CollisionPath1[curColisionMask].special = (byte)SpecialNUD.Value; //Set the "Special" value for Path A
-					tcf.CollisionPath2[curColisionMask].special = (byte)SpecialNUD.Value; //Set the "Special" value for Path B
+					tcf.CollisionPath1[curColisionMask].Behaviour = (byte)SpecialNUD.Value; //Set the "Special" value for Path A
+					tcf.CollisionPath2[curColisionMask].Behaviour = (byte)SpecialNUD.Value; //Set the "Special" value for Path B
 				}
 				else
 				{
 					if (!showPathB)
 					{
-						tcf.CollisionPath1[curColisionMask].special = (byte)SpecialNUD.Value; //Set the "Special" value for Path A
+						tcf.CollisionPath1[curColisionMask].Behaviour = (byte)SpecialNUD.Value; //Set the "Special" value for Path A
 					}
 					if (showPathB)
 					{
-						tcf.CollisionPath2[curColisionMask].special = (byte)SpecialNUD.Value; //Set the "Special" value for Path B
+						tcf.CollisionPath2[curColisionMask].Behaviour = (byte)SpecialNUD.Value; //Set the "Special" value for Path B
 					}
 				}
 
@@ -1575,10 +1574,10 @@ namespace ManiacEditor
 				tcf.CollisionPath2[curColisionMask].Collision = (byte[])tcf.CollisionPath1[curColisionMask].Collision.Clone();
 				tcf.CollisionPath2[curColisionMask].HasCollision = (bool[])tcf.CollisionPath1[curColisionMask].HasCollision.Clone();
 				tcf.CollisionPath2[curColisionMask].IsCeiling = tcf.CollisionPath1[curColisionMask].IsCeiling;
-				tcf.CollisionPath2[curColisionMask].slopeAngle = tcf.CollisionPath1[curColisionMask].slopeAngle;
-				tcf.CollisionPath2[curColisionMask].momentum = tcf.CollisionPath1[curColisionMask].momentum;
-				tcf.CollisionPath2[curColisionMask].physics = tcf.CollisionPath1[curColisionMask].physics;
-				tcf.CollisionPath2[curColisionMask].special = tcf.CollisionPath1[curColisionMask].special;
+				tcf.CollisionPath2[curColisionMask].FloorAngle = tcf.CollisionPath1[curColisionMask].FloorAngle;
+				tcf.CollisionPath2[curColisionMask].LWallAngle = tcf.CollisionPath1[curColisionMask].LWallAngle;
+				tcf.CollisionPath2[curColisionMask].RWallAngle = tcf.CollisionPath1[curColisionMask].RWallAngle;
+				tcf.CollisionPath2[curColisionMask].Behaviour = tcf.CollisionPath1[curColisionMask].Behaviour;
 
 				CollisionListImgB[curColisionMask] = CollisionListImgA[curColisionMask];
 				RefreshUI();
@@ -1588,10 +1587,10 @@ namespace ManiacEditor
 				tcf.CollisionPath1[curColisionMask].Collision = (byte[])tcf.CollisionPath2[curColisionMask].Collision.Clone();
 				tcf.CollisionPath1[curColisionMask].HasCollision = (bool[])tcf.CollisionPath2[curColisionMask].HasCollision.Clone();
 				tcf.CollisionPath1[curColisionMask].IsCeiling = tcf.CollisionPath2[curColisionMask].IsCeiling;
-				tcf.CollisionPath1[curColisionMask].slopeAngle = tcf.CollisionPath2[curColisionMask].slopeAngle;
-				tcf.CollisionPath1[curColisionMask].momentum = tcf.CollisionPath2[curColisionMask].momentum;
-				tcf.CollisionPath1[curColisionMask].physics = tcf.CollisionPath2[curColisionMask].physics;
-				tcf.CollisionPath1[curColisionMask].special = tcf.CollisionPath2[curColisionMask].special;
+				tcf.CollisionPath1[curColisionMask].FloorAngle = tcf.CollisionPath2[curColisionMask].FloorAngle;
+				tcf.CollisionPath1[curColisionMask].LWallAngle = tcf.CollisionPath2[curColisionMask].LWallAngle;
+				tcf.CollisionPath1[curColisionMask].RWallAngle = tcf.CollisionPath2[curColisionMask].RWallAngle;
+				tcf.CollisionPath1[curColisionMask].Behaviour = tcf.CollisionPath2[curColisionMask].Behaviour;
 
 				CollisionListImgA[curColisionMask] = CollisionListImgB[curColisionMask];
 				RefreshUI();
@@ -2002,7 +2001,7 @@ namespace ManiacEditor
 			{
 				if (Clipboard.ContainsData("TileManiacCollision") && Properties.Defaults.Default.TileManiacEnableWindowsClipboard)
 				{
-					var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
+					var copyData = Clipboard.GetData("TileManiacCollision") as RSDKv5.Tileconfig.CollisionMask;
 					if (copyData != null)
 					{
 						tcf.CollisionPath1[curColisionMask] = copyData;
@@ -2020,7 +2019,7 @@ namespace ManiacEditor
 			{
 				if (Clipboard.ContainsData("TileManiacCollision") && Properties.Defaults.Default.TileManiacEnableWindowsClipboard)
 				{
-					var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
+					var copyData = Clipboard.GetData("TileManiacCollision") as RSDKv5.Tileconfig.CollisionMask;
 					if (copyData != null)
 					{
 						tcf.CollisionPath2[curColisionMask] = copyData;
@@ -2090,9 +2089,9 @@ namespace ManiacEditor
 			{
 				RSDKv5.Reader Reader1 = new RSDKv5.Reader(dlg.FileName);
 				RSDKv5.Reader Reader2 = new RSDKv5.Reader(dlg.FileName);
-				tcf.CollisionPath1[curColisionMask] = new RSDKv5.TileConfig.CollisionMask(Reader1);
+				tcf.CollisionPath1[curColisionMask] = new RSDKv5.Tileconfig.CollisionMask(Reader1);
 				Reader1.Close();
-				tcf.CollisionPath2[curColisionMask] = new RSDKv5.TileConfig.CollisionMask(Reader2);
+				tcf.CollisionPath2[curColisionMask] = new RSDKv5.Tileconfig.CollisionMask(Reader2);
 				Reader2.Close();
 			}
 			RefreshUI();
@@ -2133,8 +2132,8 @@ namespace ManiacEditor
 				indexedImagedLoaded = false;
 				curColisionMask = 0; //Set the current collision mask to zero (avoids rare errors)
 				filepath = dlg.FileName;
-				tcf = new RSDKv5.TileConfig();
-				tcfBak = new RSDKv5.TileConfig();
+				tcf = new RSDKv5.Tileconfig();
+				tcfBak = new RSDKv5.Tileconfig();
 				RSDKvB.Tileconfig tcfOLD = new RSDKvB.Tileconfig(dlg.FileName);
 				string tileBitmapPath = filepath.Replace("CollisionMasks.bin", "16x16tiles.gif"); //get the path to the stage's tileset
 				LoadTileSet(new Bitmap(tileBitmapPath)); //load each 16x16 tile into the list
@@ -2156,20 +2155,20 @@ namespace ManiacEditor
 					tcf.CollisionPath1[i].Collision = tcfOLD.CollisionPath1[i].Collision;
 					tcf.CollisionPath1[i].HasCollision = tcfOLD.CollisionPath1[i].HasCollision;
 					tcf.CollisionPath1[i].IsCeiling = tcfOLD.CollisionPath1[i].isCeiling;
-					tcf.CollisionPath1[i].momentum = tcfOLD.CollisionPath1[i].momentum;
-					tcf.CollisionPath1[i].physics = tcfOLD.CollisionPath1[i].physics;
-					tcf.CollisionPath1[i].slopeAngle = tcfOLD.CollisionPath1[i].slopeAngle;
-					tcf.CollisionPath1[i].special = 0;
-					tcf.CollisionPath1[i].unknown = tcfOLD.CollisionPath1[i].unknown;
+					tcf.CollisionPath1[i].LWallAngle = tcfOLD.CollisionPath1[i].LWallAngle;
+					tcf.CollisionPath1[i].RWallAngle = tcfOLD.CollisionPath1[i].RWallAngle;
+					tcf.CollisionPath1[i].FloorAngle = tcfOLD.CollisionPath1[i].FloorAngle;
+					tcf.CollisionPath1[i].Behaviour = 0;
+					tcf.CollisionPath1[i].CeilingAngle = tcfOLD.CollisionPath1[i].CeilingAngle;
 
 					tcf.CollisionPath2[i].Collision = tcfOLD.CollisionPath2[i].Collision;
 					tcf.CollisionPath2[i].HasCollision = tcfOLD.CollisionPath2[i].HasCollision;
 					tcf.CollisionPath2[i].IsCeiling = tcfOLD.CollisionPath2[i].isCeiling;
-					tcf.CollisionPath2[i].momentum = tcfOLD.CollisionPath2[i].momentum;
-					tcf.CollisionPath2[i].physics = tcfOLD.CollisionPath2[i].physics;
-					tcf.CollisionPath2[i].slopeAngle = tcfOLD.CollisionPath2[i].slopeAngle;
-					tcf.CollisionPath2[i].special = 0;
-					tcf.CollisionPath2[i].unknown = tcfOLD.CollisionPath2[i].unknown;
+					tcf.CollisionPath2[i].LWallAngle = tcfOLD.CollisionPath2[i].LWallAngle;
+					tcf.CollisionPath2[i].RWallAngle = tcfOLD.CollisionPath2[i].RWallAngle;
+					tcf.CollisionPath2[i].FloorAngle = tcfOLD.CollisionPath2[i].FloorAngle;
+					tcf.CollisionPath2[i].Behaviour = 0;
+					tcf.CollisionPath2[i].CeilingAngle = tcfOLD.CollisionPath2[i].CeilingAngle;
 				}
 				CollisionList.SelectedIndex = curColisionMask - 1;
 				CollisionList.Refresh();
@@ -2508,57 +2507,57 @@ namespace ManiacEditor
 
 		public void pathAToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			MessageBoxResult result = System.Windows.MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.Yes)
 			{
 				tcf.CollisionPath1[curColisionMask].Collision = (byte[])tcfBak.CollisionPath1[curColisionMask].Collision.Clone();
 				tcf.CollisionPath1[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath1[curColisionMask].HasCollision.Clone();
 				tcf.CollisionPath1[curColisionMask].IsCeiling = tcfBak.CollisionPath1[curColisionMask].IsCeiling;
-				tcf.CollisionPath1[curColisionMask].slopeAngle = tcfBak.CollisionPath1[curColisionMask].slopeAngle;
-				tcf.CollisionPath1[curColisionMask].momentum = tcfBak.CollisionPath1[curColisionMask].momentum;
-				tcf.CollisionPath1[curColisionMask].physics = tcfBak.CollisionPath1[curColisionMask].physics;
-				tcf.CollisionPath1[curColisionMask].special = tcfBak.CollisionPath1[curColisionMask].special;
+				tcf.CollisionPath1[curColisionMask].FloorAngle = tcfBak.CollisionPath1[curColisionMask].FloorAngle;
+				tcf.CollisionPath1[curColisionMask].LWallAngle = tcfBak.CollisionPath1[curColisionMask].LWallAngle;
+				tcf.CollisionPath1[curColisionMask].RWallAngle = tcfBak.CollisionPath1[curColisionMask].RWallAngle;
+				tcf.CollisionPath1[curColisionMask].Behaviour = tcfBak.CollisionPath1[curColisionMask].Behaviour;
 				RefreshUI();
 			}
 		}
 
 		public void pathBToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			MessageBoxResult result = System.Windows.MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.Yes)
 			{
 				tcf.CollisionPath2[curColisionMask].Collision = (byte[])tcfBak.CollisionPath2[curColisionMask].Collision.Clone();
 				tcf.CollisionPath2[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath2[curColisionMask].HasCollision.Clone();
 				tcf.CollisionPath2[curColisionMask].IsCeiling = tcfBak.CollisionPath2[curColisionMask].IsCeiling;
-				tcf.CollisionPath2[curColisionMask].slopeAngle = tcfBak.CollisionPath2[curColisionMask].slopeAngle;
-				tcf.CollisionPath2[curColisionMask].momentum = tcfBak.CollisionPath2[curColisionMask].momentum;
-				tcf.CollisionPath2[curColisionMask].physics = tcfBak.CollisionPath2[curColisionMask].physics;
-				tcf.CollisionPath2[curColisionMask].special = tcfBak.CollisionPath2[curColisionMask].special;
+				tcf.CollisionPath2[curColisionMask].FloorAngle = tcfBak.CollisionPath2[curColisionMask].FloorAngle;
+				tcf.CollisionPath2[curColisionMask].LWallAngle = tcfBak.CollisionPath2[curColisionMask].LWallAngle;
+				tcf.CollisionPath2[curColisionMask].RWallAngle = tcfBak.CollisionPath2[curColisionMask].RWallAngle;
+				tcf.CollisionPath2[curColisionMask].Behaviour = tcfBak.CollisionPath2[curColisionMask].Behaviour;
 				RefreshUI();
 			}
 		}
 
 		public void bothToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			MessageBoxResult result = System.Windows.MessageBox.Show("All progress for this Mask will be undone! Are you sure?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.Yes)
 			{
 				tcf.CollisionPath1[curColisionMask].Collision = (byte[])tcfBak.CollisionPath1[curColisionMask].Collision.Clone();
 				tcf.CollisionPath1[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath1[curColisionMask].HasCollision.Clone();
 				tcf.CollisionPath1[curColisionMask].IsCeiling = tcfBak.CollisionPath1[curColisionMask].IsCeiling;
-				tcf.CollisionPath1[curColisionMask].slopeAngle = tcfBak.CollisionPath1[curColisionMask].slopeAngle;
-				tcf.CollisionPath1[curColisionMask].momentum = tcfBak.CollisionPath1[curColisionMask].momentum;
-				tcf.CollisionPath1[curColisionMask].physics = tcfBak.CollisionPath1[curColisionMask].physics;
-				tcf.CollisionPath1[curColisionMask].special = tcfBak.CollisionPath1[curColisionMask].special;
+				tcf.CollisionPath1[curColisionMask].FloorAngle = tcfBak.CollisionPath1[curColisionMask].FloorAngle;
+				tcf.CollisionPath1[curColisionMask].LWallAngle = tcfBak.CollisionPath1[curColisionMask].LWallAngle;
+				tcf.CollisionPath1[curColisionMask].RWallAngle = tcfBak.CollisionPath1[curColisionMask].RWallAngle;
+				tcf.CollisionPath1[curColisionMask].Behaviour = tcfBak.CollisionPath1[curColisionMask].Behaviour;
 
 
 				tcf.CollisionPath2[curColisionMask].Collision = (byte[])tcfBak.CollisionPath2[curColisionMask].Collision.Clone();
 				tcf.CollisionPath2[curColisionMask].HasCollision = (bool[])tcfBak.CollisionPath2[curColisionMask].HasCollision.Clone();
 				tcf.CollisionPath2[curColisionMask].IsCeiling = tcfBak.CollisionPath2[curColisionMask].IsCeiling;
-				tcf.CollisionPath2[curColisionMask].slopeAngle = tcfBak.CollisionPath2[curColisionMask].slopeAngle;
-				tcf.CollisionPath2[curColisionMask].momentum = tcfBak.CollisionPath2[curColisionMask].momentum;
-				tcf.CollisionPath2[curColisionMask].physics = tcfBak.CollisionPath2[curColisionMask].physics;
-				tcf.CollisionPath2[curColisionMask].special = tcfBak.CollisionPath2[curColisionMask].special;
+				tcf.CollisionPath2[curColisionMask].FloorAngle = tcfBak.CollisionPath2[curColisionMask].FloorAngle;
+				tcf.CollisionPath2[curColisionMask].LWallAngle = tcfBak.CollisionPath2[curColisionMask].LWallAngle;
+				tcf.CollisionPath2[curColisionMask].RWallAngle = tcfBak.CollisionPath2[curColisionMask].RWallAngle;
+				tcf.CollisionPath2[curColisionMask].Behaviour = tcfBak.CollisionPath2[curColisionMask].Behaviour;
 
 				RefreshUI();
 			}
@@ -2609,7 +2608,7 @@ namespace ManiacEditor
 		{
 			if (!indexedImagedLoaded)
 			{
-				MessageBoxResult result = MessageBox.Show("To flip the tile, we have to load an indexed version of the image first. This may take some time. Would you like to continue?", "Create Indexed Image", MessageBoxButton.YesNo, MessageBoxImage.Information);
+				MessageBoxResult result = System.Windows.MessageBox.Show("To flip the tile, we have to load an indexed version of the image first. This may take some time. Would you like to continue?", "Create Indexed Image", MessageBoxButton.YesNo, MessageBoxImage.Information);
 				if (result == MessageBoxResult.Yes)
 				{
 					LoadTileSet(new Bitmap(bitmappath), true);
@@ -2647,7 +2646,7 @@ namespace ManiacEditor
 			}
 			else
 			{
-				MessageBox.Show("No File Opened Yet!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("No File Opened Yet!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 		}
