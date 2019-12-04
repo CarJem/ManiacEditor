@@ -26,7 +26,7 @@ namespace RSDKv5
         /// <summary>
         /// the stage's tileconfig data
         /// </summary>
-        public readonly TileConfig Config;
+        public readonly Tileconfig Config;
         public readonly GIF CollisionMaskA;
         public readonly GIF CollisionMaskB;
 
@@ -38,7 +38,7 @@ namespace RSDKv5
 			EditorImage = new GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
 			if (File.Exists(Path.Combine(stage_directory, "TileConfig.bin")))
 			{
-				Config = new TileConfig(Path.Combine(stage_directory, "TileConfig.bin"));
+				Config = new Tileconfig(Path.Combine(stage_directory, "TileConfig.bin"));
 			}
 
         }
@@ -74,7 +74,7 @@ namespace RSDKv5
         public StageTiles()
 		{
 			Image = new GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
-			Config = new TileConfig();
+			Config = new Tileconfig();
 		}
 
 		public void Write(string filename)

@@ -60,7 +60,7 @@ namespace ManiacEditor
 		{
 			try
 			{
-				Instance.GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
+				Instance.GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
 				GameConfig_Source = Path.Combine(DataDirectory, "Game", "GameConfig.bin");
 				return true;
 			}
@@ -69,13 +69,13 @@ namespace ManiacEditor
 				// Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
 				try
 				{
-					Instance.GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
+					Instance.GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
 					GameConfig_Source = Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin");
 					return true;
 				}
 				catch
 				{
-					RSDKrU.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
+					System.Windows.Forms.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
 					return false;
 				}
 
@@ -84,11 +84,11 @@ namespace ManiacEditor
 
 		}
 
-        public GameConfig SetandReturnGameConfig(string DataDirectory)
+        public Gameconfig SetandReturnGameConfig(string DataDirectory)
         {
             try
             {
-                var GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
+                var GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
                 return GameConfig;
             }
             catch
@@ -96,12 +96,12 @@ namespace ManiacEditor
                 // Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
                 try
                 {
-                    var GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
+                    var GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
                     return GameConfig;
                 }
                 catch
                 {
-                    RSDKrU.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
+                    System.Windows.MessageBox.Show("Something is wrong with this GameConfig that we can't support! If for some reason it does work for you in Sonic Mania, you can create another GameConfig.bin called GameConfig_ME.bin and the editor should load that instead (assuming it's a clean GameConfig or one that works) allowing you to still be able to use the data folder, however, this is experimental so be careful when doing that.", "GameConfig Error!");
                     return null;
                 }
 
@@ -133,7 +133,7 @@ namespace ManiacEditor
 			}
 		}
 
-        public GameConfig SetandReturnGameConfig()
+        public Gameconfig SetandReturnGameConfig()
         {
             bool validDataDirectoryFound = false;
             string validDataDirectoryPath = "";
@@ -211,7 +211,7 @@ namespace ManiacEditor
 			{
                 if (File.Exists(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin")))
                 {
-                    Instance.TileConfig = new TileConfig(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin"));
+                    Instance.TileConfig = new RSDKv5.Tileconfig(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin"));
                     TileConfig_Source = Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin");
                     return true;
                 }
@@ -232,7 +232,7 @@ namespace ManiacEditor
         {
             try
             {
-                Instance.TileConfig = new TileConfig(Path.Combine(filepath, "TileConfig.bin"));
+                Instance.TileConfig = new RSDKv5.Tileconfig(Path.Combine(filepath, "TileConfig.bin"));
                 TileConfig_Source = Path.Combine(filepath, "TileConfig.bin");
                 return true;
             }

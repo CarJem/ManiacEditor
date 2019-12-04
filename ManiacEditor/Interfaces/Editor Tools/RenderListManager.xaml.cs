@@ -138,7 +138,7 @@ namespace ManiacEditor
         private void RemoveKeyButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 Instance.entityRenderingObjects.RemoveAt(KeyList.SelectedIndex);
@@ -172,7 +172,7 @@ namespace ManiacEditor
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 SavetoFile();
@@ -193,7 +193,7 @@ namespace ManiacEditor
             }
             else
             {
-                RSDKrU.MessageBox.Show("File does not exist at " + System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "objectRenderList.ini"), "ERROR");
+                System.Windows.MessageBox.Show("File does not exist at " + System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "objectRenderList.ini"), "ERROR");
             }
 
         }
@@ -255,7 +255,8 @@ namespace ManiacEditor
         {
             if (Instance.entityRenderingObjects != RenderInformationUnedited)
             {
-                MessageBoxResult result = RSDKrU.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
+                //MessageBoxResult result = System.Windows.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
+                MessageBoxResult result = System.Windows.MessageBox.Show("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.Yes)
                 {
                     SavetoFile();
@@ -284,7 +285,7 @@ namespace ManiacEditor
             }
             else
             {
-                RSDKrU.MessageBox.Show("File does not exist at " + System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "objectRenderList.ini"), "ERROR");
+                System.Windows.MessageBox.Show("File does not exist at " + System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "objectRenderList.ini"), "ERROR");
             }
         }
 

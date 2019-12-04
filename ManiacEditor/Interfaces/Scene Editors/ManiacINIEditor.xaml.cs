@@ -155,7 +155,7 @@ namespace ManiacEditor
         private void RemoveKeyButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 Instance.ManiacINI.ManiacINISettings.RemoveAt(KeyList.SelectedIndex);
@@ -196,7 +196,7 @@ namespace ManiacEditor
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 Instance.ManiacINI.SaveFile();
@@ -272,7 +272,7 @@ namespace ManiacEditor
         private void RemoveValueButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValueIndexValid() == false) return;
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 Instance.ManiacINI.ManiacINISettings[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
@@ -316,7 +316,9 @@ namespace ManiacEditor
         {
             if (Instance.ManiacINI.ManiacINISettings != ManiacINISettingsUnedited)
             {
-                MessageBoxResult result = RSDKrU.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
+                //MessageBoxResult result = System.Windows.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
+                MessageBoxResult result = System.Windows.MessageBox.Show("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
+
                 if (result == MessageBoxResult.Yes)
                 {
                     Instance.ManiacINI.SaveFile();
@@ -345,7 +347,7 @@ namespace ManiacEditor
             }
             else
             {
-                RSDKrU.MessageBox.Show("File does not exist at " + Instance.ManiacINI.GetFilePath(), "ERROR");
+                System.Windows.MessageBox.Show("File does not exist at " + Instance.ManiacINI.GetFilePath(), "ERROR");
             }
         }
 

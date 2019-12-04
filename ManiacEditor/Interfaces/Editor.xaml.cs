@@ -27,7 +27,6 @@ using DataObject = System.Windows.DataObject;
 using File = System.IO.File;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MenuItem = System.Windows.Controls.MenuItem;
-using MessageBox = RSDKrU.MessageBox;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
@@ -101,7 +100,7 @@ namespace ManiacEditor
         public EditorTiles EditorTiles;
 		public EditorScene EditorScene;
 		public StageConfig StageConfig;
-		public GameConfig GameConfig;
+		public Gameconfig GameConfig;
 		public EditorUIControl UIControl;
         public EditorMouseControls MouseControls;
 		public EditorEntities Entities;
@@ -110,7 +109,7 @@ namespace ManiacEditor
 		public EntitiesToolbar EntitiesToolbar = null;
 		public EditorEntityDrawing EntityDrawing;
 		public EditorUpdater Updater;
-		public TileConfig TileConfig;
+		public Tileconfig TileConfig;
 		public EditorInGame InGame;
 		public StartScreen StartScreen;
 		public EditorStateModel StateModel;
@@ -425,7 +424,7 @@ namespace ManiacEditor
 				return false;
 			}
 
-			var result = RSDKrU.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
+			var result = System.Windows.MessageBox.Show($"The file '{fullFilePath}' already exists. Overwrite?", "Overwrite?",
 										 MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
 			if (result == MessageBoxResult.Yes) return true;
@@ -642,7 +641,7 @@ namespace ManiacEditor
                 }
                 catch (EditorEntities.TooManyEntitiesException)
                 {
-                    RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
+                    System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
                     return;
                 }
                 UI.UpdateEntitiesToolbarList();
@@ -791,7 +790,7 @@ namespace ManiacEditor
         }
         public void ShowError(string message, string title = "Error!")
         {
-            RSDKrU.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Windows.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
         }
         public void GoToPosition(int x, int y, bool CenterCoords = true, bool ShortcutClear = false)
         {
@@ -945,7 +944,7 @@ namespace ManiacEditor
 		}
 		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0, string SceneID = "", string Zone = "", string Name = "")
 		{
-			MessageBox.Show("These Kind of Shortcuts are Broken for now! SORRY!");
+            System.Windows.MessageBox.Show("These Kind of Shortcuts are Broken for now! SORRY!");
 
 			/*
 			string dataDirectory = dataDir;
@@ -1477,7 +1476,7 @@ namespace ManiacEditor
 			}
 			catch (Exception ex)
 			{
-				RSDKrU.MessageBox.Show(ex.Message);
+				System.Windows.MessageBox.Show(ex.Message);
 			}
 		}
 		public void DisposeTextures()

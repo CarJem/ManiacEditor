@@ -9,7 +9,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using ManiacEditor.Converters;
-using MessageBox = RSDKrU.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

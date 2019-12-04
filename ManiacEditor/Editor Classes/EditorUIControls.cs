@@ -25,11 +25,6 @@ namespace ManiacEditor
 		private int select_y1 { get => Editor.Instance.StateModel.select_y1; set => Editor.Instance.StateModel.select_y1 = value; }
 		private int select_y2 { get => Editor.Instance.StateModel.select_y2; set => Editor.Instance.StateModel.select_y2 = value; }
 
-		private int selectingY { get => Editor.Instance.StateModel.SelectionY2; set => Editor.Instance.StateModel.SelectionY2 = value; }
-		private int selectingX { get => Editor.Instance.StateModel.SelectionX2; set => Editor.Instance.StateModel.SelectionX2 = value; }
-		private int ClickedY { get => Editor.Instance.StateModel.SelectionY1; set => Editor.Instance.StateModel.SelectionY1 = value; }
-		private int ClickedX { get => Editor.Instance.StateModel.SelectionX1; set => Editor.Instance.StateModel.SelectionX1 = value; }
-
 		private int ShiftY { get => Editor.Instance.StateModel.ShiftY; set => Editor.Instance.StateModel.ShiftY = value; }
 		private int ShiftX { get => Editor.Instance.StateModel.ShiftX; set => Editor.Instance.StateModel.ShiftX = value; }
 
