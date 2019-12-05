@@ -18,43 +18,9 @@ namespace ManiacEditor
 
 		#region Editor Definitions
 
-		public int previousX = 0;
-		public int previousY = 0;
-		private int select_x1 { get => Editor.Instance.StateModel.select_x1; set => Editor.Instance.StateModel.select_x1 = value; }
-		private int select_x2 { get => Editor.Instance.StateModel.select_x2; set => Editor.Instance.StateModel.select_x2 = value; }
-		private int select_y1 { get => Editor.Instance.StateModel.select_y1; set => Editor.Instance.StateModel.select_y1 = value; }
-		private int select_y2 { get => Editor.Instance.StateModel.select_y2; set => Editor.Instance.StateModel.select_y2 = value; }
-
-		private int ShiftY { get => Editor.Instance.StateModel.ShiftY; set => Editor.Instance.StateModel.ShiftY = value; }
-		private int ShiftX { get => Editor.Instance.StateModel.ShiftX; set => Editor.Instance.StateModel.ShiftX = value; }
-
-		private int draggedY { get => Editor.Instance.StateModel.draggedY; set => Editor.Instance.StateModel.draggedY = value; }
-		private int draggedX { get => Editor.Instance.StateModel.draggedX; set => Editor.Instance.StateModel.draggedX = value; }
-
-		private int lastY { get => Editor.Instance.StateModel.lastY; set => Editor.Instance.StateModel.lastY = value; }
-		private int lastX { get => Editor.Instance.StateModel.lastX; set => Editor.Instance.StateModel.lastX = value; }
-
-		private double Zoom { get => Editor.Instance.StateModel.Zoom; set => Editor.Instance.StateModel.Zoom = value; }
-		private int ZoomLevel { get => Editor.Instance.StateModel.ZoomLevel; set => Editor.Instance.StateModel.ZoomLevel = value; }
-
-		private bool IsChunksEdit() { return Editor.Instance.IsChunksEdit(); }
 		private bool IsTilesEdit() { return Editor.Instance.IsTilesEdit(); }
 		private bool IsEntitiesEdit() { return Editor.Instance.IsEntitiesEdit();}
 		private bool IsEditing() { return Editor.Instance.IsEditing(); }
-		private bool IsSceneLoaded() { return Editor.Instance.IsSceneLoaded(); }
-
-		private bool scrollingDragged { get => Editor.Instance.StateModel.scrollingDragged; set => Editor.Instance.StateModel.scrollingDragged = value; }
-		private bool scrolling { get => Editor.Instance.StateModel.scrolling; set => Editor.Instance.StateModel.scrolling = value; }
-		private bool dragged { get => Editor.Instance.StateModel.dragged; set => Editor.Instance.StateModel.dragged = value; }
-		private bool startDragged { get => Editor.Instance.StateModel.startDragged; set => Editor.Instance.StateModel.startDragged = value; }
-		private bool draggingSelection { get => Editor.Instance.StateModel.draggingSelection; set => Editor.Instance.StateModel.draggingSelection = value; }
-		private bool GameRunning { get => Editor.Instance.InGame.GameRunning; set => Editor.Instance.InGame.GameRunning = value; }
-
-		private int ScrollDirection { get => Editor.Instance.UIModes.ScrollDirection; }
-		private bool ScrollLocked { get => Editor.Instance.UIModes.ScrollLocked; }
-
-		private bool CtrlPressed() { return Editor.Instance.CtrlPressed(); }
-		private bool ShiftPressed() { return Editor.Instance.ShiftPressed(); }
 		private bool IsSelected() { return Editor.Instance.IsSelected(); }
 
 		#endregion

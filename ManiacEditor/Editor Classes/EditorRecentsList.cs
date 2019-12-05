@@ -83,8 +83,8 @@ namespace ManiacEditor
 
 
             SceneSaveStateCollection.SaveState section = new SceneSaveStateCollection.SaveState();
-            int x1 = (short)(Instance.StateModel.ShiftX / Instance.StateModel.Zoom);
-            int y1 = (short)(Instance.StateModel.ShiftY / Instance.StateModel.Zoom);
+            int x1 = (short)(EditorStateModel.ViewPositionX / Instance.StateModel.Zoom);
+            int y1 = (short)(EditorStateModel.ViewPositionY / Instance.StateModel.Zoom);
             section.EntryName = Title;
             section.RealEntryName = Name;
             section.DataDirectory = Instance.DataDirectory;

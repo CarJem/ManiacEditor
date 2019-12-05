@@ -149,8 +149,8 @@ namespace ManiacEditor
                 Editor.Entities.SelectAll();
             }
 			Editor.UI.SetSelectOnlyButtonsState();
-			Editor.StateModel.SelectionX1 = -1;
-			Editor.StateModel.SelectionY1 = -1;
+			EditorStateModel.RegionX1 = -1;
+            EditorStateModel.RegionY1 = -1;
 		}
 
 		public void FlipHorizontal()
@@ -516,9 +516,7 @@ namespace ManiacEditor
         #region Tools Tab Buttons
         public void ChangeLevelID(object sender, RoutedEventArgs e)
 		{
-            //TODO Reimplement RSDKrU TextPrompt2
-            //string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.UIModes.LevelID.ToString());
-            string inputValue = "1";
+            string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.UIModes.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
 			Editor.UIModes.LevelID = output;
 			Editor._levelIDLabel.Content = "Level ID: " + Editor.UIModes.LevelID.ToString();
@@ -532,8 +530,8 @@ namespace ManiacEditor
 		{
 			string dataDir = Editor.DataDirectory;
 			string scenePath = Editor.Discord.ScenePath;
-			int rX = (short)(Editor.StateModel.ShiftX);
-			int rY = (short)(Editor.StateModel.ShiftY);
+			int rX = (short)(EditorStateModel.ViewPositionX);
+			int rY = (short)(EditorStateModel.ViewPositionY);
 			double _ZoomLevel = Editor.StateModel.ZoomLevel;
 			bool isEncoreSet = Editor.UIModes.UseEncoreColors;
 			int levelSlotNum = Editor.UIModes.LevelID;
@@ -649,8 +647,8 @@ namespace ManiacEditor
 		{
 			Settings.MyDevSettings.DevForceRestartData = Editor.DataDirectory;
 			Settings.MyDevSettings.DevForceRestartScene = Editor.Paths.SceneFilePath;
-			Settings.MyDevSettings.DevForceRestartX = (short)(Editor.StateModel.ShiftX / Editor.StateModel.Zoom);
-			Settings.MyDevSettings.DevForceRestartY = (short)(Editor.StateModel.ShiftY / Editor.StateModel.Zoom);
+			Settings.MyDevSettings.DevForceRestartX = (short)(EditorStateModel.ViewPositionX / Editor.StateModel.Zoom);
+			Settings.MyDevSettings.DevForceRestartY = (short)(EditorStateModel.ViewPositionY / Editor.StateModel.Zoom);
 			Settings.MyDevSettings.DevForceRestartZoomLevel = Editor.StateModel.ZoomLevel;
 			Settings.MyDevSettings.DevForceRestartIsEncore = Editor.Paths.isEncoreMode;
 			Settings.MyDevSettings.DevForceRestartID = Editor.UIModes.LevelID;

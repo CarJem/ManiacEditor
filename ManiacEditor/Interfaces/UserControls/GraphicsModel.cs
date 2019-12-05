@@ -75,7 +75,7 @@ namespace ManiacEditor.Interfaces
         public Rectangle GetScreen()
         {
             if (Settings.MySettings.EntityFreeCam) return new Rectangle(EditorInstance.StateModel.CustomX, EditorInstance.StateModel.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
-            else return new Rectangle((int)EditorInstance.StateModel.ShiftX, (int)EditorInstance.StateModel.ShiftY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            else return new Rectangle((int)EditorStateModel.ViewPositionX, (int)EditorStateModel.ViewPositionY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
         }
 
         public void DisposeTextures()

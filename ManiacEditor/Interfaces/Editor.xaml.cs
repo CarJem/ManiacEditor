@@ -807,8 +807,8 @@ namespace ManiacEditor
                 if ((ResultY <= 0)) ResultY = 0;
 
 
-                StateModel.ShiftX = ResultX;
-                StateModel.ShiftY = ResultY;
+                EditorStateModel.ViewPositionX = ResultX;
+                EditorStateModel.ViewPositionY = ResultY;
             }
             else
             {
@@ -818,8 +818,8 @@ namespace ManiacEditor
                 if ((ResultX <= 0)) ResultX = 0;
                 if ((ResultY <= 0)) ResultY = 0;
 
-                StateModel.ShiftX = ResultX;
-                StateModel.ShiftY = ResultY;
+                EditorStateModel.ViewPositionX = ResultX;
+                EditorStateModel.ViewPositionY = ResultY;
             }
 
 
@@ -1084,7 +1084,7 @@ namespace ManiacEditor
             {
                 Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
                 e.Effect = System.Windows.Forms.DragDropEffects.Move;
-                EditLayerA?.StartDragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                EditLayerA?.StartDragOver(new Point((int)(((e.X - rel.X) + EditorStateModel.ViewPositionX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + EditorStateModel.ViewPositionY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
                 UI.UpdateEditLayerActions();
             }
             else
@@ -1097,7 +1097,7 @@ namespace ManiacEditor
             if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
             {
                 Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
-                EditLayerA?.DragOver(new Point((int)(((e.X - rel.X) + StateModel.ShiftX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + StateModel.ShiftY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                EditLayerA?.DragOver(new Point((int)(((e.X - rel.X) + EditorStateModel.ViewPositionX) / StateModel.Zoom), (int)(((e.Y - rel.Y) + EditorStateModel.ViewPositionY) / StateModel.Zoom)), (ushort)TilesToolbar.SelectedTile);
                 FormsModel.GraphicPanel.Render();
 
             }
@@ -1129,7 +1129,7 @@ namespace ManiacEditor
         #endregion
         #region Splitter Events
         private void Spliter_DragDelta(object sender, DragDeltaEventArgs e) { ZoomModel.Resize(sender, e); }
-        private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e) { ZoomModel.SetZoomLevel(StateModel.ZoomLevel, new System.Drawing.Point(StateModel.ShiftX, StateModel.ShiftY), 0.0, false); }
+        private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e) { ZoomModel.SetZoomLevel(StateModel.ZoomLevel, new System.Drawing.Point(EditorStateModel.ViewPositionX, EditorStateModel.ViewPositionY), 0.0, false); }
         #endregion
         #region Scrollbar Events
         private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { ZoomModel.VScrollBar1_Scroll(sender, e); }
@@ -1204,7 +1204,7 @@ namespace ManiacEditor
 
             }
 
-            if (StateModel.draggingSelection) DrawSelectionBox();
+            if (StateModel.DraggingSelection) DrawSelectionBox();
             else DrawSelectionBox(true);
 
             if (StateModel.isTileDrawing && UIModes.DrawBrushSize != 1) DrawBrushBox();
@@ -1214,7 +1214,7 @@ namespace ManiacEditor
 
             if (InGame.GameRunning) DrawGameElements();
 
-            if (StateModel.scrolling) DrawScroller();
+            if (StateModel.Scrolling) DrawScroller();
 
             if (UIModes.ForceWarp) ForceWarp();
 
@@ -1226,9 +1226,9 @@ namespace ManiacEditor
 
             void DrawScroller()
             {
-                if (FormsModel.vScrollBar1.IsVisible && FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.Draw2DCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
-                else if (FormsModel.vScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawVertCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
-                else if (FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawHorizCursor(StateModel.scrollPosition.X, StateModel.scrollPosition.Y);
+                if (FormsModel.vScrollBar1.IsVisible && FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.Draw2DCursor(StateModel.ScrollPosition.X, StateModel.ScrollPosition.Y);
+                else if (FormsModel.vScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawVertCursor(StateModel.ScrollPosition.X, StateModel.ScrollPosition.Y);
+                else if (FormsModel.hScrollBar1.IsVisible) FormsModel.GraphicPanel.DrawHorizCursor(StateModel.ScrollPosition.X, StateModel.ScrollPosition.Y);
             }
 
             void DrawExtraLayers()
@@ -1288,19 +1288,19 @@ namespace ManiacEditor
             {
                 if (!resetSelection)
                 {
-                    int bound_x1 = (int)(StateModel.SelectionX2 / StateModel.Zoom); int bound_x2 = (int)(StateModel.lastX / StateModel.Zoom);
-                    int bound_y1 = (int)(StateModel.SelectionY2 / StateModel.Zoom); int bound_y2 = (int)(StateModel.lastY / StateModel.Zoom);
+                    int bound_x1 = (int)(EditorStateModel.RegionX2 / StateModel.Zoom); int bound_x2 = (int)(StateModel.lastX / StateModel.Zoom);
+                    int bound_y1 = (int)(EditorStateModel.RegionY2 / StateModel.Zoom); int bound_y2 = (int)(StateModel.lastY / StateModel.Zoom);
                     if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
                     {
                         if (bound_x1 > bound_x2)
                         {
                             bound_x1 = (int)(StateModel.lastX / StateModel.Zoom);
-                            bound_x2 = (int)(StateModel.SelectionX2 / StateModel.Zoom);
+                            bound_x2 = (int)(EditorStateModel.RegionX2 / StateModel.Zoom);
                         }
                         if (bound_y1 > bound_y2)
                         {
                             bound_y1 = (int)(StateModel.lastY / StateModel.Zoom);
-                            bound_y2 = (int)(StateModel.SelectionY2 / StateModel.Zoom);
+                            bound_y2 = (int)(EditorStateModel.RegionY2 / StateModel.Zoom);
                         }
                         if (IsChunksEdit())
                         {
@@ -1321,7 +1321,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    StateModel.select_x1 = 0; StateModel.select_x2 = 0; StateModel.select_y1 = 0; StateModel.select_y2 = 0;
+                    EditorStateModel.select_x1 = 0; EditorStateModel.select_x2 = 0; EditorStateModel.select_y1 = 0; EditorStateModel.select_y2 = 0;
                 }
             }
 
@@ -1557,7 +1557,7 @@ namespace ManiacEditor
 		public Rectangle GetScreen()
 		{
 			if (ManiacEditor.Settings.MySettings.EntityFreeCam) return new Rectangle(StateModel.CustomX, StateModel.CustomY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
-			else return new Rectangle(StateModel.ShiftX, StateModel.ShiftY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
+			else return new Rectangle(EditorStateModel.ViewPositionX, EditorStateModel.ViewPositionY, FormsModel.mainPanel.Width, FormsModel.mainPanel.Height);
 		}
 		public double GetZoom()
 		{
