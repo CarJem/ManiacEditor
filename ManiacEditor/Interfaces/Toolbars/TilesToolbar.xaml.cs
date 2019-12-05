@@ -14,7 +14,7 @@ namespace ManiacEditor
 		public Editor EditorInstance;
 
 		bool disposing = false;
-		RSDKv5.GIF TileGridImage;
+		ManiacEditor.GIF TileGridImage;
 		string TilesImagePath;
 		public Action<int> TileDoubleClick { get; set; } 
 

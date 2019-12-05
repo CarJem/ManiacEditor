@@ -116,38 +116,62 @@ namespace ManiacEditor
 
         #region Editing States 
         //Editor Editing States
-        public bool dragged { get; set; } = false;
-        public bool startDragged { get; set; } = false;
+
         public int lastX { get; set; }
         public int lastY { get; set; }
         public int draggedX { get; set; }
         public int draggedY { get; set; }
-        public int ShiftX { get; set; } = 0;
-        public int ShiftY { get; set; } = 0;
+
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }
         public int CustomX { get; set; } = 0;
         public int CustomY { get; set; } = 0;
-        public int select_x1 { get; set; }
-        public int select_x2 { get; set; }
-        public int select_y1 { get; set; }
-        public int select_y2 { get; set; }
-        public int SelectionX1 { get; set; } = -1;
-        public int SelectionY1 { get; set; } = -1;
-        public bool draggingSelection { get; set; } = false; //Determines if we are dragging a selection
-        public int SelectionX2 { get; set; }
-        public int SelectionY2 { get; set; }
-        public bool zooming { get; set; } = false;  //Detects if we are zooming
+
+        #region Viewer Position
+
+        public static int ViewPositionX { get; set; } = 0;
+        public static int ViewPositionY { get; set; } = 0;
+
+        #endregion
+
+        #region Selection and Select Region
+
+        public static int RegionX1 { get; set; } = -1;
+        public static int RegionY1 { get; set; } = -1;
+        public static int RegionX2 { get; set; }
+        public static int RegionY2 { get; set; }
+
+        public static int select_x1 { get; set; }
+        public static int select_x2 { get; set; }
+        public static int select_y1 { get; set; }
+        public static int select_y2 { get; set; }
+
+        #endregion
+
+        #region Scrolling/Dragging/Zooming States
+
+        public bool DraggingSelection { get; set; } = false; //Determines if we are dragging a selection
+        public bool Dragged { get; set; } = false;
+        public bool StartDragged { get; set; } = false;
+        public bool Zooming { get; set; } = false;  //Detects if we are zooming
         public double Zoom { get; set; } = 1; //Double Value for Zoom Levels
         public int ZoomLevel { get; set; } = 0; //Interger Value for Zoom Levels
+        public bool Scrolling { get; set; } = false; //Determines if the User is Scrolling
+        public bool ScrollingDragged { get; set; } = false;
+        public bool WheelClicked { get; set; } = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
+        public Point ScrollPosition { get; set; } //For Getting the Scroll Position
+
+        #endregion
+
+
+
+
         public int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
         public int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
         public int SelectedTileX { get; set; } = 0; //Used to get a single Selected Tile's X
         public int SelectedTileY { get; set; } = 0; //Used to get a single Selected Tile's Y
-        public bool scrolling { get; set; } = false; //Determines if the User is Scrolling
-        public bool scrollingDragged { get; set; } = false;
-        public bool wheelClicked { get; set; } = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
-        public Point scrollPosition { get; set; } //For Getting the Scroll Position
+
+
         public bool isTileDrawing { get; set; } = false;
         #endregion
     }

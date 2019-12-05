@@ -16,7 +16,7 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.StateModel.ShiftY = (int)e.NewValue;
+                EditorStateModel.ViewPositionY = (int)e.NewValue;
                 UpdateScrollBars();
             }
             Editor.FormsModel.GraphicPanel.Render();
@@ -26,7 +26,7 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.StateModel.ShiftX = (int)e.NewValue;
+                EditorStateModel.ViewPositionX = (int)e.NewValue;
                 UpdateScrollBars();
             }
             Editor.FormsModel.GraphicPanel.Render();
@@ -36,11 +36,11 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.StateModel.ShiftY = (int)Editor.FormsModel.vScrollBar1.Value;
+                EditorStateModel.ViewPositionY = (int)Editor.FormsModel.vScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(Editor.StateModel.zooming || Editor.StateModel.draggingSelection || Editor.StateModel.dragged || Editor.StateModel.scrolling)) Editor.FormsModel.GraphicPanel.Render();
-            if (Editor.StateModel.draggingSelection)
+            if (!(Editor.StateModel.Zooming || Editor.StateModel.DraggingSelection || Editor.StateModel.Dragged || Editor.StateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
+            if (Editor.StateModel.DraggingSelection)
             {
                 Editor.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -51,11 +51,11 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                Editor.StateModel.ShiftX = (int)Editor.FormsModel.hScrollBar1.Value;
+                EditorStateModel.ViewPositionX = (int)Editor.FormsModel.hScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(Editor.StateModel.zooming || Editor.StateModel.draggingSelection || Editor.StateModel.dragged || Editor.StateModel.scrolling)) Editor.FormsModel.GraphicPanel.Render();
-            if (Editor.StateModel.draggingSelection)
+            if (!(Editor.StateModel.Zooming || Editor.StateModel.DraggingSelection || Editor.StateModel.Dragged || Editor.StateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
+            if (Editor.StateModel.DraggingSelection)
             {
                 Editor.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -113,7 +113,7 @@ namespace ManiacEditor
             else
             {
                 Editor.StateModel.ScreenHeight = Editor.FormsModel.GraphicPanel.Height;
-                Editor.StateModel.ShiftY = 0;
+                EditorStateModel.ViewPositionY = 0;
                 Editor.FormsModel.vScrollBar1.Value = 0;
             }
             if (Editor.FormsModel.hScrollBar1.IsVisible)
@@ -127,7 +127,7 @@ namespace ManiacEditor
             else
             {
                 Editor.StateModel.ScreenWidth = Editor.FormsModel.GraphicPanel.Width;
-                Editor.StateModel.ShiftX = 0;
+                EditorStateModel.ViewPositionX = 0;
                 Editor.FormsModel.hScrollBar1.Value = 0;
             }
 
@@ -194,10 +194,10 @@ namespace ManiacEditor
             }
 
 
-            Editor.StateModel.zooming = true;
+            Editor.StateModel.Zooming = true;
 
-            int oldShiftX = Editor.StateModel.ShiftX;
-            int oldShiftY = Editor.StateModel.ShiftY;
+            int oldShiftX = EditorStateModel.ViewPositionX;
+            int oldShiftY = EditorStateModel.ViewPositionY;
 
             if (Editor.EditorScene != null)
                 SetViewSize((int)(Editor.SceneWidth * Editor.StateModel.Zoom), (int)(Editor.SceneHeight * Editor.StateModel.Zoom), updateControls);
@@ -205,19 +205,19 @@ namespace ManiacEditor
 
             if (Editor.FormsModel.hScrollBar1.IsVisible)
             {
-                Editor.StateModel.ShiftX = (int)((zoom_point.X + oldShiftX) / old_zoom * Editor.StateModel.Zoom - zoom_point.X);
-                Editor.StateModel.ShiftX = (int)Math.Min((Editor.FormsModel.hScrollBar1.Maximum), Math.Max(0, Editor.StateModel.ShiftX));
-                Editor.FormsModel.hScrollBar1.Value = Editor.StateModel.ShiftX;
+                EditorStateModel.ViewPositionX = (int)((zoom_point.X + oldShiftX) / old_zoom * Editor.StateModel.Zoom - zoom_point.X);
+                EditorStateModel.ViewPositionX = (int)Math.Min((Editor.FormsModel.hScrollBar1.Maximum), Math.Max(0, EditorStateModel.ViewPositionX));
+                Editor.FormsModel.hScrollBar1.Value = EditorStateModel.ViewPositionX;
             }
             if (Editor.FormsModel.vScrollBar1.IsVisible)
             {
-                Editor.StateModel.ShiftY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Editor.StateModel.Zoom - zoom_point.Y);
-                Editor.StateModel.ShiftY = (int)Math.Min((Editor.FormsModel.vScrollBar1.Maximum), Math.Max(0, Editor.StateModel.ShiftY));
-                Editor.FormsModel.vScrollBar1.Value = Editor.StateModel.ShiftY;
+                EditorStateModel.ViewPositionY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Editor.StateModel.Zoom - zoom_point.Y);
+                EditorStateModel.ViewPositionY = (int)Math.Min((Editor.FormsModel.vScrollBar1.Maximum), Math.Max(0, EditorStateModel.ViewPositionY));
+                Editor.FormsModel.vScrollBar1.Value = EditorStateModel.ViewPositionY;
             }
 
 
-            Editor.StateModel.zooming = false;
+            Editor.StateModel.Zooming = false;
 
             if (updateControls) Editor.UI.UpdateControls();
         }

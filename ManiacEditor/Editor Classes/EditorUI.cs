@@ -377,7 +377,7 @@ namespace ManiacEditor
 
                     Editor.Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
                     {
-                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(Editor.Instance.StateModel.ShiftX / Editor.Instance.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.Instance.StateModel.ShiftY / Editor.Instance.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1), x, Editor.Instance.EditLayerA);
+                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(EditorStateModel.ViewPositionX/ Editor.Instance.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(EditorStateModel.ViewPositionY / Editor.Instance.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1), x, Editor.Instance.EditLayerA);
                     });
                     Editor.Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
                     {
@@ -485,7 +485,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    return new Position((short)(Editor.Instance.StateModel.ShiftX / Editor.Instance.StateModel.Zoom), (short)(Editor.Instance.StateModel.ShiftY / Editor.Instance.StateModel.Zoom));
+                    return new Position((short)(EditorStateModel.ViewPositionX/ Editor.Instance.StateModel.Zoom), (short)(EditorStateModel.ViewPositionY / Editor.Instance.StateModel.Zoom));
                 }
 
             }
@@ -559,7 +559,7 @@ namespace ManiacEditor
                 Editor.Instance.selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
             }
 
-            Editor.Instance.selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Editor.Instance.StateModel.select_x2 - Editor.Instance.StateModel.select_x1) + ", Y: " + (Editor.Instance.StateModel.select_y2 - Editor.Instance.StateModel.select_y1);
+            Editor.Instance.selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (EditorStateModel.select_x2 - EditorStateModel.select_x1) + ", Y: " + (EditorStateModel.select_y2 - EditorStateModel.select_y1);
 
             Editor.Instance.scrollLockDirLabel.Content = "Scroll Direction: " + (Editor.Instance.UIModes.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (Editor.Instance.UIModes.ScrollLocked ? " (Locked)" : "");
 

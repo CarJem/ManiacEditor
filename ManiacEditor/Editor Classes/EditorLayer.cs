@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Drawing;
+﻿using ManiacEditor.Actions;
 using RSDKv5;
 using SharpDX.Direct3D9;
-using ManiacEditor.Actions;
-using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace ManiacEditor
 {
@@ -22,12 +22,14 @@ namespace ManiacEditor
         private ChunkVBO[][] ChunkMap;
 
         public PointsMap SelectedTiles;
-
-        public Dictionary<Point, ushort> SelectedTilesValue = new Dictionary<Point, ushort>();
-
         public PointsMap TempSelectionTiles;
         public PointsMap TempSelectionDeselectTiles;
+
+
+
         bool TempSelectionDeselect;
+
+
         public int GlobalSelectedTiles;
         public bool ShowLayerScrollLines { get; set; } = false;
         public bool HasHorizontalLayerScrollInitilized { get; set; } = false;
@@ -104,6 +106,7 @@ namespace ManiacEditor
 
         public class PointsMap
         {
+            public Dictionary<Point, ushort> Values = new Dictionary<Point, ushort>();
             HashSet<Point>[][] PointsChunks;
             HashSet<Point> OutOfBoundsPoints = new HashSet<Point>();
             public int Count = 0;
@@ -321,10 +324,10 @@ namespace ManiacEditor
         public void DragOver(Point point, ushort value)
         {
             SelectedTiles.Clear();
-            SelectedTilesValue.Clear();
+            SelectedTiles.Values.Clear();
             point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             SelectedTiles.Add(point);
-            SelectedTilesValue[point] = value;
+            SelectedTiles.Values[point] = value;
             RefreshTileCount();
             InvalidateChunks();
         }
@@ -336,7 +339,7 @@ namespace ManiacEditor
                 if (remove)
                 {
                     SelectedTiles.Clear();
-                    SelectedTilesValue.Clear();
+                    SelectedTiles.Values.Clear();
                     RefreshTileCount();
                 }
                 isDragOver = false;
@@ -349,10 +352,10 @@ namespace ManiacEditor
         {
             foreach (Point point in SelectedTiles.GetAll())
             {
-                if (!SelectedTilesValue.ContainsKey(point))
+                if (!SelectedTiles.Values.ContainsKey(point))
                 {
                     // Not moved yet
-                    SelectedTilesValue[point] = _layer.Tiles[point.Y][point.X];
+                    SelectedTiles.Values[point] = _layer.Tiles[point.Y][point.X];
                     RemoveTile(point);
                     RefreshTileCount();
                 }
@@ -374,9 +377,9 @@ namespace ManiacEditor
                 {
                     Point newPoint = new Point(point.X + (newPos.X - oldPos.X), point.Y + (newPos.Y - oldPos.Y));
                     newPoints.Add(newPoint);
-                    if (SelectedTilesValue.ContainsKey(point))
+                    if (SelectedTiles.Values.ContainsKey(point))
                     {
-                        newDict[newPoint] = SelectedTilesValue[point];
+                        newDict[newPoint] = SelectedTiles.Values[point];
 
                     }
                     else
@@ -396,7 +399,7 @@ namespace ManiacEditor
                     Actions.Add(new ActionDummy());
                     RefreshTileCount();
                 }
-                SelectedTilesValue = newDict;
+                SelectedTiles.Values = newDict;
                 SelectedTiles.AddPoints(newPoints);
                 RefreshTileCount();
             }
@@ -468,7 +471,7 @@ namespace ManiacEditor
             foreach (Point p in SelectedTiles.PopAll())
             {
                 // Remove only tiles that not moved, because we already removed the moved tiles
-                if (!SelectedTilesValue.ContainsKey(p))
+                if (!SelectedTiles.Values.ContainsKey(p))
                 {
                     RemoveTile(p);
                 }
@@ -478,7 +481,7 @@ namespace ManiacEditor
                 Actions.Add(new ActionsGroupCloseMarker());
             }
 
-            SelectedTilesValue.Clear();
+            SelectedTiles.Values.Clear();
             RefreshTileCount();
             InvalidateChunks();
 
@@ -487,7 +490,7 @@ namespace ManiacEditor
         public void FlipPropertySelected(FlipDirection direction, bool flipIndividually = false)
         {
             DetachSelected();
-            List<Point> points = new List<Point>(SelectedTilesValue.Keys);
+            List<Point> points = new List<Point>(SelectedTiles.Values.Keys);
 
             if (points.Count == 0) return;
 
@@ -527,7 +530,7 @@ namespace ManiacEditor
         {
             foreach (Point point in points)
             {
-                SelectedTilesValue[point] ^= (ushort)direction;
+                SelectedTiles.Values[point] ^= (ushort)direction;
             }
             InvalidateChunks();
         }
@@ -537,7 +540,7 @@ namespace ManiacEditor
             Dictionary<Point, ushort> workingTiles = new Dictionary<Point, ushort>();
             foreach (Point point in points)
             {
-                ushort tileValue = SelectedTilesValue[point];
+                ushort tileValue = SelectedTiles.Values[point];
                 Point newPoint;
 
                 if (direction == FlipDirection.Horizontal)
@@ -561,9 +564,9 @@ namespace ManiacEditor
             }
 
             SelectedTiles.Clear();
-            SelectedTilesValue.Clear();
+            SelectedTiles.Values.Clear();
             SelectedTiles.AddPoints(workingTiles.Select(wt => wt.Key).ToList());
-            SelectedTilesValue = workingTiles;
+            SelectedTiles.Values = workingTiles;
             InvalidateChunks();
         }
 
@@ -571,13 +574,13 @@ namespace ManiacEditor
         {
             DetachSelected();
 
-            List<Point> points = new List<Point>(SelectedTilesValue.Keys);
+            List<Point> points = new List<Point>(SelectedTiles.Values.Keys);
             foreach (Point point in points)
             {
                 if (state)
-                    SelectedTilesValue[point] |= (ushort)(1 << bit);
+                    SelectedTiles.Values[point] |= (ushort)(1 << bit);
                 else
-                    SelectedTilesValue[point] &= (ushort)(~(1 << bit));
+                    SelectedTiles.Values[point] &= (ushort)(~(1 << bit));
             }
         }
 
@@ -588,9 +591,9 @@ namespace ManiacEditor
             foreach (Point point in SelectedTiles.GetAll())
             {
                 if (TempSelectionDeselect && TempSelectionTiles.Contains(point)) continue;
-                if (SelectedTilesValue.ContainsKey(point))
+                if (SelectedTiles.Values.ContainsKey(point))
                 {
-                    selectedValues.Add(SelectedTilesValue[point]);
+                    selectedValues.Add(SelectedTiles.Values[point]);
                 }
                 else
                 {
@@ -612,7 +615,7 @@ namespace ManiacEditor
             if (SelectedTiles.Count == 0) return null;
             int minX = 0, minY = 0;
 
-            Dictionary<Point, ushort> copiedTiles = new Dictionary<Point, ushort>(SelectedTilesValue); ;
+            Dictionary<Point, ushort> copiedTiles = new Dictionary<Point, ushort>(SelectedTiles.Values); ;
             foreach (Point point in SelectedTiles.GetAll())
             {
                 if (!copiedTiles.ContainsKey(point))
@@ -634,8 +637,8 @@ namespace ManiacEditor
             if (layer1.SelectedTiles.Count == 0 && layer2.SelectedTiles.Count == 0) return null;
             int minX = 0, minY = 0;
 
-            Dictionary<Point, ushort> copiedTilesA = new Dictionary<Point, ushort>(layer1.SelectedTilesValue);
-            Dictionary<Point, ushort> copiedTilesB = new Dictionary<Point, ushort>(layer2.SelectedTilesValue);
+            Dictionary<Point, ushort> copiedTilesA = new Dictionary<Point, ushort>(layer1.SelectedTiles.Values);
+            Dictionary<Point, ushort> copiedTilesB = new Dictionary<Point, ushort>(layer2.SelectedTiles.Values);
             foreach (Point point in layer1.SelectedTiles.GetAll())
             {
                 if (!copiedTilesA.ContainsKey(point))
@@ -679,7 +682,7 @@ namespace ManiacEditor
                     if (point.Value != _layer.Tiles[tilePos.Y][tilePos.X])
                     {
                         SelectedTiles.Add(tilePos);
-                        SelectedTilesValue[tilePos] = point.Value;
+                        SelectedTiles.Values[tilePos] = point.Value;
                         updateActions = true;
                     }
                 }
@@ -703,7 +706,7 @@ namespace ManiacEditor
                 {
                     Point tilePos = new Point(point.Key.X + newPos.X, point.Key.Y + newPos.Y);
                     SelectedTiles.Add(tilePos);
-                    SelectedTilesValue[tilePos] = point.Value;
+                    SelectedTiles.Values[tilePos] = point.Value;
                 }
                 // Create new actions group
                 if (updateActions) Actions.Add(new ActionDummy());
@@ -765,16 +768,15 @@ namespace ManiacEditor
                     {
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
-                        InvalidateChunkFromPixelPosition(new Point(x, y));
                     }
                     else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.UIModes.CopyAir)
                     {
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
-                        InvalidateChunkFromPixelPosition(new Point(x, y));
                     }
                 }
             }
+            InvalidateChunks();
         }
 
         public void Select(Point point, bool addSelection = false, bool deselectIfSelected = false)
@@ -789,17 +791,16 @@ namespace ManiacEditor
                 {
                     // Deselect
                     DeselectPoint(point);
-                    InvalidateChunkFromPixelPosition(point);
                     RefreshTileCount();
                 }
                 else if (this._layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.UIModes.CopyAir)
                 {
                     // Just add the point
                     SelectedTiles.Add(point);
-                    InvalidateChunkFromPixelPosition(point);
                     RefreshTileCount();
                 }
             }
+            InvalidateChunks();
         }
 
         public void TempSelection(Rectangle area, bool deselectIfSelected)
@@ -819,12 +820,12 @@ namespace ManiacEditor
                             TempSelectionDeselectTiles.Add(new Point(x, y));
                         }
                         RefreshTileCount();
-                        InvalidateChunkFromPixelPosition(new Point(x, y));
 
 
                     }
                 }
             }
+            InvalidateChunks();
         }
 
         public void EndTempSelection()
@@ -857,19 +858,19 @@ namespace ManiacEditor
 
         private void DeselectPoint(Point p)
         {
-            if (SelectedTilesValue.ContainsKey(p))
+            if (SelectedTiles.Values.ContainsKey(p))
             {
                 // Or else it wasn't moved at all
-                SetTile(p, SelectedTilesValue[p]);
-                SelectedTilesValue.Remove(p);
+                SetTile(p, SelectedTiles.Values[p]);
+                SelectedTiles.Values.Remove(p);
             }
             SelectedTiles.Remove(p);
         }
 
         public void Deselect()
         {
-            bool hasTiles = SelectedTilesValue.Count > 0;
-            foreach (KeyValuePair<Point, ushort> point in SelectedTilesValue)
+            bool hasTiles = SelectedTiles.Values.Count > 0;
+            foreach (KeyValuePair<Point, ushort> point in SelectedTiles.Values)
             {
                 // ignore out of bounds
                 if (point.Key.X < 0 || point.Key.Y < 0 || point.Key.Y >= _layer.Height || point.Key.X >= _layer.Width) continue;
@@ -879,7 +880,7 @@ namespace ManiacEditor
                 Actions.Add(new ActionsGroupCloseMarker());
 
             SelectedTiles.Clear();
-            SelectedTilesValue.Clear();
+            SelectedTiles.Values.Clear();
             EditorInstance.StateModel.SelectedTilesCount = 0;
         }
 
@@ -923,9 +924,9 @@ namespace ManiacEditor
                 {
                     Point point = new Point(x, y);
 
-                    if (SelectedTilesValue.ContainsKey(point))
+                    if (SelectedTiles.Values.ContainsKey(point))
                     {
-                        if (SelectedTilesValue[point] != tile) return false;
+                        if (SelectedTiles.Values[point] != tile) return false;
                     }
                     else
                     {
@@ -941,7 +942,7 @@ namespace ManiacEditor
             point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
-                if (SelectedTilesValue.ContainsKey(point)) return SelectedTilesValue[point];
+                if (SelectedTiles.Values.ContainsKey(point)) return SelectedTiles.Values[point];
                 else return _layer.Tiles[point.Y][point.X];
             }
             return 0xffff;
@@ -952,7 +953,7 @@ namespace ManiacEditor
             Point point = new Point(x, y);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
-                if (SelectedTilesValue.ContainsKey(point)) return SelectedTilesValue[point];
+                if (SelectedTiles.Values.ContainsKey(point)) return SelectedTiles.Values[point];
                 else return _layer.Tiles[point.Y][point.X];
             }
             return 0xffff;
@@ -1178,6 +1179,17 @@ namespace ManiacEditor
                 if (ChunkMap[chunkPoint.Y][chunkPoint.X] != null) ChunkMap[chunkPoint.Y][chunkPoint.X].HasBeenSelectedPrior = true;
             }
 
+            Point GetDrawingChunkCoordinates(int x, int y)
+            {
+                Point ChunkCoordinate = new Point();
+                if (x != 0) ChunkCoordinate.X = x / 16;
+                else ChunkCoordinate.X = 0;
+                if (y != 0) ChunkCoordinate.Y = y / 16;
+                else ChunkCoordinate.Y = 0;
+
+                return ChunkCoordinate;
+            }
+
         }
         private bool isChunkSelected(int _x, int _y)
         {
@@ -1234,7 +1246,7 @@ namespace ManiacEditor
                             for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
                             {
                                 Point point = new Point(tx, ty);
-                                bool tileSelected = SelectedTilesValue.ContainsKey(point) || TempSelectionTiles.Contains(point) || TempSelectionDeselectTiles.Contains(point);
+                                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
                                 DrawTile(g, GetTileToDraw(point), tx - rect.X, ty - rect.Y, tileSelected);
                                 if (tileSelected) hasBeenSelected = true;
 
@@ -1263,7 +1275,7 @@ namespace ManiacEditor
 
         private ushort GetTileToDraw(Point source)
         {
-            if (SelectedTilesValue.ContainsKey(source)) return SelectedTilesValue[source];
+            if (SelectedTiles.Values.ContainsKey(source)) return SelectedTiles.Values[source];
             else return Layer.Tiles[source.Y][source.X];
         }
 
@@ -1284,7 +1296,7 @@ namespace ManiacEditor
                 System.Drawing.Color LRDSolid = System.Drawing.Color.Yellow;
                 System.Drawing.Color TopOnlySolid = System.Drawing.Color.Red;
 
-                g.DrawImage(Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                g.DrawImage(Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
                 if (Editor.Instance.UIModes.ShowCollisionA)
                 {
