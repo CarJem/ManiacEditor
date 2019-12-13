@@ -27,8 +27,10 @@ Determines if and how the the ring will move
 
 	* 0 - Normal (No Movement)
 	* 1 - Left/Right/Up/Down Movement
-	* 2 -  Circular Movement
-	* <= 3 - No Ring At All? (Needs Checking)
+	* 2 - Circular Movement
+	* 3 - Path Movement
+	* 4 - Attract Movement (Used when electric shield attracts rings)
+	* >= 5 - Normal
 
 	Note: Movement also relies on the following attributes.
 
