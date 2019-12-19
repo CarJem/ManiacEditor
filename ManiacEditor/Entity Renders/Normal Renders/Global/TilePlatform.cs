@@ -26,9 +26,9 @@ namespace ManiacEditor.Entity_Renders
 
             //d.DrawRectangle(x - width / 2, y - height / 2, x + width/2, y + height/2, System.Drawing.Color.White);
             // The position for some platforms are still off a bit (but it's very decent)
-            if (Editor.Instance.EditorScene?.Move != null)
+            if (EditorSolution.CurrentScene?.Move != null)
             {
-                SceneLayer Move = Editor.Instance.EditorScene?.Move.Layer;
+                SceneLayer Move = EditorSolution.CurrentScene?.Move.Layer;
 
                 DrawPlatformTiles(d, Move, x, y, TargetX, TargetY, width, height, Transparency, e.Selected);
 
@@ -90,7 +90,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(EditorSolution.CurrentTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
             x, y, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, selected, Transperncy);
         }
 

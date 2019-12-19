@@ -231,13 +231,13 @@ namespace ManiacEditor.Interfaces
 			{
 				RPCCheckBox.IsChecked = true;
 				Settings.MySettings.ShowDiscordRPC = true;
-				Editor.Instance.Discord.UpdateDiscord(Editor.Instance.Discord.ScenePath);
+				DiscordRP.UpdateDiscord(Editor.Instance.Paths.SceneFile_Source);
 			}
 			else
 			{
 				RPCCheckBox.IsChecked = false;
 				Settings.MySettings.ShowDiscordRPC = false;
-				Editor.Instance.Discord.UpdateDiscord();
+				DiscordRP.UpdateDiscord();
 			}
 		}
 
@@ -761,7 +761,7 @@ namespace ManiacEditor.Interfaces
             {
                 string[] output = new string[Settings.MySettings.DataDirectories.Count];
                 Settings.MySettings.DataDirectories.CopyTo(output, 0);
-                FolderSelectDialog fsd = new FolderSelectDialog();
+				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
                 fsd.InitialDirectory = EditorConstants.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)
@@ -781,7 +781,7 @@ namespace ManiacEditor.Interfaces
             {
                 string[] output = new string[Settings.MySettings.SavedPlaces.Count];
                 Settings.MySettings.SavedPlaces.CopyTo(output, 0);
-                FolderSelectDialog fsd = new FolderSelectDialog();
+				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
                 fsd.InitialDirectory = EditorConstants.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)

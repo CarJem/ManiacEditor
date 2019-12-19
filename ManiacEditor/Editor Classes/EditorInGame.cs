@@ -643,14 +643,14 @@ namespace ManiacEditor
             if (Editor.InGame.GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Editor.StateModel.lastX / Editor.StateModel.Zoom));
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Editor.StateModel.lastY / Editor.StateModel.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(EditorStateModel.LastX / EditorStateModel.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(EditorStateModel.LastY / EditorStateModel.Zoom));
             }
         }
 
         public void SetPlayerRespawnToHere()
         {
-            Point clicked_point = new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom), (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom));
+            Point clicked_point = new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom));
             if (GameRunning)
             {
                 UpdateCheckpoint(clicked_point);

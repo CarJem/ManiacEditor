@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:maniac2="clr-namespace:ManiacEditor.Interfaces.UserControls"
         xmlns:maniac="clr-namespace:ManiacEditor"
+        xmlns:genLib="clr-namespace:GenerationsLib.WPF;assembly=GenerationsLib.WPF"
         xmlns:p="clr-namespace:ManiacEditor.Properties"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
@@ -30,7 +31,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" maniac:CustomDesignAttributes.VerticalScrollTo="1000">
+                    <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2" genLib:DesignExtensions.VerticalScrollTo="1000">
                         <StackPanel x:Name="SettingsViewer2" Margin="10">
                             <maniac:SettingsHeader HeaderName="Tiles Toolbar Defaults"></maniac:SettingsHeader>
                             <CheckBox Content="Solid (Top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidTopADefault}"/>
@@ -306,7 +307,7 @@
             </TabItem>
             <TabItem Header="Controls" Name="Controls" Foreground="{DynamicResource NormalText}">
                 <Grid>
-                    <ScrollViewer  maniac:CustomDesignAttributes.VerticalScrollTo="1000">
+                    <ScrollViewer  genLib:DesignExtensions.VerticalScrollTo="1000">
                         <StackPanel x:Name="ControlsPage">
                             <maniac:SettingsHeader HeaderName="File"></maniac:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >

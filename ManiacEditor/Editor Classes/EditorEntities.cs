@@ -165,7 +165,7 @@ namespace ManiacEditor
         {
             try
             {
-                var objectList = GetObjects(Editor.Instance.EditorScene.Objects);
+                var objectList = GetObjects(EditorSolution.CurrentScene.Objects);
                 string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
                 return setupObject;
             }
@@ -516,7 +516,7 @@ namespace ManiacEditor
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal())
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Editor.Instance.EditorScene.Objects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, EditorSolution.CurrentScene.Objects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);
@@ -556,7 +556,7 @@ namespace ManiacEditor
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal())
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Editor.Instance.EditorScene.Objects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, EditorSolution.CurrentScene.Objects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);

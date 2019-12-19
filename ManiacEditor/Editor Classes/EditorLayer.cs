@@ -783,8 +783,8 @@ namespace ManiacEditor
         {
             if (!addSelection) Deselect();
             point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
-            EditorInstance.StateModel.SelectedTileX = point.X;
-            EditorInstance.StateModel.SelectedTileY = point.Y;
+            EditorStateModel.SelectedTileX = point.X;
+            EditorStateModel.SelectedTileY = point.Y;
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
                 if (deselectIfSelected && SelectedTiles.Contains(point))
@@ -881,7 +881,7 @@ namespace ManiacEditor
 
             SelectedTiles.Clear();
             SelectedTiles.Values.Clear();
-            EditorInstance.StateModel.SelectedTilesCount = 0;
+            EditorStateModel.SelectedTilesCount = 0;
         }
 
         public bool IsPointSelected(Point point)
@@ -1013,7 +1013,7 @@ namespace ManiacEditor
             System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
             System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
 
-            g.DrawImage(Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
+            g.DrawImage(EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                 new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
             if (Editor.Instance.UIModes.ShowCollisionA)
@@ -1037,20 +1037,20 @@ namespace ManiacEditor
 
             if (EditorInstance.UIModes.ShowFlippedTileHelper == true)
             {
-                g.DrawImage(Editor.Instance.EditorTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                g.DrawImage(EditorSolution.CurrentTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                             new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             }
             if (EditorInstance.UIModes.ShowTileID == true)
             {
-                g.DrawImage(Editor.Instance.EditorTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                g.DrawImage(EditorSolution.CurrentTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                             new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             }
 
             void DrawCollision(bool drawA, System.Drawing.Color colur)
             {
                 Bitmap Map;
-                if (drawA) Map = Editor.Instance.EditorTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
-                else Map = Editor.Instance.EditorTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                if (drawA) Map = EditorSolution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                else Map = EditorSolution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
 
                 Map = Extensions.ChangeImageColor(Map, System.Drawing.Color.White, colur);
 
@@ -1200,8 +1200,8 @@ namespace ManiacEditor
             int x2 = rect.Right * EditorConstants.TILE_SIZE;
             int y2 = rect.Bottom * EditorConstants.TILE_SIZE;
 
-            int mouse_x = (int)Editor.Instance.StateModel.lastX;
-            int mouse_y = (int)Editor.Instance.StateModel.lastY;
+            int mouse_x = (int)EditorStateModel.LastX;
+            int mouse_y = (int)EditorStateModel.LastY;
 
             if (mouse_x >= x && mouse_x <= x2 && mouse_y >= y && mouse_y <= y2)
             {
@@ -1296,7 +1296,7 @@ namespace ManiacEditor
                 System.Drawing.Color LRDSolid = System.Drawing.Color.Yellow;
                 System.Drawing.Color TopOnlySolid = System.Drawing.Color.Red;
 
-                g.DrawImage(Editor.Instance.EditorTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                g.DrawImage(EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
                 if (Editor.Instance.UIModes.ShowCollisionA)
                 {
@@ -1348,8 +1348,8 @@ namespace ManiacEditor
 
                 Rectangle dest = new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE);
 
-                if (drawA) g.DrawImage(Editor.Instance.EditorTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
-                else g.DrawImage(Editor.Instance.EditorTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
+                if (drawA) g.DrawImage(EditorSolution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
+                else g.DrawImage(EditorSolution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
 
                 attributes.Dispose();
                 attributes = null;
@@ -1567,8 +1567,8 @@ namespace ManiacEditor
         public void RefreshTileCount()
         {
             GlobalSelectedTiles = SelectedTiles.Count + TempSelectionTiles.Count;
-            EditorInstance.StateModel.DeselectTilesCount = TempSelectionDeselectTiles.Count;
-            EditorInstance.StateModel.SelectedTilesCount = GlobalSelectedTiles - EditorInstance.StateModel.DeselectTilesCount;
+            EditorStateModel.DeselectTilesCount = TempSelectionDeselectTiles.Count;
+            EditorStateModel.SelectedTilesCount = GlobalSelectedTiles - EditorStateModel.DeselectTilesCount;
         }
 
 

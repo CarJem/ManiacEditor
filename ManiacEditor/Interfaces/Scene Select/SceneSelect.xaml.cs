@@ -1344,7 +1344,7 @@ namespace ManiacEditor.Interfaces
         public void AddSavedPlaceEvent(object sender, EventArgs e)
         {
             String newSavedPlace;
-            using (var folderBrowserDialog = new FolderSelectDialog())
+            using (var folderBrowserDialog = new GenerationsLib.Core.FolderSelectDialog())
             {
                 folderBrowserDialog.Title = "Select A Folder";
 
