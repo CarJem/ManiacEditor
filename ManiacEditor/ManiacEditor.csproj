@@ -267,6 +267,9 @@
       <HintPath>..\packages\Cyotek.Windows.Forms.ColorPicker.1.7.2\lib\net35\Cyotek.Windows.Forms.ColorPicker.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DiscordRPC, Version=1.0.121.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DiscordRichPresence.1.0.121\lib\net35\DiscordRPC.dll</HintPath>
+    </Reference>
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
@@ -294,6 +297,9 @@
     <Reference Include="NAudio.Vorbis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.Vorbis.1.0.0.0\lib\net35\NAudio.Vorbis.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nrtftree-library, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\nrtftree-library.0.4.0\lib\net461\nrtftree-library.dll</HintPath>
@@ -334,6 +340,9 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Management" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <Private>True</Private>
@@ -363,21 +372,196 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\ActionOptimizeSlotIDs.cs" />
-    <Compile Include="Actions\ActionSortSlotIDs.cs" />
-    <Compile Include="Actions\ActionSwapSlotIDs.cs" />
-    <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
-    <Compile Include="Converters\TilePixelConverter.cs" />
-    <Compile Include="Editor Classes\EditorMouseControls.cs" />
+    <Compile Include="Entity Renders\Normal Renders\AIZ\MonkeyDude.cs" />
+    <Compile Include="Entity Renders\Normal Renders\AIZ\SchrodingersCapsule.cs" />
+    <Compile Include="Entity Renders\Normal Renders\CPZ\DNARiser.cs" />
+    <Compile Include="Entity Renders\Normal Renders\CPZ\Syringe.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\BigSqueeze.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\ElectroMagnet.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\FBZFan.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\FBZMissile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\FBZSinkTrash.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\FBZTrash.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\HangGlider.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\PropellerShaft.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\Technosqueek.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\TetherBall.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\Tuesday.cs" />
+    <Compile Include="Entity Renders\Normal Renders\FBZ\Turbine.cs" />
+    <Compile Include="Entity Renders\Normal Renders\GHZ\Chopper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\GHZ\CorkscrewPath.cs" />
+    <Compile Include="Entity Renders\Normal Renders\GHZ\Newtron.cs" />
+    <Compile Include="Entity Renders\Normal Renders\GHZ\SpikeLog.cs" />
+    <Compile Include="Entity Renders\Normal Renders\GHZ\WaterfallSound.cs" />
+    <Compile Include="Entity Renders\Normal Renders\GHZ\ZipLine.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\BlankObject.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\BoundsMarker.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Button.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\CollapsingPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Current.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\CutsceneHBH.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\DCEvent.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Decoration.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\EggPrison.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\EncoreRoute.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\EntityRenderer.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\ForceSpin.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\ForceUnstick.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\GenericTrigger.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\InvisibleBlock.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\ItemBox.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Music.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Outro_Intro_Object.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\ParallaxSprite.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\PlaneSwitch.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Platform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\PlatformControl.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\PlatformNode.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Player.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Ring.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\RubyFX.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\RubyPortal.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\SignPost.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\SpecialRing.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Spikes.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Spring.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\StickyPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\TilePlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\TimeAttackGate.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\TimePost.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Tornado.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\TornadoPath.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\TransportTube.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\WarpDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Water.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\ZoneSetup.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HCZ\HandLauncher.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HCZ\LaundroMobile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HCZ\PullChain.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HCZ\ScrewMobile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HCZ\Spear.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HCZ\WaterGush.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HCZ\Whirlpool.cs" />
+    <Compile Include="Entity Renders\Normal Renders\HPZ\Jellygnite.cs" />
+    <Compile Include="Entity Renders\Normal Renders\LRZ\DashLift.cs" />
+    <Compile Include="Entity Renders\Normal Renders\LRZ\RisingLava.cs" />
+    <Compile Include="Entity Renders\Normal Renders\LRZ\Toxomister.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\Cactula.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\EggLoco.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\GiantPistol.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\PaintingEyes.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\Pinata.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\SeeSaw.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\SeltzerBottle.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\SwingRope.cs" />
+    <Compile Include="Entity Renders\Normal Renders\MSZ\Vultron.cs" />
+    <Compile Include="Entity Renders\Normal Renders\OOZ\BallCannon.cs" />
+    <Compile Include="Entity Renders\Normal Renders\OOZ\GasPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\OOZ\Hatch.cs" />
+    <Compile Include="Entity Renders\Normal Renders\OOZ\MegaOctus.cs" />
+    <Compile Include="Entity Renders\Normal Renders\OOZ\MeterDroid.cs" />
+    <Compile Include="Entity Renders\Normal Renders\OOZ\Sol.cs" />
+    <Compile Include="Entity Renders\Normal Renders\OOZ\Valve.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\Dragonfly.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\Ice.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\IceBomba.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\IceSpring.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\JuggleSaw.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\Newspaper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\PaperRoller.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\PetalPile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\Press.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\PrintBlock.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\PSZDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\PSZLauncher.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\ShiverSaw.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\Splats.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\WoodChipper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\PGZ\Woodrow.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\CableWarp.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\DirectorChair.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\EggTV.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\FilmProjector.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\LEDPanel.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\LottoBall.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\LottoMachine.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\MicDrop.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\PimPom.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\PopcornMachine.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\ShopWindow.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\Tubinaut.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\TVPole.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\TVVan.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SPZ\WeatherMobile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SSZ\Constellation.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SSZ\Firework.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SSZ\FlowerPod.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SSZ\Iwamodoki.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SSZ\UncurlPlant.cs" />
+    <Compile Include="Entity Renders\Normal Renders\SSZ\YoyoPulley.cs" />
+    <Compile Include="Entity Renders\Normal Renders\UI\HUD.cs" />
+    <Compile Include="Entity Renders\Normal Renders\UI\SummaryEmerald.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Aquis.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Armadiloid.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\BouncePlant.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\BreakBar.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Buggernaut.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\ButtonDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Clucker.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\ControlPanel.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Crane.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Cylinder.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Dango.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\DoorTrigger.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Fan.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\FlameSpring.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\FlingRamp.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Flipper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\FoldingPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Funnel.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Grabber.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\HangConveyor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\HangPoint.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Launcher.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Letterboard.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\LightBarrier.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\LightBulb.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\MagPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\MSFactory.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\MSPanel.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\OneWayDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\PullSwitch.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\PushSpring.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\RockemSockem.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\RTeleporter.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\SpikeCrusher.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\SpikeFlail.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\SpinBooster.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\SpinSign.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Spiny.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\TeeterTotter.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Template.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\TippingPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\TurboSpiker.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\Turntable.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\TwistedTubes.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\TwistingDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Unordered\TwistingSlide.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionOptimizeSlotIDs.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionSortSlotIDs.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionSwapSlotIDs.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Editor Classes\EditorControl.cs" />
     <Compile Include="Editor Classes\EditorRecentsList.cs" />
     <Compile Include="Editor Classes\EditorLaunch.cs" />
+    <Compile Include="Editor Classes\EditorSolution.cs" />
     <Compile Include="Editor Classes\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
     <Compile Include="Editor Classes\EditorInit.cs" />
     <Compile Include="Editor Classes\EditorManiacINI.cs" />
     <Compile Include="Editor Classes\EditorDataPacks.cs" />
-    <Compile Include="Editor Classes\EditorDiscordRP.cs" />
+    <Compile Include="Editor Classes\DiscordRP.cs" />
     <Compile Include="Editor Classes\EditorFindReplace.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />
@@ -385,7 +569,6 @@
     <Compile Include="Editor Classes\EditorPath.cs" />
     <Compile Include="Editor Classes\EditorFileHandler.cs" />
     <Compile Include="Editor Classes\EditorTheming.cs" />
-    <Compile Include="Editor Classes\EditorTiles.cs" />
     <Compile Include="Editor Classes\EditorUI.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
     <Compile Include="Editor Classes\EditorZoomModel.cs" />
@@ -401,325 +584,146 @@
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatformNode.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedWarpDoor.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedRenderer.cs" />
-    <Compile Include="Entity Renders\Normal Renders\LRZConvDropper.cs">
+    <Compile Include="Entity Renders\Normal Renders\LRZ\LRZConvDropper.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LRZConvControl.cs">
+    <Compile Include="Entity Renders\Normal Renders\LRZ\LRZConvControl.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Iwamodoki.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\TitleBG.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\MicDrop.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\TitleSonic.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ClearScript.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Turbine.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\TitleLogo.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TitleBG.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\Title3DSprite.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TitleSonic.cs">
+    <Compile Include="Entity Renders\Normal Renders\AIZ\AIZTornado.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TitleLogo.cs">
+    <Compile Include="Entity Renders\Normal Renders\MSZ\BarStool.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Title3DSprite.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\Beanstalk.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\AIZTornado.cs">
+    <Compile Include="Entity Renders\Normal Renders\MSZ\CollapsingSand.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Armadiloid.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\GigaMetal.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BallCannon.cs">
+    <Compile Include="Entity Renders\Normal Renders\HCZ\HCZOneWayDoor.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BarStool.cs">
+    <Compile Include="Entity Renders\Normal Renders\LRZ\LRZFireball.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Beanstalk.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\Honkytonk.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BouncePlant.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\HotaruHiWatt.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Buggernaut.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\HotaruMKII.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ButtonDoor.cs">
+    <Compile Include="Entity Renders\Normal Renders\LRZ\LRZRockPile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Cactula.cs">
+    <Compile Include="Entity Renders\Normal Renders\LRZ\LRZSpiral.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\CollapsingSand.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\SDashWheel.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Constellation.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\SSZEggman.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Cylinder.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\SSZSpikeBall.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Dango.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIButton.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\DashLift.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIWinSize.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\DCEvent.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIResPicker.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Aquis.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIVsRoundPicker.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\EggLoco.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UITABanner.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Fan.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIInfoLabel.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Firework.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIMedallionPanel.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Flipper.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIVsResults.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FlowerPod.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIVsCharSelector.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\GasPlatform.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIOptionPanel.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\GiantPistol.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIKeyBinder.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\GigaMetal.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIChoice.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HandLauncher.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIButtonLabel.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HangConveyor.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIDiorama.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Hatch.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UICharButton.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HCZOneWayDoor.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIVsZoneButton.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LRZFireball.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UITAZoneModule.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Honkytonk.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UISubHeading.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HotaruHiWatt.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UISaveSlot.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HotaruMKII.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIButtonPrompt.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Jellygnite.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIModeButton.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LaundroMobile.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIHeading.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LightBulb.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIText.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LRZRockPile.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIPicture.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LRZSpiral.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\MegaOctus.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\MeterDroid.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\MSFactory.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\MSPanel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PaintingEyes.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Pinata.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PullChain.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PullSwitch.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PushSpring.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\RisingLava.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\RTeleporter.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ScrewMobile.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SDashWheel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SeeSaw.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SeltzerBottle.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Sol.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Spear.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SpikeCrusher.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SpikeFlail.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SSZEggman.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SSZSpikeBall.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SwingRope.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TimePost.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Tornado.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TornadoPath.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Toxomister.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TurboSpiker.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TwistingSlide.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SummaryEmerald.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIButton.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIWinSize.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIResPicker.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIVsRoundPicker.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UITABanner.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIInfoLabel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIMedallionPanel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIVsResults.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIVsCharSelector.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIOptionPanel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIKeyBinder.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIChoice.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIButtonLabel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIDiorama.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UICharButton.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIVsZoneButton.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UITAZoneModule.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UISubHeading.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UISaveSlot.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIButtonPrompt.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIModeButton.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIHeading.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIText.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIPicture.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UncurlPlant.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Valve.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Vultron.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PropellerShaft.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\YoyoPulley.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Enums + Shorthandings\ScrollDir.cs" />
-    <Compile Include="Enums + Shorthandings\Settings.cs" />
+    <Compile Include="Smaller Classes\Converters.cs" />
+    <Compile Include="Smaller Classes\Enums + Shorthandings\ScrollDir.cs" />
+    <Compile Include="Smaller Classes\Enums + Shorthandings\Settings.cs" />
     <Compile Include="Extensions\ArrayUtil.cs" />
-    <Compile Include="Extensions\Converters.cs" />
     <Compile Include="Extensions\CubicSpline.cs" />
-    <Compile Include="Extensions\DesignExtensions.cs" />
     <Compile Include="Extensions\SettingsProviders\DevSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\InternalSettingsProvider.cs" />
     <Compile Include="Extensions\SettingsProviders\KeybindSettingsProvider.cs" />
@@ -758,6 +762,7 @@
     <Compile Include="Interfaces\UserControls\SplitButton.xaml.cs">
       <DependentUpon>SplitButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\UserControls\StepScrollBehavior.cs" />
     <Compile Include="Interfaces\UserControls\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
@@ -812,14 +817,14 @@
     <Compile Include="Interfaces\Scene Editors\Object Manager\ObjectImporter.xaml.cs">
       <DependentUpon>ObjectImporter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Actions\ActionAddDeleteEntities.cs" />
-    <Compile Include="Actions\ActionDummy.cs" />
-    <Compile Include="Actions\ActionEntityPropertyChange.cs" />
-    <Compile Include="Actions\ActionMoveEntities.cs" />
-    <Compile Include="Actions\ActionChangeTile.cs" />
-    <Compile Include="Actions\ActionsGroup.cs" />
-    <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
-    <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionAddDeleteEntities.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionDummy.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionEntityPropertyChange.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionMoveEntities.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionChangeTile.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionsGroup.cs" />
+    <Compile Include="Smaller Classes\Actions\ActionsGroupCloseMarker.cs" />
+    <Compile Include="Smaller Classes\Actions\IAction.cs" />
     <Compile Include="Interfaces\Options + Dev\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -888,418 +893,66 @@
     <Compile Include="Interfaces\WinForm UI\DeviceLostBox.Designer.cs">
       <DependentUpon>DeviceLostBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorUIControls.cs" />
-    <Compile Include="Extensions\Discord.cs" />
-    <Compile Include="Enums + Shorthandings\DuplicateAction.cs" />
+    <Compile Include="Smaller Classes\Enums + Shorthandings\DuplicateAction.cs" />
     <Compile Include="Editor Classes\EditorAnimations.cs" />
     <Compile Include="Editor Classes\EditorBackground.cs" />
     <Compile Include="Editor Classes\EditorEntityDrawing.cs" />
-    <Compile Include="Editor Classes\EditorScene.cs" />
-    <Compile Include="Entity Renders\Normal Renders\AIZEggRobo.cs" />
-    <Compile Include="Entity Renders\Normal Renders\AIZRockPile.cs">
+    <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
+    <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Animals.cs">
+    <Compile Include="Entity Renders\Normal Renders\Global\Animals.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BGSwitch.cs">
+    <Compile Include="Entity Renders\Normal Renders\Global\BGSwitch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BigSqueeze.cs">
+    <Compile Include="Entity Renders\Normal Renders\Global\BreakableWall.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BlankObject.cs">
+    <Compile Include="Entity Renders\Normal Renders\Global\Bridge.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BoundsMarker.cs">
+    <Compile Include="Entity Renders\Normal Renders\CPZ\CaterkillerJr.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BreakableWall.cs">
+    <Compile Include="Entity Renders\Normal Renders\CPZ\ChemicalPool.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\BreakBar.cs">
+    <Compile Include="Entity Renders\Normal Renders\SPZ\CircleBumper.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Bridge.cs">
+    <Compile Include="Entity Renders\Normal Renders\SPZ\Clapperboard.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Button.cs">
+    <Compile Include="Entity Renders\Normal Renders\GHZ\DERobot.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\CableWarp.cs">
+    <Compile Include="Entity Renders\Normal Renders\SSZ\LaunchSpring.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\CaterkillerJr.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\TitleCard.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ChemicalPool.cs">
+    <Compile Include="Entity Renders\Normal Renders\Special\UFO_ItemBox.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Chopper.cs">
+    <Compile Include="Entity Renders\Normal Renders\Special\UFO_Player.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\CircleBumper.cs">
+    <Compile Include="Entity Renders\Normal Renders\Special\UFO_Ring.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Clapperboard.cs">
+    <Compile Include="Entity Renders\Normal Renders\Special\UFO_Sphere.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Clucker.cs">
+    <Compile Include="Entity Renders\Normal Renders\Special\UFO_Springboard.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\CollapsingPlatform.cs">
+    <Compile Include="Entity Renders\Normal Renders\UI\UIControl.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\CorkscrewPath.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Crane.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Current.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\CutsceneHBH.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Decoration.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\DERobot.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\DirectorChair.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\DNARiser.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\DoorTrigger.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Dragonfly.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\EggPrison.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\EggTV.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ElectroMagnet.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\EncoreRoute.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\EntityRenderer.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FBZFan.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FBZMissile.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FBZSinkTrash.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FBZTrash.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FilmProjector.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FlameSpring.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FlingRamp.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\FoldingPlatform.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ForceSpin.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ForceUnstick.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Funnel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\GenericTrigger.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Grabber.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HangGlider.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HangPoint.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\HUD.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Ice.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\IceBomba.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\InvisibleBlock.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\JuggleSaw.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Launcher.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LaunchSpring.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LEDPanel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Letterboard.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LightBarrier.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LottoBall.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\LottoMachine.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\MagPlatform.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\MonkeyDude.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Music.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Newspaper.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\OneWayDoor.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Outro_Intro_Object.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PaperRoller.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ParallaxSprite.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PetalPile.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PimPom.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PlaneSwitch.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Platform.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PlatformControl.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PlatformNode.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Player.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PopcornMachine.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Press.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PrintBlock.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PSZDoor.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\PSZLauncher.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Ring.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\RockemSockem.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\RubyFX.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\RubyPortal.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SchrodingersCapsule.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Shiversaw.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ShopWindow.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SignPost.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SpecialRing.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SpikeLog.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Spikes.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SpinBooster.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\SpinSign.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Spiny.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Splats.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\IceSpring.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Spring.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\StickyPlatform.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Syringe.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Technosqueek.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TeeterTotter.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Template.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Newtron.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ItemBox.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ControlPanel.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TetherBall.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TilePlatform.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TimeAttackGate.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TippingPlatform.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TitleCard.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TransportTube.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Tubinaut.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Tuesday.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Turntable.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TVPole.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TVVan.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TwistedTubes.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\TwistingDoor.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UFO_ItemBox.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UFO_Player.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UFO_Ring.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UFO_Sphere.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UFO_Springboard.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UIControl.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\WarpDoor.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Water.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\WaterfallSound.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\WaterGush.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\WeatherMobile.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Whirlpool.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\WoodChipper.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Woodrow.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ZipLine.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Entity Renders\Normal Renders\ZoneSetup.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Enums + Shorthandings\FlipDirection.cs" />
-    <Compile Include="Extensions\FolderSelectDialog.cs" />
+    <Compile Include="Smaller Classes\Enums + Shorthandings\FlipDirection.cs" />
     <Compile Include="Interfaces\WinForm UI\SoundLooper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1372,7 +1025,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\Reflector.cs" />
     <Compile Include="Layers + Objects\ScrollInfoLines.cs" />
     <Compile Include="Editor Classes\EditorSettings.cs" />
     <Compile Include="WPF + Winform Stuff\SkinResourceDictionary.cs" />
@@ -1920,7 +1572,12 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entity Renders\Normal Renders\BS\" />
+    <Folder Include="Entity Renders\Normal Renders\ERZ\" />
+    <Folder Include="Entity Renders\Normal Renders\MMZ\" />
+    <Folder Include="Entity Renders\Normal Renders\TMZ\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.ClearScript.5.5.5\build\Microsoft.ClearScript.targets" Condition="Exists('..\packages\Microsoft.ClearScript.5.5.5\build\Microsoft.ClearScript.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -154,7 +154,7 @@ namespace ManiacEditor
         private void RemoveKeyButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 Instance.DataPacks.ModListInformation.RemoveAt(KeyList.SelectedIndex);
@@ -195,7 +195,7 @@ namespace ManiacEditor
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 Instance.DataPacks.SaveFile();
@@ -271,7 +271,7 @@ namespace ManiacEditor
         private void RemoveValueButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValueIndexValid() == false) return;
-            MessageBoxResult result = RSDKrU.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
                 Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
@@ -297,7 +297,7 @@ namespace ManiacEditor
 
         private void FindDirectoryButton_Click(object sender, RoutedEventArgs e)
         {
-            FolderSelectDialog folderSelect = new FolderSelectDialog();   
+            GenerationsLib.Core.FolderSelectDialog folderSelect = new GenerationsLib.Core.FolderSelectDialog();   
             if (folderSelect.ShowDialog() == true)
             {
                 ValueTextBox.Text = folderSelect.FileName;
@@ -315,7 +315,8 @@ namespace ManiacEditor
         {
             if (Instance.DataPacks.ModListInformation != ModListInformationUnedited)
             {
-                MessageBoxResult result = RSDKrU.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
+                //MessageBoxResult result = System.Windows.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
+                MessageBoxResult result = System.Windows.MessageBox.Show("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.Yes)
                 {
                     Instance.DataPacks.SaveFile();
@@ -344,7 +345,7 @@ namespace ManiacEditor
             }
             else
             {
-                RSDKrU.MessageBox.Show("File does not exist at " + System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini"), "ERROR");
+                System.Windows.MessageBox.Show("File does not exist at " + System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "ModPackLists.ini"), "ERROR");
             }
         }
 

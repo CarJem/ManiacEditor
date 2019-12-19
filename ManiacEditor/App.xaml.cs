@@ -5,7 +5,7 @@ namespace ManiacEditor
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public enum Skin { Dark, Light, CarJem, Shard, CodenameGamma }
+    public enum Skin { Dark, Light }
 
     public partial class App : Application
     {

@@ -14,7 +14,7 @@ namespace ManiacEditor
 		public Editor EditorInstance;
 
 		bool disposing = false;
-		RSDKv5.GIF TileGridImage;
+		ManiacEditor.GIF TileGridImage;
 		string TilesImagePath;
 		public Action<int> TileDoubleClick { get; set; } 
 
@@ -122,7 +122,7 @@ namespace ManiacEditor
 
         public void UpdateThemeColors()
         {
-            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark || App.Skin == Skin.CarJem ? EditorTheming.darkTheme0 : System.Drawing.Color.White);
+            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark ? EditorTheming.darkTheme0 : System.Drawing.Color.White);
             this.ChunkList.BackColor = ListBackColor;
             this.tilePanel.BackColor = ListBackColor;
             this.TilesList.BackColor = ListBackColor;
@@ -249,12 +249,12 @@ namespace ManiacEditor
 
 		private void TilePanel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorInstance.UIControl.GraphicPanel_OnKeyDown(sender, e);
+			EditorInstance.EditorControls.GraphicPanel_OnKeyDown(sender, e);
 		}
 
 		private void TilePanel_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorInstance.UIControl.GraphicPanel_OnKeyUp(sender, e);
+			EditorInstance.EditorControls.GraphicPanel_OnKeyUp(sender, e);
 		}
 
 		private void ChunkList_SelectedIndexChanged(object sender, EventArgs e)
@@ -457,13 +457,13 @@ namespace ManiacEditor
 		{
 			if (show)
 			{
-				option1CheckBox.Content = "Flip Horizontal " + Environment.NewLine + EditorInstance.UIControl.KeyBindPraser("FlipHTiles", true);
-				option2CheckBox.Content = "Flip Vertical " + Environment.NewLine + EditorInstance.UIControl.KeyBindPraser("FlipVTiles", true);
+				option1CheckBox.Content = "Flip Horizontal " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipHTiles", true);
+				option2CheckBox.Content = "Flip Vertical " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipVTiles", true);
 			}
 			else
 			{
-				option1CheckBox.Content = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.UIControl.KeyBindPraser("FlipH"));
-				option2CheckBox.Content = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.UIControl.KeyBindPraser("FlipV"));
+				option1CheckBox.Content = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipH"));
+				option2CheckBox.Content = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipV"));
 			}
 		}
 

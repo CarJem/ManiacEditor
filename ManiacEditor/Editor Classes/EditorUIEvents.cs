@@ -100,8 +100,8 @@ namespace ManiacEditor
 			if (Result == null)
 				return;
 
-			Editor.UnloadScene();
-			Editor.Settings.UseDefaultPrefrences();
+            EditorSolution.UnloadScene();
+            Editor.Settings.UseDefaultPrefrences();
 			File.Replace(Result, ResultOriginal, ResultOld);
 
 		}
@@ -146,11 +146,11 @@ namespace ManiacEditor
 			}
 			else if (Editor.IsEntitiesEdit())
 			{
-                Editor.Entities.SelectAll();
+                EditorSolution.Entities.SelectAll();
             }
 			Editor.UI.SetSelectOnlyButtonsState();
-			Editor.StateModel.SelectionX1 = -1;
-			Editor.StateModel.SelectionY1 = -1;
+			EditorStateModel.RegionX1 = -1;
+            EditorStateModel.RegionY1 = -1;
 		}
 
 		public void FlipHorizontal()
@@ -197,12 +197,12 @@ namespace ManiacEditor
 			{
 				try
 				{
-					Editor.Entities.PasteFromClipboard(new Point(16, 16), Editor.Entities.CopyToClipboard(true));
+					EditorSolution.Entities.PasteFromClipboard(new Point(16, 16), EditorSolution.Entities.CopyToClipboard(true));
 					Editor.UpdateLastEntityAction();
 				}
 				catch (EditorEntities.TooManyEntitiesException)
 				{
-					RSDKrU.MessageBox.Show("Too many entities! (limit: 2048)");
+					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
 					return;
 				}
 				Editor.UI.SetSelectOnlyButtonsState();
@@ -267,12 +267,12 @@ namespace ManiacEditor
                 if (Editor.IsChunksEdit())
                 {
 
-                    Point p = new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom), (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom));
+                    Point p = new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom));
                     return EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {
-                    return new Point((int)(Editor.StateModel.lastX / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Editor.StateModel.lastY / Editor.StateModel.Zoom) + EditorConstants.TILE_SIZE - 1);
+                    return new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(EditorStateModel.LastY / EditorStateModel.Zoom) + EditorConstants.TILE_SIZE - 1);
 
                 }
             }
@@ -421,7 +421,7 @@ namespace ManiacEditor
 						fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
 						if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 						{
-							Editor.EncorePalette = Editor.EditorScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
+							Editor.EncorePalette = EditorSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
 							Editor.UIModes.EncoreSetupType = 0;
 							if (File.Exists(Editor.EncorePalette[0]))
 							{
@@ -434,12 +434,12 @@ namespace ManiacEditor
 				}
 				catch (Exception ex)
 				{
-					RSDKrU.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
+					System.Windows.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
 				}
 			}
 			else if (path != "")
 			{
-				Editor.EncorePalette = Editor.EditorScene.GetEncorePalette("", "", "", "", -1, path);
+				Editor.EncorePalette = EditorSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
 				Editor.UIModes.EncoreSetupType = 0;
 				if (File.Exists(Editor.EncorePalette[0]))
 				{
@@ -448,7 +448,7 @@ namespace ManiacEditor
 				}
 				else
 				{
-					RSDKrU.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
+					System.Windows.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
 				}
 			}
 
@@ -463,7 +463,7 @@ namespace ManiacEditor
                 Editor.UIModes.entitiesTextFilter = theSender.Text;
                 Editor.toolStripTextBox1.Text = Editor.UIModes.entitiesTextFilter;
                 //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
-                Editor.Entities.FilterRefreshNeeded = true;
+                EditorSolution.Entities.FilterRefreshNeeded = true;
                 lockTextBox = false;
             }
 
@@ -516,8 +516,8 @@ namespace ManiacEditor
         #region Tools Tab Buttons
         public void ChangeLevelID(object sender, RoutedEventArgs e)
 		{
-			string inputValue = RSDKrU.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.UIModes.LevelID.ToString());
-			int.TryParse(inputValue.ToString(), out int output);
+            string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.UIModes.LevelID.ToString());
+            int.TryParse(inputValue.ToString(), out int output);
 			Editor.UIModes.LevelID = output;
 			Editor._levelIDLabel.Content = "Level ID: " + Editor.UIModes.LevelID.ToString();
 		}
@@ -529,10 +529,10 @@ namespace ManiacEditor
 		public void MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			string dataDir = Editor.DataDirectory;
-			string scenePath = Editor.Discord.ScenePath;
-			int rX = (short)(Editor.StateModel.ShiftX);
-			int rY = (short)(Editor.StateModel.ShiftY);
-			double _ZoomLevel = Editor.StateModel.ZoomLevel;
+			string scenePath = Editor.Paths.GetScenePath();
+			int rX = (short)(EditorStateModel.ViewPositionX);
+			int rY = (short)(EditorStateModel.ViewPositionY);
+			double _ZoomLevel = EditorStateModel.ZoomLevel;
 			bool isEncoreSet = Editor.UIModes.UseEncoreColors;
 			int levelSlotNum = Editor.UIModes.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
@@ -540,7 +540,7 @@ namespace ManiacEditor
 		public void MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			string dataDir = Editor.DataDirectory;
-			string scenePath = Editor.Discord.ScenePath;
+			string scenePath = Editor.Paths.GetScenePath();
 			int rX = 0;
 			int rY = 0;
 			bool isEncoreSet = Editor.UIModes.UseEncoreColors;
@@ -647,9 +647,9 @@ namespace ManiacEditor
 		{
 			Settings.MyDevSettings.DevForceRestartData = Editor.DataDirectory;
 			Settings.MyDevSettings.DevForceRestartScene = Editor.Paths.SceneFilePath;
-			Settings.MyDevSettings.DevForceRestartX = (short)(Editor.StateModel.ShiftX / Editor.StateModel.Zoom);
-			Settings.MyDevSettings.DevForceRestartY = (short)(Editor.StateModel.ShiftY / Editor.StateModel.Zoom);
-			Settings.MyDevSettings.DevForceRestartZoomLevel = Editor.StateModel.ZoomLevel;
+			Settings.MyDevSettings.DevForceRestartX = (short)(EditorStateModel.ViewPositionX / EditorStateModel.Zoom);
+			Settings.MyDevSettings.DevForceRestartY = (short)(EditorStateModel.ViewPositionY / EditorStateModel.Zoom);
+			Settings.MyDevSettings.DevForceRestartZoomLevel = EditorStateModel.ZoomLevel;
 			Settings.MyDevSettings.DevForceRestartIsEncore = Editor.Paths.isEncoreMode;
 			Settings.MyDevSettings.DevForceRestartID = Editor.UIModes.LevelID;
 			Settings.MyDevSettings.DevForceRestartCurrentName = Editor.Paths.CurrentName;
@@ -675,20 +675,20 @@ namespace ManiacEditor
 
 		public void ZoomIn(object sender, RoutedEventArgs e)
 		{
-			Editor.StateModel.ZoomLevel += 1;
-			if (Editor.StateModel.ZoomLevel >= 5) Editor.StateModel.ZoomLevel = 5;
-			if (Editor.StateModel.ZoomLevel <= -5) Editor.StateModel.ZoomLevel = -5;
+			EditorStateModel.ZoomLevel += 1;
+			if (EditorStateModel.ZoomLevel >= 5) EditorStateModel.ZoomLevel = 5;
+			if (EditorStateModel.ZoomLevel <= -5) EditorStateModel.ZoomLevel = -5;
 
-			Editor.ZoomModel.SetZoomLevel(Editor.StateModel.ZoomLevel, new Point(0, 0));
+			Editor.ZoomModel.SetZoomLevel(EditorStateModel.ZoomLevel, new Point(0, 0));
 		}
 
 		public void ZoomOut(object sender, RoutedEventArgs e)
 		{
-			Editor.StateModel.ZoomLevel -= 1;
-			if (Editor.StateModel.ZoomLevel >= 5) Editor.StateModel.ZoomLevel = 5;
-			if (Editor.StateModel.ZoomLevel <= -5) Editor.StateModel.ZoomLevel = -5;
+			EditorStateModel.ZoomLevel -= 1;
+			if (EditorStateModel.ZoomLevel >= 5) EditorStateModel.ZoomLevel = 5;
+			if (EditorStateModel.ZoomLevel <= -5) EditorStateModel.ZoomLevel = -5;
 
-			Editor.ZoomModel.SetZoomLevel(Editor.StateModel.ZoomLevel, new Point(0, 0));
+			Editor.ZoomModel.SetZoomLevel(EditorStateModel.ZoomLevel, new Point(0, 0));
 		}
 
 

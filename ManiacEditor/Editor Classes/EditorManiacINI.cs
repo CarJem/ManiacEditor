@@ -124,14 +124,14 @@ namespace ManiacEditor
                     {
                         string toBeSwapped = list[i];
                         string toSet = list[i + 1];
-                        //RSDKrU.MessageBox.Show(toBeSwapped + "-> " + toSet);
+                        //System.Windows.MessageBox.Show(toBeSwapped + "-> " + toSet);
                         Instance.userDefinedEntityRenderSwaps.Add(toBeSwapped, toSet);
                         i = i + 2;
                     }
                 }
                 else
                 {
-                    RSDKrU.MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
+                    System.Windows.MessageBox.Show("There is an odd number of swaps for entity names, please double check your maniac.ini file");
                 }
 
 
@@ -283,7 +283,7 @@ namespace ManiacEditor
 					fullInfo += String.Format("   {0}={1}", key.Item1, key.Item2) + n;
 				}
 			}
-			RSDKrU.MessageBox.Show(fullInfo);
+			System.Windows.MessageBox.Show(fullInfo);
 		}
 
 		public void SaveFile()

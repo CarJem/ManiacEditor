@@ -37,7 +37,7 @@ namespace ManiacEditor.Interfaces
             else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 
-        public ObjectImporter(string dataFolderBase, GameConfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Editor instance)
+        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Editor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -68,7 +68,7 @@ namespace ManiacEditor.Interfaces
             }
         }
 
-        public void GenerateMegaList(string dataFolderBase, GameConfig SourceConfig, IList<SceneObject> targetSceneObjects)
+        public void GenerateMegaList(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects)
         {
             var targetNames = targetSceneObjects.Select(tso => tso.Name.ToString());
             _sourceSceneObjects = new List<SceneObject>();
@@ -270,7 +270,7 @@ namespace ManiacEditor.Interfaces
 			}
 			catch (Exception ex)
 			{
-				RSDKrU.MessageBox.Show("Unable to import Objects. " + ex.Message);
+                System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
 				DialogResult = false;
 				Close();
 			}

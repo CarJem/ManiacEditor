@@ -36,7 +36,7 @@ namespace ManiacEditor.Interfaces
 
 		private void button3_Click(object sender, RoutedEventArgs e)
 		{
-			FolderSelectDialog path = new FolderSelectDialog();
+			GenerationsLib.Core.FolderSelectDialog path = new GenerationsLib.Core.FolderSelectDialog();
 			path.ShowDialog();
 			if (path.FileName != null)
 			{

@@ -72,7 +72,7 @@ namespace ManiacEditor
 					fullInfo += String.Format("   {0}={1}", key.Item1, key.Item2) + n;
 				}
 			}
-			RSDKrU.MessageBox.Show(fullInfo);
+			System.Windows.MessageBox.Show(fullInfo);
 		}
 
 		public void SaveFile()

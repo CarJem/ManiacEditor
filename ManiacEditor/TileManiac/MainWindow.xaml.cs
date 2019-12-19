@@ -82,11 +82,11 @@ namespace ManiacEditor
 		List<Bitmap> Tiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles
 		List<Bitmap> IndexedTiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles (Preserving Color Pallete)
 
-		public EditorUIControl EditorControls { get => GetEditorUIControls(); }
+		public EditorControl EditorControls { get => GetEditorUIControls(); }
 
-        private EditorUIControl GetEditorUIControls()
+        private EditorControl GetEditorUIControls()
         {
-            if (Editor.Instance != null) return Editor.Instance.UIControl;
+            if (Editor.Instance != null) return Editor.Instance.EditorControls;
             else return null;
 
         }

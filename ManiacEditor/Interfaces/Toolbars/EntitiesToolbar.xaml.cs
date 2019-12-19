@@ -184,7 +184,7 @@ namespace ManiacEditor
 		{
 
 			//This if statement Triggers when the toolbar opens for the first time
-			if (FirstLoad) _entities = EditorInstance.Entities.Entities.Select(x => x.Entity).ToList();
+			if (FirstLoad) _entities = EditorSolution.Entities.Entities.Select(x => x.Entity).ToList();
             SceneEntitiesList.Items.Clear();
 
             int count = (2301 > _entities.Count() ? _entities.Count() : 2031);
@@ -246,7 +246,7 @@ namespace ManiacEditor
             if (currentEntity != null) GoToObject.IsEnabled = true;
 			else GoToObject.IsEnabled = false;
 
-            if (EditorInstance.Entities.SelectedEntities != null && EditorInstance.Entities.SelectedEntities.Count > 1 && !EditorInstance.Entities.SelectedEntities.ToList().Exists(x => x.IsInternalObject))
+            if (EditorSolution.Entities.SelectedEntities != null && EditorSolution.Entities.SelectedEntities.Count > 1 && !EditorSolution.Entities.SelectedEntities.ToList().Exists(x => x.IsInternalObject))
             {
                 SortSelectedSlotIDs.IsEnabled = true;
                 SortSelectedSlotIDsOptimized.IsEnabled = true;
@@ -421,9 +421,9 @@ namespace ManiacEditor
         private void UpdateSelectedEntitiesList()
         {
             SelectionViewer.Children.Clear();
-            if (EditorInstance.Entities.SelectedEntities != null)
+            if (EditorSolution.Entities.SelectedEntities != null)
             {
-                foreach (var entity in EditorInstance.Entities.SelectedEntities.OrderBy(x => x.TimeWhenSelected))
+                foreach (var entity in EditorSolution.Entities.SelectedEntities.OrderBy(x => x.TimeWhenSelected))
                 {
                     TextBlock entry = new TextBlock();
                     entry.Text = string.Format("{0} | {1} | ID:{2} | X:{3},Y:{4}", string.Format("{0}", entity.SelectedIndex + 1), entity.Name, entity.Entity.SlotID, entity.Entity.Position.X.High, entity.Entity.Position.Y.High);
@@ -855,19 +855,19 @@ namespace ManiacEditor
                     switch (Settings.MyDefaults.DefaultFilter[0])
                     {
                         case 'M':
-                            EditorInstance.Entities.DefaultFilter = 2;
+                            EditorSolution.Entities.DefaultFilter = 2;
                             break;
                         case 'E':
-                            EditorInstance.Entities.DefaultFilter = 4;
+                            EditorSolution.Entities.DefaultFilter = 4;
                             break;
                         case 'B':
-                            EditorInstance.Entities.DefaultFilter = 1;
+                            EditorSolution.Entities.DefaultFilter = 1;
                             break;
                         case 'P':
-                            EditorInstance.Entities.DefaultFilter = 255;
+                            EditorSolution.Entities.DefaultFilter = 255;
                             break;
                         default:
-                            EditorInstance.Entities.DefaultFilter = 0;
+                            EditorSolution.Entities.DefaultFilter = 0;
                             break;
                     }
                     Spawn?.Invoke(obj);
@@ -929,17 +929,17 @@ namespace ManiacEditor
 
         private void SortSelectedSlotIDs_Click(object sender, RoutedEventArgs e)
         {
-            EditorInstance.Entities.OrderSelectedSlotIDs();
+            EditorSolution.Entities.OrderSelectedSlotIDs();
         }
 
         private void SortSelectedSlotIDsOptimized_Click(object sender, RoutedEventArgs e)
         {
-            EditorInstance.Entities.OrderSelectedSlotIDs(true);
+            EditorSolution.Entities.OrderSelectedSlotIDs(true);
         }
 
         private void SortSelectedSlotIDsOrdered_Click(object sender, RoutedEventArgs e)
         {
-            EditorInstance.Entities.OrderSelectedSlotIDs(false, true);
+            EditorSolution.Entities.OrderSelectedSlotIDs(false, true);
         }
 
         private void EntitiesList_Click(object sender, RoutedEventArgs e)
@@ -966,10 +966,10 @@ namespace ManiacEditor
         private void EntitiesListEntryClicked(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
-            Editor.Instance.Entities.Deselect();
-            Editor.Instance.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
+            EditorSolution.Entities.Deselect();
+            EditorSolution.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
             TabControl.SelectedIndex = 0;
-            SelectedEntities = Editor.Instance.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+            SelectedEntities = EditorSolution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -990,10 +990,10 @@ namespace ManiacEditor
 
                 if (ObjectList[index] != null)
                 {
-                    Editor.Instance.Entities.Deselect();
-                    Editor.Instance.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
+                    EditorSolution.Entities.Deselect();
+                    EditorSolution.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
                     TabControl.SelectedIndex = 0;
-                    SelectedEntities = Editor.Instance.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+                    SelectedEntities = EditorSolution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
                 }
             }
 
