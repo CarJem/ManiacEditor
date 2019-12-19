@@ -7,17 +7,23 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Globalization;
 using System.Windows.Media;
 using ManiacEditor.Converters;
 
 namespace ManiacEditor.Interfaces
 {
-    /// <summary>
-    /// Interaction logic for LayerEditor.xaml
-    /// </summary>
-    public partial class LayerManager : Window
+	/// <summary>
+	/// Converts a number of tiles, in any one dimension, to the equivalent number of pixels.
+	/// </summary>
+
+
+	/// <summary>
+	/// Interaction logic for LayerEditor.xaml
+	/// </summary>
+	public partial class LayerManager : Window
 	{
-		private EditorScene _editorScene;
+		private EditorSolution.EditorScene _editorScene;
 		private IList<EditorLayer> Layers
 		{
 			get => _editorScene?.AllLayersList;
@@ -54,7 +60,7 @@ namespace ManiacEditor.Interfaces
 
 
 		// I clearly have no understanding of WinForms Data Binding
-		public LayerManager(EditorScene editorScene)
+		public LayerManager(EditorSolution.EditorScene editorScene)
 		{
 			InitializeComponent();
 			_editorScene = editorScene;

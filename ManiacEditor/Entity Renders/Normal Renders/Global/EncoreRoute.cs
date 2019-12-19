@@ -14,9 +14,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            if (Editor.Instance.EditorScene?.Scratch != null)
+            if (EditorSolution.CurrentScene?.Scratch != null)
             {
-                EditorLayer Scratch = Editor.Instance.EditorScene?.Scratch;
+                EditorLayer Scratch = EditorSolution.CurrentScene?.Scratch;
 
                 _layer = Scratch.Layer;
                 bool fliph = false;
@@ -126,7 +126,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Editor.Instance.EditorTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(EditorSolution.CurrentTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
         }
 

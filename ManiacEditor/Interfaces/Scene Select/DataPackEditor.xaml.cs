@@ -297,7 +297,7 @@ namespace ManiacEditor
 
         private void FindDirectoryButton_Click(object sender, RoutedEventArgs e)
         {
-            FolderSelectDialog folderSelect = new FolderSelectDialog();   
+            GenerationsLib.Core.FolderSelectDialog folderSelect = new GenerationsLib.Core.FolderSelectDialog();   
             if (folderSelect.ShowDialog() == true)
             {
                 ValueTextBox.Text = folderSelect.FileName;

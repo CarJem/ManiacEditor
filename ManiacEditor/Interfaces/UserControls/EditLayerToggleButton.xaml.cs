@@ -21,10 +21,10 @@ namespace ManiacEditor
         {
             try
             {
-                if (Editor.Instance.EditorScene.AllLayers.Any(x => x.Name == Text))
+                if (EditorSolution.CurrentScene.AllLayers.Any(x => x.Name == Text))
                 {
-                    var sourceLayer = Editor.Instance.EditorScene.AllLayers.Single(el => el.Name.Equals(Text));
-                    _ShowLayerScrollLines = Editor.Instance.EditorScene.AllLayers.Single(el => el.Name.Equals(Text)).ShowLayerScrollLines;
+                    var sourceLayer = EditorSolution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
+                    _ShowLayerScrollLines = EditorSolution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).ShowLayerScrollLines;
                     ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
                     return _ShowLayerScrollLines;
                 }
@@ -47,8 +47,8 @@ namespace ManiacEditor
 
         private void SetShowLayerScrollLines(bool value)
         {
-            Editor.Instance.EditorScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines = value;
-            _ShowLayerScrollLines = Editor.Instance.EditorScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines;
+            EditorSolution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines = value;
+            _ShowLayerScrollLines = EditorSolution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines;
             ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
         }
 
@@ -60,10 +60,10 @@ namespace ManiacEditor
         {
             try
             {
-                if (Editor.Instance.EditorScene.AllLayers.Any(x => x.Name == Text))
+                if (EditorSolution.CurrentScene.AllLayers.Any(x => x.Name == Text))
                 {
-                    var sourceLayer = Editor.Instance.EditorScene.AllLayers.Single(el => el.Name.Equals(Text));
-                    _AllowParallaxAnimation = Editor.Instance.EditorScene.AllLayers.Single(el => el.Name.Equals(Text)).AllowLayerToAnimateParallax;
+                    var sourceLayer = EditorSolution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
+                    _AllowParallaxAnimation = EditorSolution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).AllowLayerToAnimateParallax;
                     AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
                     return _AllowParallaxAnimation;
                 }
@@ -86,9 +86,9 @@ namespace ManiacEditor
 
         private void SetAllowParallaxAnimation(bool value)
         {
-            Editor.Instance.EditorScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax = value;
-            _AllowParallaxAnimation = Editor.Instance.EditorScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax;
-            if (value == true) Editor.Instance.EditorScene.AllLayers.FirstOrDefault(x => x.Name == Text).HasHorizontalLayerScrollInitilized = false;
+            EditorSolution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax = value;
+            _AllowParallaxAnimation = EditorSolution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax;
+            if (value == true) EditorSolution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).HasHorizontalLayerScrollInitilized = false;
             AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
         }
         #endregion

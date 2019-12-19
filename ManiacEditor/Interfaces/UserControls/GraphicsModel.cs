@@ -59,7 +59,7 @@ namespace ManiacEditor.Interfaces
 
         public double GetZoom()
         {
-            return EditorInstance.StateModel.Zoom;
+            return EditorStateModel.Zoom;
         }
 
 		public new void Dispose()
@@ -74,22 +74,22 @@ namespace ManiacEditor.Interfaces
 
         public Rectangle GetScreen()
         {
-            if (Settings.MySettings.EntityFreeCam) return new Rectangle(EditorInstance.StateModel.CustomX, EditorInstance.StateModel.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            if (Settings.MySettings.EntityFreeCam) return new Rectangle(EditorStateModel.CustomX, EditorStateModel.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
             else return new Rectangle((int)EditorStateModel.ViewPositionX, (int)EditorStateModel.ViewPositionY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
         }
 
         public void DisposeTextures()
         {
             // Make sure to dispose the textures of the extra layers too
-            Editor.Instance.EditorTiles?.Dispose();
+            EditorSolution.CurrentTiles?.Dispose();
             if (EditorInstance.FGHigh != null) EditorInstance.FGHigh?.DisposeTextures();
             if (EditorInstance.FGLow != null) EditorInstance.FGLow?.DisposeTextures();
             if (EditorInstance.FGHigher != null) EditorInstance.FGHigher?.DisposeTextures();
             if (EditorInstance.FGLower != null) EditorInstance.FGLower?.DisposeTextures();
 
-			if (Editor.Instance.EditorScene != null)
+			if (EditorSolution.CurrentScene != null)
 			{
-				foreach (var el in Editor.Instance.EditorScene?.OtherLayers)
+				foreach (var el in EditorSolution.CurrentScene?.OtherLayers)
 				{
 					el.DisposeTextures();
 				}

@@ -24,7 +24,7 @@ namespace ManiacEditor
         {
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-
+            DiscordRP.InitDiscord();
 
             string appPath = string.Format(@"{0}\{1}.exe", GetExecutingDirectoryName(), Assembly.GetExecutingAssembly().GetName().Name);
             Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ PERPROCESSSYSTEMDPIFORCEON DPIUNAWARE");
@@ -120,6 +120,7 @@ Missing file: {fnfe.FileName}");
 
 
             }
+            DiscordRP.DisposeDiscord();
         }
 
         private static void StartApp()

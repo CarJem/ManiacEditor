@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GenerationsLib", "Generatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lock-On Apps", "Lock-On Apps", "{17266035-2C8E-49D7-A0DE-942080AF9626}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManiacEditor.Core", "ManiacEditor.Core\ManiacEditor.Core.csproj", "{8DB31C93-6810-4C60-86C4-5D8733E082DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +153,18 @@ Global
 		{335800A2-F482-4AE6-9017-57D7C3C52110}.Release|x64.Build.0 = Release|Any CPU
 		{335800A2-F482-4AE6-9017-57D7C3C52110}.Release|x86.ActiveCfg = Release|x86
 		{335800A2-F482-4AE6-9017-57D7C3C52110}.Release|x86.Build.0 = Release|x86
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Debug|x64.Build.0 = Debug|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Debug|x86.Build.0 = Debug|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Release|x64.ActiveCfg = Release|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Release|x64.Build.0 = Release|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{8DB31C93-6810-4C60-86C4-5D8733E082DC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

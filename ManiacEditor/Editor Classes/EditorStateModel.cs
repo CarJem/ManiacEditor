@@ -7,16 +7,10 @@ namespace ManiacEditor
 {
     public class EditorStateModel
     {
-        string newLine = Environment.NewLine;
         public Editor EditorInstance;
-        public bool panelMode = false;
         public EditorStateModel(Editor instance)
         {
             EditorInstance = instance;
-            //t = new System.Windows.Forms.Timer();
-            //t.Interval = 10;
-            //t.Tick += new EventHandler(setText);
-            //t.Start();
         }
 
         #region Debug HUD Information
@@ -101,9 +95,9 @@ namespace ManiacEditor
 
         public string GetSetupObject()
         {
-            if (EditorInstance.Entities != null && EditorInstance.Entities.SetupObject != null && EditorInstance.Entities.SetupObject != "")
+            if (EditorSolution.Entities != null && EditorSolution.Entities.SetupObject != null && EditorSolution.Entities.SetupObject != "")
             {
-                return "Setup Object: " + EditorInstance.Entities.SetupObject;
+                return "Setup Object: " + EditorSolution.Entities.SetupObject;
             }
             else
             {
@@ -114,27 +108,19 @@ namespace ManiacEditor
 
         #endregion
 
-        #region Editing States 
-        //Editor Editing States
+        public static int LastX { get; set; }
+        public static int LastY { get; set; }
+        public static int DraggedX { get; set; }
+        public static int DraggedY { get; set; }
 
-        public int lastX { get; set; }
-        public int lastY { get; set; }
-        public int draggedX { get; set; }
-        public int draggedY { get; set; }
+        public static int ScreenWidth { get; set; }
+        public static int ScreenHeight { get; set; }
+        public static int CustomX { get; set; } = 0;
+        public static int CustomY { get; set; } = 0;
 
-        public int ScreenWidth { get; set; }
-        public int ScreenHeight { get; set; }
-        public int CustomX { get; set; } = 0;
-        public int CustomY { get; set; } = 0;
-
-        #region Viewer Position
 
         public static int ViewPositionX { get; set; } = 0;
         public static int ViewPositionY { get; set; } = 0;
-
-        #endregion
-
-        #region Selection and Select Region
 
         public static int RegionX1 { get; set; } = -1;
         public static int RegionY1 { get; set; } = -1;
@@ -146,33 +132,25 @@ namespace ManiacEditor
         public static int select_y1 { get; set; }
         public static int select_y2 { get; set; }
 
-        #endregion
 
-        #region Scrolling/Dragging/Zooming States
-
-        public bool DraggingSelection { get; set; } = false; //Determines if we are dragging a selection
-        public bool Dragged { get; set; } = false;
-        public bool StartDragged { get; set; } = false;
-        public bool Zooming { get; set; } = false;  //Detects if we are zooming
-        public double Zoom { get; set; } = 1; //Double Value for Zoom Levels
-        public int ZoomLevel { get; set; } = 0; //Interger Value for Zoom Levels
-        public bool Scrolling { get; set; } = false; //Determines if the User is Scrolling
-        public bool ScrollingDragged { get; set; } = false;
-        public bool WheelClicked { get; set; } = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
-        public Point ScrollPosition { get; set; } //For Getting the Scroll Position
-
-        #endregion
+        public static bool DraggingSelection { get; set; } = false; //Determines if we are dragging a selection
+        public static bool Dragged { get; set; } = false;
+        public static bool StartDragged { get; set; } = false;
+        public static bool Zooming { get; set; } = false;  //Detects if we are zooming
+        public static double Zoom { get; set; } = 1; //Double Value for Zoom Levels
+        public static int ZoomLevel { get; set; } = 0; //Interger Value for Zoom Levels
+        public static bool Scrolling { get; set; } = false; //Determines if the User is Scrolling
+        public static bool ScrollingDragged { get; set; } = false;
+        public static bool WheelClicked { get; set; } = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
+        public static Point ScrollPosition { get; set; } //For Getting the Scroll Position
 
 
+        public static int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
+        public static int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
+        public static int SelectedTileX { get; set; } = 0; //Used to get a single Selected Tile's X
+        public static int SelectedTileY { get; set; } = 0; //Used to get a single Selected Tile's Y
 
 
-        public int SelectedTilesCount; //Used to get the Amount of Selected Tiles in a Selection
-        public int DeselectTilesCount; //Used in combination with SelectedTilesCount to get the definitive amount of Selected Tiles
-        public int SelectedTileX { get; set; } = 0; //Used to get a single Selected Tile's X
-        public int SelectedTileY { get; set; } = 0; //Used to get a single Selected Tile's Y
-
-
-        public bool isTileDrawing { get; set; } = false;
-        #endregion
+        public static bool isTileDrawing { get; set; } = false;
     }
 }
