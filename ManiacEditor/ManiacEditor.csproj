@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ManiacEditor</RootNamespace>
     <AssemblyName>ManiacEditor</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -271,7 +271,6 @@
       <HintPath>..\packages\DiscordRichPresence.1.0.121\lib\net35\DiscordRPC.dll</HintPath>
     </Reference>
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
     <Reference Include="Magick.NET-Q8-AnyCPU, Version=7.9.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
@@ -1326,13 +1325,17 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GenerationsLib\GenerationsLib.Core\GenerationsLib.Core.csproj">
+      <Project>{51ca42a9-58f0-4f3d-a250-bc22d8a8540e}</Project>
+      <Name>GenerationsLib.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenerationsLib\GenerationsLib.WPF\GenerationsLib.WPF.csproj">
+      <Project>{335800a2-f482-4ae6-9017-57d7c3c52110}</Project>
+      <Name>GenerationsLib.WPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ManiacED-ManiaPal\ManiacED-ManiaPal.csproj">
       <Project>{f75427b3-facd-43a9-af49-98a0f3aaadb5}</Project>
       <Name>ManiacED-ManiaPal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RSDK-Reverse\RSDKrU\RSDKrU.csproj">
-      <Project>{2ba290f0-4e82-4b58-aab4-3c431ee4de62}</Project>
-      <Name>RSDKrU</Name>
     </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKv1\RSDKv1.csproj">
       <Project>{e089db56-f8d4-434e-a9a8-c7efcc3278d8}</Project>
@@ -1353,10 +1356,6 @@
     <ProjectReference Include="..\RSDK-Reverse\RSDKvRS\RSDKvRS.csproj">
       <Project>{aae1bacd-fe6b-4cc6-ad2d-073315f45eaf}</Project>
       <Name>RSDKvRS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RSDK-Unpacker\RSDK-Unpacker.csproj">
-      <Project>{1d70cc15-7257-44ca-8dbb-3dd003808375}</Project>
-      <Name>RSDK-Unpacker</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1568,6 +1567,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TileManiac\ManiacResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF + Winform Stuff\ColorLibraryDark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF + Winform Stuff\ColorLibraryLight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

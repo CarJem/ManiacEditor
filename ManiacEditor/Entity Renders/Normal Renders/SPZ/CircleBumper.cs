@@ -60,11 +60,11 @@ namespace ManiacEditor.Entity_Renders
 
                     if (amplitudeX != 0 && amplitudeY == 0)
                     {
-                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
                     if (amplitudeX == 0 && amplitudeY != 0)
                     {
-                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {

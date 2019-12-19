@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.IO;
 using RSDKv5;
+using GenerationsLib.Core;
 
 namespace ManiacEditor
 {
@@ -244,7 +245,7 @@ namespace ManiacEditor
             int i = 0;
             try
             {
-                if (Editor.Instance.EditorScene?._editorLayers == null || !Editor.Instance.EditorScene._editorLayers.Any()) return;
+                if (EditorSolution.CurrentScene?._editorLayers == null || !EditorSolution.CurrentScene._editorLayers.Any()) return;
 
                 var dialog = new FolderSelectDialog()
                 {
@@ -261,7 +262,7 @@ namespace ManiacEditor
                 {
                     using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {
-                        for (i = 0; i < Editor.Instance.Entities.Entities.Count; i++)
+                        for (i = 0; i < EditorSolution.Entities.Entities.Count; i++)
                         {
                             //if (!Instance.CanWriteFile(fileName))
                             // {
@@ -270,7 +271,7 @@ namespace ManiacEditor
                             //}
                             try
                             {
-                                Editor.Instance.Entities.Entities[i].ExportDraw(g,false);
+                                EditorSolution.Entities.Entities[i].ExportDraw(g,false);
                             }
                             catch
                             {
@@ -282,7 +283,7 @@ namespace ManiacEditor
                     ++fileCount;
                 }
 
-                RSDKrU.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
+                System.Windows.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
                                 MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)

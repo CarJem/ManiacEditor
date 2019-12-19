@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using RSDKv5;
-using MessageBox = RSDKrU.MessageBox;
+using MessageBox = System.Windows.MessageBox;
 
 namespace ManiacEditor.Interfaces
 {

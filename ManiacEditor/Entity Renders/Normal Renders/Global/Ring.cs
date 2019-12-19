@@ -98,16 +98,16 @@ namespace ManiacEditor.Entity_Renders
 
                     if (amplitudeX != 0 && amplitudeY == 0)
                     {
-                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                        position = Animation.ProcessMovingPlatform2(posX, 0, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
                     if (amplitudeX == 0 && amplitudeY != 0)
                     {
-                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                        position = Animation.ProcessMovingPlatform2(0, posY, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
                     if (amplitudeX != 0 && amplitudeY != 0)
                     {
                         // Since we can don't know how to do it other than x or y yet
-                        position = Animation.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
+                        position = Animation.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
 
                     d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), (x + position[0]) + frame.Frame.PivotX, (y - position[1]) + frame.Frame.PivotY,

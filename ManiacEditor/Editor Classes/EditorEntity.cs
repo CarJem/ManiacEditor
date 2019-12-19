@@ -413,7 +413,7 @@ namespace ManiacEditor
                 }
                 catch (Exception ex)
                 {
-                    RSDKrU.MessageBox.Show("Unable to load the linked render for " + _entity.Object.Name.Name + "! " + ex.ToString());
+                    System.Windows.MessageBox.Show("Unable to load the linked render for " + _entity.Object.Name.Name + "! " + ex.ToString());
                     Editor.Instance.EntityDrawing.linkedrendersWithErrors.Add(_entity.Object.Name.Name);
 
                 }

@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lock-On Apps", "Lock-On App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManiacEditor.Core", "ManiacEditor.Core\ManiacEditor.Core.csproj", "{8DB31C93-6810-4C60-86C4-5D8733E082DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationsLib.Core", "..\..\..\personal_repos\GenerationsLib\GenerationsLib.Core\GenerationsLib.Core.csproj", "{90E622FF-56EC-47AF-B02B-568F0C174A27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationsLib.Core", "GenerationsLib\GenerationsLib.Core\GenerationsLib.Core.csproj", "{90E622FF-56EC-47AF-B02B-568F0C174A27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationsLib.WPF", "..\..\..\personal_repos\GenerationsLib\GenerationsLib.WPF\GenerationsLib.WPF.csproj", "{C907BF10-F05E-40A7-8096-12A5CF9960B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationsLib.WPF", "GenerationsLib\GenerationsLib.WPF\GenerationsLib.WPF.csproj", "{C907BF10-F05E-40A7-8096-12A5CF9960B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
