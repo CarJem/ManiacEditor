@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="ManiacEditor.Interfaces.VScrollBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:in="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:ManiacEditor.Interfaces"
+             xmlns:maniac="clr-namespace:ManiacEditor"
+             xmlns:genLib="clr-namespace:GenerationsLib.WPF.Behaviors;assembly=GenerationsLib.WPF"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d">
+    <ScrollBar x:Name="scroller" Width="15" Orientation="Vertical" Margin="0,0,0,0">
+        <in:Interaction.Behaviors>
+            <genLib:StepScrollBehavior/>
+        </in:Interaction.Behaviors>
+    </ScrollBar>
+</UserControl>

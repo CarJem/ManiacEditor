@@ -1,1 +1,0 @@
-﻿Put you mod loader configs in here manually, or use the editor to make your own from scratch!

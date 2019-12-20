@@ -567,8 +567,7 @@ namespace ManiacEditor
 		}
 		public void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			SoundLooper form = new SoundLooper();
-			form.ShowDialog();
+
 		}
 		public void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{

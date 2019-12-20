@@ -118,9 +118,47 @@ namespace ManiacEditor
         public static int CustomX { get; set; } = 0;
         public static int CustomY { get; set; } = 0;
 
+        #region View Position Controls
 
-        public static int ViewPositionX { get; set; } = 0;
-        public static int ViewPositionY { get; set; } = 0;
+        public static int ViewPositionX { get => GetViewPositionX(); set => SetViewPositionX(value); }
+        public static int ViewPositionY { get => GetViewPositionY(); set => SetViewPositionY(value); }
+
+
+        public static int GetViewPositionX()
+        {
+            if (Editor.Instance.FormsModel.hScrollBar1 != null)
+            {
+                return (int)Editor.Instance.FormsModel.hScrollBar1.Value;
+            }
+            else return 0;
+        }
+
+        public static int GetViewPositionY()
+        {
+            if (Editor.Instance.FormsModel.vScrollBar1 != null)
+            {
+                return (int)Editor.Instance.FormsModel.vScrollBar1.Value;
+            }
+            else return 0;
+        }
+
+        public static void SetViewPositionX(int value)
+        {
+            if (Editor.Instance.FormsModel.hScrollBar1 != null)
+            {
+                Editor.Instance.FormsModel.hScrollBar1.Value = value;
+            }
+        }
+
+        public static void SetViewPositionY(int value)
+        {
+            if (Editor.Instance.FormsModel.vScrollBar1 != null)
+            {
+                Editor.Instance.FormsModel.vScrollBar1.Value = value;
+            }
+        }
+
+        #endregion
 
         public static int RegionX1 { get; set; } = -1;
         public static int RegionY1 { get; set; } = -1;
