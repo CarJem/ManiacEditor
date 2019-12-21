@@ -347,9 +347,6 @@ namespace ManiacEditor.Interfaces
 
         public void UpdateSceneSelectTheme()
         {
-            RemoveAllDropDown.Foreground = (SolidColorBrush)FindResource("NormalText");
-            RemoveAllDropDown.Background = (SolidColorBrush)FindResource("NormalBackground");
-
             if (App.Skin == Skin.Dark)
             {
                 ScenesTree.BackColor = EditorTheming.darkTheme1;
@@ -931,7 +928,7 @@ namespace ManiacEditor.Interfaces
             if (EditorInstance.DataDirectory != null) dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
             else
             {
-                dataLabelToolStripItem.Content = "Data Directory: NULL";
+                UnloadDataDirectory();
                 AllowedToProceed = false;
             }
 
@@ -946,7 +943,7 @@ namespace ManiacEditor.Interfaces
                 }
                 else
                 {
-                    dataLabelToolStripItem.Content = "Data Directory: NULL";
+                    UnloadDataDirectory();
                 }
             }
             else
@@ -955,13 +952,22 @@ namespace ManiacEditor.Interfaces
             }
 
         }
+        private void UnloadDataDirectory()
+        {
+            dataLabelToolStripItem.Content = "Data Directory: NULL";
+            _GameConfig = null;
+            ReloadScenesTree(_GameConfig);
+            UpdateTree();
+        }
+
+
         public void UnloadDataPack()
         {
             EditorInstance.ResourcePackList.Clear();
             EditorInstance.UIModes.DataDirectoryReadOnlyMode = false;
             EditorInstance.DataDirectory = null;
             dataPackStatusLabel.Content = "";
-            dataLabelToolStripItem.Content = "Data Directory: NULL";
+            UnloadDataDirectory();
         }
         public void LoadDataPackFromTag(string tag)
         {
@@ -1010,7 +1016,7 @@ namespace ManiacEditor.Interfaces
             else
             {
                 _GameConfig = null;
-                dataLabelToolStripItem.Content = "Data Directory: NULL";
+                UnloadDataDirectory();
                 dataPackStatusLabel.Content = "";
                 ReloadScenesTree(_GameConfig);
             }
@@ -1114,7 +1120,7 @@ namespace ManiacEditor.Interfaces
                         ScenesTree.Nodes.Add(dir_node);
                 }
             }
-            browse.IsEnabled = true;
+            browse.IsEnabled = (_GameConfig != null);
             if (filter != "")
             {
                 ScenesTree.ExpandAll();
@@ -1204,11 +1210,6 @@ namespace ManiacEditor.Interfaces
         #endregion
 
         #region Options Button Events
-        private void OptionsButtonClickedEvent(object sender, RoutedEventArgs e)
-        {
-            optionsButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-            optionsButton.ContextMenu.IsOpen = true;
-        }
         private void RemoveAllDataFoldersEvent(object sender, RoutedEventArgs e)
 		{
 			if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Data Directories", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)

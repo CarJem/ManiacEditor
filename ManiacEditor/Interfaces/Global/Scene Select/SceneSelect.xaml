@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ManiacEditor.Interfaces"
+        xmlns:local="clr-namespace:ManiacEditor"
         xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:genLib="clr-namespace:GenerationsLib.WPF.Styles;assembly=GenerationsLib.WPF"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
         Height="Auto" Width="Auto" MinHeight="300" MinWidth="832" Background="{DynamicResource NormalBackground}" x:Name="SceneOpener"  Loaded="WindowLoaded">
@@ -23,27 +24,15 @@
 
         <Grid x:Name="TopPanel" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Background="{DynamicResource StatusBarBackground}" Grid.Column="0" Grid.ColumnSpan="2">
 
-            <Label HorizontalAlignment="Left" x:Name="dataLabelToolStripItem" Content="Data Directory: NULL" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,0,0,0"></Label>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                <Button Style="{DynamicResource Flat2}" x:Name="ModPackEditorButton" Width="110" Height="30" Content="Mod Pack Editor" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" Click="OpenModPackEditorEvent"></Button>
-                <Button Style="{DynamicResource Flat2}" x:Name="refreshButton" Width="70" Height="30" Content="Refresh" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" Click="SceneSelectGotFocusEvent"></Button>
-                <Button Style="{DynamicResource Flat2}" x:Name="optionsButton" Width="70" Height="30" Content="Options" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" HorizontalAlignment="Right" Click="OptionsButtonClickedEvent">
-                    <Button.ContextMenu>
-                        <ContextMenu x:Name="RemoveAllDropDown">
-                            <MenuItem Header="Remove All Data Directories" Click="RemoveAllDataFoldersEvent"></MenuItem>
-                            <MenuItem Header="Remove All Saved Places" Click="RemoveAllSavedPlacesEvent"></MenuItem>
-                            <ContextMenu.Template>
-                                <ControlTemplate>
-                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                        <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </ContextMenu.Template>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-            </StackPanel>
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="dataLabelToolStripItem" Content="Data Directory: NULL" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,0,0,0"></Label>
+            <Menu HorizontalAlignment="Right" Background="{DynamicResource StatusBarBackground}">
+                <MenuItem x:Name="ModPackEditorButton" Height="30" Padding="15,0" Header="Mod Pack Editor" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="OpenModPackEditorEvent"></MenuItem>
+                <MenuItem x:Name="refreshButton" Height="30" Padding="15,0" Header="Refresh" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="SceneSelectGotFocusEvent"></MenuItem>
+                <MenuItem x:Name="optionsButton" Height="30" Padding="15,0" Header="Options" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" HorizontalAlignment="Right">
+                    <MenuItem Header="Remove All Data Directories" Click="RemoveAllDataFoldersEvent"></MenuItem>
+                    <MenuItem Header="Remove All Saved Places" Click="RemoveAllSavedPlacesEvent"></MenuItem>
+                </MenuItem>
+            </Menu>
         </Grid>
 
 
@@ -98,8 +87,9 @@
 
 
         <ToolBarPanel x:Name="BottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="41" Background="{DynamicResource StatusBarBackground}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button Style="{DynamicResource Flat2}" x:Name="unloadModButton" Width="120" Height="41" Content="Unload Data Pack" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,8,0" HorizontalAlignment="Right" Click="UnloadDataPackEvent">
-            </Button>
+            <Menu HorizontalAlignment="Right">
+                <MenuItem x:Name="unloadModButton" Height="41" Padding="15,0" Header="Unload Data Pack" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="UnloadDataPackEvent"></MenuItem>
+            </Menu>
             <Label HorizontalAlignment="Left" VerticalContentAlignment="Center" x:Name="dataPackStatusLabel" Content="" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,-40,0,0"></Label>
         </ToolBarPanel>
 

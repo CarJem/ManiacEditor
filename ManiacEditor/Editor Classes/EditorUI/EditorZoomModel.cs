@@ -39,7 +39,8 @@ namespace ManiacEditor
                 EditorStateModel.ViewPositionY = (int)Editor.FormsModel.vScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(EditorStateModel.Zooming || EditorStateModel.DraggingSelection || EditorStateModel.Dragged || EditorStateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
+            //TODO: Determine if we still need this
+            //if (!(EditorStateModel.Zooming || EditorStateModel.DraggingSelection || EditorStateModel.Dragged || EditorStateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
             if (EditorStateModel.DraggingSelection)
             {
                 Editor.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
@@ -54,7 +55,8 @@ namespace ManiacEditor
                 EditorStateModel.ViewPositionX = (int)Editor.FormsModel.hScrollBar1.Value;
                 UpdateScrollBars();
             }
-            if (!(EditorStateModel.Zooming || EditorStateModel.DraggingSelection || EditorStateModel.Dragged || EditorStateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
+            //TODO: Determine if we still need this
+            //if (!(EditorStateModel.Zooming || EditorStateModel.DraggingSelection || EditorStateModel.Dragged || EditorStateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
             if (EditorStateModel.DraggingSelection)
             {
                 Editor.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
@@ -64,6 +66,7 @@ namespace ManiacEditor
 
         public void UpdateScrollBars()
         {
+            //TODO: Determine if we still need this
             /*AllowScrollUpdate = false;
             Editor.editorView.hScrollBar1.Value = (int)Editor.editorView.hScrollBar1.Value;
             Editor.editorView.vScrollBar1.Value = (int)Editor.editorView.vScrollBar1.Value;

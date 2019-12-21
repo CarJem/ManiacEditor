@@ -2,20 +2,14 @@
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Linq;
+using System.Collections.Generic;
+using ManiacEditor.Structures;
 
 namespace ManiacEditor
 {
     static class Program
     {
-        public static string DataDir = "";
-        public static string ScenePath = "";
-        public static string ModPath = "";
-        public static int LevelID = -1;
-        public static int X = 0;
-        public static int Y = 0;
-        public static bool isEncoreMode = false;
-        public static bool launchAsShortcut = false;
-        public static int shortcutMode = 0;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -24,110 +18,86 @@ namespace ManiacEditor
         {
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+
             DiscordRP.InitDiscord();
-
-            string appPath = string.Format(@"{0}\{1}.exe", GetExecutingDirectoryName(), Assembly.GetExecutingAssembly().GetName().Name);
-            Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ PERPROCESSSYSTEMDPIFORCEON DPIUNAWARE");
-
-            foreach (string argument in args)
-            {
-                if (argument.StartsWith("DataDir="))
-                {
-                    DataDir = argument.Substring(8);
-                }
-                else if (argument.StartsWith("ScenePath="))
-                {
-                    ScenePath = argument.Substring(10);
-                }
-                else if (argument.StartsWith("ModPath="))
-                {
-                    ModPath = argument.Substring(8);
-                }
-                else if (argument.StartsWith("LevelID="))
-                {
-                    Int32.TryParse(argument.Substring(8), out LevelID);
-                }
-                else if (argument.Equals("EncoreMode=TRUE"))
-                {
-                    isEncoreMode = true;
-                }
-                else if (argument.StartsWith("X="))
-                {
-                    Int32.TryParse(argument.Substring(2), out X);
-                }
-                else if (argument.StartsWith("Y="))
-                {
-                    Int32.TryParse(argument.Substring(2), out Y);
-                }
-            }
-            //Remove the "" from the arguments to prevent errors.
-            DataDir.Replace("\"", "");
-            ScenePath.Replace("\"", "");
-            ModPath.Replace("\"", "");
-
-            if (DataDir != "" && ScenePath != "")
-            {
-                launchAsShortcut = true;
-                shortcutMode = 1;
-            }
-            else if (DataDir != "")
-            {
-                launchAsShortcut = true;
-                shortcutMode = 0;
-            }
+            SetRuntimeRules();
+            DisableDPIScaling();
 
             Environment.CurrentDirectory = GetExecutingDirectoryName();
 
-            bool allowedToLoad = false;
-            try
-            {
-                Console.WriteLine("Setting up Objects");
-                string objIni = Environment.CurrentDirectory + @"\Resources\objects.ini";
-                string attribIni = Environment.CurrentDirectory + @"\Resources\attributes.ini";
-                RSDKv5.Objects.InitObjectNames(new StreamReader(File.OpenRead(objIni)));
-                RSDKv5.Objects.InitAttributeNames(new StreamReader(File.OpenRead(attribIni)));
-                allowedToLoad = true;
-            }
-            catch (FileNotFoundException fnfe)
-            {
-                DisplayLoadFailure($@"{fnfe.Message}
-Missing file: {fnfe.FileName}");
-            }
-            catch (Exception e)
-            {
-                DisplayLoadFailure(e.Message);
-            }
-            Console.WriteLine("Finished Objects");
+            GatherObjectsAndAttributes();
+            SetupRenderingOptions();
             SetupSettingFiles();
-            if (allowedToLoad)
-            {
-                if (Settings.MySettings.ShowUnhandledExceptions)
-                {
-                    try
-                    {
-                        StartApp();
-                    }
-                    catch (Exception ex)
-                    {
-                       MessageBox.Show(ex.ToString());
-                       throw ex;
-                    }
-                }
-                else
-                {
-                    StartApp();
-                }
-
-
-            }
+            StartApp();
             DiscordRP.DisposeDiscord();
         }
 
         private static void StartApp()
         {
-            var application = new ManiacEditor.App();
-            application.InitializeComponent();
-            application.Load(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
+            if (Settings.MySettings.ShowUnhandledExceptions)
+            {
+                try
+                {
+                    Load();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    throw ex;
+                }
+            }
+            else Load();
+
+
+            void Load()
+            {
+                var application = new ManiacEditor.App();
+                application.InitializeComponent();
+                application.Load();
+            }
+
+        }
+
+        #region Initilization
+
+        private static void GatherObjectsAndAttributes()
+        {
+            try
+            {
+                string resource_folder = Environment.CurrentDirectory + @"\Resources\";
+                string definitions_file = Path.Combine(resource_folder, "entity_definitions.json");
+
+                Console.WriteLine("Setting up Object & Attribute Definitions");
+
+                string data = File.ReadAllText(definitions_file);
+                Structures.EntityDefinitions definitions = Newtonsoft.Json.JsonConvert.DeserializeObject<EntityDefinitions>(data);
+
+                foreach (string attribute in definitions.Attributes) RSDKv5.Objects.AddAttributeName(attribute);
+                foreach (string entityObject in definitions.Objects) RSDKv5.Objects.AddObjectName(entityObject);
+
+                Console.WriteLine("Finished Object & Attribute Definitions");
+
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                DisplayLoadFailure($@"{fnfe.Message} Missing file: {fnfe.FileName}");
+            }
+            catch (Exception e)
+            {
+                DisplayLoadFailure(e.Message);
+            }
+
+        }
+
+        private static void DisplayLoadFailure(string message)
+        {
+            MessageBox.Show(message, "Unable to start.", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private static void SetupRenderingOptions()
+        {
+            EntityRenderingOptions.GetExternalData(ref ManiacEditor.EditorEntityDrawing.RenderingSettings);
+
         }
 
         private static void SetupSettingFiles()
@@ -173,13 +143,22 @@ Missing file: {fnfe.FileName}");
 
         }
 
-        private static void DisplayLoadFailure(string message)
+        private static void DisableDPIScaling()
         {
-            MessageBox.Show(message,
-                            "Unable to start.",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+            string appPath = string.Format(@"{0}\{1}.exe", GetExecutingDirectoryName(), Assembly.GetExecutingAssembly().GetName().Name);
+            Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ PERPROCESSSYSTEMDPIFORCEON DPIUNAWARE");
         }
+
+        private static void SetRuntimeRules()
+        {
+#if DEBUG
+            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
+#endif
+        }
+
+        #endregion
+
+
 
         private static string GetExecutingDirectoryName()
         {
@@ -187,5 +166,7 @@ Missing file: {fnfe.FileName}");
             string exeLocation = new Uri(exeLocationUrl).LocalPath;
             return new FileInfo(exeLocation).Directory.FullName;
         }
+
+
     }
 }

@@ -550,11 +550,11 @@
     <Compile Include="Functions\Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Functions\Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Functions\Actions\ActionMultipleMoveEntities.cs" />
-    <Compile Include="Editor Classes\EditorControl.cs" />
+    <Compile Include="Editor Classes\EditorUI\EditorControl.cs" />
     <Compile Include="Editor Classes\EditorRecentsList.cs" />
     <Compile Include="Editor Classes\EditorLaunch.cs" />
     <Compile Include="Editor Classes\EditorSolution.cs" />
-    <Compile Include="Editor Classes\EditorUIModes.cs" />
+    <Compile Include="Editor Classes\EditorUI\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
     <Compile Include="Editor Classes\EditorInit.cs" />
@@ -564,13 +564,13 @@
     <Compile Include="Editor Classes\EditorFindReplace.cs" />
     <Compile Include="Editor Classes\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorChunk.cs" />
-    <Compile Include="Editor Classes\EditorUIEvents.cs" />
+    <Compile Include="Editor Classes\EditorUI\EditorUIEvents.cs" />
     <Compile Include="Editor Classes\EditorPath.cs" />
     <Compile Include="Editor Classes\EditorFileHandler.cs" />
     <Compile Include="Editor Classes\EditorTheming.cs" />
-    <Compile Include="Editor Classes\EditorUI.cs" />
+    <Compile Include="Editor Classes\EditorUI\EditorUI.cs" />
     <Compile Include="Editor Classes\EditorUpdater.cs" />
-    <Compile Include="Editor Classes\EditorZoomModel.cs" />
+    <Compile Include="Editor Classes\EditorUI\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
@@ -730,6 +730,11 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Render\GraphicsModel.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\SettingsProviders\DevSettingsProvider.cs" />
     <Compile Include="Properties\SettingsProviders\InternalSettingsProvider.cs" />
     <Compile Include="Properties\SettingsProviders\KeybindSettingsProvider.cs" />
@@ -876,7 +881,7 @@
     <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TileChunkList.Designer.cs">
       <DependentUpon>TileChunkList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorStateModel.cs" />
+    <Compile Include="Editor Classes\EditorUI\EditorStateModel.cs" />
     <Compile Include="Functions\Enums.cs" />
     <Compile Include="Editor Classes\EditorAnimations.cs" />
     <Compile Include="Editor Classes\EditorBackground.cs" />
@@ -997,11 +1002,6 @@
     <Compile Include="Editor Classes\EditorEntities\EditorEntity.cs" />
     <Compile Include="Editor Classes\EditorLayer\EditorLayer.cs" />
     <Compile Include="Memory Editing\ProcessMemory.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Editor Classes\EditorLayer\ScrollInfoLines.cs" />
     <Compile Include="Editor Classes\EditorSettings.cs" />
     <Compile Include="Interfaces\Assets\SkinResourceDictionary.cs" />
@@ -1013,6 +1013,8 @@
     <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structures\EntityRenderingOptions.cs" />
+    <Compile Include="Structures\EntityDefinitions.cs" />
     <Resource Include="Interfaces\Global\TileManiac\Resources\Maniac.bmp" />
     <Resource Include="Interfaces\Global\TileManiac\Resources\Green.png" />
     <Resource Include="Interfaces\Global\TileManiac\Resources\9.png" />
@@ -1052,14 +1054,14 @@
     <Resource Include="Interfaces\Global\TileManiac\Resources\_0_NoCol.png" />
     <Resource Include="Interfaces\Global\TileManiac\Resources\Red.png" />
     <Resource Include="Resources\App Icons\64x64_2.ico" />
-    <Resource Include="Resources\AboutImage.png" />
+    <Resource Include="Resources\Images\AboutImage.png" />
     <Resource Include="Resources\App Icons\Neo\128x128.ico" />
     <Resource Include="Resources\App Icons\Neo\64x64.ico" />
     <Content Include="ManiacEditor.VisualElementsManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Resource Include="Resources\blankicon.ico" />
+    <Resource Include="Resources\App Icons\blankicon.ico" />
     <Content Include="Resources\Global\EditorIcons2.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1103,9 +1105,6 @@
     </None>
     <EmbeddedResource Include="Interfaces\Render\DevicePanel.resx" />
     <EmbeddedResource Include="Interfaces\Render\GraphicsModel.resx" />
-    <EmbeddedResource Include="Resources\attributes.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Include="Properties\GameOptions.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>GameOptions.Designer.cs</LastGenOutput>
@@ -1118,18 +1117,18 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Performance.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\LayerManagerWarning1.rtf" />
-    <EmbeddedResource Include="Resources\objects.ini">
+    <EmbeddedResource Include="Resources\entity_definitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Resources\ObjectWarning1.rtf" />
-    <None Include="Resources\OhNo.wav" />
-    <None Include="Resources\ScoreTotal.wav" />
+    <None Include="Resources\Text\LayerManagerWarning1.rtf" />
+    <None Include="Resources\Text\ObjectWarning1.rtf" />
+    <None Include="Resources\Sounds\OhNo.wav" />
+    <EmbeddedResource Include="Resources\rendering_options.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Resources\Sounds\ScoreTotal.wav" />
     <EmbeddedResource Include="Interfaces\Scene Tools\Tiles Toolbar\TileChunkList.resx">
       <DependentUpon>TileChunkList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\objectRenderList.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Resources\Global\SuperSpecialRing.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1139,9 +1138,6 @@
       <LastGenOutput>KeyBinds.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <EmbeddedResource Include="Resources\onScreenRenderExclusions.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\Render\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -1151,7 +1147,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="discord-rpc.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Resources\Global\EditorAssets.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1164,16 +1160,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\LayerManagerWarning.rtf">
+    <None Include="Resources\Text\LayerManagerWarning.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\ObjectWarning.rtf">
+    <None Include="Resources\Text\ObjectWarning.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\SoundWarning.rtf">
+    <None Include="Resources\Text\SoundWarning.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\SoundWarning1.rtf" />
+    <None Include="Resources\Text\SoundWarning1.rtf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -1197,8 +1193,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\App Icons\128x128.ico" />
-    <Resource Include="Resources\NeoAboutImage.png" />
-    <Resource Include="Resources\MELogo.png" />
+    <Resource Include="Resources\Images\NeoAboutImage.png" />
+    <Resource Include="Resources\Images\MELogo.png" />
     <Resource Include="Resources\Monitors\ErrorMonitor.gif" />
     <Resource Include="Resources\Monitors\ErrorStatic2.gif" />
     <Resource Include="Resources\Monitors\InfoStatic2.gif" />

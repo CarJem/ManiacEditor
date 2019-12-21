@@ -23,13 +23,10 @@ namespace ManiacEditor
         public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
         public List<LinkedRenderer> LinkedEntityRenderers = new List<LinkedRenderer>();
 
-		// Object List for initilizing the if statement
-		public List<string> entityRenderingObjects;
-        public List<string> renderOnScreenExlusions;
+        // Object List for initilizing the if statement
+        public static Structures.EntityRenderingOptions RenderingSettings;
         public List<string> rendersWithErrors = new List<string>();
         public List<string> linkedrendersWithErrors = new List<string>();
-        public readonly static List<string> EditorStaticObjects = new List<string> { "EditorAssets", "HUDEditorText", "SuperSpecialRing", "EditorIcons2", "TransportTubes", "EditorUIRender" };
-        public static List<string> LinkedRendersNames = new List<string> { "WarpDoor", "TornadoPath", "AIZTornadoPath", "TransportTube", "PlatformControl", "PlatformNode", "Button", "Beanstalk", "PullChain", "Platform", "CableWarp" };
 
         public string GetAnimationLoadingKey(string name, int AnimID, int FrameID, bool FlipH, bool FlipV, Flag FlagAttributes, int TextureRotation, bool Rotate, bool LegacyRotate, bool StackFrames, int StackStart, int StackEnd)
         {
@@ -55,95 +52,6 @@ namespace ManiacEditor
         public EditorEntityDrawing(Editor instance)
         {
             EditorInstance = instance;
-            entityRenderingObjects = EditorInstance.entityRenderingObjects;
-            renderOnScreenExlusions = EditorInstance.renderOnScreenExlusions;
-        }
-
-        public static List<string> GetEntityInternalList(int type)
-        {
-            if (type == 1) //For the list of objects with renders
-            {
-                var resourceName = "ManiacEditor.Resources.objectRenderList.ini";
-                var assembly = Assembly.GetExecutingAssembly();
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    return EnumerateLines(reader).ToList<string>();
-                }
-            }
-            else //For On Screen Render Exlusions (So we can make our own rules in the object's render file)
-            {
-                var resourceName = "ManiacEditor.Resources.onScreenRenderExclusions.ini";
-                var assembly = Assembly.GetExecutingAssembly();
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    return EnumerateLines(reader).ToList<string>();
-                }
-            }
-
-        }
-        public static List<string> GetEntityExternalList(int type)
-        {
-            if (type == 1) //For the list of objects with renders
-            {
-                var path = Path.Combine(Environment.CurrentDirectory, "Resources\\objectRenderList.ini");
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    return EnumerateLines(reader).ToList<string>();
-                }
-            }
-            else //For On Screen Render Exlusions (So we can make our own rules in the object's render file)
-            {
-                var path = Path.Combine(Environment.CurrentDirectory, "Resources\\onScreenRenderExclusions.ini");
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    return EnumerateLines(reader).ToList<string>();
-                }
-            }
-
-        }
-
-        public static List<string> GetSpecialRenderList(int type)
-        {
-            if (type == 1) //For the list of objects with renders
-            {
-                List<string> entityRenderListInternal = GetEntityInternalList(1); // Get the list embeded in the editor
-                List<string> entityRenderListExternal = GetEntityExternalList(1); // Get the list the user is allowed to edit
-                if (entityRenderListExternal != entityRenderListInternal)
-                {
-                    return entityRenderListExternal;
-                }
-                else
-                {
-                    return entityRenderListInternal;
-                }
-            }
-            else //For On Screen Render Exlusions (So we can make our own rules in the object's render file)
-            {
-                List<string> entityRenderListInternal = GetEntityInternalList(0); // Get the list embeded in the editor
-                List<string> entityRenderListExternal = GetEntityExternalList(0); // Get the list the user is allowed to edit
-                if (entityRenderListExternal != entityRenderListInternal)
-                {
-                    return entityRenderListExternal;
-                }
-                else
-                {
-                    return entityRenderListInternal;
-                }
-            }
-
-
-
-        }
-        public static IEnumerable<string> EnumerateLines(TextReader reader)
-        {
-            string line;
-
-            while ((line = reader.ReadLine()) != null)
-            {
-                yield return line;
-            }
         }
 
         public static Animation rsdkAnim;
@@ -432,12 +340,12 @@ namespace ManiacEditor
         }
         public Bitmap GetAnimationBitmap(string name, int AnimID, int FrameID, string assetName, string dataFolderLocation, int index, Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame, bool noEncoreColors)
         {
-            if (EditorStaticObjects.Contains(assetName)) noEncoreColors = true;
+            if (EditorEntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) noEncoreColors = true;
             if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = (byte)(rsdkAnim.SpriteSheets.Count - 1);
             if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
             {
                 string targetFile;
-                if (EditorStaticObjects.Contains(assetName)) targetFile = GetEditorStaticBitmapPath(assetName);
+                if (EditorEntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) targetFile = GetEditorStaticBitmapPath(assetName);
                 else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
                 if (!File.Exists(targetFile)) map = AddNullLookup(map, frame);
                 else map = OpenBitmapTargetFile(map, frame, targetFile, noEncoreColors);

@@ -16,13 +16,13 @@ namespace ManiacEditor
 
         public App()
         {
-            ChangeSkin(Skin.Light);
+            ChangeSkin(Skin.Dark);
         }
 
 
-		public void Load(string DataDir, string ScenePath, string ModPath, int LevelID, bool launchAsShortcut, int shortcutMode, bool isEncoreMode, int X, int Y)
+		public void Load()
         {
-			var UI = new ManiacEditor.Editor(DataDir, ScenePath, ModPath, LevelID, launchAsShortcut, shortcutMode, isEncoreMode, X, Y);
+			var UI = new ManiacEditor.Editor();
             UI.Run();
         }
 

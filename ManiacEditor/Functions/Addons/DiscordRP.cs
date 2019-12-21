@@ -70,8 +70,9 @@ namespace ManiacEditor
 			client = new DiscordRpcClient(APP_ID);
 			client.OnReady += Client_OnReady;
 			client.OnPresenceUpdate += Client_OnPresenceUpdate;
-			client.OnError += Client_OnError; ;
-			isInitilized = client.Initialize();
+			client.OnError += Client_OnError;
+			client.Initialize();
+			isInitilized = true;
 		}
 
 
@@ -160,6 +161,7 @@ namespace ManiacEditor
 
 		public static void UpdateDiscord(string _details = null, bool isLoop = false)
 		{
+
 			if (Properties.Settings.Default.ShowDiscordRPC && !isInitilized) Init();
 			else if (!Properties.Settings.Default.ShowDiscordRPC && isInitilized) DisposeDiscord();
 
@@ -167,11 +169,13 @@ namespace ManiacEditor
 			{
 				if (!isLoop) CurrentDetails = _details;
 				SetPresence(CurrentDetails);
+				client.Invoke();
 			}
 		}
 
 		public static void DisposeDiscord()
 		{
+			timer.Stop();
 			if (isInitilized) Dispose();
 		}
 

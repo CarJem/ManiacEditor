@@ -20,7 +20,12 @@ namespace ManiacEditor
 
 		System.Windows.Window Window;
 
-        public void CheckforUpdates(bool manuallyTriggered = false, bool dontShowUpdaterBox = false) {
+        public void CheckforUpdates(bool manuallyTriggered = false, bool dontShowUpdaterBox = false)
+        {
+
+        }
+
+        public void CheckforUpdatesTemp(bool manuallyTriggered = false, bool dontShowUpdaterBox = false) {
             // Appveyor Update Check
             int buildNumber = -1;
             string versionNum = GetVersion();

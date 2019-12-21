@@ -404,7 +404,7 @@ namespace ManiacEditor
         public virtual void Draw(GraphicsHandler d)
         {
             if (filteredOut) return;
-            if (EditorEntityDrawing.LinkedRendersNames.Contains(_entity.Object.Name.Name) && Editor.Instance.UIModes.ShowEntityPathArrows)
+            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Editor.Instance.UIModes.ShowEntityPathArrows)
             {
                 try
                 {
@@ -438,8 +438,8 @@ namespace ManiacEditor
         {
             TestIfPlayerObject();
 
-            List<string> entityRenderList = Editor.Instance.EntityDrawing.entityRenderingObjects;
-            List<string> onScreenExlusionList = (Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : Editor.Instance.EntityDrawing.renderOnScreenExlusions);
+            List<string> entityRenderList = EditorEntityDrawing.RenderingSettings.ObjectToRender;
+            List<string> onScreenExlusionList = (Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : EditorEntityDrawing.RenderingSettings.ObjectCullingExclusions);
          
             if (!onScreenExlusionList.Contains(_entity.Object.Name.Name)) if (!this.IsObjectOnScreen(d)) return;
             System.Drawing.Color color = GetBoxInsideColor();

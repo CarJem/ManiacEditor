@@ -1,10 +1,10 @@
-﻿<Window x:Name="EditorViewWPF" x:Class="ManiacEditor.Editor"
+﻿<Window x:Class="ManiacEditor.Editor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interop;assembly=PresentationCore"
-        xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"        
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"    
         Title="Maniac Editor - Generations Editon" Height="759" Width="1184" Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1184" MinHeight="759" KeyDown="Editor_KeyDown" KeyUp="Editor_KeyUp">
@@ -43,7 +43,7 @@
             <Separator x:Name="seperator9" Visibility="Collapsed"/>
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">
-                    <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2" Content="{StaticResource Gear}">
+                    <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2" Content="{DynamicResource Gear}">
                         <wpfTool:SplitButton.DropDownContent>
                             <StackPanel Background="{DynamicResource ContextMenuBackground}">
                                 <MenuItem x:Name="QuickEditEntitiesTransparentLayers" Header="Edit Entites Transparency" Click="QuickButtonClickEvent"></MenuItem>

@@ -56,8 +56,6 @@ namespace ManiacEditor
 
 		// Editor Collections
 		public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
-		public List<string> entityRenderingObjects = EditorEntityDrawing.GetSpecialRenderList(1); //Used to get the Render List for Objects
-		public List<string> renderOnScreenExlusions = EditorEntityDrawing.GetSpecialRenderList(0); //Used to get the Always Render List for Objects
         public IList<Tuple<MenuItem, MenuItem>> RecentSceneItems;
         public IList<Tuple<MenuItem, MenuItem>> RecentDataSourceItems;
         public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions

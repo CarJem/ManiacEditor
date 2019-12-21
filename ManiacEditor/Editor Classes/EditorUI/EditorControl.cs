@@ -86,6 +86,7 @@ namespace ManiacEditor
             }
 
         }
+
         public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
         {
 
@@ -157,6 +158,7 @@ namespace ManiacEditor
             NS = 9,
             ALL = 10
         }
+
         public void SetScrollerBorderApperance(int direction = -1)
         {
             var converter = new System.Windows.Media.BrushConverter();
@@ -221,6 +223,16 @@ namespace ManiacEditor
 
             }
 
+            Editor.Instance.ScrollBorderN.InvalidateVisual();
+            Editor.Instance.ScrollBorderS.InvalidateVisual();
+            Editor.Instance.ScrollBorderE.InvalidateVisual();
+            Editor.Instance.ScrollBorderW.InvalidateVisual();
+            Editor.Instance.ScrollBorderNW.InvalidateVisual();
+            Editor.Instance.ScrollBorderSW.InvalidateVisual();
+            Editor.Instance.ScrollBorderSE.InvalidateVisual();
+            Editor.Instance.ScrollBorderNE.InvalidateVisual();
+
+
         }
         public void EnforceCursorPosition()
         {
@@ -274,6 +286,7 @@ namespace ManiacEditor
         public void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (ForceUpdateMousePos) UpdateScrollerPosition(e);
+            if (EditorStateModel.Scrolling) ScrollerMouseMove(e);
             if (EditorStateModel.Scrolling || EditorStateModel.ScrollingDragged || EditorStateModel.DraggingSelection || EditorStateModel.Dragged) Editor.Instance.FormsModel.GraphicPanel.Render();
 
             UpdatePositionLabel(e);
@@ -290,7 +303,6 @@ namespace ManiacEditor
                 EditorStateModel.RegionY1 = -1;
             }
 
-            if (EditorStateModel.Scrolling) ScrollerMouseMove(e);
             else if (e.Button == MouseButtons.Middle) EnforceCursorPosition();
 
             if (IsTilesEdit() && !IsChunksEdit()) TilesEditMouseMove(e);

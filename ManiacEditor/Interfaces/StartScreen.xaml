@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
         <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
             <Grid Background="{DynamicResource StatusBarBackground}">
-                <Image Source="pack://application:,,,/Resources/MELogo.png" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform" HorizontalAlignment="Center"></Image>
+                <Image Source="pack://application:,,,/Resources/Images/MELogo.png" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform" HorizontalAlignment="Center"></Image>
             </Grid>
         </Border>
         <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
