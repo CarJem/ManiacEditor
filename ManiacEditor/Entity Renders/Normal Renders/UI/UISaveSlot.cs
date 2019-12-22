@@ -10,7 +10,7 @@ namespace ManiacEditor.Entity_Renders
 
             //int frameID = (int)entity.attributesMap["listID"].ValueEnum;
             int type = (int)entity.attributesMap["type"].ValueEnum;
-            string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
+            string text = "Text" + Editor.Instance.Options.CurrentLanguage;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 0, false, false, false);
             var editorAnimBorder = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 1, false, false, false);
             var editorAnimBackground = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 2, false, false, false);

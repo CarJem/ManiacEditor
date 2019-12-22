@@ -730,7 +730,7 @@ namespace ManiacEditor
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
                     }
-                    else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.UIModes.CopyAir)
+                    else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.Options.CopyAir)
                     {
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
@@ -769,7 +769,7 @@ namespace ManiacEditor
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
                     }
-                    else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.UIModes.CopyAir)
+                    else if (_layer.Tiles[y][x] == 0xffff && EditorInstance.Options.CopyAir)
                     {
                         SelectedTiles.Add(new Point(x, y));
                         RefreshTileCount();
@@ -793,7 +793,7 @@ namespace ManiacEditor
                     DeselectPoint(point);
                     RefreshTileCount();
                 }
-                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.UIModes.CopyAir)
+                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.Options.CopyAir)
                 {
                     // Just add the point
                     SelectedTiles.Add(point);
@@ -812,7 +812,7 @@ namespace ManiacEditor
             {
                 for (int x = Math.Max(area.X / EditorConstants.TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, EditorConstants.TILE_SIZE), _layer.Width); ++x)
                 {
-                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || EditorInstance.UIModes.CopyAir))
+                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || EditorInstance.Options.CopyAir))
                     {
                         TempSelectionTiles.Add(new Point(x, y));
                         if (SelectedTiles.Contains(new Point(x, y)) && TempSelectionTiles.Contains(new Point(x, y)))
@@ -910,7 +910,7 @@ namespace ManiacEditor
             point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
-                return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.UIModes.CopyAir);
+                return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorInstance.Options.CopyAir);
             }
             return false;
         }
@@ -1016,7 +1016,7 @@ namespace ManiacEditor
             g.DrawImage(EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                 new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
-            if (Editor.Instance.UIModes.ShowCollisionA)
+            if (Editor.Instance.Options.ShowCollisionA)
             {
                 if (SolidLrbA || SolidTopA)
                 {
@@ -1025,7 +1025,7 @@ namespace ManiacEditor
                     if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid);
                 }
             }
-            if (Editor.Instance.UIModes.ShowCollisionB)
+            if (Editor.Instance.Options.ShowCollisionB)
             {
                 if (SolidLrbB || SolidTopB)
                 {
@@ -1035,12 +1035,12 @@ namespace ManiacEditor
                 }
             }
 
-            if (EditorInstance.UIModes.ShowFlippedTileHelper == true)
+            if (EditorInstance.Options.ShowFlippedTileHelper == true)
             {
                 g.DrawImage(EditorSolution.CurrentTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                             new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
             }
-            if (EditorInstance.UIModes.ShowTileID == true)
+            if (EditorInstance.Options.ShowTileID == true)
             {
                 g.DrawImage(EditorSolution.CurrentTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                             new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
@@ -1109,7 +1109,7 @@ namespace ManiacEditor
 
             if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
                 Transperncy = 0x32;
-            else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
+            else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.Options.ApplyEditEntitiesTransparency)
                 Transperncy = 0x32;
             else
                 Transperncy = 0xFF;
@@ -1298,7 +1298,7 @@ namespace ManiacEditor
 
                 g.DrawImage(EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
-                if (Editor.Instance.UIModes.ShowCollisionA)
+                if (Editor.Instance.Options.ShowCollisionA)
                 {
                     if (SolidLrbA || SolidTopA)
                     {
@@ -1307,7 +1307,7 @@ namespace ManiacEditor
                         if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid, flipX, flipY);
                     }
                 }
-                if (Editor.Instance.UIModes.ShowCollisionB)
+                if (Editor.Instance.Options.ShowCollisionB)
                 {
                     if (SolidLrbB || SolidTopB)
                     {
@@ -1452,7 +1452,7 @@ namespace ManiacEditor
             string group = string.Format("{0},{1}", speed, maxWidth);
             if (!ManiacEditor.EditorAnimations.AnimationTiming.ContainsKey(group)) ManiacEditor.EditorAnimations.AnimationTiming.Add(group, new ManiacEditor.EditorAnimations.Timing());
             // Playback
-            if (Editor.Instance.UIModes.ParallaxAnimationChecked && Editor.Instance.UIModes.AnimationsEnabled)
+            if (Editor.Instance.Options.ParallaxAnimationChecked && Editor.Instance.Options.AnimationsEnabled)
             {
                 if ((DateTime.Now - ManiacEditor.EditorAnimations.AnimationTiming[group].LastParallaxTime).TotalMilliseconds > 1024 / speed)
                 {
@@ -1510,7 +1510,7 @@ namespace ManiacEditor
 
                 if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
                     Transperncy = 0x32;
-                else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.UIModes.ApplyEditEntitiesTransparency)
+                else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.Options.ApplyEditEntitiesTransparency)
                     Transperncy = 0x32;
                 else
                     Transperncy = 0xFF;

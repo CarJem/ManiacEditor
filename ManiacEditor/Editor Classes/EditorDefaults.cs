@@ -12,39 +12,39 @@ namespace ManiacEditor
         public void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            Editor.Instance.UIModes.ApplyEditEntitiesTransparency = Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
+            Editor.Instance.Options.ApplyEditEntitiesTransparency = Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
-            Editor.Instance.UIModes.ScrollLocked = Settings.MyDefaults.ScrollLockDefault;
-            Editor.Instance.UIModes.ScrollDirection = (Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
+            Editor.Instance.Options.ScrollLocked = Settings.MyDefaults.ScrollLockDefault;
+            Editor.Instance.Options.ScrollDirection = (Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            Editor.Instance.xToolStripMenuItem.IsChecked = Editor.Instance.UIModes.ScrollDirection == (int)ScrollDir.X;
-            Editor.Instance.yToolStripMenuItem.IsChecked = Editor.Instance.UIModes.ScrollDirection == (int)ScrollDir.Y;
+            Editor.Instance.xToolStripMenuItem.IsChecked = Editor.Instance.Options.ScrollDirection == (int)ScrollDir.X;
+            Editor.Instance.yToolStripMenuItem.IsChecked = Editor.Instance.Options.ScrollDirection == (int)ScrollDir.Y;
 
-            Editor.Instance.UIModes.EnablePixelCountMode = Settings.MyDefaults.EnablePixelModeDefault;
+            Editor.Instance.Options.CountTilesSelectedInPixels = Settings.MyDefaults.EnablePixelModeDefault;
 
-            Editor.Instance.UIModes.ShowEntityPathArrows = Settings.MyDefaults.ShowEntityArrowPathsDefault;
+            Editor.Instance.Options.ShowEntityPathArrows = Settings.MyDefaults.ShowEntityArrowPathsDefault;
 
-            Editor.Instance.UIModes.ShowWaterLevel = Settings.MyDefaults.ShowWaterEntityLevelDefault;
-            Editor.Instance.UIModes.AlwaysShowWaterLevel = Settings.MyDefaults.AlwaysShowWaterLevelDefault;
-            Editor.Instance.UIModes.SizeWaterLevelwithBounds = Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
+            Editor.Instance.Options.ShowWaterLevel = Settings.MyDefaults.ShowWaterEntityLevelDefault;
+            Editor.Instance.Options.AlwaysShowWaterLevel = Settings.MyDefaults.AlwaysShowWaterLevelDefault;
+            Editor.Instance.Options.SizeWaterLevelwithBounds = Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
 
-            Editor.Instance.UIModes.ShowParallaxSprites = Settings.MyDefaults.ShowFullParallaxSpritesDefault;
-            Editor.Instance.UIModes.PrioritizedEntityViewing = Settings.MyDefaults.PrioritizedObjectRenderingDefault;
+            Editor.Instance.Options.ShowParallaxSprites = Settings.MyDefaults.ShowFullParallaxSpritesDefault;
+            Editor.Instance.Options.PrioritizedEntityViewing = Settings.MyDefaults.PrioritizedObjectRenderingDefault;
 
-            Editor.Instance.UIModes.ShowEntitySelectionBoxes = Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
+            Editor.Instance.Options.ShowEntitySelectionBoxes = Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
 
-            Editor.Instance.UIModes.DebugStatsVisibleOnPanel = Settings.MyDefaults.ShowDebugStatsDefault;
-            Editor.Instance.UIModes.UseLargeDebugStats = Settings.MyDefaults.LargeDebugStatsDefault;
+            Editor.Instance.Options.DebugStatsVisibleOnPanel = Settings.MyDefaults.ShowDebugStatsDefault;
+            Editor.Instance.Options.UseLargeDebugStats = Settings.MyDefaults.LargeDebugStatsDefault;
 
-            Editor.Instance.UIModes.GridCustomSize = Settings.MyDefaults.CustomGridSizeValue;
-            Editor.Instance.CustomGridSizeAdjuster.Value = Editor.Instance.UIModes.GridCustomSize;
+            Editor.Instance.Options.GridCustomSize = Settings.MyDefaults.CustomGridSizeValue;
+            Editor.Instance.CustomGridSizeAdjuster.Value = Editor.Instance.Options.GridCustomSize;
 
-            Editor.Instance.UIModes.CollisionSAColour = Settings.MyDefaults.CollisionSAColour;
-            Editor.Instance.UIModes.CollisionLRDColour = Settings.MyDefaults.CollisionLRDColour;
-            Editor.Instance.UIModes.CollisionTOColour = Settings.MyDefaults.CollisionTOColour;
+            Editor.Instance.Options.CollisionSAColour = Settings.MyDefaults.CollisionSAColour;
+            Editor.Instance.Options.CollisionLRDColour = Settings.MyDefaults.CollisionLRDColour;
+            Editor.Instance.Options.CollisionTOColour = Settings.MyDefaults.CollisionTOColour;
 
-            Editor.Instance.UIModes.GridColor = Settings.MyDefaults.DefaultGridColor;
-            Editor.Instance.UIModes.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
+            Editor.Instance.Options.GridColor = Settings.MyDefaults.DefaultGridColor;
+            Editor.Instance.Options.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
 
             Editor.Instance.FasterNudgeValueNUD.Value = Settings.MyDefaults.FasterNudgeValue;
 
@@ -59,7 +59,7 @@ namespace ManiacEditor
                     if (item.Tag.ToString() == Settings.MyDefaults.MenuLanguageDefault)
                     {
                         item.IsChecked = true;
-                        Editor.Instance.UIModes.CurrentLanguage = item.Tag.ToString();
+                        Editor.Instance.Options.CurrentLanguage = item.Tag.ToString();
                     }
                 }
 

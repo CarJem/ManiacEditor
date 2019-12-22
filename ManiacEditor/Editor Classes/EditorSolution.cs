@@ -23,18 +23,18 @@ namespace ManiacEditor
             EditorSolution.CurrentScene = null;
             EditorSolution.StageConfig = null;
             Editor.Instance._levelIDLabel.Content = "Level ID: NULL";
-            Editor.Instance.UIModes.LevelID = -1;
-            Editor.Instance.UIModes.EncorePaletteExists = false;
-            Editor.Instance.UIModes.EncoreSetupType = 0;
+            Editor.Instance.Options.LevelID = -1;
+            Editor.Instance.Options.EncorePaletteExists = false;
+            Editor.Instance.Options.EncoreSetupType = 0;
             Editor.Instance.playerObjectPosition = new List<SceneEntity> { };
-            Editor.Instance.UIModes.INILayerNameHigher = "";
-            Editor.Instance.UIModes.INILayerNameLower = "";
+            Editor.Instance.Options.INILayerNameHigher = "";
+            Editor.Instance.Options.INILayerNameLower = "";
             Editor.Instance.ManiacINI.ClearSettings();
             Editor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             Editor.Instance.userDefinedSpritePaths = new List<string>();
             Editor.Instance.EncorePaletteButton.IsChecked = false;
             Editor.Instance.Paths.UnloadScene();
-            Editor.Instance.UIModes.RequireSaveCheck = false;
+            Editor.Instance.Options.RequireSaveCheck = false;
 
             if (EditorSolution.CurrentTiles != null) EditorSolution.CurrentTiles.Dispose();
             EditorSolution.CurrentTiles = null;
@@ -82,9 +82,9 @@ namespace ManiacEditor
             GC.Collect();
             EditorSolution.TileConfig = null;
 
-            Editor.Instance.UIModes.MenuChar = Editor.Instance.UIModes.MenuCharS.ToCharArray();
-            Editor.Instance.UIModes.MenuChar_Small = Editor.Instance.UIModes.MenuCharS_Small.ToCharArray();
-            Editor.Instance.UIModes.LevelSelectChar = Editor.Instance.UIModes.LevelSelectCharS.ToCharArray();
+            Editor.Instance.Options.MenuChar = Editor.Instance.Options.MenuCharS.ToCharArray();
+            Editor.Instance.Options.MenuChar_Small = Editor.Instance.Options.MenuCharS_Small.ToCharArray();
+            Editor.Instance.Options.LevelSelectChar = Editor.Instance.Options.LevelSelectCharS.ToCharArray();
 
             Editor.Instance.UpdateStartScreen(true);
         }
@@ -98,7 +98,7 @@ namespace ManiacEditor
             #region Layers
             public EditorLayer LowDetails
             {
-                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.UIModes.INILayerNameLower) || el.Name.Equals(Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.Options.INILayerNameLower) || el.Name.Equals(Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
             }
             public EditorLayer ForegroundLow
             {
@@ -114,7 +114,7 @@ namespace ManiacEditor
             }
             public EditorLayer HighDetails
             {
-                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.UIModes.INILayerNameHigher) || el.Name.Equals(Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.Options.INILayerNameHigher) || el.Name.Equals(Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
             }
             public EditorLayer ForegroundHigh
             {

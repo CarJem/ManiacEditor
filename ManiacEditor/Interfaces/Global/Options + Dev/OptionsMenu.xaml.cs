@@ -393,7 +393,7 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
-				Editor.Instance.UIModes.waterColor = colorSelect.Color;
+				Editor.Instance.Options.waterColor = colorSelect.Color;
 			}
 		}
 

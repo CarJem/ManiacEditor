@@ -11,7 +11,7 @@ namespace ManiacEditor.Entity_Renders
             int characterID = (int)entity.attributesMap["characterID"].ValueUInt8;
             int characterID_text = characterID;
             if (characterID >= 3) characterID++;
-            string text = "Text" + Editor.Instance.UIModes.CurrentLanguage;
+            string text = "Text" + Editor.Instance.Options.CurrentLanguage;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 8, characterID_text, false, false, false);
             var editorAnimFrame = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 1, 1, false, false, false);
             var editorAnimIcon = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 1, characterID, false, false, false);

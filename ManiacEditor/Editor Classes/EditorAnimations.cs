@@ -55,7 +55,7 @@ namespace ManiacEditor
         public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.SpriteAnimationsChecked)
             {
 				if (speed > 0)
                 {
@@ -87,7 +87,7 @@ namespace ManiacEditor
 
             int duration = 1;
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.MovingPlatformsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.MovingPlatformsChecked)
             {
 				if (speed > 0)
                 {
@@ -125,7 +125,7 @@ namespace ManiacEditor
             int initalY = ampY;
 
             // Playback || I disabled anything with both x and y values because they have way too many issues atm
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.MovingPlatformsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.MovingPlatformsChecked)
             {
                 if (speed > 0)
                 {
@@ -312,7 +312,7 @@ namespace ManiacEditor
 
             int duration = 1;
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.MovingPlatformsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.MovingPlatformsChecked)
             {
                 if (speed > 0)
                 {
@@ -381,7 +381,7 @@ namespace ManiacEditor
         public void ProcessAnimation2(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.SpriteAnimationsChecked)
             {
                 if (speed > 0)
                 {
@@ -403,7 +403,7 @@ namespace ManiacEditor
         public void ProcessAnimation3(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.SpriteAnimationsChecked)
             {
                 if (speed > 0)
                 {
@@ -425,7 +425,7 @@ namespace ManiacEditor
 
         public void ProcessPaperRollerRotatingColors()
         {
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.UIModes.SpriteAnimationsChecked)
+            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.SpriteAnimationsChecked)
             {
                 if ((DateTime.Now - lastFrametime2).TotalMilliseconds > 1024)
                 {

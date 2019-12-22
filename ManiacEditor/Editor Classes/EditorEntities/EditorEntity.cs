@@ -265,11 +265,11 @@ namespace ManiacEditor
 
             if (GridAlignment)
             {
-                if (Editor.Instance.UIModes.UseMagnetMode)
+                if (Editor.Instance.Options.UseMagnetMode)
                 {
-                    int x = Editor.Instance.UIModes.MagnetSize * (_entity.Position.X.High / Editor.Instance.UIModes.MagnetSize);
-                    int y = Editor.Instance.UIModes.MagnetSize * (_entity.Position.Y.High / Editor.Instance.UIModes.MagnetSize);
-                    return new Rectangle(x, y, Editor.Instance.UIModes.MagnetSize, Editor.Instance.UIModes.MagnetSize);
+                    int x = Editor.Instance.Options.MagnetSize * (_entity.Position.X.High / Editor.Instance.Options.MagnetSize);
+                    int y = Editor.Instance.Options.MagnetSize * (_entity.Position.Y.High / Editor.Instance.Options.MagnetSize);
+                    return new Rectangle(x, y, Editor.Instance.Options.MagnetSize, Editor.Instance.Options.MagnetSize);
                 }
                 else
                 {
@@ -306,7 +306,7 @@ namespace ManiacEditor
 			}
 
 
-            if (Editor.Instance.UIModes.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Editor.Instance.UIModes.entitiesTextFilter))
+            if (Editor.Instance.Options.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Editor.Instance.Options.entitiesTextFilter))
             {
                 filteredOut = true;
             }
@@ -404,7 +404,7 @@ namespace ManiacEditor
         public virtual void Draw(GraphicsHandler d)
         {
             if (filteredOut) return;
-            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Editor.Instance.UIModes.ShowEntityPathArrows)
+            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Editor.Instance.Options.ShowEntityPathArrows)
             {
                 try
                 {
@@ -457,7 +457,7 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = _entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !Editor.Instance.Options.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
             if (!Settings.MyPerformance.NeverLoadEntityTextures)
             {
@@ -465,7 +465,7 @@ namespace ManiacEditor
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
             }
 
-            if (drawSelectionBoxInFront && !Editor.Instance.UIModes.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+            if (drawSelectionBoxInFront && !Editor.Instance.Options.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
         public virtual void PrimaryDraw(GraphicsHandler d, List<string> onScreenExlusionList)
         {
@@ -519,7 +519,7 @@ namespace ManiacEditor
                 }
                 else
                 { // No frame to render
-                    if (Editor.Instance.UIModes.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (Editor.Instance.Options.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
                 //DrawOthers(d);
@@ -532,7 +532,7 @@ namespace ManiacEditor
         }
         public void DrawSelectionBox(GraphicsHandler d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
         {
-            if (Editor.Instance.UIModes.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
+            if (Editor.Instance.Options.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
             {
                 if (renderNotFound)
                 {

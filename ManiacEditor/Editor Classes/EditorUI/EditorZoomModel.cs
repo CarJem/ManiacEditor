@@ -75,17 +75,17 @@ namespace ManiacEditor
 
         public void VScrollBar1_Entered(object sender, EventArgs e)
         {
-            if (!Editor.UIModes.ScrollLocked)
+            if (!Editor.Options.ScrollLocked)
             {
-                Editor.UIModes.ScrollDirection = (int)ScrollDir.Y;
+                Editor.Options.ScrollDirection = (int)ScrollDir.Y;
             }
         }
 
         public void HScrollBar1_Entered(object sender, EventArgs e)
         {
-            if (!Editor.UIModes.ScrollLocked)
+            if (!Editor.Options.ScrollLocked)
             {
-                Editor.UIModes.ScrollDirection = (int)ScrollDir.X;
+                Editor.Options.ScrollDirection = (int)ScrollDir.X;
             }
         }
 

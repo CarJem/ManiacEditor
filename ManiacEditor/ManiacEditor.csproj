@@ -371,6 +371,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Editor Classes\EditorDataModel.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\MonkeyDude.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\SchrodingersCapsule.cs" />
     <Compile Include="Entity Renders\Normal Renders\CPZ\DNARiser.cs" />

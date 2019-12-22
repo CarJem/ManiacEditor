@@ -25,8 +25,8 @@ namespace ManiacEditor
 
         private bool GameRunning { get => Editor.Instance.InGame.GameRunning; set => Editor.Instance.InGame.GameRunning = value; }
 
-        private int ScrollDirection { get => Editor.Instance.UIModes.ScrollDirection; }
-        private bool ScrollLocked { get => Editor.Instance.UIModes.ScrollLocked; }
+        private int ScrollDirection { get => Editor.Instance.Options.ScrollDirection; }
+        private bool ScrollLocked { get => Editor.Instance.Options.ScrollLocked; }
 
         private bool CtrlPressed() { return Editor.Instance.CtrlPressed(); }
         private bool ShiftPressed() { return Editor.Instance.ShiftPressed(); }
@@ -90,7 +90,7 @@ namespace ManiacEditor
         public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
         {
 
-            if (Editor.Instance.UIModes.EnablePixelCountMode == false)
+            if (Editor.Instance.Options.CountTilesSelectedInPixels == false)
             {
                 Editor.Instance.positionLabel.Content = "X: " + (int)(e.X / EditorStateModel.Zoom) + " Y: " + (int)(e.Y / EditorStateModel.Zoom);
             }
@@ -486,7 +486,7 @@ namespace ManiacEditor
             if (e.Button == MouseButtons.Right)
             {
                 if (Editor.Instance.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
-                else if (IsEntitiesEdit() && !Editor.Instance.DrawToolButton.IsChecked.Value && !Editor.Instance.SplineToolButton.IsChecked.Value && (!Editor.Instance.UIModes.RightClicktoSwapSlotID || EditorSolution.Entities.SelectedEntities.Count <= 1)) EntitiesEditContextMenu(e);
+                else if (IsEntitiesEdit() && !Editor.Instance.DrawToolButton.IsChecked.Value && !Editor.Instance.SplineToolButton.IsChecked.Value && (!Editor.Instance.Options.RightClicktoSwapSlotID || EditorSolution.Entities.SelectedEntities.Count <= 1)) EntitiesEditContextMenu(e);
                 else if (IsTilesEdit() && !Editor.Instance.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
             }
 
@@ -593,7 +593,7 @@ namespace ManiacEditor
             }
             else tile = tileA;
 
-            Editor.Instance.UIModes.SelectedTileID = tile;
+            Editor.Instance.Options.SelectedTileID = tile;
             Editor.Instance.TileManiacIntergrationItem.IsEnabled = (tile < 1023);
             Editor.Instance.TileManiacIntergrationItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
 
@@ -641,7 +641,7 @@ namespace ManiacEditor
             void RemoveTile()
             {
                 // Remove tile
-                if (Editor.Instance.UIModes.DrawBrushSize == 1)
+                if (Editor.Instance.Options.DrawBrushSize == 1)
                 {
                     Editor.Instance.EditLayerA?.Select(p);
                     Editor.Instance.EditLayerB?.Select(p);
@@ -649,16 +649,16 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    double size = (Editor.Instance.UIModes.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
-                    Editor.Instance.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE, Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE));
-                    Editor.Instance.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE, Editor.Instance.UIModes.DrawBrushSize * EditorConstants.TILE_SIZE));
+                    double size = (Editor.Instance.Options.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                    Editor.Instance.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Editor.Instance.Options.DrawBrushSize * EditorConstants.TILE_SIZE, Editor.Instance.Options.DrawBrushSize * EditorConstants.TILE_SIZE));
+                    Editor.Instance.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Editor.Instance.Options.DrawBrushSize * EditorConstants.TILE_SIZE, Editor.Instance.Options.DrawBrushSize * EditorConstants.TILE_SIZE));
                     Editor.Instance.DeleteSelected();
                 }
             }
 
             void PlaceTile()
             {
-                if (Editor.Instance.UIModes.DrawBrushSize == 1)
+                if (Editor.Instance.Options.DrawBrushSize == 1)
                 {
                     if (Editor.Instance.TilesToolbar.SelectedTile != -1)
                     {
@@ -758,7 +758,7 @@ namespace ManiacEditor
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (EditorSolution.Entities.SelectedEntities.Count == 2 && Editor.Instance.UIModes.RightClicktoSwapSlotID)
+                if (EditorSolution.Entities.SelectedEntities.Count == 2 && Editor.Instance.Options.RightClicktoSwapSlotID)
                 {
                     EditorSolution.Entities.SwapSlotIDsFromPair();
                 }
@@ -1036,7 +1036,7 @@ namespace ManiacEditor
                 else tile = tileA;
 
 
-                Editor.Instance.UIModes.SelectedTileID = tile;
+                Editor.Instance.Options.SelectedTileID = tile;
                 Editor.Instance.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
                 Editor.Instance.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
                 Editor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
@@ -1332,30 +1332,30 @@ namespace ManiacEditor
             }
             void DragMoveItems()
             {
-                int oldGridX = (int)((EditorStateModel.LastX / EditorStateModel.Zoom) / Editor.Instance.UIModes.MagnetSize) * Editor.Instance.UIModes.MagnetSize;
-                int oldGridY = (int)((EditorStateModel.LastY / EditorStateModel.Zoom) / Editor.Instance.UIModes.MagnetSize) * Editor.Instance.UIModes.MagnetSize;
-                int newGridX = (int)((e.X / EditorStateModel.Zoom) / Editor.Instance.UIModes.MagnetSize) * Editor.Instance.UIModes.MagnetSize;
-                int newGridY = (int)((e.Y / EditorStateModel.Zoom) / Editor.Instance.UIModes.MagnetSize) * Editor.Instance.UIModes.MagnetSize;
+                int oldGridX = (int)((EditorStateModel.LastX / EditorStateModel.Zoom) / Editor.Instance.Options.MagnetSize) * Editor.Instance.Options.MagnetSize;
+                int oldGridY = (int)((EditorStateModel.LastY / EditorStateModel.Zoom) / Editor.Instance.Options.MagnetSize) * Editor.Instance.Options.MagnetSize;
+                int newGridX = (int)((e.X / EditorStateModel.Zoom) / Editor.Instance.Options.MagnetSize) * Editor.Instance.Options.MagnetSize;
+                int newGridY = (int)((e.Y / EditorStateModel.Zoom) / Editor.Instance.Options.MagnetSize) * Editor.Instance.Options.MagnetSize;
                 Point oldPointGrid = new Point(0, 0);
                 Point newPointGrid = new Point(0, 0);
-                if (Editor.Instance.UIModes.UseMagnetMode && IsEntitiesEdit())
+                if (Editor.Instance.Options.UseMagnetMode && IsEntitiesEdit())
                 {
-                    if (Editor.Instance.UIModes.UseMagnetXAxis == true && Editor.Instance.UIModes.UseMagnetYAxis == true)
+                    if (Editor.Instance.Options.UseMagnetXAxis == true && Editor.Instance.Options.UseMagnetYAxis == true)
                     {
                         oldPointGrid = new Point(oldGridX, oldGridY);
                         newPointGrid = new Point(newGridX, newGridY);
                     }
-                    if (Editor.Instance.UIModes.UseMagnetXAxis && !Editor.Instance.UIModes.UseMagnetYAxis)
+                    if (Editor.Instance.Options.UseMagnetXAxis && !Editor.Instance.Options.UseMagnetYAxis)
                     {
                         oldPointGrid = new Point(oldGridX, (int)(EditorStateModel.LastY / EditorStateModel.Zoom));
                         newPointGrid = new Point(newGridX, (int)(e.Y / EditorStateModel.Zoom));
                     }
-                    if (!Editor.Instance.UIModes.UseMagnetXAxis && Editor.Instance.UIModes.UseMagnetYAxis)
+                    if (!Editor.Instance.Options.UseMagnetXAxis && Editor.Instance.Options.UseMagnetYAxis)
                     {
                         oldPointGrid = new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), oldGridY);
                         newPointGrid = new Point((int)(e.X / EditorStateModel.Zoom), newGridY);
                     }
-                    if (!Editor.Instance.UIModes.UseMagnetXAxis && !Editor.Instance.UIModes.UseMagnetYAxis)
+                    if (!Editor.Instance.Options.UseMagnetXAxis && !Editor.Instance.Options.UseMagnetYAxis)
                     {
                         oldPointGrid = new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom));
                         newPointGrid = new Point((int)(e.X / EditorStateModel.Zoom), (int)(e.Y / EditorStateModel.Zoom));
@@ -1383,19 +1383,19 @@ namespace ManiacEditor
                 //Editor.Instance.UI.UpdateEditLayerActions();
                 if (IsEntitiesEdit())
                 {
-                    if (Editor.Instance.UIModes.UseMagnetMode)
+                    if (Editor.Instance.Options.UseMagnetMode)
                     {
                         int x = EditorSolution.Entities.GetSelectedEntity().Entity.Position.X.High;
                         int y = EditorSolution.Entities.GetSelectedEntity().Entity.Position.Y.High;
 
-                        if (x % Editor.Instance.UIModes.MagnetSize != 0 && Editor.Instance.UIModes.UseMagnetXAxis)
+                        if (x % Editor.Instance.Options.MagnetSize != 0 && Editor.Instance.Options.UseMagnetXAxis)
                         {
-                            int offsetX = x % Editor.Instance.UIModes.MagnetSize;
+                            int offsetX = x % Editor.Instance.Options.MagnetSize;
                             oldPointGrid.X -= offsetX;
                         }
-                        if (y % Editor.Instance.UIModes.MagnetSize != 0 && Editor.Instance.UIModes.UseMagnetYAxis)
+                        if (y % Editor.Instance.Options.MagnetSize != 0 && Editor.Instance.Options.UseMagnetYAxis)
                         {
-                            int offsetY = y % Editor.Instance.UIModes.MagnetSize;
+                            int offsetY = y % Editor.Instance.Options.MagnetSize;
                             oldPointGrid.Y -= offsetY;
                         }
                     }
@@ -1404,7 +1404,7 @@ namespace ManiacEditor
                     try
                     {
 
-                        if (Editor.Instance.UIModes.UseMagnetMode)
+                        if (Editor.Instance.Options.UseMagnetMode)
                         {
                             EditorSolution.Entities.MoveSelected(oldPointGrid, newPointGrid, CtrlPressed() && EditorStateModel.StartDragged);
                         }
@@ -1420,7 +1420,7 @@ namespace ManiacEditor
                         EditorStateModel.Dragged = false;
                         return;
                     }
-                    if (Editor.Instance.UIModes.UseMagnetMode)
+                    if (Editor.Instance.Options.UseMagnetMode)
                     {
                         EditorStateModel.DraggedX += newPointGrid.X - oldPointGrid.X;
                         EditorStateModel.DraggedY += newPointGrid.Y - oldPointGrid.Y;
@@ -1470,7 +1470,7 @@ namespace ManiacEditor
 
         public void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {
-            bool parallaxAnimationInProgress = Editor.Instance.UIModes.AnimationsEnabled && Editor.Instance.UIModes.ParallaxAnimationChecked;
+            bool parallaxAnimationInProgress = Editor.Instance.Options.AnimationsEnabled && Editor.Instance.Options.ParallaxAnimationChecked;
             if (parallaxAnimationInProgress) return;
 
             // Faster Nudge Toggle
@@ -1481,7 +1481,7 @@ namespace ManiacEditor
             // Scroll Lock Toggle
             else if (isCombo(e, myKeyBinds.ScrollLock))
             {
-                Editor.Instance.UIModes.ScrollLocked ^= true;
+                Editor.Instance.Options.ScrollLocked ^= true;
             }
             // Switch Scroll Lock Type
             else if (isCombo(e, myKeyBinds.ScrollLockTypeSwitch))
@@ -1691,12 +1691,12 @@ namespace ManiacEditor
 
         public void OnKeyDownTools(object sender, KeyEventArgs e)
         {
-            if (isCombo(e, myKeyBinds.PointerTool) && Editor.Instance.PointerToolButton.IsEnabled) Editor.Instance.UIModes.PointerMode(true);
-            else if (isCombo(e, myKeyBinds.SelectTool) && Editor.Instance.SelectToolButton.IsEnabled) Editor.Instance.UIModes.SelectionMode(true);
-            else if (isCombo(e, myKeyBinds.DrawTool) && Editor.Instance.DrawToolButton.IsEnabled) Editor.Instance.UIModes.DrawMode(true);
-            else if (isCombo(e, myKeyBinds.MagnetTool) && Editor.Instance.MagnetMode.IsEnabled) Editor.Instance.UIModes.UseMagnetMode ^= true;
-            else if (isCombo(e, myKeyBinds.SplineTool) && Editor.Instance.SplineToolButton.IsEnabled) Editor.Instance.UIModes.SplineMode(true);
-            else if (isCombo(e, myKeyBinds.StampTool) && Editor.Instance.ChunksToolButton.IsEnabled) Editor.Instance.UIModes.ChunksMode();
+            if (isCombo(e, myKeyBinds.PointerTool) && Editor.Instance.PointerToolButton.IsEnabled) Editor.Instance.Options.PointerMode(true);
+            else if (isCombo(e, myKeyBinds.SelectTool) && Editor.Instance.SelectToolButton.IsEnabled) Editor.Instance.Options.SelectionMode(true);
+            else if (isCombo(e, myKeyBinds.DrawTool) && Editor.Instance.DrawToolButton.IsEnabled) Editor.Instance.Options.DrawMode(true);
+            else if (isCombo(e, myKeyBinds.MagnetTool) && Editor.Instance.MagnetMode.IsEnabled) Editor.Instance.Options.UseMagnetMode ^= true;
+            else if (isCombo(e, myKeyBinds.SplineTool) && Editor.Instance.SplineToolButton.IsEnabled) Editor.Instance.Options.SplineMode(true);
+            else if (isCombo(e, myKeyBinds.StampTool) && Editor.Instance.ChunksToolButton.IsEnabled) Editor.Instance.Options.ChunksMode();
 
         }
         #endregion

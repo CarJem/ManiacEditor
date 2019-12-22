@@ -2,275 +2,325 @@
 
 namespace ManiacEditor
 {
-    public class EditorUIModes
+    public class UserStateModel
     {
-        #region ShowTileID
-        public bool ShowTileID { get => GetShowTileIDMode(); set => SetShowTileIDMode(value); } //Show Tile ID Status
+        #region View Options
+        public bool ShowTileID
+        {
+            get { return _ShowTileID; }
+            set
+            {
+                Editor.Instance.ShowTileIDButton.IsChecked = value;
+                Editor.Instance.ReloadSpecificTextures(null, null);
+                _ShowTileID = value;
+            }
+        }
         private bool _ShowTileID;
-        private bool GetShowTileIDMode()
+
+        public bool ShowGrid
         {
-            return _ShowTileID;
+            get { return _ShowGrid; }
+            set
+            {
+                Editor.Instance.ShowGridButton.IsChecked = value;
+                Editor.Instance.Options._ShowGrid = value;
+            }
         }
-        private void SetShowTileIDMode(bool value)
-        {
-            Editor.Instance.ShowTileIDButton.IsChecked = value;
-            Editor.Instance.ReloadSpecificTextures(null, null);
-            _ShowTileID = value;
-        }
-        #endregion
-        #region ShowGrid
-        public bool ShowGrid { get => GetShowGridMode(); set => SetShowGridMode(value); } // Show Grid Mode Status
         private bool _ShowGrid;
-        private bool GetShowGridMode()
+
+        public bool UseEncoreColors
         {
-            return _ShowGrid;
+            get { return _UseEncoreColors; }
+            set
+            {
+                Editor.Instance.DisposeTextures();
+                Editor.Instance.EncorePaletteButton.IsChecked = value;
+                Editor.Instance.Options._UseEncoreColors = value;
+                EditorSolution.CurrentTiles.StageTiles?.Image.Reload((value ? Editor.Instance.EncorePalette[0] : null));
+                Editor.Instance.TilesToolbar?.Reload((value ? Editor.Instance.EncorePalette[0] : null));
+                Editor.Instance.EntityDrawing.ReleaseResources();
+            }
         }
-        private void SetShowGridMode(bool value)
-        {
-            Editor.Instance.ShowGridButton.IsChecked = value;
-            Editor.Instance.UIModes._ShowGrid = value;
-        }
-        #endregion
-        #region UseEncoreColors
-        public bool UseEncoreColors { get => GetUseEncoreColorsState(); set => SetUseEncoreColorsState(value); } // Show Encore Color Status
         private bool _UseEncoreColors = false;
-        private bool GetUseEncoreColorsState()
+
+        public bool ShowCollisionA
         {
-            return _UseEncoreColors;
+            get { return _ShowCollisionA; }
+            set
+            {
+                Editor.Instance.ShowCollisionAButton.IsChecked = value;
+                Editor.Instance.Options._ShowCollisionA = value;
+                Editor.Instance.ShowCollisionBButton.IsChecked = false;
+                Editor.Instance.Options._ShowCollisionB = false;
+                Editor.Instance.ReloadSpecificTextures(null, null);
+            }
         }
-        private void SetUseEncoreColorsState(bool value)
-        {
-            Editor.Instance.DisposeTextures();
-            Editor.Instance.EncorePaletteButton.IsChecked = value;
-            Editor.Instance.UIModes._UseEncoreColors = value;
-            EditorSolution.CurrentTiles.StageTiles?.Image.Reload((value ? Editor.Instance.EncorePalette[0] : null));
-            Editor.Instance.TilesToolbar?.Reload((value ? Editor.Instance.EncorePalette[0] : null));
-            Editor.Instance.EntityDrawing.ReleaseResources();
-        }
-
-        #endregion
-        #region ShowCollisionA
-
-        public bool ShowCollisionA { get => GetShowCollisionA(); set => SetShowCollisionA(value); } //Show Collision Path A Status
-
         private bool _ShowCollisionA;
-        private bool GetShowCollisionA()
-        {
-            return _ShowCollisionA;
-        }
-        private void SetShowCollisionA(bool value)
-        {
-            Editor.Instance.ShowCollisionAButton.IsChecked = value;
-            Editor.Instance.UIModes._ShowCollisionA = value;
-            Editor.Instance.ShowCollisionBButton.IsChecked = false;
-            Editor.Instance.UIModes._ShowCollisionB = false;
-            Editor.Instance.ReloadSpecificTextures(null, null);
-        }
-        #endregion
-        #region ShowCollisionB
 
-        public bool ShowCollisionB { get => GetShowCollisionB(); set => SetShowCollisionB(value); } //Show Collision Path B Status
-
+        public bool ShowCollisionB
+        {
+            get { return _ShowCollisionB; }
+            set
+            {
+                Editor.Instance.ShowCollisionAButton.IsChecked = false;
+                Editor.Instance.Options._ShowCollisionA = false;
+                Editor.Instance.ShowCollisionBButton.IsChecked = value;
+                Editor.Instance.Options._ShowCollisionB = value;
+                Editor.Instance.ReloadSpecificTextures(null, null);
+            }
+        }
         private bool _ShowCollisionB;
-        private bool GetShowCollisionB()
-        {
-            return _ShowCollisionB;
-        }
-        private void SetShowCollisionB(bool value)
-        {
 
-            Editor.Instance.ShowCollisionAButton.IsChecked = false;
-            Editor.Instance.UIModes._ShowCollisionA = false;
-            Editor.Instance.ShowCollisionBButton.IsChecked = value;
-            Editor.Instance.UIModes._ShowCollisionB = value;
-            Editor.Instance.ReloadSpecificTextures(null, null);
-        }
-        #endregion
-        public int BackupType = 0; //Determines What Kind of Backup to Make
-        #region UseMagnetMode
-        public bool UseMagnetMode { get => GetUseMagnetMode(); set => SetUseMagnetMode(value); } // Determines the state of Magnet Mode
-        private bool _UseMagnetMode = false;
-        private bool GetUseMagnetMode()
+        public bool ShowParallaxSprites
         {
-            return _UseMagnetMode;
+            get { return _ShowParallaxSprites; }
+            set
+            {
+                _ShowParallaxSprites = value;
+                Editor.Instance.showParallaxSpritesToolStripMenuItem.IsChecked = value;
+            }
         }
-        private void SetUseMagnetMode(bool value)
-        {
-            Editor.Instance.UIModes._UseMagnetMode = value;
-            Editor.Instance.MagnetMode.IsChecked = value;
-        }
-        #endregion
-        #region UseMagnetXAxis
-        public bool UseMagnetXAxis { get => GetUseMagnetXAxis(); set => SetUseMagnetXAxis(value); } //Determines if the Magnet should use the X Axis
-        private bool _UseMagnetXAxis = true;
-        private bool GetUseMagnetXAxis()
-        {
-            return _UseMagnetXAxis;
-        }
-        private void SetUseMagnetXAxis(bool value)
-        {
-            Editor.Instance.UIModes._UseMagnetXAxis = value;
-            Editor.Instance.enableXAxisToolStripMenuItem.IsChecked = value;
-        }
-        #endregion
-        #region UseMagnetYAxis
-        public bool UseMagnetYAxis { get => GetUseMagnetYAxis(); set => SetUseMagnetYAxis(value); } //Determines if the Magnet should use the Y Axis Axis
-        private bool _UseMagnetYAxis = true;
-        private bool GetUseMagnetYAxis()
-        {
-            return _UseMagnetYAxis;
-        }
-        private void SetUseMagnetYAxis(bool value)
-        {
-            Editor.Instance.UIModes._UseMagnetYAxis = value;
-            Editor.Instance.enableYAxisToolStripMenuItem.IsChecked = value;
-        }
-        #endregion
-        #region ShowEntityPathArrows
-        public bool ShowEntityPathArrows { get => GetShowEntityPathArrows(); set => SetShowEntityPathArrows(value); } //Determines if we want to see Object Arrow Paths
-        private bool _ShowEntityPathArrows = true;
-        private bool GetShowEntityPathArrows()
-        {
-            return _ShowEntityPathArrows;
-        }
-        private void SetShowEntityPathArrows(bool value)
-        {
-            Editor.Instance.UIModes._ShowEntityPathArrows = value;
-            Editor.Instance.showEntityPathArrowsToolstripItem.IsChecked = value;
-        }
-        #endregion
-        #region ShowWaterLevel
-        public bool ShowWaterLevel { get => GetShowWaterLevel(); set => SetShowWaterLevel(value); } //Determines if the Water Object should show it's Water Level
-        private bool _ShowWaterLevel = false;
-        private bool GetShowWaterLevel()
-        {
-            return _ShowWaterLevel;
-        }
-        private void SetShowWaterLevel(bool value)
-        {
-            Editor.Instance.UIModes._ShowWaterLevel = value;
-            Editor.Instance.showWaterLevelToolStripMenuItem.IsChecked = value;
-        }
-        #endregion
-        #region AlwaysShowWaterLevel
-        public bool AlwaysShowWaterLevel { get => GetAlwaysShowWaterLevel(); set => SetAlwaysShowWaterLevel(value); } //Determines if the Water Level Should be Shown at all times regardless of the object being selected
-        private bool _AlwaysShowWaterLevel = false;
-        private bool GetAlwaysShowWaterLevel()
-        {
-            return _AlwaysShowWaterLevel;
-        }
-        private void SetAlwaysShowWaterLevel(bool value)
-        {
-            Editor.Instance.UIModes._AlwaysShowWaterLevel = value;
-            Editor.Instance.waterLevelAlwaysShowItem.IsChecked = value;
-        }
-        #endregion
-        #region SizeWaterLevelwithBounds
-        public bool SizeWaterLevelwithBounds { get => GetSizeWaterLevelwithBounds(); set => SetSizeWaterLevelwithBounds(value); } //Determines if the water level width should match those of the object's bounds
-        private bool _SizeWaterLevelwithBounds = false;
-        private bool GetSizeWaterLevelwithBounds()
-        {
-            return _SizeWaterLevelwithBounds;
-        }
-        private void SetSizeWaterLevelwithBounds(bool value)
-        {
-            Editor.Instance.UIModes._SizeWaterLevelwithBounds = value;
-            Editor.Instance.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
-        }
-        #endregion
-        #region ExtraLayersMoveToFront
-        public bool ExtraLayersMoveToFront { get => GetExtraLayersMoveToFront(); set => SetExtraLayersMoveToFront(value); }  //Determines if we should render the extra layers in front of everything on behind everything
-        private bool _ExtraLayersMoveToFront = false;
-        private bool GetExtraLayersMoveToFront()
-        {
-            return _ExtraLayersMoveToFront;
-        }
-        private void SetExtraLayersMoveToFront(bool value)
-        {
-            Editor.Instance.UIModes._ExtraLayersMoveToFront = value;
-            Editor.Instance.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
-        }
-        #endregion
-        #region ShowFlippedTileHelper
-        public bool ShowFlippedTileHelper { get => GetShowFlippedTileHelper(); set => SetShowFlippedTileHelper(value); }
-        private bool _ShowFlippedTileHelper = false;
-        private bool GetShowFlippedTileHelper()
-        {
-            return _ShowFlippedTileHelper;
-        }
-        private void SetShowFlippedTileHelper(bool value)
-        {
-            Editor.Instance.UIModes._ShowFlippedTileHelper = value;
-            Editor.Instance.ReloadSpecificTextures(null, null);
-        }
-        #endregion
-        #region ShowingDataDirectory
-        public bool ShowingDataDirectory { get => GetShowingDataDirectory(); set => SetShowingDataDirectory(value); }
-        private bool _ShowingDataDirectory = false;
-        private bool GetShowingDataDirectory()
-        {
-            return _ShowingDataDirectory;
-        }
-        private void SetShowingDataDirectory(bool value)
-        {
-            Editor.Instance.UIModes._ShowingDataDirectory = value;
-        }
-        #endregion
-        #region ShowParallaxSprites
-        public bool ShowParallaxSprites { get => GetShowParallaxSprites(); set => SetShowParallaxSprites(value); }
         private bool _ShowParallaxSprites = false;
-        private bool GetShowParallaxSprites()
+
+        public bool ApplyEditEntitiesTransparency
         {
-            return _ShowParallaxSprites;
+            get { return _ApplyEditEntitiesTransparency; }
+            set
+            {
+                Editor.Instance.Options._ApplyEditEntitiesTransparency = value;
+                Editor.Instance.EditEntitiesTransparencyToggle.IsChecked = value;
+                Editor.Instance.QuickEditEntitiesTransparentLayers.IsChecked = value;
+            }
         }
-        private void SetShowParallaxSprites(bool value)
-        {
-            Editor.Instance.UIModes._ShowParallaxSprites = value;
-            Editor.Instance.showParallaxSpritesToolStripMenuItem.IsChecked = value;
-        }
-        #endregion
-        #region ApplyEditEntitiesTransparency
-        public bool ApplyEditEntitiesTransparency { get => GetApplyEditEntitiesTransparency(); set => SetApplyEditEntitiesTransparency(value); }
         private bool _ApplyEditEntitiesTransparency = false;
-        private bool GetApplyEditEntitiesTransparency()
+
+        public bool ShowEntitySelectionBoxes
         {
-            return _ApplyEditEntitiesTransparency;
+            get { return _ShowEntitySelectionBoxes; }
+            set
+            {
+                Editor.Instance.Options._ShowEntitySelectionBoxes = value;
+                Editor.Instance.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
+            }
         }
-        private void SetApplyEditEntitiesTransparency(bool value)
-        {
-            Editor.Instance.UIModes._ApplyEditEntitiesTransparency = value;
-            Editor.Instance.EditEntitiesTransparencyToggle.IsChecked = value;
-            Editor.Instance.QuickEditEntitiesTransparentLayers.IsChecked = value;
-        }
-        #endregion
-        #region ShowEntitySelectionBoxes
-        public bool ShowEntitySelectionBoxes { get => GetShowEntitySelectionBoxes(); set => SetShowEntitySelectionBoxes(value); }
         private bool _ShowEntitySelectionBoxes = false;
-        private bool GetShowEntitySelectionBoxes()
+
+        public bool ShowEntityPathArrows
         {
-            return _ShowEntitySelectionBoxes;
+            get
+            {
+                return _ShowEntityPathArrows;
+            }
+            set
+            {
+                _ShowEntityPathArrows = value;
+                Editor.Instance.showEntityPathArrowsToolstripItem.IsChecked = value;
+            }
         }
-        private void SetShowEntitySelectionBoxes(bool value)
+        private bool _ShowEntityPathArrows = true;
+
+        public bool ShowWaterLevel
         {
-            Editor.Instance.UIModes._ShowEntitySelectionBoxes = value;
-            Editor.Instance.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
+            get
+            {
+                return _ShowWaterLevel;
+            }
+            set
+            {
+                _ShowWaterLevel = value;
+                Editor.Instance.showWaterLevelToolStripMenuItem.IsChecked = value;
+            }
         }
+        private bool _ShowWaterLevel = false;
+
+        public bool AlwaysShowWaterLevel
+        {
+            get
+            {
+                return _AlwaysShowWaterLevel;
+            }
+            set
+            {
+                _AlwaysShowWaterLevel = value;
+                Editor.Instance.waterLevelAlwaysShowItem.IsChecked = value;
+            }
+        }
+        private bool _AlwaysShowWaterLevel = false;
+
+        public bool SizeWaterLevelwithBounds
+        {
+            get 
+            {
+                return _SizeWaterLevelwithBounds;
+            }
+            set
+            {
+                _SizeWaterLevelwithBounds = value;
+                Editor.Instance.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
+            }
+        }
+        private bool _SizeWaterLevelwithBounds = false;
+
+        public bool ExtraLayersMoveToFront
+        {
+            get
+            {
+                return _ExtraLayersMoveToFront;
+            }
+            set
+            {
+                Editor.Instance.Options._ExtraLayersMoveToFront = value;
+                Editor.Instance.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
+            }
+        }
+        private bool _ExtraLayersMoveToFront = false;
+
+        public bool ShowFlippedTileHelper
+        {
+            get
+            {
+                return _ShowFlippedTileHelper;
+            }
+            set
+            {
+                _ShowFlippedTileHelper = value;
+                Editor.Instance.ReloadSpecificTextures(null, null);
+            }
+        }
+        private bool _ShowFlippedTileHelper = false;
+
         #endregion
-        #region EnablePixelCountMode
-        public bool EnablePixelCountMode { get => GetEnablePixelCountMode(); set => SetEnablePixelCountMode(value); }
-        private bool _EnablePixelCountMode = false;
-        private bool GetEnablePixelCountMode()
+
+        #region Control Options
+
+        public bool UseMagnetMode
         {
-            return _EnablePixelCountMode;
+            get { return _UseMagnetMode; }
+            set
+            {
+                _UseMagnetMode = value;
+                Editor.Instance.MagnetMode.IsChecked = value;
+            }
         }
-        private void SetEnablePixelCountMode(bool value)
+        private bool _UseMagnetMode = false;
+
+        public bool UseMagnetXAxis
         {
-            Editor.Instance.UIModes._EnablePixelCountMode = value;
-            Editor.Instance.pixelModeButton.IsChecked = value;
-            Editor.Instance.pixelModeToolStripMenuItem.IsChecked = value;
+            get { return _UseMagnetXAxis; }
+            set
+            {
+                _UseMagnetXAxis = value;
+                Editor.Instance.enableXAxisToolStripMenuItem.IsChecked = value;
+            }
         }
+        private bool _UseMagnetXAxis = true;
+
+        public bool UseMagnetYAxis
+        {
+            get { return _UseMagnetYAxis; }
+            set
+            {
+                _UseMagnetYAxis = value;
+                Editor.Instance.enableYAxisToolStripMenuItem.IsChecked = value;
+            }
+        }
+        private bool _UseMagnetYAxis = true;
+
+        public bool EnableFasterNudge
+        {
+            get
+            {
+                return _EnableFasterNudge;
+            }
+            set
+            {
+                Editor.Instance.nudgeFasterButton.IsChecked = value;
+                Editor.Instance.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
+                _EnableFasterNudge = value;
+            }
+        }
+        private bool _EnableFasterNudge = false;
+
+        public bool ScrollLocked
+        {
+            get
+            {
+                return _ScrollLocked;
+            }
+            set
+            {
+                _ScrollLocked = value;
+                Editor.Instance.scrollLockButton.IsChecked = value;
+                Editor.Instance.statusNAToolStripMenuItem.IsChecked = value;
+            }
+        }
+        private bool _ScrollLocked = true;
+
+
         #endregion
-        #region IsConsoleWindowOpen
+
+        #region Information Settings
+
+        public bool ShowingDataDirectory
+        {
+            get
+            {
+                return _ShowingDataDirectory;
+            }
+            set
+            {
+                {
+                    _ShowingDataDirectory = value;
+                }
+            }
+
+        }
+        private bool _ShowingDataDirectory = false;
+
+        public bool CountTilesSelectedInPixels
+        {
+            get
+            {
+                return _CountTilesSelectedInPixels;
+            }
+            set
+            {
+                _CountTilesSelectedInPixels = value;
+                Editor.Instance.pixelModeButton.IsChecked = value;
+                Editor.Instance.pixelModeToolStripMenuItem.IsChecked = value;
+            }
+        }
+        private bool _CountTilesSelectedInPixels = false;
+
+
+        #endregion
+
+        public bool Duplicate1
+        {
+            get
+            {
+                return _Duplicate1;
+            }
+            set
+            {
+                _Duplicate1 = value;
+            }
+        }
+        private bool _Duplicate1;
+
+        public int BackupType = 0; //Determines What Kind of Backup to Make
+
+
+        
+
+        
+
+        
+
+        
+        
+
+        
         public bool IsConsoleWindowOpen { get => GetIsConsoleWindowOpen(); set => SetIsConsoleWindowOpen(value); }
         private bool _IsConsoleWindowOpen = false;
         private bool GetIsConsoleWindowOpen()
@@ -279,10 +329,9 @@ namespace ManiacEditor
         }
         private void SetIsConsoleWindowOpen(bool value)
         {
-            Editor.Instance.UIModes._IsConsoleWindowOpen = value;
+            Editor.Instance.Options._IsConsoleWindowOpen = value;
         }
-        #endregion
-        #region RightClicktoSwapSlotID
+        
         public bool RightClicktoSwapSlotID { get => GetRightClicktoSwapSlotID(); set => SetRightClicktoSwapSlotID(value); }
         private bool _RightClicktoSwapSlotID = false;
         private bool GetRightClicktoSwapSlotID()
@@ -291,11 +340,10 @@ namespace ManiacEditor
         }
         private void SetRightClicktoSwapSlotID(bool value)
         {
-            Editor.Instance.UIModes._RightClicktoSwapSlotID = value;
+            Editor.Instance.Options._RightClicktoSwapSlotID = value;
             Editor.Instance.rightClicktoSwapSlotIDs.IsChecked = value;
         }
-        #endregion
-        #region EntitySelectionBoxesAlwaysPrioritized
+        
         public bool EntitySelectionBoxesAlwaysPrioritized { get => GetEntitySelectionBoxesAlwaysPrioritized(); set => SetEntitySelectionBoxesAlwaysPrioritized(value); }
         private bool _EntitySelectionBoxesAlwaysPrioritized = false;
         private bool GetEntitySelectionBoxesAlwaysPrioritized()
@@ -304,11 +352,10 @@ namespace ManiacEditor
         }
         private void SetEntitySelectionBoxesAlwaysPrioritized(bool value)
         {
-            Editor.Instance.UIModes._EntitySelectionBoxesAlwaysPrioritized = value;
+            Editor.Instance.Options._EntitySelectionBoxesAlwaysPrioritized = value;
             Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
         }
-        #endregion
-        #region DataDirectoryReadOnlyMode
+        
         public bool DataDirectoryReadOnlyMode { get => GetDataDirectoryReadOnlyMode(); set => SetDataDirectoryReadOnlyMode(value); }
         private bool _DataDirectoryReadOnlyMode = false;
         private bool GetDataDirectoryReadOnlyMode()
@@ -317,45 +364,17 @@ namespace ManiacEditor
         }
         private void SetDataDirectoryReadOnlyMode(bool value)
         {
-            Editor.Instance.UIModes._DataDirectoryReadOnlyMode = value;
+            Editor.Instance.Options._DataDirectoryReadOnlyMode = value;
         }
-        #endregion
-        #region ScrollLocked
-        public bool ScrollLocked { get => GetScrollLocked(); set => SetScrollLocked(value); }
-        private bool _ScrollLocked = true;
-        private bool GetScrollLocked()
-        {
-            return _ScrollLocked;
-        }
-        private void SetScrollLocked(bool value)
-        {
-            Editor.Instance.UIModes._ScrollLocked = value;
-            Editor.Instance.scrollLockButton.IsChecked = value;
-            Editor.Instance.statusNAToolStripMenuItem.IsChecked = value;
-        }
-        #endregion
-        #region FasterNudge
-
-        #region Toggle
-
-        public bool EnableFasterNudge { get => GetEnableFasterNudge(); set => SetEnableFasterNudge(value); }
-        private bool _EnableFasterNudge = false;
-        private bool GetEnableFasterNudge()
-        {
-            return _EnableFasterNudge;
-        }
-        private void SetEnableFasterNudge(bool value)
-        {
-            Editor.Instance.nudgeFasterButton.IsChecked = value;
-            Editor.Instance.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
-            _EnableFasterNudge = value;
-        }
-
-        #endregion
+        
+        
+        
 
 
-        #region Amount
+        
 
+
+        
         public int FasterNudgeAmount { get => GetFasterNudgeAmount(); set => SetFasterNudgeAmount(value); }
         private int _FasterNudgeAmount = 5;
         private int GetFasterNudgeAmount()
@@ -367,10 +386,9 @@ namespace ManiacEditor
             _FasterNudgeAmount = value;
         }
 
-        #endregion
+        
 
-        #endregion
-        #region MovingPlatformsChecked
+        
         public bool MovingPlatformsChecked { get => GetMovingPlatformsChecked(); set => SetMovingPlatformsChecked(value); }
         private bool _MovingPlatformsChecked = true;
         private bool GetMovingPlatformsChecked()
@@ -379,11 +397,10 @@ namespace ManiacEditor
         }
         private void SetMovingPlatformsChecked(bool value)
         {
-            Editor.Instance.UIModes._MovingPlatformsChecked = value;
+            Editor.Instance.Options._MovingPlatformsChecked = value;
         }
-        #endregion
-        #region AnnimationsChecked
-        public bool AnimationsEnabled { get => GetAnimationsEnabled(); set => SetAnimationsEnabled(value); }
+        
+                public bool AnimationsEnabled { get => GetAnimationsEnabled(); set => SetAnimationsEnabled(value); }
         private bool _AnimationsEnabled = true;
         private bool GetAnimationsEnabled()
         {
@@ -391,12 +408,11 @@ namespace ManiacEditor
         }
         private void SetAnimationsEnabled(bool value)
         {
-            Editor.Instance.UIModes._AnimationsEnabled = value;
+            Editor.Instance.Options._AnimationsEnabled = value;
             Editor.Instance.UI.UpdateControls();
         }
-        #endregion
-        #region SpriteAnimationsChecked
-        public bool SpriteAnimationsChecked { get => GetSpriteAnimationsChecked(); set => SetSpriteAnimationsChecked(value); }
+        
+                public bool SpriteAnimationsChecked { get => GetSpriteAnimationsChecked(); set => SetSpriteAnimationsChecked(value); }
         private bool _SpriteAnimationsChecked = true;
         private bool GetSpriteAnimationsChecked()
         {
@@ -404,12 +420,11 @@ namespace ManiacEditor
         }
         private void SetSpriteAnimationsChecked(bool value)
         {
-            Editor.Instance.UIModes._SpriteAnimationsChecked = value;
+            Editor.Instance.Options._SpriteAnimationsChecked = value;
         }
-        #endregion
+        
 
-        #region ParallaxAnimation
-        public bool ParallaxAnimationChecked { get => GetParallaxAnimationChecked(); set => SetParallaxAnimationChecked(value); }
+                public bool ParallaxAnimationChecked { get => GetParallaxAnimationChecked(); set => SetParallaxAnimationChecked(value); }
         private bool _ParallaxAnimationChecked = false;
         private bool GetParallaxAnimationChecked()
         {
@@ -420,9 +435,8 @@ namespace ManiacEditor
             _ParallaxAnimationChecked = value;
             Editor.Instance.UI.UpdateControls();
         }
-        #endregion
-        #region RemoveStageConfigEntriesAllowed
-        public bool RemoveStageConfigEntriesAllowed { get => GetRemoveStageConfigEntriesAllowed(); set => SetRemoveStageConfigEntriesAllowed(value); }
+        
+                public bool RemoveStageConfigEntriesAllowed { get => GetRemoveStageConfigEntriesAllowed(); set => SetRemoveStageConfigEntriesAllowed(value); }
         private bool _RemoveStageConfigEntriesAllowed = true;
         private bool GetRemoveStageConfigEntriesAllowed()
         {
@@ -430,11 +444,10 @@ namespace ManiacEditor
         }
         private void SetRemoveStageConfigEntriesAllowed(bool value)
         {
-            Editor.Instance.UIModes._RemoveStageConfigEntriesAllowed = value;
+            Editor.Instance.Options._RemoveStageConfigEntriesAllowed = value;
         }
-        #endregion
-        #region CopyAir
-        public bool CopyAir { get => GetCopyAirMode(); set => SetCopyAirMode(value); }
+        
+                public bool CopyAir { get => GetCopyAirMode(); set => SetCopyAirMode(value); }
         private bool _CopyAir = false;
         private bool GetCopyAirMode()
         {
@@ -445,9 +458,8 @@ namespace ManiacEditor
             _CopyAir = value;
             Editor.Instance.copyAirToggle.IsChecked = value;
         }
-        #endregion
-        #region Tools/Brushes
-        public void PointerMode(bool? value = null)
+        
+                public void PointerMode(bool? value = null)
         {
             if (value != null) SetToolModes(0, value.Value);
             else SetToolModes(0, Editor.Instance.PointerToolButton.IsChecked.Value);
@@ -467,8 +479,7 @@ namespace ManiacEditor
             SetToolModes(3, Editor.Instance.InteractionToolButton.IsChecked.Value);
         }
 
-        #region Draw Tile Size
-        //Determines the Draw Tool's Brush Size (Tiles Only)
+                //Determines the Draw Tool's Brush Size (Tiles Only)
         public int DrawBrushSize { get => GetDrawBrushSize(); set => SetDrawBrushSize(value); }
         private int _DrawBrushSize = 1;
 
@@ -481,7 +492,7 @@ namespace ManiacEditor
             _DrawBrushSize = value;
         }
 
-        #endregion
+        
 
         public void SplineMode(bool? value = null)
         {
@@ -503,12 +514,9 @@ namespace ManiacEditor
             Editor.Instance.UI.UpdateControls();
         }
 
-        #region Spline Stuff
-        public class SplineOptions
+                public class SplineOptions
         {
-            #region Spline Related Modes
-            #region Spline Point Seperation Size 
-            //Determines the Spline Point Frequency
+                                    //Determines the Spline Point Frequency
             public int SplineSize { get => GetSplineSize(); set => SetSplineSize(value); }
             private int _SplineSize = 128;
             private int GetSplineSize()
@@ -522,15 +530,14 @@ namespace ManiacEditor
             }
 
 
-            #endregion
+            
             public bool SplineToolShowLines { get; set; } = true; //Self Explanatory
             public int SplineCurrentPointsDrawn { get; set; } = 0; //Self Explanatory
             public int SplineTotalNumberOfObjects { get; set; } = 0; //Self Explanatory
             public bool SplineToolShowPoints { get; set; } = true; //Self Explanatory
             public bool SplineToolShowObject { get; set; } = false; //Self Explanatory
 
-            #region Spline Line Modes
-            public bool SplineLineMode { get => GetSplineLineMode(); set => SetSplineLineMode(value); } //Self Explanatory
+                        public bool SplineLineMode { get => GetSplineLineMode(); set => SetSplineLineMode(value); } //Self Explanatory
             public bool SplineOvalMode { get => GetSplineOvalMode(); set => SetSplineOvalMode(value); } //Self Explanatory
 
             private bool _SplineLineMode = false;
@@ -602,9 +609,9 @@ namespace ManiacEditor
                 return SplineObjectRenderingTemplate.Entity.Object.Name.Name;
             }
 
-            #endregion
+            
 
-            #endregion
+            
         }
         public Dictionary<int, SplineOptions> SplineOptionsGroup { get => GetSplineOptionsGroup(); set => SetSplineOptionsGroup(value); }
 
@@ -711,8 +718,7 @@ namespace ManiacEditor
             }
         }
 
-        #region Selected Spline ID
-        public int SelectedSplineID { get => GetSplineSelectedID(); set => SetSplineSelectedID(value); }
+                public int SelectedSplineID { get => GetSplineSelectedID(); set => SetSplineSelectedID(value); }
         private int _SelectedSplineID = 0;
 
         private int GetSplineSelectedID()
@@ -723,15 +729,14 @@ namespace ManiacEditor
         {
             _SelectedSplineID = value;
         }
-        #endregion
+        
 
-        #endregion
+        
 
 
 
-        #endregion
-        #region Multi Layer Mode
-        public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
+        
+                public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
         private bool _MultiLayerEditMode = true;
         private bool _MultiLayerFirstTimeCheck = true;
         private bool GetMultiLayerEditMode()
@@ -746,7 +751,7 @@ namespace ManiacEditor
         }
         private void SetMultiLayerEditMode(bool value)
         {
-            Editor.Instance.UIModes._MultiLayerEditMode = value;
+            Editor.Instance.Options._MultiLayerEditMode = value;
             Editor.Instance.multiLayerSelectionToolStripMenuItem.IsChecked = value;
 
 
@@ -795,9 +800,8 @@ namespace ManiacEditor
 
             if (updateControls) Editor.Instance.UI.UpdateControls();
         }
-        #endregion
-        #region Use Large Debug Text
-        public bool UseLargeDebugStats { get => GetUseLargeDebugStats(); set => SetUseLargeDebugStats(value); }
+        
+                public bool UseLargeDebugStats { get => GetUseLargeDebugStats(); set => SetUseLargeDebugStats(value); }
         private bool _UseLargeDebugStats = false;
         private bool GetUseLargeDebugStats()
         {
@@ -808,9 +812,8 @@ namespace ManiacEditor
             _UseLargeDebugStats = value;
             Editor.Instance.useLargeTextToolStripMenuItem.IsChecked = value;
         }
-        #endregion
-        #region Show Debug Text
-        public bool DebugStatsVisibleOnPanel { get => GetDebugStatsVisibleOnPanel(); set => SetDebugStatsVisibleOnPanel(value); }
+        
+                public bool DebugStatsVisibleOnPanel { get => GetDebugStatsVisibleOnPanel(); set => SetDebugStatsVisibleOnPanel(value); }
         private bool _DebugStatsVisibleOnPanel = false;
         private bool GetDebugStatsVisibleOnPanel()
         {
@@ -821,9 +824,8 @@ namespace ManiacEditor
             _DebugStatsVisibleOnPanel = value;
             Editor.Instance.showStatsToolStripMenuItem.IsChecked = value;
         }
-        #endregion
-        #region Prioritized Entity Viewing
-        public bool PrioritizedEntityViewing { get => GetPrioritizedEntityViewing(); set => SetPrioritizedEntityViewing(value); }
+        
+                public bool PrioritizedEntityViewing { get => GetPrioritizedEntityViewing(); set => SetPrioritizedEntityViewing(value); }
         private bool _PrioritizedEntityViewing = false;
         private bool GetPrioritizedEntityViewing()
         {
@@ -834,9 +836,8 @@ namespace ManiacEditor
             _PrioritizedEntityViewing = value;
             Editor.Instance.prioritizedViewingToolStripMenuItem.IsChecked = value;
         }
-        #endregion
-        #region Magnet Mode Size 
-        //Determines the Magnets Size
+        
+                //Determines the Magnets Size
         public int MagnetSize { get => GetMagnetSize(); set => SetMagnetSize(value); }
         private int _MagnetSize = 16;
         public int CustomMagnetSize = 16;
@@ -869,9 +870,8 @@ namespace ManiacEditor
             else _MagnetSize = CustomMagnetSize;
         }
 
-        #endregion
-        #region Grid Size 
-        //Determines the Magnets Size
+        
+                //Determines the Magnets Size
         public int GridSize { get => GetGridSize(); set => SetGridSize(value); }
         private int _GridSize = 16;
         public int GridCustomSize { get => GetCustomSize(); set => ChangeCustomSize(value); }
@@ -917,9 +917,8 @@ namespace ManiacEditor
             if (!isCustom) _GridSize = value;
             else _GridSize = GridCustomSize;
         }
-        #endregion
-        #region Entities Visibile Above All Other Layers
-        public bool EntitiesVisibileAboveAllLayers { get => GetEntitiesVisibileAboveAllLayers(); set => SetEntitiesVisibileAboveAllLayers(value); }
+        
+                public bool EntitiesVisibileAboveAllLayers { get => GetEntitiesVisibileAboveAllLayers(); set => SetEntitiesVisibileAboveAllLayers(value); }
         private bool _EntitiesVisibileAboveAllLayers = false;
         private bool GetEntitiesVisibileAboveAllLayers()
         {
@@ -927,13 +926,12 @@ namespace ManiacEditor
         }
         private void SetEntitiesVisibileAboveAllLayers(bool value)
         {
-            Editor.Instance.UIModes._EntitiesVisibileAboveAllLayers = value;
+            Editor.Instance.Options._EntitiesVisibileAboveAllLayers = value;
             Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
         }
 
-        #endregion
-        #region Collision Preset 
-        //Determines the Collision View Mode
+        
+                //Determines the Collision View Mode
         public int CollisionPreset { get => GetCollisionPreset(); set => SetCollisionPreset(value); }
         private int _CollisionPreset = 0;
         private int GetCollisionPreset()
@@ -956,10 +954,9 @@ namespace ManiacEditor
             Editor.Instance.ReloadSpecificTextures(null, null);
             Editor.Instance.RefreshCollisionColours(true);
         }
-        #endregion
+        
 
-        #region Collision Colors
-
+        
         public System.Drawing.Color CollisionTOColour { get => GetCollisionTOColour(); set => SetCollisionTOColour(value); }
         private System.Drawing.Color _CollisionTOColour = System.Drawing.Color.Yellow;
         private System.Drawing.Color GetCollisionTOColour() { return _CollisionTOColour; }
@@ -975,10 +972,9 @@ namespace ManiacEditor
         private System.Drawing.Color GetCollisionSAColour() { return _CollisionSAColour; }
         private void SetCollisionSAColour(System.Drawing.Color value) { _CollisionSAColour = value; }
 
-        #endregion
+        
 
-        #region Grid, Water And Other Colors
-
+        
         public System.Drawing.Color waterColor { get => GetWaterEntityColor(); set => SetWaterEntityColor(value); }
         private System.Drawing.Color _WaterEntityColor = System.Drawing.Color.Blue;
         private System.Drawing.Color GetWaterEntityColor() { return _WaterEntityColor; }
@@ -989,7 +985,7 @@ namespace ManiacEditor
         private System.Drawing.Color GetGridColor() { return _GridColor; }
         private void SetGridColor(System.Drawing.Color value) { _GridColor = value; }
 
-        #endregion
+        
 
         public bool AddStageConfigEntriesAllowed { get; set; } = true; //Self Explanatory
         public bool isImportingObjects { get; set; } = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
@@ -1031,7 +1027,7 @@ namespace ManiacEditor
 
         public double ShortcutZoomValue { get; set; } = 0.0;
 
-        public EditorUIModes()
+        public UserStateModel()
 		{
 
 		}

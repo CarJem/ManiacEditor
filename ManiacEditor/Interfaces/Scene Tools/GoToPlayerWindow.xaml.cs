@@ -29,7 +29,7 @@ namespace ManiacEditor.Interfaces
 
 		private void button1_Click(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.UIModes.selectPlayerObject_GoTo = ComboBox1.SelectedIndex;
+			EditorInstance.Options.selectPlayerObject_GoTo = ComboBox1.SelectedIndex;
 			this.Close();
 		}
 

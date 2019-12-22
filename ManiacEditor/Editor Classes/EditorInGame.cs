@@ -278,7 +278,7 @@ namespace ManiacEditor
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == Editor.UIModes.PlayerBeingTracked) Editor.GoToPosition(x, y);
+            if (playerID == Editor.Options.PlayerBeingTracked) Editor.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -543,9 +543,9 @@ namespace ManiacEditor
                         while (Editor.GameMemory.ReadByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)]) == 0x00) Thread.Sleep(1);
 
                         // Swap the Scene
-                        if (Editor.UIModes.LevelID != -1)
+                        if (Editor.Options.LevelID != -1)
                         {
-                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Editor.UIModes.LevelID);
+                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Editor.Options.LevelID);
                             // Restart the Scene
                             Editor.GameMemory.WriteByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                         }
@@ -668,12 +668,12 @@ namespace ManiacEditor
                     UncheckAllPlayers();
                     item.IsChecked = true;
                     int.TryParse(item.Tag.ToString(), out int player);
-                    Editor.UIModes.PlayerBeingTracked = player;
+                    Editor.Options.PlayerBeingTracked = player;
                 }
                 else
                 {
                     item.IsChecked = false;
-                    Editor.UIModes.PlayerBeingTracked = -1;
+                    Editor.Options.PlayerBeingTracked = -1;
                 }
 
 

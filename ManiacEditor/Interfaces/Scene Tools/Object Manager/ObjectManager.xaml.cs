@@ -43,7 +43,7 @@ namespace ManiacEditor.Interfaces
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (EditorInstance.UIModes.RemoveStageConfigEntriesAllowed)
+            if (EditorInstance.Options.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -313,7 +313,7 @@ namespace ManiacEditor.Interfaces
                             }
                         }
 
-						if (EditorInstance.UIModes.RemoveStageConfigEntriesAllowed)
+						if (EditorInstance.Options.RemoveStageConfigEntriesAllowed)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -449,9 +449,9 @@ namespace ManiacEditor.Interfaces
 
 		private void backupStageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.UIModes.BackupType = 4;
+			EditorInstance.Options.BackupType = 4;
 			EditorInstance.BackupTool(null, null);
-			EditorInstance.UIModes.BackupType = 0;
+			EditorInstance.Options.BackupType = 0;
 		}
 
 		private void lvObjects_ItemChecked(object sender, RoutedEventArgs e)
@@ -463,11 +463,11 @@ namespace ManiacEditor.Interfaces
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				EditorInstance.UIModes.RemoveStageConfigEntriesAllowed = true;
+				EditorInstance.Options.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				EditorInstance.UIModes.RemoveStageConfigEntriesAllowed = false;
+				EditorInstance.Options.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 
