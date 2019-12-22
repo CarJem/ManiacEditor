@@ -137,7 +137,7 @@ namespace ManiacEditor
             else if (Instance.IsSceneLoaded() == true && Settings.MySettings.DisableSaveWarnings == false)
             {
 
-                if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || Instance.Options.RequireSaveCheck == true)
+                if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || Instance.Options.QuitWithoutSavingWarningRequired == true)
                 {
                     var exitBox = new UnloadingSceneWarning();
                     exitBox.Owner = Window.GetWindow(Instance);
@@ -662,11 +662,10 @@ namespace ManiacEditor
         public void ReadManiacINIFile()
         {
             Instance.ManiacINI.ClearSettings();
-            if (File.Exists(Instance.Paths.SceneFile_Directory + "\\maniac.ini"))
+            if (File.Exists(Instance.Paths.SceneFile_Directory + "\\maniac.json"))
             {
                 Instance.ManiacINI.UpdateFilePath();
                 Instance.ManiacINI.LoadFile();
-                Instance.ManiacINI.SetINIDefaultPrefrences();
 
             }
         }

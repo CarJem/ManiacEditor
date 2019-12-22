@@ -52,7 +52,6 @@ namespace ManiacEditor
             void Load()
             {
                 var application = new ManiacEditor.App();
-                application.InitializeComponent();
                 application.Load();
             }
 

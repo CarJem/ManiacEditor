@@ -1470,7 +1470,7 @@ namespace ManiacEditor
 
         public void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {
-            bool parallaxAnimationInProgress = Editor.Instance.Options.AnimationsEnabled && Editor.Instance.Options.ParallaxAnimationChecked;
+            bool parallaxAnimationInProgress = Editor.Instance.Options.AllowAnimations && Editor.Instance.Options.ParallaxAnimationChecked;
             if (parallaxAnimationInProgress) return;
 
             // Faster Nudge Toggle

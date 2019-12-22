@@ -26,15 +26,12 @@ namespace ManiacEditor
             Editor.Instance.Options.LevelID = -1;
             Editor.Instance.Options.EncorePaletteExists = false;
             Editor.Instance.Options.EncoreSetupType = 0;
-            Editor.Instance.playerObjectPosition = new List<SceneEntity> { };
-            Editor.Instance.Options.INILayerNameHigher = "";
-            Editor.Instance.Options.INILayerNameLower = "";
             Editor.Instance.ManiacINI.ClearSettings();
             Editor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             Editor.Instance.userDefinedSpritePaths = new List<string>();
             Editor.Instance.EncorePaletteButton.IsChecked = false;
             Editor.Instance.Paths.UnloadScene();
-            Editor.Instance.Options.RequireSaveCheck = false;
+            Editor.Instance.Options.QuitWithoutSavingWarningRequired = false;
 
             if (EditorSolution.CurrentTiles != null) EditorSolution.CurrentTiles.Dispose();
             EditorSolution.CurrentTiles = null;
@@ -98,7 +95,7 @@ namespace ManiacEditor
             #region Layers
             public EditorLayer LowDetails
             {
-                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.Options.INILayerNameLower) || el.Name.Equals(Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.ManiacINI.ManiacINIData.ForegroundLower) || el.Name.Equals(Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
             }
             public EditorLayer ForegroundLow
             {
@@ -114,7 +111,7 @@ namespace ManiacEditor
             }
             public EditorLayer HighDetails
             {
-                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.Options.INILayerNameHigher) || el.Name.Equals(Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+                get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.ManiacINI.ManiacINIData.ForegroundHigher) || el.Name.Equals(Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
             }
             public EditorLayer ForegroundHigh
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Assets
 {
     public class SkinResourceDictionary : ResourceDictionary
     {
@@ -45,7 +45,7 @@ namespace ManiacEditor
                 return DarkSource;
 
             }
-            else return LightSource;
+            else return DarkSource;
         }
     }
 }

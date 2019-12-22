@@ -677,10 +677,7 @@
                 </MenuItem>
                 <MenuItem x:Name="nudgeSelectionFasterToolStripMenuItem" Header="Nudge Selection Faster" Click="ToggleFasterNudgeEvent"/>
                 <MenuItem x:Name="resetZoomLevelToolstripMenuItem" Header="Reset Zoom Level" Click="ResetZoomLevelEvent"/>
-                <MenuItem x:Name="goToToolStripMenuItem1" Header="Go to..">
-                    <MenuItem x:Name="specificPlaceToolStripMenuItem" Header="Specific Place" Click="GoToPositionEvent"/>
-                    <MenuItem x:Name="playerSpawnToolStripMenuItem" Header="Player Spawn" Click="GoToPlayerSpawnEvent"/>
-                </MenuItem>
+                <MenuItem x:Name="goToToolStripMenuItem" Header="Warp To..." Click="GoToPositionEvent"/>
                 <MenuItem x:Name="overlayImageToolStripMenuItem" Header="Overlay Image" IsEnabled="False"/>
                 <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID..." Click="ChangeLevelIDEvent"/>
                 <MenuItem x:Name="newShortcutToolStripMenuItem" Header="Create a Desktop Shortcut">

@@ -69,11 +69,6 @@ namespace ManiacEditor
 
 		#region File Tab Buttons
 
-		public void BackupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Editor.BackupTool(null, null);
-		}
-
 		public void BackupRecoverButton_Click(object sender, RoutedEventArgs e)
 		{
 			string Result = null, ResultOriginal = null, ResultOld = null;
@@ -109,16 +104,12 @@ namespace ManiacEditor
 		#region Backup SubMenu
 		public void StageConfigBackup(object sender, RoutedEventArgs e)
 		{
-			Editor.Options.BackupType = 4;
-			BackupToolStripMenuItem_Click(null, null);
-			Editor.Options.BackupType = 0;
+			StageConfigBackup(sender, e);
 		}
 
 		public void SceneBackup(object sender, RoutedEventArgs e)
 		{
-			Editor.Options.BackupType = 1;
-			BackupToolStripMenuItem_Click(null, null);
-			Editor.Options.BackupType = 0;
+			SceneBackup(sender, e);
 		}
 		#endregion
 
@@ -552,17 +543,8 @@ namespace ManiacEditor
 		public void GoToPosition(object sender, RoutedEventArgs e)
 		{
 			GoToPositionBox form = new GoToPositionBox(Editor);
-			if (form.ShowDialog().Value == true)
-			{
-				int x = form.goTo_X;
-				int y = form.goTo_Y;
-				if (form.tilesMode)
-				{
-					x *= 16;
-					y *= 16;
-				}
-				Editor.GoToPosition(x, y);
-			}
+			form.Owner = Editor as Window;
+			form.ShowDialog();
 
 		}
 		public void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -573,31 +555,6 @@ namespace ManiacEditor
 		{
 			ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen hashmap = new ManiacEditor.Interfaces.WPF_UI.Options___Dev.MD5HashGen(Editor);
 			hashmap.Show();
-		}
-		public void PlayerSpawnToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Editor.Options.selectPlayerObject_GoTo = -1;
-			if (Editor.playerObjectPosition.Count == 0) return;
-
-			if (Editor.playerObjectPosition.Count == 1)
-			{
-				//Set Zoom Level to Position so we can Move to that location
-				int xPos = (int)(Editor.playerObjectPosition[0].Position.X.High);
-				int yPos = (int)(Editor.playerObjectPosition[0].Position.Y.High);
-				Editor.GoToPosition(xPos, yPos);
-			}
-			else
-			{
-				GoToPlayerBox goToPlayerBox = new GoToPlayerBox(Editor);
-				goToPlayerBox.ShowDialog();
-				if (Editor.Options.selectPlayerObject_GoTo != -1)
-				{
-					int objectIndex = Editor.Options.selectPlayerObject_GoTo;
-					int xPos = (int)((int)Editor.playerObjectPosition[objectIndex].Position.X.High);
-					int yPos = (int)((int)Editor.playerObjectPosition[objectIndex].Position.Y.High);
-					Editor.GoToPosition(xPos, yPos);
-				}
-			}
 		}
 		public void FindAndReplaceTool(object sender, RoutedEventArgs e)
 		{

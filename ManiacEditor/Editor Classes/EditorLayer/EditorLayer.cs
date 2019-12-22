@@ -1452,7 +1452,7 @@ namespace ManiacEditor
             string group = string.Format("{0},{1}", speed, maxWidth);
             if (!ManiacEditor.EditorAnimations.AnimationTiming.ContainsKey(group)) ManiacEditor.EditorAnimations.AnimationTiming.Add(group, new ManiacEditor.EditorAnimations.Timing());
             // Playback
-            if (Editor.Instance.Options.ParallaxAnimationChecked && Editor.Instance.Options.AnimationsEnabled)
+            if (Editor.Instance.Options.ParallaxAnimationChecked && Editor.Instance.Options.AllowAnimations)
             {
                 if ((DateTime.Now - ManiacEditor.EditorAnimations.AnimationTiming[group].LastParallaxTime).TotalMilliseconds > 1024 / speed)
                 {

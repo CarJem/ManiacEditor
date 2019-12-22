@@ -313,14 +313,6 @@ namespace ManiacEditor
 
             return filteredOut;
         }
-
-        public void TestIfPlayerObject()
-        {
-            if (_entity.Object.Name.Name == "Player" && !Editor.Instance.playerObjectPosition.Contains(_entity))
-            {
-                Editor.Instance.playerObjectPosition.Add(_entity);
-            }
-        }
         public System.Drawing.Color GetFilterBoxColor()
         {
             System.Drawing.Color color = System.Drawing.Color.DarkBlue;
@@ -436,8 +428,6 @@ namespace ManiacEditor
 
         public virtual void DrawBase(GraphicsHandler d, bool drawSelectionBox = true)
         {
-            TestIfPlayerObject();
-
             List<string> entityRenderList = EditorEntityDrawing.RenderingSettings.ObjectToRender;
             List<string> onScreenExlusionList = (Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : EditorEntityDrawing.RenderingSettings.ObjectCullingExclusions);
          

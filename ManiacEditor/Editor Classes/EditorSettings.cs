@@ -177,15 +177,15 @@ namespace ManiacEditor
             if (!Settings.MyDefaults.EntitiesDefault) Instance.ShowEntities.IsChecked = false;
             else Instance.ShowEntities.IsChecked = true;
             Instance.ShowAnimations.IsChecked = Settings.MyDefaults.AnimationsDefault;
-            Instance.Options.AnimationsEnabled = Settings.MyDefaults.AnimationsDefault;
+            Instance.Options.AllowAnimations = Settings.MyDefaults.AnimationsDefault;
 
 
             //Default Enabled Annimation Preferences
             Instance.movingPlatformsObjectsToolStripMenuItem.IsChecked = Settings.MyDefaults.PlatformAnimationsDefault;
-            Instance.Options.MovingPlatformsChecked = Settings.MyDefaults.PlatformAnimationsDefault;
+            Instance.Options.AllowMovingPlatformAnimations = Settings.MyDefaults.PlatformAnimationsDefault;
 
             Instance.spriteFramesToolStripMenuItem.IsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
-            Instance.Options.SpriteAnimationsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
+            Instance.Options.AllowSpriteAnimations = Settings.MyDefaults.SpriteAnimationsDefault;
 
 
             //TO DO: Add Default For this.

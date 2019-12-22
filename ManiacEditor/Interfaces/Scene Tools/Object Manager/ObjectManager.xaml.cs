@@ -449,9 +449,7 @@ namespace ManiacEditor.Interfaces
 
 		private void backupStageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.Options.BackupType = 4;
-			EditorInstance.BackupTool(null, null);
-			EditorInstance.Options.BackupType = 0;
+			EditorInstance.UIEvents.StageConfigBackup(null, null);
 		}
 
 		private void lvObjects_ItemChecked(object sender, RoutedEventArgs e)

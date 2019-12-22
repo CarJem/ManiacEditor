@@ -5,6 +5,103 @@ namespace ManiacEditor
     public class UserStateModel
     {
         #region View Options
+
+        public bool EntitiesVisibileAboveAllLayers
+        {
+            get
+            {
+                return _EntitiesVisibileAboveAllLayers;
+            }
+            set
+            {
+                _EntitiesVisibileAboveAllLayers = value;
+                Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+            }
+        }
+        private bool _EntitiesVisibileAboveAllLayers = false;
+
+        public bool PrioritizedEntityViewing
+        {
+            get
+            {
+                return _PrioritizedEntityViewing;
+            }
+            set
+            {
+                _PrioritizedEntityViewing = value;
+                Editor.Instance.prioritizedViewingToolStripMenuItem.IsChecked = value;
+            }
+        }
+        private bool _PrioritizedEntityViewing = false;
+
+        public bool ParallaxAnimationChecked
+        {
+            get
+            {
+                return _ParallaxAnimationChecked;
+            }
+            set
+            {
+                _ParallaxAnimationChecked = value;
+                Editor.Instance.UI.UpdateControls();
+            }
+        }
+        private bool _ParallaxAnimationChecked = false;
+
+        public bool AllowAnimations
+        {
+            get
+            {
+                return _AllowAnimations;
+            }
+            set
+            {
+                _AllowAnimations = value;
+                Editor.Instance.UI.UpdateControls();
+            }
+        }
+        private bool _AllowAnimations = true;
+
+        public bool AllowSpriteAnimations
+        {
+            get
+            {
+                return _AllowSpriteAnimations;
+            }
+            set
+            {
+                _AllowSpriteAnimations = value;
+            }
+        }
+        private bool _AllowSpriteAnimations = true;
+
+        public bool AllowMovingPlatformAnimations
+        {
+            get
+            {
+                return _AllowMovingPlatformAnimations;
+            }
+            set
+            {
+                _AllowMovingPlatformAnimations = value;
+            }
+        }
+        private bool _AllowMovingPlatformAnimations = true;
+
+        public bool EntitySelectionBoxesAlwaysPrioritized
+        {
+            get
+            {
+                return _EntitySelectionBoxesAlwaysPrioritized;
+            }
+            set
+            {
+                Editor.Instance.Options._EntitySelectionBoxesAlwaysPrioritized = value;
+                Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+            }
+        }
+        private bool _EntitySelectionBoxesAlwaysPrioritized = false;
+
         public bool ShowTileID
         {
             get { return _ShowTileID; }
@@ -193,6 +290,81 @@ namespace ManiacEditor
 
         #region Control Options
 
+        public int MagnetSize
+        {
+            get
+            {
+                return _MagnetSize;
+            }
+            set
+            {
+                bool isCustom = false;
+                Editor.Instance.x8ToolStripMenuItem.IsChecked = false;
+                Editor.Instance.x16ToolStripMenuItem1.IsChecked = false;
+                Editor.Instance.x32ToolStripMenuItem.IsChecked = false;
+                Editor.Instance.x64ToolStripMenuItem.IsChecked = false;
+                Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = false;
+
+                if (value == 8) Editor.Instance.x8ToolStripMenuItem.IsChecked = true;
+                else if (value == 16) Editor.Instance.x16ToolStripMenuItem1.IsChecked = true;
+                else if (value == 32) Editor.Instance.x32ToolStripMenuItem.IsChecked = true;
+                else if (value == 64) Editor.Instance.x64ToolStripMenuItem.IsChecked = true;
+                else if (value == -1)
+                {
+                    isCustom = true;
+                    Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = true;
+                }
+
+                Editor.Instance.CustomMagnetLabel.Text = string.Format(Editor.Instance.CustomMagnetLabel.Tag.ToString(), CustomMagnetSize);
+
+                if (!isCustom) _MagnetSize = value;
+                else _MagnetSize = CustomMagnetSize;
+            }
+        }
+        private int _MagnetSize = 16;
+        public int CustomMagnetSize = 16;
+
+        public bool CopyAir
+        {
+            get
+            {
+                return _CopyAir;
+            }
+            set
+            {
+                _CopyAir = value;
+                Editor.Instance.copyAirToggle.IsChecked = value;
+            }
+        }
+        private bool _CopyAir = false;
+
+        public bool RightClicktoSwapSlotID
+        {
+            get
+            {
+                return _RightClicktoSwapSlotID;
+            }
+            set
+            {
+                Editor.Instance.Options._RightClicktoSwapSlotID = value;
+                Editor.Instance.rightClicktoSwapSlotIDs.IsChecked = value;
+            }
+        }
+        private bool _RightClicktoSwapSlotID = false;
+
+        public int FasterNudgeAmount
+        {
+            get
+            {
+                return _FasterNudgeAmount;
+            }
+            set
+            {
+                _FasterNudgeAmount = value;
+            }
+        }
+        private int _FasterNudgeAmount = 5;
+
         public bool UseMagnetMode
         {
             get { return _UseMagnetMode; }
@@ -256,11 +428,12 @@ namespace ManiacEditor
         }
         private bool _ScrollLocked = true;
 
-
         #endregion
 
         #region Information Settings
 
+        //TODO : May be Redundant
+        public bool QuitWithoutSavingWarningRequired { get; set; } = false;
         public bool ShowingDataDirectory
         {
             get
@@ -295,32 +468,31 @@ namespace ManiacEditor
 
         #endregion
 
-        public bool Duplicate1
+        #region Prefrence/Status Values
+
+        public int SelectedTileID { get; set; } = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
+        public string CurrentLanguage { get; set; } = "EN"; //Current Selected Language
+        public int ScrollDirection { get; set; } = 1;
+        public int PlayerBeingTracked { get; set; } = -1;
+        public int CurrentControllerButtons { get; set; } = 2; //For Setting the Menu Control Button Images.
+        public int LevelID { get; set; } = -1; //Self Explanatory
+        public int LastQuickButtonState { get; set; } = 0; //Gets the Last Quick Button State, so we can tell what action was used last
+
+        #endregion
+
+
+
+        #region Unoptimized Technical Options
+        public bool RemoveStageConfigEntriesAllowed { get => GetRemoveStageConfigEntriesAllowed(); set => SetRemoveStageConfigEntriesAllowed(value); }
+        private bool _RemoveStageConfigEntriesAllowed = true;
+        private bool GetRemoveStageConfigEntriesAllowed()
         {
-            get
-            {
-                return _Duplicate1;
-            }
-            set
-            {
-                _Duplicate1 = value;
-            }
+            return _RemoveStageConfigEntriesAllowed;
         }
-        private bool _Duplicate1;
-
-        public int BackupType = 0; //Determines What Kind of Backup to Make
-
-
-        
-
-        
-
-        
-
-        
-        
-
-        
+        private void SetRemoveStageConfigEntriesAllowed(bool value)
+        {
+            Editor.Instance.Options._RemoveStageConfigEntriesAllowed = value;
+        }
         public bool IsConsoleWindowOpen { get => GetIsConsoleWindowOpen(); set => SetIsConsoleWindowOpen(value); }
         private bool _IsConsoleWindowOpen = false;
         private bool GetIsConsoleWindowOpen()
@@ -332,29 +504,6 @@ namespace ManiacEditor
             Editor.Instance.Options._IsConsoleWindowOpen = value;
         }
         
-        public bool RightClicktoSwapSlotID { get => GetRightClicktoSwapSlotID(); set => SetRightClicktoSwapSlotID(value); }
-        private bool _RightClicktoSwapSlotID = false;
-        private bool GetRightClicktoSwapSlotID()
-        {
-            return _RightClicktoSwapSlotID;
-        }
-        private void SetRightClicktoSwapSlotID(bool value)
-        {
-            Editor.Instance.Options._RightClicktoSwapSlotID = value;
-            Editor.Instance.rightClicktoSwapSlotIDs.IsChecked = value;
-        }
-        
-        public bool EntitySelectionBoxesAlwaysPrioritized { get => GetEntitySelectionBoxesAlwaysPrioritized(); set => SetEntitySelectionBoxesAlwaysPrioritized(value); }
-        private bool _EntitySelectionBoxesAlwaysPrioritized = false;
-        private bool GetEntitySelectionBoxesAlwaysPrioritized()
-        {
-            return _EntitySelectionBoxesAlwaysPrioritized;
-        }
-        private void SetEntitySelectionBoxesAlwaysPrioritized(bool value)
-        {
-            Editor.Instance.Options._EntitySelectionBoxesAlwaysPrioritized = value;
-            Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
-        }
         
         public bool DataDirectoryReadOnlyMode { get => GetDataDirectoryReadOnlyMode(); set => SetDataDirectoryReadOnlyMode(value); }
         private bool _DataDirectoryReadOnlyMode = false;
@@ -366,100 +515,11 @@ namespace ManiacEditor
         {
             Editor.Instance.Options._DataDirectoryReadOnlyMode = value;
         }
-        
-        
-        
 
+        #endregion
 
-        
-
-
-        
-        public int FasterNudgeAmount { get => GetFasterNudgeAmount(); set => SetFasterNudgeAmount(value); }
-        private int _FasterNudgeAmount = 5;
-        private int GetFasterNudgeAmount()
-        {
-            return _FasterNudgeAmount;
-        }
-        private void SetFasterNudgeAmount(int value)
-        {
-            _FasterNudgeAmount = value;
-        }
-
-        
-
-        
-        public bool MovingPlatformsChecked { get => GetMovingPlatformsChecked(); set => SetMovingPlatformsChecked(value); }
-        private bool _MovingPlatformsChecked = true;
-        private bool GetMovingPlatformsChecked()
-        {
-            return _MovingPlatformsChecked;
-        }
-        private void SetMovingPlatformsChecked(bool value)
-        {
-            Editor.Instance.Options._MovingPlatformsChecked = value;
-        }
-        
-                public bool AnimationsEnabled { get => GetAnimationsEnabled(); set => SetAnimationsEnabled(value); }
-        private bool _AnimationsEnabled = true;
-        private bool GetAnimationsEnabled()
-        {
-            return _AnimationsEnabled;
-        }
-        private void SetAnimationsEnabled(bool value)
-        {
-            Editor.Instance.Options._AnimationsEnabled = value;
-            Editor.Instance.UI.UpdateControls();
-        }
-        
-                public bool SpriteAnimationsChecked { get => GetSpriteAnimationsChecked(); set => SetSpriteAnimationsChecked(value); }
-        private bool _SpriteAnimationsChecked = true;
-        private bool GetSpriteAnimationsChecked()
-        {
-            return _SpriteAnimationsChecked;
-        }
-        private void SetSpriteAnimationsChecked(bool value)
-        {
-            Editor.Instance.Options._SpriteAnimationsChecked = value;
-        }
-        
-
-                public bool ParallaxAnimationChecked { get => GetParallaxAnimationChecked(); set => SetParallaxAnimationChecked(value); }
-        private bool _ParallaxAnimationChecked = false;
-        private bool GetParallaxAnimationChecked()
-        {
-            return _ParallaxAnimationChecked;
-        }
-        private void SetParallaxAnimationChecked(bool value)
-        {
-            _ParallaxAnimationChecked = value;
-            Editor.Instance.UI.UpdateControls();
-        }
-        
-                public bool RemoveStageConfigEntriesAllowed { get => GetRemoveStageConfigEntriesAllowed(); set => SetRemoveStageConfigEntriesAllowed(value); }
-        private bool _RemoveStageConfigEntriesAllowed = true;
-        private bool GetRemoveStageConfigEntriesAllowed()
-        {
-            return _RemoveStageConfigEntriesAllowed;
-        }
-        private void SetRemoveStageConfigEntriesAllowed(bool value)
-        {
-            Editor.Instance.Options._RemoveStageConfigEntriesAllowed = value;
-        }
-        
-                public bool CopyAir { get => GetCopyAirMode(); set => SetCopyAirMode(value); }
-        private bool _CopyAir = false;
-        private bool GetCopyAirMode()
-        {
-            return _CopyAir;
-        }
-        private void SetCopyAirMode(bool value)
-        {
-            _CopyAir = value;
-            Editor.Instance.copyAirToggle.IsChecked = value;
-        }
-        
-                public void PointerMode(bool? value = null)
+        #region Unoptimized Tool Modes
+        public void PointerMode(bool? value = null)
         {
             if (value != null) SetToolModes(0, value.Value);
             else SetToolModes(0, Editor.Instance.PointerToolButton.IsChecked.Value);
@@ -513,8 +573,10 @@ namespace ManiacEditor
             Editor.Instance.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
             Editor.Instance.UI.UpdateControls();
         }
+        #endregion
 
-                public class SplineOptions
+        #region Unoptimized Spline Options
+        public class SplineOptions
         {
                                     //Determines the Spline Point Frequency
             public int SplineSize { get => GetSplineSize(); set => SetSplineSize(value); }
@@ -729,14 +791,10 @@ namespace ManiacEditor
         {
             _SelectedSplineID = value;
         }
-        
+        #endregion
 
-        
-
-
-
-        
-                public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
+        #region Unoptimized Multi Layer Edit Mode
+        public bool MultiLayerEditMode { get => GetMultiLayerEditMode(); set => SetMultiLayerEditMode(value); }
         private bool _MultiLayerEditMode = true;
         private bool _MultiLayerFirstTimeCheck = true;
         private bool GetMultiLayerEditMode()
@@ -800,8 +858,11 @@ namespace ManiacEditor
 
             if (updateControls) Editor.Instance.UI.UpdateControls();
         }
-        
-                public bool UseLargeDebugStats { get => GetUseLargeDebugStats(); set => SetUseLargeDebugStats(value); }
+
+        #endregion
+
+        #region To-Remove Settings
+        public bool UseLargeDebugStats { get => GetUseLargeDebugStats(); set => SetUseLargeDebugStats(value); }
         private bool _UseLargeDebugStats = false;
         private bool GetUseLargeDebugStats()
         {
@@ -813,7 +874,7 @@ namespace ManiacEditor
             Editor.Instance.useLargeTextToolStripMenuItem.IsChecked = value;
         }
         
-                public bool DebugStatsVisibleOnPanel { get => GetDebugStatsVisibleOnPanel(); set => SetDebugStatsVisibleOnPanel(value); }
+        public bool DebugStatsVisibleOnPanel { get => GetDebugStatsVisibleOnPanel(); set => SetDebugStatsVisibleOnPanel(value); }
         private bool _DebugStatsVisibleOnPanel = false;
         private bool GetDebugStatsVisibleOnPanel()
         {
@@ -824,54 +885,10 @@ namespace ManiacEditor
             _DebugStatsVisibleOnPanel = value;
             Editor.Instance.showStatsToolStripMenuItem.IsChecked = value;
         }
-        
-                public bool PrioritizedEntityViewing { get => GetPrioritizedEntityViewing(); set => SetPrioritizedEntityViewing(value); }
-        private bool _PrioritizedEntityViewing = false;
-        private bool GetPrioritizedEntityViewing()
-        {
-            return _PrioritizedEntityViewing;
-        }
-        private void SetPrioritizedEntityViewing(bool value)
-        {
-            _PrioritizedEntityViewing = value;
-            Editor.Instance.prioritizedViewingToolStripMenuItem.IsChecked = value;
-        }
-        
-                //Determines the Magnets Size
-        public int MagnetSize { get => GetMagnetSize(); set => SetMagnetSize(value); }
-        private int _MagnetSize = 16;
-        public int CustomMagnetSize = 16;
-        private int GetMagnetSize()
-        {
-            return _MagnetSize;
-        }
-        private void SetMagnetSize(int value)
-        {
-            bool isCustom = false;
-            Editor.Instance.x8ToolStripMenuItem.IsChecked = false;
-            Editor.Instance.x16ToolStripMenuItem1.IsChecked = false;
-            Editor.Instance.x32ToolStripMenuItem.IsChecked = false;
-            Editor.Instance.x64ToolStripMenuItem.IsChecked = false;
-            Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = false;
+        #endregion
 
-            if (value == 8) Editor.Instance.x8ToolStripMenuItem.IsChecked = true;
-            else if (value == 16) Editor.Instance.x16ToolStripMenuItem1.IsChecked = true;
-            else if (value == 32) Editor.Instance.x32ToolStripMenuItem.IsChecked = true;
-            else if (value == 64) Editor.Instance.x64ToolStripMenuItem.IsChecked = true;
-            else if (value == -1)
-            {
-                isCustom = true;
-                Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = true;
-            }
-
-            Editor.Instance.CustomMagnetLabel.Text = string.Format(Editor.Instance.CustomMagnetLabel.Tag.ToString(), CustomMagnetSize);
-
-            if (!isCustom) _MagnetSize = value;
-            else _MagnetSize = CustomMagnetSize;
-        }
-
-        
-                //Determines the Magnets Size
+        #region Unoptimized Grid Size
+        //Determines the Grid's Size
         public int GridSize { get => GetGridSize(); set => SetGridSize(value); }
         private int _GridSize = 16;
         public int GridCustomSize { get => GetCustomSize(); set => ChangeCustomSize(value); }
@@ -917,21 +934,10 @@ namespace ManiacEditor
             if (!isCustom) _GridSize = value;
             else _GridSize = GridCustomSize;
         }
-        
-                public bool EntitiesVisibileAboveAllLayers { get => GetEntitiesVisibileAboveAllLayers(); set => SetEntitiesVisibileAboveAllLayers(value); }
-        private bool _EntitiesVisibileAboveAllLayers = false;
-        private bool GetEntitiesVisibileAboveAllLayers()
-        {
-            return _EntitiesVisibileAboveAllLayers;
-        }
-        private void SetEntitiesVisibileAboveAllLayers(bool value)
-        {
-            Editor.Instance.Options._EntitiesVisibileAboveAllLayers = value;
-            Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
-        }
+        #endregion
 
-        
-                //Determines the Collision View Mode
+        #region Unoptimized Collision View Mode (Colors)
+        //Determines the Collision View Mode
         public int CollisionPreset { get => GetCollisionPreset(); set => SetCollisionPreset(value); }
         private int _CollisionPreset = 0;
         private int GetCollisionPreset()
@@ -984,48 +990,43 @@ namespace ManiacEditor
         private System.Drawing.Color _GridColor = System.Drawing.Color.Red;
         private System.Drawing.Color GetGridColor() { return _GridColor; }
         private void SetGridColor(System.Drawing.Color value) { _GridColor = value; }
+        #endregion
 
-        
-
+        #region To-Improve Implementation Variables
         public bool AddStageConfigEntriesAllowed { get; set; } = true; //Self Explanatory
         public bool isImportingObjects { get; set; } = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
         public bool EncorePaletteExists { get; set; } = false; // Determines if an Encore Pallete Exists
-        public bool ForceWarp { get; set; } = false; //For Shortcuts and Force Open.
-        public bool ShortcutHasZoom { get; set; } = false; //For Shortcuts and Force Open.
+
+        #endregion
+
+
+        public bool Duplicate1
+        {
+            get
+            {
+                return _Duplicate1;
+            }
+            set
+            {
+                _Duplicate1 = value;
+            }
+        }
+        private bool _Duplicate1;
+
+
+
+        #region Unoptimized Misc Stuff
         public bool collisionOpacityChanged { get; set; } = false;
-
         public static bool UpdateUpdaterMessage = false;
-
-        public bool RequireSaveCheck { get; set; } = false;
-
-
-        public System.Drawing.Point TempWarpCoords = new System.Drawing.Point(0, 0); //Temporary Warp Position for Shortcuts and Force Open
-
-        public int ScrollDirection { get; set; } = 1;
-
-
         public int EncoreSetupType { get; set; } //Used to determine what kind of encore setup the stage uses
-        public int selectPlayerObject_GoTo { get; set; } = 0; //Used to determine which player object to go to
-        public int PlayerBeingTracked { get; set; } = -1;
-        public int CurrentControllerButtons { get; set; } = 2; //For Setting the Menu Control Button Images.
-        public int LevelID { get; set; } = -1; //Self Explanatory
-        public int LastQuickButtonState { get; set; } = 0; //Gets the Last Quick Button State, so we can tell what action was used last
-        public int SelectedTileID { get; set; } = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
-        public string CurrentLanguage { get; set; } = "EN"; //Current Selected Language
-        public string INILayerNameLower { get; set; } = ""; //Reserved String for INI Default Layer Prefrences
-        public string INILayerNameHigher { get; set; } = ""; //Reserved String for INI Default Layer Prefrences
         public string entitiesTextFilter { get; set; } = ""; //Used to hide objects that don't match the discription
         public string LevelSelectCharS { get; set; } = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";
         public string MenuCharS { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!.";
         public string MenuCharS_Small { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ?.:'\"!-,&¡<>¿"; //49 out of 121
-        public string MultiLayerA { get; set; } = "";
-        public string MultiLayerB { get; set; } = "";
-
         public char[] MenuChar { get; set; }
         public char[] LevelSelectChar { get; set; }
         public char[] MenuChar_Small { get; set; }
-
-        public double ShortcutZoomValue { get; set; } = 0.0;
+        #endregion
 
         public UserStateModel()
 		{

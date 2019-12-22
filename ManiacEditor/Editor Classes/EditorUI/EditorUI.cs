@@ -24,9 +24,7 @@ namespace ManiacEditor
             Editor.Instance.saveAsToolStripMenuItem.IsEnabled = enabled;
             Editor.Instance.backupToolStripMenuItem.IsEnabled = enabled;
             Editor.Instance.unloadSceneToolStripMenuItem.IsEnabled = enabled;
-            Editor.Instance.goToToolStripMenuItem1.IsEnabled = enabled;
-            Editor.Instance.specificPlaceToolStripMenuItem.IsEnabled = enabled;
-            Editor.Instance.playerSpawnToolStripMenuItem.IsEnabled = enabled;
+            Editor.Instance.goToToolStripMenuItem.IsEnabled = enabled;
             Editor.Instance.findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
             Editor.Instance.maniacinieditorToolStripMenuItem.IsEnabled = enabled;
             Editor.Instance.exportToolStripMenuItem.IsEnabled = enabled;
@@ -842,7 +840,7 @@ namespace ManiacEditor
                 Editor.Instance.FormsModel.hScrollBar1.IsEnabled = true;
             }
 
-            bool parallaxAnimationInProgress = Editor.Instance.Options.AnimationsEnabled && Editor.Instance.Options.ParallaxAnimationChecked;
+            bool parallaxAnimationInProgress = Editor.Instance.Options.AllowAnimations && Editor.Instance.Options.ParallaxAnimationChecked;
 
             UpdateGameRunningButton(EditorSolution.CurrentScene != null);
             Editor.Instance.Theming.UpdateThemeForItemsWaiting();

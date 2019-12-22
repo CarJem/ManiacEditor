@@ -58,7 +58,6 @@ namespace ManiacEditor
 		public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
         public IList<Tuple<MenuItem, MenuItem>> RecentSceneItems;
         public IList<Tuple<MenuItem, MenuItem>> RecentDataSourceItems;
-        public IList<SceneEntity> playerObjectPosition = new List<SceneEntity> { }; //Used to store the scenes current playerObjectPositions
 		public List<string> userDefinedSpritePaths = new List<string>();
 		public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
         public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
@@ -801,16 +800,6 @@ namespace ManiacEditor
                 EditorStateModel.ViewPositionX = ResultX;
                 EditorStateModel.ViewPositionY = ResultY;
             }
-
-
-            if (ShortcutClear)
-            {
-                Options.ForceWarp = false;
-                Options.TempWarpCoords = new Point(0, 0);
-                Options.ShortcutHasZoom = false;
-                Options.ShortcutZoomValue = 0.0;
-            }
-
         }
 
         #endregion
@@ -847,11 +836,12 @@ namespace ManiacEditor
             if (ManiacEditor.Settings.MyDevSettings.DevForceRestartResourcePacks != null) DevResourcePacks = ManiacEditor.Settings.MyDevSettings.DevForceRestartResourcePacks.Cast<string>().ToList();
             int x = ManiacEditor.Settings.MyDevSettings.DevForceRestartX;
 			int y = ManiacEditor.Settings.MyDevSettings.DevForceRestartY;
-			Options.TempWarpCoords = new Point(x, y);
-			Options.ForceWarp = true;
 
 			FileHandler.OpenSceneFromSaveState(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed, DevResourcePacks);
-		}
+
+            GoToPosition(x, y, true);
+
+        }
 		private void OpenSceneForceFully(string dataDir, string scenePath, string modPath, int levelID, bool isEncoreMode, int X, int Y, double _ZoomScale = 0.0, string SceneID = "", string Zone = "", string Name = "")
 		{
             System.Windows.MessageBox.Show("These Kind of Shortcuts are Broken for now! SORRY!");
@@ -1126,8 +1116,6 @@ namespace ManiacEditor
 
             if (EditorStateModel.Scrolling) DrawScroller();
 
-            if (Options.ForceWarp) ForceWarp();
-
             void DrawBackground()
             {
                 if (!IsTilesEdit()) BackgroundDX.Draw(FormsModel.GraphicPanel);
@@ -1285,14 +1273,6 @@ namespace ManiacEditor
                     InGame.UpdateCheckpoint(clicked_point);
                 }
             }
-
-            void ForceWarp()
-            {
-                if (Options.ShortcutHasZoom) ZoomModel.SetZoomLevel(0, Options.TempWarpCoords, Options.ShortcutZoomValue);
-                else ZoomModel.SetZoomLevel(ManiacEditor.Settings.MyDevSettings.DevForceRestartZoomLevel, Options.TempWarpCoords);
-                GoToPosition(Options.TempWarpCoords.X, Options.TempWarpCoords.Y, false, true);
-                ZoomModel.SetViewSize((int)(SceneWidth * EditorStateModel.Zoom), (int)(SceneHeight * EditorStateModel.Zoom));
-            }
 		}
 
         public void DrawLayers(int drawOrder = 0)
@@ -1438,32 +1418,6 @@ namespace ManiacEditor
 
 		}
 		#endregion
-		#region Backup Tool Methods
-
-		public void BackupScene()
-		{
-			Options.BackupType = 1;
-			BackupEvent(null, null);
-			Options.BackupType = 0;
-		}
-		public void BackupSceneBeforeCrash()
-		{
-			Options.BackupType = 2;
-			BackupEvent(null, null);
-			Options.BackupType = 0;
-		}
-		public void AutoBackupScene()
-		{
-			Options.BackupType = 3;
-			BackupEvent(null, null);
-			Options.BackupType = 0;
-		}
-		public void BackupTool(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		#endregion
 		#region Get + Set Methods
 		public Rectangle GetScreen()
 		{
@@ -1517,7 +1471,6 @@ namespace ManiacEditor
         private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportObjLayoutAsPNG(); }
         private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
-        private void BackupEvent(object sender, RoutedEventArgs e) { UIEvents.BackupToolStripMenuItem_Click(sender, e); }
         private void RecoverEvent(object sender, RoutedEventArgs e) { UIEvents.BackupRecoverButton_Click(sender, e); }
         public void UnloadSceneEvent(object sender, RoutedEventArgs e) { FileHandler.UnloadScene(); }
         private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { UIEvents.StageConfigBackup(sender, e); }
@@ -1549,30 +1502,30 @@ namespace ManiacEditor
         #region Animations DropDown (WIP)
         private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Options.MovingPlatformsChecked == false)
+            if (Options.AllowMovingPlatformAnimations == false)
             {
                 movingPlatformsObjectsToolStripMenuItem.IsChecked = true;
-                Options.MovingPlatformsChecked = true;
+                Options.AllowMovingPlatformAnimations = true;
             }
             else
             {
                 movingPlatformsObjectsToolStripMenuItem.IsChecked = false;
-                Options.MovingPlatformsChecked = false;
+                Options.AllowMovingPlatformAnimations = false;
             }
 
         }
 
         private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Options.SpriteAnimationsChecked == false)
+            if (Options.AllowSpriteAnimations == false)
             {
                 spriteFramesToolStripMenuItem.IsChecked = true;
-                Options.SpriteAnimationsChecked = true;
+                Options.AllowSpriteAnimations = true;
             }
             else
             {
                 spriteFramesToolStripMenuItem.IsChecked = false;
-                Options.SpriteAnimationsChecked = false;
+                Options.AllowSpriteAnimations = false;
             }
         }
 
@@ -1732,7 +1685,6 @@ namespace ManiacEditor
         }
 
         #endregion
-        private void GoToPlayerSpawnEvent(object sender, RoutedEventArgs e) { UIEvents.PlayerSpawnToolStripMenuItem_Click(sender, e); }
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { UIEvents.GoToPosition(sender, e); }
         private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Options.UseMagnetMode ^= true; }
         private void UndoEvent(object sender, RoutedEventArgs e) { EditorUndo(); }
@@ -1983,12 +1935,12 @@ namespace ManiacEditor
 
         private void ShowAnimations_Checked(object sender, RoutedEventArgs e)
         {
-            Options.AnimationsEnabled = true;
+            Options.AllowAnimations = true;
         }
 
         private void ShowAnimations_Unchecked(object sender, RoutedEventArgs e)
         {
-            Options.AnimationsEnabled = false;
+            Options.AllowAnimations = false;
         }
 
         private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)

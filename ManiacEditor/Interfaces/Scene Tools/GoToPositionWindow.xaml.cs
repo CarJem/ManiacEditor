@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using RSDKv5;
 
 namespace ManiacEditor.Interfaces
 {
@@ -14,29 +15,73 @@ namespace ManiacEditor.Interfaces
 		public int goTo_X = 0;
 		public int goTo_Y = 0;
         public IList<string> SavedPositionsTextList = new List<string>();
+        public IList<Position> PlayerSpawnPositionsList = new List<Position>();
+
+        int playerObjectCount = 0;
+        public int selectedPlayer = 0;
+
         private Editor Instance;
 		public GoToPositionBox(Editor instance)
 		{
 			InitializeComponent();
             Instance = instance;
             GetSavedPositions();
-		}
+            GetPlayerPositions();
 
-        public void GetSavedPositions()
+        }
+
+        private void GetPlayerPositions()
         {
-            var SavedPositions = Instance.ManiacINI.ReturnPositionMarkers();
-            if (SavedPositions.Count != 0) SavedPositionsList.IsEnabled = true;
-            else SavedPositionsList.IsEnabled = false;
-            foreach (var positions in SavedPositions)
+            PlayerSpawnPositionsList = new List<Position>();
+            foreach (var player in GetPlayers())
             {
-                Label item = new Label();
-                item.Content = positions.Item1 + string.Format(" - ({0})", positions.Item2);
-                SavedPositionsTextList.Add(positions.Item2);
-                SavedPositionsList.Items.Add(item);
+                Position pos = player.Entity.Position;
+                String id = player.Entity.SlotID.ToString();
+                String posText = "X: " + pos.X.High + " Y: " + pos.Y.High;
+                ComboBox1.Items.Add("[" + id + "] " + posText);
+                PlayerSpawnPositionsList.Add(pos);
             }
         }
 
-		private void button1_Click(object sender, RoutedEventArgs e)
+        private List<EditorEntity> GetPlayers()
+        {
+            List<EditorEntity> players = new List<EditorEntity>();
+            foreach (var _entity in EditorSolution.Entities.Entities)
+            {
+                if (_entity.Entity.Object.Name.Name == "Player")
+                {
+                    players.Add(_entity);
+                }
+            }
+            return players;
+
+        }
+
+        public void GetSavedPositions()
+        {
+            if (Instance.ManiacINI.ManiacINIData.Positions != null)
+            {
+                var SavedPositions = Instance.ManiacINI.ManiacINIData.Positions;
+                if (SavedPositions.Count != 0) SavedPositionsList.IsEnabled = true;
+                else SavedPositionsList.IsEnabled = false;
+                foreach (var positions in SavedPositions)
+                {
+                    Label item = new Label();
+                    item.Content = positions.Item1 + string.Format(" - ({0})", positions.Item2);
+                    SavedPositionsTextList.Add(positions.Item2);
+                    SavedPositionsList.Items.Add(item);
+                }
+            }
+        }
+
+        private void GoToPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            int i = ComboBox1.SelectedIndex;
+            Instance.GoToPosition(PlayerSpawnPositionsList[i].X.High, PlayerSpawnPositionsList[i].Y.High, true);
+            this.Close();
+        }
+
+        private void GoToCoords_Click(object sender, RoutedEventArgs e)
 		{
 			if (TileModeCheckbox.IsChecked.Value)
 			{
@@ -50,8 +95,14 @@ namespace ManiacEditor.Interfaces
                 Instance.ManiacINI.AddSavedCoordinates(SavedPositionTextBox.Text, goTo_X, goTo_Y, tilesMode);
             }
 
-			this.DialogResult = true;
-		}
+            if (tilesMode)
+            {
+                goTo_X *= 16;
+                goTo_Y *= 16;
+            }
+            Instance.GoToPosition(goTo_X, goTo_Y, true);
+            this.Close();
+        }
 
         private void SavedPositionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -64,6 +115,47 @@ namespace ManiacEditor.Interfaces
 
             X.Value = x;
             Y.Value = y;
+        }
+
+        private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBox1.SelectedItem == null)
+            {
+                PlayerWarpButton.IsEnabled = false;
+            }
+            else 
+            {
+                PlayerWarpButton.IsEnabled = true;
+            }
+        }
+
+        private void SavePositionCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (SavePositionCheckbox.IsChecked.Value)
+            {
+                SavedPositionTextBox.IsEnabled = true;
+                SavedPositionTextBox_TextChanged(null, null);
+            }
+            else
+            {
+                SavedPositionTextBox.IsEnabled = false;
+                SavedPositionTextBox_TextChanged(null, null);
+            }
+        }
+
+        private void SavedPositionTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool hasNoText = (SavedPositionTextBox.Text == null || SavedPositionTextBox.Text == "");
+            if (SavePositionCheckbox.IsChecked.Value)
+            {
+                if (hasNoText) gotocoordsbutton.IsEnabled = false;
+                else gotocoordsbutton.IsEnabled = true;
+
+            }
+            else
+            {
+                gotocoordsbutton.IsEnabled = true;
+            }
         }
     }
 }
