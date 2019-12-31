@@ -15,8 +15,14 @@ Determines the Type of Water that is being used.
 	Uses CPZ/HCZ/AIZ Style Water; Starting Height Based on Entity Position (not the values it has)
 	
     * 1 - Bounded Water Box; GHZ Style Water
-    * 2 - Water Bubbles
+    * 2 - Water Bubbler
     * 3 - Bounding Boxes for Adjusting Water Height.
+    * 4 - Water Bubbler
+    * 5 - ???
+    * 6 - Water Splash
+    * 7 - Bubble
+    * 8 - CountDown Bubble
+
 
 **NumDuds:** 
 
