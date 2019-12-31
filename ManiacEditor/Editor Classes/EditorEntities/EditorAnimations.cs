@@ -75,9 +75,6 @@ namespace ManiacEditor
 
         }
 
-
-
-
         public void ProcessMovingPlatform(int angleDefault, UInt32 speed = 3)
         {
             if (speed >= 4294967290)

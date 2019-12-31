@@ -11,11 +11,12 @@ using System.Diagnostics;
 
 namespace ManiacEditor
 {
-    public class EditorLaunch
+    public static class EditorLaunch
     {
-        private Editor Editor;
-        public ManiacED_ManiaPal.Connector ManiaPalConnector;
-        #region DLL Import Stuff
+        #region Variables/DLL Imports
+        private static Editor Editor;
+        public static ManiacED_ManiaPal.Connector ManiaPalConnector;
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
         private static extern bool ShowWindow(IntPtr hWnd, ShowWindowEnum flags);
@@ -35,14 +36,15 @@ namespace ManiacEditor
             Restore = 9, ShowDefault = 10, ForceMinimized = 11
         };
         #endregion
-        public EditorLaunch(Editor instance)
+
+        public static void UpdateInstance(Editor instance)
         {
             Editor = instance;
         }
 
         #region Apps
 
-        public void CheatEngine()
+        public static void CheatEngine()
         {
             String cheatEngineProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Settings.MyDefaults.CheatEnginePath);
             IntPtr hWnd = FindWindow(cheatEngineProcessName, null); // this gives you the handle of the window you need.
@@ -85,8 +87,7 @@ namespace ManiacEditor
                     Process.Start(ManiacEditor.Settings.MyDefaults.CheatEnginePath);
             }
         }
-
-        public void TileManiacNormal()
+        public static void TileManiacNormal()
         {
             if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.MainWindow();
             Editor.TileManiacInstance.Show();
@@ -104,8 +105,7 @@ namespace ManiacEditor
             }
 
         }
-
-        public void TileManiacIntergration()
+        public static void TileManiacIntergration()
         {
             try
             {
@@ -135,8 +135,7 @@ namespace ManiacEditor
             }
 
         }
-
-        public void ManiaModManager()
+        public static void ManiaModManager()
         {
             String modProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Settings.MyDefaults.ModLoaderPath);
             IntPtr hWnd = FindWindow(modProcessName, null); // this gives you the handle of the window you need.
@@ -179,18 +178,16 @@ namespace ManiacEditor
                     Process.Start(ManiacEditor.Settings.MyDefaults.ModLoaderPath);
             }
         }
-
-        public void RSDKUnpacker()
+        public static void RSDKUnpacker()
         {
 
         }
-
-        public void InsanicManiac()
+        public static void InsanicManiac()
         {
             //Sanic2Maniac sanic = new Sanic2Maniac(null, this);
             //sanic.Show();
         }
-        public void RSDKAnnimationEditor()
+        public static void RSDKAnnimationEditor()
         {
             String aniProcessName = Path.GetFileNameWithoutExtension(Settings.MyDefaults.AnimationEditorPath);
             IntPtr hWnd = FindWindow(aniProcessName, null); // this gives you the handle of the window you need.
@@ -235,13 +232,13 @@ namespace ManiacEditor
                 Process.Start(psi);
             }
         }
-        public void RenderListManager()
+        public static void RenderListManager()
         {
             RenderListEditor editor = new RenderListEditor(Editor);
             editor.Owner = Editor.Owner;
             editor.ShowDialog();
         }
-        public void ManiaPal(object sender, RoutedEventArgs e)
+        public static void ManiaPal(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.MenuItem button = sender as System.Windows.Controls.MenuItem;
             bool isGameConfig = false;
@@ -272,16 +269,15 @@ namespace ManiacEditor
 
 
         }
-        public void ManiaPalSubmenuOpened(object sender, RoutedEventArgs e)
+        public static void ManiaPalSubmenuOpened(object sender, RoutedEventArgs e)
         {
             Editor.maniaPalHint.Header = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
         }
-
-        public void SonicManiaHeadless()
+        public static void SonicManiaHeadless()
         {
             Editor.InGame.RunSequence(null, null, false);
         }
-        public void DuplicateObjectIDHealer()
+        public static void DuplicateObjectIDHealer()
         {
             MessageBoxResult result = System.Windows.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
             if (result == MessageBoxResult.OK)
@@ -311,7 +307,7 @@ namespace ManiacEditor
 
         #region Folders
 
-        public void OpenFolder(string folderPath)
+        public static void OpenFolder(string folderPath)
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
             {
@@ -320,8 +316,7 @@ namespace ManiacEditor
                 Verb = "open"
             });
         }
-
-        public void OpenSceneFolder()
+        public static void OpenSceneFolder()
         {
             if (Editor.Paths.SceneFile_Directory != null && Editor.Paths.SceneFile_Directory != "")
             {
@@ -334,23 +329,19 @@ namespace ManiacEditor
             }
 
         }
-
-        public void OpenManiacEditorFolder()
+        public static void OpenManiacEditorFolder()
         {
             OpenFolder(Environment.CurrentDirectory);
         }
-
-        public void OpenManiacEditorFixedSettingsFolder()
+        public static void OpenManiacEditorFixedSettingsFolder()
         {
             OpenFolder(EditorConstants.SettingsStaticDirectory);
         }
-
-        public void OpenManiacEditorPortableSettingsFolder()
+        public static void OpenManiacEditorPortableSettingsFolder()
         {
             OpenFolder(EditorConstants.SettingsPortableDirectory);
         }
-
-        public void OpenDataDirectory()
+        public static void OpenDataDirectory()
         {
             string DataDirectory_mod = Editor.DataDirectory.Replace('/', '\\');
             if (DataDirectory_mod != null && DataDirectory_mod != "" && Directory.Exists(DataDirectory_mod))
@@ -363,8 +354,7 @@ namespace ManiacEditor
             }
 
         }
-
-        public void OpenSonicManiaFolder()
+        public static void OpenSonicManiaFolder()
         {
             if (Settings.MyDefaults.SonicManiaPath != null && Settings.MyDefaults.SonicManiaPath != "" && File.Exists(Settings.MyDefaults.SonicManiaPath))
             {
@@ -378,8 +368,9 @@ namespace ManiacEditor
             }
 
         }
+
         #region Saved Place
-        public void OpenASavedPlaceDropDownOpening(object sender, RoutedEventArgs e)
+        public static void OpenASavedPlaceDropDownOpening(object sender, RoutedEventArgs e)
         {
             if (Settings.MySettings.SavedPlaces != null && Settings.MySettings.SavedPlaces.Count > 0)
             {
@@ -399,7 +390,7 @@ namespace ManiacEditor
 
         }
 
-        public void OpenASavedPlaceTrigger(object sender, RoutedEventArgs e)
+        public static void OpenASavedPlaceTrigger(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.MenuItem item = sender as System.Windows.Controls.MenuItem;
             string savedPlaceDir = item.Header.ToString().Replace('/', '\\');
@@ -413,7 +404,7 @@ namespace ManiacEditor
             }
         }
 
-        public void OpenASavedPlaceDropDownClosed(object sender, RoutedEventArgs e)
+        public static void OpenASavedPlaceDropDownClosed(object sender, RoutedEventArgs e)
         {
             Editor.openASavedPlaceToolStripMenuItem.Items.Clear();
             Editor.openASavedPlaceToolStripMenuItem.Items.Add("No Saved Places");
@@ -421,7 +412,7 @@ namespace ManiacEditor
         #endregion
 
         #region Data Packs
-        public void OpenAResourcePackFolderDropDownOpening(object sender, RoutedEventArgs e)
+        public static void OpenAResourcePackFolderDropDownOpening(object sender, RoutedEventArgs e)
         {
             if (EditorSolution.CurrentScene == null) Editor.ResourcePackList.Clear();
             if (Editor.ResourcePackList != null && Editor.ResourcePackList.Count > 0)
@@ -442,7 +433,7 @@ namespace ManiacEditor
 
         }
 
-        public void OpenAResourcePackFolderTrigger(object sender, RoutedEventArgs e)
+        public static void OpenAResourcePackFolderTrigger(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.MenuItem item = sender as System.Windows.Controls.MenuItem;
             string resourcePackDir = item.Header.ToString().Replace('/', '\\');
@@ -456,7 +447,7 @@ namespace ManiacEditor
             }
         }
 
-        public void OpenAResourcePackFolderDropDownClosed(object sender, RoutedEventArgs e)
+        public static void OpenAResourcePackFolderDropDownClosed(object sender, RoutedEventArgs e)
         {
             Editor.openAResourcePackFolderToolStripMenuItem.Items.Clear();
             Editor.openAResourcePackFolderToolStripMenuItem.Items.Add("No Resource Packs Loaded");
@@ -468,7 +459,7 @@ namespace ManiacEditor
         #region Scene Tools
 
         #region Scene Tab Buttons
-        public void ImportObjectsToolStripMenuItem_Click(Window window = null)
+        public static void ImportObjectsToolStripMenuItem_Click(Window window = null)
         {
             Editor.Options.isImportingObjects = true;
             try
@@ -495,7 +486,7 @@ namespace ManiacEditor
             Editor.Options.isImportingObjects = false;
         }
 
-        public void ImportObjectsWithMegaList(Window window = null)
+        public static void ImportObjectsWithMegaList(Window window = null)
         {
             Editor.Options.isImportingObjects = true;
             try
@@ -531,11 +522,11 @@ namespace ManiacEditor
             Editor.Options.isImportingObjects = false;
         }
 
-        public void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        public static void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ImportSounds(Window.GetWindow(Editor));
         }
-        public void ImportSounds(Window window = null)
+        public static void ImportSounds(Window window = null)
         {
             try
             {
@@ -579,7 +570,7 @@ namespace ManiacEditor
             Editor.Instance.Options.QuitWithoutSavingWarningRequired = true;
         }
 
-        public void ManiacINIEditor(object sender, RoutedEventArgs e)
+        public static void ManiacINIEditor(object sender, RoutedEventArgs e)
         {
             ManiacINIEditor editor = new ManiacINIEditor(Editor);
             if (editor.Owner != null) editor.Owner = Window.GetWindow(Editor);
@@ -587,7 +578,7 @@ namespace ManiacEditor
             editor.ShowDialog();
         }
 
-        public void LayerManager(object sender, RoutedEventArgs e)
+        public static void LayerManager(object sender, RoutedEventArgs e)
         {
             Editor.Deselect(true);
 
@@ -602,7 +593,7 @@ namespace ManiacEditor
             Editor.Instance.Options.QuitWithoutSavingWarningRequired = true;
         }
 
-        public void ExportGUI(object sender, RoutedEventArgs e)
+        public static void ExportGUI(object sender, RoutedEventArgs e)
         {
             var eG = new ManiacEditor.Interfaces.ExportAsImageGUI(EditorSolution.CurrentScene);
             eG.Owner = Window.GetWindow(Editor);
@@ -610,7 +601,7 @@ namespace ManiacEditor
 
         }
 
-        public void ObjectManager()
+        public static void ObjectManager()
         {
             var objectManager = new ManiacEditor.Interfaces.ObjectManager(EditorSolution.CurrentScene.Objects, EditorSolution.StageConfig, Editor);
             objectManager.Owner = Window.GetWindow(Editor);
@@ -618,21 +609,21 @@ namespace ManiacEditor
             Editor.Instance.Options.QuitWithoutSavingWarningRequired = true;
         }
 
-        public void AboutScreen()
+        public static void AboutScreen()
         {
             var aboutBox = new ManiacEditor.Interfaces.AboutWindow();
             aboutBox.Owner = Editor;
             aboutBox.ShowDialog();
         }
 
-        public void OptionsMenu()
+        public static void OptionsMenu()
         {
             var optionMenu = new ManiacEditor.Interfaces.OptionsMenu();
             optionMenu.Owner = Editor;
             optionMenu.ShowDialog();
         }
 
-        public void ControlMenu()
+        public static void ControlMenu()
         {
             var optionMenu = new ManiacEditor.Interfaces.OptionsMenu();
             optionMenu.Owner = Editor;
@@ -640,19 +631,19 @@ namespace ManiacEditor
             optionMenu.ShowDialog();
         }
 
-        public void WikiLink()
+        public static void WikiLink()
         {
             System.Diagnostics.Process.Start("https://maniaceditor-generationsedition.readthedocs.io/en/latest/");
         }
 
-        public void InGameSettings()
+        public static void InGameSettings()
         {
             CheatCodeManager cheatCodeManager = new CheatCodeManager();
             cheatCodeManager.Owner = Editor;
             cheatCodeManager.ShowDialog();
         }
 
-        public void ChangePrimaryBackgroundColor(object sender, RoutedEventArgs e)
+        public static void ChangePrimaryBackgroundColor(object sender, RoutedEventArgs e)
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
@@ -676,7 +667,7 @@ namespace ManiacEditor
             }
         }
 
-        public void ChangeSecondaryBackgroundColor(object sender, RoutedEventArgs e)
+        public static void ChangeSecondaryBackgroundColor(object sender, RoutedEventArgs e)
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
@@ -706,7 +697,7 @@ namespace ManiacEditor
 
         #region Dev
 
-        public void DevTerm()
+        public static void DevTerm()
         {
             var DevController = new ManiacEditor.Interfaces.DeveloperTerminal(Editor);
             DevController.Owner = Window.GetWindow(Editor);

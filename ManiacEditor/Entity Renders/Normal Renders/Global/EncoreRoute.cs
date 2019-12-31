@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
         {
             if (EditorSolution.CurrentScene?.Scratch != null)
             {
-                EditorLayer Scratch = EditorSolution.CurrentScene?.Scratch;
+                EditorSolution.EditorLayer Scratch = EditorSolution.CurrentScene?.Scratch;
 
                 _layer = Scratch.Layer;
                 bool fliph = false;

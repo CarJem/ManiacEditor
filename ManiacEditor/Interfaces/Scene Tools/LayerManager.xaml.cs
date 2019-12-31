@@ -24,7 +24,7 @@ namespace ManiacEditor.Interfaces
 	public partial class LayerManager : Window
 	{
 		private EditorSolution.EditorScene _editorScene;
-		private IList<EditorLayer> Layers
+		private IList<EditorSolution.EditorLayer> Layers
 		{
 			get => _editorScene?.AllLayersList;
 		}
@@ -44,7 +44,7 @@ namespace ManiacEditor.Interfaces
 			get => GetSelectedLayerScroll();
 		}
 
-        private EditorLayer SelectedLayer;
+        private EditorSolution.EditorLayer SelectedLayer;
 
 		private bool LockSelectionChangedTriggers = false;
 		private bool _layerArrangementChanged = false;
@@ -55,7 +55,7 @@ namespace ManiacEditor.Interfaces
 		int nudLineCountTemp = 0;
 
 		//Clipboards
-		private EditorLayer LayerClipboard;
+		private EditorSolution.EditorLayer LayerClipboard;
 
 
 
@@ -299,7 +299,7 @@ namespace ManiacEditor.Interfaces
 
 		private void btnAdd_Click(object sender, RoutedEventArgs e)
 		{
-			EditorLayer newEditorLayer = _editorScene.ProduceLayer();
+			EditorSolution.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
 			Layers.Add(newEditorLayer);
 			int newIndex = Layers.IndexOf(newEditorLayer);
 			lbLayers.SelectedIndex = newIndex;
@@ -491,9 +491,9 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
-		private void CopyLayerToClipboard(EditorLayer layerToCopy)
+		private void CopyLayerToClipboard(EditorSolution.EditorLayer layerToCopy)
 		{
-			EditorLayer copyData = layerToCopy;
+			EditorSolution.EditorLayer copyData = layerToCopy;
 
 			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
 			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
@@ -510,7 +510,7 @@ namespace ManiacEditor.Interfaces
 			// For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
 			if (Clipboard.ContainsData("ManiacLayer") && false)
 			{
-				var layerToPaste = (EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
+				var layerToPaste = (EditorSolution.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
 
 				Layers.Insert(Layers.Count - 1, layerToPaste);
 

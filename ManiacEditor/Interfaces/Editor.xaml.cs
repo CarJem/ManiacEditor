@@ -68,13 +68,13 @@ namespace ManiacEditor
         public Stack<IAction> RedoStack = new Stack<IAction>(); //Redo Actions Stack
 
         //Editor Layers
-        internal EditorLayer FGHigher => EditorSolution.CurrentScene?.HighDetails;
-		internal EditorLayer FGHigh => EditorSolution.CurrentScene?.ForegroundHigh;
-		internal EditorLayer FGLow => EditorSolution.CurrentScene?.ForegroundLow;
-		internal EditorLayer FGLower => EditorSolution.CurrentScene?.LowDetails;
-		internal EditorLayer ScratchLayer => EditorSolution.CurrentScene?.Scratch;
-        public EditorLayer EditLayerA { get; set; }
-        public EditorLayer EditLayerB { get; set; }
+        internal EditorSolution.EditorLayer FGHigher => EditorSolution.CurrentScene?.HighDetails;
+		internal EditorSolution.EditorLayer FGHigh => EditorSolution.CurrentScene?.ForegroundHigh;
+		internal EditorSolution.EditorLayer FGLow => EditorSolution.CurrentScene?.ForegroundLow;
+		internal EditorSolution.EditorLayer FGLower => EditorSolution.CurrentScene?.LowDetails;
+		internal EditorSolution.EditorLayer ScratchLayer => EditorSolution.CurrentScene?.Scratch;
+        public EditorSolution.EditorLayer EditLayerA { get; set; }
+        public EditorSolution.EditorLayer EditLayerB { get; set; }
         //Scene Width + Height (For Drawing)
         internal int SceneWidth => (EditorSolution.CurrentScene != null ? EditorSolution.CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
 		internal int SceneHeight => (EditorSolution.CurrentScene != null ? EditorSolution.CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
@@ -119,7 +119,6 @@ namespace ManiacEditor
         public UserStateModel Options;
         public EditorRecentSceneSourcesList RecentsList;
         public EditorRecentDataSourcesList RecentDataSourcesList;
-        public EditorLaunch Launcher;
         public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost FormsHost;
         public MainWindow TileManiacInstance = new MainWindow();
@@ -295,7 +294,7 @@ namespace ManiacEditor
 			FindAndReplace = new EditorFindReplace(this);
             ZoomModel = new EditorZoomModel(this);
             ManiacINI = new EditorManiacINI(this);
-            Launcher = new EditorLaunch(this);
+            EditorLaunch.UpdateInstance(this);
             UI = new EditorUI();
             RecentsList = new EditorRecentSceneSourcesList(this);
             RecentDataSourcesList = new EditorRecentDataSourcesList(this);
@@ -412,7 +411,7 @@ namespace ManiacEditor
 		}
         #endregion
 		#region Common Editor Functions
-		public void EditorPlaceTile(Point position, int tile, EditorLayer layer, bool isDrawing = false)
+		public void EditorPlaceTile(Point position, int tile, EditorSolution.EditorLayer layer, bool isDrawing = false)
 		{
             if (isDrawing)
             {
@@ -564,7 +563,7 @@ namespace ManiacEditor
             }
             else if (hasMultipleValidLayers && Options.MultiLayerEditMode)
             {
-                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
+                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = EditorSolution.EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
                 if (!doNotUseWindowsClipboard)
@@ -816,7 +815,6 @@ namespace ManiacEditor
 				return folderBrowserDialog.FileName;
 			}
 		}
-
 		public bool SetGameConfig() { return Paths.SetGameConfig(); }
 		public bool IsDataDirectoryValid(string directoryToCheck) { return Paths.IsDataDirectoryValid(directoryToCheck); }
         #endregion
@@ -898,7 +896,7 @@ namespace ManiacEditor
         }
         private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Launcher.ManiaPalConnector != null) Launcher.ManiaPalConnector.Kill();
+            if (EditorLaunch.ManiaPalConnector != null) EditorLaunch.ManiaPalConnector.Kill();
 
             try
             {
@@ -1203,10 +1201,10 @@ namespace ManiacEditor
                         }
                         if (IsChunksEdit())
                         {
-                            bound_x1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
-                            bound_y1 = EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
-                            bound_x2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
-                            bound_y2 = EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
+                            bound_x1 = EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
+                            bound_y1 = EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
+                            bound_x2 = EditorSolution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
+                            bound_y2 = EditorSolution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
                         }
 
 
@@ -1257,7 +1255,7 @@ namespace ManiacEditor
                 FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
             }
 
-            void DrawLayer(bool ShowLayer, bool EditLayer, EditorLayer layer)
+            void DrawLayer(bool ShowLayer, bool EditLayer, EditorSolution.EditorLayer layer)
             {
                 if (ShowLayer || EditLayer) layer.Draw(FormsModel.GraphicPanel);
             }
@@ -1469,7 +1467,7 @@ namespace ManiacEditor
         private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportAsPNG(); }
         private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportLayersAsPNG(); }
         private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportObjLayoutAsPNG(); }
-        private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.ExportGUI(sender, e); }
+        private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
         private void RecoverEvent(object sender, RoutedEventArgs e) { UIEvents.BackupRecoverButton_Click(sender, e); }
         public void UnloadSceneEvent(object sender, RoutedEventArgs e) { FileHandler.UnloadScene(); }
@@ -1490,7 +1488,7 @@ namespace ManiacEditor
         public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipHorizontalIndividual(); }
         #endregion
         #region Developer Stuff (WIP)
-        private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { Launcher.DevTerm(); }
+        private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { EditorLaunch.DevTerm(); }
         private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.MD5GeneratorToolStripMenuItem_Click(sender, e); }
         private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { UIEvents.FindAndReplaceTool(sender, e); }
         private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ConsoleWindowToolStripMenuItem_Click(sender, e); }
@@ -1826,48 +1824,48 @@ namespace ManiacEditor
         #endregion
 
         #region Apps
-        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Launcher.TileManiacIntergration(); }
-        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { Launcher.RSDKUnpacker(); }
-        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { Launcher.SonicManiaHeadless(); }
-        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { Launcher.CheatEngine(); }
-        private void ModManager(object sender, RoutedEventArgs e) { Launcher.ManiaModManager(); }
-        private void TileManiacNormal(object sender, RoutedEventArgs e) { Launcher.TileManiacNormal(); }
-        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.InsanicManiac(); }
-        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.RSDKAnnimationEditor(); }
-        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.RenderListManager(); }
-        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.ManiaPal(sender, e); }
-        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { Launcher.ManiaPalSubmenuOpened(sender, e); }
-        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.DuplicateObjectIDHealer(); }
+        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacIntergration(); }
+        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { EditorLaunch.RSDKUnpacker(); }
+        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { EditorLaunch.SonicManiaHeadless(); }
+        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { EditorLaunch.CheatEngine(); }
+        private void ModManager(object sender, RoutedEventArgs e) { EditorLaunch.ManiaModManager(); }
+        private void TileManiacNormal(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacNormal(); }
+        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.InsanicManiac(); }
+        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.RSDKAnnimationEditor(); }
+        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.RenderListManager(); }
+        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.ManiaPal(sender, e); }
+        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { EditorLaunch.ManiaPalSubmenuOpened(sender, e); }
+        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.DuplicateObjectIDHealer(); }
         #endregion
 
         #region Folders
-        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenSceneFolder(); }
-        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenManiacEditorFolder(); }
-        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenManiacEditorFixedSettingsFolder(); }
-        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenManiacEditorPortableSettingsFolder(); }
-        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenDataDirectory(); }
-        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Launcher.OpenSonicManiaFolder(); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Launcher.OpenASavedPlaceDropDownOpening(sender, e); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Launcher.OpenASavedPlaceDropDownClosed(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Launcher.OpenAResourcePackFolderDropDownOpening(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Launcher.OpenAResourcePackFolderDropDownClosed(sender, e); }
+        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenSceneFolder(); }
+        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorFolder(); }
+        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorFixedSettingsFolder(); }
+        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorPortableSettingsFolder(); }
+        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenDataDirectory(); }
+        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenSonicManiaFolder(); }
+        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { EditorLaunch.OpenASavedPlaceDropDownOpening(sender, e); }
+        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { EditorLaunch.OpenASavedPlaceDropDownClosed(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { EditorLaunch.OpenAResourcePackFolderDropDownOpening(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { EditorLaunch.OpenAResourcePackFolderDropDownClosed(sender, e); }
         #endregion
 
         #region Settings and Other Menu Events
-        public void AboutScreenEvent(object sender, RoutedEventArgs e) { Launcher.AboutScreen(); }
-        public void ImportObjectsToolStripMenuItem_Click(Window window = null) { Launcher.ImportObjectsToolStripMenuItem_Click(window); }
-        public void ImportObjectsWithMegaList(Window window = null) { Launcher.ImportObjectsWithMegaList(window); }
-        public void ImportSoundsEvent(object sender, RoutedEventArgs e) { Launcher.ImportSoundsToolStripMenuItem_Click(sender, e); }
-        public void ImportSoundsEvent(Window window = null) { Launcher.ImportSounds(window); }
-        private void LayerManagerEvent(object sender, RoutedEventArgs e) { Launcher.LayerManager(sender, e); }
-        private void ManiacINIEditorEvent(object sender, RoutedEventArgs e) { Launcher.ManiacINIEditor(sender, e); }
-        private void ChangePrimaryBackgroundColorEvent(object sender, RoutedEventArgs e) { Launcher.ChangePrimaryBackgroundColor(sender, e); }
-        private void ChangeSecondaryBackgroundColorEvent(object sender, RoutedEventArgs e) { Launcher.ChangeSecondaryBackgroundColor(sender, e); }
-        public void ObjectManagerEvent(object sender, RoutedEventArgs e) { Launcher.ObjectManager(); }
-        private void InGameOptionsMenuEvent(object sender, RoutedEventArgs e) { Launcher.InGameSettings(); }
-        private void WikiLinkEvent(object sender, RoutedEventArgs e) { Launcher.WikiLink(); }
-        public void OptionsMenuEvent(object sender, RoutedEventArgs e) { Launcher.OptionsMenu(); }
-        private void ControlsMenuEvent(object sender, RoutedEventArgs e) { Launcher.ControlMenu(); }
+        public void AboutScreenEvent(object sender, RoutedEventArgs e) { EditorLaunch.AboutScreen(); }
+        public void ImportObjectsToolStripMenuItem_Click(Window window = null) { EditorLaunch.ImportObjectsToolStripMenuItem_Click(window); }
+        public void ImportObjectsWithMegaList(Window window = null) { EditorLaunch.ImportObjectsWithMegaList(window); }
+        public void ImportSoundsEvent(object sender, RoutedEventArgs e) { EditorLaunch.ImportSoundsToolStripMenuItem_Click(sender, e); }
+        public void ImportSoundsEvent(Window window = null) { EditorLaunch.ImportSounds(window); }
+        private void LayerManagerEvent(object sender, RoutedEventArgs e) { EditorLaunch.LayerManager(sender, e); }
+        private void ManiacINIEditorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ManiacINIEditor(sender, e); }
+        private void ChangePrimaryBackgroundColorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ChangePrimaryBackgroundColor(sender, e); }
+        private void ChangeSecondaryBackgroundColorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ChangeSecondaryBackgroundColor(sender, e); }
+        public void ObjectManagerEvent(object sender, RoutedEventArgs e) { EditorLaunch.ObjectManager(); }
+        private void InGameOptionsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.InGameSettings(); }
+        private void WikiLinkEvent(object sender, RoutedEventArgs e) { EditorLaunch.WikiLink(); }
+        public void OptionsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.OptionsMenu(); }
+        private void ControlsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.ControlMenu(); }
         #endregion
 
         #region Game Running Events
@@ -2118,7 +2116,7 @@ namespace ManiacEditor
 			IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
 
 			//EDIT BUTTONS
-			foreach (EditorLayer el in EditorSolution.CurrentScene.OtherLayers)
+			foreach (EditorSolution.EditorLayer el in EditorSolution.CurrentScene.OtherLayers)
 			{
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
@@ -2142,7 +2140,7 @@ namespace ManiacEditor
 			ExtraLayerSeperators.Add(tss);
 
 			//VIEW BUTTONS
-			foreach (EditorLayer el in EditorSolution.CurrentScene.OtherLayers)
+			foreach (EditorSolution.EditorLayer el in EditorSolution.CurrentScene.OtherLayers)
 			{
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
@@ -2193,7 +2191,7 @@ namespace ManiacEditor
 		/// <param name="layer">The layer of the scene from which to extract a name.</param>
 		/// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
 		/// <param name="editButton">The button which controls editing the layer.</param>
-		private void UpdateDualButtonsControlsForLayer(EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+		private void UpdateDualButtonsControlsForLayer(EditorSolution.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
 		{
 			bool layerValid = layer != null;
 			visibilityButton.IsChecked = layerValid;
@@ -2629,8 +2627,6 @@ namespace ManiacEditor
 
 
         #endregion
-
-
         #endregion
 
         #region Reworked Regions

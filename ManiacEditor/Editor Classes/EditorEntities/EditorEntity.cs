@@ -10,6 +10,7 @@ namespace ManiacEditor
     [Serializable]
     public class EditorEntity : IDrawable
 	{
+        #region Original
         public bool Selected { get => GetSelected(); set => SetSelected(value); }
         private bool isSelected = false;
         public int SelectedIndex = -1;
@@ -845,5 +846,33 @@ namespace ManiacEditor
         {
 
         }
-	}
+        #endregion
+
+        #region Animations
+
+        public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
+        {
+            // Playback
+            if (Editor.Instance.Options.AllowSpriteAnimations)
+            {
+                if (speed > 0)
+                {
+                    int speed1 = speed * 64 / (duration == 0 ? 256 : duration);
+                    if (speed1 == 0)
+                        speed1 = 1;
+                    if ((DateTime.Now - lastFrametime).TotalMilliseconds > 1024 / speed1)
+                    {
+                        index++;
+                        lastFrametime = DateTime.Now;
+                    }
+                }
+            }
+            else index = 0 + startFrame;
+            if (index >= frameCount)
+                index = 0;
+
+        }
+
+        #endregion
+    }
 }

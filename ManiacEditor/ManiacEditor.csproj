@@ -368,7 +368,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editor Classes\EditorDataModel.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\MonkeyDude.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\SchrodingersCapsule.cs" />
     <Compile Include="Entity Renders\Normal Renders\CPZ\DNARiser.cs" />
@@ -550,20 +549,19 @@
     <Compile Include="Functions\Actions\ActionMultipleMoveEntities.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorControl.cs" />
     <Compile Include="Editor Classes\EditorRecentsList.cs" />
-    <Compile Include="Editor Classes\EditorLaunch.cs" />
-    <Compile Include="Editor Classes\EditorSolution.cs" />
+    <Compile Include="Editor Classes\EditorExternal\EditorLaunch.cs" />
+    <Compile Include="Editor Classes\EditorSolution\EditorSolution.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
-    <Compile Include="Editor Classes\EditorInit.cs" />
     <Compile Include="Editor Classes\EditorManiacINI.cs" />
     <Compile Include="Editor Classes\EditorDataPacks.cs" />
     <Compile Include="Functions\Addons\DiscordRP.cs" />
     <Compile Include="Editor Classes\EditorFindReplace.cs" />
-    <Compile Include="Editor Classes\EditorInGame.cs" />
-    <Compile Include="Editor Classes\EditorChunk.cs" />
+    <Compile Include="Editor Classes\EditorExternal\EditorInGame.cs" />
+    <Compile Include="Editor Classes\EditorLayer\EditorChunk.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorUIEvents.cs" />
-    <Compile Include="Editor Classes\EditorPath.cs" />
+    <Compile Include="Editor Classes\EditorSolution\EditorPath.cs" />
     <Compile Include="Editor Classes\EditorFileHandler.cs" />
     <Compile Include="Editor Classes\EditorTheming.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorUI.cs" />
@@ -878,8 +876,8 @@
     </Compile>
     <Compile Include="Editor Classes\EditorUI\EditorStateModel.cs" />
     <Compile Include="Functions\Enums.cs" />
-    <Compile Include="Editor Classes\EditorAnimations.cs" />
-    <Compile Include="Editor Classes\EditorBackground.cs" />
+    <Compile Include="Editor Classes\EditorEntities\EditorAnimations.cs" />
+    <Compile Include="Editor Classes\EditorRendering\EditorBackground.cs" />
     <Compile Include="Editor Classes\EditorEntities\EditorEntityDrawing.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">
@@ -995,7 +993,6 @@
     <Compile Include="Interfaces\PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Editor Classes\EditorEntities\EditorEntities.cs" />
     <Compile Include="Editor Classes\EditorEntities\EditorEntity.cs" />
-    <Compile Include="Editor Classes\EditorLayer\EditorLayer.cs" />
     <Compile Include="Memory Editing\ProcessMemory.cs" />
     <Compile Include="Editor Classes\EditorLayer\ScrollInfoLines.cs" />
     <Compile Include="Editor Classes\EditorSettings.cs" />
