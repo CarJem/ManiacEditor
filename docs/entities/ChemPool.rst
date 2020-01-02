@@ -10,7 +10,7 @@ Attributes:
 	* 0 – Blue Pool, hazardous
 	* 1 – Green Pool, bounces the player very high
 	* 2 – Turquoise Pool, bounces player progressively higher to standard jump height
-	* 3 - ??? (Non Solid Pool)
+	* 3+ - Invalid Type (Non Solid Pool)
 
 **Size**:
 
