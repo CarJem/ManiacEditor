@@ -24,7 +24,7 @@ Defines which layer the platform will affect. Experiment with different values t
 	* 1 – Collapses from right to left
 	* 2 - Collapses from centre outwards
 	* 3 - Collapses from from left if player is left of the center, or right if player is right of the center
-	* 4 - Collapses from where the player is standing to both left and right edges
+	* 4 - Collapses from from left if player is left of the center, or right if player is right of the center, or center if player is in the center area
 
 **Delay**:
 
