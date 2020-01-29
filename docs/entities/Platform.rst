@@ -17,17 +17,22 @@ Attributes
 Determines the Platform’s Behavior
 
     * 0 - Default
-    * 1 - Collapsing Platform; Shortly after the player stands on this type, the platform will begin to fall. This type is known to respawn after the matter however once the player goes far away enough.
+    * 1 - Collapsing Platform; Shortly after the player stands on this type, the platform will begin to fall. This type will respawn if the player goes far away enough as long as amplitudeX is set to 0, otherwise it will be gone until the scene is restarted.
     * 2 - Normal Up and Down Moving Platforms
     * 3 - Circular Path Moving Platforms
     * 4 - Back and Forth Moving Platforms; Move from side to side.
-    * 5 - A Dud Platform?
+    * 5 - Unknown, Used with PlatformControl object
     * 6 - Player Pushable Platform
     * 7 - OOZ Moving Spike Platforms; They move back and forth when they hit walls.
     * 8 - Waiting Moving Platforms; These Wait for the Player to be on top of them, and when the player is, it will move to its destination.
     * 9 - Waiting Moving Platforms(with Bobbing); These Wait for the Player to be on top of them, and when the player is, it will move to its destination.
     * 10 - Moves when player is standing on them
-    * 11 - Circular TMZ2 Style Platform Lift Thing? (IDK)
+    * 11 - Circular TMZ2 Style Platform Lift Thing?
+    * 12 - ???
+    * 13 - ???
+    * 14 - ???
+    * 15 - ???
+    * 16 - ???
 
 **Amplitude:**
 
@@ -64,6 +69,7 @@ Determines how the platform will behave when an player interacts with it. Your R
 	* 12 - Sticky from right side only
 	* 13 - Sticky from bottom side only
 	* 14 - Platform makes Sonic look like he is on a barstool
+	* 15 - ???
 
 **TileOrigin:**
 
