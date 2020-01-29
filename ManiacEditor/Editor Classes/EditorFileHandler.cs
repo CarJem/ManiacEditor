@@ -239,7 +239,6 @@ namespace ManiacEditor
                 Instance.ShowError("An error occurred: " + ex.Message);
             }
         }
-
         public void ExportObjLayoutAsPNG()
         {
             int i = 0;

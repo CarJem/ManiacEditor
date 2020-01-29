@@ -1017,7 +1017,6 @@ namespace ManiacEditor
 
         #region Unoptimized Misc Stuff
         public bool collisionOpacityChanged { get; set; } = false;
-        public static bool UpdateUpdaterMessage = false;
         public int EncoreSetupType { get; set; } //Used to determine what kind of encore setup the stage uses
         public string entitiesTextFilter { get; set; } = ""; //Used to hide objects that don't match the discription
         public string LevelSelectCharS { get; set; } = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";

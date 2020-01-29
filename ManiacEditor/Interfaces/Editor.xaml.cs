@@ -1312,7 +1312,6 @@ namespace ManiacEditor
             {
                 Thread thread = new Thread(() => {
                     Updater.CheckforUpdates(true, true);
-                    UserStateModel.UpdateUpdaterMessage = true;
                 });
                 thread.Start();
                 this.OverlayPanel.Children.Add(StartScreen);

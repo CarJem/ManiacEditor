@@ -20,7 +20,6 @@ namespace ManiacEditor
 
 		public IList<Bitmap> ChunkImagesA = new List<Bitmap>();
 		public IList<Bitmap> ChunkImagesAB = new List<Bitmap>();
-
 		public EditorChunk(Editor instance, StageTiles stageTiles, Stamps stageStamps)
 		{
 			EditorInstance = instance;
@@ -29,8 +28,6 @@ namespace ManiacEditor
 			AddBlankMap();
 			Tiles = EditorSolution.CurrentTiles.StageTiles;
 		}
-
-
 		public void DrawTile(Graphics g, ushort tile, int x, int y, bool semitransparent = false)
 		{
 			ushort TileIndex = (ushort)(tile & 0x3ff);
@@ -54,10 +51,6 @@ namespace ManiacEditor
             }
 
         }
-
-
-
-
         public Bitmap GetChunkTexture(int chunkIndex)
 		{
 			if (EditorInstance.EditLayerB != null)

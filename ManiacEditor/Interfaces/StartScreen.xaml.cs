@@ -10,8 +10,6 @@ namespace ManiacEditor.Interfaces
     /// </summary>
     public partial class StartScreen : UserControl
 	{
-		bool updateAvaliable = false;
-		bool sourceBuild = false;
 		public Editor EditorInstance;
 		public SceneSelect SelectScreen;
 
@@ -25,53 +23,6 @@ namespace ManiacEditor.Interfaces
 			SelectScreen = new SceneSelect(null, instance);
 			SceneSelectHost.Children.Add(SelectScreen);
 			SelectScreen.Refresh();
-		}
-
-		public void UpdateStatusLabel(int condition, EditorUpdater updater)
-		{
-			switch (condition)
-			{
-				case 0:
-					updateAvaliable = false;
-					break;
-				case 1:
-					updateAvaliable = true;
-					break;
-				case 2:
-					updateAvaliable = false;
-					sourceBuild = true;
-					break;
-				default:
-					updateAvaliable = false;
-					break;
-			}
-			if (updateAvaliable)
-			{
-				this.updateInfoLabel.Text = "An Update is Avaliable!" + Environment.NewLine + Environment.NewLine + string.Format("Local Version: {0}", updater.GetVersion()) + Environment.NewLine + string.Format("Current Version: {0}", updater.GetCurrentVersion()) + Environment.NewLine + Environment.NewLine + string.Format("Latest Version Details: {0}", updater.GetBuildMessage());
-			}
-			else
-			{
-				if (sourceBuild)
-				{
-					this.updateInfoLabel.Text = "You're using the source. No need to update!" + Environment.NewLine + Environment.NewLine + string.Format("Local Version: {0}", updater.GetVersion()) + Environment.NewLine + string.Format("Current Version: {0}", updater.GetCurrentVersion()) + Environment.NewLine + Environment.NewLine + string.Format("Latest Version Details: {0}", updater.GetBuildMessage());
-				}
-				else
-				{
-					this.updateInfoLabel.Text = "No Updates Found!" + Environment.NewLine + Environment.NewLine + string.Format("Local Version: {0}", updater.GetVersion()) + Environment.NewLine + string.Format("Current Version: {0}", updater.GetCurrentVersion()) + Environment.NewLine + Environment.NewLine + string.Format("Latest Version Details: {0}", updater.GetBuildMessage());
-				}
-			}
-		}
-
-		private void linkLabel1_LinkClicked(object sender, RoutedEventArgs e)
-		{
-			ProcessStartInfo sInfo = new ProcessStartInfo("https://github.com/CarJem/ManiacEditor-GenerationsEdition/releases");
-			Process.Start(sInfo);
-		}
-
-		private void linkLabel2_LinkClicked(object sender, RoutedEventArgs e)
-		{
-			ProcessStartInfo sInfo = new ProcessStartInfo("https://ci.appveyor.com/project/CarJem/maniaceditor-generationsedition");
-			Process.Start(sInfo);
 		}
 
 		private void linkLabel3_LinkClicked(object sender, RoutedEventArgs e)

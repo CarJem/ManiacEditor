@@ -564,12 +564,6 @@ namespace ManiacEditor
 
             Editor.Instance.hVScrollBarXYLabel.Content = "Zoom Value: " + EditorStateModel.Zoom.ToString();
 
-            if (UserStateModel.UpdateUpdaterMessage)
-            {
-                if (Editor.Instance.StartScreen != null) Editor.Instance.StartScreen.UpdateStatusLabel(Editor.Instance.Updater.condition, Editor.Instance.Updater);
-                UserStateModel.UpdateUpdaterMessage = false;
-            }
-
             //
             // End of Tooltip Bar Info Section
             //

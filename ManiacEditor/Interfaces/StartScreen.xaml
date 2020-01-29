@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ManiacEditor.Interfaces"
              xmlns:maniac="clr-namespace:ManiacEditor"
+             xmlns:update="clr-namespace:ManiacEditor.Interfaces.Updater"
              mc:Ignorable="d" 
              d:DesignHeight="493" Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
     <Grid>
@@ -27,23 +28,7 @@
         </Border>
         <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
             <Grid Background="{DynamicResource StatusBarBackground}">
-                <GroupBox Header="Updates" Foreground="{DynamicResource NormalText}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="130"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.ColumnSpan="2">
-                            <TextBlock x:Name="updateInfoLabel" Text="Checking For Updates..." TextWrapping="WrapWithOverflow"></TextBlock>
-                        </Label>
-                        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"><Hyperlink Click="linkLabel1_LinkClicked" ><Run Text="Get Dev Builds..."/></Hyperlink></TextBlock>
-                        <TextBlock  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"><Hyperlink Click="linkLabel2_LinkClicked"><Run Text="Get Releases..."/></Hyperlink></TextBlock>
-                    </Grid>
-                </GroupBox>
+                <update:ManiacUpdater VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></update:ManiacUpdater>
             </Grid>
         </Border>
         <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="1">
