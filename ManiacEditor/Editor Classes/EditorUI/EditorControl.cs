@@ -1057,7 +1057,6 @@ namespace ManiacEditor
                 Editor.Instance.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
                 Editor.Instance.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
                 Editor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-                Editor.Instance.moveThisPlayerToolStripMenuItem.IsEnabled = GameRunning;
                 Editor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
 
                 Editor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;

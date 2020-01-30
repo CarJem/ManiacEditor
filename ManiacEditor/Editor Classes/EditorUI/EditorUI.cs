@@ -40,11 +40,6 @@ namespace ManiacEditor
             Editor.Instance.withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = EditorSolution.CurrentScene != null;
             Editor.Instance.withCurrentCoordinatesToolStripMenuItem.IsEnabled = EditorSolution.CurrentScene != null;
             Editor.Instance.changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
-            Editor.Instance.entityEditOptionsHost.IsEnabled = enabled;
-            Editor.Instance.EntitiesViewOptionsHost.IsEnabled = enabled;
-            Editor.Instance.layerEditOptionsHost.IsEnabled = enabled;
-            Editor.Instance.LayerViewOptionsHost.IsEnabled = enabled;
-            Editor.Instance.GridSizeButton.IsEnabled = enabled && EditorSolution.CurrentScene != null;
 
 
             Editor.Instance.Save.IsEnabled = enabled;
@@ -359,7 +354,6 @@ namespace ManiacEditor
             Editor.Instance.ShowCollisionAButton.IsEnabled = enabled && EditorSolution.TileConfig != null;
             Editor.Instance.ShowCollisionBButton.IsEnabled = enabled && EditorSolution.TileConfig != null;
             Editor.Instance.ShowTileIDButton.IsEnabled = enabled && EditorSolution.StageConfig != null;
-            Editor.Instance.GridSizeButton.IsEnabled = enabled && EditorSolution.StageConfig != null;
             Editor.Instance.EncorePaletteButton.IsEnabled = enabled && Editor.Instance.Options.EncorePaletteExists;
             Editor.Instance.FlipAssistButton.IsEnabled = enabled;
 

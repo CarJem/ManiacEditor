@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="ManiacEditor.Interfaces.Controls.ToolbarToggleOptionsButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManiacEditor.Interfaces.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="100">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="30"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ToggleButton></ToggleButton>
+        <Menu Grid.Column="1" BorderThickness="0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <MenuItem BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <MenuItem.Header>
+                    <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Canvas.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Canvas.RenderTransform>
+                        <Canvas.Resources/>
+                        <!--Unknown tag: metadata-->
+                        <!--Unknown tag: sodipodi:namedview-->
+                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4471" Fill="{StaticResource NormalText}" StrokeThickness="0.26191655" Data="M 8.7323588 12.797971 5.603865 9.6613056 6.3683692 8.863334 7.1328741 8.0653629 9.5664371 10.488807 12 12.912251 14.433563 10.488807 16.867126 8.0653629 17.631631 8.863334 18.396135 9.6613056 15.267641 12.797971 C 13.546969 14.523137 12.076531 15.934637 12 15.934637 c -0.07653 0 -1.54697 -1.4115 -3.2676412 -3.136666 z"/>
+                    </Canvas>
+                </MenuItem.Header>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</UserControl>

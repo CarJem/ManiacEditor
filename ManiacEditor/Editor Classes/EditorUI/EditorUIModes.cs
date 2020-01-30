@@ -119,7 +119,7 @@ namespace ManiacEditor
             get { return _ShowGrid; }
             set
             {
-                Editor.Instance.ShowGridButton.IsChecked = value;
+                Editor.Instance.ShowGridToggleButton.IsChecked = value;
                 Editor.Instance.Options._ShowGrid = value;
             }
         }
