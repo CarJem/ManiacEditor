@@ -16,17 +16,18 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition Width="1"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
             <Grid Background="{DynamicResource StatusBarBackground}">
                 <Image Source="pack://application:,,,/Resources/Images/MELogo.png" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform" HorizontalAlignment="Center"></Image>
             </Grid>
         </Border>
-        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
+        <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2">
             <Grid Background="{DynamicResource StatusBarBackground}">
                 <update:ManiacUpdater VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></update:ManiacUpdater>
             </Grid>

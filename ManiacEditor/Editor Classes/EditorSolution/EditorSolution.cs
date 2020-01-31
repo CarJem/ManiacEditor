@@ -1827,9 +1827,9 @@ namespace ManiacEditor
                     bool SolidTopB = ((tile >> 14) & 1) == 1;
                     bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-                    System.Drawing.Color AllSolid = System.Drawing.Color.White;
-                    System.Drawing.Color LRDSolid = System.Drawing.Color.Yellow;
-                    System.Drawing.Color TopOnlySolid = System.Drawing.Color.Red;
+                    System.Drawing.Color AllSolid = Editor.Instance.CollisionAllSolid;
+                    System.Drawing.Color LRDSolid = Editor.Instance.CollisionLRDSolid;
+                    System.Drawing.Color TopOnlySolid = Editor.Instance.CollisionTopOnlySolid;
 
                     g.DrawImage(EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
@@ -1863,6 +1863,9 @@ namespace ManiacEditor
                     //create some image attributes
                     ImageAttributes attributes = new ImageAttributes();
 
+                    //TODO : Collision Opacity
+                    int opacity = (int)Editor.Instance.EditorToolbar.collisionOpacitySlider.Value;
+
                     float[][] colourMatrixElements =
                     {
                     new float[] { colour.R / 255.0f, 0, 0, 0, 0 },
@@ -1872,8 +1875,10 @@ namespace ManiacEditor
                     new float[] { 0, 0, 0, 0, 1 }
                 };
 
+                    var matrix = new ColorMatrix(colourMatrixElements);
+                    matrix.Matrix33  = opacity;
                     //set the color matrix attribute
-                    attributes.SetColorMatrix(new ColorMatrix(colourMatrixElements));
+                    attributes.SetColorMatrix(matrix);
 
 
                     int _x = 0;
@@ -1883,8 +1888,13 @@ namespace ManiacEditor
 
                     Rectangle dest = new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE);
 
-                    if (drawA) g.DrawImage(EditorSolution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
-                    else g.DrawImage(EditorSolution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
+                    Bitmap collisionMap;
+
+                    if (drawA) collisionMap = EditorSolution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                    else collisionMap = EditorSolution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+
+
+                    g.DrawImage(collisionMap, dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
 
                     attributes.Dispose();
                     attributes = null;

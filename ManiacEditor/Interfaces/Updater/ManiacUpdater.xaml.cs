@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.IO;
+using ManiacEditor.Classes;
+using System.Reflection;
 
 namespace ManiacEditor.Interfaces.Updater
 {
@@ -31,9 +33,18 @@ namespace ManiacEditor.Interfaces.Updater
         }
 
 
-        private bool allowUsage { get; set; } = false;
+        private bool allowUsage { get; set; } = true;
         public bool isOnline { get; private set; }
         public string VersionCheckFileName { get; private set; }
+        public string InstallerDownloadURL { get; private set; }
+
+        public string DownloadRequestsFolder
+        {
+            get
+            {
+                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "UpdateRequests");
+            }
+        }
 
         public UpdateResult UpdateResults { get; private set; }
         public enum UpdateResult : int
@@ -103,39 +114,119 @@ namespace ManiacEditor.Interfaces.Updater
         #region Update Checking
         private void CheckForUpdates()
         {
+            CleanCache();
             if (!allowUsage) return;
             try
             {
+                UpdateUpdaterText(3);
                 isOnline = IsNetworkAvailable();
 
                 if (isOnline)
                 {
-                    string download_path = "";
-                    string url = @"http://sonic3air.org/sonic3air_updateinfo.json";
-                    VersionCheckFileName = DownloadFromURL(url, download_path, DownloadCheckComplete);
+                    string download_path = DownloadRequestsFolder;
+                    string url = @"https://raw.githubusercontent.com/CarJem/GenerationsLib.Updates/master/UpdateMetadata/ManiacEditor_Updates.json";
+                    VersionCheckFileName = DownloadFromURL(url, download_path, DownloadVersionCheckFileComplete);
                 }
                 else
                 {
                     UpdateResults = UpdateResult.NoNetwork;
+                    UpdateUpdaterText(2);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                UpdateUpdaterText(2);
             }
         }
 
-        private void DownloadCheckComplete()
+        private void CleanCache()
+        {
+            foreach (var file in Directory.EnumerateFiles(DownloadRequestsFolder, "*.*"))
+            {
+                File.Delete(file);
+            }
+        }
+
+        private void UpdateUpdaterText(int state, VersionCheck versionCheck = null)
+        {
+            if (state == 0)
+            {
+                InstallerDownloadURL = "";
+                UpdateDetails.Text = "";
+                UpdateStatus.Text = "Unable to Prase Update Data";
+                UpdateDetails.Visibility = Visibility.Collapsed;
+                UpdateHyperlink.Visibility = Visibility.Collapsed;
+                UpdateSeperator.Visibility = Visibility.Collapsed;
+            }
+            else if (state == 1)
+            {
+                InstallerDownloadURL = versionCheck.DownloadURL;
+                UpdateDetails.Text = versionCheck.Details;
+                UpdateStatus.Text = "Update Avaliable!";
+                UpdateDetails.Visibility = Visibility.Visible;
+                UpdateHyperlink.Visibility = Visibility.Visible;
+                UpdateSeperator.Visibility = Visibility.Visible;
+            }
+            else if (state == 2)
+            {
+                InstallerDownloadURL = "";
+                UpdateDetails.Text = "";
+                UpdateStatus.Text = "Unable to Check for Updates";
+                UpdateDetails.Visibility = Visibility.Collapsed;
+                UpdateHyperlink.Visibility = Visibility.Collapsed;
+                UpdateSeperator.Visibility = Visibility.Collapsed;
+            }
+            else if (state == 3)
+            {
+                InstallerDownloadURL = "";
+                UpdateDetails.Text = "";
+                UpdateStatus.Text = "Checking for Updates...";
+                UpdateDetails.Visibility = Visibility.Collapsed;
+                UpdateHyperlink.Visibility = Visibility.Collapsed;
+                UpdateSeperator.Visibility = Visibility.Collapsed;
+            }
+            else if (state == 4)
+            {
+                InstallerDownloadURL = versionCheck.DownloadURL;
+                UpdateDetails.Text = versionCheck.Details;
+                UpdateStatus.Text = "Up to Date! Click \"Update\" to Redownload!";
+                UpdateDetails.Visibility = Visibility.Visible;
+                UpdateHyperlink.Visibility = Visibility.Visible;
+                UpdateSeperator.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void DownloadVersionCheckFileComplete()
         {
             try
             {
+                VersionCheck versionCheck = new VersionCheck(new FileInfo(System.IO.Path.Combine(DownloadRequestsFolder, VersionCheckFileName)));
+
+                var current = Assembly.GetExecutingAssembly().GetName().Version;
+                var remote = versionCheck.Version;
+
+                int offset = current.CompareTo(remote);
+                
+                if (offset == 0)
+                {
+                    UpdateUpdaterText(4, versionCheck);
+                }
+                else if (offset >= 1)
+                {
+                    UpdateUpdaterText(4, versionCheck);
+                }
+                else if (offset <= -1)
+                {
+                    UpdateUpdaterText(1, versionCheck);
+                }
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                UpdateUpdaterText(0);
             }
         }
+
         #endregion
 
         #region Update Downloading
@@ -148,6 +239,7 @@ namespace ManiacEditor.Interfaces.Updater
 
         private string DownloadFromURL(string url, string destination, Action finishAction, bool backgroundDownload = true)
         {
+            if (!Directory.Exists(destination)) Directory.CreateDirectory(destination);
             string baseURL = GetBaseURL(url);
             if (baseURL != "") url = baseURL;
 
@@ -188,17 +280,17 @@ namespace ManiacEditor.Interfaces.Updater
         #endregion
 
         #region Old Link Button
-        private void linkLabel1_LinkClicked(object sender, RoutedEventArgs e)
-        {
-            ProcessStartInfo sInfo = new ProcessStartInfo("https://github.com/CarJem/GenerationsLib.Updates/raw/master/UpdateFiles/Maniac_Editor/Setup.exe");
-            Process.Start(sInfo);
-        }
 
         private void linkLabel2_LinkClicked(object sender, RoutedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo("https://github.com/CarJem/ManiacEditor-GenerationsEdition/releases");
-            Process.Start(sInfo);
+            CheckForUpdates();
         }
         #endregion
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessStartInfo sInfo = new ProcessStartInfo(InstallerDownloadURL);
+            Process.Start(sInfo);
+        }
     }
 }

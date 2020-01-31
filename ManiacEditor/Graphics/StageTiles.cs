@@ -39,10 +39,41 @@ namespace ManiacEditor
 			if (File.Exists(Path.Combine(stage_directory, "TileConfig.bin")))
 			{
 				Config = new RSDKv5.Tileconfig(Path.Combine(stage_directory, "TileConfig.bin"));
-
+                CollisionMaskA = DrawCollisionMaskA();
+                CollisionMaskB = DrawCollisionMaskB();
             }
 
         }
+
+        private GIF DrawCollisionMaskA()
+        {
+            Bitmap bitmap = new Bitmap(16, 16384);
+            using (Graphics gfx = Graphics.FromImage(bitmap))
+            {
+                for (int i = 0; i < 1024; i++)
+                {
+                    gfx.DrawImage(Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0,(16 * i),16,16));
+                }
+            }
+            GIF gif = new GIF(bitmap);
+            return gif;
+        }
+
+        private GIF DrawCollisionMaskB()
+        {
+            Bitmap bitmap = new Bitmap(16, 16384);
+            using (Graphics gfx = Graphics.FromImage(bitmap))
+            {
+                for (int i = 0; i < 1024; i++)
+                {
+                    gfx.DrawImage(Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0, (16 * i), 16, 16));
+                }
+            }
+            GIF gif = new GIF(bitmap);
+            return gif;
+        }
+
+
 
         private const int bytesPerPixel = 4;
         public Image SetImageOpacity(Image image, float opacity)
