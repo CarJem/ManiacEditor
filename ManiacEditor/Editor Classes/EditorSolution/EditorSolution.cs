@@ -27,14 +27,14 @@ namespace ManiacEditor
             EditorSolution.CurrentScene?.Dispose();
             EditorSolution.CurrentScene = null;
             EditorSolution.StageConfig = null;
-            Editor.Instance._levelIDLabel.Content = "Level ID: NULL";
+            Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
             Editor.Instance.Options.LevelID = -1;
             Editor.Instance.Options.EncorePaletteExists = false;
             Editor.Instance.Options.EncoreSetupType = 0;
             Editor.Instance.ManiacINI.ClearSettings();
             Editor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             Editor.Instance.userDefinedSpritePaths = new List<string>();
-            Editor.Instance.EncorePaletteButton.IsChecked = false;
+            Editor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
             Editor.Instance.Paths.UnloadScene();
             Editor.Instance.Options.QuitWithoutSavingWarningRequired = false;
 
@@ -69,11 +69,11 @@ namespace ManiacEditor
             Editor.Instance.UndoStack.Clear();
             Editor.Instance.RedoStack.Clear();
 
-            Editor.Instance.EditFGLow.ClearCheckedItems();
-            Editor.Instance.EditFGHigh.ClearCheckedItems();
-            Editor.Instance.EditFGLower.ClearCheckedItems();
-            Editor.Instance.EditFGHigher.ClearCheckedItems();
-            Editor.Instance.EditEntities.ClearCheckedItems();
+            Editor.Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
+            Editor.Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
+            Editor.Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
+            Editor.Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
+            Editor.Instance.EditorToolbar.EditEntities.ClearCheckedItems();
 
             Editor.Instance.ZoomModel.SetViewSize();
 
@@ -1544,9 +1544,9 @@ namespace ManiacEditor
                 bool SolidTopB = ((tile >> 14) & 1) == 1;
                 bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-                System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
-                System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
-                System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
+                System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb((int)EditorInstance.EditorToolbar.collisionOpacitySlider.Value, EditorInstance.CollisionAllSolid.R, EditorInstance.CollisionAllSolid.G, EditorInstance.CollisionAllSolid.B);
+                System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.EditorToolbar.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
+                System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.EditorToolbar.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
 
                 g.DrawImage(EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                     new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
@@ -1644,7 +1644,7 @@ namespace ManiacEditor
 
                 if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
                     Transperncy = 0x32;
-                else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.Options.ApplyEditEntitiesTransparency)
+                else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.Options.ApplyEditEntitiesTransparency)
                     Transperncy = 0x32;
                 else
                     Transperncy = 0xFF;
@@ -2045,7 +2045,7 @@ namespace ManiacEditor
 
                     if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
                         Transperncy = 0x32;
-                    else if (EditorInstance.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.Options.ApplyEditEntitiesTransparency)
+                    else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorInstance.Options.ApplyEditEntitiesTransparency)
                         Transperncy = 0x32;
                     else
                         Transperncy = 0xFF;

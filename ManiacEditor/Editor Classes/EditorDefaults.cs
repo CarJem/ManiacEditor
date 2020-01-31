@@ -17,8 +17,8 @@ namespace ManiacEditor
             Editor.Instance.Options.ScrollLocked = Settings.MyDefaults.ScrollLockDefault;
             Editor.Instance.Options.ScrollDirection = (Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            Editor.Instance.xToolStripMenuItem.IsChecked = Editor.Instance.Options.ScrollDirection == (int)ScrollDir.X;
-            Editor.Instance.yToolStripMenuItem.IsChecked = Editor.Instance.Options.ScrollDirection == (int)ScrollDir.Y;
+            Editor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Editor.Instance.Options.ScrollDirection == (int)ScrollDir.X;
+            Editor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Editor.Instance.Options.ScrollDirection == (int)ScrollDir.Y;
 
             Editor.Instance.Options.CountTilesSelectedInPixels = Settings.MyDefaults.EnablePixelModeDefault;
 
@@ -37,7 +37,7 @@ namespace ManiacEditor
             Editor.Instance.Options.UseLargeDebugStats = Settings.MyDefaults.LargeDebugStatsDefault;
 
             Editor.Instance.Options.GridCustomSize = Settings.MyDefaults.CustomGridSizeValue;
-            Editor.Instance.CustomGridSizeAdjuster.Value = Editor.Instance.Options.GridCustomSize;
+            Editor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Editor.Instance.Options.GridCustomSize;
 
             Editor.Instance.Options.CollisionSAColour = Settings.MyDefaults.CollisionSAColour;
             Editor.Instance.Options.CollisionLRDColour = Settings.MyDefaults.CollisionLRDColour;
@@ -46,13 +46,13 @@ namespace ManiacEditor
             Editor.Instance.Options.GridColor = Settings.MyDefaults.DefaultGridColor;
             Editor.Instance.Options.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
 
-            Editor.Instance.FasterNudgeValueNUD.Value = Settings.MyDefaults.FasterNudgeValue;
+            Editor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = Settings.MyDefaults.FasterNudgeValue;
 
 
 
 
 
-            var allLangItems = Editor.Instance.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allLangItems = Editor.Instance.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
                 if (item != null)
                 {
@@ -65,7 +65,7 @@ namespace ManiacEditor
 
 
             bool endSearch = false;
-            var allButtonItems = Editor.Instance.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allButtonItems = Editor.Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allButtonItems)
             {
                 if (item.Tag != null)

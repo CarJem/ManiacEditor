@@ -146,10 +146,10 @@ namespace ManiacEditor
 
                 if (Settings.MySettings.ModLoaderConfigs?.Count > 0)
                 {
-                    Instance.selectConfigToolStripMenuItem.Items.Clear();
+                    Instance.EditorToolbar.selectConfigToolStripMenuItem.Items.Clear();
                     for (int i = 0; i < Settings.MySettings.ModLoaderConfigs.Count; i++)
                     {
-                        Instance.selectConfigToolStripMenuItem.Items.Add(Instance.CreateModConfigMenuItem(i));
+                        Instance.EditorToolbar.selectConfigToolStripMenuItem.Items.Add(Instance.CreateModConfigMenuItem(i));
 
                     }
                 }
@@ -166,30 +166,30 @@ namespace ManiacEditor
             //These Prefrences are applied on Stage Load
 
             //Default Layer Visibility Preferences
-            if (!Settings.MyDefaults.FGLowerDefault) Instance.ShowFGLower.IsChecked = false;
-            else Instance.ShowFGLower.IsChecked = true;
-            if (!Settings.MyDefaults.FGLowDefault) Instance.ShowFGLow.IsChecked = false;
-            else Instance.ShowFGLow.IsChecked = true;
-            if (!Settings.MyDefaults.FGHighDefault) Instance.ShowFGHigh.IsChecked = false;
-            else Instance.ShowFGHigh.IsChecked = true;
-            if (!Settings.MyDefaults.FGHigherDefault) Instance.ShowFGHigher.IsChecked = false;
-            else Instance.ShowFGHigher.IsChecked = true;
-            if (!Settings.MyDefaults.EntitiesDefault) Instance.ShowEntities.IsChecked = false;
-            else Instance.ShowEntities.IsChecked = true;
-            Instance.ShowAnimations.IsChecked = Settings.MyDefaults.AnimationsDefault;
+            if (!Settings.MyDefaults.FGLowerDefault) Instance.EditorToolbar.ShowFGLower.IsChecked = false;
+            else Instance.EditorToolbar.ShowFGLower.IsChecked = true;
+            if (!Settings.MyDefaults.FGLowDefault) Instance.EditorToolbar.ShowFGLow.IsChecked = false;
+            else Instance.EditorToolbar.ShowFGLow.IsChecked = true;
+            if (!Settings.MyDefaults.FGHighDefault) Instance.EditorToolbar.ShowFGHigh.IsChecked = false;
+            else Instance.EditorToolbar.ShowFGHigh.IsChecked = true;
+            if (!Settings.MyDefaults.FGHigherDefault) Instance.EditorToolbar.ShowFGHigher.IsChecked = false;
+            else Instance.EditorToolbar.ShowFGHigher.IsChecked = true;
+            if (!Settings.MyDefaults.EntitiesDefault) Instance.EditorToolbar.ShowEntities.IsChecked = false;
+            else Instance.EditorToolbar.ShowEntities.IsChecked = true;
+            Instance.EditorToolbar.ShowAnimations.IsChecked = Settings.MyDefaults.AnimationsDefault;
             Instance.Options.AllowAnimations = Settings.MyDefaults.AnimationsDefault;
 
 
             //Default Enabled Annimation Preferences
-            Instance.movingPlatformsObjectsToolStripMenuItem.IsChecked = Settings.MyDefaults.PlatformAnimationsDefault;
+            Instance.EditorToolbar.movingPlatformsObjectsToolStripMenuItem.IsChecked = Settings.MyDefaults.PlatformAnimationsDefault;
             Instance.Options.AllowMovingPlatformAnimations = Settings.MyDefaults.PlatformAnimationsDefault;
 
-            Instance.spriteFramesToolStripMenuItem.IsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
+            Instance.EditorToolbar.spriteFramesToolStripMenuItem.IsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
             Instance.Options.AllowSpriteAnimations = Settings.MyDefaults.SpriteAnimationsDefault;
 
 
             //TO DO: Add Default For this.
-            Instance.parallaxAnimationMenuItem.IsChecked = false;
+            Instance.EditorToolbar.parallaxAnimationMenuItem.IsChecked = false;
             Instance.Options.ParallaxAnimationChecked = false;
 
             Instance.Options.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
@@ -198,32 +198,32 @@ namespace ManiacEditor
 
 
             //Default Grid Preferences
-            if (Settings.MyDefaults.DefaultGridSizeOption == 0) Instance.Grid16x16SizeMenuItem.IsChecked = true;
-            else Instance.Grid16x16SizeMenuItem.IsChecked = false;
-            if (Settings.MyDefaults.DefaultGridSizeOption == 1) Instance.Grid128x128SizeMenuItem.IsChecked = true;
-            else Instance.Grid128x128SizeMenuItem.IsChecked = false;
-            if (Settings.MyDefaults.DefaultGridSizeOption == 2) Instance.Grid256x256SizeMenuItem.IsChecked = true;
-            else Instance.Grid256x256SizeMenuItem.IsChecked = false;
-            if (Settings.MyDefaults.DefaultGridSizeOption == 3) Instance.GridCustomSizeMenuItem.IsChecked = true;
-            else Instance.GridCustomSizeMenuItem.IsChecked = false;
+            if (Settings.MyDefaults.DefaultGridSizeOption == 0) Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = true;
+            else Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = false;
+            if (Settings.MyDefaults.DefaultGridSizeOption == 1) Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = true;
+            else Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = false;
+            if (Settings.MyDefaults.DefaultGridSizeOption == 2) Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = true;
+            else Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = false;
+            if (Settings.MyDefaults.DefaultGridSizeOption == 3) Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = true;
+            else Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = false;
 
             //Collision Color Presets
-            Instance.defaultToolStripMenuItem.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 0;
-            Instance.invertedToolStripMenuItem.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 1;
-            Instance.customToolStripMenuItem1.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 2;
+            Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 0;
+            Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 1;
+            Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 2;
             Instance.Options.CollisionPreset = Settings.MyDefaults.DefaultCollisionColors;
             Instance.RefreshCollisionColours();
 
             if (Settings.MyDefaults.ScrollLockDirectionDefault == false)
             {
                 Instance.Options.ScrollDirection = (int)ScrollDir.X;
-                Instance.UI.UpdateStatusPanel();
+                Instance.EditorStatusBar.UpdateStatusPanel();
 
             }
             else
             {
                 Instance.Options.ScrollDirection = (int)ScrollDir.Y;
-                Instance.UI.UpdateStatusPanel();
+                Instance.EditorStatusBar.UpdateStatusPanel();
             }
 
         }

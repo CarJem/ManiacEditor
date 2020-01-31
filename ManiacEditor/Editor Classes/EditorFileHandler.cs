@@ -523,7 +523,7 @@ namespace ManiacEditor
                     Instance.Options.EncorePaletteExists = true;
                     if (Instance.Paths.isEncoreMode)
                     {
-                        Instance.EncorePaletteButton.IsChecked = true;
+                        Instance.EditorToolbar.EncorePaletteButton.IsChecked = true;
                         Instance.Options.UseEncoreColors = true;
                     }
                 }
@@ -628,7 +628,7 @@ namespace ManiacEditor
                     Instance.Options.EncorePaletteExists = true;
                     if (Instance.Paths.isEncoreMode)
                     {
-                        Instance.EncorePaletteButton.IsChecked = true;
+                        Instance.EditorToolbar.EncorePaletteButton.IsChecked = true;
                         Instance.Options.UseEncoreColors = true;
                     }
                 }

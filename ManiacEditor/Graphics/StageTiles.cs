@@ -39,7 +39,8 @@ namespace ManiacEditor
 			if (File.Exists(Path.Combine(stage_directory, "TileConfig.bin")))
 			{
 				Config = new RSDKv5.Tileconfig(Path.Combine(stage_directory, "TileConfig.bin"));
-			}
+
+            }
 
         }
 

@@ -471,10 +471,10 @@ namespace ManiacEditor
 		{
 			if (e.Source is TabControl)
 			{
-				if (TabControl.SelectedIndex == 0) EditorInstance.ChunksToolButton.IsChecked = false;
+				if (TabControl.SelectedIndex == 0) EditorInstance.EditorToolbar.ChunksToolButton.IsChecked = false;
 				else
 				{
-					EditorInstance.ChunksToolButton.IsChecked = true;
+					EditorInstance.EditorToolbar.ChunksToolButton.IsChecked = true;
 					EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
 				}
 			}

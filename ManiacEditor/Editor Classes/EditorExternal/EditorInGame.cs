@@ -484,10 +484,10 @@ namespace ManiacEditor
                 if (Settings.MyDefaults.ModLoaderPath != null && Settings.MySettings.ModLoaderConfigs?.Count > 0)
                 {
                     string ConfigPath = Settings.MyDefaults.SonicManiaPath;
-                    System.Windows.Controls.MenuItem dropDownItem = Editor.selectConfigToolStripMenuItem.Items[0] as System.Windows.Controls.MenuItem;
+                    System.Windows.Controls.MenuItem dropDownItem = Editor.EditorToolbar.selectConfigToolStripMenuItem.Items[0] as System.Windows.Controls.MenuItem;
                     ConfigPath = ConfigPath.Replace('/', '\\');
                     ConfigPath = ConfigPath.Replace("SonicMania.exe", "//mods//ManiaModLoader.ini");
-                    var allItems = Editor.selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                    var allItems = Editor.EditorToolbar.selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                     foreach (System.Windows.Controls.MenuItem item in allItems)
                     {
                         if (item.IsChecked)
@@ -680,20 +680,20 @@ namespace ManiacEditor
             }
             void UncheckAllPlayers()
             {
-                Editor.trackP1ToolStripMenuItem.IsChecked = false;
-                Editor.trackP2ToolStripMenuItem.IsChecked = false;
-                Editor.trackP3ToolStripMenuItem.IsChecked = false;
-                Editor.trackP4ToolStripMenuItem.IsChecked = false;
+                Editor.EditorToolbar.trackP1ToolStripMenuItem.IsChecked = false;
+                Editor.EditorToolbar.trackP2ToolStripMenuItem.IsChecked = false;
+                Editor.EditorToolbar.trackP3ToolStripMenuItem.IsChecked = false;
+                Editor.EditorToolbar.trackP4ToolStripMenuItem.IsChecked = false;
             }
         }
 
         public void UpdateRunSceneDropdown()
         {
-            Editor.trackThePlayerToolStripMenuItem.IsEnabled = GameRunning;
-            Editor.assetResetToolStripMenuItem1.IsEnabled = GameRunning;
+            Editor.EditorToolbar.trackThePlayerToolStripMenuItem.IsEnabled = GameRunning;
+            Editor.EditorToolbar.assetResetToolStripMenuItem1.IsEnabled = GameRunning;
             Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
-            Editor.restartSceneToolStripMenuItem1.IsEnabled = GameRunning;
-            Editor.selectConfigToolStripMenuItem.IsEnabled = !GameRunning;
+            Editor.EditorToolbar.restartSceneToolStripMenuItem1.IsEnabled = GameRunning;
+            Editor.EditorToolbar.selectConfigToolStripMenuItem.IsEnabled = !GameRunning;
         }
 
 

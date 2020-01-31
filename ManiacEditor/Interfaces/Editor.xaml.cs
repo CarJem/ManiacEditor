@@ -52,7 +52,7 @@ namespace ManiacEditor
 
 		// Extra Layer Buttons
 		public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
-		private IList<Separator> ExtraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
+		public IList<Separator> ExtraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
 
 		// Editor Collections
 		public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
@@ -197,13 +197,15 @@ namespace ManiacEditor
             Settings = new EditorSettings(this);
             Options = new UserStateModel();
 
+            Theming.UseDarkTheme_WPF(ManiacEditor.Settings.MySettings.NightMode);
+            Instance = this;
+            InitializeComponent();
+
             Timer.Interval = 1;
             Timer.Elapsed += Timer_Elapsed;
             Timer.Start();
 
-            Theming.UseDarkTheme_WPF(ManiacEditor.Settings.MySettings.NightMode);
-			InitializeComponent();
-            Instance = this;
+
 
             System.Windows.Application.Current.MainWindow = this;
 
@@ -300,7 +302,7 @@ namespace ManiacEditor
             RecentDataSourcesList = new EditorRecentDataSourcesList(this);
             Defaulter = new EditorDefaults();
 
-            UI.UpdateFilterButtonApperance(true);
+            EditorStatusBar.UpdateFilterButtonApperance(true);
 
 
 
@@ -312,15 +314,7 @@ namespace ManiacEditor
 			ViewPanelContextMenu.Background = (SolidColorBrush)FindResource("NormalBackground");
 
 
-			EditFGLower.Click += EditFGLower_Click;
-			EditFGLow.Click += EditFGLow_Click;
-			EditFGHigh.Click += EditFGHigh_Click;
-			EditFGHigher.Click += EditFGHigher_Click;
 
-			EditFGLower.RightClick += EditFGLower_RightClick;
-			EditFGLow.RightClick += EditFGLow_RightClick;
-			EditFGHigh.RightClick += EditFGHigh_RightClick;
-			EditFGHigher.RightClick += EditFGHigher_RightClick;
 
 			AllocConsole();
 			HideConsoleWindow();
@@ -362,11 +356,11 @@ namespace ManiacEditor
 		}
 		public bool IsChunksEdit()
 		{
-			return ChunksToolButton.IsChecked.Value && EditLayerA != null;
+			return EditorToolbar.ChunksToolButton.IsChecked.Value && EditLayerA != null;
 		}
         public bool IsEntitiesEdit()
         {
-            return EditEntities.IsCheckedN.Value || EditEntities.IsCheckedA.Value || EditEntities.IsCheckedB.Value;
+            return EditorToolbar.EditEntities.IsCheckedN.Value || EditorToolbar.EditEntities.IsCheckedA.Value || EditorToolbar.EditEntities.IsCheckedB.Value;
 		}
 		public bool IsSelected(bool dualModeSelect = false)
 		{
@@ -1057,8 +1051,8 @@ namespace ManiacEditor
 		private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
 		{
 
-			bool showEntities = ShowEntities.IsChecked.Value && !EditEntities.IsCheckedAll;
-			bool showEntitiesEditing = EditEntities.IsCheckedAll;
+			bool showEntities = EditorToolbar.ShowEntities.IsChecked.Value && !EditorToolbar.EditEntities.IsCheckedAll;
+			bool showEntitiesEditing = EditorToolbar.EditEntities.IsCheckedAll;
 
 			bool PriorityMode = Options.PrioritizedEntityViewing;
             bool AboveAllMode = Options.EntitiesVisibileAboveAllLayers;
@@ -1075,20 +1069,20 @@ namespace ManiacEditor
 
                 if (!Options.ExtraLayersMoveToFront) DrawExtraLayers();
 
-                DrawLayer(ShowFGLower.IsChecked.Value, EditFGLower.IsCheckedAll, FGLower);
+                DrawLayer(EditorToolbar.ShowFGLower.IsChecked.Value, EditorToolbar.EditFGLower.IsCheckedAll, FGLower);
 
-                DrawLayer(ShowFGLow.IsChecked.Value, EditFGLow.IsCheckedAll, FGLow);
+                DrawLayer(EditorToolbar.ShowFGLow.IsChecked.Value, EditorToolbar.EditFGLow.IsCheckedAll, FGLow);
 
 
                 if (showEntities && !AboveAllMode)
                     if (PriorityMode) EntitiesDraw(2);
                     else EntitiesDraw(0);
 
-                DrawLayer(ShowFGHigh.IsChecked.Value, EditFGHigh.IsCheckedAll, FGHigh);
+                DrawLayer(EditorToolbar.ShowFGHigh.IsChecked.Value, EditorToolbar.EditFGHigh.IsCheckedAll, FGHigh);
 
                 if (showEntities && PriorityMode && !AboveAllMode) EntitiesDraw(3);
 
-                DrawLayer(ShowFGHigher.IsChecked.Value, EditFGHigher.IsCheckedAll, FGHigher);
+                DrawLayer(EditorToolbar.ShowFGHigher.IsChecked.Value, EditorToolbar.EditFGHigher.IsCheckedAll, FGHigher);
 
                 if (Options.ExtraLayersMoveToFront) DrawExtraLayers();
 
@@ -1458,20 +1452,10 @@ namespace ManiacEditor
 		#endregion
         #region Action Events (MenuItems, Clicks, etc.)
         #region File Events
-        private void NewSceneEvent(object sender, RoutedEventArgs e) { FileHandler.NewScene(); }
         public void OpenSceneEvent(object sender, RoutedEventArgs e) { FileHandler.OpenScene(); }
         public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { FileHandler.OpenDataDirectory(); }
         public void SaveSceneEvent(object sender, RoutedEventArgs e) { FileHandler.Save(); }
-        private void ExitEditorEvent(object sender, RoutedEventArgs e) { Close(); }
-        private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportAsPNG(); }
-        private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportLayersAsPNG(); }
-        private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { FileHandler.ExportObjLayoutAsPNG(); }
-        private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
-        private void RecoverEvent(object sender, RoutedEventArgs e) { UIEvents.BackupRecoverButton_Click(sender, e); }
-        public void UnloadSceneEvent(object sender, RoutedEventArgs e) { FileHandler.UnloadScene(); }
-        private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { UIEvents.StageConfigBackup(sender, e); }
-        private void BackupSceneEvent(object sender, RoutedEventArgs e) { UIEvents.SceneBackup(sender, e); }
         #endregion
         #region Edit Events
         public void PasteToChunksEvent(object sender, RoutedEventArgs e) { UIEvents.PasteToChunks(); }
@@ -1486,385 +1470,28 @@ namespace ManiacEditor
         public void FlipVerticalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipVerticalIndividual(); }
         public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipHorizontalIndividual(); }
         #endregion
-        #region Developer Stuff (WIP)
-        private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { EditorLaunch.DevTerm(); }
-        private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.MD5GeneratorToolStripMenuItem_Click(sender, e); }
-        private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { UIEvents.FindAndReplaceTool(sender, e); }
-        private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.ConsoleWindowToolStripMenuItem_Click(sender, e); }
-        private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
-        private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UI.UpdateToolbars(false, true); }
-        private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { UI.UpdateToolbars(true, true); }
-        private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
-        #endregion
-        #region Animations DropDown (WIP)
-        private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (Options.AllowMovingPlatformAnimations == false)
-            {
-                movingPlatformsObjectsToolStripMenuItem.IsChecked = true;
-                Options.AllowMovingPlatformAnimations = true;
-            }
-            else
-            {
-                movingPlatformsObjectsToolStripMenuItem.IsChecked = false;
-                Options.AllowMovingPlatformAnimations = false;
-            }
-
-        }
-
-        private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (Options.AllowSpriteAnimations == false)
-            {
-                spriteFramesToolStripMenuItem.IsChecked = true;
-                Options.AllowSpriteAnimations = true;
-            }
-            else
-            {
-                spriteFramesToolStripMenuItem.IsChecked = false;
-                Options.AllowSpriteAnimations = false;
-            }
-        }
-
-        private void ParallaxAnimationMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (Options.ParallaxAnimationChecked == false)
-            {
-                parallaxAnimationMenuItem.IsChecked = true;
-                Options.ParallaxAnimationChecked = true;
-            }
-            else
-            {
-                parallaxAnimationMenuItem.IsChecked = false;
-                Options.ParallaxAnimationChecked = false;
-            }
-        }
-
-        #endregion
-        #region Spline Tool Events
-        private void SplineShowLineCheckboxCheckChanged(object sender, RoutedEventArgs e)
-        {
-            Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.ShowLines, SplineShowLineCheckbox.IsChecked.Value);
-        }
-
-        private void SplineShowPointsCheckboxCheckChanged(object sender, RoutedEventArgs e)
-        {
-            Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.ShowPoints, SplineShowPointsCheckbox.IsChecked.Value);
-        }
-
-        private void SplineShowObjectsCheckboxCheckChanged(object sender, RoutedEventArgs e)
-        {
-            Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.ShowObjects, SplineShowObjectsCheckbox.IsChecked.Value);
-        }
-
-        bool AllowSplineFreqeunceUpdate = true;
-        bool AllowSplineUpdateEvent = true;
-
-
-        private void SplineToolbox_Closed(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void SplineToolbox_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void SplineOptionsIDChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            if (Options != null && UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && SplineGroupID != null && AllowSplineUpdateEvent)
-            {
-                SelectedSplineIDChangedEvent(SplineGroupID.Value.Value);
-            }
-        }
-
-        public void SelectedSplineIDChangedEvent(int value)
-        {
-            AllowSplineUpdateEvent = false;
-            Options.AllowSplineOptionsUpdate = false;
-            SplineGroupID.Value = value;
-            Options.SelectedSplineID = value;
-            SplineSpawnID.Value = value;
-            UI.UpdateSplineSettings(value);
-            Options.AllowSplineOptionsUpdate = true;
-            AllowSplineUpdateEvent = true;
-
-        }
-
-        private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            if (!Options.AllowSplineOptionsUpdate) return;
-            if (Options != null && UI != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
-            {
-                AllowSplineFreqeunceUpdate = false;
-                int size = (int)SplinePointSeperationNUD.Value;
-                SplinePointSeperationSlider.Value = size;
-                Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.Size, size);
-                AllowSplineFreqeunceUpdate = true;
-            }
-        }
-
-        private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!Options.AllowSplineOptionsUpdate) return;
-            if (Options != null&& UI != null  && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
-            {
-                AllowSplineFreqeunceUpdate = false;
-                int size = (int)SplinePointSeperationSlider.Value;
-                SplinePointSeperationNUD.Value = size;
-                Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.Size, size);
-                AllowSplineFreqeunceUpdate = true;
-            }
-        }
-
-        private void SplineLineMode_Click(object sender, RoutedEventArgs e)
-        {
-            Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.LineMode, SplineLineMode.IsChecked.Value);
-        }
-
-        private void SplineOvalMode_Click(object sender, RoutedEventArgs e)
-        {
-            Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.OvalMode, SplineOvalMode.IsChecked.Value);
-        }
-        private void SplineSpawnRender_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (EditorSolution.Entities != null && Options.AllowSplineOptionsUpdate)
-            {
-                var selectedItem = SelectedSplineRender.SelectedItem as TextBlock;
-                if (selectedItem.Tag == null) return;
-                if (selectedItem.Tag is RSDKv5.SceneObject)
-                {
-                    var obj = selectedItem.Tag as RSDKv5.SceneObject;
-                    int splineID = Editor.Instance.Options.SelectedSplineID;
-                    Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.SpawnObject, EditorSolution.Entities.GenerateEditorEntity(new SceneEntity(obj, 0)));
-                    EntitiesToolbar?.UpdateEntityProperties(new List<SceneEntity>() { Editor.Instance.Options.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
-
-                    if (Editor.Instance.Options.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
-                        Editor.Instance.SplineRenderObjectName.Content = Editor.Instance.Options.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
-                    else
-                        Editor.Instance.SplineRenderObjectName.Content = "None";
-
-                }
-
-            }
-        }
-
-        private void SplineRenderObjectName_Click(object sender, RoutedEventArgs e)
-        {
-            if (!SelectedSplineRender.IsDropDownOpen) SelectedSplineRender.IsDropDownOpen = true;
-            else SelectedSplineRender.IsDropDownOpen = false;
-        }
-
-        #endregion
-        #region Draw Tool Options Events
-        bool AllowDrawBrushSizeChange = true;
-        private void DrawToolSizeChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            DrawToolSizeChanged();
-        }
-
-        private void DrawToolSizeChanged(bool wasSlider = false)
-        {
-            if (Options != null && UI != null && DrawTileSizeNUD != null && DrawTileSizeSlider != null && AllowDrawBrushSizeChange)
-            {
-                AllowDrawBrushSizeChange = false;
-                int size = (wasSlider ? (int)DrawTileSizeSlider.Value : (int)DrawTileSizeNUD.Value);
-                DrawTileSizeSlider.Value = size;
-                DrawTileSizeNUD.Value = size;
-                Options.DrawBrushSize = size;
-                AllowDrawBrushSizeChange = true;
-            }
-        }
-
-        private void DrawToolSizeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            DrawToolSizeChanged(true);
-        }
-
-        #endregion
-        public void GoToPositionEvent(object sender, RoutedEventArgs e) { UIEvents.GoToPosition(sender, e); }
-        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Options.UseMagnetMode ^= true; }
-        private void UndoEvent(object sender, RoutedEventArgs e) { EditorUndo(); }
-		private void RedoEvent(object sender, RoutedEventArgs e) { EditorRedo(); }
-		private void ZoomInEvent(object sender, RoutedEventArgs e) { UIEvents.ZoomIn(sender, e); }
-		private void ZoomOutEvent(object sender, RoutedEventArgs e) { UIEvents.ZoomOut(sender, e); }
-		private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Options.SelectionMode(); }
-		private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Options.PointerMode(); }
-		private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Options.DrawMode(); }
-		private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { Options.InteractionMode(); }
-        private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Options.SplineMode(); }
-        private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Options.ChunksMode(); }
 		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UI.ReloadSpritesAndTextures(); }
 		public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Options.ShowTileID ^= true; }
-        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Options.CountTilesSelectedInPixels ^= true; }
-        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Options.ScrollLocked ^= true; }
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Options.EnableFasterNudge ^= true; }
-        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Options.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
-        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Options.ApplyEditEntitiesTransparency ^= true; }
         public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Options.ShowCollisionA ^= true; }
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Options.ShowCollisionB ^= true; }
-        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Options.ShowFlippedTileHelper ^= true; }
-        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Options.UseEncoreColors ^= true; }
-        private void RunSceneEvent(object sender, RoutedEventArgs e) { InGame.RunScene(); }
         public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Options.DebugStatsVisibleOnPanel ^= true; }
-        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ZoomModel.SetZoomLevel(0, new Point(0, 0)); }
-        private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Options.UseLargeDebugStats ^= true; }
-        public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { UIEvents.SetMenuButtonType(sender, e); }
         public void MenuButtonChangedEvent(string tag) { UIEvents.SetMenuButtonType(tag); }
-        private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Options.EntitiesVisibileAboveAllLayers ^= true; }
-        private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Options.EntitySelectionBoxesAlwaysPrioritized ^= true; }
-        private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Options.PrioritizedEntityViewing ^= true; }
-        private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { UIEvents.SetEncorePallete(sender); }
-        public void SetEncorePalleteEvent(object sender = null, string path = "") { UIEvents.SetEncorePallete(sender, path); }
-        private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { Options.ExtraLayersMoveToFront ^= true; }
-        private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { UIEvents.EntityFilterTextChanged(sender, e); }
-        private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Options.ShowEntitySelectionBoxes ^= true; }
-        private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Options.ShowWaterLevel ^= true; }
-        private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Options.AlwaysShowWaterLevel ^= true; }
-        private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { EditorSolution.Entities.OrderSelectedSlotIDs(); }
-        private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { EditorSolution.Entities.OrderSelectedSlotIDs(true); }
-        private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { EditorSolution.Entities.OrderSelectedSlotIDs(false, true); }
-        private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Options.SizeWaterLevelwithBounds ^= true; }
-        private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { UIEvents.SwapEncoreManiaEntityVisibility(); }
-        private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Options.ShowParallaxSprites ^= true; }
-        private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { UIEvents.SetScrollLockDirection(); }
-        private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Options.ShowEntityPathArrows ^= true; }
-        private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { UIEvents.MenuLanguageChanged(sender, e); }
-        public void QuickButtonClickEvent(object sender, RoutedEventArgs e)
-        {
-            if (sender == MoreSettingsButton)
-            {
-                switch (Options.LastQuickButtonState)
-                {
-                    case 1:
-                        UIEvents.SetScrollLockDirection();
-                        break;
-                    case 2:
-                        Options.ApplyEditEntitiesTransparency ^= true;
-                        break;
-                    case 3:
-                        UIEvents.SwapEncoreManiaEntityVisibility();
-                        break;
-                    default:
-                        Options.LastQuickButtonState = 1;
-                        UIEvents.SetScrollLockDirection();
-                        break;
-                }
-            }
-            else if (sender == QuickSwapScrollDirection)
-            {
-                Options.LastQuickButtonState = 1;
-                UIEvents.SetScrollLockDirection();
-            }
-            else if (sender == QuickSwapEncoreManiaEntitVisibility)
-            {
-                Options.LastQuickButtonState = 3;
-                UIEvents.SwapEncoreManiaEntityVisibility();
-            }
-            else if (sender == QuickEditEntitiesTransparentLayers)
-            {
-                Options.LastQuickButtonState = 2;
-                Options.ApplyEditEntitiesTransparency ^= true;
-            }
-
-        }
-        private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (EditorSolution.CurrentScene != null) EditorSolution.Entities.OptimizeAllSlotIDs(); }
-        private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Options.RightClicktoSwapSlotID ^= true; }
-        private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Options.CopyAir ^= true; }
-        private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { UIEvents.ChangeLevelID(sender, e); }
-        private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Options.MultiLayerEditMode ^= true; }
-        private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { UIEvents.MakeShortcutForDataFolderOnly(sender, e); }
-        private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { UIEvents.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
-        private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { UIEvents.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
-        private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { UIEvents.SoundLooperToolStripMenuItem_Click(sender, e); }
-        private void FindUnusedTiles(object sender, RoutedEventArgs e) { FindAndReplace.FindUnusedTiles(); }
-        private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Options.CollisionPreset = 0; }
-        private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Options.CollisionPreset = 1; }
-        private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Options.CollisionPreset = 2; }
-        private void FilterButtonOpenContextMenuEvent(object sender, RoutedEventArgs e) { FilterButton.ContextMenu.IsOpen = true; }
-        private void FilterCheckChangedEvent(object sender, RoutedEventArgs e)
-        {
-            if (EditorSolution.Entities != null) EditorSolution.Entities.FilterRefreshNeeded = true;
-        }
-
-        #region Collision Slider Events
-        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
-        #endregion
-
-        #region Magnet Events
-
-        private void Magnet8x8Event(object sender, RoutedEventArgs e) { Options.MagnetSize = 8; }
-        private void Magnet16x16Event(object sender, RoutedEventArgs e) { Options.MagnetSize = 16; }
-        private void Magnet32x32Event(object sender, RoutedEventArgs e) { Options.MagnetSize = 32; }
-        private void Magnet64x64Event(object sender, RoutedEventArgs e) { Options.MagnetSize = 64; }
-        private void MagnetCustomEvent(object sender, RoutedEventArgs e) { Options.MagnetSize = -1; }
-        private void CustomMagnetSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            Options.CustomMagnetSize = CustomMagnetSizeAdjuster.Value.Value;
-        }
-
-        private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { Options.UseMagnetXAxis ^= true; }
-        private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) { Options.UseMagnetYAxis ^= true; }
-
-        #endregion
 
         #region Grid Events
         public void ToggleGridEvent(object sender, RoutedEventArgs e) { Options.ShowGrid ^= true; }
-        private void SetGrid16x16Event(object sender, RoutedEventArgs e) { Options.GridSize = 16; }
-        private void SetGrid128x128Event(object sender, RoutedEventArgs e) { Options.GridSize = 128; }
-        private void SetGrid256x256Event(object sender, RoutedEventArgs e) { Options.GridSize = 256; }
-        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { Options.GridSize = -1; }
-
-        private void CustomGridSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            Options.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
-            Options.GridSize = -1;
-        }
         #endregion
 
         #region Apps
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacIntergration(); }
-        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { EditorLaunch.RSDKUnpacker(); }
-        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { EditorLaunch.SonicManiaHeadless(); }
-        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { EditorLaunch.CheatEngine(); }
-        private void ModManager(object sender, RoutedEventArgs e) { EditorLaunch.ManiaModManager(); }
-        private void TileManiacNormal(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacNormal(); }
-        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.InsanicManiac(); }
-        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.RSDKAnnimationEditor(); }
-        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.RenderListManager(); }
-        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.ManiaPal(sender, e); }
-        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { EditorLaunch.ManiaPalSubmenuOpened(sender, e); }
-        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.DuplicateObjectIDHealer(); }
-        #endregion
-
-        #region Folders
-        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenSceneFolder(); }
-        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorFolder(); }
-        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorFixedSettingsFolder(); }
-        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorPortableSettingsFolder(); }
-        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenDataDirectory(); }
-        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenSonicManiaFolder(); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { EditorLaunch.OpenASavedPlaceDropDownOpening(sender, e); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { EditorLaunch.OpenASavedPlaceDropDownClosed(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { EditorLaunch.OpenAResourcePackFolderDropDownOpening(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { EditorLaunch.OpenAResourcePackFolderDropDownClosed(sender, e); }
         #endregion
 
         #region Settings and Other Menu Events
         public void AboutScreenEvent(object sender, RoutedEventArgs e) { EditorLaunch.AboutScreen(); }
         public void ImportObjectsToolStripMenuItem_Click(Window window = null) { EditorLaunch.ImportObjectsToolStripMenuItem_Click(window); }
         public void ImportObjectsWithMegaList(Window window = null) { EditorLaunch.ImportObjectsWithMegaList(window); }
-        public void ImportSoundsEvent(object sender, RoutedEventArgs e) { EditorLaunch.ImportSoundsToolStripMenuItem_Click(sender, e); }
         public void ImportSoundsEvent(Window window = null) { EditorLaunch.ImportSounds(window); }
-        private void LayerManagerEvent(object sender, RoutedEventArgs e) { EditorLaunch.LayerManager(sender, e); }
-        private void ManiacINIEditorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ManiacINIEditor(sender, e); }
-        private void ChangePrimaryBackgroundColorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ChangePrimaryBackgroundColor(sender, e); }
-        private void ChangeSecondaryBackgroundColorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ChangeSecondaryBackgroundColor(sender, e); }
-        public void ObjectManagerEvent(object sender, RoutedEventArgs e) { EditorLaunch.ObjectManager(); }
-        private void InGameOptionsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.InGameSettings(); }
-        private void WikiLinkEvent(object sender, RoutedEventArgs e) { EditorLaunch.WikiLink(); }
         public void OptionsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.OptionsMenu(); }
-        private void ControlsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.ControlMenu(); }
         #endregion
 
         #region Game Running Events
@@ -1874,240 +1501,10 @@ namespace ManiacEditor
         private void RemoveCheckpoint(object sender, RoutedEventArgs e) { InGame.UpdateCheckpoint(new Point(0, 0), false); }
         private void AssetReset(object sender, RoutedEventArgs e) { InGame.AssetReset(); }
         private void RestartScene(object sender, RoutedEventArgs e) { InGame.RestartScene(); }
-        private void TrackThePlayer(object sender, RoutedEventArgs e) { InGame.TrackthePlayer(sender, e); }
-        private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { InGame.UpdateRunSceneDropdown(); }
         #endregion
 
         #endregion
         #region Layer Toolbar Events
-        private void LayerShowButton_Click(ToggleButton button, string desc)
-		{
-			if (button.IsChecked.Value)
-			{
-				button.IsChecked = false;
-				button.ToolTip = "Show " + desc;
-			}
-			else
-			{
-				button.IsChecked = true;
-				button.ToolTip = "Hide " + desc;
-			}
-		}
-		private void ShowFGLow_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGLow, "Layer FG Low");
-		}
-		private void ShowFGHigh_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGHigh, "Layer FG High");
-		}
-		private void ShowFGHigher_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGHigher, "Layer FG Higher");
-		}
-		private void ShowFGLower_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowFGLower, "Layer FG Lower");
-		}
-		private void ShowEntities_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-			LayerShowButton_Click(ShowEntities, "EditorSolution.Entities");
-		}
-		private void ShowAnimations_Click(object sender, RoutedEventArgs e)
-		{
-			ToggleButton toggle = sender as ToggleButton;
-			toggle.IsChecked = !toggle.IsChecked.Value;
-            LayerShowButton_Click(ShowAnimations, "Animations");
-		}
-
-        private void ShowAnimations_Checked(object sender, RoutedEventArgs e)
-        {
-            Options.AllowAnimations = true;
-        }
-
-        private void ShowAnimations_Unchecked(object sender, RoutedEventArgs e)
-        {
-            Options.AllowAnimations = false;
-        }
-
-        private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
-		{
- 
-
-            if (Options.MultiLayerEditMode)
-			{
-                if (button == EditEntities) EditEntitiesMode();
-                else if(ClickType == MouseButton.Left) LayerA();
-                else if (ClickType == MouseButton.Right) LayerB();
-            }
-			else
-			{
-				if (ClickType == MouseButton.Left) Normal();
-			}
-            UI.UpdateControls();
-
-
-            void EditEntitiesMode()
-            {
-                Deselect(false);
-                if (!button.IsCheckedN.Value)
-                {
-                    button.IsCheckedN = false;
-                }
-                else
-                {
-
-                    EditEntities.IsCheckedN = true;
-
-                    EditFGLow.IsCheckedN = false;
-                    EditFGHigh.IsCheckedN = false;
-                    EditFGLower.IsCheckedN = false;
-                    EditFGHigher.IsCheckedN = false;
-                    EditFGLow.IsCheckedA = false;
-                    EditFGHigh.IsCheckedA = false;
-                    EditFGLower.IsCheckedA = false;
-                    EditFGHigher.IsCheckedA = false;
-                    EditFGLow.IsCheckedB = false;
-                    EditFGHigh.IsCheckedB = false;
-                    EditFGLower.IsCheckedB = false;
-                    EditFGHigher.IsCheckedB = false;
-                }
-
-                foreach (var elb in ExtraLayerEditViewButtons.Values)
-                {
-                    elb.IsCheckedN = false;
-                    elb.IsCheckedA = false;
-                    elb.IsCheckedB = false;
-                }
-
-            }
-
-            void Normal()
-			{
-				Deselect(false);
-				if (!button.IsCheckedN.Value)
-				{
-					button.IsCheckedN = false;
-				}
-				else
-				{
-					EditFGLow.IsCheckedN = false;
-					EditFGHigh.IsCheckedN = false;
-					EditFGLower.IsCheckedN = false;
-					EditFGHigher.IsCheckedN = false;
-					EditEntities.IsCheckedN = false;
-					button.IsCheckedN = true;
-				}
-
-				foreach (var elb in ExtraLayerEditViewButtons.Values)
-				{
-                    if (elb != button) elb.IsCheckedN = false;
-				}
-
-
-
-			}
-
-            void LayerA()
-			{
-				Deselect(false);
-				if (!button.IsCheckedA.Value)
-				{
-					button.IsCheckedA = false;
-				}
-				else
-				{
-					EditFGLow.IsCheckedA = false;
-					EditFGHigh.IsCheckedA = false;
-					EditFGLower.IsCheckedA = false;
-					EditFGHigher.IsCheckedA = false;
-					EditEntities.IsCheckedN = false;
-					button.IsCheckedA = true;
-				}
-
-				foreach (var elb in ExtraLayerEditViewButtons.Values)
-				{
-                    if (elb != button) elb.IsCheckedA = false;
-				}
-			}
-			void LayerB()
-			{
-				Deselect(false);
-				if (!button.IsCheckedB.Value)
-				{
-					button.IsCheckedB = false;
-				}
-				else
-				{
-					EditFGLow.IsCheckedB = false;
-					EditFGHigh.IsCheckedB = false;
-					EditFGLower.IsCheckedB = false;
-					EditFGHigher.IsCheckedB = false;
-					EditEntities.IsCheckedN = false;
-					button.IsCheckedB = true;
-				}
-
-				foreach (var elb in ExtraLayerEditViewButtons.Values)
-				{
-					if (elb != button) elb.IsCheckedB = false;
-				}
-			}
-		}
-		private void EditFGLow_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLow, MouseButton.Left);
-		}
-		private void EditFGLow_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLow, MouseButton.Right);
-		}
-		private void EditFGHigh_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigh, MouseButton.Left);
-		}
-		private void EditFGHigh_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigh, MouseButton.Right);
-		}
-		private void EditFGLower_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLower, MouseButton.Left);
-		}
-		private void EditFGLower_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGLower, MouseButton.Right);
-		}
-		private void EditFGHigher_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigher, MouseButton.Left);
-		}
-		private void EditFGHigher_RightClick(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditFGHigher, MouseButton.Right);
-		}
-		private void EditEntities_Click(object sender, RoutedEventArgs e)
-		{
-			EditLayerToggleButton toggle = sender as EditLayerToggleButton;
-			LayerEditButton_Click(EditEntities, MouseButton.Left);
-		}
 		public void SetupLayerButtons()
 		{
 			TearDownExtraLayerButtons();
@@ -2122,7 +1519,7 @@ namespace ManiacEditor
 					Text = el.Name,
                     LayerName = "Edit" + el.Name
 				};
-				LayerToolbar.Items.Add(tsb);
+                EditorToolbar.LayerToolbar.Items.Add(tsb);
                 tsb.DualSelect = true;
                 tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
 				tsb.RightClick += AdHocLayerEdit_RightClick;
@@ -2135,7 +1532,7 @@ namespace ManiacEditor
 
 			//EDIT BUTTONS SEPERATOR
 			Separator tss = new Separator();
-			LayerToolbar.Items.Add(tss);
+            EditorToolbar.LayerToolbar.Items.Add(tss);
 			ExtraLayerSeperators.Add(tss);
 
 			//VIEW BUTTONS
@@ -2146,7 +1543,7 @@ namespace ManiacEditor
 					Text = el.Name,
                     LayerName = "Show" + el.Name.Replace(" ", "")
 				};
-				LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
+                EditorToolbar.LayerToolbar.Items.Insert(EditorToolbar.LayerToolbar.Items.IndexOf(EditorToolbar.extraViewLayersSeperator), tsb);
 				tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
                 tsb.IsLayerOptionsEnabled = true;
 
@@ -2160,26 +1557,26 @@ namespace ManiacEditor
 				ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
 			}
 
-            UpdateDualButtonsControlsForLayer(FGLow, ShowFGLow, EditFGLow);
-			UpdateDualButtonsControlsForLayer(FGHigh, ShowFGHigh, EditFGHigh);
-			UpdateDualButtonsControlsForLayer(FGLower, ShowFGLower, EditFGLower);
-			UpdateDualButtonsControlsForLayer(FGHigher, ShowFGHigher, EditFGHigher);
+            UpdateDualButtonsControlsForLayer(FGLow, EditorToolbar.ShowFGLow, EditorToolbar.EditFGLow);
+			UpdateDualButtonsControlsForLayer(FGHigh, EditorToolbar.ShowFGHigh, EditorToolbar.EditFGHigh);
+			UpdateDualButtonsControlsForLayer(FGLower, EditorToolbar.ShowFGLower, EditorToolbar.EditFGLower);
+			UpdateDualButtonsControlsForLayer(FGHigher, EditorToolbar.ShowFGHigher, EditorToolbar.EditFGHigher);
 		}
 		public void TearDownExtraLayerButtons()
 		{
 			foreach (var elb in ExtraLayerEditViewButtons)
 			{
-				LayerToolbar.Items.Remove(elb.Key);
+                EditorToolbar.LayerToolbar.Items.Remove(elb.Key);
                 elb.Value.Click -= AdHocLayerEdit_Click;
 				elb.Value.RightClick -= AdHocLayerEdit_RightClick;
-				LayerToolbar.Items.Remove(elb.Value);
+                EditorToolbar.LayerToolbar.Items.Remove(elb.Value);
 			}
 			ExtraLayerEditViewButtons.Clear();
 
 
 			foreach (var els in ExtraLayerSeperators)
 			{
-				LayerToolbar.Items.Remove(els);
+                EditorToolbar.LayerToolbar.Items.Remove(els);
 			}
 			ExtraLayerSeperators.Clear();
 
@@ -2223,16 +1620,16 @@ namespace ManiacEditor
 				{
 					if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
 					{
-                        ShowFGLow.IsChecked = false;
-                        ShowFGHigh.IsChecked = false;
-                        ShowFGLower.IsChecked = false;
-                        ShowFGHigher.IsChecked = false;
+                        EditorToolbar.ShowFGLow.IsChecked = false;
+                        EditorToolbar.ShowFGHigh.IsChecked = false;
+                        EditorToolbar.ShowFGLower.IsChecked = false;
+                        EditorToolbar.ShowFGHigher.IsChecked = false;
 					}
-					EditFGLow.ClearCheckedItems(3);
-					EditFGHigh.ClearCheckedItems(3);
-					EditFGLower.ClearCheckedItems(3);
-					EditFGHigher.ClearCheckedItems(3);
-					EditEntities.ClearCheckedItems(3);
+                    EditorToolbar.EditFGLow.ClearCheckedItems(3);
+                    EditorToolbar.EditFGHigh.ClearCheckedItems(3);
+                    EditorToolbar.EditFGLower.ClearCheckedItems(3);
+                    EditorToolbar.EditFGHigher.ClearCheckedItems(3);
+                    EditorToolbar.EditEntities.ClearCheckedItems(3);
 
 					foreach (var elb in ExtraLayerEditViewButtons)
 					{
@@ -2251,16 +1648,16 @@ namespace ManiacEditor
 				{
 					if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
 					{
-                        ShowFGLow.IsChecked = false;
-                        ShowFGHigh.IsChecked = false;
-                        ShowFGLower.IsChecked = false;
-                        ShowFGHigher.IsChecked = false;
+                        EditorToolbar.ShowFGLow.IsChecked = false;
+                        EditorToolbar.ShowFGHigh.IsChecked = false;
+                        EditorToolbar.ShowFGLower.IsChecked = false;
+                        EditorToolbar.ShowFGHigher.IsChecked = false;
 					}
-					EditFGLow.ClearCheckedItems(1);
-					EditFGHigh.ClearCheckedItems(1);
-					EditFGLower.ClearCheckedItems(1);
-					EditFGHigher.ClearCheckedItems(1);
-					EditEntities.ClearCheckedItems(1);
+                    EditorToolbar.EditFGLow.ClearCheckedItems(1);
+                    EditorToolbar.EditFGHigh.ClearCheckedItems(1);
+                    EditorToolbar.EditFGLower.ClearCheckedItems(1);
+                    EditorToolbar.EditFGHigher.ClearCheckedItems(1);
+                    EditorToolbar.EditEntities.ClearCheckedItems(1);
 
 					foreach (var elb in ExtraLayerEditViewButtons)
 					{
@@ -2279,16 +1676,16 @@ namespace ManiacEditor
 				{
 					if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
 					{
-                        ShowFGLow.IsChecked = false;
-                        ShowFGHigh.IsChecked = false;
-                        ShowFGLower.IsChecked = false;
-                        ShowFGHigher.IsChecked = false;
+                        EditorToolbar.ShowFGLow.IsChecked = false;
+                        EditorToolbar.ShowFGHigh.IsChecked = false;
+                        EditorToolbar.ShowFGLower.IsChecked = false;
+                        EditorToolbar.ShowFGHigher.IsChecked = false;
 					}
-					EditFGLow.ClearCheckedItems(2);
-					EditFGHigh.ClearCheckedItems(2);
-					EditFGLower.ClearCheckedItems(2);
-					EditFGHigher.ClearCheckedItems(2);
-					EditEntities.ClearCheckedItems(2);
+                    EditorToolbar.EditFGLow.ClearCheckedItems(2);
+                    EditorToolbar.EditFGHigh.ClearCheckedItems(2);
+                    EditorToolbar.EditFGLower.ClearCheckedItems(2);
+                    EditorToolbar.EditFGHigher.ClearCheckedItems(2);
+                    EditorToolbar.EditEntities.ClearCheckedItems(2);
 
 					foreach (var elb in ExtraLayerEditViewButtons)
 					{
@@ -2321,22 +1718,9 @@ namespace ManiacEditor
             SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
             ManiacEditor.Settings.MySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
         }
-        public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Interfaces.WPF_UI.ConfigManager configManager = new Interfaces.WPF_UI.ConfigManager();
-            configManager.Owner = GetWindow(this);
-            configManager.ShowDialog();
-
-            // TODO: Fix NullReferenceException on Settings.mySettings.modConfigs
-            selectConfigToolStripMenuItem.Items.Clear();
-            for (int i = 0; i < ManiacEditor.Settings.MySettings.ModLoaderConfigs.Count; i++)
-            {
-                selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
-            }
-        }
         private void SelectConfigToolStripMenuItem_Click(MenuItem modConfig_CheckedItem)
         {
-            var allItems = selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allItems = EditorToolbar.selectConfigToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allItems)
             {
                 item.IsChecked = false;
@@ -2368,14 +1752,14 @@ namespace ManiacEditor
         {
             string dataFolderTag_Normal = "Data Directory: {0}";
 
-            _baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
+            EditorStatusBar._baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
             UpdateDataFolderLabel();
             Options.ShowingDataDirectory = true;
         }
         private void UpdateDataFolderLabel(string dataDirectory = null)
         {
-            if (dataDirectory != null) _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
-            else _baseDataDirectoryLabel.Content = string.Format(_baseDataDirectoryLabel.Tag.ToString(), DataDirectory);
+            if (dataDirectory != null) EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
+            else EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), DataDirectory);
         }
         public void AddRecentDataFolder(string dataDirectory)
         {
@@ -2412,17 +1796,13 @@ namespace ManiacEditor
         }
         #endregion
         #region Recent Scenes Methods
-        private void RecentScenes_SubmenuOpened(object sender, RoutedEventArgs e)
-        {
-            RefreshRecentScenes();
-        }
 
-        private void RefreshRecentScenes()
+        public void RefreshRecentScenes()
         {
             if (RecentsList.Collection.List.Count > 0)
             {
 
-                NoRecentScenesItem.Visibility = Visibility.Collapsed;
+                EditorMenuBar.NoRecentScenesItem.Visibility = Visibility.Collapsed;
                 StartScreen.NoRecentsLabel1.Visibility = Visibility.Collapsed;
                 CleanUpRecentScenesList();
 
@@ -2433,13 +1813,13 @@ namespace ManiacEditor
 
                 foreach (var menuItem in RecentSceneItems.Reverse())
                 {
-                    RecentScenes.Items.Insert(0, menuItem.Item1);
+                    EditorMenuBar.RecentScenes.Items.Insert(0, menuItem.Item1);
                     StartScreen.RecentScenesList.Children.Insert(0, menuItem.Item2);
                 }
             }
             else
             {
-                NoRecentScenesItem.Visibility = Visibility.Visible;
+                EditorMenuBar.NoRecentScenesItem.Visibility = Visibility.Visible;
                 StartScreen.NoRecentsLabel1.Visibility = Visibility.Visible;
             }
         }
@@ -2473,7 +1853,7 @@ namespace ManiacEditor
             {
                 menuItem.Item1.Click -= RecentSceneEntryClicked;
                 menuItem.Item2.Click -= RecentSceneEntryClicked;
-                RecentScenes.Items.Remove(menuItem.Item1);
+                EditorMenuBar.RecentScenes.Items.Remove(menuItem.Item1);
                 StartScreen.RecentScenesList.Children.Remove(menuItem.Item2);
             }
             RecentSceneItems.Clear();
@@ -2481,17 +1861,14 @@ namespace ManiacEditor
 
         #endregion
         #region Recent Data Sources Methods
-        private void RecentDataSources_SubmenuOpened(object sender, RoutedEventArgs e)
-        {
-            RefreshDataSources();
-        }
+
 
         public void RefreshDataSources()
         {
             if (RecentDataSourcesList.Collection.List.Count > 0)
             {
 
-                NoRecentDataSources.Visibility = Visibility.Collapsed;
+                EditorMenuBar.NoRecentDataSources.Visibility = Visibility.Collapsed;
                 StartScreen.NoRecentsLabel2.Visibility = Visibility.Collapsed;
 
                 CleanUpDataSourcesList();
@@ -2503,13 +1880,13 @@ namespace ManiacEditor
 
                 foreach (var menuItem in RecentDataSourceItems.Reverse())
                 {
-                    RecentDataSources.Items.Insert(0, menuItem.Item1);
+                    EditorMenuBar.RecentDataSources.Items.Insert(0, menuItem.Item1);
                     StartScreen.RecentDataContextList.Children.Insert(0, menuItem.Item2);
                 }
             }
             else
             {
-                NoRecentDataSources.Visibility = Visibility.Visible;
+                EditorMenuBar.NoRecentDataSources.Visibility = Visibility.Visible;
                 StartScreen.NoRecentsLabel2.Visibility = Visibility.Visible;
             }
         }
@@ -2542,7 +1919,7 @@ namespace ManiacEditor
             {
                 menuItem.Item1.Click -= RecentDataSourceEntryClicked;
                 menuItem.Item2.Click -= RecentDataSourceEntryClicked;
-                RecentDataSources.Items.Remove(menuItem.Item1);
+                EditorMenuBar.RecentDataSources.Items.Remove(menuItem.Item1);
                 StartScreen.RecentDataContextList.Children.Remove(menuItem.Item2);
             }
             RecentDataSourceItems.Clear();
@@ -2569,63 +1946,7 @@ namespace ManiacEditor
 
         }
 
-        #region Custom Color Picker Events
-        private void comboBox8_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            //Grid Default Color
-            if (e.NewValue.Value != null)
-            {
-                Options.GridColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-            }
-        }
 
-        private void comboBox7_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            //Water Color
-            if (e.NewValue.Value != null)
-            {
-                Options.waterColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-            }
-        }
-
-        private void comboBox6_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            //Collision Solid(Top Only) Color
-            if (e.NewValue.Value != null)
-            {
-                Options.CollisionTOColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                RefreshCollisionColours(true);
-            }
-        }
-
-        private void comboBox5_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            //Collision Solid(LRD) Color
-            if (e.NewValue.Value != null)
-            {
-                Options.CollisionLRDColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                RefreshCollisionColours(true);
-            }
-        }
-
-        private void comboBox4_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            //Collision Solid(All) Color
-            if (e.NewValue.Value != null)
-            {
-                Options.CollisionSAColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                RefreshCollisionColours(true);
-            }
-        }
-
-        private void CollisionColorPickerClosed(object sender, RoutedEventArgs e)
-        {
-            ReloadSpecificTextures(sender, e);
-            RefreshCollisionColours(true);
-        }
-
-
-        #endregion
         #endregion
 
         #region Reworked Regions

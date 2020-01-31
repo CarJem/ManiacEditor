@@ -15,7 +15,7 @@ namespace ManiacEditor
             set
             {
                 _EntitiesVisibileAboveAllLayers = value;
-                Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+                Editor.Instance.EditorMenuBar.SelectionBoxesAlwaysPrioritized.IsChecked = value;
             }
         }
         private bool _EntitiesVisibileAboveAllLayers = false;
@@ -29,7 +29,7 @@ namespace ManiacEditor
             set
             {
                 _PrioritizedEntityViewing = value;
-                Editor.Instance.prioritizedViewingToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.prioritizedViewingToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _PrioritizedEntityViewing = false;
@@ -97,7 +97,7 @@ namespace ManiacEditor
             set
             {
                 Editor.Instance.Options._EntitySelectionBoxesAlwaysPrioritized = value;
-                Editor.Instance.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+                Editor.Instance.EditorMenuBar.SelectionBoxesAlwaysPrioritized.IsChecked = value;
             }
         }
         private bool _EntitySelectionBoxesAlwaysPrioritized = false;
@@ -107,7 +107,7 @@ namespace ManiacEditor
             get { return _ShowTileID; }
             set
             {
-                Editor.Instance.ShowTileIDButton.IsChecked = value;
+                Editor.Instance.EditorToolbar.ShowTileIDButton.IsChecked = value;
                 Editor.Instance.ReloadSpecificTextures(null, null);
                 _ShowTileID = value;
             }
@@ -119,7 +119,7 @@ namespace ManiacEditor
             get { return _ShowGrid; }
             set
             {
-                Editor.Instance.ShowGridToggleButton.IsChecked = value;
+                Editor.Instance.EditorToolbar.ShowGridToggleButton.IsChecked = value;
                 Editor.Instance.Options._ShowGrid = value;
             }
         }
@@ -131,7 +131,7 @@ namespace ManiacEditor
             set
             {
                 Editor.Instance.DisposeTextures();
-                Editor.Instance.EncorePaletteButton.IsChecked = value;
+                Editor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = value;
                 Editor.Instance.Options._UseEncoreColors = value;
                 EditorSolution.CurrentTiles.StageTiles?.Image.Reload((value ? Editor.Instance.EncorePalette[0] : null));
                 Editor.Instance.TilesToolbar?.Reload((value ? Editor.Instance.EncorePalette[0] : null));
@@ -145,9 +145,9 @@ namespace ManiacEditor
             get { return _ShowCollisionA; }
             set
             {
-                Editor.Instance.ShowCollisionAButton.IsChecked = value;
+                Editor.Instance.EditorToolbar.ShowCollisionAButton.IsChecked = value;
                 Editor.Instance.Options._ShowCollisionA = value;
-                Editor.Instance.ShowCollisionBButton.IsChecked = false;
+                Editor.Instance.EditorToolbar.ShowCollisionBButton.IsChecked = false;
                 Editor.Instance.Options._ShowCollisionB = false;
                 Editor.Instance.ReloadSpecificTextures(null, null);
             }
@@ -159,9 +159,9 @@ namespace ManiacEditor
             get { return _ShowCollisionB; }
             set
             {
-                Editor.Instance.ShowCollisionAButton.IsChecked = false;
+                Editor.Instance.EditorToolbar.ShowCollisionAButton.IsChecked = false;
                 Editor.Instance.Options._ShowCollisionA = false;
-                Editor.Instance.ShowCollisionBButton.IsChecked = value;
+                Editor.Instance.EditorToolbar.ShowCollisionBButton.IsChecked = value;
                 Editor.Instance.Options._ShowCollisionB = value;
                 Editor.Instance.ReloadSpecificTextures(null, null);
             }
@@ -174,7 +174,7 @@ namespace ManiacEditor
             set
             {
                 _ShowParallaxSprites = value;
-                Editor.Instance.showParallaxSpritesToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.showParallaxSpritesToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _ShowParallaxSprites = false;
@@ -185,8 +185,8 @@ namespace ManiacEditor
             set
             {
                 Editor.Instance.Options._ApplyEditEntitiesTransparency = value;
-                Editor.Instance.EditEntitiesTransparencyToggle.IsChecked = value;
-                Editor.Instance.QuickEditEntitiesTransparentLayers.IsChecked = value;
+                Editor.Instance.EditorMenuBar.EditEntitiesTransparencyToggle.IsChecked = value;
+                Editor.Instance.EditorStatusBar.QuickEditEntitiesTransparentLayers.IsChecked = value;
             }
         }
         private bool _ApplyEditEntitiesTransparency = false;
@@ -197,7 +197,7 @@ namespace ManiacEditor
             set
             {
                 Editor.Instance.Options._ShowEntitySelectionBoxes = value;
-                Editor.Instance.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _ShowEntitySelectionBoxes = false;
@@ -211,7 +211,7 @@ namespace ManiacEditor
             set
             {
                 _ShowEntityPathArrows = value;
-                Editor.Instance.showEntityPathArrowsToolstripItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.showEntityPathArrowsToolstripItem.IsChecked = value;
             }
         }
         private bool _ShowEntityPathArrows = true;
@@ -225,7 +225,7 @@ namespace ManiacEditor
             set
             {
                 _ShowWaterLevel = value;
-                Editor.Instance.showWaterLevelToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.showWaterLevelToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _ShowWaterLevel = false;
@@ -239,7 +239,7 @@ namespace ManiacEditor
             set
             {
                 _AlwaysShowWaterLevel = value;
-                Editor.Instance.waterLevelAlwaysShowItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.waterLevelAlwaysShowItem.IsChecked = value;
             }
         }
         private bool _AlwaysShowWaterLevel = false;
@@ -253,7 +253,7 @@ namespace ManiacEditor
             set
             {
                 _SizeWaterLevelwithBounds = value;
-                Editor.Instance.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _SizeWaterLevelwithBounds = false;
@@ -267,7 +267,7 @@ namespace ManiacEditor
             set
             {
                 Editor.Instance.Options._ExtraLayersMoveToFront = value;
-                Editor.Instance.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorMenuBar.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _ExtraLayersMoveToFront = false;
@@ -299,23 +299,23 @@ namespace ManiacEditor
             set
             {
                 bool isCustom = false;
-                Editor.Instance.x8ToolStripMenuItem.IsChecked = false;
-                Editor.Instance.x16ToolStripMenuItem1.IsChecked = false;
-                Editor.Instance.x32ToolStripMenuItem.IsChecked = false;
-                Editor.Instance.x64ToolStripMenuItem.IsChecked = false;
-                Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = false;
+                Editor.Instance.EditorToolbar.x8ToolStripMenuItem.IsChecked = false;
+                Editor.Instance.EditorToolbar.x16ToolStripMenuItem1.IsChecked = false;
+                Editor.Instance.EditorToolbar.x32ToolStripMenuItem.IsChecked = false;
+                Editor.Instance.EditorToolbar.x64ToolStripMenuItem.IsChecked = false;
+                Editor.Instance.EditorToolbar.MagnetCustomSizeToolStripMenuItem.IsChecked = false;
 
-                if (value == 8) Editor.Instance.x8ToolStripMenuItem.IsChecked = true;
-                else if (value == 16) Editor.Instance.x16ToolStripMenuItem1.IsChecked = true;
-                else if (value == 32) Editor.Instance.x32ToolStripMenuItem.IsChecked = true;
-                else if (value == 64) Editor.Instance.x64ToolStripMenuItem.IsChecked = true;
+                if (value == 8) Editor.Instance.EditorToolbar.x8ToolStripMenuItem.IsChecked = true;
+                else if (value == 16) Editor.Instance.EditorToolbar.x16ToolStripMenuItem1.IsChecked = true;
+                else if (value == 32) Editor.Instance.EditorToolbar.x32ToolStripMenuItem.IsChecked = true;
+                else if (value == 64) Editor.Instance.EditorToolbar.x64ToolStripMenuItem.IsChecked = true;
                 else if (value == -1)
                 {
                     isCustom = true;
-                    Editor.Instance.MagnetCustomSizeToolStripMenuItem.IsChecked = true;
+                    Editor.Instance.EditorToolbar.MagnetCustomSizeToolStripMenuItem.IsChecked = true;
                 }
 
-                Editor.Instance.CustomMagnetLabel.Text = string.Format(Editor.Instance.CustomMagnetLabel.Tag.ToString(), CustomMagnetSize);
+                Editor.Instance.EditorToolbar.CustomMagnetLabel.Text = string.Format(Editor.Instance.EditorToolbar.CustomMagnetLabel.Tag.ToString(), CustomMagnetSize);
 
                 if (!isCustom) _MagnetSize = value;
                 else _MagnetSize = CustomMagnetSize;
@@ -333,7 +333,7 @@ namespace ManiacEditor
             set
             {
                 _CopyAir = value;
-                Editor.Instance.copyAirToggle.IsChecked = value;
+                Editor.Instance.EditorMenuBar.copyAirToggle.IsChecked = value;
             }
         }
         private bool _CopyAir = false;
@@ -347,7 +347,7 @@ namespace ManiacEditor
             set
             {
                 Editor.Instance.Options._RightClicktoSwapSlotID = value;
-                Editor.Instance.rightClicktoSwapSlotIDs.IsChecked = value;
+                Editor.Instance.EditorMenuBar.rightClicktoSwapSlotIDs.IsChecked = value;
             }
         }
         private bool _RightClicktoSwapSlotID = false;
@@ -371,7 +371,7 @@ namespace ManiacEditor
             set
             {
                 _UseMagnetMode = value;
-                Editor.Instance.MagnetMode.IsChecked = value;
+                Editor.Instance.EditorToolbar.MagnetMode.IsChecked = value;
             }
         }
         private bool _UseMagnetMode = false;
@@ -382,7 +382,7 @@ namespace ManiacEditor
             set
             {
                 _UseMagnetXAxis = value;
-                Editor.Instance.enableXAxisToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorToolbar.enableXAxisToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _UseMagnetXAxis = true;
@@ -393,7 +393,7 @@ namespace ManiacEditor
             set
             {
                 _UseMagnetYAxis = value;
-                Editor.Instance.enableYAxisToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorToolbar.enableYAxisToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _UseMagnetYAxis = true;
@@ -406,8 +406,8 @@ namespace ManiacEditor
             }
             set
             {
-                Editor.Instance.nudgeFasterButton.IsChecked = value;
-                Editor.Instance.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorStatusBar.nudgeFasterButton.IsChecked = value;
+                Editor.Instance.EditorMenuBar.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
                 _EnableFasterNudge = value;
             }
         }
@@ -422,8 +422,8 @@ namespace ManiacEditor
             set
             {
                 _ScrollLocked = value;
-                Editor.Instance.scrollLockButton.IsChecked = value;
-                Editor.Instance.statusNAToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorStatusBar.scrollLockButton.IsChecked = value;
+                Editor.Instance.EditorMenuBar.statusNAToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _ScrollLocked = true;
@@ -459,8 +459,8 @@ namespace ManiacEditor
             set
             {
                 _CountTilesSelectedInPixels = value;
-                Editor.Instance.pixelModeButton.IsChecked = value;
-                Editor.Instance.pixelModeToolStripMenuItem.IsChecked = value;
+                Editor.Instance.EditorStatusBar.pixelModeButton.IsChecked = value;
+                Editor.Instance.EditorMenuBar.pixelModeToolStripMenuItem.IsChecked = value;
             }
         }
         private bool _CountTilesSelectedInPixels = false;
@@ -522,21 +522,21 @@ namespace ManiacEditor
         public void PointerMode(bool? value = null)
         {
             if (value != null) SetToolModes(0, value.Value);
-            else SetToolModes(0, Editor.Instance.PointerToolButton.IsChecked.Value);
+            else SetToolModes(0, Editor.Instance.EditorToolbar.PointerToolButton.IsChecked.Value);
         }
         public void SelectionMode(bool? value = null)
         {
             if (value != null) SetToolModes(1, value.Value);
-            else SetToolModes(1, Editor.Instance.SelectToolButton.IsChecked.Value);
+            else SetToolModes(1, Editor.Instance.EditorToolbar.SelectToolButton.IsChecked.Value);
         }
         public void DrawMode(bool? value = null)
         {
             if (value != null) SetToolModes(2, value.Value);
-            else SetToolModes(2, Editor.Instance.DrawToolButton.IsChecked.Value);
+            else SetToolModes(2, Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value);
         }
         public void InteractionMode(bool? value = null)
         {
-            SetToolModes(3, Editor.Instance.InteractionToolButton.IsChecked.Value);
+            SetToolModes(3, Editor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value);
         }
 
                 //Determines the Draw Tool's Brush Size (Tiles Only)
@@ -557,20 +557,20 @@ namespace ManiacEditor
         public void SplineMode(bool? value = null)
         {
             if (value != null) SetToolModes(4, value.Value);
-            else SetToolModes(4, Editor.Instance.SplineToolButton.IsChecked.Value);
+            else SetToolModes(4, Editor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value);
         }
         public void ChunksMode()
         {
-            if (Editor.Instance.IsTilesEdit()) Editor.Instance.ChunksToolButton.IsChecked ^= true;
+            if (Editor.Instance.IsTilesEdit()) Editor.Instance.EditorToolbar.ChunksToolButton.IsChecked ^= true;
             Editor.Instance.UI.UpdateControls();
         }
         public void SetToolModes(int selectedID, bool value)
         {
-            Editor.Instance.PointerToolButton.IsChecked = (selectedID == 0 ? value : false);
-            Editor.Instance.SelectToolButton.IsChecked = (selectedID == 1 ? value : false);
-            Editor.Instance.DrawToolButton.IsChecked = (selectedID == 2 ? value : false);
-            Editor.Instance.InteractionToolButton.IsChecked = (selectedID == 3 ? value : false);
-            Editor.Instance.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
+            Editor.Instance.EditorToolbar.PointerToolButton.IsChecked = (selectedID == 0 ? value : false);
+            Editor.Instance.EditorToolbar.SelectToolButton.IsChecked = (selectedID == 1 ? value : false);
+            Editor.Instance.EditorToolbar.DrawToolButton.IsChecked = (selectedID == 2 ? value : false);
+            Editor.Instance.EditorToolbar.InteractionToolButton.IsChecked = (selectedID == 3 ? value : false);
+            Editor.Instance.EditorToolbar.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
             Editor.Instance.UI.UpdateControls();
         }
         #endregion
@@ -630,16 +630,16 @@ namespace ManiacEditor
                 {
                     if (state)
                     {
-                        Editor.Instance.SplineLineMode.IsChecked = true;
+                        Editor.Instance.EditorToolbar.SplineLineMode.IsChecked = true;
                         _SplineLineMode = true;
-                        Editor.Instance.SplineOvalMode.IsChecked = false;
+                        Editor.Instance.EditorToolbar.SplineOvalMode.IsChecked = false;
                         _SplineOvalMode = false;
                     }
                     else
                     {
-                        Editor.Instance.SplineLineMode.IsChecked = false;
+                        Editor.Instance.EditorToolbar.SplineLineMode.IsChecked = false;
                         _SplineLineMode = false;
-                        Editor.Instance.SplineOvalMode.IsChecked = true;
+                        Editor.Instance.EditorToolbar.SplineOvalMode.IsChecked = true;
                         _SplineOvalMode = true;
                     }
                 }
@@ -647,16 +647,16 @@ namespace ManiacEditor
                 {
                     if (state)
                     {
-                        Editor.Instance.SplineLineMode.IsChecked = false;
+                        Editor.Instance.EditorToolbar.SplineLineMode.IsChecked = false;
                         _SplineLineMode = false;
-                        Editor.Instance.SplineOvalMode.IsChecked = true;
+                        Editor.Instance.EditorToolbar.SplineOvalMode.IsChecked = true;
                         _SplineOvalMode = true;
                     }
                     else
                     {
-                        Editor.Instance.SplineLineMode.IsChecked = true;
+                        Editor.Instance.EditorToolbar.SplineLineMode.IsChecked = true;
                         _SplineLineMode = true;
-                        Editor.Instance.SplineOvalMode.IsChecked = false;
+                        Editor.Instance.EditorToolbar.SplineOvalMode.IsChecked = false;
                         _SplineOvalMode = false;
                     }
                 }
@@ -810,19 +810,19 @@ namespace ManiacEditor
         private void SetMultiLayerEditMode(bool value)
         {
             Editor.Instance.Options._MultiLayerEditMode = value;
-            Editor.Instance.multiLayerSelectionToolStripMenuItem.IsChecked = value;
+            Editor.Instance.EditorMenuBar.multiLayerSelectionToolStripMenuItem.IsChecked = value;
 
 
             bool enabled = (value == true ? true : false);
-            Editor.Instance.EditFGLower.DualSelect = enabled;
-            Editor.Instance.EditFGLow.DualSelect = enabled;
-            Editor.Instance.EditFGHigh.DualSelect = enabled;
-            Editor.Instance.EditFGHigher.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGLower.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGLow.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGHigh.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGHigher.DualSelect = enabled;
 
-            Editor.Instance.EditFGLower.SwapDefaultToA(!enabled);
-            Editor.Instance.EditFGLow.SwapDefaultToA(!enabled);
-            Editor.Instance.EditFGHigh.SwapDefaultToA(!enabled);
-            Editor.Instance.EditFGHigher.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGLower.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGLow.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGHigh.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGHigher.SwapDefaultToA(!enabled);
 
             foreach (var elb in Editor.Instance.ExtraLayerEditViewButtons.Values)
             {
@@ -838,15 +838,15 @@ namespace ManiacEditor
         public void UpdateMultiLayerSelectMode(bool updateControls = false)
         {
             bool enabled = (_MultiLayerEditMode == true ? true : false);
-            Editor.Instance.EditFGLower.DualSelect = enabled;
-            Editor.Instance.EditFGLow.DualSelect = enabled;
-            Editor.Instance.EditFGHigh.DualSelect = enabled;
-            Editor.Instance.EditFGHigher.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGLower.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGLow.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGHigh.DualSelect = enabled;
+            Editor.Instance.EditorToolbar.EditFGHigher.DualSelect = enabled;
 
-            Editor.Instance.EditFGLower.SwapDefaultToA(!enabled);
-            Editor.Instance.EditFGLow.SwapDefaultToA(!enabled);
-            Editor.Instance.EditFGHigh.SwapDefaultToA(!enabled);
-            Editor.Instance.EditFGHigher.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGLower.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGLow.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGHigh.SwapDefaultToA(!enabled);
+            Editor.Instance.EditorToolbar.EditFGHigher.SwapDefaultToA(!enabled);
 
             foreach (var elb in Editor.Instance.ExtraLayerEditViewButtons.Values)
             {
@@ -871,7 +871,7 @@ namespace ManiacEditor
         private void SetUseLargeDebugStats(bool value)
         {
             _UseLargeDebugStats = value;
-            Editor.Instance.useLargeTextToolStripMenuItem.IsChecked = value;
+            Editor.Instance.EditorMenuBar.useLargeTextToolStripMenuItem.IsChecked = value;
         }
         
         public bool DebugStatsVisibleOnPanel { get => GetDebugStatsVisibleOnPanel(); set => SetDebugStatsVisibleOnPanel(value); }
@@ -883,7 +883,7 @@ namespace ManiacEditor
         private void SetDebugStatsVisibleOnPanel(bool value)
         {
             _DebugStatsVisibleOnPanel = value;
-            Editor.Instance.showStatsToolStripMenuItem.IsChecked = value;
+            Editor.Instance.EditorMenuBar.showStatsToolStripMenuItem.IsChecked = value;
         }
         #endregion
 
@@ -897,12 +897,12 @@ namespace ManiacEditor
         private void ChangeCustomSize(int value)
         {
             _GridCustomSize = value;
-            Editor.Instance.CustomGridLabel.Text = string.Format(Editor.Instance.CustomGridLabel.Tag.ToString(), _GridCustomSize);
+            Editor.Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Editor.Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), _GridCustomSize);
         }
 
         private int GetCustomSize()
         {
-            Editor.Instance.CustomGridLabel.Text = string.Format(Editor.Instance.CustomGridLabel.Tag.ToString(), _GridCustomSize);
+            Editor.Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Editor.Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), _GridCustomSize);
             return _GridCustomSize;
         }
 
@@ -915,21 +915,21 @@ namespace ManiacEditor
             bool isCustom = false;
             _GridSize = value;
 
-            Editor.Instance.Grid16x16SizeMenuItem.IsChecked = false;
-            Editor.Instance.Grid128x128SizeMenuItem.IsChecked = false;
-            Editor.Instance.Grid256x256SizeMenuItem.IsChecked = false;
-            Editor.Instance.GridCustomSizeMenuItem.IsChecked = false;
+            Editor.Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = false;
+            Editor.Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = false;
+            Editor.Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = false;
+            Editor.Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = false;
 
-            if (value == 16) Editor.Instance.Grid16x16SizeMenuItem.IsChecked = true;
-            else if (value == 128) Editor.Instance.Grid128x128SizeMenuItem.IsChecked = true;
-            else if (value == 256) Editor.Instance.Grid256x256SizeMenuItem.IsChecked = true;
+            if (value == 16) Editor.Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = true;
+            else if (value == 128) Editor.Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = true;
+            else if (value == 256) Editor.Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = true;
             else if (value == -1)
             {
                 isCustom = true;
-                Editor.Instance.GridCustomSizeMenuItem.IsChecked = true;
+                Editor.Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = true;
             }
 
-            Editor.Instance.CustomGridLabel.Text = string.Format(Editor.Instance.CustomGridLabel.Tag.ToString(), GridCustomSize);
+            Editor.Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Editor.Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), GridCustomSize);
 
             if (!isCustom) _GridSize = value;
             else _GridSize = GridCustomSize;
@@ -948,13 +948,13 @@ namespace ManiacEditor
         {
             _CollisionPreset = value;
 
-            Editor.Instance.invertedToolStripMenuItem.IsChecked = false;
-            Editor.Instance.customToolStripMenuItem1.IsChecked = false;
-            Editor.Instance.defaultToolStripMenuItem.IsChecked = false;
+            Editor.Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = false;
+            Editor.Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = false;
+            Editor.Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = false;
 
-            if (value == 0) Editor.Instance.defaultToolStripMenuItem.IsChecked = true;
-            else if(value == 1) Editor.Instance.invertedToolStripMenuItem.IsChecked = true;
-            else if (value == 2) Editor.Instance.customToolStripMenuItem1.IsChecked = true;
+            if (value == 0) Editor.Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = true;
+            else if(value == 1) Editor.Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = true;
+            else if (value == 2) Editor.Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = true;
 
 
             Editor.Instance.ReloadSpecificTextures(null, null);

@@ -30,7 +30,7 @@ namespace ManiacEditor
         {
             if (value == true)
             {
-                if (_entity.Object.Name.Name == "Spline" && IsInternalObject) Editor.Instance.SelectedSplineIDChangedEvent(_entity.attributesMap["SplineID"].ValueInt32);
+                if (_entity.Object.Name.Name == "Spline" && IsInternalObject) Editor.Instance.EditorToolbar.SelectedSplineIDChangedEvent(_entity.attributesMap["SplineID"].ValueInt32);
                 isSelected = value;
                 TimeWhenSelected = DateTimeOffset.Now;
             }
@@ -488,7 +488,7 @@ namespace ManiacEditor
             {
                 renderNotFound = false;
                 // Special cases that always display a set frame(?)
-                if (Editor.Instance.ShowAnimations.IsEnabled == true)
+                if (Editor.Instance.EditorToolbar.ShowAnimations.IsEnabled == true)
                 {
                     if (_entity.Object.Name.Name == "StarPost")
                         index = 1;

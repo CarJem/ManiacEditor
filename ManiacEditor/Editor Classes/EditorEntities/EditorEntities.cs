@@ -71,7 +71,7 @@ namespace ManiacEditor
             Attributes.Add(SplineID);
             ushort Slot = 0;
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
-            Entity.attributesMap["SplineID"].ValueInt32 = Editor.Instance.SplineSpawnID.Value.Value;
+            Entity.attributesMap["SplineID"].ValueInt32 = Editor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
 
             return new EditorEntity(Entity, true);
         }

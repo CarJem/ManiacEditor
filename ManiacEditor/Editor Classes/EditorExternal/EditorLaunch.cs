@@ -247,7 +247,7 @@ namespace ManiacEditor
             string SC_Path = "";
             string GC_Path = "";
 
-            if (button != null && button == Editor.maniaPalGameConfigToolStripMenuItem)
+            if (button != null && button == Editor.EditorMenuBar.maniaPalGameConfigToolStripMenuItem)
             {
                 if (EditorSolution.GameConfig == null) GC_NULL = true;
                 else GC_Path = EditorSolution.GameConfig.FilePath;
@@ -271,7 +271,7 @@ namespace ManiacEditor
         }
         public static void ManiaPalSubmenuOpened(object sender, RoutedEventArgs e)
         {
-            Editor.maniaPalHint.Header = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
+            Editor.EditorMenuBar.maniaPalHint.Header = "HINT: The Button that houses this dropdown" + Environment.NewLine + "will focus ManiaPal if it is opened already" + Environment.NewLine + "(without reloading the currently loaded colors)";
         }
         public static void SonicManiaHeadless()
         {
@@ -374,8 +374,8 @@ namespace ManiacEditor
         {
             if (Settings.MySettings.SavedPlaces != null && Settings.MySettings.SavedPlaces.Count > 0)
             {
-                Editor.openASavedPlaceToolStripMenuItem.Items.Clear();
-                var allItems = Editor.openASavedPlaceToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                Editor.EditorMenuBar.openASavedPlaceToolStripMenuItem.Items.Clear();
+                var allItems = Editor.EditorMenuBar.openASavedPlaceToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                 foreach (string savedPlace in Settings.MySettings.SavedPlaces)
                 {
                     var savedPlaceItem = new System.Windows.Controls.MenuItem()
@@ -384,7 +384,7 @@ namespace ManiacEditor
                         Tag = savedPlace
                     };
                     savedPlaceItem.Click += OpenASavedPlaceTrigger;
-                    Editor.openASavedPlaceToolStripMenuItem.Items.Add(savedPlaceItem);
+                    Editor.EditorMenuBar.openASavedPlaceToolStripMenuItem.Items.Add(savedPlaceItem);
                 }
             }
 
@@ -406,8 +406,8 @@ namespace ManiacEditor
 
         public static void OpenASavedPlaceDropDownClosed(object sender, RoutedEventArgs e)
         {
-            Editor.openASavedPlaceToolStripMenuItem.Items.Clear();
-            Editor.openASavedPlaceToolStripMenuItem.Items.Add("No Saved Places");
+            Editor.EditorMenuBar.openASavedPlaceToolStripMenuItem.Items.Clear();
+            Editor.EditorMenuBar.openASavedPlaceToolStripMenuItem.Items.Add("No Saved Places");
         }
         #endregion
 
@@ -417,8 +417,8 @@ namespace ManiacEditor
             if (EditorSolution.CurrentScene == null) Editor.ResourcePackList.Clear();
             if (Editor.ResourcePackList != null && Editor.ResourcePackList.Count > 0)
             {
-                Editor.openAResourcePackFolderToolStripMenuItem.Items.Clear();
-                var allItems = Editor.openAResourcePackFolderToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                Editor.EditorMenuBar.openAResourcePackFolderToolStripMenuItem.Items.Clear();
+                var allItems = Editor.EditorMenuBar.openAResourcePackFolderToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                 foreach (string savedPlace in Editor.ResourcePackList)
                 {
                     var savedPlaceItem = new System.Windows.Controls.MenuItem()
@@ -427,7 +427,7 @@ namespace ManiacEditor
                         Tag = savedPlace
                     };
                     savedPlaceItem.Click += OpenAResourcePackFolderTrigger;
-                    Editor.openAResourcePackFolderToolStripMenuItem.Items.Add(savedPlaceItem);
+                    Editor.EditorMenuBar.openAResourcePackFolderToolStripMenuItem.Items.Add(savedPlaceItem);
                 }
             }
 
@@ -449,8 +449,8 @@ namespace ManiacEditor
 
         public static void OpenAResourcePackFolderDropDownClosed(object sender, RoutedEventArgs e)
         {
-            Editor.openAResourcePackFolderToolStripMenuItem.Items.Clear();
-            Editor.openAResourcePackFolderToolStripMenuItem.Items.Add("No Resource Packs Loaded");
+            Editor.EditorMenuBar.openAResourcePackFolderToolStripMenuItem.Items.Clear();
+            Editor.EditorMenuBar.openAResourcePackFolderToolStripMenuItem.Items.Add("No Resource Packs Loaded");
         }
         #endregion
 

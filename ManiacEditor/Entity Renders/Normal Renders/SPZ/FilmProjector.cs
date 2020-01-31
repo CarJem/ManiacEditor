@@ -72,7 +72,7 @@ namespace ManiacEditor.Entity_Renders
         public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0, Editor EditorInstance = null)
         {
             // Playback
-            if (EditorInstance.ShowAnimations.IsChecked.Value && EditorInstance.Options.AllowSpriteAnimations)
+            if (EditorInstance.EditorToolbar.ShowAnimations.IsChecked.Value && EditorInstance.Options.AllowSpriteAnimations)
             {
                 if (speed > 0)
                 {

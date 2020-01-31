@@ -38,7 +38,7 @@ namespace ManiacEditor
         public EditorControl()
         {
             UpdateTooltips();
-            UpdateMenuItems();
+            Editor.Instance.EditorMenuBar.UpdateMenuItems();
         }
 
         #region Mouse Controls
@@ -85,19 +85,6 @@ namespace ManiacEditor
                 }
             }
 
-        }
-
-        public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
-        {
-
-            if (Editor.Instance.Options.CountTilesSelectedInPixels == false)
-            {
-                Editor.Instance.positionLabel.Content = "X: " + (int)(e.X / EditorStateModel.Zoom) + " Y: " + (int)(e.Y / EditorStateModel.Zoom);
-            }
-            else
-            {
-                Editor.Instance.positionLabel.Content = "X: " + (int)((e.X / EditorStateModel.Zoom) / 16) + " Y: " + (int)((e.Y / EditorStateModel.Zoom) / 16);
-            }
         }
         public void UpdateUndoRedo()
         {
@@ -269,7 +256,7 @@ namespace ManiacEditor
         {
             if (IsEditing() && !EditorStateModel.Dragged)
             {
-                if (IsTilesEdit() && !Editor.Instance.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseDown(e);
+                if (IsTilesEdit() && !Editor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseDown(e);
                 if (IsChunksEdit() && IsSceneLoaded()) ChunksEditMouseDown(e);
                 else if (IsEntitiesEdit()) EntitiesEditMouseDown(e);
             }
@@ -289,13 +276,13 @@ namespace ManiacEditor
             if (EditorStateModel.Scrolling) ScrollerMouseMove(e);
             if (EditorStateModel.Scrolling || EditorStateModel.ScrollingDragged || EditorStateModel.DraggingSelection || EditorStateModel.Dragged) Editor.Instance.FormsModel.GraphicPanel.Render();
 
-            UpdatePositionLabel(e);
+            Editor.Instance.EditorStatusBar.UpdatePositionLabel(e);
 
             if (GameRunning) InteractiveMouseMove(e);
 
             if (EditorStateModel.RegionX1 != -1)
             {
-                if (IsTilesEdit() && !Editor.Instance.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseMoveDraggingStarted(e);
+                if (IsTilesEdit() && !Editor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseMoveDraggingStarted(e);
                 else if (IsChunksEdit()) ChunksEditMouseMoveDraggingStarted(e);
                 else if (IsEntitiesEdit()) EntitiesEditMouseMoveDraggingStarted(e);
 
@@ -485,9 +472,9 @@ namespace ManiacEditor
             Editor.Instance.FormsModel.GraphicPanel.Focus();
             if (e.Button == MouseButtons.Right)
             {
-                if (Editor.Instance.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
-                else if (IsEntitiesEdit() && !Editor.Instance.DrawToolButton.IsChecked.Value && !Editor.Instance.SplineToolButton.IsChecked.Value && (!Editor.Instance.Options.RightClicktoSwapSlotID || EditorSolution.Entities.SelectedEntities.Count <= 1)) EntitiesEditContextMenu(e);
-                else if (IsTilesEdit() && !Editor.Instance.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
+                if (Editor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
+                else if (IsEntitiesEdit() && !Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value && !Editor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && (!Editor.Instance.Options.RightClicktoSwapSlotID || EditorSolution.Entities.SelectedEntities.Count <= 1)) EntitiesEditContextMenu(e);
+                else if (IsTilesEdit() && !Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
             }
 
         }
@@ -499,7 +486,7 @@ namespace ManiacEditor
 
         public void TilesEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Editor.Instance.DrawToolButton.IsChecked.Value)
+            if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
             {
                 TilesEditDrawTool(e, false);
             }
@@ -519,7 +506,7 @@ namespace ManiacEditor
                 Editor.Instance.EditLayerB?.StartDrag();
             }
 
-            else if (!Editor.Instance.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Editor.Instance.EditLayerA?.HasTileAt(clicked_point) ?? false) || (Editor.Instance.EditLayerB?.HasTileAt(clicked_point) ?? false))
+            else if (!Editor.Instance.EditorToolbar.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Editor.Instance.EditLayerA?.HasTileAt(clicked_point) ?? false) || (Editor.Instance.EditLayerB?.HasTileAt(clicked_point) ?? false))
             {
                 // Start dragging the single selected tile
                 Editor.Instance.EditLayerA?.Select(clicked_point);
@@ -548,7 +535,7 @@ namespace ManiacEditor
             if (e.Button == MouseButtons.Left)
             {
                 Point clicked_point = new Point((int)(e.X / EditorStateModel.Zoom), (int)(e.Y / EditorStateModel.Zoom));
-                if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     TilesEditDrawTool(e, true);
                 }
@@ -556,7 +543,7 @@ namespace ManiacEditor
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     TilesEditDrawTool(e, true);
                 }
@@ -576,9 +563,9 @@ namespace ManiacEditor
             if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
             else tilePos = new Point(e.X / 16, e.Y / 16);
 
-            Editor.Instance.PixelPositionMenuItem.Header = "Pixel Position:" + newLine + String.Format("X: {0}, Y: {1}", e.X, e.Y);
-            Editor.Instance.ChunkPositionMenuItem.Header = "Chunk Position:" + newLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
-            Editor.Instance.TilePositionMenuItem.Header = "Tile Position:" + newLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
+            Editor.Instance.EditorStatusBar.PixelPositionMenuItem.Header = "Pixel Position:" + newLine + String.Format("X: {0}, Y: {1}", e.X, e.Y);
+            Editor.Instance.EditorStatusBar.ChunkPositionMenuItem.Header = "Chunk Position:" + newLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
+            Editor.Instance.EditorStatusBar.TilePositionMenuItem.Header = "Tile Position:" + newLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
 
 
             Point clicked_point_tile = new Point((int)(e.X / EditorStateModel.Zoom), (int)(e.Y / EditorStateModel.Zoom));
@@ -594,11 +581,11 @@ namespace ManiacEditor
             else tile = tileA;
 
             Editor.Instance.Options.SelectedTileID = tile;
-            Editor.Instance.TileManiacIntergrationItem.IsEnabled = (tile < 1023);
-            Editor.Instance.TileManiacIntergrationItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+            Editor.Instance.EditorStatusBar.TileManiacIntergrationItem.IsEnabled = (tile < 1023);
+            Editor.Instance.EditorStatusBar.TileManiacIntergrationItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
 
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
-            info.ItemsSource = Editor.Instance.TilesContext.Items;
+            info.ItemsSource = Editor.Instance.EditorStatusBar.TilesContext.Items;
             info.Foreground = (System.Windows.Media.SolidColorBrush)Editor.Instance.FindResource("NormalText");
             info.Background = (System.Windows.Media.SolidColorBrush)Editor.Instance.FindResource("NormalBackground");
             info.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
@@ -691,7 +678,7 @@ namespace ManiacEditor
 
         public void EntitiesEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Editor.Instance.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e);
+            if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e);
         }
         public void EntitiesEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
         {
@@ -722,7 +709,7 @@ namespace ManiacEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (!Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (!Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point clicked_point = new Point((int)(e.X / EditorStateModel.Zoom), (int)(e.Y / EditorStateModel.Zoom));
                     if (EditorSolution.Entities.GetEntityAt(clicked_point)?.Selected ?? false)
@@ -745,9 +732,9 @@ namespace ManiacEditor
                         SetClickedXY(e);
                     }
                 }
-                else if (Editor.Instance.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e, true);
+                else if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e, true);
             }
-            if (Editor.Instance.SplineToolButton.IsChecked.Value) SplineTool(e);
+            if (Editor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value) SplineTool(e);
         }
         public void EntitiesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
@@ -772,20 +759,20 @@ namespace ManiacEditor
             {
                 var currentEntity = EditorSolution.Entities.GetEntityAt(clicked_point);
 
-                Editor.Instance.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
-                Editor.Instance.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", currentEntity.Entity.SlotID, Environment.NewLine, EditorSolution.Entities.GetRealSlotID(currentEntity.Entity));
-                Editor.Instance.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Entity.Position.X.High, currentEntity.Entity.Position.Y.High);
+                Editor.Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
+                Editor.Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", currentEntity.Entity.SlotID, Environment.NewLine, EditorSolution.Entities.GetRealSlotID(currentEntity.Entity));
+                Editor.Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Entity.Position.X.High, currentEntity.Entity.Position.Y.High);
             }
             else
             {
-                Editor.Instance.EntityNameItem.Header = String.Format("Entity Name: {0}", "N/A");
-                Editor.Instance.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", "N/A", Environment.NewLine, "N/A");
-                Editor.Instance.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", e.X, e.Y);
+                Editor.Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", "N/A");
+                Editor.Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", "N/A", Environment.NewLine, "N/A");
+                Editor.Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", e.X, e.Y);
             }
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
 
 
-            info.ItemsSource = Editor.Instance.EntityContext.Items;
+            info.ItemsSource = Editor.Instance.EditorStatusBar.EntityContext.Items;
             info.Foreground = (System.Windows.Media.SolidColorBrush)Editor.Instance.FindResource("NormalText");
             info.Background = (System.Windows.Media.SolidColorBrush)Editor.Instance.FindResource("NormalBackground");
             info.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
@@ -872,7 +859,7 @@ namespace ManiacEditor
 
             if (e.Button == MouseButtons.Left)
             {
-                if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     int selectedIndex = Editor.Instance.TilesToolbar.ChunkList.SelectedIndex;
                     // Place Stamp
@@ -889,7 +876,7 @@ namespace ManiacEditor
 
             else if (e.Button == MouseButtons.Right)
             {
-                if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
 
                     if (!Editor.Instance.Chunks.IsChunkEmpty(pC, Editor.Instance.EditLayerA, Editor.Instance.EditLayerB))
@@ -933,12 +920,12 @@ namespace ManiacEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / EditorStateModel.Zoom), (int)(e.Y / EditorStateModel.Zoom));
                     Point pC = EditorSolution.EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
-                    if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                    if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     {
                         int selectedIndex = Editor.Instance.TilesToolbar.ChunkList.SelectedIndex;
                         // Place Stamp
@@ -959,7 +946,7 @@ namespace ManiacEditor
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / EditorStateModel.Zoom), (int)(e.Y / EditorStateModel.Zoom));
                     Point chunk_point = EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
@@ -1456,13 +1443,13 @@ namespace ManiacEditor
             // Tiles Toolbar Flip Horizontal
             if (isCombo(e, myKeyBinds.FlipHTiles, true))
             {
-                if (IsTilesEdit() && Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (IsTilesEdit() && Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Editor.Instance.TilesToolbar.SetSelectTileOption(0, false);
             }
             // Tiles Toolbar Flip Vertical
             else if (isCombo(e, myKeyBinds.FlipVTiles, true))
             {
-                if (IsTilesEdit() && Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (IsTilesEdit() && Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Editor.Instance.TilesToolbar.SetSelectTileOption(1, false);
             }
         }
@@ -1491,13 +1478,13 @@ namespace ManiacEditor
             // Tiles Toolbar Flip Vertical
             else if (isCombo(e, myKeyBinds.FlipVTiles, true))
             {
-                if (IsTilesEdit() && Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (IsTilesEdit() && Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Editor.Instance.TilesToolbar.SetSelectTileOption(1, true);
             }
             // Tiles Toolbar Flip Horizontal
             else if (isCombo(e, myKeyBinds.FlipHTiles, true))
             {
-                if (IsTilesEdit() && Editor.Instance.DrawToolButton.IsChecked.Value)
+                if (IsTilesEdit() && Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Editor.Instance.TilesToolbar.SetSelectTileOption(0, true);
             }
             // Open Click (Alt: Open Data Dir)
@@ -1585,7 +1572,7 @@ namespace ManiacEditor
             //Unload Scene
             else if (isCombo(e, myKeyBinds.UnloadScene))
             {
-                Editor.Instance.UnloadSceneEvent(null, null);
+                Editor.Instance.EditorMenuBar.UnloadSceneEvent(null, null);
             }
             //Toggle Grid Visibility
             else if (isCombo(e, myKeyBinds.ShowGrid))
@@ -1690,12 +1677,12 @@ namespace ManiacEditor
 
         public void OnKeyDownTools(object sender, KeyEventArgs e)
         {
-            if (isCombo(e, myKeyBinds.PointerTool) && Editor.Instance.PointerToolButton.IsEnabled) Editor.Instance.Options.PointerMode(true);
-            else if (isCombo(e, myKeyBinds.SelectTool) && Editor.Instance.SelectToolButton.IsEnabled) Editor.Instance.Options.SelectionMode(true);
-            else if (isCombo(e, myKeyBinds.DrawTool) && Editor.Instance.DrawToolButton.IsEnabled) Editor.Instance.Options.DrawMode(true);
-            else if (isCombo(e, myKeyBinds.MagnetTool) && Editor.Instance.MagnetMode.IsEnabled) Editor.Instance.Options.UseMagnetMode ^= true;
-            else if (isCombo(e, myKeyBinds.SplineTool) && Editor.Instance.SplineToolButton.IsEnabled) Editor.Instance.Options.SplineMode(true);
-            else if (isCombo(e, myKeyBinds.StampTool) && Editor.Instance.ChunksToolButton.IsEnabled) Editor.Instance.Options.ChunksMode();
+            if (isCombo(e, myKeyBinds.PointerTool) && Editor.Instance.EditorToolbar.PointerToolButton.IsEnabled) Editor.Instance.Options.PointerMode(true);
+            else if (isCombo(e, myKeyBinds.SelectTool) && Editor.Instance.EditorToolbar.SelectToolButton.IsEnabled) Editor.Instance.Options.SelectionMode(true);
+            else if (isCombo(e, myKeyBinds.DrawTool) && Editor.Instance.EditorToolbar.DrawToolButton.IsEnabled) Editor.Instance.Options.DrawMode(true);
+            else if (isCombo(e, myKeyBinds.MagnetTool) && Editor.Instance.EditorToolbar.MagnetMode.IsEnabled) Editor.Instance.Options.UseMagnetMode ^= true;
+            else if (isCombo(e, myKeyBinds.SplineTool) && Editor.Instance.EditorToolbar.SplineToolButton.IsEnabled) Editor.Instance.Options.SplineMode(true);
+            else if (isCombo(e, myKeyBinds.StampTool) && Editor.Instance.EditorToolbar.ChunksToolButton.IsEnabled) Editor.Instance.Options.ChunksMode();
 
         }
         #endregion
@@ -1985,66 +1972,10 @@ namespace ManiacEditor
 
         #region Tooltips + Menu Items
 
-        public void UpdateMenuItems()
-        {
-            Editor.Instance.newToolStripMenuItem.InputGestureText = KeyBindPraser("New");
-            Editor.Instance.openToolStripMenuItem.InputGestureText = KeyBindPraser("Open");
-            Editor.Instance.openDataDirectoryToolStripMenuItem.InputGestureText = KeyBindPraser("OpenDataDir");
-            Editor.Instance.saveToolStripMenuItem.InputGestureText = KeyBindPraser("_Save");
-            Editor.Instance.saveAsToolStripMenuItem.InputGestureText = KeyBindPraser("SaveAs");
-            Editor.Instance.undoToolStripMenuItem.InputGestureText = KeyBindPraser("Undo");
-            Editor.Instance.redoToolStripMenuItem.InputGestureText = KeyBindPraser("Redo");
-            Editor.Instance.cutToolStripMenuItem.InputGestureText = KeyBindPraser("Cut");
-            Editor.Instance.copyToolStripMenuItem.InputGestureText = KeyBindPraser("Copy");
-            Editor.Instance.pasteToolStripMenuItem.InputGestureText = KeyBindPraser("Paste");
-            Editor.Instance.duplicateToolStripMenuItem.InputGestureText = KeyBindPraser("Duplicate");
-            Editor.Instance.selectAllToolStripMenuItem.InputGestureText = KeyBindPraser("SelectAll");
-            Editor.Instance.deleteToolStripMenuItem.InputGestureText = KeyBindPraser("Delete");
-            Editor.Instance.statusNAToolStripMenuItem.InputGestureText = KeyBindPraser("ScrollLock");
-            Editor.Instance.nudgeSelectionFasterToolStripMenuItem.InputGestureText = KeyBindPraser("NudgeFaster", false, true);
-            Editor.Instance.QuickSwapScrollDirection.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
-            Editor.Instance.swapScrollLockDirMenuToolstripButton.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
-            Editor.Instance.resetZoomLevelToolstripMenuItem.InputGestureText = KeyBindPraser("ResetZoomLevel");
-            Editor.Instance.unloadSceneToolStripMenuItem.InputGestureText = KeyBindPraser("UnloadScene", false, true);
-            Editor.Instance.flipVerticalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipVIndv");
-            Editor.Instance.flipHorizontalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipHIndv");
-            Editor.Instance.flipHorizontalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipH");
-            Editor.Instance.flipVerticalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipV");
-            Editor.Instance.pasteTochunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
-            Editor.Instance.developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
-            Editor.Instance.saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
-            Editor.Instance.CopyAirLabel.Text = string.Format("Copy Air Tiles {1} ({0})", KeyBindPraser("CopyAirTiles", false, true), Environment.NewLine);
-        }
-
         public void UpdateTooltips()
         {
-            Editor.Instance.New.ToolTip = "New Scene" + KeyBindPraser("New", true);
-            Editor.Instance.Open.ToolTip = "Open Scene" + KeyBindPraser("Open", true);
-            Editor.Instance.Save.ToolTip = "Save Scene" + KeyBindPraser("_Save", true);
-            Editor.Instance.RunSceneButton.ToolTip = "Run Scene" + KeyBindPraser("RunScene", true, true);
-            Editor.Instance.ReloadButton.ToolTip = "Reload Tiles and Sprites" + KeyBindPraser("RefreshResources", true, true);
-            Editor.Instance.PointerToolButton.ToolTip = "Pointer Tool" + KeyBindPraser("PointerTool", true);
-            Editor.Instance.MagnetMode.ToolTip = "Magnet Mode" + KeyBindPraser("MagnetTool", true);
-            Editor.Instance.positionLabel.ToolTip = "The position relative to your mouse (Pixels Only for Now)";
-            Editor.Instance.selectionSizeLabel.ToolTip = "The Size of the Selection";
-            Editor.Instance.selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
-            Editor.Instance.selectionBoxSizeLabel.ToolTip = "The Size of the Selection Box";
-            Editor.Instance.pixelModeButton.ToolTip = "Change the Positional/Selection Values to Pixel or Tile Based Values";
-            Editor.Instance.nudgeFasterButton.ToolTip = "Move entities/tiles in a larger increment. (Configurable in Options)\r\nShortcut Key: " + KeyBindPraser("NudgeFaster");
-            Editor.Instance.scrollLockButton.ToolTip = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key: " + KeyBindPraser("ScrollLock");
-            Editor.Instance.ZoomInButton.ToolTip = "Zoom In (Ctrl + Wheel Up)";
-            Editor.Instance.ZoomOutButton.ToolTip = "Zoom In (Ctrl + Wheel Down)";
-            Editor.Instance.SelectToolButton.ToolTip = "Selection Tool" + KeyBindPraser("SelectTool", true);
-            Editor.Instance.DrawToolButton.ToolTip = "Draw Tool" + KeyBindPraser("DrawTool", true);
-            Editor.Instance.InteractionToolButton.ToolTip = "Interaction Tool";
-            Editor.Instance.ShowCollisionAButton.ToolTip = "Show Collision Layer A" + KeyBindPraser("ShowPathA", true, true);
-            Editor.Instance.ShowCollisionBButton.ToolTip = "Show Collision Layer B" + KeyBindPraser("ShowPathB", true, true);
-            Editor.Instance.FlipAssistButton.ToolTip = "Show Flipped Tile Helper";
-            Editor.Instance.ChunksToolButton.ToolTip = "Stamp Tool" + KeyBindPraser("StampTool", true);
-            Editor.Instance.SplineToolButton.ToolTip = "Spline Tool" + KeyBindPraser("SplineTool", true);
-            Editor.Instance.EncorePaletteButton.ToolTip = "Show Encore Colors";
-            Editor.Instance.ShowTileIDButton.ToolTip = "Toggle Tile ID Visibility" + KeyBindPraser("ShowTileID", true, true);
-            Editor.Instance.ShowGridButton.ToolTip = "Toggle Grid Visibility" + KeyBindPraser("ShowGrid", true, true);
+            Editor.Instance.EditorStatusBar.UpdateTooltips();
+            Editor.Instance.EditorToolbar.UpdateTooltips();
 
         }
 

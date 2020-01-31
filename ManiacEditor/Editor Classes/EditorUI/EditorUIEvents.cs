@@ -295,12 +295,12 @@ namespace ManiacEditor
 				if (menuItem.Tag != null)
 				{
                     string tag = menuItem.Tag.ToString();
-                    var allItems = Editor.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                    var allItems = Editor.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                     foreach (System.Windows.Controls.MenuItem item in allItems)
                     {
                         if (item.Tag == null || item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
                         else if (item.Tag.ToString() == menuItem.Tag.ToString()) item.IsChecked = true;
-                        var allSubItems = Editor.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                        var allSubItems = Editor.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                         foreach (System.Windows.Controls.MenuItem subItem in allSubItems)
                         {
                             if (subItem.Tag == null || subItem.Tag.ToString() != menuItem.Tag.ToString()) subItem.IsChecked = false;
@@ -452,7 +452,7 @@ namespace ManiacEditor
                 lockTextBox = true;
                 System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
                 Editor.Options.entitiesTextFilter = theSender.Text;
-                Editor.toolStripTextBox1.Text = Editor.Options.entitiesTextFilter;
+                Editor.EditorMenuBar.toolStripTextBox1.Text = Editor.Options.entitiesTextFilter;
                 //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
                 EditorSolution.Entities.FilterRefreshNeeded = true;
                 lockTextBox = false;
@@ -466,16 +466,16 @@ namespace ManiacEditor
 			if (Editor.Options.ScrollDirection == (int)ScrollDir.X)
 			{
 				Editor.Options.ScrollDirection = (int)ScrollDir.Y;
-				Editor.UI.UpdateStatusPanel();
-				Editor.xToolStripMenuItem.IsChecked = false;
-				Editor.yToolStripMenuItem.IsChecked = true;
+				Editor.EditorStatusBar.UpdateStatusPanel();
+				Editor.EditorMenuBar.xToolStripMenuItem.IsChecked = false;
+				Editor.EditorMenuBar.yToolStripMenuItem.IsChecked = true;
 			}
 			else
 			{
 				Editor.Options.ScrollDirection = (int)ScrollDir.X;
-				Editor.UI.UpdateStatusPanel();
-				Editor.xToolStripMenuItem.IsChecked = true;
-				Editor.yToolStripMenuItem.IsChecked = false;
+				Editor.EditorStatusBar.UpdateStatusPanel();
+				Editor.EditorMenuBar.xToolStripMenuItem.IsChecked = true;
+				Editor.EditorMenuBar.yToolStripMenuItem.IsChecked = false;
 			}
 		}
 
@@ -483,7 +483,7 @@ namespace ManiacEditor
 		{
             System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
             Editor.Options.CurrentLanguage = menuItem.Tag.ToString();
-            var allLangItems = Editor.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allLangItems = Editor.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
             {
                 if (item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
@@ -510,7 +510,7 @@ namespace ManiacEditor
             string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.Options.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
 			Editor.Options.LevelID = output;
-			Editor._levelIDLabel.Content = "Level ID: " + Editor.Options.LevelID.ToString();
+			Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Editor.Options.LevelID.ToString();
 		}
 		public void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
 		{
@@ -618,8 +618,8 @@ namespace ManiacEditor
 
 		public void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			object[] MTB = Editor.MainToolbarButtons.Items.Cast<object>().ToArray();
-			object[] LT = Editor.LayerToolbar.Items.Cast<object>().ToArray();
+			object[] MTB = Editor.EditorToolbar.MainToolbarButtons.Items.Cast<object>().ToArray();
+			object[] LT = Editor.EditorToolbar.LayerToolbar.Items.Cast<object>().ToArray();
 			ManiacEditor.Extensions.EnableButtonList(MTB);
 			ManiacEditor.Extensions.EnableButtonList(LT);
 		}

@@ -227,11 +227,11 @@ namespace ManiacEditor
             var converter = new System.Windows.Media.BrushConverter();
             if (Settings.MySettings.NightMode)
             {
-                Editor.Instance.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
+                Editor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
             }
             else
             {
-                Editor.Instance.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
+                Editor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
             }
 
         }
