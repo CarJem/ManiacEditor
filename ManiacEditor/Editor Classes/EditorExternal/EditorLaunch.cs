@@ -335,11 +335,11 @@ namespace ManiacEditor
         }
         public static void OpenManiacEditorFixedSettingsFolder()
         {
-            OpenFolder(EditorConstants.SettingsStaticDirectory);
+            OpenFolder(Classes.Edit.Constants.SettingsStaticDirectory);
         }
         public static void OpenManiacEditorPortableSettingsFolder()
         {
-            OpenFolder(EditorConstants.SettingsPortableDirectory);
+            OpenFolder(Classes.Edit.Constants.SettingsPortableDirectory);
         }
         public static void OpenDataDirectory()
         {

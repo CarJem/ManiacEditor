@@ -274,11 +274,11 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, EditorConstants.ENTITY_NAME_BOX_WIDTH, EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT);
                 }
 
             }
-            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, EditorConstants.ENTITY_NAME_BOX_WIDTH, EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT);
         }
 
         public bool SetFilter()
@@ -510,7 +510,7 @@ namespace ManiacEditor
                 }
                 else
                 { // No frame to render
-                    if (Classes.Edit.SolutionState.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (Classes.Edit.SolutionState.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
                 //DrawOthers(d);
@@ -527,28 +527,28 @@ namespace ManiacEditor
             {
                 if (renderNotFound)
                 {
-                    d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 else
                 {
-                    d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(color2));
+                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(color2));
                 }
-                d.DrawLine(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y, x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y, x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                 if (Settings.MyPerformance.DisableEntitySelectionBoxText == false)
                 {
                     if (Editor.Instance.GetZoom() >= 1)
                     {
-                        d.DrawTextSmall(String.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                        d.DrawTextSmall(String.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }
                 }
 
                 if (SelectedIndex != -1)
                 { 
-                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x + 1, y + 1, EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
-                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x, y, EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x + 1, y + 1, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x, y, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
                 }
             }
         }

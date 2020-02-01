@@ -48,7 +48,7 @@ namespace ManiacEditor
                 {
                     for (int y = 0; y < editorLayer.Height; y++)
                     {
-                        ushort currentTile = editorLayer.GetTileAt(new Point(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE));
+                        ushort currentTile = editorLayer.GetTileAt(new Point(x * Classes.Edit.Constants.TILE_SIZE, y * Classes.Edit.Constants.TILE_SIZE));
                         int tileIndex = (currentTile & 0x3ff);
                         if (tileIndex == tile) unused = false;
 

@@ -324,12 +324,12 @@ namespace ManiacEditor
             {
                 if (showFrame)
                 {
-                    d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
-                    d.DrawLine(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y, x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
+                    d.DrawLine(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y, x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -396,12 +396,12 @@ namespace ManiacEditor
             {
                 if (showFrame)
                 {
-                    d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
-                    d.DrawLine(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y, x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
+                    d.DrawLine(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y, x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {

@@ -136,9 +136,9 @@ namespace ManiacEditor
             {
                 if (Settings.MySettings.UpgradeRequired)
                 {
-                    EditorConstants.UpgradeAllSettings();
+                    Classes.Edit.Constants.UpgradeAllSettings();
                     Settings.MySettings.UpgradeRequired = false;
-                    EditorConstants.SaveAllSettings();
+                    Classes.Edit.Constants.SaveAllSettings();
                 }
 
                 Instance.WindowState = Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;

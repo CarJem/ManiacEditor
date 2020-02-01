@@ -222,7 +222,7 @@ namespace ManiacEditor
                         return;
                     }
 
-                    using (var bitmap = new System.Drawing.Bitmap(editorLayer.Width * EditorConstants.TILE_SIZE, editorLayer.Height * EditorConstants.TILE_SIZE))
+                    using (var bitmap = new System.Drawing.Bitmap(editorLayer.Width * Classes.Edit.Constants.TILE_SIZE, editorLayer.Height * Classes.Edit.Constants.TILE_SIZE))
                     using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {
                         editorLayer.Draw(g);
@@ -257,7 +257,7 @@ namespace ManiacEditor
 
                 string fileName = System.IO.Path.Combine(dialog.FileName, "Objects.png");
 
-                using (var bitmap = new System.Drawing.Bitmap(1024 * EditorConstants.TILE_SIZE, 256 * EditorConstants.TILE_SIZE))
+                using (var bitmap = new System.Drawing.Bitmap(1024 * Classes.Edit.Constants.TILE_SIZE, 256 * Classes.Edit.Constants.TILE_SIZE))
                 {
                     using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {

@@ -15,7 +15,7 @@ namespace ManiacEditor
 
         private string GetRecentsListDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? EditorConstants.SettingsPortableDirectory : EditorConstants.SettingsStaticDirectory);
+            return (Properties.Internal.Default.PortableMode ? Classes.Edit.Constants.SettingsPortableDirectory : Classes.Edit.Constants.SettingsStaticDirectory);
         }
 
         public EditorRecentSceneSourcesList(Editor instance)
@@ -222,7 +222,7 @@ namespace ManiacEditor
 
         private string GetRecentsListDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? EditorConstants.SettingsPortableDirectory : EditorConstants.SettingsStaticDirectory);
+            return (Properties.Internal.Default.PortableMode ? Classes.Edit.Constants.SettingsPortableDirectory : Classes.Edit.Constants.SettingsStaticDirectory);
         }
 
         public EditorRecentDataSourcesList(Editor instance)

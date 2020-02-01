@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ManiacEditor
+namespace ManiacEditor.Classes.Edit
 {
-    public class EditorConstants
+    public static class Constants
     {
         public const int ENTITY_NAME_BOX_WIDTH = 20;
         public const int ENTITY_NAME_BOX_HEIGHT = 20;

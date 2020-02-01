@@ -636,9 +636,9 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    double size = (Classes.Edit.SolutionState.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
-                    Classes.Edit.Solution.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE));
-                    Classes.Edit.Solution.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE));
+                    double size = (Classes.Edit.SolutionState.DrawBrushSize / 2) * Classes.Edit.Constants.TILE_SIZE;
+                    Classes.Edit.Solution.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * Classes.Edit.Constants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * Classes.Edit.Constants.TILE_SIZE));
+                    Classes.Edit.Solution.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * Classes.Edit.Constants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * Classes.Edit.Constants.TILE_SIZE));
                     Editor.Instance.DeleteSelected();
                 }
             }

@@ -276,6 +276,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Edit\Constants.cs" />
     <Compile Include="Classes\Edit\Scene\EditorLayer.cs" />
     <Compile Include="Classes\Edit\Scene\EditorScene.cs" />
     <Compile Include="Classes\Edit\Scene\EditorTiles.cs" />
@@ -464,7 +465,6 @@
     <Compile Include="Editor Classes\EditorExternal\EditorLaunch.cs" />
     <Compile Include="Classes\Edit\Solution.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
-    <Compile Include="Editor Classes\EditorConstants.cs" />
     <Compile Include="Editor Classes\EditorManiacINI.cs" />
     <Compile Include="Editor Classes\EditorDataPacks.cs" />
     <Compile Include="Functions\Addons\DiscordRP.cs" />

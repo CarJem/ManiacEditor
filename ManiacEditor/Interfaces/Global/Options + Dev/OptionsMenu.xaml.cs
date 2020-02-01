@@ -221,7 +221,7 @@ namespace ManiacEditor.Interfaces
         {
             if (MessageBox.Show("Are you sure you want to wipe your settings? (This is includes all of your Keybinds, Data Directories, Defaults and so on...)", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                EditorConstants.ResetAllSettings();
+                Classes.Edit.Constants.ResetAllSettings();
             }
         }
 
@@ -253,7 +253,7 @@ namespace ManiacEditor.Interfaces
 
 		private void button11_Click(object sender, RoutedEventArgs e)
 		{
-            EditorConstants.SaveAllSettings();
+            Classes.Edit.Constants.SaveAllSettings();
             this.DialogResult = true;
         }
 
@@ -459,7 +459,7 @@ namespace ManiacEditor.Interfaces
                 }
             }
             */
-            EditorConstants.ReloadAllSettings();
+            Classes.Edit.Constants.ReloadAllSettings();
 
             if (DarkModeCheckBox.IsChecked == true && !Settings.MySettings.NightMode)
 			{
@@ -693,7 +693,7 @@ namespace ManiacEditor.Interfaces
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-            EditorConstants.ReloadAllSettings();
+            Classes.Edit.Constants.ReloadAllSettings();
 			this.DialogResult = true;
 		}
 
@@ -762,7 +762,7 @@ namespace ManiacEditor.Interfaces
                 string[] output = new string[Settings.MySettings.DataDirectories.Count];
                 Settings.MySettings.DataDirectories.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
-                fsd.InitialDirectory = EditorConstants.SettingsPortableDirectory;
+                fsd.InitialDirectory = Classes.Edit.Constants.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)
                 {
@@ -782,7 +782,7 @@ namespace ManiacEditor.Interfaces
                 string[] output = new string[Settings.MySettings.SavedPlaces.Count];
                 Settings.MySettings.SavedPlaces.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
-                fsd.InitialDirectory = EditorConstants.SettingsPortableDirectory;
+                fsd.InitialDirectory = Classes.Edit.Constants.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)
                 {

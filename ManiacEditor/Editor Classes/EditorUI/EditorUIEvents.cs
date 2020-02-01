@@ -263,7 +263,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    return new Point((int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1);
+                    return new Point((int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom) + Classes.Edit.Constants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom) + Classes.Edit.Constants.TILE_SIZE - 1);
 
                 }
             }

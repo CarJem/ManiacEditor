@@ -35,31 +35,31 @@ namespace ManiacEditor.Entity_Renders
             if (Math.Abs(dx) > Math.Abs(dy))
             {
                 // horizontal difference greater than vertical difference
-                offsetY = EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
-                offsetDestinationY = EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetY = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetDestinationY = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
 
                 if (dx > 0)
                 {
-                    offsetX = EditorConstants.ENTITY_NAME_BOX_WIDTH;
+                    offsetX = Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH;
                 }
                 else
                 {
-                    offsetDestinationX = EditorConstants.ENTITY_NAME_BOX_WIDTH;
+                    offsetDestinationX = Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH;
                 }
             }
             else
             {
                 // vertical difference greater than horizontal difference
-                offsetX = EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
-                offsetDestinationX = EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetX = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetDestinationX = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
 
                 if (dy > 0)
                 {
-                    offsetY = EditorConstants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetY = Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT;
                 }
                 else
                 {
-                    offsetDestinationY = EditorConstants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetDestinationY = Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT;
                 }
             }
 

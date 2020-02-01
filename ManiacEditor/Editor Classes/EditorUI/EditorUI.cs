@@ -269,7 +269,7 @@ namespace ManiacEditor
 
                     Editor.Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
                     {
-                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(Classes.Edit.SolutionState.ViewPositionX/ Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1), x, Classes.Edit.Solution.EditLayerA);
+                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(Classes.Edit.SolutionState.ViewPositionX/ Classes.Edit.SolutionState.Zoom) + Classes.Edit.Constants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom) + Classes.Edit.Constants.TILE_SIZE - 1), x, Classes.Edit.Solution.EditLayerA);
                     });
                     Editor.Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
                     {

@@ -41,12 +41,12 @@ namespace ManiacEditor
 
             if (semitransparent)
             {
-                g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Edit.Constants.TILE_SIZE, y * Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE));
 
             }
             else
             {
-                g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Edit.Constants.TILE_SIZE, y * Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE, Classes.Edit.Constants.TILE_SIZE));
 
             }
 

@@ -393,7 +393,7 @@ namespace ManiacEditor
 		{
             if (isDrawing)
             {
-                double offset = (Classes.Edit.SolutionState.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                double offset = (Classes.Edit.SolutionState.DrawBrushSize / 2) * Classes.Edit.Constants.TILE_SIZE;
                 Point finalPosition = new Point((int)(position.X - offset), (int)(position.Y - offset));
                 Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>();
                 for (int x = 0; x < Classes.Edit.SolutionState.DrawBrushSize; x++)
@@ -881,7 +881,7 @@ namespace ManiacEditor
                 InGame.GameRunning = false;
                 var mySettings = Properties.Settings.Default;
                 ManiacEditor.Settings.MySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
-                EditorConstants.SaveAllSettings();
+                Classes.Edit.Constants.SaveAllSettings();
             }
             catch (Exception ex)
             {
@@ -1203,7 +1203,7 @@ namespace ManiacEditor
             void DrawBrushBox()
             {
 
-                int offset = (Classes.Edit.SolutionState.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                int offset = (Classes.Edit.SolutionState.DrawBrushSize / 2) * Classes.Edit.Constants.TILE_SIZE;
                 int x1 = (int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom) - offset;
                 int x2 = (int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom) + offset;
                 int y1 = (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom) - offset;
