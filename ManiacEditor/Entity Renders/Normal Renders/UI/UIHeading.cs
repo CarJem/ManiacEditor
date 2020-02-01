@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Headings" + Editor.Instance.Options.CurrentLanguage;
+            string text = "Headings" + EditorStateModel.CurrentLanguage;
             int listID = (int)entity.attributesMap["headingID"].ValueEnum;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, 0, false, false, false);
             var editorAnimBar = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 0, 0, false, false, false);

@@ -310,40 +310,40 @@ namespace ManiacEditor
 					switch (tag)
 					{
 						case "Xbox":
-							Editor.Options.CurrentControllerButtons = 2;
+							EditorStateModel.CurrentControllerButtons = 2;
 							break;
 						case "Switch":
-							Editor.Options.CurrentControllerButtons = 4;
+							EditorStateModel.CurrentControllerButtons = 4;
 							break;
 						case "PS4":
-							Editor.Options.CurrentControllerButtons = 3;
+							EditorStateModel.CurrentControllerButtons = 3;
 							break;
 						case "Saturn Black":
-							Editor.Options.CurrentControllerButtons = 5;
+							EditorStateModel.CurrentControllerButtons = 5;
 							break;
 						case "Saturn White":
-							Editor.Options.CurrentControllerButtons = 6;
+							EditorStateModel.CurrentControllerButtons = 6;
 							break;
 						case "Switch Joy L":
-							Editor.Options.CurrentControllerButtons = 7;
+							EditorStateModel.CurrentControllerButtons = 7;
 							break;
 						case "Switch Joy R":
-							Editor.Options.CurrentControllerButtons = 8;
+							EditorStateModel.CurrentControllerButtons = 8;
 							break;
 						case "PC EN/JP":
-							Editor.Options.CurrentControllerButtons = 1;
+							EditorStateModel.CurrentControllerButtons = 1;
 							break;
 						case "PC FR":
-							Editor.Options.CurrentControllerButtons = 9;
+							EditorStateModel.CurrentControllerButtons = 9;
 							break;
 						case "PC IT":
-							Editor.Options.CurrentControllerButtons = 10;
+							EditorStateModel.CurrentControllerButtons = 10;
 							break;
 						case "PC GE":
-							Editor.Options.CurrentControllerButtons = 11;
+							EditorStateModel.CurrentControllerButtons = 11;
 							break;
 						case "PC SP":
-							Editor.Options.CurrentControllerButtons = 12;
+							EditorStateModel.CurrentControllerButtons = 12;
 							break;
 					}
                     menuItem.IsChecked = true;
@@ -358,40 +358,40 @@ namespace ManiacEditor
 			switch (tag)
 			{
 				case "Xbox":
-					Editor.Options.CurrentControllerButtons = 2;
+					EditorStateModel.CurrentControllerButtons = 2;
 					break;
 				case "Switch":
-					Editor.Options.CurrentControllerButtons = 4;
+					EditorStateModel.CurrentControllerButtons = 4;
 					break;
 				case "PS4":
-					Editor.Options.CurrentControllerButtons = 3;
+					EditorStateModel.CurrentControllerButtons = 3;
 					break;
 				case "Saturn Black":
-					Editor.Options.CurrentControllerButtons = 5;
+					EditorStateModel.CurrentControllerButtons = 5;
 					break;
 				case "Saturn White":
-					Editor.Options.CurrentControllerButtons = 6;
+					EditorStateModel.CurrentControllerButtons = 6;
 					break;
 				case "Switch Joy L":
-					Editor.Options.CurrentControllerButtons = 7;
+					EditorStateModel.CurrentControllerButtons = 7;
 					break;
 				case "Switch Joy R":
-					Editor.Options.CurrentControllerButtons = 8;
+					EditorStateModel.CurrentControllerButtons = 8;
 					break;
 				case "PC EN/JP":
-					Editor.Options.CurrentControllerButtons = 1;
+					EditorStateModel.CurrentControllerButtons = 1;
 					break;
 				case "PC FR":
-					Editor.Options.CurrentControllerButtons = 9;
+					EditorStateModel.CurrentControllerButtons = 9;
 					break;
 				case "PC IT":
-					Editor.Options.CurrentControllerButtons = 10;
+					EditorStateModel.CurrentControllerButtons = 10;
 					break;
 				case "PC GE":
-					Editor.Options.CurrentControllerButtons = 11;
+					EditorStateModel.CurrentControllerButtons = 11;
 					break;
 				case "PC SP":
-					Editor.Options.CurrentControllerButtons = 12;
+					EditorStateModel.CurrentControllerButtons = 12;
 					break;
 			}
 		}
@@ -413,11 +413,11 @@ namespace ManiacEditor
 						if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 						{
 							Editor.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
-							Editor.Options.EncoreSetupType = 0;
+							EditorStateModel.EncoreSetupType = 0;
 							if (File.Exists(Editor.EncorePalette[0]))
 							{
-								Editor.Options.EncorePaletteExists = true;
-                                Editor.Options.UseEncoreColors = true;
+								EditorStateModel.EncorePaletteExists = true;
+                                EditorStateModel.UseEncoreColors = true;
                             }
 
 						}
@@ -431,11 +431,11 @@ namespace ManiacEditor
 			else if (path != "")
 			{
 				Editor.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
-				Editor.Options.EncoreSetupType = 0;
+				EditorStateModel.EncoreSetupType = 0;
 				if (File.Exists(Editor.EncorePalette[0]))
 				{
-					Editor.Options.EncorePaletteExists = true;
-					Editor.Options.UseEncoreColors = true;
+					EditorStateModel.EncorePaletteExists = true;
+					EditorStateModel.UseEncoreColors = true;
 				}
 				else
 				{
@@ -451,8 +451,8 @@ namespace ManiacEditor
             {
                 lockTextBox = true;
                 System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
-                Editor.Options.entitiesTextFilter = theSender.Text;
-                Editor.EditorMenuBar.toolStripTextBox1.Text = Editor.Options.entitiesTextFilter;
+                EditorStateModel.entitiesTextFilter = theSender.Text;
+                Editor.EditorMenuBar.toolStripTextBox1.Text = EditorStateModel.entitiesTextFilter;
                 //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
                 Classes.Edit.Scene.Solution.Entities.FilterRefreshNeeded = true;
                 lockTextBox = false;
@@ -463,16 +463,16 @@ namespace ManiacEditor
 
 		public void SetScrollLockDirection()
 		{
-			if (Editor.Options.ScrollDirection == (int)ScrollDir.X)
+			if (EditorStateModel.ScrollDirection == (int)ScrollDir.X)
 			{
-				Editor.Options.ScrollDirection = (int)ScrollDir.Y;
+				EditorStateModel.ScrollDirection = (int)ScrollDir.Y;
 				Editor.EditorStatusBar.UpdateStatusPanel();
 				Editor.EditorMenuBar.xToolStripMenuItem.IsChecked = false;
 				Editor.EditorMenuBar.yToolStripMenuItem.IsChecked = true;
 			}
 			else
 			{
-				Editor.Options.ScrollDirection = (int)ScrollDir.X;
+				EditorStateModel.ScrollDirection = (int)ScrollDir.X;
 				Editor.EditorStatusBar.UpdateStatusPanel();
 				Editor.EditorMenuBar.xToolStripMenuItem.IsChecked = true;
 				Editor.EditorMenuBar.yToolStripMenuItem.IsChecked = false;
@@ -482,7 +482,7 @@ namespace ManiacEditor
 		public void MenuLanguageChanged(object sender, RoutedEventArgs e)
 		{
             System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
-            Editor.Options.CurrentLanguage = menuItem.Tag.ToString();
+            EditorStateModel.CurrentLanguage = menuItem.Tag.ToString();
             var allLangItems = Editor.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
             {
@@ -496,7 +496,7 @@ namespace ManiacEditor
 		#region Collision Options
 		public void CollisionOpacitySliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-            Editor.Options.collisionOpacityChanged = true;
+            EditorStateModel.collisionOpacityChanged = true;
             Editor.ReloadSpecificTextures(sender, e);
             Editor.RefreshCollisionColours(true);
         }
@@ -507,10 +507,10 @@ namespace ManiacEditor
         #region Tools Tab Buttons
         public void ChangeLevelID(object sender, RoutedEventArgs e)
 		{
-            string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Editor.Options.LevelID.ToString());
+            string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", EditorStateModel.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
-			Editor.Options.LevelID = output;
-			Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Editor.Options.LevelID.ToString();
+			EditorStateModel.LevelID = output;
+			Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + EditorStateModel.LevelID.ToString();
 		}
 		public void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
 		{
@@ -524,8 +524,8 @@ namespace ManiacEditor
 			int rX = (short)(EditorStateModel.ViewPositionX);
 			int rY = (short)(EditorStateModel.ViewPositionY);
 			double _ZoomLevel = EditorStateModel.ZoomLevel;
-			bool isEncoreSet = Editor.Options.UseEncoreColors;
-			int levelSlotNum = Editor.Options.LevelID;
+			bool isEncoreSet = EditorStateModel.UseEncoreColors;
+			int levelSlotNum = EditorStateModel.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
 		}
 		public void MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -534,8 +534,8 @@ namespace ManiacEditor
 			string scenePath = Editor.Paths.GetScenePath();
 			int rX = 0;
 			int rY = 0;
-			bool isEncoreSet = Editor.Options.UseEncoreColors;
-			int levelSlotNum = Editor.Options.LevelID;
+			bool isEncoreSet = EditorStateModel.UseEncoreColors;
+			int levelSlotNum = EditorStateModel.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
 		}
 
@@ -588,14 +588,14 @@ namespace ManiacEditor
 
 		public void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Editor.Options.IsConsoleWindowOpen)
+			if (!EditorStateModel.IsConsoleWindowOpen)
 			{
-				Editor.Options.IsConsoleWindowOpen = true;
+				EditorStateModel.IsConsoleWindowOpen = true;
 				ShowConsoleWindow();
 			}
 			else
 			{
-				Editor.Options.IsConsoleWindowOpen = false;
+				EditorStateModel.IsConsoleWindowOpen = false;
 				HideConsoleWindow();
 			}
 		}
@@ -607,7 +607,7 @@ namespace ManiacEditor
 			Settings.MyDevSettings.DevForceRestartY = (short)(EditorStateModel.ViewPositionY / EditorStateModel.Zoom);
 			Settings.MyDevSettings.DevForceRestartZoomLevel = EditorStateModel.ZoomLevel;
 			Settings.MyDevSettings.DevForceRestartIsEncore = Editor.Paths.isEncoreMode;
-			Settings.MyDevSettings.DevForceRestartID = Editor.Options.LevelID;
+			Settings.MyDevSettings.DevForceRestartID = EditorStateModel.LevelID;
 			Settings.MyDevSettings.DevForceRestartCurrentName = Editor.Paths.CurrentName;
 			Settings.MyDevSettings.DevForceRestartCurrentZone = Editor.Paths.CurrentZone;
 			Settings.MyDevSettings.DevForceRestartSceneID = Editor.Paths.CurrentSceneID;

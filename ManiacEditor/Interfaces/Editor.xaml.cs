@@ -116,7 +116,6 @@ namespace ManiacEditor
         public EditorSettings Settings;
         public EditorManiacINI ManiacINI;
         public EditorUI UI;
-        public UserStateModel Options;
         public EditorRecentSceneSourcesList RecentsList;
         public EditorRecentDataSourcesList RecentDataSourcesList;
         public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
@@ -195,7 +194,6 @@ namespace ManiacEditor
             SystemEvents.PowerModeChanged += CheckDeviceState;
             Theming = new EditorTheming(this);
             Settings = new EditorSettings(this);
-            Options = new UserStateModel();
 
             Theming.UseDarkTheme_WPF(ManiacEditor.Settings.MySettings.NightMode);
             Instance = this;
@@ -280,9 +278,9 @@ namespace ManiacEditor
 
             RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
             RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
-            Options.MenuChar = Options.MenuCharS.ToCharArray();
-			Options.MenuChar_Small = Options.MenuCharS_Small.ToCharArray();
-			Options.LevelSelectChar = Options.LevelSelectCharS.ToCharArray();
+            EditorStateModel.MenuChar = EditorStateModel.MenuCharS.ToCharArray();
+            EditorStateModel.MenuChar_Small = EditorStateModel.MenuCharS_Small.ToCharArray();
+            EditorStateModel.LevelSelectChar = EditorStateModel.LevelSelectCharS.ToCharArray();
 			InGame = new EditorInGame(this);
 			EntityDrawing = new EditorEntityDrawing(this);
             StateModel = new EditorStateModel(this);
@@ -409,12 +407,12 @@ namespace ManiacEditor
 		{
             if (isDrawing)
             {
-                double offset = (Options.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                double offset = (EditorStateModel.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
                 Point finalPosition = new Point((int)(position.X - offset), (int)(position.Y - offset));
                 Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>();
-                for (int x = 0; x < Options.DrawBrushSize; x++)
+                for (int x = 0; x < EditorStateModel.DrawBrushSize; x++)
                 {
-                    for (int y = 0; y < Options.DrawBrushSize; y++)
+                    for (int y = 0; y < EditorStateModel.DrawBrushSize; y++)
                     {
                         if (!tiles.ContainsKey(new Point(x, y))) tiles.Add(new Point(x, y), (ushort)tile);
                     }
@@ -555,7 +553,7 @@ namespace ManiacEditor
                 // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
                 TilesClipboard = copyData;
             }
-            else if (hasMultipleValidLayers && Options.MultiLayerEditMode)
+            else if (hasMultipleValidLayers && EditorStateModel.MultiLayerEditMode)
             {
                 Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Edit.Scene.Solution.EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
 
@@ -625,26 +623,26 @@ namespace ManiacEditor
         {
             int x = 0, y = 0;
             int modifier = (IsChunksEdit() ? 8 : 1);
-            if (Options.UseMagnetMode)
+            if (EditorStateModel.UseMagnetMode)
             {
                 switch (e.KeyData)
                 {
-                    case Keys.Up: y = (Options.UseMagnetYAxis ? -Options.MagnetSize : -1); break;
-                    case Keys.Down: y = (Options.UseMagnetYAxis ? Options.MagnetSize : 1); break;
-                    case Keys.Left: x = (Options.UseMagnetXAxis ? -Options.MagnetSize : -1); break;
-                    case Keys.Right: x = (Options.UseMagnetXAxis ? Options.MagnetSize : 1); break;
+                    case Keys.Up: y = (EditorStateModel.UseMagnetYAxis ? -EditorStateModel.MagnetSize : -1); break;
+                    case Keys.Down: y = (EditorStateModel.UseMagnetYAxis ? EditorStateModel.MagnetSize : 1); break;
+                    case Keys.Left: x = (EditorStateModel.UseMagnetXAxis ? -EditorStateModel.MagnetSize : -1); break;
+                    case Keys.Right: x = (EditorStateModel.UseMagnetXAxis ? EditorStateModel.MagnetSize : 1); break;
                 }
             }
-            if (Options.EnableFasterNudge)
+            if (EditorStateModel.EnableFasterNudge)
             {
-                if (Options.UseMagnetMode)
+                if (EditorStateModel.UseMagnetMode)
                 {
                     switch (e.KeyData)
                     {
-                        case Keys.Up: y = (Options.UseMagnetYAxis ? -Options.MagnetSize * Options.FasterNudgeAmount : -1 - Options.FasterNudgeAmount); break;
-                        case Keys.Down: y = (Options.UseMagnetYAxis ? Options.MagnetSize * Options.FasterNudgeAmount : 1 + Options.FasterNudgeAmount); break;
-                        case Keys.Left: x = (Options.UseMagnetXAxis ? -Options.MagnetSize * Options.FasterNudgeAmount : -1 - Options.FasterNudgeAmount); break;
-                        case Keys.Right: x = (Options.UseMagnetXAxis ? Options.MagnetSize * Options.FasterNudgeAmount : 1 + Options.FasterNudgeAmount); break;
+                        case Keys.Up: y = (EditorStateModel.UseMagnetYAxis ? -EditorStateModel.MagnetSize * EditorStateModel.FasterNudgeAmount : -1 - EditorStateModel.FasterNudgeAmount); break;
+                        case Keys.Down: y = (EditorStateModel.UseMagnetYAxis ? EditorStateModel.MagnetSize * EditorStateModel.FasterNudgeAmount : 1 + EditorStateModel.FasterNudgeAmount); break;
+                        case Keys.Left: x = (EditorStateModel.UseMagnetXAxis ? -EditorStateModel.MagnetSize * EditorStateModel.FasterNudgeAmount : -1 - EditorStateModel.FasterNudgeAmount); break;
+                        case Keys.Right: x = (EditorStateModel.UseMagnetXAxis ? EditorStateModel.MagnetSize * EditorStateModel.FasterNudgeAmount : 1 + EditorStateModel.FasterNudgeAmount); break;
                     }
                 }
                 else
@@ -663,17 +661,17 @@ namespace ManiacEditor
                     {
                         switch (e.KeyData)
                         {
-                            case Keys.Up: y = (-1 - Options.FasterNudgeAmount) * modifier; break;
-                            case Keys.Down: y = (1 + Options.FasterNudgeAmount) * modifier; break;
-                            case Keys.Left: x = (-1 - Options.FasterNudgeAmount) * modifier; break;
-                            case Keys.Right: x = (1 + Options.FasterNudgeAmount) * modifier; break;
+                            case Keys.Up: y = (-1 - EditorStateModel.FasterNudgeAmount) * modifier; break;
+                            case Keys.Down: y = (1 + EditorStateModel.FasterNudgeAmount) * modifier; break;
+                            case Keys.Left: x = (-1 - EditorStateModel.FasterNudgeAmount) * modifier; break;
+                            case Keys.Right: x = (1 + EditorStateModel.FasterNudgeAmount) * modifier; break;
                         }
                     }
 
                 }
 
             }
-            if (Options.UseMagnetMode == false && Options.EnableFasterNudge == false)
+            if (EditorStateModel.UseMagnetMode == false && EditorStateModel.EnableFasterNudge == false)
             {
                 switch (e.KeyData)
                 {
@@ -691,19 +689,19 @@ namespace ManiacEditor
 
             if (IsEntitiesEdit())
             {
-                if (Options.UseMagnetMode)
+                if (EditorStateModel.UseMagnetMode)
                 {
                     int xE = Classes.Edit.Scene.Solution.Entities.SelectedEntities[0].Entity.Position.X.High;
                     int yE = Classes.Edit.Scene.Solution.Entities.SelectedEntities[0].Entity.Position.Y.High;
 
-                    if (xE % Options.MagnetSize != 0 && Options.UseMagnetXAxis)
+                    if (xE % EditorStateModel.MagnetSize != 0 && EditorStateModel.UseMagnetXAxis)
                     {
-                        int offsetX = x % Options.MagnetSize;
+                        int offsetX = x % EditorStateModel.MagnetSize;
                         x -= offsetX;
                     }
-                    if (yE % Options.MagnetSize != 0 && Options.UseMagnetYAxis)
+                    if (yE % EditorStateModel.MagnetSize != 0 && EditorStateModel.UseMagnetYAxis)
                     {
-                        int offsetY = y % Options.MagnetSize;
+                        int offsetY = y % EditorStateModel.MagnetSize;
                         y -= offsetY;
                     }
                 }
@@ -1054,8 +1052,8 @@ namespace ManiacEditor
 			bool showEntities = EditorToolbar.ShowEntities.IsChecked.Value && !EditorToolbar.EditEntities.IsCheckedAll;
 			bool showEntitiesEditing = EditorToolbar.EditEntities.IsCheckedAll;
 
-			bool PriorityMode = Options.PrioritizedEntityViewing;
-            bool AboveAllMode = Options.EntitiesVisibileAboveAllLayers;
+			bool PriorityMode = EditorStateModel.PrioritizedEntityViewing;
+            bool AboveAllMode = EditorStateModel.EntitiesVisibileAboveAllLayers;
 
 
 			if (EntitiesToolbar?.NeedRefresh ?? false) EntitiesToolbar.PropertiesRefresh();
@@ -1067,7 +1065,7 @@ namespace ManiacEditor
 
                 if (Classes.Edit.Scene.Solution.CurrentScene.OtherLayers.Contains(EditLayerA)) EditLayerA.Draw(FormsModel.GraphicPanel);
 
-                if (!Options.ExtraLayersMoveToFront) DrawExtraLayers();
+                if (!EditorStateModel.ExtraLayersMoveToFront) DrawExtraLayers();
 
                 DrawLayer(EditorToolbar.ShowFGLower.IsChecked.Value, EditorToolbar.EditFGLower.IsCheckedAll, FGLower);
 
@@ -1084,7 +1082,7 @@ namespace ManiacEditor
 
                 DrawLayer(EditorToolbar.ShowFGHigher.IsChecked.Value, EditorToolbar.EditFGHigher.IsCheckedAll, FGHigher);
 
-                if (Options.ExtraLayersMoveToFront) DrawExtraLayers();
+                if (EditorStateModel.ExtraLayersMoveToFront) DrawExtraLayers();
 
                 if (showEntitiesEditing || AboveAllMode)
                     if (PriorityMode) EntitiesDraw(1);
@@ -1092,16 +1090,16 @@ namespace ManiacEditor
 
                 if (Classes.Edit.Scene.Solution.CurrentScene != null) Classes.Edit.Scene.Solution.Entities.DrawInternalObjects(FormsModel.GraphicPanel);
 
-                if (Options.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing)) Classes.Edit.Scene.Solution.Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
+                if (EditorStateModel.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing)) Classes.Edit.Scene.Solution.Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
 
             }
 
             if (EditorStateModel.DraggingSelection) DrawSelectionBox();
             else DrawSelectionBox(true);
 
-            if (EditorStateModel.isTileDrawing && Options.DrawBrushSize != 1) DrawBrushBox();
+            if (EditorStateModel.isTileDrawing && EditorStateModel.DrawBrushSize != 1) DrawBrushBox();
 
-            if (Options.ShowGrid && Classes.Edit.Scene.Solution.CurrentScene != null) BackgroundDX.DrawGrid(FormsModel.GraphicPanel);
+            if (EditorStateModel.ShowGrid && Classes.Edit.Scene.Solution.CurrentScene != null) BackgroundDX.DrawGrid(FormsModel.GraphicPanel);
 
 
             if (InGame.GameRunning) DrawGameElements();
@@ -1219,7 +1217,7 @@ namespace ManiacEditor
             void DrawBrushBox()
             {
 
-                int offset = (Options.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
+                int offset = (EditorStateModel.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
                 int x1 = (int)(EditorStateModel.LastX / EditorStateModel.Zoom) - offset;
                 int x2 = (int)(EditorStateModel.LastX / EditorStateModel.Zoom) + offset;
                 int y1 = (int)(EditorStateModel.LastY / EditorStateModel.Zoom) - offset;
@@ -1346,7 +1344,7 @@ namespace ManiacEditor
 				// Classes.Edit.Scene.EditorSolution.Entities should take care of themselves
 				DisposeTextures();
 
-				if (Options.UseEncoreColors)
+				if (EditorStateModel.UseEncoreColors)
 				{
                     if (Classes.Edit.Scene.Solution.CurrentTiles != null) Classes.Edit.Scene.Solution.CurrentTiles.StageTiles?.Image.Reload(EncorePalette[0]);
 				}
@@ -1382,12 +1380,12 @@ namespace ManiacEditor
 		{
 			if (Classes.Edit.Scene.Solution.CurrentScene != null && Classes.Edit.Scene.Solution.CurrentTiles.StageTiles != null)
 			{
-                switch (Options.CollisionPreset)
+                switch (EditorStateModel.CollisionPreset)
                 {
                     case 2:
-                        CollisionAllSolid = Options.CollisionSAColour;
-						CollisionTopOnlySolid = Options.CollisionTOColour;
-						CollisionLRDSolid = Options.CollisionLRDColour;
+                        CollisionAllSolid = EditorStateModel.CollisionSAColour;
+						CollisionTopOnlySolid = EditorStateModel.CollisionTOColour;
+						CollisionLRDSolid = EditorStateModel.CollisionLRDColour;
 						break;
 					case 1:
 						CollisionAllSolid = Color.Black;
@@ -1471,15 +1469,15 @@ namespace ManiacEditor
         public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipHorizontalIndividual(); }
         #endregion
 		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UI.ReloadSpritesAndTextures(); }
-		public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Options.ShowTileID ^= true; }
-        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Options.EnableFasterNudge ^= true; }
-        public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Options.ShowCollisionA ^= true; }
-        public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Options.ShowCollisionB ^= true; }
-        public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Options.DebugStatsVisibleOnPanel ^= true; }
+		public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowTileID ^= true; }
+        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { EditorStateModel.EnableFasterNudge ^= true; }
+        public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowCollisionA ^= true; }
+        public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowCollisionB ^= true; }
+        public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { EditorStateModel.DebugStatsVisibleOnPanel ^= true; }
         public void MenuButtonChangedEvent(string tag) { UIEvents.SetMenuButtonType(tag); }
 
         #region Grid Events
-        public void ToggleGridEvent(object sender, RoutedEventArgs e) { Options.ShowGrid ^= true; }
+        public void ToggleGridEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowGrid ^= true; }
         #endregion
 
         #region Apps
@@ -1608,9 +1606,9 @@ namespace ManiacEditor
 		}
 		private void AdHocLayerEdit(object sender, MouseButton ClickType)
 		{
-			if (ClickType == MouseButton.Left && !Options.MultiLayerEditMode) Normal();
-			else if (ClickType == MouseButton.Left && Options.MultiLayerEditMode) LayerA();
-			else if (ClickType == MouseButton.Right && Options.MultiLayerEditMode) LayerB();
+			if (ClickType == MouseButton.Left && !EditorStateModel.MultiLayerEditMode) Normal();
+			else if (ClickType == MouseButton.Left && EditorStateModel.MultiLayerEditMode) LayerA();
+			else if (ClickType == MouseButton.Right && EditorStateModel.MultiLayerEditMode) LayerB();
 
 			void Normal()
 			{
@@ -1754,7 +1752,7 @@ namespace ManiacEditor
 
             EditorStatusBar._baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
             UpdateDataFolderLabel();
-            Options.ShowingDataDirectory = true;
+            EditorStateModel.ShowingDataDirectory = true;
         }
         private void UpdateDataFolderLabel(string dataDirectory = null)
         {

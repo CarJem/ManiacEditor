@@ -460,7 +460,6 @@
     <Compile Include="Editor Classes\EditorRecentsList.cs" />
     <Compile Include="Editor Classes\EditorExternal\EditorLaunch.cs" />
     <Compile Include="Classes\Edit\Scene\Solution.cs" />
-    <Compile Include="Classes\Edit\State\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
     <Compile Include="Editor Classes\EditorManiacINI.cs" />
@@ -804,7 +803,7 @@
     <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TileChunkList.Designer.cs">
       <DependentUpon>TileChunkList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Edit\State\EditorStateModel.cs" />
+    <Compile Include="Classes\Edit\EditorStateModel.cs" />
     <Compile Include="Functions\Enums.cs" />
     <Compile Include="Editor Classes\EditorEntities\EditorAnimations.cs" />
     <Compile Include="Editor Classes\EditorRendering\EditorBackground.cs" />

@@ -379,7 +379,7 @@ namespace ManiacEditor
         }
         public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
         {
-            if (EditorInstance.Options.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+            if (EditorStateModel.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
             else return map;
         }
         public string GetEditorStaticBitmapPath(string assetName)

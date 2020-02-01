@@ -137,7 +137,7 @@ namespace ManiacEditor
             else if (Instance.IsSceneLoaded() == true && Settings.MySettings.DisableSaveWarnings == false)
             {
 
-                if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || Instance.Options.QuitWithoutSavingWarningRequired == true)
+                if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || EditorStateModel.QuitWithoutSavingWarningRequired == true)
                 {
                     var exitBox = new UnloadingSceneWarning();
                     exitBox.Owner = Window.GetWindow(Instance);
@@ -512,25 +512,25 @@ namespace ManiacEditor
             try
             {
                 //Using Instance Means the Stuff Hasn't Stated 
-                Instance.Options.LevelID = Instance.Paths.CurrentLevelID;
+                EditorStateModel.LevelID = Instance.Paths.CurrentLevelID;
                 Classes.Edit.Scene.Solution.CurrentScene = new Classes.Edit.Scene.Solution.EditorScene(Instance.Paths.GetScenePath(), Instance.FormsModel.GraphicPanel, Instance);
 
                 //ACT File (Encore Colors)
                 Instance.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "", 1);
-                Instance.Options.EncoreSetupType = Classes.Edit.Scene.Solution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "");
+                EditorStateModel.EncoreSetupType = Classes.Edit.Scene.Solution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "");
                 if (Instance.EncorePalette[0] != "")
                 {
-                    Instance.Options.EncorePaletteExists = true;
+                    EditorStateModel.EncorePaletteExists = true;
                     if (Instance.Paths.isEncoreMode)
                     {
                         Instance.EditorToolbar.EncorePaletteButton.IsChecked = true;
-                        Instance.Options.UseEncoreColors = true;
+                        EditorStateModel.UseEncoreColors = true;
                     }
                 }
 
                 //Stage Tiles
                 bool valid;
-                if (Instance.Options.UseEncoreColors == true && Instance.EncorePalette[0] != "") valid = Instance.Paths.GetStageTiles(Instance.Paths.CurrentZone, Instance.EncorePalette[0]);
+                if (EditorStateModel.UseEncoreColors == true && Instance.EncorePalette[0] != "") valid = Instance.Paths.GetStageTiles(Instance.Paths.CurrentZone, Instance.EncorePalette[0]);
                 else valid = Instance.Paths.GetStageTiles(Instance.Paths.CurrentZone);
                 if (valid == false)
                 {
@@ -571,7 +571,7 @@ namespace ManiacEditor
                 Instance.UpdateDataFolderLabel(null, null);
                 Instance.SetupLayerButtons();
                 Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * EditorStateModel.Zoom), (int)(Instance.SceneHeight * EditorStateModel.Zoom));
-                Instance.Options.UpdateMultiLayerSelectMode();
+                EditorStateModel.UpdateMultiLayerSelectMode();
                 Instance.UI.UpdateControls(true);
                 Instance.RecentsList.AddRecentFile(Instance.RecentsList.GenerateNewEntry());
                 Instance.RecentDataSourcesList.AddRecentFile(Instance.RecentDataSourcesList.GenerateNewEntry());
@@ -616,26 +616,26 @@ namespace ManiacEditor
             bool LoadFailed = false;
             try
             {
-                Instance.Options.LevelID = Instance.Paths.CurrentLevelID;
+                EditorStateModel.LevelID = Instance.Paths.CurrentLevelID;
                 Classes.Edit.Scene.Solution.CurrentScene = new Classes.Edit.Scene.Solution.EditorScene(Instance.Paths.GetScenePathFromFile(Instance.Paths.SceneFilePath), Instance.FormsModel.GraphicPanel, Instance);
 
 
                 //ACT File (Encore Colors)
                 Instance.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, Instance.Paths.SceneDirectory, 0);
-                Instance.Options.EncoreSetupType = Classes.Edit.Scene.Solution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, Instance.Paths.SceneDirectory);
+                EditorStateModel.EncoreSetupType = Classes.Edit.Scene.Solution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, Instance.Paths.SceneDirectory);
                 if (Instance.EncorePalette[0] != "")
                 {
-                    Instance.Options.EncorePaletteExists = true;
+                    EditorStateModel.EncorePaletteExists = true;
                     if (Instance.Paths.isEncoreMode)
                     {
                         Instance.EditorToolbar.EncorePaletteButton.IsChecked = true;
-                        Instance.Options.UseEncoreColors = true;
+                        EditorStateModel.UseEncoreColors = true;
                     }
                 }
 
                 //Stage Tiles
                 bool valid;
-                if (Instance.Options.UseEncoreColors == true && Instance.EncorePalette[0] != "") valid = Instance.Paths.GetStageTiles(Instance.Paths.CurrentZone, Instance.EncorePalette[0], Instance.Paths.Browsed);
+                if (EditorStateModel.UseEncoreColors == true && Instance.EncorePalette[0] != "") valid = Instance.Paths.GetStageTiles(Instance.Paths.CurrentZone, Instance.EncorePalette[0], Instance.Paths.Browsed);
                 else valid = Instance.Paths.GetStageTiles(Instance.Paths.CurrentZone, null, Instance.Paths.Browsed);
                 if (valid == false)
                 {
@@ -731,7 +731,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (Instance.Options.DataDirectoryReadOnlyMode && Instance.Paths.SceneFile_SourceID == -1) return;
+                    if (EditorStateModel.DataDirectoryReadOnlyMode && Instance.Paths.SceneFile_SourceID == -1) return;
                     else Classes.Edit.Scene.Solution.CurrentScene.Save(Instance.Paths.SceneFile_Source);
                 }
 
@@ -754,7 +754,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (Instance.Options.DataDirectoryReadOnlyMode && Instance.Paths.StageConfig_SourceID == -1) return;
+                    if (EditorStateModel.DataDirectoryReadOnlyMode && Instance.Paths.StageConfig_SourceID == -1) return;
                     else Classes.Edit.Scene.Solution.StageConfig?.Write(Instance.Paths.StageConfig_Source);
                 }
 
@@ -782,7 +782,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (Instance.Options.DataDirectoryReadOnlyMode && Instance.Paths.Stamps_SourceID == -1) return;
+                    if (EditorStateModel.DataDirectoryReadOnlyMode && Instance.Paths.Stamps_SourceID == -1) return;
                     else Instance.Chunks.StageStamps?.Write(Instance.Paths.Stamps_Source);
                 }
 

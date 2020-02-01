@@ -266,11 +266,11 @@ namespace ManiacEditor
 
             if (GridAlignment)
             {
-                if (Editor.Instance.Options.UseMagnetMode)
+                if (EditorStateModel.UseMagnetMode)
                 {
-                    int x = Editor.Instance.Options.MagnetSize * (_entity.Position.X.High / Editor.Instance.Options.MagnetSize);
-                    int y = Editor.Instance.Options.MagnetSize * (_entity.Position.Y.High / Editor.Instance.Options.MagnetSize);
-                    return new Rectangle(x, y, Editor.Instance.Options.MagnetSize, Editor.Instance.Options.MagnetSize);
+                    int x = EditorStateModel.MagnetSize * (_entity.Position.X.High / EditorStateModel.MagnetSize);
+                    int y = EditorStateModel.MagnetSize * (_entity.Position.Y.High / EditorStateModel.MagnetSize);
+                    return new Rectangle(x, y, EditorStateModel.MagnetSize, EditorStateModel.MagnetSize);
                 }
                 else
                 {
@@ -307,7 +307,7 @@ namespace ManiacEditor
 			}
 
 
-            if (Editor.Instance.Options.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Editor.Instance.Options.entitiesTextFilter))
+            if (EditorStateModel.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(EditorStateModel.entitiesTextFilter))
             {
                 filteredOut = true;
             }
@@ -397,7 +397,7 @@ namespace ManiacEditor
         public virtual void Draw(GraphicsHandler d)
         {
             if (filteredOut) return;
-            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Editor.Instance.Options.ShowEntityPathArrows)
+            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && EditorStateModel.ShowEntityPathArrows)
             {
                 try
                 {
@@ -448,7 +448,7 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = _entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront && !Editor.Instance.Options.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !EditorStateModel.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
             if (!Settings.MyPerformance.NeverLoadEntityTextures)
             {
@@ -456,7 +456,7 @@ namespace ManiacEditor
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
             }
 
-            if (drawSelectionBoxInFront && !Editor.Instance.Options.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+            if (drawSelectionBoxInFront && !EditorStateModel.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
         public virtual void PrimaryDraw(GraphicsHandler d, List<string> onScreenExlusionList)
         {
@@ -510,7 +510,7 @@ namespace ManiacEditor
                 }
                 else
                 { // No frame to render
-                    if (Editor.Instance.Options.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (EditorStateModel.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + EditorConstants.ENTITY_NAME_BOX_WIDTH, y + EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
                 //DrawOthers(d);
@@ -523,7 +523,7 @@ namespace ManiacEditor
         }
         public void DrawSelectionBox(GraphicsHandler d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
         {
-            if (Editor.Instance.Options.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
+            if (EditorStateModel.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
             {
                 if (renderNotFound)
                 {
@@ -853,7 +853,7 @@ namespace ManiacEditor
         public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (Editor.Instance.Options.AllowSpriteAnimations)
+            if (EditorStateModel.AllowSpriteAnimations)
             {
                 if (speed > 0)
                 {

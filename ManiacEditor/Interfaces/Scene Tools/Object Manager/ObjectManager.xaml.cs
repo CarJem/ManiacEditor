@@ -43,7 +43,7 @@ namespace ManiacEditor.Interfaces
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (EditorInstance.Options.RemoveStageConfigEntriesAllowed)
+            if (EditorStateModel.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -313,7 +313,7 @@ namespace ManiacEditor.Interfaces
                             }
                         }
 
-						if (EditorInstance.Options.RemoveStageConfigEntriesAllowed)
+						if (EditorStateModel.RemoveStageConfigEntriesAllowed)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -461,11 +461,11 @@ namespace ManiacEditor.Interfaces
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				EditorInstance.Options.RemoveStageConfigEntriesAllowed = true;
+				EditorStateModel.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				EditorInstance.Options.RemoveStageConfigEntriesAllowed = false;
+				EditorStateModel.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 

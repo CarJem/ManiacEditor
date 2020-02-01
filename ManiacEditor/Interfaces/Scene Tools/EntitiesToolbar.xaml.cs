@@ -58,10 +58,10 @@ namespace ManiacEditor
 		{
 			set
 			{
-                int splineID = Editor.Instance.Options.SelectedSplineID;
-                if (Editor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Editor.Instance.Options.SplineOptionsGroup.ContainsKey(splineID) && Editor.Instance.Options.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+                int splineID = EditorStateModel.SelectedSplineID;
+                if (Editor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && EditorStateModel.SplineOptionsGroup.ContainsKey(splineID) && EditorStateModel.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
                 {
-                    UpdateEntitiesProperties(new List<SceneEntity>() { Editor.Instance.Options.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
+                    UpdateEntitiesProperties(new List<SceneEntity>() { EditorStateModel.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
                 }
                 else
                 {

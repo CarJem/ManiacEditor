@@ -29,7 +29,7 @@ namespace ManiacEditor.Interfaces.EditorElements
         public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
         {
 
-            if (Editor.Instance.Options.CountTilesSelectedInPixels == false)
+            if (EditorStateModel.CountTilesSelectedInPixels == false)
             {
                 positionLabel.Content = "X: " + (int)(e.X / EditorStateModel.Zoom) + " Y: " + (int)(e.Y / EditorStateModel.Zoom);
             }
@@ -45,7 +45,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             // Tooltip Bar Info 
             //
 
-            _levelIDLabel.Content = "Level ID: " + Editor.Instance.Options.LevelID.ToString();
+            _levelIDLabel.Content = "Level ID: " + EditorStateModel.LevelID.ToString();
             seperator1.Visibility = Visibility.Visible;
             seperator2.Visibility = Visibility.Visible;
             seperator3.Visibility = Visibility.Visible;
@@ -56,7 +56,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             //seperator8.Visibility = Visibility.Visible;
             //seperator9.Visibility = Visibility.Visible;
 
-            if (Editor.Instance.Options.CountTilesSelectedInPixels == false)
+            if (EditorStateModel.CountTilesSelectedInPixels == false)
             {
                 selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)EditorStateModel.SelectedTileX + ", Y: " + (int)EditorStateModel.SelectedTileY;
                 selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
@@ -66,7 +66,7 @@ namespace ManiacEditor.Interfaces.EditorElements
                 selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)EditorStateModel.SelectedTileX * 16 + ", Y: " + (int)EditorStateModel.SelectedTileY * 16;
                 selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
             }
-            if (Editor.Instance.Options.CountTilesSelectedInPixels == false)
+            if (EditorStateModel.CountTilesSelectedInPixels == false)
             {
                 selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (EditorStateModel.SelectedTilesCount - EditorStateModel.DeselectTilesCount);
                 selectionSizeLabel.ToolTip = "The Size of the Selection";
@@ -79,7 +79,7 @@ namespace ManiacEditor.Interfaces.EditorElements
 
             selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (EditorStateModel.select_x2 - EditorStateModel.select_x1) + ", Y: " + (EditorStateModel.select_y2 - EditorStateModel.select_y1);
 
-            scrollLockDirLabel.Content = "Scroll Direction: " + (Editor.Instance.Options.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (Editor.Instance.Options.ScrollLocked ? " (Locked)" : "");
+            scrollLockDirLabel.Content = "Scroll Direction: " + (EditorStateModel.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (EditorStateModel.ScrollLocked ? " (Locked)" : "");
 
 
             hVScrollBarXYLabel.Content = "Zoom Value: " + EditorStateModel.Zoom.ToString();
@@ -93,37 +93,37 @@ namespace ManiacEditor.Interfaces.EditorElements
         {
             if (sender == MoreSettingsButton)
             {
-                switch (Editor.Instance.Options.LastQuickButtonState)
+                switch (EditorStateModel.LastQuickButtonState)
                 {
                     case 1:
                         Editor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                     case 2:
-                        Editor.Instance.Options.ApplyEditEntitiesTransparency ^= true;
+                        EditorStateModel.ApplyEditEntitiesTransparency ^= true;
                         break;
                     case 3:
                         Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
                         break;
                     default:
-                        Editor.Instance.Options.LastQuickButtonState = 1;
+                        EditorStateModel.LastQuickButtonState = 1;
                         Editor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                 }
             }
             else if (sender == QuickSwapScrollDirection)
             {
-                Editor.Instance.Options.LastQuickButtonState = 1;
+                EditorStateModel.LastQuickButtonState = 1;
                 Editor.Instance.UIEvents.SetScrollLockDirection();
             }
             else if (sender == QuickSwapEncoreManiaEntitVisibility)
             {
-                Editor.Instance.Options.LastQuickButtonState = 3;
+                EditorStateModel.LastQuickButtonState = 3;
                 Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
             }
             else if (sender == QuickEditEntitiesTransparentLayers)
             {
-                Editor.Instance.Options.LastQuickButtonState = 2;
-                Editor.Instance.Options.ApplyEditEntitiesTransparency ^= true;
+                EditorStateModel.LastQuickButtonState = 2;
+                EditorStateModel.ApplyEditEntitiesTransparency ^= true;
             }
 
         }
@@ -223,8 +223,8 @@ namespace ManiacEditor.Interfaces.EditorElements
         }
 
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacIntergration(); }
-        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.CountTilesSelectedInPixels ^= true; }
-        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ScrollLocked ^= true; }
-        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.EnableFasterNudge ^= true; }
+        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { EditorStateModel.CountTilesSelectedInPixels ^= true; }
+        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { EditorStateModel.ScrollLocked ^= true; }
+        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { EditorStateModel.EnableFasterNudge ^= true; }
     }
 }

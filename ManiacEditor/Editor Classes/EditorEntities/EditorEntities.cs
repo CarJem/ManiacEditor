@@ -910,7 +910,7 @@ namespace ManiacEditor
                 if (entity.Name == "Spline")
                 {
                     int id = entity.Entity.attributesMap["SplineID"].ValueInt32;
-                    if (!Editor.Instance.Options.SplineOptionsGroup.ContainsKey(id)) Editor.Instance.Options.AddSplineOptionsGroup(id);
+                    if (!EditorStateModel.SplineOptionsGroup.ContainsKey(id)) EditorStateModel.AddSplineOptionsGroup(id);
                     if (SplineXPos.ContainsKey(id))
                     {
                         SplineXPos[id].Add(entity.Entity.Position.X.High);
@@ -927,7 +927,7 @@ namespace ManiacEditor
             foreach (var path in SplineXPos)
             {
                 int splineID = path.Key;
-                UserStateModel.SplineOptions selectedOptions = Editor.Instance.Options.SplineOptionsGroup[splineID];
+                EditorStateModel.SplineOptions selectedOptions = EditorStateModel.SplineOptionsGroup[splineID];
                 if (SplineXPos[splineID].Count > 1)
                 {
                     float[] xs, ys;

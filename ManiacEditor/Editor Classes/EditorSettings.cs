@@ -177,22 +177,22 @@ namespace ManiacEditor
             if (!Settings.MyDefaults.EntitiesDefault) Instance.EditorToolbar.ShowEntities.IsChecked = false;
             else Instance.EditorToolbar.ShowEntities.IsChecked = true;
             Instance.EditorToolbar.ShowAnimations.IsChecked = Settings.MyDefaults.AnimationsDefault;
-            Instance.Options.AllowAnimations = Settings.MyDefaults.AnimationsDefault;
+            EditorStateModel.AllowAnimations = Settings.MyDefaults.AnimationsDefault;
 
 
             //Default Enabled Annimation Preferences
             Instance.EditorToolbar.movingPlatformsObjectsToolStripMenuItem.IsChecked = Settings.MyDefaults.PlatformAnimationsDefault;
-            Instance.Options.AllowMovingPlatformAnimations = Settings.MyDefaults.PlatformAnimationsDefault;
+            EditorStateModel.AllowMovingPlatformAnimations = Settings.MyDefaults.PlatformAnimationsDefault;
 
             Instance.EditorToolbar.spriteFramesToolStripMenuItem.IsChecked = Settings.MyDefaults.SpriteAnimationsDefault;
-            Instance.Options.AllowSpriteAnimations = Settings.MyDefaults.SpriteAnimationsDefault;
+            EditorStateModel.AllowSpriteAnimations = Settings.MyDefaults.SpriteAnimationsDefault;
 
 
             //TO DO: Add Default For this.
             Instance.EditorToolbar.parallaxAnimationMenuItem.IsChecked = false;
-            Instance.Options.ParallaxAnimationChecked = false;
+            EditorStateModel.ParallaxAnimationChecked = false;
 
-            Instance.Options.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
+            EditorStateModel.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
 
 
 
@@ -211,18 +211,18 @@ namespace ManiacEditor
             Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 0;
             Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 1;
             Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = Settings.MyDefaults.DefaultCollisionColors == 2;
-            Instance.Options.CollisionPreset = Settings.MyDefaults.DefaultCollisionColors;
+            EditorStateModel.CollisionPreset = Settings.MyDefaults.DefaultCollisionColors;
             Instance.RefreshCollisionColours();
 
             if (Settings.MyDefaults.ScrollLockDirectionDefault == false)
             {
-                Instance.Options.ScrollDirection = (int)ScrollDir.X;
+                EditorStateModel.ScrollDirection = (int)ScrollDir.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
 
             }
             else
             {
-                Instance.Options.ScrollDirection = (int)ScrollDir.Y;
+                EditorStateModel.ScrollDirection = (int)ScrollDir.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
             }
 

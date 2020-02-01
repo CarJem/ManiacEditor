@@ -895,7 +895,7 @@ namespace ManiacEditor.Interfaces
         }
         private void LoadEvent(object sender, RoutedEventArgs e)
         {
-            if (EditorInstance.Options.isImportingObjects == true)
+            if (EditorStateModel.isImportingObjects == true)
             {
                 MessageBox.Show("You can't do that while importing objects!");
             }
@@ -964,7 +964,7 @@ namespace ManiacEditor.Interfaces
         public void UnloadDataPack()
         {
             EditorInstance.ResourcePackList.Clear();
-            EditorInstance.Options.DataDirectoryReadOnlyMode = false;
+            EditorStateModel.DataDirectoryReadOnlyMode = false;
             EditorInstance.DataDirectory = null;
             dataPackStatusLabel.Content = "";
             UnloadDataDirectory();
@@ -999,7 +999,7 @@ namespace ManiacEditor.Interfaces
             {
                 if (item.Item1 == "DataDir") EditorInstance.DataDirectory = item.Item2;
                 else if (item.Item1 == "Mod") EditorInstance.ResourcePackList.Add(item.Item2);
-                else if (item.Item1 == "ReadOnlyDataFolder" && item.Item2 == "TRUE") EditorInstance.Options.DataDirectoryReadOnlyMode = true;
+                else if (item.Item1 == "ReadOnlyDataFolder" && item.Item2 == "TRUE") EditorStateModel.DataDirectoryReadOnlyMode = true;
             }
             Gameconfig GameConfig = EditorInstance.Paths.SetandReturnGameConfig();
 
@@ -1274,7 +1274,7 @@ namespace ManiacEditor.Interfaces
         }
         private void Close()
         {
-            if (!EditorInstance.Options.isImportingObjects)
+            if (!EditorStateModel.isImportingObjects)
             {
                 EditorInstance.FileHandler.OpenSceneUsingExistingSceneSelect(this);
             }
@@ -1290,7 +1290,7 @@ namespace ManiacEditor.Interfaces
 		}
         private void SelectButtonEvent(object sender, RoutedEventArgs e)
         {
-            EditorInstance.Options.LevelID = LevelID;
+            EditorStateModel.LevelID = LevelID;
             if (!isFilesView.IsChecked.Value)
             {
                 SelectedSceneResult = ScenesTree.SelectedNode.Tag as string;
@@ -1312,7 +1312,7 @@ namespace ManiacEditor.Interfaces
         #region Add Button Events
         private void AddDataDirectoryEvent(object sender, RoutedEventArgs e)
         {
-            if (EditorInstance.Options.isImportingObjects == false)
+            if (EditorStateModel.isImportingObjects == false)
             {
                 string newDataDirectory = EditorInstance.GetDataDirectory();
                 string returnDataDirectory;

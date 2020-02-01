@@ -267,39 +267,39 @@ namespace ManiacEditor.Interfaces.EditorElements
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.GoToPosition(sender, e); }
         private void UndoEvent(object sender, RoutedEventArgs e) { Editor.Instance.EditorUndo(); }
         private void RedoEvent(object sender, RoutedEventArgs e) { Editor.Instance.EditorRedo(); }
-        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.CountTilesSelectedInPixels ^= true; }
-        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ScrollLocked ^= true; }
-        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.EnableFasterNudge ^= true; }
-        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ApplyEditEntitiesTransparency ^= true; }
-        public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.DebugStatsVisibleOnPanel ^= true; }
+        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { EditorStateModel.CountTilesSelectedInPixels ^= true; }
+        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { EditorStateModel.ScrollLocked ^= true; }
+        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { EditorStateModel.EnableFasterNudge ^= true; }
+        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { EditorStateModel.ApplyEditEntitiesTransparency ^= true; }
+        public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { EditorStateModel.DebugStatsVisibleOnPanel ^= true; }
         private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { Editor.Instance.ZoomModel.SetZoomLevel(0, new System.Drawing.Point(0, 0)); }
-        private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Editor.Instance.Options.UseLargeDebugStats ^= true; }
+        private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { EditorStateModel.UseLargeDebugStats ^= true; }
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SetMenuButtonType(sender, e); }
         public void MenuButtonChangedEvent(string tag) { Editor.Instance.UIEvents.SetMenuButtonType(tag); }
-        private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Editor.Instance.Options.EntitiesVisibileAboveAllLayers ^= true; }
-        private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.EntitySelectionBoxesAlwaysPrioritized ^= true; }
-        private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.PrioritizedEntityViewing ^= true; }
+        private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorStateModel.EntitiesVisibileAboveAllLayers ^= true; }
+        private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { EditorStateModel.EntitySelectionBoxesAlwaysPrioritized ^= true; }
+        private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { EditorStateModel.PrioritizedEntityViewing ^= true; }
         private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SetEncorePallete(sender); }
-        private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ExtraLayersMoveToFront ^= true; }
+        private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { EditorStateModel.ExtraLayersMoveToFront ^= true; }
         private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { Editor.Instance.UIEvents.EntityFilterTextChanged(sender, e); }
-        private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowEntitySelectionBoxes ^= true; }
-        private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowWaterLevel ^= true; }
-        private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.AlwaysShowWaterLevel ^= true; }
+        private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowEntitySelectionBoxes ^= true; }
+        private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowWaterLevel ^= true; }
+        private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { EditorStateModel.AlwaysShowWaterLevel ^= true; }
         private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { Classes.Edit.Scene.Solution.Entities.OrderSelectedSlotIDs(); }
         private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Classes.Edit.Scene.Solution.Entities.OrderSelectedSlotIDs(true); }
         private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Classes.Edit.Scene.Solution.Entities.OrderSelectedSlotIDs(false, true); }
-        private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.SizeWaterLevelwithBounds ^= true; }
+        private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { EditorStateModel.SizeWaterLevelwithBounds ^= true; }
         private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility(); }
-        private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowParallaxSprites ^= true; }
+        private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowParallaxSprites ^= true; }
         private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SetScrollLockDirection(); }
-        private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowEntityPathArrows ^= true; }
+        private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { EditorStateModel.ShowEntityPathArrows ^= true; }
         private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MenuLanguageChanged(sender, e); }
 
         private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Classes.Edit.Scene.Solution.CurrentScene != null) Classes.Edit.Scene.Solution.Entities.OptimizeAllSlotIDs(); }
-        private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.RightClicktoSwapSlotID ^= true; }
-        private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.CopyAir ^= true; }
+        private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { EditorStateModel.RightClicktoSwapSlotID ^= true; }
+        private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { EditorStateModel.CopyAir ^= true; }
         private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.ChangeLevelID(sender, e); }
-        private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.MultiLayerEditMode ^= true; }
+        private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { EditorStateModel.MultiLayerEditMode ^= true; }
         private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MakeShortcutForDataFolderOnly(sender, e); }
         private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
         private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }

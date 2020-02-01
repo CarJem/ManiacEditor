@@ -118,11 +118,11 @@ namespace ManiacEditor
                 {
                     if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                     {
-                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Edit.Scene.Solution.TileConfig, Editor.Paths.TileConfig_Source, Editor.Options.SelectedTileID);
+                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Edit.Scene.Solution.TileConfig, Editor.Paths.TileConfig_Source, EditorStateModel.SelectedTileID);
                     }
                     else
                     {
-                        Editor.TileManiacInstance.SetCollisionIndex(Editor.Options.SelectedTileID);
+                        Editor.TileManiacInstance.SetCollisionIndex(EditorStateModel.SelectedTileID);
                         Editor.TileManiacInstance.Activate();
                     }
 
@@ -461,7 +461,7 @@ namespace ManiacEditor
         #region Scene Tab Buttons
         public static void ImportObjectsToolStripMenuItem_Click(Window window = null)
         {
-            Editor.Options.isImportingObjects = true;
+            EditorStateModel.isImportingObjects = true;
             try
             {
                 Scene sourceScene = Editor.GetSceneSelection();
@@ -483,12 +483,12 @@ namespace ManiacEditor
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Editor.Options.isImportingObjects = false;
+            EditorStateModel.isImportingObjects = false;
         }
 
         public static void ImportObjectsWithMegaList(Window window = null)
         {
-            Editor.Options.isImportingObjects = true;
+            EditorStateModel.isImportingObjects = true;
             try
             {
                 GenerationsLib.Core.FolderSelectDialog ofd = new GenerationsLib.Core.FolderSelectDialog();
@@ -519,7 +519,7 @@ namespace ManiacEditor
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Editor.Options.isImportingObjects = false;
+            EditorStateModel.isImportingObjects = false;
         }
 
         public static void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -567,7 +567,7 @@ namespace ManiacEditor
             {
                 System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
             }
-            Editor.Instance.Options.QuitWithoutSavingWarningRequired = true;
+            EditorStateModel.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ManiacINIEditor(object sender, RoutedEventArgs e)
@@ -590,7 +590,7 @@ namespace ManiacEditor
             Editor.SetupLayerButtons();
             Editor.ZoomModel.ResetViewSize();
             Editor.UI.UpdateControls();
-            Editor.Instance.Options.QuitWithoutSavingWarningRequired = true;
+            EditorStateModel.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ExportGUI(object sender, RoutedEventArgs e)
@@ -606,7 +606,7 @@ namespace ManiacEditor
             var objectManager = new ManiacEditor.Interfaces.ObjectManager(Classes.Edit.Scene.Solution.CurrentScene.Objects, Classes.Edit.Scene.Solution.StageConfig, Editor);
             objectManager.Owner = Window.GetWindow(Editor);
             objectManager.ShowDialog();
-            Editor.Instance.Options.QuitWithoutSavingWarningRequired = true;
+            EditorStateModel.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void AboutScreen()

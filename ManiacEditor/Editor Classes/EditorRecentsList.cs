@@ -72,7 +72,7 @@ namespace ManiacEditor
 
             Name += Instance.DataDirectory;
             Name += Instance.Paths.SceneFilePath;
-            Name += Instance.Options.LevelID;
+            Name += EditorStateModel.LevelID;
             Name += Instance.Paths.CurrentName;
             Name += Instance.Paths.CurrentZone;
             Name += Instance.Paths.CurrentScene;
@@ -93,7 +93,7 @@ namespace ManiacEditor
             section.y = y1;
             section.ZoomLevel = EditorStateModel.ZoomLevel;
             section.isEncore = Instance.Paths.isEncoreMode;
-            section.LevelID = Instance.Options.LevelID;
+            section.LevelID = EditorStateModel.LevelID;
             section.CurrentName = Instance.Paths.CurrentName;
             section.CurrentZone = Instance.Paths.CurrentZone;
             section.CurrentSceneID = Instance.Paths.CurrentSceneID;
