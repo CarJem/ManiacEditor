@@ -191,7 +191,7 @@ namespace ManiacEditor
 					Classes.Editor.Solution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.Entities.CopyToClipboard(true));
 					Editor.UpdateLastEntityAction();
 				}
-				catch (EditorEntities.TooManyEntitiesException)
+				catch (Classes.Edit.Scene.EditorEntities.TooManyEntitiesException)
 				{
 					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
 					return;

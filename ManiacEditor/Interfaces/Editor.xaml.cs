@@ -595,7 +595,7 @@ namespace ManiacEditor
                         UpdateLastEntityAction();
                     }
                 }
-                catch (EditorEntities.TooManyEntitiesException)
+                catch (Classes.Edit.Scene.EditorEntities.TooManyEntitiesException)
                 {
                     System.Windows.MessageBox.Show("Too many Classes.Edit.Scene.EditorSolution.Entities! (limit: 2048)");
                     return;

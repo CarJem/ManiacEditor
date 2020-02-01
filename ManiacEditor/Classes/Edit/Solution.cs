@@ -19,7 +19,7 @@ namespace ManiacEditor.Classes.Editor
         public static Tileconfig TileConfig;
         public static Scene.EditorTiles CurrentTiles;
         public static Scene.EditorScene CurrentScene;
-        public static EditorEntities Entities;
+        public static Classes.Edit.Scene.EditorEntities Entities;
         public static StageConfig StageConfig;
         public static Gameconfig GameConfig;
 

@@ -277,7 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Edit\Constants.cs" />
-    <Compile Include="Classes\Edit\Scene\EditorLayer.cs" />
+    <Compile Include="Classes\Edit\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Edit\Scene\EditorScene.cs" />
     <Compile Include="Classes\Edit\Scene\EditorTiles.cs" />
     <Compile Include="Classes\VersionCheck.cs" />
@@ -918,8 +918,8 @@
     </Compile>
     <Compile Include="Interfaces\PropertyGrid\LocalProperty.cs" />
     <Compile Include="Interfaces\PropertyGrid\LocalPropertyGrid.cs" />
-    <Compile Include="Editor Classes\EditorEntities\EditorEntities.cs" />
-    <Compile Include="Editor Classes\EditorEntities\EditorEntity.cs" />
+    <Compile Include="Classes\Edit\Scene\EditorEntities.cs" />
+    <Compile Include="Classes\Edit\Scene\Sets\EditorEntity.cs" />
     <Compile Include="Functions\Memory Editing\ProcessMemory.cs" />
     <Compile Include="Editor Classes\EditorLayer\ScrollInfoLines.cs" />
     <Compile Include="Editor Classes\EditorSettings.cs" />

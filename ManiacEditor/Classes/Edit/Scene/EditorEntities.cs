@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using RSDKv5;
 using ManiacEditor.Actions;
 
-namespace ManiacEditor
+namespace ManiacEditor.Classes.Edit.Scene
 {
     public class EditorEntities : IDrawable
     {
@@ -45,12 +45,12 @@ namespace ManiacEditor
 
         public Action<IAction> SlotIDSwapped;
         public string SetupObject { get => GetSetupObject(SourceScene); }
-        private Scene SourceScene;
+        private RSDKv5.Scene SourceScene;
 
         #endregion
         #endregion
 
-        public EditorEntities(Scene scene)
+        public EditorEntities(RSDKv5.Scene scene)
         {
             foreach (var obj in scene.Objects)
             {
@@ -71,7 +71,7 @@ namespace ManiacEditor
             Attributes.Add(SplineID);
             ushort Slot = 0;
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
-            Entity.attributesMap["SplineID"].ValueInt32 = Editor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
+            Entity.attributesMap["SplineID"].ValueInt32 = ManiacEditor.Editor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
 
             return new EditorEntity(Entity, true);
         }
@@ -161,7 +161,7 @@ namespace ManiacEditor
             return strings;
         }
 
-        public string GetSetupObject(Scene scene)
+        public string GetSetupObject(RSDKv5.Scene scene)
         {
             try
             {
@@ -799,9 +799,9 @@ namespace ManiacEditor
             SlotIDSwapped?.Invoke(action);
             ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
-            Editor.Instance.UndoStack.Push(action);
-            Editor.Instance.RedoStack.Clear();
-            Editor.Instance.UI.UpdateControls();
+            ManiacEditor.Editor.Instance.UndoStack.Push(action);
+            ManiacEditor.Editor.Instance.RedoStack.Clear();
+            ManiacEditor.Editor.Instance.UI.UpdateControls();
 
         }
         public void SwapSlotIDsFromPair()
@@ -814,9 +814,9 @@ namespace ManiacEditor
             SlotIDSwapped?.Invoke(action);
             SwapSlotIDs(entity1.Entity, entity2.Entity, slotID_A, slotID_B);
 
-            Editor.Instance.UndoStack.Push(action);
-            Editor.Instance.RedoStack.Clear();
-            Editor.Instance.UI.UpdateControls();
+            ManiacEditor.Editor.Instance.UndoStack.Push(action);
+            ManiacEditor.Editor.Instance.RedoStack.Clear();
+            ManiacEditor.Editor.Instance.UI.UpdateControls();
         }
         public void ChangeSeveralSlotIDs(IList<SceneEntity> entities, IList<ushort> slots)
         {
@@ -846,9 +846,9 @@ namespace ManiacEditor
             SlotIDSwapped?.Invoke(action);
             ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
-            Editor.Instance.UndoStack.Push(action);
-            Editor.Instance.RedoStack.Clear();
-            Editor.Instance.UI.UpdateControls();
+            ManiacEditor.Editor.Instance.UndoStack.Push(action);
+            ManiacEditor.Editor.Instance.RedoStack.Clear();
+            ManiacEditor.Editor.Instance.UI.UpdateControls();
         }
         private void FindDuplicateIds()
         {
@@ -944,7 +944,7 @@ namespace ManiacEditor
                         {
                             if (EditorEntityDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Entity.Object.Name.Name))
                             {
-                                Editor.Instance.EntityDrawing.DrawOthers(new GraphicsHandler(d), selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
+                                ManiacEditor.Editor.Instance.EntityDrawing.DrawOthers(new GraphicsHandler(d), selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
                             }
                             else
                             {
