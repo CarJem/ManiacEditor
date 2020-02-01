@@ -841,7 +841,7 @@ namespace ManiacEditor
                 x = childX;
                 y = childY;
             }
-            int Transparency = (EditorInstance.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Classes.Edit.Solution.EditLayerA == null) ? 0xff : 0x32;
             try
 			{		
 				if (!rendersWithErrors.Contains(entity.Object.Name.Name))

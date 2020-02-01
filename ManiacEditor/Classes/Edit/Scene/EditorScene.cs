@@ -20,6 +20,7 @@ namespace ManiacEditor.Classes.Edit.Scene
         public Editor EditorInstance;
 
         #region Layers
+
         public EditorLayer LowDetails
         {
             get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.ManiacINI.ManiacINIData.ForegroundLower) || el.Name.Equals(Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));

@@ -66,7 +66,7 @@ namespace ManiacEditor
 
                 Classes.Edit.Solution.Entities = new EditorEntities(Classes.Edit.Solution.CurrentScene);
 
-                Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Instance.SceneHeight * Classes.Edit.SolutionState.Zoom));
+                Instance.ZoomModel.SetViewSize((int)(Classes.Edit.Solution.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.Solution.SceneHeight * Classes.Edit.SolutionState.Zoom));
 
                 Instance.UI.UpdateControls(true);
             }
@@ -181,15 +181,15 @@ namespace ManiacEditor
             };
             if (save.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
             {
-                using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Instance.SceneWidth, Instance.SceneHeight))
+                using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Classes.Edit.Solution.SceneWidth, Classes.Edit.Solution.SceneHeight))
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap))
                 {
                     // not all scenes have both a Low and a High foreground
                     // only attempt to render the ones we actually have
-                    Instance.FGLower?.Draw(g);
-                    Instance.FGLow?.Draw(g);
-                    Instance.FGHigh?.Draw(g);
-                    Instance.FGHigher?.Draw(g);
+                    Classes.Edit.Solution.FGLower?.Draw(g);
+                    Classes.Edit.Solution.FGLow?.Draw(g);
+                    Classes.Edit.Solution.FGHigh?.Draw(g);
+                    Classes.Edit.Solution.FGHigher?.Draw(g);
                     Classes.Edit.Solution.Entities?.Draw(g);
 
                     bitmap.Save(save.FileName);
@@ -570,7 +570,7 @@ namespace ManiacEditor
                 Instance.UpdateStartScreen(false);
                 Instance.UpdateDataFolderLabel(null, null);
                 Instance.SetupLayerButtons();
-                Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Instance.SceneHeight * Classes.Edit.SolutionState.Zoom));
+                Instance.ZoomModel.SetViewSize((int)(Classes.Edit.Solution.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.Solution.SceneHeight * Classes.Edit.SolutionState.Zoom));
                 Classes.Edit.SolutionState.UpdateMultiLayerSelectMode();
                 Instance.UI.UpdateControls(true);
                 Instance.RecentsList.AddRecentFile(Instance.RecentsList.GenerateNewEntry());

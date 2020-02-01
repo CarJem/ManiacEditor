@@ -131,8 +131,8 @@ namespace ManiacEditor
 		{
 			if (Editor.IsTilesEdit() && !Editor.IsChunksEdit())
 			{
-                if (Editor.EditLayerA != null) Editor.EditLayerA?.SelectAll();
-                if (Editor.EditLayerB != null) Editor.EditLayerB?.SelectAll();
+                if (Classes.Edit.Solution.EditLayerA != null) Classes.Edit.Solution.EditLayerA?.SelectAll();
+                if (Classes.Edit.Solution.EditLayerB != null) Classes.Edit.Solution.EditLayerB?.SelectAll();
                 Editor.UI.UpdateEditLayerActions();
 			}
 			else if (Editor.IsEntitiesEdit())
@@ -146,15 +146,15 @@ namespace ManiacEditor
 
 		public void FlipHorizontal()
 		{
-			Editor.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
-			Editor.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
+			Classes.Edit.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
+			Classes.Edit.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
 			Editor.UI.UpdateEditLayerActions();
 		}
 
 		public void FlipHorizontalIndividual()
 		{
-			Editor.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
-			Editor.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
+			Classes.Edit.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
+			Classes.Edit.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
 			Editor.UI.UpdateEditLayerActions();
 		}
 
@@ -180,8 +180,8 @@ namespace ManiacEditor
 		{
 			if (Editor.IsTilesEdit())
 			{
-                Editor.EditLayerA?.PasteFromClipboard(new Point(16, 16), Editor.EditLayerA?.CopyToClipboard(true));
-                Editor.EditLayerB?.PasteFromClipboard(new Point(16, 16), Editor.EditLayerB?.CopyToClipboard(true));
+                Classes.Edit.Solution.EditLayerA?.PasteFromClipboard(new Point(16, 16), Classes.Edit.Solution.EditLayerA?.CopyToClipboard(true));
+                Classes.Edit.Solution.EditLayerB?.PasteFromClipboard(new Point(16, 16), Classes.Edit.Solution.EditLayerB?.CopyToClipboard(true));
                 Editor.UI.UpdateEditLayerActions();
 			}
 			else if (Editor.IsEntitiesEdit())
@@ -232,8 +232,8 @@ namespace ManiacEditor
 				{
 					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>) System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
                     Point pastePoint = GetPastePoint();
-					if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
-					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
+					if (Classes.Edit.Solution.EditLayerA != null) Classes.Edit.Solution.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
+					if (Classes.Edit.Solution.EditLayerB != null) Classes.Edit.Solution.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
 
 					Editor.UI.UpdateEditLayerActions();
 				}
@@ -242,8 +242,8 @@ namespace ManiacEditor
 				else if (Editor.TilesClipboard != null)
 				{
                     Point pastePoint = GetPastePoint();
-                    if (Editor.EditLayerA != null) Editor.EditLayerA.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item1);
-					if (Editor.EditLayerB != null) Editor.EditLayerB.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item2);
+                    if (Classes.Edit.Solution.EditLayerA != null) Classes.Edit.Solution.EditLayerA.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item1);
+					if (Classes.Edit.Solution.EditLayerB != null) Classes.Edit.Solution.EditLayerB.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item2);
 					Editor.UI.UpdateEditLayerActions();
 				}
 
@@ -271,15 +271,15 @@ namespace ManiacEditor
 
 		public void FlipVertical()
 		{
-			Editor.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
-			Editor.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
+			Classes.Edit.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
+			Classes.Edit.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
 			Editor.UI.UpdateEditLayerActions();
 		}
 
 		public void FlipVerticalIndividual()
 		{
-			Editor.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
-			Editor.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
+			Classes.Edit.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
+			Classes.Edit.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
 			Editor.UI.UpdateEditLayerActions();
 		}
 

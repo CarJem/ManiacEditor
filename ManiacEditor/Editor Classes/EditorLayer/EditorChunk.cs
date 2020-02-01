@@ -53,7 +53,7 @@ namespace ManiacEditor
         }
         public Bitmap GetChunkTexture(int chunkIndex)
 		{
-			if (EditorInstance.EditLayerB != null)
+			if (Classes.Edit.Solution.EditLayerB != null)
 			{
 				return GetChunkTextureAB(chunkIndex);
 			}

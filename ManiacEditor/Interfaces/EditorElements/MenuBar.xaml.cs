@@ -132,7 +132,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             undoToolStripMenuItem.IsEnabled = enabled && Editor.Instance.UndoStack.Count > 0;
             redoToolStripMenuItem.IsEnabled = enabled && Editor.Instance.RedoStack.Count > 0;
 
-            findAndReplaceToolStripMenuItem.IsEnabled = enabled && Editor.Instance.EditLayerA != null;
+            findAndReplaceToolStripMenuItem.IsEnabled = enabled && Classes.Edit.Solution.EditLayerA != null;
 
             if (Classes.Edit.Solution.Entities != null && Classes.Edit.Solution.Entities.SelectedEntities != null && Classes.Edit.Solution.Entities.SelectedEntities.Count > 1)
             {

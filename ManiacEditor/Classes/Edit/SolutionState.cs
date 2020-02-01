@@ -1038,7 +1038,7 @@ namespace ManiacEditor.Classes.Edit
                 elb.SwapDefaultToA(!enabled);
             }
 
-            if (!enabled) Editor.Instance.EditLayerB = null;
+            if (!enabled) Classes.Edit.Solution.EditLayerB = null;
 
             Editor.Instance.UI.UpdateControls();
         }
@@ -1062,7 +1062,7 @@ namespace ManiacEditor.Classes.Edit
                 elb.SwapDefaultToA(!enabled);
             }
 
-            if (!enabled) Editor.Instance.EditLayerB = null;
+            if (!enabled) Classes.Edit.Solution.EditLayerB = null;
 
             if (updateControls) Editor.Instance.UI.UpdateControls();
         }

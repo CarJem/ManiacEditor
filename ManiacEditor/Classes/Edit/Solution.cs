@@ -23,6 +23,21 @@ namespace ManiacEditor.Classes.Edit
         public static StageConfig StageConfig;
         public static Gameconfig GameConfig;
 
+        #region Layers
+        public static Classes.Edit.Scene.EditorLayer FGHigher => CurrentScene?.HighDetails;
+        public static Classes.Edit.Scene.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
+        public static Classes.Edit.Scene.EditorLayer FGLow => CurrentScene?.ForegroundLow;
+        public static Classes.Edit.Scene.EditorLayer FGLower => CurrentScene?.LowDetails;
+        public static Classes.Edit.Scene.EditorLayer ScratchLayer => CurrentScene?.Scratch;
+        public static Classes.Edit.Scene.EditorLayer EditLayerA { get; set; }
+        public static Classes.Edit.Scene.EditorLayer EditLayerB { get; set; }
+        #endregion
+
+        #region Screen Size
+        public static int SceneWidth => (CurrentScene != null ? CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
+        public static int SceneHeight => (CurrentScene != null ? CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
+        #endregion
+
         public static void UnloadScene()
         {
             Classes.Edit.Solution.CurrentScene?.Dispose();

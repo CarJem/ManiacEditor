@@ -525,9 +525,9 @@ Error: {ex.Message}");
 
         private void AutoGenerateChunks_Click(object sender, RoutedEventArgs e)
         {
-            if (EditorInstance.EditLayerA != null && EditorInstance.EditLayerB != null)
+            if (Classes.Edit.Solution.EditLayerA != null && Classes.Edit.Solution.EditLayerB != null)
             {
-                EditorInstance.Chunks.AutoGenerateChunks(EditorInstance.EditLayerA, EditorInstance.EditLayerB);
+                EditorInstance.Chunks.AutoGenerateChunks(Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB);
                 ChunksReload();
             }
         }
@@ -545,9 +545,9 @@ Error: {ex.Message}");
 
         private void AutoGenerateChunksSingle_Click(object sender, RoutedEventArgs e)
         {
-            if (EditorInstance.EditLayerA != null)
+            if (Classes.Edit.Solution.EditLayerA != null)
             {
-                EditorInstance.Chunks.AutoGenerateChunks(EditorInstance.EditLayerA);
+                EditorInstance.Chunks.AutoGenerateChunks(Classes.Edit.Solution.EditLayerA);
                 ChunksReload();
             }
         }

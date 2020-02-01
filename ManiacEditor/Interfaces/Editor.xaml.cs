@@ -67,20 +67,6 @@ namespace ManiacEditor
         public Stack<IAction> UndoStack { get; set; } = new Stack<IAction>(); //Undo Actions Stack
         public Stack<IAction> RedoStack = new Stack<IAction>(); //Redo Actions Stack
 
-        //Editor Layers
-        internal Classes.Edit.Scene.EditorLayer FGHigher => Classes.Edit.Solution.CurrentScene?.HighDetails;
-		internal Classes.Edit.Scene.EditorLayer FGHigh => Classes.Edit.Solution.CurrentScene?.ForegroundHigh;
-		internal Classes.Edit.Scene.EditorLayer FGLow => Classes.Edit.Solution.CurrentScene?.ForegroundLow;
-		internal Classes.Edit.Scene.EditorLayer FGLower => Classes.Edit.Solution.CurrentScene?.LowDetails;
-		internal Classes.Edit.Scene.EditorLayer ScratchLayer => Classes.Edit.Solution.CurrentScene?.Scratch;
-        public Classes.Edit.Scene.EditorLayer EditLayerA { get; set; }
-        public Classes.Edit.Scene.EditorLayer EditLayerB { get; set; }
-        //Scene Width + Height (For Drawing)
-        internal int SceneWidth => (Classes.Edit.Solution.CurrentScene != null ? Classes.Edit.Solution.CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
-		internal int SceneHeight => (Classes.Edit.Solution.CurrentScene != null ? Classes.Edit.Solution.CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
-
-
-
 		//Clipboards
 		public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
 		public Dictionary<Point, ushort> FindReplaceClipboard;
@@ -350,11 +336,11 @@ namespace ManiacEditor
 		}
 		public bool IsTilesEdit()
 		{
-			return EditLayerA != null;
+			return Classes.Edit.Solution.EditLayerA != null;
 		}
 		public bool IsChunksEdit()
 		{
-			return EditorToolbar.ChunksToolButton.IsChecked.Value && EditLayerA != null;
+			return EditorToolbar.ChunksToolButton.IsChecked.Value && Classes.Edit.Solution.EditLayerA != null;
 		}
         public bool IsEntitiesEdit()
         {
@@ -365,8 +351,8 @@ namespace ManiacEditor
 			if (IsTilesEdit())
 			{
 
-				bool SelectedA = EditLayerA?.SelectedTiles.Count > 0 || EditLayerA?.TempSelectionTiles.Count > 0;
-				bool SelectedB = EditLayerB?.SelectedTiles.Count > 0 || EditLayerB?.TempSelectionTiles.Count > 0;
+				bool SelectedA = Classes.Edit.Solution.EditLayerA?.SelectedTiles.Count > 0 || Classes.Edit.Solution.EditLayerA?.TempSelectionTiles.Count > 0;
+				bool SelectedB = Classes.Edit.Solution.EditLayerB?.SelectedTiles.Count > 0 || Classes.Edit.Solution.EditLayerB?.TempSelectionTiles.Count > 0;
                 if (dualModeSelect) return SelectedA && SelectedB;
                 else return SelectedA || SelectedB;
 			}
@@ -430,8 +416,8 @@ namespace ManiacEditor
 		}
 		public void DeleteSelected()
 		{
-			EditLayerA?.DeleteSelected();
-			EditLayerB?.DeleteSelected();
+            Classes.Edit.Solution.EditLayerA?.DeleteSelected();
+            Classes.Edit.Solution.EditLayerB?.DeleteSelected();
 			UI.UpdateEditLayerActions();
 
 			if (IsEntitiesEdit())
@@ -483,8 +469,8 @@ namespace ManiacEditor
         {
             if (IsEditing())
             {
-                EditLayerA?.Deselect();
-                EditLayerB?.Deselect();
+                Classes.Edit.Solution.EditLayerA?.Deselect();
+                Classes.Edit.Solution.EditLayerB?.Deselect();
 
                 if (IsEntitiesEdit()) Classes.Edit.Solution.Entities.Deselect();
                 UI.SetSelectOnlyButtonsState(false);
@@ -539,11 +525,11 @@ namespace ManiacEditor
         }
         public void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
         {
-            bool hasMultipleValidLayers = EditLayerA != null && EditLayerB != null;
+            bool hasMultipleValidLayers = Classes.Edit.Solution.EditLayerA != null && Classes.Edit.Solution.EditLayerB != null;
             if (!hasMultipleValidLayers)
             {
-                Dictionary<Point, ushort> copyDataA = EditLayerA?.CopyToClipboard();
-                Dictionary<Point, ushort> copyDataB = EditLayerB?.CopyToClipboard();
+                Dictionary<Point, ushort> copyDataA = Classes.Edit.Solution.EditLayerA?.CopyToClipboard();
+                Dictionary<Point, ushort> copyDataB = Classes.Edit.Solution.EditLayerB?.CopyToClipboard();
                 Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copyDataA, copyDataB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
@@ -555,7 +541,7 @@ namespace ManiacEditor
             }
             else if (hasMultipleValidLayers && Classes.Edit.SolutionState.MultiLayerEditMode)
             {
-                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Edit.Scene.EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
+                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Edit.Scene.EditorLayer.CopyMultiSelectionToClipboard(Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
                 if (!doNotUseWindowsClipboard)
@@ -682,8 +668,8 @@ namespace ManiacEditor
                 }
 
             }
-            EditLayerA?.MoveSelectedQuonta(new Point(x, y));
-            EditLayerB?.MoveSelectedQuonta(new Point(x, y));
+            Classes.Edit.Solution.EditLayerA?.MoveSelectedQuonta(new Point(x, y));
+            Classes.Edit.Solution.EditLayerB?.MoveSelectedQuonta(new Point(x, y));
 
             UI.UpdateEditLayerActions();
 
@@ -974,7 +960,7 @@ namespace ManiacEditor
             {
                 Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
                 e.Effect = System.Windows.Forms.DragDropEffects.Move;
-                EditLayerA?.StartDragOver(new Point((int)(((e.X - rel.X) + Classes.Edit.SolutionState.ViewPositionX) / Classes.Edit.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Edit.SolutionState.ViewPositionY) / Classes.Edit.SolutionState.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                Classes.Edit.Solution.EditLayerA?.StartDragOver(new Point((int)(((e.X - rel.X) + Classes.Edit.SolutionState.ViewPositionX) / Classes.Edit.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Edit.SolutionState.ViewPositionY) / Classes.Edit.SolutionState.Zoom)), (ushort)TilesToolbar.SelectedTile);
                 UI.UpdateEditLayerActions();
             }
             else
@@ -987,19 +973,19 @@ namespace ManiacEditor
             if (e.Data.GetDataPresent(typeof(Int32)) && IsTilesEdit())
             {
                 Point rel = FormsModel.GraphicPanel.PointToScreen(Point.Empty);
-                EditLayerA?.DragOver(new Point((int)(((e.X - rel.X) + Classes.Edit.SolutionState.ViewPositionX) / Classes.Edit.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Edit.SolutionState.ViewPositionY) / Classes.Edit.SolutionState.Zoom)), (ushort)TilesToolbar.SelectedTile);
+                Classes.Edit.Solution.EditLayerA?.DragOver(new Point((int)(((e.X - rel.X) + Classes.Edit.SolutionState.ViewPositionX) / Classes.Edit.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Edit.SolutionState.ViewPositionY) / Classes.Edit.SolutionState.Zoom)), (ushort)TilesToolbar.SelectedTile);
                 FormsModel.GraphicPanel.Render();
 
             }
         }
         private void GraphicPanel_DragLeave(object sender, EventArgs e)
         {
-            EditLayerA?.EndDragOver(true);
+            Classes.Edit.Solution.EditLayerA?.EndDragOver(true);
             FormsModel.GraphicPanel.Render();
         }
         private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            EditLayerA?.EndDragOver(false);
+            Classes.Edit.Solution.EditLayerA?.EndDragOver(false);
         }
         public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
@@ -1063,24 +1049,24 @@ namespace ManiacEditor
 
                 //if (UIModes.DebugStatsVisibleOnPanel && Classes.Edit.Scene.EditorSolution.CurrentScene != null) DrawDebugHUD();
 
-                if (Classes.Edit.Solution.CurrentScene.OtherLayers.Contains(EditLayerA)) EditLayerA.Draw(FormsModel.GraphicPanel);
+                if (Classes.Edit.Solution.CurrentScene.OtherLayers.Contains(Classes.Edit.Solution.EditLayerA)) Classes.Edit.Solution.EditLayerA.Draw(FormsModel.GraphicPanel);
 
                 if (!Classes.Edit.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
-                DrawLayer(EditorToolbar.ShowFGLower.IsChecked.Value, EditorToolbar.EditFGLower.IsCheckedAll, FGLower);
+                DrawLayer(EditorToolbar.ShowFGLower.IsChecked.Value, EditorToolbar.EditFGLower.IsCheckedAll, Classes.Edit.Solution.FGLower);
 
-                DrawLayer(EditorToolbar.ShowFGLow.IsChecked.Value, EditorToolbar.EditFGLow.IsCheckedAll, FGLow);
+                DrawLayer(EditorToolbar.ShowFGLow.IsChecked.Value, EditorToolbar.EditFGLow.IsCheckedAll, Classes.Edit.Solution.FGLow);
 
 
                 if (showEntities && !AboveAllMode)
                     if (PriorityMode) EntitiesDraw(2);
                     else EntitiesDraw(0);
 
-                DrawLayer(EditorToolbar.ShowFGHigh.IsChecked.Value, EditorToolbar.EditFGHigh.IsCheckedAll, FGHigh);
+                DrawLayer(EditorToolbar.ShowFGHigh.IsChecked.Value, EditorToolbar.EditFGHigh.IsCheckedAll, Classes.Edit.Solution.FGHigh);
 
                 if (showEntities && PriorityMode && !AboveAllMode) EntitiesDraw(3);
 
-                DrawLayer(EditorToolbar.ShowFGHigher.IsChecked.Value, EditorToolbar.EditFGHigher.IsCheckedAll, FGHigher);
+                DrawLayer(EditorToolbar.ShowFGHigher.IsChecked.Value, EditorToolbar.EditFGHigher.IsCheckedAll, Classes.Edit.Solution.FGHigher);
 
                 if (Classes.Edit.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
@@ -1365,10 +1351,10 @@ namespace ManiacEditor
             {
                 // Make sure to dispose the textures of the extra layers too
                 if (Classes.Edit.Solution.CurrentTiles != null) Classes.Edit.Solution.CurrentTiles?.DisposeTextures();
-                if (FGHigh != null) FGHigh.DisposeTextures();
-                if (FGLow != null) FGLow.DisposeTextures();
-                if (FGHigher != null) FGHigher.DisposeTextures();
-                if (FGLower != null) FGLower.DisposeTextures();
+                if (Classes.Edit.Solution.FGHigh != null) Classes.Edit.Solution.FGHigh.DisposeTextures();
+                if (Classes.Edit.Solution.FGLow != null) Classes.Edit.Solution.FGLow.DisposeTextures();
+                if (Classes.Edit.Solution.FGHigher != null) Classes.Edit.Solution.FGHigher.DisposeTextures();
+                if (Classes.Edit.Solution.FGLower != null) Classes.Edit.Solution.FGLower.DisposeTextures();
 
                 foreach (var el in Classes.Edit.Solution.CurrentScene.OtherLayers)
                 {
@@ -1555,10 +1541,10 @@ namespace ManiacEditor
 				ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
 			}
 
-            UpdateDualButtonsControlsForLayer(FGLow, EditorToolbar.ShowFGLow, EditorToolbar.EditFGLow);
-			UpdateDualButtonsControlsForLayer(FGHigh, EditorToolbar.ShowFGHigh, EditorToolbar.EditFGHigh);
-			UpdateDualButtonsControlsForLayer(FGLower, EditorToolbar.ShowFGLower, EditorToolbar.EditFGLower);
-			UpdateDualButtonsControlsForLayer(FGHigher, EditorToolbar.ShowFGHigher, EditorToolbar.EditFGHigher);
+            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGLow, EditorToolbar.ShowFGLow, EditorToolbar.EditFGLow);
+			UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGHigh, EditorToolbar.ShowFGHigh, EditorToolbar.EditFGHigh);
+			UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGLower, EditorToolbar.ShowFGLower, EditorToolbar.EditFGLower);
+			UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGHigher, EditorToolbar.ShowFGHigher, EditorToolbar.EditFGHigher);
 		}
 		public void TearDownExtraLayerButtons()
 		{

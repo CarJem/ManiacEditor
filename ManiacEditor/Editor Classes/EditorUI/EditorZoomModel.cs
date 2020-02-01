@@ -111,7 +111,7 @@ namespace ManiacEditor
                 Editor.FormsModel.vScrollBar1.SmallChange = Editor.FormsModel.vScrollBar1Host.Height / 8;
                 Classes.Edit.SolutionState.ScreenHeight = (int)Editor.FormsModel.vScrollBar1Host.Height;
                 Editor.FormsModel.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.FormsModel.vScrollBar1.Value, Editor.FormsModel.vScrollBar1.Maximum));
-                if (Editor.FormsModel.vScrollBar1.Track.ViewportSize != Editor.SceneHeight) Editor.FormsModel.vScrollBar1.Track.ViewportSize = Editor.SceneHeight;
+                if (Editor.FormsModel.vScrollBar1.Track.ViewportSize != Classes.Edit.Solution.SceneHeight) Editor.FormsModel.vScrollBar1.Track.ViewportSize = Classes.Edit.Solution.SceneHeight;
             }
             else
             {
@@ -125,7 +125,7 @@ namespace ManiacEditor
                 Editor.FormsModel.hScrollBar1.SmallChange = Editor.FormsModel.hScrollBar1Host.Width / 8;
                 Classes.Edit.SolutionState.ScreenWidth = (int)Editor.FormsModel.hScrollBar1Host.Width;
                 Editor.FormsModel.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.FormsModel.hScrollBar1.Value, Editor.FormsModel.hScrollBar1.Maximum));
-                if (Editor.FormsModel.hScrollBar1.Track.ViewportSize != Editor.SceneWidth) Editor.FormsModel.hScrollBar1.Track.ViewportSize = Editor.SceneWidth;
+                if (Editor.FormsModel.hScrollBar1.Track.ViewportSize != Classes.Edit.Solution.SceneWidth) Editor.FormsModel.hScrollBar1.Track.ViewportSize = Classes.Edit.Solution.SceneWidth;
             }
             else
             {
@@ -203,7 +203,7 @@ namespace ManiacEditor
             int oldShiftY = Classes.Edit.SolutionState.ViewPositionY;
 
             if (Classes.Edit.Solution.CurrentScene != null)
-                SetViewSize((int)(Editor.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Editor.SceneHeight * Classes.Edit.SolutionState.Zoom), updateControls);
+                SetViewSize((int)(Classes.Edit.Solution.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.Solution.SceneHeight * Classes.Edit.SolutionState.Zoom), updateControls);
 
 
             if (Editor.FormsModel.hScrollBar1.IsVisible)
@@ -227,14 +227,14 @@ namespace ManiacEditor
 
         public void ResetViewSize()
         {
-            Editor.ZoomModel.SetViewSize((int)(Editor.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Editor.SceneHeight * Classes.Edit.SolutionState.Zoom));
+            Editor.ZoomModel.SetViewSize((int)(Classes.Edit.Solution.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.Solution.SceneHeight * Classes.Edit.SolutionState.Zoom));
         }
         public void ResizeGraphicPanel(int width = 0, int height = 0)
         {
             if (Settings.MySettings.EntityFreeCam)
             {
-                width = Editor.SceneWidth;
-                height = Editor.SceneHeight;
+                width = Classes.Edit.Solution.SceneWidth;
+                height = Classes.Edit.Solution.SceneHeight;
             }
 
             Editor.FormsModel.GraphicPanel.Width = width;

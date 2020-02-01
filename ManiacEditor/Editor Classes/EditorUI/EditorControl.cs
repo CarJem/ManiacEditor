@@ -353,13 +353,13 @@ namespace ManiacEditor
                     Point selectStart = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY1);
                     Point selectEnd = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(Classes.Edit.SolutionState.TempSelectX2, Classes.Edit.SolutionState.TempSelectY2);
 
-                    Editor.Instance.EditLayerA?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
-                    Editor.Instance.EditLayerB?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
+                    Classes.Edit.Solution.EditLayerA?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
+                    Classes.Edit.Solution.EditLayerB?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
                 }
                 else
                 {
-                    Editor.Instance.EditLayerA?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
-                    Editor.Instance.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
+                    Classes.Edit.Solution.EditLayerA?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
+                    Classes.Edit.Solution.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
 
                     if (IsEntitiesEdit()) Classes.Edit.Solution.Entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
                 }
@@ -368,8 +368,8 @@ namespace ManiacEditor
 
             }
             Classes.Edit.SolutionState.DraggingSelection = false;
-            Editor.Instance.EditLayerA?.EndTempSelection();
-            Editor.Instance.EditLayerB?.EndTempSelection();
+            Classes.Edit.Solution.EditLayerA?.EndTempSelection();
+            Classes.Edit.Solution.EditLayerB?.EndTempSelection();
 
             if (IsEntitiesEdit()) Classes.Edit.Solution.Entities.EndTempSelection();
         }
@@ -495,26 +495,26 @@ namespace ManiacEditor
         {
             // There was just a click now we can determine that this click is dragging
             Point clicked_point = new Point((int)(Classes.Edit.SolutionState.RegionX1 / Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.SolutionState.RegionY1 / Classes.Edit.SolutionState.Zoom));
-            bool PointASelected = Editor.Instance.EditLayerA?.IsPointSelected(clicked_point) ?? false;
-            bool PointBSelected = Editor.Instance.EditLayerB?.IsPointSelected(clicked_point) ?? false;
+            bool PointASelected = Classes.Edit.Solution.EditLayerA?.IsPointSelected(clicked_point) ?? false;
+            bool PointBSelected = Classes.Edit.Solution.EditLayerB?.IsPointSelected(clicked_point) ?? false;
             if (PointASelected || PointBSelected)
             {
                 // Start dragging the tiles
                 Classes.Edit.SolutionState.Dragged = true;
                 Classes.Edit.SolutionState.StartDragged = true;
-                Editor.Instance.EditLayerA?.StartDrag();
-                Editor.Instance.EditLayerB?.StartDrag();
+                Classes.Edit.Solution.EditLayerA?.StartDrag();
+                Classes.Edit.Solution.EditLayerB?.StartDrag();
             }
 
-            else if (!Editor.Instance.EditorToolbar.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Editor.Instance.EditLayerA?.HasTileAt(clicked_point) ?? false) || (Editor.Instance.EditLayerB?.HasTileAt(clicked_point) ?? false))
+            else if (!Editor.Instance.EditorToolbar.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Classes.Edit.Solution.EditLayerA?.HasTileAt(clicked_point) ?? false) || (Classes.Edit.Solution.EditLayerB?.HasTileAt(clicked_point) ?? false))
             {
                 // Start dragging the single selected tile
-                Editor.Instance.EditLayerA?.Select(clicked_point);
-                Editor.Instance.EditLayerB?.Select(clicked_point);
+                Classes.Edit.Solution.EditLayerA?.Select(clicked_point);
+                Classes.Edit.Solution.EditLayerB?.Select(clicked_point);
                 Classes.Edit.SolutionState.Dragged = true;
                 Classes.Edit.SolutionState.StartDragged = true;
-                Editor.Instance.EditLayerA?.StartDrag();
-                Editor.Instance.EditLayerB?.StartDrag();
+                Classes.Edit.Solution.EditLayerA?.StartDrag();
+                Classes.Edit.Solution.EditLayerB?.StartDrag();
             }
 
             else
@@ -552,8 +552,8 @@ namespace ManiacEditor
         public void TilesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
             Point clicked_point = new Point((int)(e.X / Classes.Edit.SolutionState.Zoom), (int)(e.Y / Classes.Edit.SolutionState.Zoom));
-            Editor.Instance.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-            Editor.Instance.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
+            Classes.Edit.Solution.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
+            Classes.Edit.Solution.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
         }
         public void TilesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
@@ -570,11 +570,11 @@ namespace ManiacEditor
 
             Point clicked_point_tile = new Point((int)(e.X / Classes.Edit.SolutionState.Zoom), (int)(e.Y / Classes.Edit.SolutionState.Zoom));
             int tile;
-            int tileA = (ushort)(Editor.Instance.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
+            int tileA = (ushort)(Classes.Edit.Solution.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
             int tileB = 0;
-            if (Editor.Instance.EditLayerB != null)
+            if (Classes.Edit.Solution.EditLayerB != null)
             {
-                tileB = (ushort)(Editor.Instance.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
+                tileB = (ushort)(Classes.Edit.Solution.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
                 if (tileA > 1023 && tileB < 1023) tile = tileB;
                 else tile = tileA;
             }
@@ -630,15 +630,15 @@ namespace ManiacEditor
                 // Remove tile
                 if (Classes.Edit.SolutionState.DrawBrushSize == 1)
                 {
-                    Editor.Instance.EditLayerA?.Select(p);
-                    Editor.Instance.EditLayerB?.Select(p);
+                    Classes.Edit.Solution.EditLayerA?.Select(p);
+                    Classes.Edit.Solution.EditLayerB?.Select(p);
                     Editor.Instance.DeleteSelected();
                 }
                 else
                 {
                     double size = (Classes.Edit.SolutionState.DrawBrushSize / 2) * EditorConstants.TILE_SIZE;
-                    Editor.Instance.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE));
-                    Editor.Instance.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE));
+                    Classes.Edit.Solution.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE));
+                    Classes.Edit.Solution.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE, Classes.Edit.SolutionState.DrawBrushSize * EditorConstants.TILE_SIZE));
                     Editor.Instance.DeleteSelected();
                 }
             }
@@ -649,13 +649,13 @@ namespace ManiacEditor
                 {
                     if (Editor.Instance.TilesToolbar.SelectedTile != -1)
                     {
-                        if (Editor.Instance.EditLayerA.GetTileAt(p) != Editor.Instance.TilesToolbar.SelectedTile)
+                        if (Classes.Edit.Solution.EditLayerA.GetTileAt(p) != Editor.Instance.TilesToolbar.SelectedTile)
                         {
-                            Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA);
+                            Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Classes.Edit.Solution.EditLayerA);
                         }
-                        else if (!Editor.Instance.EditLayerA.IsPointSelected(p))
+                        else if (!Classes.Edit.Solution.EditLayerA.IsPointSelected(p))
                         {
-                            Editor.Instance.EditLayerA.Select(p);
+                            Classes.Edit.Solution.EditLayerA.Select(p);
                         }
                     }
                 }
@@ -663,7 +663,7 @@ namespace ManiacEditor
                 {
                     if (Editor.Instance.TilesToolbar.SelectedTile != -1)
                     {
-                        Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Editor.Instance.EditLayerA, true);
+                        Editor.Instance.EditorPlaceTile(p, Editor.Instance.TilesToolbar.SelectedTile, Classes.Edit.Solution.EditLayerA, true);
                     }
                 }
             }
@@ -865,9 +865,9 @@ namespace ManiacEditor
                     // Place Stamp
                     if (selectedIndex != -1)
                     {
-                        if (!Editor.Instance.Chunks.DoesChunkMatch(pC, Editor.Instance.Chunks.StageStamps.StampList[selectedIndex], Editor.Instance.EditLayerA, Editor.Instance.EditLayerB))
+                        if (!Editor.Instance.Chunks.DoesChunkMatch(pC, Editor.Instance.Chunks.StageStamps.StampList[selectedIndex], Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB))
                         {
-                            Editor.Instance.Chunks.PasteStamp(pC, selectedIndex, Editor.Instance.EditLayerA, Editor.Instance.EditLayerB);
+                            Editor.Instance.Chunks.PasteStamp(pC, selectedIndex, Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB);
                         }
 
                     }
@@ -879,10 +879,10 @@ namespace ManiacEditor
                 if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
 
-                    if (!Editor.Instance.Chunks.IsChunkEmpty(pC, Editor.Instance.EditLayerA, Editor.Instance.EditLayerB))
+                    if (!Editor.Instance.Chunks.IsChunkEmpty(pC, Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB))
                     {
                         // Remove Stamp Sized Area
-                        Editor.Instance.Chunks.PasteStamp(pC, 0, Editor.Instance.EditLayerA, Editor.Instance.EditLayerB, true);
+                        Editor.Instance.Chunks.PasteStamp(pC, 0, Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB, true);
                     }
                 }
 
@@ -894,15 +894,15 @@ namespace ManiacEditor
             Point clicked_point = new Point((int)(e.X / Classes.Edit.SolutionState.Zoom), (int)(e.Y / Classes.Edit.SolutionState.Zoom));
             Point chunk_point = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
 
-            bool PointASelected = Editor.Instance.EditLayerA?.DoesChunkContainASelectedTile(chunk_point) ?? false;
-            bool PointBSelected = Editor.Instance.EditLayerB?.DoesChunkContainASelectedTile(chunk_point) ?? false;
+            bool PointASelected = Classes.Edit.Solution.EditLayerA?.DoesChunkContainASelectedTile(chunk_point) ?? false;
+            bool PointBSelected = Classes.Edit.Solution.EditLayerB?.DoesChunkContainASelectedTile(chunk_point) ?? false;
             if (PointASelected || PointBSelected)
             {
                 // Start dragging the tiles
                 Classes.Edit.SolutionState.Dragged = true;
                 Classes.Edit.SolutionState.StartDragged = true;
-                Editor.Instance.EditLayerA?.StartDrag();
-                Editor.Instance.EditLayerB?.StartDrag();
+                Classes.Edit.Solution.EditLayerA?.StartDrag();
+                Classes.Edit.Solution.EditLayerB?.StartDrag();
             }
             else
             {
@@ -931,9 +931,9 @@ namespace ManiacEditor
                         // Place Stamp
                         if (selectedIndex != -1)
                         {
-                            if (!Editor.Instance.Chunks.DoesChunkMatch(pC, Editor.Instance.Chunks.StageStamps.StampList[selectedIndex], Editor.Instance.EditLayerA, Editor.Instance.EditLayerB))
+                            if (!Editor.Instance.Chunks.DoesChunkMatch(pC, Editor.Instance.Chunks.StageStamps.StampList[selectedIndex], Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB))
                             {
-                                Editor.Instance.Chunks.PasteStamp(pC, selectedIndex, Editor.Instance.EditLayerA, Editor.Instance.EditLayerB);
+                                Editor.Instance.Chunks.PasteStamp(pC, selectedIndex, Classes.Edit.Solution.EditLayerA, Classes.Edit.Solution.EditLayerB);
                             }
 
                         }
@@ -953,8 +953,8 @@ namespace ManiacEditor
                     Rectangle clicked_chunk = new Rectangle(chunk_point.X, chunk_point.Y, 128, 128);
 
                     // Remove Stamp Sized Area
-                    if (!Editor.Instance.EditLayerA.DoesChunkContainASelectedTile(p)) Editor.Instance.EditLayerA?.Select(clicked_chunk);
-                    if (Editor.Instance.EditLayerB != null && !Editor.Instance.EditLayerB.DoesChunkContainASelectedTile(p)) Editor.Instance.EditLayerB?.Select(clicked_chunk);
+                    if (!Classes.Edit.Solution.EditLayerA.DoesChunkContainASelectedTile(p)) Classes.Edit.Solution.EditLayerA?.Select(clicked_chunk);
+                    if (Classes.Edit.Solution.EditLayerB != null && !Classes.Edit.Solution.EditLayerB.DoesChunkContainASelectedTile(p)) Classes.Edit.Solution.EditLayerB?.Select(clicked_chunk);
                     Editor.Instance.DeleteSelected();
                 }
             }
@@ -965,8 +965,8 @@ namespace ManiacEditor
             Point chunk_point = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
             Rectangle clicked_chunk = new Rectangle(chunk_point.X, chunk_point.Y, 128, 128);
 
-            Editor.Instance.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
-            Editor.Instance.EditLayerB?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
+            Classes.Edit.Solution.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
+            Classes.Edit.Solution.EditLayerB?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
             Editor.Instance.UI.UpdateEditLayerActions();
         }
 
@@ -1012,11 +1012,11 @@ namespace ManiacEditor
             {
                 Point clicked_point_tile = new Point((int)(e.X / Classes.Edit.SolutionState.Zoom), (int)(e.Y / Classes.Edit.SolutionState.Zoom));
                 int tile;
-                int tileA = (ushort)(Editor.Instance.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
+                int tileA = (ushort)(Classes.Edit.Solution.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
                 int tileB = 0;
-                if (Editor.Instance.EditLayerB != null)
+                if (Classes.Edit.Solution.EditLayerB != null)
                 {
-                    tileB = (ushort)(Editor.Instance.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
+                    tileB = (ushort)(Classes.Edit.Solution.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
                     if (tileA > 1023 && tileB < 1023) tile = tileB;
                     else tile = tileA;
                 }
@@ -1283,8 +1283,8 @@ namespace ManiacEditor
                         Point selectStart = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY1);
                         Point selectEnd = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(Classes.Edit.SolutionState.TempSelectX2, Classes.Edit.SolutionState.TempSelectY2);
 
-                        Editor.Instance.EditLayerA?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
-                        Editor.Instance.EditLayerB?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
+                        Classes.Edit.Solution.EditLayerA?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
+                        Classes.Edit.Solution.EditLayerB?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
 
                         Editor.Instance.UI.UpdateTilesOptions();
                     }
@@ -1307,8 +1307,8 @@ namespace ManiacEditor
                             Classes.Edit.SolutionState.TempSelectY1 = (int)(e.Y / Classes.Edit.SolutionState.Zoom);
                             Classes.Edit.SolutionState.TempSelectY2 = (int)(Classes.Edit.SolutionState.RegionY2 / Classes.Edit.SolutionState.Zoom);
                         }
-                        Editor.Instance.EditLayerA?.TempSelection(new Rectangle(Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY1, Classes.Edit.SolutionState.TempSelectX2 - Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY2 - Classes.Edit.SolutionState.TempSelectY1), CtrlPressed());
-                        Editor.Instance.EditLayerB?.TempSelection(new Rectangle(Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY1, Classes.Edit.SolutionState.TempSelectX2 - Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY2 - Classes.Edit.SolutionState.TempSelectY1), CtrlPressed());
+                        Classes.Edit.Solution.EditLayerA?.TempSelection(new Rectangle(Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY1, Classes.Edit.SolutionState.TempSelectX2 - Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY2 - Classes.Edit.SolutionState.TempSelectY1), CtrlPressed());
+                        Classes.Edit.Solution.EditLayerB?.TempSelection(new Rectangle(Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY1, Classes.Edit.SolutionState.TempSelectX2 - Classes.Edit.SolutionState.TempSelectX1, Classes.Edit.SolutionState.TempSelectY2 - Classes.Edit.SolutionState.TempSelectY1), CtrlPressed());
 
                         Editor.Instance.UI.UpdateTilesOptions();
 
@@ -1353,15 +1353,15 @@ namespace ManiacEditor
 
                 if (!IsChunksEdit())
                 {
-                    Editor.Instance.EditLayerA?.MoveSelected(oldPoint, newPoint, CtrlPressed());
-                    Editor.Instance.EditLayerB?.MoveSelected(oldPoint, newPoint, CtrlPressed());
+                    Classes.Edit.Solution.EditLayerA?.MoveSelected(oldPoint, newPoint, CtrlPressed());
+                    Classes.Edit.Solution.EditLayerB?.MoveSelected(oldPoint, newPoint, CtrlPressed());
                 }
                 else
                 {
                     Point oldPointAligned = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(oldPoint.X, oldPoint.Y);
                     Point newPointAligned = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(newPoint.X, newPoint.Y);
-                    Editor.Instance.EditLayerA?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
-                    Editor.Instance.EditLayerB?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
+                    Classes.Edit.Solution.EditLayerA?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
+                    Classes.Edit.Solution.EditLayerB?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
                 }
 
 

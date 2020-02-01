@@ -623,10 +623,10 @@ namespace ManiacEditor.Interfaces.EditorElements
                 Editor.Instance.ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
             }
 
-            UpdateDualButtonsControlsForLayer(Editor.Instance.FGLow, ShowFGLow, EditFGLow);
-            UpdateDualButtonsControlsForLayer(Editor.Instance.FGHigh, ShowFGHigh, EditFGHigh);
-            UpdateDualButtonsControlsForLayer(Editor.Instance.FGLower, ShowFGLower, EditFGLower);
-            UpdateDualButtonsControlsForLayer(Editor.Instance.FGHigher, ShowFGHigher, EditFGHigher);
+            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGLow, ShowFGLow, EditFGLow);
+            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGHigh, ShowFGHigh, EditFGHigh);
+            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGLower, ShowFGLower, EditFGLower);
+            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGHigher, ShowFGHigher, EditFGHigher);
         }
         public void TearDownExtraLayerButtons()
         {

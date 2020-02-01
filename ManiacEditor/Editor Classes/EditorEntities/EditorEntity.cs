@@ -357,7 +357,7 @@ namespace ManiacEditor
         }
         public int GetTransparencyLevel()
         {
-            return (Editor.Instance.EditLayerA == null) ? 0xff : 0x32;
+            return (Classes.Edit.Solution.EditLayerA == null) ? 0xff : 0x32;
         }
         public int GetChildX()
         {
@@ -377,7 +377,7 @@ namespace ManiacEditor
 		}
 		public virtual void DrawBoxOnly(DevicePanel d)
 		{
-			int Transparency = (Editor.Instance.EditLayerA == null) ? 0xff : 0x32;
+			int Transparency = (Classes.Edit.Solution.EditLayerA == null) ? 0xff : 0x32;
 			int x = _entity.Position.X.High;
 			int y = _entity.Position.Y.High;
 
@@ -688,7 +688,7 @@ namespace ManiacEditor
                 x = childX;
                 y = childY;
             }
-            int Transparency = (Editor.Instance.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Classes.Edit.Solution.EditLayerA == null) ? 0xff : 0x32;
 
             bool isObjectVisibile = false;
 

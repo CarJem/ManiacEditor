@@ -1111,9 +1111,9 @@ namespace ManiacEditor.Classes.Edit.Scene
             int Transperncy;
 
 
-            if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
+            if (Classes.Edit.Solution.EditLayerA != null && (Classes.Edit.Solution.EditLayerA != this && Classes.Edit.Solution.EditLayerB != this))
                 Transperncy = 0x32;
-            else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && Classes.Edit.SolutionState.ApplyEditEntitiesTransparency)
+            else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && Classes.Edit.Solution.EditLayerA == null && Classes.Edit.SolutionState.ApplyEditEntitiesTransparency)
                 Transperncy = 0x32;
             else
                 Transperncy = 0xFF;
@@ -1522,9 +1522,9 @@ namespace ManiacEditor.Classes.Edit.Scene
             {
                 int Transperncy = 0xFF;
 
-                if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
+                if (Classes.Edit.Solution.EditLayerA != null && (Classes.Edit.Solution.EditLayerA != this && Classes.Edit.Solution.EditLayerB != this))
                     Transperncy = 0x32;
-                else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && Classes.Edit.SolutionState.ApplyEditEntitiesTransparency)
+                else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && Classes.Edit.Solution.EditLayerA == null && Classes.Edit.SolutionState.ApplyEditEntitiesTransparency)
                     Transperncy = 0x32;
                 else
                     Transperncy = 0xFF;

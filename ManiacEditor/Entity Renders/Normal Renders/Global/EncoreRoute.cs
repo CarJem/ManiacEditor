@@ -31,11 +31,11 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool outOfBoundsX = false;
                     bool outOfBoundsY = false;
-                    if (x2 > Editor.Instance.ScratchLayer.Width)
+                    if (x2 > Classes.Edit.Solution.ScratchLayer.Width)
                     {
                         outOfBoundsX = true;
                     }
-                    if (y2 > Editor.Instance.ScratchLayer.Height)
+                    if (y2 > Classes.Edit.Solution.ScratchLayer.Height)
                     {
                         outOfBoundsY = true;
                     }

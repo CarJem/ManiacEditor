@@ -20,10 +20,10 @@ namespace ManiacEditor
         #region Enable And Disable Editor Buttons
         public void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
         {
-            Editor.Instance.EditorToolbar.ShowFGHigh.IsEnabled = enabled && Editor.Instance.FGHigh != null;
-            Editor.Instance.EditorToolbar.ShowFGLow.IsEnabled = enabled && Editor.Instance.FGLow != null;
-            Editor.Instance.EditorToolbar.ShowFGHigher.IsEnabled = enabled && Editor.Instance.FGHigher != null;
-            Editor.Instance.EditorToolbar.ShowFGLower.IsEnabled = enabled && Editor.Instance.FGLower != null;
+            Editor.Instance.EditorToolbar.ShowFGHigh.IsEnabled = enabled && Classes.Edit.Solution.FGHigh != null;
+            Editor.Instance.EditorToolbar.ShowFGLow.IsEnabled = enabled && Classes.Edit.Solution.FGLow != null;
+            Editor.Instance.EditorToolbar.ShowFGHigher.IsEnabled = enabled && Classes.Edit.Solution.FGHigher != null;
+            Editor.Instance.EditorToolbar.ShowFGLower.IsEnabled = enabled && Classes.Edit.Solution.FGLower != null;
             Editor.Instance.EditorToolbar.ShowEntities.IsEnabled = enabled;
 
             Editor.Instance.EditorToolbar.ReloadButton.IsEnabled = enabled;
@@ -51,7 +51,7 @@ namespace ManiacEditor
 
             if (stageLoad)
             {
-                Editor.Instance.ZoomModel.SetViewSize((int)(Editor.Instance.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Editor.Instance.SceneHeight * Classes.Edit.SolutionState.Zoom));
+                Editor.Instance.ZoomModel.SetViewSize((int)(Classes.Edit.Solution.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.Solution.SceneHeight * Classes.Edit.SolutionState.Zoom));
             }
 
             Editor.Instance.Theming.UpdateButtonColors();
@@ -71,10 +71,10 @@ namespace ManiacEditor
 
             if (enabled)
             {
-                Editor.Instance.EditorToolbar.ShowFGHigh.IsEnabled = Editor.Instance.FGHigh != null;
-                Editor.Instance.EditorToolbar.ShowFGLow.IsEnabled = Editor.Instance.FGLow != null;
-                Editor.Instance.EditorToolbar.ShowFGHigher.IsEnabled = Editor.Instance.FGHigher != null;
-                Editor.Instance.EditorToolbar.ShowFGLower.IsEnabled = Editor.Instance.FGLower != null;
+                Editor.Instance.EditorToolbar.ShowFGHigh.IsEnabled = Classes.Edit.Solution.FGHigh != null;
+                Editor.Instance.EditorToolbar.ShowFGLow.IsEnabled = Classes.Edit.Solution.FGLow != null;
+                Editor.Instance.EditorToolbar.ShowFGHigher.IsEnabled = Classes.Edit.Solution.FGHigher != null;
+                Editor.Instance.EditorToolbar.ShowFGLower.IsEnabled = Classes.Edit.Solution.FGLower != null;
                 Editor.Instance.EditorToolbar.ShowEntities.IsEnabled = true;
                 Editor.Instance.LeftToolbarToolbox.SelectedIndex = -1;
                 UpdateToolbars(false, false, false);
@@ -102,18 +102,18 @@ namespace ManiacEditor
         {
             if (!Classes.Edit.SolutionState.MultiLayerEditMode)
             {
-                if (enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedN.Value) Editor.Instance.EditLayerA = Editor.Instance.FGLow;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigh.IsCheckedN.Value) Editor.Instance.EditLayerA = Editor.Instance.FGHigh;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigher.IsCheckedN.Value) Editor.Instance.EditLayerA = Editor.Instance.FGHigher;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGLower.IsCheckedN.Value) Editor.Instance.EditLayerA = Editor.Instance.FGLower;
+                if (enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedN.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGLow;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigh.IsCheckedN.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGHigh;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigher.IsCheckedN.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGHigher;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGLower.IsCheckedN.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGLower;
                 else if (enabled && Editor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedN.Value))
                 {
                     var selectedExtraLayerButton = Editor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedN.Value);
                     var editorLayer = Classes.Edit.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
-                    Editor.Instance.EditLayerA = editorLayer;
+                    Classes.Edit.Solution.EditLayerA = editorLayer;
                 }
-                else Editor.Instance.EditLayerA = null;
+                else Classes.Edit.Solution.EditLayerA = null;
             }
             else
             {
@@ -123,43 +123,43 @@ namespace ManiacEditor
 
             void SetEditLayerA()
             {
-                if (enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedA.Value) Editor.Instance.EditLayerA = Editor.Instance.FGLow;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigh.IsCheckedA.Value) Editor.Instance.EditLayerA = Editor.Instance.FGHigh;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigher.IsCheckedA.Value) Editor.Instance.EditLayerA = Editor.Instance.FGHigher;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGLower.IsCheckedA.Value) Editor.Instance.EditLayerA = Editor.Instance.FGLower;
+                if (enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedA.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGLow;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigh.IsCheckedA.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGHigh;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigher.IsCheckedA.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGHigher;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGLower.IsCheckedA.Value) Classes.Edit.Solution.EditLayerA = Classes.Edit.Solution.FGLower;
                 else if (enabled && Editor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
                 {
                     var selectedExtraLayerButton = Editor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
                     var editorLayer = Classes.Edit.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
-                    Editor.Instance.EditLayerA = editorLayer;
+                    Classes.Edit.Solution.EditLayerA = editorLayer;
                 }
-                else Editor.Instance.EditLayerA = null;
+                else Classes.Edit.Solution.EditLayerA = null;
             }
             void SetEditLayerB()
             {
-                if (enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedB.Value) Editor.Instance.EditLayerB = Editor.Instance.FGLow;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigh.IsCheckedB.Value) Editor.Instance.EditLayerB = Editor.Instance.FGHigh;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigher.IsCheckedB.Value) Editor.Instance.EditLayerB = Editor.Instance.FGHigher;
-                else if (enabled && Editor.Instance.EditorToolbar.EditFGLower.IsCheckedB.Value) Editor.Instance.EditLayerB = Editor.Instance.FGLower;
+                if (enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedB.Value) Classes.Edit.Solution.EditLayerB = Classes.Edit.Solution.FGLow;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigh.IsCheckedB.Value) Classes.Edit.Solution.EditLayerB = Classes.Edit.Solution.FGHigh;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGHigher.IsCheckedB.Value) Classes.Edit.Solution.EditLayerB = Classes.Edit.Solution.FGHigher;
+                else if (enabled && Editor.Instance.EditorToolbar.EditFGLower.IsCheckedB.Value) Classes.Edit.Solution.EditLayerB = Classes.Edit.Solution.FGLower;
                 else if (enabled && Editor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
                 {
                     var selectedExtraLayerButton = Editor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
                     var editorLayer = Classes.Edit.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
-                    Editor.Instance.EditLayerB = editorLayer;
+                    Classes.Edit.Solution.EditLayerB = editorLayer;
                 }
-                else Editor.Instance.EditLayerB = null;
+                else Classes.Edit.Solution.EditLayerB = null;
             }
 
         }
         private void SetEditButtonsState(bool enabled)
         {
 
-            Editor.Instance.EditorToolbar.EditFGLow.IsEnabled = enabled && Editor.Instance.FGLow != null;
-            Editor.Instance.EditorToolbar.EditFGHigh.IsEnabled = enabled && Editor.Instance.FGHigh != null;
-            Editor.Instance.EditorToolbar.EditFGLower.IsEnabled = enabled && Editor.Instance.FGLower != null;
-            Editor.Instance.EditorToolbar.EditFGHigher.IsEnabled = enabled && Editor.Instance.FGHigher != null;
+            Editor.Instance.EditorToolbar.EditFGLow.IsEnabled = enabled && Classes.Edit.Solution.FGLow != null;
+            Editor.Instance.EditorToolbar.EditFGHigh.IsEnabled = enabled && Classes.Edit.Solution.FGHigh != null;
+            Editor.Instance.EditorToolbar.EditFGLower.IsEnabled = enabled && Classes.Edit.Solution.FGLower != null;
+            Editor.Instance.EditorToolbar.EditFGHigher.IsEnabled = enabled && Classes.Edit.Solution.FGHigher != null;
             Editor.Instance.EditorToolbar.EditEntities.IsEnabled = enabled;
 
             Editor.Instance.EditorToolbar.EditFGLow.IsCheckedA = enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedA.Value;
@@ -269,12 +269,12 @@ namespace ManiacEditor
 
                     Editor.Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
                     {
-                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(Classes.Edit.SolutionState.ViewPositionX/ Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1), x, Editor.Instance.EditLayerA);
+                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(Classes.Edit.SolutionState.ViewPositionX/ Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1), x, Classes.Edit.Solution.EditLayerA);
                     });
                     Editor.Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
                     {
-                        Editor.Instance.EditLayerA?.SetPropertySelected(option + 12, state);
-                        Editor.Instance.EditLayerB?.SetPropertySelected(option + 12, state);
+                        Classes.Edit.Solution.EditLayerA?.SetPropertySelected(option + 12, state);
+                        Classes.Edit.Solution.EditLayerB?.SetPropertySelected(option + 12, state);
 
                     });
                     Editor.Instance.ToolBarPanelRight.Children.Clear();
@@ -419,8 +419,8 @@ namespace ManiacEditor
             {
                 if (Editor.Instance.TilesToolbar != null)
                 {
-                    List<ushort> values = Editor.Instance.EditLayerA?.GetSelectedValues();
-                    List<ushort> valuesB = Editor.Instance.EditLayerB?.GetSelectedValues();
+                    List<ushort> values = Classes.Edit.Solution.EditLayerA?.GetSelectedValues();
+                    List<ushort> valuesB = Classes.Edit.Solution.EditLayerB?.GetSelectedValues();
                     if (valuesB != null) values.AddRange(valuesB);
 
                     if (values.Count > 0)
@@ -455,9 +455,9 @@ namespace ManiacEditor
         }
         public void UpdateEditLayerActions()
         {
-            if (Editor.Instance.EditLayerA != null)
+            if (Classes.Edit.Solution.EditLayerA != null)
             {
-                List<IAction> actions = Editor.Instance.EditLayerA?.Actions;
+                List<IAction> actions = Classes.Edit.Solution.EditLayerA?.Actions;
                 if (actions.Count > 0) Editor.Instance.RedoStack.Clear();
                 while (actions.Count > 0)
                 {
@@ -478,9 +478,9 @@ namespace ManiacEditor
                     actions.RemoveAt(0);
                 }
             }
-            if (Editor.Instance.EditLayerB != null)
+            if (Classes.Edit.Solution.EditLayerB != null)
             {
-                List<IAction> actions = Editor.Instance.EditLayerB?.Actions;
+                List<IAction> actions = Classes.Edit.Solution.EditLayerB?.Actions;
                 if (actions.Count > 0) Editor.Instance.RedoStack.Clear();
                 while (actions.Count > 0)
                 {
