@@ -2,22 +2,22 @@
 using System.Drawing;
 using RSDKv5Color = RSDKv5.Color;
 
-namespace ManiacEditor.Classes.Edit.Scene
+namespace ManiacEditor.Classes.Editor.Scene
 {
     public class EditorBackground : IDrawable
     {
 
-        public Editor EditorInstance;
+        public ManiacEditor.Editor EditorInstance;
 
 		int width;
 		int height;
 
-		public EditorBackground(Editor instance)
+		public EditorBackground(ManiacEditor.Editor instance)
         {
             EditorInstance = instance;
         }
 
-		public EditorBackground(Editor instance, int width, int height)
+		public EditorBackground(ManiacEditor.Editor instance, int width, int height)
 		{
 			this.width = width;
 			this.height = height;
@@ -38,16 +38,16 @@ namespace ManiacEditor.Classes.Edit.Scene
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
+            RSDKv5Color rcolor1 = Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
+            RSDKv5Color rcolor2 = Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
 
             Color color1 = Color.FromArgb(rcolor1.A, rcolor1.R, rcolor1.G, rcolor1.B);
             Color color2 = Color.FromArgb(rcolor2.A, rcolor2.R, rcolor2.G, rcolor2.B);
 
-            int start_x = screen.X / (Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE);
-            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE), Classes.Edit.Solution.SceneWidth);
-            int start_y = screen.Y / (Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE), Classes.Edit.Solution.SceneHeight);
+            int start_x = screen.X / (Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE);
+            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE), Classes.Editor.Solution.SceneWidth);
+            int start_y = screen.Y / (Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE), Classes.Editor.Solution.SceneHeight);
 
             // Draw with first color everything
             d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, color1);
@@ -57,7 +57,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                 {
                     for (int x = start_x; x < end_x; ++x)
                     {
-                        if ((x + y) % 2 == 1) d.DrawRectangle(x * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, y * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, (x + 1) * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, (y + 1) * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, color2);
+                        if ((x + y) % 2 == 1) d.DrawRectangle(x * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, (x + 1) * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, (y + 1) * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, color2);
                     }
                 }
             }
@@ -67,16 +67,16 @@ namespace ManiacEditor.Classes.Edit.Scene
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
+            RSDKv5Color rcolor1 = Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
+            RSDKv5Color rcolor2 = Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
 
             Color color1 = Color.FromArgb(30, rcolor1.R, rcolor1.G, rcolor1.B);
             Color color2 = Color.FromArgb(30, rcolor2.R, rcolor2.G, rcolor2.B);
 
-            int start_x = screen.X / (Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE);
-            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE), Classes.Edit.Solution.SceneWidth);
-            int start_y = screen.Y / (Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE), Classes.Edit.Solution.SceneHeight);
+            int start_x = screen.X / (Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE);
+            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE), Classes.Editor.Solution.SceneWidth);
+            int start_y = screen.Y / (Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE), Classes.Editor.Solution.SceneHeight);
 
             // Draw with first color everything
             d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, color1);
@@ -87,7 +87,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                 {
                     for (int x = start_x; x < end_x; ++x)
                     {
-                        if ((x + y) % 2 == 1) d.DrawRectangle(x * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, y * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, (x + 1) * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, (y + 1) * Classes.Edit.Constants.BOX_SIZE * Classes.Edit.Constants.TILE_SIZE, color2);
+                        if ((x + y) % 2 == 1) d.DrawRectangle(x * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, (x + 1) * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, (y + 1) * Classes.Editor.Constants.BOX_SIZE * Classes.Editor.Constants.TILE_SIZE, color2);
                     }
                 }
             }
@@ -95,15 +95,15 @@ namespace ManiacEditor.Classes.Edit.Scene
 
         public void DrawGrid(DevicePanel d)
         {
-            int GridSize = (EditorInstance != null ? Classes.Edit.SolutionState.GridSize : 0);
+            int GridSize = (EditorInstance != null ? Classes.Editor.SolutionState.GridSize : 0);
             Rectangle screen = d.GetScreen();
 
-			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Classes.Edit.SolutionState.GridColor.R, Classes.Edit.SolutionState.GridColor.B, Classes.Edit.SolutionState.GridColor.G);
+			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Classes.Editor.SolutionState.GridColor.R, Classes.Editor.SolutionState.GridColor.B, Classes.Editor.SolutionState.GridColor.G);
 
-            int start_x = screen.X / (Classes.Edit.Constants.TILE_BOX_SIZE * GridSize);
-            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Classes.Edit.Constants.TILE_BOX_SIZE * GridSize), Classes.Edit.Solution.SceneWidth);
-            int start_y = screen.Y / (Classes.Edit.Constants.TILE_BOX_SIZE * GridSize);
-            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Classes.Edit.Constants.TILE_BOX_SIZE * GridSize), Classes.Edit.Solution.SceneHeight);
+            int start_x = screen.X / (Classes.Editor.Constants.TILE_BOX_SIZE * GridSize);
+            int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Classes.Editor.Constants.TILE_BOX_SIZE * GridSize), Classes.Editor.Solution.SceneWidth);
+            int start_y = screen.Y / (Classes.Editor.Constants.TILE_BOX_SIZE * GridSize);
+            int end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Classes.Editor.Constants.TILE_BOX_SIZE * GridSize), Classes.Editor.Solution.SceneHeight);
 
 
                 for (int y = start_y; y < end_y; ++y)

@@ -59,7 +59,7 @@ namespace ManiacEditor.Interfaces
 
         public double GetZoom()
         {
-            return Classes.Edit.SolutionState.Zoom;
+            return Classes.Editor.SolutionState.Zoom;
         }
 
 		public new void Dispose()
@@ -74,22 +74,22 @@ namespace ManiacEditor.Interfaces
 
         public Rectangle GetScreen()
         {
-            if (Settings.MySettings.EntityFreeCam) return new Rectangle(Classes.Edit.SolutionState.CustomX, Classes.Edit.SolutionState.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
-            else return new Rectangle((int)Classes.Edit.SolutionState.ViewPositionX, (int)Classes.Edit.SolutionState.ViewPositionY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            if (Settings.MySettings.EntityFreeCam) return new Rectangle(Classes.Editor.SolutionState.CustomX, Classes.Editor.SolutionState.CustomY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
+            else return new Rectangle((int)Classes.Editor.SolutionState.ViewPositionX, (int)Classes.Editor.SolutionState.ViewPositionY, (int)EditorInstance.ViewPanelForm.ActualWidth, (int)EditorInstance.ViewPanelForm.ActualHeight);
         }
 
         public void DisposeTextures()
         {
             // Make sure to dispose the textures of the extra layers too
-            Classes.Edit.Solution.CurrentTiles?.Dispose();
-            if (Classes.Edit.Solution.FGHigh != null) Classes.Edit.Solution.FGHigh?.DisposeTextures();
-            if (Classes.Edit.Solution.FGLow != null) Classes.Edit.Solution.FGLow?.DisposeTextures();
-            if (Classes.Edit.Solution.FGHigher != null) Classes.Edit.Solution.FGHigher?.DisposeTextures();
-            if (Classes.Edit.Solution.FGLower != null) Classes.Edit.Solution.FGLower?.DisposeTextures();
+            Classes.Editor.Solution.CurrentTiles?.Dispose();
+            if (Classes.Editor.Solution.FGHigh != null) Classes.Editor.Solution.FGHigh?.DisposeTextures();
+            if (Classes.Editor.Solution.FGLow != null) Classes.Editor.Solution.FGLow?.DisposeTextures();
+            if (Classes.Editor.Solution.FGHigher != null) Classes.Editor.Solution.FGHigher?.DisposeTextures();
+            if (Classes.Editor.Solution.FGLower != null) Classes.Editor.Solution.FGLower?.DisposeTextures();
 
-			if (Classes.Edit.Solution.CurrentScene != null)
+			if (Classes.Editor.Solution.CurrentScene != null)
 			{
-				foreach (var el in Classes.Edit.Solution.CurrentScene?.OtherLayers)
+				foreach (var el in Classes.Editor.Solution.CurrentScene?.OtherLayers)
 				{
 					el.DisposeTextures();
 				}

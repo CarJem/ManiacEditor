@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManiacEditor.Classes.Edit
+namespace ManiacEditor.Classes.Editor
 {
     public static class Constants
     {

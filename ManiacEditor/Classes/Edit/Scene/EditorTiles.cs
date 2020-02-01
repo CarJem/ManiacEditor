@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManiacEditor.Classes.Edit.Scene
+namespace ManiacEditor.Classes.Editor.Scene
 {
     public class EditorTiles
     {
-        private Editor Instance;
+        private ManiacEditor.Editor Instance;
         public StageTiles StageTiles;
 
-        public EditorTiles(Editor instance)
+        public EditorTiles(ManiacEditor.Editor instance)
         {
             Instance = instance;
         }

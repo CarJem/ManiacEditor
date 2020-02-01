@@ -278,7 +278,7 @@ namespace ManiacEditor
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == Classes.Edit.SolutionState.PlayerBeingTracked) Editor.GoToPosition(x, y);
+            if (playerID == Classes.Editor.SolutionState.PlayerBeingTracked) Editor.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -324,12 +324,12 @@ namespace ManiacEditor
             {
                 if (showFrame)
                 {
-                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
-                    d.DrawLine(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y, x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
+                    d.DrawLine(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y, x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -396,12 +396,12 @@ namespace ManiacEditor
             {
                 if (showFrame)
                 {
-                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
-                    d.DrawLine(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y, x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
+                    d.DrawLine(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y, x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    if (Editor.GetZoom() >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -543,9 +543,9 @@ namespace ManiacEditor
                         while (Editor.GameMemory.ReadByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)]) == 0x00) Thread.Sleep(1);
 
                         // Swap the Scene
-                        if (Classes.Edit.SolutionState.LevelID != -1)
+                        if (Classes.Editor.SolutionState.LevelID != -1)
                         {
-                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Classes.Edit.SolutionState.LevelID);
+                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Classes.Editor.SolutionState.LevelID);
                             // Restart the Scene
                             Editor.GameMemory.WriteByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                         }
@@ -643,14 +643,14 @@ namespace ManiacEditor
             if (Editor.InGame.GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom));
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));
             }
         }
 
         public void SetPlayerRespawnToHere()
         {
-            Point clicked_point = new Point((int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom));
+            Point clicked_point = new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));
             if (GameRunning)
             {
                 UpdateCheckpoint(clicked_point);
@@ -668,12 +668,12 @@ namespace ManiacEditor
                     UncheckAllPlayers();
                     item.IsChecked = true;
                     int.TryParse(item.Tag.ToString(), out int player);
-                    Classes.Edit.SolutionState.PlayerBeingTracked = player;
+                    Classes.Editor.SolutionState.PlayerBeingTracked = player;
                 }
                 else
                 {
                     item.IsChecked = false;
-                    Classes.Edit.SolutionState.PlayerBeingTracked = -1;
+                    Classes.Editor.SolutionState.PlayerBeingTracked = -1;
                 }
 
 

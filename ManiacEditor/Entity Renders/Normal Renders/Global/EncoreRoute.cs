@@ -14,9 +14,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            if (Classes.Edit.Solution.CurrentScene?.Scratch != null)
+            if (Classes.Editor.Solution.CurrentScene?.Scratch != null)
             {
-                Classes.Edit.Scene.EditorLayer Scratch = Classes.Edit.Solution.CurrentScene?.Scratch;
+                Classes.Editor.Scene.EditorLayer Scratch = Classes.Editor.Solution.CurrentScene?.Scratch;
 
                 _layer = Scratch.Layer;
                 bool fliph = false;
@@ -31,11 +31,11 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool outOfBoundsX = false;
                     bool outOfBoundsY = false;
-                    if (x2 > Classes.Edit.Solution.ScratchLayer.Width)
+                    if (x2 > Classes.Editor.Solution.ScratchLayer.Width)
                     {
                         outOfBoundsX = true;
                     }
-                    if (y2 > Classes.Edit.Solution.ScratchLayer.Height)
+                    if (y2 > Classes.Editor.Solution.ScratchLayer.Height)
                     {
                         outOfBoundsY = true;
                     }
@@ -126,7 +126,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Classes.Edit.Solution.CurrentTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
         }
 

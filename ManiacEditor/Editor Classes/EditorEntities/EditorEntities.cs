@@ -165,7 +165,7 @@ namespace ManiacEditor
         {
             try
             {
-                var objectList = GetObjects(Classes.Edit.Solution.CurrentScene.Objects);
+                var objectList = GetObjects(Classes.Editor.Solution.CurrentScene.Objects);
                 string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
                 return setupObject;
             }
@@ -516,7 +516,7 @@ namespace ManiacEditor
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal())
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Classes.Edit.Solution.CurrentScene.Objects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Classes.Editor.Solution.CurrentScene.Objects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);
@@ -556,7 +556,7 @@ namespace ManiacEditor
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal())
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Classes.Edit.Solution.CurrentScene.Objects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Classes.Editor.Solution.CurrentScene.Objects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);
@@ -910,7 +910,7 @@ namespace ManiacEditor
                 if (entity.Name == "Spline")
                 {
                     int id = entity.Entity.attributesMap["SplineID"].ValueInt32;
-                    if (!Classes.Edit.SolutionState.SplineOptionsGroup.ContainsKey(id)) Classes.Edit.SolutionState.AddSplineOptionsGroup(id);
+                    if (!Classes.Editor.SolutionState.SplineOptionsGroup.ContainsKey(id)) Classes.Editor.SolutionState.AddSplineOptionsGroup(id);
                     if (SplineXPos.ContainsKey(id))
                     {
                         SplineXPos[id].Add(entity.Entity.Position.X.High);
@@ -927,7 +927,7 @@ namespace ManiacEditor
             foreach (var path in SplineXPos)
             {
                 int splineID = path.Key;
-                Classes.Edit.SolutionState.SplineOptions selectedOptions = Classes.Edit.SolutionState.SplineOptionsGroup[splineID];
+                Classes.Editor.SolutionState.SplineOptions selectedOptions = Classes.Editor.SolutionState.SplineOptionsGroup[splineID];
                 if (SplineXPos[splineID].Count > 1)
                 {
                     float[] xs, ys;

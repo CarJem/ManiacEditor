@@ -41,7 +41,7 @@ namespace ManiacEditor
                 SelectedIndex = -1;
             }
 
-            Classes.Edit.Solution.Entities.UpdateSelectedIndexForEntities();
+            Classes.Editor.Solution.Entities.UpdateSelectedIndexForEntities();
         }
 
         public bool InTempSelection = false;
@@ -253,7 +253,7 @@ namespace ManiacEditor
                 int ObjectStart = EditorInGame.ObjectStart[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
                 int ObjectSize =  EditorInGame.ObjectSize[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
 
-                int ObjectAddress = ObjectStart + (ObjectSize * Classes.Edit.Solution.Entities.GetRealSlotID(_entity));
+                int ObjectAddress = ObjectStart + (ObjectSize * Classes.Editor.Solution.Entities.GetRealSlotID(_entity));
                 Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
                 Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
             }
@@ -266,19 +266,19 @@ namespace ManiacEditor
 
             if (GridAlignment)
             {
-                if (Classes.Edit.SolutionState.UseMagnetMode)
+                if (Classes.Editor.SolutionState.UseMagnetMode)
                 {
-                    int x = Classes.Edit.SolutionState.MagnetSize * (_entity.Position.X.High / Classes.Edit.SolutionState.MagnetSize);
-                    int y = Classes.Edit.SolutionState.MagnetSize * (_entity.Position.Y.High / Classes.Edit.SolutionState.MagnetSize);
-                    return new Rectangle(x, y, Classes.Edit.SolutionState.MagnetSize, Classes.Edit.SolutionState.MagnetSize);
+                    int x = Classes.Editor.SolutionState.MagnetSize * (_entity.Position.X.High / Classes.Editor.SolutionState.MagnetSize);
+                    int y = Classes.Editor.SolutionState.MagnetSize * (_entity.Position.Y.High / Classes.Editor.SolutionState.MagnetSize);
+                    return new Rectangle(x, y, Classes.Editor.SolutionState.MagnetSize, Classes.Editor.SolutionState.MagnetSize);
                 }
                 else
                 {
-                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT);
+                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT);
                 }
 
             }
-            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT);
+            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT);
         }
 
         public bool SetFilter()
@@ -307,7 +307,7 @@ namespace ManiacEditor
 			}
 
 
-            if (Classes.Edit.SolutionState.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Classes.Edit.SolutionState.entitiesTextFilter))
+            if (Classes.Editor.SolutionState.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Classes.Editor.SolutionState.entitiesTextFilter))
             {
                 filteredOut = true;
             }
@@ -357,7 +357,7 @@ namespace ManiacEditor
         }
         public int GetTransparencyLevel()
         {
-            return (Classes.Edit.Solution.EditLayerA == null) ? 0xff : 0x32;
+            return (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
         }
         public int GetChildX()
         {
@@ -377,7 +377,7 @@ namespace ManiacEditor
 		}
 		public virtual void DrawBoxOnly(DevicePanel d)
 		{
-			int Transparency = (Classes.Edit.Solution.EditLayerA == null) ? 0xff : 0x32;
+			int Transparency = (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 			int x = _entity.Position.X.High;
 			int y = _entity.Position.Y.High;
 
@@ -397,7 +397,7 @@ namespace ManiacEditor
         public virtual void Draw(GraphicsHandler d)
         {
             if (filteredOut) return;
-            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Classes.Edit.SolutionState.ShowEntityPathArrows)
+            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Classes.Editor.SolutionState.ShowEntityPathArrows)
             {
                 try
                 {
@@ -448,7 +448,7 @@ namespace ManiacEditor
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = _entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront && !Classes.Edit.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
             if (!Settings.MyPerformance.NeverLoadEntityTextures)
             {
@@ -456,7 +456,7 @@ namespace ManiacEditor
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
             }
 
-            if (drawSelectionBoxInFront && !Classes.Edit.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+            if (drawSelectionBoxInFront && !Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
         public virtual void PrimaryDraw(GraphicsHandler d, List<string> onScreenExlusionList)
         {
@@ -510,7 +510,7 @@ namespace ManiacEditor
                 }
                 else
                 { // No frame to render
-                    if (Classes.Edit.SolutionState.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (Classes.Editor.SolutionState.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
                 //DrawOthers(d);
@@ -523,32 +523,32 @@ namespace ManiacEditor
         }
         public void DrawSelectionBox(GraphicsHandler d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
         {
-            if (Classes.Edit.SolutionState.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
+            if (Classes.Editor.SolutionState.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
             {
                 if (renderNotFound)
                 {
-                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 else
                 {
-                    d.DrawRectangle(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(color2));
+                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(color2));
                 }
-                d.DrawLine(x, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y, x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y, x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                 if (Settings.MyPerformance.DisableEntitySelectionBoxText == false)
                 {
                     if (Editor.Instance.GetZoom() >= 1)
                     {
-                        d.DrawTextSmall(String.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                        d.DrawTextSmall(String.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }
                 }
 
                 if (SelectedIndex != -1)
                 { 
-                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x + 1, y + 1, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
-                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x, y, Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x + 1, y + 1, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x, y, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
                 }
             }
         }
@@ -688,7 +688,7 @@ namespace ManiacEditor
                 x = childX;
                 y = childY;
             }
-            int Transparency = (Classes.Edit.Solution.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 
             bool isObjectVisibile = false;
 
@@ -853,7 +853,7 @@ namespace ManiacEditor
         public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (Classes.Edit.SolutionState.AllowSpriteAnimations)
+            if (Classes.Editor.SolutionState.AllowSpriteAnimations)
             {
                 if (speed > 0)
                 {

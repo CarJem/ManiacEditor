@@ -43,7 +43,7 @@ namespace ManiacEditor.Interfaces
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed)
+            if (Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -72,7 +72,7 @@ namespace ManiacEditor.Interfaces
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Edit.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
+                    if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
                         lvc.Foreground = Brushes.Red;
                     }
                     else
@@ -182,7 +182,7 @@ namespace ManiacEditor.Interfaces
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Edit.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+                    if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
                     {
                         lvc.Foreground = Brushes.Red;
                     }
@@ -313,7 +313,7 @@ namespace ManiacEditor.Interfaces
                             }
                         }
 
-						if (Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed)
+						if (Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -461,11 +461,11 @@ namespace ManiacEditor.Interfaces
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed = true;
+				Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed = false;
+				Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 

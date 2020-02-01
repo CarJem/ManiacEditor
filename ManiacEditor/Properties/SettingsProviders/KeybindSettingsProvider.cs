@@ -20,7 +20,7 @@ namespace ManiacEditor
         {
             get
             {
-                string folder = (Properties.Internal.Default.PortableMode ? Classes.Edit.Constants.SettingsPortableDirectory : Classes.Edit.Constants.SettingsStaticDirectory);
+                string folder = (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
                 return Path.Combine(folder, string.Format("{0}.settings", "Keybinds"));
             }
         }

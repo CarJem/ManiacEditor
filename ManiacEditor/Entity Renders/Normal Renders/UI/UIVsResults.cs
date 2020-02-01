@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-			string text = "Text" + Classes.Edit.SolutionState.CurrentLanguage;
+			string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
 			int playerID = (int)entity.attributesMap["playerID"].ValueUInt8;
 			int player = 8;
 			switch (playerID)

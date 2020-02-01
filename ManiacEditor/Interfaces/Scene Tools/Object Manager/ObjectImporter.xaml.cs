@@ -32,7 +32,7 @@ namespace ManiacEditor.Interfaces
 
         public void SetupWindow()
         {
-            if (Classes.Edit.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
+            if (Classes.Editor.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
             if (Settings.MySettings.NightMode) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
             else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
@@ -254,7 +254,7 @@ namespace ManiacEditor.Interfaces
                         objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
                         _targetSceneObjects.Add(objectToImport);
 
-                        if (Classes.Edit.SolutionState.AddStageConfigEntriesAllowed)
+                        if (Classes.Editor.SolutionState.AddStageConfigEntriesAllowed)
                         {
                             if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
                             {
@@ -282,11 +282,11 @@ namespace ManiacEditor.Interfaces
 		{
 			if (checkBox1.IsChecked.Value)
 			{
-				Classes.Edit.SolutionState.AddStageConfigEntriesAllowed = true;
+				Classes.Editor.SolutionState.AddStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				Classes.Edit.SolutionState.AddStageConfigEntriesAllowed = false;
+				Classes.Editor.SolutionState.AddStageConfigEntriesAllowed = false;
 			}
 		}
 	}

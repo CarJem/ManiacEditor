@@ -102,19 +102,19 @@ namespace ManiacEditor
         private static void SetupSettingFiles()
         {
             if (!File.Exists(Path.Combine(GetExecutingDirectoryName(), "Internal.settings"))) File.Create(Path.Combine(GetExecutingDirectoryName(), "Internal.settings"));
-            bool PortableExists = System.IO.Directory.Exists(Classes.Edit.Constants.SettingsPortableDirectory);
-            if (!PortableExists) System.IO.Directory.CreateDirectory(Classes.Edit.Constants.SettingsPortableDirectory);
-            bool FixedExists = System.IO.Directory.Exists(Classes.Edit.Constants.SettingsStaticDirectory);
-            if (!FixedExists) System.IO.Directory.CreateDirectory(Classes.Edit.Constants.SettingsStaticDirectory);
+            bool PortableExists = System.IO.Directory.Exists(Classes.Editor.Constants.SettingsPortableDirectory);
+            if (!PortableExists) System.IO.Directory.CreateDirectory(Classes.Editor.Constants.SettingsPortableDirectory);
+            bool FixedExists = System.IO.Directory.Exists(Classes.Editor.Constants.SettingsStaticDirectory);
+            if (!FixedExists) System.IO.Directory.CreateDirectory(Classes.Editor.Constants.SettingsStaticDirectory);
 
             if (Properties.Internal.Default.PortableMode)
             {
-                string settings1 = Path.Combine(Classes.Edit.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Performance"));
-                string settings2 = Path.Combine(Classes.Edit.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "DevOptions"));
-                string settings3 = Path.Combine(Classes.Edit.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Defaults"));
-                string settings4 = Path.Combine(Classes.Edit.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Keybinds"));
-                string settings5 = Path.Combine(Classes.Edit.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Settings"));
-                string settings6 = Path.Combine(Classes.Edit.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "GameOptions"));
+                string settings1 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Performance"));
+                string settings2 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "DevOptions"));
+                string settings3 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Defaults"));
+                string settings4 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Keybinds"));
+                string settings5 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Settings"));
+                string settings6 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "GameOptions"));
                 if (!File.Exists(settings1)) File.Create(settings1).Close();
                 if (!File.Exists(settings2)) File.Create(settings2).Close();
                 if (!File.Exists(settings3)) File.Create(settings3).Close(); 
@@ -125,12 +125,12 @@ namespace ManiacEditor
             else
             {
 
-                string settings1 = Path.Combine(Classes.Edit.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Performance"));
-                string settings2 = Path.Combine(Classes.Edit.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "DevOptions"));
-                string settings3 = Path.Combine(Classes.Edit.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Defaults"));
-                string settings4 = Path.Combine(Classes.Edit.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Keybinds"));
-                string settings5 = Path.Combine(Classes.Edit.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Settings"));
-                string settings6 = Path.Combine(Classes.Edit.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "GameOptions"));
+                string settings1 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Performance"));
+                string settings2 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "DevOptions"));
+                string settings3 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Defaults"));
+                string settings4 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Keybinds"));
+                string settings5 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Settings"));
+                string settings6 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "GameOptions"));
                 if (!File.Exists(settings1)) File.Create(settings1).Close();
                 if (!File.Exists(settings2)) File.Create(settings2).Close();
                 if (!File.Exists(settings3)) File.Create(settings3).Close();

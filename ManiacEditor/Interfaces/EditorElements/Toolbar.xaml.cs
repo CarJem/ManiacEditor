@@ -48,44 +48,44 @@ namespace ManiacEditor.Interfaces.EditorElements
         #region Animations DropDown (WIP)
         private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Edit.SolutionState.AllowMovingPlatformAnimations == false)
+            if (Classes.Editor.SolutionState.AllowMovingPlatformAnimations == false)
             {
                 movingPlatformsObjectsToolStripMenuItem.IsChecked = true;
-                Classes.Edit.SolutionState.AllowMovingPlatformAnimations = true;
+                Classes.Editor.SolutionState.AllowMovingPlatformAnimations = true;
             }
             else
             {
                 movingPlatformsObjectsToolStripMenuItem.IsChecked = false;
-                Classes.Edit.SolutionState.AllowMovingPlatformAnimations = false;
+                Classes.Editor.SolutionState.AllowMovingPlatformAnimations = false;
             }
 
         }
 
         private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Edit.SolutionState.AllowSpriteAnimations == false)
+            if (Classes.Editor.SolutionState.AllowSpriteAnimations == false)
             {
                 spriteFramesToolStripMenuItem.IsChecked = true;
-                Classes.Edit.SolutionState.AllowSpriteAnimations = true;
+                Classes.Editor.SolutionState.AllowSpriteAnimations = true;
             }
             else
             {
                 spriteFramesToolStripMenuItem.IsChecked = false;
-                Classes.Edit.SolutionState.AllowSpriteAnimations = false;
+                Classes.Editor.SolutionState.AllowSpriteAnimations = false;
             }
         }
 
         private void ParallaxAnimationMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Edit.SolutionState.ParallaxAnimationChecked == false)
+            if (Classes.Editor.SolutionState.ParallaxAnimationChecked == false)
             {
                 parallaxAnimationMenuItem.IsChecked = true;
-                Classes.Edit.SolutionState.ParallaxAnimationChecked = true;
+                Classes.Editor.SolutionState.ParallaxAnimationChecked = true;
             }
             else
             {
                 parallaxAnimationMenuItem.IsChecked = false;
-                Classes.Edit.SolutionState.ParallaxAnimationChecked = false;
+                Classes.Editor.SolutionState.ParallaxAnimationChecked = false;
             }
         }
 
@@ -93,17 +93,17 @@ namespace ManiacEditor.Interfaces.EditorElements
         #region Spline Tool Events
         private void SplineShowLineCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.ShowLines, SplineShowLineCheckbox.IsChecked.Value);
+            Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.ShowLines, SplineShowLineCheckbox.IsChecked.Value);
         }
 
         private void SplineShowPointsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.ShowPoints, SplineShowPointsCheckbox.IsChecked.Value);
+            Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.ShowPoints, SplineShowPointsCheckbox.IsChecked.Value);
         }
 
         private void SplineShowObjectsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.ShowObjects, SplineShowObjectsCheckbox.IsChecked.Value);
+            Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.ShowObjects, SplineShowObjectsCheckbox.IsChecked.Value);
         }
 
         bool AllowSplineFreqeunceUpdate = true;
@@ -120,66 +120,66 @@ namespace ManiacEditor.Interfaces.EditorElements
         public void SelectedSplineIDChangedEvent(int value)
         {
             AllowSplineUpdateEvent = false;
-            Classes.Edit.SolutionState.AllowSplineOptionsUpdate = false;
+            Classes.Editor.SolutionState.AllowSplineOptionsUpdate = false;
             SplineGroupID.Value = value;
-            Classes.Edit.SolutionState.SelectedSplineID = value;
+            Classes.Editor.SolutionState.SelectedSplineID = value;
             SplineSpawnID.Value = value;
             Editor.Instance.UI.UpdateSplineSettings(value);
-            Classes.Edit.SolutionState.AllowSplineOptionsUpdate = true;
+            Classes.Editor.SolutionState.AllowSplineOptionsUpdate = true;
             AllowSplineUpdateEvent = true;
 
         }
 
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (!Classes.Edit.SolutionState.AllowSplineOptionsUpdate) return;
+            if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
             if (Editor.Instance.UI != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationNUD.Value;
                 SplinePointSeperationSlider.Value = size;
-                Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.Size, size);
+                Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.Size, size);
                 AllowSplineFreqeunceUpdate = true;
             }
         }
 
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (!Classes.Edit.SolutionState.AllowSplineOptionsUpdate) return;
+            if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
             if (Editor.Instance.UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationSlider.Value;
                 SplinePointSeperationNUD.Value = size;
-                Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.Size, size);
+                Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.Size, size);
                 AllowSplineFreqeunceUpdate = true;
             }
         }
 
         private void SplineLineMode_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.LineMode, SplineLineMode.IsChecked.Value);
+            Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.LineMode, SplineLineMode.IsChecked.Value);
         }
 
         private void SplineOvalMode_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.OvalMode, SplineOvalMode.IsChecked.Value);
+            Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.OvalMode, SplineOvalMode.IsChecked.Value);
         }
         private void SplineSpawnRender_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Classes.Edit.Solution.Entities != null && Classes.Edit.SolutionState.AllowSplineOptionsUpdate)
+            if (Classes.Editor.Solution.Entities != null && Classes.Editor.SolutionState.AllowSplineOptionsUpdate)
             {
                 var selectedItem = SelectedSplineRender.SelectedItem as TextBlock;
                 if (selectedItem.Tag == null) return;
                 if (selectedItem.Tag is RSDKv5.SceneObject)
                 {
                     var obj = selectedItem.Tag as RSDKv5.SceneObject;
-                    int splineID = Classes.Edit.SolutionState.SelectedSplineID;
-                    Classes.Edit.SolutionState.AdjustSplineGroupOptions(Classes.Edit.SolutionState.SplineOption.SpawnObject, Classes.Edit.Solution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
-                    Editor.Instance.EntitiesToolbar?.UpdateEntityProperties(new List<RSDKv5.SceneEntity>() { Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
+                    int splineID = Classes.Editor.SolutionState.SelectedSplineID;
+                    Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.SpawnObject, Classes.Editor.Solution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
+                    Editor.Instance.EntitiesToolbar?.UpdateEntityProperties(new List<RSDKv5.SceneEntity>() { Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
 
-                    if (Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
-                        SplineRenderObjectName.Content = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
+                    if (Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+                        SplineRenderObjectName.Content = Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
                     else
                         SplineRenderObjectName.Content = "None";
 
@@ -212,7 +212,7 @@ namespace ManiacEditor.Interfaces.EditorElements
                     int size = (wasSlider ? (int)DrawTileSizeSlider.Value : (int)DrawTileSizeNUD.Value);
                     DrawTileSizeSlider.Value = size;
                     DrawTileSizeNUD.Value = size;
-                    Classes.Edit.SolutionState.DrawBrushSize = size;
+                    Classes.Editor.SolutionState.DrawBrushSize = size;
                     AllowDrawBrushSizeChange = true;
                 }
             }
@@ -224,29 +224,29 @@ namespace ManiacEditor.Interfaces.EditorElements
         }
 
         #endregion
-        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.UseMagnetMode ^= true; }
+        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseMagnetMode ^= true; }
         private void UndoEvent(object sender, RoutedEventArgs e) { Editor.Instance.EditorUndo(); }
         private void RedoEvent(object sender, RoutedEventArgs e) { Editor.Instance.EditorRedo(); }
         private void ZoomInEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.ZoomIn(sender, e); }
         private void ZoomOutEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.ZoomOut(sender, e); }
-        private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.SelectionMode(); }
-        private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.PointerMode(); }
-        private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.DrawMode(); }
-        private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.InteractionMode(); }
-        private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.SplineMode(); }
-        private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ChunksMode(); }
+        private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SelectionMode(); }
+        private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.PointerMode(); }
+        private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DrawMode(); }
+        private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.InteractionMode(); }
+        private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SplineMode(); }
+        private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ChunksMode(); }
         public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Editor.Instance.UI.ReloadSpritesAndTextures(); }
-        public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ShowTileID ^= true; }
-        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Classes.Edit.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
-        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ApplyEditEntitiesTransparency ^= true; }
-        public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ShowCollisionA ^= true; }
-        public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ShowCollisionB ^= true; }
-        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ShowFlippedTileHelper ^= true; }
-        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.UseEncoreColors ^= true; }
+        public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowTileID ^= true; }
+        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Classes.Editor.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
+        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
+        public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowCollisionA ^= true; }
+        public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowCollisionB ^= true; }
+        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowFlippedTileHelper ^= true; }
+        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseEncoreColors ^= true; }
         private void RunSceneEvent(object sender, RoutedEventArgs e) { Editor.Instance.InGame.RunScene(); }
-        private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.CollisionPreset = 0; }
-        private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.CollisionPreset = 1; }
-        private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.CollisionPreset = 2; }
+        private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 0; }
+        private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 1; }
+        private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 2; }
 
 
         #region Collision Slider Events
@@ -255,32 +255,32 @@ namespace ManiacEditor.Interfaces.EditorElements
 
         #region Magnet Events
 
-        private void Magnet8x8Event(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.MagnetSize = 8; }
-        private void Magnet16x16Event(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.MagnetSize = 16; }
-        private void Magnet32x32Event(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.MagnetSize = 32; }
-        private void Magnet64x64Event(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.MagnetSize = 64; }
-        private void MagnetCustomEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.MagnetSize = -1; }
+        private void Magnet8x8Event(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MagnetSize = 8; }
+        private void Magnet16x16Event(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MagnetSize = 16; }
+        private void Magnet32x32Event(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MagnetSize = 32; }
+        private void Magnet64x64Event(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MagnetSize = 64; }
+        private void MagnetCustomEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MagnetSize = -1; }
         private void CustomMagnetSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Classes.Edit.SolutionState.CustomMagnetSize = CustomMagnetSizeAdjuster.Value.Value;
+            Classes.Editor.SolutionState.CustomMagnetSize = CustomMagnetSizeAdjuster.Value.Value;
         }
 
-        private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.UseMagnetXAxis ^= true; }
-        private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.UseMagnetYAxis ^= true; }
+        private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseMagnetXAxis ^= true; }
+        private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseMagnetYAxis ^= true; }
 
         #endregion
 
         #region Grid Events
-        public void ToggleGridEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ShowGrid ^= true; }
-        private void SetGrid16x16Event(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.GridSize = 16; }
-        private void SetGrid128x128Event(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.GridSize = 128; }
-        private void SetGrid256x256Event(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.GridSize = 256; }
-        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.GridSize = -1; }
+        public void ToggleGridEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowGrid ^= true; }
+        private void SetGrid16x16Event(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.GridSize = 16; }
+        private void SetGrid128x128Event(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.GridSize = 128; }
+        private void SetGrid256x256Event(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.GridSize = 256; }
+        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.GridSize = -1; }
 
         private void CustomGridSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Classes.Edit.SolutionState.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
-            Classes.Edit.SolutionState.GridSize = -1;
+            Classes.Editor.SolutionState.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
+            Classes.Editor.SolutionState.GridSize = -1;
         }
         #endregion
 
@@ -395,19 +395,19 @@ namespace ManiacEditor.Interfaces.EditorElements
 
         private void ShowAnimations_Checked(object sender, RoutedEventArgs e)
         {
-            Classes.Edit.SolutionState.AllowAnimations = true;
+            Classes.Editor.SolutionState.AllowAnimations = true;
         }
 
         private void ShowAnimations_Unchecked(object sender, RoutedEventArgs e)
         {
-            Classes.Edit.SolutionState.AllowAnimations = false;
+            Classes.Editor.SolutionState.AllowAnimations = false;
         }
 
         private void LayerEditButton_Click(EditLayerToggleButton button, MouseButton ClickType)
         {
 
 
-            if (Classes.Edit.SolutionState.MultiLayerEditMode)
+            if (Classes.Editor.SolutionState.MultiLayerEditMode)
             {
                 if (button == EditEntities) EditEntitiesMode();
                 else if (ClickType == MouseButton.Left) LayerA();
@@ -578,7 +578,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
 
             //EDIT BUTTONS
-            foreach (Classes.Edit.Scene.EditorLayer el in Classes.Edit.Solution.CurrentScene.OtherLayers)
+            foreach (Classes.Editor.Scene.EditorLayer el in Classes.Editor.Solution.CurrentScene.OtherLayers)
             {
                 EditLayerToggleButton tsb = new EditLayerToggleButton()
                 {
@@ -602,7 +602,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             Editor.Instance.ExtraLayerSeperators.Add(tss);
 
             //VIEW BUTTONS
-            foreach (Classes.Edit.Scene.EditorLayer el in Classes.Edit.Solution.CurrentScene.OtherLayers)
+            foreach (Classes.Editor.Scene.EditorLayer el in Classes.Editor.Solution.CurrentScene.OtherLayers)
             {
                 EditLayerToggleButton tsb = new EditLayerToggleButton()
                 {
@@ -623,10 +623,10 @@ namespace ManiacEditor.Interfaces.EditorElements
                 Editor.Instance.ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
             }
 
-            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGLow, ShowFGLow, EditFGLow);
-            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGHigh, ShowFGHigh, EditFGHigh);
-            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGLower, ShowFGLower, EditFGLower);
-            UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.FGHigher, ShowFGHigher, EditFGHigher);
+            UpdateDualButtonsControlsForLayer(Classes.Editor.Solution.FGLow, ShowFGLow, EditFGLow);
+            UpdateDualButtonsControlsForLayer(Classes.Editor.Solution.FGHigh, ShowFGHigh, EditFGHigh);
+            UpdateDualButtonsControlsForLayer(Classes.Editor.Solution.FGLower, ShowFGLower, EditFGLower);
+            UpdateDualButtonsControlsForLayer(Classes.Editor.Solution.FGHigher, ShowFGHigher, EditFGHigher);
         }
         public void TearDownExtraLayerButtons()
         {
@@ -653,7 +653,7 @@ namespace ManiacEditor.Interfaces.EditorElements
         /// <param name="layer">The layer of the scene from which to extract a name.</param>
         /// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
         /// <param name="editButton">The button which controls editing the layer.</param>
-        private void UpdateDualButtonsControlsForLayer(Classes.Edit.Scene.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+        private void UpdateDualButtonsControlsForLayer(Classes.Editor.Scene.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
         {
             bool layerValid = layer != null;
             visibilityButton.IsChecked = layerValid;
@@ -674,9 +674,9 @@ namespace ManiacEditor.Interfaces.EditorElements
         }
         private void AdHocLayerEdit(object sender, MouseButton ClickType)
         {
-            if (ClickType == MouseButton.Left && !Classes.Edit.SolutionState.MultiLayerEditMode) Normal();
-            else if (ClickType == MouseButton.Left && Classes.Edit.SolutionState.MultiLayerEditMode) LayerA();
-            else if (ClickType == MouseButton.Right && Classes.Edit.SolutionState.MultiLayerEditMode) LayerB();
+            if (ClickType == MouseButton.Left && !Classes.Editor.SolutionState.MultiLayerEditMode) Normal();
+            else if (ClickType == MouseButton.Left && Classes.Editor.SolutionState.MultiLayerEditMode) LayerA();
+            else if (ClickType == MouseButton.Right && Classes.Editor.SolutionState.MultiLayerEditMode) LayerB();
 
             void Normal()
             {
@@ -816,7 +816,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             //Grid Default Color
             if (e.NewValue.Value != null)
             {
-                Classes.Edit.SolutionState.GridColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Editor.SolutionState.GridColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
@@ -825,7 +825,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             //Water Color
             if (e.NewValue.Value != null)
             {
-                Classes.Edit.SolutionState.waterColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Editor.SolutionState.waterColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
@@ -834,7 +834,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             //Collision Solid(Top Only) Color
             if (e.NewValue.Value != null)
             {
-                Classes.Edit.SolutionState.CollisionTOColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Editor.SolutionState.CollisionTOColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
                 Editor.Instance.RefreshCollisionColours(true);
             }
         }
@@ -844,7 +844,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             //Collision Solid(LRD) Color
             if (e.NewValue.Value != null)
             {
-                Classes.Edit.SolutionState.CollisionLRDColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Editor.SolutionState.CollisionLRDColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
                 Editor.Instance.RefreshCollisionColours(true);
             }
         }
@@ -854,7 +854,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             //Collision Solid(All) Color
             if (e.NewValue.Value != null)
             {
-                Classes.Edit.SolutionState.CollisionSAColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Editor.SolutionState.CollisionSAColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
                 Editor.Instance.RefreshCollisionColours(true);
             }
         }

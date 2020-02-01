@@ -12,12 +12,12 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 
-namespace ManiacEditor.Classes.Edit.Scene
+namespace ManiacEditor.Classes.Editor.Scene
 {
     public class EditorScene : RSDKv5.Scene, IDisposable
     {
         public IList<EditorLayer> _editorLayers;
-        public Editor EditorInstance;
+        public ManiacEditor.Editor EditorInstance;
 
         #region Layers
 
@@ -72,7 +72,7 @@ namespace ManiacEditor.Classes.Edit.Scene
         }
         #endregion
 
-        public EditorScene(string filename, DevicePanel d, Editor instance) : base(filename)
+        public EditorScene(string filename, DevicePanel d, ManiacEditor.Editor instance) : base(filename)
         {
             EditorInstance = instance;
             _editorLayers = new List<EditorLayer>(Layers.Count);
@@ -82,7 +82,7 @@ namespace ManiacEditor.Classes.Edit.Scene
             }
         }
 
-        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, Editor instance)
+        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, ManiacEditor.Editor instance)
         {
             EditorInstance = instance;
             Layers = new List<SceneLayer>(3);

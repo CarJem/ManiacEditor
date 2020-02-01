@@ -29,13 +29,13 @@ namespace ManiacEditor.Interfaces.EditorElements
         public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
         {
 
-            if (Classes.Edit.SolutionState.CountTilesSelectedInPixels == false)
+            if (Classes.Editor.SolutionState.CountTilesSelectedInPixels == false)
             {
-                positionLabel.Content = "X: " + (int)(e.X / Classes.Edit.SolutionState.Zoom) + " Y: " + (int)(e.Y / Classes.Edit.SolutionState.Zoom);
+                positionLabel.Content = "X: " + (int)(e.X / Classes.Editor.SolutionState.Zoom) + " Y: " + (int)(e.Y / Classes.Editor.SolutionState.Zoom);
             }
             else
             {
-                positionLabel.Content = "X: " + (int)((e.X / Classes.Edit.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Classes.Edit.SolutionState.Zoom) / 16);
+                positionLabel.Content = "X: " + (int)((e.X / Classes.Editor.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Classes.Editor.SolutionState.Zoom) / 16);
             }
         }
 
@@ -45,7 +45,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             // Tooltip Bar Info 
             //
 
-            _levelIDLabel.Content = "Level ID: " + Classes.Edit.SolutionState.LevelID.ToString();
+            _levelIDLabel.Content = "Level ID: " + Classes.Editor.SolutionState.LevelID.ToString();
             seperator1.Visibility = Visibility.Visible;
             seperator2.Visibility = Visibility.Visible;
             seperator3.Visibility = Visibility.Visible;
@@ -56,33 +56,33 @@ namespace ManiacEditor.Interfaces.EditorElements
             //seperator8.Visibility = Visibility.Visible;
             //seperator9.Visibility = Visibility.Visible;
 
-            if (Classes.Edit.SolutionState.CountTilesSelectedInPixels == false)
+            if (Classes.Editor.SolutionState.CountTilesSelectedInPixels == false)
             {
-                selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Classes.Edit.SolutionState.SelectedTileX + ", Y: " + (int)Classes.Edit.SolutionState.SelectedTileY;
+                selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Classes.Editor.SolutionState.SelectedTileX + ", Y: " + (int)Classes.Editor.SolutionState.SelectedTileY;
                 selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
             }
             else
             {
-                selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Classes.Edit.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Classes.Edit.SolutionState.SelectedTileY * 16;
+                selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Classes.Editor.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Classes.Editor.SolutionState.SelectedTileY * 16;
                 selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
             }
-            if (Classes.Edit.SolutionState.CountTilesSelectedInPixels == false)
+            if (Classes.Editor.SolutionState.CountTilesSelectedInPixels == false)
             {
-                selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Classes.Edit.SolutionState.SelectedTilesCount - Classes.Edit.SolutionState.DeselectTilesCount);
+                selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Classes.Editor.SolutionState.SelectedTilesCount - Classes.Editor.SolutionState.DeselectTilesCount);
                 selectionSizeLabel.ToolTip = "The Size of the Selection";
             }
             else
             {
-                selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Classes.Edit.SolutionState.SelectedTilesCount - Classes.Edit.SolutionState.DeselectTilesCount) * 16;
+                selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Classes.Editor.SolutionState.SelectedTilesCount - Classes.Editor.SolutionState.DeselectTilesCount) * 16;
                 selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
             }
 
-            selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Classes.Edit.SolutionState.TempSelectX2 - Classes.Edit.SolutionState.TempSelectX1) + ", Y: " + (Classes.Edit.SolutionState.TempSelectY2 - Classes.Edit.SolutionState.TempSelectY1);
+            selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1) + ", Y: " + (Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1);
 
-            scrollLockDirLabel.Content = "Scroll Direction: " + (Classes.Edit.SolutionState.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (Classes.Edit.SolutionState.ScrollLocked ? " (Locked)" : "");
+            scrollLockDirLabel.Content = "Scroll Direction: " + (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (Classes.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
 
 
-            hVScrollBarXYLabel.Content = "Zoom Value: " + Classes.Edit.SolutionState.Zoom.ToString();
+            hVScrollBarXYLabel.Content = "Zoom Value: " + Classes.Editor.SolutionState.Zoom.ToString();
 
             //
             // End of Tooltip Bar Info Section
@@ -93,44 +93,44 @@ namespace ManiacEditor.Interfaces.EditorElements
         {
             if (sender == MoreSettingsButton)
             {
-                switch (Classes.Edit.SolutionState.LastQuickButtonState)
+                switch (Classes.Editor.SolutionState.LastQuickButtonState)
                 {
                     case 1:
                         Editor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                     case 2:
-                        Classes.Edit.SolutionState.ApplyEditEntitiesTransparency ^= true;
+                        Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true;
                         break;
                     case 3:
                         Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
                         break;
                     default:
-                        Classes.Edit.SolutionState.LastQuickButtonState = 1;
+                        Classes.Editor.SolutionState.LastQuickButtonState = 1;
                         Editor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                 }
             }
             else if (sender == QuickSwapScrollDirection)
             {
-                Classes.Edit.SolutionState.LastQuickButtonState = 1;
+                Classes.Editor.SolutionState.LastQuickButtonState = 1;
                 Editor.Instance.UIEvents.SetScrollLockDirection();
             }
             else if (sender == QuickSwapEncoreManiaEntitVisibility)
             {
-                Classes.Edit.SolutionState.LastQuickButtonState = 3;
+                Classes.Editor.SolutionState.LastQuickButtonState = 3;
                 Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
             }
             else if (sender == QuickEditEntitiesTransparentLayers)
             {
-                Classes.Edit.SolutionState.LastQuickButtonState = 2;
-                Classes.Edit.SolutionState.ApplyEditEntitiesTransparency ^= true;
+                Classes.Editor.SolutionState.LastQuickButtonState = 2;
+                Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true;
             }
 
         }
         private void FilterButtonOpenContextMenuEvent(object sender, RoutedEventArgs e) { FilterButton.ContextMenu.IsOpen = true; }
         private void FilterCheckChangedEvent(object sender, RoutedEventArgs e)
         {
-            if (Classes.Edit.Solution.Entities != null) Classes.Edit.Solution.Entities.FilterRefreshNeeded = true;
+            if (Classes.Editor.Solution.Entities != null) Classes.Editor.Solution.Entities.FilterRefreshNeeded = true;
         }
 
         public void UpdateTooltips()
@@ -223,8 +223,8 @@ namespace ManiacEditor.Interfaces.EditorElements
         }
 
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacIntergration(); }
-        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.CountTilesSelectedInPixels ^= true; }
-        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.ScrollLocked ^= true; }
-        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Edit.SolutionState.EnableFasterNudge ^= true; }
+        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CountTilesSelectedInPixels ^= true; }
+        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ScrollLocked ^= true; }
+        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EnableFasterNudge ^= true; }
     }
 }

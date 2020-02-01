@@ -221,7 +221,7 @@ namespace ManiacEditor.Interfaces
         {
             if (MessageBox.Show("Are you sure you want to wipe your settings? (This is includes all of your Keybinds, Data Directories, Defaults and so on...)", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                Classes.Edit.Constants.ResetAllSettings();
+                Classes.Editor.Constants.ResetAllSettings();
             }
         }
 
@@ -253,7 +253,7 @@ namespace ManiacEditor.Interfaces
 
 		private void button11_Click(object sender, RoutedEventArgs e)
 		{
-            Classes.Edit.Constants.SaveAllSettings();
+            Classes.Editor.Constants.SaveAllSettings();
             this.DialogResult = true;
         }
 
@@ -393,7 +393,7 @@ namespace ManiacEditor.Interfaces
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
-				Classes.Edit.SolutionState.waterColor = colorSelect.Color;
+				Classes.Editor.SolutionState.waterColor = colorSelect.Color;
 			}
 		}
 
@@ -459,7 +459,7 @@ namespace ManiacEditor.Interfaces
                 }
             }
             */
-            Classes.Edit.Constants.ReloadAllSettings();
+            Classes.Editor.Constants.ReloadAllSettings();
 
             if (DarkModeCheckBox.IsChecked == true && !Settings.MySettings.NightMode)
 			{
@@ -693,7 +693,7 @@ namespace ManiacEditor.Interfaces
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-            Classes.Edit.Constants.ReloadAllSettings();
+            Classes.Editor.Constants.ReloadAllSettings();
 			this.DialogResult = true;
 		}
 
@@ -762,7 +762,7 @@ namespace ManiacEditor.Interfaces
                 string[] output = new string[Settings.MySettings.DataDirectories.Count];
                 Settings.MySettings.DataDirectories.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
-                fsd.InitialDirectory = Classes.Edit.Constants.SettingsPortableDirectory;
+                fsd.InitialDirectory = Classes.Editor.Constants.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)
                 {
@@ -782,7 +782,7 @@ namespace ManiacEditor.Interfaces
                 string[] output = new string[Settings.MySettings.SavedPlaces.Count];
                 Settings.MySettings.SavedPlaces.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
-                fsd.InitialDirectory = Classes.Edit.Constants.SettingsPortableDirectory;
+                fsd.InitialDirectory = Classes.Editor.Constants.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)
                 {

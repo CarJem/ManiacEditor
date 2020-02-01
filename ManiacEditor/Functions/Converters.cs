@@ -26,7 +26,7 @@ namespace ManiacEditor.Converters
 				return 0;
 			}
 
-			return ((ushort)value) * Classes.Edit.Constants.TILE_SIZE;
+			return ((ushort)value) * Classes.Editor.Constants.TILE_SIZE;
 		}
 
 		object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

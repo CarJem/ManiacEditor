@@ -35,31 +35,31 @@ namespace ManiacEditor.Entity_Renders
             if (Math.Abs(dx) > Math.Abs(dy))
             {
                 // horizontal difference greater than vertical difference
-                offsetY = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
-                offsetDestinationY = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetY = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetDestinationY = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
 
                 if (dx > 0)
                 {
-                    offsetX = Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH;
+                    offsetX = Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH;
                 }
                 else
                 {
-                    offsetDestinationX = Classes.Edit.Constants.ENTITY_NAME_BOX_WIDTH;
+                    offsetDestinationX = Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH;
                 }
             }
             else
             {
                 // vertical difference greater than horizontal difference
-                offsetX = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
-                offsetDestinationX = Classes.Edit.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetX = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetDestinationX = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
 
                 if (dy > 0)
                 {
-                    offsetY = Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetY = Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT;
                 }
                 else
                 {
-                    offsetDestinationY = Classes.Edit.Constants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetDestinationY = Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT;
                 }
             }
 
@@ -158,7 +158,7 @@ namespace ManiacEditor.Entity_Renders
 
             if (EditorInstance != null)
             {
-                if (Classes.Edit.SolutionState.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Classes.Edit.SolutionState.entitiesTextFilter))
+                if (Classes.Editor.SolutionState.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Classes.Editor.SolutionState.entitiesTextFilter))
                 {
                     filteredOut = true;
                 }

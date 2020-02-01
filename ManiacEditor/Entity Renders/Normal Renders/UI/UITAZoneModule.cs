@@ -36,7 +36,7 @@ namespace ManiacEditor.Entity_Renders
             int spacingAmount = 0;
             foreach (char symb in text1)
             {
-                int frameID = GetFrameID(symb, Classes.Edit.SolutionState.MenuChar);
+                int frameID = GetFrameID(symb, Classes.Editor.SolutionState.MenuChar);
                 var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                 {
@@ -49,7 +49,7 @@ namespace ManiacEditor.Entity_Renders
             spacingAmount = 0;
             foreach (char symb in text2)
             {
-                int frameID = GetFrameID(symb, Classes.Edit.SolutionState.MenuChar);
+                int frameID = GetFrameID(symb, Classes.Editor.SolutionState.MenuChar);
                 var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                 {
