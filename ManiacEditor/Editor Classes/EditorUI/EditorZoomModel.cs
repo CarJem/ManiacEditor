@@ -202,7 +202,7 @@ namespace ManiacEditor
             int oldShiftX = EditorStateModel.ViewPositionX;
             int oldShiftY = EditorStateModel.ViewPositionY;
 
-            if (EditorSolution.CurrentScene != null)
+            if (Classes.Edit.Scene.EditorSolution.CurrentScene != null)
                 SetViewSize((int)(Editor.SceneWidth * EditorStateModel.Zoom), (int)(Editor.SceneHeight * EditorStateModel.Zoom), updateControls);
 
 

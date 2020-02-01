@@ -38,8 +38,8 @@ namespace ManiacEditor.Interfaces.EditorElements
             exportToolStripMenuItem.IsEnabled = enabled;
 
             newShortcutToolStripMenuItem.IsEnabled = System.IO.Directory.Exists(Editor.Instance.DataDirectory);
-            withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = EditorSolution.CurrentScene != null;
-            withCurrentCoordinatesToolStripMenuItem.IsEnabled = EditorSolution.CurrentScene != null;
+            withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Edit.Scene.EditorSolution.CurrentScene != null;
+            withCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Edit.Scene.EditorSolution.CurrentScene != null;
             changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
         }
 
@@ -124,8 +124,8 @@ namespace ManiacEditor.Interfaces.EditorElements
 
         public void SetEditButtonsState(bool enabled)
         {
-            entityManagerToolStripMenuItem.IsEnabled = enabled && EditorSolution.StageConfig != null;
-            importSoundsToolStripMenuItem.IsEnabled = enabled && EditorSolution.StageConfig != null;
+            entityManagerToolStripMenuItem.IsEnabled = enabled && Classes.Edit.Scene.EditorSolution.StageConfig != null;
+            importSoundsToolStripMenuItem.IsEnabled = enabled && Classes.Edit.Scene.EditorSolution.StageConfig != null;
             layerManagerToolStripMenuItem.IsEnabled = enabled;
             editBackgroundColorsToolStripMenuItem.IsEnabled = enabled;
 
@@ -134,7 +134,7 @@ namespace ManiacEditor.Interfaces.EditorElements
 
             findAndReplaceToolStripMenuItem.IsEnabled = enabled && Editor.Instance.EditLayerA != null;
 
-            if (EditorSolution.Entities != null && EditorSolution.Entities.SelectedEntities != null && EditorSolution.Entities.SelectedEntities.Count > 1)
+            if (Classes.Edit.Scene.EditorSolution.Entities != null && Classes.Edit.Scene.EditorSolution.Entities.SelectedEntities != null && Classes.Edit.Scene.EditorSolution.Entities.SelectedEntities.Count > 1)
             {
                 SortSelectedSlotIDs.IsEnabled = true;
                 SortSelectedSlotIDsOptimized.IsEnabled = true;
@@ -285,9 +285,9 @@ namespace ManiacEditor.Interfaces.EditorElements
         private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowEntitySelectionBoxes ^= true; }
         private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowWaterLevel ^= true; }
         private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.AlwaysShowWaterLevel ^= true; }
-        private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { EditorSolution.Entities.OrderSelectedSlotIDs(); }
-        private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { EditorSolution.Entities.OrderSelectedSlotIDs(true); }
-        private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { EditorSolution.Entities.OrderSelectedSlotIDs(false, true); }
+        private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { Classes.Edit.Scene.EditorSolution.Entities.OrderSelectedSlotIDs(); }
+        private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Classes.Edit.Scene.EditorSolution.Entities.OrderSelectedSlotIDs(true); }
+        private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Classes.Edit.Scene.EditorSolution.Entities.OrderSelectedSlotIDs(false, true); }
         private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.SizeWaterLevelwithBounds ^= true; }
         private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility(); }
         private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowParallaxSprites ^= true; }
@@ -295,7 +295,7 @@ namespace ManiacEditor.Interfaces.EditorElements
         private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.ShowEntityPathArrows ^= true; }
         private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MenuLanguageChanged(sender, e); }
 
-        private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (EditorSolution.CurrentScene != null) EditorSolution.Entities.OptimizeAllSlotIDs(); }
+        private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Classes.Edit.Scene.EditorSolution.CurrentScene != null) Classes.Edit.Scene.EditorSolution.Entities.OptimizeAllSlotIDs(); }
         private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.RightClicktoSwapSlotID ^= true; }
         private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Editor.Instance.Options.CopyAir ^= true; }
         private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.ChangeLevelID(sender, e); }

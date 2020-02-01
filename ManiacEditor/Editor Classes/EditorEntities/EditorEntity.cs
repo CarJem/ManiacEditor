@@ -41,7 +41,7 @@ namespace ManiacEditor
                 SelectedIndex = -1;
             }
 
-            EditorSolution.Entities.UpdateSelectedIndexForEntities();
+            Classes.Edit.Scene.EditorSolution.Entities.UpdateSelectedIndexForEntities();
         }
 
         public bool InTempSelection = false;
@@ -253,7 +253,7 @@ namespace ManiacEditor
                 int ObjectStart = EditorInGame.ObjectStart[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
                 int ObjectSize =  EditorInGame.ObjectSize[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
 
-                int ObjectAddress = ObjectStart + (ObjectSize * EditorSolution.Entities.GetRealSlotID(_entity));
+                int ObjectAddress = ObjectStart + (ObjectSize * Classes.Edit.Scene.EditorSolution.Entities.GetRealSlotID(_entity));
                 Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
                 Editor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
             }

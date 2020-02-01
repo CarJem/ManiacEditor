@@ -95,7 +95,7 @@ namespace ManiacEditor
 			if (Result == null)
 				return;
 
-            EditorSolution.UnloadScene();
+            Classes.Edit.Scene.EditorSolution.UnloadScene();
             Editor.Settings.UseDefaultPrefrences();
 			File.Replace(Result, ResultOriginal, ResultOld);
 
@@ -137,7 +137,7 @@ namespace ManiacEditor
 			}
 			else if (Editor.IsEntitiesEdit())
 			{
-                EditorSolution.Entities.SelectAll();
+                Classes.Edit.Scene.EditorSolution.Entities.SelectAll();
             }
 			Editor.UI.SetSelectOnlyButtonsState();
 			EditorStateModel.RegionX1 = -1;
@@ -188,7 +188,7 @@ namespace ManiacEditor
 			{
 				try
 				{
-					EditorSolution.Entities.PasteFromClipboard(new Point(16, 16), EditorSolution.Entities.CopyToClipboard(true));
+					Classes.Edit.Scene.EditorSolution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Edit.Scene.EditorSolution.Entities.CopyToClipboard(true));
 					Editor.UpdateLastEntityAction();
 				}
 				catch (EditorEntities.TooManyEntitiesException)
@@ -259,7 +259,7 @@ namespace ManiacEditor
                 {
 
                     Point p = new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom));
-                    return EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                    return Classes.Edit.Scene.EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {
@@ -412,7 +412,7 @@ namespace ManiacEditor
 						fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
 						if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 						{
-							Editor.EncorePalette = EditorSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
+							Editor.EncorePalette = Classes.Edit.Scene.EditorSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
 							Editor.Options.EncoreSetupType = 0;
 							if (File.Exists(Editor.EncorePalette[0]))
 							{
@@ -430,7 +430,7 @@ namespace ManiacEditor
 			}
 			else if (path != "")
 			{
-				Editor.EncorePalette = EditorSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
+				Editor.EncorePalette = Classes.Edit.Scene.EditorSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
 				Editor.Options.EncoreSetupType = 0;
 				if (File.Exists(Editor.EncorePalette[0]))
 				{
@@ -454,7 +454,7 @@ namespace ManiacEditor
                 Editor.Options.entitiesTextFilter = theSender.Text;
                 Editor.EditorMenuBar.toolStripTextBox1.Text = Editor.Options.entitiesTextFilter;
                 //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
-                EditorSolution.Entities.FilterRefreshNeeded = true;
+                Classes.Edit.Scene.EditorSolution.Entities.FilterRefreshNeeded = true;
                 lockTextBox = false;
             }
 

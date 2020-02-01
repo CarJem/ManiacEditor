@@ -95,9 +95,9 @@ namespace ManiacEditor
 
         public string GetSetupObject()
         {
-            if (EditorSolution.Entities != null && EditorSolution.Entities.SetupObject != null && EditorSolution.Entities.SetupObject != "")
+            if (Classes.Edit.Scene.EditorSolution.Entities != null && Classes.Edit.Scene.EditorSolution.Entities.SetupObject != null && Classes.Edit.Scene.EditorSolution.Entities.SetupObject != "")
             {
-                return "Setup Object: " + EditorSolution.Entities.SetupObject;
+                return "Setup Object: " + Classes.Edit.Scene.EditorSolution.Entities.SetupObject;
             }
             else
             {

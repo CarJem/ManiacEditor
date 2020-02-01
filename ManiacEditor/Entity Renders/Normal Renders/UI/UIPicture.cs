@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             string binFile = "Icons";
-            switch (EditorSolution.Entities.SetupObject) {
+            switch (Classes.Edit.Scene.EditorSolution.Entities.SetupObject) {
                 case "MenuSetup":
                     binFile = "Picture";
                     break;

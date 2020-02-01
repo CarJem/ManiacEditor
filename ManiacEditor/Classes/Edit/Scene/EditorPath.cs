@@ -1,7 +1,7 @@
 ﻿using RSDKv5;
 using System.IO;
 
-namespace ManiacEditor
+namespace ManiacEditor.Classes.Edit.Scene
 {
     public class EditorPath
 	{
@@ -60,7 +60,7 @@ namespace ManiacEditor
 		{
 			try
 			{
-				EditorSolution.GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
+				Classes.Edit.Scene.EditorSolution.GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
 				GameConfig_Source = Path.Combine(DataDirectory, "Game", "GameConfig.bin");
 				return true;
 			}
@@ -69,7 +69,7 @@ namespace ManiacEditor
 				// Allow the User to be able to have a Maniac Editor Dedicated GameConfig, see if the user has made one
 				try
 				{
-                    EditorSolution.GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
+                    Classes.Edit.Scene.EditorSolution.GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin"));
 					GameConfig_Source = Path.Combine(DataDirectory, "Game", "GameConfig_ME.bin");
 					return true;
 				}
@@ -211,7 +211,7 @@ namespace ManiacEditor
 			{
                 if (File.Exists(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin")))
                 {
-                    EditorSolution.TileConfig = new RSDKv5.Tileconfig(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin"));
+                    Classes.Edit.Scene.EditorSolution.TileConfig = new RSDKv5.Tileconfig(Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin"));
                     TileConfig_Source = Path.Combine(configPath, "Stages", CurrentZone, "TileConfig.bin");
                     return true;
                 }
@@ -232,7 +232,7 @@ namespace ManiacEditor
         {
             try
             {
-                EditorSolution.TileConfig = new RSDKv5.Tileconfig(Path.Combine(filepath, "TileConfig.bin"));
+                Classes.Edit.Scene.EditorSolution.TileConfig = new RSDKv5.Tileconfig(Path.Combine(filepath, "TileConfig.bin"));
                 TileConfig_Source = Path.Combine(filepath, "TileConfig.bin");
                 return true;
             }
@@ -298,7 +298,7 @@ namespace ManiacEditor
 		{
 			try
 			{
-				EditorSolution.CurrentTiles.StageTiles = new StageTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
+				Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles = new StageTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
 				StageTiles_Source = Path.Combine(tilePath, "Stages", CurrentZone);
 				return true;
 			}
@@ -313,7 +313,7 @@ namespace ManiacEditor
         {
             try
             {
-                EditorSolution.CurrentTiles.StageTiles = new StageTiles(Path.Combine(filePath), colors);
+                Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles = new StageTiles(Path.Combine(filePath), colors);
                 StageTiles_Source = Path.Combine(filePath);
                 return true;
             }
@@ -463,7 +463,7 @@ namespace ManiacEditor
 		{
 			try
 			{
-				EditorSolution.StageConfig = new StageConfig(Path.Combine(configPath, "Stages", CurrentZone, "StageConfig.bin"));
+				Classes.Edit.Scene.EditorSolution.StageConfig = new StageConfig(Path.Combine(configPath, "Stages", CurrentZone, "StageConfig.bin"));
 				StageConfig_Source = Path.Combine(configPath, "Stages", CurrentZone, "StageConfig.bin");
 				return true;
 			}
@@ -479,7 +479,7 @@ namespace ManiacEditor
         {
             try
             {
-                EditorSolution.StageConfig = new StageConfig(Path.Combine(filepath, "StageConfig.bin"));
+                Classes.Edit.Scene.EditorSolution.StageConfig = new StageConfig(Path.Combine(filepath, "StageConfig.bin"));
                 StageConfig_Source = Path.Combine(filepath, "StageConfig.bin");
                 return true;
             }
@@ -501,10 +501,10 @@ namespace ManiacEditor
 		public Stamps GetEditorStamps(string Zone)
 		{
             Stamps_SourceID = SceneFile_SourceID;
-            Stamps_Source = Path.Combine(SceneFile_Directory, EditorSolution.CurrentScene.EditorMetadata.StampName.Replace("\0", ""));
+            Stamps_Source = Path.Combine(SceneFile_Directory, Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.StampName.Replace("\0", ""));
             if (IsEditorStampsValid())
             {
-                return new Stamps(Path.Combine(SceneFile_Directory, EditorSolution.CurrentScene.EditorMetadata.StampName.Replace("\0", "")));
+                return new Stamps(Path.Combine(SceneFile_Directory, Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.StampName.Replace("\0", "")));
             }
             else
             {
@@ -524,12 +524,12 @@ namespace ManiacEditor
         public void SetEditorStampsName(string Name)
         {
             Stamps_SourceID = SceneFile_SourceID;
-            EditorSolution.CurrentScene.EditorMetadata.StampName = Name;
+            Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.StampName = Name;
         }
 
         public bool IsEditorStampsValid()
 		{
-			return File.Exists(Path.Combine(SceneFile_Directory, EditorSolution.CurrentScene.EditorMetadata.StampName.Replace("\0", "")));
+			return File.Exists(Path.Combine(SceneFile_Directory, Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.StampName.Replace("\0", "")));
 		}
 		#endregion
 

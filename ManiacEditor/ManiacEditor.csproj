@@ -459,7 +459,7 @@
     <Compile Include="Editor Classes\EditorUI\EditorControl.cs" />
     <Compile Include="Editor Classes\EditorRecentsList.cs" />
     <Compile Include="Editor Classes\EditorExternal\EditorLaunch.cs" />
-    <Compile Include="Editor Classes\EditorSolution\EditorSolution.cs" />
+    <Compile Include="Classes\Edit\Scene\EditorSolution.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
@@ -470,7 +470,7 @@
     <Compile Include="Editor Classes\EditorExternal\EditorInGame.cs" />
     <Compile Include="Editor Classes\EditorLayer\EditorChunk.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorUIEvents.cs" />
-    <Compile Include="Editor Classes\EditorSolution\EditorPath.cs" />
+    <Compile Include="Classes\Edit\Scene\EditorPath.cs" />
     <Compile Include="Editor Classes\EditorFileHandler.cs" />
     <Compile Include="Editor Classes\EditorTheming.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorUI.cs" />
@@ -650,6 +650,11 @@
     <Compile Include="Interfaces\Updater\DownloadWindow.xaml.cs" />
     <Compile Include="Interfaces\Updater\ManiacUpdater.xaml.cs">
       <DependentUpon>ManiacUpdater.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Defaults.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Defaults.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -860,11 +865,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\Defaults.cs" />
-    <Compile Include="Properties\Defaults.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Defaults.settings</DependentUpon>
-    </Compile>
     <Compile Include="Properties\DevSettings.cs" />
     <Compile Include="Properties\DevSettings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1431,6 +1431,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Editor Classes\Scene\" />
     <Folder Include="Entity Renders\Normal Renders\BS\" />
     <Folder Include="Entity Renders\Normal Renders\ERZ\" />
     <Folder Include="Entity Renders\Normal Renders\MMZ\" />

@@ -194,7 +194,7 @@
                             </DockPanel>
                             <DockPanel Margin="0,1">
                                 <TextBlock Text="RSDK Animation Editor Path" Width="160"></TextBlock>
-                                <TextBox Width="130" Text="{maniac:DefaultSettingsBinding AnimationEditorPath}"></TextBox>
+                                <TextBox Width="130" Text="{maniac:DefaultSettingsBinding AnimationClasses.Edit.Scene.EditorPath}"></TextBox>
                                 <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left"></Button>
                             </DockPanel>
                             <DockPanel Margin="0,1">

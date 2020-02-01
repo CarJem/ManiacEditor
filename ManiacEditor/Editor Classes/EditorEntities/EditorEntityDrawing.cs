@@ -426,7 +426,7 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
@@ -533,7 +533,7 @@ namespace ManiacEditor
 			if (!File.Exists(path2))
 			{
 				// Checks using Setup Object (Removed Until Further Notice)
-				//path = Extensions.ReplaceLastOccurrence(EditorSolution.Entities.SetupObject, "Setup", "") + "\\" + name + ".bin";
+				//path = Extensions.ReplaceLastOccurrence(Classes.Edit.Scene.EditorSolution.Entities.SetupObject, "Setup", "") + "\\" + name + ".bin";
 				//path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 				if (!File.Exists(path2))
 				{
@@ -804,11 +804,11 @@ namespace ManiacEditor
 
         public ColorPalette[] GetStageConfigColors()
         {
-            var stgCfg = EditorSolution.StageConfig;
+            var stgCfg = Classes.Edit.Scene.EditorSolution.StageConfig;
             ColorPalette[] stageConfigColors = new ColorPalette[8];
             for (int i = 0; i < 8; i++)
             {
-                stageConfigColors[i] = EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+                stageConfigColors[i] = Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
             }
             for (int i = 0; i < 8; i++)
             {

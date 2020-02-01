@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             /*
             if (Editor.Instance.UIModes.AnimationsEnabled && Editor.Instance.UIModes.ParallaxAnimationChecked)
             {
-                EditorLayer layer = EditorSolution.Scene.AllLayers.ElementAtOrDefault(attribute);
+                EditorLayer layer = Classes.Edit.Scene.EditorSolution.Scene.AllLayers.ElementAtOrDefault(attribute);
                 if (layer != null)
                 {
                     int speed = (layer.RelativeSpeed == 0 ? 1 : layer.RelativeSpeed);

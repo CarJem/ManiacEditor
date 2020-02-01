@@ -130,7 +130,7 @@ namespace ManiacEditor.Interfaces.EditorElements
         private void FilterButtonOpenContextMenuEvent(object sender, RoutedEventArgs e) { FilterButton.ContextMenu.IsOpen = true; }
         private void FilterCheckChangedEvent(object sender, RoutedEventArgs e)
         {
-            if (EditorSolution.Entities != null) EditorSolution.Entities.FilterRefreshNeeded = true;
+            if (Classes.Edit.Scene.EditorSolution.Entities != null) Classes.Edit.Scene.EditorSolution.Entities.FilterRefreshNeeded = true;
         }
 
         public void UpdateTooltips()

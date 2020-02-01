@@ -68,16 +68,16 @@ namespace ManiacEditor
         public Stack<IAction> RedoStack = new Stack<IAction>(); //Redo Actions Stack
 
         //Editor Layers
-        internal EditorSolution.EditorLayer FGHigher => EditorSolution.CurrentScene?.HighDetails;
-		internal EditorSolution.EditorLayer FGHigh => EditorSolution.CurrentScene?.ForegroundHigh;
-		internal EditorSolution.EditorLayer FGLow => EditorSolution.CurrentScene?.ForegroundLow;
-		internal EditorSolution.EditorLayer FGLower => EditorSolution.CurrentScene?.LowDetails;
-		internal EditorSolution.EditorLayer ScratchLayer => EditorSolution.CurrentScene?.Scratch;
-        public EditorSolution.EditorLayer EditLayerA { get; set; }
-        public EditorSolution.EditorLayer EditLayerB { get; set; }
+        internal Classes.Edit.Scene.EditorSolution.EditorLayer FGHigher => Classes.Edit.Scene.EditorSolution.CurrentScene?.HighDetails;
+		internal Classes.Edit.Scene.EditorSolution.EditorLayer FGHigh => Classes.Edit.Scene.EditorSolution.CurrentScene?.ForegroundHigh;
+		internal Classes.Edit.Scene.EditorSolution.EditorLayer FGLow => Classes.Edit.Scene.EditorSolution.CurrentScene?.ForegroundLow;
+		internal Classes.Edit.Scene.EditorSolution.EditorLayer FGLower => Classes.Edit.Scene.EditorSolution.CurrentScene?.LowDetails;
+		internal Classes.Edit.Scene.EditorSolution.EditorLayer ScratchLayer => Classes.Edit.Scene.EditorSolution.CurrentScene?.Scratch;
+        public Classes.Edit.Scene.EditorSolution.EditorLayer EditLayerA { get; set; }
+        public Classes.Edit.Scene.EditorSolution.EditorLayer EditLayerB { get; set; }
         //Scene Width + Height (For Drawing)
-        internal int SceneWidth => (EditorSolution.CurrentScene != null ? EditorSolution.CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
-		internal int SceneHeight => (EditorSolution.CurrentScene != null ? EditorSolution.CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
+        internal int SceneWidth => (Classes.Edit.Scene.EditorSolution.CurrentScene != null ? Classes.Edit.Scene.EditorSolution.CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
+		internal int SceneHeight => (Classes.Edit.Scene.EditorSolution.CurrentScene != null ? Classes.Edit.Scene.EditorSolution.CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
 
 
 
@@ -107,7 +107,7 @@ namespace ManiacEditor
 		public EditorChunk Chunks;
 		public EditorFormsModel FormsModel;
 		public EditorUIEvents UIEvents;
-		public EditorPath Paths;
+		public Classes.Edit.Scene.EditorPath Paths;
 		public EditorFileHandler FileHandler;
 		public EditorDataPacks DataPacks;
 		public EditorFindReplace FindAndReplace;
@@ -238,9 +238,9 @@ namespace ManiacEditor
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (EditorSolution.CurrentScene != null)
+            if (Classes.Edit.Scene.EditorSolution.CurrentScene != null)
             {
-                foreach (var layer in EditorSolution.CurrentScene.AllLayers)
+                foreach (var layer in Classes.Edit.Scene.EditorSolution.CurrentScene.AllLayers)
                 {
                     layer.UpdateLayerScrollIndex();
                 }
@@ -290,7 +290,7 @@ namespace ManiacEditor
 			StartScreen = new StartScreen(this);
 			Updater = new EditorUpdater();
 			UIEvents = new EditorUIEvents(this);
-			Paths = new EditorPath(this);
+			Paths = new Classes.Edit.Scene.EditorPath(this);
 			FileHandler = new EditorFileHandler(this);
 			DataPacks = new EditorDataPacks(this);
 			FindAndReplace = new EditorFindReplace(this);
@@ -345,7 +345,7 @@ namespace ManiacEditor
 		}
 		public bool IsSceneLoaded()
 		{
-			if (EditorSolution.CurrentScene != null)
+			if (Classes.Edit.Scene.EditorSolution.CurrentScene != null)
 				return true;
 			else
 				return false;
@@ -374,7 +374,7 @@ namespace ManiacEditor
 			}
 			else if (IsEntitiesEdit())
 			{
-				return EditorSolution.Entities.IsSelected();
+				return Classes.Edit.Scene.EditorSolution.Entities.IsSelected();
 			}
 			return false;
 		}
@@ -405,7 +405,7 @@ namespace ManiacEditor
 		}
         #endregion
 		#region Common Editor Functions
-		public void EditorPlaceTile(Point position, int tile, EditorSolution.EditorLayer layer, bool isDrawing = false)
+		public void EditorPlaceTile(Point position, int tile, Classes.Edit.Scene.EditorSolution.EditorLayer layer, bool isDrawing = false)
 		{
             if (isDrawing)
             {
@@ -438,37 +438,37 @@ namespace ManiacEditor
 
 			if (IsEntitiesEdit())
 			{
-				EditorSolution.Entities.DeleteSelected();
+				Classes.Edit.Scene.EditorSolution.Entities.DeleteSelected();
 				UpdateLastEntityAction();
 			}
 		}
         public void UpdateLastEntityAction()
         {
-            if (EditorSolution.Entities.LastAction != null || EditorSolution.Entities.LastActionInternal != null) RedoStack.Clear();
-            if (EditorSolution.Entities.LastAction != null)
+            if (Classes.Edit.Scene.EditorSolution.Entities.LastAction != null || Classes.Edit.Scene.EditorSolution.Entities.LastActionInternal != null) RedoStack.Clear();
+            if (Classes.Edit.Scene.EditorSolution.Entities.LastAction != null)
 			{
-				UndoStack.Push(EditorSolution.Entities.LastAction);
-				EditorSolution.Entities.LastAction = null;
+				UndoStack.Push(Classes.Edit.Scene.EditorSolution.Entities.LastAction);
+				Classes.Edit.Scene.EditorSolution.Entities.LastAction = null;
 			}
-            if (EditorSolution.Entities.LastActionInternal != null)
+            if (Classes.Edit.Scene.EditorSolution.Entities.LastActionInternal != null)
             {
-                UndoStack.Push(EditorSolution.Entities.LastActionInternal);
-                EditorSolution.Entities.LastActionInternal = null;
+                UndoStack.Push(Classes.Edit.Scene.EditorSolution.Entities.LastActionInternal);
+                Classes.Edit.Scene.EditorSolution.Entities.LastActionInternal = null;
             }
-            if (EditorSolution.Entities.LastAction != null || EditorSolution.Entities.LastActionInternal != null) UI.UpdateControls();
+            if (Classes.Edit.Scene.EditorSolution.Entities.LastAction != null || Classes.Edit.Scene.EditorSolution.Entities.LastActionInternal != null) UI.UpdateControls();
 
         }
 		public void FlipEntities(FlipDirection direction)
 		{
 			Dictionary<EditorEntity, Point> initalPos = new Dictionary<EditorEntity, Point>();
 			Dictionary<EditorEntity, Point> postPos = new Dictionary<EditorEntity, Point>();
-			foreach (EditorEntity e in EditorSolution.Entities.SelectedEntities)
+			foreach (EditorEntity e in Classes.Edit.Scene.EditorSolution.Entities.SelectedEntities)
 			{
 				initalPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
-			EditorSolution.Entities.Flip(direction);
+			Classes.Edit.Scene.EditorSolution.Entities.Flip(direction);
 			EntitiesToolbar.UpdateCurrentEntityProperites();
-			foreach (EditorEntity e in EditorSolution.Entities.SelectedEntities)
+			foreach (EditorEntity e in Classes.Edit.Scene.EditorSolution.Entities.SelectedEntities)
 			{
 				postPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
@@ -478,7 +478,7 @@ namespace ManiacEditor
 
 		}
         /// <summary>
-        /// Deselects all tiles and EditorSolution.Entities
+        /// Deselects all tiles and Classes.Edit.Scene.EditorSolution.Entities
         /// </summary>
         /// <param name="updateControls">Whether to update associated on-screen controls</param>
         public void Deselect(bool updateControls = true)
@@ -488,7 +488,7 @@ namespace ManiacEditor
                 EditLayerA?.Deselect();
                 EditLayerB?.Deselect();
 
-                if (IsEntitiesEdit()) EditorSolution.Entities.Deselect();
+                if (IsEntitiesEdit()) Classes.Edit.Scene.EditorSolution.Entities.Deselect();
                 UI.SetSelectOnlyButtonsState(false);
                 if (updateControls)
                     UI.UpdateEditLayerActions();
@@ -557,7 +557,7 @@ namespace ManiacEditor
             }
             else if (hasMultipleValidLayers && Options.MultiLayerEditMode)
             {
-                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = EditorSolution.EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
+                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Edit.Scene.EditorSolution.EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
                 if (!doNotUseWindowsClipboard)
@@ -573,7 +573,7 @@ namespace ManiacEditor
         {
             if (EntitiesToolbar.IsFocused == false)
             {
-                List<EditorEntity> copyData = EditorSolution.Entities.CopyToClipboard();
+                List<EditorEntity> copyData = Classes.Edit.Scene.EditorSolution.Entities.CopyToClipboard();
 
                 /*
                 // Prepare each Entity for the copy to release unnecessary data
@@ -597,23 +597,23 @@ namespace ManiacEditor
                 try
                 {
 
-                    // check if there are EditorSolution.Entities on the Windows clipboard; if so, use those
+                    // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
                     if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
                     {
-                        EditorSolution.Entities.PasteFromClipboard(new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+                        Classes.Edit.Scene.EditorSolution.Entities.PasteFromClipboard(new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
                         UpdateLastEntityAction();
                     }
 
                     // if there's none, use the internal clipboard
                     else if (entitiesClipboard != null)
                     {
-                        EditorSolution.Entities.PasteFromClipboard(new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom)), entitiesClipboard);
+                        Classes.Edit.Scene.EditorSolution.Entities.PasteFromClipboard(new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom)), entitiesClipboard);
                         UpdateLastEntityAction();
                     }
                 }
                 catch (EditorEntities.TooManyEntitiesException)
                 {
-                    System.Windows.MessageBox.Show("Too many EditorSolution.Entities! (limit: 2048)");
+                    System.Windows.MessageBox.Show("Too many Classes.Edit.Scene.EditorSolution.Entities! (limit: 2048)");
                     return;
                 }
                 UI.UpdateEntitiesToolbarList();
@@ -693,8 +693,8 @@ namespace ManiacEditor
             {
                 if (Options.UseMagnetMode)
                 {
-                    int xE = EditorSolution.Entities.SelectedEntities[0].Entity.Position.X.High;
-                    int yE = EditorSolution.Entities.SelectedEntities[0].Entity.Position.Y.High;
+                    int xE = Classes.Edit.Scene.EditorSolution.Entities.SelectedEntities[0].Entity.Position.X.High;
+                    int yE = Classes.Edit.Scene.EditorSolution.Entities.SelectedEntities[0].Entity.Position.Y.High;
 
                     if (xE % Options.MagnetSize != 0 && Options.UseMagnetXAxis)
                     {
@@ -709,12 +709,12 @@ namespace ManiacEditor
                 }
 
 
-                EditorSolution.Entities.MoveSelected(new Point(0, 0), new Point(x, y), false);
+                Classes.Edit.Scene.EditorSolution.Entities.MoveSelected(new Point(0, 0), new Point(x, y), false);
                 EntitiesToolbar.UpdateCurrentEntityProperites();
 
                 // Try to merge with last move
-                List<EditorEntity> SelectedList = EditorSolution.Entities.SelectedEntities.ToList();
-                List<EditorEntity> SelectedInternalList = EditorSolution.Entities.SelectedInternalEntities.ToList();
+                List<EditorEntity> SelectedList = Classes.Edit.Scene.EditorSolution.Entities.SelectedEntities.ToList();
+                List<EditorEntity> SelectedInternalList = Classes.Edit.Scene.EditorSolution.Entities.SelectedInternalEntities.ToList();
                 bool selectedActionsState = UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedList, new Point(x, y));
                 bool selectedInternalActionsState = UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedInternalList, new Point(x, y));
 
@@ -1059,13 +1059,13 @@ namespace ManiacEditor
 
 
 			if (EntitiesToolbar?.NeedRefresh ?? false) EntitiesToolbar.PropertiesRefresh();
-            if (EditorSolution.CurrentScene != null)
+            if (Classes.Edit.Scene.EditorSolution.CurrentScene != null)
             {
                 DrawBackground();
 
-                //if (UIModes.DebugStatsVisibleOnPanel && EditorSolution.CurrentScene != null) DrawDebugHUD();
+                //if (UIModes.DebugStatsVisibleOnPanel && Classes.Edit.Scene.EditorSolution.CurrentScene != null) DrawDebugHUD();
 
-                if (EditorSolution.CurrentScene.OtherLayers.Contains(EditLayerA)) EditLayerA.Draw(FormsModel.GraphicPanel);
+                if (Classes.Edit.Scene.EditorSolution.CurrentScene.OtherLayers.Contains(EditLayerA)) EditLayerA.Draw(FormsModel.GraphicPanel);
 
                 if (!Options.ExtraLayersMoveToFront) DrawExtraLayers();
 
@@ -1090,9 +1090,9 @@ namespace ManiacEditor
                     if (PriorityMode) EntitiesDraw(1);
                     else EntitiesDraw(0);
 
-                if (EditorSolution.CurrentScene != null) EditorSolution.Entities.DrawInternalObjects(FormsModel.GraphicPanel);
+                if (Classes.Edit.Scene.EditorSolution.CurrentScene != null) Classes.Edit.Scene.EditorSolution.Entities.DrawInternalObjects(FormsModel.GraphicPanel);
 
-                if (Options.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing)) EditorSolution.Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
+                if (Options.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing)) Classes.Edit.Scene.EditorSolution.Entities.DrawSelectionBoxes(FormsModel.GraphicPanel);
 
             }
 
@@ -1101,7 +1101,7 @@ namespace ManiacEditor
 
             if (EditorStateModel.isTileDrawing && Options.DrawBrushSize != 1) DrawBrushBox();
 
-            if (Options.ShowGrid && EditorSolution.CurrentScene != null) BackgroundDX.DrawGrid(FormsModel.GraphicPanel);
+            if (Options.ShowGrid && Classes.Edit.Scene.EditorSolution.CurrentScene != null) BackgroundDX.DrawGrid(FormsModel.GraphicPanel);
 
 
             if (InGame.GameRunning) DrawGameElements();
@@ -1127,7 +1127,7 @@ namespace ManiacEditor
                 {
                     if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
                     {
-                        var _extraViewLayer = EditorSolution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
+                        var _extraViewLayer = Classes.Edit.Scene.EditorSolution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
                         _extraViewLayer.Draw(FormsModel.GraphicPanel);
                     }
                 }
@@ -1138,23 +1138,23 @@ namespace ManiacEditor
                 switch (mode)
                 {
                     case 0:
-                        EditorSolution.Entities.Draw(FormsModel.GraphicPanel);
+                        Classes.Edit.Scene.EditorSolution.Entities.Draw(FormsModel.GraphicPanel);
                         break;
                     case 1:
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, -1);
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 0);
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 1);
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 2);
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 3);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, -1);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 0);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 1);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 2);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 3);
                         break;
                     case 2:
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, -1);
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 0);
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 1);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, -1);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 0);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 1);
                         break;
                     case 3:
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 2);
-                        EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 3);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 2);
+                        Classes.Edit.Scene.EditorSolution.Entities.DrawPriority(FormsModel.GraphicPanel, 3);
                         break;
                 }
             }
@@ -1195,10 +1195,10 @@ namespace ManiacEditor
                         }
                         if (IsChunksEdit())
                         {
-                            bound_x1 = EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
-                            bound_y1 = EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
-                            bound_x2 = EditorSolution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
-                            bound_y2 = EditorSolution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
+                            bound_x1 = Classes.Edit.Scene.EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
+                            bound_y1 = Classes.Edit.Scene.EditorSolution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
+                            bound_x2 = Classes.Edit.Scene.EditorSolution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
+                            bound_y2 = Classes.Edit.Scene.EditorSolution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
                         }
 
 
@@ -1249,7 +1249,7 @@ namespace ManiacEditor
                 FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
             }
 
-            void DrawLayer(bool ShowLayer, bool EditLayer, EditorSolution.EditorLayer layer)
+            void DrawLayer(bool ShowLayer, bool EditLayer, Classes.Edit.Scene.EditorSolution.EditorLayer layer)
             {
                 if (ShowLayer || EditLayer) layer.Draw(FormsModel.GraphicPanel);
             }
@@ -1274,7 +1274,7 @@ namespace ManiacEditor
 
             /*
             List<int> layerDrawingOrder = new List<int> { };
-            var allLayers = EditorSolution.Scene.AllLayers;
+            var allLayers = Classes.Edit.Scene.EditorSolution.Scene.AllLayers;
             foreach (var layer in allLayers)
             {
                 layerDrawingOrder.Add(layer.Layer.UnknownByte2);
@@ -1289,7 +1289,7 @@ namespace ManiacEditor
             DrawLayers();
             */
 
-            var _extraViewLayer = EditorSolution.CurrentScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
+            var _extraViewLayer = Classes.Edit.Scene.EditorSolution.CurrentScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
 			_extraViewLayer.Draw(FormsModel.GraphicPanel);
 		}
 		public void Run()
@@ -1343,16 +1343,16 @@ namespace ManiacEditor
 			try
 			{
 				// release all our resources, and force a reload of the tiles
-				// EditorSolution.Entities should take care of themselves
+				// Classes.Edit.Scene.EditorSolution.Entities should take care of themselves
 				DisposeTextures();
 
 				if (Options.UseEncoreColors)
 				{
-                    if (EditorSolution.CurrentTiles != null) EditorSolution.CurrentTiles.StageTiles?.Image.Reload(EncorePalette[0]);
+                    if (Classes.Edit.Scene.EditorSolution.CurrentTiles != null) Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles?.Image.Reload(EncorePalette[0]);
 				}
 				else
 				{
-                    if (EditorSolution.CurrentTiles != null) EditorSolution.CurrentTiles.StageTiles?.Image.Reload();
+                    if (Classes.Edit.Scene.EditorSolution.CurrentTiles != null) Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles?.Image.Reload();
 				}
 
 			}
@@ -1363,16 +1363,16 @@ namespace ManiacEditor
 		}
 		public void DisposeTextures()
 		{
-            if (EditorSolution.CurrentScene != null)
+            if (Classes.Edit.Scene.EditorSolution.CurrentScene != null)
             {
                 // Make sure to dispose the textures of the extra layers too
-                if (EditorSolution.CurrentTiles != null) EditorSolution.CurrentTiles?.DisposeTextures();
+                if (Classes.Edit.Scene.EditorSolution.CurrentTiles != null) Classes.Edit.Scene.EditorSolution.CurrentTiles?.DisposeTextures();
                 if (FGHigh != null) FGHigh.DisposeTextures();
                 if (FGLow != null) FGLow.DisposeTextures();
                 if (FGHigher != null) FGHigher.DisposeTextures();
                 if (FGLower != null) FGLower.DisposeTextures();
 
-                foreach (var el in EditorSolution.CurrentScene.OtherLayers)
+                foreach (var el in Classes.Edit.Scene.EditorSolution.CurrentScene.OtherLayers)
                 {
                     el.DisposeTextures();
                 }
@@ -1380,7 +1380,7 @@ namespace ManiacEditor
 		}
 		public void RefreshCollisionColours(bool RefreshMasks = false)
 		{
-			if (EditorSolution.CurrentScene != null && EditorSolution.CurrentTiles.StageTiles != null)
+			if (Classes.Edit.Scene.EditorSolution.CurrentScene != null && Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles != null)
 			{
                 switch (Options.CollisionPreset)
                 {
@@ -1431,7 +1431,7 @@ namespace ManiacEditor
 		{
 			string selectedScene;
 
-			ManiacEditor.Interfaces.SceneSelectWindow select = new ManiacEditor.Interfaces.SceneSelectWindow(EditorSolution.GameConfig, this);
+			ManiacEditor.Interfaces.SceneSelectWindow select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Edit.Scene.EditorSolution.GameConfig, this);
 			select.Owner = Window.GetWindow(this);
 			select.ShowDialog();
 			if (select.SceneSelect.SelectedSceneResult == null)
@@ -1512,7 +1512,7 @@ namespace ManiacEditor
 			IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
 
 			//EDIT BUTTONS
-			foreach (EditorSolution.EditorLayer el in EditorSolution.CurrentScene.OtherLayers)
+			foreach (Classes.Edit.Scene.EditorSolution.EditorLayer el in Classes.Edit.Scene.EditorSolution.CurrentScene.OtherLayers)
 			{
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
@@ -1536,7 +1536,7 @@ namespace ManiacEditor
 			ExtraLayerSeperators.Add(tss);
 
 			//VIEW BUTTONS
-			foreach (EditorSolution.EditorLayer el in EditorSolution.CurrentScene.OtherLayers)
+			foreach (Classes.Edit.Scene.EditorSolution.EditorLayer el in Classes.Edit.Scene.EditorSolution.CurrentScene.OtherLayers)
 			{
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
@@ -1587,7 +1587,7 @@ namespace ManiacEditor
 		/// <param name="layer">The layer of the scene from which to extract a name.</param>
 		/// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
 		/// <param name="editButton">The button which controls editing the layer.</param>
-		private void UpdateDualButtonsControlsForLayer(EditorSolution.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+		private void UpdateDualButtonsControlsForLayer(Classes.Edit.Scene.EditorSolution.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
 		{
 			bool layerValid = layer != null;
 			visibilityButton.IsChecked = layerValid;
@@ -1733,7 +1733,7 @@ namespace ManiacEditor
         public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
         {
             if (FileHandler.AllowSceneUnloading() != true) return;
-            EditorSolution.UnloadScene();
+            Classes.Edit.Scene.EditorSolution.UnloadScene();
             Settings.UseDefaultPrefrences();
             DataDirectory = newDataDirectory;
             AddRecentDataFolder(newDataDirectory);
@@ -1839,7 +1839,7 @@ namespace ManiacEditor
         public void RecentSceneEntryClicked(object sender, RoutedEventArgs e)
         {
             if (FileHandler.AllowSceneUnloading() != true) return;
-            EditorSolution.UnloadScene();
+            Classes.Edit.Scene.EditorSolution.UnloadScene();
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
             var item = RecentsList.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
@@ -1905,7 +1905,7 @@ namespace ManiacEditor
         public void RecentDataSourceEntryClicked(object sender, RoutedEventArgs e)
         {
             if (FileHandler.AllowSceneUnloading() != true) return;
-            EditorSolution.UnloadScene();
+            Classes.Edit.Scene.EditorSolution.UnloadScene();
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
             var item = RecentDataSourcesList.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
