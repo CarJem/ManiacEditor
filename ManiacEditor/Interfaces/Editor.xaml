@@ -10,7 +10,7 @@
         xmlns:editorControls="clr-namespace:ManiacEditor.Interfaces.EditorElements"
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"    
-        Title="Maniac Editor - Generations Editon" Height="759" Width="1184" Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1184" MinHeight="759" KeyDown="Editor_KeyDown" KeyUp="Editor_KeyUp">
+        Title="Maniac Editor - Generations Editon" Height="759" Width="1184" Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1484" MinHeight="779" KeyDown="Editor_KeyDown" KeyUp="Editor_KeyUp">
     <Grid x:Name="ParentGrid" SizeChanged="Editor_Resize" Background="{DynamicResource NormalBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
