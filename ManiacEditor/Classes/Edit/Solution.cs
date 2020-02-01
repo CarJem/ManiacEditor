@@ -68,7 +68,7 @@ namespace ManiacEditor.Classes.Editor
 
             /*if (entitiesClipboard != null)
             {
-                foreach (EditorEntity entity in entitiesClipboard)
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in entitiesClipboard)
                     entity.PrepareForExternalCopy();
             }*/
 

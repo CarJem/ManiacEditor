@@ -4,7 +4,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedAIZTornadoPath : LinkedRenderer
     {
-        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, EditorEntity ObjectInstance)
+        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Edit.Scene.Sets.EditorEntity ObjectInstance)
         {
             ushort slotID = currentEntity.SlotID;
             ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);

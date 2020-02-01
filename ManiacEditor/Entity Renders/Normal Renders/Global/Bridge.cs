@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class Bridge : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var value = entity.attributesMap["length"].ValueUInt8;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Bridge", d.DevicePanel, 0, 0, false, false, false);
@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var length = entity.attributesMap["length"].ValueUInt8;
             int widthPixels = length * 16;

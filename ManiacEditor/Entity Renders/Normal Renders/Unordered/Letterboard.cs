@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class Letterboard : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int letterID = (int)entity.attributesMap["letterID"].ValueUInt8;
             bool controller = entity.attributesMap["controller"].ValueBool;

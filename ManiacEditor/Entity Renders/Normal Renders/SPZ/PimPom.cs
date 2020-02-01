@@ -6,7 +6,7 @@ namespace ManiacEditor.Entity_Renders
     public class PimPom : EntityRenderer
     {
         Boolean boolState = true;
-        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueEnum;
             int color = (int)entity.attributesMap["color"].ValueUInt8;
@@ -158,7 +158,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             int length = (int)entity.attributesMap["length"].ValueUInt8 + 1;
             int gap = (int)entity.attributesMap["gap"].ValueUInt8;

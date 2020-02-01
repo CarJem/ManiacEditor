@@ -835,7 +835,7 @@ namespace ManiacEditor
             else if (e.Button == MouseButtons.Right)
             {
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
-                EditorEntity atPoint = Classes.Editor.Solution.Entities.GetEntityAt(clicked_point);
+                Classes.Edit.Scene.Sets.EditorEntity atPoint = Classes.Editor.Solution.Entities.GetEntityAt(clicked_point);
                 if (atPoint != null && atPoint.Entity.Object.Name.Name == "Spline")
                 {
                     Editor.Instance.Deselect();

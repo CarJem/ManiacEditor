@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class UFO_Ring : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Ring", d.DevicePanel, 0, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)

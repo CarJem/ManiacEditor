@@ -17,23 +17,23 @@ namespace ManiacEditor.Classes.Edit.Scene
         #endregion
 
         #region Scene Entities
-        private List<EditorEntity> _Entities = new List<EditorEntity>();
-        private SortedDictionary<ushort, EditorEntity> _EntitiesBySlot = new SortedDictionary<ushort, EditorEntity>();
-        public List<EditorEntity> Entities { get => GetEntities(); set => SetEntities(value); }
-        public IList<EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
-        public SortedDictionary<ushort, EditorEntity> EntitiesBySlot { get => GetSortedEntities(); }
-        public IList<EditorEntity> TemporarySelection = new List<EditorEntity>();
+        private List<Classes.Edit.Scene.Sets.EditorEntity> _Entities = new List<Classes.Edit.Scene.Sets.EditorEntity>();
+        private SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity> _EntitiesBySlot = new SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity>();
+        public List<Classes.Edit.Scene.Sets.EditorEntity> Entities { get => GetEntities(); set => SetEntities(value); }
+        public IList<Classes.Edit.Scene.Sets.EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
+        public SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity> EntitiesBySlot { get => GetSortedEntities(); }
+        public IList<Classes.Edit.Scene.Sets.EditorEntity> TemporarySelection = new List<Classes.Edit.Scene.Sets.EditorEntity>();
         #endregion
 
         #region Internal Entities
-        private SortedDictionary<ushort, EditorEntity> _InternalEntitiesBySlot = new SortedDictionary<ushort, EditorEntity>();
+        private SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity> _InternalEntitiesBySlot = new SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity>();
 
-        private List<EditorEntity> _InternalEntities = new List<EditorEntity>();
-        public List<EditorEntity> InternalEntities { get => GetInternalEntities(); set => SetInternalEntities(value); }
-        public IList<EditorEntity> SelectedInternalEntities { get => GetSelectedInternalEntities(); set => SetSelectedInternalEntities(value); }
+        private List<Classes.Edit.Scene.Sets.EditorEntity> _InternalEntities = new List<Classes.Edit.Scene.Sets.EditorEntity>();
+        public List<Classes.Edit.Scene.Sets.EditorEntity> InternalEntities { get => GetInternalEntities(); set => SetInternalEntities(value); }
+        public IList<Classes.Edit.Scene.Sets.EditorEntity> SelectedInternalEntities { get => GetSelectedInternalEntities(); set => SetSelectedInternalEntities(value); }
 
-        public IList<EditorEntity> InternalTempSelection = new List<EditorEntity>();
-        public SortedDictionary<ushort, EditorEntity> InternalEntitiesBySlot { get => GetSortedEntities(); }
+        public IList<Classes.Edit.Scene.Sets.EditorEntity> InternalTempSelection = new List<Classes.Edit.Scene.Sets.EditorEntity>();
+        public SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity> InternalEntitiesBySlot { get => GetSortedEntities(); }
         #endregion
 
         #region Other
@@ -63,7 +63,7 @@ namespace ManiacEditor.Classes.Edit.Scene
 
         #region Internal Objects
 
-        public EditorEntity GenerateSplineObject()
+        public Classes.Edit.Scene.Sets.EditorEntity GenerateSplineObject()
         {
             NameIdentifier Name = new NameIdentifier("Spline");
             List<AttributeInfo> Attributes = new List<AttributeInfo>();
@@ -73,34 +73,34 @@ namespace ManiacEditor.Classes.Edit.Scene
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
             Entity.attributesMap["SplineID"].ValueInt32 = ManiacEditor.Editor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
 
-            return new EditorEntity(Entity, true);
+            return new Classes.Edit.Scene.Sets.EditorEntity(Entity, true);
         }
 
         #endregion
 
         #region Set/Get Methods
-        private void SetInternalEntities(List<EditorEntity> Entities)
+        private void SetInternalEntities(List<Classes.Edit.Scene.Sets.EditorEntity> Entities)
         {
             _InternalEntities = Entities;
         }
 
-        private List<EditorEntity> GetInternalEntities()
+        private List<Classes.Edit.Scene.Sets.EditorEntity> GetInternalEntities()
         {
             return _InternalEntities;
         }
 
-        private void SetEntities(List<EditorEntity> Entities)
+        private void SetEntities(List<Classes.Edit.Scene.Sets.EditorEntity> Entities)
         {
             _Entities = Entities;
             GetSortedEntities();
         }
 
-        private List<EditorEntity> GetEntities()
+        private List<Classes.Edit.Scene.Sets.EditorEntity> GetEntities()
         {
             return _Entities;
         }
 
-        private SortedDictionary<ushort, EditorEntity> GetInternalSortedEntities()
+        private SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity> GetInternalSortedEntities()
         {
             ushort SlotID = 0;
             foreach (var entity in InternalEntities)
@@ -109,46 +109,46 @@ namespace ManiacEditor.Classes.Edit.Scene
                 SlotID++;
             }
             var keyValuePairs = InternalEntities.ToDictionary(x => x.Entity.SlotID);
-            _EntitiesBySlot = new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
-            return new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
+            _EntitiesBySlot = new SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity>(keyValuePairs);
+            return new SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity>(keyValuePairs);
         }
 
-        private SortedDictionary<ushort, EditorEntity> GetSortedEntities()
+        private SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity> GetSortedEntities()
         {
             var keyValuePairs = Entities.ToDictionary(x => x.Entity.SlotID);
-            _EntitiesBySlot = new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
-            return new SortedDictionary<ushort, EditorEntity>(keyValuePairs);
+            _EntitiesBySlot = new SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity>(keyValuePairs);
+            return new SortedDictionary<ushort, Classes.Edit.Scene.Sets.EditorEntity>(keyValuePairs);
         }
 
-        private void SetSelectedInternalEntities(IList<EditorEntity> SelectedObj)
+        private void SetSelectedInternalEntities(IList<Classes.Edit.Scene.Sets.EditorEntity> SelectedObj)
         {
-            List<EditorEntity> SortedList = InternalEntities.OrderBy(x => x.SelectedIndex).ToList();
+            List<Classes.Edit.Scene.Sets.EditorEntity> SortedList = InternalEntities.OrderBy(x => x.SelectedIndex).ToList();
             foreach (var entity in SortedList.Where(X => SelectedObj.Contains(X)).ToList())
             {
                 InternalEntities.Where(X => X == entity).FirstOrDefault().Selected = entity.Selected;
             }
         }
 
-        private List<EditorEntity> GetSelectedInternalEntities()
+        private List<Classes.Edit.Scene.Sets.EditorEntity> GetSelectedInternalEntities()
         {
             return InternalEntities.Where(x => x.Selected == true).ToList();
         }
 
-        private void SetSelectedEntities(IList<EditorEntity> SelectedObj)
+        private void SetSelectedEntities(IList<Classes.Edit.Scene.Sets.EditorEntity> SelectedObj)
         {
-            List<EditorEntity> SortedList = Entities.OrderBy(x => x.SelectedIndex).ToList();
+            List<Classes.Edit.Scene.Sets.EditorEntity> SortedList = Entities.OrderBy(x => x.SelectedIndex).ToList();
             foreach (var entity in SortedList.Where(X => SelectedObj.Contains(X)).ToList())
             {
                 Entities.Where(X => X == entity).FirstOrDefault().Selected = entity.Selected;
             }
         }
 
-        private List<EditorEntity> GetSelectedEntities()
+        private List<Classes.Edit.Scene.Sets.EditorEntity> GetSelectedEntities()
         {
             return Entities.Where(x => x.Selected == true).ToList();
         }
 
-        public EditorEntity GetSelectedEntity()
+        public Classes.Edit.Scene.Sets.EditorEntity GetSelectedEntity()
         {
             if (SelectedEntities.Count > 0 && SelectedEntities[0] != null) return SelectedEntities[0];
             else return SelectedInternalEntities[0];
@@ -310,7 +310,7 @@ namespace ManiacEditor.Classes.Edit.Scene
 
             void SelectNormal()
             {
-                foreach (EditorEntity entity in Entities.Reverse<EditorEntity>())
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in Entities.Reverse<Classes.Edit.Scene.Sets.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                     {
@@ -331,7 +331,7 @@ namespace ManiacEditor.Classes.Edit.Scene
             }
             void SelectInternal()
             {
-                foreach (EditorEntity entity in InternalEntities.Reverse<EditorEntity>())
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in InternalEntities.Reverse<Classes.Edit.Scene.Sets.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                     {
@@ -356,10 +356,10 @@ namespace ManiacEditor.Classes.Edit.Scene
             TempSelectionUsingList(Entities);
             TempSelectionUsingList(InternalEntities);
 
-            void TempSelectionUsingList(List<EditorEntity> list)
+            void TempSelectionUsingList(List<Classes.Edit.Scene.Sets.EditorEntity> list)
             {
-                List<EditorEntity> newSelection = (from entity in list where entity.IsInArea(area) select entity).ToList();
-                List<EditorEntity> outsideSelection = (from entity in list where (!entity.IsInArea(area) && entity.InTempSelection) select entity).ToList();
+                List<Classes.Edit.Scene.Sets.EditorEntity> newSelection = (from entity in list where entity.IsInArea(area) select entity).ToList();
+                List<Classes.Edit.Scene.Sets.EditorEntity> outsideSelection = (from entity in list where (!entity.IsInArea(area) && entity.InTempSelection) select entity).ToList();
 
                 foreach (var entity in outsideSelection)
                 {
@@ -388,14 +388,14 @@ namespace ManiacEditor.Classes.Edit.Scene
         /// Adds an entity to the Scene, and consumes the specified ID Slot.
         /// </summary>
         /// <param name="entity">Entity to add to the scene.</param>
-        private void AddEntity(EditorEntity entity)
+        private void AddEntity(Classes.Edit.Scene.Sets.EditorEntity entity)
         {
             entity.Entity.Object.Entities.Add(entity.Entity);
             this.Entities.Add(entity);
             GetSortedEntities();
 
         }
-        private void AddInternalEntity(EditorEntity entity)
+        private void AddInternalEntity(Classes.Edit.Scene.Sets.EditorEntity entity)
         {
             entity.Entity.Object.Entities.Add(entity.Entity);
             this.InternalEntities.Add(entity);
@@ -410,7 +410,7 @@ namespace ManiacEditor.Classes.Edit.Scene
         /// Adds a set of entities to the Scene, and consumes the ID Slot specified for each.
         /// </summary>
         /// <param name="entities">Set of entities.</param>
-        private void AddEntities(IEnumerable<EditorEntity> entities)
+        private void AddEntities(IEnumerable<Classes.Edit.Scene.Sets.EditorEntity> entities)
         {
             if (entities == null)
             {
@@ -423,7 +423,7 @@ namespace ManiacEditor.Classes.Edit.Scene
             }
         }
 
-        private void AddEntitiesInternal(IEnumerable<EditorEntity> entities)
+        private void AddEntitiesInternal(IEnumerable<Classes.Edit.Scene.Sets.EditorEntity> entities)
         {
             if (entities == null)
             {
@@ -436,7 +436,7 @@ namespace ManiacEditor.Classes.Edit.Scene
             }
         }
 
-        private void DeleteEntities(List<EditorEntity> entities)
+        private void DeleteEntities(List<Classes.Edit.Scene.Sets.EditorEntity> entities)
         {
             foreach (var entity in entities)
             {
@@ -448,7 +448,7 @@ namespace ManiacEditor.Classes.Edit.Scene
             }
         }
 
-        private void DeleteInternalEntities(List<EditorEntity> entities)
+        private void DeleteInternalEntities(List<Classes.Edit.Scene.Sets.EditorEntity> entities)
         {
             foreach (var entity in entities)
             {
@@ -502,13 +502,13 @@ namespace ManiacEditor.Classes.Edit.Scene
                 GetInternalSortedEntities();
             }
         }
-        private void DuplicateEntities(List<EditorEntity> entities)
+        private void DuplicateEntities(List<Classes.Edit.Scene.Sets.EditorEntity> entities)
         {
             if (null == entities || !entities.Any()) return;
 
             // work out a slot for each entity, and add it in turn
             // this should prevent generating the same ID for each member of the list
-            var new_entities = new List<EditorEntity>();
+            var new_entities = new List<Classes.Edit.Scene.Sets.EditorEntity>();
             foreach (var entity in entities)
             {
                 ushort slot = GetFreeSlot(entity.Entity);
@@ -542,13 +542,13 @@ namespace ManiacEditor.Classes.Edit.Scene
             foreach (var entity in new_entities)
                 entity.Selected = true;
         }
-        private void DuplicateEntitiesInternal(List<EditorEntity> entities)
+        private void DuplicateEntitiesInternal(List<Classes.Edit.Scene.Sets.EditorEntity> entities)
         {
             if (null == entities || !entities.Any()) return;
 
             // work out a slot for each entity, and add it in turn
             // this should prevent generating the same ID for each member of the list
-            var new_entities = new List<EditorEntity>();
+            var new_entities = new List<Classes.Edit.Scene.Sets.EditorEntity>();
             foreach (var entity in entities)
             {
                 ushort slot = GetFreeSlotInternal(entity.Entity);
@@ -621,7 +621,7 @@ namespace ManiacEditor.Classes.Edit.Scene
         {
             var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(null)));
             editorEntity.Entity.Position = position;
-            var newEntities = new List<EditorEntity> { editorEntity };
+            var newEntities = new List<Classes.Edit.Scene.Sets.EditorEntity> { editorEntity };
             LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
             AddEntities(newEntities);
             Deselect();
@@ -635,7 +635,7 @@ namespace ManiacEditor.Classes.Edit.Scene
             var editorEntity = GenerateSplineObject();
             editorEntity.Entity.SlotID = GetFreeSlotInternal(null);
             editorEntity.Entity.Position = position;
-            var newEntities = new List<EditorEntity> { editorEntity };
+            var newEntities = new List<Classes.Edit.Scene.Sets.EditorEntity> { editorEntity };
             LastActionInternal = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntitiesInternal(x), x => DeleteInternalEntities(x));
             AddEntitiesInternal(newEntities);
             Deselect();
@@ -644,9 +644,9 @@ namespace ManiacEditor.Classes.Edit.Scene
             GetInternalSortedEntities();
         }
 
-        public EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
+        public Classes.Edit.Scene.Sets.EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
         {
-            EditorEntity entity = new EditorEntity(sceneEntity);
+            Classes.Edit.Scene.Sets.EditorEntity entity = new Classes.Edit.Scene.Sets.EditorEntity(sceneEntity);
 
             if (entity.HasFilter() && DefaultFilter > -1)
             {
@@ -662,12 +662,12 @@ namespace ManiacEditor.Classes.Edit.Scene
         {
             return SelectedEntities.Count > 0 || TemporarySelection.Count > 0;
         }
-        public List<EditorEntity> CopyToClipboard(bool keepPosition = false)
+        public List<Classes.Edit.Scene.Sets.EditorEntity> CopyToClipboard(bool keepPosition = false)
         {
             if (SelectedEntities.Count == 0) return null;
             short minX = 0, minY = 0;
 
-            List<EditorEntity> copiedEntities = SelectedEntities.Select(x => GenerateEditorEntity(new RSDKv5.SceneEntity(x.Entity, x.Entity.SlotID))).ToList();
+            List<Classes.Edit.Scene.Sets.EditorEntity> copiedEntities = SelectedEntities.Select(x => GenerateEditorEntity(new RSDKv5.SceneEntity(x.Entity, x.Entity.SlotID))).ToList();
             if (!keepPosition)
             {
                 minX = copiedEntities.Min(x => x.Entity.Position.X.High);
@@ -677,7 +677,7 @@ namespace ManiacEditor.Classes.Edit.Scene
 
             return copiedEntities;
         }
-        public void PasteFromClipboard(Point newPos, List<EditorEntity> entities)
+        public void PasteFromClipboard(Point newPos, List<Classes.Edit.Scene.Sets.EditorEntity> entities)
         {
             DuplicateEntities(entities);
             foreach (var entity in SelectedEntities)
@@ -686,17 +686,17 @@ namespace ManiacEditor.Classes.Edit.Scene
                 entity.Move(newPos);
             }
         }
-        public EditorEntity GetEntityAt(Point point)
+        public Classes.Edit.Scene.Sets.EditorEntity GetEntityAt(Point point)
         {
-            EditorEntity result1 = GetEntityAtNormal();
-            EditorEntity result2 = GetEntityAtInternal();
+            Classes.Edit.Scene.Sets.EditorEntity result1 = GetEntityAtNormal();
+            Classes.Edit.Scene.Sets.EditorEntity result2 = GetEntityAtInternal();
             return (result1 != null ? result1 : result2);
 
 
 
-            EditorEntity GetEntityAtNormal()
+            Classes.Edit.Scene.Sets.EditorEntity GetEntityAtNormal()
             {
-                foreach (EditorEntity entity in Entities.Reverse<EditorEntity>())
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in Entities.Reverse<Classes.Edit.Scene.Sets.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                         return entity;
@@ -704,9 +704,9 @@ namespace ManiacEditor.Classes.Edit.Scene
                 return null;
             }
 
-            EditorEntity GetEntityAtInternal()
+            Classes.Edit.Scene.Sets.EditorEntity GetEntityAtInternal()
             {
-                foreach (EditorEntity entity in InternalEntities.Reverse<EditorEntity>())
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in InternalEntities.Reverse<Classes.Edit.Scene.Sets.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                         return entity;
@@ -723,9 +723,9 @@ namespace ManiacEditor.Classes.Edit.Scene
             bool result2 = GetIsEntityAtWithList(InternalEntities);
             return (result1 != false ? result1 : result2);
 
-            bool GetIsEntityAtWithList(List<EditorEntity> list)
+            bool GetIsEntityAtWithList(List<Classes.Edit.Scene.Sets.EditorEntity> list)
             {
-                foreach (EditorEntity entity in list.Reverse<EditorEntity>())
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in list.Reverse<Classes.Edit.Scene.Sets.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                         return true;
@@ -806,8 +806,8 @@ namespace ManiacEditor.Classes.Edit.Scene
         }
         public void SwapSlotIDsFromPair()
         {
-            EditorEntity entity1 = SelectedEntities[0];
-            EditorEntity entity2 = SelectedEntities[1];
+            Classes.Edit.Scene.Sets.EditorEntity entity1 = SelectedEntities[0];
+            Classes.Edit.Scene.Sets.EditorEntity entity2 = SelectedEntities[1];
             ushort slotID_A = entity1.Entity.SlotID;
             ushort slotID_B = entity2.Entity.SlotID;
             IAction action = new Actions.ActionSwapSlotIDs(entity1.Entity, entity2.Entity, slotID_A, slotID_B, new Action<SceneEntity, SceneEntity, ushort, ushort>(SwapSlotIDs));
@@ -860,7 +860,7 @@ namespace ManiacEditor.Classes.Edit.Scene
         public void UpdateViewFilters()
         {
             FilterRefreshNeeded = false;
-            foreach (EditorEntity entity in Entities)
+            foreach (Classes.Edit.Scene.Sets.EditorEntity entity in Entities)
             {
                 entity.SetFilter();
             }

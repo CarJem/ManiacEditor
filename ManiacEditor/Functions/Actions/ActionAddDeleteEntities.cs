@@ -5,14 +5,14 @@ namespace ManiacEditor.Actions
 {
     class ActionAddDeleteEntities : IAction
     {
-        Action<List<EditorEntity>> addEntity;
-        Action<List<EditorEntity>> deleteEntity;
-        List<EditorEntity> entities;
+        Action<List<Classes.Edit.Scene.Sets.EditorEntity>> addEntity;
+        Action<List<Classes.Edit.Scene.Sets.EditorEntity>> deleteEntity;
+        List<Classes.Edit.Scene.Sets.EditorEntity> entities;
         bool add;
 
         public string Description => GenerateActionDescription();
 
-        public ActionAddDeleteEntities(List<EditorEntity> entities, bool add, Action<List<EditorEntity>> addEntity, Action<List<EditorEntity>> deleteEntity)
+        public ActionAddDeleteEntities(List<Classes.Edit.Scene.Sets.EditorEntity> entities, bool add, Action<List<Classes.Edit.Scene.Sets.EditorEntity>> addEntity, Action<List<Classes.Edit.Scene.Sets.EditorEntity>> deleteEntity)
         {
             this.entities = entities;
             this.add = add;

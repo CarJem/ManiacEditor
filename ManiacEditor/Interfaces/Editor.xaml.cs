@@ -71,7 +71,7 @@ namespace ManiacEditor
 		public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
 		public Dictionary<Point, ushort> FindReplaceClipboard;
 		public Dictionary<Point, ushort> TilesClipboardEditable;
-		public List<EditorEntity> entitiesClipboard;
+		public List<Classes.Edit.Scene.Sets.EditorEntity> entitiesClipboard;
 
         //Collision Colours
         public Color CollisionAllSolid = Color.White;
@@ -444,15 +444,15 @@ namespace ManiacEditor
         }
 		public void FlipEntities(FlipDirection direction)
 		{
-			Dictionary<EditorEntity, Point> initalPos = new Dictionary<EditorEntity, Point>();
-			Dictionary<EditorEntity, Point> postPos = new Dictionary<EditorEntity, Point>();
-			foreach (EditorEntity e in Classes.Editor.Solution.Entities.SelectedEntities)
+			Dictionary<Classes.Edit.Scene.Sets.EditorEntity, Point> initalPos = new Dictionary<Classes.Edit.Scene.Sets.EditorEntity, Point>();
+			Dictionary<Classes.Edit.Scene.Sets.EditorEntity, Point> postPos = new Dictionary<Classes.Edit.Scene.Sets.EditorEntity, Point>();
+			foreach (Classes.Edit.Scene.Sets.EditorEntity e in Classes.Editor.Solution.Entities.SelectedEntities)
 			{
 				initalPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
 			Classes.Editor.Solution.Entities.Flip(direction);
 			EntitiesToolbar.UpdateCurrentEntityProperites();
-			foreach (EditorEntity e in Classes.Editor.Solution.Entities.SelectedEntities)
+			foreach (Classes.Edit.Scene.Sets.EditorEntity e in Classes.Editor.Solution.Entities.SelectedEntities)
 			{
 				postPos.Add(e, new Point(e.PositionX, e.PositionY));
 			}
@@ -557,11 +557,11 @@ namespace ManiacEditor
         {
             if (EntitiesToolbar.IsFocused == false)
             {
-                List<EditorEntity> copyData = Classes.Editor.Solution.Entities.CopyToClipboard();
+                List<Classes.Edit.Scene.Sets.EditorEntity> copyData = Classes.Editor.Solution.Entities.CopyToClipboard();
 
                 /*
                 // Prepare each Entity for the copy to release unnecessary data
-                foreach (EditorEntity entity in copyData)
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in copyData)
                    entity.PrepareForExternalCopy();
 
                 CloseClipboard();
@@ -584,7 +584,7 @@ namespace ManiacEditor
                     // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
                     if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
                     {
-                        Classes.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom)), (List<EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+                        Classes.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom)), (List<Classes.Edit.Scene.Sets.EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
                         UpdateLastEntityAction();
                     }
 
@@ -697,8 +697,8 @@ namespace ManiacEditor
                 EntitiesToolbar.UpdateCurrentEntityProperites();
 
                 // Try to merge with last move
-                List<EditorEntity> SelectedList = Classes.Editor.Solution.Entities.SelectedEntities.ToList();
-                List<EditorEntity> SelectedInternalList = Classes.Editor.Solution.Entities.SelectedInternalEntities.ToList();
+                List<Classes.Edit.Scene.Sets.EditorEntity> SelectedList = Classes.Editor.Solution.Entities.SelectedEntities.ToList();
+                List<Classes.Edit.Scene.Sets.EditorEntity> SelectedInternalList = Classes.Editor.Solution.Entities.SelectedInternalEntities.ToList();
                 bool selectedActionsState = UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedList, new Point(x, y));
                 bool selectedInternalActionsState = UndoStack.Count > 0 && UndoStack.Peek() is ActionMoveEntities && (UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedInternalList, new Point(x, y));
 

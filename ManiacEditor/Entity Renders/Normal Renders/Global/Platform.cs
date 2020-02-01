@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int frameID = 0;
             int targetFrameID = -1;
@@ -41,7 +41,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     try
                     {
-                        EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                        Classes.Edit.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                         childEntity.childDraw = false;
                         childEntity.childDrawAddMode = false;
                         childEntity.childX = 0;
@@ -178,7 +178,7 @@ namespace ManiacEditor.Entity_Renders
                             {
                                 try
                                 {
-                                    EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                    Classes.Edit.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                     childEntity.childDraw = true;
                                     childEntity.childX = position[0];
                                     childEntity.childY = -position[1];
@@ -241,7 +241,7 @@ namespace ManiacEditor.Entity_Renders
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
                             {
-                                EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                Classes.Edit.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                 childEntity.childDraw = true;
                                 childEntity.childX = newX;
                                 childEntity.childY = -newY;
@@ -299,7 +299,7 @@ namespace ManiacEditor.Entity_Renders
                                         previousChildCount = childCount;
                                         for (int z = 0; z < childCount; z++)
                                         {
-                                            EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                                            Classes.Edit.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                                             if (childEntity != null)
                                             {
                                                 childEntity.childDraw = true;
@@ -376,7 +376,7 @@ namespace ManiacEditor.Entity_Renders
             return results;
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var attribute = entity.attributesMap["frameID"];
             int angle = (int)entity.attributesMap["angle"].ValueInt32;

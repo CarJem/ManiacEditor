@@ -43,9 +43,9 @@ namespace ManiacEditor.Interfaces
             }
         }
 
-        private List<EditorEntity> GetPlayers()
+        private List<Classes.Edit.Scene.Sets.EditorEntity> GetPlayers()
         {
-            List<EditorEntity> players = new List<EditorEntity>();
+            List<Classes.Edit.Scene.Sets.EditorEntity> players = new List<Classes.Edit.Scene.Sets.EditorEntity>();
             foreach (var _entity in Classes.Editor.Solution.Entities.Entities)
             {
                 if (_entity.Entity.Object.Name.Name == "Player")

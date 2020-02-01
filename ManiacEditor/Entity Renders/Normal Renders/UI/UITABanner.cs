@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class UITABanner : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var editorAnimFrame = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 2, 0, false, false, false);
             var editorAnimBackground = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 7, -1, false, false, false);
