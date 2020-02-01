@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace ManiacEditor.Interfaces
+namespace ManiacEditor.Interfaces.SceneSelect
 {
     /// <summary>
     /// Interaction logic for EditSceneSelectInfoWindow.xaml

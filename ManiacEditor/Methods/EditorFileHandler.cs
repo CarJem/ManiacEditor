@@ -32,7 +32,7 @@ namespace ManiacEditor
         {
             if (AllowSceneUnloading() != true) return;
             Classes.Editor.Solution.UnloadScene();
-            ManiacEditor.Interfaces.NewSceneWindow makerDialog = new ManiacEditor.Interfaces.NewSceneWindow();
+            ManiacEditor.Interfaces.SceneSelect.NewSceneWindow makerDialog = new ManiacEditor.Interfaces.SceneSelect.NewSceneWindow();
             makerDialog.Owner = Interfaces.Base.MainEditor.GetWindow(Instance);
             if (makerDialog.ShowDialog() == true)
             {
@@ -296,17 +296,17 @@ namespace ManiacEditor
         #region Opening
         public void OpenSceneUsingSceneSelect()
         {
-            ManiacEditor.Interfaces.SceneSelectWindow select;
+            ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow select;
 
             if (!EditorLoad())
             {
-                select = new ManiacEditor.Interfaces.SceneSelectWindow(null, Instance);
+                select = new ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow(null, Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
             else
             {
-                select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Editor.Solution.GameConfig, Instance);
+                select = new ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow(Classes.Editor.Solution.GameConfig, Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
@@ -329,10 +329,10 @@ namespace ManiacEditor
 
         public void OpenSceneSelectFromPreviousConfiguration(DataSaveStateCollection.SaveState SaveState)
         {
-            ManiacEditor.Interfaces.SceneSelectWindow select;
+            ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow select;
             Instance.Paths.SetGameConfig(SaveState.DataDirectory);
 
-            select = new ManiacEditor.Interfaces.SceneSelectWindow((EditorLoad() ? Classes.Editor.Solution.GameConfig : null), Instance);
+            select = new ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow((EditorLoad() ? Classes.Editor.Solution.GameConfig : null), Instance);
 
             select.Owner = Instance;
 
@@ -367,18 +367,18 @@ namespace ManiacEditor
 
         public void OpenSceneSelectWithPrefrences(string dataDirectory)
         {
-            ManiacEditor.Interfaces.SceneSelectWindow select;
+            ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow select;
             Instance.Paths.SetGameConfig(dataDirectory);
 
             if (!EditorLoad())
             {
-                select = new ManiacEditor.Interfaces.SceneSelectWindow(null, Instance);
+                select = new ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow(null, Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
             else
             {
-                select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Editor.Solution.GameConfig, Instance);
+                select = new ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow(Classes.Editor.Solution.GameConfig, Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
@@ -421,7 +421,7 @@ namespace ManiacEditor
 
         }
 
-        public void OpenSceneUsingExistingSceneSelect(ManiacEditor.Interfaces.SceneSelect select)
+        public void OpenSceneUsingExistingSceneSelect(ManiacEditor.Interfaces.SceneSelect.SceneSelectHost select)
         {
             if (PreLoad() == false) return;
 
@@ -437,7 +437,7 @@ namespace ManiacEditor
             }
         }
 
-        public void GetSceneSelectData(ManiacEditor.Interfaces.SceneSelect select, bool browsedFile = false, bool skipResourcePacks = false)
+        public void GetSceneSelectData(ManiacEditor.Interfaces.SceneSelect.SceneSelectHost select, bool browsedFile = false, bool skipResourcePacks = false)
         {
             if (browsedFile == true)
             {

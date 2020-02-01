@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Dynamic;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Base.Toolbars.EntitiesToolbar.PropertyGrid
 {
     /// <summary>
     /// this object and "DynamicPropertyDescriptor" are supposed to be used for display the dynamic attributes

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.SceneSelect
 {
     /// <summary>
     /// Interaction logic for ModPackEditor.xaml

@@ -301,7 +301,7 @@ namespace ManiacEditor
             {
                 if (Interfaces.Base.MainEditor.Instance.EntitiesToolbar == null)
                 {
-                    Interfaces.Base.MainEditor.Instance.EntitiesToolbar = new EntitiesToolbar(Classes.Editor.Solution.CurrentScene.Objects, Interfaces.Base.MainEditor.Instance)
+                    Interfaces.Base.MainEditor.Instance.EntitiesToolbar = new Interfaces.Base.Toolbars.EntitiesToolbar.EntitiesToolbar(Classes.Editor.Solution.CurrentScene.Objects, Interfaces.Base.MainEditor.Instance)
                     {
                         SelectedEntity = new Action<int>(x =>
                         {

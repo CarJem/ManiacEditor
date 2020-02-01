@@ -9,8 +9,9 @@ using RSDKv5;
 using Microsoft.Scripting.Utils;
 using System.ComponentModel;
 using System.Data;
+using ManiacEditor.Interfaces.Base.Toolbars.EntitiesToolbar.PropertyGrid;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Base.Toolbars.EntitiesToolbar
 {
     /// <summary>
     /// Interaction logic for TilesToolbar.xaml

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 
-namespace ManiacEditor.Interfaces
+namespace ManiacEditor.Interfaces.SceneSelect
 {
     /// <summary>
     /// Interaction logic for SceneSelectEditCategoryLabelWindow.xaml

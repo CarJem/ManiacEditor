@@ -15,9 +15,9 @@ using TreeNode = System.Windows.Forms.TreeNode;
 using TreeNodeMouseClickEventArgs = System.Windows.Forms.TreeNodeMouseClickEventArgs;
 using TreeViewEventArgs = System.Windows.Forms.TreeViewEventArgs;
 
-namespace ManiacEditor.Interfaces
+namespace ManiacEditor.Interfaces.SceneSelect
 {
-    public partial class SceneSelect : UserControl
+    public partial class SceneSelectHost : UserControl
 	{
 		public List<Tuple<string, List<Tuple<string, string>>>> Categories = new List<Tuple<string, List<Tuple<string, string>>>>();
 		public Dictionary<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>> Directories = new Dictionary<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>>();
@@ -71,7 +71,7 @@ namespace ManiacEditor.Interfaces
 		private System.Windows.Forms.TreeView RecentsTree;
         #endregion
 
-        public SceneSelect(Gameconfig config = null, Interfaces.Base.MainEditor _Instance = null, SceneSelectWindow _Window = null)
+        public SceneSelectHost(Gameconfig config = null, Interfaces.Base.MainEditor _Instance = null, SceneSelectWindow _Window = null)
 		{
 			if (Settings.MySettings.DataDirectories != null)  Settings.MySettings.DataDirectories.Remove(null);
 			if (Settings.MySettings.SavedPlaces != null)  Settings.MySettings.SavedPlaces.Remove(null);
@@ -581,7 +581,7 @@ namespace ManiacEditor.Interfaces
                 var scenes = new List<RSDKv5.Gameconfig.SceneInfo>();
                 scenes.Add(form.Scene);
 
-                var form2 = new SceneSelectEditCategoryLabelWindow();
+                var form2 = new SceneSelect.SceneSelectEditCategoryLabelWindow();
                 form.Owner = System.Windows.Window.GetWindow(Window);
                 form2.Scenes = scenes;
                 form2.ShowDialog();
@@ -1249,7 +1249,7 @@ namespace ManiacEditor.Interfaces
 
         private void OpenModPackEditorEvent(object sender, RoutedEventArgs e)
         {
-            DataPackEditor editor = new DataPackEditor(EditorInstance);
+            Interfaces.SceneSelect.DataPackEditor editor = new Interfaces.SceneSelect.DataPackEditor(EditorInstance);
             if (Window != null) editor.Owner = Window.Owner;
             else editor.Owner = Application.Current.MainWindow;
             editor.ShowDialog();

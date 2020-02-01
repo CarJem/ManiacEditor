@@ -85,7 +85,7 @@ namespace ManiacEditor.Interfaces.Base
 
 		internal Classes.Editor.Scene.EditorBackground BackgroundDX;
 		public TilesToolbar TilesToolbar = null;
-		public EntitiesToolbar EntitiesToolbar = null;
+		public Interfaces.Base.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
 		public EditorEntityDrawing EntityDrawing;
 		public EditorInGame InGame;
 		public Interfaces.Base.Elements.StartScreen StartScreen;
@@ -1405,7 +1405,7 @@ namespace ManiacEditor.Interfaces.Base
 		{
 			string selectedScene;
 
-			ManiacEditor.Interfaces.SceneSelectWindow select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Editor.Solution.GameConfig, this);
+			ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow select = new ManiacEditor.Interfaces.SceneSelect.SceneSelectWindow(Classes.Editor.Solution.GameConfig, this);
 			select.Owner = Window.GetWindow(this);
 			select.ShowDialog();
 			if (select.SceneSelect.SelectedSceneResult == null)

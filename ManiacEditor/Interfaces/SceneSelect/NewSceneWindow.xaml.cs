@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ManiacEditor.Interfaces
+namespace ManiacEditor.Interfaces.SceneSelect
 {
     public partial class NewSceneWindow : Window
 	{

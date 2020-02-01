@@ -11,7 +11,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
     public partial class StartScreen : UserControl
 	{
 		public Interfaces.Base.MainEditor EditorInstance;
-		public SceneSelect SelectScreen;
+		public Interfaces.SceneSelect.SceneSelectHost SelectScreen;
 
 		public string SelectedSavedPlace = "";
 		public string SelectedModFolder = "";
@@ -20,7 +20,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
 		{
 			InitializeComponent();
 			EditorInstance = instance;
-			SelectScreen = new SceneSelect(null, instance);
+			SelectScreen = new Interfaces.SceneSelect.SceneSelectHost(null, instance);
 			SceneSelectHost.Children.Add(SelectScreen);
 			SelectScreen.Refresh();
 		}

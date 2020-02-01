@@ -686,7 +686,7 @@
     <Compile Include="Interfaces\Global\ManiaHost.xaml.cs">
       <DependentUpon>ManiaHost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TilesTabControl.xaml.cs">
+    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Multipurpose\Controls\VScrollBar.xaml.cs">
@@ -722,16 +722,16 @@
     <Compile Include="Interfaces\Global\ManiacINIEditor.xaml.cs">
       <DependentUpon>ManiacINIEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\Scene Select\EditSceneSelectInfoWindow.xaml.cs">
+    <Compile Include="Interfaces\SceneSelect\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\Scene Select\DataPackEditor.xaml.cs">
+    <Compile Include="Interfaces\SceneSelect\DataPackEditor.xaml.cs">
       <DependentUpon>DataPackEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\Scene Select\NewSceneWindow.xaml.cs">
+    <Compile Include="Interfaces\SceneSelect\NewSceneWindow.xaml.cs">
       <DependentUpon>NewSceneWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\Scene Select\SceneSelectWindow.xaml.cs">
+    <Compile Include="Interfaces\SceneSelect\SceneSelectWindow.xaml.cs">
       <DependentUpon>SceneSelectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Scene Tools\Object Manager\SoundImporter.xaml.cs">
@@ -772,19 +772,19 @@
     <Compile Include="Interfaces\Scene Tools\Object Manager\AddAttributeWindow.xaml.cs">
       <DependentUpon>AddAttributeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\Scene Select\SceneSelect.xaml.cs">
-      <DependentUpon>SceneSelect.xaml</DependentUpon>
+    <Compile Include="Interfaces\SceneSelect\SceneSelectHost.xaml.cs">
+      <DependentUpon>SceneSelectHost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\Scene Select\SceneSelectEditCategoryLabelWindow.xaml.cs">
+    <Compile Include="Interfaces\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml.cs">
       <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Base\Elements\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Scene Tools\EntitiesToolbar.xaml.cs">
+    <Compile Include="Interfaces\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml.cs">
       <DependentUpon>EntitiesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TilesToolbar.xaml.cs">
+    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Methods\EditorEntities\AttributeValidater.cs" />
@@ -797,10 +797,10 @@
     <Compile Include="Interfaces\Multipurpose\Controls\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TileChunkList.cs">
+    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TileChunkList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TileChunkList.Designer.cs">
+    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TileChunkList.Designer.cs">
       <DependentUpon>TileChunkList.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Edit\SolutionState.cs" />
@@ -913,8 +913,8 @@
     <Compile Include="Interfaces\Render\ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\PropertyGrid\LocalProperty.cs" />
-    <Compile Include="Interfaces\PropertyGrid\LocalPropertyGrid.cs" />
+    <Compile Include="Interfaces\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
+    <Compile Include="Interfaces\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Classes\Edit\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Edit\Scene\Sets\EditorEntity.cs" />
     <Compile Include="Functions\Memory Editing\ProcessMemory.cs" />
@@ -1046,7 +1046,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Resources\Sounds\ScoreTotal.wav" />
-    <EmbeddedResource Include="Interfaces\Scene Tools\Tiles Toolbar\TileChunkList.resx">
+    <EmbeddedResource Include="Interfaces\Base\Toolbars\TilesToolbar\TileChunkList.resx">
       <DependentUpon>TileChunkList.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="Resources\Global\SuperSpecialRing.bin">
@@ -1296,7 +1296,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Scene Tools\Tiles Toolbar\TilesTabControl.xaml">
+    <Page Include="Interfaces\Base\Toolbars\TilesToolbar\TilesTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1332,7 +1332,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Global\Scene Select\EditSceneSelectInfoWindow.xaml">
+    <Page Include="Interfaces\SceneSelect\EditSceneSelectInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1352,15 +1352,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Global\Scene Select\DataPackEditor.xaml">
+    <Page Include="Interfaces\SceneSelect\DataPackEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Global\Scene Select\NewSceneWindow.xaml">
+    <Page Include="Interfaces\SceneSelect\NewSceneWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Global\Scene Select\SceneSelectWindow.xaml">
+    <Page Include="Interfaces\SceneSelect\SceneSelectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1384,11 +1384,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Global\Scene Select\SceneSelect.xaml">
+    <Page Include="Interfaces\SceneSelect\SceneSelectHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Global\Scene Select\SceneSelectEditCategoryLabelWindow.xaml">
+    <Page Include="Interfaces\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1396,11 +1396,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Scene Tools\EntitiesToolbar.xaml">
+    <Page Include="Interfaces\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Scene Tools\Tiles Toolbar\TilesToolbar.xaml">
+    <Page Include="Interfaces\Base\Toolbars\TilesToolbar\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
