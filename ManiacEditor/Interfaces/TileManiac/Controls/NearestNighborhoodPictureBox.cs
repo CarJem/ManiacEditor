@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.TileManiac.Controls
 {
 	public class PictureBoxNearestNeighbor : PictureBox
 	{

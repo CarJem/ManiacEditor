@@ -10,7 +10,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <skin:SkinResourceDictionary DarkSource="Interfaces/Assets/ColorLibraryDark.xaml" LightSource="Interfaces/Assets/ColorLibraryLight.xaml" />
-                <ResourceDictionary Source="Interfaces/Global/TileManiac/ManiacResources.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Interfaces/Assets/Icons.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/IconLibrary.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/CheckboxStyle.xaml"></ResourceDictionary>

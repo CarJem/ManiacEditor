@@ -106,7 +106,7 @@ namespace ManiacEditor.Interfaces.Base
         public EditorRecentDataSourcesList RecentDataSourcesList;
         public ProcessMemory GameMemory = new ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost FormsHost;
-        public MainWindow TileManiacInstance = new MainWindow();
+        public Interfaces.TileManiac.CollisionEditor TileManiacInstance = new Interfaces.TileManiac.CollisionEditor();
         public EditorDefaults Defaulter;
 
 		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's

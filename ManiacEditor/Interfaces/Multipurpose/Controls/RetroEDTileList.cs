@@ -445,7 +445,7 @@ namespace ManiacEditor.Interfaces.Multipurpose.Controls
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Interfaces.Base.MainEditor.Instance.TileManiacInstance == null || Interfaces.Base.MainEditor.Instance.TileManiacInstance.IsClosed) Interfaces.Base.MainEditor.Instance.TileManiacInstance = new MainWindow();
+			if (Interfaces.Base.MainEditor.Instance.TileManiacInstance == null || Interfaces.Base.MainEditor.Instance.TileManiacInstance.IsClosed) Interfaces.Base.MainEditor.Instance.TileManiacInstance = new Interfaces.TileManiac.CollisionEditor();
 			if (Interfaces.Base.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
 				Interfaces.Base.MainEditor.Instance.TileManiacInstance.Show();

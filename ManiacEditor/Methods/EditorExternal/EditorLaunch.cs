@@ -89,7 +89,7 @@ namespace ManiacEditor
         }
         public static void TileManiacNormal()
         {
-            if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.MainWindow();
+            if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.Interfaces.TileManiac.CollisionEditor();
             Editor.TileManiacInstance.Show();
             if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
             {
@@ -109,7 +109,7 @@ namespace ManiacEditor
         {
             try
             {
-                if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.MainWindow();
+                if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.Interfaces.TileManiac.CollisionEditor();
                 if (Editor.TileManiacInstance.Visibility != Visibility.Visible)
                 {
                     Editor.TileManiacInstance.Show();
