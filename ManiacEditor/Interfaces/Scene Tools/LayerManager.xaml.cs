@@ -23,8 +23,8 @@ namespace ManiacEditor.Interfaces
 	/// </summary>
 	public partial class LayerManager : Window
 	{
-		private Classes.Edit.Scene.EditorSolution.EditorScene _editorScene;
-		private IList<Classes.Edit.Scene.EditorSolution.EditorLayer> Layers
+		private Classes.Edit.Scene.Solution.EditorScene _editorScene;
+		private IList<Classes.Edit.Scene.Solution.EditorLayer> Layers
 		{
 			get => _editorScene?.AllLayersList;
 		}
@@ -44,7 +44,7 @@ namespace ManiacEditor.Interfaces
 			get => GetSelectedLayerScroll();
 		}
 
-        private Classes.Edit.Scene.EditorSolution.EditorLayer SelectedLayer;
+        private Classes.Edit.Scene.Solution.EditorLayer SelectedLayer;
 
 		private bool LockSelectionChangedTriggers = false;
 		private bool _layerArrangementChanged = false;
@@ -55,12 +55,12 @@ namespace ManiacEditor.Interfaces
 		int nudLineCountTemp = 0;
 
 		//Clipboards
-		private Classes.Edit.Scene.EditorSolution.EditorLayer LayerClipboard;
+		private Classes.Edit.Scene.Solution.EditorLayer LayerClipboard;
 
 
 
 		// I clearly have no understanding of WinForms Data Binding
-		public LayerManager(Classes.Edit.Scene.EditorSolution.EditorScene editorScene)
+		public LayerManager(Classes.Edit.Scene.Solution.EditorScene editorScene)
 		{
 			InitializeComponent();
 			_editorScene = editorScene;
@@ -299,7 +299,7 @@ namespace ManiacEditor.Interfaces
 
 		private void btnAdd_Click(object sender, RoutedEventArgs e)
 		{
-			Classes.Edit.Scene.EditorSolution.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
+			Classes.Edit.Scene.Solution.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
 			Layers.Add(newEditorLayer);
 			int newIndex = Layers.IndexOf(newEditorLayer);
 			lbLayers.SelectedIndex = newIndex;
@@ -491,9 +491,9 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
-		private void CopyLayerToClipboard(Classes.Edit.Scene.EditorSolution.EditorLayer layerToCopy)
+		private void CopyLayerToClipboard(Classes.Edit.Scene.Solution.EditorLayer layerToCopy)
 		{
-			Classes.Edit.Scene.EditorSolution.EditorLayer copyData = layerToCopy;
+			Classes.Edit.Scene.Solution.EditorLayer copyData = layerToCopy;
 
 			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
 			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
@@ -510,7 +510,7 @@ namespace ManiacEditor.Interfaces
 			// For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
 			if (Clipboard.ContainsData("ManiacLayer") && false)
 			{
-				var layerToPaste = (Classes.Edit.Scene.EditorSolution.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
+				var layerToPaste = (Classes.Edit.Scene.Solution.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
 
 				Layers.Insert(Layers.Count - 1, layerToPaste);
 

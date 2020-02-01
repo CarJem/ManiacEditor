@@ -31,17 +31,17 @@ namespace ManiacEditor
         public void NewScene()
         {
             if (AllowSceneUnloading() != true) return;
-            Classes.Edit.Scene.EditorSolution.UnloadScene();
+            Classes.Edit.Scene.Solution.UnloadScene();
             ManiacEditor.Interfaces.NewSceneWindow makerDialog = new ManiacEditor.Interfaces.NewSceneWindow();
             makerDialog.Owner = Editor.GetWindow(Instance);
             if (makerDialog.ShowDialog() == true)
             {
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
 
-                Classes.Edit.Scene.EditorSolution.CurrentScene = new Classes.Edit.Scene.EditorSolution.EditorScene(Instance.FormsModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
-                Classes.Edit.Scene.EditorSolution.TileConfig = new Tileconfig();
-                Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles = new StageTiles();
-                Classes.Edit.Scene.EditorSolution.StageConfig = new StageConfig();
+                Classes.Edit.Scene.Solution.CurrentScene = new Classes.Edit.Scene.Solution.EditorScene(Instance.FormsModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
+                Classes.Edit.Scene.Solution.TileConfig = new Tileconfig();
+                Classes.Edit.Scene.Solution.CurrentTiles.StageTiles = new StageTiles();
+                Classes.Edit.Scene.Solution.StageConfig = new StageConfig();
 
                 string ImagePath = directoryPath + "//16x16Tiles.gif";
                 string TilesPath = directoryPath + "//TilesConfig.bin";
@@ -52,9 +52,9 @@ namespace ManiacEditor
                 File.Create(StagePath).Dispose();
 
                 //EditorScene.Write(SceneFilepath);
-                Classes.Edit.Scene.EditorSolution.TileConfig.Write(TilesPath);
+                Classes.Edit.Scene.Solution.TileConfig.Write(TilesPath);
                 //StageConfig.Write(StagePath);
-                Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles.Write(ImagePath);
+                Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.Write(ImagePath);
 
 
                 Instance.UpdateDataFolderLabel(null, null);
@@ -64,7 +64,7 @@ namespace ManiacEditor
 
                 Instance.BackgroundDX = new EditorBackground(Instance);
 
-                Classes.Edit.Scene.EditorSolution.Entities = new EditorEntities(Classes.Edit.Scene.EditorSolution.CurrentScene);
+                Classes.Edit.Scene.Solution.Entities = new EditorEntities(Classes.Edit.Scene.Solution.CurrentScene);
 
                 Instance.ZoomModel.SetViewSize((int)(Instance.SceneWidth * EditorStateModel.Zoom), (int)(Instance.SceneHeight * EditorStateModel.Zoom));
 
@@ -74,7 +74,7 @@ namespace ManiacEditor
         public void OpenScene()
         {
             if (Instance.FileHandler.AllowSceneUnloading() != true) return;
-            Classes.Edit.Scene.EditorSolution.UnloadScene();
+            Classes.Edit.Scene.Solution.UnloadScene();
 
             Instance.OpenScene();
         }
@@ -91,7 +91,7 @@ namespace ManiacEditor
         }
         public void Save()
         {
-            if (Classes.Edit.Scene.EditorSolution.CurrentScene == null) return;
+            if (Classes.Edit.Scene.Solution.CurrentScene == null) return;
             if (Instance.IsTilesEdit()) Instance.Deselect();
 
             SaveScene();
@@ -100,7 +100,7 @@ namespace ManiacEditor
         }
         public void SaveAs()
         {
-            if (Classes.Edit.Scene.EditorSolution.CurrentScene == null) return;
+            if (Classes.Edit.Scene.Solution.CurrentScene == null) return;
             if (Instance.IsTilesEdit()) Instance.Deselect();
 
             System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
@@ -123,7 +123,7 @@ namespace ManiacEditor
         public void UnloadScene(bool SkipCheck = false)
         {
             if (AllowSceneUnloading(SkipCheck) != true) return;
-            Classes.Edit.Scene.EditorSolution.UnloadScene();
+            Classes.Edit.Scene.Solution.UnloadScene();
         }
         public bool AllowSceneUnloading(bool SkipCheck = false)
         {
@@ -172,7 +172,7 @@ namespace ManiacEditor
         public void ExportAsPNG()
         {
             
-            if (Classes.Edit.Scene.EditorSolution.CurrentScene == null) return;
+            if (Classes.Edit.Scene.Solution.CurrentScene == null) return;
 
             System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
             {
@@ -190,7 +190,7 @@ namespace ManiacEditor
                     Instance.FGLow?.Draw(g);
                     Instance.FGHigh?.Draw(g);
                     Instance.FGHigher?.Draw(g);
-                    Classes.Edit.Scene.EditorSolution.Entities?.Draw(g);
+                    Classes.Edit.Scene.Solution.Entities?.Draw(g);
 
                     bitmap.Save(save.FileName);
                 }
@@ -201,7 +201,7 @@ namespace ManiacEditor
         {
             try
             {
-                if (Classes.Edit.Scene.EditorSolution.CurrentScene?._editorLayers == null || !Classes.Edit.Scene.EditorSolution.CurrentScene._editorLayers.Any()) return;
+                if (Classes.Edit.Scene.Solution.CurrentScene?._editorLayers == null || !Classes.Edit.Scene.Solution.CurrentScene._editorLayers.Any()) return;
 
                 var dialog = new GenerationsLib.Core.FolderSelectDialog()
                 {
@@ -212,7 +212,7 @@ namespace ManiacEditor
 
                 int fileCount = 0;
 
-                foreach (var editorLayer in Classes.Edit.Scene.EditorSolution.CurrentScene.AllLayers)
+                foreach (var editorLayer in Classes.Edit.Scene.Solution.CurrentScene.AllLayers)
                 {
                     string fileName = System.IO.Path.Combine(dialog.FileName, editorLayer.Name + ".png");
 
@@ -244,7 +244,7 @@ namespace ManiacEditor
             int i = 0;
             try
             {
-                if (Classes.Edit.Scene.EditorSolution.CurrentScene?._editorLayers == null || !Classes.Edit.Scene.EditorSolution.CurrentScene._editorLayers.Any()) return;
+                if (Classes.Edit.Scene.Solution.CurrentScene?._editorLayers == null || !Classes.Edit.Scene.Solution.CurrentScene._editorLayers.Any()) return;
 
                 var dialog = new FolderSelectDialog()
                 {
@@ -261,7 +261,7 @@ namespace ManiacEditor
                 {
                     using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {
-                        for (i = 0; i < Classes.Edit.Scene.EditorSolution.Entities.Entities.Count; i++)
+                        for (i = 0; i < Classes.Edit.Scene.Solution.Entities.Entities.Count; i++)
                         {
                             //if (!Instance.CanWriteFile(fileName))
                             // {
@@ -270,7 +270,7 @@ namespace ManiacEditor
                             //}
                             try
                             {
-                                Classes.Edit.Scene.EditorSolution.Entities.Entities[i].ExportDraw(g,false);
+                                Classes.Edit.Scene.Solution.Entities.Entities[i].ExportDraw(g,false);
                             }
                             catch
                             {
@@ -306,7 +306,7 @@ namespace ManiacEditor
             }
             else
             {
-                select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Edit.Scene.EditorSolution.GameConfig, Instance);
+                select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Edit.Scene.Solution.GameConfig, Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
@@ -332,7 +332,7 @@ namespace ManiacEditor
             ManiacEditor.Interfaces.SceneSelectWindow select;
             Instance.Paths.SetGameConfig(SaveState.DataDirectory);
 
-            select = new ManiacEditor.Interfaces.SceneSelectWindow((EditorLoad() ? Classes.Edit.Scene.EditorSolution.GameConfig : null), Instance);
+            select = new ManiacEditor.Interfaces.SceneSelectWindow((EditorLoad() ? Classes.Edit.Scene.Solution.GameConfig : null), Instance);
 
             select.Owner = Instance;
 
@@ -378,7 +378,7 @@ namespace ManiacEditor
             }
             else
             {
-                select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Edit.Scene.EditorSolution.GameConfig, Instance);
+                select = new ManiacEditor.Interfaces.SceneSelectWindow(Classes.Edit.Scene.Solution.GameConfig, Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
@@ -513,11 +513,11 @@ namespace ManiacEditor
             {
                 //Using Instance Means the Stuff Hasn't Stated 
                 Instance.Options.LevelID = Instance.Paths.CurrentLevelID;
-                Classes.Edit.Scene.EditorSolution.CurrentScene = new Classes.Edit.Scene.EditorSolution.EditorScene(Instance.Paths.GetScenePath(), Instance.FormsModel.GraphicPanel, Instance);
+                Classes.Edit.Scene.Solution.CurrentScene = new Classes.Edit.Scene.Solution.EditorScene(Instance.Paths.GetScenePath(), Instance.FormsModel.GraphicPanel, Instance);
 
                 //ACT File (Encore Colors)
-                Instance.EncorePalette = Classes.Edit.Scene.EditorSolution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "", 1);
-                Instance.Options.EncoreSetupType = Classes.Edit.Scene.EditorSolution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "");
+                Instance.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "", 1);
+                Instance.Options.EncoreSetupType = Classes.Edit.Scene.Solution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "");
                 if (Instance.EncorePalette[0] != "")
                 {
                     Instance.Options.EncorePaletteExists = true;
@@ -560,11 +560,11 @@ namespace ManiacEditor
                 SetupObjectsList();
                 SetupDiscordRP(Instance.Paths.SceneFilePath);
                 Stamps StageStamps = Instance.Paths.GetEditorStamps(Instance.Paths.CurrentZone);
-                Instance.Chunks = new EditorChunk(Instance, Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles, StageStamps);
+                Instance.Chunks = new EditorChunk(Instance, Classes.Edit.Scene.Solution.CurrentTiles.StageTiles, StageStamps);
                 Instance.BackgroundDX = new EditorBackground(Instance);
-                Classes.Edit.Scene.EditorSolution.Entities = new EditorEntities(Classes.Edit.Scene.EditorSolution.CurrentScene);
+                Classes.Edit.Scene.Solution.Entities = new EditorEntities(Classes.Edit.Scene.Solution.CurrentScene);
 
-                Instance.UI.UpdateSplineSpawnObjectsList(Classes.Edit.Scene.EditorSolution.CurrentScene.Objects);
+                Instance.UI.UpdateSplineSpawnObjectsList(Classes.Edit.Scene.Solution.CurrentScene.Objects);
 
                 ReadManiacINIFile();
                 Instance.UpdateStartScreen(false);
@@ -587,22 +587,22 @@ namespace ManiacEditor
 
         public bool PreLoad()
         {
-            Classes.Edit.Scene.EditorSolution.UnloadScene();
+            Classes.Edit.Scene.Solution.UnloadScene();
             Instance.Settings.UseDefaultPrefrences();
-            Classes.Edit.Scene.EditorSolution.CurrentTiles = new Classes.Edit.Scene.EditorSolution.EditorTiles(Instance);
+            Classes.Edit.Scene.Solution.CurrentTiles = new Classes.Edit.Scene.Solution.EditorTiles(Instance);
             return Instance.SetGameConfig();
         }
 
         public void SetupObjectsList()
         {
             Instance.ObjectList.Clear();
-            for (int i = 0; i < Classes.Edit.Scene.EditorSolution.GameConfig.ObjectsNames.Count; i++)
+            for (int i = 0; i < Classes.Edit.Scene.Solution.GameConfig.ObjectsNames.Count; i++)
             {
-                Instance.ObjectList.Add(Classes.Edit.Scene.EditorSolution.GameConfig.ObjectsNames[i]);
+                Instance.ObjectList.Add(Classes.Edit.Scene.Solution.GameConfig.ObjectsNames[i]);
             }
-            for (int i = 0; i < Classes.Edit.Scene.EditorSolution.StageConfig.ObjectsNames.Count; i++)
+            for (int i = 0; i < Classes.Edit.Scene.Solution.StageConfig.ObjectsNames.Count; i++)
             {
-                Instance.ObjectList.Add(Classes.Edit.Scene.EditorSolution.StageConfig.ObjectsNames[i]);
+                Instance.ObjectList.Add(Classes.Edit.Scene.Solution.StageConfig.ObjectsNames[i]);
             }
         }
 
@@ -617,12 +617,12 @@ namespace ManiacEditor
             try
             {
                 Instance.Options.LevelID = Instance.Paths.CurrentLevelID;
-                Classes.Edit.Scene.EditorSolution.CurrentScene = new Classes.Edit.Scene.EditorSolution.EditorScene(Instance.Paths.GetScenePathFromFile(Instance.Paths.SceneFilePath), Instance.FormsModel.GraphicPanel, Instance);
+                Classes.Edit.Scene.Solution.CurrentScene = new Classes.Edit.Scene.Solution.EditorScene(Instance.Paths.GetScenePathFromFile(Instance.Paths.SceneFilePath), Instance.FormsModel.GraphicPanel, Instance);
 
 
                 //ACT File (Encore Colors)
-                Instance.EncorePalette = Classes.Edit.Scene.EditorSolution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, Instance.Paths.SceneDirectory, 0);
-                Instance.Options.EncoreSetupType = Classes.Edit.Scene.EditorSolution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, Instance.Paths.SceneDirectory);
+                Instance.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, Instance.Paths.SceneDirectory, 0);
+                Instance.Options.EncoreSetupType = Classes.Edit.Scene.Solution.CurrentScene.GetEncoreSetupType(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, Instance.Paths.SceneDirectory);
                 if (Instance.EncorePalette[0] != "")
                 {
                     Instance.Options.EncorePaletteExists = true;
@@ -725,14 +725,14 @@ namespace ManiacEditor
 			{
                 if (saveAsMode)
                 {
-                    Classes.Edit.Scene.EditorSolution.CurrentScene.Save(SaveAsFilePath);
+                    Classes.Edit.Scene.Solution.CurrentScene.Save(SaveAsFilePath);
                     Instance.Paths.SceneFile_Source = SaveAsFilePath;
                     Instance.Paths.SceneFile_SourceID = -3;
                 }
                 else
                 {
                     if (Instance.Options.DataDirectoryReadOnlyMode && Instance.Paths.SceneFile_SourceID == -1) return;
-                    else Classes.Edit.Scene.EditorSolution.CurrentScene.Save(Instance.Paths.SceneFile_Source);
+                    else Classes.Edit.Scene.Solution.CurrentScene.Save(Instance.Paths.SceneFile_Source);
                 }
 
 			}
@@ -748,14 +748,14 @@ namespace ManiacEditor
 			{
                 if (saveAsMode)
                 {
-                    Classes.Edit.Scene.EditorSolution.StageConfig?.Write(SaveAsFilePath);
+                    Classes.Edit.Scene.Solution.StageConfig?.Write(SaveAsFilePath);
                     Instance.Paths.StageConfig_Source = SaveAsFilePath;
                     Instance.Paths.StageConfig_SourceID = -3;
                 }
                 else
                 {
                     if (Instance.Options.DataDirectoryReadOnlyMode && Instance.Paths.StageConfig_SourceID == -1) return;
-                    else Classes.Edit.Scene.EditorSolution.StageConfig?.Write(Instance.Paths.StageConfig_Source);
+                    else Classes.Edit.Scene.Solution.StageConfig?.Write(Instance.Paths.StageConfig_Source);
                 }
 
 			}
@@ -801,7 +801,7 @@ namespace ManiacEditor
             {
                 if (saveAsMode)
                 {
-                    Classes.Edit.Scene.EditorSolution.TileConfig?.Write(SaveAsFilePath);
+                    Classes.Edit.Scene.Solution.TileConfig?.Write(SaveAsFilePath);
                     Instance.Paths.TileConfig_Source = SaveAsFilePath;
                     Instance.Paths.TileConfig_SourceID = -3;
                 }
@@ -818,7 +818,7 @@ namespace ManiacEditor
             {
                 if (saveAsMode)
                 {
-                    Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles?.Write(SaveAsFilePath);
+                    Classes.Edit.Scene.Solution.CurrentTiles.StageTiles?.Write(SaveAsFilePath);
                     Instance.Paths.StageTiles_Source = SaveAsFilePath;
                     Instance.Paths.StageTiles_SourceID = -3;
                 }

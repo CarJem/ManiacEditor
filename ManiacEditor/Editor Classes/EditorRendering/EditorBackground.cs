@@ -38,8 +38,8 @@ namespace ManiacEditor
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.BackgroundColor2;
+            RSDKv5Color rcolor1 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
+            RSDKv5Color rcolor2 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
 
             Color color1 = Color.FromArgb(rcolor1.A, rcolor1.R, rcolor1.G, rcolor1.B);
             Color color2 = Color.FromArgb(rcolor2.A, rcolor2.R, rcolor2.G, rcolor2.B);
@@ -67,8 +67,8 @@ namespace ManiacEditor
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Classes.Edit.Scene.EditorSolution.CurrentScene.EditorMetadata.BackgroundColor2;
+            RSDKv5Color rcolor1 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
+            RSDKv5Color rcolor2 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
 
             Color color1 = Color.FromArgb(30, rcolor1.R, rcolor1.G, rcolor1.B);
             Color color2 = Color.FromArgb(30, rcolor2.R, rcolor2.G, rcolor2.B);

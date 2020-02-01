@@ -72,7 +72,7 @@ namespace ManiacEditor.Interfaces
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Edit.Scene.EditorSolution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
+                    if (!Classes.Edit.Scene.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
                         lvc.Foreground = Brushes.Red;
                     }
                     else
@@ -182,7 +182,7 @@ namespace ManiacEditor.Interfaces
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Edit.Scene.EditorSolution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+                    if (!Classes.Edit.Scene.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
                     {
                         lvc.Foreground = Brushes.Red;
                     }

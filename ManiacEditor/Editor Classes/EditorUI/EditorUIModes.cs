@@ -133,7 +133,7 @@ namespace ManiacEditor
                 Editor.Instance.DisposeTextures();
                 Editor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = value;
                 Editor.Instance.Options._UseEncoreColors = value;
-                Classes.Edit.Scene.EditorSolution.CurrentTiles.StageTiles?.Image.Reload((value ? Editor.Instance.EncorePalette[0] : null));
+                Classes.Edit.Scene.Solution.CurrentTiles.StageTiles?.Image.Reload((value ? Editor.Instance.EncorePalette[0] : null));
                 Editor.Instance.TilesToolbar?.Reload((value ? Editor.Instance.EncorePalette[0] : null));
                 Editor.Instance.EntityDrawing.ReleaseResources();
             }

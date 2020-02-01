@@ -167,7 +167,7 @@ namespace ManiacEditor.Interfaces.EditorElements
         }
         private void SplineSpawnRender_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Classes.Edit.Scene.EditorSolution.Entities != null && Editor.Instance.Options.AllowSplineOptionsUpdate)
+            if (Classes.Edit.Scene.Solution.Entities != null && Editor.Instance.Options.AllowSplineOptionsUpdate)
             {
                 var selectedItem = SelectedSplineRender.SelectedItem as TextBlock;
                 if (selectedItem.Tag == null) return;
@@ -175,7 +175,7 @@ namespace ManiacEditor.Interfaces.EditorElements
                 {
                     var obj = selectedItem.Tag as RSDKv5.SceneObject;
                     int splineID = Editor.Instance.Options.SelectedSplineID;
-                    Editor.Instance.Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.SpawnObject, Classes.Edit.Scene.EditorSolution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
+                    Editor.Instance.Options.AdjustSplineGroupOptions(UserStateModel.SplineOption.SpawnObject, Classes.Edit.Scene.Solution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
                     Editor.Instance.EntitiesToolbar?.UpdateEntityProperties(new List<RSDKv5.SceneEntity>() { Editor.Instance.Options.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
 
                     if (Editor.Instance.Options.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
@@ -578,7 +578,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
 
             //EDIT BUTTONS
-            foreach (Classes.Edit.Scene.EditorSolution.EditorLayer el in Classes.Edit.Scene.EditorSolution.CurrentScene.OtherLayers)
+            foreach (Classes.Edit.Scene.Solution.EditorLayer el in Classes.Edit.Scene.Solution.CurrentScene.OtherLayers)
             {
                 EditLayerToggleButton tsb = new EditLayerToggleButton()
                 {
@@ -602,7 +602,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             Editor.Instance.ExtraLayerSeperators.Add(tss);
 
             //VIEW BUTTONS
-            foreach (Classes.Edit.Scene.EditorSolution.EditorLayer el in Classes.Edit.Scene.EditorSolution.CurrentScene.OtherLayers)
+            foreach (Classes.Edit.Scene.Solution.EditorLayer el in Classes.Edit.Scene.Solution.CurrentScene.OtherLayers)
             {
                 EditLayerToggleButton tsb = new EditLayerToggleButton()
                 {
@@ -653,7 +653,7 @@ namespace ManiacEditor.Interfaces.EditorElements
         /// <param name="layer">The layer of the scene from which to extract a name.</param>
         /// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
         /// <param name="editButton">The button which controls editing the layer.</param>
-        private void UpdateDualButtonsControlsForLayer(Classes.Edit.Scene.EditorSolution.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+        private void UpdateDualButtonsControlsForLayer(Classes.Edit.Scene.Solution.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
         {
             bool layerValid = layer != null;
             visibilityButton.IsChecked = layerValid;

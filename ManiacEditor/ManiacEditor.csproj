@@ -459,7 +459,7 @@
     <Compile Include="Editor Classes\EditorUI\EditorControl.cs" />
     <Compile Include="Editor Classes\EditorRecentsList.cs" />
     <Compile Include="Editor Classes\EditorExternal\EditorLaunch.cs" />
-    <Compile Include="Classes\Edit\Scene\EditorSolution.cs" />
+    <Compile Include="Classes\Edit\Scene\Solution.cs" />
     <Compile Include="Editor Classes\EditorUI\EditorUIModes.cs" />
     <Compile Include="Editor Classes\EditorDefaults.cs" />
     <Compile Include="Editor Classes\EditorConstants.cs" />
@@ -1431,7 +1431,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Editor Classes\Scene\" />
     <Folder Include="Entity Renders\Normal Renders\BS\" />
     <Folder Include="Entity Renders\Normal Renders\ERZ\" />
     <Folder Include="Entity Renders\Normal Renders\MMZ\" />
