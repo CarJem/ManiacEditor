@@ -809,7 +809,7 @@
     <Compile Include="Classes\Edit\SolutionState.cs" />
     <Compile Include="Functions\Enums.cs" />
     <Compile Include="Editor Classes\EditorEntities\EditorAnimations.cs" />
-    <Compile Include="Editor Classes\EditorRendering\EditorBackground.cs" />
+    <Compile Include="Classes\Edit\Scene\EditorBackground.cs" />
     <Compile Include="Editor Classes\EditorEntities\EditorEntityDrawing.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">

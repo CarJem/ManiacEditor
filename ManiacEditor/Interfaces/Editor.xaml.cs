@@ -82,7 +82,7 @@ namespace ManiacEditor
 
         public EditorControl EditorControls;
 
-		internal EditorBackground BackgroundDX;
+		internal Classes.Edit.Scene.EditorBackground BackgroundDX;
 		public TilesToolbar TilesToolbar = null;
 		public EntitiesToolbar EntitiesToolbar = null;
 		public EditorEntityDrawing EntityDrawing;

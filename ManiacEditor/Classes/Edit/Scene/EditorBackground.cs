@@ -2,9 +2,9 @@
 using System.Drawing;
 using RSDKv5Color = RSDKv5.Color;
 
-namespace ManiacEditor
+namespace ManiacEditor.Classes.Edit.Scene
 {
-    class EditorBackground : IDrawable
+    public class EditorBackground : IDrawable
     {
 
         public Editor EditorInstance;

@@ -62,7 +62,7 @@ namespace ManiacEditor
                 Instance.SetupLayerButtons();
 
 
-                Instance.BackgroundDX = new EditorBackground(Instance);
+                Instance.BackgroundDX = new Classes.Edit.Scene.EditorBackground(Instance);
 
                 Classes.Edit.Solution.Entities = new EditorEntities(Classes.Edit.Solution.CurrentScene);
 
@@ -561,7 +561,7 @@ namespace ManiacEditor
                 SetupDiscordRP(Instance.Paths.SceneFilePath);
                 Stamps StageStamps = Instance.Paths.GetEditorStamps(Instance.Paths.CurrentZone);
                 Instance.Chunks = new EditorChunk(Instance, Classes.Edit.Solution.CurrentTiles.StageTiles, StageStamps);
-                Instance.BackgroundDX = new EditorBackground(Instance);
+                Instance.BackgroundDX = new Classes.Edit.Scene.EditorBackground(Instance);
                 Classes.Edit.Solution.Entities = new EditorEntities(Classes.Edit.Solution.CurrentScene);
 
                 Instance.UI.UpdateSplineSpawnObjectsList(Classes.Edit.Solution.CurrentScene.Objects);
