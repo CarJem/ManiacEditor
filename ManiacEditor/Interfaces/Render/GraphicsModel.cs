@@ -6,7 +6,7 @@ namespace ManiacEditor.Interfaces
 {
     public partial class EditorFormsModel : UserControl, IDrawArea
     {
-        public Editor EditorInstance;
+        public Interfaces.Base.MapEditor EditorInstance;
         public ManiacEditor.DevicePanel GraphicPanel;
 
 		public HScrollBar hScrollBar;
@@ -26,7 +26,7 @@ namespace ManiacEditor.Interfaces
         }
 
 
-        public EditorFormsModel(Editor instance)
+        public EditorFormsModel(Interfaces.Base.MapEditor instance)
         {
             EditorInstance = instance;
             InitializeComponent();
@@ -40,7 +40,7 @@ namespace ManiacEditor.Interfaces
             vScrollBar = new VScrollBar();
             hScrollBar1Host.Child = hScrollBar;
             vScrollBar1Host.Child = vScrollBar;
-            if (refreshing) Editor.Instance.UpdateScrollBars();
+            if (refreshing) Interfaces.Base.MapEditor.Instance.UpdateScrollBars();
         }
 
         public void SetupGraphicsPanel()

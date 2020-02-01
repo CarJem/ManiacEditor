@@ -18,10 +18,10 @@ namespace ManiacEditor.Interfaces
         private IList<SceneObject> _sourceSceneObjects;
         private IList<SceneObject> _targetSceneObjects;
         private StageConfig _stageConfig;
-        public Editor EditorInstance;
+        public Interfaces.Base.MapEditor EditorInstance;
         public IList<CheckBox> lvObjects = new List<CheckBox>();
 
-        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Editor instance)
+        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Interfaces.Base.MapEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -37,7 +37,7 @@ namespace ManiacEditor.Interfaces
             else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 
-        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Editor instance)
+        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Interfaces.Base.MapEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
 
-namespace ManiacEditor.Interfaces.EditorElements
+namespace ManiacEditor.Interfaces.Base.Elements
 {
     /// <summary>
     /// Interaction logic for MenuBar.xaml
@@ -37,7 +37,7 @@ namespace ManiacEditor.Interfaces.EditorElements
             maniacinieditorToolStripMenuItem.IsEnabled = enabled;
             exportToolStripMenuItem.IsEnabled = enabled;
 
-            newShortcutToolStripMenuItem.IsEnabled = System.IO.Directory.Exists(Editor.Instance.DataDirectory);
+            newShortcutToolStripMenuItem.IsEnabled = System.IO.Directory.Exists(Interfaces.Base.MapEditor.Instance.DataDirectory);
             withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Editor.Solution.CurrentScene != null;
             withCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Editor.Solution.CurrentScene != null;
             changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
@@ -129,8 +129,8 @@ namespace ManiacEditor.Interfaces.EditorElements
             layerManagerToolStripMenuItem.IsEnabled = enabled;
             editBackgroundColorsToolStripMenuItem.IsEnabled = enabled;
 
-            undoToolStripMenuItem.IsEnabled = enabled && Editor.Instance.UndoStack.Count > 0;
-            redoToolStripMenuItem.IsEnabled = enabled && Editor.Instance.RedoStack.Count > 0;
+            undoToolStripMenuItem.IsEnabled = enabled && Interfaces.Base.MapEditor.Instance.UndoStack.Count > 0;
+            redoToolStripMenuItem.IsEnabled = enabled && Interfaces.Base.MapEditor.Instance.RedoStack.Count > 0;
 
             findAndReplaceToolStripMenuItem.IsEnabled = enabled && Classes.Editor.Solution.EditLayerA != null;
 
@@ -155,9 +155,9 @@ namespace ManiacEditor.Interfaces.EditorElements
             //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
             try
             {
-                if (Editor.Instance.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
+                if (Interfaces.Base.MapEditor.Instance.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
                 else windowsClipboardState = false;
-                if (Editor.Instance.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
+                if (Interfaces.Base.MapEditor.Instance.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
                 else windowsEntityClipboardState = false;
             }
             catch
@@ -167,12 +167,12 @@ namespace ManiacEditor.Interfaces.EditorElements
             }
 
 
-            if (Editor.Instance.IsTilesEdit())
+            if (Interfaces.Base.MapEditor.Instance.IsTilesEdit())
             {
                 if (enabled && HasCopyDataTiles()) SetPasteEnabledButtons(true);
                 else SetPasteEnabledButtons(false);
             }
-            else if (Editor.Instance.IsEntitiesEdit())
+            else if (Interfaces.Base.MapEditor.Instance.IsEntitiesEdit())
             {
                 if (enabled && HasCopyDataEntities()) SetPasteEnabledButtons(true);
                 else SetPasteEnabledButtons(false);
@@ -186,16 +186,16 @@ namespace ManiacEditor.Interfaces.EditorElements
             {
                 pasteToolStripMenuItem.IsEnabled = pasteEnabled;
                 pasteToToolStripMenuItem.IsEnabled = pasteEnabled;
-                pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && Editor.Instance.IsTilesEdit();
+                pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && Interfaces.Base.MapEditor.Instance.IsTilesEdit();
             }
 
-            bool HasCopyDataTiles() { return Editor.Instance.TilesClipboard != null || windowsClipboardState == true; }
-            bool HasCopyDataEntities() { return Editor.Instance.entitiesClipboard != null || windowsEntityClipboardState == true; }
+            bool HasCopyDataTiles() { return Interfaces.Base.MapEditor.Instance.TilesClipboard != null || windowsClipboardState == true; }
+            bool HasCopyDataEntities() { return Interfaces.Base.MapEditor.Instance.entitiesClipboard != null || windowsEntityClipboardState == true; }
         }
 
         public void SetSelectOnlyButtonsState(bool enabled = true)
         {
-            enabled &= Editor.Instance.IsSelected();
+            enabled &= Interfaces.Base.MapEditor.Instance.IsSelected();
             deleteToolStripMenuItem.IsEnabled = enabled;
             copyToolStripMenuItem.IsEnabled = enabled;
             cutToolStripMenuItem.IsEnabled = enabled;
@@ -207,18 +207,18 @@ namespace ManiacEditor.Interfaces.EditorElements
             flipHorizontalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
             flipVerticalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
 
-            selectAllToolStripMenuItem.IsEnabled = (Editor.Instance.IsTilesEdit() && !Editor.Instance.IsChunksEdit()) || Editor.Instance.IsEntitiesEdit();
+            selectAllToolStripMenuItem.IsEnabled = (Interfaces.Base.MapEditor.Instance.IsTilesEdit() && !Interfaces.Base.MapEditor.Instance.IsChunksEdit()) || Interfaces.Base.MapEditor.Instance.IsEntitiesEdit();
 
             bool CanFlip(int option)
             {
                 switch (option)
                 {
                     case 0:
-                        if (Editor.Instance.IsEntitiesEdit() && Editor.Instance.IsSelected()) return true;
-                        else if (Editor.Instance.IsTilesEdit()) return true;
+                        if (Interfaces.Base.MapEditor.Instance.IsEntitiesEdit() && Interfaces.Base.MapEditor.Instance.IsSelected()) return true;
+                        else if (Interfaces.Base.MapEditor.Instance.IsTilesEdit()) return true;
                         break;
                     case 1:
-                        return Editor.Instance.IsTilesEdit();
+                        return Interfaces.Base.MapEditor.Instance.IsTilesEdit();
                 }
                 return false;
             }
@@ -226,62 +226,62 @@ namespace ManiacEditor.Interfaces.EditorElements
 
         #region Action Events (MenuItems, Clicks, etc.)
         #region File Events
-        private void NewSceneEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.NewScene(); }
-        public void OpenSceneEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.OpenScene(); }
-        public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.OpenDataDirectory(); }
-        public void SaveSceneEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.Save(); }
-        private void ExitEditorEvent(object sender, RoutedEventArgs e) { Editor.Instance.Close(); }
-        private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.ExportAsPNG(); }
-        private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.ExportLayersAsPNG(); }
-        private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.ExportObjLayoutAsPNG(); }
+        private void NewSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.NewScene(); }
+        public void OpenSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.OpenScene(); }
+        public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.OpenDataDirectory(); }
+        public void SaveSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.Save(); }
+        private void ExitEditorEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.Close(); }
+        private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.ExportAsPNG(); }
+        private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.ExportLayersAsPNG(); }
+        private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.ExportObjLayoutAsPNG(); }
         private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.ExportGUI(sender, e); }
-        public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.SaveAs(); }
-        private void RecoverEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.BackupRecoverButton_Click(sender, e); }
-        public void UnloadSceneEvent(object sender, RoutedEventArgs e) { Editor.Instance.FileHandler.UnloadScene(); }
-        private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.StageConfigBackup(sender, e); }
-        private void BackupSceneEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SceneBackup(sender, e); }
+        public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.SaveAs(); }
+        private void RecoverEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.BackupRecoverButton_Click(sender, e); }
+        public void UnloadSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.UnloadScene(); }
+        private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.StageConfigBackup(sender, e); }
+        private void BackupSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SceneBackup(sender, e); }
         #endregion
         #region Edit Events
-        public void PasteToChunksEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.PasteToChunks(); }
-        public void SelectAllEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SelectAll(); }
-        public void CutEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.Cut(); }
-        public void CopyEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.Copy(); }
-        public void PasteEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.Paste(); }
-        public void DuplicateEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.Duplicate(); }
-        private void DeleteEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.Delete(); }
-        public void FlipVerticalEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.FlipVertical(); }
-        public void FlipHorizontalEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.FlipHorizontal(); }
-        public void FlipVerticalIndividualEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.FlipVerticalIndividual(); }
-        public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.FlipHorizontalIndividual(); }
+        public void PasteToChunksEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.PasteToChunks(); }
+        public void SelectAllEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SelectAll(); }
+        public void CutEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.Cut(); }
+        public void CopyEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.Copy(); }
+        public void PasteEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.Paste(); }
+        public void DuplicateEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.Duplicate(); }
+        private void DeleteEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.Delete(); }
+        public void FlipVerticalEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.FlipVertical(); }
+        public void FlipHorizontalEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.FlipHorizontal(); }
+        public void FlipVerticalIndividualEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.FlipVerticalIndividual(); }
+        public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.FlipHorizontalIndividual(); }
         #endregion
         #region Developer Stuff (WIP)
         private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { EditorLaunch.DevTerm(); }
-        private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MD5GeneratorToolStripMenuItem_Click(sender, e); }
-        private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.FindAndReplaceTool(sender, e); }
-        private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.ConsoleWindowToolStripMenuItem_Click(sender, e); }
-        private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
-        private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { Editor.Instance.UI.UpdateToolbars(false, true); }
-        private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { Editor.Instance.UI.UpdateToolbars(true, true); }
-        private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
+        private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.MD5GeneratorToolStripMenuItem_Click(sender, e); }
+        private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.FindAndReplaceTool(sender, e); }
+        private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.ConsoleWindowToolStripMenuItem_Click(sender, e); }
+        private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
+        private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UI.UpdateToolbars(false, true); }
+        private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UI.UpdateToolbars(true, true); }
+        private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
         #endregion
-        public void GoToPositionEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.GoToPosition(sender, e); }
-        private void UndoEvent(object sender, RoutedEventArgs e) { Editor.Instance.EditorUndo(); }
-        private void RedoEvent(object sender, RoutedEventArgs e) { Editor.Instance.EditorRedo(); }
+        public void GoToPositionEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.GoToPosition(sender, e); }
+        private void UndoEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.EditorUndo(); }
+        private void RedoEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.EditorRedo(); }
         private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CountTilesSelectedInPixels ^= true; }
         public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ScrollLocked ^= true; }
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EnableFasterNudge ^= true; }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
         public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true; }
-        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { Editor.Instance.ZoomModel.SetZoomLevel(0, new System.Drawing.Point(0, 0)); }
+        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.ZoomModel.SetZoomLevel(0, new System.Drawing.Point(0, 0)); }
         private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseLargeDebugStats ^= true; }
-        public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SetMenuButtonType(sender, e); }
-        public void MenuButtonChangedEvent(string tag) { Editor.Instance.UIEvents.SetMenuButtonType(tag); }
+        public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SetMenuButtonType(sender, e); }
+        public void MenuButtonChangedEvent(string tag) { Interfaces.Base.MapEditor.Instance.UIEvents.SetMenuButtonType(tag); }
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EntitiesVisibileAboveAllLayers ^= true; }
         private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized ^= true; }
         private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.PrioritizedEntityViewing ^= true; }
-        private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SetEncorePallete(sender); }
+        private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SetEncorePallete(sender); }
         private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ExtraLayersMoveToFront ^= true; }
-        private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { Editor.Instance.UIEvents.EntityFilterTextChanged(sender, e); }
+        private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.EntityFilterTextChanged(sender, e); }
         private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowEntitySelectionBoxes ^= true; }
         private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowWaterLevel ^= true; }
         private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.AlwaysShowWaterLevel ^= true; }
@@ -289,26 +289,26 @@ namespace ManiacEditor.Interfaces.EditorElements
         private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Classes.Editor.Solution.Entities.OrderSelectedSlotIDs(true); }
         private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Classes.Editor.Solution.Entities.OrderSelectedSlotIDs(false, true); }
         private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SizeWaterLevelwithBounds ^= true; }
-        private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility(); }
+        private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility(); }
         private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowParallaxSprites ^= true; }
-        private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SetScrollLockDirection(); }
+        private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection(); }
         private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowEntityPathArrows ^= true; }
-        private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MenuLanguageChanged(sender, e); }
+        private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.MenuLanguageChanged(sender, e); }
 
         private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Classes.Editor.Solution.CurrentScene != null) Classes.Editor.Solution.Entities.OptimizeAllSlotIDs(); }
         private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.RightClicktoSwapSlotID ^= true; }
         private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CopyAir ^= true; }
-        private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.ChangeLevelID(sender, e); }
+        private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.ChangeLevelID(sender, e); }
         private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MultiLayerEditMode ^= true; }
-        private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MakeShortcutForDataFolderOnly(sender, e); }
-        private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
-        private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
-        private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Editor.Instance.UIEvents.SoundLooperToolStripMenuItem_Click(sender, e); }
-        private void FindUnusedTiles(object sender, RoutedEventArgs e) { Editor.Instance.FindAndReplace.FindUnusedTiles(); }
+        private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.MakeShortcutForDataFolderOnly(sender, e); }
+        private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
+        private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
+        private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.SoundLooperToolStripMenuItem_Click(sender, e); }
+        private void FindUnusedTiles(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FindAndReplace.FindUnusedTiles(); }
 
 
         #region Collision Slider Events
-        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { Editor.Instance.UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
+        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { Interfaces.Base.MapEditor.Instance.UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
         #endregion
 
         #region Apps
@@ -357,12 +357,12 @@ namespace ManiacEditor.Interfaces.EditorElements
 
         private void RecentScenes_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            Editor.Instance.RefreshRecentScenes();
+            Interfaces.Base.MapEditor.Instance.RefreshRecentScenes();
         }
 
         private void RecentDataSources_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            Editor.Instance.RefreshDataSources();
+            Interfaces.Base.MapEditor.Instance.RefreshDataSources();
         }
 
         #endregion

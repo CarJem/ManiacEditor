@@ -20,8 +20,8 @@ namespace ManiacEditor.Interfaces
         int playerObjectCount = 0;
         public int selectedPlayer = 0;
 
-        private Editor Instance;
-		public GoToPositionBox(Editor instance)
+        private Interfaces.Base.MapEditor Instance;
+		public GoToPositionBox(Interfaces.Base.MapEditor instance)
 		{
 			InitializeComponent();
             Instance = instance;

@@ -28,7 +28,7 @@ namespace ManiacEditor
 
 		List<int> SelectedObjectListIndexes = new List<int>();
 
-		public Editor EditorInstance;
+		public Interfaces.Base.MapEditor EditorInstance;
 
 		public System.Windows.Forms.PropertyGrid entityProperties;
 
@@ -59,7 +59,7 @@ namespace ManiacEditor
 			set
 			{
                 int splineID = Classes.Editor.SolutionState.SelectedSplineID;
-                if (Editor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Classes.Editor.SolutionState.SplineOptionsGroup.ContainsKey(splineID) && Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Classes.Editor.SolutionState.SplineOptionsGroup.ContainsKey(splineID) && Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
                 {
                     UpdateEntitiesProperties(new List<SceneEntity>() { Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
                 }
@@ -73,7 +73,7 @@ namespace ManiacEditor
 
         public bool NeedRefresh;
 
-		public EntitiesToolbar(List<RSDKv5.SceneObject> sceneObjects, Editor instance)
+		public EntitiesToolbar(List<RSDKv5.SceneObject> sceneObjects, Interfaces.Base.MapEditor instance)
 		{
 			EditorInstance = instance;
 
@@ -155,11 +155,11 @@ namespace ManiacEditor
 		{
 			if (startup)
 			{
-				maniaFilter.Foreground = Editor.Instance.Theming.GetColorBrush(2);
-				encoreFilter.Foreground = Editor.Instance.Theming.GetColorBrush(4);
-				pinballFilter.Foreground = Editor.Instance.Theming.GetColorBrush(255);
-				bothFilter.Foreground = Editor.Instance.Theming.GetColorBrush(1);
-				otherFilter.Foreground = Editor.Instance.Theming.GetColorBrush(0);
+				maniaFilter.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(2);
+				encoreFilter.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(4);
+				pinballFilter.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(255);
+				bothFilter.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(1);
+				otherFilter.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(0);
 			}
 			if (Settings.MySettings.UseBitOperators)
 			{
@@ -200,7 +200,7 @@ namespace ManiacEditor
                         ObjectList[i] = new System.Windows.Controls.Button()
                         {
                             Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
-                            Foreground = Editor.Instance.Theming.GetColorBrush(entity),
+                            Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(entity),
                             Tag = entity.SlotID.ToString(),
                             Visibility = VisibilityStatus
                         };
@@ -209,7 +209,7 @@ namespace ManiacEditor
                     else
                     {
                         ObjectList[i].Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
-                        ObjectList[i].Foreground = Editor.Instance.Theming.GetColorBrush(entity);
+                        ObjectList[i].Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(entity);
                         ObjectList[i].Tag = entity.SlotID.ToString();
                         ObjectList[i].Visibility = VisibilityStatus;
                     }
@@ -222,7 +222,7 @@ namespace ManiacEditor
                         ObjectList[i] = new System.Windows.Controls.Button()
                         {
                             Content = String.Format("{0} - {1}", "UNUSED", i),
-                            Foreground = Editor.Instance.Theming.GetColorBrush(256),
+                            Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(256),
                             Height = 0,
                             Visibility = Visibility.Collapsed,
                             Tag = "NULL"
@@ -233,7 +233,7 @@ namespace ManiacEditor
                     else
                     {
                         ObjectList[i].Content = String.Format("{0} - {1}", "UNUSED", i);
-                        ObjectList[i].Foreground = Editor.Instance.Theming.GetColorBrush(256);
+                        ObjectList[i].Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(256);
                         ObjectList[i].Height = 0;
                         ObjectList[i].Visibility = Visibility.Collapsed;
                         ObjectList[i].Tag = "NULL";

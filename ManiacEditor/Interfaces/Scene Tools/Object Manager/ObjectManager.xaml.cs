@@ -28,7 +28,7 @@ namespace ManiacEditor.Interfaces
 
 		public ListViewItem SelectedAttributeItem;
 
-		public Editor EditorInstance;
+		public Interfaces.Base.MapEditor EditorInstance;
 
 		public ObservableCollection<CheckBox> lvObjects;
 
@@ -38,7 +38,7 @@ namespace ManiacEditor.Interfaces
 		Properties.Settings mySettings = Properties.Settings.Default;
 		Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
-		public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Editor instance)
+		public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Interfaces.Base.MapEditor instance)
 		{
 			EditorInstance = instance;
             InitializeComponent();

@@ -11,11 +11,11 @@ namespace ManiacEditor
 {
     public class EditorManiacINI
 	{
-		private Editor Instance;
+		private Interfaces.Base.MapEditor Instance;
         public string ManiacINIPath;
         public LoadPrefrences ManiacINIData { get; set; } = new LoadPrefrences();
 
-        public EditorManiacINI(Editor instance)
+        public EditorManiacINI(Interfaces.Base.MapEditor instance)
 		{
             Instance = instance;
         }

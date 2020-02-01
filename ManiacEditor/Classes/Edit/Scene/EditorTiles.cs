@@ -8,10 +8,10 @@ namespace ManiacEditor.Classes.Editor.Scene
 {
     public class EditorTiles
     {
-        private ManiacEditor.Editor Instance;
+        private ManiacEditor.Interfaces.Base.MapEditor Instance;
         public StageTiles StageTiles;
 
-        public EditorTiles(ManiacEditor.Editor instance)
+        public EditorTiles(ManiacEditor.Interfaces.Base.MapEditor instance)
         {
             Instance = instance;
         }

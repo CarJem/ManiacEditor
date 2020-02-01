@@ -422,44 +422,44 @@ namespace ManiacEditor.Interfaces
 
 		private void removeChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Editor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
+			Interfaces.Base.MapEditor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
 		}
 
 		private void duplicateChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (SelectedIndex != -1)
 			{
-				Editor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
+				Interfaces.Base.MapEditor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
 			}
 		}
 
 		private void importChunkFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Editor.Instance.TilesClipboard != null)
+			if (Interfaces.Base.MapEditor.Instance.TilesClipboard != null)
 			{
-				Editor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Editor.Instance.TilesClipboard.Item1, Editor.Instance.TilesClipboard.Item2);
+				Interfaces.Base.MapEditor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Interfaces.Base.MapEditor.Instance.TilesClipboard.Item1, Interfaces.Base.MapEditor.Instance.TilesClipboard.Item2);
 
-				Editor.Instance.TilesToolbar?.ChunksReload();
+				Interfaces.Base.MapEditor.Instance.TilesToolbar?.ChunksReload();
 			}
 		}
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Editor.Instance.TileManiacInstance == null || Editor.Instance.TileManiacInstance.IsClosed) Editor.Instance.TileManiacInstance = new MainWindow();
-			if (Editor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
+			if (Interfaces.Base.MapEditor.Instance.TileManiacInstance == null || Interfaces.Base.MapEditor.Instance.TileManiacInstance.IsClosed) Interfaces.Base.MapEditor.Instance.TileManiacInstance = new MainWindow();
+			if (Interfaces.Base.MapEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
-				Editor.Instance.TileManiacInstance.Show();
+				Interfaces.Base.MapEditor.Instance.TileManiacInstance.Show();
 			}
 			if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
 			{
-				if (Editor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Editor.Instance.TileManiacInstance.tcf == null)
+				if (Interfaces.Base.MapEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Interfaces.Base.MapEditor.Instance.TileManiacInstance.tcf == null)
 				{
-					Editor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Editor.Instance.Paths.TileConfig_Source, SelectedIndex);
+					Interfaces.Base.MapEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Interfaces.Base.MapEditor.Instance.Paths.TileConfig_Source, SelectedIndex);
 				}
 				else
 				{
-					Editor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
-					Editor.Instance.TileManiacInstance.Activate();
+					Interfaces.Base.MapEditor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
+					Interfaces.Base.MapEditor.Instance.TileManiacInstance.Activate();
 				}
 
 			}

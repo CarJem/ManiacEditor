@@ -11,14 +11,14 @@ namespace ManiacEditor
     /// </summary>
     public partial class ManiacINIEditor : Window
     {
-        private Editor Instance;
+        private Interfaces.Base.MapEditor Instance;
         private bool updatingKeys { get; set; } = false;
         private bool updatingValues { get; set; } = false;
         private LoadPrefrences ManiacINIDataUnedited;
 
         //TODO : Make Functional Again.
 
-        public ManiacINIEditor(Editor instance)
+        public ManiacINIEditor(Interfaces.Base.MapEditor instance)
         {
             InitializeComponent();
             /*

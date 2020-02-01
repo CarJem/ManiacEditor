@@ -11,9 +11,9 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
             bool enabled = entity.attributesMap["enabled"].ValueBool;
             int size = (int)entity.attributesMap["size"].ValueEnum;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, true, false);
-            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, 1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, true, false);
+            var editorAnim3 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, 1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

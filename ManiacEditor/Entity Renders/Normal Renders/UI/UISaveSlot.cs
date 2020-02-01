@@ -11,13 +11,13 @@ namespace ManiacEditor.Entity_Renders
             //int frameID = (int)entity.attributesMap["listID"].ValueEnum;
             int type = (int)entity.attributesMap["type"].ValueEnum;
             string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimBorder = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 1, false, false, false);
-            var editorAnimBackground = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 2, false, false, false);
-            var editorAnimActualRender = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 0, false, false, false);
-            var editorAnimActualRenderBorder = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 1, false, false, false);
-            var editorAnimText = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 0, false, false, false);
-            var editorAnimNoSave = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 2, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimBorder = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 1, false, false, false);
+            var editorAnimBackground = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 2, false, false, false);
+            var editorAnimActualRender = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 0, false, false, false);
+            var editorAnimActualRenderBorder = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 1, false, false, false);
+            var editorAnimText = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 0, false, false, false);
+            var editorAnimNoSave = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 2, false, false, false);
             if (type == 1)
             {
                 if (editorAnim != null && editorAnim.Frames.Count != 0)

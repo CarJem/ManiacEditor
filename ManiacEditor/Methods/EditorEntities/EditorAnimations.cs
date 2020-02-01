@@ -7,7 +7,7 @@ namespace ManiacEditor
     public class EditorAnimations
     {
 
-        public EditorAnimations(Editor instance)
+        public EditorAnimations(Interfaces.Base.MapEditor instance)
         {
             EditorInstance = instance;
         }
@@ -31,7 +31,7 @@ namespace ManiacEditor
         public int index2 = 0;
         public int index3 = 0;
         public int PaperRollerIndex = 0;
-        public Editor EditorInstance;
+        public Interfaces.Base.MapEditor EditorInstance;
 
         public class Timing
         {

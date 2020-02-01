@@ -87,7 +87,7 @@ namespace ManiacEditor
 
         private EditorControl GetEditorUIControls()
         {
-            if (Editor.Instance != null) return Editor.Instance.EditorControls;
+            if (Interfaces.Base.MapEditor.Instance != null) return Interfaces.Base.MapEditor.Instance.EditorControls;
             else return null;
 
         }

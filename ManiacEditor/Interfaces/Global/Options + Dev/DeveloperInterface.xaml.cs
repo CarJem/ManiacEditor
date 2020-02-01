@@ -8,9 +8,9 @@ namespace ManiacEditor.Interfaces
     public partial class DeveloperTerminal : Window
 	{
 		// For Interger Changer; Change to the Value you want to tweak
-		public Editor EditorInstance;
+		public Interfaces.Base.MapEditor EditorInstance;
 
-		public DeveloperTerminal(Editor instance)
+		public DeveloperTerminal(Interfaces.Base.MapEditor instance)
 		{
 			InitializeComponent();
 			EditorInstance = instance;

@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             if ((flipFlag & 0x01) == 0x01)
                 fliph = true;
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d.DevicePanel, animID % 3, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d.DevicePanel, animID % 3, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -38,7 +38,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("IceSpring", d.DevicePanel, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[0];

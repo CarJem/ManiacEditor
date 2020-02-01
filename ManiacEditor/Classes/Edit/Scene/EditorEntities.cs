@@ -71,7 +71,7 @@ namespace ManiacEditor.Classes.Editor.Scene
             Attributes.Add(SplineID);
             ushort Slot = 0;
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
-            Entity.attributesMap["SplineID"].ValueInt32 = ManiacEditor.Editor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
+            Entity.attributesMap["SplineID"].ValueInt32 = ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
 
             return new Classes.Editor.Scene.Sets.EditorEntity(Entity, true);
         }
@@ -799,9 +799,9 @@ namespace ManiacEditor.Classes.Editor.Scene
             SlotIDSwapped?.Invoke(action);
             ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
-            ManiacEditor.Editor.Instance.UndoStack.Push(action);
-            ManiacEditor.Editor.Instance.RedoStack.Clear();
-            ManiacEditor.Editor.Instance.UI.UpdateControls();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UndoStack.Push(action);
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.RedoStack.Clear();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
 
         }
         public void SwapSlotIDsFromPair()
@@ -814,9 +814,9 @@ namespace ManiacEditor.Classes.Editor.Scene
             SlotIDSwapped?.Invoke(action);
             SwapSlotIDs(entity1.Entity, entity2.Entity, slotID_A, slotID_B);
 
-            ManiacEditor.Editor.Instance.UndoStack.Push(action);
-            ManiacEditor.Editor.Instance.RedoStack.Clear();
-            ManiacEditor.Editor.Instance.UI.UpdateControls();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UndoStack.Push(action);
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.RedoStack.Clear();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
         }
         public void ChangeSeveralSlotIDs(IList<SceneEntity> entities, IList<ushort> slots)
         {
@@ -846,9 +846,9 @@ namespace ManiacEditor.Classes.Editor.Scene
             SlotIDSwapped?.Invoke(action);
             ChangeSeveralSlotIDs(OrderedEntities, OrderedSlotIDs);
 
-            ManiacEditor.Editor.Instance.UndoStack.Push(action);
-            ManiacEditor.Editor.Instance.RedoStack.Clear();
-            ManiacEditor.Editor.Instance.UI.UpdateControls();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UndoStack.Push(action);
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.RedoStack.Clear();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
         }
         private void FindDuplicateIds()
         {
@@ -944,7 +944,7 @@ namespace ManiacEditor.Classes.Editor.Scene
                         {
                             if (EditorEntityDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Entity.Object.Name.Name))
                             {
-                                ManiacEditor.Editor.Instance.EntityDrawing.DrawOthers(new GraphicsHandler(d), selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
+                                ManiacEditor.Interfaces.Base.MapEditor.Instance.EntityDrawing.DrawOthers(new GraphicsHandler(d), selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
                             }
                             else
                             {

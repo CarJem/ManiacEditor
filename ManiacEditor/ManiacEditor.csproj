@@ -632,13 +632,13 @@
     <Compile Include="Interfaces\Controls\ToolbarToggleOptionsButton.xaml.cs">
       <DependentUpon>ToolbarToggleOptionsButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\EditorElements\MenuBar.xaml.cs">
+    <Compile Include="Interfaces\Base\Elements\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\EditorElements\StatusBar.xaml.cs">
+    <Compile Include="Interfaces\Base\Elements\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\EditorElements\Toolbar.xaml.cs">
+    <Compile Include="Interfaces\Base\Elements\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Render\DevicePanel.cs">
@@ -710,7 +710,7 @@
     <Compile Include="Interfaces\Global\Mod Config Editor\ConfigManager.xaml.cs">
       <DependentUpon>ConfigManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Editor.xaml.cs">
+    <Compile Include="Interfaces\Base\Editor.xaml.cs">
       <DependentUpon>Editor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Global\Mod Config Editor\ModConfigEditor.xaml.cs">
@@ -1235,15 +1235,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\EditorElements\MenuBar.xaml">
+    <Page Include="Interfaces\Base\Elements\MenuBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\EditorElements\StatusBar.xaml">
+    <Page Include="Interfaces\Base\Elements\StatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\EditorElements\Toolbar.xaml">
+    <Page Include="Interfaces\Base\Elements\Toolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1315,7 +1315,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Editor.xaml">
+    <Page Include="Interfaces\Base\Editor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1323,7 +1323,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Styles\EditorBaseStyles.xaml">
+    <Page Include="Interfaces\Base\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

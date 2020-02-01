@@ -10,11 +10,11 @@ namespace ManiacEditor
     /// </summary>
     public partial class DataPackEditor : Window
     {
-        private Editor Instance;
+        private Interfaces.Base.MapEditor Instance;
         private bool updatingKeys { get; set; } = false;
         private bool updatingValues { get; set; } = false;
         private List<Tuple<string, List<Tuple<string, string>>>> ModListInformationUnedited;
-        public DataPackEditor(Editor instance)
+        public DataPackEditor(Interfaces.Base.MapEditor instance)
         {
             InitializeComponent();
             Instance = instance;

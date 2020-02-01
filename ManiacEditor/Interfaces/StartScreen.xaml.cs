@@ -10,13 +10,13 @@ namespace ManiacEditor.Interfaces
     /// </summary>
     public partial class StartScreen : UserControl
 	{
-		public Editor EditorInstance;
+		public Interfaces.Base.MapEditor EditorInstance;
 		public SceneSelect SelectScreen;
 
 		public string SelectedSavedPlace = "";
 		public string SelectedModFolder = "";
 
-		public StartScreen(Editor instance)
+		public StartScreen(Interfaces.Base.MapEditor instance)
 		{
 			InitializeComponent();
 			EditorInstance = instance;

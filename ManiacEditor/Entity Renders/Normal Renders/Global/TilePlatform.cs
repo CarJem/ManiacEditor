@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
             int TargetX = (int)entity.attributesMap["targetPos"].ValueVector2.X.High;
             int TargetY = (int)entity.attributesMap["targetPos"].ValueVector2.Y.High;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 7, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 7, fliph, flipv, false);
 
             width = RoundNum(width, Classes.Editor.Constants.TILE_SIZE) / Classes.Editor.Constants.TILE_SIZE;
             height = RoundNum(height, Classes.Editor.Constants.TILE_SIZE) / Classes.Editor.Constants.TILE_SIZE;

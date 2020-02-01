@@ -7,8 +7,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("MeterDroid", d.DevicePanel, 1, -1, false, false, false);
-            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("MeterDroid", d.DevicePanel, 8, -1, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("MeterDroid", d.DevicePanel, 1, -1, false, false, false);
+            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("MeterDroid", d.DevicePanel, 8, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

@@ -10,7 +10,7 @@ namespace ManiacEditor
     public class EditorChunk
 	{
 
-		public Editor EditorInstance;
+		public Interfaces.Base.MapEditor EditorInstance;
 
 		private StageTiles Tiles;
 
@@ -20,7 +20,7 @@ namespace ManiacEditor
 
 		public IList<Bitmap> ChunkImagesA = new List<Bitmap>();
 		public IList<Bitmap> ChunkImagesAB = new List<Bitmap>();
-		public EditorChunk(Editor instance, StageTiles stageTiles, Stamps stageStamps)
+		public EditorChunk(Interfaces.Base.MapEditor instance, StageTiles stageTiles, Stamps stageStamps)
 		{
 			EditorInstance = instance;
 			StageStamps = stageStamps;

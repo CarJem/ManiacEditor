@@ -32,16 +32,16 @@ using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Base
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class Editor : Window
+    public partial class MapEditor : Window
 	{
         #region Classical Regions
         #region Definitions
-        public static Editor Instance;
+        public static Interfaces.Base.MapEditor Instance;
 
 		//Editor Paths
 		public string DataDirectory; //Used to get the current Data Directory
@@ -174,7 +174,7 @@ namespace ManiacEditor
 
 		#endregion
 		#region Editor Initalizing Methods
-		public Editor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
+		public MapEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
             SystemEvents.PowerModeChanged += CheckDeviceState;
             Theming = new EditorTheming(this);
@@ -1914,7 +1914,7 @@ namespace ManiacEditor
                 {
                     UI.UpdateToolbars(false, true);
                 }
-                Editor.Instance.Editor_Resize(null, null);
+                Interfaces.Base.MapEditor.Instance.Editor_Resize(null, null);
             }
 
         }

@@ -15,9 +15,9 @@ namespace ManiacEditor.Entity_Renders
             bool noText = entity.attributesMap["noText"].ValueBool;
             int auxframeID = (int)entity.attributesMap["auxFrameID"].ValueEnum;
             int auxlistID = (int)entity.attributesMap["auxListID"].ValueEnum;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
-            var leftArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
-            var rightArrow = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
+            var leftArrow = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
+            var rightArrow = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
             int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
             double alignmentVal = 0;
@@ -31,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
                     alignmentVal = (22 / 2);
                     break;
             }
-            var editorAnimIcon = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, auxlistID, auxframeID, false, false, false);
+            var editorAnimIcon = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, auxlistID, auxframeID, false, false, false);
             e.DrawUIButtonBack(d, x, y, width, height, 0, 0, Transparency);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && noText == false)
             {

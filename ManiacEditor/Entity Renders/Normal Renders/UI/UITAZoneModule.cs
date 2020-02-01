@@ -7,8 +7,8 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnimFrame = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimBackground = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 10, -1, false, false, false);
+            var editorAnimFrame = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimBackground = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 10, -1, false, false, false);
 
             if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
             {
@@ -37,7 +37,7 @@ namespace ManiacEditor.Entity_Renders
             foreach (char symb in text1)
             {
                 int frameID = GetFrameID(symb, Classes.Editor.SolutionState.MenuChar);
-                var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
+                var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                 {
                     var frame = editorAnim2.Frames[0];
@@ -50,7 +50,7 @@ namespace ManiacEditor.Entity_Renders
             foreach (char symb in text2)
             {
                 int frameID = GetFrameID(symb, Classes.Editor.SolutionState.MenuChar);
-                var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
+                var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                 {
                     var frame = editorAnim2.Frames[0];

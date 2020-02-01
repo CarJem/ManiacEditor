@@ -43,25 +43,25 @@ namespace ManiacEditor.Classes.Editor
             Classes.Editor.Solution.CurrentScene?.Dispose();
             Classes.Editor.Solution.CurrentScene = null;
             Classes.Editor.Solution.StageConfig = null;
-            ManiacEditor.Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
             Classes.Editor.SolutionState.LevelID = -1;
             Classes.Editor.SolutionState.EncorePaletteExists = false;
             Classes.Editor.SolutionState.EncoreSetupType = 0;
-            ManiacEditor.Editor.Instance.ManiacINI.ClearSettings();
-            ManiacEditor.Editor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
-            ManiacEditor.Editor.Instance.userDefinedSpritePaths = new List<string>();
-            ManiacEditor.Editor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
-            ManiacEditor.Editor.Instance.Paths.UnloadScene();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.ManiacINI.ClearSettings();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.userDefinedSpritePaths = new List<string>();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.Paths.UnloadScene();
             Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = false;
 
             if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles.Dispose();
             Classes.Editor.Solution.CurrentTiles = null;
 
-            ManiacEditor.Editor.Instance.TearDownExtraLayerButtons();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.TearDownExtraLayerButtons();
 
-            ManiacEditor.Editor.Instance.Background = null;
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.Background = null;
 
-            ManiacEditor.Editor.Instance.Chunks = null;
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.Chunks = null;
 
             EditorAnimations.AnimationTiming.Clear();
 
@@ -75,36 +75,32 @@ namespace ManiacEditor.Classes.Editor
 
             // Clear local clipboards
             //TilesClipboard = null;
-            ManiacEditor.Editor.Instance.entitiesClipboard = null;
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.entitiesClipboard = null;
 
             Classes.Editor.Solution.Entities = null;
 
             Classes.Editor.SolutionState.Zoom = 1;
             Classes.Editor.SolutionState.ZoomLevel = 0;
 
-            ManiacEditor.Editor.Instance.UndoStack.Clear();
-            ManiacEditor.Editor.Instance.RedoStack.Clear();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UndoStack.Clear();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.RedoStack.Clear();
 
-            ManiacEditor.Editor.Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
-            ManiacEditor.Editor.Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
-            ManiacEditor.Editor.Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
-            ManiacEditor.Editor.Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
-            ManiacEditor.Editor.Instance.EditorToolbar.EditEntities.ClearCheckedItems();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EditorToolbar.EditEntities.ClearCheckedItems();
 
-            ManiacEditor.Editor.Instance.ZoomModel.SetViewSize();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.ZoomModel.SetViewSize();
 
-            ManiacEditor.Editor.Instance.UI.UpdateControls();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
 
             // clear memory a little more aggressively 
-            ManiacEditor.Editor.Instance.EntityDrawing.ReleaseResources();
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.EntityDrawing.ReleaseResources();
             GC.Collect();
             Classes.Editor.Solution.TileConfig = null;
 
-            Classes.Editor.SolutionState.MenuChar = Classes.Editor.SolutionState.MenuCharS.ToCharArray();
-            Classes.Editor.SolutionState.MenuChar_Small = Classes.Editor.SolutionState.MenuCharS_Small.ToCharArray();
-            Classes.Editor.SolutionState.LevelSelectChar = Classes.Editor.SolutionState.LevelSelectCharS.ToCharArray();
-
-            ManiacEditor.Editor.Instance.UpdateStartScreen(true);
+            ManiacEditor.Interfaces.Base.MapEditor.Instance.UpdateStartScreen(true);
         }
 
 

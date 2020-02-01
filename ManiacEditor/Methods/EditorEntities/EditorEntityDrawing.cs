@@ -38,7 +38,7 @@ namespace ManiacEditor
         public Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public bool Working = false;
 
-        public Editor EditorInstance;
+        public Interfaces.Base.MapEditor EditorInstance;
 
         public enum Flag : int
         {
@@ -49,7 +49,7 @@ namespace ManiacEditor
             Unknown = 4    
         }
 
-        public EditorEntityDrawing(Editor instance)
+        public EditorEntityDrawing(Interfaces.Base.MapEditor instance)
         {
             EditorInstance = instance;
         }

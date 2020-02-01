@@ -12,13 +12,13 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 0, 1, fliph, flipv, false);
-            var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 1, 0, fliph, flipv, false);
-            var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 2, 0, fliph, flipv, false);
-            var editorAnim6 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 1, 0, fliph, flipv, false);
-            var editorAnim7 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 2, 0, fliph, flipv, false);
-            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 0, 1, fliph, flipv, false);
+            var editorAnim4 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnim5 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 2, 0, fliph, flipv, false);
+            var editorAnim6 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnim7 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 2, 0, fliph, flipv, false);
+            var editorAnim3 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("FilmProjector", d.DevicePanel, 3, -1, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0)
             {
@@ -59,7 +59,7 @@ namespace ManiacEditor.Entity_Renders
                     y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 
-                ProcessAnimation(frame3.Entry.SpeedMultiplyer, frame3.Entry.Frames.Count, frame3.Frame.Delay, 0, Editor.Instance);
+                ProcessAnimation(frame3.Entry.SpeedMultiplyer, frame3.Entry.Frames.Count, frame3.Frame.Delay, 0, Interfaces.Base.MapEditor.Instance);
 
                 d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
                     x + 185 + frame3.Frame.PivotX - (fliph ? (frame3.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
@@ -69,7 +69,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0, Editor EditorInstance = null)
+        public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0, Interfaces.Base.MapEditor EditorInstance = null)
         {
             // Playback
             if (EditorInstance.EditorToolbar.ShowAnimations.IsChecked.Value && Classes.Editor.SolutionState.AllowSpriteAnimations)

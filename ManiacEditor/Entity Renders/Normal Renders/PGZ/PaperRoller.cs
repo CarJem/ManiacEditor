@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int angle = (int)entity.attributesMap["angle"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("PaperRoller", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("PaperRoller", d.DevicePanel, 0, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

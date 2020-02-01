@@ -11,7 +11,7 @@ namespace ManiacEditor
 	/// </summary>
 	public partial class TilesToolbar : UserControl
 	{
-		public Editor EditorInstance;
+		public Interfaces.Base.MapEditor EditorInstance;
 
 		bool disposing = false;
 		ManiacEditor.GIF TileGridImage;
@@ -84,7 +84,7 @@ namespace ManiacEditor
 			setCheckboxes = false;
 		}
 
-		public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Editor instance)
+		public TilesToolbar(StageTiles tiles, String data_directory, String Colors, Interfaces.Base.MapEditor instance)
 		{
             try
             {
@@ -128,7 +128,7 @@ namespace ManiacEditor
             this.TilesList.BackColor = ListBackColor;
         }
 
-        public void SetupTilesList(Editor instance)
+        public void SetupTilesList(Interfaces.Base.MapEditor instance)
 		{
 			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();

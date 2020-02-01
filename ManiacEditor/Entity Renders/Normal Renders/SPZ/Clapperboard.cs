@@ -22,9 +22,9 @@ namespace ManiacEditor.Entity_Renders
                 fliph = false;
                 flipState = 2;
             }
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Clapperboard", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("Clapperboard", d.DevicePanel, 0, 1, fliph, flipv, false);
-            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("Clapperboard", d.DevicePanel, 0, flipState, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Clapperboard", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Clapperboard", d.DevicePanel, 0, 1, fliph, flipv, false);
+            var editorAnim3 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Clapperboard", d.DevicePanel, 0, flipState, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

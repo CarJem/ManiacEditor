@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
 
-namespace ManiacEditor.Interfaces.EditorElements
+namespace ManiacEditor.Interfaces.Base.Elements
 {
     /// <summary>
     /// Interaction logic for StatusBar.xaml
@@ -96,29 +96,29 @@ namespace ManiacEditor.Interfaces.EditorElements
                 switch (Classes.Editor.SolutionState.LastQuickButtonState)
                 {
                     case 1:
-                        Editor.Instance.UIEvents.SetScrollLockDirection();
+                        Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                     case 2:
                         Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true;
                         break;
                     case 3:
-                        Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
+                        Interfaces.Base.MapEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
                         break;
                     default:
                         Classes.Editor.SolutionState.LastQuickButtonState = 1;
-                        Editor.Instance.UIEvents.SetScrollLockDirection();
+                        Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                 }
             }
             else if (sender == QuickSwapScrollDirection)
             {
                 Classes.Editor.SolutionState.LastQuickButtonState = 1;
-                Editor.Instance.UIEvents.SetScrollLockDirection();
+                Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection();
             }
             else if (sender == QuickSwapEncoreManiaEntitVisibility)
             {
                 Classes.Editor.SolutionState.LastQuickButtonState = 3;
-                Editor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
+                Interfaces.Base.MapEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
             }
             else if (sender == QuickEditEntitiesTransparentLayers)
             {
@@ -198,11 +198,11 @@ namespace ManiacEditor.Interfaces.EditorElements
         {
             if (startup)
             {
-                maniaFilterCheck.Foreground = Editor.Instance.Theming.GetColorBrush(2);
-                encoreFilterCheck.Foreground = Editor.Instance.Theming.GetColorBrush(4);
-                otherFilterCheck.Foreground = Editor.Instance.Theming.GetColorBrush(0);
-                bothFilterCheck.Foreground = Editor.Instance.Theming.GetColorBrush(1);
-                pinballFilterCheck.Foreground = Editor.Instance.Theming.GetColorBrush(255);
+                maniaFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(2);
+                encoreFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(4);
+                otherFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(0);
+                bothFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(1);
+                pinballFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(255);
             }
             if (Properties.Settings.Default.UseBitOperators)
             {

@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="ManiacEditor.Interfaces.EditorElements.Toolbar"
+﻿<UserControl x:Class="ManiacEditor.Interfaces.Base.Elements.Toolbar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ManiacEditor.Interfaces.EditorElements"
+             xmlns:local="clr-namespace:ManiacEditor.Interfaces.Base.Elements"
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              xmlns:maniac="clr-namespace:ManiacEditor"
              mc:Ignorable="d" 
@@ -233,7 +233,7 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
                                             <Label VerticalAlignment="Center" Content="Grid Color"></Label>
-                                            <wpfTool:ColorPicker VerticalAlignment="Center" Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
+                                            <wpfTool:ColorPicker VerticalAlignment="Center"  ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
                                         </Grid>
                                         <Separator/>
                                         <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
@@ -266,7 +266,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Label Content="All"></Label>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"  Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
                                     </Grid>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -274,14 +274,14 @@
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Label Content="Top Only"></Label>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"  Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
                                     </Grid>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"  Style="{DynamicResource ColorPicker1}" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
                                         <Label Content="LRD"></Label>
                                     </Grid>
                                 </StackPanel>
@@ -304,7 +304,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" Name="WLC" SelectedColorChanged="comboBox7_DropDown" Style="{DynamicResource ColorPicker1}"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" Name="WLC" SelectedColorChanged="comboBox7_DropDown" ></wpfTool:ColorPicker>
                                         <Label Content="Water Color" Grid.ColumnSpan="1"></Label>
                                     </Grid>
                                 </MenuItem.Header>
@@ -395,7 +395,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Styles/EditorBaseStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/ManiacEditor;component/Interfaces/Base/BaseStyles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

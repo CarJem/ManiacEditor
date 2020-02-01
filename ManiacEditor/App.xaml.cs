@@ -30,7 +30,7 @@ namespace ManiacEditor
 
 		public void Load()
         {
-			var UI = new ManiacEditor.Editor();
+			var UI = new ManiacEditor.Interfaces.Base.MapEditor();
             UI.Run();
         }
 

@@ -17,8 +17,8 @@ namespace ManiacEditor
             Classes.Editor.SolutionState.ScrollLocked = Settings.MyDefaults.ScrollLockDefault;
             Classes.Editor.SolutionState.ScrollDirection = (Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            Editor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
-            Editor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
+            Interfaces.Base.MapEditor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
+            Interfaces.Base.MapEditor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
 
             Classes.Editor.SolutionState.CountTilesSelectedInPixels = Settings.MyDefaults.EnablePixelModeDefault;
 
@@ -37,7 +37,7 @@ namespace ManiacEditor
             Classes.Editor.SolutionState.UseLargeDebugStats = Settings.MyDefaults.LargeDebugStatsDefault;
 
             Classes.Editor.SolutionState.GridCustomSize = Settings.MyDefaults.CustomGridSizeValue;
-            Editor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Editor.SolutionState.GridCustomSize;
+            Interfaces.Base.MapEditor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Editor.SolutionState.GridCustomSize;
 
             Classes.Editor.SolutionState.CollisionSAColour = Settings.MyDefaults.CollisionSAColour;
             Classes.Editor.SolutionState.CollisionLRDColour = Settings.MyDefaults.CollisionLRDColour;
@@ -46,13 +46,13 @@ namespace ManiacEditor
             Classes.Editor.SolutionState.GridColor = Settings.MyDefaults.DefaultGridColor;
             Classes.Editor.SolutionState.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
 
-            Editor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = Settings.MyDefaults.FasterNudgeValue;
+            Interfaces.Base.MapEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = Settings.MyDefaults.FasterNudgeValue;
 
 
 
 
 
-            var allLangItems = Editor.Instance.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allLangItems = Interfaces.Base.MapEditor.Instance.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
                 if (item != null)
                 {
@@ -65,7 +65,7 @@ namespace ManiacEditor
 
 
             bool endSearch = false;
-            var allButtonItems = Editor.Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allButtonItems = Interfaces.Base.MapEditor.Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allButtonItems)
             {
                 if (item.Tag != null)
@@ -73,7 +73,7 @@ namespace ManiacEditor
                     if (item.Tag.ToString() == Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
                     {
                         item.IsChecked = true;
-                        Editor.Instance.MenuButtonChangedEvent(item.Tag.ToString());
+                        Interfaces.Base.MapEditor.Instance.MenuButtonChangedEvent(item.Tag.ToString());
                         endSearch = true;
                     }
                     var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
@@ -84,7 +84,7 @@ namespace ManiacEditor
                             if (subItem.Tag.ToString() == Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
                             {
                                 subItem.IsChecked = true;
-                                Editor.Instance.MenuButtonChangedEvent(subItem.Tag.ToString());
+                                Interfaces.Base.MapEditor.Instance.MenuButtonChangedEvent(subItem.Tag.ToString());
                                 endSearch = true;
                             }
                         }

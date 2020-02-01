@@ -1,4 +1,4 @@
-﻿<Window x:Class="ManiacEditor.Editor"
+﻿<Window x:Class="ManiacEditor.Interfaces.Base.MapEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:ManiacEditor.Interfaces.Controls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-        xmlns:editorControls="clr-namespace:ManiacEditor.Interfaces.EditorElements"
+        xmlns:editorControls="clr-namespace:ManiacEditor.Interfaces.Base.Elements"
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"    
         Title="Maniac Editor - Generations Editon" Height="759" Width="1184" Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1484" MinHeight="779" KeyDown="Editor_KeyDown" KeyUp="Editor_KeyUp">
@@ -180,7 +180,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/EditorBaseStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="BaseStyles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

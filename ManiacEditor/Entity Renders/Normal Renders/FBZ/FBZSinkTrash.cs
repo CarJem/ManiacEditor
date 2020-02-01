@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)widthPixels / 16 - 1;
             var height = (int)heightPixels / 16 - 1;
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Trash", d.DevicePanel, 11, 1, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Trash", d.DevicePanel, 11, 1, false, false, false);
 
             if (width != -1 && height != -1)
             {
@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
                 // TODO this is really heavy on resources, so maybe switch to just drawing a rectangle??
                 for (int i = 0; i <= height; i++)
                 {
-                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Trash", d.DevicePanel, 11, 1, false, false, false);
+                    editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Trash", d.DevicePanel, 11, 1, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
@@ -41,7 +41,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool bottom = !((i & 1) > 0);
 
-                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Trash", d.DevicePanel, 11, 1, false, false, false);
+                    editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Trash", d.DevicePanel, 11, 1, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];

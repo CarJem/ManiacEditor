@@ -41,7 +41,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("PushSpring", d.DevicePanel, animID, 0, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("PushSpring", d.DevicePanel, animID, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

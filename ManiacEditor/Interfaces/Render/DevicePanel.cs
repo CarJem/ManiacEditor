@@ -99,7 +99,7 @@ namespace ManiacEditor
 
         #region Constructor
 
-        public DevicePanel(Editor instance = null)
+        public DevicePanel(Interfaces.Base.MapEditor instance = null)
         {
             InitializeComponent();
         }

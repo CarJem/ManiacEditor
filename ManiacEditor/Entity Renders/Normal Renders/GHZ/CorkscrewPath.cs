@@ -12,7 +12,7 @@ namespace ManiacEditor.Entity_Renders
             var amplitude = (int)(entity.attributesMap["amplitude"].ValueEnum * 3.5);
             var width = (int)period / 16;
             var height = (int)amplitude / 16;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 4, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 4, false, false, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
@@ -41,7 +41,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
+                    editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];

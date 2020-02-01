@@ -24,16 +24,16 @@ namespace ManiacEditor.Entity_Renders
                     blockID = randomNum+3;
                     break;
             }
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 9, blockID, fliph, flipv, false);
-            var editorAnim3 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnim4 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 3, -1, fliph, flipv, false);
-            var editorAnim5 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 8, -1, fliph, flipv, false);
-            var editorAnim6 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnim7 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 3, fliph, flipv, false);
-            var editorAnim8 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 2, fliph, flipv, false);
-            var editorAnim9 = Editor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 4, fliph, flipv, false);
-            var editorAnimIcon = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 9, blockID, fliph, flipv, false);
+            var editorAnim3 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim4 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnim5 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 8, -1, fliph, flipv, false);
+            var editorAnim6 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim7 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 3, fliph, flipv, false);
+            var editorAnim8 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 2, fliph, flipv, false);
+            var editorAnim9 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 4, fliph, flipv, false);
+            var editorAnimIcon = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

@@ -16,7 +16,7 @@ namespace ManiacEditor
 
         public void startHealing(string fixFile)
         {
-            Editor.ShowConsoleWindow();
+            Interfaces.Base.MapEditor.ShowConsoleWindow();
             string fileName = fixFile;
 
             if (!File.Exists(fileName))

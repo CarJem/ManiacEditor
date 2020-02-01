@@ -10,8 +10,8 @@ namespace ManiacEditor
 {
     public class EditorFileHandler
     {
-        private Editor Instance;
-        public EditorFileHandler(Editor instance)
+        private Interfaces.Base.MapEditor Instance;
+        public EditorFileHandler(Interfaces.Base.MapEditor instance)
         {
             Instance = instance;
         }
@@ -33,7 +33,7 @@ namespace ManiacEditor
             if (AllowSceneUnloading() != true) return;
             Classes.Editor.Solution.UnloadScene();
             ManiacEditor.Interfaces.NewSceneWindow makerDialog = new ManiacEditor.Interfaces.NewSceneWindow();
-            makerDialog.Owner = Editor.GetWindow(Instance);
+            makerDialog.Owner = Interfaces.Base.MapEditor.GetWindow(Instance);
             if (makerDialog.ShowDialog() == true)
             {
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);

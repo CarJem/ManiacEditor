@@ -8,7 +8,7 @@ namespace ManiacEditor
 {
     public class EditorRecentSceneSourcesList
 	{
-		private Editor Instance;
+		private Interfaces.Base.MapEditor Instance;
         public SceneSaveStateCollection Collection = new SceneSaveStateCollection();
         IniData RecentsListInfo;
         private string SettingsFolder { get => GetRecentsListDirectory(); }
@@ -18,7 +18,7 @@ namespace ManiacEditor
             return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
         }
 
-        public EditorRecentSceneSourcesList(Editor instance)
+        public EditorRecentSceneSourcesList(Interfaces.Base.MapEditor instance)
 		{
 			Instance = instance;
 			LoadFile();
@@ -215,7 +215,7 @@ namespace ManiacEditor
     }
     public class EditorRecentDataSourcesList
     {
-        private Editor Instance;
+        private Interfaces.Base.MapEditor Instance;
         public DataSaveStateCollection Collection = new DataSaveStateCollection();
         IniData RecentsListInfo;
         private string SettingsFolder { get => GetRecentsListDirectory(); }
@@ -225,7 +225,7 @@ namespace ManiacEditor
             return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
         }
 
-        public EditorRecentDataSourcesList(Editor instance)
+        public EditorRecentDataSourcesList(Interfaces.Base.MapEditor instance)
         {
             Instance = instance;
             LoadFile();

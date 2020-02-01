@@ -9,9 +9,9 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("AIZEggRobo", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimArms = Editor.Instance.EntityDrawing.LoadAnimation2("AIZEggRobo", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnimLegs = Editor.Instance.EntityDrawing.LoadAnimation2("AIZEggRobo", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("AIZEggRobo", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimArms = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("AIZEggRobo", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnimLegs = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("AIZEggRobo", d.DevicePanel, 2, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimArms != null && editorAnimArms.Frames.Count != 0 && editorAnimLegs != null && editorAnimLegs.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

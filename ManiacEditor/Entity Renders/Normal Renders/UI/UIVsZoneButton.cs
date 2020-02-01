@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         {
             int zoneID = (int)entity.attributesMap["zoneID"].ValueEnum;
 
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 17, zoneID, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 17, zoneID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
-            var editorAnimFrame = Editor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 4, 0, false, false, false);
+            var editorAnimFrame = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 4, 0, false, false, false);
             if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
             {
                 var frame = editorAnimFrame.Frames[0];

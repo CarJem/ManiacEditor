@@ -14,7 +14,7 @@ namespace ManiacEditor
 
     public class EditorUIEvents
 	{
-		private Editor Editor;
+		private Interfaces.Base.MapEditor Editor;
         bool lockTextBox = false;
 
 
@@ -61,7 +61,7 @@ namespace ManiacEditor
 		const int SW_HIDE = 0;
 		const int SW_SHOW = 5;
 
-		public EditorUIEvents(Editor instance)
+		public EditorUIEvents(Interfaces.Base.MapEditor instance)
 		{
 			Editor = instance;
 
@@ -510,7 +510,7 @@ namespace ManiacEditor
             string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Classes.Editor.SolutionState.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
 			Classes.Editor.SolutionState.LevelID = output;
-			Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Classes.Editor.SolutionState.LevelID.ToString();
+			Interfaces.Base.MapEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Classes.Editor.SolutionState.LevelID.ToString();
 		}
 		public void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
 		{
@@ -575,11 +575,11 @@ namespace ManiacEditor
 
 				if (replaceMode)
 				{
-					Editor.Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
+					Interfaces.Base.MapEditor.Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
 				}
 				else
 				{
-					Editor.Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
+					Interfaces.Base.MapEditor.Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
 				}
 
 			}

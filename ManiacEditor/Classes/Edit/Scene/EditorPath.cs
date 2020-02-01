@@ -5,7 +5,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 {
     public class EditorPath
 	{
-		private ManiacEditor.Editor Instance;
+		private ManiacEditor.Interfaces.Base.MapEditor Instance;
 		public string GameConfig_Source = ""; //Holds the Path the Actual Path for the GameConfig
 		public string TileConfig_Source = ""; //Holds the Path the Actual Path for the TileConfig
 		public string StageConfig_Source = ""; //Holds the Path the Actual Path for the GameConfig
@@ -50,7 +50,7 @@ namespace ManiacEditor.Classes.Editor.Scene
         public bool ReadOnlyDirectory = false;
         public bool ReadOnlySceneFile = false;
 
-		public EditorPath(ManiacEditor.Editor instance)
+		public EditorPath(ManiacEditor.Interfaces.Base.MapEditor instance)
 		{
 			Instance = instance;
 		}

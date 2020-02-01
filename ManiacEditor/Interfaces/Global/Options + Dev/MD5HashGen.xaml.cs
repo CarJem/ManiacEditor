@@ -13,7 +13,7 @@ namespace ManiacEditor.Interfaces.WPF_UI.Options___Dev
     public partial class MD5HashGen : Window
 	{
 
-		public MD5HashGen(Editor instance)
+		public MD5HashGen(Interfaces.Base.MapEditor instance)
 		{
 			InitializeComponent();
 		}

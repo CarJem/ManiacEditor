@@ -36,10 +36,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
             
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
             if (type == 2)
             {
-                editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
+                editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
             }
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)

@@ -12,7 +12,7 @@ namespace ManiacEditor
 {
     public class EditorTheming
     {
-        private Editor Instance;
+        private Interfaces.Base.MapEditor Instance;
         //Dark Theme
         public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
         public static Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
@@ -21,7 +21,7 @@ namespace ManiacEditor
         public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
         public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
 
-        public EditorTheming(Editor _instance)
+        public EditorTheming(Interfaces.Base.MapEditor _instance)
         {
             Instance = _instance;
         }
@@ -227,11 +227,11 @@ namespace ManiacEditor
             var converter = new System.Windows.Media.BrushConverter();
             if (Settings.MySettings.NightMode)
             {
-                Editor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
+                Interfaces.Base.MapEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
             }
             else
             {
-                Editor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
+                Interfaces.Base.MapEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
             }
 
         }
@@ -353,53 +353,53 @@ namespace ManiacEditor
 
         public void UpdateThemeForItemsWaiting()
         {
-            if (FormsModelAwaitingRefresh && Editor.Instance.FormsModel != null) RefreshFormsModel();
-            if (TilesToolbarAwaitingRefresh && Editor.Instance.TilesToolbar != null) RefreshTilesToolbar();
-            if (EntitiesToolbarAwaitingRefresh && Editor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
-            if (StartScreenAwaitingRefresh && Editor.Instance.StartScreen != null) RefreshStartScreen();
+            if (FormsModelAwaitingRefresh && Interfaces.Base.MapEditor.Instance.FormsModel != null) RefreshFormsModel();
+            if (TilesToolbarAwaitingRefresh && Interfaces.Base.MapEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
+            if (EntitiesToolbarAwaitingRefresh && Interfaces.Base.MapEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            if (StartScreenAwaitingRefresh && Interfaces.Base.MapEditor.Instance.StartScreen != null) RefreshStartScreen();
         }
 
         public void RefreshTheme()
         {
-            Editor.Instance.Refresh();
-            if (Editor.Instance.FormsModel != null) RefreshFormsModel();
+            Interfaces.Base.MapEditor.Instance.Refresh();
+            if (Interfaces.Base.MapEditor.Instance.FormsModel != null) RefreshFormsModel();
             else FormsModelAwaitingRefresh = true;
-            if (Editor.Instance.StartScreen != null) RefreshStartScreen();
+            if (Interfaces.Base.MapEditor.Instance.StartScreen != null) RefreshStartScreen();
             else StartScreenAwaitingRefresh = true;
-            if (Editor.Instance.TilesToolbar != null) RefreshTilesToolbar();
+            if (Interfaces.Base.MapEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
             else TilesToolbarAwaitingRefresh = true;
-            if (Editor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            if (Interfaces.Base.MapEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
             else EntitiesToolbarAwaitingRefresh = true;
         }
 
         public void RefreshStartScreen()
         {
-            Editor.Instance.StartScreen.SelectScreen.UpdateSceneSelectTheme();
+            Interfaces.Base.MapEditor.Instance.StartScreen.SelectScreen.UpdateSceneSelectTheme();
             StartScreenAwaitingRefresh = false;
         }
 
         public void RefreshTilesToolbar()
         {
-            Editor.Instance.TilesToolbar.Refresh();
-            Editor.Instance.TilesToolbar.ChunkList.Refresh();
-            Editor.Instance.TilesToolbar.TilesList.Refresh();
-            Editor.Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
-            Editor.Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
-            Editor.Instance.TilesToolbar.UpdateThemeColors();
+            Interfaces.Base.MapEditor.Instance.TilesToolbar.Refresh();
+            Interfaces.Base.MapEditor.Instance.TilesToolbar.ChunkList.Refresh();
+            Interfaces.Base.MapEditor.Instance.TilesToolbar.TilesList.Refresh();
+            Interfaces.Base.MapEditor.Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
+            Interfaces.Base.MapEditor.Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
+            Interfaces.Base.MapEditor.Instance.TilesToolbar.UpdateThemeColors();
             TilesToolbarAwaitingRefresh = false;
         }
 
         public void RefreshEntitiesToolbar()
         {
-            Editor.Instance.EntitiesToolbar.Refresh();
-            Editor.Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
+            Interfaces.Base.MapEditor.Instance.EntitiesToolbar.Refresh();
+            Interfaces.Base.MapEditor.Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
             EntitiesToolbarAwaitingRefresh = false;
         }
 
         public void RefreshFormsModel()
         {
-            Editor.Instance.FormsModel.Refresh();
-            Editor.Instance.FormsModel.UpdateScrollbars(true);
+            Interfaces.Base.MapEditor.Instance.FormsModel.Refresh();
+            Interfaces.Base.MapEditor.Instance.FormsModel.UpdateScrollbars(true);
             FormsModelAwaitingRefresh = false;
         }
 

@@ -12,7 +12,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 entity.attributesMap["type"].ValueEnum = 2;
             }
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Items", d.DevicePanel, 0, id, false, false, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Items", d.DevicePanel, 0, id, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

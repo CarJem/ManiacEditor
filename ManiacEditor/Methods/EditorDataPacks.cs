@@ -8,7 +8,7 @@ namespace ManiacEditor
 {
     public class EditorDataPacks
 	{
-		public Editor Instance;
+		public Interfaces.Base.MapEditor Instance;
 		IniData ModPackInfo;
 		public List<Tuple<string, List<Tuple<string, string>>>> ModListInformation;
         private string SettingsFolder { get => GetDataPackDirectory(); }
@@ -18,7 +18,7 @@ namespace ManiacEditor
             return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
         }
 
-        public EditorDataPacks(Editor instance)
+        public EditorDataPacks(Interfaces.Base.MapEditor instance)
 		{
 			Instance = instance;
 			LoadFile();

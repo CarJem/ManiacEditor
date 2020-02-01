@@ -14,8 +14,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("HandLauncher", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimHand = Editor.Instance.EntityDrawing.LoadAnimation2("HandLauncher", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("HandLauncher", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimHand = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("HandLauncher", d.DevicePanel, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHand != null && editorAnimHand.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
