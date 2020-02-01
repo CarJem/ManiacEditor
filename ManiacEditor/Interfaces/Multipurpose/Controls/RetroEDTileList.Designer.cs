@@ -1,4 +1,4 @@
-﻿namespace ManiacEditor.Interfaces
+﻿namespace ManiacEditor.Interfaces.Multipurpose.Controls
 {
     partial class RetroEDTileList
     {

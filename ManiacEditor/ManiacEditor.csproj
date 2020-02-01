@@ -683,7 +683,7 @@
     <Compile Include="Interfaces\Base\Controls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\ManiaHost.xaml.cs">
+    <Compile Include="Interfaces\Base\Elements\ManiaHost.xaml.cs">
       <DependentUpon>ManiaHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
@@ -797,11 +797,11 @@
     <Compile Include="Interfaces\Multipurpose\Controls\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TileChunkList.cs">
+    <Compile Include="Interfaces\Multipurpose\Controls\RetroEDTileList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TileChunkList.Designer.cs">
-      <DependentUpon>TileChunkList.cs</DependentUpon>
+    <Compile Include="Interfaces\Multipurpose\Controls\RetroEDTileList.Designer.cs">
+      <DependentUpon>RetroEDTileList.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Edit\SolutionState.cs" />
     <Compile Include="Functions\Enums.cs" />
@@ -1046,8 +1046,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Resources\Sounds\ScoreTotal.wav" />
-    <EmbeddedResource Include="Interfaces\Base\Toolbars\TilesToolbar\TileChunkList.resx">
-      <DependentUpon>TileChunkList.cs</DependentUpon>
+    <EmbeddedResource Include="Interfaces\Multipurpose\Controls\RetroEDTileList.resx">
+      <DependentUpon>RetroEDTileList.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="Resources\Global\SuperSpecialRing.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1264,7 +1264,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Global\ManiaHost.xaml">
+    <Page Include="Interfaces\Base\Elements\ManiaHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

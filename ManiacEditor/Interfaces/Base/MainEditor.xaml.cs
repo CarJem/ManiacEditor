@@ -84,7 +84,7 @@ namespace ManiacEditor.Interfaces.Base
         public EditorControl EditorControls;
 
 		internal Classes.Editor.Scene.EditorBackground BackgroundDX;
-		public TilesToolbar TilesToolbar = null;
+		public Interfaces.Base.Toolbars.TilesToolbar.TilesToolbar TilesToolbar = null;
 		public Interfaces.Base.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
 		public EditorEntityDrawing EntityDrawing;
 		public EditorInGame InGame;

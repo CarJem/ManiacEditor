@@ -96,7 +96,7 @@ namespace ManiacEditor
 		public PictureBoxNearestNeighbor overlayPicBox = new PictureBoxNearestNeighbor();
 		public PictureBoxNearestNeighbor TilePicBox = new PictureBoxNearestNeighbor();
 		public PictureBoxNearestNeighbor CollisionPicBox = new PictureBoxNearestNeighbor();
-		public ManiacEditor.Interfaces.RetroEDTileList CollisionList = new ManiacEditor.Interfaces.RetroEDTileList();
+		public ManiacEditor.Interfaces.Multipurpose.Controls.RetroEDTileList CollisionList = new ManiacEditor.Interfaces.Multipurpose.Controls.RetroEDTileList();
 
 		public bool IsClosed { get; private set; }
 

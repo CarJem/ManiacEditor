@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using RSDKv5;
 using System.Diagnostics;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Base.Toolbars.TilesToolbar
 {
 	/// <summary>
 	/// Interaction logic for TilesToolbar.xaml
@@ -24,8 +24,8 @@ namespace ManiacEditor
 		public System.Windows.Forms.Panel tilePanel;
 		public string CurrentColorPalette;
 
-		public Interfaces.RetroEDTileList ChunkList;
-        public Interfaces.RetroEDTileList TilesList;
+		public Interfaces.Multipurpose.Controls.RetroEDTileList ChunkList;
+        public Interfaces.Multipurpose.Controls.RetroEDTileList TilesList;
 
 		public System.Windows.Forms.Integration.WindowsFormsHost host;
 		public System.Windows.Forms.Integration.WindowsFormsHost host3;
@@ -132,7 +132,7 @@ namespace ManiacEditor
 		{
 			host = new System.Windows.Forms.Integration.WindowsFormsHost();
 			host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
-			this.ChunkList = new ManiacEditor.Interfaces.RetroEDTileList();
+			this.ChunkList = new ManiacEditor.Interfaces.Multipurpose.Controls.RetroEDTileList();
 
 			this.tilePanel = new System.Windows.Forms.Panel();
 
@@ -157,7 +157,7 @@ namespace ManiacEditor
 			// 
 			// TileList
 			//
-			this.TilesList = new Interfaces.RetroEDTileList();
+			this.TilesList = new Interfaces.Multipurpose.Controls.RetroEDTileList();
             this.TilesList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TilesList.ImageHeight = 16 * 1;
 			this.TilesList.ImageSize = 16 * 1;

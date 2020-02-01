@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interop;assembly=PresentationCore"
-        xmlns:controls="clr-namespace:ManiacEditor.Interfaces.Controls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:editorControls="clr-namespace:ManiacEditor.Interfaces.Base.Elements"
@@ -157,7 +156,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Game" HorizontalAlignment="Right" Foreground="{DynamicResource NormalText}">
-                    <local:ManiaHost x:Name="ManiaHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></local:ManiaHost>
+                    <editorControls:ManiaHost x:Name="ManiaHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></editorControls:ManiaHost>
                 </TabItem>
                 <TabControl.Resources>
                     <Style TargetType="TabPanel">

@@ -262,9 +262,9 @@ namespace ManiacEditor
                 if (Interfaces.Base.MainEditor.Instance.TilesToolbar == null)
                 {
                     if (Classes.Editor.SolutionState.UseEncoreColors)
-                        Interfaces.Base.MainEditor.Instance.TilesToolbar = new TilesToolbar(Classes.Editor.Solution.CurrentTiles.StageTiles, Interfaces.Base.MainEditor.Instance.Paths.StageTiles_Source, Interfaces.Base.MainEditor.Instance.EncorePalette[0], Interfaces.Base.MainEditor.Instance);
+                        Interfaces.Base.MainEditor.Instance.TilesToolbar = new Interfaces.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles.StageTiles, Interfaces.Base.MainEditor.Instance.Paths.StageTiles_Source, Interfaces.Base.MainEditor.Instance.EncorePalette[0], Interfaces.Base.MainEditor.Instance);
                     else
-                        Interfaces.Base.MainEditor.Instance.TilesToolbar = new TilesToolbar(Classes.Editor.Solution.CurrentTiles.StageTiles, Interfaces.Base.MainEditor.Instance.Paths.StageTiles_Source, null, Interfaces.Base.MainEditor.Instance);
+                        Interfaces.Base.MainEditor.Instance.TilesToolbar = new Interfaces.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles.StageTiles, Interfaces.Base.MainEditor.Instance.Paths.StageTiles_Source, null, Interfaces.Base.MainEditor.Instance);
 
 
                     Interfaces.Base.MainEditor.Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
@@ -437,13 +437,13 @@ namespace ManiacEditor
                                     break;
                                 }
                             }
-                            Interfaces.Base.MainEditor.Instance.TilesToolbar.SetTileOptionState(i, unk ? TilesToolbar.TileOptionState.Indeterminate : set ? TilesToolbar.TileOptionState.Checked : TilesToolbar.TileOptionState.Unchcked);
+                            Interfaces.Base.MainEditor.Instance.TilesToolbar.SetTileOptionState(i, unk ? Interfaces.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Indeterminate : set ? Interfaces.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Checked : Interfaces.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Unchcked);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < 4; ++i)
-                            Interfaces.Base.MainEditor.Instance.TilesToolbar.SetTileOptionState(i, TilesToolbar.TileOptionState.Disabled);
+                            Interfaces.Base.MainEditor.Instance.TilesToolbar.SetTileOptionState(i, Interfaces.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Disabled);
                     }
                 }
 

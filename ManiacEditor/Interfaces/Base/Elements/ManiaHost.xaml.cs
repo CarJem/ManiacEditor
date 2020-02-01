@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Base.Elements
 {
     /// <summary>
     /// Interaction logic for ManiaHost.xaml

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using ManiacEditor;
 
-namespace ManiacEditor.Interfaces
+namespace ManiacEditor.Interfaces.Multipurpose.Controls
 {
 
     public enum Direction
