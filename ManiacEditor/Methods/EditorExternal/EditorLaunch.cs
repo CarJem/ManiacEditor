@@ -14,7 +14,7 @@ namespace ManiacEditor
     public static class EditorLaunch
     {
         #region Variables/DLL Imports
-        private static Interfaces.Base.MapEditor Editor;
+        private static Interfaces.Base.MainEditor Editor;
         public static ManiacED_ManiaPal.Connector ManiaPalConnector;
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -37,7 +37,7 @@ namespace ManiacEditor
         };
         #endregion
 
-        public static void UpdateInstance(Interfaces.Base.MapEditor instance)
+        public static void UpdateInstance(Interfaces.Base.MainEditor instance)
         {
             Editor = instance;
         }
@@ -297,9 +297,9 @@ namespace ManiacEditor
                 Editor.Settings.UseDefaultPrefrences();
 
                 ObjectIDHealer healer = new ObjectIDHealer();
-                Interfaces.Base.MapEditor.ShowConsoleWindow();
+                Interfaces.Base.MainEditor.ShowConsoleWindow();
                 healer.startHealing(open.FileName);
-                Interfaces.Base.MapEditor.HideConsoleWindow();
+                Interfaces.Base.MainEditor.HideConsoleWindow();
             }
         }
 

@@ -231,7 +231,7 @@ namespace ManiacEditor.Interfaces
 			{
 				RPCCheckBox.IsChecked = true;
 				Settings.MySettings.ShowDiscordRPC = true;
-				DiscordRP.UpdateDiscord(Interfaces.Base.MapEditor.Instance.Paths.SceneFile_Source);
+				DiscordRP.UpdateDiscord(Interfaces.Base.MainEditor.Instance.Paths.SceneFile_Source);
 			}
 			else
 			{
@@ -467,7 +467,7 @@ namespace ManiacEditor.Interfaces
 				Settings.MySettings.Save();
 				App.ChangeSkin(Skin.Dark);
 				App.SkinChanged = true;
-                Interfaces.Base.MapEditor.Instance.Theming.RefreshTheme();
+                Interfaces.Base.MainEditor.Instance.Theming.RefreshTheme();
 
 			}
 			else if (!DarkModeCheckBox.IsChecked == true && Settings.MySettings.NightMode)
@@ -476,7 +476,7 @@ namespace ManiacEditor.Interfaces
 				Settings.MySettings.Save();
 				App.ChangeSkin(Skin.Light);
 				App.SkinChanged = true;
-                Interfaces.Base.MapEditor.Instance.Theming.RefreshTheme();
+                Interfaces.Base.MainEditor.Instance.Theming.RefreshTheme();
 
             }
 

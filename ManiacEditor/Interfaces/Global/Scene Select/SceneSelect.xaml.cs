@@ -32,7 +32,7 @@ namespace ManiacEditor.Interfaces
         public bool WithinAParentForm = false;
 		public bool UsingDataPack = false;
 		public int SelectedCategoryIndex = -1;
-		public Interfaces.Base.MapEditor EditorInstance;
+		public Interfaces.Base.MainEditor EditorInstance;
 
 
         //Information For the File Handler
@@ -71,7 +71,7 @@ namespace ManiacEditor.Interfaces
 		private System.Windows.Forms.TreeView RecentsTree;
         #endregion
 
-        public SceneSelect(Gameconfig config = null, Interfaces.Base.MapEditor _Instance = null, SceneSelectWindow _Window = null)
+        public SceneSelect(Gameconfig config = null, Interfaces.Base.MainEditor _Instance = null, SceneSelectWindow _Window = null)
 		{
 			if (Settings.MySettings.DataDirectories != null)  Settings.MySettings.DataDirectories.Remove(null);
 			if (Settings.MySettings.SavedPlaces != null)  Settings.MySettings.SavedPlaces.Remove(null);

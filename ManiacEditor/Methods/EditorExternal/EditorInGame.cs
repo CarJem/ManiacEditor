@@ -120,7 +120,7 @@ namespace ManiacEditor
         public static IList<byte> EnableDevMenu_Values = new List<byte> { 0x01, 0x01, 0x01, 0x00 };
         public static IList<byte> DisableBackgroundPausing_Values = new List<byte> { 0xEB, 0xEB, 0xEB, 0x00 };
 
-        private Interfaces.Base.MapEditor Editor;
+        private Interfaces.Base.MainEditor Editor;
 
         #region Addresses
         public short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
@@ -147,7 +147,7 @@ namespace ManiacEditor
         public byte GameState { get { return Editor.GameMemory.ReadByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
         #endregion
 
-        public EditorInGame(Interfaces.Base.MapEditor instance)
+        public EditorInGame(Interfaces.Base.MainEditor instance)
         {
             Editor = instance;
         }
@@ -419,7 +419,7 @@ namespace ManiacEditor
         public byte[] ReadMemory(int adress, int processSize, int processHandle)
         {
             byte[] buffer = new byte[processSize];
-            Interfaces.Base.MapEditor.ReadProcessMemory(processHandle, adress, buffer, processSize, 0);
+            Interfaces.Base.MainEditor.ReadProcessMemory(processHandle, adress, buffer, processSize, 0);
             return buffer;
         }
         public void DrawGameElements(DevicePanel d)

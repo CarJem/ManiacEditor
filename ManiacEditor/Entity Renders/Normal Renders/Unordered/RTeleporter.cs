@@ -9,9 +9,9 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimBottom = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, false, true, false);
-            var editorAnimElectric = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimBottom = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, false, true, false);
+            var editorAnimElectric = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 1, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBottom != null && editorAnimBottom.Frames.Count != 0 && editorAnimElectric != null && editorAnimElectric.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

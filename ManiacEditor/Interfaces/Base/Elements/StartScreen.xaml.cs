@@ -3,20 +3,20 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace ManiacEditor.Interfaces
+namespace ManiacEditor.Interfaces.Base.Elements
 {
     /// <summary>
     /// Interaction logic for StartScreen.xaml
     /// </summary>
     public partial class StartScreen : UserControl
 	{
-		public Interfaces.Base.MapEditor EditorInstance;
+		public Interfaces.Base.MainEditor EditorInstance;
 		public SceneSelect SelectScreen;
 
 		public string SelectedSavedPlace = "";
 		public string SelectedModFolder = "";
 
-		public StartScreen(Interfaces.Base.MapEditor instance)
+		public StartScreen(Interfaces.Base.MainEditor instance)
 		{
 			InitializeComponent();
 			EditorInstance = instance;

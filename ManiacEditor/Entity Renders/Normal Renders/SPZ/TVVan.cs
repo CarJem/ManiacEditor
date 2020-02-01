@@ -65,19 +65,19 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, true, flipv, false);
-            var editorAnim10 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, 9, fliph, flipv, false);
-            var editorAnim11 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 3, 3, fliph, flipv, false);
-            var editorAnim12 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 4, 3, fliph, flipv, false);
-            var editorAnim13 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, fliph, flipv, false);
-            var editorAnim14 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, flipv, false);
-            var editorAnim15 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 2, fliph, flipv, false);
-            var editorAnim16 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 15, -1, fliph, flipv, false);
-            var normalSataliteReversedHV = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, true, false);
-            var normalSataliteReversedV = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, false, true, false);
-            var normalSataliteReversedH = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, false, false);
-            var downwardsSatalite = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, true, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, true, flipv, false);
+            var editorAnim10 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, 9, fliph, flipv, false);
+            var editorAnim11 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 3, 3, fliph, flipv, false);
+            var editorAnim12 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 4, 3, fliph, flipv, false);
+            var editorAnim13 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, fliph, flipv, false);
+            var editorAnim14 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, flipv, false);
+            var editorAnim15 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 2, fliph, flipv, false);
+            var editorAnim16 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 15, -1, fliph, flipv, false);
+            var normalSataliteReversedHV = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, true, false);
+            var normalSataliteReversedV = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, false, true, false);
+            var normalSataliteReversedH = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, false, false);
+            var downwardsSatalite = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, true, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

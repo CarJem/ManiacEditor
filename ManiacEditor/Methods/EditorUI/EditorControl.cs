@@ -16,21 +16,21 @@ namespace ManiacEditor
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
-        private bool IsChunksEdit() { return Interfaces.Base.MapEditor.Instance.IsChunksEdit(); }
-        private bool IsTilesEdit() { return Interfaces.Base.MapEditor.Instance.IsTilesEdit(); }
-        private bool IsEntitiesEdit() { return Interfaces.Base.MapEditor.Instance.IsEntitiesEdit(); }
-        private bool IsEditing() { return Interfaces.Base.MapEditor.Instance.IsEditing(); }
-        private bool IsSceneLoaded() { return Interfaces.Base.MapEditor.Instance.IsSceneLoaded(); }
+        private bool IsChunksEdit() { return Interfaces.Base.MainEditor.Instance.IsChunksEdit(); }
+        private bool IsTilesEdit() { return Interfaces.Base.MainEditor.Instance.IsTilesEdit(); }
+        private bool IsEntitiesEdit() { return Interfaces.Base.MainEditor.Instance.IsEntitiesEdit(); }
+        private bool IsEditing() { return Interfaces.Base.MainEditor.Instance.IsEditing(); }
+        private bool IsSceneLoaded() { return Interfaces.Base.MainEditor.Instance.IsSceneLoaded(); }
 
 
-        private bool GameRunning { get => Interfaces.Base.MapEditor.Instance.InGame.GameRunning; set => Interfaces.Base.MapEditor.Instance.InGame.GameRunning = value; }
+        private bool GameRunning { get => Interfaces.Base.MainEditor.Instance.InGame.GameRunning; set => Interfaces.Base.MainEditor.Instance.InGame.GameRunning = value; }
 
         private int ScrollDirection { get => Classes.Editor.SolutionState.ScrollDirection; }
         private bool ScrollLocked { get => Classes.Editor.SolutionState.ScrollLocked; }
 
-        private bool CtrlPressed() { return Interfaces.Base.MapEditor.Instance.CtrlPressed(); }
-        private bool ShiftPressed() { return Interfaces.Base.MapEditor.Instance.ShiftPressed(); }
-        private bool IsSelected() { return Interfaces.Base.MapEditor.Instance.IsSelected(); }
+        private bool CtrlPressed() { return Interfaces.Base.MainEditor.Instance.CtrlPressed(); }
+        private bool ShiftPressed() { return Interfaces.Base.MainEditor.Instance.ShiftPressed(); }
+        private bool IsSelected() { return Interfaces.Base.MainEditor.Instance.IsSelected(); }
 
         bool ForceUpdateMousePos { get; set; } = false;
 
@@ -38,7 +38,7 @@ namespace ManiacEditor
         public EditorControl()
         {
             UpdateTooltips();
-            Interfaces.Base.MapEditor.Instance.EditorMenuBar.UpdateMenuItems();
+            Interfaces.Base.MainEditor.Instance.EditorMenuBar.UpdateMenuItems();
         }
 
         #region Mouse Controls
@@ -53,19 +53,19 @@ namespace ManiacEditor
                 Classes.Editor.SolutionState.Scrolling = true;
                 Classes.Editor.SolutionState.ScrollingDragged = false;
                 Classes.Editor.SolutionState.ScrollPosition = new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY);
-                if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible && Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible && Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollAll;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollAll;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
                 }
-                else if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                else if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollWE;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollWE;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
                 }
-                else if (Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                else if (Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNS;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNS;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
                 }
                 else
@@ -80,7 +80,7 @@ namespace ManiacEditor
                 if (Classes.Editor.SolutionState.ScrollingDragged)
                 {
                     Classes.Editor.SolutionState.Scrolling = false;
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.Arrow;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.Arrow;
                     SetScrollerBorderApperance();
                 }
             }
@@ -103,9 +103,9 @@ namespace ManiacEditor
                         taction.Close();
                         action = taction;
                     }
-                    Interfaces.Base.MapEditor.Instance.UndoStack.Push(action);
-                    Interfaces.Base.MapEditor.Instance.RedoStack.Clear();
-                    Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
+                    Interfaces.Base.MainEditor.Instance.UndoStack.Push(action);
+                    Interfaces.Base.MainEditor.Instance.RedoStack.Clear();
+                    Interfaces.Base.MainEditor.Instance.UI.UpdateControls();
                 }
                 if (Classes.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
                 {
@@ -120,9 +120,9 @@ namespace ManiacEditor
                         taction.Close();
                         action = taction;
                     }
-                    Interfaces.Base.MapEditor.Instance.UndoStack.Push(action);
-                    Interfaces.Base.MapEditor.Instance.RedoStack.Clear();
-                    Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
+                    Interfaces.Base.MainEditor.Instance.UndoStack.Push(action);
+                    Interfaces.Base.MainEditor.Instance.RedoStack.Clear();
+                    Interfaces.Base.MainEditor.Instance.UI.UpdateControls();
                 }
 
 
@@ -152,72 +152,72 @@ namespace ManiacEditor
             var Active = (System.Windows.Media.Brush)converter.ConvertFromString("Red");
             var NotActive = (System.Windows.Media.Brush)converter.ConvertFromString("Transparent");
 
-            Interfaces.Base.MapEditor.Instance.ScrollBorderN.Fill = NotActive;
-            Interfaces.Base.MapEditor.Instance.ScrollBorderS.Fill = NotActive;
-            Interfaces.Base.MapEditor.Instance.ScrollBorderE.Fill = NotActive;
-            Interfaces.Base.MapEditor.Instance.ScrollBorderW.Fill = NotActive;
-            Interfaces.Base.MapEditor.Instance.ScrollBorderNW.Fill = NotActive;
-            Interfaces.Base.MapEditor.Instance.ScrollBorderSW.Fill = NotActive;
-            Interfaces.Base.MapEditor.Instance.ScrollBorderSE.Fill = NotActive;
-            Interfaces.Base.MapEditor.Instance.ScrollBorderNE.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderN.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderS.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderE.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderW.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderNW.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderSW.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderSE.Fill = NotActive;
+            Interfaces.Base.MainEditor.Instance.ScrollBorderNE.Fill = NotActive;
 
             switch (direction)
             {
                 case 0:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderN.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderN.Fill = Active;
                     break;
                 case 1:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderNE.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderNE.Fill = Active;
                     break;
                 case 2:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderE.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderE.Fill = Active;
                     break;
                 case 3:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderSE.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderSE.Fill = Active;
                     break;
                 case 4:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderS.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderS.Fill = Active;
                     break;
                 case 5:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderSW.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderSW.Fill = Active;
                     break;
                 case 6:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderW.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderW.Fill = Active;
                     break;
                 case 7:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderNW.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderNW.Fill = Active;
                     break;
                 case 8:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderW.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderE.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderW.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderE.Fill = Active;
                     break;
                 case 9:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderN.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderS.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderN.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderS.Fill = Active;
                     break;
                 case 10:
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderN.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderS.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderE.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderW.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderNW.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderSW.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderSE.Fill = Active;
-                    Interfaces.Base.MapEditor.Instance.ScrollBorderNE.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderN.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderS.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderE.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderW.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderNW.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderSW.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderSE.Fill = Active;
+                    Interfaces.Base.MainEditor.Instance.ScrollBorderNE.Fill = Active;
                     break;
                 default:
                     break;
 
             }
 
-            Interfaces.Base.MapEditor.Instance.ScrollBorderN.InvalidateVisual();
-            Interfaces.Base.MapEditor.Instance.ScrollBorderS.InvalidateVisual();
-            Interfaces.Base.MapEditor.Instance.ScrollBorderE.InvalidateVisual();
-            Interfaces.Base.MapEditor.Instance.ScrollBorderW.InvalidateVisual();
-            Interfaces.Base.MapEditor.Instance.ScrollBorderNW.InvalidateVisual();
-            Interfaces.Base.MapEditor.Instance.ScrollBorderSW.InvalidateVisual();
-            Interfaces.Base.MapEditor.Instance.ScrollBorderSE.InvalidateVisual();
-            Interfaces.Base.MapEditor.Instance.ScrollBorderNE.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderN.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderS.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderE.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderW.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderNW.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderSW.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderSE.InvalidateVisual();
+            Interfaces.Base.MainEditor.Instance.ScrollBorderNE.InvalidateVisual();
 
 
         }
@@ -226,8 +226,8 @@ namespace ManiacEditor
             if (Settings.MySettings.ScrollerAutoCenters)
             {
                 ForceUpdateMousePos = true;
-                System.Windows.Point pointFromParent = Interfaces.Base.MapEditor.Instance.ViewPanelForm.TranslatePoint(new System.Windows.Point(0, 0), Interfaces.Base.MapEditor.Instance);
-                SetCursorPos((int)(Interfaces.Base.MapEditor.Instance.Left + pointFromParent.X) + (int)(Interfaces.Base.MapEditor.Instance.ViewPanelForm.ActualWidth / 2), (int)(Interfaces.Base.MapEditor.Instance.Left + pointFromParent.Y) + (int)(Interfaces.Base.MapEditor.Instance.ViewPanelForm.ActualHeight / 2));
+                System.Windows.Point pointFromParent = Interfaces.Base.MainEditor.Instance.ViewPanelForm.TranslatePoint(new System.Windows.Point(0, 0), Interfaces.Base.MainEditor.Instance);
+                SetCursorPos((int)(Interfaces.Base.MainEditor.Instance.Left + pointFromParent.X) + (int)(Interfaces.Base.MainEditor.Instance.ViewPanelForm.ActualWidth / 2), (int)(Interfaces.Base.MainEditor.Instance.Left + pointFromParent.Y) + (int)(Interfaces.Base.MainEditor.Instance.ViewPanelForm.ActualHeight / 2));
             }
 
         }
@@ -239,7 +239,7 @@ namespace ManiacEditor
         #region Mouse Down Controls
         public void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (!Classes.Editor.SolutionState.Scrolling) Interfaces.Base.MapEditor.Instance.FormsModel.GraphicPanel.Focus();
+            if (!Classes.Editor.SolutionState.Scrolling) Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel.Focus();
 
             if (e.Button == MouseButtons.Left) MouseDownLeft(e);
             else if (e.Button == MouseButtons.Right) MouseDownRight(e);
@@ -256,7 +256,7 @@ namespace ManiacEditor
         {
             if (IsEditing() && !Classes.Editor.SolutionState.Dragged)
             {
-                if (IsTilesEdit() && !Interfaces.Base.MapEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseDown(e);
+                if (IsTilesEdit() && !Interfaces.Base.MainEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseDown(e);
                 if (IsChunksEdit() && IsSceneLoaded()) ChunksEditMouseDown(e);
                 else if (IsEntitiesEdit()) EntitiesEditMouseDown(e);
             }
@@ -274,15 +274,15 @@ namespace ManiacEditor
         {
             if (ForceUpdateMousePos) UpdateScrollerPosition(e);
             if (Classes.Editor.SolutionState.Scrolling) ScrollerMouseMove(e);
-            if (Classes.Editor.SolutionState.Scrolling || Classes.Editor.SolutionState.ScrollingDragged || Classes.Editor.SolutionState.DraggingSelection || Classes.Editor.SolutionState.Dragged) Interfaces.Base.MapEditor.Instance.FormsModel.GraphicPanel.Render();
+            if (Classes.Editor.SolutionState.Scrolling || Classes.Editor.SolutionState.ScrollingDragged || Classes.Editor.SolutionState.DraggingSelection || Classes.Editor.SolutionState.Dragged) Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel.Render();
 
-            Interfaces.Base.MapEditor.Instance.EditorStatusBar.UpdatePositionLabel(e);
+            Interfaces.Base.MainEditor.Instance.EditorStatusBar.UpdatePositionLabel(e);
 
             if (GameRunning) InteractiveMouseMove(e);
 
             if (Classes.Editor.SolutionState.RegionX1 != -1)
             {
-                if (IsTilesEdit() && !Interfaces.Base.MapEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseMoveDraggingStarted(e);
+                if (IsTilesEdit() && !Interfaces.Base.MainEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !IsChunksEdit()) TilesEditMouseMoveDraggingStarted(e);
                 else if (IsChunksEdit()) ChunksEditMouseMoveDraggingStarted(e);
                 else if (IsEntitiesEdit()) EntitiesEditMouseMoveDraggingStarted(e);
 
@@ -317,7 +317,7 @@ namespace ManiacEditor
                         else if (IsChunksEdit()) ChunksEditMouseUp(e);
                         else if (IsEntitiesEdit()) EntitiesEditMouseUp(e);
                     }
-                    Interfaces.Base.MapEditor.Instance.UI.SetSelectOnlyButtonsState();
+                    Interfaces.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
                     Classes.Editor.SolutionState.RegionX1 = -1;
                     Classes.Editor.SolutionState.RegionY1 = -1;
                 }
@@ -326,8 +326,8 @@ namespace ManiacEditor
             }
             ScrollerMouseUp(e);
 
-            Interfaces.Base.MapEditor.Instance.UI.UpdateEditLayerActions();
-            Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
+            Interfaces.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
+            Interfaces.Base.MainEditor.Instance.UI.UpdateControls();
 
 
         }
@@ -363,8 +363,8 @@ namespace ManiacEditor
 
                     if (IsEntitiesEdit()) Classes.Editor.Solution.Entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
                 }
-                Interfaces.Base.MapEditor.Instance.UI.SetSelectOnlyButtonsState();
-                Interfaces.Base.MapEditor.Instance.UI.UpdateEditLayerActions();
+                Interfaces.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
+                Interfaces.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
 
             }
             Classes.Editor.SolutionState.DraggingSelection = false;
@@ -377,7 +377,7 @@ namespace ManiacEditor
         #endregion
         public void MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Interfaces.Base.MapEditor.Instance.FormsModel.GraphicPanel.Focus();
+            Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel.Focus();
             if (CtrlPressed()) Ctrl();
             else Normal();
 
@@ -400,11 +400,11 @@ namespace ManiacEditor
                 if (Classes.Editor.SolutionState.ZoomLevel > maxZoom) Classes.Editor.SolutionState.ZoomLevel = maxZoom;
                 if (Classes.Editor.SolutionState.ZoomLevel < minZoom) Classes.Editor.SolutionState.ZoomLevel = minZoom;
 
-                Interfaces.Base.MapEditor.Instance.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
+                Interfaces.Base.MainEditor.Instance.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
             }
             void Normal()
             {
-                if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible || Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible) ScrollMove();
+                if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible || Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) ScrollMove();
                 if (Settings.MySettings.EntityFreeCam) FreeCamScroll();
 
                 void ScrollMove()
@@ -420,12 +420,12 @@ namespace ManiacEditor
                     {
                         if (ShiftPressed())
                         {
-                            if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible) VScroll();
+                            if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible) VScroll();
                             else HScroll();
                         }
                         else
                         {
-                            if (Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible) HScroll();
+                            if (Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) HScroll();
                             else VScroll();
                         }
 
@@ -435,12 +435,12 @@ namespace ManiacEditor
                     {
                         if (ShiftPressed())
                         {
-                            if (Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible) HScroll();
+                            if (Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) HScroll();
                             else VScroll();
                         }
                         else
                         {
-                            if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible) VScroll();
+                            if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible) VScroll();
                             else HScroll();
                         }
 
@@ -454,27 +454,27 @@ namespace ManiacEditor
             }
             void VScroll()
             {
-                double y = Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Value - e.Delta;
+                double y = Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value - e.Delta;
                 if (y < 0) y = 0;
-                if (y > Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Maximum;
-                Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Value = y;
+                if (y > Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum;
+                Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value = y;
             }
             void HScroll()
             {
-                double x = Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Value - e.Delta;
+                double x = Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value - e.Delta;
                 if (x < 0) x = 0;
-                if (x > Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Maximum;
-                Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Value = x;
+                if (x > Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum;
+                Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value = x;
             }
         }
         public void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Interfaces.Base.MapEditor.Instance.FormsModel.GraphicPanel.Focus();
+            Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel.Focus();
             if (e.Button == MouseButtons.Right)
             {
-                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
-                else if (IsEntitiesEdit() && !Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value && !Interfaces.Base.MapEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && (!Classes.Editor.SolutionState.RightClicktoSwapSlotID || Classes.Editor.Solution.Entities.SelectedEntities.Count <= 1)) EntitiesEditContextMenu(e);
-                else if (IsTilesEdit() && !Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
+                if (Interfaces.Base.MainEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
+                else if (IsEntitiesEdit() && !Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value && !Interfaces.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && (!Classes.Editor.SolutionState.RightClicktoSwapSlotID || Classes.Editor.Solution.Entities.SelectedEntities.Count <= 1)) EntitiesEditContextMenu(e);
+                else if (IsTilesEdit() && !Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
             }
 
         }
@@ -486,7 +486,7 @@ namespace ManiacEditor
 
         public void TilesEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+            if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
             {
                 TilesEditDrawTool(e, false);
             }
@@ -506,7 +506,7 @@ namespace ManiacEditor
                 Classes.Editor.Solution.EditLayerB?.StartDrag();
             }
 
-            else if (!Interfaces.Base.MapEditor.Instance.EditorToolbar.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Classes.Editor.Solution.EditLayerA?.HasTileAt(clicked_point) ?? false) || (Classes.Editor.Solution.EditLayerB?.HasTileAt(clicked_point) ?? false))
+            else if (!Interfaces.Base.MainEditor.Instance.EditorToolbar.SelectToolButton.IsChecked.Value && !ShiftPressed() && !CtrlPressed() && (Classes.Editor.Solution.EditLayerA?.HasTileAt(clicked_point) ?? false) || (Classes.Editor.Solution.EditLayerB?.HasTileAt(clicked_point) ?? false))
             {
                 // Start dragging the single selected tile
                 Classes.Editor.Solution.EditLayerA?.Select(clicked_point);
@@ -522,8 +522,8 @@ namespace ManiacEditor
                 // Start drag selection
                 //EditLayer.Select(clicked_point, ShiftPressed || CtrlPressed, CtrlPressed);
                 if (!ShiftPressed() && !CtrlPressed())
-                    Interfaces.Base.MapEditor.Instance.Deselect();
-                Interfaces.Base.MapEditor.Instance.UI.UpdateEditLayerActions();
+                    Interfaces.Base.MainEditor.Instance.Deselect();
+                Interfaces.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
 
                 Classes.Editor.SolutionState.DraggingSelection = true;
                 Classes.Editor.SolutionState.RegionX2 = Classes.Editor.SolutionState.RegionX1;
@@ -535,7 +535,7 @@ namespace ManiacEditor
             if (e.Button == MouseButtons.Left)
             {
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
-                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     TilesEditDrawTool(e, true);
                 }
@@ -543,7 +543,7 @@ namespace ManiacEditor
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     TilesEditDrawTool(e, true);
                 }
@@ -563,9 +563,9 @@ namespace ManiacEditor
             if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
             else tilePos = new Point(e.X / 16, e.Y / 16);
 
-            Interfaces.Base.MapEditor.Instance.EditorStatusBar.PixelPositionMenuItem.Header = "Pixel Position:" + newLine + String.Format("X: {0}, Y: {1}", e.X, e.Y);
-            Interfaces.Base.MapEditor.Instance.EditorStatusBar.ChunkPositionMenuItem.Header = "Chunk Position:" + newLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
-            Interfaces.Base.MapEditor.Instance.EditorStatusBar.TilePositionMenuItem.Header = "Tile Position:" + newLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
+            Interfaces.Base.MainEditor.Instance.EditorStatusBar.PixelPositionMenuItem.Header = "Pixel Position:" + newLine + String.Format("X: {0}, Y: {1}", e.X, e.Y);
+            Interfaces.Base.MainEditor.Instance.EditorStatusBar.ChunkPositionMenuItem.Header = "Chunk Position:" + newLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
+            Interfaces.Base.MainEditor.Instance.EditorStatusBar.TilePositionMenuItem.Header = "Tile Position:" + newLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
 
 
             Point clicked_point_tile = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
@@ -581,13 +581,13 @@ namespace ManiacEditor
             else tile = tileA;
 
             Classes.Editor.SolutionState.SelectedTileID = tile;
-            Interfaces.Base.MapEditor.Instance.EditorStatusBar.TileManiacIntergrationItem.IsEnabled = (tile < 1023);
-            Interfaces.Base.MapEditor.Instance.EditorStatusBar.TileManiacIntergrationItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+            Interfaces.Base.MainEditor.Instance.EditorStatusBar.TileManiacIntergrationItem.IsEnabled = (tile < 1023);
+            Interfaces.Base.MainEditor.Instance.EditorStatusBar.TileManiacIntergrationItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
 
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
-            info.ItemsSource = Interfaces.Base.MapEditor.Instance.EditorStatusBar.TilesContext.Items;
-            info.Foreground = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MapEditor.Instance.FindResource("NormalText");
-            info.Background = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MapEditor.Instance.FindResource("NormalBackground");
+            info.ItemsSource = Interfaces.Base.MainEditor.Instance.EditorStatusBar.TilesContext.Items;
+            info.Foreground = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MainEditor.Instance.FindResource("NormalText");
+            info.Background = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MainEditor.Instance.FindResource("NormalBackground");
             info.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
             info.StaysOpen = false;
             info.IsOpen = true;
@@ -632,14 +632,14 @@ namespace ManiacEditor
                 {
                     Classes.Editor.Solution.EditLayerA?.Select(p);
                     Classes.Editor.Solution.EditLayerB?.Select(p);
-                    Interfaces.Base.MapEditor.Instance.DeleteSelected();
+                    Interfaces.Base.MainEditor.Instance.DeleteSelected();
                 }
                 else
                 {
                     double size = (Classes.Editor.SolutionState.DrawBrushSize / 2) * Classes.Editor.Constants.TILE_SIZE;
                     Classes.Editor.Solution.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE));
                     Classes.Editor.Solution.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE));
-                    Interfaces.Base.MapEditor.Instance.DeleteSelected();
+                    Interfaces.Base.MainEditor.Instance.DeleteSelected();
                 }
             }
 
@@ -647,11 +647,11 @@ namespace ManiacEditor
             {
                 if (Classes.Editor.SolutionState.DrawBrushSize == 1)
                 {
-                    if (Interfaces.Base.MapEditor.Instance.TilesToolbar.SelectedTile != -1)
+                    if (Interfaces.Base.MainEditor.Instance.TilesToolbar.SelectedTile != -1)
                     {
-                        if (Classes.Editor.Solution.EditLayerA.GetTileAt(p) != Interfaces.Base.MapEditor.Instance.TilesToolbar.SelectedTile)
+                        if (Classes.Editor.Solution.EditLayerA.GetTileAt(p) != Interfaces.Base.MainEditor.Instance.TilesToolbar.SelectedTile)
                         {
-                            Interfaces.Base.MapEditor.Instance.EditorPlaceTile(p, Interfaces.Base.MapEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA);
+                            Interfaces.Base.MainEditor.Instance.EditorPlaceTile(p, Interfaces.Base.MainEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA);
                         }
                         else if (!Classes.Editor.Solution.EditLayerA.IsPointSelected(p))
                         {
@@ -661,9 +661,9 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (Interfaces.Base.MapEditor.Instance.TilesToolbar.SelectedTile != -1)
+                    if (Interfaces.Base.MainEditor.Instance.TilesToolbar.SelectedTile != -1)
                     {
-                        Interfaces.Base.MapEditor.Instance.EditorPlaceTile(p, Interfaces.Base.MapEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA, true);
+                        Interfaces.Base.MainEditor.Instance.EditorPlaceTile(p, Interfaces.Base.MainEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA, true);
                     }
                 }
             }
@@ -678,7 +678,7 @@ namespace ManiacEditor
 
         public void EntitiesEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e);
+            if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e);
         }
         public void EntitiesEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
         {
@@ -698,7 +698,7 @@ namespace ManiacEditor
             {
                 // Start drag selection
                 if (!ShiftPressed() && !CtrlPressed())
-                    Interfaces.Base.MapEditor.Instance.Deselect();
+                    Interfaces.Base.MainEditor.Instance.Deselect();
                 Classes.Editor.SolutionState.DraggingSelection = true;
                 Classes.Editor.SolutionState.RegionX2 = Classes.Editor.SolutionState.RegionX1;
                 Classes.Editor.SolutionState.RegionY2 = Classes.Editor.SolutionState.RegionY1;
@@ -709,7 +709,7 @@ namespace ManiacEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (!Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                if (!Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                     if (Classes.Editor.Solution.Entities.GetEntityAt(clicked_point)?.Selected ?? false)
@@ -720,7 +720,7 @@ namespace ManiacEditor
                     else if (!ShiftPressed() && !CtrlPressed() && Classes.Editor.Solution.Entities.GetEntityAt(clicked_point) != null)
                     {
                         Classes.Editor.Solution.Entities.Select(clicked_point);
-                        Interfaces.Base.MapEditor.Instance.UI.SetSelectOnlyButtonsState();
+                        Interfaces.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
                         // Start dragging the single selected entity
                         Classes.Editor.SolutionState.Dragged = true;
                         Classes.Editor.SolutionState.DraggedX = 0;
@@ -732,9 +732,9 @@ namespace ManiacEditor
                         SetClickedXY(e);
                     }
                 }
-                else if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e, true);
+                else if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value) EntitiesEditDrawTool(e, true);
             }
-            if (Interfaces.Base.MapEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value) SplineTool(e);
+            if (Interfaces.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value) SplineTool(e);
         }
         public void EntitiesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
@@ -759,22 +759,22 @@ namespace ManiacEditor
             {
                 var currentEntity = Classes.Editor.Solution.Entities.GetEntityAt(clicked_point);
 
-                Interfaces.Base.MapEditor.Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
-                Interfaces.Base.MapEditor.Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", currentEntity.Entity.SlotID, Environment.NewLine, Classes.Editor.Solution.Entities.GetRealSlotID(currentEntity.Entity));
-                Interfaces.Base.MapEditor.Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Entity.Position.X.High, currentEntity.Entity.Position.Y.High);
+                Interfaces.Base.MainEditor.Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
+                Interfaces.Base.MainEditor.Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", currentEntity.Entity.SlotID, Environment.NewLine, Classes.Editor.Solution.Entities.GetRealSlotID(currentEntity.Entity));
+                Interfaces.Base.MainEditor.Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Entity.Position.X.High, currentEntity.Entity.Position.Y.High);
             }
             else
             {
-                Interfaces.Base.MapEditor.Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", "N/A");
-                Interfaces.Base.MapEditor.Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", "N/A", Environment.NewLine, "N/A");
-                Interfaces.Base.MapEditor.Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", e.X, e.Y);
+                Interfaces.Base.MainEditor.Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", "N/A");
+                Interfaces.Base.MainEditor.Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", "N/A", Environment.NewLine, "N/A");
+                Interfaces.Base.MainEditor.Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", e.X, e.Y);
             }
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
 
 
-            info.ItemsSource = Interfaces.Base.MapEditor.Instance.EditorStatusBar.EntityContext.Items;
-            info.Foreground = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MapEditor.Instance.FindResource("NormalText");
-            info.Background = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MapEditor.Instance.FindResource("NormalBackground");
+            info.ItemsSource = Interfaces.Base.MainEditor.Instance.EditorStatusBar.EntityContext.Items;
+            info.Foreground = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MainEditor.Instance.FindResource("NormalText");
+            info.Background = (System.Windows.Media.SolidColorBrush)Interfaces.Base.MainEditor.Instance.FindResource("NormalBackground");
             info.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
             info.StaysOpen = false;
             info.IsOpen = true;
@@ -795,12 +795,12 @@ namespace ManiacEditor
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 if (Classes.Editor.Solution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
-                    Interfaces.Base.MapEditor.Instance.Deselect();
+                    Interfaces.Base.MainEditor.Instance.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                 }
                 else
                 {
-                    Interfaces.Base.MapEditor.Instance.EntitiesToolbar.SpawnObject();
+                    Interfaces.Base.MainEditor.Instance.EntitiesToolbar.SpawnObject();
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -808,10 +808,10 @@ namespace ManiacEditor
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 if (Classes.Editor.Solution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
-                    Interfaces.Base.MapEditor.Instance.Deselect();
+                    Interfaces.Base.MainEditor.Instance.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                     Classes.Editor.Solution.Entities.DeleteSelected();
-                    Interfaces.Base.MapEditor.Instance.UpdateLastEntityAction();
+                    Interfaces.Base.MainEditor.Instance.UpdateLastEntityAction();
                 }
             }
         }
@@ -823,13 +823,13 @@ namespace ManiacEditor
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 if (Classes.Editor.Solution.Entities.IsEntityAt(clicked_point) == true)
                 {
-                    Interfaces.Base.MapEditor.Instance.Deselect();
+                    Interfaces.Base.MainEditor.Instance.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                 }
                 else
                 {
                     Classes.Editor.Solution.Entities.SpawnInternalSplineObject(new Position((short)clicked_point.X, (short)clicked_point.Y));
-                    Interfaces.Base.MapEditor.Instance.UpdateLastEntityAction();
+                    Interfaces.Base.MainEditor.Instance.UpdateLastEntityAction();
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -838,10 +838,10 @@ namespace ManiacEditor
                 Classes.Editor.Scene.Sets.EditorEntity atPoint = Classes.Editor.Solution.Entities.GetEntityAt(clicked_point);
                 if (atPoint != null && atPoint.Entity.Object.Name.Name == "Spline")
                 {
-                    Interfaces.Base.MapEditor.Instance.Deselect();
+                    Interfaces.Base.MainEditor.Instance.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                     Classes.Editor.Solution.Entities.DeleteInternallySelected();
-                    Interfaces.Base.MapEditor.Instance.UpdateLastEntityAction();
+                    Interfaces.Base.MainEditor.Instance.UpdateLastEntityAction();
                 }
             }
         }
@@ -859,15 +859,15 @@ namespace ManiacEditor
 
             if (e.Button == MouseButtons.Left)
             {
-                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
-                    int selectedIndex = Interfaces.Base.MapEditor.Instance.TilesToolbar.ChunkList.SelectedIndex;
+                    int selectedIndex = Interfaces.Base.MainEditor.Instance.TilesToolbar.ChunkList.SelectedIndex;
                     // Place Stamp
                     if (selectedIndex != -1)
                     {
-                        if (!Interfaces.Base.MapEditor.Instance.Chunks.DoesChunkMatch(pC, Interfaces.Base.MapEditor.Instance.Chunks.StageStamps.StampList[selectedIndex], Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB))
+                        if (!Interfaces.Base.MainEditor.Instance.Chunks.DoesChunkMatch(pC, Interfaces.Base.MainEditor.Instance.Chunks.StageStamps.StampList[selectedIndex], Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB))
                         {
-                            Interfaces.Base.MapEditor.Instance.Chunks.PasteStamp(pC, selectedIndex, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB);
+                            Interfaces.Base.MainEditor.Instance.Chunks.PasteStamp(pC, selectedIndex, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB);
                         }
 
                     }
@@ -876,13 +876,13 @@ namespace ManiacEditor
 
             else if (e.Button == MouseButtons.Right)
             {
-                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
 
-                    if (!Interfaces.Base.MapEditor.Instance.Chunks.IsChunkEmpty(pC, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB))
+                    if (!Interfaces.Base.MainEditor.Instance.Chunks.IsChunkEmpty(pC, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB))
                     {
                         // Remove Stamp Sized Area
-                        Interfaces.Base.MapEditor.Instance.Chunks.PasteStamp(pC, 0, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB, true);
+                        Interfaces.Base.MainEditor.Instance.Chunks.PasteStamp(pC, 0, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB, true);
                     }
                 }
 
@@ -908,8 +908,8 @@ namespace ManiacEditor
             {
                 // Start drag selection
                 if (!ShiftPressed() && !CtrlPressed())
-                    Interfaces.Base.MapEditor.Instance.Deselect();
-                Interfaces.Base.MapEditor.Instance.UI.UpdateEditLayerActions();
+                    Interfaces.Base.MainEditor.Instance.Deselect();
+                Interfaces.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
 
                 Classes.Editor.SolutionState.DraggingSelection = true;
                 Classes.Editor.SolutionState.RegionX2 = e.X;
@@ -920,20 +920,20 @@ namespace ManiacEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                     Point pC = Classes.Editor.Scene.Sets.EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
-                    if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                    if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     {
-                        int selectedIndex = Interfaces.Base.MapEditor.Instance.TilesToolbar.ChunkList.SelectedIndex;
+                        int selectedIndex = Interfaces.Base.MainEditor.Instance.TilesToolbar.ChunkList.SelectedIndex;
                         // Place Stamp
                         if (selectedIndex != -1)
                         {
-                            if (!Interfaces.Base.MapEditor.Instance.Chunks.DoesChunkMatch(pC, Interfaces.Base.MapEditor.Instance.Chunks.StageStamps.StampList[selectedIndex], Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB))
+                            if (!Interfaces.Base.MainEditor.Instance.Chunks.DoesChunkMatch(pC, Interfaces.Base.MainEditor.Instance.Chunks.StageStamps.StampList[selectedIndex], Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB))
                             {
-                                Interfaces.Base.MapEditor.Instance.Chunks.PasteStamp(pC, selectedIndex, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB);
+                                Interfaces.Base.MainEditor.Instance.Chunks.PasteStamp(pC, selectedIndex, Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB);
                             }
 
                         }
@@ -946,7 +946,7 @@ namespace ManiacEditor
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                if (Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                     Point chunk_point = Classes.Editor.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
@@ -955,7 +955,7 @@ namespace ManiacEditor
                     // Remove Stamp Sized Area
                     if (!Classes.Editor.Solution.EditLayerA.DoesChunkContainASelectedTile(p)) Classes.Editor.Solution.EditLayerA?.Select(clicked_chunk);
                     if (Classes.Editor.Solution.EditLayerB != null && !Classes.Editor.Solution.EditLayerB.DoesChunkContainASelectedTile(p)) Classes.Editor.Solution.EditLayerB?.Select(clicked_chunk);
-                    Interfaces.Base.MapEditor.Instance.DeleteSelected();
+                    Interfaces.Base.MainEditor.Instance.DeleteSelected();
                 }
             }
         }
@@ -967,7 +967,7 @@ namespace ManiacEditor
 
             Classes.Editor.Solution.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
             Classes.Editor.Solution.EditLayerB?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
-            Interfaces.Base.MapEditor.Instance.UI.UpdateEditLayerActions();
+            Interfaces.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
         }
 
         #endregion
@@ -976,29 +976,29 @@ namespace ManiacEditor
 
         public void InteractiveMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Interfaces.Base.MapEditor.Instance.InGame.PlayerSelected)
+            if (Interfaces.Base.MainEditor.Instance.InGame.PlayerSelected)
             {
-                Interfaces.Base.MapEditor.Instance.InGame.MovePlayer(new Point(e.X, e.Y), Classes.Editor.SolutionState.Zoom, Interfaces.Base.MapEditor.Instance.InGame.SelectedPlayer);
+                Interfaces.Base.MainEditor.Instance.InGame.MovePlayer(new Point(e.X, e.Y), Classes.Editor.SolutionState.Zoom, Interfaces.Base.MainEditor.Instance.InGame.SelectedPlayer);
             }
 
-            if (Interfaces.Base.MapEditor.Instance.InGame.CheckpointSelected)
+            if (Interfaces.Base.MainEditor.Instance.InGame.CheckpointSelected)
             {
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
-                Interfaces.Base.MapEditor.Instance.InGame.UpdateCheckpoint(clicked_point, true);
+                Interfaces.Base.MainEditor.Instance.InGame.UpdateCheckpoint(clicked_point, true);
             }
         }
         public void InteractiveMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (Interfaces.Base.MapEditor.Instance.InGame.PlayerSelected)
+                if (Interfaces.Base.MainEditor.Instance.InGame.PlayerSelected)
                 {
-                    Interfaces.Base.MapEditor.Instance.InGame.PlayerSelected = false;
-                    Interfaces.Base.MapEditor.Instance.InGame.SelectedPlayer = 0;
+                    Interfaces.Base.MainEditor.Instance.InGame.PlayerSelected = false;
+                    Interfaces.Base.MainEditor.Instance.InGame.SelectedPlayer = 0;
                 }
-                if (Interfaces.Base.MapEditor.Instance.InGame.CheckpointSelected)
+                if (Interfaces.Base.MainEditor.Instance.InGame.CheckpointSelected)
                 {
-                    Interfaces.Base.MapEditor.Instance.InGame.CheckpointSelected = false;
+                    Interfaces.Base.MainEditor.Instance.InGame.CheckpointSelected = false;
                 }
             }
         }
@@ -1024,37 +1024,37 @@ namespace ManiacEditor
 
 
                 Classes.Editor.SolutionState.SelectedTileID = tile;
-                Interfaces.Base.MapEditor.Instance.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
-                Interfaces.Base.MapEditor.Instance.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning && Interfaces.Base.MapEditor.Instance.InGame.CheckpointEnabled;
-                Interfaces.Base.MapEditor.Instance.assetResetToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning && Interfaces.Base.MapEditor.Instance.InGame.CheckpointEnabled;
+                Interfaces.Base.MainEditor.Instance.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
+                Interfaces.Base.MainEditor.Instance.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning && Interfaces.Base.MainEditor.Instance.InGame.CheckpointEnabled;
+                Interfaces.Base.MainEditor.Instance.assetResetToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning && Interfaces.Base.MainEditor.Instance.InGame.CheckpointEnabled;
 
 
-                Interfaces.Base.MapEditor.Instance.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
-                Interfaces.Base.MapEditor.Instance.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-                Interfaces.Base.MapEditor.Instance.ViewPanelContextMenu.IsOpen = true;
+                Interfaces.Base.MainEditor.Instance.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+                Interfaces.Base.MainEditor.Instance.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                Interfaces.Base.MainEditor.Instance.ViewPanelContextMenu.IsOpen = true;
             }
             else
             {
                 Point clicked_point_tile = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 string tile = "N/A";
-                Interfaces.Base.MapEditor.Instance.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
-                Interfaces.Base.MapEditor.Instance.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
+                Interfaces.Base.MainEditor.Instance.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
 
-                Interfaces.Base.MapEditor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.assetResetToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
-                Interfaces.Base.MapEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.assetResetToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
+                Interfaces.Base.MainEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning;
 
-                Interfaces.Base.MapEditor.Instance.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
-                Interfaces.Base.MapEditor.Instance.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-                Interfaces.Base.MapEditor.Instance.ViewPanelContextMenu.IsOpen = true;
+                Interfaces.Base.MainEditor.Instance.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+                Interfaces.Base.MainEditor.Instance.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                Interfaces.Base.MainEditor.Instance.ViewPanelContextMenu.IsOpen = true;
             }
         }
 
@@ -1069,8 +1069,8 @@ namespace ManiacEditor
 
             }
 
-            double xMove = (Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible) ? e.X - Classes.Editor.SolutionState.ViewPositionX - Classes.Editor.SolutionState.ScrollPosition.X : 0;
-            double yMove = (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible) ? e.Y - Classes.Editor.SolutionState.ViewPositionY - Classes.Editor.SolutionState.ScrollPosition.Y : 0;
+            double xMove = (Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) ? e.X - Classes.Editor.SolutionState.ViewPositionX - Classes.Editor.SolutionState.ScrollPosition.X : 0;
+            double yMove = (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible) ? e.Y - Classes.Editor.SolutionState.ViewPositionY - Classes.Editor.SolutionState.ScrollPosition.Y : 0;
 
             if (Math.Abs(xMove) < 15) xMove = 0;
             if (Math.Abs(yMove) < 15) yMove = 0;
@@ -1079,17 +1079,17 @@ namespace ManiacEditor
             {
                 if (yMove > 0)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollSE;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollSE;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.SE);
                 }
                 else if (yMove < 0)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNE;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNE;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.NE);
                 }
                 else
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollE;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollE;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.E);
                 }
 
@@ -1098,17 +1098,17 @@ namespace ManiacEditor
             {
                 if (yMove > 0)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollSW;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollSW;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.SW);
                 }
                 else if (yMove < 0)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNW;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNW;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.NW);
                 }
                 else
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollW;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollW;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.W);
                 }
 
@@ -1118,29 +1118,29 @@ namespace ManiacEditor
 
                 if (yMove > 0)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollS;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollS;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.S);
                 }
                 else if (yMove < 0)
                 {
-                    Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollN;
+                    Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollN;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.N);
                 }
                 else
                 {
-                    if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible && Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                    if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible && Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
                     {
-                        Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollAll;
+                        Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollAll;
                         SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
                     }
-                    else if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                    else if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
                     {
-                        Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNS;
+                        Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNS;
                         SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
                     }
-                    else if (Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                    else if (Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
                     {
-                        Interfaces.Base.MapEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollWE;
+                        Interfaces.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollWE;
                         SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
                     }
                 }
@@ -1156,26 +1156,26 @@ namespace ManiacEditor
 
             if (x < 0) x = 0;
             if (y < 0) y = 0;
-            if (x > Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Maximum;
-            if (y > Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Maximum;
+            if (x > Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum;
+            if (y > Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum;
 
 
             if (x != position.X || y != position.Y)
             {
 
-                if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
                 {
-                    Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Value = y;
+                    Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value = y;
                 }
-                if (Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                if (Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
                 {
-                    Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Value = x;
+                    Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value = x;
                 }
 
-                Interfaces.Base.MapEditor.Instance.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
+                Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
 
             }
-            Interfaces.Base.MapEditor.Instance.FormsModel.GraphicPanel.Render();
+            Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel.Render();
 
         }
 
@@ -1207,8 +1207,8 @@ namespace ManiacEditor
             void EdgeMove()
             {
                 System.Windows.Point position = new System.Windows.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY); ;
-                double ScreenMaxX = position.X + Interfaces.Base.MapEditor.Instance.FormsModel.splitContainer1.Panel1.Width - (int)Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar.ActualWidth;
-                double ScreenMaxY = position.Y + Interfaces.Base.MapEditor.Instance.FormsModel.splitContainer1.Panel1.Height - (int)Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar.ActualHeight;
+                double ScreenMaxX = position.X + Interfaces.Base.MainEditor.Instance.FormsModel.splitContainer1.Panel1.Width - (int)Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar.ActualWidth;
+                double ScreenMaxY = position.Y + Interfaces.Base.MainEditor.Instance.FormsModel.splitContainer1.Panel1.Height - (int)Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar.ActualHeight;
                 double ScreenMinX = position.X;
                 double ScreenMinY = position.Y;
 
@@ -1234,20 +1234,20 @@ namespace ManiacEditor
 
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
-                if (x > Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Maximum;
-                if (y > Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Maximum;
+                if (x > Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum;
+                if (y > Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum;
 
                 if (x != position.X || y != position.Y)
                 {
-                    if (Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                    if (Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
                     {
-                        Interfaces.Base.MapEditor.Instance.FormsModel.vScrollBar1.Value = y;
+                        Interfaces.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value = y;
                     }
-                    if (Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                    if (Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
                     {
-                        Interfaces.Base.MapEditor.Instance.FormsModel.hScrollBar1.Value = x;
+                        Interfaces.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value = x;
                     }
-                    Interfaces.Base.MapEditor.Instance.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
+                    Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
                     // FIX: Determine if this is Needed
                     //if (!Classes.Edit.SolutionState.Scrolling) Editor.Instance.FormsModel.GraphicPanel.Render();
 
@@ -1286,7 +1286,7 @@ namespace ManiacEditor
                         Classes.Editor.Solution.EditLayerA?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
                         Classes.Editor.Solution.EditLayerB?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
 
-                        Interfaces.Base.MapEditor.Instance.UI.UpdateTilesOptions();
+                        Interfaces.Base.MainEditor.Instance.UI.UpdateTilesOptions();
                     }
                 }
                 void Normal()
@@ -1310,7 +1310,7 @@ namespace ManiacEditor
                         Classes.Editor.Solution.EditLayerA?.TempSelection(new Rectangle(Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY1, Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1), CtrlPressed());
                         Classes.Editor.Solution.EditLayerB?.TempSelection(new Rectangle(Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY1, Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1), CtrlPressed());
 
-                        Interfaces.Base.MapEditor.Instance.UI.UpdateTilesOptions();
+                        Interfaces.Base.MainEditor.Instance.UI.UpdateTilesOptions();
 
                         if (IsEntitiesEdit()) Classes.Editor.Solution.Entities.TempSelection(new Rectangle(Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY1, Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1), CtrlPressed());
                     }
@@ -1418,10 +1418,10 @@ namespace ManiacEditor
                     }
                     if (CtrlPressed() && Classes.Editor.SolutionState.StartDragged)
                     {
-                        Interfaces.Base.MapEditor.Instance.UI.UpdateEntitiesToolbarList();
-                        Interfaces.Base.MapEditor.Instance.UI.SetSelectOnlyButtonsState();
+                        Interfaces.Base.MainEditor.Instance.UI.UpdateEntitiesToolbarList();
+                        Interfaces.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
                     }
-                    Interfaces.Base.MapEditor.Instance.EntitiesToolbar.UpdateCurrentEntityProperites();
+                    Interfaces.Base.MainEditor.Instance.EntitiesToolbar.UpdateCurrentEntityProperites();
                 }
                 Classes.Editor.SolutionState.StartDragged = false;
             }
@@ -1443,14 +1443,14 @@ namespace ManiacEditor
             // Tiles Toolbar Flip Horizontal
             if (isCombo(e, myKeyBinds.FlipHTiles, true))
             {
-                if (IsTilesEdit() && Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
-                    Interfaces.Base.MapEditor.Instance.TilesToolbar.SetSelectTileOption(0, false);
+                if (IsTilesEdit() && Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                    Interfaces.Base.MainEditor.Instance.TilesToolbar.SetSelectTileOption(0, false);
             }
             // Tiles Toolbar Flip Vertical
             else if (isCombo(e, myKeyBinds.FlipVTiles, true))
             {
-                if (IsTilesEdit() && Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
-                    Interfaces.Base.MapEditor.Instance.TilesToolbar.SetSelectTileOption(1, false);
+                if (IsTilesEdit() && Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                    Interfaces.Base.MainEditor.Instance.TilesToolbar.SetSelectTileOption(1, false);
             }
         }
 
@@ -1462,7 +1462,7 @@ namespace ManiacEditor
             // Faster Nudge Toggle
             if (isCombo(e, myKeyBinds.NudgeFaster))
             {
-                Interfaces.Base.MapEditor.Instance.ToggleFasterNudgeEvent(sender, null);
+                Interfaces.Base.MainEditor.Instance.ToggleFasterNudgeEvent(sender, null);
             }
             // Scroll Lock Toggle
             else if (isCombo(e, myKeyBinds.ScrollLock))
@@ -1472,29 +1472,29 @@ namespace ManiacEditor
             // Switch Scroll Lock Type
             else if (isCombo(e, myKeyBinds.ScrollLockTypeSwitch))
             {
-                Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection();
+                Interfaces.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
 
             }
             // Tiles Toolbar Flip Vertical
             else if (isCombo(e, myKeyBinds.FlipVTiles, true))
             {
-                if (IsTilesEdit() && Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
-                    Interfaces.Base.MapEditor.Instance.TilesToolbar.SetSelectTileOption(1, true);
+                if (IsTilesEdit() && Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                    Interfaces.Base.MainEditor.Instance.TilesToolbar.SetSelectTileOption(1, true);
             }
             // Tiles Toolbar Flip Horizontal
             else if (isCombo(e, myKeyBinds.FlipHTiles, true))
             {
-                if (IsTilesEdit() && Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
-                    Interfaces.Base.MapEditor.Instance.TilesToolbar.SetSelectTileOption(0, true);
+                if (IsTilesEdit() && Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
+                    Interfaces.Base.MainEditor.Instance.TilesToolbar.SetSelectTileOption(0, true);
             }
             // Open Click (Alt: Open Data Dir)
             else if ((isCombo(e, myKeyBinds.OpenDataDir)))
             {
-                Interfaces.Base.MapEditor.Instance.OpenDataDirectoryEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.OpenDataDirectoryEvent(null, null);
             }
             else if ((isCombo(e, myKeyBinds.Open)))
             {
-                Interfaces.Base.MapEditor.Instance.OpenSceneEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.OpenSceneEvent(null, null);
             }
             // New Click
             else if (isCombo(e, myKeyBinds.New))
@@ -1504,33 +1504,33 @@ namespace ManiacEditor
             // Save Click (Alt: Save As)
             else if (isCombo(e, myKeyBinds.SaveAs))
             {
-                Interfaces.Base.MapEditor.Instance.SaveSceneAsEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.SaveSceneAsEvent(null, null);
             }
             else if (isCombo(e, myKeyBinds._Save))
             {
-                Interfaces.Base.MapEditor.Instance.SaveSceneEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.SaveSceneEvent(null, null);
             }
             // Undo
             else if (isCombo(e, myKeyBinds.Undo))
             {
-                Interfaces.Base.MapEditor.Instance.EditorUndo();
+                Interfaces.Base.MainEditor.Instance.EditorUndo();
             }
             // Redo
             else if (isCombo(e, myKeyBinds.Redo))
             {
-                Interfaces.Base.MapEditor.Instance.EditorRedo();
+                Interfaces.Base.MainEditor.Instance.EditorRedo();
             }
             // Developer Interface
             else if (isCombo(e, myKeyBinds.DeveloperInterface))
             {
-                Interfaces.Base.MapEditor.Instance.EditorUndo();
+                Interfaces.Base.MainEditor.Instance.EditorUndo();
             }
             // Save for Force Open on Startup
             else if (isCombo(e, myKeyBinds.ForceOpenOnStartup))
             {
-                Interfaces.Base.MapEditor.Instance.EditorRedo();
+                Interfaces.Base.MainEditor.Instance.EditorRedo();
             }
-            else if (Interfaces.Base.MapEditor.Instance.IsSceneLoaded())
+            else if (Interfaces.Base.MainEditor.Instance.IsSceneLoaded())
             {
                 GraphicPanel_OnKeyDownLoaded(sender, e);
             }
@@ -1547,47 +1547,47 @@ namespace ManiacEditor
             // Reset Zoom Level
             if (isCombo(e, myKeyBinds.ResetZoomLevel))
             {
-                Interfaces.Base.MapEditor.Instance.ZoomModel.SetZoomLevel(0, new Point(0, 0));
+                Interfaces.Base.MainEditor.Instance.ZoomModel.SetZoomLevel(0, new Point(0, 0));
             }
             //Refresh Tiles and Sprites
             else if (isCombo(e, myKeyBinds.RefreshResources))
             {
-                Interfaces.Base.MapEditor.Instance.ReloadToolStripButton_Click(null, null);
+                Interfaces.Base.MainEditor.Instance.ReloadToolStripButton_Click(null, null);
             }
             //Run Scene
             else if (isCombo(e, myKeyBinds.RunScene))
             {
-                Interfaces.Base.MapEditor.Instance.InGame.RunScene();
+                Interfaces.Base.MainEditor.Instance.InGame.RunScene();
             }
             //Show Path A
-            else if (isCombo(e, myKeyBinds.ShowPathA) && Interfaces.Base.MapEditor.Instance.IsSceneLoaded())
+            else if (isCombo(e, myKeyBinds.ShowPathA) && Interfaces.Base.MainEditor.Instance.IsSceneLoaded())
             {
-                Interfaces.Base.MapEditor.Instance.ShowCollisionAEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.ShowCollisionAEvent(null, null);
             }
             //Show Path B
             else if (isCombo(e, myKeyBinds.ShowPathB))
             {
-                Interfaces.Base.MapEditor.Instance.ShowCollisionBEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.ShowCollisionBEvent(null, null);
             }
             //Unload Scene
             else if (isCombo(e, myKeyBinds.UnloadScene))
             {
-                Interfaces.Base.MapEditor.Instance.EditorMenuBar.UnloadSceneEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.EditorMenuBar.UnloadSceneEvent(null, null);
             }
             //Toggle Grid Visibility
             else if (isCombo(e, myKeyBinds.ShowGrid))
             {
-                Interfaces.Base.MapEditor.Instance.ToggleGridEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.ToggleGridEvent(null, null);
             }
             //Toggle Tile ID Visibility
             else if (isCombo(e, myKeyBinds.ShowTileID))
             {
-                Interfaces.Base.MapEditor.Instance.ToggleSlotIDEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.ToggleSlotIDEvent(null, null);
             }
             //Refresh Tiles and Sprites
             else if (isCombo(e, myKeyBinds.StatusBoxToggle))
             {
-                Interfaces.Base.MapEditor.Instance.ToggleDebugHUDEvent(null, null);
+                Interfaces.Base.MainEditor.Instance.ToggleDebugHUDEvent(null, null);
             }
         }
 
@@ -1596,17 +1596,17 @@ namespace ManiacEditor
             //Paste
             if (isCombo(e, myKeyBinds.Paste))
             {
-                Interfaces.Base.MapEditor.Instance.PasteEvent(sender, null);
+                Interfaces.Base.MainEditor.Instance.PasteEvent(sender, null);
             }
             //Paste to Chunk
             if (isCombo(e, myKeyBinds.PasteToChunk))
             {
-                Interfaces.Base.MapEditor.Instance.PasteToChunksEvent(sender, null);
+                Interfaces.Base.MainEditor.Instance.PasteToChunksEvent(sender, null);
             }
             //Select All
             if (isCombo(e, myKeyBinds.SelectAll))
             {
-                Interfaces.Base.MapEditor.Instance.SelectAllEvent(sender, null);
+                Interfaces.Base.MainEditor.Instance.SelectAllEvent(sender, null);
             }
             // Selected Key Shortcuts   
             if (IsSelected())
@@ -1620,69 +1620,69 @@ namespace ManiacEditor
             // Delete
             if (isCombo(e, myKeyBinds.Delete))
             {
-                Interfaces.Base.MapEditor.Instance.DeleteSelected();
+                Interfaces.Base.MainEditor.Instance.DeleteSelected();
             }
 
             // Moving
             else if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Left || e.KeyData == Keys.Right)
             {
-                Interfaces.Base.MapEditor.Instance.MoveEntityOrTiles(sender, e);
+                Interfaces.Base.MainEditor.Instance.MoveEntityOrTiles(sender, e);
             }
 
             //Cut 
             if (isCombo(e, myKeyBinds.Cut))
             {
-                Interfaces.Base.MapEditor.Instance.CutEvent(sender, null);
+                Interfaces.Base.MainEditor.Instance.CutEvent(sender, null);
             }
             //Copy
             else if (isCombo(e, myKeyBinds.Copy))
             {
-                Interfaces.Base.MapEditor.Instance.CopyEvent(sender, null);
+                Interfaces.Base.MainEditor.Instance.CopyEvent(sender, null);
             }
             //Duplicate
             else if (isCombo(e, myKeyBinds.Duplicate))
             {
-                Interfaces.Base.MapEditor.Instance.DuplicateEvent(sender, null);
+                Interfaces.Base.MainEditor.Instance.DuplicateEvent(sender, null);
             }
             // Flip Vertical Individual
             else if (isCombo(e, myKeyBinds.FlipVIndv))
             {
                 if (IsTilesEdit())
-                    Interfaces.Base.MapEditor.Instance.FlipVerticalIndividualEvent(sender, null);
+                    Interfaces.Base.MainEditor.Instance.FlipVerticalIndividualEvent(sender, null);
             }
             // Flip Horizontal Individual
             else if (isCombo(e, myKeyBinds.FlipHIndv))
             {
                 if (IsTilesEdit())
-                    Interfaces.Base.MapEditor.Instance.FlipHorizontalIndividualEvent(sender, null);
+                    Interfaces.Base.MainEditor.Instance.FlipHorizontalIndividualEvent(sender, null);
             }
             // Flip Vertical
             else if (isCombo(e, myKeyBinds.FlipV))
             {
                 if (IsTilesEdit())
-                    Interfaces.Base.MapEditor.Instance.FlipVerticalEvent(sender, null);
+                    Interfaces.Base.MainEditor.Instance.FlipVerticalEvent(sender, null);
                 else if (IsEntitiesEdit())
-                    Interfaces.Base.MapEditor.Instance.FlipEntities(FlipDirection.Veritcal);
+                    Interfaces.Base.MainEditor.Instance.FlipEntities(FlipDirection.Veritcal);
             }
 
             // Flip Horizontal
             else if (isCombo(e, myKeyBinds.FlipH))
             {
                 if (IsTilesEdit())
-                    Interfaces.Base.MapEditor.Instance.FlipHorizontalEvent(sender, null);
+                    Interfaces.Base.MainEditor.Instance.FlipHorizontalEvent(sender, null);
                 else if (IsEntitiesEdit())
-                    Interfaces.Base.MapEditor.Instance.FlipEntities(FlipDirection.Horizontal);
+                    Interfaces.Base.MainEditor.Instance.FlipEntities(FlipDirection.Horizontal);
             }
         }
 
         public void OnKeyDownTools(object sender, KeyEventArgs e)
         {
-            if (isCombo(e, myKeyBinds.PointerTool) && Interfaces.Base.MapEditor.Instance.EditorToolbar.PointerToolButton.IsEnabled) Classes.Editor.SolutionState.PointerMode(true);
-            else if (isCombo(e, myKeyBinds.SelectTool) && Interfaces.Base.MapEditor.Instance.EditorToolbar.SelectToolButton.IsEnabled) Classes.Editor.SolutionState.SelectionMode(true);
-            else if (isCombo(e, myKeyBinds.DrawTool) && Interfaces.Base.MapEditor.Instance.EditorToolbar.DrawToolButton.IsEnabled) Classes.Editor.SolutionState.DrawMode(true);
-            else if (isCombo(e, myKeyBinds.MagnetTool) && Interfaces.Base.MapEditor.Instance.EditorToolbar.MagnetMode.IsEnabled) Classes.Editor.SolutionState.UseMagnetMode ^= true;
-            else if (isCombo(e, myKeyBinds.SplineTool) && Interfaces.Base.MapEditor.Instance.EditorToolbar.SplineToolButton.IsEnabled) Classes.Editor.SolutionState.SplineMode(true);
-            else if (isCombo(e, myKeyBinds.StampTool) && Interfaces.Base.MapEditor.Instance.EditorToolbar.ChunksToolButton.IsEnabled) Classes.Editor.SolutionState.ChunksMode();
+            if (isCombo(e, myKeyBinds.PointerTool) && Interfaces.Base.MainEditor.Instance.EditorToolbar.PointerToolButton.IsEnabled) Classes.Editor.SolutionState.PointerMode(true);
+            else if (isCombo(e, myKeyBinds.SelectTool) && Interfaces.Base.MainEditor.Instance.EditorToolbar.SelectToolButton.IsEnabled) Classes.Editor.SolutionState.SelectionMode(true);
+            else if (isCombo(e, myKeyBinds.DrawTool) && Interfaces.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsEnabled) Classes.Editor.SolutionState.DrawMode(true);
+            else if (isCombo(e, myKeyBinds.MagnetTool) && Interfaces.Base.MainEditor.Instance.EditorToolbar.MagnetMode.IsEnabled) Classes.Editor.SolutionState.UseMagnetMode ^= true;
+            else if (isCombo(e, myKeyBinds.SplineTool) && Interfaces.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsEnabled) Classes.Editor.SolutionState.SplineMode(true);
+            else if (isCombo(e, myKeyBinds.StampTool) && Interfaces.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsEnabled) Classes.Editor.SolutionState.ChunksMode();
 
         }
         #endregion
@@ -1974,8 +1974,8 @@ namespace ManiacEditor
 
         public void UpdateTooltips()
         {
-            Interfaces.Base.MapEditor.Instance.EditorStatusBar.UpdateTooltips();
-            Interfaces.Base.MapEditor.Instance.EditorToolbar.UpdateTooltips();
+            Interfaces.Base.MainEditor.Instance.EditorStatusBar.UpdateTooltips();
+            Interfaces.Base.MainEditor.Instance.EditorToolbar.UpdateTooltips();
 
         }
 

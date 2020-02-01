@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 orientation = 0;
             }
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BreakBar", d.DevicePanel, orientation, -1, false, false, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BreakBar", d.DevicePanel, orientation, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frameTop = editorAnim.Frames[0];

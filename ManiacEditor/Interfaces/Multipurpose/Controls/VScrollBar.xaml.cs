@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ManiacEditor.Interfaces
+namespace ManiacEditor.Interfaces.Multipurpose.Controls
 {
     /// <summary>
     /// Interaction logic for HScrollBar.xaml

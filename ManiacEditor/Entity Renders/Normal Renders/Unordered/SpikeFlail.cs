@@ -10,11 +10,11 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int chainLength = (int)entity.attributesMap["chainLength"].ValueUInt8;            
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimBall = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 1, 0, fliph, flipv, false);
-            var editorAnimRing1 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 2, 0, fliph, flipv, false);
-            var editorAnimRing2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 3, 0, fliph, flipv, false);
-            var editorAnimRing3 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 4, 0, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimBall = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnimRing1 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 2, 0, fliph, flipv, false);
+            var editorAnimRing2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 3, 0, fliph, flipv, false);
+            var editorAnimRing3 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeFlail", d.DevicePanel, 4, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBall != null && editorAnimBall.Frames.Count != 0 && editorAnimRing1 != null && editorAnimRing1.Frames.Count != 0 && editorAnimRing2 != null && editorAnimRing2.Frames.Count != 0 && editorAnimRing3 != null && editorAnimRing3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

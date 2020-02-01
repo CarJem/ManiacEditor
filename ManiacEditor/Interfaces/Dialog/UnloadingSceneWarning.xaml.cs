@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Dialog
 {
     /// <summary>
     /// Interaction logic for UnloadingSceneWarning.xaml

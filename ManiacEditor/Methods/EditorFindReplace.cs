@@ -8,9 +8,9 @@ namespace ManiacEditor
 {
     public class EditorFindReplace
     {
-        public Interfaces.Base.MapEditor Editor;
+        public Interfaces.Base.MainEditor Editor;
 
-        public EditorFindReplace(Interfaces.Base.MapEditor instance)
+        public EditorFindReplace(Interfaces.Base.MainEditor instance)
         {
             Editor = instance;
         }

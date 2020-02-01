@@ -26,8 +26,8 @@ namespace ManiacEditor.Entity_Renders
                     frameID = 1;
                     break;
             }
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Ice", d.DevicePanel, animID, frameID, fliph, flipv, false);
-            var editorAnimContents = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("Ice", d.DevicePanel, 9, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Ice", d.DevicePanel, animID, frameID, fliph, flipv, false);
+            var editorAnimContents = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Ice", d.DevicePanel, 9, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimContents != null && editorAnimContents.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[animID];

@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
             bool invisible = entity.attributesMap["invisible"].ValueBool;
             double alignmentVal = 0;
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && !invisible)
             {
                 var frame = editorAnim.Frames[0];

@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool finish = entity.attributesMap["finishLine"].ValueBool;
-            var editorAnimBase = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimTop = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 1, 0, false, false, false);
-            var editorAnimFins = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, finish ? 4 : 3, -1, false, false, false);
+            var editorAnimBase = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimTop = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 1, 0, false, false, false);
+            var editorAnimFins = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, finish ? 4 : 3, -1, false, false, false);
             if (editorAnimBase != null && editorAnimTop != null && editorAnimFins != null && editorAnimFins.Frames.Count != 0 && editorAnimTop.Frames.Count != 0 && editorAnimTop.Frames.Count != 0)
             {
                 var frameBase = editorAnimBase.Frames[0];

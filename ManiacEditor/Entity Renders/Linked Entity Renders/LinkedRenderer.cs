@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public abstract class LinkedRenderer
     {
-        public Interfaces.Base.MapEditor EditorInstance;
+        public Interfaces.Base.MainEditor EditorInstance;
 
         public virtual void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
         {

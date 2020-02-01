@@ -19,7 +19,7 @@ namespace ManiacEditor.Interfaces
     {
         private int selectedIndex = -1;
 		private System.Windows.Forms.Integration.ElementHost elementHost1;
-		public VScrollBar vScrollBar1Host;
+		public Multipurpose.Controls.VScrollBar vScrollBar1Host;
 		private System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar1Host.scroller; }
 
 		[Browsable(false)]
@@ -106,7 +106,7 @@ namespace ManiacEditor.Interfaces
 		private void SetupHostScrollBar()
 		{
 			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-			this.vScrollBar1Host = new ManiacEditor.Interfaces.VScrollBar();
+			this.vScrollBar1Host = new ManiacEditor.Interfaces.Multipurpose.Controls.VScrollBar();
 			// 
 			// elementHost1
 			// 
@@ -422,44 +422,44 @@ namespace ManiacEditor.Interfaces
 
 		private void removeChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Interfaces.Base.MapEditor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
+			Interfaces.Base.MainEditor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
 		}
 
 		private void duplicateChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (SelectedIndex != -1)
 			{
-				Interfaces.Base.MapEditor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
+				Interfaces.Base.MainEditor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
 			}
 		}
 
 		private void importChunkFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Interfaces.Base.MapEditor.Instance.TilesClipboard != null)
+			if (Interfaces.Base.MainEditor.Instance.TilesClipboard != null)
 			{
-				Interfaces.Base.MapEditor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Interfaces.Base.MapEditor.Instance.TilesClipboard.Item1, Interfaces.Base.MapEditor.Instance.TilesClipboard.Item2);
+				Interfaces.Base.MainEditor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Interfaces.Base.MainEditor.Instance.TilesClipboard.Item1, Interfaces.Base.MainEditor.Instance.TilesClipboard.Item2);
 
-				Interfaces.Base.MapEditor.Instance.TilesToolbar?.ChunksReload();
+				Interfaces.Base.MainEditor.Instance.TilesToolbar?.ChunksReload();
 			}
 		}
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Interfaces.Base.MapEditor.Instance.TileManiacInstance == null || Interfaces.Base.MapEditor.Instance.TileManiacInstance.IsClosed) Interfaces.Base.MapEditor.Instance.TileManiacInstance = new MainWindow();
-			if (Interfaces.Base.MapEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
+			if (Interfaces.Base.MainEditor.Instance.TileManiacInstance == null || Interfaces.Base.MainEditor.Instance.TileManiacInstance.IsClosed) Interfaces.Base.MainEditor.Instance.TileManiacInstance = new MainWindow();
+			if (Interfaces.Base.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
-				Interfaces.Base.MapEditor.Instance.TileManiacInstance.Show();
+				Interfaces.Base.MainEditor.Instance.TileManiacInstance.Show();
 			}
 			if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
 			{
-				if (Interfaces.Base.MapEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Interfaces.Base.MapEditor.Instance.TileManiacInstance.tcf == null)
+				if (Interfaces.Base.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Interfaces.Base.MainEditor.Instance.TileManiacInstance.tcf == null)
 				{
-					Interfaces.Base.MapEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Interfaces.Base.MapEditor.Instance.Paths.TileConfig_Source, SelectedIndex);
+					Interfaces.Base.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Interfaces.Base.MainEditor.Instance.Paths.TileConfig_Source, SelectedIndex);
 				}
 				else
 				{
-					Interfaces.Base.MapEditor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
-					Interfaces.Base.MapEditor.Instance.TileManiacInstance.Activate();
+					Interfaces.Base.MainEditor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
+					Interfaces.Base.MainEditor.Instance.TileManiacInstance.Activate();
 				}
 
 			}

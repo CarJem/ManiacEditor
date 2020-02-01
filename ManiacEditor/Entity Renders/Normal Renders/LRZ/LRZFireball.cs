@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d.DevicePanel, 1, 0, fliph, flipv, false, rotation, true, false, EditorEntityDrawing.Flag.PartialEngineRotation, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d.DevicePanel, 1, 0, fliph, flipv, false, rotation, true, false, EditorEntityDrawing.Flag.PartialEngineRotation, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && type != 0)
             {

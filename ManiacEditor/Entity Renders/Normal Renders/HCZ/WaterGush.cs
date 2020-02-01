@@ -34,8 +34,8 @@ namespace ManiacEditor.Entity_Renders
                     flipv = true;
                     break;
             }
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("WaterGush", d.DevicePanel, animID, -1, fliph, flipv, false);
-            var editorAnimGush = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("WaterGush", d.DevicePanel, animID2, -1, false, false, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("WaterGush", d.DevicePanel, animID, -1, fliph, flipv, false);
+            var editorAnimGush = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("WaterGush", d.DevicePanel, animID2, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimGush != null && editorAnimGush.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

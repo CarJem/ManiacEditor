@@ -9,11 +9,11 @@ namespace ManiacEditor.Entity_Renders
         {
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimTail = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnimArm = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnimHand = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 3, -1, fliph, flipv, false);
-            var editorAnimCoconut = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 4, -1, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimTail = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnimArm = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnimHand = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnimCoconut = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimTail != null && editorAnimTail.Frames.Count != 0 && editorAnimArm != null && editorAnimArm.Frames.Count != 0 && editorAnimCoconut != null && editorAnimCoconut.Frames.Count != 0 && editorAnimHand != null && editorAnimHand.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

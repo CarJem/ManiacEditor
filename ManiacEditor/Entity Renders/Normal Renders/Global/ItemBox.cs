@@ -22,8 +22,8 @@ namespace ManiacEditor.Entity_Renders
                         break;
 
                 }
-                var editorAnimBox = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 0, 0, fliph, flipv, false);
-                var editorAnimEffect = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, (int)value.ValueEnum, fliph, flipv, false);
+                var editorAnimBox = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 0, 0, fliph, flipv, false);
+                var editorAnimEffect = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, (int)value.ValueEnum, fliph, flipv, false);
                 if (editorAnimBox != null && editorAnimEffect != null && editorAnimEffect.Frames.Count != 0)
                 {
                     var frameBox = editorAnimBox.Frames[0];
@@ -40,8 +40,8 @@ namespace ManiacEditor.Entity_Renders
             var value = (forceType == -1 ? 0 : forceType);
             bool fliph = false;
             bool flipv = false;
-            var editorAnimBox = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimEffect = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, (int)value, fliph, flipv, false);
+            var editorAnimBox = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimEffect = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, (int)value, fliph, flipv, false);
             if (editorAnimBox != null)
             {
                 var frameBox = editorAnimBox.Frames[0];

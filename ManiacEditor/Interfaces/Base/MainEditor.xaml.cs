@@ -30,6 +30,7 @@ using MenuItem = System.Windows.Controls.MenuItem;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
+using ManiacEditor.Interfaces.Base.Controls;
 
 
 namespace ManiacEditor.Interfaces.Base
@@ -37,11 +38,11 @@ namespace ManiacEditor.Interfaces.Base
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MapEditor : Window
+    public partial class MainEditor : Window
 	{
         #region Classical Regions
         #region Definitions
-        public static Interfaces.Base.MapEditor Instance;
+        public static Interfaces.Base.MainEditor Instance;
 
 		//Editor Paths
 		public string DataDirectory; //Used to get the current Data Directory
@@ -87,7 +88,7 @@ namespace ManiacEditor.Interfaces.Base
 		public EntitiesToolbar EntitiesToolbar = null;
 		public EditorEntityDrawing EntityDrawing;
 		public EditorInGame InGame;
-		public StartScreen StartScreen;
+		public Interfaces.Base.Elements.StartScreen StartScreen;
 		public Classes.Editor.SolutionState StateModel;
 		public EditorChunk Chunks;
 		public EditorFormsModel FormsModel;
@@ -174,7 +175,7 @@ namespace ManiacEditor.Interfaces.Base
 
 		#endregion
 		#region Editor Initalizing Methods
-		public MapEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
+		public MainEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
             SystemEvents.PowerModeChanged += CheckDeviceState;
             Theming = new EditorTheming(this);
@@ -267,7 +268,7 @@ namespace ManiacEditor.Interfaces.Base
 			EntityDrawing = new EditorEntityDrawing(this);
             StateModel = new Classes.Editor.SolutionState(this);
             EditorControls = new EditorControl();
-			StartScreen = new StartScreen(this);
+			StartScreen = new Interfaces.Base.Elements.StartScreen(this);
 			UIEvents = new EditorUIEvents(this);
 			Paths = new Classes.Editor.Scene.EditorPath(this);
 			FileHandler = new EditorFileHandler(this);
@@ -1914,7 +1915,7 @@ namespace ManiacEditor.Interfaces.Base
                 {
                     UI.UpdateToolbars(false, true);
                 }
-                Interfaces.Base.MapEditor.Instance.Editor_Resize(null, null);
+                Interfaces.Base.MainEditor.Instance.Editor_Resize(null, null);
             }
 
         }

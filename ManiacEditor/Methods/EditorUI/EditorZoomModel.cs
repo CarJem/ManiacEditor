@@ -6,8 +6,8 @@ namespace ManiacEditor
     public class EditorZoomModel
     {
         private bool AllowScrollUpdate = true;
-        private Interfaces.Base.MapEditor Editor;
-        public EditorZoomModel(Interfaces.Base.MapEditor instance)
+        private Interfaces.Base.MainEditor Editor;
+        public EditorZoomModel(Interfaces.Base.MainEditor instance)
         {
             Editor = instance;
         }

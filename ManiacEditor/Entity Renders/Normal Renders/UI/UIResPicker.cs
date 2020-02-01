@@ -9,8 +9,8 @@ namespace ManiacEditor.Entity_Renders
             string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
             int arrowWidth = (int)entity.attributesMap["arrowWidth"].ValueEnum;
             if (arrowWidth != 0) arrowWidth /= 2;
-            var leftArrow = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
-            var rightArrow = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
+            var leftArrow = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
+            var rightArrow = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
             int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
             double alignmentVal = 0;

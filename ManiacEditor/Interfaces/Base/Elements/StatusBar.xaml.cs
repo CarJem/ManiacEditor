@@ -96,29 +96,29 @@ namespace ManiacEditor.Interfaces.Base.Elements
                 switch (Classes.Editor.SolutionState.LastQuickButtonState)
                 {
                     case 1:
-                        Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection();
+                        Interfaces.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                     case 2:
                         Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true;
                         break;
                     case 3:
-                        Interfaces.Base.MapEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
+                        Interfaces.Base.MainEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
                         break;
                     default:
                         Classes.Editor.SolutionState.LastQuickButtonState = 1;
-                        Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection();
+                        Interfaces.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
                         break;
                 }
             }
             else if (sender == QuickSwapScrollDirection)
             {
                 Classes.Editor.SolutionState.LastQuickButtonState = 1;
-                Interfaces.Base.MapEditor.Instance.UIEvents.SetScrollLockDirection();
+                Interfaces.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
             }
             else if (sender == QuickSwapEncoreManiaEntitVisibility)
             {
                 Classes.Editor.SolutionState.LastQuickButtonState = 3;
-                Interfaces.Base.MapEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
+                Interfaces.Base.MainEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
             }
             else if (sender == QuickEditEntitiesTransparentLayers)
             {
@@ -198,11 +198,11 @@ namespace ManiacEditor.Interfaces.Base.Elements
         {
             if (startup)
             {
-                maniaFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(2);
-                encoreFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(4);
-                otherFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(0);
-                bothFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(1);
-                pinballFilterCheck.Foreground = Interfaces.Base.MapEditor.Instance.Theming.GetColorBrush(255);
+                maniaFilterCheck.Foreground = Interfaces.Base.MainEditor.Instance.Theming.GetColorBrush(2);
+                encoreFilterCheck.Foreground = Interfaces.Base.MainEditor.Instance.Theming.GetColorBrush(4);
+                otherFilterCheck.Foreground = Interfaces.Base.MainEditor.Instance.Theming.GetColorBrush(0);
+                bothFilterCheck.Foreground = Interfaces.Base.MainEditor.Instance.Theming.GetColorBrush(1);
+                pinballFilterCheck.Foreground = Interfaces.Base.MainEditor.Instance.Theming.GetColorBrush(255);
             }
             if (Properties.Settings.Default.UseBitOperators)
             {

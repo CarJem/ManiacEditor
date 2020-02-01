@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 0, -1, false, false, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 0, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             }
             if (EditorInGame.SelectedGameVersion == "1.3")
             {
-                editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 4, -1, false, false, false);
+                editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 4, -1, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     for (int i = 0; i < editorAnim.Frames.Count; ++i)
@@ -32,7 +32,7 @@ namespace ManiacEditor.Entity_Renders
             }
             else
             {
-                editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 6, -1, false, false, false);
+                editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 6, -1, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     for (int i = 0; i < editorAnim.Frames.Count; ++i)

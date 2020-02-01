@@ -80,7 +80,7 @@ namespace ManiacEditor.Entity_Renders
                 default:
                     break;
             }
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("PimPom", d.DevicePanel, animID, frameID, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PimPom", d.DevicePanel, animID, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

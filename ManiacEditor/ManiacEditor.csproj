@@ -629,9 +629,6 @@
     <Compile Include="Functions\Settings.cs" />
     <Compile Include="Functions\Extensions\Spline\ArrayUtil.cs" />
     <Compile Include="Functions\Extensions\Spline\CubicSpline.cs" />
-    <Compile Include="Interfaces\Controls\ToolbarToggleOptionsButton.xaml.cs">
-      <DependentUpon>ToolbarToggleOptionsButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\Base\Elements\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
     </Compile>
@@ -683,7 +680,7 @@
     <Compile Include="Interfaces\Global\Options + Dev\SettingsHeader.xaml.cs">
       <DependentUpon>SettingsHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Controls\EditLayerToggleButton.xaml.cs">
+    <Compile Include="Interfaces\Base\Controls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Global\ManiaHost.xaml.cs">
@@ -692,7 +689,7 @@
     <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Controls\VScrollBar.xaml.cs">
+    <Compile Include="Interfaces\Multipurpose\Controls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Global\CheatCodeManager.xaml.cs">
@@ -704,14 +701,14 @@
     <Compile Include="Interfaces\Scene Tools\FindandReplaceTool.xaml.cs">
       <DependentUpon>FindandReplaceTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Global\UnloadingSceneWarning.xaml.cs">
+    <Compile Include="Interfaces\Dialog\UnloadingSceneWarning.xaml.cs">
       <DependentUpon>UnloadingSceneWarning.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Global\Mod Config Editor\ConfigManager.xaml.cs">
       <DependentUpon>ConfigManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Editor.xaml.cs">
-      <DependentUpon>Editor.xaml</DependentUpon>
+    <Compile Include="Interfaces\Base\MainEditor.xaml.cs">
+      <DependentUpon>MainEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Global\Mod Config Editor\ModConfigEditor.xaml.cs">
       <DependentUpon>ModConfigEditor.xaml</DependentUpon>
@@ -781,7 +778,7 @@
     <Compile Include="Interfaces\Global\Scene Select\SceneSelectEditCategoryLabelWindow.xaml.cs">
       <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\StartScreen.xaml.cs">
+    <Compile Include="Interfaces\Base\Elements\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Scene Tools\EntitiesToolbar.xaml.cs">
@@ -797,7 +794,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\DeviceEventArgs.cs" />
-    <Compile Include="Interfaces\Controls\HScrollBar.xaml.cs">
+    <Compile Include="Interfaces\Multipurpose\Controls\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TileChunkList.cs">
@@ -1231,10 +1228,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Controls\ToolbarToggleOptionsButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Interfaces\Base\Elements\MenuBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1263,7 +1256,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Controls\EditLayerToggleButton.xaml">
+    <Page Include="Interfaces\Base\Controls\EditLayerToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1287,7 +1280,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Global\UnloadingSceneWarning.xaml">
+    <Page Include="Interfaces\Dialog\UnloadingSceneWarning.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1307,7 +1300,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Controls\VScrollBar.xaml">
+    <Page Include="Interfaces\Multipurpose\Controls\VScrollBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1315,7 +1308,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Editor.xaml">
+    <Page Include="Interfaces\Base\MainEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1355,7 +1348,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Controls\HScrollBar.xaml">
+    <Page Include="Interfaces\Multipurpose\Controls\HScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1399,7 +1392,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\StartScreen.xaml">
+    <Page Include="Interfaces\Base\Elements\StartScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

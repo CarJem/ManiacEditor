@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
+using ManiacEditor.Interfaces.Base.Controls;
 
 
 namespace ManiacEditor.Interfaces.Base.Elements
@@ -40,9 +41,9 @@ namespace ManiacEditor.Interfaces.Base.Elements
 
         #region Action Events (MenuItems, Clicks, etc.)
         #region File Events
-        private void NewSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.NewScene(); }
-        public void OpenSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.OpenScene(); }
-        public void SaveSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.FileHandler.Save(); }
+        private void NewSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.FileHandler.NewScene(); }
+        public void OpenSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.FileHandler.OpenScene(); }
+        public void SaveSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.FileHandler.Save(); }
         #endregion
 
         #region Animations DropDown (WIP)
@@ -111,7 +112,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
 
         private void SplineOptionsIDChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (Interfaces.Base.MapEditor.Instance.UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && SplineGroupID != null && AllowSplineUpdateEvent)
+            if (Interfaces.Base.MainEditor.Instance.UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && SplineGroupID != null && AllowSplineUpdateEvent)
             {
                 SelectedSplineIDChangedEvent(SplineGroupID.Value.Value);
             }
@@ -124,7 +125,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             SplineGroupID.Value = value;
             Classes.Editor.SolutionState.SelectedSplineID = value;
             SplineSpawnID.Value = value;
-            Interfaces.Base.MapEditor.Instance.UI.UpdateSplineSettings(value);
+            Interfaces.Base.MainEditor.Instance.UI.UpdateSplineSettings(value);
             Classes.Editor.SolutionState.AllowSplineOptionsUpdate = true;
             AllowSplineUpdateEvent = true;
 
@@ -133,7 +134,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
-            if (Interfaces.Base.MapEditor.Instance.UI != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
+            if (Interfaces.Base.MainEditor.Instance.UI != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationNUD.Value;
@@ -146,7 +147,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
-            if (Interfaces.Base.MapEditor.Instance.UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
+            if (Interfaces.Base.MainEditor.Instance.UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationSlider.Value;
@@ -176,7 +177,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     var obj = selectedItem.Tag as RSDKv5.SceneObject;
                     int splineID = Classes.Editor.SolutionState.SelectedSplineID;
                     Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.SpawnObject, Classes.Editor.Solution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
-                    Interfaces.Base.MapEditor.Instance.EntitiesToolbar?.UpdateEntityProperties(new List<RSDKv5.SceneEntity>() { Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
+                    Interfaces.Base.MainEditor.Instance.EntitiesToolbar?.UpdateEntityProperties(new List<RSDKv5.SceneEntity>() { Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
 
                     if (Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
                         SplineRenderObjectName.Content = Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
@@ -204,9 +205,9 @@ namespace ManiacEditor.Interfaces.Base.Elements
 
         private void DrawToolSizeChanged(bool wasSlider = false)
         {
-            if (Interfaces.Base.MapEditor.Instance != null)
+            if (Interfaces.Base.MainEditor.Instance != null)
             {
-                if (Interfaces.Base.MapEditor.Instance.UI != null && DrawTileSizeNUD != null && DrawTileSizeSlider != null && AllowDrawBrushSizeChange)
+                if (Interfaces.Base.MainEditor.Instance.UI != null && DrawTileSizeNUD != null && DrawTileSizeSlider != null && AllowDrawBrushSizeChange)
                 {
                     AllowDrawBrushSizeChange = false;
                     int size = (wasSlider ? (int)DrawTileSizeSlider.Value : (int)DrawTileSizeNUD.Value);
@@ -225,17 +226,17 @@ namespace ManiacEditor.Interfaces.Base.Elements
 
         #endregion
         private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseMagnetMode ^= true; }
-        private void UndoEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.EditorUndo(); }
-        private void RedoEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.EditorRedo(); }
-        private void ZoomInEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.ZoomIn(sender, e); }
-        private void ZoomOutEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UIEvents.ZoomOut(sender, e); }
+        private void UndoEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.EditorUndo(); }
+        private void RedoEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.EditorRedo(); }
+        private void ZoomInEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.UIEvents.ZoomIn(sender, e); }
+        private void ZoomOutEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.UIEvents.ZoomOut(sender, e); }
         private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SelectionMode(); }
         private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.PointerMode(); }
         private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DrawMode(); }
         private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.InteractionMode(); }
         private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SplineMode(); }
         private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ChunksMode(); }
-        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.UI.ReloadSpritesAndTextures(); }
+        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.UI.ReloadSpritesAndTextures(); }
         public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowTileID ^= true; }
         private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Classes.Editor.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
@@ -243,14 +244,14 @@ namespace ManiacEditor.Interfaces.Base.Elements
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowCollisionB ^= true; }
         private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowFlippedTileHelper ^= true; }
         public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseEncoreColors ^= true; }
-        private void RunSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.RunScene(); }
+        private void RunSceneEvent(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.RunScene(); }
         private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 0; }
         private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 1; }
         private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 2; }
 
 
         #region Collision Slider Events
-        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { Interfaces.Base.MapEditor.Instance.UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
+        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { Interfaces.Base.MainEditor.Instance.UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
         #endregion
 
         #region Magnet Events
@@ -330,14 +331,14 @@ namespace ManiacEditor.Interfaces.Base.Elements
         #endregion
 
         #region Game Running Events
-        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.MoveThePlayerToHere(); }
-        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.SetPlayerRespawnToHere(); }
-        private void MoveCheckpoint(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.CheckpointSelected = true; }
-        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.UpdateCheckpoint(new System.Drawing.Point(0, 0), false); }
-        private void AssetReset(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.AssetReset(); }
-        private void RestartScene(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.RestartScene(); }
-        private void TrackThePlayer(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.TrackthePlayer(sender, e); }
-        private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { Interfaces.Base.MapEditor.Instance.InGame.UpdateRunSceneDropdown(); }
+        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.MoveThePlayerToHere(); }
+        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.SetPlayerRespawnToHere(); }
+        private void MoveCheckpoint(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.CheckpointSelected = true; }
+        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.UpdateCheckpoint(new System.Drawing.Point(0, 0), false); }
+        private void AssetReset(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.AssetReset(); }
+        private void RestartScene(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.RestartScene(); }
+        private void TrackThePlayer(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.TrackthePlayer(sender, e); }
+        private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { Interfaces.Base.MainEditor.Instance.InGame.UpdateRunSceneDropdown(); }
         #endregion
 
         #endregion
@@ -417,12 +418,12 @@ namespace ManiacEditor.Interfaces.Base.Elements
             {
                 if (ClickType == MouseButton.Left) Normal();
             }
-            Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
+            Interfaces.Base.MainEditor.Instance.UI.UpdateControls();
 
 
             void EditEntitiesMode()
             {
-                Interfaces.Base.MapEditor.Instance.Deselect(false);
+                Interfaces.Base.MainEditor.Instance.Deselect(false);
                 if (!button.IsCheckedN.Value)
                 {
                     button.IsCheckedN = false;
@@ -446,7 +447,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     EditFGHigher.IsCheckedB = false;
                 }
 
-                foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
                 {
                     elb.IsCheckedN = false;
                     elb.IsCheckedA = false;
@@ -457,7 +458,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
 
             void Normal()
             {
-                Interfaces.Base.MapEditor.Instance.Deselect(false);
+                Interfaces.Base.MainEditor.Instance.Deselect(false);
                 if (!button.IsCheckedN.Value)
                 {
                     button.IsCheckedN = false;
@@ -472,7 +473,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     button.IsCheckedN = true;
                 }
 
-                foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
                 {
                     if (elb != button) elb.IsCheckedN = false;
                 }
@@ -483,7 +484,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
 
             void LayerA()
             {
-                Interfaces.Base.MapEditor.Instance.Deselect(false);
+                Interfaces.Base.MainEditor.Instance.Deselect(false);
                 if (!button.IsCheckedA.Value)
                 {
                     button.IsCheckedA = false;
@@ -498,14 +499,14 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     button.IsCheckedA = true;
                 }
 
-                foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
                 {
                     if (elb != button) elb.IsCheckedA = false;
                 }
             }
             void LayerB()
             {
-                Interfaces.Base.MapEditor.Instance.Deselect(false);
+                Interfaces.Base.MainEditor.Instance.Deselect(false);
                 if (!button.IsCheckedB.Value)
                 {
                     button.IsCheckedB = false;
@@ -520,7 +521,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     button.IsCheckedB = true;
                 }
 
-                foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
                 {
                     if (elb != button) elb.IsCheckedB = false;
                 }
@@ -599,7 +600,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             //EDIT BUTTONS SEPERATOR
             Separator tss = new Separator();
             LayerToolbar.Items.Add(tss);
-            Interfaces.Base.MapEditor.Instance.ExtraLayerSeperators.Add(tss);
+            Interfaces.Base.MainEditor.Instance.ExtraLayerSeperators.Add(tss);
 
             //VIEW BUTTONS
             foreach (Classes.Editor.Scene.Sets.EditorLayer el in Classes.Editor.Solution.CurrentScene.OtherLayers)
@@ -620,7 +621,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             //EDIT + VIEW BUTTONS LIST
             for (int i = 0; i < _extraLayerViewButtons.Count; i++)
             {
-                Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
+                Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
             }
 
             UpdateDualButtonsControlsForLayer(Classes.Editor.Solution.FGLow, ShowFGLow, EditFGLow);
@@ -630,21 +631,21 @@ namespace ManiacEditor.Interfaces.Base.Elements
         }
         public void TearDownExtraLayerButtons()
         {
-            foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons)
+            foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons)
             {
                 LayerToolbar.Items.Remove(elb.Key);
                 elb.Value.Click -= AdHocLayerEdit_Click;
                 elb.Value.RightClick -= AdHocLayerEdit_RightClick;
                 LayerToolbar.Items.Remove(elb.Value);
             }
-            Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons.Clear();
+            Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Clear();
 
 
-            foreach (var els in Interfaces.Base.MapEditor.Instance.ExtraLayerSeperators)
+            foreach (var els in Interfaces.Base.MainEditor.Instance.ExtraLayerSeperators)
             {
                 LayerToolbar.Items.Remove(els);
             }
-            Interfaces.Base.MapEditor.Instance.ExtraLayerSeperators.Clear();
+            Interfaces.Base.MainEditor.Instance.ExtraLayerSeperators.Clear();
 
         }
         /// <summary>
@@ -681,7 +682,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             void Normal()
             {
                 EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-                Interfaces.Base.MapEditor.Instance.Deselect(false);
+                Interfaces.Base.MainEditor.Instance.Deselect(false);
                 if (tsb.IsCheckedN.Value)
                 {
                     if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
@@ -697,7 +698,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     EditFGHigher.ClearCheckedItems(3);
                     EditEntities.ClearCheckedItems(3);
 
-                    foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons)
+                    foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons)
                     {
                         if (elb.Value != tsb)
                         {
@@ -709,7 +710,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             void LayerA()
             {
                 EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-                Interfaces.Base.MapEditor.Instance.Deselect(false);
+                Interfaces.Base.MainEditor.Instance.Deselect(false);
                 if (tsb.IsCheckedA.Value)
                 {
                     if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
@@ -725,7 +726,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     EditFGHigher.ClearCheckedItems(1);
                     EditEntities.ClearCheckedItems(1);
 
-                    foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons)
+                    foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons)
                     {
                         if (elb.Value != tsb)
                         {
@@ -737,7 +738,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             void LayerB()
             {
                 EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-                Interfaces.Base.MapEditor.Instance.Deselect(false);
+                Interfaces.Base.MainEditor.Instance.Deselect(false);
                 if (tsb.IsCheckedB.Value)
                 {
                     if (!ManiacEditor.Settings.MySettings.KeepLayersVisible)
@@ -753,7 +754,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                     EditFGHigher.ClearCheckedItems(2);
                     EditEntities.ClearCheckedItems(2);
 
-                    foreach (var elb in Interfaces.Base.MapEditor.Instance.ExtraLayerEditViewButtons)
+                    foreach (var elb in Interfaces.Base.MainEditor.Instance.ExtraLayerEditViewButtons)
                     {
                         if (elb.Value != tsb)
                         {
@@ -763,7 +764,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
                 }
             }
 
-            Interfaces.Base.MapEditor.Instance.UI.UpdateControls();
+            Interfaces.Base.MainEditor.Instance.UI.UpdateControls();
         }
         #endregion
 
@@ -835,7 +836,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             if (e.NewValue.Value != null)
             {
                 Classes.Editor.SolutionState.CollisionTOColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Interfaces.Base.MapEditor.Instance.RefreshCollisionColours(true);
+                Interfaces.Base.MainEditor.Instance.RefreshCollisionColours(true);
             }
         }
 
@@ -845,7 +846,7 @@ namespace ManiacEditor.Interfaces.Base.Elements
             if (e.NewValue.Value != null)
             {
                 Classes.Editor.SolutionState.CollisionLRDColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Interfaces.Base.MapEditor.Instance.RefreshCollisionColours(true);
+                Interfaces.Base.MainEditor.Instance.RefreshCollisionColours(true);
             }
         }
 
@@ -855,14 +856,14 @@ namespace ManiacEditor.Interfaces.Base.Elements
             if (e.NewValue.Value != null)
             {
                 Classes.Editor.SolutionState.CollisionSAColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Interfaces.Base.MapEditor.Instance.RefreshCollisionColours(true);
+                Interfaces.Base.MainEditor.Instance.RefreshCollisionColours(true);
             }
         }
 
         private void CollisionColorPickerClosed(object sender, RoutedEventArgs e)
         {
-            Interfaces.Base.MapEditor.Instance.ReloadSpecificTextures(sender, e);
-            Interfaces.Base.MapEditor.Instance.RefreshCollisionColours(true);
+            Interfaces.Base.MainEditor.Instance.ReloadSpecificTextures(sender, e);
+            Interfaces.Base.MainEditor.Instance.RefreshCollisionColours(true);
         }
 
 

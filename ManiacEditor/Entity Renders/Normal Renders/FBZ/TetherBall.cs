@@ -55,9 +55,9 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, animID, fliph, flipv, false);
-            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, 2, fliph, flipv, false);
-            var editorAnim3 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, 3, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, animID, fliph, flipv, false);
+            var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, 2, fliph, flipv, false);
+            var editorAnim3 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, 3, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
 

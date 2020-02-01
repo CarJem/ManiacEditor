@@ -7,8 +7,8 @@ namespace ManiacEditor
     [Serializable]
     public class EditorSettings
     {
-        private Interfaces.Base.MapEditor Instance;
-        public EditorSettings(Interfaces.Base.MapEditor instance)
+        private Interfaces.Base.MainEditor Instance;
+        public EditorSettings(Interfaces.Base.MainEditor instance)
         {
             Instance = instance;
         }
@@ -153,7 +153,7 @@ namespace ManiacEditor
 
                     }
                 }
-                Interfaces.Base.MapEditor.Instance.Defaulter.ApplyDefaults();
+                Interfaces.Base.MainEditor.Instance.Defaulter.ApplyDefaults();
             }
             catch (Exception ex)
             {

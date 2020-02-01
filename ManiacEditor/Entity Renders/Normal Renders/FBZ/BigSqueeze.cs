@@ -10,15 +10,15 @@ namespace ManiacEditor.Entity_Renders
             int type = (int)entity.attributesMap["type"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 0, -1, true, flipv, false);
-            var editorAnim3 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnim4 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnim5 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 3, -1, fliph, flipv, false);
-            var editorAnim6 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 4, -1, fliph, flipv, false);
-            var editorAnim7 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 4, -1, true, flipv, false);
-            var editorAnim8 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 5, -1, true, flipv, false);
-            var editorAnim9 = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 0, -1, true, flipv, false);
+            var editorAnim3 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim4 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim5 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnim6 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 4, -1, fliph, flipv, false);
+            var editorAnim7 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 4, -1, true, flipv, false);
+            var editorAnim8 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigSqueeze", d.DevicePanel, 5, -1, true, flipv, false);
+            var editorAnim9 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0)
             {
                 var wall1 = editorAnim.Frames[0];

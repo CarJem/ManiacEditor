@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Dialog
 {
     public static class TextPrompt
     {

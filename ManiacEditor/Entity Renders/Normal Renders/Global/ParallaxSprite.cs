@@ -35,13 +35,13 @@ namespace ManiacEditor.Entity_Renders
 
             if (Animation.parallaxSprite == "")
             {
-                Animation.parallaxSprite = GetParallaxPath(Interfaces.Base.MapEditor.Instance);
+                Animation.parallaxSprite = GetParallaxPath(Interfaces.Base.MainEditor.Instance);
             }
 
-            var editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 12, fliph, flipv, false);
+            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 12, fliph, flipv, false);
             if (Classes.Editor.SolutionState.ShowParallaxSprites)
             {
-                editorAnim = Interfaces.Base.MapEditor.Instance.EntityDrawing.LoadAnimation2(Animation.parallaxSprite, d.DevicePanel, aniID, -1, fliph, flipv, false);
+                editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2(Animation.parallaxSprite, d.DevicePanel, aniID, -1, fliph, flipv, false);
             }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
@@ -60,7 +60,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        private string GetParallaxPath (Interfaces.Base.MapEditor EditorInstance)
+        private string GetParallaxPath (Interfaces.Base.MainEditor EditorInstance)
         {
             string name = EditorInstance.Paths.CurrentZone.Replace("\\", "");
             string zoneName = "";

@@ -10,8 +10,8 @@ namespace ManiacEditor
 {
     public class EditorFileHandler
     {
-        private Interfaces.Base.MapEditor Instance;
-        public EditorFileHandler(Interfaces.Base.MapEditor instance)
+        private Interfaces.Base.MainEditor Instance;
+        public EditorFileHandler(Interfaces.Base.MainEditor instance)
         {
             Instance = instance;
         }
@@ -33,7 +33,7 @@ namespace ManiacEditor
             if (AllowSceneUnloading() != true) return;
             Classes.Editor.Solution.UnloadScene();
             ManiacEditor.Interfaces.NewSceneWindow makerDialog = new ManiacEditor.Interfaces.NewSceneWindow();
-            makerDialog.Owner = Interfaces.Base.MapEditor.GetWindow(Instance);
+            makerDialog.Owner = Interfaces.Base.MainEditor.GetWindow(Instance);
             if (makerDialog.ShowDialog() == true)
             {
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
@@ -139,16 +139,16 @@ namespace ManiacEditor
 
                 if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired == true)
                 {
-                    var exitBox = new UnloadingSceneWarning();
+                    var exitBox = new Interfaces.Dialog.UnloadingSceneWarning();
                     exitBox.Owner = Window.GetWindow(Instance);
                     exitBox.ShowDialog();
                     var exitBoxResult = exitBox.WindowResult;
-                    if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.Yes)
+                    if (exitBoxResult == Interfaces.Dialog.UnloadingSceneWarning.WindowDialogResult.Yes)
                     {
                         SaveScene();
                         AllowSceneChange = true;
                     }
-                    else if (exitBoxResult == UnloadingSceneWarning.WindowDialogResult.No)
+                    else if (exitBoxResult == Interfaces.Dialog.UnloadingSceneWarning.WindowDialogResult.No)
                     {
                         AllowSceneChange = true;
                     }

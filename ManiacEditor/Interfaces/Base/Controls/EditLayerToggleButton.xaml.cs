@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace ManiacEditor
+namespace ManiacEditor.Interfaces.Base.Controls
 {
     /// <summary>
     /// Interaction logic for EditLayerToggleButton.xaml
