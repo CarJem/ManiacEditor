@@ -191,7 +191,7 @@ namespace ManiacEditor
 					Classes.Editor.Solution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.Entities.CopyToClipboard(true));
 					Editor.UpdateLastEntityAction();
 				}
-				catch (Classes.Edit.Scene.EditorEntities.TooManyEntitiesException)
+				catch (Classes.Editor.Scene.EditorEntities.TooManyEntitiesException)
 				{
 					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
 					return;
@@ -259,7 +259,7 @@ namespace ManiacEditor
                 {
 
                     Point p = new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));
-                    return Classes.Editor.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                    return Classes.Editor.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {

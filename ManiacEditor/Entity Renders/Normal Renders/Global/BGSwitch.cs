@@ -6,7 +6,7 @@ namespace ManiacEditor.Entity_Renders
     public class BGSwitch : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 5, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -57,7 +57,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High) * 2;
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High) * 2;

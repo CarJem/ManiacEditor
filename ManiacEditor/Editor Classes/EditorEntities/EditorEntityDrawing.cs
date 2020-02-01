@@ -155,7 +155,7 @@ namespace ManiacEditor
             AnimsToLoad.Add(entry);
             return null;
         }
-        public void LoadNextAnimation(Classes.Edit.Scene.Sets.EditorEntity entity)
+        public void LoadNextAnimation(Classes.Editor.Scene.Sets.EditorEntity entity)
         {
             if (AnimsToLoad.Count == 0)
                 return;
@@ -832,7 +832,7 @@ namespace ManiacEditor
 
         // These are special
 
-        public void DrawOthers(ManiacEditor.GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
+        public void DrawOthers(ManiacEditor.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, AttributeValidater AttributeValidater, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;

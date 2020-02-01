@@ -64,7 +64,7 @@ namespace ManiacEditor
 
                 Instance.BackgroundDX = new Classes.Editor.Scene.EditorBackground(Instance);
 
-                Classes.Editor.Solution.Entities = new Classes.Edit.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
+                Classes.Editor.Solution.Entities = new Classes.Editor.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
 
                 Instance.ZoomModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
 
@@ -562,7 +562,7 @@ namespace ManiacEditor
                 Stamps StageStamps = Instance.Paths.GetEditorStamps(Instance.Paths.CurrentZone);
                 Instance.Chunks = new EditorChunk(Instance, Classes.Editor.Solution.CurrentTiles.StageTiles, StageStamps);
                 Instance.BackgroundDX = new Classes.Editor.Scene.EditorBackground(Instance);
-                Classes.Editor.Solution.Entities = new Classes.Edit.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
+                Classes.Editor.Solution.Entities = new Classes.Editor.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
 
                 Instance.UI.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
 

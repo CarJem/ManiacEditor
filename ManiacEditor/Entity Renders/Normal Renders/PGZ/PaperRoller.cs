@@ -11,7 +11,7 @@ namespace ManiacEditor.Entity_Renders
         static System.Drawing.Color color3default = ColorTranslator.FromHtml("#9C7973");
         static System.Drawing.Color color4default = ColorTranslator.FromHtml("#5A696B");
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int length = (int)entity.attributesMap["length"].ValueEnum;
             int angle = (int)entity.attributesMap["angle"].ValueEnum;

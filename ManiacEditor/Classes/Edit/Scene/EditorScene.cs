@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
+using ManiacEditor.Classes.Editor.Scene.Sets;
 
 namespace ManiacEditor.Classes.Editor.Scene
 {

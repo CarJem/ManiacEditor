@@ -12,11 +12,11 @@ namespace ManiacEditor.Entity_Renders
 
         static int TILE_SIZE = 16;
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             if (Classes.Editor.Solution.CurrentScene?.Scratch != null)
             {
-                Classes.Editor.Scene.EditorLayer Scratch = Classes.Editor.Solution.CurrentScene?.Scratch;
+                Classes.Editor.Scene.Sets.EditorLayer Scratch = Classes.Editor.Solution.CurrentScene?.Scratch;
 
                 _layer = Scratch.Layer;
                 bool fliph = false;
@@ -141,7 +141,7 @@ namespace ManiacEditor.Entity_Renders
             return new Rectangle(x, y, x + width, y + height);
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;

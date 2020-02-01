@@ -6,7 +6,7 @@ namespace ManiacEditor.Entity_Renders
     public class Firework : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int distance = (int)entity.attributesMap["distance"].ValueInt32;
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Firework", d.DevicePanel, 0, -1, false, false, false);

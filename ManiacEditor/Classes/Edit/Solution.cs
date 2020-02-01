@@ -19,18 +19,18 @@ namespace ManiacEditor.Classes.Editor
         public static Tileconfig TileConfig;
         public static Scene.EditorTiles CurrentTiles;
         public static Scene.EditorScene CurrentScene;
-        public static Classes.Edit.Scene.EditorEntities Entities;
+        public static Classes.Editor.Scene.EditorEntities Entities;
         public static StageConfig StageConfig;
         public static Gameconfig GameConfig;
 
         #region Layers
-        public static Classes.Editor.Scene.EditorLayer FGHigher => CurrentScene?.HighDetails;
-        public static Classes.Editor.Scene.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
-        public static Classes.Editor.Scene.EditorLayer FGLow => CurrentScene?.ForegroundLow;
-        public static Classes.Editor.Scene.EditorLayer FGLower => CurrentScene?.LowDetails;
-        public static Classes.Editor.Scene.EditorLayer ScratchLayer => CurrentScene?.Scratch;
-        public static Classes.Editor.Scene.EditorLayer EditLayerA { get; set; }
-        public static Classes.Editor.Scene.EditorLayer EditLayerB { get; set; }
+        public static Classes.Editor.Scene.Sets.EditorLayer FGHigher => CurrentScene?.HighDetails;
+        public static Classes.Editor.Scene.Sets.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
+        public static Classes.Editor.Scene.Sets.EditorLayer FGLow => CurrentScene?.ForegroundLow;
+        public static Classes.Editor.Scene.Sets.EditorLayer FGLower => CurrentScene?.LowDetails;
+        public static Classes.Editor.Scene.Sets.EditorLayer ScratchLayer => CurrentScene?.Scratch;
+        public static Classes.Editor.Scene.Sets.EditorLayer EditLayerA { get; set; }
+        public static Classes.Editor.Scene.Sets.EditorLayer EditLayerB { get; set; }
         #endregion
 
         #region Screen Size

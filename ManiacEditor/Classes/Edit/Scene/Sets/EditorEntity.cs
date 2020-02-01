@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace ManiacEditor.Classes.Edit.Scene.Sets
+namespace ManiacEditor.Classes.Editor.Scene.Sets
 {
     [Serializable]
     public class EditorEntity : IDrawable
@@ -150,7 +150,7 @@ namespace ManiacEditor.Classes.Edit.Scene.Sets
             DrawBase(new GraphicsHandler(g));
         }
 
-        public Classes.Edit.Scene.Sets.EditorEntity GetSelf()
+        public Classes.Editor.Scene.Sets.EditorEntity GetSelf()
         {
             return this;
         }

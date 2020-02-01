@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedBeanstalk : LinkedRenderer
     {
-        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Edit.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
         {
             ushort slotID = currentEntity.SlotID;
             ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);

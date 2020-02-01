@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class LottoMachine : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             //int type = (int)entity.attributesMap["type"].ValueUInt8;
             //int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -156,7 +156,7 @@ chute.Frame.Width, chute.Frame.Height, false, Transparency);
             }
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             int bounds = 330;
             return d.IsObjectOnScreen(x - bounds / 2, y - bounds / 2, bounds, bounds);

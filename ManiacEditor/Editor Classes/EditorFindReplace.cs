@@ -39,7 +39,7 @@ namespace ManiacEditor
         }
         public bool IsTileUnused(int tile)
         {
-            IEnumerable<Classes.Editor.Scene.EditorLayer> AllLayers = Classes.Editor.Solution.CurrentScene.AllLayers;
+            IEnumerable<Classes.Editor.Scene.Sets.EditorLayer> AllLayers = Classes.Editor.Solution.CurrentScene.AllLayers;
             bool unused = true;
 
             foreach (var editorLayer in Classes.Editor.Solution.CurrentScene.AllLayers)

@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class PlaneSwitch : EntityRenderer
     {
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             const int LeftDist = 1,
                       LeftPlane = 2,
@@ -82,7 +82,7 @@ namespace ManiacEditor.Entity_Renders
             int[] results = { (int)Math.Round(finalX), (int)Math.Round(finalY) };
             return results;
         }
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var size = (int)(entity.attributesMap["size"].ValueEnum);
             int bounds = (16 * size);

@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedPlatformControl : LinkedRenderer
     {
-        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Edit.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
         {
             ushort slotID = currentEntity.SlotID;
             ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
@@ -19,8 +19,8 @@ namespace ManiacEditor.Entity_Renders
             int minimumSlot = (int)targetSlotID;
             int maximumSlot = (int)targetSlotID + (int)NodeCount;
 
-            List<Tuple<Classes.Edit.Scene.Sets.EditorEntity, Classes.Edit.Scene.Sets.EditorEntity>> NodePoints = new List<Tuple<Classes.Edit.Scene.Sets.EditorEntity, Classes.Edit.Scene.Sets.EditorEntity>>();
-            List<Classes.Edit.Scene.Sets.EditorEntity> ChildPoints = new List<Classes.Edit.Scene.Sets.EditorEntity>();
+            List<Tuple<Classes.Editor.Scene.Sets.EditorEntity, Classes.Editor.Scene.Sets.EditorEntity>> NodePoints = new List<Tuple<Classes.Editor.Scene.Sets.EditorEntity, Classes.Editor.Scene.Sets.EditorEntity>>();
+            List<Classes.Editor.Scene.Sets.EditorEntity> ChildPoints = new List<Classes.Editor.Scene.Sets.EditorEntity>();
 
             int currentTargetSlotID = targetSlotID;
             int remainder = (NodeCount % 2 == 1 ? 1 : 0);
@@ -35,7 +35,7 @@ namespace ManiacEditor.Entity_Renders
                     var target1 = Classes.Editor.Solution.Entities.Entities.Where(e => e.Entity.SlotID == targetID1).First();
                     var target2 = Classes.Editor.Solution.Entities.Entities.Where(e => e.Entity.SlotID == targetID2).First();
 
-                    NodePoints.Add(new Tuple<Classes.Edit.Scene.Sets.EditorEntity, Classes.Edit.Scene.Sets.EditorEntity>(target1, target2));
+                    NodePoints.Add(new Tuple<Classes.Editor.Scene.Sets.EditorEntity, Classes.Editor.Scene.Sets.EditorEntity>(target1, target2));
                 }
                 currentTargetSlotID = currentTargetSlotID + 1;
             }

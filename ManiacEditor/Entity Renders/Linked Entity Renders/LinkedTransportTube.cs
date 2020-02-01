@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedTransportTube : LinkedRenderer
     {
-        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Edit.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
         {
             byte TransportTubeType = currentEntity.GetAttribute("type").ValueUInt8;
             ushort slotID = currentEntity.SlotID;

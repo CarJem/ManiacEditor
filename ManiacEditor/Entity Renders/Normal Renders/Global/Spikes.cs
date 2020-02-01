@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class Spikes : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var value = entity.attributesMap["type"];
             bool fliph = false;
@@ -124,7 +124,7 @@ namespace ManiacEditor.Entity_Renders
         }
 
 
-        public void IceDraw(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public void IceDraw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, 0, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -139,7 +139,7 @@ namespace ManiacEditor.Entity_Renders
             
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Edit.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var value = entity.attributesMap["type"];
             int count = (entity.attributesMap.ContainsKey("count") ? (int)entity.attributesMap["count"].ValueUInt8 : 0);

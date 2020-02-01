@@ -12,7 +12,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 
-namespace ManiacEditor.Classes.Editor.Scene
+namespace ManiacEditor.Classes.Editor.Scene.Sets
 {
     public class EditorLayer : IDrawable
     {

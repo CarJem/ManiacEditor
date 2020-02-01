@@ -24,7 +24,7 @@ namespace ManiacEditor.Interfaces
 	public partial class LayerManager : Window
 	{
 		private Classes.Editor.Scene.EditorScene _editorScene;
-		private IList<Classes.Editor.Scene.EditorLayer> Layers
+		private IList<Classes.Editor.Scene.Sets.EditorLayer> Layers
 		{
 			get => _editorScene?.AllLayersList;
 		}
@@ -44,7 +44,7 @@ namespace ManiacEditor.Interfaces
 			get => GetSelectedLayerScroll();
 		}
 
-        private Classes.Editor.Scene.EditorLayer SelectedLayer;
+        private Classes.Editor.Scene.Sets.EditorLayer SelectedLayer;
 
 		private bool LockSelectionChangedTriggers = false;
 		private bool _layerArrangementChanged = false;
@@ -55,7 +55,7 @@ namespace ManiacEditor.Interfaces
 		int nudLineCountTemp = 0;
 
 		//Clipboards
-		private Classes.Editor.Scene.EditorLayer LayerClipboard;
+		private Classes.Editor.Scene.Sets.EditorLayer LayerClipboard;
 
 
 
@@ -299,7 +299,7 @@ namespace ManiacEditor.Interfaces
 
 		private void btnAdd_Click(object sender, RoutedEventArgs e)
 		{
-			Classes.Editor.Scene.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
+			Classes.Editor.Scene.Sets.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
 			Layers.Add(newEditorLayer);
 			int newIndex = Layers.IndexOf(newEditorLayer);
 			lbLayers.SelectedIndex = newIndex;
@@ -491,9 +491,9 @@ namespace ManiacEditor.Interfaces
 			}
 		}
 
-		private void CopyLayerToClipboard(Classes.Editor.Scene.EditorLayer layerToCopy)
+		private void CopyLayerToClipboard(Classes.Editor.Scene.Sets.EditorLayer layerToCopy)
 		{
-			Classes.Editor.Scene.EditorLayer copyData = layerToCopy;
+			Classes.Editor.Scene.Sets.EditorLayer copyData = layerToCopy;
 
 			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
 			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
@@ -510,7 +510,7 @@ namespace ManiacEditor.Interfaces
 			// For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
 			if (Clipboard.ContainsData("ManiacLayer") && false)
 			{
-				var layerToPaste = (Classes.Editor.Scene.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
+				var layerToPaste = (Classes.Editor.Scene.Sets.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
 
 				Layers.Insert(Layers.Count - 1, layerToPaste);
 
