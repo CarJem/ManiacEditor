@@ -38,7 +38,7 @@ namespace ManiacEditor
             {
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
 
-                Classes.Edit.Solution.CurrentScene = new Classes.Edit.Solution.EditorScene(Instance.FormsModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
+                Classes.Edit.Solution.CurrentScene = new Classes.Edit.Scene.EditorScene(Instance.FormsModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
                 Classes.Edit.Solution.TileConfig = new Tileconfig();
                 Classes.Edit.Solution.CurrentTiles.StageTiles = new StageTiles();
                 Classes.Edit.Solution.StageConfig = new StageConfig();
@@ -513,7 +513,7 @@ namespace ManiacEditor
             {
                 //Using Instance Means the Stuff Hasn't Stated 
                 Classes.Edit.SolutionState.LevelID = Instance.Paths.CurrentLevelID;
-                Classes.Edit.Solution.CurrentScene = new Classes.Edit.Solution.EditorScene(Instance.Paths.GetScenePath(), Instance.FormsModel.GraphicPanel, Instance);
+                Classes.Edit.Solution.CurrentScene = new Classes.Edit.Scene.EditorScene(Instance.Paths.GetScenePath(), Instance.FormsModel.GraphicPanel, Instance);
 
                 //ACT File (Encore Colors)
                 Instance.EncorePalette = Classes.Edit.Solution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "", 1);
@@ -589,7 +589,7 @@ namespace ManiacEditor
         {
             Classes.Edit.Solution.UnloadScene();
             Instance.Settings.UseDefaultPrefrences();
-            Classes.Edit.Solution.CurrentTiles = new Classes.Edit.Solution.EditorTiles(Instance);
+            Classes.Edit.Solution.CurrentTiles = new Classes.Edit.Scene.EditorTiles(Instance);
             return Instance.SetGameConfig();
         }
 
@@ -617,7 +617,7 @@ namespace ManiacEditor
             try
             {
                 Classes.Edit.SolutionState.LevelID = Instance.Paths.CurrentLevelID;
-                Classes.Edit.Solution.CurrentScene = new Classes.Edit.Solution.EditorScene(Instance.Paths.GetScenePathFromFile(Instance.Paths.SceneFilePath), Instance.FormsModel.GraphicPanel, Instance);
+                Classes.Edit.Solution.CurrentScene = new Classes.Edit.Scene.EditorScene(Instance.Paths.GetScenePathFromFile(Instance.Paths.SceneFilePath), Instance.FormsModel.GraphicPanel, Instance);
 
 
                 //ACT File (Encore Colors)

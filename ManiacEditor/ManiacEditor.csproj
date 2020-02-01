@@ -276,6 +276,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Edit\Scene\EditorLayer.cs" />
+    <Compile Include="Classes\Edit\Scene\EditorScene.cs" />
+    <Compile Include="Classes\Edit\Scene\EditorTiles.cs" />
     <Compile Include="Classes\VersionCheck.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\MonkeyDude.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\SchrodingersCapsule.cs" />

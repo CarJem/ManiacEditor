@@ -68,13 +68,13 @@ namespace ManiacEditor
         public Stack<IAction> RedoStack = new Stack<IAction>(); //Redo Actions Stack
 
         //Editor Layers
-        internal Classes.Edit.Solution.EditorLayer FGHigher => Classes.Edit.Solution.CurrentScene?.HighDetails;
-		internal Classes.Edit.Solution.EditorLayer FGHigh => Classes.Edit.Solution.CurrentScene?.ForegroundHigh;
-		internal Classes.Edit.Solution.EditorLayer FGLow => Classes.Edit.Solution.CurrentScene?.ForegroundLow;
-		internal Classes.Edit.Solution.EditorLayer FGLower => Classes.Edit.Solution.CurrentScene?.LowDetails;
-		internal Classes.Edit.Solution.EditorLayer ScratchLayer => Classes.Edit.Solution.CurrentScene?.Scratch;
-        public Classes.Edit.Solution.EditorLayer EditLayerA { get; set; }
-        public Classes.Edit.Solution.EditorLayer EditLayerB { get; set; }
+        internal Classes.Edit.Scene.EditorLayer FGHigher => Classes.Edit.Solution.CurrentScene?.HighDetails;
+		internal Classes.Edit.Scene.EditorLayer FGHigh => Classes.Edit.Solution.CurrentScene?.ForegroundHigh;
+		internal Classes.Edit.Scene.EditorLayer FGLow => Classes.Edit.Solution.CurrentScene?.ForegroundLow;
+		internal Classes.Edit.Scene.EditorLayer FGLower => Classes.Edit.Solution.CurrentScene?.LowDetails;
+		internal Classes.Edit.Scene.EditorLayer ScratchLayer => Classes.Edit.Solution.CurrentScene?.Scratch;
+        public Classes.Edit.Scene.EditorLayer EditLayerA { get; set; }
+        public Classes.Edit.Scene.EditorLayer EditLayerB { get; set; }
         //Scene Width + Height (For Drawing)
         internal int SceneWidth => (Classes.Edit.Solution.CurrentScene != null ? Classes.Edit.Solution.CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
 		internal int SceneHeight => (Classes.Edit.Solution.CurrentScene != null ? Classes.Edit.Solution.CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
@@ -403,7 +403,7 @@ namespace ManiacEditor
 		}
         #endregion
 		#region Common Editor Functions
-		public void EditorPlaceTile(Point position, int tile, Classes.Edit.Solution.EditorLayer layer, bool isDrawing = false)
+		public void EditorPlaceTile(Point position, int tile, Classes.Edit.Scene.EditorLayer layer, bool isDrawing = false)
 		{
             if (isDrawing)
             {
@@ -555,7 +555,7 @@ namespace ManiacEditor
             }
             else if (hasMultipleValidLayers && Classes.Edit.SolutionState.MultiLayerEditMode)
             {
-                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Edit.Solution.EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
+                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Edit.Scene.EditorLayer.CopyMultiSelectionToClipboard(EditLayerA, EditLayerB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
                 if (!doNotUseWindowsClipboard)
@@ -1193,10 +1193,10 @@ namespace ManiacEditor
                         }
                         if (IsChunksEdit())
                         {
-                            bound_x1 = Classes.Edit.Solution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
-                            bound_y1 = Classes.Edit.Solution.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
-                            bound_x2 = Classes.Edit.Solution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
-                            bound_y2 = Classes.Edit.Solution.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
+                            bound_x1 = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
+                            bound_y1 = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
+                            bound_x2 = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
+                            bound_y2 = Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
                         }
 
 
@@ -1247,7 +1247,7 @@ namespace ManiacEditor
                 FormsModel.GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, Color.Purple);
             }
 
-            void DrawLayer(bool ShowLayer, bool EditLayer, Classes.Edit.Solution.EditorLayer layer)
+            void DrawLayer(bool ShowLayer, bool EditLayer, Classes.Edit.Scene.EditorLayer layer)
             {
                 if (ShowLayer || EditLayer) layer.Draw(FormsModel.GraphicPanel);
             }
@@ -1510,7 +1510,7 @@ namespace ManiacEditor
 			IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
 
 			//EDIT BUTTONS
-			foreach (Classes.Edit.Solution.EditorLayer el in Classes.Edit.Solution.CurrentScene.OtherLayers)
+			foreach (Classes.Edit.Scene.EditorLayer el in Classes.Edit.Solution.CurrentScene.OtherLayers)
 			{
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
@@ -1534,7 +1534,7 @@ namespace ManiacEditor
 			ExtraLayerSeperators.Add(tss);
 
 			//VIEW BUTTONS
-			foreach (Classes.Edit.Solution.EditorLayer el in Classes.Edit.Solution.CurrentScene.OtherLayers)
+			foreach (Classes.Edit.Scene.EditorLayer el in Classes.Edit.Solution.CurrentScene.OtherLayers)
 			{
 				EditLayerToggleButton tsb = new EditLayerToggleButton()
 				{
@@ -1585,7 +1585,7 @@ namespace ManiacEditor
 		/// <param name="layer">The layer of the scene from which to extract a name.</param>
 		/// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
 		/// <param name="editButton">The button which controls editing the layer.</param>
-		private void UpdateDualButtonsControlsForLayer(Classes.Edit.Solution.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+		private void UpdateDualButtonsControlsForLayer(Classes.Edit.Scene.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
 		{
 			bool layerValid = layer != null;
 			visibilityButton.IsChecked = layerValid;

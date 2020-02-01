@@ -259,7 +259,7 @@ namespace ManiacEditor
                 {
 
                     Point p = new Point((int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom));
-                    return Classes.Edit.Solution.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                    return Classes.Edit.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {
