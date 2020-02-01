@@ -12,94 +12,22 @@ namespace ManiacEditor.Interfaces
     /// </summary>
     partial class AboutWindow : Window
 	{
-		public EditorUpdater Updater;
 		public AboutWindow()
 		{
-			Updater = new EditorUpdater(this);
 			InitializeComponent();
-			Title = String.Format("About {0}", AssemblyTitle);
-			labelProductName.Text = AssemblyProduct;
-			labelVersion.Text = String.Format("Version {0}", Updater.GetVersion());
-			buildDateLabel.Text = String.Format("Build Date: {0}", GetBuildTime) + Environment.NewLine + String.Format("Architecture: {0}", GetProgramType);
-			labelCopyright.Text = AssemblyCopyright;
+			Title = String.Format("About {0}", Methods.ProgramBase.AssemblyAttributeAccessors.AssemblyTitle);
+			labelProductName.Text = Methods.ProgramBase.AssemblyAttributeAccessors.AssemblyProduct;
+			labelVersion.Text = String.Format("Version {0}", Methods.ProgramBase.GetCasualVersion());
+			buildDateLabel.Text = String.Format("Build Date: {0}", Methods.ProgramBase.AssemblyAttributeAccessors.GetBuildTime) + Environment.NewLine + String.Format("Architecture: {0}", Methods.ProgramBase.AssemblyAttributeAccessors.GetProgramType);
+			labelCopyright.Text = Methods.ProgramBase.AssemblyAttributeAccessors.AssemblyCopyright;
 
 		}
-
-		#region Assembly Attribute Accessors
-
-		public string AssemblyTitle
-		{
-			get
-			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-				if (attributes.Length > 0)
-				{
-					AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-					if (titleAttribute.Title != "")
-					{
-						return titleAttribute.Title;
-					}
-				}
-				return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
-			}
-		}
-
-		public string GetProgramType
-		{
-			get
-			{
-				if (Environment.Is64BitProcess)
-				{
-					return "x64";
-				}
-				else
-				{
-					return "x86";
-				}
-			}
-		}
-
-		public string AssemblyProduct
-		{
-			get
-			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-				if (attributes.Length == 0)
-				{
-					return "";
-				}
-				return ((AssemblyProductAttribute)attributes[0]).Product;
-			}
-		}
-
-		public string AssemblyCopyright
-		{
-			get
-			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-				if (attributes.Length == 0)
-				{
-					return "";
-				}
-				return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-			}
-		}
-
-		private string GetBuildTime
-		{
-			get
-			{
-				DateTime buildDate = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).LastWriteTime;
-				String buildTimeString = buildDate.ToString();
-				return buildTimeString;
-			}
-
-		}
-		#endregion
 
 		private void linkLabel3_LinkClicked(object sender, RoutedEventArgs e)
 		{
-			Updater.CheckforUpdates(true);
+			var updater = new Interfaces.Updater.ManiacUpdaterWindow();
+			updater.Owner = this;
+			updater.ShowDialog();
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)

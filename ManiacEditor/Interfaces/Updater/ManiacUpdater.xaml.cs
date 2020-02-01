@@ -202,7 +202,7 @@ namespace ManiacEditor.Interfaces.Updater
             {
                 VersionCheck versionCheck = new VersionCheck(new FileInfo(System.IO.Path.Combine(DownloadRequestsFolder, VersionCheckFileName)));
 
-                var current = Assembly.GetExecutingAssembly().GetName().Version;
+                var current = Methods.ProgramBase.GetVersion();
                 var remote = versionCheck.Version;
 
                 int offset = current.CompareTo(remote);

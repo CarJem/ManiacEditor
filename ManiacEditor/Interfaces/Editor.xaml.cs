@@ -86,7 +86,6 @@ namespace ManiacEditor
 		public TilesToolbar TilesToolbar = null;
 		public EntitiesToolbar EntitiesToolbar = null;
 		public EditorEntityDrawing EntityDrawing;
-		public EditorUpdater Updater;
 		public EditorInGame InGame;
 		public StartScreen StartScreen;
 		public Classes.Editor.SolutionState StateModel;
@@ -264,15 +263,11 @@ namespace ManiacEditor
 
             RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
             RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
-            Classes.Editor.SolutionState.MenuChar = Classes.Editor.SolutionState.MenuCharS.ToCharArray();
-            Classes.Editor.SolutionState.MenuChar_Small = Classes.Editor.SolutionState.MenuCharS_Small.ToCharArray();
-            Classes.Editor.SolutionState.LevelSelectChar = Classes.Editor.SolutionState.LevelSelectCharS.ToCharArray();
 			InGame = new EditorInGame(this);
 			EntityDrawing = new EditorEntityDrawing(this);
             StateModel = new Classes.Editor.SolutionState(this);
             EditorControls = new EditorControl();
 			StartScreen = new StartScreen(this);
-			Updater = new EditorUpdater();
 			UIEvents = new EditorUIEvents(this);
 			Paths = new Classes.Editor.Scene.EditorPath(this);
 			FileHandler = new EditorFileHandler(this);
@@ -290,7 +285,7 @@ namespace ManiacEditor
 
 
 
-            this.Title = String.Format("Maniac Editor - Generations Edition {0}", Updater.GetVersion());
+            this.Title = String.Format("Maniac Editor - Generations Edition {0}", Methods.ProgramBase.GetCasualVersion());
 			FormsModel.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
 			FormsModel.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
 
@@ -1288,18 +1283,12 @@ namespace ManiacEditor
         {
             if (firstLoad)
             {
-                Thread thread = new Thread(() => {
-                    Updater.CheckforUpdates(true, true);
-                });
-                thread.Start();
                 this.OverlayPanel.Children.Add(StartScreen);
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
                 UI.UpdateToolbars(false, false, true);
                 RefreshRecentScenes();
                 RefreshDataSources();
-
-
             }
             if (visible)
             {

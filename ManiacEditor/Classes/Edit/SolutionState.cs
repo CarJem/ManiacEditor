@@ -1230,9 +1230,27 @@ namespace ManiacEditor.Classes.Editor
         public static string LevelSelectCharS { get; set; } = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";
         public static string MenuCharS { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!.";
         public static string MenuCharS_Small { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ?.:'\"!-,&¡<>¿"; //49 out of 121
-        public static char[] MenuChar { get; set; }
-        public static char[] LevelSelectChar { get; set; }
-        public static char[] MenuChar_Small { get; set; }
+        public static char[] MenuChar
+        {
+            get
+            {
+                return MenuCharS.ToCharArray();
+            }
+        }
+        public static char[] LevelSelectChar
+        {
+            get
+            {
+                return LevelSelectChar.ToCharArray();
+            }
+        }
+        public static char[] MenuChar_Small
+        {
+            get
+            {
+                return MenuChar_Small.ToCharArray();
+            }
+        }
         #endregion
 
         #endregion

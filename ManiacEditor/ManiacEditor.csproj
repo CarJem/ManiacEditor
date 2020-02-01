@@ -460,24 +460,24 @@
     <Compile Include="Functions\Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Functions\Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Functions\Actions\ActionMultipleMoveEntities.cs" />
-    <Compile Include="Editor Classes\EditorUI\EditorControl.cs" />
-    <Compile Include="Editor Classes\EditorRecentsList.cs" />
-    <Compile Include="Editor Classes\EditorExternal\EditorLaunch.cs" />
+    <Compile Include="Methods\ProgramBase.cs" />
+    <Compile Include="Methods\EditorUI\EditorControl.cs" />
+    <Compile Include="Methods\EditorRecentsList.cs" />
+    <Compile Include="Methods\EditorExternal\EditorLaunch.cs" />
     <Compile Include="Classes\Edit\Solution.cs" />
-    <Compile Include="Editor Classes\EditorDefaults.cs" />
-    <Compile Include="Editor Classes\EditorManiacINI.cs" />
-    <Compile Include="Editor Classes\EditorDataPacks.cs" />
+    <Compile Include="Methods\EditorDefaults.cs" />
+    <Compile Include="Methods\EditorManiacINI.cs" />
+    <Compile Include="Methods\EditorDataPacks.cs" />
     <Compile Include="Functions\Addons\DiscordRP.cs" />
-    <Compile Include="Editor Classes\EditorFindReplace.cs" />
-    <Compile Include="Editor Classes\EditorExternal\EditorInGame.cs" />
-    <Compile Include="Editor Classes\EditorLayer\EditorChunk.cs" />
-    <Compile Include="Editor Classes\EditorUI\EditorUIEvents.cs" />
+    <Compile Include="Methods\EditorFindReplace.cs" />
+    <Compile Include="Methods\EditorExternal\EditorInGame.cs" />
+    <Compile Include="Methods\EditorLayer\EditorChunk.cs" />
+    <Compile Include="Methods\EditorUI\EditorUIEvents.cs" />
     <Compile Include="Classes\Edit\Scene\EditorPath.cs" />
-    <Compile Include="Editor Classes\EditorFileHandler.cs" />
-    <Compile Include="Editor Classes\EditorTheming.cs" />
-    <Compile Include="Editor Classes\EditorUI\EditorUI.cs" />
-    <Compile Include="Editor Classes\EditorUpdater.cs" />
-    <Compile Include="Editor Classes\EditorUI\EditorZoomModel.cs" />
+    <Compile Include="Methods\EditorFileHandler.cs" />
+    <Compile Include="Methods\EditorTheming.cs" />
+    <Compile Include="Methods\EditorUI\EditorUI.cs" />
+    <Compile Include="Methods\EditorUI\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
@@ -790,7 +790,7 @@
     <Compile Include="Interfaces\Scene Tools\Tiles Toolbar\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorEntities\AttributeValidater.cs" />
+    <Compile Include="Methods\EditorEntities\AttributeValidater.cs" />
     <Compile Include="Interfaces\Global\Object ID Repair Tool\ColorConsole.cs" />
     <Compile Include="Interfaces\Global\Object ID Repair Tool\ColorsCaching.cs" />
     <Compile Include="App.xaml.cs">
@@ -808,9 +808,9 @@
     </Compile>
     <Compile Include="Classes\Edit\SolutionState.cs" />
     <Compile Include="Functions\Enums.cs" />
-    <Compile Include="Editor Classes\EditorEntities\EditorAnimations.cs" />
+    <Compile Include="Methods\EditorEntities\EditorAnimations.cs" />
     <Compile Include="Classes\Edit\Scene\EditorBackground.cs" />
-    <Compile Include="Editor Classes\EditorEntities\EditorEntityDrawing.cs" />
+    <Compile Include="Methods\EditorEntities\EditorEntityDrawing.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -908,7 +908,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>KeyBinds.settings</DependentUpon>
     </Compile>
-    <Compile Include="Editor Classes\EditorLayer\HorizontalLayerScroll.cs" />
+    <Compile Include="Methods\EditorLayer\HorizontalLayerScroll.cs" />
     <Compile Include="Graphics\IDrawArea.cs" />
     <Compile Include="Interfaces\Render\ImageViewer.cs">
       <SubType>UserControl</SubType>
@@ -921,8 +921,8 @@
     <Compile Include="Classes\Edit\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Edit\Scene\Sets\EditorEntity.cs" />
     <Compile Include="Functions\Memory Editing\ProcessMemory.cs" />
-    <Compile Include="Editor Classes\EditorLayer\ScrollInfoLines.cs" />
-    <Compile Include="Editor Classes\EditorSettings.cs" />
+    <Compile Include="Methods\EditorLayer\ScrollInfoLines.cs" />
+    <Compile Include="Methods\EditorSettings.cs" />
     <Compile Include="Interfaces\Assets\SkinResourceDictionary.cs" />
     <Compile Include="Interfaces\Dialog\TextPrompt.cs" />
     <Compile Include="Graphics\TextureCreator.cs" />
