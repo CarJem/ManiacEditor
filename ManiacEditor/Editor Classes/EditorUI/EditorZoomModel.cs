@@ -16,7 +16,7 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                EditorStateModel.ViewPositionY = (int)e.NewValue;
+                Classes.Edit.SolutionState.ViewPositionY = (int)e.NewValue;
                 UpdateScrollBars();
             }
             Editor.FormsModel.GraphicPanel.Render();
@@ -26,7 +26,7 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                EditorStateModel.ViewPositionX = (int)e.NewValue;
+                Classes.Edit.SolutionState.ViewPositionX = (int)e.NewValue;
                 UpdateScrollBars();
             }
             Editor.FormsModel.GraphicPanel.Render();
@@ -36,12 +36,12 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                EditorStateModel.ViewPositionY = (int)Editor.FormsModel.vScrollBar1.Value;
+                Classes.Edit.SolutionState.ViewPositionY = (int)Editor.FormsModel.vScrollBar1.Value;
                 UpdateScrollBars();
             }
             //TODO: Determine if we still need this
-            //if (!(EditorStateModel.Zooming || EditorStateModel.DraggingSelection || EditorStateModel.Dragged || EditorStateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
-            if (EditorStateModel.DraggingSelection)
+            //if (!(Classes.Edit.SolutionState.Zooming || Classes.Edit.SolutionState.DraggingSelection || Classes.Edit.SolutionState.Dragged || Classes.Edit.SolutionState.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
+            if (Classes.Edit.SolutionState.DraggingSelection)
             {
                 Editor.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -52,12 +52,12 @@ namespace ManiacEditor
         {
             if (AllowScrollUpdate)
             {
-                EditorStateModel.ViewPositionX = (int)Editor.FormsModel.hScrollBar1.Value;
+                Classes.Edit.SolutionState.ViewPositionX = (int)Editor.FormsModel.hScrollBar1.Value;
                 UpdateScrollBars();
             }
             //TODO: Determine if we still need this
-            //if (!(EditorStateModel.Zooming || EditorStateModel.DraggingSelection || EditorStateModel.Dragged || EditorStateModel.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
-            if (EditorStateModel.DraggingSelection)
+            //if (!(Classes.Edit.SolutionState.Zooming || Classes.Edit.SolutionState.DraggingSelection || Classes.Edit.SolutionState.Dragged || Classes.Edit.SolutionState.Scrolling)) Editor.FormsModel.GraphicPanel.Render();
+            if (Classes.Edit.SolutionState.DraggingSelection)
             {
                 Editor.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -75,17 +75,17 @@ namespace ManiacEditor
 
         public void VScrollBar1_Entered(object sender, EventArgs e)
         {
-            if (!EditorStateModel.ScrollLocked)
+            if (!Classes.Edit.SolutionState.ScrollLocked)
             {
-                EditorStateModel.ScrollDirection = (int)ScrollDir.Y;
+                Classes.Edit.SolutionState.ScrollDirection = (int)ScrollDir.Y;
             }
         }
 
         public void HScrollBar1_Entered(object sender, EventArgs e)
         {
-            if (!EditorStateModel.ScrollLocked)
+            if (!Classes.Edit.SolutionState.ScrollLocked)
             {
-                EditorStateModel.ScrollDirection = (int)ScrollDir.X;
+                Classes.Edit.SolutionState.ScrollDirection = (int)ScrollDir.X;
             }
         }
 
@@ -109,34 +109,34 @@ namespace ManiacEditor
             {
                 Editor.FormsModel.vScrollBar1.LargeChange = Editor.FormsModel.vScrollBar1Host.Height;
                 Editor.FormsModel.vScrollBar1.SmallChange = Editor.FormsModel.vScrollBar1Host.Height / 8;
-                EditorStateModel.ScreenHeight = (int)Editor.FormsModel.vScrollBar1Host.Height;
+                Classes.Edit.SolutionState.ScreenHeight = (int)Editor.FormsModel.vScrollBar1Host.Height;
                 Editor.FormsModel.vScrollBar1.Value = Math.Max(0, Math.Min(Editor.FormsModel.vScrollBar1.Value, Editor.FormsModel.vScrollBar1.Maximum));
                 if (Editor.FormsModel.vScrollBar1.Track.ViewportSize != Editor.SceneHeight) Editor.FormsModel.vScrollBar1.Track.ViewportSize = Editor.SceneHeight;
             }
             else
             {
-                EditorStateModel.ScreenHeight = Editor.FormsModel.GraphicPanel.Height;
-                EditorStateModel.ViewPositionY = 0;
+                Classes.Edit.SolutionState.ScreenHeight = Editor.FormsModel.GraphicPanel.Height;
+                Classes.Edit.SolutionState.ViewPositionY = 0;
                 Editor.FormsModel.vScrollBar1.Value = 0;
             }
             if (Editor.FormsModel.hScrollBar1.IsVisible)
             {
                 Editor.FormsModel.hScrollBar1.LargeChange = Editor.FormsModel.hScrollBar1Host.Width;
                 Editor.FormsModel.hScrollBar1.SmallChange = Editor.FormsModel.hScrollBar1Host.Width / 8;
-                EditorStateModel.ScreenWidth = (int)Editor.FormsModel.hScrollBar1Host.Width;
+                Classes.Edit.SolutionState.ScreenWidth = (int)Editor.FormsModel.hScrollBar1Host.Width;
                 Editor.FormsModel.hScrollBar1.Value = Math.Max(0, Math.Min(Editor.FormsModel.hScrollBar1.Value, Editor.FormsModel.hScrollBar1.Maximum));
                 if (Editor.FormsModel.hScrollBar1.Track.ViewportSize != Editor.SceneWidth) Editor.FormsModel.hScrollBar1.Track.ViewportSize = Editor.SceneWidth;
             }
             else
             {
-                EditorStateModel.ScreenWidth = Editor.FormsModel.GraphicPanel.Width;
-                EditorStateModel.ViewPositionX = 0;
+                Classes.Edit.SolutionState.ScreenWidth = Editor.FormsModel.GraphicPanel.Width;
+                Classes.Edit.SolutionState.ViewPositionX = 0;
                 Editor.FormsModel.hScrollBar1.Value = 0;
             }
 
-            while (EditorStateModel.ScreenWidth > Editor.FormsModel.GraphicPanel.Width)
+            while (Classes.Edit.SolutionState.ScreenWidth > Editor.FormsModel.GraphicPanel.Width)
                 ResizeGraphicPanel(Editor.FormsModel.GraphicPanel.Width * 2, Editor.FormsModel.GraphicPanel.Height);
-            while (EditorStateModel.ScreenHeight > Editor.FormsModel.GraphicPanel.Height)
+            while (Classes.Edit.SolutionState.ScreenHeight > Editor.FormsModel.GraphicPanel.Height)
                 ResizeGraphicPanel(Editor.FormsModel.GraphicPanel.Width, Editor.FormsModel.GraphicPanel.Height * 2);
         }
 
@@ -168,66 +168,66 @@ namespace ManiacEditor
 
         public void SetZoomLevel(int zoom_level, System.Drawing.Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true)
         {
-            double old_zoom = EditorStateModel.Zoom;
+            double old_zoom = Classes.Edit.SolutionState.Zoom;
 
 
 
             if (zoom_level_d == 0.0)
             {
-                EditorStateModel.ZoomLevel = zoom_level;
-                switch (EditorStateModel.ZoomLevel)
+                Classes.Edit.SolutionState.ZoomLevel = zoom_level;
+                switch (Classes.Edit.SolutionState.ZoomLevel)
                 {
-                    case 5: EditorStateModel.Zoom = 4; break;
-                    case 4: EditorStateModel.Zoom = 3; break;
-                    case 3: EditorStateModel.Zoom = 2; break;
-                    case 2: EditorStateModel.Zoom = 3 / 2.0; break;
-                    case 1: EditorStateModel.Zoom = 5 / 4.0; break;
-                    case 0: EditorStateModel.Zoom = 1; break;
-                    case -1: EditorStateModel.Zoom = 2 / 3.0; break;
-                    case -2: EditorStateModel.Zoom = 1 / 2.0; break;
-                    case -3: EditorStateModel.Zoom = 1 / 3.0; break;
-                    case -4: EditorStateModel.Zoom = 1 / 4.0; break;
-                    case -5: EditorStateModel.Zoom = 1 / 8.0; break;
+                    case 5: Classes.Edit.SolutionState.Zoom = 4; break;
+                    case 4: Classes.Edit.SolutionState.Zoom = 3; break;
+                    case 3: Classes.Edit.SolutionState.Zoom = 2; break;
+                    case 2: Classes.Edit.SolutionState.Zoom = 3 / 2.0; break;
+                    case 1: Classes.Edit.SolutionState.Zoom = 5 / 4.0; break;
+                    case 0: Classes.Edit.SolutionState.Zoom = 1; break;
+                    case -1: Classes.Edit.SolutionState.Zoom = 2 / 3.0; break;
+                    case -2: Classes.Edit.SolutionState.Zoom = 1 / 2.0; break;
+                    case -3: Classes.Edit.SolutionState.Zoom = 1 / 3.0; break;
+                    case -4: Classes.Edit.SolutionState.Zoom = 1 / 4.0; break;
+                    case -5: Classes.Edit.SolutionState.Zoom = 1 / 8.0; break;
                 }
             }
             else
             {
-                EditorStateModel.ZoomLevel = (int)zoom_level_d;
-                EditorStateModel.Zoom = zoom_level_d;
+                Classes.Edit.SolutionState.ZoomLevel = (int)zoom_level_d;
+                Classes.Edit.SolutionState.Zoom = zoom_level_d;
             }
 
 
-            EditorStateModel.Zooming = true;
+            Classes.Edit.SolutionState.Zooming = true;
 
-            int oldShiftX = EditorStateModel.ViewPositionX;
-            int oldShiftY = EditorStateModel.ViewPositionY;
+            int oldShiftX = Classes.Edit.SolutionState.ViewPositionX;
+            int oldShiftY = Classes.Edit.SolutionState.ViewPositionY;
 
-            if (Classes.Edit.Scene.Solution.CurrentScene != null)
-                SetViewSize((int)(Editor.SceneWidth * EditorStateModel.Zoom), (int)(Editor.SceneHeight * EditorStateModel.Zoom), updateControls);
+            if (Classes.Edit.Solution.CurrentScene != null)
+                SetViewSize((int)(Editor.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Editor.SceneHeight * Classes.Edit.SolutionState.Zoom), updateControls);
 
 
             if (Editor.FormsModel.hScrollBar1.IsVisible)
             {
-                EditorStateModel.ViewPositionX = (int)((zoom_point.X + oldShiftX) / old_zoom * EditorStateModel.Zoom - zoom_point.X);
-                EditorStateModel.ViewPositionX = (int)Math.Min((Editor.FormsModel.hScrollBar1.Maximum), Math.Max(0, EditorStateModel.ViewPositionX));
-                Editor.FormsModel.hScrollBar1.Value = EditorStateModel.ViewPositionX;
+                Classes.Edit.SolutionState.ViewPositionX = (int)((zoom_point.X + oldShiftX) / old_zoom * Classes.Edit.SolutionState.Zoom - zoom_point.X);
+                Classes.Edit.SolutionState.ViewPositionX = (int)Math.Min((Editor.FormsModel.hScrollBar1.Maximum), Math.Max(0, Classes.Edit.SolutionState.ViewPositionX));
+                Editor.FormsModel.hScrollBar1.Value = Classes.Edit.SolutionState.ViewPositionX;
             }
             if (Editor.FormsModel.vScrollBar1.IsVisible)
             {
-                EditorStateModel.ViewPositionY = (int)((zoom_point.Y + oldShiftY) / old_zoom * EditorStateModel.Zoom - zoom_point.Y);
-                EditorStateModel.ViewPositionY = (int)Math.Min((Editor.FormsModel.vScrollBar1.Maximum), Math.Max(0, EditorStateModel.ViewPositionY));
-                Editor.FormsModel.vScrollBar1.Value = EditorStateModel.ViewPositionY;
+                Classes.Edit.SolutionState.ViewPositionY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Classes.Edit.SolutionState.Zoom - zoom_point.Y);
+                Classes.Edit.SolutionState.ViewPositionY = (int)Math.Min((Editor.FormsModel.vScrollBar1.Maximum), Math.Max(0, Classes.Edit.SolutionState.ViewPositionY));
+                Editor.FormsModel.vScrollBar1.Value = Classes.Edit.SolutionState.ViewPositionY;
             }
 
 
-            EditorStateModel.Zooming = false;
+            Classes.Edit.SolutionState.Zooming = false;
 
             if (updateControls) Editor.UI.UpdateControls();
         }
 
         public void ResetViewSize()
         {
-            Editor.ZoomModel.SetViewSize((int)(Editor.SceneWidth * EditorStateModel.Zoom), (int)(Editor.SceneHeight * EditorStateModel.Zoom));
+            Editor.ZoomModel.SetViewSize((int)(Editor.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Editor.SceneHeight * Classes.Edit.SolutionState.Zoom));
         }
         public void ResizeGraphicPanel(int width = 0, int height = 0)
         {

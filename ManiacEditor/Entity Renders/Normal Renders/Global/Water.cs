@@ -102,13 +102,13 @@ namespace ManiacEditor.Entity_Renders
 
 				if (type != 1)
 				{
-					if (EditorStateModel.ShowWaterLevel)
+					if (Classes.Edit.SolutionState.ShowWaterLevel)
 					{
 						if (selected)
 						{
 							if (!Settings.MyPerformance.UseSimplifedWaterRendering)
 							{
-								d.DrawRectangle(0, heightX, Editor.Instance.SceneWidth, heightX, EditorStateModel.waterColor);
+								d.DrawRectangle(0, heightX, Editor.Instance.SceneWidth, heightX, Classes.Edit.SolutionState.waterColor);
 								d.DrawLine(0, heightX, Editor.Instance.SceneWidth, heightX, SystemColors.White);
 								if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
 								{
@@ -125,7 +125,7 @@ namespace ManiacEditor.Entity_Renders
 							}
 							else
 							{
-								d.DrawRectangle(0, heightX, Editor.Instance.SceneWidth, heightX, EditorStateModel.waterColor);
+								d.DrawRectangle(0, heightX, Editor.Instance.SceneWidth, heightX, Classes.Edit.SolutionState.waterColor);
 								d.DrawLine(0, heightX, Editor.Instance.SceneWidth, heightX, SystemColors.White);
 							}
 						}
@@ -133,12 +133,12 @@ namespace ManiacEditor.Entity_Renders
 						{
 							if (!Settings.MyPerformance.UseSimplifedWaterRendering)
 							{
-								if (EditorStateModel.AlwaysShowWaterLevel)
+								if (Classes.Edit.SolutionState.AlwaysShowWaterLevel)
 								{
-									int startX = (EditorStateModel.SizeWaterLevelwithBounds ? x1 : 0);
-									int endX = (EditorStateModel.SizeWaterLevelwithBounds ? x2 : Editor.Instance.SceneWidth);
+									int startX = (Classes.Edit.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
+									int endX = (Classes.Edit.SolutionState.SizeWaterLevelwithBounds ? x2 : Editor.Instance.SceneWidth);
 
-									d.DrawRectangle(startX, heightX, endX, Editor.Instance.SceneHeight, EditorStateModel.waterColor);
+									d.DrawRectangle(startX, heightX, endX, Editor.Instance.SceneHeight, Classes.Edit.SolutionState.waterColor);
 									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
 									if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
 									{
@@ -157,11 +157,11 @@ namespace ManiacEditor.Entity_Renders
 							}
 							else
 							{
-								if (EditorStateModel.AlwaysShowWaterLevel)
+								if (Classes.Edit.SolutionState.AlwaysShowWaterLevel)
 								{
-									int startX = (EditorStateModel.SizeWaterLevelwithBounds ? x1 : 0);
-									int endX = (EditorStateModel.SizeWaterLevelwithBounds ? x2 : Editor.Instance.SceneWidth);
-									d.DrawRectangle(startX, heightX, endX, Editor.Instance.SceneHeight, EditorStateModel.waterColor);
+									int startX = (Classes.Edit.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
+									int endX = (Classes.Edit.SolutionState.SizeWaterLevelwithBounds ? x2 : Editor.Instance.SceneWidth);
+									d.DrawRectangle(startX, heightX, endX, Editor.Instance.SceneHeight, Classes.Edit.SolutionState.waterColor);
 									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
 								}
 							}

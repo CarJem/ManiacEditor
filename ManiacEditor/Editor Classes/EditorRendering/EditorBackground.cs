@@ -38,8 +38,8 @@ namespace ManiacEditor
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
+            RSDKv5Color rcolor1 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
+            RSDKv5Color rcolor2 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
 
             Color color1 = Color.FromArgb(rcolor1.A, rcolor1.R, rcolor1.G, rcolor1.B);
             Color color2 = Color.FromArgb(rcolor2.A, rcolor2.R, rcolor2.G, rcolor2.B);
@@ -67,8 +67,8 @@ namespace ManiacEditor
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Classes.Edit.Scene.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
+            RSDKv5Color rcolor1 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
+            RSDKv5Color rcolor2 = Classes.Edit.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
 
             Color color1 = Color.FromArgb(30, rcolor1.R, rcolor1.G, rcolor1.B);
             Color color2 = Color.FromArgb(30, rcolor2.R, rcolor2.G, rcolor2.B);
@@ -95,10 +95,10 @@ namespace ManiacEditor
 
         public void DrawGrid(DevicePanel d)
         {
-            int GridSize = (EditorInstance != null ? EditorStateModel.GridSize : 0);
+            int GridSize = (EditorInstance != null ? Classes.Edit.SolutionState.GridSize : 0);
             Rectangle screen = d.GetScreen();
 
-			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, EditorStateModel.GridColor.R, EditorStateModel.GridColor.B, EditorStateModel.GridColor.G);
+			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Classes.Edit.SolutionState.GridColor.R, Classes.Edit.SolutionState.GridColor.B, Classes.Edit.SolutionState.GridColor.G);
 
             int start_x = screen.X / (EditorConstants.TILE_BOX_SIZE * GridSize);
             int end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, EditorConstants.TILE_BOX_SIZE * GridSize), EditorInstance.SceneWidth);

@@ -95,7 +95,7 @@ namespace ManiacEditor
 			if (Result == null)
 				return;
 
-            Classes.Edit.Scene.Solution.UnloadScene();
+            Classes.Edit.Solution.UnloadScene();
             Editor.Settings.UseDefaultPrefrences();
 			File.Replace(Result, ResultOriginal, ResultOld);
 
@@ -137,11 +137,11 @@ namespace ManiacEditor
 			}
 			else if (Editor.IsEntitiesEdit())
 			{
-                Classes.Edit.Scene.Solution.Entities.SelectAll();
+                Classes.Edit.Solution.Entities.SelectAll();
             }
 			Editor.UI.SetSelectOnlyButtonsState();
-			EditorStateModel.RegionX1 = -1;
-            EditorStateModel.RegionY1 = -1;
+			Classes.Edit.SolutionState.RegionX1 = -1;
+            Classes.Edit.SolutionState.RegionY1 = -1;
 		}
 
 		public void FlipHorizontal()
@@ -188,7 +188,7 @@ namespace ManiacEditor
 			{
 				try
 				{
-					Classes.Edit.Scene.Solution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Edit.Scene.Solution.Entities.CopyToClipboard(true));
+					Classes.Edit.Solution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Edit.Solution.Entities.CopyToClipboard(true));
 					Editor.UpdateLastEntityAction();
 				}
 				catch (EditorEntities.TooManyEntitiesException)
@@ -258,12 +258,12 @@ namespace ManiacEditor
                 if (Editor.IsChunksEdit())
                 {
 
-                    Point p = new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom));
-                    return Classes.Edit.Scene.Solution.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                    Point p = new Point((int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom));
+                    return Classes.Edit.Solution.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {
-                    return new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(EditorStateModel.LastY / EditorStateModel.Zoom) + EditorConstants.TILE_SIZE - 1);
+                    return new Point((int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1);
 
                 }
             }
@@ -310,40 +310,40 @@ namespace ManiacEditor
 					switch (tag)
 					{
 						case "Xbox":
-							EditorStateModel.CurrentControllerButtons = 2;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 2;
 							break;
 						case "Switch":
-							EditorStateModel.CurrentControllerButtons = 4;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 4;
 							break;
 						case "PS4":
-							EditorStateModel.CurrentControllerButtons = 3;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 3;
 							break;
 						case "Saturn Black":
-							EditorStateModel.CurrentControllerButtons = 5;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 5;
 							break;
 						case "Saturn White":
-							EditorStateModel.CurrentControllerButtons = 6;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 6;
 							break;
 						case "Switch Joy L":
-							EditorStateModel.CurrentControllerButtons = 7;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 7;
 							break;
 						case "Switch Joy R":
-							EditorStateModel.CurrentControllerButtons = 8;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 8;
 							break;
 						case "PC EN/JP":
-							EditorStateModel.CurrentControllerButtons = 1;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 1;
 							break;
 						case "PC FR":
-							EditorStateModel.CurrentControllerButtons = 9;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 9;
 							break;
 						case "PC IT":
-							EditorStateModel.CurrentControllerButtons = 10;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 10;
 							break;
 						case "PC GE":
-							EditorStateModel.CurrentControllerButtons = 11;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 11;
 							break;
 						case "PC SP":
-							EditorStateModel.CurrentControllerButtons = 12;
+							Classes.Edit.SolutionState.CurrentControllerButtons = 12;
 							break;
 					}
                     menuItem.IsChecked = true;
@@ -358,40 +358,40 @@ namespace ManiacEditor
 			switch (tag)
 			{
 				case "Xbox":
-					EditorStateModel.CurrentControllerButtons = 2;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 2;
 					break;
 				case "Switch":
-					EditorStateModel.CurrentControllerButtons = 4;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 4;
 					break;
 				case "PS4":
-					EditorStateModel.CurrentControllerButtons = 3;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 3;
 					break;
 				case "Saturn Black":
-					EditorStateModel.CurrentControllerButtons = 5;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 5;
 					break;
 				case "Saturn White":
-					EditorStateModel.CurrentControllerButtons = 6;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 6;
 					break;
 				case "Switch Joy L":
-					EditorStateModel.CurrentControllerButtons = 7;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 7;
 					break;
 				case "Switch Joy R":
-					EditorStateModel.CurrentControllerButtons = 8;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 8;
 					break;
 				case "PC EN/JP":
-					EditorStateModel.CurrentControllerButtons = 1;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 1;
 					break;
 				case "PC FR":
-					EditorStateModel.CurrentControllerButtons = 9;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 9;
 					break;
 				case "PC IT":
-					EditorStateModel.CurrentControllerButtons = 10;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 10;
 					break;
 				case "PC GE":
-					EditorStateModel.CurrentControllerButtons = 11;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 11;
 					break;
 				case "PC SP":
-					EditorStateModel.CurrentControllerButtons = 12;
+					Classes.Edit.SolutionState.CurrentControllerButtons = 12;
 					break;
 			}
 		}
@@ -412,12 +412,12 @@ namespace ManiacEditor
 						fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
 						if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 						{
-							Editor.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
-							EditorStateModel.EncoreSetupType = 0;
+							Editor.EncorePalette = Classes.Edit.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
+							Classes.Edit.SolutionState.EncoreSetupType = 0;
 							if (File.Exists(Editor.EncorePalette[0]))
 							{
-								EditorStateModel.EncorePaletteExists = true;
-                                EditorStateModel.UseEncoreColors = true;
+								Classes.Edit.SolutionState.EncorePaletteExists = true;
+                                Classes.Edit.SolutionState.UseEncoreColors = true;
                             }
 
 						}
@@ -430,12 +430,12 @@ namespace ManiacEditor
 			}
 			else if (path != "")
 			{
-				Editor.EncorePalette = Classes.Edit.Scene.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
-				EditorStateModel.EncoreSetupType = 0;
+				Editor.EncorePalette = Classes.Edit.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
+				Classes.Edit.SolutionState.EncoreSetupType = 0;
 				if (File.Exists(Editor.EncorePalette[0]))
 				{
-					EditorStateModel.EncorePaletteExists = true;
-					EditorStateModel.UseEncoreColors = true;
+					Classes.Edit.SolutionState.EncorePaletteExists = true;
+					Classes.Edit.SolutionState.UseEncoreColors = true;
 				}
 				else
 				{
@@ -451,10 +451,10 @@ namespace ManiacEditor
             {
                 lockTextBox = true;
                 System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
-                EditorStateModel.entitiesTextFilter = theSender.Text;
-                Editor.EditorMenuBar.toolStripTextBox1.Text = EditorStateModel.entitiesTextFilter;
+                Classes.Edit.SolutionState.entitiesTextFilter = theSender.Text;
+                Editor.EditorMenuBar.toolStripTextBox1.Text = Classes.Edit.SolutionState.entitiesTextFilter;
                 //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
-                Classes.Edit.Scene.Solution.Entities.FilterRefreshNeeded = true;
+                Classes.Edit.Solution.Entities.FilterRefreshNeeded = true;
                 lockTextBox = false;
             }
 
@@ -463,16 +463,16 @@ namespace ManiacEditor
 
 		public void SetScrollLockDirection()
 		{
-			if (EditorStateModel.ScrollDirection == (int)ScrollDir.X)
+			if (Classes.Edit.SolutionState.ScrollDirection == (int)ScrollDir.X)
 			{
-				EditorStateModel.ScrollDirection = (int)ScrollDir.Y;
+				Classes.Edit.SolutionState.ScrollDirection = (int)ScrollDir.Y;
 				Editor.EditorStatusBar.UpdateStatusPanel();
 				Editor.EditorMenuBar.xToolStripMenuItem.IsChecked = false;
 				Editor.EditorMenuBar.yToolStripMenuItem.IsChecked = true;
 			}
 			else
 			{
-				EditorStateModel.ScrollDirection = (int)ScrollDir.X;
+				Classes.Edit.SolutionState.ScrollDirection = (int)ScrollDir.X;
 				Editor.EditorStatusBar.UpdateStatusPanel();
 				Editor.EditorMenuBar.xToolStripMenuItem.IsChecked = true;
 				Editor.EditorMenuBar.yToolStripMenuItem.IsChecked = false;
@@ -482,7 +482,7 @@ namespace ManiacEditor
 		public void MenuLanguageChanged(object sender, RoutedEventArgs e)
 		{
             System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
-            EditorStateModel.CurrentLanguage = menuItem.Tag.ToString();
+            Classes.Edit.SolutionState.CurrentLanguage = menuItem.Tag.ToString();
             var allLangItems = Editor.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
             {
@@ -496,7 +496,7 @@ namespace ManiacEditor
 		#region Collision Options
 		public void CollisionOpacitySliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-            EditorStateModel.collisionOpacityChanged = true;
+            Classes.Edit.SolutionState.collisionOpacityChanged = true;
             Editor.ReloadSpecificTextures(sender, e);
             Editor.RefreshCollisionColours(true);
         }
@@ -507,10 +507,10 @@ namespace ManiacEditor
         #region Tools Tab Buttons
         public void ChangeLevelID(object sender, RoutedEventArgs e)
 		{
-            string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", EditorStateModel.LevelID.ToString());
+            string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Classes.Edit.SolutionState.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
-			EditorStateModel.LevelID = output;
-			Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + EditorStateModel.LevelID.ToString();
+			Classes.Edit.SolutionState.LevelID = output;
+			Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Classes.Edit.SolutionState.LevelID.ToString();
 		}
 		public void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
 		{
@@ -521,11 +521,11 @@ namespace ManiacEditor
 		{
 			string dataDir = Editor.DataDirectory;
 			string scenePath = Editor.Paths.GetScenePath();
-			int rX = (short)(EditorStateModel.ViewPositionX);
-			int rY = (short)(EditorStateModel.ViewPositionY);
-			double _ZoomLevel = EditorStateModel.ZoomLevel;
-			bool isEncoreSet = EditorStateModel.UseEncoreColors;
-			int levelSlotNum = EditorStateModel.LevelID;
+			int rX = (short)(Classes.Edit.SolutionState.ViewPositionX);
+			int rY = (short)(Classes.Edit.SolutionState.ViewPositionY);
+			double _ZoomLevel = Classes.Edit.SolutionState.ZoomLevel;
+			bool isEncoreSet = Classes.Edit.SolutionState.UseEncoreColors;
+			int levelSlotNum = Classes.Edit.SolutionState.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
 		}
 		public void MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -534,8 +534,8 @@ namespace ManiacEditor
 			string scenePath = Editor.Paths.GetScenePath();
 			int rX = 0;
 			int rY = 0;
-			bool isEncoreSet = EditorStateModel.UseEncoreColors;
-			int levelSlotNum = EditorStateModel.LevelID;
+			bool isEncoreSet = Classes.Edit.SolutionState.UseEncoreColors;
+			int levelSlotNum = Classes.Edit.SolutionState.LevelID;
 			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
 		}
 
@@ -588,14 +588,14 @@ namespace ManiacEditor
 
 		public void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (!EditorStateModel.IsConsoleWindowOpen)
+			if (!Classes.Edit.SolutionState.IsConsoleWindowOpen)
 			{
-				EditorStateModel.IsConsoleWindowOpen = true;
+				Classes.Edit.SolutionState.IsConsoleWindowOpen = true;
 				ShowConsoleWindow();
 			}
 			else
 			{
-				EditorStateModel.IsConsoleWindowOpen = false;
+				Classes.Edit.SolutionState.IsConsoleWindowOpen = false;
 				HideConsoleWindow();
 			}
 		}
@@ -603,11 +603,11 @@ namespace ManiacEditor
 		{
 			Settings.MyDevSettings.DevForceRestartData = Editor.DataDirectory;
 			Settings.MyDevSettings.DevForceRestartScene = Editor.Paths.SceneFilePath;
-			Settings.MyDevSettings.DevForceRestartX = (short)(EditorStateModel.ViewPositionX / EditorStateModel.Zoom);
-			Settings.MyDevSettings.DevForceRestartY = (short)(EditorStateModel.ViewPositionY / EditorStateModel.Zoom);
-			Settings.MyDevSettings.DevForceRestartZoomLevel = EditorStateModel.ZoomLevel;
+			Settings.MyDevSettings.DevForceRestartX = (short)(Classes.Edit.SolutionState.ViewPositionX / Classes.Edit.SolutionState.Zoom);
+			Settings.MyDevSettings.DevForceRestartY = (short)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom);
+			Settings.MyDevSettings.DevForceRestartZoomLevel = Classes.Edit.SolutionState.ZoomLevel;
 			Settings.MyDevSettings.DevForceRestartIsEncore = Editor.Paths.isEncoreMode;
-			Settings.MyDevSettings.DevForceRestartID = EditorStateModel.LevelID;
+			Settings.MyDevSettings.DevForceRestartID = Classes.Edit.SolutionState.LevelID;
 			Settings.MyDevSettings.DevForceRestartCurrentName = Editor.Paths.CurrentName;
 			Settings.MyDevSettings.DevForceRestartCurrentZone = Editor.Paths.CurrentZone;
 			Settings.MyDevSettings.DevForceRestartSceneID = Editor.Paths.CurrentSceneID;
@@ -631,20 +631,20 @@ namespace ManiacEditor
 
 		public void ZoomIn(object sender, RoutedEventArgs e)
 		{
-			EditorStateModel.ZoomLevel += 1;
-			if (EditorStateModel.ZoomLevel >= 5) EditorStateModel.ZoomLevel = 5;
-			if (EditorStateModel.ZoomLevel <= -5) EditorStateModel.ZoomLevel = -5;
+			Classes.Edit.SolutionState.ZoomLevel += 1;
+			if (Classes.Edit.SolutionState.ZoomLevel >= 5) Classes.Edit.SolutionState.ZoomLevel = 5;
+			if (Classes.Edit.SolutionState.ZoomLevel <= -5) Classes.Edit.SolutionState.ZoomLevel = -5;
 
-			Editor.ZoomModel.SetZoomLevel(EditorStateModel.ZoomLevel, new Point(0, 0));
+			Editor.ZoomModel.SetZoomLevel(Classes.Edit.SolutionState.ZoomLevel, new Point(0, 0));
 		}
 
 		public void ZoomOut(object sender, RoutedEventArgs e)
 		{
-			EditorStateModel.ZoomLevel -= 1;
-			if (EditorStateModel.ZoomLevel >= 5) EditorStateModel.ZoomLevel = 5;
-			if (EditorStateModel.ZoomLevel <= -5) EditorStateModel.ZoomLevel = -5;
+			Classes.Edit.SolutionState.ZoomLevel -= 1;
+			if (Classes.Edit.SolutionState.ZoomLevel >= 5) Classes.Edit.SolutionState.ZoomLevel = 5;
+			if (Classes.Edit.SolutionState.ZoomLevel <= -5) Classes.Edit.SolutionState.ZoomLevel = -5;
 
-			Editor.ZoomModel.SetZoomLevel(EditorStateModel.ZoomLevel, new Point(0, 0));
+			Editor.ZoomModel.SetZoomLevel(Classes.Edit.SolutionState.ZoomLevel, new Point(0, 0));
 		}
 
 

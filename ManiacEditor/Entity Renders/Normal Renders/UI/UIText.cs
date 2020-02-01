@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
             int spacingAmount = 0;
             foreach(char symb in text)
             {
-                int frameID = GetFrameID(symb, EditorStateModel.LevelSelectChar);
+                int frameID = GetFrameID(symb, Classes.Edit.SolutionState.LevelSelectChar);
                 int listID = (highlighted ? 1 : 0);
                 var editorAnim = Editor.Instance.EntityDrawing.LoadAnimation("Text", d.DevicePanel, listID, frameID, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)

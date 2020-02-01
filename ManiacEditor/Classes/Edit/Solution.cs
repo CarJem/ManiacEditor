@@ -12,7 +12,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 
-namespace ManiacEditor.Classes.Edit.Scene
+namespace ManiacEditor.Classes.Edit
 {
     public static class Solution
     {
@@ -25,22 +25,22 @@ namespace ManiacEditor.Classes.Edit.Scene
 
         public static void UnloadScene()
         {
-            Classes.Edit.Scene.Solution.CurrentScene?.Dispose();
-            Classes.Edit.Scene.Solution.CurrentScene = null;
-            Classes.Edit.Scene.Solution.StageConfig = null;
+            Classes.Edit.Solution.CurrentScene?.Dispose();
+            Classes.Edit.Solution.CurrentScene = null;
+            Classes.Edit.Solution.StageConfig = null;
             Editor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
-            EditorStateModel.LevelID = -1;
-            EditorStateModel.EncorePaletteExists = false;
-            EditorStateModel.EncoreSetupType = 0;
+            Classes.Edit.SolutionState.LevelID = -1;
+            Classes.Edit.SolutionState.EncorePaletteExists = false;
+            Classes.Edit.SolutionState.EncoreSetupType = 0;
             Editor.Instance.ManiacINI.ClearSettings();
             Editor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             Editor.Instance.userDefinedSpritePaths = new List<string>();
             Editor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
             Editor.Instance.Paths.UnloadScene();
-            EditorStateModel.QuitWithoutSavingWarningRequired = false;
+            Classes.Edit.SolutionState.QuitWithoutSavingWarningRequired = false;
 
-            if (Classes.Edit.Scene.Solution.CurrentTiles != null) Classes.Edit.Scene.Solution.CurrentTiles.Dispose();
-            Classes.Edit.Scene.Solution.CurrentTiles = null;
+            if (Classes.Edit.Solution.CurrentTiles != null) Classes.Edit.Solution.CurrentTiles.Dispose();
+            Classes.Edit.Solution.CurrentTiles = null;
 
             Editor.Instance.TearDownExtraLayerButtons();
 
@@ -62,10 +62,10 @@ namespace ManiacEditor.Classes.Edit.Scene
             //TilesClipboard = null;
             Editor.Instance.entitiesClipboard = null;
 
-            Classes.Edit.Scene.Solution.Entities = null;
+            Classes.Edit.Solution.Entities = null;
 
-            EditorStateModel.Zoom = 1;
-            EditorStateModel.ZoomLevel = 0;
+            Classes.Edit.SolutionState.Zoom = 1;
+            Classes.Edit.SolutionState.ZoomLevel = 0;
 
             Editor.Instance.UndoStack.Clear();
             Editor.Instance.RedoStack.Clear();
@@ -83,11 +83,11 @@ namespace ManiacEditor.Classes.Edit.Scene
             // clear memory a little more aggressively 
             Editor.Instance.EntityDrawing.ReleaseResources();
             GC.Collect();
-            Classes.Edit.Scene.Solution.TileConfig = null;
+            Classes.Edit.Solution.TileConfig = null;
 
-            EditorStateModel.MenuChar = EditorStateModel.MenuCharS.ToCharArray();
-            EditorStateModel.MenuChar_Small = EditorStateModel.MenuCharS_Small.ToCharArray();
-            EditorStateModel.LevelSelectChar = EditorStateModel.LevelSelectCharS.ToCharArray();
+            Classes.Edit.SolutionState.MenuChar = Classes.Edit.SolutionState.MenuCharS.ToCharArray();
+            Classes.Edit.SolutionState.MenuChar_Small = Classes.Edit.SolutionState.MenuCharS_Small.ToCharArray();
+            Classes.Edit.SolutionState.LevelSelectChar = Classes.Edit.SolutionState.LevelSelectCharS.ToCharArray();
 
             Editor.Instance.UpdateStartScreen(true);
         }
@@ -1266,7 +1266,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                             SelectedTiles.Add(new Point(x, y));
                             RefreshTileCount();
                         }
-                        else if (_layer.Tiles[y][x] == 0xffff && EditorStateModel.CopyAir)
+                        else if (_layer.Tiles[y][x] == 0xffff && Classes.Edit.SolutionState.CopyAir)
                         {
                             SelectedTiles.Add(new Point(x, y));
                             RefreshTileCount();
@@ -1305,7 +1305,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                             SelectedTiles.Add(new Point(x, y));
                             RefreshTileCount();
                         }
-                        else if (_layer.Tiles[y][x] == 0xffff && EditorStateModel.CopyAir)
+                        else if (_layer.Tiles[y][x] == 0xffff && Classes.Edit.SolutionState.CopyAir)
                         {
                             SelectedTiles.Add(new Point(x, y));
                             RefreshTileCount();
@@ -1319,8 +1319,8 @@ namespace ManiacEditor.Classes.Edit.Scene
             {
                 if (!addSelection) Deselect();
                 point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
-                EditorStateModel.SelectedTileX = point.X;
-                EditorStateModel.SelectedTileY = point.Y;
+                Classes.Edit.SolutionState.SelectedTileX = point.X;
+                Classes.Edit.SolutionState.SelectedTileY = point.Y;
                 if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
                 {
                     if (deselectIfSelected && SelectedTiles.Contains(point))
@@ -1329,7 +1329,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                         DeselectPoint(point);
                         RefreshTileCount();
                     }
-                    else if (this._layer.Tiles[point.Y][point.X] != 0xffff || EditorStateModel.CopyAir)
+                    else if (this._layer.Tiles[point.Y][point.X] != 0xffff || Classes.Edit.SolutionState.CopyAir)
                     {
                         // Just add the point
                         SelectedTiles.Add(point);
@@ -1348,7 +1348,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                 {
                     for (int x = Math.Max(area.X / EditorConstants.TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, EditorConstants.TILE_SIZE), _layer.Width); ++x)
                     {
-                        if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || EditorStateModel.CopyAir))
+                        if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || Classes.Edit.SolutionState.CopyAir))
                         {
                             TempSelectionTiles.Add(new Point(x, y));
                             if (SelectedTiles.Contains(new Point(x, y)) && TempSelectionTiles.Contains(new Point(x, y)))
@@ -1417,7 +1417,7 @@ namespace ManiacEditor.Classes.Edit.Scene
 
                 SelectedTiles.Clear();
                 SelectedTiles.Values.Clear();
-                EditorStateModel.SelectedTilesCount = 0;
+                Classes.Edit.SolutionState.SelectedTilesCount = 0;
             }
 
             public bool IsPointSelected(Point point)
@@ -1446,7 +1446,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                 point = new Point(point.X / EditorConstants.TILE_SIZE, point.Y / EditorConstants.TILE_SIZE);
                 if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
                 {
-                    return (_layer.Tiles[point.Y][point.X] != 0xffff || EditorStateModel.CopyAir);
+                    return (_layer.Tiles[point.Y][point.X] != 0xffff || Classes.Edit.SolutionState.CopyAir);
                 }
                 return false;
             }
@@ -1549,10 +1549,10 @@ namespace ManiacEditor.Classes.Edit.Scene
                 System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.EditorToolbar.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
                 System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.EditorToolbar.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
 
-                g.DrawImage(Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
+                g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY),
                     new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
-                if (EditorStateModel.ShowCollisionA)
+                if (Classes.Edit.SolutionState.ShowCollisionA)
                 {
                     if (SolidLrbA || SolidTopA)
                     {
@@ -1561,7 +1561,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                         if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid);
                     }
                 }
-                if (EditorStateModel.ShowCollisionB)
+                if (Classes.Edit.SolutionState.ShowCollisionB)
                 {
                     if (SolidLrbB || SolidTopB)
                     {
@@ -1571,22 +1571,22 @@ namespace ManiacEditor.Classes.Edit.Scene
                     }
                 }
 
-                if (EditorStateModel.ShowFlippedTileHelper == true)
+                if (Classes.Edit.SolutionState.ShowFlippedTileHelper == true)
                 {
-                    g.DrawImage(Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                    g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                                 new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
                 }
-                if (EditorStateModel.ShowTileID == true)
+                if (Classes.Edit.SolutionState.ShowTileID == true)
                 {
-                    g.DrawImage(Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
+                    g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), false, false),
                                 new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
                 }
 
                 void DrawCollision(bool drawA, System.Drawing.Color colur)
                 {
                     Bitmap Map;
-                    if (drawA) Map = Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
-                    else Map = Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                    if (drawA) Map = Classes.Edit.Solution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                    else Map = Classes.Edit.Solution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
 
                     Map = Extensions.ChangeImageColor(Map, System.Drawing.Color.White, colur);
 
@@ -1645,7 +1645,7 @@ namespace ManiacEditor.Classes.Edit.Scene
 
                 if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
                     Transperncy = 0x32;
-                else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorStateModel.ApplyEditEntitiesTransparency)
+                else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && Classes.Edit.SolutionState.ApplyEditEntitiesTransparency)
                     Transperncy = 0x32;
                 else
                     Transperncy = 0xFF;
@@ -1736,8 +1736,8 @@ namespace ManiacEditor.Classes.Edit.Scene
                 int x2 = rect.Right * EditorConstants.TILE_SIZE;
                 int y2 = rect.Bottom * EditorConstants.TILE_SIZE;
 
-                int mouse_x = (int)EditorStateModel.LastX;
-                int mouse_y = (int)EditorStateModel.LastY;
+                int mouse_x = (int)Classes.Edit.SolutionState.LastX;
+                int mouse_y = (int)Classes.Edit.SolutionState.LastY;
 
                 if (mouse_x >= x && mouse_x <= x2 && mouse_y >= y && mouse_y <= y2)
                 {
@@ -1832,9 +1832,9 @@ namespace ManiacEditor.Classes.Edit.Scene
                     System.Drawing.Color LRDSolid = Editor.Instance.CollisionLRDSolid;
                     System.Drawing.Color TopOnlySolid = Editor.Instance.CollisionTopOnlySolid;
 
-                    g.DrawImage(Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
+                    g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * EditorConstants.TILE_SIZE, y * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE));
 
-                    if (EditorStateModel.ShowCollisionA)
+                    if (Classes.Edit.SolutionState.ShowCollisionA)
                     {
                         if (SolidLrbA || SolidTopA)
                         {
@@ -1843,7 +1843,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                             if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid, flipX, flipY);
                         }
                     }
-                    if (EditorStateModel.ShowCollisionB)
+                    if (Classes.Edit.SolutionState.ShowCollisionB)
                     {
                         if (SolidLrbB || SolidTopB)
                         {
@@ -1891,8 +1891,8 @@ namespace ManiacEditor.Classes.Edit.Scene
 
                     Bitmap collisionMap;
 
-                    if (drawA) collisionMap = Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
-                    else collisionMap = Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                    if (drawA) collisionMap = Classes.Edit.Solution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
+                    else collisionMap = Classes.Edit.Solution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE, EditorConstants.TILE_SIZE), flipX, flipY);
 
 
                     g.DrawImage(collisionMap, dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
@@ -1998,7 +1998,7 @@ namespace ManiacEditor.Classes.Edit.Scene
                 string group = string.Format("{0},{1}", speed, maxWidth);
                 if (!ManiacEditor.EditorAnimations.AnimationTiming.ContainsKey(group)) ManiacEditor.EditorAnimations.AnimationTiming.Add(group, new ManiacEditor.EditorAnimations.Timing());
                 // Playback
-                if (EditorStateModel.ParallaxAnimationChecked && EditorStateModel.AllowAnimations)
+                if (Classes.Edit.SolutionState.ParallaxAnimationChecked && Classes.Edit.SolutionState.AllowAnimations)
                 {
                     if ((DateTime.Now - ManiacEditor.EditorAnimations.AnimationTiming[group].LastParallaxTime).TotalMilliseconds > 1024 / speed)
                     {
@@ -2056,7 +2056,7 @@ namespace ManiacEditor.Classes.Edit.Scene
 
                     if (EditorInstance.EditLayerA != null && (EditorInstance.EditLayerA != this && EditorInstance.EditLayerB != this))
                         Transperncy = 0x32;
-                    else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && EditorStateModel.ApplyEditEntitiesTransparency)
+                    else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && EditorInstance.EditLayerA == null && Classes.Edit.SolutionState.ApplyEditEntitiesTransparency)
                         Transperncy = 0x32;
                     else
                         Transperncy = 0xFF;
@@ -2113,8 +2113,8 @@ namespace ManiacEditor.Classes.Edit.Scene
             public void RefreshTileCount()
             {
                 GlobalSelectedTiles = SelectedTiles.Count + TempSelectionTiles.Count;
-                EditorStateModel.DeselectTilesCount = TempSelectionDeselectTiles.Count;
-                EditorStateModel.SelectedTilesCount = GlobalSelectedTiles - EditorStateModel.DeselectTilesCount;
+                Classes.Edit.SolutionState.DeselectTilesCount = TempSelectionDeselectTiles.Count;
+                Classes.Edit.SolutionState.SelectedTilesCount = GlobalSelectedTiles - Classes.Edit.SolutionState.DeselectTilesCount;
             }
 
 

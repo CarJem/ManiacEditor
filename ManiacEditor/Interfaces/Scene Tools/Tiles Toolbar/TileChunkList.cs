@@ -450,11 +450,11 @@ namespace ManiacEditor.Interfaces
 			{
 				Editor.Instance.TileManiacInstance.Show();
 			}
-			if (Classes.Edit.Scene.Solution.TileConfig != null && Classes.Edit.Scene.Solution.CurrentTiles.StageTiles != null)
+			if (Classes.Edit.Solution.TileConfig != null && Classes.Edit.Solution.CurrentTiles.StageTiles != null)
 			{
 				if (Editor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Editor.Instance.TileManiacInstance.tcf == null)
 				{
-					Editor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Edit.Scene.Solution.TileConfig, Editor.Instance.Paths.TileConfig_Source, SelectedIndex);
+					Editor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Edit.Solution.TileConfig, Editor.Instance.Paths.TileConfig_Source, SelectedIndex);
 				}
 				else
 				{

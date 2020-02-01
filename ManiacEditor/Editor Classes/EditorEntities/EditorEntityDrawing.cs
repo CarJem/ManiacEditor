@@ -379,7 +379,7 @@ namespace ManiacEditor
         }
         public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
         {
-            if (EditorStateModel.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+            if (Classes.Edit.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
             else return map;
         }
         public string GetEditorStaticBitmapPath(string assetName)
@@ -426,7 +426,7 @@ namespace ManiacEditor
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(Classes.Edit.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
@@ -804,11 +804,11 @@ namespace ManiacEditor
 
         public ColorPalette[] GetStageConfigColors()
         {
-            var stgCfg = Classes.Edit.Scene.Solution.StageConfig;
+            var stgCfg = Classes.Edit.Solution.StageConfig;
             ColorPalette[] stageConfigColors = new ColorPalette[8];
             for (int i = 0; i < 8; i++)
             {
-                stageConfigColors[i] = Classes.Edit.Scene.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+                stageConfigColors[i] = Classes.Edit.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
             }
             for (int i = 0; i < 8; i++)
             {

@@ -43,7 +43,7 @@ namespace ManiacEditor.Interfaces
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (EditorStateModel.RemoveStageConfigEntriesAllowed)
+            if (Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -72,7 +72,7 @@ namespace ManiacEditor.Interfaces
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Edit.Scene.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
+                    if (!Classes.Edit.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
                         lvc.Foreground = Brushes.Red;
                     }
                     else
@@ -182,7 +182,7 @@ namespace ManiacEditor.Interfaces
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Edit.Scene.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+                    if (!Classes.Edit.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
                     {
                         lvc.Foreground = Brushes.Red;
                     }
@@ -313,7 +313,7 @@ namespace ManiacEditor.Interfaces
                             }
                         }
 
-						if (EditorStateModel.RemoveStageConfigEntriesAllowed)
+						if (Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -461,11 +461,11 @@ namespace ManiacEditor.Interfaces
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				EditorStateModel.RemoveStageConfigEntriesAllowed = true;
+				Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				EditorStateModel.RemoveStageConfigEntriesAllowed = false;
+				Classes.Edit.SolutionState.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 

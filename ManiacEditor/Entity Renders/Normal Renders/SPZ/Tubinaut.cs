@@ -26,7 +26,7 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
 
-                if (Editor.Instance.EditorToolbar.ShowAnimations.IsChecked.Value == true && EditorStateModel.AllowSpriteAnimations)
+                if (Editor.Instance.EditorToolbar.ShowAnimations.IsChecked.Value == true && Classes.Edit.SolutionState.AllowSpriteAnimations)
                 {
 
                     d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame6),

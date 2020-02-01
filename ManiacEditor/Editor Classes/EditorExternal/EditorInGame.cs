@@ -278,7 +278,7 @@ namespace ManiacEditor
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == EditorStateModel.PlayerBeingTracked) Editor.GoToPosition(x, y);
+            if (playerID == Classes.Edit.SolutionState.PlayerBeingTracked) Editor.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -543,9 +543,9 @@ namespace ManiacEditor
                         while (Editor.GameMemory.ReadByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)]) == 0x00) Thread.Sleep(1);
 
                         // Swap the Scene
-                        if (EditorStateModel.LevelID != -1)
+                        if (Classes.Edit.SolutionState.LevelID != -1)
                         {
-                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)EditorStateModel.LevelID);
+                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Classes.Edit.SolutionState.LevelID);
                             // Restart the Scene
                             Editor.GameMemory.WriteByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                         }
@@ -643,14 +643,14 @@ namespace ManiacEditor
             if (Editor.InGame.GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(EditorStateModel.LastX / EditorStateModel.Zoom));
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(EditorStateModel.LastY / EditorStateModel.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom));
             }
         }
 
         public void SetPlayerRespawnToHere()
         {
-            Point clicked_point = new Point((int)(EditorStateModel.LastX / EditorStateModel.Zoom), (int)(EditorStateModel.LastY / EditorStateModel.Zoom));
+            Point clicked_point = new Point((int)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom), (int)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom));
             if (GameRunning)
             {
                 UpdateCheckpoint(clicked_point);
@@ -668,12 +668,12 @@ namespace ManiacEditor
                     UncheckAllPlayers();
                     item.IsChecked = true;
                     int.TryParse(item.Tag.ToString(), out int player);
-                    EditorStateModel.PlayerBeingTracked = player;
+                    Classes.Edit.SolutionState.PlayerBeingTracked = player;
                 }
                 else
                 {
                     item.IsChecked = false;
-                    EditorStateModel.PlayerBeingTracked = -1;
+                    Classes.Edit.SolutionState.PlayerBeingTracked = -1;
                 }
 
 

@@ -10,7 +10,7 @@ namespace ManiacEditor.Entity_Renders
             var value = entity.attributesMap["type"];
             bool fliph = false;
             bool flipv = false;
-			bool isFBZ = (Classes.Edit.Scene.Solution.Entities.SetupObject == "FBZSetup" ? true : false);
+			bool isFBZ = (Classes.Edit.Solution.Entities.SetupObject == "FBZSetup" ? true : false);
             int animID = 0;
 
             // Down

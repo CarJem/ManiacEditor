@@ -34,13 +34,13 @@ namespace ManiacEditor
 
             if (Settings.MyPerformance.ReduceZoom)
             {
-                Editor.Instance.EditorToolbar.ZoomInButton.IsEnabled = enabled && EditorStateModel.ZoomLevel < 5;
-                Editor.Instance.EditorToolbar.ZoomOutButton.IsEnabled = enabled && EditorStateModel.ZoomLevel > -2;
+                Editor.Instance.EditorToolbar.ZoomInButton.IsEnabled = enabled && Classes.Edit.SolutionState.ZoomLevel < 5;
+                Editor.Instance.EditorToolbar.ZoomOutButton.IsEnabled = enabled && Classes.Edit.SolutionState.ZoomLevel > -2;
             }
             else
             {
-                Editor.Instance.EditorToolbar.ZoomInButton.IsEnabled = enabled && EditorStateModel.ZoomLevel < 5;
-                Editor.Instance.EditorToolbar.ZoomOutButton.IsEnabled = enabled && EditorStateModel.ZoomLevel > -5;
+                Editor.Instance.EditorToolbar.ZoomInButton.IsEnabled = enabled && Classes.Edit.SolutionState.ZoomLevel < 5;
+                Editor.Instance.EditorToolbar.ZoomOutButton.IsEnabled = enabled && Classes.Edit.SolutionState.ZoomLevel > -5;
             }
 
 
@@ -51,7 +51,7 @@ namespace ManiacEditor
 
             if (stageLoad)
             {
-                Editor.Instance.ZoomModel.SetViewSize((int)(Editor.Instance.SceneWidth * EditorStateModel.Zoom), (int)(Editor.Instance.SceneHeight * EditorStateModel.Zoom));
+                Editor.Instance.ZoomModel.SetViewSize((int)(Editor.Instance.SceneWidth * Classes.Edit.SolutionState.Zoom), (int)(Editor.Instance.SceneHeight * Classes.Edit.SolutionState.Zoom));
             }
 
             Editor.Instance.Theming.UpdateButtonColors();
@@ -61,8 +61,8 @@ namespace ManiacEditor
         public void SetParallaxAnimationOnlyButtonsState(bool enabled = true)
         {
             Editor.Instance.EditorToolbar.Open.IsEnabled = !enabled;
-            Editor.Instance.EditorToolbar.ShowAnimations.IsEnabled = enabled || Classes.Edit.Scene.Solution.CurrentScene != null;
-            Editor.Instance.EditorToolbar.animationsSplitButton_Dropdown.IsEnabled = enabled || Classes.Edit.Scene.Solution.CurrentScene != null;
+            Editor.Instance.EditorToolbar.ShowAnimations.IsEnabled = enabled || Classes.Edit.Solution.CurrentScene != null;
+            Editor.Instance.EditorToolbar.animationsSplitButton_Dropdown.IsEnabled = enabled || Classes.Edit.Solution.CurrentScene != null;
             Editor.Instance.EditorMenuBar.MenuBar.IsEnabled = !enabled;
             Editor.Instance.EditorStatusBar.StatusBar1.IsEnabled = !enabled; 
             Editor.Instance.EditorTabControl.IsEnabled = !enabled;
@@ -94,13 +94,13 @@ namespace ManiacEditor
 
             if (Editor.Instance.IsEntitiesEdit() && Editor.Instance.EntitiesToolbar != null)
             {
-                Editor.Instance.EntitiesToolbar.SelectedEntities = Classes.Edit.Scene.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+                Editor.Instance.EntitiesToolbar.SelectedEntities = Classes.Edit.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
             }
         }
 
         private void SetLayerEditButtonsState(bool enabled)
         {
-            if (!EditorStateModel.MultiLayerEditMode)
+            if (!Classes.Edit.SolutionState.MultiLayerEditMode)
             {
                 if (enabled && Editor.Instance.EditorToolbar.EditFGLow.IsCheckedN.Value) Editor.Instance.EditLayerA = Editor.Instance.FGLow;
                 else if (enabled && Editor.Instance.EditorToolbar.EditFGHigh.IsCheckedN.Value) Editor.Instance.EditLayerA = Editor.Instance.FGHigh;
@@ -109,7 +109,7 @@ namespace ManiacEditor
                 else if (enabled && Editor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedN.Value))
                 {
                     var selectedExtraLayerButton = Editor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedN.Value);
-                    var editorLayer = Classes.Edit.Scene.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+                    var editorLayer = Classes.Edit.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
                     Editor.Instance.EditLayerA = editorLayer;
                 }
@@ -130,7 +130,7 @@ namespace ManiacEditor
                 else if (enabled && Editor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
                 {
                     var selectedExtraLayerButton = Editor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
-                    var editorLayer = Classes.Edit.Scene.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+                    var editorLayer = Classes.Edit.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
                     Editor.Instance.EditLayerA = editorLayer;
                 }
@@ -145,7 +145,7 @@ namespace ManiacEditor
                 else if (enabled && Editor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
                 {
                     var selectedExtraLayerButton = Editor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
-                    var editorLayer = Classes.Edit.Scene.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+                    var editorLayer = Classes.Edit.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
                     Editor.Instance.EditLayerB = editorLayer;
                 }
@@ -185,9 +185,9 @@ namespace ManiacEditor
             SetLayerEditButtonsState(enabled);
 
             Editor.Instance.EditorToolbar.MagnetMode.IsEnabled = enabled && Editor.Instance.IsEntitiesEdit();
-            Editor.Instance.EditorToolbar.MagnetMode.IsChecked = EditorStateModel.UseMagnetMode && Editor.Instance.IsEntitiesEdit();
+            Editor.Instance.EditorToolbar.MagnetMode.IsChecked = Classes.Edit.SolutionState.UseMagnetMode && Editor.Instance.IsEntitiesEdit();
             Editor.Instance.EditorToolbar.MagnetModeSplitButton.IsEnabled = enabled && Editor.Instance.IsEntitiesEdit();
-            EditorStateModel.UseMagnetMode = Editor.Instance.IsEntitiesEdit() && Editor.Instance.EditorToolbar.MagnetMode.IsChecked.Value;
+            Classes.Edit.SolutionState.UseMagnetMode = Editor.Instance.IsEntitiesEdit() && Editor.Instance.EditorToolbar.MagnetMode.IsChecked.Value;
 
 
 
@@ -250,26 +250,26 @@ namespace ManiacEditor
                 }
             }
 
-            Editor.Instance.EditorToolbar.ShowGridButton.IsEnabled = enabled && Classes.Edit.Scene.Solution.StageConfig != null;
-            Editor.Instance.EditorToolbar.ShowCollisionAButton.IsEnabled = enabled && Classes.Edit.Scene.Solution.TileConfig != null;
-            Editor.Instance.EditorToolbar.ShowCollisionBButton.IsEnabled = enabled && Classes.Edit.Scene.Solution.TileConfig != null;
-            Editor.Instance.EditorToolbar.ShowTileIDButton.IsEnabled = enabled && Classes.Edit.Scene.Solution.StageConfig != null;
-            Editor.Instance.EditorToolbar.EncorePaletteButton.IsEnabled = enabled && EditorStateModel.EncorePaletteExists;
+            Editor.Instance.EditorToolbar.ShowGridButton.IsEnabled = enabled && Classes.Edit.Solution.StageConfig != null;
+            Editor.Instance.EditorToolbar.ShowCollisionAButton.IsEnabled = enabled && Classes.Edit.Solution.TileConfig != null;
+            Editor.Instance.EditorToolbar.ShowCollisionBButton.IsEnabled = enabled && Classes.Edit.Solution.TileConfig != null;
+            Editor.Instance.EditorToolbar.ShowTileIDButton.IsEnabled = enabled && Classes.Edit.Solution.StageConfig != null;
+            Editor.Instance.EditorToolbar.EncorePaletteButton.IsEnabled = enabled && Classes.Edit.SolutionState.EncorePaletteExists;
             Editor.Instance.EditorToolbar.FlipAssistButton.IsEnabled = enabled;
 
             if (Editor.Instance.IsTilesEdit())
             {
                 if (Editor.Instance.TilesToolbar == null)
                 {
-                    if (EditorStateModel.UseEncoreColors)
-                        Editor.Instance.TilesToolbar = new TilesToolbar(Classes.Edit.Scene.Solution.CurrentTiles.StageTiles, Editor.Instance.Paths.StageTiles_Source, Editor.Instance.EncorePalette[0], Editor.Instance);
+                    if (Classes.Edit.SolutionState.UseEncoreColors)
+                        Editor.Instance.TilesToolbar = new TilesToolbar(Classes.Edit.Solution.CurrentTiles.StageTiles, Editor.Instance.Paths.StageTiles_Source, Editor.Instance.EncorePalette[0], Editor.Instance);
                     else
-                        Editor.Instance.TilesToolbar = new TilesToolbar(Classes.Edit.Scene.Solution.CurrentTiles.StageTiles, Editor.Instance.Paths.StageTiles_Source, null, Editor.Instance);
+                        Editor.Instance.TilesToolbar = new TilesToolbar(Classes.Edit.Solution.CurrentTiles.StageTiles, Editor.Instance.Paths.StageTiles_Source, null, Editor.Instance);
 
 
                     Editor.Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
                     {
-                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(EditorStateModel.ViewPositionX/ EditorStateModel.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(EditorStateModel.ViewPositionY / EditorStateModel.Zoom) + EditorConstants.TILE_SIZE - 1), x, Editor.Instance.EditLayerA);
+                        Editor.Instance.EditorPlaceTile(new System.Drawing.Point((int)(Classes.Edit.SolutionState.ViewPositionX/ Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1, (int)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom) + EditorConstants.TILE_SIZE - 1), x, Editor.Instance.EditLayerA);
                     });
                     Editor.Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
                     {
@@ -301,11 +301,11 @@ namespace ManiacEditor
             {
                 if (Editor.Instance.EntitiesToolbar == null)
                 {
-                    Editor.Instance.EntitiesToolbar = new EntitiesToolbar(Classes.Edit.Scene.Solution.CurrentScene.Objects, Editor.Instance)
+                    Editor.Instance.EntitiesToolbar = new EntitiesToolbar(Classes.Edit.Solution.CurrentScene.Objects, Editor.Instance)
                     {
                         SelectedEntity = new Action<int>(x =>
                         {
-                            Classes.Edit.Scene.Solution.Entities.SelectSlot(x);
+                            Classes.Edit.Solution.Entities.SelectSlot(x);
                             SetSelectOnlyButtonsState();
                         }),
                         AddAction = new Action<ManiacEditor.Actions.IAction>(x =>
@@ -316,8 +316,8 @@ namespace ManiacEditor
                         }),
                         Spawn = new Action<SceneObject>(x =>
                         {
-                            Classes.Edit.Scene.Solution.Entities.Add(x, GetEntitySpawnPoint());
-                            Editor.Instance.UndoStack.Push(Classes.Edit.Scene.Solution.Entities.LastAction);
+                            Classes.Edit.Solution.Entities.Add(x, GetEntitySpawnPoint());
+                            Editor.Instance.UndoStack.Push(Classes.Edit.Solution.Entities.LastAction);
                             Editor.Instance.RedoStack.Clear();
                             UpdateControls();
                         })
@@ -328,7 +328,7 @@ namespace ManiacEditor
                     Editor.Instance.Editor_Resize(null, null);
                 }
                 Editor.Instance.UI.UpdateEntitiesToolbarList();
-                Editor.Instance.EntitiesToolbar.SelectedEntities = Classes.Edit.Scene.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+                Editor.Instance.EntitiesToolbar.SelectedEntities = Classes.Edit.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
             }
             else
             {
@@ -337,12 +337,12 @@ namespace ManiacEditor
                     Editor.Instance.EntitiesToolbar.Dispose();
                     Editor.Instance.EntitiesToolbar = null;
                 }
-                if (Classes.Edit.Scene.Solution.Entities != null && Classes.Edit.Scene.Solution.Entities.SelectedEntities != null)
+                if (Classes.Edit.Solution.Entities != null && Classes.Edit.Solution.Entities.SelectedEntities != null)
                 {
-                    if (Classes.Edit.Scene.Solution.Entities.SelectedEntities.Count != 0 && Classes.Edit.Scene.Solution.Entities.TemporarySelection.Count != 0)
+                    if (Classes.Edit.Solution.Entities.SelectedEntities.Count != 0 && Classes.Edit.Solution.Entities.TemporarySelection.Count != 0)
                     {
-                        Classes.Edit.Scene.Solution.Entities.EndTempSelection();
-                        Classes.Edit.Scene.Solution.Entities.Deselect();
+                        Classes.Edit.Solution.Entities.EndTempSelection();
+                        Classes.Edit.Solution.Entities.Deselect();
                     }
                 }
 
@@ -361,12 +361,12 @@ namespace ManiacEditor
             {
                 if (Editor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
-                    short x = (short)(EditorStateModel.LastX / EditorStateModel.Zoom);
-                    short y = (short)(EditorStateModel.LastY / EditorStateModel.Zoom);
-                    if (EditorStateModel.UseMagnetMode)
+                    short x = (short)(Classes.Edit.SolutionState.LastX / Classes.Edit.SolutionState.Zoom);
+                    short y = (short)(Classes.Edit.SolutionState.LastY / Classes.Edit.SolutionState.Zoom);
+                    if (Classes.Edit.SolutionState.UseMagnetMode)
                     {
-                        short alignedX = (short)(EditorStateModel.MagnetSize * (x / EditorStateModel.MagnetSize));
-                        short alignedY = (short)(EditorStateModel.MagnetSize * (y / EditorStateModel.MagnetSize));
+                        short alignedX = (short)(Classes.Edit.SolutionState.MagnetSize * (x / Classes.Edit.SolutionState.MagnetSize));
+                        short alignedY = (short)(Classes.Edit.SolutionState.MagnetSize * (y / Classes.Edit.SolutionState.MagnetSize));
                         return new Position(alignedX, alignedY);
                     }
                     else
@@ -377,7 +377,7 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    return new Position((short)(EditorStateModel.ViewPositionX/ EditorStateModel.Zoom), (short)(EditorStateModel.ViewPositionY / EditorStateModel.Zoom));
+                    return new Position((short)(Classes.Edit.SolutionState.ViewPositionX/ Classes.Edit.SolutionState.Zoom), (short)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom));
                 }
 
             }
@@ -392,7 +392,7 @@ namespace ManiacEditor
             Editor.Instance.EditorMenuBar.MenuBar.IsEnabled = enabled;
             Editor.Instance.EditorToolbar.LayerToolbar.IsEnabled = enabled;
             Editor.Instance.EditorToolbar.MainToolbarButtons.IsEnabled = enabled;
-            Editor.Instance.UI.SetSceneOnlyButtonsState((enabled ? true : Classes.Edit.Scene.Solution.CurrentScene != null));
+            Editor.Instance.UI.SetSceneOnlyButtonsState((enabled ? true : Classes.Edit.Solution.CurrentScene != null));
             Editor.Instance.EditorToolbar.LayerToolbar.IsEnabled = enabled;
             Editor.Instance.EditorStatusBar.StatusBar1.IsEnabled = enabled;
             Editor.Instance.EditorStatusBar.StatusBar2.IsEnabled = enabled;
@@ -451,7 +451,7 @@ namespace ManiacEditor
         }
         public void UpdateEntitiesToolbarList()
         {
-            Editor.Instance.EntitiesToolbar.Entities = Classes.Edit.Scene.Solution.Entities.Entities.Select(x => x.Entity).ToList();
+            Editor.Instance.EntitiesToolbar.Entities = Classes.Edit.Solution.Entities.Entities.Select(x => x.Entity).ToList();
         }
         public void UpdateEditLayerActions()
         {
@@ -577,7 +577,7 @@ namespace ManiacEditor
 
         public void UpdateSplineSpawnObjectsList(List<RSDKv5.SceneObject> sceneObjects)
         {
-            EditorStateModel.AllowSplineOptionsUpdate = false;
+            Classes.Edit.SolutionState.AllowSplineOptionsUpdate = false;
             sceneObjects.Sort((x, y) => x.Name.ToString().CompareTo(y.Name.ToString()));
             var bindingSceneObjectsList = new System.ComponentModel.BindingList<RSDKv5.SceneObject>(sceneObjects);
 
@@ -600,24 +600,24 @@ namespace ManiacEditor
                 var SelectedItem = Editor.Instance.EditorToolbar.SelectedSplineRender.SelectedItem as TextBlock;
                 if (SelectedItem == null) return;              
                 SelectedItem.Foreground = (System.Windows.Media.SolidColorBrush)Editor.Instance.FindResource("NormalText");
-                EditorStateModel.AllowSplineOptionsUpdate = true;
+                Classes.Edit.SolutionState.AllowSplineOptionsUpdate = true;
 
             }
         }
 
         public void UpdateSplineSettings(int splineID)
         {
-            if (!EditorStateModel.SplineOptionsGroup.ContainsKey(splineID)) EditorStateModel.SplineOptionsGroup.Add(splineID, new EditorStateModel.SplineOptions());
-            Editor.Instance.EditorToolbar.SplineLineMode.IsChecked = EditorStateModel.SplineOptionsGroup[splineID].SplineLineMode;
-            Editor.Instance.EditorToolbar.SplineOvalMode.IsChecked = EditorStateModel.SplineOptionsGroup[splineID].SplineOvalMode;
-            Editor.Instance.EditorToolbar.SplineShowLineCheckbox.IsChecked = EditorStateModel.SplineOptionsGroup[splineID].SplineToolShowLines;
-            Editor.Instance.EditorToolbar.SplineShowObjectsCheckbox.IsChecked = EditorStateModel.SplineOptionsGroup[splineID].SplineToolShowObject;
-            Editor.Instance.EditorToolbar.SplineShowPointsCheckbox.IsChecked = EditorStateModel.SplineOptionsGroup[splineID].SplineToolShowPoints;
-            Editor.Instance.EditorToolbar.SplinePointSeperationNUD.Value = EditorStateModel.SplineOptionsGroup[splineID].SplineSize;
-            Editor.Instance.EditorToolbar.SplinePointSeperationSlider.Value = EditorStateModel.SplineOptionsGroup[splineID].SplineSize;
+            if (!Classes.Edit.SolutionState.SplineOptionsGroup.ContainsKey(splineID)) Classes.Edit.SolutionState.SplineOptionsGroup.Add(splineID, new Classes.Edit.SolutionState.SplineOptions());
+            Editor.Instance.EditorToolbar.SplineLineMode.IsChecked = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineLineMode;
+            Editor.Instance.EditorToolbar.SplineOvalMode.IsChecked = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineOvalMode;
+            Editor.Instance.EditorToolbar.SplineShowLineCheckbox.IsChecked = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineToolShowLines;
+            Editor.Instance.EditorToolbar.SplineShowObjectsCheckbox.IsChecked = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineToolShowObject;
+            Editor.Instance.EditorToolbar.SplineShowPointsCheckbox.IsChecked = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineToolShowPoints;
+            Editor.Instance.EditorToolbar.SplinePointSeperationNUD.Value = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineSize;
+            Editor.Instance.EditorToolbar.SplinePointSeperationSlider.Value = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineSize;
 
-            if (EditorStateModel.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
-                Editor.Instance.EditorToolbar.SplineRenderObjectName.Content = EditorStateModel.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
+            if (Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+                Editor.Instance.EditorToolbar.SplineRenderObjectName.Content = Classes.Edit.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
             else
                 Editor.Instance.EditorToolbar.SplineRenderObjectName.Content = "None";
         }
@@ -631,11 +631,11 @@ namespace ManiacEditor
 
         public void UpdateCustomColors()
         {
-            Editor.Instance.EditorToolbar.CSAC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(EditorStateModel.CollisionSAColour.A, EditorStateModel.CollisionSAColour.R, EditorStateModel.CollisionSAColour.G, EditorStateModel.CollisionSAColour.B));
-            Editor.Instance.EditorToolbar.SSTOC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(EditorStateModel.CollisionTOColour.A, EditorStateModel.CollisionTOColour.R, EditorStateModel.CollisionTOColour.G, EditorStateModel.CollisionTOColour.B));
-            Editor.Instance.EditorToolbar.CSLRDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(EditorStateModel.CollisionLRDColour.A, EditorStateModel.CollisionLRDColour.R, EditorStateModel.CollisionLRDColour.G, EditorStateModel.CollisionLRDColour.B));
-            Editor.Instance.EditorToolbar.WLC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(EditorStateModel.waterColor.A, EditorStateModel.waterColor.R, EditorStateModel.waterColor.G, EditorStateModel.waterColor.B));
-            Editor.Instance.EditorToolbar.GDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(EditorStateModel.GridColor.A, EditorStateModel.GridColor.R, EditorStateModel.GridColor.G, EditorStateModel.GridColor.B));
+            Editor.Instance.EditorToolbar.CSAC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Classes.Edit.SolutionState.CollisionSAColour.A, Classes.Edit.SolutionState.CollisionSAColour.R, Classes.Edit.SolutionState.CollisionSAColour.G, Classes.Edit.SolutionState.CollisionSAColour.B));
+            Editor.Instance.EditorToolbar.SSTOC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Classes.Edit.SolutionState.CollisionTOColour.A, Classes.Edit.SolutionState.CollisionTOColour.R, Classes.Edit.SolutionState.CollisionTOColour.G, Classes.Edit.SolutionState.CollisionTOColour.B));
+            Editor.Instance.EditorToolbar.CSLRDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Classes.Edit.SolutionState.CollisionLRDColour.A, Classes.Edit.SolutionState.CollisionLRDColour.R, Classes.Edit.SolutionState.CollisionLRDColour.G, Classes.Edit.SolutionState.CollisionLRDColour.B));
+            Editor.Instance.EditorToolbar.WLC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Classes.Edit.SolutionState.waterColor.A, Classes.Edit.SolutionState.waterColor.R, Classes.Edit.SolutionState.waterColor.G, Classes.Edit.SolutionState.waterColor.B));
+            Editor.Instance.EditorToolbar.GDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Classes.Edit.SolutionState.GridColor.A, Classes.Edit.SolutionState.GridColor.R, Classes.Edit.SolutionState.GridColor.G, Classes.Edit.SolutionState.GridColor.B));
         }
 
         public void UpdateControls(bool stageLoad = false)
@@ -651,13 +651,13 @@ namespace ManiacEditor
                 Editor.Instance.FormsModel.hScrollBar1.IsEnabled = true;
             }
 
-            bool parallaxAnimationInProgress = EditorStateModel.AllowAnimations && EditorStateModel.ParallaxAnimationChecked;
+            bool parallaxAnimationInProgress = Classes.Edit.SolutionState.AllowAnimations && Classes.Edit.SolutionState.ParallaxAnimationChecked;
 
-            UpdateGameRunningButton(Classes.Edit.Scene.Solution.CurrentScene != null);
+            UpdateGameRunningButton(Classes.Edit.Solution.CurrentScene != null);
             Editor.Instance.Theming.UpdateThemeForItemsWaiting();
             Editor.Instance.EditorStatusBar.UpdateFilterButtonApperance(false);
             Editor.Instance.EditorStatusBar.UpdateStatusPanel();
-            SetSceneOnlyButtonsState(Classes.Edit.Scene.Solution.CurrentScene != null && !parallaxAnimationInProgress, stageLoad);
+            SetSceneOnlyButtonsState(Classes.Edit.Solution.CurrentScene != null && !parallaxAnimationInProgress, stageLoad);
             SetParallaxAnimationOnlyButtonsState(parallaxAnimationInProgress);
             UpdateSplineToolbox();
             Editor.Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Editor.Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Properties.Defaults.Default.CustomGridSizeValue);
@@ -739,18 +739,18 @@ namespace ManiacEditor
                 //EditorEntity_ini.rendersWithErrors.Clear();
 
                 //Reload for Encore Palletes, otherwise reload the image normally
-                if (EditorStateModel.UseEncoreColors == true)
+                if (Classes.Edit.SolutionState.UseEncoreColors == true)
                 {
-                    Classes.Edit.Scene.Solution.CurrentTiles.StageTiles?.Image.Reload(Editor.Instance.EncorePalette[0]);
+                    Classes.Edit.Solution.CurrentTiles.StageTiles?.Image.Reload(Editor.Instance.EncorePalette[0]);
                     Editor.Instance.TilesToolbar?.Reload(Editor.Instance.EncorePalette[0]);
                 }
                 else
                 {
-                    Classes.Edit.Scene.Solution.CurrentTiles.StageTiles?.Image.Reload();
+                    Classes.Edit.Solution.CurrentTiles.StageTiles?.Image.Reload();
                     Editor.Instance.TilesToolbar?.Reload();
                 }
 
-                Classes.Edit.Scene.Solution.TileConfig = new Tileconfig(Editor.Instance.Paths.TileConfig_Source);
+                Classes.Edit.Solution.TileConfig = new Tileconfig(Editor.Instance.Paths.TileConfig_Source);
 
 
 

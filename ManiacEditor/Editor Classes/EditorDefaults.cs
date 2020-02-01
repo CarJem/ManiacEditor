@@ -12,39 +12,39 @@ namespace ManiacEditor
         public void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            EditorStateModel.ApplyEditEntitiesTransparency = Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
+            Classes.Edit.SolutionState.ApplyEditEntitiesTransparency = Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
-            EditorStateModel.ScrollLocked = Settings.MyDefaults.ScrollLockDefault;
-            EditorStateModel.ScrollDirection = (Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
+            Classes.Edit.SolutionState.ScrollLocked = Settings.MyDefaults.ScrollLockDefault;
+            Classes.Edit.SolutionState.ScrollDirection = (Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            Editor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = EditorStateModel.ScrollDirection == (int)ScrollDir.X;
-            Editor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = EditorStateModel.ScrollDirection == (int)ScrollDir.Y;
+            Editor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Edit.SolutionState.ScrollDirection == (int)ScrollDir.X;
+            Editor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Edit.SolutionState.ScrollDirection == (int)ScrollDir.Y;
 
-            EditorStateModel.CountTilesSelectedInPixels = Settings.MyDefaults.EnablePixelModeDefault;
+            Classes.Edit.SolutionState.CountTilesSelectedInPixels = Settings.MyDefaults.EnablePixelModeDefault;
 
-            EditorStateModel.ShowEntityPathArrows = Settings.MyDefaults.ShowEntityArrowPathsDefault;
+            Classes.Edit.SolutionState.ShowEntityPathArrows = Settings.MyDefaults.ShowEntityArrowPathsDefault;
 
-            EditorStateModel.ShowWaterLevel = Settings.MyDefaults.ShowWaterEntityLevelDefault;
-            EditorStateModel.AlwaysShowWaterLevel = Settings.MyDefaults.AlwaysShowWaterLevelDefault;
-            EditorStateModel.SizeWaterLevelwithBounds = Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
+            Classes.Edit.SolutionState.ShowWaterLevel = Settings.MyDefaults.ShowWaterEntityLevelDefault;
+            Classes.Edit.SolutionState.AlwaysShowWaterLevel = Settings.MyDefaults.AlwaysShowWaterLevelDefault;
+            Classes.Edit.SolutionState.SizeWaterLevelwithBounds = Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
 
-            EditorStateModel.ShowParallaxSprites = Settings.MyDefaults.ShowFullParallaxSpritesDefault;
-            EditorStateModel.PrioritizedEntityViewing = Settings.MyDefaults.PrioritizedObjectRenderingDefault;
+            Classes.Edit.SolutionState.ShowParallaxSprites = Settings.MyDefaults.ShowFullParallaxSpritesDefault;
+            Classes.Edit.SolutionState.PrioritizedEntityViewing = Settings.MyDefaults.PrioritizedObjectRenderingDefault;
 
-            EditorStateModel.ShowEntitySelectionBoxes = Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
+            Classes.Edit.SolutionState.ShowEntitySelectionBoxes = Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
 
-            EditorStateModel.DebugStatsVisibleOnPanel = Settings.MyDefaults.ShowDebugStatsDefault;
-            EditorStateModel.UseLargeDebugStats = Settings.MyDefaults.LargeDebugStatsDefault;
+            Classes.Edit.SolutionState.DebugStatsVisibleOnPanel = Settings.MyDefaults.ShowDebugStatsDefault;
+            Classes.Edit.SolutionState.UseLargeDebugStats = Settings.MyDefaults.LargeDebugStatsDefault;
 
-            EditorStateModel.GridCustomSize = Settings.MyDefaults.CustomGridSizeValue;
-            Editor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = EditorStateModel.GridCustomSize;
+            Classes.Edit.SolutionState.GridCustomSize = Settings.MyDefaults.CustomGridSizeValue;
+            Editor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Edit.SolutionState.GridCustomSize;
 
-            EditorStateModel.CollisionSAColour = Settings.MyDefaults.CollisionSAColour;
-            EditorStateModel.CollisionLRDColour = Settings.MyDefaults.CollisionLRDColour;
-            EditorStateModel.CollisionTOColour = Settings.MyDefaults.CollisionTOColour;
+            Classes.Edit.SolutionState.CollisionSAColour = Settings.MyDefaults.CollisionSAColour;
+            Classes.Edit.SolutionState.CollisionLRDColour = Settings.MyDefaults.CollisionLRDColour;
+            Classes.Edit.SolutionState.CollisionTOColour = Settings.MyDefaults.CollisionTOColour;
 
-            EditorStateModel.GridColor = Settings.MyDefaults.DefaultGridColor;
-            EditorStateModel.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
+            Classes.Edit.SolutionState.GridColor = Settings.MyDefaults.DefaultGridColor;
+            Classes.Edit.SolutionState.waterColor = Settings.MyDefaults.WaterEntityColorDefault;
 
             Editor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = Settings.MyDefaults.FasterNudgeValue;
 
@@ -59,7 +59,7 @@ namespace ManiacEditor
                     if (item.Tag.ToString() == Settings.MyDefaults.MenuLanguageDefault)
                     {
                         item.IsChecked = true;
-                        EditorStateModel.CurrentLanguage = item.Tag.ToString();
+                        Classes.Edit.SolutionState.CurrentLanguage = item.Tag.ToString();
                     }
                 }
 

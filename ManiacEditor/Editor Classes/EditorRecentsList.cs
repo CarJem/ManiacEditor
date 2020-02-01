@@ -72,7 +72,7 @@ namespace ManiacEditor
 
             Name += Instance.DataDirectory;
             Name += Instance.Paths.SceneFilePath;
-            Name += EditorStateModel.LevelID;
+            Name += Classes.Edit.SolutionState.LevelID;
             Name += Instance.Paths.CurrentName;
             Name += Instance.Paths.CurrentZone;
             Name += Instance.Paths.CurrentScene;
@@ -83,17 +83,17 @@ namespace ManiacEditor
 
 
             SceneSaveStateCollection.SaveState section = new SceneSaveStateCollection.SaveState();
-            int x1 = (short)(EditorStateModel.ViewPositionX / EditorStateModel.Zoom);
-            int y1 = (short)(EditorStateModel.ViewPositionY / EditorStateModel.Zoom);
+            int x1 = (short)(Classes.Edit.SolutionState.ViewPositionX / Classes.Edit.SolutionState.Zoom);
+            int y1 = (short)(Classes.Edit.SolutionState.ViewPositionY / Classes.Edit.SolutionState.Zoom);
             section.EntryName = Title;
             section.RealEntryName = Name;
             section.DataDirectory = Instance.DataDirectory;
             section.Result = Instance.Paths.SceneFilePath;
             section.x = x1;
             section.y = y1;
-            section.ZoomLevel = EditorStateModel.ZoomLevel;
+            section.ZoomLevel = Classes.Edit.SolutionState.ZoomLevel;
             section.isEncore = Instance.Paths.isEncoreMode;
-            section.LevelID = EditorStateModel.LevelID;
+            section.LevelID = Classes.Edit.SolutionState.LevelID;
             section.CurrentName = Instance.Paths.CurrentName;
             section.CurrentZone = Instance.Paths.CurrentZone;
             section.CurrentSceneID = Instance.Paths.CurrentSceneID;
