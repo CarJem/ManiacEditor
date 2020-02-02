@@ -210,6 +210,7 @@ namespace ManiacEditor.Methods
 
         public static void SetupSettingFiles()
         {
+            if (!Directory.Exists(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder)) System.IO.Directory.CreateDirectory(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder);
             string currentDirectory = ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName();
             if (!File.Exists(Path.Combine(currentDirectory, "Internal.settings"))) File.Create(Path.Combine(currentDirectory, "Internal.settings"));
             bool PortableExists = System.IO.Directory.Exists(Classes.Editor.Constants.SettingsPortableDirectory);

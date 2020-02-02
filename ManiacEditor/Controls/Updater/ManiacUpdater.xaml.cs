@@ -38,13 +38,7 @@ namespace ManiacEditor.Controls.Updater
         public string VersionCheckFileName { get; private set; }
         public string InstallerDownloadURL { get; private set; }
 
-        public string DownloadRequestsFolder
-        {
-            get
-            {
-                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "UpdateRequests");
-            }
-        }
+
 
         public UpdateResult UpdateResults { get; private set; }
         public enum UpdateResult : int
@@ -123,7 +117,7 @@ namespace ManiacEditor.Controls.Updater
 
                 if (isOnline)
                 {
-                    string download_path = DownloadRequestsFolder;
+                    string download_path = ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder;
                     string url = @"https://raw.githubusercontent.com/CarJem/GenerationsLib.Updates/master/UpdateMetadata/ManiacEditor_Updates.json";
                     VersionCheckFileName = DownloadFromURL(url, download_path, DownloadVersionCheckFileComplete);
                 }
@@ -141,7 +135,7 @@ namespace ManiacEditor.Controls.Updater
 
         private void CleanCache()
         {
-            foreach (var file in Directory.EnumerateFiles(DownloadRequestsFolder, "*.*"))
+            foreach (var file in Directory.EnumerateFiles(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder, "*.*"))
             {
                 File.Delete(file);
             }
@@ -200,7 +194,7 @@ namespace ManiacEditor.Controls.Updater
         {
             try
             {
-                Classes.Internal.VersionCheck versionCheck = new Classes.Internal.VersionCheck(new FileInfo(System.IO.Path.Combine(DownloadRequestsFolder, VersionCheckFileName)));
+                Classes.Internal.VersionCheck versionCheck = new Classes.Internal.VersionCheck(new FileInfo(System.IO.Path.Combine(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder, VersionCheckFileName)));
 
                 var current = Methods.ProgramBase.GetVersion();
                 var remote = versionCheck.Version;

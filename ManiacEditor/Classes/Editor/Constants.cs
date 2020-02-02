@@ -30,6 +30,14 @@ namespace ManiacEditor.Classes.Editor
             return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config");
         }
 
+        public static string DownloadRequestsFolder
+        {
+            get
+            {
+                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "UpdateRequests");
+            }
+        }
+
         public static void UpgradeAllSettings()
         {
             ManiacEditor.Core.Settings.MyPerformance.Upgrade();
