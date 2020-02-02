@@ -107,7 +107,7 @@ namespace ManiacEditor
 				return;
 
             Classes.Core.Solution.UnloadScene();
-			Methods.Internal.EditorSettings.UseDefaultPrefrences();
+			Methods.Internal.Settings.UseDefaultPrefrences();
 			File.Replace(Result, ResultOriginal, ResultOld);
 
 		}

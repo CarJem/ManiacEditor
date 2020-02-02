@@ -6,10 +6,10 @@ using System.Linq;
 namespace ManiacEditor.Methods.Internal
 {
     [Serializable]
-    public class EditorSettings
+    public class Settings
     {
         private static Controls.Base.MainEditor Instance { get; set; }
-        public static void SetInstance(Controls.Base.MainEditor instance)
+        public static void UpdateInstance(Controls.Base.MainEditor instance)
         {
             Instance = instance;
         }

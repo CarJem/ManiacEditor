@@ -9,11 +9,11 @@ using MenuItem = System.Windows.Controls.MenuItem;
 using Button = System.Windows.Controls.Button;
 using ManiacEditor.Extensions;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods.Internal
 {
-    public class EditorTheming
+    public static class Theming
     {
-        private Controls.Base.MainEditor Instance;
+        private static Controls.Base.MainEditor Instance;
         //Dark Theme
         public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
         public static Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
@@ -22,13 +22,13 @@ namespace ManiacEditor
         public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
         public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
 
-        public EditorTheming(Controls.Base.MainEditor _instance)
+        public static void UpdateInstance(Controls.Base.MainEditor _instance)
         {
             Instance = _instance;
         }
 
         #region Theming Stuff
-        public void UseDarkTheme(bool state = false)
+        public static void UseDarkTheme(bool state = false)
         {
             if (state)
             {
@@ -88,7 +88,7 @@ namespace ManiacEditor
             }
 
         }
-        public void UseDarkTheme_WPF(bool state = false)
+        public static void UseDarkTheme_WPF(bool state = false)
         {
             if (state)
             {
@@ -101,7 +101,7 @@ namespace ManiacEditor
                 UseDarkTheme(false);
             }
         }
-        public Control UseExternalDarkTheme(Control control)
+        public static Control UseExternalDarkTheme(Control control)
         {
             foreach (Control c in control.Controls)
             {
@@ -144,7 +144,7 @@ namespace ManiacEditor
             }
             return control;
         }
-        public void SetButtonColors(object sender, Color OverallColor)
+        public static void SetButtonColors(object sender, Color OverallColor)
         {
             if (sender is ToggleButton)
             {
@@ -223,7 +223,7 @@ namespace ManiacEditor
 
             }
         }
-        public void UpdateButtonColors()
+        public static void UpdateButtonColors()
         {
             var converter = new System.Windows.Media.BrushConverter();
             if (Core.Settings.MySettings.NightMode)
@@ -236,7 +236,7 @@ namespace ManiacEditor
             }
 
         }
-        public Color MainThemeColor(Color? CDC = null, Color? CWC = null)
+        public static Color MainThemeColor(Color? CDC = null, Color? CWC = null)
         {
             Color NightColor;
             Color NormalColor;
@@ -251,7 +251,7 @@ namespace ManiacEditor
         #endregion
 
         #region Entities Related Color Fetching
-        public System.Drawing.Color GetSenstiveFilterColors(string colorID)
+        public static System.Drawing.Color GetSenstiveFilterColors(string colorID)
         {
             if (colorID == "Blue")
             {
@@ -275,7 +275,7 @@ namespace ManiacEditor
             }
         }
 
-        public int GetFilter(RSDKv5.SceneEntity entity)
+        public static int GetFilter(RSDKv5.SceneEntity entity)
         {
             if (entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == RSDKv5.AttributeTypes.UINT8)
             {
@@ -288,7 +288,7 @@ namespace ManiacEditor
             }
         }
 
-        public SolidColorBrush GetColorBrush(RSDKv5.SceneEntity entity)
+        public static SolidColorBrush GetColorBrush(RSDKv5.SceneEntity entity)
         {
             int filter = GetFilter(entity);
             SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
@@ -316,7 +316,7 @@ namespace ManiacEditor
             return ForeColor;
         }
 
-        public SolidColorBrush GetColorBrush(int filter)
+        public static SolidColorBrush GetColorBrush(int filter)
         {
             SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
             switch (filter)
@@ -346,13 +346,13 @@ namespace ManiacEditor
 
         #region Theming Refresh
 
-        public bool TilesToolbarAwaitingRefresh = false;
-        public bool EntitiesToolbarAwaitingRefresh = false;
-        public bool FormsModelAwaitingRefresh = false;
-        public bool StartScreenAwaitingRefresh = false;
-        public bool TileManiacAwaitingRefresh = false;
+        public static bool TilesToolbarAwaitingRefresh = false;
+        public static bool EntitiesToolbarAwaitingRefresh = false;
+        public static bool FormsModelAwaitingRefresh = false;
+        public static bool StartScreenAwaitingRefresh = false;
+        public static bool TileManiacAwaitingRefresh = false;
 
-        public void UpdateThemeForItemsWaiting()
+        public static void UpdateThemeForItemsWaiting()
         {
             if (FormsModelAwaitingRefresh && Controls.Base.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
             if (TilesToolbarAwaitingRefresh && Controls.Base.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
@@ -360,7 +360,7 @@ namespace ManiacEditor
             if (StartScreenAwaitingRefresh && Controls.Base.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
         }
 
-        public void RefreshTheme()
+        public static void RefreshTheme()
         {
             Controls.Base.MainEditor.Instance.Refresh();
             if (Controls.Base.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
@@ -373,13 +373,13 @@ namespace ManiacEditor
             else EntitiesToolbarAwaitingRefresh = true;
         }
 
-        public void RefreshStartScreen()
+        public static void RefreshStartScreen()
         {
             Controls.Base.MainEditor.Instance.StartScreen.SelectScreen.UpdateSceneSelectTheme();
             StartScreenAwaitingRefresh = false;
         }
 
-        public void RefreshTilesToolbar()
+        public static void RefreshTilesToolbar()
         {
             Controls.Base.MainEditor.Instance.TilesToolbar.Refresh();
             Controls.Base.MainEditor.Instance.TilesToolbar.ChunkList.Refresh();
@@ -390,14 +390,14 @@ namespace ManiacEditor
             TilesToolbarAwaitingRefresh = false;
         }
 
-        public void RefreshEntitiesToolbar()
+        public static void RefreshEntitiesToolbar()
         {
             Controls.Base.MainEditor.Instance.EntitiesToolbar.Refresh();
             Controls.Base.MainEditor.Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
             EntitiesToolbarAwaitingRefresh = false;
         }
 
-        public void RefreshFormsModel()
+        public static void RefreshFormsModel()
         {
             Controls.Base.MainEditor.Instance.DeviceModel.Refresh();
             Controls.Base.MainEditor.Instance.DeviceModel.UpdateScrollbars(true);
@@ -408,25 +408,6 @@ namespace ManiacEditor
 
         #endregion
 
-        public class SystemColorsUtility
-        {
-            public SystemColorsUtility()
-            {
-                // force init color table
-                byte unused = SystemColors.Window.R;
 
-                var colorTableField = typeof(Color).Assembly.GetType("System.Drawing.KnownColorTable")
-                    .GetField("colorTable", BindingFlags.Static | BindingFlags.NonPublic);
-
-                _colorTable = (int[])colorTableField.GetValue(null);
-            }
-
-            public void SetColor(KnownColor knownColor, Color value)
-            {
-                _colorTable[(int)knownColor] = value.ToArgb();
-            }
-
-            private readonly int[] _colorTable;
-        }
     }
 }

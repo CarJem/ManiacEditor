@@ -100,7 +100,6 @@ namespace ManiacEditor.Controls.Base
 		public EditorDataPacks DataPacks;
 		public Methods.Layers.TileFindReplace FindAndReplace;
         public EditorZoomModel ZoomModel;
-        public EditorTheming Theming;
         public EditorManiacINI ManiacINI;
         public EditorUI UI;
         public EditorRecentSceneSourcesList RecentsList;
@@ -178,10 +177,10 @@ namespace ManiacEditor.Controls.Base
 		public MainEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
 
-            Theming = new EditorTheming(this);
-            Methods.Internal.EditorSettings.SetInstance(this);
+            Methods.Internal.Theming.UpdateInstance(this);
+            Methods.Internal.Settings.UpdateInstance(this);
 
-            Theming.UseDarkTheme_WPF(ManiacEditor.Core.Settings.MySettings.NightMode);
+            Methods.Internal.Theming.UseDarkTheme_WPF(ManiacEditor.Core.Settings.MySettings.NightMode);
             Instance = this;
             InitializeComponent();
 
@@ -275,7 +274,7 @@ namespace ManiacEditor.Controls.Base
 			RefreshCollisionColours();
             ZoomModel.SetViewSize();
             UI.UpdateControls();
-			Methods.Internal.EditorSettings.TryLoadSettings();
+			Methods.Internal.Settings.TryLoadSettings();
 
             
 			UpdateStartScreen(true, true);
@@ -1363,7 +1362,7 @@ namespace ManiacEditor.Controls.Base
         {
             if (FileHandler.AllowSceneUnloading() != true) return;
             Classes.Core.Solution.UnloadScene();
-            Methods.Internal.EditorSettings.UseDefaultPrefrences();
+            Methods.Internal.Settings.UseDefaultPrefrences();
             DataDirectory = newDataDirectory;
             AddRecentDataFolder(newDataDirectory);
             bool goodGameConfig = SetGameConfig();

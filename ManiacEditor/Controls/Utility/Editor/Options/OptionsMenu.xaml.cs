@@ -138,19 +138,19 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			customRadioButton2.IsChecked = false;
 
 
-			if (Methods.Internal.EditorSettings.isMinimalPreset())
+			if (Methods.Internal.Settings.isMinimalPreset())
 			{
 				minimalRadioButton2.IsChecked = true;
 			}
-			else if (Methods.Internal.EditorSettings.isBasicPreset())
+			else if (Methods.Internal.Settings.isBasicPreset())
 			{
 				basicRadioButton2.IsChecked = true;
 			}
-			else if (Methods.Internal.EditorSettings.isSuperPreset())
+			else if (Methods.Internal.Settings.isSuperPreset())
 			{
 				superRadioButton2.IsChecked = true;
 			}
-			else if (Methods.Internal.EditorSettings.isHyperPreset())
+			else if (Methods.Internal.Settings.isHyperPreset())
 			{
 				hyperRadioButton2.IsChecked = true;
 			}
@@ -252,12 +252,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void button5_Click(object sender, RoutedEventArgs e)
 		{
-			Methods.Internal.EditorSettings.exportSettings();
+			Methods.Internal.Settings.exportSettings();
 		}
 
 		private void importOptionsButton_Click(object sender, RoutedEventArgs e)
 		{
-			Methods.Internal.EditorSettings.importSettings();
+			Methods.Internal.Settings.importSettings();
 		}
 
 		private void button11_Click(object sender, RoutedEventArgs e)
@@ -476,7 +476,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 				Core.Settings.MySettings.Save();
 				App.ChangeSkin(Skin.Dark);
 				App.SkinChanged = true;
-				ManiacEditor.Controls.Base.MainEditor.Instance.Theming.RefreshTheme();
+				Methods.Internal.Theming.RefreshTheme();
 
 			}
 			else if (!DarkModeCheckBox.IsChecked == true && Core.Settings.MySettings.NightMode)
@@ -485,7 +485,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 				Core.Settings.MySettings.Save();
 				App.ChangeSkin(Skin.Light);
 				App.SkinChanged = true;
-				ManiacEditor.Controls.Base.MainEditor.Instance.Theming.RefreshTheme();
+				Methods.Internal.Theming.RefreshTheme();
 
             }
 
@@ -517,7 +517,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 		private void SetGraphicalPresetSetting(object sender, RoutedEventArgs e)
 		{
 			RadioButton button = sender as RadioButton;
-			if (sender != null) Methods.Internal.EditorSettings.ApplyPreset(button.Tag.ToString());
+			if (sender != null) Methods.Internal.Settings.ApplyPreset(button.Tag.ToString());
 			CheckGraphicalPresetModeState(null, null);
 		}
 

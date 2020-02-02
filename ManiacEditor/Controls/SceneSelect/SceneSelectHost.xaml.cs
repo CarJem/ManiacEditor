@@ -349,11 +349,11 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (App.Skin == Skin.Dark)
             {
-                ScenesTree.BackColor = EditorTheming.darkTheme1;
-                ScenesTree.ForeColor = EditorTheming.darkTheme3;
+                ScenesTree.BackColor = Methods.Internal.Theming.darkTheme1;
+                ScenesTree.ForeColor = Methods.Internal.Theming.darkTheme3;
 
-                RecentsTree.BackColor = EditorTheming.darkTheme1;
-                RecentsTree.ForeColor = EditorTheming.darkTheme3;
+                RecentsTree.BackColor = Methods.Internal.Theming.darkTheme1;
+                RecentsTree.ForeColor = Methods.Internal.Theming.darkTheme3;
             }
 
 

@@ -199,11 +199,11 @@ namespace ManiacEditor.Controls.Base.Elements
         {
             if (startup)
             {
-                maniaFilterCheck.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(2);
-                encoreFilterCheck.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(4);
-                otherFilterCheck.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(0);
-                bothFilterCheck.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(1);
-                pinballFilterCheck.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(255);
+                maniaFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(2);
+                encoreFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(4);
+                otherFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(0);
+                bothFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(1);
+                pinballFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(255);
             }
             if (Properties.Settings.Default.UseBitOperators)
             {

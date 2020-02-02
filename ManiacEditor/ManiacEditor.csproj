@@ -198,6 +198,7 @@
     <Compile Include="Classes\Core\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Core\Scene\EditorScene.cs" />
     <Compile Include="Classes\Core\Scene\EditorTiles.cs" />
+    <Compile Include="Extensions\SystemColorsUtility.cs" />
     <Compile Include="Structures\EntityRenderProp.cs" />
     <Compile Include="Classes\Internal\VersionCheck.cs" />
     <Compile Include="Converters\RemoveTabConverter.cs" />
@@ -396,7 +397,7 @@
     <Compile Include="%28Unsorted%29\EditorUI\EditorUIEvents.cs" />
     <Compile Include="Classes\Core\Scene\EditorPath.cs" />
     <Compile Include="%28Unsorted%29\EditorFileHandler.cs" />
-    <Compile Include="%28Unsorted%29\EditorTheming.cs" />
+    <Compile Include="Methods\Internal\Theming.cs" />
     <Compile Include="%28Unsorted%29\EditorUI\EditorUI.cs" />
     <Compile Include="%28Unsorted%29\EditorUI\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />

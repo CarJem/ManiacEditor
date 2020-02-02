@@ -119,19 +119,19 @@ namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
         {
             if (App.Skin == Skin.Dark)
             {
-                this.entityProperties.BackColor = EditorTheming.darkTheme0;
-                this.entityProperties.CategoryForeColor = EditorTheming.darkTheme3;
+                this.entityProperties.BackColor = Methods.Internal.Theming.darkTheme0;
+                this.entityProperties.CategoryForeColor = Methods.Internal.Theming.darkTheme3;
                 this.entityProperties.CommandsBorderColor = System.Drawing.Color.DarkGray;
                 this.entityProperties.CommandsForeColor = System.Drawing.Color.Black;
                 this.entityProperties.HelpBackColor = System.Drawing.Color.White;
                 this.entityProperties.HelpBorderColor = System.Drawing.Color.DarkGray;
                 this.entityProperties.HelpForeColor = System.Drawing.Color.Black;
-                this.entityProperties.LineColor = EditorTheming.darkTheme5;
+                this.entityProperties.LineColor = Methods.Internal.Theming.darkTheme5;
                 this.entityProperties.SelectedItemWithFocusBackColor = System.Drawing.Color.Blue;
                 this.entityProperties.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
-                this.entityProperties.ViewBackColor = EditorTheming.darkTheme0;
-                this.entityProperties.ViewBorderColor = EditorTheming.darkTheme1;
-                this.entityProperties.ViewForeColor = EditorTheming.darkTheme3;
+                this.entityProperties.ViewBackColor = Methods.Internal.Theming.darkTheme0;
+                this.entityProperties.ViewBorderColor = Methods.Internal.Theming.darkTheme1;
+                this.entityProperties.ViewForeColor = Methods.Internal.Theming.darkTheme3;
             }
             else
             {
@@ -157,11 +157,11 @@ namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
 		{
 			if (startup)
 			{
-				maniaFilter.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(2);
-				encoreFilter.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(4);
-				pinballFilter.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(255);
-				bothFilter.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(1);
-				otherFilter.Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(0);
+				maniaFilter.Foreground = Methods.Internal.Theming.GetColorBrush(2);
+				encoreFilter.Foreground = Methods.Internal.Theming.GetColorBrush(4);
+				pinballFilter.Foreground = Methods.Internal.Theming.GetColorBrush(255);
+				bothFilter.Foreground = Methods.Internal.Theming.GetColorBrush(1);
+				otherFilter.Foreground = Methods.Internal.Theming.GetColorBrush(0);
 			}
 			if (Core.Settings.MySettings.UseBitOperators)
 			{
@@ -202,7 +202,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
 						ObjectList[i] = new System.Windows.Controls.Button()
                         {
                             Content = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
-                            Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(entity),
+                            Foreground = Methods.Internal.Theming.GetColorBrush(entity),
                             Tag = entity.SlotID.ToString(),
                             Visibility = VisibilityStatus
                         };
@@ -211,7 +211,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
                     else
                     {
                         ObjectList[i].Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
-						ObjectList[i].Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(entity);
+						ObjectList[i].Foreground = Methods.Internal.Theming.GetColorBrush(entity);
                         ObjectList[i].Tag = entity.SlotID.ToString();
                         ObjectList[i].Visibility = VisibilityStatus;
                     }
@@ -224,7 +224,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
 						ObjectList[i] = new System.Windows.Controls.Button()
                         {
                             Content = string.Format("{0} - {1}", "UNUSED", i),
-                            Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(256),
+                            Foreground = Methods.Internal.Theming.GetColorBrush(256),
                             Height = 0,
                             Visibility = Visibility.Collapsed,
                             Tag = "NULL"
@@ -235,7 +235,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
                     else
                     {
                         ObjectList[i].Content = String.Format("{0} - {1}", "UNUSED", i);
-						ObjectList[i].Foreground = ManiacEditor.Controls.Base.MainEditor.Instance.Theming.GetColorBrush(256);
+						ObjectList[i].Foreground = Methods.Internal.Theming.GetColorBrush(256);
                         ObjectList[i].Height = 0;
                         ObjectList[i].Visibility = Visibility.Collapsed;
                         ObjectList[i].Tag = "NULL";

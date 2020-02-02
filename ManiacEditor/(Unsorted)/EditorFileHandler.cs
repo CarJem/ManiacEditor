@@ -588,7 +588,7 @@ namespace ManiacEditor
         public bool PreLoad()
         {
             Classes.Core.Solution.UnloadScene();
-            Methods.Internal.EditorSettings.UseDefaultPrefrences();
+            Methods.Internal.Settings.UseDefaultPrefrences();
             Classes.Core.Solution.CurrentTiles = new Classes.Core.Scene.EditorTiles(Instance);
             return Instance.SetGameConfig();
         }

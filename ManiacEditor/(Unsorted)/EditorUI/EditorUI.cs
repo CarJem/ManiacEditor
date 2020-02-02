@@ -54,7 +54,7 @@ namespace ManiacEditor
                 Controls.Base.MainEditor.Instance.ZoomModel.SetViewSize((int)(Classes.Core.Solution.SceneWidth * Classes.Core.SolutionState.Zoom), (int)(Classes.Core.Solution.SceneHeight * Classes.Core.SolutionState.Zoom));
             }
 
-            Controls.Base.MainEditor.Instance.Theming.UpdateButtonColors();
+            Methods.Internal.Theming.UpdateButtonColors();
 
         }
 
@@ -654,7 +654,7 @@ namespace ManiacEditor
             bool parallaxAnimationInProgress = Classes.Core.SolutionState.AllowAnimations && Classes.Core.SolutionState.ParallaxAnimationChecked;
 
             UpdateGameRunningButton(Classes.Core.Solution.CurrentScene != null);
-            Controls.Base.MainEditor.Instance.Theming.UpdateThemeForItemsWaiting();
+            Methods.Internal.Theming.UpdateThemeForItemsWaiting();
             Controls.Base.MainEditor.Instance.EditorStatusBar.UpdateFilterButtonApperance(false);
             Controls.Base.MainEditor.Instance.EditorStatusBar.UpdateStatusPanel();
             SetSceneOnlyButtonsState(Classes.Core.Solution.CurrentScene != null && !parallaxAnimationInProgress, stageLoad);

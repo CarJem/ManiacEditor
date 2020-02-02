@@ -117,10 +117,10 @@ namespace ManiacEditor.Controls.Base.Elements
 
 		private void QuickSettingSetButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (minimalRadioButton.IsChecked.Value) Methods.Internal.EditorSettings.ApplyPreset(0);
-			else if (basicRadioButton.IsChecked.Value) Methods.Internal.EditorSettings.ApplyPreset(1);
-			else if (superRadioButton.IsChecked.Value) Methods.Internal.EditorSettings.ApplyPreset(2);
-			else if (hyperRadioButton.IsChecked.Value) Methods.Internal.EditorSettings.ApplyPreset(3);
+			if (minimalRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(0);
+			else if (basicRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(1);
+			else if (superRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(2);
+			else if (hyperRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(3);
 
 			Properties.Settings.Default.ShowFirstTimeSetup = false;
             Properties.Settings.Default.Save();

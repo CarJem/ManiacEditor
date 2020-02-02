@@ -302,7 +302,7 @@ namespace ManiacEditor.Methods
                     return;
 
                 Classes.Core.Solution.UnloadScene();
-                Methods.Internal.EditorSettings.UseDefaultPrefrences();
+                Methods.Internal.Settings.UseDefaultPrefrences();
 
                 ObjectIDHealer healer = new ObjectIDHealer();
                 Controls.Base.MainEditor.ShowConsoleWindow();
@@ -657,7 +657,7 @@ namespace ManiacEditor.Methods
             {
                 Color = Color.FromArgb(Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor1.R, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor1.G, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor1.B)
             };
-            Editor.Theming.UseExternalDarkTheme(colorSelect);
+            Methods.Internal.Theming.UseExternalDarkTheme(colorSelect);
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -681,7 +681,7 @@ namespace ManiacEditor.Methods
             {
                 Color = Color.FromArgb(Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor2.R, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor2.G, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor2.B)
             };
-            Editor.Theming.UseExternalDarkTheme(colorSelect);
+            Methods.Internal.Theming.UseExternalDarkTheme(colorSelect);
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
