@@ -138,19 +138,19 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			customRadioButton2.IsChecked = false;
 
 
-			if (EditorSettings.isMinimalPreset())
+			if (Methods.Internal.EditorSettings.isMinimalPreset())
 			{
 				minimalRadioButton2.IsChecked = true;
 			}
-			else if (EditorSettings.isBasicPreset())
+			else if (Methods.Internal.EditorSettings.isBasicPreset())
 			{
 				basicRadioButton2.IsChecked = true;
 			}
-			else if (EditorSettings.isSuperPreset())
+			else if (Methods.Internal.EditorSettings.isSuperPreset())
 			{
 				superRadioButton2.IsChecked = true;
 			}
-			else if (EditorSettings.isHyperPreset())
+			else if (Methods.Internal.EditorSettings.isHyperPreset())
 			{
 				hyperRadioButton2.IsChecked = true;
 			}
@@ -252,12 +252,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void button5_Click(object sender, RoutedEventArgs e)
 		{
-			EditorSettings.exportSettings();
+			Methods.Internal.EditorSettings.exportSettings();
 		}
 
 		private void importOptionsButton_Click(object sender, RoutedEventArgs e)
 		{
-			EditorSettings.importSettings();
+			Methods.Internal.EditorSettings.importSettings();
 		}
 
 		private void button11_Click(object sender, RoutedEventArgs e)
@@ -517,7 +517,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 		private void SetGraphicalPresetSetting(object sender, RoutedEventArgs e)
 		{
 			RadioButton button = sender as RadioButton;
-			if (sender != null) EditorSettings.ApplyPreset(button.Tag.ToString());
+			if (sender != null) Methods.Internal.EditorSettings.ApplyPreset(button.Tag.ToString());
 			CheckGraphicalPresetModeState(null, null);
 		}
 

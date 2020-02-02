@@ -102,7 +102,6 @@ namespace ManiacEditor.Controls.Base
 		public Methods.Layers.TileFindReplace FindAndReplace;
         public EditorZoomModel ZoomModel;
         public EditorTheming Theming;
-        public EditorSettings Settings;
         public EditorManiacINI ManiacINI;
         public EditorUI UI;
         public EditorRecentSceneSourcesList RecentsList;
@@ -110,7 +109,6 @@ namespace ManiacEditor.Controls.Base
         public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost DeviceHost;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
-        public EditorDefaults Defaulter;
 
 		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's
 		#region DLL Import Stuff
@@ -182,7 +180,7 @@ namespace ManiacEditor.Controls.Base
 		{
 
             Theming = new EditorTheming(this);
-            Settings = new EditorSettings(this);
+            Methods.Internal.EditorSettings.SetInstance(this);
 
             Theming.UseDarkTheme_WPF(ManiacEditor.Core.Settings.MySettings.NightMode);
             Instance = this;
@@ -262,7 +260,6 @@ namespace ManiacEditor.Controls.Base
             UI = new EditorUI();
             RecentsList = new EditorRecentSceneSourcesList(this);
             RecentDataSourcesList = new EditorRecentDataSourcesList(this);
-            Defaulter = new EditorDefaults();
 
             EditorStatusBar.UpdateFilterButtonApperance(true);
 
@@ -279,7 +276,7 @@ namespace ManiacEditor.Controls.Base
 			RefreshCollisionColours();
             ZoomModel.SetViewSize();
             UI.UpdateControls();
-			Settings.TryLoadSettings();
+			Methods.Internal.EditorSettings.TryLoadSettings();
 
             
 			UpdateStartScreen(true, true);
@@ -1367,7 +1364,7 @@ namespace ManiacEditor.Controls.Base
         {
             if (FileHandler.AllowSceneUnloading() != true) return;
             Classes.Core.Solution.UnloadScene();
-            Settings.UseDefaultPrefrences();
+            Methods.Internal.EditorSettings.UseDefaultPrefrences();
             DataDirectory = newDataDirectory;
             AddRecentDataFolder(newDataDirectory);
             bool goodGameConfig = SetGameConfig();

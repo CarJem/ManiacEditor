@@ -1,4 +1,4 @@
-﻿echo off
+@ECHO OFF
 set ConfigurationName=%1
 set SolutionDir=%~2
 set AssistantPath="D:\Users\CarJem\source\personal_repos\GenerationsLib\GenerationsLib.UpdateAssistant\bin\x86\Release\GenerationsLib.UpdateAssistant.exe"

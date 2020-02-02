@@ -302,7 +302,7 @@ namespace ManiacEditor.Methods
                     return;
 
                 Classes.Core.Solution.UnloadScene();
-                Editor.Settings.UseDefaultPrefrences();
+                Methods.Internal.EditorSettings.UseDefaultPrefrences();
 
                 ObjectIDHealer healer = new ObjectIDHealer();
                 Controls.Base.MainEditor.ShowConsoleWindow();
