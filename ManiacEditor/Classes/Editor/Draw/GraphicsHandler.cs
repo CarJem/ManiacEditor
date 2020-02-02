@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace ManiacEditor.Classes.Core.Draw
+namespace ManiacEditor.Classes.Editor.Draw
 {
     public class GraphicsHandler
     {

@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -53,7 +53,7 @@ namespace ManiacEditor.Entity_Renders
                     {
                         var frame = editorAnim.Frames[Animation.index];
                         Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                             (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Frame.Width),
                             (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Frame.Height),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -73,7 +73,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frame = editorAnim.Frames[Animation.index];
                     Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x - frame.Frame.Width / (mighty ? 1 : 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x - frame.Frame.Width / (mighty ? 1 : 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }
 
@@ -85,12 +85,12 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frame = editorAnim.Frames[Animation.index];
                     Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x - (knux ? 0 : frame.Frame.Width / 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x - (knux ? 0 : frame.Frame.Width / 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }
         }
 
-        public override bool isObjectOnScreen(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High * 2 - 1) * 16;
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High * 2 - 1) * 16;

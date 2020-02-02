@@ -15,7 +15,7 @@ namespace ManiacEditor.Methods.Prefrences
 
         private static string GetRecentsListDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? Classes.Core.Constants.SettingsPortableDirectory : Classes.Core.Constants.SettingsStaticDirectory);
+            return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
         }
 
         public static void UpdateInstance(Controls.Base.MainEditor instance)

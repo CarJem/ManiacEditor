@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -40,7 +40,7 @@ namespace ManiacEditor.Entity_Renders
                         (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-size / 2 + yy) * frame.Frame.Height),
                         x + pivotOffsetX, y + pivotOffsetY, angle);
 
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }
         }

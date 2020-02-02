@@ -194,10 +194,10 @@
     <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />
     <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
-    <Compile Include="Classes\Core\Constants.cs" />
-    <Compile Include="Classes\Core\Scene\Sets\EditorLayer.cs" />
-    <Compile Include="Classes\Core\Scene\EditorScene.cs" />
-    <Compile Include="Classes\Core\Scene\EditorTiles.cs" />
+    <Compile Include="Classes\Editor\Constants.cs" />
+    <Compile Include="Classes\Editor\Scene\Sets\EditorLayer.cs" />
+    <Compile Include="Classes\Editor\Scene\EditorScene.cs" />
+    <Compile Include="Classes\Editor\Scene\EditorTiles.cs" />
     <Compile Include="Classes\Internal\DataStateHistoryCollection.cs" />
     <Compile Include="Classes\Internal\SceneHistoryCollection.cs" />
     <Compile Include="Extensions\SystemColorsUtility.cs" />
@@ -388,21 +388,21 @@
     <Compile Include="Enums\DuplicateAction.cs" />
     <Compile Include="Enums\FlipDirection.cs" />
     <Compile Include="Methods\ProgramBase.cs" />
-    <Compile Include="%28Unsorted%29\EditorUI\EditorControl.cs" />
+    <Compile Include="Methods\Input %28Unoptimized%29\EditorControl.cs" />
     <Compile Include="Methods\Prefrences\SceneHistoryStorage.cs" />
-    <Compile Include="Classes\Core\Solution.cs" />
+    <Compile Include="Classes\Editor\Solution.cs" />
     <Compile Include="Methods\Prefrences\SceneCurrentSettings.cs" />
     <Compile Include="Methods\Prefrences\DataPackStorage.cs" />
     <Compile Include="Addons\DiscordRP.cs" />
     <Compile Include="Methods\Layers\TileFindReplace.cs" />
     <Compile Include="Methods\GameHandler.cs" />
-    <Compile Include="Classes\Core\Scene\EditorChunks.cs" />
-    <Compile Include="%28Unsorted%29\EditorUI\EditorUIEvents.cs" />
-    <Compile Include="Classes\Core\Scene\EditorPath.cs" />
-    <Compile Include="%28Unsorted%29\EditorFileHandler.cs" />
+    <Compile Include="Classes\Editor\Scene\EditorChunks.cs" />
+    <Compile Include="Methods\Input %28Unoptimized%29\EditorUIEvents.cs" />
+    <Compile Include="Classes\Editor\Scene\EditorPath.cs" />
+    <Compile Include="Classes\Editor\SolutionLoader.cs" />
     <Compile Include="Methods\Internal\Theming.cs" />
-    <Compile Include="%28Unsorted%29\EditorUI\EditorUI.cs" />
-    <Compile Include="%28Unsorted%29\EditorUI\EditorZoomModel.cs" />
+    <Compile Include="Methods\Input %28Unoptimized%29\EditorUI.cs" />
+    <Compile Include="Methods\Input %28Unoptimized%29\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
@@ -595,10 +595,10 @@
     <Compile Include="Properties\SettingsProviders\DocumentsSettingsProvider.cs" />
     <Compile Include="Extensions\Spline\TriDiagonalMatrix.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
-    <Compile Include="Classes\Core\Draw\GIF.cs" />
-    <Compile Include="Classes\Core\Draw\GraphicsHandler.cs" />
+    <Compile Include="Classes\Editor\Draw\GIF.cs" />
+    <Compile Include="Classes\Editor\Draw\GraphicsHandler.cs" />
     <Compile Include="Methods\ImageExtensions.cs" />
-    <Compile Include="Classes\Core\Scene\StageTiles.cs" />
+    <Compile Include="Classes\Editor\Scene\StageTiles.cs" />
     <Compile Include="Controls\Utility\ExportAsImageGUI.xaml.cs">
       <DependentUpon>ExportAsImageGUI.xaml</DependentUpon>
     </Compile>
@@ -728,10 +728,10 @@
     <Compile Include="Controls\Global\Controls\RetroEDTileList.Designer.cs">
       <DependentUpon>RetroEDTileList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Core\SolutionState.cs" />
+    <Compile Include="Classes\Editor\SolutionState.cs" />
     <Compile Include="Enums\ScrollDir.cs" />
     <Compile Include="Methods\Entities\EntityAnimator.cs" />
-    <Compile Include="Classes\Core\Scene\EditorBackground.cs" />
+    <Compile Include="Classes\Editor\Scene\EditorBackground.cs" />
     <Compile Include="Methods\Entities\EntityDrawing.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">
@@ -839,13 +839,13 @@
     </Compile>
     <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
     <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
-    <Compile Include="Classes\Core\Scene\EditorEntities.cs" />
-    <Compile Include="Classes\Core\Scene\Sets\EditorEntity.cs" />
+    <Compile Include="Classes\Editor\Scene\EditorEntities.cs" />
+    <Compile Include="Classes\Editor\Scene\Sets\EditorEntity.cs" />
     <Compile Include="Core\ProcessMemory.cs" />
     <Compile Include="Methods\Internal\Settings.cs" />
     <Compile Include="Controls\Assets\SkinResourceDictionary.cs" />
     <Compile Include="Controls\Dialog\TextPrompt.cs" />
-    <Compile Include="Classes\Core\Draw\TextureCreator.cs" />
+    <Compile Include="Classes\Editor\Draw\TextureCreator.cs" />
     <Compile Include="Controls\Base\Render\ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -21,10 +21,10 @@ namespace ManiacEditor.Controls.Base.Controls
         {
             try
             {
-                if (Classes.Core.Solution.CurrentScene.AllLayers.Any(x => x.Name == Text))
+                if (Classes.Editor.Solution.CurrentScene.AllLayers.Any(x => x.Name == Text))
                 {
-                    var sourceLayer = Classes.Core.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
-                    _ShowLayerScrollLines = Classes.Core.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).ShowLayerScrollLines;
+                    var sourceLayer = Classes.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
+                    _ShowLayerScrollLines = Classes.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).ShowLayerScrollLines;
                     ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
                     return _ShowLayerScrollLines;
                 }
@@ -47,8 +47,8 @@ namespace ManiacEditor.Controls.Base.Controls
 
         private void SetShowLayerScrollLines(bool value)
         {
-            Classes.Core.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines = value;
-            _ShowLayerScrollLines = Classes.Core.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines;
+            Classes.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines = value;
+            _ShowLayerScrollLines = Classes.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines;
             ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
         }
 
@@ -60,10 +60,10 @@ namespace ManiacEditor.Controls.Base.Controls
         {
             try
             {
-                if (Classes.Core.Solution.CurrentScene.AllLayers.Any(x => x.Name == Text))
+                if (Classes.Editor.Solution.CurrentScene.AllLayers.Any(x => x.Name == Text))
                 {
-                    var sourceLayer = Classes.Core.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
-                    _AllowParallaxAnimation = Classes.Core.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).AllowLayerToAnimateParallax;
+                    var sourceLayer = Classes.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
+                    _AllowParallaxAnimation = Classes.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).AllowLayerToAnimateParallax;
                     AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
                     return _AllowParallaxAnimation;
                 }
@@ -86,9 +86,9 @@ namespace ManiacEditor.Controls.Base.Controls
 
         private void SetAllowParallaxAnimation(bool value)
         {
-            Classes.Core.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax = value;
-            _AllowParallaxAnimation = Classes.Core.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax;
-            if (value == true) Classes.Core.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).HasHorizontalLayerScrollInitilized = false;
+            Classes.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax = value;
+            _AllowParallaxAnimation = Classes.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax;
+            if (value == true) Classes.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).HasHorizontalLayerScrollInitilized = false;
             AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
         }
         #endregion

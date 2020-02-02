@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -95,7 +95,7 @@ namespace ManiacEditor.Entity_Renders
                         int radiusInt = (int)Math.Sqrt(radius);
                         int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
                         int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else if (moveType == 1)
@@ -121,12 +121,12 @@ namespace ManiacEditor.Entity_Renders
                         position = Animation.ProcessMovingPlatform2(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (int)speed);
                     }
 
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), (x + position[0]) + frame.Frame.PivotX, (y - position[1]) + frame.Frame.PivotY,
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), (x + position[0]) + frame.Frame.PivotX, (y - position[1]) + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);

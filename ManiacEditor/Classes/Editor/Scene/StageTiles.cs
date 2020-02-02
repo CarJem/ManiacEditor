@@ -3,39 +3,39 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace ManiacEditor.Classes.Core.Scene
+namespace ManiacEditor.Classes.Editor.Scene
 {
     public class StageTiles : IDisposable
     {
         /// <summary>
         /// the 16x16Tiles
         /// </summary>
-        public readonly Classes.Core.Draw.GIF Image;
+        public readonly Classes.Editor.Draw.GIF Image;
         /// <summary>
         /// the 16x16Tiles (Semi-Transparent)
         /// </summary>
-        public readonly Classes.Core.Draw.GIF ImageTransparent;
+        public readonly Classes.Editor.Draw.GIF ImageTransparent;
         /// <summary>
         /// IDs for each tile
         /// </summary>
-        public readonly Classes.Core.Draw.GIF IDImage;
+        public readonly Classes.Editor.Draw.GIF IDImage;
         /// <summary>
         /// Tiles for Maniac Editor to Use
         /// </summary>
-        public readonly Classes.Core.Draw.GIF EditorImage;
+        public readonly Classes.Editor.Draw.GIF EditorImage;
         /// <summary>
         /// the stage's tileconfig data
         /// </summary>
         public readonly RSDKv5.Tileconfig Config;
-        public readonly Classes.Core.Draw.GIF CollisionMaskA;
-        public readonly Classes.Core.Draw.GIF CollisionMaskB;
+        public readonly Classes.Editor.Draw.GIF CollisionMaskA;
+        public readonly Classes.Editor.Draw.GIF CollisionMaskB;
 
 		public StageTiles(string stage_directory, string palleteDir = null)
 		{
-			Image = new Classes.Core.Draw.GIF(Path.Combine(stage_directory, "16x16Tiles.gif"), palleteDir);
-            ImageTransparent = new Classes.Core.Draw.GIF(SetImageOpacity(Image.ToBitmap(), (float)0.1));
-            IDImage = new Classes.Core.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_ID.gif");
-			EditorImage = new Classes.Core.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
+			Image = new Classes.Editor.Draw.GIF(Path.Combine(stage_directory, "16x16Tiles.gif"), palleteDir);
+            ImageTransparent = new Classes.Editor.Draw.GIF(SetImageOpacity(Image.ToBitmap(), (float)0.1));
+            IDImage = new Classes.Editor.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_ID.gif");
+			EditorImage = new Classes.Editor.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
 			if (File.Exists(Path.Combine(stage_directory, "TileConfig.bin")))
 			{
 				Config = new RSDKv5.Tileconfig(Path.Combine(stage_directory, "TileConfig.bin"));
@@ -45,7 +45,7 @@ namespace ManiacEditor.Classes.Core.Scene
 
         }
 
-        private Classes.Core.Draw.GIF DrawCollisionMaskA()
+        private Classes.Editor.Draw.GIF DrawCollisionMaskA()
         {
             Bitmap bitmap = new Bitmap(16, 16384);
             using (Graphics gfx = Graphics.FromImage(bitmap))
@@ -55,11 +55,11 @@ namespace ManiacEditor.Classes.Core.Scene
                     gfx.DrawImage(Config.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0,(16 * i),16,16));
                 }
             }
-            Classes.Core.Draw.GIF gif = new Classes.Core.Draw.GIF(bitmap);
+            Classes.Editor.Draw.GIF gif = new Classes.Editor.Draw.GIF(bitmap);
             return gif;
         }
 
-        private Classes.Core.Draw.GIF DrawCollisionMaskB()
+        private Classes.Editor.Draw.GIF DrawCollisionMaskB()
         {
             Bitmap bitmap = new Bitmap(16, 16384);
             using (Graphics gfx = Graphics.FromImage(bitmap))
@@ -69,7 +69,7 @@ namespace ManiacEditor.Classes.Core.Scene
                     gfx.DrawImage(Config.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0, (16 * i), 16, 16));
                 }
             }
-            Classes.Core.Draw.GIF gif = new Classes.Core.Draw.GIF(bitmap);
+            Classes.Editor.Draw.GIF gif = new Classes.Editor.Draw.GIF(bitmap);
             return gif;
         }
 
@@ -105,7 +105,7 @@ namespace ManiacEditor.Classes.Core.Scene
 
         public StageTiles()
 		{
-			Image = new Classes.Core.Draw.GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
+			Image = new Classes.Editor.Draw.GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
 			Config = new RSDKv5.Tileconfig();
 		}
 

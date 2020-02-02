@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -40,7 +40,7 @@ namespace ManiacEditor.Entity_Renders
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                            d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                                 (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -16) + (-width / 2 + j) * 16),
                                 y + (hEven ? frame.Frame.PivotY : -16) + (-height / 2 + i) * 16,
                                 16, 16, false, Transparency);
@@ -60,7 +60,7 @@ namespace ManiacEditor.Entity_Renders
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                            d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                                 (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -16) + (-width / 2 + j) * 16),
                                 (y + heightPixels / (bottom ? 2 : -2) - (bottom ? 16 : 0)),
                                 16, 16, false, Transparency);

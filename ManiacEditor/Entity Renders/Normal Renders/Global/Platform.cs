@@ -18,9 +18,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -54,7 +54,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     try
                     {
-                        Classes.Core.Scene.Sets.EditorEntity childEntity = Classes.Core.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                        Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                         childEntity.childDraw = false;
                         childEntity.childDrawAddMode = false;
                         childEntity.childX = 0;
@@ -146,11 +146,11 @@ namespace ManiacEditor.Entity_Renders
 
                     if ((amplitudeX != 0 || amplitudeY != 0) && type == 2 && selected)
                     {
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + amplitudeX, y + frame.Frame.PivotY + amplitudeY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + amplitudeX, y + frame.Frame.PivotY + amplitudeY,
                             frame.ImageWidth, frame.ImageHeight, false, 125);
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - amplitudeX, y + frame.Frame.PivotY - amplitudeY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - amplitudeX, y + frame.Frame.PivotY - amplitudeY,
                             frame.ImageWidth, frame.ImageHeight, false, 125);
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                             frame.ImageWidth, frame.ImageHeight, false, Transparency);
                     }
 
@@ -184,14 +184,14 @@ namespace ManiacEditor.Entity_Renders
                             position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
                         }
 
-                        if (childCount != 0 && Classes.Core.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
+                        if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
                             {
                                 try
                                 {
-                                    Classes.Core.Scene.Sets.EditorEntity childEntity = Classes.Core.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                    Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                     childEntity.childDraw = true;
                                     childEntity.childX = position[0];
                                     childEntity.childY = -position[1];
@@ -205,7 +205,7 @@ namespace ManiacEditor.Entity_Renders
                         }
 
 
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + position[0], y + frame.Frame.PivotY - position[1],
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + position[0], y + frame.Frame.PivotY - position[1],
                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                     }
@@ -233,14 +233,14 @@ namespace ManiacEditor.Entity_Renders
                                 int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
                                 if (i == 0)
                                 {
-                                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame4),
+                                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame4),
                                         linePoints[0] + frame4.Frame.PivotX,
                                         linePoints[1] + frame4.Frame.PivotY,
                                         frame4.ImageWidth, frame4.ImageHeight, false, Transparency);
                                 }
                                 else
                                 {
-                                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
+                                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame3),
                                         linePoints[0] + frame3.Frame.PivotX,
                                         linePoints[1] + frame3.Frame.PivotY,
                                         frame3.ImageWidth, frame3.ImageHeight, false, Transparency);
@@ -249,19 +249,19 @@ namespace ManiacEditor.Entity_Renders
                             }
                         }
 
-                        if (childCount != 0 && Classes.Core.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
+                        if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
                             {
-                                Classes.Core.Scene.Sets.EditorEntity childEntity = Classes.Core.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                 childEntity.childDraw = true;
                                 childEntity.childX = newX;
                                 childEntity.childY = -newY;
                             }
                         }
 
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
                     }
@@ -297,22 +297,22 @@ namespace ManiacEditor.Entity_Renders
                                 linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
                                 if (i == 0)
                                 {
-                                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame4),
+                                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame4),
                                         linePoints[0] + frame4.Frame.PivotX,
                                         linePoints[1] + frame4.Frame.PivotY,
                                         frame4.ImageWidth, frame4.ImageHeight, false, Transparency);
                                 }
                                 else if (i == tensionCount)
                                 {
-                                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), linePoints[0] + frame.Frame.PivotX, linePoints[1] + frame.Frame.PivotY,
+                                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), linePoints[0] + frame.Frame.PivotX, linePoints[1] + frame.Frame.PivotY,
                                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
-                                    if (childCount != 0 && Classes.Core.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
+                                    if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
                                     {
                                         previousChildCount = childCount;
                                         for (int z = 0; z < childCount; z++)
                                         {
-                                            Classes.Core.Scene.Sets.EditorEntity childEntity = Classes.Core.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                                            Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                                             if (childEntity != null)
                                             {
                                                 childEntity.childDraw = true;
@@ -347,7 +347,7 @@ namespace ManiacEditor.Entity_Renders
                                 }
                                 else
                                 {
-                                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
+                                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame3),
                                         linePoints[0] + frame3.Frame.PivotX,
                                         linePoints[1] + frame3.Frame.PivotY,
                                         frame3.ImageWidth, frame3.ImageHeight, false, Transparency);
@@ -358,7 +358,7 @@ namespace ManiacEditor.Entity_Renders
                     else
                     {
 
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + angleStateX, y + frame.Frame.PivotY - angleStateY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + angleStateX, y + frame.Frame.PivotY - angleStateY,
                             frame.ImageWidth, frame.ImageHeight, false, Transparency);
                     }
                 }             
@@ -389,7 +389,7 @@ namespace ManiacEditor.Entity_Renders
             return results;
         }
 
-        public override bool isObjectOnScreen(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var attribute = entity.attributesMap["frameID"];
             int angle = (int)entity.attributesMap["angle"].ValueInt32;

@@ -137,9 +137,9 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (ManiacEditor.Core.Settings.MySettings.UpgradeRequired)
                 {
-                    Classes.Core.Constants.UpgradeAllSettings();
+                    Classes.Editor.Constants.UpgradeAllSettings();
                     ManiacEditor.Core.Settings.MySettings.UpgradeRequired = false;
-                    Classes.Core.Constants.SaveAllSettings();
+                    Classes.Editor.Constants.SaveAllSettings();
                 }
 
                 Instance.WindowState = ManiacEditor.Core.Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
@@ -180,22 +180,22 @@ namespace ManiacEditor.Methods.Internal
             if (!ManiacEditor.Core.Settings.MyDefaults.EntitiesDefault) Instance.EditorToolbar.ShowEntities.IsChecked = false;
             else Instance.EditorToolbar.ShowEntities.IsChecked = true;
             Instance.EditorToolbar.ShowAnimations.IsChecked = ManiacEditor.Core.Settings.MyDefaults.AnimationsDefault;
-            Classes.Core.SolutionState.AllowAnimations = ManiacEditor.Core.Settings.MyDefaults.AnimationsDefault;
+            Classes.Editor.SolutionState.AllowAnimations = ManiacEditor.Core.Settings.MyDefaults.AnimationsDefault;
 
 
             //Default Enabled Annimation Preferences
             Instance.EditorToolbar.movingPlatformsObjectsToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.PlatformAnimationsDefault;
-            Classes.Core.SolutionState.AllowMovingPlatformAnimations = ManiacEditor.Core.Settings.MyDefaults.PlatformAnimationsDefault;
+            Classes.Editor.SolutionState.AllowMovingPlatformAnimations = ManiacEditor.Core.Settings.MyDefaults.PlatformAnimationsDefault;
 
             Instance.EditorToolbar.spriteFramesToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.SpriteAnimationsDefault;
-            Classes.Core.SolutionState.AllowSpriteAnimations = ManiacEditor.Core.Settings.MyDefaults.SpriteAnimationsDefault;
+            Classes.Editor.SolutionState.AllowSpriteAnimations = ManiacEditor.Core.Settings.MyDefaults.SpriteAnimationsDefault;
 
 
             //TO DO: Add Default For this.
             Instance.EditorToolbar.parallaxAnimationMenuItem.IsChecked = false;
-            Classes.Core.SolutionState.ParallaxAnimationChecked = false;
+            Classes.Editor.SolutionState.ParallaxAnimationChecked = false;
 
-            Classes.Core.SolutionState.waterColor = ManiacEditor.Core.Settings.MyDefaults.WaterEntityColorDefault;
+            Classes.Editor.SolutionState.waterColor = ManiacEditor.Core.Settings.MyDefaults.WaterEntityColorDefault;
 
 
 
@@ -214,18 +214,18 @@ namespace ManiacEditor.Methods.Internal
             Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors == 0;
             Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors == 1;
             Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors == 2;
-            Classes.Core.SolutionState.CollisionPreset = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors;
+            Classes.Editor.SolutionState.CollisionPreset = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors;
             Instance.RefreshCollisionColours();
 
             if (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == false)
             {
-                Classes.Core.SolutionState.ScrollDirection = (int)ScrollDir.X;
+                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
 
             }
             else
             {
-                Classes.Core.SolutionState.ScrollDirection = (int)ScrollDir.Y;
+                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
             }
 
@@ -234,39 +234,39 @@ namespace ManiacEditor.Methods.Internal
         public static void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            Classes.Core.SolutionState.ApplyEditEntitiesTransparency = ManiacEditor.Core.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
+            Classes.Editor.SolutionState.ApplyEditEntitiesTransparency = ManiacEditor.Core.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
-            Classes.Core.SolutionState.ScrollLocked = ManiacEditor.Core.Settings.MyDefaults.ScrollLockDefault;
-            Classes.Core.SolutionState.ScrollDirection = (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
+            Classes.Editor.SolutionState.ScrollLocked = ManiacEditor.Core.Settings.MyDefaults.ScrollLockDefault;
+            Classes.Editor.SolutionState.ScrollDirection = (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            Controls.Base.MainEditor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Core.SolutionState.ScrollDirection == (int)ScrollDir.X;
-            Controls.Base.MainEditor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Core.SolutionState.ScrollDirection == (int)ScrollDir.Y;
+            Controls.Base.MainEditor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
+            Controls.Base.MainEditor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
 
-            Classes.Core.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Core.Settings.MyDefaults.EnablePixelModeDefault;
+            Classes.Editor.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Core.Settings.MyDefaults.EnablePixelModeDefault;
 
-            Classes.Core.SolutionState.ShowEntityPathArrows = ManiacEditor.Core.Settings.MyDefaults.ShowEntityArrowPathsDefault;
+            Classes.Editor.SolutionState.ShowEntityPathArrows = ManiacEditor.Core.Settings.MyDefaults.ShowEntityArrowPathsDefault;
 
-            Classes.Core.SolutionState.ShowWaterLevel = ManiacEditor.Core.Settings.MyDefaults.ShowWaterEntityLevelDefault;
-            Classes.Core.SolutionState.AlwaysShowWaterLevel = ManiacEditor.Core.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
-            Classes.Core.SolutionState.SizeWaterLevelwithBounds = ManiacEditor.Core.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
+            Classes.Editor.SolutionState.ShowWaterLevel = ManiacEditor.Core.Settings.MyDefaults.ShowWaterEntityLevelDefault;
+            Classes.Editor.SolutionState.AlwaysShowWaterLevel = ManiacEditor.Core.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
+            Classes.Editor.SolutionState.SizeWaterLevelwithBounds = ManiacEditor.Core.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
 
-            Classes.Core.SolutionState.ShowParallaxSprites = ManiacEditor.Core.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
-            Classes.Core.SolutionState.PrioritizedEntityViewing = ManiacEditor.Core.Settings.MyDefaults.PrioritizedObjectRenderingDefault;
+            Classes.Editor.SolutionState.ShowParallaxSprites = ManiacEditor.Core.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
+            Classes.Editor.SolutionState.PrioritizedEntityViewing = ManiacEditor.Core.Settings.MyDefaults.PrioritizedObjectRenderingDefault;
 
-            Classes.Core.SolutionState.ShowEntitySelectionBoxes = ManiacEditor.Core.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
+            Classes.Editor.SolutionState.ShowEntitySelectionBoxes = ManiacEditor.Core.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
 
-            Classes.Core.SolutionState.DebugStatsVisibleOnPanel = ManiacEditor.Core.Settings.MyDefaults.ShowDebugStatsDefault;
-            Classes.Core.SolutionState.UseLargeDebugStats = ManiacEditor.Core.Settings.MyDefaults.LargeDebugStatsDefault;
+            Classes.Editor.SolutionState.DebugStatsVisibleOnPanel = ManiacEditor.Core.Settings.MyDefaults.ShowDebugStatsDefault;
+            Classes.Editor.SolutionState.UseLargeDebugStats = ManiacEditor.Core.Settings.MyDefaults.LargeDebugStatsDefault;
 
-            Classes.Core.SolutionState.GridCustomSize = ManiacEditor.Core.Settings.MyDefaults.CustomGridSizeValue;
-            Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Core.SolutionState.GridCustomSize;
+            Classes.Editor.SolutionState.GridCustomSize = ManiacEditor.Core.Settings.MyDefaults.CustomGridSizeValue;
+            Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Editor.SolutionState.GridCustomSize;
 
-            Classes.Core.SolutionState.CollisionSAColour = ManiacEditor.Core.Settings.MyDefaults.CollisionSAColour;
-            Classes.Core.SolutionState.CollisionLRDColour = ManiacEditor.Core.Settings.MyDefaults.CollisionLRDColour;
-            Classes.Core.SolutionState.CollisionTOColour = ManiacEditor.Core.Settings.MyDefaults.CollisionTOColour;
+            Classes.Editor.SolutionState.CollisionSAColour = ManiacEditor.Core.Settings.MyDefaults.CollisionSAColour;
+            Classes.Editor.SolutionState.CollisionLRDColour = ManiacEditor.Core.Settings.MyDefaults.CollisionLRDColour;
+            Classes.Editor.SolutionState.CollisionTOColour = ManiacEditor.Core.Settings.MyDefaults.CollisionTOColour;
 
-            Classes.Core.SolutionState.GridColor = ManiacEditor.Core.Settings.MyDefaults.DefaultGridColor;
-            Classes.Core.SolutionState.waterColor = ManiacEditor.Core.Settings.MyDefaults.WaterEntityColorDefault;
+            Classes.Editor.SolutionState.GridColor = ManiacEditor.Core.Settings.MyDefaults.DefaultGridColor;
+            Classes.Editor.SolutionState.waterColor = ManiacEditor.Core.Settings.MyDefaults.WaterEntityColorDefault;
 
             Controls.Base.MainEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = ManiacEditor.Core.Settings.MyDefaults.FasterNudgeValue;
 
@@ -281,7 +281,7 @@ namespace ManiacEditor.Methods.Internal
                     if (item.Tag.ToString() == ManiacEditor.Core.Settings.MyDefaults.MenuLanguageDefault)
                     {
                         item.IsChecked = true;
-                        Classes.Core.SolutionState.CurrentLanguage = item.Tag.ToString();
+                        Classes.Editor.SolutionState.CurrentLanguage = item.Tag.ToString();
                     }
                 }
 

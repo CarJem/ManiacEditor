@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -65,21 +65,21 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 if (valveType == 2 || valveType == 0)
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(headA),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(headA),
                         x - 21 - headA.Frame.PivotX,
                         y - 12 - headA.Frame.PivotY,
                         headA.Frame.Width, headA.Frame.Height, false, Transparency);
                 }
                 if (valveType == 1 || valveType == 0)
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(headB),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(headB),
                         x + 12 + headB.Frame.PivotX,
                         y - 12 - headB.Frame.PivotY,
                         headB.Frame.Width, headB.Frame.Height, false, Transparency);

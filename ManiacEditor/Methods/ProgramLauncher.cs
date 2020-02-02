@@ -99,11 +99,11 @@ namespace ManiacEditor.Methods
         {
             if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
             Editor.TileManiacInstance.Show();
-            if (Classes.Core.Solution.TileConfig != null && Classes.Core.Solution.CurrentTiles.StageTiles != null)
+            if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
             {
                 if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                 {
-                    Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Core.Solution.TileConfig, Editor.Paths.TileConfig_Source);
+                    Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Editor.Paths.TileConfig_Source);
                 }
                 else
                 {
@@ -122,15 +122,15 @@ namespace ManiacEditor.Methods
                 {
                     Editor.TileManiacInstance.Show();
                 }
-                if (Classes.Core.Solution.TileConfig != null && Classes.Core.Solution.CurrentTiles.StageTiles != null)
+                if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
                 {
                     if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                     {
-                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Core.Solution.TileConfig, Editor.Paths.TileConfig_Source, Classes.Core.SolutionState.SelectedTileID);
+                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Editor.Paths.TileConfig_Source, Classes.Editor.SolutionState.SelectedTileID);
                     }
                     else
                     {
-                        Editor.TileManiacInstance.SetCollisionIndex(Classes.Core.SolutionState.SelectedTileID);
+                        Editor.TileManiacInstance.SetCollisionIndex(Classes.Editor.SolutionState.SelectedTileID);
                         Editor.TileManiacInstance.Activate();
                     }
 
@@ -257,14 +257,14 @@ namespace ManiacEditor.Methods
 
             if (button != null && button == Editor.EditorMenuBar.maniaPalGameConfigToolStripMenuItem)
             {
-                if (Classes.Core.Solution.GameConfig == null) GC_NULL = true;
-                else GC_Path = Classes.Core.Solution.GameConfig.FilePath;
+                if (Classes.Editor.Solution.GameConfig == null) GC_NULL = true;
+                else GC_Path = Classes.Editor.Solution.GameConfig.FilePath;
                 isGameConfig = true;
             }
             else
             {
-                if (Classes.Core.Solution.StageConfig == null) SC_NULL = true;
-                else SC_Path = Classes.Core.Solution.StageConfig.FilePath;
+                if (Classes.Editor.Solution.StageConfig == null) SC_NULL = true;
+                else SC_Path = Classes.Editor.Solution.StageConfig.FilePath;
                 isGameConfig = false;
             }
 
@@ -301,7 +301,7 @@ namespace ManiacEditor.Methods
                 if (Result == null)
                     return;
 
-                Classes.Core.Solution.UnloadScene();
+                Classes.Editor.Solution.UnloadScene();
                 Methods.Internal.Settings.UseDefaultPrefrences();
 
                 ObjectIDHealer healer = new ObjectIDHealer();
@@ -343,11 +343,11 @@ namespace ManiacEditor.Methods
         }
         public static void OpenManiacEditorFixedSettingsFolder()
         {
-            OpenFolder(Classes.Core.Constants.SettingsStaticDirectory);
+            OpenFolder(Classes.Editor.Constants.SettingsStaticDirectory);
         }
         public static void OpenManiacEditorPortableSettingsFolder()
         {
-            OpenFolder(Classes.Core.Constants.SettingsPortableDirectory);
+            OpenFolder(Classes.Editor.Constants.SettingsPortableDirectory);
         }
         public static void OpenDataDirectory()
         {
@@ -422,7 +422,7 @@ namespace ManiacEditor.Methods
         #region Data Packs
         public static void OpenAResourcePackFolderDropDownOpening(object sender, RoutedEventArgs e)
         {
-            if (Classes.Core.Solution.CurrentScene == null) Editor.ResourcePackList.Clear();
+            if (Classes.Editor.Solution.CurrentScene == null) Editor.ResourcePackList.Clear();
             if (Editor.ResourcePackList != null && Editor.ResourcePackList.Count > 0)
             {
                 Editor.EditorMenuBar.openAResourcePackFolderToolStripMenuItem.Items.Clear();
@@ -469,12 +469,12 @@ namespace ManiacEditor.Methods
         #region Scene Tab Buttons
         public static void ImportObjectsToolStripMenuItem_Click(Window window = null)
         {
-            Classes.Core.SolutionState.isImportingObjects = true;
+            Classes.Editor.SolutionState.isImportingObjects = true;
             try
             {
                 RSDKv5.Scene sourceScene = Editor.GetSceneSelection();
                 if (sourceScene == null) return;
-                var objectImporter = new ObjectImporter(sourceScene.Objects, Classes.Core.Solution.CurrentScene.Objects, Classes.Core.Solution.StageConfig, Editor);
+                var objectImporter = new ObjectImporter(sourceScene.Objects, Classes.Editor.Solution.CurrentScene.Objects, Classes.Editor.Solution.StageConfig, Editor);
                 if (window != null) objectImporter.Owner = window;
                 objectImporter.ShowDialog();
 
@@ -483,20 +483,20 @@ namespace ManiacEditor.Methods
 
                 // user clicked Import, get to it!
                 Editor.UI.UpdateControls();
-                Editor.EntitiesToolbar?.RefreshSpawningObjects(Classes.Core.Solution.CurrentScene.Objects);
-                Editor.UI.UpdateSplineSpawnObjectsList(Classes.Core.Solution.CurrentScene.Objects);
+                Editor.EntitiesToolbar?.RefreshSpawningObjects(Classes.Editor.Solution.CurrentScene.Objects);
+                Editor.UI.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
 
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Classes.Core.SolutionState.isImportingObjects = false;
+            Classes.Editor.SolutionState.isImportingObjects = false;
         }
 
         public static void ImportObjectsWithMegaList(Window window = null)
         {
-            Classes.Core.SolutionState.isImportingObjects = true;
+            Classes.Editor.SolutionState.isImportingObjects = true;
             try
             {
                 GenerationsLib.Core.FolderSelectDialog ofd = new GenerationsLib.Core.FolderSelectDialog();
@@ -507,7 +507,7 @@ namespace ManiacEditor.Methods
                     if (File.Exists(gameConfigPath))
                     {
                         Gameconfig SourceConfig = new Gameconfig(gameConfigPath);
-                        var objectImporter = new ObjectImporter(ofd.FileName, SourceConfig, Classes.Core.Solution.CurrentScene.Objects, Classes.Core.Solution.StageConfig, Editor);
+                        var objectImporter = new ObjectImporter(ofd.FileName, SourceConfig, Classes.Editor.Solution.CurrentScene.Objects, Classes.Editor.Solution.StageConfig, Editor);
                         if (window != null) objectImporter.Owner = window;
                         objectImporter.ShowDialog();
 
@@ -516,8 +516,8 @@ namespace ManiacEditor.Methods
 
                         // user clicked Import, get to it!
                         Editor.UI.UpdateControls();
-                        Editor.EntitiesToolbar?.RefreshSpawningObjects(Classes.Core.Solution.CurrentScene.Objects);
-                        Editor.UI.UpdateSplineSpawnObjectsList(Classes.Core.Solution.CurrentScene.Objects);
+                        Editor.EntitiesToolbar?.RefreshSpawningObjects(Classes.Editor.Solution.CurrentScene.Objects);
+                        Editor.UI.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
                     }
                 }
 
@@ -527,7 +527,7 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Classes.Core.SolutionState.isImportingObjects = false;
+            Classes.Editor.SolutionState.isImportingObjects = false;
         }
 
         public static void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -561,7 +561,7 @@ namespace ManiacEditor.Methods
                 }
                 if (null == sourceStageConfig) return;
 
-                var soundImporter = new SoundImporter(sourceStageConfig, Classes.Core.Solution.StageConfig);
+                var soundImporter = new SoundImporter(sourceStageConfig, Classes.Editor.Solution.StageConfig);
                 soundImporter.ShowDialog();
 
                 if (soundImporter.DialogResult != true)
@@ -575,7 +575,7 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
             }
-            Classes.Core.SolutionState.QuitWithoutSavingWarningRequired = true;
+            Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ManiacINIEditor(object sender, RoutedEventArgs e)
@@ -590,7 +590,7 @@ namespace ManiacEditor.Methods
         {
             Editor.Deselect(true);
 
-            var lm = new LayerManager(Classes.Core.Solution.CurrentScene);
+            var lm = new LayerManager(Classes.Editor.Solution.CurrentScene);
             lm.Owner = Window.GetWindow(Editor);
             lm.ShowDialog();
 
@@ -598,12 +598,12 @@ namespace ManiacEditor.Methods
             Editor.SetupLayerButtons();
             Editor.ZoomModel.ResetViewSize();
             Editor.UI.UpdateControls();
-            Classes.Core.SolutionState.QuitWithoutSavingWarningRequired = true;
+            Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ExportGUI(object sender, RoutedEventArgs e)
         {
-            var eG = new ExportAsImageGUI(Classes.Core.Solution.CurrentScene);
+            var eG = new ExportAsImageGUI(Classes.Editor.Solution.CurrentScene);
             eG.Owner = Window.GetWindow(Editor);
             eG.ShowDialog();
 
@@ -611,10 +611,10 @@ namespace ManiacEditor.Methods
 
         public static void ObjectManager()
         {
-            var objectManager = new ObjectManager(Classes.Core.Solution.CurrentScene.Objects, Classes.Core.Solution.StageConfig, Editor);
+            var objectManager = new ObjectManager(Classes.Editor.Solution.CurrentScene.Objects, Classes.Editor.Solution.StageConfig, Editor);
             objectManager.Owner = Window.GetWindow(Editor);
             objectManager.ShowDialog();
-            Classes.Core.SolutionState.QuitWithoutSavingWarningRequired = true;
+            Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void AboutScreen()
@@ -655,7 +655,7 @@ namespace ManiacEditor.Methods
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
-                Color = Color.FromArgb(Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor1.R, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor1.G, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor1.B)
+                Color = Color.FromArgb(Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1.R, Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1.G, Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1.B)
             };
             Methods.Internal.Theming.UseExternalDarkTheme(colorSelect);
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
@@ -669,7 +669,7 @@ namespace ManiacEditor.Methods
                         B = colorSelect.Color.B,
                         G = colorSelect.Color.G
                     };
-                    Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor1 = returnColor;
+                    Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1 = returnColor;
                 }
 
             }
@@ -679,7 +679,7 @@ namespace ManiacEditor.Methods
         {
             ColorPickerDialog colorSelect = new ColorPickerDialog
             {
-                Color = Color.FromArgb(Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor2.R, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor2.G, Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor2.B)
+                Color = Color.FromArgb(Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2.R, Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2.G, Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2.B)
             };
             Methods.Internal.Theming.UseExternalDarkTheme(colorSelect);
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
@@ -693,7 +693,7 @@ namespace ManiacEditor.Methods
                         B = colorSelect.Color.B,
                         G = colorSelect.Color.G
                     };
-                    Classes.Core.Solution.CurrentScene.EditorMetadata.BackgroundColor2 = returnColor;
+                    Classes.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2 = returnColor;
                 }
 
             }

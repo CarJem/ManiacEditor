@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -48,12 +48,12 @@ namespace ManiacEditor.Entity_Renders
                         int radiusInt = (int)Math.Sqrt(radius);
                         int newX = (int)(radiusInt * Math.Cos(Math.PI * Animation.platformAngle / 128));
                         int newY = (int)(radiusInt * Math.Sin(Math.PI * Animation.platformAngle / 128));
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                     else
                     {
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                             x + frame.Frame.PivotX,
                             y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -85,7 +85,7 @@ namespace ManiacEditor.Entity_Renders
 
                     else
                     {
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + position[0], y + frame.Frame.PivotY - position[1],
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + position[0], y + frame.Frame.PivotY - position[1],
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                 }
@@ -102,12 +102,12 @@ namespace ManiacEditor.Entity_Renders
                         int radiusInt = (int)Math.Sqrt(radius);
                         int newX = (int)(radiusInt * Math.Cos(Math.PI * Animation.platformAngle / 128));
                         int newY = (int)(radiusInt * Math.Sin(Math.PI * Animation.platformAngle / 128));
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), (x + newX) + frame.Frame.PivotX, (y - newY) + frame.Frame.PivotY,
                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     }
                     else
                     {
-                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                             x + frame.Frame.PivotX,
                             y + frame.Frame.PivotY,
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);

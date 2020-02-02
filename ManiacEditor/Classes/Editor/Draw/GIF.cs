@@ -8,7 +8,7 @@ using SharpDX.Direct3D9;
 using RSDKv5;
 using ManiacEditor.Extensions;
 
-namespace ManiacEditor.Classes.Core.Draw
+namespace ManiacEditor.Classes.Editor.Draw
 {
     public class GIF : IDisposable
     {
@@ -263,9 +263,9 @@ namespace ManiacEditor.Classes.Core.Draw
             _bitmap_selected_Cache.Clear();
         }
 
-        public Classes.Core.Draw.GIF Clone()
+        public Classes.Editor.Draw.GIF Clone()
         {
-            return new Classes.Core.Draw.GIF(_bitmapFilename);
+            return new Classes.Editor.Draw.GIF(_bitmapFilename);
         }
     }
 

@@ -38,8 +38,8 @@ namespace ManiacEditor.Controls.Base.Elements
             exportToolStripMenuItem.IsEnabled = enabled;
 
             newShortcutToolStripMenuItem.IsEnabled = System.IO.Directory.Exists(ManiacEditor.Controls.Base.MainEditor.Instance.DataDirectory);
-            withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Core.Solution.CurrentScene != null;
-            withCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Core.Solution.CurrentScene != null;
+            withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Editor.Solution.CurrentScene != null;
+            withCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Editor.Solution.CurrentScene != null;
             changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
         }
 
@@ -124,17 +124,17 @@ namespace ManiacEditor.Controls.Base.Elements
 
         public void SetEditButtonsState(bool enabled)
         {
-            entityManagerToolStripMenuItem.IsEnabled = enabled && Classes.Core.Solution.StageConfig != null;
-            importSoundsToolStripMenuItem.IsEnabled = enabled && Classes.Core.Solution.StageConfig != null;
+            entityManagerToolStripMenuItem.IsEnabled = enabled && Classes.Editor.Solution.StageConfig != null;
+            importSoundsToolStripMenuItem.IsEnabled = enabled && Classes.Editor.Solution.StageConfig != null;
             layerManagerToolStripMenuItem.IsEnabled = enabled;
             editBackgroundColorsToolStripMenuItem.IsEnabled = enabled;
 
             undoToolStripMenuItem.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.UndoStack.Count > 0;
             redoToolStripMenuItem.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.RedoStack.Count > 0;
 
-            findAndReplaceToolStripMenuItem.IsEnabled = enabled && Classes.Core.Solution.EditLayerA != null;
+            findAndReplaceToolStripMenuItem.IsEnabled = enabled && Classes.Editor.Solution.EditLayerA != null;
 
-            if (Classes.Core.Solution.Entities != null && Classes.Core.Solution.Entities.SelectedEntities != null && Classes.Core.Solution.Entities.SelectedEntities.Count > 1)
+            if (Classes.Editor.Solution.Entities != null && Classes.Editor.Solution.Entities.SelectedEntities != null && Classes.Editor.Solution.Entities.SelectedEntities.Count > 1)
             {
                 SortSelectedSlotIDs.IsEnabled = true;
                 SortSelectedSlotIDsOptimized.IsEnabled = true;
@@ -267,39 +267,39 @@ namespace ManiacEditor.Controls.Base.Elements
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.GoToPosition(sender, e); }
         private void UndoEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.EditorUndo(); }
         private void RedoEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.EditorRedo(); }
-        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.CountTilesSelectedInPixels ^= true; }
-        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ScrollLocked ^= true; }
-        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.EnableFasterNudge ^= true; }
-        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ApplyEditEntitiesTransparency ^= true; }
-        public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.DebugStatsVisibleOnPanel ^= true; }
+        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CountTilesSelectedInPixels ^= true; }
+        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ScrollLocked ^= true; }
+        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EnableFasterNudge ^= true; }
+        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
+        public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true; }
         private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.ZoomModel.SetZoomLevel(0, new System.Drawing.Point(0, 0)); }
-        private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.UseLargeDebugStats ^= true; }
+        private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseLargeDebugStats ^= true; }
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetMenuButtonType(sender, e); }
         public void MenuButtonChangedEvent(string tag) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetMenuButtonType(tag); }
-        private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.EntitiesVisibileAboveAllLayers ^= true; }
-        private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.EntitySelectionBoxesAlwaysPrioritized ^= true; }
-        private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.PrioritizedEntityViewing ^= true; }
+        private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EntitiesVisibileAboveAllLayers ^= true; }
+        private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized ^= true; }
+        private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.PrioritizedEntityViewing ^= true; }
         private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetEncorePallete(sender); }
-        private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ExtraLayersMoveToFront ^= true; }
+        private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ExtraLayersMoveToFront ^= true; }
         private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.EntityFilterTextChanged(sender, e); }
-        private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ShowEntitySelectionBoxes ^= true; }
-        private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ShowWaterLevel ^= true; }
-        private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.AlwaysShowWaterLevel ^= true; }
-        private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { Classes.Core.Solution.Entities.OrderSelectedSlotIDs(); }
-        private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Classes.Core.Solution.Entities.OrderSelectedSlotIDs(true); }
-        private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Classes.Core.Solution.Entities.OrderSelectedSlotIDs(false, true); }
-        private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.SizeWaterLevelwithBounds ^= true; }
+        private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowEntitySelectionBoxes ^= true; }
+        private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowWaterLevel ^= true; }
+        private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.AlwaysShowWaterLevel ^= true; }
+        private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { Classes.Editor.Solution.Entities.OrderSelectedSlotIDs(); }
+        private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Classes.Editor.Solution.Entities.OrderSelectedSlotIDs(true); }
+        private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Classes.Editor.Solution.Entities.OrderSelectedSlotIDs(false, true); }
+        private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SizeWaterLevelwithBounds ^= true; }
         private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility(); }
-        private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ShowParallaxSprites ^= true; }
+        private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowParallaxSprites ^= true; }
         private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection(); }
-        private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ShowEntityPathArrows ^= true; }
+        private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowEntityPathArrows ^= true; }
         private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MenuLanguageChanged(sender, e); }
 
-        private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Classes.Core.Solution.CurrentScene != null) Classes.Core.Solution.Entities.OptimizeAllSlotIDs(); }
-        private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.RightClicktoSwapSlotID ^= true; }
-        private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.CopyAir ^= true; }
+        private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Classes.Editor.Solution.CurrentScene != null) Classes.Editor.Solution.Entities.OptimizeAllSlotIDs(); }
+        private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.RightClicktoSwapSlotID ^= true; }
+        private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CopyAir ^= true; }
         private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ChangeLevelID(sender, e); }
-        private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.MultiLayerEditMode ^= true; }
+        private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MultiLayerEditMode ^= true; }
         private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MakeShortcutForDataFolderOnly(sender, e); }
         private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
         private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }

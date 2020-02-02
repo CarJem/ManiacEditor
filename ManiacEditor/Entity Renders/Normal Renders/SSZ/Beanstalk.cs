@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -63,11 +63,11 @@ namespace ManiacEditor.Entity_Renders
                 }
 
 
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnimNode.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnimNode.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameHead),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameHead),
                     x + (plantType ? (fliph ? frameHead.Frame.PivotX*2 : frameHead.Frame.PivotX) : (fliph ? -frameHead.Frame.Width : frameHead.Frame.PivotX)),
                     y + frameHead.Frame.PivotY,
                     frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);

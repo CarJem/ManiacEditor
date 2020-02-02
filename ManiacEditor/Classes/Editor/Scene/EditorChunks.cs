@@ -5,14 +5,14 @@ using System.Drawing;
 using RSDKv5;
 using Microsoft.Scripting.Utils;
 
-namespace ManiacEditor.Classes.Core.Scene
+namespace ManiacEditor.Classes.Editor.Scene
 {
     public class EditorChunks
 	{
 
 		public Controls.Base.MainEditor EditorInstance;
 
-		private Classes.Core.Scene.StageTiles Tiles;
+		private Classes.Editor.Scene.StageTiles Tiles;
 
 		public Stamps StageStamps;
 
@@ -20,13 +20,13 @@ namespace ManiacEditor.Classes.Core.Scene
 
 		public IList<Bitmap> ChunkImagesA = new List<Bitmap>();
 		public IList<Bitmap> ChunkImagesAB = new List<Bitmap>();
-		public EditorChunks(Controls.Base.MainEditor instance, Classes.Core.Scene.StageTiles stageTiles, Stamps stageStamps)
+		public EditorChunks(Controls.Base.MainEditor instance, Classes.Editor.Scene.StageTiles stageTiles, Stamps stageStamps)
 		{
 			EditorInstance = instance;
 			StageStamps = stageStamps;
 			EditorStamps = new Stamps();
 			AddBlankMap();
-			Tiles = Classes.Core.Solution.CurrentTiles.StageTiles;
+			Tiles = Classes.Editor.Solution.CurrentTiles.StageTiles;
 		}
 		public void DrawTile(Graphics g, ushort tile, int x, int y, bool semitransparent = false)
 		{
@@ -41,19 +41,19 @@ namespace ManiacEditor.Classes.Core.Scene
 
             if (semitransparent)
             {
-                g.DrawImage(Classes.Core.Solution.CurrentTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Core.Constants.TILE_SIZE, y * Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE));
+                g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
 
             }
             else
             {
-                g.DrawImage(Classes.Core.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Core.Constants.TILE_SIZE, y * Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE));
+                g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
 
             }
 
         }
         public Bitmap GetChunkTexture(int chunkIndex)
 		{
-			if (Classes.Core.Solution.EditLayerB != null)
+			if (Classes.Editor.Solution.EditLayerB != null)
 			{
 				return GetChunkTextureAB(chunkIndex);
 			}
@@ -151,7 +151,7 @@ namespace ManiacEditor.Classes.Core.Scene
 			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPoints));
 		}
 
-        public void AutoGenerateChunks(Classes.Core.Scene.Sets.EditorLayer LayerA)
+        public void AutoGenerateChunks(Classes.Editor.Scene.Sets.EditorLayer LayerA)
         {
             EditorInstance.UI.UpdateWaitingScreen(true);
             EditorInstance.UI.ToggleEditorButtons(false);
@@ -198,7 +198,7 @@ namespace ManiacEditor.Classes.Core.Scene
             thread.Start();
         }
 
-        public void AutoGenerateChunks(Classes.Core.Scene.Sets.EditorLayer LayerA, Classes.Core.Scene.Sets.EditorLayer LayerB)
+        public void AutoGenerateChunks(Classes.Editor.Scene.Sets.EditorLayer LayerA, Classes.Editor.Scene.Sets.EditorLayer LayerB)
         {
             EditorInstance.UI.UpdateWaitingScreen(true);
             EditorInstance.UI.ToggleEditorButtons(false);
@@ -305,7 +305,7 @@ namespace ManiacEditor.Classes.Core.Scene
 			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPointsAFinal, convertedPointsBFinal));
 		}
 
-		public void PasteStamp(Point ChunkCoord, int index, Classes.Core.Scene.Sets.EditorLayer EditLayerA, Classes.Core.Scene.Sets.EditorLayer EditLayerB, bool deleteMode = false)
+		public void PasteStamp(Point ChunkCoord, int index, Classes.Editor.Scene.Sets.EditorLayer EditLayerA, Classes.Editor.Scene.Sets.EditorLayer EditLayerB, bool deleteMode = false)
 		{
 			Point TileCoord = new Point(ChunkCoord.X * 128, ChunkCoord.Y * 128);
 			Dictionary<Point, ushort> ConvertedChunkA = new Dictionary<Point, ushort>();
@@ -328,7 +328,7 @@ namespace ManiacEditor.Classes.Core.Scene
 			EditLayerB?.Deselect();
 		}
 
-        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Core.Scene.Sets.EditorLayer EditLayerA, Classes.Core.Scene.Sets.EditorLayer EditLayerB, int chunkSize = 8)
+        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Editor.Scene.Sets.EditorLayer EditLayerA, Classes.Editor.Scene.Sets.EditorLayer EditLayerB, int chunkSize = 8)
         {
             Point TileCoord = new Point(point.X * 128, point.Y * 128);
             for (int x = 0; x < chunkSize; x++)
@@ -352,7 +352,7 @@ namespace ManiacEditor.Classes.Core.Scene
             return true;
         }
 
-        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Core.Scene.Sets.EditorLayer EditLayer, int chunkSize = 8)
+        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Editor.Scene.Sets.EditorLayer EditLayer, int chunkSize = 8)
 		{
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
 			for (int x = 0; x < chunkSize; x++)
@@ -390,7 +390,7 @@ namespace ManiacEditor.Classes.Core.Scene
             return true;
         }
 
-        public bool IsChunkEmpty(Point point, Classes.Core.Scene.Sets.EditorLayer EditLayer, int chunkSize = 8)
+        public bool IsChunkEmpty(Point point, Classes.Editor.Scene.Sets.EditorLayer EditLayer, int chunkSize = 8)
 		{
 			if (EditLayer == null) return true;
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
@@ -406,7 +406,7 @@ namespace ManiacEditor.Classes.Core.Scene
 			}
 			return true;
 		}
-        public bool IsChunkEmpty(Point point, Classes.Core.Scene.Sets.EditorLayer EditLayerA, Classes.Core.Scene.Sets.EditorLayer EditLayerB, int chunkSize = 8)
+        public bool IsChunkEmpty(Point point, Classes.Editor.Scene.Sets.EditorLayer EditLayerA, Classes.Editor.Scene.Sets.EditorLayer EditLayerB, int chunkSize = 8)
         {
             bool isEmptyA = IsChunkEmpty(point, EditLayerA, chunkSize);
             bool isEmptyB = IsChunkEmpty(point, EditLayerB, chunkSize);

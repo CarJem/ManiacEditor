@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -149,47 +149,47 @@ namespace ManiacEditor.Entity_Renders
 
                 if (objType == 0 || objType == 12 || objType == 13) // Normal (TV Van)
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(Window),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(Window),
                     x + Window.Frame.PivotX - (fliph ? (Window.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + Window.Frame.PivotY + (flipv ? (Window.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     Window.Frame.Width, Window.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(backsideTire),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(backsideTire),
                     x + backsideTire.Frame.PivotX - (fliph ? (backsideTire.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + backsideTire.Frame.PivotY + (flipv ? (backsideTire.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     backsideTire.Frame.Width, backsideTire.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(TVVan),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(TVVan),
                     x + TVVan.Frame.PivotX - (fliph ? (TVVan.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + TVVan.Frame.PivotY + (flipv ? (TVVan.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     TVVan.Frame.Width, TVVan.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(HighLabel),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(HighLabel),
                     x + HighLabel.Frame.PivotX - (fliph ? (HighLabel.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + HighLabel.Frame.PivotY + (flipv ? (HighLabel.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     HighLabel.Frame.Width, HighLabel.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(InsideTVs),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(InsideTVs),
                     x + InsideTVs.Frame.PivotX - (fliph ? (InsideTVs.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + InsideTVs.Frame.PivotY + (flipv ? (InsideTVs.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     InsideTVs.Frame.Width, InsideTVs.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ramp),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ramp),
                     x + ramp.Frame.PivotX - (fliph ? (ramp.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + ramp.Frame.PivotY + (flipv ? (ramp.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     ramp.Frame.Width, ramp.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frontTireL),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frontTireL),
                     x + frontTireL.Frame.PivotX - (fliph ? (frontTireL.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frontTireL.Frame.PivotY + (flipv ? (frontTireL.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frontTireL.Frame.Width, frontTireL.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frontTireR),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frontTireR),
                     x + frontTireR.Frame.PivotX - (fliph ? (frontTireR.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frontTireR.Frame.PivotY + (flipv ? (frontTireR.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frontTireR.Frame.Width, frontTireR.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(VanSatalite),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(VanSatalite),
                     x + VanSatalite.Frame.PivotX - (fliph ? (VanSatalite.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + VanSatalite.Frame.PivotY + (flipv ? (VanSatalite.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     VanSatalite.Frame.Width, VanSatalite.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame11),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame11),
                     x + frame11.Frame.PivotX - (fliph ? (frame11.Frame.Width - editorAnim11.Frames[0].Frame.Width) : 0),
                     y + frame11.Frame.PivotY + (flipv ? (frame11.Frame.Height - editorAnim11.Frames[0].Frame.Height) : 0),
                     frame11.Frame.Width, frame11.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame12),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame12),
                     x + frame12.Frame.PivotX - (fliph ? (frame12.Frame.Width - editorAnim12.Frames[0].Frame.Width) : 0),
                     y + frame12.Frame.PivotY + (flipv ? (frame12.Frame.Height - editorAnim12.Frames[0].Frame.Height) : 0),
                     frame12.Frame.Width, frame12.Frame.Height, false, Transparency);
@@ -197,47 +197,47 @@ namespace ManiacEditor.Entity_Renders
 
                 if (objType == 1) // Reverse (TV Van)
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(Window),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(Window),
                     x - Window.Frame.PivotX - Window.Frame.Width - (false ? (Window.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + Window.Frame.PivotY + (flipv ? (Window.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     Window.Frame.Width, Window.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(backsideTire),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(backsideTire),
                     x - backsideTire.Frame.PivotX - backsideTire.Frame.Width - (false ? (backsideTire.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + backsideTire.Frame.PivotY + (flipv ? (backsideTire.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     backsideTire.Frame.Width, backsideTire.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(TVVan),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(TVVan),
                     x + TVVan.Frame.PivotX + (true ? (TVVan.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + TVVan.Frame.PivotY + (flipv ? (TVVan.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     TVVan.Frame.Width, TVVan.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(HighLabel),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(HighLabel),
                     x + HighLabel.Frame.PivotX + HighLabel.Frame.Width * 2 - (true ? (HighLabel.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + HighLabel.Frame.PivotY + (flipv ? (HighLabel.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     HighLabel.Frame.Width, HighLabel.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(InsideTVs),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(InsideTVs),
                     x + InsideTVs.Frame.PivotX + InsideTVs.Frame.Width - (true ? (InsideTVs.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + InsideTVs.Frame.PivotY + (flipv ? (InsideTVs.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     InsideTVs.Frame.Width, InsideTVs.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ramp),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ramp),
                     x - ramp.Frame.PivotX - ramp.Frame.Width - (false ? (ramp.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + ramp.Frame.PivotY + (flipv ? (ramp.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     ramp.Frame.Width, ramp.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frontTireL),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frontTireL),
                     x - frontTireL.Frame.PivotX - frontTireL.Frame.Width - (false ? (frontTireL.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frontTireL.Frame.PivotY + (flipv ? (frontTireL.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frontTireL.Frame.Width, frontTireL.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frontTireR),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frontTireR),
                     x - frontTireR.Frame.PivotX - frontTireR.Frame.Width - (false ? (frontTireR.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frontTireR.Frame.PivotY + (flipv ? (frontTireR.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frontTireR.Frame.Width, frontTireR.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(VanSatalite),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(VanSatalite),
                     x - VanSatalite.Frame.PivotX - VanSatalite.Frame.Width - (false ? (VanSatalite.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + VanSatalite.Frame.PivotY + (flipv ? (VanSatalite.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     VanSatalite.Frame.Width, VanSatalite.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame11),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame11),
                     x - frame11.Frame.PivotX - frame11.Frame.Width - (true ? (frame11.Frame.Width - editorAnim11.Frames[0].Frame.Width) : 0),
                     y + frame11.Frame.PivotY + (flipv ? (frame11.Frame.Height - editorAnim11.Frames[0].Frame.Height) : 0),
                     frame11.Frame.Width, frame11.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame12),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame12),
                     x - frame12.Frame.PivotX - frame12.Frame.Width - (true ? (frame12.Frame.Width - editorAnim12.Frames[0].Frame.Width) : 0),
                     y + frame12.Frame.PivotY + (flipv ? (frame12.Frame.Height - editorAnim12.Frames[0].Frame.Height) : 0),
                     frame12.Frame.Width, frame12.Frame.Height, false, Transparency);
@@ -245,11 +245,11 @@ namespace ManiacEditor.Entity_Renders
 
                 if (objType >= 14) //Game Gear TV
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame16),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame16),
                     x + frame16.Frame.PivotX - (fliph ? (frame16.Frame.Width - editorAnim16.Frames[0].Frame.Width) : 0),
                     y + frame16.Frame.PivotY + (flipv ? (frame16.Frame.Height - editorAnim16.Frames[0].Frame.Height) : 0),
                     frame16.Frame.Width, frame16.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame10),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame10),
                     x + frame10.Frame.PivotX - (fliph ? (frame10.Frame.Width - editorAnim10.Frames[0].Frame.Width) : 0),
                     y + frame10.Frame.PivotY + (flipv ? (frame10.Frame.Height - editorAnim10.Frames[0].Frame.Height) : 0),
                     frame10.Frame.Width, frame10.Frame.Height, false, Transparency);
@@ -257,49 +257,49 @@ namespace ManiacEditor.Entity_Renders
 
                 if (objType == 2 || objType == 5 || objType == 6 || objType == 11) //Satalite Normal
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(normalSatalite),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(normalSatalite),
                     x + normalSatalite.Frame.PivotX - (fliph ? (normalSatalite.Frame.Width - editorAnim13.Frames[0].Frame.Width) : 0),
                     y + normalSatalite.Frame.PivotY + (flipv ? (normalSatalite.Frame.Height - editorAnim13.Frames[0].Frame.Height) : 0),
                     normalSatalite.Frame.Width, normalSatalite.Frame.Height, false, Transparency);
                 }
                 if (objType == 3 || objType == 4 || objType == 6 || objType == 9) //Satalite Flipped H
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(normalSataliteH),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(normalSataliteH),
                     x - normalSataliteH.Frame.PivotX - normalSataliteH.Frame.Width - (true ? (normalSataliteH.Frame.Width - normalSataliteReversedH.Frames[0].Frame.Width) : 0),
                     y + normalSataliteH.Frame.PivotY + (false ? (normalSataliteH.Frame.Height - normalSataliteReversedH.Frames[0].Frame.Height) : 0),
                     normalSataliteH.Frame.Width, normalSataliteH.Frame.Height, false, Transparency);
                 }
                 if (objType == 3 || objType == 5 || objType == 7 || objType == 10) //Satalite Flipped V
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(normalSataliteV),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(normalSataliteV),
 x + normalSataliteV.Frame.PivotX - (false ? (normalSataliteV.Frame.Width - normalSataliteReversedV.Frames[0].Frame.Width) : 0),
 y + normalSataliteV.Frame.PivotY + normalSataliteV.Frame.Height + (true ? (normalSataliteV.Frame.Height - normalSataliteReversedV.Frames[0].Frame.Height) : 0),
 normalSataliteV.Frame.Width, normalSataliteV.Frame.Height, false, Transparency);
                 }
                 if (objType == 2 || objType == 4 || objType == 7 || objType == 8) //Satalite Flipped VH
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(normalSatalite2),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(normalSatalite2),
 x - normalSatalite2.Frame.PivotX - normalSatalite2.Frame.Width - (true ? (normalSatalite2.Frame.Width - editorAnim13.Frames[0].Frame.Width) : 0),
 y + normalSatalite2.Frame.PivotY + normalSatalite2.Frame.Height + (true ? (normalSatalite2.Frame.Height - editorAnim13.Frames[0].Frame.Height) : 0),
 normalSatalite2.Frame.Width, normalSatalite2.Frame.Height, false, Transparency);
                 }
                 if (objType == 8 || objType == 10) //Satalite Upward
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(upwardsSatalite),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(upwardsSatalite),
                     x + upwardsSatalite.Frame.PivotX - (fliph ? (upwardsSatalite.Frame.Width - editorAnim14.Frames[0].Frame.Width) : 0),
                     y + upwardsSatalite.Frame.PivotY + (flipv ? (upwardsSatalite.Frame.Height - editorAnim14.Frames[0].Frame.Height) : 0),
                     upwardsSatalite.Frame.Width, upwardsSatalite.Frame.Height, false, Transparency);
                 }
                 if (objType == 9 || objType == 11) //Satalite Downward
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(downwardsFaceSatalite),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(downwardsFaceSatalite),
                     x + downwardsFaceSatalite.Frame.PivotX - (fliph ? (downwardsFaceSatalite.Frame.Width - downwardsSatalite.Frames[0].Frame.Width) : 0),
                     y + downwardsFaceSatalite.Frame.PivotY + downwardsFaceSatalite.Frame.Width + sataliteHook.Frame.Height / 2 + (true ? (downwardsFaceSatalite.Frame.Height - downwardsSatalite.Frames[0].Frame.Height) : 0),
                     downwardsFaceSatalite.Frame.Width, downwardsFaceSatalite.Frame.Height, false, Transparency);
                 }
                 if (objType <= 11 && objType >= 2) //Satalite Center
                 {
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(sataliteHook),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(sataliteHook),
 x + sataliteHook.Frame.PivotX - (fliph ? (sataliteHook.Frame.Width - editorAnim15.Frames[0].Frame.Width) : 0),
 y + sataliteHook.Frame.PivotY + (flipv ? (sataliteHook.Frame.Height - editorAnim15.Frames[0].Frame.Height) : 0),
 sataliteHook.Frame.Width, sataliteHook.Frame.Height, false, Transparency);

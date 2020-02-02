@@ -5,7 +5,7 @@ using SharpDX;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace ManiacEditor.Classes.Core.Draw
+namespace ManiacEditor.Classes.Editor.Draw
 {
     public class TextureCreator
     {

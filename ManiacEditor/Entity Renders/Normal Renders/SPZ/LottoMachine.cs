@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -104,59 +104,59 @@ namespace ManiacEditor.Entity_Renders
                 var ballslot3_2 = editorAnim5_2.Frames[Animation.index];
 
                 //ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame9),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame9),
 x + frame9.Frame.PivotX - (fliph ? (frame9.Frame.Width - editorAnim9.Frames[0].Frame.Width) : 0),
 y + frame9.Frame.PivotY + (flipv ? (frame9.Frame.Height - editorAnim9.Frames[0].Frame.Height) : 0),
 frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame10),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame10),
                     x + frame10.Frame.PivotX - (fliph ? (frame10.Frame.Width - editorAnim10.Frames[0].Frame.Width) : 0),
                     y - 4 + frame10.Frame.PivotY + (flipv ? (frame10.Frame.Height - editorAnim10.Frames[0].Frame.Height) : 0),
                     frame10.Frame.Width, frame10.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame11),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame11),
 x + frame11.Frame.Width + 32 + frame11.Frame.PivotX - (true ? (frame11.Frame.Width - editorAnim11.Frames[0].Frame.Width) : 0),
 y + frame11.Frame.PivotY + (false ? (frame11.Frame.Height - editorAnim11.Frames[0].Frame.Height) : 0),
 frame11.Frame.Width, frame11.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame12),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame12),
 x + frame12.Frame.Width + 32 + frame12.Frame.PivotX - (true ? (frame12.Frame.Width - editorAnim12.Frames[0].Frame.Width) : 0),
 y + frame12.Frame.Height + frame12.Frame.PivotY + (true ? (frame12.Frame.Height - editorAnim12.Frames[0].Frame.Height) : 0),
 frame12.Frame.Width, frame12.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame13),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame13),
 x + frame13.Frame.PivotX - (false ? (frame13.Frame.Width - editorAnim13.Frames[0].Frame.Width) : 0),
 y + frame13.Frame.Height + frame13.Frame.PivotY + (true ? (frame13.Frame.Height - editorAnim13.Frames[0].Frame.Height) : 0),
 frame13.Frame.Width, frame13.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ballslot1),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ballslot1),
                     x + ballslot1.Frame.PivotX - (fliph ? (ballslot1.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
                     y + ballslot1.Frame.PivotY + (flipv ? (ballslot1.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
                     ballslot1.Frame.Width, ballslot1.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ballslot2),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ballslot2),
                     x + ballslot2.Frame.PivotX - (fliph ? (ballslot2.Frame.Width - editorAnim4.Frames[0].Frame.Width) : 0),
                     y + ballslot2.Frame.PivotY + (flipv ? (ballslot2.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
                     ballslot2.Frame.Width, ballslot2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ballslot3),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ballslot3),
 x + ballslot3.Frame.PivotX - (fliph ? (ballslot3.Frame.Width - editorAnim5.Frames[0].Frame.Width) : 0),
 y + ballslot3.Frame.PivotY + (flipv ? (ballslot3.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
 ballslot3.Frame.Width, ballslot3.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ballslot1_2),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ballslot1_2),
 x - ballslot1_2.Frame.Width - ballslot1_2.Frame.PivotX + (fliph ? (ballslot1_2.Frame.Width + editorAnim3.Frames[0].Frame.Width) : 0),
 y + ballslot1_2.Frame.PivotY + (flipv ? (ballslot1_2.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
 ballslot1_2.Frame.Width, ballslot1_2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ballslot2_2),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ballslot2_2),
                     x - ballslot2_2.Frame.Width - ballslot2_2.Frame.PivotX + (fliph ? (ballslot2_2.Frame.Width + editorAnim4.Frames[0].Frame.Width) : 0),
                     y + ballslot2_2.Frame.PivotY + (flipv ? (ballslot2_2.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
                     ballslot2_2.Frame.Width, ballslot2_2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(ballslot3_2),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(ballslot3_2),
 x - ballslot3_2.Frame.Width - ballslot3_2.Frame.PivotX + (fliph ? (ballslot3_2.Frame.Width + editorAnim5.Frames[0].Frame.Width) : 0),
 y + ballslot3_2.Frame.PivotY + (flipv ? (ballslot3_2.Frame.Height - editorAnim5.Frames[0].Frame.Height) : 0),
 ballslot3_2.Frame.Width, ballslot3_2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(galloplogo),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(galloplogo),
                     x + galloplogo.Frame.PivotX - (fliph ? (galloplogo.Frame.Width - editorAnim8.Frames[0].Frame.Width) : 0),
                     y + galloplogo.Frame.PivotY + (flipv ? (galloplogo.Frame.Height - editorAnim8.Frames[0].Frame.Height) : 0),
                     galloplogo.Frame.Width, galloplogo.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(chute),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(chute),
 x + chute.Frame.PivotX - (fliph ? (chute.Frame.Width - editorAnim17.Frames[0].Frame.Width) : 0),
 y + chute.Frame.PivotY + 132 + (flipv ? (chute.Frame.Height - editorAnim17.Frames[0].Frame.Height) : 0),
 chute.Frame.Width, chute.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(dispenser),
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(dispenser),
     x + dispenser.Frame.PivotX - (fliph ? (dispenser.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
     y + dispenser.Frame.PivotY + (flipv ? (dispenser.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
     dispenser.Frame.Width, dispenser.Frame.Height, false, Transparency);
@@ -167,7 +167,7 @@ chute.Frame.Width, chute.Frame.Height, false, Transparency);
             }
         }
 
-        public override bool isObjectOnScreen(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             int bounds = 330;
             return d.IsObjectOnScreen(x - bounds / 2, y - bounds / 2, bounds, bounds);

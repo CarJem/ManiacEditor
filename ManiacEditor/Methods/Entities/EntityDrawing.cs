@@ -155,7 +155,7 @@ namespace ManiacEditor.Methods.Entities
             AnimsToLoad.Add(entry);
             return null;
         }
-        public void LoadNextAnimation(Classes.Core.Scene.Sets.EditorEntity entity)
+        public void LoadNextAnimation(Classes.Editor.Scene.Sets.EditorEntity entity)
         {
             if (AnimsToLoad.Count == 0)
                 return;
@@ -205,7 +205,7 @@ namespace ManiacEditor.Methods.Entities
                 }
                 if (val.d != null)
                 {
-                    val.anim.Frames[val.anim.loadedFrames].Texture = Classes.Core.Draw.TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
+                    val.anim.Frames[val.anim.loadedFrames].Texture = Classes.Editor.Draw.TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
                     //val.anim.Frames[val.anim.loadedFrames]._Bitmap.Dispose();
                     //val.anim.Frames[val.anim.loadedFrames]._Bitmap = null;
                 }
@@ -328,7 +328,7 @@ namespace ManiacEditor.Methods.Entities
         public Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
         {
             Texture texture = null;
-            if (LoadImageToDX) texture = Classes.Core.Draw.TextureCreator.FromBitmap(d._device, finalMap);
+            if (LoadImageToDX) texture = Classes.Editor.Draw.TextureCreator.FromBitmap(d._device, finalMap);
             return new Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame()
             {
                 Texture = texture,
@@ -379,7 +379,7 @@ namespace ManiacEditor.Methods.Entities
         }
         public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
         {
-            if (Classes.Core.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+            if (Classes.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
             else return map;
         }
         public string GetEditorStaticBitmapPath(string assetName)
@@ -426,7 +426,7 @@ namespace ManiacEditor.Methods.Entities
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(Classes.Core.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
@@ -804,11 +804,11 @@ namespace ManiacEditor.Methods.Entities
 
         public ColorPalette[] GetStageConfigColors()
         {
-            var stgCfg = Classes.Core.Solution.StageConfig;
+            var stgCfg = Classes.Editor.Solution.StageConfig;
             ColorPalette[] stageConfigColors = new ColorPalette[8];
             for (int i = 0; i < 8; i++)
             {
-                stageConfigColors[i] = Classes.Core.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+                stageConfigColors[i] = Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
             }
             for (int i = 0; i < 8; i++)
             {
@@ -832,7 +832,7 @@ namespace ManiacEditor.Methods.Entities
 
         // These are special
 
-        public void DrawOthers(ManiacEditor.Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, Methods.Entities.EntityAnimator EditorAnimations, bool Selected, bool childDrawAddMode, bool graphicsMode = false)
+        public void DrawOthers(ManiacEditor.Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, Methods.Entities.EntityAnimator EditorAnimations, bool Selected, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;
@@ -841,7 +841,7 @@ namespace ManiacEditor.Methods.Entities
                 x = childX;
                 y = childY;
             }
-            int Transparency = (Classes.Core.Solution.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 
             Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected);
 

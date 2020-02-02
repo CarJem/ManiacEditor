@@ -12,25 +12,25 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 
-namespace ManiacEditor.Classes.Core
+namespace ManiacEditor.Classes.Editor
 {
     public static class Solution
     {
         public static Tileconfig TileConfig;
         public static Scene.EditorTiles CurrentTiles;
         public static Scene.EditorScene CurrentScene;
-        public static Classes.Core.Scene.EditorEntities Entities;
+        public static Classes.Editor.Scene.EditorEntities Entities;
         public static StageConfig StageConfig;
         public static Gameconfig GameConfig;
 
         #region Layers
-        public static Classes.Core.Scene.Sets.EditorLayer FGHigher => CurrentScene?.HighDetails;
-        public static Classes.Core.Scene.Sets.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
-        public static Classes.Core.Scene.Sets.EditorLayer FGLow => CurrentScene?.ForegroundLow;
-        public static Classes.Core.Scene.Sets.EditorLayer FGLower => CurrentScene?.LowDetails;
-        public static Classes.Core.Scene.Sets.EditorLayer ScratchLayer => CurrentScene?.Scratch;
-        public static Classes.Core.Scene.Sets.EditorLayer EditLayerA { get; set; }
-        public static Classes.Core.Scene.Sets.EditorLayer EditLayerB { get; set; }
+        public static Classes.Editor.Scene.Sets.EditorLayer FGHigher => CurrentScene?.HighDetails;
+        public static Classes.Editor.Scene.Sets.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
+        public static Classes.Editor.Scene.Sets.EditorLayer FGLow => CurrentScene?.ForegroundLow;
+        public static Classes.Editor.Scene.Sets.EditorLayer FGLower => CurrentScene?.LowDetails;
+        public static Classes.Editor.Scene.Sets.EditorLayer ScratchLayer => CurrentScene?.Scratch;
+        public static Classes.Editor.Scene.Sets.EditorLayer EditLayerA { get; set; }
+        public static Classes.Editor.Scene.Sets.EditorLayer EditLayerB { get; set; }
         #endregion
 
         #region Screen Size
@@ -40,22 +40,22 @@ namespace ManiacEditor.Classes.Core
 
         public static void UnloadScene()
         {
-            Classes.Core.Solution.CurrentScene?.Dispose();
-            Classes.Core.Solution.CurrentScene = null;
-            Classes.Core.Solution.StageConfig = null;
+            Classes.Editor.Solution.CurrentScene?.Dispose();
+            Classes.Editor.Solution.CurrentScene = null;
+            Classes.Editor.Solution.StageConfig = null;
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
-            Classes.Core.SolutionState.LevelID = -1;
-            Classes.Core.SolutionState.EncorePaletteExists = false;
-            Classes.Core.SolutionState.EncoreSetupType = 0;
+            Classes.Editor.SolutionState.LevelID = -1;
+            Classes.Editor.SolutionState.EncorePaletteExists = false;
+            Classes.Editor.SolutionState.EncoreSetupType = 0;
             Methods.Prefrences.SceneCurrentSettings.ClearSettings();
             ManiacEditor.Controls.Base.MainEditor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             ManiacEditor.Controls.Base.MainEditor.Instance.userDefinedSpritePaths = new List<string>();
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
             ManiacEditor.Controls.Base.MainEditor.Instance.Paths.UnloadScene();
-            Classes.Core.SolutionState.QuitWithoutSavingWarningRequired = false;
+            Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = false;
 
-            if (Classes.Core.Solution.CurrentTiles != null) Classes.Core.Solution.CurrentTiles.Dispose();
-            Classes.Core.Solution.CurrentTiles = null;
+            if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles.Dispose();
+            Classes.Editor.Solution.CurrentTiles = null;
 
             ManiacEditor.Controls.Base.MainEditor.Instance.TearDownExtraLayerButtons();
 
@@ -77,10 +77,10 @@ namespace ManiacEditor.Classes.Core
             //TilesClipboard = null;
             ManiacEditor.Controls.Base.MainEditor.Instance.entitiesClipboard = null;
 
-            Classes.Core.Solution.Entities = null;
+            Classes.Editor.Solution.Entities = null;
 
-            Classes.Core.SolutionState.Zoom = 1;
-            Classes.Core.SolutionState.ZoomLevel = 0;
+            Classes.Editor.SolutionState.Zoom = 1;
+            Classes.Editor.SolutionState.ZoomLevel = 0;
 
             ManiacEditor.Controls.Base.MainEditor.Instance.UndoStack.Clear();
             ManiacEditor.Controls.Base.MainEditor.Instance.RedoStack.Clear();
@@ -98,7 +98,7 @@ namespace ManiacEditor.Classes.Core
             // clear memory a little more aggressively 
             ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.ReleaseResources();
             GC.Collect();
-            Classes.Core.Solution.TileConfig = null;
+            Classes.Editor.Solution.TileConfig = null;
 
             ManiacEditor.Controls.Base.MainEditor.Instance.UpdateStartScreen(true);
         }

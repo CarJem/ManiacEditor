@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             int platformAngle = properties.PlatformAngle;
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
-			string text = "Text" + Classes.Core.SolutionState.CurrentLanguage;
+			string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
 			int playerID = (int)entity.attributesMap["playerID"].ValueUInt8;
 			int player = 8;
 			switch (playerID)
@@ -43,13 +43,13 @@ namespace ManiacEditor.Entity_Renders
 			if (editorAnim != null && editorAnim.Frames.Count != 0)
 			{
 				var frame = editorAnim.Frames[Animation.index];
-				d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY + 40,
+				d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY + 40,
 					frame.Frame.Width, frame.Frame.Height, false, Transparency);
 			}
 			if (editorAnimPlayerText != null && editorAnimPlayerText.Frames.Count != 0)
 			{
 				var frame = editorAnimPlayerText.Frames[Animation.index];
-				d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 26,
+				d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 26,
 					frame.Frame.Width, frame.Frame.Height, false, Transparency);
 			}
 		}

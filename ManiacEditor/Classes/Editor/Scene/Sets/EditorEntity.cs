@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using ManiacEditor.Enums;
 
-namespace ManiacEditor.Classes.Core.Scene.Sets
+namespace ManiacEditor.Classes.Editor.Scene.Sets
 {
     [Serializable]
     public class EditorEntity : IDrawable
@@ -42,7 +42,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 SelectedIndex = -1;
             }
 
-            Classes.Core.Solution.Entities.UpdateSelectedIndexForEntities();
+            Classes.Editor.Solution.Entities.UpdateSelectedIndexForEntities();
         }
 
         public bool InTempSelection = false;
@@ -141,15 +141,15 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
         public void ExportDraw(Graphics g, bool Editor = true)
         {
-            DrawBase(new Classes.Core.Draw.GraphicsHandler(g), Editor);
+            DrawBase(new Classes.Editor.Draw.GraphicsHandler(g), Editor);
         }
 
         public void Draw(Graphics g)
         {
-            DrawBase(new Classes.Core.Draw.GraphicsHandler(g));
+            DrawBase(new Classes.Editor.Draw.GraphicsHandler(g));
         }
 
-        public Classes.Core.Scene.Sets.EditorEntity GetSelf()
+        public Classes.Editor.Scene.Sets.EditorEntity GetSelf()
         {
             return this;
         }
@@ -161,7 +161,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             return GetDimensions().Contains(point);
         }
 
-        public void DrawUIButtonBack(Classes.Core.Draw.GraphicsHandler d, int x, int y, int width, int height, int frameH, int frameW, int Transparency)
+        public void DrawUIButtonBack(Classes.Editor.Draw.GraphicsHandler d, int x, int y, int width, int height, int frameH, int frameW, int Transparency)
         {
             width += 1;
             height += 1;
@@ -197,7 +197,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 d.DrawLine(x3, y + (!hEven ? 1 : 0) + (height / 2) - i, x3 + height + i, y + (!hEven ? 1 : 0) + (height / 2) - i, colur, true);
             }
         }
-        public void DrawTriangle(Classes.Core.Draw.GraphicsHandler d, int x, int y, int width, int height, int frameH, int frameW, int state = 0, int Transparency = 0xFF)
+        public void DrawTriangle(Classes.Editor.Draw.GraphicsHandler d, int x, int y, int width, int height, int frameH, int frameW, int state = 0, int Transparency = 0xFF)
         {
 
             bool wEven = width % 2 == 0;
@@ -252,7 +252,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 int ObjectStart = Methods.GameHandler.ObjectStart[Methods.GameHandler.GameVersion.IndexOf(Methods.GameHandler.SelectedGameVersion)];
                 int ObjectSize = Methods.GameHandler.ObjectSize[Methods.GameHandler.GameVersion.IndexOf(Methods.GameHandler.SelectedGameVersion)];
 
-                int ObjectAddress = ObjectStart + (ObjectSize * Classes.Core.Solution.Entities.GetRealSlotID(_entity));
+                int ObjectAddress = ObjectStart + (ObjectSize * Classes.Editor.Solution.Entities.GetRealSlotID(_entity));
                 ManiacEditor.Controls.Base.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
                 ManiacEditor.Controls.Base.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
             }
@@ -265,19 +265,19 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
             if (GridAlignment)
             {
-                if (Classes.Core.SolutionState.UseMagnetMode)
+                if (Classes.Editor.SolutionState.UseMagnetMode)
                 {
-                    int x = Classes.Core.SolutionState.MagnetSize * (_entity.Position.X.High / Classes.Core.SolutionState.MagnetSize);
-                    int y = Classes.Core.SolutionState.MagnetSize * (_entity.Position.Y.High / Classes.Core.SolutionState.MagnetSize);
-                    return new Rectangle(x, y, Classes.Core.SolutionState.MagnetSize, Classes.Core.SolutionState.MagnetSize);
+                    int x = Classes.Editor.SolutionState.MagnetSize * (_entity.Position.X.High / Classes.Editor.SolutionState.MagnetSize);
+                    int y = Classes.Editor.SolutionState.MagnetSize * (_entity.Position.Y.High / Classes.Editor.SolutionState.MagnetSize);
+                    return new Rectangle(x, y, Classes.Editor.SolutionState.MagnetSize, Classes.Editor.SolutionState.MagnetSize);
                 }
                 else
                 {
-                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT);
+                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT);
                 }
 
             }
-            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT);
+            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT);
         }
 
         public bool SetFilter()
@@ -306,7 +306,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 			}
 
 
-            if (Classes.Core.SolutionState.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Classes.Core.SolutionState.entitiesTextFilter))
+            if (Classes.Editor.SolutionState.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Classes.Editor.SolutionState.entitiesTextFilter))
             {
                 filteredOut = true;
             }
@@ -356,7 +356,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         }
         public int GetTransparencyLevel()
         {
-            return (Classes.Core.Solution.EditLayerA == null) ? 0xff : 0x32;
+            return (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
         }
         public int GetChildX()
         {
@@ -376,7 +376,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 		}
 		public virtual void DrawBoxOnly(DevicePanel d)
 		{
-			int Transparency = (Classes.Core.Solution.EditLayerA == null) ? 0xff : 0x32;
+			int Transparency = (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 			int x = _entity.Position.X.High;
 			int y = _entity.Position.Y.High;
 
@@ -385,18 +385,18 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             System.Drawing.Color color = GetBoxInsideColor();
             System.Drawing.Color color2 = GetFilterBoxColor();
 
-            DrawSelectionBox(new Classes.Core.Draw.GraphicsHandler(d), x, y, Transparency, color, color2);
+            DrawSelectionBox(new Classes.Editor.Draw.GraphicsHandler(d), x, y, Transparency, color, color2);
 
 		}
         public virtual void Draw(DevicePanel d)
         {
-            Draw(new Classes.Core.Draw.GraphicsHandler(d));
+            Draw(new Classes.Editor.Draw.GraphicsHandler(d));
         }
 
-        public virtual void Draw(Classes.Core.Draw.GraphicsHandler d)
+        public virtual void Draw(Classes.Editor.Draw.GraphicsHandler d)
         {
             if (filteredOut) return;
-            if (Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Classes.Core.SolutionState.ShowEntityPathArrows)
+            if (Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Classes.Editor.SolutionState.ShowEntityPathArrows)
             {
                 try
                 {
@@ -424,10 +424,10 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
             int x = _entity.Position.X.High;
             int y = _entity.Position.Y.High;
-            DrawSelectionBox(new Classes.Core.Draw.GraphicsHandler(d), x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red);
+            DrawSelectionBox(new Classes.Editor.Draw.GraphicsHandler(d), x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red);
         }
 
-        public virtual void DrawBase(Classes.Core.Draw.GraphicsHandler d, bool drawSelectionBox = true)
+        public virtual void DrawBase(Classes.Editor.Draw.GraphicsHandler d, bool drawSelectionBox = true)
         {
             List<string> entityRenderList = Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender;
             List<string> onScreenExlusionList = (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : Methods.Entities.EntityDrawing.RenderingSettings.ObjectCullingExclusions);
@@ -448,7 +448,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = _entity.Object.Name.Name;
 
-			if (!drawSelectionBoxInFront && !Classes.Core.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+			if (!drawSelectionBoxInFront && !Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
             if (!ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures)
             {
@@ -456,9 +456,9 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
             }
 
-            if (drawSelectionBoxInFront && !Classes.Core.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
+            if (drawSelectionBoxInFront && !Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 		}
-        public virtual void PrimaryDraw(Classes.Core.Draw.GraphicsHandler d, List<string> onScreenExlusionList)
+        public virtual void PrimaryDraw(Classes.Editor.Draw.GraphicsHandler d, List<string> onScreenExlusionList)
         {
             if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(_entity.Object.Name.Name)) && ManiacEditor.Core.Settings.MyPerformance.UseAlternativeRenderingMode)
             {
@@ -469,7 +469,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
             }
         }
-        public virtual void FallbackDraw(Classes.Core.Draw.GraphicsHandler d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)
+        public virtual void FallbackDraw(Classes.Editor.Draw.GraphicsHandler d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)
         {
             int __X = GetChildX();
             int __Y = GetChildY();
@@ -505,12 +505,12 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 {
                     EditorAnimations.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay, index);
                     // Draw the normal filled Rectangle but Its visible if you have the entity selected
-                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame.Texture), __X + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), __Y + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
+                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame.Texture), __X + frame.Frame.PivotX + ((int)offset.X * frame.Frame.Width), __Y + frame.Frame.PivotY + ((int)offset.Y * frame.Frame.Height),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
                 { // No frame to render
-                    if (Classes.Core.SolutionState.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    if (Classes.Editor.SolutionState.ShowEntitySelectionBoxes) d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 //Failsafe?
                 //DrawOthers(d);
@@ -521,34 +521,34 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                renderNotFound = true;
             }
         }
-        public void DrawSelectionBox(Classes.Core.Draw.GraphicsHandler d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
+        public void DrawSelectionBox(Classes.Editor.Draw.GraphicsHandler d, int x, int y, int Transparency, System.Drawing.Color color, System.Drawing.Color color2)
         {
-            if (Classes.Core.SolutionState.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
+            if (Classes.Editor.SolutionState.ShowEntitySelectionBoxes && !useOtherSelectionVisiblityMethod && this.IsObjectOnScreen(d))
             {
                 if (renderNotFound)
                 {
-                    d.DrawRectangle(x, y, x + Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
+                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color));
                 }
                 else
                 {
-                    d.DrawRectangle(x, y, x + Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(color2));
+                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(color2));
                 }
-                d.DrawLine(x, y, x + Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y, x, y + Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x, y + Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                d.DrawLine(x + Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y, x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                 if (ManiacEditor.Core.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
                 {
                     if (ManiacEditor.Controls.Base.MainEditor.Instance.GetZoom() >= 1)
                     {
-                        d.DrawTextSmall(string.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                        d.DrawTextSmall(string.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }
                 }
 
                 if (SelectedIndex != -1)
                 { 
-                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x + 1, y + 1, Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
-                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x, y, Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x + 1, y + 1, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
+                    d.DrawText(string.Format("{0}", SelectedIndex + 1), x, y, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
                 }
             }
         }
@@ -678,7 +678,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             }
             return offset;
         }
-        public bool IsObjectOnScreen(Classes.Core.Draw.GraphicsHandler d)
+        public bool IsObjectOnScreen(Classes.Editor.Draw.GraphicsHandler d)
         {
             
             int x = _entity.Position.X.High + childX;
@@ -688,7 +688,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 x = childX;
                 y = childY;
             }
-            int Transparency = (Classes.Core.Solution.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 
             bool isObjectVisibile = false;
 
@@ -853,7 +853,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         public void ProcessAnimation(int speed, int frameCount, int duration, int startFrame = 0)
         {
             // Playback
-            if (Classes.Core.SolutionState.AllowSpriteAnimations)
+            if (Classes.Editor.SolutionState.AllowSpriteAnimations)
             {
                 if (speed > 0)
                 {

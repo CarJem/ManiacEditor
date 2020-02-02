@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManiacEditor.Classes.Core.Scene
+namespace ManiacEditor.Classes.Editor.Scene
 {
     public class EditorTiles
     {

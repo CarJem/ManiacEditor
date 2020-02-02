@@ -6,9 +6,9 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int platformAngle = properties.PlatformAngle;
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
-            string text = "Text" + Classes.Core.SolutionState.CurrentLanguage;
+            string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
             int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
             int listID = (int)entity.attributesMap["listID"].ValueEnum;
             int align = (int)entity.attributesMap["align"].ValueEnum;
@@ -39,7 +39,7 @@ namespace ManiacEditor.Entity_Renders
                         break;
                 }
                 e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height, Transparency);
-                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + (int)alignmentVal, y + frame.Frame.PivotY,
+                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + (int)alignmentVal, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

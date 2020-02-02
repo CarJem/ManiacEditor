@@ -44,7 +44,7 @@ namespace ManiacEditor.Entity_Renders
             properties.EditorObject.DrawBase(properties.Graphics);
         }
 
-        public void DrawLinkArrowTransportTubes(Classes.Core.Draw.GraphicsHandler Graphics, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, int destType, int sourceType)
+        public void DrawLinkArrowTransportTubes(Classes.Editor.Draw.GraphicsHandler Graphics, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, int destType, int sourceType)
         {
             Color color = Color.Transparent;
             switch (destType)
