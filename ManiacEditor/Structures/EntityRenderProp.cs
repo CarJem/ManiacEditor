@@ -16,11 +16,11 @@ namespace ManiacEditor.Structures
         public int PlatformAngle { get; set; }
         public RSDKv5.SceneEntity Object { get; set; }
         public Classes.Core.Scene.Sets.EditorEntity EditorObject { get; set; }
-        public EditorAnimations Animations { get; set; }
+        public Methods.Entities.EntityAnimator Animations { get; set; }
         public Classes.Core.Draw.GraphicsHandler Graphics { get; set; }
         public bool isSelected { get; set; }
 
-        public EntityRenderProp(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false)
+        public EntityRenderProp(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, Methods.Entities.EntityAnimator Animation = null, bool selected = false)
         {
             Graphics = d;
             Object = entity;

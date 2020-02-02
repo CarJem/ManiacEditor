@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             int type = (int)(entity.attributesMap["type"].ValueUInt8);
             int rotation = (int)(entity.attributesMap["rotation"].ValueInt32 / 1.42);
@@ -28,7 +28,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d.DevicePanel, 1, 0, fliph, flipv, false, rotation, true, false, EditorEntityDrawing.Flag.PartialEngineRotation, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("LRZFireball", d.DevicePanel, 1, 0, fliph, flipv, false, rotation, true, false, Methods.Entities.EntityDrawing.Flag.PartialEngineRotation, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && type != 0)
             {

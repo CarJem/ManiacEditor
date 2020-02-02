@@ -1497,7 +1497,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
         #region Horizontal Layer Scroll Rendering
 
-        Dictionary<string, EditorEntityDrawing.EditorAnimation.EditorFrame> HorizontalLayerScrollAnimationList = new Dictionary<string, EditorEntityDrawing.EditorAnimation.EditorFrame>();
+        Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame> HorizontalLayerScrollAnimationList = new Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame>();
 
         private static Bitmap cropImage(Bitmap img, Rectangle cropArea)
         {
@@ -1520,7 +1520,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 section = cropImage(bitmap, new Rectangle(0, startIndex, WidthPixels, lineCount));
             }
 
-            List<EditorEntityDrawing.EditorAnimation.EditorFrame> LayerFrames = new List<EditorEntityDrawing.EditorAnimation.EditorFrame>();
+            List<Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame> LayerFrames = new List<Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame>();
             System.Drawing.Bitmap parallax = new System.Drawing.Bitmap(WidthPixels, lineCount);
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(parallax))
             {
@@ -1538,7 +1538,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 Width = (short)parallax.Size.Width,
                 Height = (short)lineCount
             };
-            var frame = new EditorEntityDrawing.EditorAnimation.EditorFrame()
+            var frame = new Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame()
             {
                 Texture = texture,
                 Frame = animFrame,
@@ -1583,22 +1583,22 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         {
             if (speed <= 0) speed = 1;
             string group = string.Format("{0},{1}", speed, maxWidth);
-            if (!ManiacEditor.EditorAnimations.AnimationTiming.ContainsKey(group)) ManiacEditor.EditorAnimations.AnimationTiming.Add(group, new ManiacEditor.EditorAnimations.Timing());
+            if (!ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming.ContainsKey(group)) ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming.Add(group, new ManiacEditor.Methods.Entities.EntityAnimator.Timing());
             // Playback
             if (Classes.Core.SolutionState.ParallaxAnimationChecked && Classes.Core.SolutionState.AllowAnimations)
             {
-                if ((DateTime.Now - ManiacEditor.EditorAnimations.AnimationTiming[group].LastParallaxTime).TotalMilliseconds > 1024 / speed)
+                if ((DateTime.Now - ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].LastParallaxTime).TotalMilliseconds > 1024 / speed)
                 {
-                    ManiacEditor.EditorAnimations.AnimationTiming[group].LastParallaxTime = DateTime.Now;
-                    ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex++;
+                    ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].LastParallaxTime = DateTime.Now;
+                    ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex++;
                 }
             }
-            else ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex = 0;
-            if (ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex >= maxWidth)
-                ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex = 0;
+            else ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex = 0;
+            if (ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex >= maxWidth)
+                ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex = 0;
 
 
-            return ManiacEditor.EditorAnimations.AnimationTiming[group].FrameIndex;
+            return ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex;
 
 
         }
@@ -1618,7 +1618,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                         string groupKey = string.Format("{0},{1}", speed, WidthPixels);
                         int index = HorizontalLayeRules.IndexOf(layer);
                         string key = string.Format("{0}{1}.png", index, HorizontalLayeRules[index].LinesMapList.IndexOf(lines));
-                        int scrollPoint = ManiacEditor.EditorAnimations.AnimationTiming[groupKey].FrameIndex;
+                        int scrollPoint = ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[groupKey].FrameIndex;
                         int section1CropWidth = WidthPixels - scrollPoint;
                         int section2CropWidth = scrollPoint;
 

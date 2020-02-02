@@ -49,7 +49,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         public bool TempSelected = false;
 
         //public static Classes.Edit.Scene.Sets.EditorEntity Instance;
-        public EditorAnimations EditorAnimations;
+        public Methods.Entities.EntityAnimator EditorAnimations;
         public EntityRenderer RenderDrawing;
         public LinkedRenderer LinkedRenderDrawing;
 
@@ -109,7 +109,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         {
             this._entity = entity;
             lastFrametime = DateTime.Now;
-            EditorAnimations = new EditorAnimations(ManiacEditor.Controls.Base.MainEditor.Instance);
+            EditorAnimations = new Methods.Entities.EntityAnimator(ManiacEditor.Controls.Base.MainEditor.Instance);
 
             if (ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.EntityRenderers.Count == 0)
             {
@@ -369,7 +369,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         public bool ValidPriorityPlane(int priority)
 		{
 			bool validPlane = false;
-			if (priority != 0) validPlane = AttributeHandler.PlaneFilterCheck(_entity, priority);
+			if (priority != 0) validPlane = Methods.Entities.AttributeHandler.PlaneFilterCheck(_entity, priority);
 			else validPlane = true;
 			
 			return validPlane;
@@ -396,7 +396,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         public virtual void Draw(Classes.Core.Draw.GraphicsHandler d)
         {
             if (filteredOut) return;
-            if (EditorEntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Classes.Core.SolutionState.ShowEntityPathArrows)
+            if (Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(_entity.Object.Name.Name) && Classes.Core.SolutionState.ShowEntityPathArrows)
             {
                 try
                 {
@@ -429,8 +429,8 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
         public virtual void DrawBase(Classes.Core.Draw.GraphicsHandler d, bool drawSelectionBox = true)
         {
-            List<string> entityRenderList = EditorEntityDrawing.RenderingSettings.ObjectToRender;
-            List<string> onScreenExlusionList = (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : EditorEntityDrawing.RenderingSettings.ObjectCullingExclusions);
+            List<string> entityRenderList = Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender;
+            List<string> onScreenExlusionList = (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : Methods.Entities.EntityDrawing.RenderingSettings.ObjectCullingExclusions);
          
             if (!onScreenExlusionList.Contains(_entity.Object.Name.Name)) if (!this.IsObjectOnScreen(d)) return;
             System.Drawing.Color color = GetBoxInsideColor();
@@ -565,7 +565,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             }
         }
 
-		public EditorEntityDrawing.EditorAnimation.EditorFrame GetFrameFromAttribute(EditorEntityDrawing.EditorAnimation anim, AttributeValue attribute, string key = "frameID")
+		public Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame GetFrameFromAttribute(Methods.Entities.EntityDrawing.EditorAnimation anim, AttributeValue attribute, string key = "frameID")
         {
             int frameID = -1;
             switch (attribute.Type)

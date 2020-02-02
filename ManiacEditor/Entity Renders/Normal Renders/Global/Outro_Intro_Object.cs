@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
@@ -47,8 +47,8 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            int widthPixels = AttributeHandler.AttributesMapPositionHighX("size", entity) * 2;
-            var heightPixels = AttributeHandler.AttributesMapPositionHighY("size", entity) * 2;
+            int widthPixels = Methods.Entities.AttributeHandler.AttributesMapPositionHighX("size", entity) * 2;
+            var heightPixels = Methods.Entities.AttributeHandler.AttributesMapPositionHighY("size", entity) * 2;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 

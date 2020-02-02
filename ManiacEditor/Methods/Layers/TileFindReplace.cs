@@ -4,13 +4,13 @@ using Point = System.Drawing.Point;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods.Layers
 {
-    public class EditorFindReplace
+    public class TileFindReplace
     {
         public Controls.Base.MainEditor Editor;
 
-        public EditorFindReplace(Controls.Base.MainEditor instance)
+        public TileFindReplace(Controls.Base.MainEditor instance)
         {
             Editor = instance;
         }

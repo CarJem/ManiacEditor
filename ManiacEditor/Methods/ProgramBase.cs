@@ -202,7 +202,7 @@ namespace ManiacEditor.Methods
 
         public static void SetupRenderingOptions()
         {
-            EntityRenderingOptions.GetExternalData(ref ManiacEditor.EditorEntityDrawing.RenderingSettings);
+            EntityRenderingOptions.GetExternalData(ref ManiacEditor.Methods.Entities.EntityDrawing.RenderingSettings);
         }
 
         public static void SetupSettingFiles()

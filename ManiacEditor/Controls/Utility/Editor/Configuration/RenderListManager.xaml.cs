@@ -21,7 +21,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         {
             InitializeComponent();
             Instance = instance;
-            if (EditorEntityDrawing.RenderingSettings.ObjectToRender != null) RenderInformationUnedited = EditorEntityDrawing.RenderingSettings.ObjectToRender;
+            if (Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender != null) RenderInformationUnedited = Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender;
             RefreshKeyList();
 
             UpdateValueModButtons();
@@ -33,7 +33,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
             updatingKeys = true;
             if (ValueList.Items != null) ValueList.Items.Clear();
             if (KeyList.Items != null) KeyList.Items.Clear();
-            foreach (var item in EditorEntityDrawing.RenderingSettings.ObjectToRender)
+            foreach (var item in Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender)
             {
                 KeyList.Items.Add(item);
             }
@@ -56,7 +56,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
             List<string> AllRenders = new List<string>();
             foreach (var item in Instance.EntityDrawing.EntityRenderers) AllRenders.Add(item.GetObjectName());
 
-            List<string> UnusedRenders = AllRenders.Except(EditorEntityDrawing.RenderingSettings.ObjectToRender).ToList();
+            List<string> UnusedRenders = AllRenders.Except(Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender).ToList();
 
             foreach (var item in UnusedRenders) ValueList.Items.Add(item);
         }
@@ -64,9 +64,9 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         private bool KeyIndexValid()
         {
             if (KeyList.SelectedItem == null) return false;
-            if (EditorEntityDrawing.RenderingSettings.ObjectToRender.Count > KeyList.SelectedIndex)
+            if (Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Count > KeyList.SelectedIndex)
             {
-                if (EditorEntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex] != null)
+                if (Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex] != null)
                 {
                     return true;
                 }
@@ -106,7 +106,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         private void RefreshKeyValues()
         {
             if (KeyIndexValid() == false) return;
-            KeyNameTextBox.Text = EditorEntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex];
+            KeyNameTextBox.Text = Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex];
         }
 
         private void RefreshValueValues()
@@ -131,7 +131,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 
         private void AddKeyButton_Click(object sender, RoutedEventArgs e)
         {
-            EditorEntityDrawing.RenderingSettings.ObjectToRender.Add(KeyNameTextBox.Text);
+            Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Add(KeyNameTextBox.Text);
             RefreshKeyList();
         }
 
@@ -141,7 +141,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                EditorEntityDrawing.RenderingSettings.ObjectToRender.RemoveAt(KeyList.SelectedIndex);
+                Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.RemoveAt(KeyList.SelectedIndex);
                 RefreshKeyList();
             }
         }
@@ -157,7 +157,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         private void MoveDownKeyButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            if (KeyList.SelectedIndex + 1 > EditorEntityDrawing.RenderingSettings.ObjectToRender.Count) return;
+            if (KeyList.SelectedIndex + 1 > Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Count) return;
             MoveKey(KeyList.SelectedIndex, KeyList.SelectedIndex + 1);
             RefreshKeyList();
         }
@@ -165,9 +165,9 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 
         public void MoveKey(int oldIndex, int newIndex)
         {
-            string item = EditorEntityDrawing.RenderingSettings.ObjectToRender[oldIndex];
-            EditorEntityDrawing.RenderingSettings.ObjectToRender.RemoveAt(oldIndex);
-            EditorEntityDrawing.RenderingSettings.ObjectToRender.Insert(newIndex, item);
+            string item = Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender[oldIndex];
+            Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.RemoveAt(oldIndex);
+            Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Insert(newIndex, item);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -186,7 +186,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
             {
                 TextWriter tw = new StreamWriter(System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "objectRenderList.ini"));
 
-                foreach (String s in EditorEntityDrawing.RenderingSettings.ObjectToRender)
+                foreach (String s in Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender)
                     tw.WriteLine(s);
 
                 tw.Close();
@@ -201,8 +201,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         private void ChangeNameButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            var itemToEdit = EditorEntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex];
-            EditorEntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex] = KeyNameTextBox.Text;
+            var itemToEdit = Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex];
+            Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender[KeyList.SelectedIndex] = KeyNameTextBox.Text;
             RefreshKeyList();
         }
 
@@ -253,7 +253,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (EditorEntityDrawing.RenderingSettings.ObjectToRender != RenderInformationUnedited)
+            if (Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender != RenderInformationUnedited)
             {
                 //MessageBoxResult result = System.Windows.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
                 MessageBoxResult result = System.Windows.MessageBox.Show("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
@@ -267,7 +267,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
                 }
                 else if (result == MessageBoxResult.No)
                 {
-                    EditorEntityDrawing.RenderingSettings.ObjectToRender = RenderInformationUnedited;
+                    Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender = RenderInformationUnedited;
                 }
                 else
                 {

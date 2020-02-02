@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             int letter = (int)entity.attributesMap["letter"].ValueUInt8;
             int duration = (int)entity.attributesMap["duration"].ValueUInt16;

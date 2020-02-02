@@ -478,7 +478,7 @@
     <Compile Include="%28Unsorted%29\EditorManiacINI.cs" />
     <Compile Include="%28Unsorted%29\EditorDataPacks.cs" />
     <Compile Include="Addons\DiscordRP.cs" />
-    <Compile Include="%28Unsorted%29\EditorFindReplace.cs" />
+    <Compile Include="Methods\Layers\TileFindReplace.cs" />
     <Compile Include="%28Unsorted%29\EditorExternal\EditorInGame.cs" />
     <Compile Include="Classes\Core\Scene\EditorChunks.cs" />
     <Compile Include="%28Unsorted%29\EditorUI\EditorUIEvents.cs" />

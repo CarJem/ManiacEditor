@@ -63,7 +63,7 @@ namespace ManiacEditor.Classes.Core
 
             ManiacEditor.Controls.Base.MainEditor.Instance.Chunks = null;
 
-            EditorAnimations.AnimationTiming.Clear();
+            Methods.Entities.EntityAnimator.AnimationTiming.Clear();
 
 
             /*if (entitiesClipboard != null)

@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             int angle = (int)entity.attributesMap["angle"].ValueInt32;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -54,10 +54,10 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaunchSpring", d.DevicePanel, 0, -1, false, true, false, rotation, true, false, EditorEntityDrawing.Flag.FullEngineRotation);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaunchSpring", d.DevicePanel, 0, -1, true, true, false, rotation, true, false, EditorEntityDrawing.Flag.FullEngineRotation);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaunchSpring", d.DevicePanel, 0, -1, false, true, false, rotation, true, false, Methods.Entities.EntityDrawing.Flag.FullEngineRotation);
+            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaunchSpring", d.DevicePanel, 0, -1, true, true, false, rotation, true, false, Methods.Entities.EntityDrawing.Flag.FullEngineRotation);
             var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaunchSpring", d.DevicePanel, 1, -1, false, false, false);
-            var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaunchSpring", d.DevicePanel, 2, -1, false, false, false, rotation, true, false, EditorEntityDrawing.Flag.FullEngineRotation);
+            var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaunchSpring", d.DevicePanel, 2, -1, false, false, false, rotation, true, false, Methods.Entities.EntityDrawing.Flag.FullEngineRotation);
 
 
             if (editorAnim != null && editorAnim2 != null && editorAnim3 != null && editorAnim4 != null && editorAnim.Frames.Count != 0)

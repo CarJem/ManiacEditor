@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             
             string text = entity.attributesMap["text"].ValueString;
@@ -87,7 +87,7 @@ namespace ManiacEditor.Entity_Renders
 				}
 				int listID = (highlighted_temp ? 1 : 0);
 
-				var editorAnim = instance.EntityDrawing.LoadAnimation("HUDEditorText", d, listID, frameID, fliph, flipv, false);
+				var editorAnim = instance.Methods.Entities.EntityDrawing.LoadAnimation("HUDEditorText", d, listID, frameID, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[0];

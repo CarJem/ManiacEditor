@@ -10,7 +10,7 @@ namespace ManiacEditor.Classes.Core.Draw
 
         public class GraphicsInfo
         {
-            public EditorEntityDrawing.EditorAnimation.EditorFrame EntityFrame;
+            public Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame EntityFrame;
             public SharpDX.Direct3D9.Texture Texture;
 
 
@@ -22,7 +22,7 @@ namespace ManiacEditor.Classes.Core.Draw
 
             }
 
-            public GraphicsInfo(EditorEntityDrawing.EditorAnimation.EditorFrame frame)
+            public GraphicsInfo(Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame frame)
             {
                 EntityFrame = frame;
                 ObjectType = RenderType.EditorFrame;

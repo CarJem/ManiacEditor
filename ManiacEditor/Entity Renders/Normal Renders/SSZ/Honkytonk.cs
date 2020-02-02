@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
             int rotation = (int)(angle / -0.71);
 
 
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("HonkyTonk", d.DevicePanel, 0, 1, fliph, flipv, true, rotation, true, false, EditorEntityDrawing.Flag.PartialEngineRotation, true);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("HonkyTonk", d.DevicePanel, 0, 1, fliph, flipv, true, rotation, true, false, Methods.Entities.EntityDrawing.Flag.PartialEngineRotation, true);
 
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)

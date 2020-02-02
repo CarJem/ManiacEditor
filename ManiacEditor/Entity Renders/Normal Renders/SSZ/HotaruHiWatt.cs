@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HotaruHiWatt", d.DevicePanel, 0, -1, false, false, false);
             var editorAnimBulb = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HotaruHiWatt", d.DevicePanel, 1, -1, false, false, false);

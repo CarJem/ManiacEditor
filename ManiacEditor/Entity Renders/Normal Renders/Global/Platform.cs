@@ -27,7 +27,7 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
 
 
@@ -41,7 +41,7 @@ namespace ManiacEditor.Entity_Renders
             int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
             int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
             bool hasTension = entity.attributesMap["hasTension"].ValueBool;
-            int speed = AttributeHandler.AttributesMapVar("speed", entity);
+            int speed = Methods.Entities.AttributeHandler.AttributesMapVar("speed", entity);
             int angleStateX = 0;
             int angleStateY = 0;
 
@@ -82,7 +82,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
             int aminID = 0;
-            EditorEntityDrawing.EditorAnimation editorAnim = null;
+            Methods.Entities.EntityDrawing.EditorAnimation editorAnim = null;
             bool doNotShow = false;
 
             while (true)
@@ -120,7 +120,7 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnim.Frames.Count != 0 && platformIcon != null && editorAnim != null && platformIcon.Frames.Count != 0)
             {
 
-                EditorEntityDrawing.EditorAnimation.EditorFrame frame = null;
+                Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame frame = null;
                 if (editorAnim.Frames[0].Entry.SpeedMultiplyer > 0 && doNotShow == false && type != 4)
                 {
                     frame = editorAnim.Frames[Animation.index];
@@ -226,8 +226,8 @@ namespace ManiacEditor.Entity_Renders
                         int tensionCount = radiusInt / 16;
                         if (hasTension == true && tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                         {
-                            EditorEntityDrawing.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
-                            EditorEntityDrawing.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
+                            Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                            Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
                             for (int i = 0; i < tensionCount; i++)
                             {
                                 int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
@@ -288,8 +288,8 @@ namespace ManiacEditor.Entity_Renders
 
                         if (tensionBall.Frames.Count != 0 && tensionBallCenter.Frames.Count != 0)
                         {
-                            EditorEntityDrawing.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
-                            EditorEntityDrawing.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
+                            Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame frame3 = tensionBall.Frames[0];
+                            Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame frame4 = tensionBallCenter.Frames[0];
                             int i = 0;
                             int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
                             for (i = 0; i <= tensionCount; i++)

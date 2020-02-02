@@ -89,7 +89,7 @@ namespace ManiacEditor.Controls.Base
 		internal Classes.Core.Scene.EditorBackground BackgroundDX;
 		public ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar TilesToolbar = null;
 		public ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
-		public EditorEntityDrawing EntityDrawing;
+		public Methods.Entities.EntityDrawing EntityDrawing;
 		public EditorInGame InGame;
 		public ManiacEditor.Controls.Base.Elements.StartScreen StartScreen;
 		public Classes.Core.SolutionState StateModel;
@@ -99,7 +99,7 @@ namespace ManiacEditor.Controls.Base
 		public Classes.Core.Scene.EditorPath Paths;
 		public EditorFileHandler FileHandler;
 		public EditorDataPacks DataPacks;
-		public EditorFindReplace FindAndReplace;
+		public Methods.Layers.TileFindReplace FindAndReplace;
         public EditorZoomModel ZoomModel;
         public EditorTheming Theming;
         public EditorSettings Settings;
@@ -247,7 +247,7 @@ namespace ManiacEditor.Controls.Base
             RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
             RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
 			InGame = new EditorInGame(this);
-			EntityDrawing = new EditorEntityDrawing(this);
+			EntityDrawing = new Methods.Entities.EntityDrawing(this);
             StateModel = new Classes.Core.SolutionState(this);
             EditorControls = new EditorControl();
             StartScreen = new ManiacEditor.Controls.Base.Elements.StartScreen(this);
@@ -255,7 +255,7 @@ namespace ManiacEditor.Controls.Base
 			Paths = new Classes.Core.Scene.EditorPath(this);
 			FileHandler = new EditorFileHandler(this);
 			DataPacks = new EditorDataPacks(this);
-			FindAndReplace = new EditorFindReplace(this);
+			FindAndReplace = new Methods.Layers.TileFindReplace(this);
             ZoomModel = new EditorZoomModel(this);
             ManiacINI = new EditorManiacINI(this);
             Methods.ProgramLauncher.UpdateInstance(this);

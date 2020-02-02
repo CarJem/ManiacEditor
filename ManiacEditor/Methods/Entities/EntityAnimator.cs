@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods.Entities
 {
     [Serializable]
-    public class EditorAnimations
+    public class EntityAnimator
     {
 
-        public EditorAnimations(Controls.Base.MainEditor instance)
+        public EntityAnimator(Controls.Base.MainEditor instance)
         {
             EditorInstance = instance;
         }

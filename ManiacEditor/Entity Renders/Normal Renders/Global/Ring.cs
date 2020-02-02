@@ -16,16 +16,16 @@ namespace ManiacEditor.Entity_Renders
             int index = properties.Index;
             int previousChildCount = properties.PreviousChildCount;
             int platformAngle = properties.PlatformAngle;
-            EditorAnimations Animation = properties.Animations;
+            Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             //int type = (int)entity.attributesMap["type"].ValueEnum;
             //int moveType = (int)entity.attributesMap["moveType"].ValueEnum;
             //int angle = (int)entity.attributesMap["angle"].ValueInt32;
 
-            int type = (int)AttributeHandler.AttributesMapVar("type", entity);
-            int moveType = (int)AttributeHandler.AttributesMapVar("moveType", entity);
-            int angle = (int)AttributeHandler.AttributesMapInt32("angle", entity);
-            UInt32 speed = AttributeHandler.AttributesMapUint32("speed", entity);
+            int type = (int)Methods.Entities.AttributeHandler.AttributesMapVar("type", entity);
+            int moveType = (int)Methods.Entities.AttributeHandler.AttributesMapVar("moveType", entity);
+            int angle = (int)Methods.Entities.AttributeHandler.AttributesMapInt32("angle", entity);
+            UInt32 speed = Methods.Entities.AttributeHandler.AttributesMapUint32("speed", entity);
 
             bool fliph = false;
             bool flipv = false;
@@ -33,8 +33,8 @@ namespace ManiacEditor.Entity_Renders
             //int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
             //int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
 
-            int amplitudeX = (int)AttributeHandler.AttributesMapPositionHighX("amplitude", entity);
-            int amplitudeY = (int)AttributeHandler.AttributesMapPositionHighY("amplitude", entity);
+            int amplitudeX = (int)Methods.Entities.AttributeHandler.AttributesMapPositionHighX("amplitude", entity);
+            int amplitudeY = (int)Methods.Entities.AttributeHandler.AttributesMapPositionHighY("amplitude", entity);
 
             int animID;
             switch (type)

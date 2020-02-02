@@ -14,10 +14,10 @@ using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using ImageMagick;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods.Entities
 {
     [Serializable]
-    public class EditorEntityDrawing
+    public class EntityDrawing
     {
         // Object Render List
         public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
@@ -33,8 +33,8 @@ namespace ManiacEditor
             return $"{name}-{AnimID}-{FrameID}-{FlipH}-{FlipV}-{FlagAttributes}-{TextureRotation}-{Rotate}-{LegacyRotate}-{StackFrames}-{StackStart}-{StackEnd}";
         }
 
-        public List<EditorEntityDrawing.LoadAnimationData> AnimsToLoad = new List<EditorEntityDrawing.LoadAnimationData>();
-        public Dictionary<string, EditorEntityDrawing.EditorAnimation> Animations = new Dictionary<string, EditorEntityDrawing.EditorAnimation>();
+        public List<Methods.Entities.EntityDrawing.LoadAnimationData> AnimsToLoad = new List<Methods.Entities.EntityDrawing.LoadAnimationData>();
+        public Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation> Animations = new Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation>();
         public Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public bool Working = false;
 
@@ -49,7 +49,7 @@ namespace ManiacEditor
             Unknown = 4    
         }
 
-        public EditorEntityDrawing(Controls.Base.MainEditor instance)
+        public EntityDrawing(Controls.Base.MainEditor instance)
         {
             EditorInstance = instance;
         }
@@ -78,7 +78,7 @@ namespace ManiacEditor
         public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool Rotate = false, int TextureRotation = 0, bool LoadImageToDX = true, bool LegacyRotate = false, Flag FlagAttributes = Flag.DefaultBehavior, bool StackFrames = false, int StackStart = 0, int StackEnd = 0)
         {
             string key = GetAnimationLoadingKey(name, AnimID, FrameID, FlipH, FlipV, FlagAttributes, TextureRotation, Rotate, LegacyRotate, StackFrames, StackStart, StackEnd);
-            var anim = new EditorEntityDrawing.EditorAnimation();
+            var anim = new Methods.Entities.EntityDrawing.EditorAnimation();
             if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
             {
                 if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
@@ -137,7 +137,7 @@ namespace ManiacEditor
                 else
                     return null;
             }
-            var entry = new EditorEntityDrawing.LoadAnimationData()
+            var entry = new Methods.Entities.EntityDrawing.LoadAnimationData()
             {
                 name = name,
                 d = d,
@@ -325,11 +325,11 @@ namespace ManiacEditor
             return anim;
 
         }
-        public EditorEntityDrawing.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
+        public Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
         {
             Texture texture = null;
             if (LoadImageToDX) texture = Classes.Core.Draw.TextureCreator.FromBitmap(d._device, finalMap);
-            return new EditorEntityDrawing.EditorAnimation.EditorFrame()
+            return new Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame()
             {
                 Texture = texture,
                 Frame = frame,
@@ -340,12 +340,12 @@ namespace ManiacEditor
         }
         public Bitmap GetAnimationBitmap(string name, int AnimID, int FrameID, string assetName, string dataFolderLocation, int index, Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame, bool noEncoreColors)
         {
-            if (EditorEntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) noEncoreColors = true;
+            if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) noEncoreColors = true;
             if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = (byte)(rsdkAnim.SpriteSheets.Count - 1);
             if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
             {
                 string targetFile;
-                if (EditorEntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) targetFile = GetEditorStaticBitmapPath(assetName);
+                if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) targetFile = GetEditorStaticBitmapPath(assetName);
                 else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
                 if (!File.Exists(targetFile)) map = AddNullLookup(map, frame);
                 else map = OpenBitmapTargetFile(map, frame, targetFile, noEncoreColors);
@@ -832,7 +832,7 @@ namespace ManiacEditor
 
         // These are special
 
-        public void DrawOthers(ManiacEditor.Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, EditorAnimations EditorAnimations, bool Selected, bool childDrawAddMode, bool graphicsMode = false)
+        public void DrawOthers(ManiacEditor.Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, Methods.Entities.EntityAnimator EditorAnimations, bool Selected, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;

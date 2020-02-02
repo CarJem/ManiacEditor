@@ -1,7 +1,7 @@
 ﻿using System;
 using RSDKv5;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods.Entities
 {
     [Serializable]
     public static class AttributeHandler
