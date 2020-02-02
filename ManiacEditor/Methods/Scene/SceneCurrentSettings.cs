@@ -9,13 +9,13 @@ using Newtonsoft.Json;
 
 namespace ManiacEditor
 {
-    public class EditorManiacINI
+    public class SceneCurrentSettings
 	{
 		private Controls.Base.MainEditor Instance;
         public string ManiacINIPath;
-        public LoadPrefrences ManiacINIData { get; set; } = new LoadPrefrences();
+        public SceneSettings ManiacINIData { get; set; } = new SceneSettings();
 
-        public EditorManiacINI(Controls.Base.MainEditor instance)
+        public SceneCurrentSettings(Controls.Base.MainEditor instance)
 		{
             Instance = instance;
         }
@@ -62,7 +62,7 @@ namespace ManiacEditor
         {
             var path = GetFilePath();
             string data = File.ReadAllText(path);
-            LoadPrefrences Options = JsonConvert.DeserializeObject<LoadPrefrences>(data);
+            SceneSettings Options = JsonConvert.DeserializeObject<SceneSettings>(data);
             ManiacINIData = Options;
         }
 

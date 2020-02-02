@@ -100,7 +100,7 @@ namespace ManiacEditor.Controls.Base
 		public EditorDataPacks DataPacks;
 		public Methods.Layers.TileFindReplace FindAndReplace;
         public EditorZoomModel ZoomModel;
-        public EditorManiacINI ManiacINI;
+        public SceneCurrentSettings ManiacINI;
         public EditorUI UI;
         public EditorRecentSceneSourcesList RecentsList;
         public EditorRecentDataSourcesList RecentDataSourcesList;
@@ -253,7 +253,7 @@ namespace ManiacEditor.Controls.Base
 			DataPacks = new EditorDataPacks(this);
 			FindAndReplace = new Methods.Layers.TileFindReplace(this);
             ZoomModel = new EditorZoomModel(this);
-            ManiacINI = new EditorManiacINI(this);
+            ManiacINI = new SceneCurrentSettings(this);
             Methods.ProgramLauncher.UpdateInstance(this);
             UI = new EditorUI();
             RecentsList = new EditorRecentSceneSourcesList(this);

@@ -388,7 +388,7 @@
     <Compile Include="%28Unsorted%29\EditorUI\EditorControl.cs" />
     <Compile Include="%28Unsorted%29\EditorRecentsList.cs" />
     <Compile Include="Classes\Core\Solution.cs" />
-    <Compile Include="%28Unsorted%29\EditorManiacINI.cs" />
+    <Compile Include="Methods\Scene\SceneCurrentSettings.cs" />
     <Compile Include="%28Unsorted%29\EditorDataPacks.cs" />
     <Compile Include="Addons\DiscordRP.cs" />
     <Compile Include="Methods\Layers\TileFindReplace.cs" />
@@ -851,7 +851,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Internal\EntityRenderingOptions.cs" />
     <Compile Include="Classes\Internal\EntityDefinitions.cs" />
-    <Compile Include="Classes\Internal\LoadPrefrences.cs" />
+    <Compile Include="Classes\Internal\SceneSettings.cs" />
     <Compile Include="Structures\LinkedEntityRenderProp.cs" />
     <Resource Include="Controls\TileManiac\Resources\Maniac.bmp" />
     <Resource Include="Controls\TileManiac\Resources\Green.png" />

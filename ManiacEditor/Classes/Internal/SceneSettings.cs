@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor.Classes.Internal
 {
-    public class LoadPrefrences
+    public class SceneSettings
     {
         public string ForegroundLower { get; set; }
         public string ForegroundHigher { get; set; }

@@ -14,7 +14,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         private Controls.Base.MainEditor Instance;
         private bool updatingKeys { get; set; } = false;
         private bool updatingValues { get; set; } = false;
-        private LoadPrefrences ManiacINIDataUnedited;
+        private SceneSettings ManiacINIDataUnedited;
 
         //TODO : Make Functional Again.
 
