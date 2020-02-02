@@ -100,7 +100,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         /// Collection of rules and mappings representing the horizontal scrolling info
         /// and other rules affecting lines of pixels in this layer
         /// </summary>
-        public IList<HorizontalLayerScroll> HorizontalLayerScroll { get => _horizontalLayerRules; }
+        public IList<HorizontalLayerScroll> HorizontalLayeRules { get => _horizontalLayerRules; }
         private IList<HorizontalLayerScroll> _horizontalLayerRules;
 
         static int DivideRoundUp(int number, int by)
@@ -109,6 +109,121 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         }
 
 
+
+        #region Classes
+
+        /// <summary>
+        /// Defines the horizontal scrolling behaviour of a set of potentially non-contiguous lines.
+        /// </summary>
+        public class HorizontalLayerScroll
+        {
+            private byte _id;
+            private ScrollInfo _scrollInfo;
+            private IList<ScrollInfoLines> _linesMapList;
+
+            /// <summary>
+            /// Creates a new scrolling behaviour rule, but not yet applied to any lines.
+            /// </summary>
+            /// <param name="id">Internal identifer to use for display purposes</param>
+            /// <param name="info">The rules governing the scrolling behaviour</param>
+            public HorizontalLayerScroll(byte id, ScrollInfo info)
+                : this(id, info, new List<ScrollInfoLines>())
+            {
+            }
+
+            /// <summary>
+            /// Creates a new scrolling behaviour rule, applied to the given map of lines.
+            /// </summary>
+            /// <param name="id">Internal identifer to use for display purposes</param>
+            /// <param name="info">The rules governing the scrolling behaviour</param>
+            /// <param name="linesMap">Set of line level mappings which define the lines the rules apply to</param>
+            public HorizontalLayerScroll(byte id, ScrollInfo info, IList<ScrollInfoLines> linesMap)
+            {
+                _id = id;
+                _scrollInfo = info;
+                _linesMapList = linesMap;
+            }
+
+            /// <summary>
+            /// Internal identifier.
+            /// </summary>
+            /// <remarks>This is NOT persisted to any RSDKv5 backing field!</remarks>
+            public byte Id { get => _id; set => _id = value; }
+            public byte Behavior { get => _scrollInfo.Behaviour; set => _scrollInfo.Behaviour = value; }
+            public byte DrawOrder { get => _scrollInfo.DrawOrder; set => _scrollInfo.DrawOrder = value; }
+            public short RelativeSpeed { get => _scrollInfo.RelativeSpeed; set => _scrollInfo.RelativeSpeed = value; }
+            public short ConstantSpeed { get => _scrollInfo.ConstantSpeed; set => _scrollInfo.ConstantSpeed = value; }
+
+            public IList<ScrollInfoLines> LinesMapList { get => _linesMapList; }
+            public ScrollInfo ScrollInfo { get => _scrollInfo; }
+
+            /// <summary>
+            /// Applies the set of rules to the given set of lines.
+            /// This may be called multiple times to set-up multiple mappings, 
+            /// which need not be contiguous.
+            /// </summary>
+            /// <param name="startLine">The line at which these rules begin to apply (base 0)</param>
+            /// <param name="lineCount">The number of contiguous lines to which the rules apply</param>
+            public void AddMapping(int startLine, int lineCount)
+            {
+                _linesMapList.Add(new ScrollInfoLines(startLine, lineCount));
+            }
+
+            /// <summary>
+            /// Creates an empty line level mapping which can be further manipulated
+            /// </summary>
+            public void AddMapping()
+            {
+                AddMapping(0, 0);
+            }
+
+
+
+
+        }
+
+        /// <summary>
+        /// Defines the lines to which a ScrollInfo set of horizontal scrolling rules, applies.
+        /// </summary>
+        public class ScrollInfoLines
+        {
+            private int _startIndex;
+            private int _lineCount;
+
+            /// <summary>
+            /// Creates a new mapping with the given values.
+            /// </summary>
+            /// <param name="startIndex">The line at which any rules start to apply.</param>
+            /// <param name="lineCount">The number of lines to which this applies.</param>
+            public ScrollInfoLines(int startIndex, int lineCount)
+            {
+                _startIndex = startIndex;
+                _lineCount = lineCount;
+            }
+
+            /// <summary>
+            /// The line at which these rules begin to apply
+            /// </summary>
+            public int StartIndex
+            {
+                get => _startIndex;
+                set => _startIndex = value;
+            }
+
+            /// <summary>
+            /// The number of lines to which this set of rules applies.
+            /// </summary>
+            public int LineCount
+            {
+                get => _lineCount;
+                set => _lineCount = value;
+            }
+
+            public override string ToString()
+            {
+                return $"Start: {_startIndex}, for {_lineCount} lines";
+            }
+        }
 
         public class PointsMap
         {
@@ -204,6 +319,8 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
 
         }
+
+        #endregion
 
         public EditorLayer(SceneLayer layer, ManiacEditor.Controls.Base.MainEditor instance)
         {
@@ -1445,7 +1562,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             int HorizontalRuleIndex = 0;
             int HorizontalRuleMapIndex = 0;
 
-            foreach (var layer in HorizontalLayerScroll)
+            foreach (var layer in HorizontalLayeRules)
             {
                 foreach (var lines in layer.LinesMapList)
                 {
@@ -1462,7 +1579,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
         //Parallax Animating
 
-        public int ProcessParallax(ManiacEditor.HorizontalLayerScroll layer, int maxWidth, int speed = 1, int duration = 0)
+        public int ProcessParallax(HorizontalLayerScroll layer, int maxWidth, int speed = 1, int duration = 0)
         {
             if (speed <= 0) speed = 1;
             string group = string.Format("{0},{1}", speed, maxWidth);
@@ -1493,14 +1610,14 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
             if (HasHorizontalLayerScrollInitilized && AllowLayerToAnimateParallax)
             {
-                foreach (var layer in HorizontalLayerScroll)
+                foreach (var layer in HorizontalLayeRules)
                 {
                     foreach (var lines in layer.LinesMapList)
                     {
                         int speed = (layer.RelativeSpeed == 0 ? 1 : layer.RelativeSpeed);
                         string groupKey = string.Format("{0},{1}", speed, WidthPixels);
-                        int index = HorizontalLayerScroll.IndexOf(layer);
-                        string key = string.Format("{0}{1}.png", index, HorizontalLayerScroll[index].LinesMapList.IndexOf(lines));
+                        int index = HorizontalLayeRules.IndexOf(layer);
+                        string key = string.Format("{0}{1}.png", index, HorizontalLayeRules[index].LinesMapList.IndexOf(lines));
                         int scrollPoint = ManiacEditor.EditorAnimations.AnimationTiming[groupKey].FrameIndex;
                         int section1CropWidth = WidthPixels - scrollPoint;
                         int section2CropWidth = scrollPoint;
@@ -1531,7 +1648,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 else
                     Transperncy = 0xFF;
 
-                foreach (var layer in HorizontalLayerScroll)
+                foreach (var layer in HorizontalLayeRules)
                 {
                     foreach (var lines in layer.LinesMapList)
                     {
@@ -1546,7 +1663,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
         public void UpdateLayerScrollIndex()
         {
-            foreach (var layer in HorizontalLayerScroll)
+            foreach (var layer in HorizontalLayeRules)
             {
                 foreach (var lines in layer.LinesMapList)
                 {

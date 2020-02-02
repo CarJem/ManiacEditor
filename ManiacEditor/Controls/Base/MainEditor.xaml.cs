@@ -93,7 +93,7 @@ namespace ManiacEditor.Controls.Base
 		public EditorInGame InGame;
 		public ManiacEditor.Controls.Base.Elements.StartScreen StartScreen;
 		public Classes.Core.SolutionState StateModel;
-		public EditorChunk Chunks;
+		public Classes.Core.Scene.EditorChunks Chunks;
 		public EditorFormsModel FormsModel;
 		public EditorUIEvents UIEvents;
 		public Classes.Core.Scene.EditorPath Paths;
@@ -279,7 +279,7 @@ namespace ManiacEditor.Controls.Base
 			FindAndReplace = new EditorFindReplace(this);
             ZoomModel = new EditorZoomModel(this);
             ManiacINI = new EditorManiacINI(this);
-            EditorLaunch.UpdateInstance(this);
+            Methods.ProgramLauncher.UpdateInstance(this);
             UI = new EditorUI();
             RecentsList = new EditorRecentSceneSourcesList(this);
             RecentDataSourcesList = new EditorRecentDataSourcesList(this);
@@ -873,7 +873,7 @@ namespace ManiacEditor.Controls.Base
         }
         private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (EditorLaunch.ManiaPalConnector != null) EditorLaunch.ManiaPalConnector.Kill();
+            if (Methods.ProgramLauncher.ManiaPalConnector != null) Methods.ProgramLauncher.ManiaPalConnector.Kill();
 
             try
             {
@@ -1460,15 +1460,15 @@ namespace ManiacEditor.Controls.Base
         #endregion
 
         #region Apps
-        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacIntergration(); }
+        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacIntergration(); }
         #endregion
 
         #region Settings and Other Menu Events
-        public void AboutScreenEvent(object sender, RoutedEventArgs e) { EditorLaunch.AboutScreen(); }
-        public void ImportObjectsToolStripMenuItem_Click(Window window = null) { EditorLaunch.ImportObjectsToolStripMenuItem_Click(window); }
-        public void ImportObjectsWithMegaList(Window window = null) { EditorLaunch.ImportObjectsWithMegaList(window); }
-        public void ImportSoundsEvent(Window window = null) { EditorLaunch.ImportSounds(window); }
-        public void OptionsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.OptionsMenu(); }
+        public void AboutScreenEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.AboutScreen(); }
+        public void ImportObjectsToolStripMenuItem_Click(Window window = null) { Methods.ProgramLauncher.ImportObjectsToolStripMenuItem_Click(window); }
+        public void ImportObjectsWithMegaList(Window window = null) { Methods.ProgramLauncher.ImportObjectsWithMegaList(window); }
+        public void ImportSoundsEvent(Window window = null) { Methods.ProgramLauncher.ImportSounds(window); }
+        public void OptionsMenuEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OptionsMenu(); }
         #endregion
 
         #region Game Running Events

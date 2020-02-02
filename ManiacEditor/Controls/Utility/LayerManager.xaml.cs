@@ -185,14 +185,14 @@ namespace ManiacEditor.Controls.Utility
                 DataContext = new
 				{
 					bsLayers = Layers.ElementAtOrDefault(SelectedLayerIndex),
-					_bsHorizontal = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll.ElementAtOrDefault(SelectedLayerScrollIndex),
-					_bsHorizontalMap = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList.ElementAtOrDefault(SelectedLayerHorizontalIndex)
+					_bsHorizontal = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayeRules.ElementAtOrDefault(SelectedLayerScrollIndex),
+					_bsHorizontalMap = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayeRules.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList.ElementAtOrDefault(SelectedLayerHorizontalIndex)
 				};
 
 
 				if (itemChanged != 1)  lbLayers.ItemsSource = Layers;
-				if (itemChanged != 2) lbHorizontalRules.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll;
-				if (itemChanged != 3) lbMappings.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerScroll.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList;
+				if (itemChanged != 2) lbHorizontalRules.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayeRules;
+				if (itemChanged != 3) lbMappings.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayeRules.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList;
 
 
 				lbLayers.DisplayMemberPath = "Name";
@@ -387,7 +387,7 @@ namespace ManiacEditor.Controls.Utility
 
 		private void btnRemoveHorizontalRule_Click(object sender, RoutedEventArgs e)
 		{
-			if (Layers.ElementAt(GetSelectedLayer()).HorizontalLayerScroll.Count == 1)
+			if (Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.Count == 1)
 			{
 			MessageBox.Show("There must be at least one set of horizontal scrolling rules.",
 			"Delete not allowed.",
@@ -396,7 +396,7 @@ namespace ManiacEditor.Controls.Utility
 			return;
 			}
 
-		var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayerScroll.ElementAt(GetSelectedLayerScroll());
+		var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.ElementAt(GetSelectedLayerScroll());
 		if (null == current) return;
 
 			if (MessageBox.Show($@"Deleting a set of horizontal scrolling rules can not be undone!
@@ -406,7 +406,7 @@ namespace ManiacEditor.Controls.Utility
 			MessageBoxButton.YesNo,
 			MessageBoxImage.Warning) == MessageBoxResult.Yes)
 			{
-				Layers.ElementAt(GetSelectedLayer()).HorizontalLayerScroll.Remove(current);
+				Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.Remove(current);
 				SelectionChanged();
 			}
 		}
@@ -414,7 +414,7 @@ namespace ManiacEditor.Controls.Utility
 
 		private void btnAddHorizontalMapping_Click(object sender, RoutedEventArgs e)
 		{
-			var hls = Layers.ElementAt(GetSelectedLayer()).HorizontalLayerScroll.ElementAt(GetSelectedLayerScroll());
+			var hls = Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.ElementAt(GetSelectedLayerScroll());
 			if (null == hls) return;
 
 			hls.AddMapping();
@@ -424,7 +424,7 @@ namespace ManiacEditor.Controls.Utility
 
 		private void btnRemoveHorizontalMapping_Click(object sender, RoutedEventArgs e)
 		{
-			var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayerScroll.ElementAt(GetSelectedLayerScroll()).LinesMapList.ElementAt(GetSelectedHorizontalMap()) as ScrollInfoLines;
+			var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.ElementAt(GetSelectedLayerScroll()).LinesMapList.ElementAt(GetSelectedHorizontalMap()) as Classes.Core.Scene.Sets.EditorLayer.ScrollInfoLines;
 			if (null == current) return;
 
 			if (MessageBox.Show($@"Deleting a set of horizontal scrolling rule mappings can not be undone!
@@ -433,7 +433,7 @@ namespace ManiacEditor.Controls.Utility
 			MessageBoxButton.YesNo,
 			MessageBoxImage.Warning) == MessageBoxResult.Yes)
 			{
-				Layers.ElementAt(GetSelectedLayer()).HorizontalLayerScroll.ElementAt(GetSelectedLayerScroll()).LinesMapList.Remove(current);
+				Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.ElementAt(GetSelectedLayerScroll()).LinesMapList.Remove(current);
 				SelectionChanged();
 			}
 		}

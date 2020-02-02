@@ -17,9 +17,9 @@ using ManiacEditor.Controls.Utility.Editor.Configuration;
 using ManiacEditor.Controls.Utility.Editor.Options;
 
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods
 {
-    public static class EditorLaunch
+    public static class ProgramLauncher
     {
         #region Variables/DLL Imports
         private static Controls.Base.MainEditor Editor;
@@ -594,7 +594,7 @@ namespace ManiacEditor
             lm.Owner = Window.GetWindow(Editor);
             lm.ShowDialog();
 
-            
+
             Editor.SetupLayerButtons();
             Editor.ZoomModel.ResetViewSize();
             Editor.UI.UpdateControls();

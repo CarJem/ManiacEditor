@@ -635,7 +635,6 @@ namespace ManiacEditor
 
         #endregion
 
-
         #region Editor Events
 
         public void MoveThePlayerToHere()

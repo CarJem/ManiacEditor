@@ -5,9 +5,9 @@ using System.Drawing;
 using RSDKv5;
 using Microsoft.Scripting.Utils;
 
-namespace ManiacEditor
+namespace ManiacEditor.Classes.Core.Scene
 {
-    public class EditorChunk
+    public class EditorChunks
 	{
 
 		public Controls.Base.MainEditor EditorInstance;
@@ -20,7 +20,7 @@ namespace ManiacEditor
 
 		public IList<Bitmap> ChunkImagesA = new List<Bitmap>();
 		public IList<Bitmap> ChunkImagesAB = new List<Bitmap>();
-		public EditorChunk(Controls.Base.MainEditor instance, Classes.Core.Scene.StageTiles stageTiles, Stamps stageStamps)
+		public EditorChunks(Controls.Base.MainEditor instance, Classes.Core.Scene.StageTiles stageTiles, Stamps stageStamps)
 		{
 			EditorInstance = instance;
 			StageStamps = stageStamps;

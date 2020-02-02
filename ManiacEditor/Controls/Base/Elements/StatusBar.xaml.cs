@@ -223,7 +223,7 @@ namespace ManiacEditor.Controls.Base.Elements
             }
         }
 
-        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacIntergration(); }
+        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacIntergration(); }
         private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.CountTilesSelectedInPixels ^= true; }
         public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ScrollLocked ^= true; }
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.EnableFasterNudge ^= true; }

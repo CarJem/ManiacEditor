@@ -560,7 +560,7 @@ namespace ManiacEditor
                 SetupObjectsList();
                 SetupDiscordRP(Instance.Paths.SceneFilePath);
                 Stamps StageStamps = Instance.Paths.GetEditorStamps(Instance.Paths.CurrentZone);
-                Instance.Chunks = new EditorChunk(Instance, Classes.Core.Solution.CurrentTiles.StageTiles, StageStamps);
+                Instance.Chunks = new Classes.Core.Scene.EditorChunks(Instance, Classes.Core.Solution.CurrentTiles.StageTiles, StageStamps);
                 Instance.BackgroundDX = new Classes.Core.Scene.EditorBackground(Instance);
                 Classes.Core.Solution.Entities = new Classes.Core.Scene.EditorEntities(Classes.Core.Solution.CurrentScene);
 

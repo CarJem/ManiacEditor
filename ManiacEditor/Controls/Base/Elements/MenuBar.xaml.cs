@@ -234,7 +234,7 @@ namespace ManiacEditor.Controls.Base.Elements
         private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.ExportAsPNG(); }
         private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.ExportLayersAsPNG(); }
         private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.ExportObjLayoutAsPNG(); }
-        private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.ExportGUI(sender, e); }
+        private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.SaveAs(); }
         private void RecoverEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.BackupRecoverButton_Click(sender, e); }
         public void UnloadSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.UnloadScene(); }
@@ -255,7 +255,7 @@ namespace ManiacEditor.Controls.Base.Elements
         public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.FlipHorizontalIndividual(); }
         #endregion
         #region Developer Stuff (WIP)
-        private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { EditorLaunch.DevTerm(); }
+        private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.DevTerm(); }
         private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MD5GeneratorToolStripMenuItem_Click(sender, e); }
         private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.FindAndReplaceTool(sender, e); }
         private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ConsoleWindowToolStripMenuItem_Click(sender, e); }
@@ -312,47 +312,47 @@ namespace ManiacEditor.Controls.Base.Elements
         #endregion
 
         #region Apps
-        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { EditorLaunch.RSDKUnpacker(); }
-        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { EditorLaunch.SonicManiaHeadless(); }
-        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { EditorLaunch.CheatEngine(); }
-        private void ModManager(object sender, RoutedEventArgs e) { EditorLaunch.ManiaModManager(); }
-        private void TileManiacNormal(object sender, RoutedEventArgs e) { EditorLaunch.TileManiacNormal(); }
-        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.InsanicManiac(); }
-        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.RSDKAnnimationEditor(); }
-        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.RenderListManager(); }
-        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.ManiaPal(sender, e); }
-        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { EditorLaunch.ManiaPalSubmenuOpened(sender, e); }
-        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.DuplicateObjectIDHealer(); }
+        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKUnpacker(); }
+        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.SonicManiaHeadless(); }
+        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.CheatEngine(); }
+        private void ModManager(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaModManager(); }
+        private void TileManiacNormal(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacNormal(); }
+        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.InsanicManiac(); }
+        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKAnnimationEditor(); }
+        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RenderListManager(); }
+        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaPal(sender, e); }
+        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaPalSubmenuOpened(sender, e); }
+        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.DuplicateObjectIDHealer(); }
         #endregion
 
         #region Folders
-        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenSceneFolder(); }
-        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorFolder(); }
-        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorFixedSettingsFolder(); }
-        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenManiacEditorPortableSettingsFolder(); }
-        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenDataDirectory(); }
-        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { EditorLaunch.OpenSonicManiaFolder(); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { EditorLaunch.OpenASavedPlaceDropDownOpening(sender, e); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { EditorLaunch.OpenASavedPlaceDropDownClosed(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { EditorLaunch.OpenAResourcePackFolderDropDownOpening(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { EditorLaunch.OpenAResourcePackFolderDropDownClosed(sender, e); }
+        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenSceneFolder(); }
+        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorFolder(); }
+        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorFixedSettingsFolder(); }
+        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorPortableSettingsFolder(); }
+        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenDataDirectory(); }
+        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenSonicManiaFolder(); }
+        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenASavedPlaceDropDownOpening(sender, e); }
+        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenASavedPlaceDropDownClosed(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenAResourcePackFolderDropDownOpening(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenAResourcePackFolderDropDownClosed(sender, e); }
         #endregion
 
         #region Settings and Other Menu Events
-        public void AboutScreenEvent(object sender, RoutedEventArgs e) { EditorLaunch.AboutScreen(); }
-        public void ImportObjectsToolStripMenuItem_Click(Window window = null) { EditorLaunch.ImportObjectsToolStripMenuItem_Click(window); }
-        public void ImportObjectsWithMegaList(Window window = null) { EditorLaunch.ImportObjectsWithMegaList(window); }
-        public void ImportSoundsEvent(object sender, RoutedEventArgs e) { EditorLaunch.ImportSoundsToolStripMenuItem_Click(sender, e); }
-        public void ImportSoundsEvent(Window window = null) { EditorLaunch.ImportSounds(window); }
-        private void LayerManagerEvent(object sender, RoutedEventArgs e) { EditorLaunch.LayerManager(sender, e); }
-        private void ManiacINIEditorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ManiacINIEditor(sender, e); }
-        private void ChangePrimaryBackgroundColorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ChangePrimaryBackgroundColor(sender, e); }
-        private void ChangeSecondaryBackgroundColorEvent(object sender, RoutedEventArgs e) { EditorLaunch.ChangeSecondaryBackgroundColor(sender, e); }
-        public void ObjectManagerEvent(object sender, RoutedEventArgs e) { EditorLaunch.ObjectManager(); }
-        private void InGameOptionsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.InGameSettings(); }
-        private void WikiLinkEvent(object sender, RoutedEventArgs e) { EditorLaunch.WikiLink(); }
-        public void OptionsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.OptionsMenu(); }
-        private void ControlsMenuEvent(object sender, RoutedEventArgs e) { EditorLaunch.ControlMenu(); }
+        public void AboutScreenEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.AboutScreen(); }
+        public void ImportObjectsToolStripMenuItem_Click(Window window = null) { Methods.ProgramLauncher.ImportObjectsToolStripMenuItem_Click(window); }
+        public void ImportObjectsWithMegaList(Window window = null) { Methods.ProgramLauncher.ImportObjectsWithMegaList(window); }
+        public void ImportSoundsEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ImportSoundsToolStripMenuItem_Click(sender, e); }
+        public void ImportSoundsEvent(Window window = null) { Methods.ProgramLauncher.ImportSounds(window); }
+        private void LayerManagerEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.LayerManager(sender, e); }
+        private void ManiacINIEditorEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiacINIEditor(sender, e); }
+        private void ChangePrimaryBackgroundColorEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ChangePrimaryBackgroundColor(sender, e); }
+        private void ChangeSecondaryBackgroundColorEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ChangeSecondaryBackgroundColor(sender, e); }
+        public void ObjectManagerEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ObjectManager(); }
+        private void InGameOptionsMenuEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.InGameSettings(); }
+        private void WikiLinkEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.WikiLink(); }
+        public void OptionsMenuEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OptionsMenu(); }
+        private void ControlsMenuEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ControlMenu(); }
         #endregion
 
         private void RecentScenes_SubmenuOpened(object sender, RoutedEventArgs e)

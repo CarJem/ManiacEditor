@@ -472,7 +472,6 @@
     <Compile Include="Methods\ProgramBase.cs" />
     <Compile Include="%28Unsorted%29\EditorUI\EditorControl.cs" />
     <Compile Include="%28Unsorted%29\EditorRecentsList.cs" />
-    <Compile Include="%28Unsorted%29\EditorExternal\EditorLaunch.cs" />
     <Compile Include="Classes\Core\Solution.cs" />
     <Compile Include="%28Unsorted%29\EditorDefaults.cs" />
     <Compile Include="%28Unsorted%29\EditorManiacINI.cs" />
@@ -480,7 +479,7 @@
     <Compile Include="Addons\DiscordRP.cs" />
     <Compile Include="%28Unsorted%29\EditorFindReplace.cs" />
     <Compile Include="%28Unsorted%29\EditorExternal\EditorInGame.cs" />
-    <Compile Include="%28Unsorted%29\EditorLayer\EditorChunk.cs" />
+    <Compile Include="Classes\Core\Scene\EditorChunks.cs" />
     <Compile Include="%28Unsorted%29\EditorUI\EditorUIEvents.cs" />
     <Compile Include="Classes\Core\Scene\EditorPath.cs" />
     <Compile Include="%28Unsorted%29\EditorFileHandler.cs" />
@@ -658,6 +657,7 @@
     <Compile Include="Controls\Updater\ManiacUpdater.xaml.cs">
       <DependentUpon>ManiacUpdater.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Methods\ProgramLauncher.cs" />
     <Compile Include="Properties\Defaults.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -913,7 +913,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>KeyBinds.settings</DependentUpon>
     </Compile>
-    <Compile Include="%28Unsorted%29\EditorLayer\HorizontalLayerScroll.cs" />
     <Compile Include="Interfaces\IDrawArea.cs" />
     <Compile Include="Controls\Base\Render\ImageViewer.cs">
       <SubType>UserControl</SubType>
@@ -926,7 +925,6 @@
     <Compile Include="Classes\Core\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Core\Scene\Sets\EditorEntity.cs" />
     <Compile Include="Core\ProcessMemory.cs" />
-    <Compile Include="%28Unsorted%29\EditorLayer\ScrollInfoLines.cs" />
     <Compile Include="%28Unsorted%29\EditorSettings.cs" />
     <Compile Include="Controls\Assets\SkinResourceDictionary.cs" />
     <Compile Include="Controls\Dialog\TextPrompt.cs" />

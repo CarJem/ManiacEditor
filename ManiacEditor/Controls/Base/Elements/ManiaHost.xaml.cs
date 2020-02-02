@@ -155,12 +155,12 @@ namespace ManiacEditor.Controls.Base.Elements
 
         private void LaunchModLoader_Click(object sender, RoutedEventArgs e)
         {
-            EditorLaunch.ManiaModManager();
+            Methods.ProgramLauncher.ManiaModManager();
         }
 
         private void LaunchSM_Click(object sender, RoutedEventArgs e)
         {
-            EditorLaunch.SonicManiaHeadless();
+            Methods.ProgramLauncher.SonicManiaHeadless();
         }
 
         private void LauncherButton_Click(object sender, RoutedEventArgs e)
@@ -170,7 +170,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
         private void LaunchCheatEngine_Click(object sender, RoutedEventArgs e)
         {
-            EditorLaunch.CheatEngine();
+            Methods.ProgramLauncher.CheatEngine();
         }
     }
 }
