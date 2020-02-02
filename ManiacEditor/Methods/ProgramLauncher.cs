@@ -283,7 +283,7 @@ namespace ManiacEditor.Methods
         }
         public static void SonicManiaHeadless()
         {
-            Editor.InGame.RunSequence(null, null, false);
+            Methods.GameHandler.RunSequence(null, null, false);
         }
         public static void DuplicateObjectIDHealer()
         {

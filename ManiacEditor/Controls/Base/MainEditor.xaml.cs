@@ -90,7 +90,6 @@ namespace ManiacEditor.Controls.Base
 		public ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar TilesToolbar = null;
 		public ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
 		public Methods.Entities.EntityDrawing EntityDrawing;
-		public EditorInGame InGame;
 		public ManiacEditor.Controls.Base.Elements.StartScreen StartScreen;
 		public Classes.Core.SolutionState StateModel;
 		public Classes.Core.Scene.EditorChunks Chunks;
@@ -244,7 +243,7 @@ namespace ManiacEditor.Controls.Base
 
             RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
             RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
-			InGame = new EditorInGame(this);
+            Methods.GameHandler.UpdateInstance(this);
 			EntityDrawing = new Methods.Entities.EntityDrawing(this);
             StateModel = new Classes.Core.SolutionState(this);
             EditorControls = new EditorControl();
@@ -841,7 +840,7 @@ namespace ManiacEditor.Controls.Base
 
             try
             {
-                InGame.GameRunning = false;
+                Methods.GameHandler.GameRunning = false;
                 var mySettings = Properties.Settings.Default;
                 ManiacEditor.Core.Settings.MySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
                 Classes.Core.Constants.SaveAllSettings();
@@ -1125,12 +1124,12 @@ namespace ManiacEditor.Controls.Base
         #endregion
 
         #region Game Running Events
-        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { InGame.MoveThePlayerToHere(); }
-        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { InGame.SetPlayerRespawnToHere(); }
-        private void MoveCheckpoint(object sender, RoutedEventArgs e) { InGame.CheckpointSelected = true; }
-        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { InGame.UpdateCheckpoint(new Point(0, 0), false); }
-        private void AssetReset(object sender, RoutedEventArgs e) { InGame.AssetReset(); }
-        private void RestartScene(object sender, RoutedEventArgs e) { InGame.RestartScene(); }
+        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { Methods.GameHandler.MoveThePlayerToHere(); }
+        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { Methods.GameHandler.SetPlayerRespawnToHere(); }
+        private void MoveCheckpoint(object sender, RoutedEventArgs e) { Methods.GameHandler.CheckpointSelected = true; }
+        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { Methods.GameHandler.UpdateCheckpoint(new Point(0, 0), false); }
+        private void AssetReset(object sender, RoutedEventArgs e) { Methods.GameHandler.AssetReset(); }
+        private void RestartScene(object sender, RoutedEventArgs e) { Methods.GameHandler.RestartScene(); }
         #endregion
 
         #endregion

@@ -47,7 +47,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         {
             if (VersionSelector.SelectedIndex != -1)
             {
-                EditorInGame.SelectedGameVersion = EditorInGame.GameVersion[VersionSelector.SelectedIndex];
+                Methods.GameHandler.SelectedGameVersion = Methods.GameHandler.GameVersion[VersionSelector.SelectedIndex];
             }
         }
     }

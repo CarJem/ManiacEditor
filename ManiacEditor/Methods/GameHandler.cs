@@ -9,9 +9,9 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods
 {
-    public class EditorInGame
+    public static class GameHandler
     {
         // Stuff Used for Command Line Tool to Fix Duplicate Object ID's
         #region DLL Import Stuff
@@ -74,21 +74,21 @@ namespace ManiacEditor
         const int SW_SHOW = 5;
         #endregion
 
-        public bool GameRunning = false; //Tells us if the game is running
-        public string GamePath = ""; //Tells us where the game is located
-        public int P1_X = 0;
-        public int P1_Y = 0;
-        public int P2_X = 0;
-        public int P2_Y = 0;
-        public int P3_X = 0;
-        public int P3_Y = 0;
-        public int P4_X = 0;
-        public int P4_Y = 0;
-        public int SP_X = 0;
-        public int SP_Y = 0;
-        public int SelectedPlayer = 0;
-        public bool PlayerSelected = false;
-        public bool CheckpointSelected = false;
+        public static bool GameRunning = false; //Tells us if the game is running
+        public static string GamePath = ""; //Tells us where the game is located
+        public static int P1_X = 0;
+        public static int P1_Y = 0;
+        public static int P2_X = 0;
+        public static int P2_Y = 0;
+        public static int P3_X = 0;
+        public static int P3_Y = 0;
+        public static int P4_X = 0;
+        public static int P4_Y = 0;
+        public static int SP_X = 0;
+        public static int SP_Y = 0;
+        public static int SelectedPlayer = 0;
+        public static bool PlayerSelected = false;
+        public static bool CheckpointSelected = false;
 
         public static IList<string> GameVersion = new List<string> { "1.3", "1.4", "1.6", "N/A" };
         public static string SelectedGameVersion = "1.6";
@@ -120,40 +120,40 @@ namespace ManiacEditor
         public static IList<byte> EnableDevMenu_Values = new List<byte> { 0x01, 0x01, 0x01, 0x00 };
         public static IList<byte> DisableBackgroundPausing_Values = new List<byte> { 0xEB, 0xEB, 0xEB, 0x00 };
 
-        private Controls.Base.MainEditor Editor;
+        private static Controls.Base.MainEditor Editor;
 
         #region Addresses
-        public short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
-        public short Player1_X { get { return Editor.GameMemory.ReadShort(Player1Base + 0x02); } set { Editor.GameMemory.WriteShort(Player1Base + 0x02, value); } }
-        public short Player1_Y { get { return Editor.GameMemory.ReadShort(Player1Base + 0x06); } set { Editor.GameMemory.WriteShort(Player1Base + 0x06, value); } }
+        public static short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
+        public static short Player1_X { get { return Editor.GameMemory.ReadShort(Player1Base + 0x02); } set { Editor.GameMemory.WriteShort(Player1Base + 0x02, value); } }
+        public static short Player1_Y { get { return Editor.GameMemory.ReadShort(Player1Base + 0x06); } set { Editor.GameMemory.WriteShort(Player1Base + 0x06, value); } }
 
-        public short Player4_State { get { return Editor.GameMemory.ReadShort(Player4Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player4Base + 0xC0, value); } }
-        public short Player4_X { get { return Editor.GameMemory.ReadShort(Player4Base + 0x02); } set { Editor.GameMemory.WriteShort(Player4Base + 0x02, value); } }
-        public short Player4_Y { get { return Editor.GameMemory.ReadShort(Player4Base + 0x06); } set { Editor.GameMemory.WriteShort(Player4Base + 0x06, value); } }
+        public static short Player4_State { get { return Editor.GameMemory.ReadShort(Player4Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player4Base + 0xC0, value); } }
+        public static short Player4_X { get { return Editor.GameMemory.ReadShort(Player4Base + 0x02); } set { Editor.GameMemory.WriteShort(Player4Base + 0x02, value); } }
+        public static short Player4_Y { get { return Editor.GameMemory.ReadShort(Player4Base + 0x06); } set { Editor.GameMemory.WriteShort(Player4Base + 0x06, value); } }
 
-        public short Player3_State { get { return Editor.GameMemory.ReadShort(Player3Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player3Base + 0xC0, value); } }
-        public short Player3_X { get { return Editor.GameMemory.ReadShort(Player3Base + 0x02); } set { Editor.GameMemory.WriteShort(Player3Base + 0x02, value); } }
-        public short Player3_Y { get { return Editor.GameMemory.ReadShort(Player3Base + 0x06); } set { Editor.GameMemory.WriteShort(Player3Base + 0x06, value); } }
+        public static short Player3_State { get { return Editor.GameMemory.ReadShort(Player3Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player3Base + 0xC0, value); } }
+        public static short Player3_X { get { return Editor.GameMemory.ReadShort(Player3Base + 0x02); } set { Editor.GameMemory.WriteShort(Player3Base + 0x02, value); } }
+        public static short Player3_Y { get { return Editor.GameMemory.ReadShort(Player3Base + 0x06); } set { Editor.GameMemory.WriteShort(Player3Base + 0x06, value); } }
 
-        public short Player2_State { get { return Editor.GameMemory.ReadShort(Player2Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player2Base + 0xC0, value); } }
-        public short Player2_X { get { return Editor.GameMemory.ReadShort(Player2Base + 0x02); } set { Editor.GameMemory.WriteShort(Player2Base + 0x02, value); } }
-        public short Player2_Y { get { return Editor.GameMemory.ReadShort(Player2Base + 0x06); } set { Editor.GameMemory.WriteShort(Player2Base + 0x06, value); } }
+        public static short Player2_State { get { return Editor.GameMemory.ReadShort(Player2Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player2Base + 0xC0, value); } }
+        public static short Player2_X { get { return Editor.GameMemory.ReadShort(Player2Base + 0x02); } set { Editor.GameMemory.WriteShort(Player2Base + 0x02, value); } }
+        public static short Player2_Y { get { return Editor.GameMemory.ReadShort(Player2Base + 0x06); } set { Editor.GameMemory.WriteShort(Player2Base + 0x06, value); } }
 
-        public byte StarPostEnable { get { return Editor.GameMemory.ReadByte(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34); } set { Editor.GameMemory.WriteByte(Editor.GameMemory.ReadByte(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34, value); } }
-        public int StarPostX { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12, value); } }
-        public int StarPostY { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16, value); } }
+        public static byte StarPostEnable { get { return Editor.GameMemory.ReadByte(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34); } set { Editor.GameMemory.WriteByte(Editor.GameMemory.ReadByte(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34, value); } }
+        public static int StarPostX { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12, value); } }
+        public static int StarPostY { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16, value); } }
 
-        public byte CurrentScene { get { return Editor.GameMemory.ReadByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
-        public byte GameState { get { return Editor.GameMemory.ReadByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
+        public static byte CurrentScene { get { return Editor.GameMemory.ReadByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
+        public static byte GameState { get { return Editor.GameMemory.ReadByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
         #endregion
 
-        public EditorInGame(Controls.Base.MainEditor instance)
+        public static void UpdateInstance(Controls.Base.MainEditor instance)
         {
             Editor = instance;
         }
 
         #region In Game Functions
-        public int GetPlayerAt(Point point)
+        public static int GetPlayerAt(Point point)
         {
             for (int i = 1; i < 5; i++)
                 if (PlayerContainsPoint(point, i))
@@ -161,16 +161,16 @@ namespace ManiacEditor
             return -1;
         }
 
-        public bool PlayerContainsPoint(Point point, int player)
+        public static bool PlayerContainsPoint(Point point, int player)
         {
             return GetDimensions(player).Contains(point);
         }
-        public bool CheckpointEnabled { get { return StarPostEnable >= (byte)65; } }
-        public Rectangle GetDimensions(int player)
+        public static bool CheckpointEnabled { get { return StarPostEnable >= (byte)65; } }
+        public static Rectangle GetDimensions(int player)
         {
             return new Rectangle(GetX(player), GetY(player), 20, 20);
         }
-        public int GetX(int player)
+        public static int GetX(int player)
         {
             int X = 0;
             switch (player)
@@ -190,7 +190,7 @@ namespace ManiacEditor
             }
             return X;
         }
-        public int GetY(int player)
+        public static int GetY(int player)
         {
             int Y = 0;
             switch (player)
@@ -210,7 +210,7 @@ namespace ManiacEditor
             }
             return Y;
         }
-        public void MovePlayer(Point p, double Zoom, int player)
+        public static void MovePlayer(Point p, double Zoom, int player)
         {
             if (GameRunning)
             {
@@ -237,7 +237,7 @@ namespace ManiacEditor
 
             }
         }
-        public void DrawSinglePlayer(DevicePanel d, int playerID)
+        public static void DrawSinglePlayer(DevicePanel d, int playerID)
         {
 
             int x = 0;
@@ -344,7 +344,7 @@ namespace ManiacEditor
 
             }
         }
-        public void UpdateCheckpoint(Point p, bool enabled = true, bool forceStatus = false)
+        public static void UpdateCheckpoint(Point p, bool enabled = true, bool forceStatus = false)
         {
 
             byte status = StarPostEnable;
@@ -357,7 +357,7 @@ namespace ManiacEditor
             StarPostEnable = status;
 
         }
-        public void AssetReset()
+        public static void AssetReset()
         {
             int x = Player1_X;
             int y = Player1_Y;
@@ -371,11 +371,11 @@ namespace ManiacEditor
             GameState = 0;
             UpdateCheckpoint(new Point(x, y), true, true);
         }
-        public void RestartScene()
+        public static void RestartScene()
         {
             GameState = 0;
         }
-        public void DrawCheckpoint(DevicePanel d)
+        public static void DrawCheckpoint(DevicePanel d)
         {
             // TODO: Find out if this is constent
             int x = StarPostX;
@@ -416,13 +416,13 @@ namespace ManiacEditor
 
             }
         }
-        public byte[] ReadMemory(int adress, int processSize, int processHandle)
+        public static byte[] ReadMemory(int adress, int processSize, int processHandle)
         {
             byte[] buffer = new byte[processSize];
             Controls.Base.MainEditor.ReadProcessMemory(processHandle, adress, buffer, processSize, 0);
             return buffer;
         }
-        public void DrawGameElements(DevicePanel d)
+        public static void DrawGameElements(DevicePanel d)
         {
 
             DrawSinglePlayer(d, 1);
@@ -438,7 +438,7 @@ namespace ManiacEditor
 
         #region Game Linking
 
-        public void RunScene()
+        public static void RunScene()
         {
             GetManiaWindow();
             /*
@@ -449,14 +449,14 @@ namespace ManiacEditor
             }
             */
         }
-        private void GetManiaWindow()
+        private static void GetManiaWindow()
         {
             IntPtr hWnd = FindWindow("SonicMania", null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName("SonicMania").FirstOrDefault();
             if (processes != null) RestoreManiaWindow(processes);
             else StartSonicMania();
         }
-        private string GetModLoaderPath(string path)
+        private static string GetModLoaderPath(string path)
         {
             string ManiaDir = Path.GetDirectoryName(path);
             string WorkingDirectory = "";
@@ -469,7 +469,7 @@ namespace ManiacEditor
 
             return WorkingDirectory;
         }
-        private void RestoreManiaWindow(Process processes)
+        private static void RestoreManiaWindow(Process processes)
         {
             // check if the window is hidden / minimized
             if (processes.MainWindowHandle == IntPtr.Zero) ShowWindow(processes.Handle, ShowWindowEnum.Restore); // the window is hidden so try to restore it before setting focus.
@@ -477,7 +477,7 @@ namespace ManiacEditor
             SetForegroundWindow(processes.MainWindowHandle);
             if (!GameRunning) Editor.Dispatcher.Invoke(new Action(() => RunSequence(null, null, true)));
         }
-        private void StartSonicMania()
+        private static void StartSonicMania()
         {
             if (!GameRunning)
             {
@@ -512,7 +512,7 @@ namespace ManiacEditor
             }
         }
 
-        public void RunSequence(object sender, EventArgs e, bool attachMode = false)
+        public static void RunSequence(object sender, EventArgs e, bool attachMode = false)
         {
             //TO-DO: Fix No Attach on First Start
             string path = GetSonicManiaPath();
@@ -595,7 +595,7 @@ namespace ManiacEditor
             }
 
         }
-        private string GetSonicManiaPath()
+        private static string GetSonicManiaPath()
         {
             //"steam://run/584400"
             if (string.IsNullOrEmpty(Core.Settings.MyDefaults.SonicManiaPath))
@@ -618,7 +618,7 @@ namespace ManiacEditor
             }
             return Core.Settings.MyDefaults.SonicManiaPath;
         }
-        public void UseCheatCodes(Process p)
+        public static void UseCheatCodes(Process p)
         {
             Editor.GameMemory.Attach(p);
             if (IsOffset[GameVersion.IndexOf(SelectedGameVersion)])
@@ -637,9 +637,9 @@ namespace ManiacEditor
 
         #region Editor Events
 
-        public void MoveThePlayerToHere()
+        public static void MoveThePlayerToHere()
         {
-            if (Editor.InGame.GameRunning)
+            if (GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
                 Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom));
@@ -647,7 +647,7 @@ namespace ManiacEditor
             }
         }
 
-        public void SetPlayerRespawnToHere()
+        public static void SetPlayerRespawnToHere()
         {
             Point clicked_point = new Point((int)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom), (int)(Classes.Core.SolutionState.LastY / Classes.Core.SolutionState.Zoom));
             if (GameRunning)
@@ -656,7 +656,7 @@ namespace ManiacEditor
             }
         }
 
-        public void TrackthePlayer(object sender, System.Windows.RoutedEventArgs e)
+        public static void TrackthePlayer(object sender, System.Windows.RoutedEventArgs e)
         {
             System.Windows.Controls.MenuItem item = sender as System.Windows.Controls.MenuItem;
             if (item != null)
@@ -686,7 +686,7 @@ namespace ManiacEditor
             }
         }
 
-        public void UpdateRunSceneDropdown()
+        public static void UpdateRunSceneDropdown()
         {
             Editor.EditorToolbar.trackThePlayerToolStripMenuItem.IsEnabled = GameRunning;
             Editor.EditorToolbar.assetResetToolStripMenuItem1.IsEnabled = GameRunning;

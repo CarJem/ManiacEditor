@@ -26,7 +26,7 @@ namespace ManiacEditor
         private bool IsSceneLoaded() { return Controls.Base.MainEditor.Instance.IsSceneLoaded(); }
 
 
-        private bool GameRunning { get => Controls.Base.MainEditor.Instance.InGame.GameRunning; set => Controls.Base.MainEditor.Instance.InGame.GameRunning = value; }
+        private bool GameRunning { get => Methods.GameHandler.GameRunning; set => Methods.GameHandler.GameRunning = value; }
 
         private int ScrollDirection { get => Classes.Core.SolutionState.ScrollDirection; }
         private bool ScrollLocked { get => Classes.Core.SolutionState.ScrollLocked; }
@@ -979,29 +979,29 @@ namespace ManiacEditor
 
         public void InteractiveMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Controls.Base.MainEditor.Instance.InGame.PlayerSelected)
+            if (Methods.GameHandler.PlayerSelected)
             {
-                Controls.Base.MainEditor.Instance.InGame.MovePlayer(new Point(e.X, e.Y), Classes.Core.SolutionState.Zoom, Controls.Base.MainEditor.Instance.InGame.SelectedPlayer);
+                Methods.GameHandler.MovePlayer(new Point(e.X, e.Y), Classes.Core.SolutionState.Zoom, Methods.GameHandler.SelectedPlayer);
             }
 
-            if (Controls.Base.MainEditor.Instance.InGame.CheckpointSelected)
+            if (Methods.GameHandler.CheckpointSelected)
             {
                 Point clicked_point = new Point((int)(e.X / Classes.Core.SolutionState.Zoom), (int)(e.Y / Classes.Core.SolutionState.Zoom));
-                Controls.Base.MainEditor.Instance.InGame.UpdateCheckpoint(clicked_point, true);
+                Methods.GameHandler.UpdateCheckpoint(clicked_point, true);
             }
         }
         public void InteractiveMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (Controls.Base.MainEditor.Instance.InGame.PlayerSelected)
+                if (Methods.GameHandler.PlayerSelected)
                 {
-                    Controls.Base.MainEditor.Instance.InGame.PlayerSelected = false;
-                    Controls.Base.MainEditor.Instance.InGame.SelectedPlayer = 0;
+                    Methods.GameHandler.PlayerSelected = false;
+                    Methods.GameHandler.SelectedPlayer = 0;
                 }
-                if (Controls.Base.MainEditor.Instance.InGame.CheckpointSelected)
+                if (Methods.GameHandler.CheckpointSelected)
                 {
-                    Controls.Base.MainEditor.Instance.InGame.CheckpointSelected = false;
+                    Methods.GameHandler.CheckpointSelected = false;
                 }
             }
         }
@@ -1030,10 +1030,10 @@ namespace ManiacEditor
                 Controls.Base.MainEditor.Instance.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
                 Controls.Base.MainEditor.Instance.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
                 Controls.Base.MainEditor.Instance.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = GameRunning;
-                Controls.Base.MainEditor.Instance.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning && Controls.Base.MainEditor.Instance.InGame.CheckpointEnabled;
+                Controls.Base.MainEditor.Instance.removeCheckpointToolStripMenuItem.IsEnabled = GameRunning && Methods.GameHandler.CheckpointEnabled;
                 Controls.Base.MainEditor.Instance.assetResetToolStripMenuItem.IsEnabled = GameRunning;
                 Controls.Base.MainEditor.Instance.restartSceneToolStripMenuItem.IsEnabled = GameRunning;
-                Controls.Base.MainEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning && Controls.Base.MainEditor.Instance.InGame.CheckpointEnabled;
+                Controls.Base.MainEditor.Instance.moveCheckpointToolStripMenuItem.IsEnabled = GameRunning && Methods.GameHandler.CheckpointEnabled;
 
 
                 Controls.Base.MainEditor.Instance.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
@@ -1560,7 +1560,7 @@ namespace ManiacEditor
             //Run Scene
             else if (isCombo(e, myKeyBinds.RunScene))
             {
-                Controls.Base.MainEditor.Instance.InGame.RunScene();
+                Methods.GameHandler.RunScene();
             }
             //Show Path A
             else if (isCombo(e, myKeyBinds.ShowPathA) && Controls.Base.MainEditor.Instance.IsSceneLoaded())

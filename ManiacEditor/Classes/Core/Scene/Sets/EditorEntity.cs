@@ -246,11 +246,11 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 _entity.Position.Y.High = (short)diff.Y;
             }
 
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.InGame.GameRunning && ManiacEditor.Core.Settings.MyGameOptions.RealTimeObjectMovementMode && !IsInternalObject)
+            if (Methods.GameHandler.GameRunning && ManiacEditor.Core.Settings.MyGameOptions.RealTimeObjectMovementMode && !IsInternalObject)
             {
 
-                int ObjectStart = EditorInGame.ObjectStart[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
-                int ObjectSize = EditorInGame.ObjectSize[EditorInGame.GameVersion.IndexOf(EditorInGame.SelectedGameVersion)];
+                int ObjectStart = Methods.GameHandler.ObjectStart[Methods.GameHandler.GameVersion.IndexOf(Methods.GameHandler.SelectedGameVersion)];
+                int ObjectSize = Methods.GameHandler.ObjectSize[Methods.GameHandler.GameVersion.IndexOf(Methods.GameHandler.SelectedGameVersion)];
 
                 int ObjectAddress = ObjectStart + (ObjectSize * Classes.Core.Solution.Entities.GetRealSlotID(_entity));
                 ManiacEditor.Controls.Base.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);

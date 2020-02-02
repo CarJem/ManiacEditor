@@ -143,7 +143,7 @@ namespace ManiacEditor.Methods.Internal
                 }
 
                 Instance.WindowState = Core.Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
-                Instance.InGame.GamePath = Core.Settings.MyDefaults.SonicManiaPath;
+                Methods.GameHandler.GamePath = Core.Settings.MyDefaults.SonicManiaPath;
 
                 if (Core.Settings.MySettings.ModLoaderConfigs?.Count > 0)
                 {

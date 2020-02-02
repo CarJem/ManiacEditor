@@ -669,9 +669,9 @@ namespace ManiacEditor
             Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneButton.IsEnabled = enabled;
             Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneDropDown.IsEnabled = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneButton.IsEnabled;
 
-            if (Controls.Base.MainEditor.Instance.InGame.GameRunning || System.Diagnostics.Process.GetProcessesByName("SonicMania").FirstOrDefault() != null)
+            if (Methods.GameHandler.GameRunning || System.Diagnostics.Process.GetProcessesByName("SonicMania").FirstOrDefault() != null)
             {
-                if (Controls.Base.MainEditor.Instance.InGame.GameRunning) Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneIcon.Fill = System.Windows.Media.Brushes.Blue;
+                if (Methods.GameHandler.GameRunning) Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneIcon.Fill = System.Windows.Media.Brushes.Blue;
                 else Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneIcon.Fill = System.Windows.Media.Brushes.Green;
             }
             else

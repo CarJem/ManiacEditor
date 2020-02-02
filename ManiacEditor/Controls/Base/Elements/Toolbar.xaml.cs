@@ -255,7 +255,7 @@ namespace ManiacEditor.Controls.Base.Elements
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ShowCollisionB ^= true; }
         private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.ShowFlippedTileHelper ^= true; }
         public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.UseEncoreColors ^= true; }
-        private void RunSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.RunScene(); }
+        private void RunSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.RunScene(); }
         private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.CollisionPreset = 0; }
         private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.CollisionPreset = 1; }
         private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Classes.Core.SolutionState.CollisionPreset = 2; }
@@ -342,14 +342,14 @@ namespace ManiacEditor.Controls.Base.Elements
         #endregion
 
         #region Game Running Events
-        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.MoveThePlayerToHere(); }
-        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.SetPlayerRespawnToHere(); }
-        private void MoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.CheckpointSelected = true; }
-        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.UpdateCheckpoint(new System.Drawing.Point(0, 0), false); }
-        private void AssetReset(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.AssetReset(); }
-        private void RestartScene(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.RestartScene(); }
-        private void TrackThePlayer(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.TrackthePlayer(sender, e); }
-        private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.InGame.UpdateRunSceneDropdown(); }
+        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.MoveThePlayerToHere(); }
+        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.SetPlayerRespawnToHere(); }
+        private void MoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.CheckpointSelected = true; }
+        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.UpdateCheckpoint(new System.Drawing.Point(0, 0), false); }
+        private void AssetReset(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.AssetReset(); }
+        private void RestartScene(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.RestartScene(); }
+        private void TrackThePlayer(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.TrackthePlayer(sender, e); }
+        private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.UpdateRunSceneDropdown(); }
         #endregion
 
         #endregion

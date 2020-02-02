@@ -269,7 +269,7 @@ namespace ManiacEditor.Controls
             if (Classes.Core.SolutionState.ShowGrid && Classes.Core.Solution.CurrentScene != null) EditorInstance.BackgroundDX.DrawGrid(GraphicPanel);
 
 
-            if (EditorInstance.InGame.GameRunning) DrawGameElements();
+            if (Methods.GameHandler.GameRunning) DrawGameElements();
 
             if (Classes.Core.SolutionState.Scrolling) DrawScroller();
 
@@ -421,13 +421,13 @@ namespace ManiacEditor.Controls
 
             void DrawGameElements()
             {
-                EditorInstance.InGame.DrawGameElements(GraphicPanel);
+                Methods.GameHandler.DrawGameElements(GraphicPanel);
 
-                if (EditorInstance.InGame.PlayerSelected) EditorInstance.InGame.MovePlayer(new System.Drawing.Point(Classes.Core.SolutionState.LastX, Classes.Core.SolutionState.LastY), Classes.Core.SolutionState.Zoom, EditorInstance.InGame.SelectedPlayer);
-                if (EditorInstance.InGame.CheckpointSelected)
+                if (Methods.GameHandler.PlayerSelected) Methods.GameHandler.MovePlayer(new System.Drawing.Point(Classes.Core.SolutionState.LastX, Classes.Core.SolutionState.LastY), Classes.Core.SolutionState.Zoom, Methods.GameHandler.SelectedPlayer);
+                if (Methods.GameHandler.CheckpointSelected)
                 {
                     System.Drawing.Point clicked_point = new System.Drawing.Point((int)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom), (int)(Classes.Core.SolutionState.LastY / Classes.Core.SolutionState.Zoom));
-                    EditorInstance.InGame.UpdateCheckpoint(clicked_point);
+                    Methods.GameHandler.UpdateCheckpoint(clicked_point);
                 }
             }
         }
