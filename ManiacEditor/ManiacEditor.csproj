@@ -198,7 +198,10 @@
     <Compile Include="Classes\Core\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Core\Scene\EditorScene.cs" />
     <Compile Include="Classes\Core\Scene\EditorTiles.cs" />
+    <Compile Include="Classes\Internal\DataStateHistoryCollection.cs" />
+    <Compile Include="Classes\Internal\SceneHistoryCollection.cs" />
     <Compile Include="Extensions\SystemColorsUtility.cs" />
+    <Compile Include="Methods\Prefrences\DataStateHistoryStorage.cs" />
     <Compile Include="Structures\EntityRenderProp.cs" />
     <Compile Include="Classes\Internal\VersionCheck.cs" />
     <Compile Include="Converters\RemoveTabConverter.cs" />
@@ -386,10 +389,10 @@
     <Compile Include="Enums\FlipDirection.cs" />
     <Compile Include="Methods\ProgramBase.cs" />
     <Compile Include="%28Unsorted%29\EditorUI\EditorControl.cs" />
-    <Compile Include="%28Unsorted%29\EditorRecentsList.cs" />
+    <Compile Include="Methods\Prefrences\SceneHistoryStorage.cs" />
     <Compile Include="Classes\Core\Solution.cs" />
-    <Compile Include="Methods\Scene\SceneCurrentSettings.cs" />
-    <Compile Include="%28Unsorted%29\EditorDataPacks.cs" />
+    <Compile Include="Methods\Prefrences\SceneCurrentSettings.cs" />
+    <Compile Include="Methods\Prefrences\DataPackStorage.cs" />
     <Compile Include="Addons\DiscordRP.cs" />
     <Compile Include="Methods\Layers\TileFindReplace.cs" />
     <Compile Include="Methods\GameHandler.cs" />

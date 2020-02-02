@@ -62,39 +62,39 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void ApplyMinimalPreset()
         {
-            Core.Settings.MyPerformance.ShowEditLayerBackground = false;
-            Core.Settings.MyPerformance.UseSimplifedWaterRendering = true;
-            Core.Settings.MyPerformance.DisableRendererExclusions = true;
-            Core.Settings.MyPerformance.NeverLoadEntityTextures = true;
+            ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground = false;
+            ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering = true;
+            ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions = true;
+            ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures = true;
         }
         public static void ApplyBasicPreset()
         {
-            Core.Settings.MyPerformance.ShowEditLayerBackground = true;
-            Core.Settings.MyPerformance.UseSimplifedWaterRendering = true;
-            Core.Settings.MyPerformance.DisableRendererExclusions = true;
-            Core.Settings.MyPerformance.NeverLoadEntityTextures = false;
+            ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground = true;
+            ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering = true;
+            ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions = true;
+            ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures = false;
         }
         public static void ApplySuperPreset()
         {
-            Core.Settings.MyPerformance.ShowEditLayerBackground = true;
-            Core.Settings.MyPerformance.UseSimplifedWaterRendering = false;
-            Core.Settings.MyPerformance.DisableRendererExclusions = true;
-            Core.Settings.MyPerformance.NeverLoadEntityTextures = false;
+            ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground = true;
+            ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering = false;
+            ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions = true;
+            ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures = false;
         }
         public static void ApplyHyperPreset()
         {
-            Core.Settings.MyPerformance.ShowEditLayerBackground = true;
-            Core.Settings.MyPerformance.UseSimplifedWaterRendering = false;
-            Core.Settings.MyPerformance.DisableRendererExclusions = false;
-            Core.Settings.MyPerformance.NeverLoadEntityTextures = false;
+            ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground = true;
+            ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering = false;
+            ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions = false;
+            ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures = false;
         }
         public static bool isMinimalPreset()
         {
             bool isMinimal = false;
-            if (Core.Settings.MyPerformance.ShowEditLayerBackground == false)
-                    if (Core.Settings.MyPerformance.UseSimplifedWaterRendering == true)
-                        if (Core.Settings.MyPerformance.DisableRendererExclusions == true)
-                            if (Core.Settings.MyPerformance.NeverLoadEntityTextures == true)
+            if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == false)
+                    if (ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering == true)
+                        if (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions == true)
+                            if (ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures == true)
                                 isMinimal = true;
             return isMinimal;
 
@@ -102,30 +102,30 @@ namespace ManiacEditor.Methods.Internal
         public static bool isBasicPreset()
         {
             bool isBasic = false;
-                if (Core.Settings.MyPerformance.ShowEditLayerBackground == true)
-                        if (Core.Settings.MyPerformance.UseSimplifedWaterRendering == true)
-                            if (Core.Settings.MyPerformance.DisableRendererExclusions == true)
-                                if (Core.Settings.MyPerformance.NeverLoadEntityTextures == false)
+                if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == true)
+                        if (ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering == true)
+                            if (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions == true)
+                                if (ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures == false)
                                     isBasic = true;
             return isBasic;
         }
         public static bool isSuperPreset()
         {
             bool isSuper = false;
-                if (Core.Settings.MyPerformance.ShowEditLayerBackground == true)
-                        if (Core.Settings.MyPerformance.UseSimplifedWaterRendering == false)
-                            if (Core.Settings.MyPerformance.DisableRendererExclusions == true)
-                                if (Core.Settings.MyPerformance.NeverLoadEntityTextures == false)
+                if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == true)
+                        if (ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering == false)
+                            if (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions == true)
+                                if (ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures == false)
                                     isSuper = true;
             return isSuper;
         }
         public static bool isHyperPreset()
         {
             bool isHyper = false;
-            if (Core.Settings.MyPerformance.ShowEditLayerBackground == true)
-                if (Core.Settings.MyPerformance.UseSimplifedWaterRendering == false)
-                    if (Core.Settings.MyPerformance.DisableRendererExclusions == false)
-                        if (Core.Settings.MyPerformance.NeverLoadEntityTextures == false)
+            if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == true)
+                if (ManiacEditor.Core.Settings.MyPerformance.UseSimplifedWaterRendering == false)
+                    if (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions == false)
+                        if (ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures == false)
                             isHyper = true;
             return isHyper;
         }
@@ -135,20 +135,20 @@ namespace ManiacEditor.Methods.Internal
         {
             try
             {
-                if (Core.Settings.MySettings.UpgradeRequired)
+                if (ManiacEditor.Core.Settings.MySettings.UpgradeRequired)
                 {
                     Classes.Core.Constants.UpgradeAllSettings();
-                    Core.Settings.MySettings.UpgradeRequired = false;
+                    ManiacEditor.Core.Settings.MySettings.UpgradeRequired = false;
                     Classes.Core.Constants.SaveAllSettings();
                 }
 
-                Instance.WindowState = Core.Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
-                Methods.GameHandler.GamePath = Core.Settings.MyDefaults.SonicManiaPath;
+                Instance.WindowState = ManiacEditor.Core.Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
+                Methods.GameHandler.GamePath = ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath;
 
-                if (Core.Settings.MySettings.ModLoaderConfigs?.Count > 0)
+                if (ManiacEditor.Core.Settings.MySettings.ModLoaderConfigs?.Count > 0)
                 {
                     Instance.EditorToolbar.selectConfigToolStripMenuItem.Items.Clear();
-                    for (int i = 0; i < Core.Settings.MySettings.ModLoaderConfigs.Count; i++)
+                    for (int i = 0; i < ManiacEditor.Core.Settings.MySettings.ModLoaderConfigs.Count; i++)
                     {
                         Instance.EditorToolbar.selectConfigToolStripMenuItem.Items.Add(Instance.CreateModConfigMenuItem(i));
 
@@ -169,55 +169,55 @@ namespace ManiacEditor.Methods.Internal
             //These Prefrences are applied on Stage Load
 
             //Default Layer Visibility Preferences
-            if (!Core.Settings.MyDefaults.FGLowerDefault) Instance.EditorToolbar.ShowFGLower.IsChecked = false;
+            if (!ManiacEditor.Core.Settings.MyDefaults.FGLowerDefault) Instance.EditorToolbar.ShowFGLower.IsChecked = false;
             else Instance.EditorToolbar.ShowFGLower.IsChecked = true;
-            if (!Core.Settings.MyDefaults.FGLowDefault) Instance.EditorToolbar.ShowFGLow.IsChecked = false;
+            if (!ManiacEditor.Core.Settings.MyDefaults.FGLowDefault) Instance.EditorToolbar.ShowFGLow.IsChecked = false;
             else Instance.EditorToolbar.ShowFGLow.IsChecked = true;
-            if (!Core.Settings.MyDefaults.FGHighDefault) Instance.EditorToolbar.ShowFGHigh.IsChecked = false;
+            if (!ManiacEditor.Core.Settings.MyDefaults.FGHighDefault) Instance.EditorToolbar.ShowFGHigh.IsChecked = false;
             else Instance.EditorToolbar.ShowFGHigh.IsChecked = true;
-            if (!Core.Settings.MyDefaults.FGHigherDefault) Instance.EditorToolbar.ShowFGHigher.IsChecked = false;
+            if (!ManiacEditor.Core.Settings.MyDefaults.FGHigherDefault) Instance.EditorToolbar.ShowFGHigher.IsChecked = false;
             else Instance.EditorToolbar.ShowFGHigher.IsChecked = true;
-            if (!Core.Settings.MyDefaults.EntitiesDefault) Instance.EditorToolbar.ShowEntities.IsChecked = false;
+            if (!ManiacEditor.Core.Settings.MyDefaults.EntitiesDefault) Instance.EditorToolbar.ShowEntities.IsChecked = false;
             else Instance.EditorToolbar.ShowEntities.IsChecked = true;
-            Instance.EditorToolbar.ShowAnimations.IsChecked = Core.Settings.MyDefaults.AnimationsDefault;
-            Classes.Core.SolutionState.AllowAnimations = Core.Settings.MyDefaults.AnimationsDefault;
+            Instance.EditorToolbar.ShowAnimations.IsChecked = ManiacEditor.Core.Settings.MyDefaults.AnimationsDefault;
+            Classes.Core.SolutionState.AllowAnimations = ManiacEditor.Core.Settings.MyDefaults.AnimationsDefault;
 
 
             //Default Enabled Annimation Preferences
-            Instance.EditorToolbar.movingPlatformsObjectsToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.PlatformAnimationsDefault;
-            Classes.Core.SolutionState.AllowMovingPlatformAnimations = Core.Settings.MyDefaults.PlatformAnimationsDefault;
+            Instance.EditorToolbar.movingPlatformsObjectsToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.PlatformAnimationsDefault;
+            Classes.Core.SolutionState.AllowMovingPlatformAnimations = ManiacEditor.Core.Settings.MyDefaults.PlatformAnimationsDefault;
 
-            Instance.EditorToolbar.spriteFramesToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.SpriteAnimationsDefault;
-            Classes.Core.SolutionState.AllowSpriteAnimations = Core.Settings.MyDefaults.SpriteAnimationsDefault;
+            Instance.EditorToolbar.spriteFramesToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.SpriteAnimationsDefault;
+            Classes.Core.SolutionState.AllowSpriteAnimations = ManiacEditor.Core.Settings.MyDefaults.SpriteAnimationsDefault;
 
 
             //TO DO: Add Default For this.
             Instance.EditorToolbar.parallaxAnimationMenuItem.IsChecked = false;
             Classes.Core.SolutionState.ParallaxAnimationChecked = false;
 
-            Classes.Core.SolutionState.waterColor = Core.Settings.MyDefaults.WaterEntityColorDefault;
+            Classes.Core.SolutionState.waterColor = ManiacEditor.Core.Settings.MyDefaults.WaterEntityColorDefault;
 
 
 
 
             //Default Grid Preferences
-            if (Core.Settings.MyDefaults.DefaultGridSizeOption == 0) Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 0) Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = true;
             else Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = false;
-            if (Core.Settings.MyDefaults.DefaultGridSizeOption == 1) Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 1) Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = true;
             else Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = false;
-            if (Core.Settings.MyDefaults.DefaultGridSizeOption == 2) Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 2) Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = true;
             else Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = false;
-            if (Core.Settings.MyDefaults.DefaultGridSizeOption == 3) Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 3) Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = true;
             else Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = false;
 
             //Collision Color Presets
-            Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.DefaultCollisionColors == 0;
-            Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.DefaultCollisionColors == 1;
-            Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = Core.Settings.MyDefaults.DefaultCollisionColors == 2;
-            Classes.Core.SolutionState.CollisionPreset = Core.Settings.MyDefaults.DefaultCollisionColors;
+            Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors == 0;
+            Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors == 1;
+            Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors == 2;
+            Classes.Core.SolutionState.CollisionPreset = ManiacEditor.Core.Settings.MyDefaults.DefaultCollisionColors;
             Instance.RefreshCollisionColours();
 
-            if (Core.Settings.MyDefaults.ScrollLockDirectionDefault == false)
+            if (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == false)
             {
                 Classes.Core.SolutionState.ScrollDirection = (int)ScrollDir.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
@@ -234,41 +234,41 @@ namespace ManiacEditor.Methods.Internal
         public static void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            Classes.Core.SolutionState.ApplyEditEntitiesTransparency = Core.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
+            Classes.Core.SolutionState.ApplyEditEntitiesTransparency = ManiacEditor.Core.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
-            Classes.Core.SolutionState.ScrollLocked = Core.Settings.MyDefaults.ScrollLockDefault;
-            Classes.Core.SolutionState.ScrollDirection = (Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
+            Classes.Core.SolutionState.ScrollLocked = ManiacEditor.Core.Settings.MyDefaults.ScrollLockDefault;
+            Classes.Core.SolutionState.ScrollDirection = (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
             Controls.Base.MainEditor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Core.SolutionState.ScrollDirection == (int)ScrollDir.X;
             Controls.Base.MainEditor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Core.SolutionState.ScrollDirection == (int)ScrollDir.Y;
 
-            Classes.Core.SolutionState.CountTilesSelectedInPixels = Core.Settings.MyDefaults.EnablePixelModeDefault;
+            Classes.Core.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Core.Settings.MyDefaults.EnablePixelModeDefault;
 
-            Classes.Core.SolutionState.ShowEntityPathArrows = Core.Settings.MyDefaults.ShowEntityArrowPathsDefault;
+            Classes.Core.SolutionState.ShowEntityPathArrows = ManiacEditor.Core.Settings.MyDefaults.ShowEntityArrowPathsDefault;
 
-            Classes.Core.SolutionState.ShowWaterLevel = Core.Settings.MyDefaults.ShowWaterEntityLevelDefault;
-            Classes.Core.SolutionState.AlwaysShowWaterLevel = Core.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
-            Classes.Core.SolutionState.SizeWaterLevelwithBounds = Core.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
+            Classes.Core.SolutionState.ShowWaterLevel = ManiacEditor.Core.Settings.MyDefaults.ShowWaterEntityLevelDefault;
+            Classes.Core.SolutionState.AlwaysShowWaterLevel = ManiacEditor.Core.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
+            Classes.Core.SolutionState.SizeWaterLevelwithBounds = ManiacEditor.Core.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
 
-            Classes.Core.SolutionState.ShowParallaxSprites = Core.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
-            Classes.Core.SolutionState.PrioritizedEntityViewing = Core.Settings.MyDefaults.PrioritizedObjectRenderingDefault;
+            Classes.Core.SolutionState.ShowParallaxSprites = ManiacEditor.Core.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
+            Classes.Core.SolutionState.PrioritizedEntityViewing = ManiacEditor.Core.Settings.MyDefaults.PrioritizedObjectRenderingDefault;
 
-            Classes.Core.SolutionState.ShowEntitySelectionBoxes = Core.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
+            Classes.Core.SolutionState.ShowEntitySelectionBoxes = ManiacEditor.Core.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
 
-            Classes.Core.SolutionState.DebugStatsVisibleOnPanel = Core.Settings.MyDefaults.ShowDebugStatsDefault;
-            Classes.Core.SolutionState.UseLargeDebugStats = Core.Settings.MyDefaults.LargeDebugStatsDefault;
+            Classes.Core.SolutionState.DebugStatsVisibleOnPanel = ManiacEditor.Core.Settings.MyDefaults.ShowDebugStatsDefault;
+            Classes.Core.SolutionState.UseLargeDebugStats = ManiacEditor.Core.Settings.MyDefaults.LargeDebugStatsDefault;
 
-            Classes.Core.SolutionState.GridCustomSize = Core.Settings.MyDefaults.CustomGridSizeValue;
+            Classes.Core.SolutionState.GridCustomSize = ManiacEditor.Core.Settings.MyDefaults.CustomGridSizeValue;
             Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Core.SolutionState.GridCustomSize;
 
-            Classes.Core.SolutionState.CollisionSAColour = Core.Settings.MyDefaults.CollisionSAColour;
-            Classes.Core.SolutionState.CollisionLRDColour = Core.Settings.MyDefaults.CollisionLRDColour;
-            Classes.Core.SolutionState.CollisionTOColour = Core.Settings.MyDefaults.CollisionTOColour;
+            Classes.Core.SolutionState.CollisionSAColour = ManiacEditor.Core.Settings.MyDefaults.CollisionSAColour;
+            Classes.Core.SolutionState.CollisionLRDColour = ManiacEditor.Core.Settings.MyDefaults.CollisionLRDColour;
+            Classes.Core.SolutionState.CollisionTOColour = ManiacEditor.Core.Settings.MyDefaults.CollisionTOColour;
 
-            Classes.Core.SolutionState.GridColor = Core.Settings.MyDefaults.DefaultGridColor;
-            Classes.Core.SolutionState.waterColor = Core.Settings.MyDefaults.WaterEntityColorDefault;
+            Classes.Core.SolutionState.GridColor = ManiacEditor.Core.Settings.MyDefaults.DefaultGridColor;
+            Classes.Core.SolutionState.waterColor = ManiacEditor.Core.Settings.MyDefaults.WaterEntityColorDefault;
 
-            Controls.Base.MainEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = Core.Settings.MyDefaults.FasterNudgeValue;
+            Controls.Base.MainEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = ManiacEditor.Core.Settings.MyDefaults.FasterNudgeValue;
 
 
 
@@ -278,7 +278,7 @@ namespace ManiacEditor.Methods.Internal
             foreach (var item in allLangItems)
                 if (item != null)
                 {
-                    if (item.Tag.ToString() == Core.Settings.MyDefaults.MenuLanguageDefault)
+                    if (item.Tag.ToString() == ManiacEditor.Core.Settings.MyDefaults.MenuLanguageDefault)
                     {
                         item.IsChecked = true;
                         Classes.Core.SolutionState.CurrentLanguage = item.Tag.ToString();
@@ -292,7 +292,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (item.Tag != null)
                 {
-                    if (item.Tag.ToString() == Core.Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
+                    if (item.Tag.ToString() == ManiacEditor.Core.Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
                     {
                         item.IsChecked = true;
                         Controls.Base.MainEditor.Instance.MenuButtonChangedEvent(item.Tag.ToString());
@@ -303,7 +303,7 @@ namespace ManiacEditor.Methods.Internal
                     {
                         if (subItem.Tag != null)
                         {
-                            if (subItem.Tag.ToString() == Core.Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
+                            if (subItem.Tag.ToString() == ManiacEditor.Core.Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
                             {
                                 subItem.IsChecked = true;
                                 Controls.Base.MainEditor.Instance.MenuButtonChangedEvent(subItem.Tag.ToString());

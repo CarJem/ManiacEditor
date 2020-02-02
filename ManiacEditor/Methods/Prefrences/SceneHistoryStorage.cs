@@ -1,0 +1,223 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using IniParser;
+using IniParser.Model;
+
+namespace ManiacEditor.Methods.Prefrences
+{
+    public static class SceneHistoryStorage
+	{
+		private static Controls.Base.MainEditor Instance;
+        public static ManiacEditor.Classes.Internal.SceneHistoryCollection Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
+        static IniData RecentsListInfo;
+        private static string SettingsFolder { get => GetRecentsListDirectory(); }
+
+        private static string GetRecentsListDirectory()
+        {
+            return (Properties.Internal.Default.PortableMode ? Classes.Core.Constants.SettingsPortableDirectory : Classes.Core.Constants.SettingsStaticDirectory);
+        }
+
+        public static void UpdateInstance(Controls.Base.MainEditor instance)
+        {
+            Instance = instance;
+            LoadFile();
+        }
+
+        public static void Initilize(Controls.Base.MainEditor instance)
+        {
+            UpdateInstance(instance);
+            LoadFile();
+        }
+
+        public static void AddRecentFile(ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState NewEntry)
+        {
+            try
+            {
+
+                if (Collection == null) Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
+                if (Collection.List.Contains(NewEntry) || Collection.List.Contains(NewEntry)) Collection.List.Remove(NewEntry);
+
+                if (Collection.List.Count >= 10)
+                {
+                    for (int i = 9; i < Collection.List.Count; i++)
+                    {
+                        Collection.List.RemoveAt(i);
+                    }
+                }
+
+                Collection.List.Insert(0, NewEntry);
+
+                SaveFile();
+                LoadFile();
+
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write("Failed to add data folder to recent list: " + ex);
+            }
+        }
+
+        public static ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState GenerateNewEntry()
+        {
+            int ResourcePackEntryNumber = 1;
+
+            string Title = "";
+            string Name = "";
+            if (Instance.LoadedDataPack != "")
+            {
+                if (!Instance.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0} Data Pack", Instance.LoadedDataPack, Instance.Paths.CurrentZone, Instance.Paths.CurrentSceneID, "/n/n", (Instance.Paths.isEncoreMode ? "+" : ""));
+                else Title = string.Format("{1}{2}{0} Data Pack", Instance.LoadedDataPack, Instance.Paths.SceneFilePath, "/n/n");
+            }
+            else
+            {
+                if (!Instance.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0}", Instance.DataDirectory, Instance.Paths.CurrentZone, Instance.Paths.CurrentSceneID, "/n/n", (Instance.Paths.isEncoreMode ? "+" : ""));
+                else Title = string.Format("{1}{2}{0}", Instance.DataDirectory, Instance.Paths.SceneFilePath, "/n/n");
+            }
+
+            Name += Instance.DataDirectory;
+            Name += Instance.Paths.SceneFilePath;
+            Name += Classes.Core.SolutionState.LevelID;
+            Name += Instance.Paths.CurrentName;
+            Name += Instance.Paths.CurrentZone;
+            Name += Instance.Paths.CurrentScene;
+            Name += Instance.Paths.CurrentSceneID;
+            Name += Instance.Paths.Browsed.ToString();
+            Name += Instance.Paths.isEncoreMode.ToString();
+
+
+
+            ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState section = new ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState();
+            int x1 = (short)(Classes.Core.SolutionState.ViewPositionX / Classes.Core.SolutionState.Zoom);
+            int y1 = (short)(Classes.Core.SolutionState.ViewPositionY / Classes.Core.SolutionState.Zoom);
+            section.EntryName = Title;
+            section.RealEntryName = Name;
+            section.DataDirectory = Instance.DataDirectory;
+            section.Result = Instance.Paths.SceneFilePath;
+            section.x = x1;
+            section.y = y1;
+            section.ZoomLevel = Classes.Core.SolutionState.ZoomLevel;
+            section.isEncore = Instance.Paths.isEncoreMode;
+            section.LevelID = Classes.Core.SolutionState.LevelID;
+            section.CurrentName = Instance.Paths.CurrentName;
+            section.CurrentZone = Instance.Paths.CurrentZone;
+            section.CurrentSceneID = Instance.Paths.CurrentSceneID;
+            section.Browsed = Instance.Paths.Browsed;
+            section.LoadedDataPack = Instance.LoadedDataPack;
+            foreach (var pack in Instance.ResourcePackList)
+            {
+                section.ResourcePacks.Add(pack);
+                ResourcePackEntryNumber++;
+            }
+
+            return section;
+        }
+
+		public static void LoadFile()
+		{
+			if (GetFile() == false)
+			{
+				var ModListFile = File.Create(Path.Combine(SettingsFolder, "RecentsLists.ini"));
+				ModListFile.Close();
+				if (GetFile() == false) return;
+			}
+			InterpretInformation();
+		}
+
+		public static void InterpretInformation()
+		{
+
+            Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
+			foreach (var section in RecentsListInfo.Sections)
+			{
+                ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState saveState = new ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState();
+                saveState.RealEntryName = section.SectionName;
+                foreach (var items in section.Keys)
+                {
+                    if (items.KeyName == "DataFolder") saveState.DataDirectory = items.Value;
+                    else if (items.KeyName == "EntryName") saveState.EntryName = items.Value;
+                    else if (items.KeyName == "SceneFile") saveState.Result = items.Value;
+                    else if (items.KeyName == "PositionX") saveState.x = (Int32.TryParse(items.Value, out int _x) ? _x : 0);
+                    else if (items.KeyName == "PositionY") saveState.y = (Int32.TryParse(items.Value, out int _y) ? _y : 0);
+                    else if (items.KeyName == "ZoomLevel") saveState.ZoomLevel = (Int32.TryParse(items.Value, out int _zoom) ? _zoom : 0);
+                    else if (items.KeyName == "LevelID") saveState.LevelID = (Int32.TryParse(items.Value, out int _levelID) ? _levelID : 0);
+                    else if (items.KeyName == "IsEncore") saveState.isEncore = (bool.TryParse(items.Value, out bool state) ? state : false);
+                    else if (items.KeyName == "WasBrowsed") saveState.Browsed = (bool.TryParse(items.Value, out bool state) ? state : false);
+                    else if (items.KeyName == "SceneID") saveState.CurrentSceneID = items.Value;
+                    else if (items.KeyName == "ZoneName") saveState.CurrentZone = items.Value;
+                    else if (items.KeyName == "LoadedDataPack") saveState.LoadedDataPack = items.Value;
+                    else if (items.KeyName == "SceneName") saveState.CurrentName = items.Value;
+                    else if (isDataPack(items.KeyName)) saveState.ResourcePacks.Add(items.Value);
+                }
+                Collection.List.Add(saveState);
+
+            }
+
+            bool isDataPack(string title)
+            {
+                if (title.StartsWith("DataPackPart")) return true;
+                else return false;
+            }
+        }
+
+        private static SectionData GetSectionData(ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState item)
+        {
+            int ResourcePackEntryNumber = 1;
+            SectionData section = new SectionData(item.RealEntryName);
+            section.Keys.AddKey("EntryName", item.EntryName);
+            section.Keys.AddKey("DataFolder", item.DataDirectory);
+            section.Keys.AddKey("SceneFile", item.Result);
+            section.Keys.AddKey("PositionX", item.x.ToString());
+            section.Keys.AddKey("PositionY", item.y.ToString());
+            section.Keys.AddKey("ZoomLevel", item.ZoomLevel.ToString());
+            section.Keys.AddKey("IsEncore", item.isEncore.ToString());
+            section.Keys.AddKey("LevelID", item.LevelID.ToString());
+            section.Keys.AddKey("SceneName", item.CurrentName);
+            section.Keys.AddKey("ZoneName", item.CurrentZone);
+            section.Keys.AddKey("SceneID", item.CurrentSceneID);
+            section.Keys.AddKey("WasBrowsed", item.Browsed.ToString());
+            foreach (var pack in item.ResourcePacks)
+            {
+                section.Keys.AddKey("DataPackPart" + ResourcePackEntryNumber.ToString(), pack);
+                ResourcePackEntryNumber++;
+            }
+            return section;
+        }
+
+		public static void SaveFile()
+		{
+			IniData SaveData = new IniData();
+			foreach (var pair in Collection.List)
+			{
+                SectionData section = GetSectionData(pair);
+                SaveData.Sections.Add(section);
+			}
+			string path = Path.Combine(SettingsFolder, "RecentsLists.ini");
+			var parser = new FileIniDataParser();
+			parser.WriteFile(path, SaveData);
+		}
+
+		public static FileStream GetRecentsList(string path)
+		{
+			if (!File.Exists(path)) return null;
+			return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+		}
+
+		public static bool GetFile()
+		{
+			var parser = new FileIniDataParser();
+            if (!File.Exists(Path.Combine(SettingsFolder, "RecentsLists.ini")))
+            {
+                return false;
+            }
+			else
+			{
+                IniData file = parser.ReadFile(Path.Combine(SettingsFolder, "RecentsLists.ini"));
+                RecentsListInfo = file;
+			}
+			return true;
+		}
+    }
+
+}

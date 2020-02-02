@@ -226,7 +226,7 @@ namespace ManiacEditor.Methods.Internal
         public static void UpdateButtonColors()
         {
             var converter = new System.Windows.Media.BrushConverter();
-            if (Core.Settings.MySettings.NightMode)
+            if (ManiacEditor.Core.Settings.MySettings.NightMode)
             {
                 Controls.Base.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
             }
@@ -246,7 +246,7 @@ namespace ManiacEditor.Methods.Internal
             if (CWC != null) NormalColor = CWC.Value;
             else NormalColor = Color.Black;
 
-            return (Core.Settings.MySettings.NightMode ? NightColor : NormalColor);
+            return (ManiacEditor.Core.Settings.MySettings.NightMode ? NightColor : NormalColor);
         }
         #endregion
 
@@ -255,22 +255,22 @@ namespace ManiacEditor.Methods.Internal
         {
             if (colorID == "Blue")
             {
-                if (Core.Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
+                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
                 else return System.Drawing.Color.Blue;
             }
             else if (colorID == "Green")
             {
-                if (Core.Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
+                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
                 else return System.Drawing.Color.Green;
             }
             else if (colorID == "Red")
             {
-                if (Core.Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211, 76, 49);
+                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211, 76, 49);
                 else return System.Drawing.Color.Red;
             }
             else
             {
-                if (Core.Settings.MySettings.NightMode) return System.Drawing.Color.White;
+                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.White;
                 else return System.Drawing.Color.Black;
             }
         }

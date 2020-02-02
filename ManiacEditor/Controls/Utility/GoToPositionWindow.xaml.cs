@@ -59,9 +59,9 @@ namespace ManiacEditor.Controls.Utility
 
         public void GetSavedPositions()
         {
-            if (Instance.ManiacINI.ManiacINIData.Positions != null)
+            if (Methods.Prefrences.SceneCurrentSettings.ManiacINIData.Positions != null)
             {
-                var SavedPositions = Instance.ManiacINI.ManiacINIData.Positions;
+                var SavedPositions = Methods.Prefrences.SceneCurrentSettings.ManiacINIData.Positions;
                 if (SavedPositions.Count != 0) SavedPositionsList.IsEnabled = true;
                 else SavedPositionsList.IsEnabled = false;
                 foreach (var positions in SavedPositions)
@@ -92,7 +92,7 @@ namespace ManiacEditor.Controls.Utility
 
             if (SavePositionCheckbox.IsChecked.Value)
             {
-                Instance.ManiacINI.AddSavedCoordinates(SavedPositionTextBox.Text, goTo_X, goTo_Y, tilesMode);
+                Methods.Prefrences.SceneCurrentSettings.AddSavedCoordinates(SavedPositionTextBox.Text, goTo_X, goTo_Y, tilesMode);
             }
 
             if (tilesMode)

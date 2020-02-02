@@ -197,7 +197,7 @@ namespace ManiacEditor.Methods
         }
         public static void RSDKAnnimationEditor()
         {
-            String aniProcessName = Path.GetFileNameWithoutExtension(Core.Settings.MyDefaults.AnimationEditorPath);
+            String aniProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath);
             IntPtr hWnd = FindWindow(aniProcessName, null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName(aniProcessName).FirstOrDefault();
             if (processes != null)
@@ -216,7 +216,7 @@ namespace ManiacEditor.Methods
             {
 
                 // Ask where RSDK Annimation Editor is located when not set
-                if (string.IsNullOrEmpty(Core.Settings.MyDefaults.AnimationEditorPath))
+                if (string.IsNullOrEmpty(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath))
                 {
                     var ofd = new OpenFileDialog
                     {
@@ -224,19 +224,19 @@ namespace ManiacEditor.Methods
                         Filter = "Windows Executable|*.exe"
                     };
                     if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        Core.Settings.MyDefaults.AnimationEditorPath = ofd.FileName;
+                        ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath = ofd.FileName;
                 }
                 else
                 {
-                    if (!File.Exists(Core.Settings.MyDefaults.AnimationEditorPath))
+                    if (!File.Exists(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath))
                     {
-                        Core.Settings.MyDefaults.AnimationEditorPath = "";
+                        ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath = "";
                         return;
                     }
                 }
 
                 ProcessStartInfo psi;
-                psi = new ProcessStartInfo(Core.Settings.MyDefaults.AnimationEditorPath);
+                psi = new ProcessStartInfo(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath);
                 Process.Start(psi);
             }
         }
@@ -364,9 +364,9 @@ namespace ManiacEditor.Methods
         }
         public static void OpenSonicManiaFolder()
         {
-            if (Core.Settings.MyDefaults.SonicManiaPath != null && Core.Settings.MyDefaults.SonicManiaPath != "" && File.Exists(Core.Settings.MyDefaults.SonicManiaPath))
+            if (ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath != null && ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath != "" && File.Exists(ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath))
             {
-                string GameFolder = Core.Settings.MyDefaults.SonicManiaPath;
+                string GameFolder = ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath;
                 string GameFolder_mod = GameFolder.Replace('/', '\\');
                 Process.Start("explorer.exe", "/select, " + GameFolder_mod);
             }
@@ -380,11 +380,11 @@ namespace ManiacEditor.Methods
         #region Saved Place
         public static void OpenASavedPlaceDropDownOpening(object sender, RoutedEventArgs e)
         {
-            if (Core.Settings.MySettings.SavedPlaces != null && Core.Settings.MySettings.SavedPlaces.Count > 0)
+            if (ManiacEditor.Core.Settings.MySettings.SavedPlaces != null && ManiacEditor.Core.Settings.MySettings.SavedPlaces.Count > 0)
             {
                 Editor.EditorMenuBar.openASavedPlaceToolStripMenuItem.Items.Clear();
                 var allItems = Editor.EditorMenuBar.openASavedPlaceToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                foreach (string savedPlace in Core.Settings.MySettings.SavedPlaces)
+                foreach (string savedPlace in ManiacEditor.Core.Settings.MySettings.SavedPlaces)
                 {
                     var savedPlaceItem = new System.Windows.Controls.MenuItem()
                     {
@@ -472,7 +472,7 @@ namespace ManiacEditor.Methods
             Classes.Core.SolutionState.isImportingObjects = true;
             try
             {
-                Scene sourceScene = Editor.GetSceneSelection();
+                RSDKv5.Scene sourceScene = Editor.GetSceneSelection();
                 if (sourceScene == null) return;
                 var objectImporter = new ObjectImporter(sourceScene.Objects, Classes.Core.Solution.CurrentScene.Objects, Classes.Core.Solution.StageConfig, Editor);
                 if (window != null) objectImporter.Owner = window;

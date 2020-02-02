@@ -327,7 +327,7 @@ namespace ManiacEditor
 
         }
 
-        public void OpenSceneSelectFromPreviousConfiguration(DataSaveStateCollection.SaveState SaveState)
+        public void OpenSceneSelectFromPreviousConfiguration(ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState SaveState)
         {
             ManiacEditor.Controls.SceneSelect.SceneSelectWindow select;
             Instance.Paths.SetGameConfig(SaveState.DataDirectory);
@@ -573,8 +573,8 @@ namespace ManiacEditor
                 Instance.ZoomModel.SetViewSize((int)(Classes.Core.Solution.SceneWidth * Classes.Core.SolutionState.Zoom), (int)(Classes.Core.Solution.SceneHeight * Classes.Core.SolutionState.Zoom));
                 Classes.Core.SolutionState.UpdateMultiLayerSelectMode();
                 Instance.UI.UpdateControls(true);
-                Instance.RecentsList.AddRecentFile(Instance.RecentsList.GenerateNewEntry());
-                Instance.RecentDataSourcesList.AddRecentFile(Instance.RecentDataSourcesList.GenerateNewEntry());
+                Methods.Prefrences.SceneHistoryStorage.AddRecentFile(Methods.Prefrences.SceneHistoryStorage.GenerateNewEntry());
+                ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.AddRecentFile(ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.GenerateNewEntry());
 
             }
             catch (Exception ex)
@@ -660,11 +660,11 @@ namespace ManiacEditor
 
         public void ReadManiacINIFile()
         {
-            Instance.ManiacINI.ClearSettings();
+            Methods.Prefrences.SceneCurrentSettings.ClearSettings();
             if (File.Exists(Instance.Paths.SceneFile_Directory + "\\maniac.json"))
             {
-                Instance.ManiacINI.UpdateFilePath();
-                Instance.ManiacINI.LoadFile();
+                Methods.Prefrences.SceneCurrentSettings.UpdateFilePath();
+                Methods.Prefrences.SceneCurrentSettings.LoadFile();
 
             }
         }

@@ -7,25 +7,25 @@ using IniParser.Model;
 using ManiacEditor.Classes.Internal;
 using Newtonsoft.Json;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods.Prefrences
 {
-    public class SceneCurrentSettings
+    public static class SceneCurrentSettings
 	{
-		private Controls.Base.MainEditor Instance;
-        public string ManiacINIPath;
-        public SceneSettings ManiacINIData { get; set; } = new SceneSettings();
+		private static Controls.Base.MainEditor Instance;
+        public static string ManiacINIPath;
+        public static SceneSettings ManiacINIData { get; set; } = new SceneSettings();
 
-        public SceneCurrentSettings(Controls.Base.MainEditor instance)
+        public static void UpdateInstance(Controls.Base.MainEditor instance)
 		{
             Instance = instance;
         }
 
-        public void ClearSettings()
+        public static void ClearSettings()
         {
             if (ManiacINIData != null) ManiacINIData.Reset();
         }
 
-        public void AddSavedCoordinates(string name, int x, int y, bool tilesMode)
+        public static void AddSavedCoordinates(string name, int x, int y, bool tilesMode)
         {
             if (ManiacINIData == null) CreateFile();
             if (ManiacINIData == null) return;
@@ -36,17 +36,17 @@ namespace ManiacEditor
             SaveFile();
         }
 
-        public void UpdateFilePath()
+        public static void UpdateFilePath()
         {
             ManiacINIPath = Path.Combine(Instance.Paths.SceneFile_Directory, "Maniac.json");
         }
 
-        public string GetFilePath()
+        public static string GetFilePath()
         {
             return Path.Combine(Instance.Paths.SceneFile_Directory, "Maniac.json");
         }
 
-        public void CreateFile()
+        public static void CreateFile()
         {
             UpdateFilePath();
             if (GetFile() == false)
@@ -58,7 +58,7 @@ namespace ManiacEditor
             InterpretInformation();
         }
 
-        public void InterpretInformation()
+        public static void InterpretInformation()
         {
             var path = GetFilePath();
             string data = File.ReadAllText(path);
@@ -66,7 +66,7 @@ namespace ManiacEditor
             ManiacINIData = Options;
         }
 
-        public void LoadFile()
+        public static void LoadFile()
 		{
 			if (GetFile() == false)
 			{
@@ -77,14 +77,14 @@ namespace ManiacEditor
 			InterpretInformation();
 		}
 
-		public void SaveFile()
+		public static void SaveFile()
 		{
             var path = GetFilePath();
             string data = JsonConvert.SerializeObject(ManiacINIData, Formatting.Indented);
             File.WriteAllText(path, data);
         }
 
-		public bool GetFile()
+		public static bool GetFile()
 		{
             if (!File.Exists(GetFilePath()))
             {

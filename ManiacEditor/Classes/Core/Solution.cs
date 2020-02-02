@@ -47,7 +47,7 @@ namespace ManiacEditor.Classes.Core
             Classes.Core.SolutionState.LevelID = -1;
             Classes.Core.SolutionState.EncorePaletteExists = false;
             Classes.Core.SolutionState.EncoreSetupType = 0;
-            ManiacEditor.Controls.Base.MainEditor.Instance.ManiacINI.ClearSettings();
+            Methods.Prefrences.SceneCurrentSettings.ClearSettings();
             ManiacEditor.Controls.Base.MainEditor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             ManiacEditor.Controls.Base.MainEditor.Instance.userDefinedSpritePaths = new List<string>();
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;

@@ -876,12 +876,12 @@ namespace ManiacEditor.Controls.SceneSelect
                 RecentsTree.Nodes[1].ExpandAll();
             }
 
-            if (EditorInstance.DataPacks != null && EditorInstance.DataPacks.ModListInformation?.Count > 0)
+            if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation?.Count > 0)
             {
                 List<string> modPacks = new List<string>();
                 this.RecentsTree.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
                 int index = this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder");
-                modPacks = EditorInstance.DataPacks.DataPackNamesToList();
+                modPacks = ManiacEditor.Methods.Prefrences.DataPackStorage.DataPackNamesToList();
                 foreach (string packs in modPacks)
                 {
                     var node = RecentsTree.Nodes[2].Nodes.Add(packs, packs, index, index);
@@ -972,21 +972,19 @@ namespace ManiacEditor.Controls.SceneSelect
         public void LoadDataPackFromTag(string tag)
         {
             PreviousDataFolder = EditorInstance.DataDirectory;
-            if (EditorInstance.DataPacks == null) return;
             if (!Int32.TryParse(tag, out int Index)) return;
-            if (EditorInstance.DataPacks.ModListInformation == null) return;
+            if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation == null) return;
 
-            var pack = EditorInstance.DataPacks.ModListInformation[Index];
+            var pack = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[Index];
 
             LoadDataPack(pack);
         }
         public void LoadDataPackFromName(string packName)
         {
             PreviousDataFolder = EditorInstance.DataDirectory;
-            if (EditorInstance.DataPacks == null) return;
-            if (EditorInstance.DataPacks.ModListInformation == null) return;
+            if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation == null) return;
 
-            var pack = EditorInstance.DataPacks.ModListInformation.Where(x => x.Item1 == packName).FirstOrDefault();
+            var pack = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.Where(x => x.Item1 == packName).FirstOrDefault();
 
             LoadDataPack(pack);
         }

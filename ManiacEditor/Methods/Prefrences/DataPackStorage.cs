@@ -4,27 +4,32 @@ using System.IO;
 using IniParser;
 using IniParser.Model;
 
-namespace ManiacEditor
+namespace ManiacEditor.Methods.Prefrences
 {
-    public class EditorDataPacks
+    public static class DataPackStorage
 	{
-		public Controls.Base.MainEditor Instance;
-		IniData ModPackInfo;
-		public List<Tuple<string, List<Tuple<string, string>>>> ModListInformation;
-        private string SettingsFolder { get => GetDataPackDirectory(); }
+		public static Controls.Base.MainEditor Instance;
+		static IniData ModPackInfo;
+		public static List<Tuple<string, List<Tuple<string, string>>>> ModListInformation;
+        private static string SettingsFolder { get => GetDataPackDirectory(); }
 
-        private string GetDataPackDirectory()
+        private static string GetDataPackDirectory()
         {
             return (Properties.Internal.Default.PortableMode ? Classes.Core.Constants.SettingsPortableDirectory : Classes.Core.Constants.SettingsStaticDirectory);
         }
 
-        public EditorDataPacks(Controls.Base.MainEditor instance)
+		public static void Initilize(Controls.Base.MainEditor instance)
 		{
-			Instance = instance;
+			UpdateInstance(instance);
 			LoadFile();
 		}
 
-        public List<string> DataPackNamesToList()
+		public static void UpdateInstance(Controls.Base.MainEditor instance)
+		{
+			Instance = instance;
+		}
+
+        public static List<string> DataPackNamesToList()
         {
             List<string> PackNames = new List<string>();
             foreach (var config in ModListInformation)
@@ -34,7 +39,7 @@ namespace ManiacEditor
             return PackNames;
         }
 
-		public void LoadFile()
+		public static void LoadFile()
 		{
 			if (GetFile() == false)
 			{
@@ -45,7 +50,7 @@ namespace ManiacEditor
 			InterpretInformation();
 		}
 
-		public void InterpretInformation()
+		public static void InterpretInformation()
 		{
 			ModListInformation = new List<Tuple<string, List<Tuple<string, string>>>>();
 			foreach (var section in ModPackInfo.Sections)
@@ -60,7 +65,7 @@ namespace ManiacEditor
 
         }
 
-		public void PrintInformation()
+		public static void PrintInformation()
 		{
 			var n = Environment.NewLine;
 			string fullInfo = "";
@@ -75,7 +80,7 @@ namespace ManiacEditor
 			System.Windows.MessageBox.Show(fullInfo);
 		}
 
-		public void SaveFile()
+		public static void SaveFile()
 		{
 			IniData SaveData = new IniData();
 			foreach (var pair in ModListInformation)
@@ -98,7 +103,7 @@ namespace ManiacEditor
 			return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 		}
 
-		public bool GetFile()
+		public static bool GetFile()
 		{
 			var parser = new FileIniDataParser();
             if (!File.Exists(Path.Combine(SettingsFolder, "ModPackLists.ini")))

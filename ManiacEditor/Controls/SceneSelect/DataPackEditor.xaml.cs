@@ -18,7 +18,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             InitializeComponent();
             Instance = instance;
-            if (Instance.DataPacks.ModListInformation != null) ModListInformationUnedited = Instance.DataPacks.ModListInformation;
+            if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation != null) ModListInformationUnedited = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation;
             RefreshKeyList();
 
             UpdateValueModButtons();
@@ -30,7 +30,7 @@ namespace ManiacEditor.Controls.SceneSelect
             updatingKeys = true;
             if (ValueList.Items != null) ValueList.Items.Clear();
             if (KeyList.Items != null) KeyList.Items.Clear();
-            foreach (var item in Instance.DataPacks.ModListInformation)
+            foreach (var item in ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation)
             {
                 KeyList.Items.Add(item.Item1);
             }
@@ -40,9 +40,9 @@ namespace ManiacEditor.Controls.SceneSelect
         private bool KeyIndexValid()
         {
             if (KeyList.SelectedItem == null) return false;
-            if (Instance.DataPacks.ModListInformation.Count > KeyList.SelectedIndex)
+            if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.Count > KeyList.SelectedIndex)
             {
-                if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] != null)
+                if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex] != null)
                 {
                     return true;
                 }
@@ -56,9 +56,9 @@ namespace ManiacEditor.Controls.SceneSelect
             if (KeyIndexValid())
             {
                 if (ValueList.SelectedItem == null) return false;
-                if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Count > ValueList.SelectedIndex)
+                if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2.Count > ValueList.SelectedIndex)
                 {
-                    if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex] != null)
+                    if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex] != null)
                     {
                         return true;
                     }
@@ -75,7 +75,7 @@ namespace ManiacEditor.Controls.SceneSelect
             if (ValueList.Items != null) ValueList.Items.Clear();
             if (KeyIndexValid() == false) return;
 
-            foreach (var item in Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2)
+            foreach (var item in ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2)
             {
                 string entry = item.Item1 + "=" + item.Item2;
                 ValueList.Items.Add(entry);
@@ -119,14 +119,14 @@ namespace ManiacEditor.Controls.SceneSelect
         private void RefreshKeyValues()
         {
             if (KeyIndexValid() == false) return;
-            KeyNameTextBox.Text = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item1;
+            KeyNameTextBox.Text = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item1;
         }
 
         private void RefreshValueValues()
         {
             if (ValueIndexValid() == false) return;
-            ValueNameTextBox.Text = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item1;
-            ValueTextBox.Text = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item2;
+            ValueNameTextBox.Text = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item1;
+            ValueTextBox.Text = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2[ValueList.SelectedIndex].Item2;
         }
 
         private void ClearKeyValues()
@@ -147,7 +147,7 @@ namespace ManiacEditor.Controls.SceneSelect
 
         private void AddKeyButton_Click(object sender, RoutedEventArgs e)
         {
-            Instance.DataPacks.ModListInformation.Add(new Tuple<string, List<Tuple<string, string>>>("New Entry", new List<Tuple<string, string>>()));
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.Add(new Tuple<string, List<Tuple<string, string>>>("New Entry", new List<Tuple<string, string>>()));
             RefreshKeyList();
         }
 
@@ -157,7 +157,7 @@ namespace ManiacEditor.Controls.SceneSelect
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.DataPacks.ModListInformation.RemoveAt(KeyList.SelectedIndex);
+                ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.RemoveAt(KeyList.SelectedIndex);
                 RefreshKeyList();
             }
         }
@@ -173,7 +173,7 @@ namespace ManiacEditor.Controls.SceneSelect
         private void MoveDownKeyButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            if (KeyList.SelectedIndex + 1 > Instance.DataPacks.ModListInformation.Count) return;
+            if (KeyList.SelectedIndex + 1 > ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.Count) return;
             MoveKey(KeyList.SelectedIndex, KeyList.SelectedIndex + 1);
             RefreshKeyList();
         }
@@ -181,16 +181,16 @@ namespace ManiacEditor.Controls.SceneSelect
 
         public void MoveKey(int oldIndex, int newIndex)
         {
-            Tuple<string, List<Tuple<string, string>>> item = Instance.DataPacks.ModListInformation[oldIndex];
-            Instance.DataPacks.ModListInformation.RemoveAt(oldIndex);
-            Instance.DataPacks.ModListInformation.Insert(newIndex, item);
+            Tuple<string, List<Tuple<string, string>>> item = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[oldIndex];
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.RemoveAt(oldIndex);
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.Insert(newIndex, item);
         }
 
         public void MoveValue(int oldIndex, int newIndex)
         {
-            Tuple<string, string> item = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2[oldIndex];
-            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(oldIndex);
-            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Insert(newIndex, item);
+            Tuple<string, string> item = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2[oldIndex];
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(oldIndex);
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2.Insert(newIndex, item);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -198,7 +198,7 @@ namespace ManiacEditor.Controls.SceneSelect
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to save?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.DataPacks.SaveFile();
+                ManiacEditor.Methods.Prefrences.DataPackStorage.SaveFile();
             }
 
         }
@@ -206,8 +206,8 @@ namespace ManiacEditor.Controls.SceneSelect
         private void ChangeNameButton_Click(object sender, RoutedEventArgs e)
         {
             if (KeyIndexValid() == false) return;
-            var itemToEdit = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex];
-            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(KeyNameTextBox.Text, itemToEdit.Item2);
+            var itemToEdit = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex];
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(KeyNameTextBox.Text, itemToEdit.Item2);
             RefreshKeyList();
         }
 
@@ -219,12 +219,12 @@ namespace ManiacEditor.Controls.SceneSelect
         private void ChangeValueButton_Click(object sender, RoutedEventArgs e, bool refreshList = true)
         {
             if (ValueIndexValid() == false) return;
-            var itemToEdit = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex];
+            var itemToEdit = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex];
             var subItemtoEdit = itemToEdit.Item2;
             var valueItemToEdit = subItemtoEdit[ValueList.SelectedIndex];
             var valueItemEdited = new Tuple<string, string>(valueItemToEdit.Item1, ValueTextBox.Text);
             subItemtoEdit[ValueList.SelectedIndex] = valueItemEdited;
-            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
             if (refreshList) RefreshValueList();
         }
 
@@ -236,12 +236,12 @@ namespace ManiacEditor.Controls.SceneSelect
         private void ChangeValueNameButton_Click(object sender, RoutedEventArgs e, bool refreshList = true)
         {
             if (ValueIndexValid() == false) return;
-            var itemToEdit = Instance.DataPacks.ModListInformation[KeyList.SelectedIndex];
+            var itemToEdit = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex];
             var subItemtoEdit = itemToEdit.Item2;
             var valueItemToEdit = subItemtoEdit[ValueList.SelectedIndex];
             var valueItemEdited = new Tuple<string, string>(ValueNameTextBox.Text, valueItemToEdit.Item2);
             subItemtoEdit[ValueList.SelectedIndex] = valueItemEdited;
-            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(itemToEdit.Item1, subItemtoEdit);
             if (refreshList) RefreshValueList();
         }
 
@@ -263,8 +263,8 @@ namespace ManiacEditor.Controls.SceneSelect
         private void AddValueButton_Click(object sender, RoutedEventArgs e)
         {
             //if (ValueIndexValid() == false) return;
-            if (Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2 == null) Instance.DataPacks.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item1, new List<Tuple<string, string>>());
-            Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Add(new Tuple<string, string>("Mod", "n/a"));
+            if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2 == null) ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex] = new Tuple<string, List<Tuple<string, string>>>(ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item1, new List<Tuple<string, string>>());
+            ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2.Add(new Tuple<string, string>("Mod", "n/a"));
             RefreshValueList();
         }
 
@@ -274,7 +274,7 @@ namespace ManiacEditor.Controls.SceneSelect
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
+                ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2.RemoveAt(ValueList.SelectedIndex);
                 RefreshValueList();
             }
         }
@@ -290,7 +290,7 @@ namespace ManiacEditor.Controls.SceneSelect
         private void MoveDownValueButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValueIndexValid() == false) return;
-            if (ValueList.SelectedIndex + 1 > Instance.DataPacks.ModListInformation[KeyList.SelectedIndex].Item2.Count) return;
+            if (ValueList.SelectedIndex + 1 > ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation[KeyList.SelectedIndex].Item2.Count) return;
             MoveValue(ValueList.SelectedIndex, ValueList.SelectedIndex + 1);
             RefreshValueList();
         }
@@ -313,13 +313,13 @@ namespace ManiacEditor.Controls.SceneSelect
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Instance.DataPacks.ModListInformation != ModListInformationUnedited)
+            if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation != ModListInformationUnedited)
             {
                 //MessageBoxResult result = System.Windows.MessageBox.ShowYesNoCancel("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", "Save and Exit", "Exit without Saving", "Cancel", MessageBoxImage.Exclamation);
                 MessageBoxResult result = System.Windows.MessageBox.Show("You haven't saved your changes yet! Would you like to save your changes?", "Unsaved Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Instance.DataPacks.SaveFile();
+                    ManiacEditor.Methods.Prefrences.DataPackStorage.SaveFile();
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
@@ -327,7 +327,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 }
                 else if (result == MessageBoxResult.No)
                 {
-                    Instance.DataPacks.ModListInformation = ModListInformationUnedited;
+                    ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation = ModListInformationUnedited;
                 }
                 else
                 {

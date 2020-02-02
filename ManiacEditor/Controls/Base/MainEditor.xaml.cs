@@ -97,13 +97,9 @@ namespace ManiacEditor.Controls.Base
 		public EditorUIEvents UIEvents;
 		public Classes.Core.Scene.EditorPath Paths;
 		public EditorFileHandler FileHandler;
-		public EditorDataPacks DataPacks;
 		public Methods.Layers.TileFindReplace FindAndReplace;
         public EditorZoomModel ZoomModel;
-        public SceneCurrentSettings ManiacINI;
         public EditorUI UI;
-        public EditorRecentSceneSourcesList RecentsList;
-        public EditorRecentDataSourcesList RecentDataSourcesList;
         public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost DeviceHost;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
@@ -250,14 +246,14 @@ namespace ManiacEditor.Controls.Base
 			UIEvents = new EditorUIEvents(this);
 			Paths = new Classes.Core.Scene.EditorPath(this);
 			FileHandler = new EditorFileHandler(this);
-			DataPacks = new EditorDataPacks(this);
+			Methods.Prefrences.DataPackStorage.Initilize(this);
 			FindAndReplace = new Methods.Layers.TileFindReplace(this);
             ZoomModel = new EditorZoomModel(this);
-            ManiacINI = new SceneCurrentSettings(this);
+            Methods.Prefrences.SceneCurrentSettings.UpdateInstance(this);
             Methods.ProgramLauncher.UpdateInstance(this);
             UI = new EditorUI();
-            RecentsList = new EditorRecentSceneSourcesList(this);
-            RecentDataSourcesList = new EditorRecentDataSourcesList(this);
+            Methods.Prefrences.SceneHistoryStorage.Initilize(this);
+            ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Initilize(this);
 
             EditorStatusBar.UpdateFilterButtonApperance(true);
 
@@ -1427,14 +1423,14 @@ namespace ManiacEditor.Controls.Base
 
         public void RefreshRecentScenes()
         {
-            if (RecentsList.Collection.List.Count > 0)
+            if (Methods.Prefrences.SceneHistoryStorage.Collection.List.Count > 0)
             {
 
                 EditorMenuBar.NoRecentScenesItem.Visibility = Visibility.Collapsed;
                 StartScreen.NoRecentsLabel1.Visibility = Visibility.Collapsed;
                 CleanUpRecentScenesList();
 
-                foreach (var RecentItem in RecentsList.Collection.List)
+                foreach (var RecentItem in Methods.Prefrences.SceneHistoryStorage.Collection.List)
                 {
                     RecentSceneItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentScenesMenuLink(RecentItem.EntryName), CreateRecentScenesMenuLink(RecentItem.EntryName, true)));
                 }
@@ -1470,10 +1466,10 @@ namespace ManiacEditor.Controls.Base
             Classes.Core.Solution.UnloadScene();
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
-            var item = RecentsList.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
+            var item = Methods.Prefrences.SceneHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
             DataDirectory = item.DataDirectory;
             FileHandler.OpenSceneFromSaveState(item.DataDirectory, item.Result, item.LevelID, item.isEncore, item.CurrentName, item.CurrentZone, item.CurrentSceneID, item.Browsed, item.ResourcePacks);
-            RecentsList.AddRecentFile(item);
+            Methods.Prefrences.SceneHistoryStorage.AddRecentFile(item);
         }
         private void CleanUpRecentScenesList()
         {
@@ -1493,7 +1489,7 @@ namespace ManiacEditor.Controls.Base
 
         public void RefreshDataSources()
         {
-            if (RecentDataSourcesList.Collection.List.Count > 0)
+            if (ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Collection.List.Count > 0)
             {
 
                 EditorMenuBar.NoRecentDataSources.Visibility = Visibility.Collapsed;
@@ -1501,7 +1497,7 @@ namespace ManiacEditor.Controls.Base
 
                 CleanUpDataSourcesList();
 
-                foreach (var RecentItem in RecentDataSourcesList.Collection.List)
+                foreach (var RecentItem in ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Collection.List)
                 {
                     RecentDataSourceItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentDataSourceMenuLink(RecentItem.EntryName), CreateRecentDataSourceMenuLink(RecentItem.EntryName, true)));
                 }
@@ -1536,10 +1532,10 @@ namespace ManiacEditor.Controls.Base
             Classes.Core.Solution.UnloadScene();
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
-            var item = RecentDataSourcesList.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
+            var item = ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
             DataDirectory = item.DataDirectory;
             FileHandler.OpenSceneSelectFromPreviousConfiguration(item);
-            RecentDataSourcesList.AddRecentFile(item);
+            ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.AddRecentFile(item);
         }
         private void CleanUpDataSourcesList()
         {
