@@ -255,6 +255,15 @@ namespace ManiacEditor
                     }
                 }
             }
+
+            Classes.Core.Solution.EditLayerA.Deselect();
+            foreach (var point in Points)
+            {
+                Classes.Core.Solution.EditLayerA.Select(point, true);
+            }
+            Editor.EditorStatusBar.UpdateStatusPanel();
+
+
         }
         public void EditorTileFindReplace(int FindTile, int ReplaceTile, int applyState, bool copyResults)
         {
