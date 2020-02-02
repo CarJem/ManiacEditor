@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor.Structures
 {
-    public struct EntityLoadOptions
+    public struct EntityRenderProp
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -20,7 +20,7 @@ namespace ManiacEditor.Structures
         public Classes.Core.Draw.GraphicsHandler Graphics { get; set; }
         public bool isSelected { get; set; }
 
-        public EntityLoadOptions(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false)
+        public EntityRenderProp(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false)
         {
             Graphics = d;
             Object = entity;

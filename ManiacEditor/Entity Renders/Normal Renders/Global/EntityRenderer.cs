@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
 
         public abstract string GetObjectName();
 
-        public virtual void Draw(Structures.EntityLoadOptions properties)
+        public virtual void Draw(Structures.EntityRenderProp properties)
         {
 
         }

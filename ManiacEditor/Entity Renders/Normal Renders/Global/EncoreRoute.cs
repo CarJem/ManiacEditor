@@ -12,7 +12,7 @@ namespace ManiacEditor.Entity_Renders
 
         static int TILE_SIZE = 16;
 
-        public override void Draw(Structures.EntityLoadOptions properties)
+        public override void Draw(Structures.EntityRenderProp properties)
         {
             Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 

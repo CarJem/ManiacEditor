@@ -7,7 +7,7 @@ namespace ManiacEditor.Entity_Renders
         ItemBox itemBox = new ItemBox();
         Spikes spikes = new Spikes();
         IceSpring iceSpring = new IceSpring();
-        public override void Draw(Structures.EntityLoadOptions properties)
+        public override void Draw(Structures.EntityRenderProp properties)
         {
             Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 

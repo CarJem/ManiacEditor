@@ -843,7 +843,7 @@ namespace ManiacEditor
             }
             int Transparency = (Classes.Core.Solution.EditLayerA == null) ? 0xff : 0x32;
 
-            Structures.EntityLoadOptions properties = new Structures.EntityLoadOptions(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected);
+            Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected);
 
             try
 			{		

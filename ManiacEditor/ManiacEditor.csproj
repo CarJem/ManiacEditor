@@ -285,7 +285,7 @@
     <Compile Include="Classes\Core\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Core\Scene\EditorScene.cs" />
     <Compile Include="Classes\Core\Scene\EditorTiles.cs" />
-    <Compile Include="Structures\EntityLoadOptions.cs" />
+    <Compile Include="Structures\EntityRenderProp.cs" />
     <Compile Include="Classes\Internal\VersionCheck.cs" />
     <Compile Include="Converters\RemoveTabConverter.cs" />
     <Compile Include="Converters\TilePixelConverter.cs" />
@@ -939,6 +939,7 @@
     <Compile Include="Classes\Internal\EntityRenderingOptions.cs" />
     <Compile Include="Classes\Internal\EntityDefinitions.cs" />
     <Compile Include="Classes\Internal\LoadPrefrences.cs" />
+    <Compile Include="Structures\LinkedEntityRenderProp.cs" />
     <Resource Include="Controls\TileManiac\Resources\Maniac.bmp" />
     <Resource Include="Controls\TileManiac\Resources\Green.png" />
     <Resource Include="Controls\TileManiac\Resources\9.png" />

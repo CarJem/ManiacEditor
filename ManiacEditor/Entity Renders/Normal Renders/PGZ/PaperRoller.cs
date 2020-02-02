@@ -11,7 +11,7 @@ namespace ManiacEditor.Entity_Renders
         static System.Drawing.Color color3default = ColorTranslator.FromHtml("#9C7973");
         static System.Drawing.Color color4default = ColorTranslator.FromHtml("#5A696B");
 
-        public override void Draw(Structures.EntityLoadOptions properties)
+        public override void Draw(Structures.EntityRenderProp properties)
         {
             Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 

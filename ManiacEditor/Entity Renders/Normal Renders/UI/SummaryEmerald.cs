@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class SummaryEmerald : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityLoadOptions properties)
+        public override void Draw(Structures.EntityRenderProp properties)
         {
             Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 

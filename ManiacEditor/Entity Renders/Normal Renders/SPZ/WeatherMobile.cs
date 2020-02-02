@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class WeatherMobile : EntityRenderer
     {
         static int SEPERATE_VALUE = 145;
-        public override void Draw(Structures.EntityLoadOptions properties)
+        public override void Draw(Structures.EntityRenderProp properties)
         {
             Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 

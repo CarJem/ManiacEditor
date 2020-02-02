@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
             HUDLevelSelectChar = HUDLevelSelectCharS.ToCharArray();
         }
 
-        public override void Draw(Structures.EntityLoadOptions properties)
+        public override void Draw(Structures.EntityRenderProp properties)
         {
             Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
