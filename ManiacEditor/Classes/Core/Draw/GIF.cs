@@ -6,6 +6,7 @@ using System.IO;
 using SystemColor = System.Drawing.Color;
 using SharpDX.Direct3D9;
 using RSDKv5;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Classes.Core.Draw
 {

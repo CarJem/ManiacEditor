@@ -276,6 +276,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bindings\DevSettingsBindingExtension.cs" />
+    <Compile Include="Bindings\PerformanceSettingsBindingExtension.cs" />
+    <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />
+    <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
+    <Compile Include="Bindings\SettingsBindingExtension.cs" />
     <Compile Include="Classes\Core\Constants.cs" />
     <Compile Include="Classes\Core\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Core\Scene\EditorScene.cs" />
@@ -465,23 +470,23 @@
     <Compile Include="Enums\DuplicateAction.cs" />
     <Compile Include="Enums\FlipDirection.cs" />
     <Compile Include="Methods\ProgramBase.cs" />
-    <Compile Include="Unsorted\EditorUI\EditorControl.cs" />
-    <Compile Include="Unsorted\EditorRecentsList.cs" />
-    <Compile Include="Unsorted\EditorExternal\EditorLaunch.cs" />
+    <Compile Include="%28Unsorted%29\EditorUI\EditorControl.cs" />
+    <Compile Include="%28Unsorted%29\EditorRecentsList.cs" />
+    <Compile Include="%28Unsorted%29\EditorExternal\EditorLaunch.cs" />
     <Compile Include="Classes\Core\Solution.cs" />
-    <Compile Include="Unsorted\EditorDefaults.cs" />
-    <Compile Include="Unsorted\EditorManiacINI.cs" />
-    <Compile Include="Unsorted\EditorDataPacks.cs" />
-    <Compile Include="Functions\Addons\DiscordRP.cs" />
-    <Compile Include="Unsorted\EditorFindReplace.cs" />
-    <Compile Include="Unsorted\EditorExternal\EditorInGame.cs" />
-    <Compile Include="Unsorted\EditorLayer\EditorChunk.cs" />
-    <Compile Include="Unsorted\EditorUI\EditorUIEvents.cs" />
+    <Compile Include="%28Unsorted%29\EditorDefaults.cs" />
+    <Compile Include="%28Unsorted%29\EditorManiacINI.cs" />
+    <Compile Include="%28Unsorted%29\EditorDataPacks.cs" />
+    <Compile Include="Addons\DiscordRP.cs" />
+    <Compile Include="%28Unsorted%29\EditorFindReplace.cs" />
+    <Compile Include="%28Unsorted%29\EditorExternal\EditorInGame.cs" />
+    <Compile Include="%28Unsorted%29\EditorLayer\EditorChunk.cs" />
+    <Compile Include="%28Unsorted%29\EditorUI\EditorUIEvents.cs" />
     <Compile Include="Classes\Core\Scene\EditorPath.cs" />
-    <Compile Include="Unsorted\EditorFileHandler.cs" />
-    <Compile Include="Unsorted\EditorTheming.cs" />
-    <Compile Include="Unsorted\EditorUI\EditorUI.cs" />
-    <Compile Include="Unsorted\EditorUI\EditorZoomModel.cs" />
+    <Compile Include="%28Unsorted%29\EditorFileHandler.cs" />
+    <Compile Include="%28Unsorted%29\EditorTheming.cs" />
+    <Compile Include="%28Unsorted%29\EditorUI\EditorUI.cs" />
+    <Compile Include="%28Unsorted%29\EditorUI\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
@@ -630,8 +635,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Core\Settings.cs" />
-    <Compile Include="Functions\Extensions\Spline\ArrayUtil.cs" />
-    <Compile Include="Functions\Extensions\Spline\CubicSpline.cs" />
+    <Compile Include="Extensions\Spline\ArrayUtil.cs" />
+    <Compile Include="Extensions\Spline\CubicSpline.cs" />
     <Compile Include="Controls\Base\Elements\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
     </Compile>
@@ -669,10 +674,10 @@
     <Compile Include="Properties\SettingsProviders\GameSettingsProvider.cs" />
     <Compile Include="Properties\SettingsProviders\PerformanceSettingsProvider.cs" />
     <Compile Include="Properties\SettingsProviders\DefaultsSettingsProvider.cs" />
-    <Compile Include="Functions\Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\SettingsProviders\DocumentsSettingsProvider.cs" />
-    <Compile Include="Functions\Extensions\Spline\TriDiagonalMatrix.cs" />
-    <Compile Include="Functions\Extensions\WindowHelper.cs" />
+    <Compile Include="Extensions\Spline\TriDiagonalMatrix.cs" />
+    <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="Classes\Core\Draw\GIF.cs" />
     <Compile Include="Classes\Core\Draw\GraphicsHandler.cs" />
     <Compile Include="Methods\ImageExtensions.cs" />
@@ -790,7 +795,7 @@
     <Compile Include="Controls\Base\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Unsorted\EditorEntities\AttributeValidater.cs" />
+    <Compile Include="%28Unsorted%29\EditorEntities\AttributeValidater.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ColorConsole.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ColorsCaching.cs" />
     <Compile Include="App.xaml.cs">
@@ -808,9 +813,9 @@
     </Compile>
     <Compile Include="Classes\Core\SolutionState.cs" />
     <Compile Include="Enums\ScrollDir.cs" />
-    <Compile Include="Unsorted\EditorEntities\EditorAnimations.cs" />
+    <Compile Include="%28Unsorted%29\EditorEntities\EditorAnimations.cs" />
     <Compile Include="Classes\Core\Scene\EditorBackground.cs" />
-    <Compile Include="Unsorted\EditorEntities\EditorEntityDrawing.cs" />
+    <Compile Include="%28Unsorted%29\EditorEntities\EditorEntityDrawing.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -901,14 +906,14 @@
     <Compile Include="Controls\TileManiac\Controls\NearestNighborhoodPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Functions\Extensions\KeyEventExt.cs" />
+    <Compile Include="Extensions\KeyEventExt.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>KeyBinds.settings</DependentUpon>
     </Compile>
-    <Compile Include="Unsorted\EditorLayer\HorizontalLayerScroll.cs" />
+    <Compile Include="%28Unsorted%29\EditorLayer\HorizontalLayerScroll.cs" />
     <Compile Include="Interfaces\IDrawArea.cs" />
     <Compile Include="Controls\Base\Render\ImageViewer.cs">
       <SubType>UserControl</SubType>
@@ -921,8 +926,8 @@
     <Compile Include="Classes\Core\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Core\Scene\Sets\EditorEntity.cs" />
     <Compile Include="Core\ProcessMemory.cs" />
-    <Compile Include="Unsorted\EditorLayer\ScrollInfoLines.cs" />
-    <Compile Include="Unsorted\EditorSettings.cs" />
+    <Compile Include="%28Unsorted%29\EditorLayer\ScrollInfoLines.cs" />
+    <Compile Include="%28Unsorted%29\EditorSettings.cs" />
     <Compile Include="Controls\Assets\SkinResourceDictionary.cs" />
     <Compile Include="Controls\Dialog\TextPrompt.cs" />
     <Compile Include="Classes\Core\Draw\TextureCreator.cs" />

@@ -10,6 +10,7 @@ using System.Data;
 using System.Collections.Specialized;
 using Cyotek.Windows.Forms;
 using KeysConverter = System.Windows.Forms.KeysConverter;
+using ManiacEditor.Extensions;
 
 using ManiacEditor.Controls.Utility;
 using ManiacEditor.Controls.Utility.Editor;
@@ -58,7 +59,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
             if (Properties.Internal.Default.PortableMode) PortableCheckbox.IsChecked = true;
             else NonPortableCheckbox.IsChecked = true;
 
-			foreach (RadioButton rdo in Extensions.FindVisualChildren<RadioButton>(MenuLangGroup))
+			foreach (RadioButton rdo in Extensions.Extensions.FindVisualChildren<RadioButton>(MenuLangGroup))
 			{
 				if (rdo.Tag.ToString() == Core.Settings.MyDefaults.MenuLanguageDefault)
 				{
@@ -66,7 +67,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 				}
 			}
 
-			foreach (RadioButton rdo in Extensions.FindVisualChildren<RadioButton>(ButtonLayoutGroup))
+			foreach (RadioButton rdo in Extensions.Extensions.FindVisualChildren<RadioButton>(ButtonLayoutGroup))
 			{
 				if (rdo.Tag.ToString() == Core.Settings.MyDefaults.MenuButtonLayoutDefault)
 				{
@@ -564,7 +565,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			}
 			foreach (string keybind in KnownKeybinds)
 			{
-				if (!Extensions.KeyBindsSettingExists(keybind)) continue;
+				if (!Extensions.Extensions.KeyBindsSettingExists(keybind)) continue;
 				var keybindDict = Core.Settings.MyKeyBinds[keybind] as StringCollection;
 				if (keybindDict != null && keybindDict.Count != 0)
 				{
@@ -591,9 +592,9 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
         private void SetKeybindTextboxes(StackPanel panel)
         {
-            foreach (StackPanel stack in Extensions.FindVisualChildren<StackPanel>(panel))
+            foreach (StackPanel stack in Extensions.Extensions.FindVisualChildren<StackPanel>(panel))
             {
-                foreach (Button t in Extensions.FindVisualChildren<Button>(stack))
+                foreach (Button t in Extensions.Extensions.FindVisualChildren<Button>(stack))
                 {
                     ProcessKeybindingButtons(t);
                 }
@@ -662,7 +663,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			List<string> keyBindList = new List<string>();
 			List<string> keyBindModList = new List<string>();
 
-			if (!Extensions.KeyBindsSettingExists(keyRefrence)) return new Tuple<string, string>("N/A", null);
+			if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return new Tuple<string, string>("N/A", null);
 
 			var keybindDict = Core.Settings.MyKeyBinds[keyRefrence] as StringCollection;
 			if (keybindDict != null)

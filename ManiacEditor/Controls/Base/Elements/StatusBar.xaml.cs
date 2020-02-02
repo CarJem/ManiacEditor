@@ -153,7 +153,7 @@ namespace ManiacEditor.Controls.Base.Elements
             List<string> keyBindList = new List<string>();
             List<string> keyBindModList = new List<string>();
 
-            if (!Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
+            if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
 
             if (Properties.KeyBinds.Default == null) return nullString;
 

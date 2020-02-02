@@ -1,4 +1,4 @@
-﻿namespace ManiacEditor
+﻿namespace ManiacEditor.Extensions
 {
 	using System;
 	using System.Runtime.InteropServices;

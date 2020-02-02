@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Collections.Specialized;
 using Keys = System.Windows.Forms.Keys;
 using KeysConverter = System.Windows.Forms.KeysConverter;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Controls.Utility.Editor.Options
 {

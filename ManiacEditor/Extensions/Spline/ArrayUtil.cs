@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ManiacEditor.Functions.Extensions.Spline
+namespace ManiacEditor.Extensions.Spline
 {
     /// <summary>
     /// Utility methods for arrays.

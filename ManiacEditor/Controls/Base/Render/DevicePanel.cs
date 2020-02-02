@@ -459,7 +459,7 @@ namespace ManiacEditor
             }
             else
             {
-                CustomSelectedColor = Extensions.Blend(Color.Purple, CustomColor.Value, 100);
+                CustomSelectedColor = Extensions.Extensions.Blend(Color.Purple, CustomColor.Value, 100);
             }
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();

@@ -12,6 +12,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 using ManiacEditor.Enums;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Classes.Core.Scene.Sets
 {
@@ -1057,7 +1058,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
                 if (drawA) Map = Classes.Core.Solution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE), flipX, flipY);
                 else Map = Classes.Core.Solution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE), flipX, flipY);
 
-                Map = Extensions.ChangeImageColor(Map, System.Drawing.Color.White, colur);
+                Map = Extensions.Extensions.ChangeImageColor(Map, System.Drawing.Color.White, colur);
 
                 g.DrawImage(Map, x * Classes.Core.Constants.TILE_SIZE, y * Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE, Classes.Core.Constants.TILE_SIZE);
             }

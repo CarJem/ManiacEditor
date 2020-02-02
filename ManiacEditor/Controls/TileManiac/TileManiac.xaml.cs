@@ -28,6 +28,7 @@ using ManiacEditor.Controls;
 using MessageBox = System.Windows.MessageBox;
 using TileConfig = RSDKv5.Tileconfig;
 using ManiacEditor.Controls.TileManiac.Controls;
+using ManiacEditor.Extensions;
 
 using ManiacEditor.Controls.Utility;
 using ManiacEditor.Controls.Utility.Editor;
@@ -2257,7 +2258,7 @@ namespace ManiacEditor.Controls.TileManiac
 		{
             if (!CollisionViewer.IsEnabled) return;
             if (freezeGrid) return;
-			Extensions.GetRowColIndex(CollisionViewer, System.Windows.Input.Mouse.GetPosition(CollisionViewer), out int row, out int col);
+			Extensions.Extensions.GetRowColIndex(CollisionViewer, System.Windows.Input.Mouse.GetPosition(CollisionViewer), out int row, out int col);
 			System.Windows.Point cellPos = new System.Windows.Point(col, row);
 			if (cellPos.Y >= 16) return;
 			switch (cellPos.X)
@@ -2391,7 +2392,7 @@ namespace ManiacEditor.Controls.TileManiac
 
 		private void checkUncheckBox(bool state = false)
 		{
-			Extensions.GetRowColIndex(CollisionViewer, System.Windows.Input.Mouse.GetPosition(CollisionViewer), out int row, out int col);
+			Extensions.Extensions.GetRowColIndex(CollisionViewer, System.Windows.Input.Mouse.GetPosition(CollisionViewer), out int row, out int col);
 			System.Windows.Point cellPos = new System.Windows.Point(col, row);
 			switch (cellPos.X)
 			{

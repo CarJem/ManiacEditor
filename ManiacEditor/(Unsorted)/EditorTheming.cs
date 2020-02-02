@@ -7,6 +7,7 @@ using Control = System.Windows.Forms.Control;
 using Color = System.Drawing.Color;
 using MenuItem = System.Windows.Controls.MenuItem;
 using Button = System.Windows.Controls.Button;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor
 {
@@ -294,19 +295,19 @@ namespace ManiacEditor
             switch (filter)
             {
                 case var _ when (filter == 0 || filter >= 5 && filter != 255):
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
                     break;
                 case var _ when (filter == 1 || filter == 5):
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
                     break;
                 case 2:
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
                     break;
                 case 4:
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
                     break;
                 case 255:
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
                     break;
                 default:
                     ForeColor = (SolidColorBrush)Instance.FindResource("NormalText"); // NULL Filter
@@ -321,19 +322,19 @@ namespace ManiacEditor
             switch (filter)
             {
                 case var _ when (filter == 0 || filter >= 5 && filter != 255):
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
                     break;
                 case var _ when (filter == 1 || filter == 5):
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
                     break;
                 case 2:
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
                     break;
                 case 4:
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
                     break;
                 case 255:
-                    ForeColor = new SolidColorBrush(Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
                     break;
                 default:
                     ForeColor = (SolidColorBrush)Instance.FindResource("NormalText"); // NULL Filter

@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.Data;
 using ManiacEditor.Controls.TileManiac;
 using ManiacEditor.Enums;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor
 {
@@ -1929,7 +1930,7 @@ namespace ManiacEditor
             List<string> keyBindList = new List<string>();
             List<string> keyBindModList = new List<string>();
 
-            if (!Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
+            if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
 
             if (Properties.KeyBinds.Default == null) return nullString;
 

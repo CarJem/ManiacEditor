@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:maniac="clr-namespace:ManiacEditor"
+        xmlns:maniac="clr-namespace:ManiacEditor.Bindings"
         xmlns:local="clr-namespace:ManiacEditor.Controls"
         mc:Ignorable="d"
         Title="Game Lock On Options..." Height="450" Width="326" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NormalBackground}">

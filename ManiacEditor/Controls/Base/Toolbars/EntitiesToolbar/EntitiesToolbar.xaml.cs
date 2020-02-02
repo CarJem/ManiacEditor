@@ -10,6 +10,7 @@ using Microsoft.Scripting.Utils;
 using System.ComponentModel;
 using System.Data;
 using ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar.PropertyGrid;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
 {

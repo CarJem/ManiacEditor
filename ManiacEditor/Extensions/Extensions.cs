@@ -10,10 +10,8 @@ using System.Windows.Threading;
 using System.Configuration;
 using System.Windows.Data;
 
-namespace ManiacEditor
+namespace ManiacEditor.Extensions
 {
-
-
     public static class Extensions
     {
         public static System.Drawing.Color Blend(this System.Drawing.Color color, System.Drawing.Color backcolor, double amount)
@@ -308,107 +306,6 @@ namespace ManiacEditor
 			return found == null ? -1 : found.i;
 		}
 	}
-
-	public class SettingBindingExtension : Binding
-	{
-		public SettingBindingExtension()
-		{
-			Initialize();
-		}
-
-		public SettingBindingExtension(string path)
-			: base(path)
-		{
-			Initialize();
-		}
-
-		private void Initialize()
-		{
-			this.Source = ManiacEditor.Properties.Settings.Default;
-			this.Mode = BindingMode.TwoWay;
-		}
-	}
-
-    public class DefaultSettingsBindingExtension : Binding
-    {
-        public DefaultSettingsBindingExtension()
-        {
-            Initialize();
-        }
-
-        public DefaultSettingsBindingExtension(string path)
-            : base(path)
-        {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            this.Source = ManiacEditor.Properties.Defaults.Default;
-            this.Mode = BindingMode.TwoWay;
-        }
-    }
-
-    public class PerformanceSettingsBindingExtension : Binding
-    {
-        public PerformanceSettingsBindingExtension()
-        {
-            Initialize();
-        }
-
-        public PerformanceSettingsBindingExtension(string path)
-            : base(path)
-        {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            this.Source = ManiacEditor.Properties.Performance.Default;
-            this.Mode = BindingMode.TwoWay;
-        }
-    }
-
-    public class DevSettingsBindingExtension : Binding
-    {
-        public DevSettingsBindingExtension()
-        {
-            Initialize();
-        }
-
-        public DevSettingsBindingExtension(string path)
-            : base(path)
-        {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            this.Source = ManiacEditor.Properties.DevSettings.Default;
-            this.Mode = BindingMode.TwoWay;
-        }
-    }
-
-    public class GameSettingsBindingExtension : Binding
-    {
-        public GameSettingsBindingExtension()
-        {
-            Initialize();
-        }
-
-        public GameSettingsBindingExtension(string path)
-            : base(path)
-        {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            this.Source = ManiacEditor.Properties.GameOptions.Default;
-            this.Mode = BindingMode.TwoWay;
-        }
-    }
-
 
     public static class ButtonHelper
 	{

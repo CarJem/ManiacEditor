@@ -24,6 +24,8 @@ using ManiacEditor.Controls.Utility.Editor.Dev;
 using ManiacEditor.Controls.Utility.Editor.Configuration;
 using ManiacEditor.Controls.Utility.Editor.Options;
 
+using ManiacEditor.Extensions;
+
 
 
 namespace ManiacEditor.Controls.Base.Elements
@@ -826,7 +828,7 @@ namespace ManiacEditor.Controls.Base.Elements
             //Grid Default Color
             if (e.NewValue.Value != null)
             {
-                Classes.Core.SolutionState.GridColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Core.SolutionState.GridColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
@@ -835,7 +837,7 @@ namespace ManiacEditor.Controls.Base.Elements
             //Water Color
             if (e.NewValue.Value != null)
             {
-                Classes.Core.SolutionState.waterColor = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Core.SolutionState.waterColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
 
@@ -844,7 +846,7 @@ namespace ManiacEditor.Controls.Base.Elements
             //Collision Solid(Top Only) Color
             if (e.NewValue.Value != null)
             {
-                Classes.Core.SolutionState.CollisionTOColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Core.SolutionState.CollisionTOColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
                 ManiacEditor.Controls.Base.MainEditor.Instance.RefreshCollisionColours(true);
             }
         }
@@ -854,7 +856,7 @@ namespace ManiacEditor.Controls.Base.Elements
             //Collision Solid(LRD) Color
             if (e.NewValue.Value != null)
             {
-                Classes.Core.SolutionState.CollisionLRDColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Core.SolutionState.CollisionLRDColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
                 ManiacEditor.Controls.Base.MainEditor.Instance.RefreshCollisionColours(true);
             }
         }
@@ -864,7 +866,7 @@ namespace ManiacEditor.Controls.Base.Elements
             //Collision Solid(All) Color
             if (e.NewValue.Value != null)
             {
-                Classes.Core.SolutionState.CollisionSAColour = Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Classes.Core.SolutionState.CollisionSAColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
                 ManiacEditor.Controls.Base.MainEditor.Instance.RefreshCollisionColours(true);
             }
         }
@@ -909,7 +911,7 @@ namespace ManiacEditor.Controls.Base.Elements
             List<string> keyBindList = new List<string>();
             List<string> keyBindModList = new List<string>();
 
-            if (!Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
+            if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
 
             if (Properties.KeyBinds.Default == null) return nullString;
 

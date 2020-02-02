@@ -26,7 +26,7 @@
 //
 using System;
 
-namespace ManiacEditor.Functions.Extensions.Spline 
+namespace ManiacEditor.Extensions.Spline 
 {
 	/// <summary>
 	/// Cubic spline interpolation.

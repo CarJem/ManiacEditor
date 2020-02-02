@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Controls.Base.Elements
 {

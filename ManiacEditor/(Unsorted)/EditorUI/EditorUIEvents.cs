@@ -631,8 +631,8 @@ namespace ManiacEditor
 		{
 			object[] MTB = Editor.EditorToolbar.MainToolbarButtons.Items.Cast<object>().ToArray();
 			object[] LT = Editor.EditorToolbar.LayerToolbar.Items.Cast<object>().ToArray();
-			ManiacEditor.Extensions.EnableButtonList(MTB);
-			ManiacEditor.Extensions.EnableButtonList(LT);
+			ManiacEditor.Extensions.Extensions.EnableButtonList(MTB);
+			ManiacEditor.Extensions.Extensions.EnableButtonList(LT);
 		}
 		#endregion
 

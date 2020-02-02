@@ -1,4 +1,4 @@
-﻿namespace ManiacEditor
+﻿namespace ManiacEditor.Extensions
 {
 	public static class KeyEventExts
 	{

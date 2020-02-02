@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Globalization;
 using System.Windows.Media;
 using ManiacEditor.Converters;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Controls.Utility
 {

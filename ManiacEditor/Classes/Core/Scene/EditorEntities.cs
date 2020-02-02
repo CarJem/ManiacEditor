@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using RSDKv5;
 using ManiacEditor.Actions;
 using ManiacEditor.Enums;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Classes.Core.Scene
 {
@@ -757,7 +758,7 @@ namespace ManiacEditor.Classes.Core.Scene
             {
                 var range = Enumerable.Range(0, 2048);
                 var a = range.Except(GetAllUsedSlotIDs()).ToList();
-                var b = Extensions.GroupConsecutive(a);
+                var b = Extensions.Extensions.GroupConsecutive(a);
                 int amountOfSlotsNeeded = SelectedEntities.Count();
                 foreach (var list in b)
                 {
@@ -932,9 +933,9 @@ namespace ManiacEditor.Classes.Core.Scene
                 if (SplineXPos[splineID].Count > 1)
                 {
                     float[] xs, ys;
-                    Functions.Extensions.Spline.CubicSpline.FitParametric(SplineXPos[splineID].ToArray(), SplineYPos[splineID].ToArray(), (selectedOptions.SplineSize > 0 ? selectedOptions.SplineSize : 1), out xs, out ys);
+                    Extensions.Spline.CubicSpline.FitParametric(SplineXPos[splineID].ToArray(), SplineYPos[splineID].ToArray(), (selectedOptions.SplineSize > 0 ? selectedOptions.SplineSize : 1), out xs, out ys);
                     Point lastPoint = new Point(-1, -1);
-                    foreach (var p in Extensions.CreateDataPoints(xs, ys))
+                    foreach (var p in Extensions.Extensions.CreateDataPoints(xs, ys))
                     {
                         if (lastPoint.X != -1)
                         {

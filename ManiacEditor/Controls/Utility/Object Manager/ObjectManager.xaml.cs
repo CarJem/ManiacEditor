@@ -12,6 +12,7 @@ using System.Data;
 using Microsoft.Scripting.Utils;
 using RSDKv5;
 using System.Collections.ObjectModel;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Controls.Utility.Object_Manager
 {

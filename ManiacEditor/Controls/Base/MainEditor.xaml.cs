@@ -33,6 +33,7 @@ using Rectangle = System.Drawing.Rectangle;
 using ManiacEditor.Controls.Base.Controls;
 using ManiacEditor.Enums;
 using ManiacEditor.Event_Handlers;
+using ManiacEditor.Extensions;
 
 
 namespace ManiacEditor.Controls.Base

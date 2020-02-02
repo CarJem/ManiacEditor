@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ManiacEditor.Controls"
+             xmlns:bindings="clr-namespace:ManiacEditor.Bindings"
              xmlns:maniac="clr-namespace:ManiacEditor"
              xmlns:update="clr-namespace:ManiacEditor.Controls.Updater"
              mc:Ignorable="d" 
@@ -101,7 +102,7 @@
 
                         <StackPanel Margin="4" Grid.Column="2" Grid.ColumnSpan="2">
                             <TextBlock Width="Auto" Height="17" x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
-                            <TextBlock Width="Auto" Height="17" x:Name="devCheck"><TextBlock Text="         "/><CheckBox IsChecked="{maniac:SettingBinding UseAutoForcefulStartup}"><TextBlock ><Hyperlink><Run Text="Auto Launch"/></Hyperlink></TextBlock></CheckBox></TextBlock>
+                            <TextBlock Width="Auto" Height="17" x:Name="devCheck"><TextBlock Text="         "/><CheckBox IsChecked="{bindings:SettingBinding UseAutoForcefulStartup}"><TextBlock ><Hyperlink><Run Text="Auto Launch"/></Hyperlink></TextBlock></CheckBox></TextBlock>
                         </StackPanel>
                     </Grid>
                     <TextBlock VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text=" Resources / Support CarJem Generations:"></TextBlock>
