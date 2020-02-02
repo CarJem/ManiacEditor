@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class SSZSpikeBall : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -36,14 +36,14 @@ namespace ManiacEditor.Entity_Renders
 
                 if (type == 0)
                 {
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                        x + frame.Frame.PivotX,
                        y + frame.Frame.PivotY,
                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
                 else
                 {
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameSpike),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameSpike),
                        x + frameSpike.Frame.PivotX,
                        y + frameSpike.Frame.PivotY,
                        frameSpike.Frame.Width, frameSpike.Frame.Height, false, Transparency);

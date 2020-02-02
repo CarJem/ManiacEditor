@@ -12,11 +12,11 @@ namespace ManiacEditor.Entity_Renders
 
         static int TILE_SIZE = 16;
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            if (Classes.Editor.Solution.CurrentScene?.Scratch != null)
+            if (Classes.Core.Solution.CurrentScene?.Scratch != null)
             {
-                Classes.Editor.Scene.Sets.EditorLayer Scratch = Classes.Editor.Solution.CurrentScene?.Scratch;
+                Classes.Core.Scene.Sets.EditorLayer Scratch = Classes.Core.Solution.CurrentScene?.Scratch;
 
                 _layer = Scratch.Layer;
                 bool fliph = false;
@@ -31,11 +31,11 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool outOfBoundsX = false;
                     bool outOfBoundsY = false;
-                    if (x2 > Classes.Editor.Solution.ScratchLayer.Width)
+                    if (x2 > Classes.Core.Solution.ScratchLayer.Width)
                     {
                         outOfBoundsX = true;
                     }
-                    if (y2 > Classes.Editor.Solution.ScratchLayer.Height)
+                    if (y2 > Classes.Core.Solution.ScratchLayer.Height)
                     {
                         outOfBoundsY = true;
                     }
@@ -76,7 +76,7 @@ namespace ManiacEditor.Entity_Renders
 
                     var frame = editorAnim.Frames[Animation.index];
 
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                         y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -86,7 +86,7 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
         }
-        public void DrawTileGroup(GraphicsHandler d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity, Controls.Base.MainEditor EditorInstance)
+        public void DrawTileGroup(Classes.Core.Draw.GraphicsHandler d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity, Controls.Base.MainEditor EditorInstance)
         {
 
             Rectangle rect = GetTileArea(x2, y2, width, height);
@@ -122,11 +122,11 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-        public void DrawTile(GraphicsHandler d, ushort tile, int x, int y, bool selected, int Transperncy, Controls.Base.MainEditor EditorInstance)
+        public void DrawTile(Classes.Core.Draw.GraphicsHandler d, ushort tile, int x, int y, bool selected, int Transperncy, Controls.Base.MainEditor EditorInstance)
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(Classes.Core.Solution.CurrentTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY),
             x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, selected, Transperncy);
         }
 
@@ -141,7 +141,7 @@ namespace ManiacEditor.Entity_Renders
             return new Rectangle(x, y, x + width, y + height);
         }
 
-        public override bool isObjectOnScreen(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;

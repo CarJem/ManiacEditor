@@ -4,7 +4,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedPlatform : LinkedRenderer
     {
-        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
         {
             ushort slotID = currentEntity.SlotID;
             int childCount = currentEntity.GetAttribute("childCount").ValueEnum;
@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var tagged = Classes.Editor.Solution.Entities.Entities.Where(e => targetSlotIDs.Contains(e.Entity.SlotID));
+            var tagged = Classes.Core.Solution.Entities.Entities.Where(e => targetSlotIDs.Contains(e.Entity.SlotID));
 
             if (tagged != null && tagged.Any())
             {

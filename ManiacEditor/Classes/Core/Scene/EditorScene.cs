@@ -11,9 +11,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
-using ManiacEditor.Classes.Editor.Scene.Sets;
+using ManiacEditor.Classes.Core.Scene.Sets;
 
-namespace ManiacEditor.Classes.Editor.Scene
+namespace ManiacEditor.Classes.Core.Scene
 {
     public class EditorScene : RSDKv5.Scene, IDisposable
     {
@@ -24,7 +24,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
         public EditorLayer LowDetails
         {
-            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.ManiacINI.ManiacINIData.ForegroundLower) || el.Name.Equals(Core.Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.ManiacINI.ManiacINIData.ForegroundLower) || el.Name.Equals(ManiacEditor.Core.Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
         }
         public EditorLayer ForegroundLow
         {
@@ -40,7 +40,7 @@ namespace ManiacEditor.Classes.Editor.Scene
         }
         public EditorLayer HighDetails
         {
-            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.ManiacINI.ManiacINIData.ForegroundHigher) || el.Name.Equals(Core.Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+            get => _editorLayers.FirstOrDefault(el => el.Name.Equals(EditorInstance.ManiacINI.ManiacINIData.ForegroundHigher) || el.Name.Equals(ManiacEditor.Core.Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
         }
         public EditorLayer ForegroundHigh
         {

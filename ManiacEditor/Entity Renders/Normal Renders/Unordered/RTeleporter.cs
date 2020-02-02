@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class RTeleporter : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -21,25 +21,25 @@ namespace ManiacEditor.Entity_Renders
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
                 Animation.ProcessAnimation2(frameE.Entry.SpeedMultiplyer, frameE.Entry.Frames.Count, frameE.Frame.Delay);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameB),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameB),
                     x + frameB.Frame.PivotX - (fliph ? (frameB.Frame.Width - editorAnimBottom.Frames[0].Frame.Width) : 0),
                     y + frameE.Frame.Height/2,
                     frameB.Frame.Width, frameB.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameE),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameE),
                     x + frameE.Frame.PivotX - 22,
                     y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameE),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameE),
                     x + frameE.Frame.PivotX - 6,
                     y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameE),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameE),
                     x + frameE.Frame.PivotX + 10,
                     y + frameE.Frame.PivotY,
                     frameE.Frame.Width, frame.Frame.Height, false, Transparency);

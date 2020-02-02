@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class HangConveyor : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
@@ -27,12 +27,12 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX + (direction == 1 ? length / 2 : -(length / 2)),
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameEnd),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameEnd),
                     x + frameEnd.Frame.PivotX - (direction == 1 ? length / 2 : -(length / 2)),
                     y + frameEnd.Frame.PivotY,
                     frameEnd.Frame.Width, frameEnd.Frame.Height, false, Transparency);
@@ -42,7 +42,7 @@ namespace ManiacEditor.Entity_Renders
                 int length2 = (length / 16 ) - 1;
                 for (int i = 0; i < length2; i++)
                 {
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameMid),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameMid),
                         start_x + frameMid.Frame.PivotX + 16*i,
                         y - 21 + frameMid.Frame.PivotY,
                         frameMid.Frame.Width, frameMid.Frame.Height, false, Transparency);
@@ -50,7 +50,7 @@ namespace ManiacEditor.Entity_Renders
 
                 for (int i = 0; i < length2; i++)
                 {
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameMid2),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameMid2),
                         start_x2 + frameMid2.Frame.PivotX + 16 * i,
                         y + 21 + frameMid2.Frame.PivotY,
                         frameMid2.Frame.Width, frameMid2.Frame.Height, false, Transparency);

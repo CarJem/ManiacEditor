@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class Buggernaut : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
@@ -23,11 +23,11 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frameWings.Entry.SpeedMultiplyer, frameWings.Entry.Frames.Count, frameWings.Frame.Delay);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameWings),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameWings),
                     x + frameWings.Frame.PivotX - (fliph ? (frameWings.Frame.Width - editorAnimWings.Frames[0].Frame.Width) : 0),
                     y + frameWings.Frame.PivotY + (flipv ? (frameWings.Frame.Height - editorAnimWings.Frames[0].Frame.Height) : 0),
                     frameWings.Frame.Width, frameWings.Frame.Height, false, Transparency - 150);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);

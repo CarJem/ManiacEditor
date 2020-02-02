@@ -43,10 +43,10 @@ namespace ManiacEditor.Controls.Utility
             }
         }
 
-        private List<Classes.Editor.Scene.Sets.EditorEntity> GetPlayers()
+        private List<Classes.Core.Scene.Sets.EditorEntity> GetPlayers()
         {
-            List<Classes.Editor.Scene.Sets.EditorEntity> players = new List<Classes.Editor.Scene.Sets.EditorEntity>();
-            foreach (var _entity in Classes.Editor.Solution.Entities.Entities)
+            List<Classes.Core.Scene.Sets.EditorEntity> players = new List<Classes.Core.Scene.Sets.EditorEntity>();
+            foreach (var _entity in Classes.Core.Solution.Entities.Entities)
             {
                 if (_entity.Entity.Object.Name.Name == "Player")
                 {

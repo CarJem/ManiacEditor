@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class LottoBall : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int lottoNum = (int)entity.attributesMap["lottoNum"].ValueUInt8;
@@ -80,17 +80,17 @@ namespace ManiacEditor.Entity_Renders
                 var frame3 = numAnimR.Frames[Animation.index];
 
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - ballAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - ballAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                     x + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - numAnimL.Frames[0].Frame.Width) : 0),
                     y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - numAnimL.Frames[0].Frame.Height) : 0),
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                 if (ignoreNum != true)
                 {
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
                         x + frame3.Frame.PivotX - (fliph ? (frame3.Frame.Width - numAnimR.Frames[0].Frame.Width) : 0),
                         y + frame3.Frame.PivotY + (flipv ? (frame3.Frame.Height - numAnimR.Frames[0].Frame.Height) : 0),
                         frame3.Frame.Width, frame3.Frame.Height, false, Transparency);

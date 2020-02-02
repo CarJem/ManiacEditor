@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class SDashWheel : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
@@ -21,11 +21,11 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
                 var frameKnob = editorAnimKnob.Frames[0];
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameKnob),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameKnob),
                     x + frameKnob.Frame.PivotX,
                     y + frameKnob.Frame.PivotY,
                     frameKnob.Frame.Width, frameKnob.Frame.Height, false, Transparency);

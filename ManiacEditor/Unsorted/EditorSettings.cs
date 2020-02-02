@@ -137,9 +137,9 @@ namespace ManiacEditor
             {
                 if (Core.Settings.MySettings.UpgradeRequired)
                 {
-                    Classes.Editor.Constants.UpgradeAllSettings();
+                    Classes.Core.Constants.UpgradeAllSettings();
                     Core.Settings.MySettings.UpgradeRequired = false;
-                    Classes.Editor.Constants.SaveAllSettings();
+                    Classes.Core.Constants.SaveAllSettings();
                 }
 
                 Instance.WindowState = Core.Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
@@ -178,22 +178,22 @@ namespace ManiacEditor
             if (!Core.Settings.MyDefaults.EntitiesDefault) Instance.EditorToolbar.ShowEntities.IsChecked = false;
             else Instance.EditorToolbar.ShowEntities.IsChecked = true;
             Instance.EditorToolbar.ShowAnimations.IsChecked = Core.Settings.MyDefaults.AnimationsDefault;
-            Classes.Editor.SolutionState.AllowAnimations = Core.Settings.MyDefaults.AnimationsDefault;
+            Classes.Core.SolutionState.AllowAnimations = Core.Settings.MyDefaults.AnimationsDefault;
 
 
             //Default Enabled Annimation Preferences
             Instance.EditorToolbar.movingPlatformsObjectsToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.PlatformAnimationsDefault;
-            Classes.Editor.SolutionState.AllowMovingPlatformAnimations = Core.Settings.MyDefaults.PlatformAnimationsDefault;
+            Classes.Core.SolutionState.AllowMovingPlatformAnimations = Core.Settings.MyDefaults.PlatformAnimationsDefault;
 
             Instance.EditorToolbar.spriteFramesToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.SpriteAnimationsDefault;
-            Classes.Editor.SolutionState.AllowSpriteAnimations = Core.Settings.MyDefaults.SpriteAnimationsDefault;
+            Classes.Core.SolutionState.AllowSpriteAnimations = Core.Settings.MyDefaults.SpriteAnimationsDefault;
 
 
             //TO DO: Add Default For this.
             Instance.EditorToolbar.parallaxAnimationMenuItem.IsChecked = false;
-            Classes.Editor.SolutionState.ParallaxAnimationChecked = false;
+            Classes.Core.SolutionState.ParallaxAnimationChecked = false;
 
-            Classes.Editor.SolutionState.waterColor = Core.Settings.MyDefaults.WaterEntityColorDefault;
+            Classes.Core.SolutionState.waterColor = Core.Settings.MyDefaults.WaterEntityColorDefault;
 
 
 
@@ -212,18 +212,18 @@ namespace ManiacEditor
             Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.DefaultCollisionColors == 0;
             Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = Core.Settings.MyDefaults.DefaultCollisionColors == 1;
             Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = Core.Settings.MyDefaults.DefaultCollisionColors == 2;
-            Classes.Editor.SolutionState.CollisionPreset = Core.Settings.MyDefaults.DefaultCollisionColors;
+            Classes.Core.SolutionState.CollisionPreset = Core.Settings.MyDefaults.DefaultCollisionColors;
             Instance.RefreshCollisionColours();
 
             if (Core.Settings.MyDefaults.ScrollLockDirectionDefault == false)
             {
-                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.X;
+                Classes.Core.SolutionState.ScrollDirection = (int)ScrollDir.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
 
             }
             else
             {
-                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.Y;
+                Classes.Core.SolutionState.ScrollDirection = (int)ScrollDir.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
             }
 

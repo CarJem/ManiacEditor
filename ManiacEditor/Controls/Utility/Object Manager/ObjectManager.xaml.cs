@@ -43,7 +43,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
+            if (Classes.Core.SolutionState.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -72,7 +72,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
+                    if (!Classes.Core.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
                         lvc.Foreground = Brushes.Red;
                     }
                     else
@@ -182,7 +182,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+                    if (!Classes.Core.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
                     {
                         lvc.Foreground = Brushes.Red;
                     }
@@ -313,7 +313,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
                             }
                         }
 
-						if (Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
+						if (Classes.Core.SolutionState.RemoveStageConfigEntriesAllowed)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -461,11 +461,11 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed = true;
+				Classes.Core.SolutionState.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed = false;
+				Classes.Core.SolutionState.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 

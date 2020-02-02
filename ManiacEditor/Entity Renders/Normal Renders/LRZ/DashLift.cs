@@ -6,7 +6,7 @@ namespace ManiacEditor.Entity_Renders
     public class DashLift : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
                     if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                     {
                         var frame2 = editorAnim2.Frames[0];
-                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                             (x + widthPixels / (right ? 2 : -2)) - (right ? frame2.Frame.Width : 0),
                             (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame2.Frame.Height : 0)),
                             frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
@@ -58,7 +58,7 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[Animation.index];
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY + (startOff > length ? length / 2 : startOff / 2),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);

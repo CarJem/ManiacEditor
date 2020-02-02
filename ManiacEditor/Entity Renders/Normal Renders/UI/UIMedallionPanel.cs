@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class UIMedallionPanel : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
 			var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MedallionPanel", d.DevicePanel, 0, 2, false, false, false);
 			x -= 38;
@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
 				{
 					for (int my = 0; my < 4; my++)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (14 * mx), y + frame.Frame.PivotY + (16 * my),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (14 * mx), y + frame.Frame.PivotY + (16 * my),
 	frame.Frame.Width, frame.Frame.Height, false, Transparency);
 					}
 				}

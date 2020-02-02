@@ -15,7 +15,7 @@ namespace ManiacEditor
 
         private string GetRecentsListDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
+            return (Properties.Internal.Default.PortableMode ? Classes.Core.Constants.SettingsPortableDirectory : Classes.Core.Constants.SettingsStaticDirectory);
         }
 
         public EditorRecentSceneSourcesList(Controls.Base.MainEditor instance)
@@ -72,7 +72,7 @@ namespace ManiacEditor
 
             Name += Instance.DataDirectory;
             Name += Instance.Paths.SceneFilePath;
-            Name += Classes.Editor.SolutionState.LevelID;
+            Name += Classes.Core.SolutionState.LevelID;
             Name += Instance.Paths.CurrentName;
             Name += Instance.Paths.CurrentZone;
             Name += Instance.Paths.CurrentScene;
@@ -83,17 +83,17 @@ namespace ManiacEditor
 
 
             SceneSaveStateCollection.SaveState section = new SceneSaveStateCollection.SaveState();
-            int x1 = (short)(Classes.Editor.SolutionState.ViewPositionX / Classes.Editor.SolutionState.Zoom);
-            int y1 = (short)(Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom);
+            int x1 = (short)(Classes.Core.SolutionState.ViewPositionX / Classes.Core.SolutionState.Zoom);
+            int y1 = (short)(Classes.Core.SolutionState.ViewPositionY / Classes.Core.SolutionState.Zoom);
             section.EntryName = Title;
             section.RealEntryName = Name;
             section.DataDirectory = Instance.DataDirectory;
             section.Result = Instance.Paths.SceneFilePath;
             section.x = x1;
             section.y = y1;
-            section.ZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
+            section.ZoomLevel = Classes.Core.SolutionState.ZoomLevel;
             section.isEncore = Instance.Paths.isEncoreMode;
-            section.LevelID = Classes.Editor.SolutionState.LevelID;
+            section.LevelID = Classes.Core.SolutionState.LevelID;
             section.CurrentName = Instance.Paths.CurrentName;
             section.CurrentZone = Instance.Paths.CurrentZone;
             section.CurrentSceneID = Instance.Paths.CurrentSceneID;
@@ -222,7 +222,7 @@ namespace ManiacEditor
 
         private string GetRecentsListDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
+            return (Properties.Internal.Default.PortableMode ? Classes.Core.Constants.SettingsPortableDirectory : Classes.Core.Constants.SettingsStaticDirectory);
         }
 
         public EditorRecentDataSourcesList(Controls.Base.MainEditor instance)

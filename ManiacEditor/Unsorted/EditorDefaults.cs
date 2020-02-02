@@ -13,39 +13,39 @@ namespace ManiacEditor
         public void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            Classes.Editor.SolutionState.ApplyEditEntitiesTransparency = Core.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
+            Classes.Core.SolutionState.ApplyEditEntitiesTransparency = Core.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
-            Classes.Editor.SolutionState.ScrollLocked = Core.Settings.MyDefaults.ScrollLockDefault;
-            Classes.Editor.SolutionState.ScrollDirection = (Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
+            Classes.Core.SolutionState.ScrollLocked = Core.Settings.MyDefaults.ScrollLockDefault;
+            Classes.Core.SolutionState.ScrollDirection = (Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            Controls.Base.MainEditor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
-            Controls.Base.MainEditor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
+            Controls.Base.MainEditor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Core.SolutionState.ScrollDirection == (int)ScrollDir.X;
+            Controls.Base.MainEditor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Core.SolutionState.ScrollDirection == (int)ScrollDir.Y;
 
-            Classes.Editor.SolutionState.CountTilesSelectedInPixels = Core.Settings.MyDefaults.EnablePixelModeDefault;
+            Classes.Core.SolutionState.CountTilesSelectedInPixels = Core.Settings.MyDefaults.EnablePixelModeDefault;
 
-            Classes.Editor.SolutionState.ShowEntityPathArrows = Core.Settings.MyDefaults.ShowEntityArrowPathsDefault;
+            Classes.Core.SolutionState.ShowEntityPathArrows = Core.Settings.MyDefaults.ShowEntityArrowPathsDefault;
 
-            Classes.Editor.SolutionState.ShowWaterLevel = Core.Settings.MyDefaults.ShowWaterEntityLevelDefault;
-            Classes.Editor.SolutionState.AlwaysShowWaterLevel = Core.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
-            Classes.Editor.SolutionState.SizeWaterLevelwithBounds = Core.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
+            Classes.Core.SolutionState.ShowWaterLevel = Core.Settings.MyDefaults.ShowWaterEntityLevelDefault;
+            Classes.Core.SolutionState.AlwaysShowWaterLevel = Core.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
+            Classes.Core.SolutionState.SizeWaterLevelwithBounds = Core.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
 
-            Classes.Editor.SolutionState.ShowParallaxSprites = Core.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
-            Classes.Editor.SolutionState.PrioritizedEntityViewing = Core.Settings.MyDefaults.PrioritizedObjectRenderingDefault;
+            Classes.Core.SolutionState.ShowParallaxSprites = Core.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
+            Classes.Core.SolutionState.PrioritizedEntityViewing = Core.Settings.MyDefaults.PrioritizedObjectRenderingDefault;
 
-            Classes.Editor.SolutionState.ShowEntitySelectionBoxes = Core.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
+            Classes.Core.SolutionState.ShowEntitySelectionBoxes = Core.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
 
-            Classes.Editor.SolutionState.DebugStatsVisibleOnPanel = Core.Settings.MyDefaults.ShowDebugStatsDefault;
-            Classes.Editor.SolutionState.UseLargeDebugStats = Core.Settings.MyDefaults.LargeDebugStatsDefault;
+            Classes.Core.SolutionState.DebugStatsVisibleOnPanel = Core.Settings.MyDefaults.ShowDebugStatsDefault;
+            Classes.Core.SolutionState.UseLargeDebugStats = Core.Settings.MyDefaults.LargeDebugStatsDefault;
 
-            Classes.Editor.SolutionState.GridCustomSize = Core.Settings.MyDefaults.CustomGridSizeValue;
-            Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Editor.SolutionState.GridCustomSize;
+            Classes.Core.SolutionState.GridCustomSize = Core.Settings.MyDefaults.CustomGridSizeValue;
+            Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Core.SolutionState.GridCustomSize;
 
-            Classes.Editor.SolutionState.CollisionSAColour = Core.Settings.MyDefaults.CollisionSAColour;
-            Classes.Editor.SolutionState.CollisionLRDColour = Core.Settings.MyDefaults.CollisionLRDColour;
-            Classes.Editor.SolutionState.CollisionTOColour = Core.Settings.MyDefaults.CollisionTOColour;
+            Classes.Core.SolutionState.CollisionSAColour = Core.Settings.MyDefaults.CollisionSAColour;
+            Classes.Core.SolutionState.CollisionLRDColour = Core.Settings.MyDefaults.CollisionLRDColour;
+            Classes.Core.SolutionState.CollisionTOColour = Core.Settings.MyDefaults.CollisionTOColour;
 
-            Classes.Editor.SolutionState.GridColor = Core.Settings.MyDefaults.DefaultGridColor;
-            Classes.Editor.SolutionState.waterColor = Core.Settings.MyDefaults.WaterEntityColorDefault;
+            Classes.Core.SolutionState.GridColor = Core.Settings.MyDefaults.DefaultGridColor;
+            Classes.Core.SolutionState.waterColor = Core.Settings.MyDefaults.WaterEntityColorDefault;
 
             Controls.Base.MainEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = Core.Settings.MyDefaults.FasterNudgeValue;
 
@@ -60,7 +60,7 @@ namespace ManiacEditor
                     if (item.Tag.ToString() == Core.Settings.MyDefaults.MenuLanguageDefault)
                     {
                         item.IsChecked = true;
-                        Classes.Editor.SolutionState.CurrentLanguage = item.Tag.ToString();
+                        Classes.Core.SolutionState.CurrentLanguage = item.Tag.ToString();
                     }
                 }
 

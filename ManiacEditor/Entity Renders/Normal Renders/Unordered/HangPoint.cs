@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class HangPoint : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int length = (int)entity.attributesMap["length"].ValueEnum;
             int i = 0;
@@ -28,7 +28,7 @@ namespace ManiacEditor.Entity_Renders
                         repeat++;
                         lengthLeft = lengthLeft - 256;
                     }
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                         x + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
                         y - (i * 256) + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                         frame2.Frame.Width, lengthMemory, false, Transparency);
@@ -38,12 +38,12 @@ namespace ManiacEditor.Entity_Renders
                     {
                         finalLoop = true;
                     }
-                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                             x + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
                                 y + (i * 256) + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                                 frame2.Frame.Width, (finalLoop ? lengthLeft : frame2.Frame.Height), false, Transparency);
                     }
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                         y + length + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                             frame.Frame.Width, frame.Frame.Height, false, Transparency);

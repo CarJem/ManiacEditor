@@ -10,13 +10,13 @@ namespace ManiacEditor.Entity_Renders
     {
         public Controls.Base.MainEditor EditorInstance;
 
-        public virtual void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
+        public virtual void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
         {
             
         }
 
         public abstract string GetObjectName();
-        public void DrawLinkArrow(GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
+        public void DrawLinkArrow(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;
@@ -35,31 +35,31 @@ namespace ManiacEditor.Entity_Renders
             if (Math.Abs(dx) > Math.Abs(dy))
             {
                 // horizontal difference greater than vertical difference
-                offsetY = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
-                offsetDestinationY = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetY = Classes.Core.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetDestinationY = Classes.Core.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
 
                 if (dx > 0)
                 {
-                    offsetX = Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH;
+                    offsetX = Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH;
                 }
                 else
                 {
-                    offsetDestinationX = Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH;
+                    offsetDestinationX = Classes.Core.Constants.ENTITY_NAME_BOX_WIDTH;
                 }
             }
             else
             {
                 // vertical difference greater than horizontal difference
-                offsetX = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
-                offsetDestinationX = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetX = Classes.Core.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetDestinationX = Classes.Core.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
 
                 if (dy > 0)
                 {
-                    offsetY = Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetY = Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT;
                 }
                 else
                 {
-                    offsetDestinationY = Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetDestinationY = Classes.Core.Constants.ENTITY_NAME_BOX_HEIGHT;
                 }
             }
 
@@ -69,7 +69,7 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         Color.GreenYellow);
         }
-        public void DrawCenteredLinkArrow(GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Color? colur = null)
+        public void DrawCenteredLinkArrow(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Color? colur = null)
         {
             if (SetFilter(end) == true) return;
             Color color = (colur != null ? colur.Value : Color.GreenYellow);
@@ -92,7 +92,7 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         color);
         }
-        public void DrawCenteredSpline(GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
+        public void DrawCenteredSpline(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;
@@ -158,7 +158,7 @@ namespace ManiacEditor.Entity_Renders
 
             if (EditorInstance != null)
             {
-                if (Classes.Editor.SolutionState.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Classes.Editor.SolutionState.entitiesTextFilter))
+                if (Classes.Core.SolutionState.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Classes.Core.SolutionState.entitiesTextFilter))
                 {
                     filteredOut = true;
                 }

@@ -5,9 +5,9 @@ namespace ManiacEditor.Entity_Renders
     public class UIVsCharSelector : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
+            string text = "Text" + Classes.Core.SolutionState.CurrentLanguage;
             int playerID = (int)entity.attributesMap["playerID"].ValueUInt8;
             int player = 8;
             switch (playerID)
@@ -36,28 +36,28 @@ namespace ManiacEditor.Entity_Renders
             if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
             {
                 var frame = editorAnimFrame.Frames[Animation.index];
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
             {
                 var frame = editorAnimBackground.Frames[Animation.index];
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimWaiting != null && editorAnimWaiting.Frames.Count != 0)
             {
                 var frame = editorAnimWaiting.Frames[Animation.index];
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 
             if (editorAnimPlayerText != null && editorAnimPlayerText.Frames.Count != 0)
             {
                 var frame = editorAnimPlayerText.Frames[Animation.index];
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 38,
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 38,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

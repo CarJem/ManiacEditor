@@ -6,7 +6,7 @@ namespace ManiacEditor.Entity_Renders
     public class TetherBall : EntityRenderer
     {
         //TODO: Get the Angle Calculations Correct
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             double angleStart = entity.attributesMap["angleStart"].ValueEnum; //Because they used values over the int limit
@@ -74,7 +74,7 @@ namespace ManiacEditor.Entity_Renders
                     int x_alt = x + 6;
                     int[] linePoints = RotatePoints(x_alt + (frame2.Frame.Width) * i, y, x, y, angleStartInt);
                     
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                         linePoints[0] + frame2.Frame.PivotX,
                         linePoints[1] + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
@@ -87,7 +87,7 @@ namespace ManiacEditor.Entity_Renders
                 int[] processPoints;
                 processPoints = RotatePoints(x + length, y, x, y, angleStartInt);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
                     processPoints[0] + frame3.Frame.PivotX,
                     processPoints[1] + frame3.Frame.PivotY,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
@@ -95,7 +95,7 @@ namespace ManiacEditor.Entity_Renders
                 // TetherBall Center
                 if (drawType == true)
                 {
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
                         y + frame.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);

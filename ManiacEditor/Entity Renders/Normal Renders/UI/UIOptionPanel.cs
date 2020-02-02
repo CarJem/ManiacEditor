@@ -4,9 +4,9 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIOptionPanel : EntityRenderer
     {
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
+            string text = "Text" + Classes.Core.SolutionState.CurrentLanguage;
             int topListID = (int)entity.attributesMap["topListID"].ValueEnum;
             int topFrameID = (int)entity.attributesMap["topFrameID"].ValueEnum;
             int botListID = (int)entity.attributesMap["botListID"].ValueEnum;
@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
                 int topX = top + 68;
                 int topY = left + 12;
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), topX + frame.Frame.PivotX, topY + frame.Frame.PivotY,
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), topX + frame.Frame.PivotX, topY + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnimBot != null && editorAnimBot.Frames.Count != 0 && !botHidden)
@@ -53,7 +53,7 @@ namespace ManiacEditor.Entity_Renders
                 int botX = x + (botAlignRight ? frame.Frame.Width - 6 : 0);
                 int botY = right - 12;
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), botX + frame.Frame.PivotX, botY + frame.Frame.PivotY,
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), botX + frame.Frame.PivotX, botY + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

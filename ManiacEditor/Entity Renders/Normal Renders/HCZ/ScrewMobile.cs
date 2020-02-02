@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class ScrewMobile : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -22,19 +22,19 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameSeat),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameSeat),
                     x + frameSeat.Frame.PivotX,
                     y + frameSeat.Frame.PivotY,
                     frameSeat.Frame.Width, frameSeat.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameLaunch),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameLaunch),
                     x + frameLaunch.Frame.PivotX,
                     y + frameLaunch.Frame.PivotY,
                     frameLaunch.Frame.Width, frameLaunch.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(framePropel),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(framePropel),
                     x + framePropel.Frame.PivotX,
                     y + framePropel.Frame.PivotY,
                     framePropel.Frame.Width, framePropel.Frame.Height, false, Transparency);

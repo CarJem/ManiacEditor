@@ -7,7 +7,7 @@ using SystemColor = System.Drawing.Color;
 using SharpDX.Direct3D9;
 using RSDKv5;
 
-namespace ManiacEditor
+namespace ManiacEditor.Classes.Core.Draw
 {
     public class GIF : IDisposable
     {
@@ -262,9 +262,9 @@ namespace ManiacEditor
             _bitmap_selected_Cache.Clear();
         }
 
-        public GIF Clone()
+        public Classes.Core.Draw.GIF Clone()
         {
-            return new GIF(_bitmapFilename);
+            return new Classes.Core.Draw.GIF(_bitmapFilename);
         }
     }
 

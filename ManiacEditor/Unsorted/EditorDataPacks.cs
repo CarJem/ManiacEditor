@@ -15,7 +15,7 @@ namespace ManiacEditor
 
         private string GetDataPackDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
+            return (Properties.Internal.Default.PortableMode ? Classes.Core.Constants.SettingsPortableDirectory : Classes.Core.Constants.SettingsStaticDirectory);
         }
 
         public EditorDataPacks(Controls.Base.MainEditor instance)

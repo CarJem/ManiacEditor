@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedTransportTube : LinkedRenderer
     {
-        public override void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
         {
             byte TransportTubeType = currentEntity.GetAttribute("type").ValueUInt8;
             ushort slotID = currentEntity.SlotID;
@@ -44,7 +44,7 @@ namespace ManiacEditor.Entity_Renders
             ObjectInstance.DrawBase(d);
         }
 
-        public void DrawLinkArrowTransportTubes(GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, int destType, int sourceType)
+        public void DrawLinkArrowTransportTubes(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, int destType, int sourceType)
         {
             Color color = Color.Transparent;
             switch (destType)

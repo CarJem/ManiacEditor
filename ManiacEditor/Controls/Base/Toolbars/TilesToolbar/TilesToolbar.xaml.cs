@@ -14,7 +14,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 		public ManiacEditor.Controls.Base.MainEditor EditorInstance;
 
 		bool disposing = false;
-		ManiacEditor.GIF TileGridImage;
+		ManiacEditor.Classes.Core.Draw.GIF TileGridImage;
 		string TilesImagePath;
 		public Action<int> TileDoubleClick { get; set; } 
 
@@ -84,7 +84,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 			setCheckboxes = false;
 		}
 
-		public TilesToolbar(StageTiles tiles, String data_directory, String Colors, ManiacEditor.Controls.Base.MainEditor instance)
+		public TilesToolbar(Classes.Core.Scene.StageTiles tiles, String data_directory, String Colors, ManiacEditor.Controls.Base.MainEditor instance)
 		{
             try
             {
@@ -106,7 +106,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
                 selectTileOptionsCheckboxes[5] = option6CheckBox;
 
                 TilesImagePath = data_directory + "\\16x16Tiles.gif";
-                TileGridImage = new GIF((TilesImagePath), Colors);
+                TileGridImage = new Classes.Core.Draw.GIF((TilesImagePath), Colors);
 
                 UpdateShortcuts();
 
@@ -338,7 +338,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 
 			if (disposing) return;
 			TilesList.Images.Clear();
-			TileGridImage = new GIF((TilesImagePath), colors);
+			TileGridImage = new Classes.Core.Draw.GIF((TilesImagePath), colors);
 
 			for (int i = 0; i < 1024; i++)
 			{
@@ -525,9 +525,9 @@ Error: {ex.Message}");
 
         private void AutoGenerateChunks_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Editor.Solution.EditLayerA != null && Classes.Editor.Solution.EditLayerB != null)
+            if (Classes.Core.Solution.EditLayerA != null && Classes.Core.Solution.EditLayerB != null)
             {
-                EditorInstance.Chunks.AutoGenerateChunks(Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB);
+                EditorInstance.Chunks.AutoGenerateChunks(Classes.Core.Solution.EditLayerA, Classes.Core.Solution.EditLayerB);
                 ChunksReload();
             }
         }
@@ -545,9 +545,9 @@ Error: {ex.Message}");
 
         private void AutoGenerateChunksSingle_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Editor.Solution.EditLayerA != null)
+            if (Classes.Core.Solution.EditLayerA != null)
             {
-                EditorInstance.Chunks.AutoGenerateChunks(Classes.Editor.Solution.EditLayerA);
+                EditorInstance.Chunks.AutoGenerateChunks(Classes.Core.Solution.EditLayerA);
                 ChunksReload();
             }
         }

@@ -6,7 +6,7 @@ namespace ManiacEditor.Entity_Renders
     public class YoyoPulley : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             int pullDir = (int)entity.attributesMap["pullDir"].ValueUInt8;
@@ -38,16 +38,16 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawLine(x, y, processPoints[0], processPoints[1], System.Drawing.Color.FromArgb(255, 231, 130, 0));
                 d.DrawLine(x - 1, y, processPoints[0] - 1, processPoints[1], System.Drawing.Color.FromArgb(255, 198, 32, 0));
                 d.DrawLine(x - 2, y, processPoints[0] - 2, processPoints[1], System.Drawing.Color.FromArgb(255, 0, 32, 0));
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameHandle),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameHandle),
                 processPoints[0] + frameHandle.Frame.PivotX - (flipSides ? -5 : 5),
                 processPoints[1] + frameHandle.Frame.PivotY + (flipSides ? 10 : -10),
                 frameHandle.Frame.Width, frameHandle.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameKnob),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameKnob),
                     x + frameKnob.Frame.PivotX,
                     y + frameKnob.Frame.PivotY,
                     frameKnob.Frame.Width, frameKnob.Frame.Height, false, Transparency);

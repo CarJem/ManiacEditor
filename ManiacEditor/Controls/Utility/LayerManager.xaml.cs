@@ -23,8 +23,8 @@ namespace ManiacEditor.Controls.Utility
 	/// </summary>
 	public partial class LayerManager : Window
 	{
-		private Classes.Editor.Scene.EditorScene _editorScene;
-		private IList<Classes.Editor.Scene.Sets.EditorLayer> Layers
+		private Classes.Core.Scene.EditorScene _editorScene;
+		private IList<Classes.Core.Scene.Sets.EditorLayer> Layers
 		{
 			get => _editorScene?.AllLayersList;
 		}
@@ -44,7 +44,7 @@ namespace ManiacEditor.Controls.Utility
 			get => GetSelectedLayerScroll();
 		}
 
-        private Classes.Editor.Scene.Sets.EditorLayer SelectedLayer;
+        private Classes.Core.Scene.Sets.EditorLayer SelectedLayer;
 
 		private bool LockSelectionChangedTriggers = false;
 		private bool _layerArrangementChanged = false;
@@ -55,12 +55,12 @@ namespace ManiacEditor.Controls.Utility
 		int nudLineCountTemp = 0;
 
 		//Clipboards
-		private Classes.Editor.Scene.Sets.EditorLayer LayerClipboard;
+		private Classes.Core.Scene.Sets.EditorLayer LayerClipboard;
 
 
 
 		// I clearly have no understanding of WinForms Data Binding
-		public LayerManager(Classes.Editor.Scene.EditorScene editorScene)
+		public LayerManager(Classes.Core.Scene.EditorScene editorScene)
 		{
 			InitializeComponent();
 			_editorScene = editorScene;
@@ -299,7 +299,7 @@ namespace ManiacEditor.Controls.Utility
 
 		private void btnAdd_Click(object sender, RoutedEventArgs e)
 		{
-			Classes.Editor.Scene.Sets.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
+			Classes.Core.Scene.Sets.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
 			Layers.Add(newEditorLayer);
 			int newIndex = Layers.IndexOf(newEditorLayer);
 			lbLayers.SelectedIndex = newIndex;
@@ -491,9 +491,9 @@ namespace ManiacEditor.Controls.Utility
 			}
 		}
 
-		private void CopyLayerToClipboard(Classes.Editor.Scene.Sets.EditorLayer layerToCopy)
+		private void CopyLayerToClipboard(Classes.Core.Scene.Sets.EditorLayer layerToCopy)
 		{
-			Classes.Editor.Scene.Sets.EditorLayer copyData = layerToCopy;
+			Classes.Core.Scene.Sets.EditorLayer copyData = layerToCopy;
 
 			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
 			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
@@ -510,7 +510,7 @@ namespace ManiacEditor.Controls.Utility
 			// For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
 			if (Clipboard.ContainsData("ManiacLayer") && false)
 			{
-				var layerToPaste = (Classes.Editor.Scene.Sets.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
+				var layerToPaste = (Classes.Core.Scene.Sets.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
 
 				Layers.Insert(Layers.Count - 1, layerToPaste);
 

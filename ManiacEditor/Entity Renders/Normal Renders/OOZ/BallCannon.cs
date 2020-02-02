@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class BallCannon : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int x2 = x;
             int y2 = y;
@@ -115,7 +115,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frame = editorAnimCork.Frames[0];
 
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);
@@ -124,7 +124,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frame = editorAnimCork.Frames[0];
 
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);
@@ -136,13 +136,13 @@ namespace ManiacEditor.Entity_Renders
 
                     if (selected)
                     {
-                        d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+                        d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
                             x2 + frame3.Frame.PivotX,
                             y2 + frame3.Frame.PivotY,
                             frame3.Frame.Height, frame3.Frame.Height, false, Transparency - 125);
                     }
 
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Height, frame.Frame.Height, false, Transparency);

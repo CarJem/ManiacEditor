@@ -4,9 +4,9 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIModeButton : EntityRenderer
     {
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
+            string text = "Text" + Classes.Core.SolutionState.CurrentLanguage;
             int buttonID = (int)entity.attributesMap["buttonID"].ValueEnum;
             bool disabled = entity.attributesMap["disabled"].ValueBool;
 			if (buttonID == 3)
@@ -31,17 +31,17 @@ namespace ManiacEditor.Entity_Renders
 
 				if (buttonID == 2)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4), x + frame4.Frame.PivotX + (int)alignmentVal, y + frame4.Frame.PivotY - 10,
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame4), x + frame4.Frame.PivotX + (int)alignmentVal, y + frame4.Frame.PivotY - 10,
 						frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3), x + frame3.Frame.PivotX + (int)alignmentVal, y + frame3.Frame.PivotY - 10,
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3), x + frame3.Frame.PivotX + (int)alignmentVal, y + frame3.Frame.PivotY - 10,
 						frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 				}
-				d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2), x + frame2.Frame.PivotX + (int)alignmentVal, y + frame2.Frame.PivotY - 10,
+				d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2), x + frame2.Frame.PivotX + (int)alignmentVal, y + frame2.Frame.PivotY - 10,
 					frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-				d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (int)alignmentVal, y + frame.Frame.PivotY - 10,
+				d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (int)alignmentVal, y + frame.Frame.PivotY - 10,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 				e.DrawUIButtonBack(d, x, y, 120, 20, frame.Frame.Width, frame.Frame.Height, Transparency);
-				d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame5), x + frame5.Frame.PivotX + (int)alignmentVal, y + frame5.Frame.PivotY,
+				d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame5), x + frame5.Frame.PivotX + (int)alignmentVal, y + frame5.Frame.PivotY,
 					frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 
 

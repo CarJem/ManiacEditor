@@ -5,7 +5,7 @@ namespace ManiacEditor.Actions
 {
     class ActionMoveEntities : IAction
     {
-        List<Classes.Editor.Scene.Sets.EditorEntity> entities;
+        List<Classes.Core.Scene.Sets.EditorEntity> entities;
         Point diff;
         bool key;
 
@@ -38,14 +38,14 @@ namespace ManiacEditor.Actions
             return $"Moving {name} ({-(diff.X)},{-(diff.Y)})";
         }
 
-        public ActionMoveEntities(List<Classes.Editor.Scene.Sets.EditorEntity> entities, Point diff, bool key=false)
+        public ActionMoveEntities(List<Classes.Core.Scene.Sets.EditorEntity> entities, Point diff, bool key=false)
         {
             this.entities = entities;
             this.diff = new Point(-diff.X, -diff.Y);
             this.key = key;
         }
 
-        public bool UpdateFromKey(List<Classes.Editor.Scene.Sets.EditorEntity> entities, Point change)
+        public bool UpdateFromKey(List<Classes.Core.Scene.Sets.EditorEntity> entities, Point change)
         {
             if (!key) return false;
             if (entities.Count != this.entities.Count) return false;

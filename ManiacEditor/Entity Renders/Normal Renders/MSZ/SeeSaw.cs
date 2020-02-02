@@ -5,9 +5,9 @@ namespace ManiacEditor.Entity_Renders
     public class SeeSaw : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            if (Classes.Editor.Solution.Entities.SetupObject != "MMZSetup")
+            if (Classes.Core.Solution.Entities.SetupObject != "MMZSetup")
             {
                 int side = (int)entity.attributesMap["side"].ValueUInt8;
                 bool fliph = false;
@@ -32,17 +32,17 @@ namespace ManiacEditor.Entity_Renders
                     var frame2 = editorAnim2.Frames[0];
                     var frame3 = editorAnim3.Frames[0];
 
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
                         x + frame3.Frame.PivotX - (fliph ? -35 : 35),
                         y + frame3.Frame.PivotY - 15,
                         frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                         x + frame2.Frame.PivotX,
                         y + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);

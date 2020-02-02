@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class TransportTube : EntityRenderer
     {
 
-		public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+		public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
 		{
 			bool hideFrame = false;
 			int type = (int)entity.attributesMap["type"].ValueUInt8;
@@ -222,7 +222,7 @@ namespace ManiacEditor.Entity_Renders
 
 					if (!hideFrame)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
 							x + frame.Frame.PivotX,
 							y + frame.Frame.PivotY,
 							frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -230,56 +230,56 @@ namespace ManiacEditor.Entity_Renders
 
 					if (showUp == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
 							x + frame2.Frame.PivotX,
 							y + frame2.Frame.PivotY,
 							frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 					}
 					if (showDown == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
 							x + frame3.Frame.PivotX,
 							y + frame3.Frame.PivotY,
 							frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 					}
 					if (showRight == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame4),
 							x + frame4.Frame.PivotX,
 							y + frame4.Frame.PivotY,
 							frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
 					}
 					if (showLeft == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame5),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame5),
 							x + frame5.Frame.PivotX,
 							y + frame5.Frame.PivotY,
 							frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 					}
 					if (showUpRight == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame6),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame6),
 							x + frame6.Frame.PivotX,
 							y + frame6.Frame.PivotY,
 							frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
 					}
 					if (showDownRight == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame7),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame7),
 							x + frame7.Frame.PivotX,
 							y + frame7.Frame.PivotY,
 							frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
 					}
 					if (showUpLeft == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame8),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame8),
 							x + frame8.Frame.PivotX,
 							y + frame8.Frame.PivotY,
 							frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
 					}
 					if (showDownLeft == true)
 					{
-						d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame9),
+						d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame9),
 							x + frame9.Frame.PivotX,
 							y + frame9.Frame.PivotY,
 							frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
@@ -301,49 +301,49 @@ namespace ManiacEditor.Entity_Renders
 
 				if (showCenter == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
 						x + frame.Frame.PivotX,
 						y + frame.Frame.PivotY,
 						frame.Frame.Width, frame.Frame.Height, false, Transparency);
 				}
 				if (showA == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
 						x + frame2.Frame.PivotX,
 						y + frame2.Frame.PivotY,
 						frame2.Frame.Width, frame2.Frame.Height, e.Selected, Transparency);
 				}
 				if (showB == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
 						x + frame3.Frame.PivotX,
 						y + frame3.Frame.PivotY,
 						frame3.Frame.Width, frame3.Frame.Height, e.Selected, Transparency);
 				}
 				if (showC == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame4),
 						x + frame4.Frame.PivotX,
 						y + frame4.Frame.PivotY,
 						frame4.Frame.Width, frame4.Frame.Height, e.Selected, Transparency);
 				}
 				if (showInOut == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame5),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame5),
 						x + frame5.Frame.PivotX,
 						y + frame5.Frame.PivotY,
 						frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
 				}
 				if (showJunction == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame6),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame6),
 						x + frame6.Frame.PivotX,
 						y + frame6.Frame.PivotY,
 						frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
 				}
 				if (showRun == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame7),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame7),
 						x + frame7.Frame.PivotX,
 						y + frame7.Frame.PivotY,
 						frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
@@ -351,7 +351,7 @@ namespace ManiacEditor.Entity_Renders
 
 				if (isUnsafe == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame9),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame9),
 						x + frame9.Frame.PivotX,
 						y + frame9.Frame.PivotY,
 						frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
@@ -359,14 +359,14 @@ namespace ManiacEditor.Entity_Renders
 
 				if (showUnkown == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame8),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame8),
 						x + frame8.Frame.PivotX,
 						y + frame8.Frame.PivotY,
 						frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
 				}
 				if (showInvalid == true)
 				{
-					d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame10),
+					d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame10),
 						x + frame10.Frame.PivotX,
 						y + frame10.Frame.PivotY,
 						frame10.Frame.Width, frame10.Frame.Height, false, Transparency);

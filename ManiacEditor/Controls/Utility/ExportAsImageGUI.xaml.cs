@@ -8,7 +8,7 @@ namespace ManiacEditor.Controls.Utility
     /// </summary>
     public partial class ExportAsImageGUI : Window
     {
-        public ExportAsImageGUI(Classes.Editor.Scene.EditorScene editorScene)
+        public ExportAsImageGUI(Classes.Core.Scene.EditorScene editorScene)
         {
             InitializeComponent();
             foreach (var layer in editorScene.OtherLayers)

@@ -213,10 +213,10 @@ namespace ManiacEditor
             sprite = new Sprite(_device);
             sprite2 = new Sprite(_device);
 
-            tx = TextureCreator.FromBitmap(_device, txb);
-            hcursor = TextureCreator.FromBitmap(_device, hcursorb);
-            vcursor = TextureCreator.FromBitmap(_device, vcursorb);
-            hvcursor = TextureCreator.FromBitmap(_device, hvcursorb);
+            tx = Classes.Core.Draw.TextureCreator.FromBitmap(_device, txb);
+            hcursor = Classes.Core.Draw.TextureCreator.FromBitmap(_device, hcursorb);
+            vcursor = Classes.Core.Draw.TextureCreator.FromBitmap(_device, vcursorb);
+            hvcursor = Classes.Core.Draw.TextureCreator.FromBitmap(_device, hvcursorb);
 
             font = new Font(_device, fontDescription);
             fontBold = new Font(_device, fontDescriptionBold);

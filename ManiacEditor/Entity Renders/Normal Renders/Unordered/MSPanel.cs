@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class MSPanel : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MSPanel", d.DevicePanel, 0, 0, false, false, false);
             var editorAnimPanel = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MSPanel", d.DevicePanel, 1, -1, false, false, false);
@@ -16,11 +16,11 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(framePanel.Entry.SpeedMultiplyer, framePanel.Entry.Frames.Count, framePanel.Frame.Delay);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(framePanel),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(framePanel),
                     x + framePanel.Frame.PivotX,
                     y + framePanel.Frame.PivotY,
                     framePanel.Frame.Width, framePanel.Frame.Height, false, Transparency);

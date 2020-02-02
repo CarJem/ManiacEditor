@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class Jellygnite : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
@@ -35,22 +35,22 @@ namespace ManiacEditor.Entity_Renders
                 var frameFront = editorAnimFront.Frames[0];
                 var frameBack = editorAnimBack.Frames[0];
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 for (int i = 0; i < 4; i++)
                 {
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameFront),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameFront),
                         x + frameFront.Frame.PivotX + 12,
                         y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameFront),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameFront),
                         x + frameFront.Frame.PivotX - 12,
                         y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameBack),
+                    d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameBack),
                         x + frameBack.Frame.PivotX,
                         y + frameBack.Frame.PivotY + 6 + 6 * i,
                         frameBack.Frame.Width, frameBack.Frame.Height, false, Transparency);

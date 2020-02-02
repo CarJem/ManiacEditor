@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class EggLoco : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             bool fliph = false;
             bool flipv = false;
@@ -40,74 +40,74 @@ namespace ManiacEditor.Entity_Renders
                 Animation.ProcessAnimation3(frame12.Entry.SpeedMultiplyer, frame12.Entry.Frames.Count, frame12.Frame.Delay);
 
                 //Eggman
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame12),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame12),
                     x + frame12.Frame.PivotX,
                     y + frame12.Frame.PivotY,
                     frame12.Frame.Width, frame12.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame13),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame13),
                     x + frame13.Frame.PivotX,
                     y + frame13.Frame.PivotY,
                     frame13.Frame.Width, frame13.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                     x + frame2.Frame.PivotX - 104,
                     y + frame2.Frame.PivotY + 56,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame2),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame2),
                     x + frame2.Frame.PivotX - 30,
                     y + frame2.Frame.PivotY + 56,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
                     x + frame3.Frame.PivotX - 104,
                     y + frame3.Frame.PivotY + 56,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame3),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame3),
                     x + frame3.Frame.PivotX - 30,
                     y + frame3.Frame.PivotY + 56,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame4),
                     x + frame4.Frame.PivotX + 22,
                     y + frame4.Frame.PivotY + 74,
                     frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame4),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame4),
                     x + frame4.Frame.PivotX + 84,
                     y + frame4.Frame.PivotY + 74,
                     frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame5),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame5),
                     x + frame5.Frame.PivotX,
                     y + frame5.Frame.PivotY,
                     frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame6),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame6),
                     x + frame6.Frame.PivotX,
                     y + frame6.Frame.PivotY,
                     frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame7),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame7),
                     x + frame7.Frame.PivotX,
                     y + frame7.Frame.PivotY,
                     frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame9),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame9),
                     x + frame9.Frame.PivotX - 46,
                     y + frame9.Frame.PivotY + 54,
                     frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame8),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame8),
                     x + frame8.Frame.PivotX - 122,
                     y + frame8.Frame.PivotY + 54,
                     frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame10),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame10),
                     x + frame10.Frame.PivotX + 7,
                     y + frame10.Frame.PivotY,
                     frame10.Frame.Width, frame10.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame11),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame11),
                     x + frame11.Frame.PivotX,
                     y + frame11.Frame.PivotY,
                     frame11.Frame.Width, frame11.Frame.Height, false, Transparency);

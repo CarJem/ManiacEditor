@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class FBZSinkTrash : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var type = entity.attributesMap["type"].ValueEnum;
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
@@ -29,7 +29,7 @@ namespace ManiacEditor.Entity_Renders
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                            d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                                 (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -16) + (-width / 2 + j) * 16),
                                 y + (hEven ? frame.Frame.PivotY : -16) + (-height / 2 + i) * 16,
                                 16, 16, false, Transparency);
@@ -49,7 +49,7 @@ namespace ManiacEditor.Entity_Renders
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                            d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                                 (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -16) + (-width / 2 + j) * 16),
                                 (y + heightPixels / (bottom ? 2 : -2) - (bottom ? 16 : 0)),
                                 16, 16, false, Transparency);

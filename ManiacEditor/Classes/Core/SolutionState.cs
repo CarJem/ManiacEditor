@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Collections.Generic;
 
-namespace ManiacEditor.Classes.Editor
+namespace ManiacEditor.Classes.Core
 {
     public class SolutionState
     {
@@ -96,9 +96,9 @@ namespace ManiacEditor.Classes.Editor
 
         public string GetSetupObject()
         {
-            if (Classes.Editor.Solution.Entities != null && Classes.Editor.Solution.Entities.SetupObject != null && Classes.Editor.Solution.Entities.SetupObject != "")
+            if (Classes.Core.Solution.Entities != null && Classes.Core.Solution.Entities.SetupObject != null && Classes.Core.Solution.Entities.SetupObject != "")
             {
-                return "Setup Object: " + Classes.Editor.Solution.Entities.SetupObject;
+                return "Setup Object: " + Classes.Core.Solution.Entities.SetupObject;
             }
             else
             {
@@ -341,7 +341,7 @@ namespace ManiacEditor.Classes.Editor
                 ManiacEditor.Controls.Base.MainEditor.Instance.DisposeTextures();
                 ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = value;
                 _UseEncoreColors = value;
-                Classes.Editor.Solution.CurrentTiles.StageTiles?.Image.Reload((value ? ManiacEditor.Controls.Base.MainEditor.Instance.EncorePalette[0] : null));
+                Classes.Core.Solution.CurrentTiles.StageTiles?.Image.Reload((value ? ManiacEditor.Controls.Base.MainEditor.Instance.EncorePalette[0] : null));
                 ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar?.Reload((value ? ManiacEditor.Controls.Base.MainEditor.Instance.EncorePalette[0] : null));
                 ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.ReleaseResources();
             }
@@ -870,7 +870,7 @@ namespace ManiacEditor.Classes.Editor
                 }
             }
 
-            public Classes.Editor.Scene.Sets.EditorEntity SplineObjectRenderingTemplate { get; set; }
+            public Classes.Core.Scene.Sets.EditorEntity SplineObjectRenderingTemplate { get; set; }
 
             public string SplineRenderingObjectName { get => GetSplineRenderingObjectName(); }
 
@@ -976,11 +976,11 @@ namespace ManiacEditor.Classes.Editor
                     }
                     break;
                 case SplineOption.SpawnObject:
-                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineObjectRenderingTemplate = (Classes.Editor.Scene.Sets.EditorEntity)value;
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineObjectRenderingTemplate = (Classes.Core.Scene.Sets.EditorEntity)value;
                     else
                     {
                         SplineOptions options = new SplineOptions();
-                        options.SplineObjectRenderingTemplate = (Classes.Editor.Scene.Sets.EditorEntity)value;
+                        options.SplineObjectRenderingTemplate = (Classes.Core.Scene.Sets.EditorEntity)value;
                         SplineOptionsGroup.Add(SelectedSplineID, options);
                     }
                     break;
@@ -1038,7 +1038,7 @@ namespace ManiacEditor.Classes.Editor
                 elb.SwapDefaultToA(!enabled);
             }
 
-            if (!enabled) Classes.Editor.Solution.EditLayerB = null;
+            if (!enabled) Classes.Core.Solution.EditLayerB = null;
 
             ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
         }
@@ -1062,7 +1062,7 @@ namespace ManiacEditor.Classes.Editor
                 elb.SwapDefaultToA(!enabled);
             }
 
-            if (!enabled) Classes.Editor.Solution.EditLayerB = null;
+            if (!enabled) Classes.Core.Solution.EditLayerB = null;
 
             if (updateControls) ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
         }

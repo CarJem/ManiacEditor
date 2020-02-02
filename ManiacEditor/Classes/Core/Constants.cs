@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManiacEditor.Classes.Editor
+namespace ManiacEditor.Classes.Core
 {
     public static class Constants
     {
@@ -27,45 +27,45 @@ namespace ManiacEditor.Classes.Editor
 
         public static void UpgradeAllSettings()
         {
-            Core.Settings.MyPerformance.Upgrade();
-            Core.Settings.MyDefaults.Upgrade();
-            Core.Settings.MyGameOptions.Upgrade();
-            Core.Settings.MyDevSettings.Upgrade();
-            Core.Settings.MyKeyBinds.Upgrade();
-            Core.Settings.MySettings.Upgrade();
+            ManiacEditor.Core.Settings.MyPerformance.Upgrade();
+            ManiacEditor.Core.Settings.MyDefaults.Upgrade();
+            ManiacEditor.Core.Settings.MyGameOptions.Upgrade();
+            ManiacEditor.Core.Settings.MyDevSettings.Upgrade();
+            ManiacEditor.Core.Settings.MyKeyBinds.Upgrade();
+            ManiacEditor.Core.Settings.MySettings.Upgrade();
             Properties.Internal.Default.Upgrade();
         }
 
         public static void SaveAllSettings()
         {
-            Core.Settings.MyDefaults.Save();
-            Core.Settings.MyDevSettings.Save();
-            Core.Settings.MyGameOptions.Save();
-            Core.Settings.MyKeyBinds.Save();
-            Core.Settings.MyPerformance.Save();
-            Core.Settings.MySettings.Save();
+            ManiacEditor.Core.Settings.MyDefaults.Save();
+            ManiacEditor.Core.Settings.MyDevSettings.Save();
+            ManiacEditor.Core.Settings.MyGameOptions.Save();
+            ManiacEditor.Core.Settings.MyKeyBinds.Save();
+            ManiacEditor.Core.Settings.MyPerformance.Save();
+            ManiacEditor.Core.Settings.MySettings.Save();
             Properties.Internal.Default.Save();
         }
 
         public static void ReloadAllSettings()
         {
-            Core.Settings.MyDefaults.Reload();
-            Core.Settings.MyDevSettings.Reload();
-            Core.Settings.MyGameOptions.Reload();
-            Core.Settings.MyPerformance.Reload();
-            Core.Settings.MyKeyBinds.Reload();
-            Core.Settings.MySettings.Reload();
+            ManiacEditor.Core.Settings.MyDefaults.Reload();
+            ManiacEditor.Core.Settings.MyDevSettings.Reload();
+            ManiacEditor.Core.Settings.MyGameOptions.Reload();
+            ManiacEditor.Core.Settings.MyPerformance.Reload();
+            ManiacEditor.Core.Settings.MyKeyBinds.Reload();
+            ManiacEditor.Core.Settings.MySettings.Reload();
             Properties.Internal.Default.Reload();
         }
 
         public static void ResetAllSettings()
         {
-            Core.Settings.MyDefaults.Reset();
-            Core.Settings.MyDevSettings.Reset();
-            Core.Settings.MyGameOptions.Reset();
-            Core.Settings.MyPerformance.Reset();
-            Core.Settings.MyKeyBinds.Reset();
-            Core.Settings.MySettings.Reset();
+            ManiacEditor.Core.Settings.MyDefaults.Reset();
+            ManiacEditor.Core.Settings.MyDevSettings.Reset();
+            ManiacEditor.Core.Settings.MyGameOptions.Reset();
+            ManiacEditor.Core.Settings.MyPerformance.Reset();
+            ManiacEditor.Core.Settings.MyKeyBinds.Reset();
+            ManiacEditor.Core.Settings.MySettings.Reset();
         }
 
         private static string GetPortableSettingsDirectoryName()

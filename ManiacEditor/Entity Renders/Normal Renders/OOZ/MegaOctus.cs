@@ -5,7 +5,7 @@ namespace ManiacEditor.Entity_Renders
     public class MegaOctus : EntityRenderer
     {
 
-        public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
             var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 0, false, false, false);
             var editorAnimEye = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 1, false, false, false);
@@ -22,30 +22,30 @@ namespace ManiacEditor.Entity_Renders
                 var frameJoint = editorAnimHeadJoint.Frames[0];
                 var frameBolt = editorAnimBolt.Frames[0];
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameBolt),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameBolt),
                     x + frameBolt.Frame.PivotX,
                     y + frameBolt.Frame.PivotY,
                     frameBolt.Frame.Width, frameBolt.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameEye),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameEye),
                     x + frameEye.Frame.PivotX + 35,
                     y + frameEye.Frame.PivotY,
                     frameEye.Frame.Width, frameEye.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(framePupil),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(framePupil),
                     x + framePupil.Frame.PivotX + 40,
                     y + framePupil.Frame.PivotY,
                     framePupil.Frame.Width, framePupil.Frame.Height, false, Transparency);
 
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameEye),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameEye),
                     x + frameEye.Frame.PivotX + 20,
                     y + frameEye.Frame.PivotY,
                     frameEye.Frame.Width, frameEye.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(framePupil),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(framePupil),
                     x + framePupil.Frame.PivotX + 20,
                     y + framePupil.Frame.PivotY,
                     framePupil.Frame.Width, framePupil.Frame.Height, false, Transparency);
@@ -53,11 +53,11 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameNose),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameNose),
                     x + frameNose.Frame.PivotX,
                     y + frameNose.Frame.PivotY,
                     frameNose.Frame.Width, frameNose.Frame.Height, false, Transparency);
-                d.DrawBitmap(new GraphicsHandler.GraphicsInfo(frameJoint),
+                d.DrawBitmap(new Classes.Core.Draw.GraphicsHandler.GraphicsInfo(frameJoint),
                     x + frameJoint.Frame.PivotX,
                     y + frameJoint.Frame.PivotY,
                     frameJoint.Frame.Width, frameJoint.Frame.Height, false, Transparency);
