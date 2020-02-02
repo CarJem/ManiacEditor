@@ -20,6 +20,11 @@ namespace ManiacEditor.Classes.Editor
         public static string SettingsStaticDirectory { get => GetStaticSettingsDirectiory(); }
         public static string SettingsPortableDirectory { get => GetPortableSettingsDirectoryName(); }
 
+        public static string GetLoggingFolder()
+        {
+            return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "logs");
+        }
+
         private static string GetStaticSettingsDirectiory()
         {
             return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config");

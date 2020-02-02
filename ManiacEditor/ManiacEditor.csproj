@@ -935,6 +935,9 @@
     <Content Include="ManiaPal.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Defaults.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Defaults.Designer.cs</LastGenOutput>
@@ -1372,6 +1375,9 @@
     </PackageReference>
     <PackageReference Include="ini-parser">
       <Version>2.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="log4net">
+      <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="Magick.NET-Q8-AnyCPU">
       <Version>7.9.0.1</Version>

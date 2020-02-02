@@ -13,6 +13,9 @@ namespace ManiacEditor.Methods
 {
     public static class ProgramBase
     {
+        public static log4net.ILog Log;
+        public static bool AllowFullDebugOutput { get; set; } = true;
+        public static bool AllowDebugOutput { get; set; } = true;
         public static bool IsDebug { get; private set; } = false;
 
         public static Version RuntimeVersion { get; set; } = null;
@@ -262,6 +265,89 @@ namespace ManiacEditor.Methods
             System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             IsDebug = true;
             #endif
+        }
+
+        #endregion
+
+        #region Logging
+
+        public static void StartLogging()
+        {
+            log4net.GlobalContext.Properties["MEVersion"] = GetCasualVersion().ToString();
+            log4net.Config.XmlConfigurator.Configure();
+            Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+            //ConsoleManager.Show();
+            AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
+            {
+                if ((!IsDebug && AllowDebugOutput))
+                {
+                    if (e.Exception.TargetSite != null && e.Exception.TargetSite.DeclaringType.Assembly == Assembly.GetExecutingAssembly())
+                    {
+                        if (Log != null) Log.ErrorFormat("[Exception Thrown] {0} {1}", RemoveNewLineChars(e.Exception.Message), RemoveNewLineChars(e.Exception.StackTrace));
+                    }
+                    else if (AllowFullDebugOutput)
+                    {
+                        if (Log != null) Log.ErrorFormat("[FULL] [Exception Thrown] {0} {1}", RemoveNewLineChars(e.Exception), RemoveNewLineChars(e.Exception.StackTrace));
+                    }
+                }
+
+            };
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                if ((!IsDebug && AllowDebugOutput))
+                {
+                    if (e.ExceptionObject != null && e.ExceptionObject is Exception)
+                    {
+                        Exception ex = e.ExceptionObject as Exception;
+                        if (ex.TargetSite != null && ex.TargetSite.DeclaringType.Assembly == Assembly.GetExecutingAssembly())
+                        {
+                            if (Log != null) Log.ErrorFormat("[Unhandled Exception Thrown] {0} {1}", RemoveNewLineChars(ex.Message), RemoveNewLineChars(ex.StackTrace));
+                        }
+                        else if (AllowFullDebugOutput)
+                        {
+                            if (Log != null) Log.ErrorFormat("[FULL] [Unhandled Exception Thrown] {0} {1}", RemoveNewLineChars(ex), RemoveNewLineChars(ex.StackTrace));
+                        }
+                    }
+                }
+
+            };
+        }
+
+        static string RemoveNewLineChars(Exception exception_to_search, string replacement_string = " ")
+        {
+            if (exception_to_search.Message != null) return System.Text.RegularExpressions.Regex.Replace(exception_to_search.Message, @"\t|\n|\r", replacement_string);
+            return exception_to_search.ToString();
+        }
+
+        static string RemoveNewLineChars(string string_to_search, string replacement_string = " ")
+        {
+            if (string_to_search != null) return System.Text.RegularExpressions.Regex.Replace(string_to_search, @"\t|\n|\r", replacement_string);
+            return "";
+        }
+
+        static void CleanUpLogsFolder()
+        {
+            string folder = Classes.Editor.Constants.GetLoggingFolder();
+            if (Directory.Exists(folder))
+            {
+                DirectoryInfo logsFolder = new DirectoryInfo(folder);
+                var fileList = logsFolder.GetFiles("*.log", SearchOption.AllDirectories).ToList();
+                if (fileList.Count > 10)
+                {
+                    foreach (var file in fileList.OrderByDescending(file => file.CreationTime).Skip(10))
+                    {
+                        file.Delete();
+                    }
+                }
+
+            }
+        }
+
+        public static void EndLogging()
+        {
+            CleanUpLogsFolder();
+            //ConsoleManager.Hide();
         }
 
         #endregion

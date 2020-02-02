@@ -173,6 +173,8 @@ namespace ManiacEditor.Controls.Base
 		public MainEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
 
+            ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up the Map Editor...");
+
             Methods.Internal.Theming.UpdateInstance(this);
             Methods.Internal.Settings.UpdateInstance(this);
 
