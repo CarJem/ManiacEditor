@@ -23,7 +23,7 @@
                 <RowDefinition Height="2*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
-            <ListBox x:Name="lbLayers" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37" SelectionChanged="LbLayers_SelectionChanged" MouseDown="lbLayers_MouseUp">
+            <ListBox Style="{DynamicResource BaseListBoxStyle}" x:Name="lbLayers" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37" SelectionChanged="LbLayers_SelectionChanged" MouseDown="lbLayers_MouseUp">
                 <ListBox.ContextMenu>
                     <ContextMenu x:Name="contextMenu1">
                         <MenuItem x:Name="cutBtn" Header="Cut Selected Layer" Click="btnCut_Click"></MenuItem>
@@ -173,7 +173,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ListBox SelectionChanged="LbHorizontalRules_SelectionChanged" x:Name="lbHorizontalRules" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
+                    <ListBox Style="{DynamicResource BaseListBoxStyle}" SelectionChanged="LbHorizontalRules_SelectionChanged" x:Name="lbHorizontalRules" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
                     </ListBox>
                     <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
                         <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">
@@ -236,7 +236,7 @@
                         <RowDefinition Height="1*"></RowDefinition>
                         <RowDefinition Height="2*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ListBox SelectionChanged="LbMappings_SelectionChanged" x:Name="lbMappings" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
+                    <ListBox Style="{DynamicResource BaseListBoxStyle}" SelectionChanged="LbMappings_SelectionChanged" x:Name="lbMappings" Grid.RowSpan="6" BorderBrush="{DynamicResource DisabledText}" BorderThickness="1" VerticalAlignment="Stretch" Margin="0,0,0,37">
                     </ListBox>
                     <Border BorderThickness="1" Grid.Row="5" BorderBrush="{DynamicResource DisabledText}" VerticalAlignment="Bottom">
                         <StackPanel Orientation="Horizontal" Height="36" HorizontalAlignment="Center">

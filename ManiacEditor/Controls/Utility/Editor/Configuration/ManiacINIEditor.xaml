@@ -21,7 +21,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="30"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ListBox x:Name="ValueList" SelectionChanged="ValueList_SelectionChanged"></ListBox>
+                <ListBox Style="{DynamicResource BaseListBoxStyle}" x:Name="ValueList" SelectionChanged="ValueList_SelectionChanged"></ListBox>
                 <TextBlock x:Name="ValueHints" Visibility="Hidden"></TextBlock>
                 <StackPanel Grid.Column="1" Width="20">
                     <Button Content="+" Name="AddValueButton" Click="AddValueButton_Click" Margin="0,0"></Button>
@@ -80,7 +80,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="30"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ListBox x:Name="KeyList" SelectionChanged="KeyList_SelectionChanged"></ListBox>
+                <ListBox Style="{DynamicResource BaseListBoxStyle}" x:Name="KeyList" SelectionChanged="KeyList_SelectionChanged"></ListBox>
                 <TextBlock x:Name="KeyHints" Visibility="Hidden"></TextBlock>
                 <StackPanel Grid.Column="1" Width="20">
                     <Button Content="+" Name="AddKeyButton" Margin="0,0" Click="AddKeyButton_Click"></Button>

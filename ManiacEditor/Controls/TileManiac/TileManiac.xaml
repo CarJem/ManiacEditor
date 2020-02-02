@@ -19,7 +19,7 @@
             <ColumnDefinition Width="157"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
-            <MenuItem Header="File" Style="{DynamicResource MenuItemStyle1}">
+            <MenuItem Header="File">
                 <MenuItem x:Name="newInstanceMenuItem" Header="New Instance" Click="newInstanceToolStripMenuItem_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem x:Name="openMenuItem" Header="Open" Click="OpenToolStripMenuItem_Click"></MenuItem>
@@ -38,7 +38,7 @@
                 <Separator></Separator>
                 <MenuItem x:Name="importMenuItem" Header="Import from older RSDK Version" Click="importFromOlderRSDKVersionToolStripMenuItem_Click"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Edit" Style="{DynamicResource MenuItemStyle1}">
+            <MenuItem Header="Edit">
                 <MenuItem x:Name="copyMenuItem" Click="copyToolStripMenuItem_Click" Header="Copy"></MenuItem>
                 <MenuItem x:Name="copyToOtherPathMenuItem" Click="copyToOtherPathToolStripMenuItem_Click" Header="Copy to Other Path"></MenuItem>
                 <MenuItem x:Name="pasteMenuItem" Click="pasteToolStripMenuItem_Click" Header="Paste"></MenuItem>
@@ -50,7 +50,7 @@
                     <MenuItem x:Name="restorePathBMenuItem" Click="pathAToolStripMenuItem_Click" Header="Path B"></MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="View" Style="{DynamicResource MenuItemStyle1}">
+            <MenuItem Header="View">
                 <MenuItem IsCheckable="True" Click="showPathBToolStripMenuItem_Click" x:Name="showPathBToolStripMenuItem" Header="Show Path B"></MenuItem>
                 <MenuItem IsCheckable="True" Click="showGridToolStripMenuItem_Click" Header="Show Grid" x:Name="showGridToolStripMenuItem"></MenuItem>
                 <MenuItem IsCheckable="True" Click="classicViewModeToolStripMenuItem_Click" x:Name="classicViewModeToolStripMenuItem" Header="Classic View Mode"></MenuItem>
@@ -63,7 +63,7 @@
                 <Separator></Separator>
                 <MenuItem IsCheckable="True" x:Name="windowAlwaysOnTop" Click="WindowAlwaysOnTop_Click" Header="Window Always On Top"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Tools" Style="{DynamicResource MenuItemStyle1}">
+            <MenuItem Header="Tools">
                 <MenuItem x:Name="splitFileMenuItem" Click="splitFileToolStripMenuItem_Click" Header="Split File"></MenuItem>
                 <MenuItem Header="Developer">
                     <MenuItem Click="developerInterfaceToolStripMenuItem_Click" Header="Developer Interface"></MenuItem>
@@ -71,10 +71,10 @@
                 <MenuItem x:Name="flipTileHMenuItem" Click="flipTileHorizontallyToolStripMenuItem_Click" Header="Flip Tile Horizontally"></MenuItem>
                 <MenuItem x:Name="flipTileVMenuItem" Click="flipTileVerticallyToolStripMenuItem_Click" Header="Flip Tile Vertically"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Folders" Style="{DynamicResource MenuItemStyle1}">
+            <MenuItem Header="Folders">
                 <MenuItem x:Name="openCollisionHomeFolderToolStripMenuItem" Click="openCollisionHomeFolderToolStripMenuItem_Click" Header="Open Collision Home Folder"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Other" Style="{DynamicResource MenuItemStyle1}">
+            <MenuItem Header="Other">
                 <MenuItem x:Name="aboutMenuItem" Click="aboutToolStripMenuItem1_Click" Header="About"></MenuItem>
                 <MenuItem x:Name="settingsMenuItem" Click="settingsToolStripMenuItem_Click" Header="Settings"></MenuItem>
             </MenuItem>
@@ -719,6 +719,29 @@
         </Grid>
     </Grid>
     <Window.Resources>
-        <ResourceDictionary Source="TileManiacStyles.xaml"></ResourceDictionary>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="TileManiacStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ButtonStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ItemContainerStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/FlatButtonStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ExpanderStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/TextBoxStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/TabItemStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ComboBoxStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ScrollBarStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ScrollViewerStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ListViewStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/RepeatButtonStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ToolbarStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/SliderStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/MenuItemContextStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/GroupBoxStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/SliderStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/XceedStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/LabelStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/CheckboxStyle.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 </Window>

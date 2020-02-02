@@ -12,7 +12,6 @@
                 <skin:SkinResourceDictionary DarkSource="Controls/Assets/ColorLibraryDark.xaml" LightSource="Controls/Assets/ColorLibraryLight.xaml" />
                 <ResourceDictionary Source="Controls/Assets/Icons.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/IconLibrary.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/CheckboxStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ButtonStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ItemContainerStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/FlatButtonStyle.xaml"></ResourceDictionary>
@@ -31,6 +30,7 @@
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/SliderStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/XceedStyles.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/LabelStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/CheckboxStyle.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

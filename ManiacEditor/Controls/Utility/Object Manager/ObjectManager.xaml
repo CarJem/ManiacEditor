@@ -53,7 +53,7 @@
                     <Label Content="Filter:" VerticalAlignment="Center"></Label>
                     <TextBox x:Name="FilterText" TextChanged="FilterText_TextChanged" Height="24" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,10,0"></TextBox>
                 </Grid>
-                <ListView SelectionMode="Single" KeyUp="attributesTable_KeyUp" x:Name="attributesTable" Grid.Column="1" Grid.Row="1" Margin="10">
+                <ListView Style="{DynamicResource BaseListViewStyle}" SelectionMode="Single" KeyUp="attributesTable_KeyUp" x:Name="attributesTable" Grid.Column="1" Grid.Row="1" Margin="10">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name"></GridViewColumn>
@@ -61,7 +61,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListBox SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="lvObjectsViewer" Grid.Column="0" Grid.Row="1" Margin="10">
+                <ListBox Style="{DynamicResource BaseListBoxStyle}" SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="lvObjectsViewer" Grid.Column="0" Grid.Row="1" Margin="10">
                 </ListBox>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
                     <Button Content="Add" Click="addAttributeBtn_Click" Width="72" Height="30" Margin="10,0,10,0"></Button>

@@ -20,7 +20,7 @@
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
         <RichTextBox IsEnabled="False" x:Name="rtbWarning" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True" Style="{DynamicResource RichTextBoxStyle1}"/>
-        <ListBox x:Name="lvObjectsView" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
+        <ListBox Style="{DynamicResource BaseListBoxStyle}" x:Name="lvObjectsView" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid IsItemsHost="True" VerticalAlignment="Stretch"/>
