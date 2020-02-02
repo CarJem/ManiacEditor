@@ -4,15 +4,15 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedCableWarp : LinkedRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = currentEntity.SlotID;
-            ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
-            int type = (int)currentEntity.attributesMap["type"].ValueEnum;
+            ushort slotID = properties.Object.SlotID;
+            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
+            int type = (int)properties.Object.attributesMap["type"].ValueEnum;
 
-            ObjectInstance.DrawBase(d);
+            properties.EditorObject.DrawBase(properties.Graphics);
 
-            var beanstalkPaths = currentEntity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+            var beanstalkPaths = properties.Object.Object.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (beanstalkPaths != null && beanstalkPaths.Any())
             {
@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
                         if (tp.AttributeExists("type", RSDKv5.AttributeTypes.ENUM))
                         {
                             int targetType = (int)tp.attributesMap["type"].ValueEnum;
-                            if (targetType == 1 || targetType == 2) DrawCenteredLinkArrow(d, currentEntity, tp);
+                            if (targetType == 1 || targetType == 2) DrawCenteredLinkArrow(properties.Graphics, properties.Object, tp);
                         }
 
                     }

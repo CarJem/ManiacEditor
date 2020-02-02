@@ -5,16 +5,16 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedBeanstalk : LinkedRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = currentEntity.SlotID;
-            ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
-            Int32 bezCtrlAngle = currentEntity.attributesMap["bezCtrlAngle"].ValueInt32;
-            Int32 bezCtrlLength = currentEntity.attributesMap["bezCtrlLength"].ValueInt32;
+            ushort slotID = properties.Object.SlotID;
+            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
+            Int32 bezCtrlAngle = properties.Object.attributesMap["bezCtrlAngle"].ValueInt32;
+            Int32 bezCtrlLength = properties.Object.attributesMap["bezCtrlLength"].ValueInt32;
 
-            ObjectInstance.DrawBase(d);
+            properties.EditorObject.DrawBase(properties.Graphics);
 
-            var beanstalkPaths = currentEntity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+            var beanstalkPaths = properties.Object.Object.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (beanstalkPaths != null && beanstalkPaths.Any())
             {

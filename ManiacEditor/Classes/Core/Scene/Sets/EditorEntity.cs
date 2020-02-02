@@ -400,8 +400,9 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             {
                 try
                 {
+                    var structure = new Structures.LinkedEntityRenderProp(d, _entity, this);
                     LinkedRenderer renderer = ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name.ToString()).FirstOrDefault();
-                    if (renderer != null) renderer.Draw(d, _entity, this);
+                    if (renderer != null) renderer.Draw(structure);
                 }
                 catch (Exception ex)
                 {

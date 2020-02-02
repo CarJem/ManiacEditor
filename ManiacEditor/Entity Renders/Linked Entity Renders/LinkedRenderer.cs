@@ -10,7 +10,7 @@ namespace ManiacEditor.Entity_Renders
     {
         public Controls.Base.MainEditor EditorInstance;
 
-        public virtual void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public virtual void Draw(Structures.LinkedEntityRenderProp properties)
         {
             
         }

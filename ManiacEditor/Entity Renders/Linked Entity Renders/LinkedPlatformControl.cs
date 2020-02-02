@@ -7,15 +7,15 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedPlatformControl : LinkedRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = currentEntity.SlotID;
-            ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
-            int NodeCount = currentEntity.attributesMap["nodeCount"].ValueEnum;
-            int ControlTag = currentEntity.attributesMap["buttonTag"].ValueEnum;
-            int ChildCount = currentEntity.attributesMap["childCount"].ValueEnum;
+            ushort slotID = properties.Object.SlotID;
+            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
+            int NodeCount = properties.Object.attributesMap["nodeCount"].ValueEnum;
+            int ControlTag = properties.Object.attributesMap["buttonTag"].ValueEnum;
+            int ChildCount = properties.Object.attributesMap["childCount"].ValueEnum;
 
-            ObjectInstance.DrawBase(d);
+            properties.EditorObject.DrawBase(properties.Graphics);
             int minimumSlot = (int)targetSlotID;
             int maximumSlot = (int)targetSlotID + (int)NodeCount;
 
@@ -44,7 +44,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 foreach (var pairs in NodePoints)
                 {
-                    DrawCenteredLinkArrow(d, pairs.Item1.Entity, pairs.Item2.Entity);
+                    DrawCenteredLinkArrow(properties.Graphics, pairs.Item1.Entity, pairs.Item2.Entity);
                 }
             }
 
@@ -64,7 +64,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 foreach (var children in ChildPoints)
                 {
-                    DrawCenteredLinkArrow(d, currentEntity, children.Entity, Color.Red);
+                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, children.Entity, Color.Red);
                 }
             }
 
@@ -75,7 +75,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 foreach (var t in triggers)
                 {
-                    DrawLinkArrow(d, currentEntity, t.Entity);
+                    DrawLinkArrow(properties.Graphics, properties.Object, t.Entity);
                 }
             }
 

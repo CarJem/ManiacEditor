@@ -4,12 +4,12 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedPullChain : LinkedRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = currentEntity.SlotID;
-            ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
-            uint ButtonTag = currentEntity.GetAttribute("tag").ValueUInt8;
-            bool decorMode = currentEntity.GetAttribute("decorMode").ValueBool;
+            ushort slotID = properties.Object.SlotID;
+            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
+            uint ButtonTag = properties.Object.GetAttribute("tag").ValueUInt8;
+            bool decorMode = properties.Object.GetAttribute("decorMode").ValueBool;
 
             if (!decorMode)
             {
@@ -20,10 +20,10 @@ namespace ManiacEditor.Entity_Renders
                 {
                     foreach (var t in triggers)
                     {
-                        DrawCenteredLinkArrow(d, currentEntity, t.Entity);
+                        DrawCenteredLinkArrow(properties.Graphics, properties.Object, t.Entity);
                     }
                 }
-                ObjectInstance.DrawBase(d);
+                properties.EditorObject.DrawBase(properties.Graphics);
             }
 
         }

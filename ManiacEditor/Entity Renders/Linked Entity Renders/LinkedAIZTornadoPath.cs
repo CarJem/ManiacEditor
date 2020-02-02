@@ -4,17 +4,17 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedAIZTornadoPath : LinkedRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = currentEntity.SlotID;
-            ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
+            ushort slotID = properties.Object.SlotID;
+            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
 
-            ObjectInstance.DrawBase(d);
+            properties.EditorObject.DrawBase(properties.Graphics);
 
             //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
 
             // this is the start of a WarpDoor, find its partner(s)
-            var tornadoPaths = currentEntity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+            var tornadoPaths = properties.Object.Object.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (tornadoPaths != null
                 && tornadoPaths.Any())
@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
                 // some destinations seem to be duplicated, so we must loop
                 foreach (var tp in tornadoPaths)
                 {
-                    DrawLinkArrow(d, currentEntity, tp);
+                    DrawLinkArrow(properties.Graphics, properties.Object, tp);
                 }
             }
         }

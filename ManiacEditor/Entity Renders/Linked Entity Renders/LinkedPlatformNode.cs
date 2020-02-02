@@ -4,29 +4,29 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedPlatformNode : LinkedRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = currentEntity.SlotID;
-            ushort targetSlotID = (ushort)(currentEntity.SlotID + 1);
+            ushort slotID = properties.Object.SlotID;
+            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
 
             //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
 
             // this is the start of a WarpDoor, find its partner(s)
-            var nodePaths = currentEntity.Object.Entities.Where(e => e.SlotID == targetSlotID);
+            var nodePaths = properties.Object.Object.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (nodePaths != null
                 && nodePaths.Any())
             {
-                ObjectInstance.DrawBase(d);
+                properties.EditorObject.DrawBase(properties.Graphics);
                 // some destinations seem to be duplicated, so we must loop
                 foreach (var tp in nodePaths)
                 {
-                    DrawCenteredLinkArrow(d, currentEntity, tp);
+                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, tp);
                 }
             }
             else
             {
-                ObjectInstance.DrawBase(d);
+                properties.EditorObject.DrawBase(properties.Graphics);
             }
         }
 

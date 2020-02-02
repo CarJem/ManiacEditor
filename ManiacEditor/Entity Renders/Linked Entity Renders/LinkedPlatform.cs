@@ -4,10 +4,10 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LinkedPlatform : LinkedRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Core.Scene.Sets.EditorEntity ObjectInstance)
+        public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = currentEntity.SlotID;
-            int childCount = currentEntity.GetAttribute("childCount").ValueEnum;
+            ushort slotID = properties.Object.SlotID;
+            int childCount = properties.Object.GetAttribute("childCount").ValueEnum;
             ushort[] targetSlotIDs = new ushort[childCount];
             for (int i = 0; i < childCount; i++)
             {
@@ -21,10 +21,10 @@ namespace ManiacEditor.Entity_Renders
             {
                 foreach (var t in tagged)
                 {
-                    DrawCenteredLinkArrow(d, currentEntity, t.Entity);
+                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, t.Entity);
                 }
             }
-            ObjectInstance.DrawBase(d);
+            properties.EditorObject.DrawBase(properties.Graphics);
         }
 
         public override string GetObjectName()
