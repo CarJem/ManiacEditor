@@ -946,7 +946,7 @@ namespace ManiacEditor.Classes.Core.Scene
                         {
                             if (EditorEntityDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Entity.Object.Name.Name))
                             {
-                                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(new Classes.Core.Draw.GraphicsHandler(d), selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, selectedOptions.SplineObjectRenderingTemplate.AttributeValidater, true);
+                                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(new Classes.Core.Draw.GraphicsHandler(d), selectedOptions.SplineObjectRenderingTemplate.Entity, selectedOptions.SplineObjectRenderingTemplate, p.X, p.Y, 0, 0, 0, selectedOptions.SplineObjectRenderingTemplate.EditorAnimations, selectedOptions.SplineObjectRenderingTemplate.Selected, true);
                             }
                             else
                             {
@@ -1059,9 +1059,10 @@ namespace ManiacEditor.Classes.Core.Scene
 
         #endregion
 
-
-
-
-
     }
+
+    #region Other Classes
+
+
+    #endregion
 }

@@ -50,7 +50,6 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
 
         //public static Classes.Edit.Scene.Sets.EditorEntity Instance;
         public EditorAnimations EditorAnimations;
-        public AttributeValidater AttributeValidater;
         public EntityRenderer RenderDrawing;
         public LinkedRenderer LinkedRenderDrawing;
 
@@ -111,7 +110,6 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             this._entity = entity;
             lastFrametime = DateTime.Now;
             EditorAnimations = new EditorAnimations(ManiacEditor.Controls.Base.MainEditor.Instance);
-            AttributeValidater = new AttributeValidater();
 
             if (ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.EntityRenderers.Count == 0)
             {
@@ -371,7 +369,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         public bool ValidPriorityPlane(int priority)
 		{
 			bool validPlane = false;
-			if (priority != 0) validPlane = AttributeValidater.PlaneFilterCheck(_entity, priority);
+			if (priority != 0) validPlane = AttributeHandler.PlaneFilterCheck(_entity, priority);
 			else validPlane = true;
 			
 			return validPlane;
@@ -463,11 +461,11 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
         {
             if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(_entity.Object.Name.Name)) && ManiacEditor.Core.Settings.MyPerformance.UseAlternativeRenderingMode)
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
             }
             else if (!ManiacEditor.Core.Settings.MyPerformance.UseAlternativeRenderingMode)
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, AttributeValidater, childDrawAddMode);
+                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
             }
         }
         public virtual void FallbackDraw(Classes.Core.Draw.GraphicsHandler d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)

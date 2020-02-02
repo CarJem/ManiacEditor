@@ -16,8 +16,21 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Structures.EntityLoadOptions properties)
         {
+            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            SceneEntity entity = properties.Object; 
+            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            int x = properties.X;
+            int y = properties.Y;
+            int Transparency = properties.Transparency;
+            int index = properties.Index;
+            int previousChildCount = properties.PreviousChildCount;
+            int platformAngle = properties.PlatformAngle;
+            EditorAnimations Animation = properties.Animations;
+            bool selected  = properties.isSelected;
+
+
             int frameID = 0;
             int targetFrameID = -1;
             var attribute = entity.attributesMap["frameID"];
@@ -28,7 +41,7 @@ namespace ManiacEditor.Entity_Renders
             int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
             int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
             bool hasTension = entity.attributesMap["hasTension"].ValueBool;
-            int speed = attribMap.AttributesMapVar("speed", entity);
+            int speed = AttributeHandler.AttributesMapVar("speed", entity);
             int angleStateX = 0;
             int angleStateY = 0;
 

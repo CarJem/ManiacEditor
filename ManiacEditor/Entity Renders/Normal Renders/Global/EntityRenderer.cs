@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
 
         public abstract string GetObjectName();
 
-        public virtual void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public virtual void Draw(Structures.EntityLoadOptions properties)
         {
 
         }

@@ -285,6 +285,7 @@
     <Compile Include="Classes\Core\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Core\Scene\EditorScene.cs" />
     <Compile Include="Classes\Core\Scene\EditorTiles.cs" />
+    <Compile Include="Structures\EntityLoadOptions.cs" />
     <Compile Include="Classes\Internal\VersionCheck.cs" />
     <Compile Include="Converters\RemoveTabConverter.cs" />
     <Compile Include="Converters\TilePixelConverter.cs" />
@@ -795,7 +796,7 @@
     <Compile Include="Controls\Base\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="%28Unsorted%29\EditorEntities\AttributeValidater.cs" />
+    <Compile Include="Methods\Entities\AttributeHandler.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ColorConsole.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ColorsCaching.cs" />
     <Compile Include="App.xaml.cs">
@@ -813,9 +814,9 @@
     </Compile>
     <Compile Include="Classes\Core\SolutionState.cs" />
     <Compile Include="Enums\ScrollDir.cs" />
-    <Compile Include="%28Unsorted%29\EditorEntities\EditorAnimations.cs" />
+    <Compile Include="Methods\Entities\EntityAnimator.cs" />
     <Compile Include="Classes\Core\Scene\EditorBackground.cs" />
-    <Compile Include="%28Unsorted%29\EditorEntities\EditorEntityDrawing.cs" />
+    <Compile Include="Methods\Entities\EntityDrawing.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1432,6 +1433,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="%28Unsorted%29\EditorEntities\" />
     <Folder Include="Entity Renders\Normal Renders\BS\" />
     <Folder Include="Entity Renders\Normal Renders\ERZ\" />
     <Folder Include="Entity Renders\Normal Renders\MMZ\" />

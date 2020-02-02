@@ -9,8 +9,19 @@ namespace ManiacEditor.Entity_Renders
         Properties.Settings mySettings = Properties.Settings.Default;
         Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
 
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Structures.EntityLoadOptions properties)
         {
+            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            SceneEntity entity = properties.Object; 
+            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            int x = properties.X;
+            int y = properties.Y;
+            int Transparency = properties.Transparency;
+            int index = properties.Index;
+            int previousChildCount = properties.PreviousChildCount;
+            int platformAngle = properties.PlatformAngle;
+            EditorAnimations Animation = properties.Animations;
+            bool selected  = properties.isSelected;
             int angle = (int)entity.attributesMap["angle"].ValueInt32;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int rotation = 0;

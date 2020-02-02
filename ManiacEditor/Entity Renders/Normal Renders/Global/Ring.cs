@@ -5,16 +5,27 @@ namespace ManiacEditor.Entity_Renders
 {
     public class Ring : EntityRenderer
     {
-        public override void Draw(Classes.Core.Draw.GraphicsHandler d, SceneEntity entity, Classes.Core.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
+        public override void Draw(Structures.EntityLoadOptions properties)
         {
+            Classes.Core.Draw.GraphicsHandler d = properties.Graphics;
+            SceneEntity entity = properties.Object; 
+            Classes.Core.Scene.Sets.EditorEntity e = properties.EditorObject;
+            int x = properties.X;
+            int y = properties.Y;
+            int Transparency = properties.Transparency;
+            int index = properties.Index;
+            int previousChildCount = properties.PreviousChildCount;
+            int platformAngle = properties.PlatformAngle;
+            EditorAnimations Animation = properties.Animations;
+            bool selected  = properties.isSelected;
             //int type = (int)entity.attributesMap["type"].ValueEnum;
             //int moveType = (int)entity.attributesMap["moveType"].ValueEnum;
             //int angle = (int)entity.attributesMap["angle"].ValueInt32;
 
-            int type = (int)attribMap.AttributesMapVar("type", entity);
-            int moveType = (int)attribMap.AttributesMapVar("moveType", entity);
-            int angle = (int)attribMap.AttributesMapInt32("angle", entity);
-            UInt32 speed = attribMap.AttributesMapUint32("speed", entity);
+            int type = (int)AttributeHandler.AttributesMapVar("type", entity);
+            int moveType = (int)AttributeHandler.AttributesMapVar("moveType", entity);
+            int angle = (int)AttributeHandler.AttributesMapInt32("angle", entity);
+            UInt32 speed = AttributeHandler.AttributesMapUint32("speed", entity);
 
             bool fliph = false;
             bool flipv = false;
@@ -22,8 +33,8 @@ namespace ManiacEditor.Entity_Renders
             //int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
             //int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
 
-            int amplitudeX = (int)attribMap.AttributesMapPositionHighX("amplitude", entity);
-            int amplitudeY = (int)attribMap.AttributesMapPositionHighY("amplitude", entity);
+            int amplitudeX = (int)AttributeHandler.AttributesMapPositionHighX("amplitude", entity);
+            int amplitudeY = (int)AttributeHandler.AttributesMapPositionHighY("amplitude", entity);
 
             int animID;
             switch (type)
