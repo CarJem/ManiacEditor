@@ -151,35 +151,35 @@ namespace ManiacEditor.Classes.Core
 
         public static int GetViewPositionX()
         {
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1 != null)
+            if (ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1 != null)
             {
-                return (int)ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value;
+                return (int)ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Value;
             }
             else return 0;
         }
 
         public static int GetViewPositionY()
         {
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1 != null)
+            if (ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1 != null)
             {
-                return (int)ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value;
+                return (int)ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Value;
             }
             else return 0;
         }
 
         public static void SetViewPositionX(int value)
         {
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1 != null)
+            if (ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1 != null)
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Value = value;
             }
         }
 
         public static void SetViewPositionY(int value)
         {
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1 != null)
+            if (ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1 != null)
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Value = value;
             }
         }
 

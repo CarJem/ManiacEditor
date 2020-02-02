@@ -38,7 +38,7 @@ namespace ManiacEditor
             {
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
 
-                Classes.Core.Solution.CurrentScene = new Classes.Core.Scene.EditorScene(Instance.FormsModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
+                Classes.Core.Solution.CurrentScene = new Classes.Core.Scene.EditorScene(Instance.DeviceModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
                 Classes.Core.Solution.TileConfig = new Tileconfig();
                 Classes.Core.Solution.CurrentTiles.StageTiles = new Classes.Core.Scene.StageTiles();
                 Classes.Core.Solution.StageConfig = new StageConfig();
@@ -513,7 +513,7 @@ namespace ManiacEditor
             {
                 //Using Instance Means the Stuff Hasn't Stated 
                 Classes.Core.SolutionState.LevelID = Instance.Paths.CurrentLevelID;
-                Classes.Core.Solution.CurrentScene = new Classes.Core.Scene.EditorScene(Instance.Paths.GetScenePath(), Instance.FormsModel.GraphicPanel, Instance);
+                Classes.Core.Solution.CurrentScene = new Classes.Core.Scene.EditorScene(Instance.Paths.GetScenePath(), Instance.DeviceModel.GraphicPanel, Instance);
 
                 //ACT File (Encore Colors)
                 Instance.EncorePalette = Classes.Core.Solution.CurrentScene.GetEncorePalette(Instance.Paths.CurrentZone, Instance.DataDirectory, Instance.Paths.CurrentSceneID, "", 1);
@@ -617,7 +617,7 @@ namespace ManiacEditor
             try
             {
                 Classes.Core.SolutionState.LevelID = Instance.Paths.CurrentLevelID;
-                Classes.Core.Solution.CurrentScene = new Classes.Core.Scene.EditorScene(Instance.Paths.GetScenePathFromFile(Instance.Paths.SceneFilePath), Instance.FormsModel.GraphicPanel, Instance);
+                Classes.Core.Solution.CurrentScene = new Classes.Core.Scene.EditorScene(Instance.Paths.GetScenePathFromFile(Instance.Paths.SceneFilePath), Instance.DeviceModel.GraphicPanel, Instance);
 
 
                 //ACT File (Encore Colors)

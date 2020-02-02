@@ -1,11 +1,32 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows;
+using IWshRuntimeLibrary;
+using ManiacEditor.Actions;
+using ManiacEditor.Entity_Renders;
+using ManiacEditor.Controls;
+using Microsoft.Scripting.Utils;
+using Microsoft.Win32;
+using RSDKv5;
+using SharpDX.Direct3D9;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using ManiacEditor.Controls.Base.Controls;
+using ManiacEditor.Enums;
+using ManiacEditor.Event_Handlers;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Controls
 {
-    public partial class EditorFormsModel : UserControl, IDrawArea
+    public partial class GraphicsModel : UserControl, IDrawArea
     {
+        #region Main Region
         public Controls.Base.MainEditor EditorInstance;
         public ManiacEditor.DevicePanel GraphicPanel;
 
@@ -26,13 +47,45 @@ namespace ManiacEditor.Controls
         }
 
 
-        public EditorFormsModel(Controls.Base.MainEditor instance)
+        public GraphicsModel(Controls.Base.MainEditor instance)
         {
+            SystemEvents.PowerModeChanged += CheckDeviceState;
             EditorInstance = instance;
             InitializeComponent();
             UpdateScrollbars();
             SetupGraphicsPanel();
+            SetupEvents();
 		}
+
+        private void SetupEvents()
+        {
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Editor_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Editor_KeyUp);
+
+            vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
+            vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
+            vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
+            hScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.HScrollBar1_Scroll);
+            hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
+            hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
+
+            GraphicPanel.OnRender += new ManiacEditor.Event_Handlers.RenderEventHandler(this.GraphicPanel_OnRender);
+            GraphicPanel.OnCreateDevice += new ManiacEditor.Event_Handlers.CreateDeviceEventHandler(this.OnResetDevice);
+            GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
+            GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
+            GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
+            GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
+            GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
+            GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
+            GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
+            GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
+            GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
+            GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
+            GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+
+            this.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
+            this.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
+        }
 
         public void UpdateScrollbars(bool refreshing = false)
         {
@@ -40,7 +93,7 @@ namespace ManiacEditor.Controls
             vScrollBar = new Global.Controls.VScrollBar();
             hScrollBar1Host.Child = hScrollBar;
             vScrollBar1Host.Child = vScrollBar;
-            if (refreshing) ManiacEditor.Controls.Base.MainEditor.Instance.UpdateScrollBars();
+            if (refreshing) UpdateScrollBars();
         }
 
         public void SetupGraphicsPanel()
@@ -101,5 +154,347 @@ namespace ManiacEditor.Controls
 		{
 
 		}
-	}
+        #endregion
+
+        #region Imported Regions
+
+        #region Mouse Actions Event Handlers
+        private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseMove(sender, e); }
+        private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseDown(sender, e); }
+        private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseUp(sender, e); }
+        private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseWheel(sender, e); }
+        private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseClick(sender, e); }
+        #endregion
+
+        #region Scrollbar Events
+        private void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { EditorInstance.ZoomModel.VScrollBar1_Scroll(sender, e); }
+        private void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) { EditorInstance.ZoomModel.HScrollBar1_Scroll(sender, e); }
+        private void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { EditorInstance.ZoomModel.VScrollBar1_ValueChanged(sender, e); }
+        private void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e) { EditorInstance.ZoomModel.HScrollBar1_ValueChanged(sender, e); }
+        private void VScrollBar1_Entered(object sender, EventArgs e) { EditorInstance.ZoomModel.VScrollBar1_Entered(sender, e); }
+        private void HScrollBar1_Entered(object sender, EventArgs e) { EditorInstance.ZoomModel.HScrollBar1_Entered(sender, e); }
+
+        public void UpdateScrollBars()
+        {
+            this.vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
+            this.vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
+            this.vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
+            this.hScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.HScrollBar1_Scroll);
+            this.hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
+            this.hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
+        }
+
+        #endregion
+
+        #region Graphics Panel Events
+
+        public void OnResetDevice(object sender, DeviceEventArgs e)
+        {
+            Device device = e.Device;
+        }
+        public void CheckDeviceState(object sender, PowerModeChangedEventArgs e)
+        {
+            switch (e.Mode)
+            {
+                case PowerModes.Suspend:
+                    SetDeviceSleepState(false);
+                    break;
+                case PowerModes.Resume:
+                    SetDeviceSleepState(true);
+                    break;
+            }
+        }
+
+        private void SetDeviceSleepState(bool state)
+        {
+            GraphicPanel.bRender = state;
+            if (state == true)
+            {
+                EditorInstance.UI.ReloadSpritesAndTextures();
+            }
+        }
+        private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
+        {
+
+            bool showEntities = EditorInstance.EditorToolbar.ShowEntities.IsChecked.Value && !EditorInstance.EditorToolbar.EditEntities.IsCheckedAll;
+            bool showEntitiesEditing = EditorInstance.EditorToolbar.EditEntities.IsCheckedAll;
+
+            bool PriorityMode = Classes.Core.SolutionState.PrioritizedEntityViewing;
+            bool AboveAllMode = Classes.Core.SolutionState.EntitiesVisibileAboveAllLayers;
+
+
+            if (EditorInstance.EntitiesToolbar?.NeedRefresh ?? false) EditorInstance.EntitiesToolbar.PropertiesRefresh();
+            if (Classes.Core.Solution.CurrentScene != null)
+            {
+                DrawBackground();
+
+                //if (UIModes.DebugStatsVisibleOnPanel && Classes.Edit.Scene.EditorSolution.CurrentScene != null) DrawDebugHUD();
+
+                if (Classes.Core.Solution.CurrentScene.OtherLayers.Contains(Classes.Core.Solution.EditLayerA)) Classes.Core.Solution.EditLayerA.Draw(GraphicPanel);
+
+                if (!Classes.Core.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
+
+                DrawLayer(EditorInstance.EditorToolbar.ShowFGLower.IsChecked.Value, EditorInstance.EditorToolbar.EditFGLower.IsCheckedAll, Classes.Core.Solution.FGLower);
+
+                DrawLayer(EditorInstance.EditorToolbar.ShowFGLow.IsChecked.Value, EditorInstance.EditorToolbar.EditFGLow.IsCheckedAll, Classes.Core.Solution.FGLow);
+
+
+                if (showEntities && !AboveAllMode)
+                    if (PriorityMode) EntitiesDraw(2);
+                    else EntitiesDraw(0);
+
+                DrawLayer(EditorInstance.EditorToolbar.ShowFGHigh.IsChecked.Value, EditorInstance.EditorToolbar.EditFGHigh.IsCheckedAll, Classes.Core.Solution.FGHigh);
+
+                if (showEntities && PriorityMode && !AboveAllMode) EntitiesDraw(3);
+
+                DrawLayer(EditorInstance.EditorToolbar.ShowFGHigher.IsChecked.Value, EditorInstance.EditorToolbar.EditFGHigher.IsCheckedAll, Classes.Core.Solution.FGHigher);
+
+                if (Classes.Core.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
+
+                if (showEntitiesEditing || AboveAllMode)
+                    if (PriorityMode) EntitiesDraw(1);
+                    else EntitiesDraw(0);
+
+                if (Classes.Core.Solution.CurrentScene != null) Classes.Core.Solution.Entities.DrawInternalObjects(GraphicPanel);
+
+                if (Classes.Core.SolutionState.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing)) Classes.Core.Solution.Entities.DrawSelectionBoxes(GraphicPanel);
+
+            }
+
+            if (Classes.Core.SolutionState.DraggingSelection) DrawSelectionBox();
+            else DrawSelectionBox(true);
+
+            if (Classes.Core.SolutionState.isTileDrawing && Classes.Core.SolutionState.DrawBrushSize != 1) DrawBrushBox();
+
+            if (Classes.Core.SolutionState.ShowGrid && Classes.Core.Solution.CurrentScene != null) EditorInstance.BackgroundDX.DrawGrid(GraphicPanel);
+
+
+            if (EditorInstance.InGame.GameRunning) DrawGameElements();
+
+            if (Classes.Core.SolutionState.Scrolling) DrawScroller();
+
+            void DrawBackground()
+            {
+                if (!EditorInstance.IsTilesEdit()) EditorInstance.BackgroundDX.Draw(GraphicPanel);
+                if (EditorInstance.IsTilesEdit()) if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == true) EditorInstance.BackgroundDX.DrawEdit(GraphicPanel);
+            }
+
+            void DrawScroller()
+            {
+                if (vScrollBar1.IsVisible && hScrollBar1.IsVisible) GraphicPanel.Draw2DCursor(Classes.Core.SolutionState.ScrollPosition.X, Classes.Core.SolutionState.ScrollPosition.Y);
+                else if (vScrollBar1.IsVisible) GraphicPanel.DrawVertCursor(Classes.Core.SolutionState.ScrollPosition.X, Classes.Core.SolutionState.ScrollPosition.Y);
+                else if (hScrollBar1.IsVisible) GraphicPanel.DrawHorizCursor(Classes.Core.SolutionState.ScrollPosition.X, Classes.Core.SolutionState.ScrollPosition.Y);
+            }
+
+            void DrawExtraLayers()
+            {
+                foreach (var elb in EditorInstance.ExtraLayerEditViewButtons)
+                {
+                    if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
+                    {
+                        var _extraViewLayer = Classes.Core.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
+                        _extraViewLayer.Draw(GraphicPanel);
+                    }
+                }
+            }
+
+            void EntitiesDraw(int mode)
+            {
+                switch (mode)
+                {
+                    case 0:
+                        Classes.Core.Solution.Entities.Draw(GraphicPanel);
+                        break;
+                    case 1:
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, -1);
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 0);
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 1);
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 2);
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 3);
+                        break;
+                    case 2:
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, -1);
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 0);
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 1);
+                        break;
+                    case 3:
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 2);
+                        Classes.Core.Solution.Entities.DrawPriority(GraphicPanel, 3);
+                        break;
+                }
+            }
+
+            /*
+            void DrawDebugHUD()
+            {
+                Point point = new Point((short)(15), (short)(15));
+
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y, StateModel.GetDataFolder(), true, 255, 15);
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 1, StateModel.GetMasterDataFolder(), true, 255, 22);
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 2, StateModel.GetScenePath(), true, 255, 11);
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 3, StateModel.GetSceneFilePath(), true, 255, 12);
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 4, StateModel.GetZoom(), true, 255, 11);
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 5, StateModel.GetSetupObject(), true, 255, 13);
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 6, StateModel.GetSelectedZone(), true, 255, 14);
+
+                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 8, "Use " + EditorControls.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, EditorControls.KeyBindPraser("StatusBoxToggle").Length, 4);
+            }*/
+
+            void DrawSelectionBox(bool resetSelection = false)
+            {
+                if (!resetSelection)
+                {
+                    int bound_x1 = (int)(Classes.Core.SolutionState.RegionX2 / Classes.Core.SolutionState.Zoom); int bound_x2 = (int)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom);
+                    int bound_y1 = (int)(Classes.Core.SolutionState.RegionY2 / Classes.Core.SolutionState.Zoom); int bound_y2 = (int)(Classes.Core.SolutionState.LastY / Classes.Core.SolutionState.Zoom);
+                    if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
+                    {
+                        if (bound_x1 > bound_x2)
+                        {
+                            bound_x1 = (int)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom);
+                            bound_x2 = (int)(Classes.Core.SolutionState.RegionX2 / Classes.Core.SolutionState.Zoom);
+                        }
+                        if (bound_y1 > bound_y2)
+                        {
+                            bound_y1 = (int)(Classes.Core.SolutionState.LastY / Classes.Core.SolutionState.Zoom);
+                            bound_y2 = (int)(Classes.Core.SolutionState.RegionY2 / Classes.Core.SolutionState.Zoom);
+                        }
+                        if (EditorInstance.IsChunksEdit())
+                        {
+                            bound_x1 = Classes.Core.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
+                            bound_y1 = Classes.Core.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
+                            bound_x2 = Classes.Core.Scene.Sets.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).X;
+                            bound_y2 = Classes.Core.Scene.Sets.EditorLayer.GetChunkCoordinatesBottomEdge(bound_x2, bound_y2).Y;
+                        }
+
+
+                    }
+
+                    GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, System.Drawing.Color.FromArgb(100, System.Drawing.Color.Purple));
+                    GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, System.Drawing.Color.Purple);
+                    GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, System.Drawing.Color.Purple);
+                    GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, System.Drawing.Color.Purple);
+                    GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, System.Drawing.Color.Purple);
+                }
+                else
+                {
+                    Classes.Core.SolutionState.TempSelectX1 = 0; Classes.Core.SolutionState.TempSelectX2 = 0; Classes.Core.SolutionState.TempSelectY1 = 0; Classes.Core.SolutionState.TempSelectY2 = 0;
+                }
+            }
+
+            void DrawBrushBox()
+            {
+
+                int offset = (Classes.Core.SolutionState.DrawBrushSize / 2) * Classes.Core.Constants.TILE_SIZE;
+                int x1 = (int)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom) - offset;
+                int x2 = (int)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom) + offset;
+                int y1 = (int)(Classes.Core.SolutionState.LastY / Classes.Core.SolutionState.Zoom) - offset;
+                int y2 = (int)(Classes.Core.SolutionState.LastY / Classes.Core.SolutionState.Zoom) + offset;
+
+
+                int bound_x1 = (int)(x1); int bound_x2 = (int)(x2);
+                int bound_y1 = (int)(y1); int bound_y2 = (int)(y2);
+                if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
+                {
+                    if (bound_x1 > bound_x2)
+                    {
+                        bound_x1 = (int)(x2);
+                        bound_x2 = (int)(x1);
+                    }
+                    if (bound_y1 > bound_y2)
+                    {
+                        bound_y1 = (int)(y2);
+                        bound_y2 = (int)(y1);
+                    }
+                }
+
+                GraphicPanel.DrawRectangle(bound_x1, bound_y1, bound_x2, bound_y2, System.Drawing.Color.FromArgb(100, System.Drawing.Color.Purple));
+                GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x2, bound_y1, System.Drawing.Color.Purple);
+                GraphicPanel.DrawLine(bound_x1, bound_y1, bound_x1, bound_y2, System.Drawing.Color.Purple);
+                GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x2, bound_y1, System.Drawing.Color.Purple);
+                GraphicPanel.DrawLine(bound_x2, bound_y2, bound_x1, bound_y2, System.Drawing.Color.Purple);
+            }
+
+            void DrawLayer(bool ShowLayer, bool EditLayer, Classes.Core.Scene.Sets.EditorLayer layer)
+            {
+                if (ShowLayer || EditLayer) layer.Draw(GraphicPanel);
+            }
+
+            void DrawGameElements()
+            {
+                EditorInstance.InGame.DrawGameElements(GraphicPanel);
+
+                if (EditorInstance.InGame.PlayerSelected) EditorInstance.InGame.MovePlayer(new System.Drawing.Point(Classes.Core.SolutionState.LastX, Classes.Core.SolutionState.LastY), Classes.Core.SolutionState.Zoom, EditorInstance.InGame.SelectedPlayer);
+                if (EditorInstance.InGame.CheckpointSelected)
+                {
+                    System.Drawing.Point clicked_point = new System.Drawing.Point((int)(Classes.Core.SolutionState.LastX / Classes.Core.SolutionState.Zoom), (int)(Classes.Core.SolutionState.LastY / Classes.Core.SolutionState.Zoom));
+                    EditorInstance.InGame.UpdateCheckpoint(clicked_point);
+                }
+            }
+        }
+
+        private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Int32)) && EditorInstance.IsTilesEdit())
+            {
+                System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
+                e.Effect = System.Windows.Forms.DragDropEffects.Move;
+                Classes.Core.Solution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Core.SolutionState.ViewPositionX) / Classes.Core.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Core.SolutionState.ViewPositionY) / Classes.Core.SolutionState.Zoom)), (ushort)EditorInstance.TilesToolbar.SelectedTile);
+                EditorInstance.UI.UpdateEditLayerActions();
+            }
+            else
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.None;
+            }
+        }
+        private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Int32)) && EditorInstance.IsTilesEdit())
+            {
+                System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
+                Classes.Core.Solution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Core.SolutionState.ViewPositionX) / Classes.Core.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Core.SolutionState.ViewPositionY) / Classes.Core.SolutionState.Zoom)), (ushort)EditorInstance.TilesToolbar.SelectedTile);
+                GraphicPanel.Render();
+
+            }
+        }
+        private void GraphicPanel_DragLeave(object sender, EventArgs e)
+        {
+            Classes.Core.Solution.EditLayerA?.EndDragOver(true);
+            GraphicPanel.Render();
+        }
+        private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            Classes.Core.Solution.EditLayerA?.EndDragOver(false);
+        }
+        public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            EditorInstance.EditorControls.GraphicPanel_OnKeyDown(sender, e);
+        }
+        public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            EditorInstance.EditorControls.GraphicPanel_OnKeyUp(sender, e);
+        }
+        #endregion
+
+        #region Key Events
+
+        private void Editor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (!GraphicPanel.Focused)
+            {
+                GraphicPanel_OnKeyDown(sender, e);
+            }
+        }
+        private void Editor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (!GraphicPanel.Focused)
+            {
+                GraphicPanel_OnKeyUp(sender, e);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+    }
 }

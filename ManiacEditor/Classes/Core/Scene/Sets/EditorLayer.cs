@@ -1566,7 +1566,7 @@ namespace ManiacEditor.Classes.Core.Scene.Sets
             {
                 foreach (var lines in layer.LinesMapList)
                 {
-                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel);
+                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel);
                     HorizontalRuleMapIndex++;
                 }
                 HorizontalRuleMapIndex = 0;

@@ -354,7 +354,7 @@ namespace ManiacEditor
 
         public void UpdateThemeForItemsWaiting()
         {
-            if (FormsModelAwaitingRefresh && Controls.Base.MainEditor.Instance.FormsModel != null) RefreshFormsModel();
+            if (FormsModelAwaitingRefresh && Controls.Base.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
             if (TilesToolbarAwaitingRefresh && Controls.Base.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
             if (EntitiesToolbarAwaitingRefresh && Controls.Base.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
             if (StartScreenAwaitingRefresh && Controls.Base.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
@@ -363,7 +363,7 @@ namespace ManiacEditor
         public void RefreshTheme()
         {
             Controls.Base.MainEditor.Instance.Refresh();
-            if (Controls.Base.MainEditor.Instance.FormsModel != null) RefreshFormsModel();
+            if (Controls.Base.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
             else FormsModelAwaitingRefresh = true;
             if (Controls.Base.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
             else StartScreenAwaitingRefresh = true;
@@ -399,8 +399,8 @@ namespace ManiacEditor
 
         public void RefreshFormsModel()
         {
-            Controls.Base.MainEditor.Instance.FormsModel.Refresh();
-            Controls.Base.MainEditor.Instance.FormsModel.UpdateScrollbars(true);
+            Controls.Base.MainEditor.Instance.DeviceModel.Refresh();
+            Controls.Base.MainEditor.Instance.DeviceModel.UpdateScrollbars(true);
             FormsModelAwaitingRefresh = false;
         }
 

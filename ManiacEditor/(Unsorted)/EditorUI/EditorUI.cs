@@ -642,13 +642,13 @@ namespace ManiacEditor
         {
             if (Core.Settings.MySettings.EntityFreeCam)
             {
-                Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsEnabled = false;
-                Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsEnabled = false;
+                Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsEnabled = false;
+                Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsEnabled = false;
             }
             else
             {
-                Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsEnabled = true;
-                Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsEnabled = true;
+                Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsEnabled = true;
+                Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsEnabled = true;
             }
 
             bool parallaxAnimationInProgress = Classes.Core.SolutionState.AllowAnimations && Classes.Core.SolutionState.ParallaxAnimationChecked;

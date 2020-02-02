@@ -56,17 +56,17 @@ namespace ManiacEditor
                 Classes.Core.SolutionState.Scrolling = true;
                 Classes.Core.SolutionState.ScrollingDragged = false;
                 Classes.Core.SolutionState.ScrollPosition = new Point(e.X - Classes.Core.SolutionState.ViewPositionX, e.Y - Classes.Core.SolutionState.ViewPositionY);
-                if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible && Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible && Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible)
                 {
                     Controls.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollAll;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
                 }
-                else if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                else if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible)
                 {
                     Controls.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollWE;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
                 }
-                else if (Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                else if (Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible)
                 {
                     Controls.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNS;
                     SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
@@ -242,7 +242,7 @@ namespace ManiacEditor
         #region Mouse Down Controls
         public void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (!Classes.Core.SolutionState.Scrolling) Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel.Focus();
+            if (!Classes.Core.SolutionState.Scrolling) Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel.Focus();
 
             if (e.Button == MouseButtons.Left) MouseDownLeft(e);
             else if (e.Button == MouseButtons.Right) MouseDownRight(e);
@@ -277,7 +277,7 @@ namespace ManiacEditor
         {
             if (ForceUpdateMousePos) UpdateScrollerPosition(e);
             if (Classes.Core.SolutionState.Scrolling) ScrollerMouseMove(e);
-            if (Classes.Core.SolutionState.Scrolling || Classes.Core.SolutionState.ScrollingDragged || Classes.Core.SolutionState.DraggingSelection || Classes.Core.SolutionState.Dragged) Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel.Render();
+            if (Classes.Core.SolutionState.Scrolling || Classes.Core.SolutionState.ScrollingDragged || Classes.Core.SolutionState.DraggingSelection || Classes.Core.SolutionState.Dragged) Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel.Render();
 
             Controls.Base.MainEditor.Instance.EditorStatusBar.UpdatePositionLabel(e);
 
@@ -380,7 +380,7 @@ namespace ManiacEditor
         #endregion
         public void MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel.Focus();
+            Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel.Focus();
             if (CtrlPressed()) Ctrl();
             else Normal();
 
@@ -407,7 +407,7 @@ namespace ManiacEditor
             }
             void Normal()
             {
-                if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible || Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) ScrollMove();
+                if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible || Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible) ScrollMove();
                 if (Core.Settings.MySettings.EntityFreeCam) FreeCamScroll();
 
                 void ScrollMove()
@@ -423,12 +423,12 @@ namespace ManiacEditor
                     {
                         if (ShiftPressed())
                         {
-                            if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible) VScroll();
+                            if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible) VScroll();
                             else HScroll();
                         }
                         else
                         {
-                            if (Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) HScroll();
+                            if (Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible) HScroll();
                             else VScroll();
                         }
 
@@ -438,12 +438,12 @@ namespace ManiacEditor
                     {
                         if (ShiftPressed())
                         {
-                            if (Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) HScroll();
+                            if (Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible) HScroll();
                             else VScroll();
                         }
                         else
                         {
-                            if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible) VScroll();
+                            if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible) VScroll();
                             else HScroll();
                         }
 
@@ -457,22 +457,22 @@ namespace ManiacEditor
             }
             void VScroll()
             {
-                double y = Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value - e.Delta;
+                double y = Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Value - e.Delta;
                 if (y < 0) y = 0;
-                if (y > Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum;
-                Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value = y;
+                if (y > Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Maximum) y = Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Maximum;
+                Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Value = y;
             }
             void HScroll()
             {
-                double x = Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value - e.Delta;
+                double x = Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Value - e.Delta;
                 if (x < 0) x = 0;
-                if (x > Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum;
-                Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value = x;
+                if (x > Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Maximum) x = Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Maximum;
+                Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Value = x;
             }
         }
         public void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel.Focus();
+            Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel.Focus();
             if (e.Button == MouseButtons.Right)
             {
                 if (Controls.Base.MainEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
@@ -1072,8 +1072,8 @@ namespace ManiacEditor
 
             }
 
-            double xMove = (Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible) ? e.X - Classes.Core.SolutionState.ViewPositionX - Classes.Core.SolutionState.ScrollPosition.X : 0;
-            double yMove = (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible) ? e.Y - Classes.Core.SolutionState.ViewPositionY - Classes.Core.SolutionState.ScrollPosition.Y : 0;
+            double xMove = (Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible) ? e.X - Classes.Core.SolutionState.ViewPositionX - Classes.Core.SolutionState.ScrollPosition.X : 0;
+            double yMove = (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible) ? e.Y - Classes.Core.SolutionState.ViewPositionY - Classes.Core.SolutionState.ScrollPosition.Y : 0;
 
             if (Math.Abs(xMove) < 15) xMove = 0;
             if (Math.Abs(yMove) < 15) yMove = 0;
@@ -1131,17 +1131,17 @@ namespace ManiacEditor
                 }
                 else
                 {
-                    if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible && Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                    if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible && Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible)
                     {
                         Controls.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollAll;
                         SetScrollerBorderApperance((int)ScrollerModeDirection.ALL);
                     }
-                    else if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                    else if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible)
                     {
                         Controls.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollNS;
                         SetScrollerBorderApperance((int)ScrollerModeDirection.NS);
                     }
-                    else if (Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                    else if (Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible)
                     {
                         Controls.Base.MainEditor.Instance.Cursor = System.Windows.Input.Cursors.ScrollWE;
                         SetScrollerBorderApperance((int)ScrollerModeDirection.WE);
@@ -1159,26 +1159,26 @@ namespace ManiacEditor
 
             if (x < 0) x = 0;
             if (y < 0) y = 0;
-            if (x > Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum;
-            if (y > Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum;
+            if (x > Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Maximum) x = Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Maximum;
+            if (y > Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Maximum) y = Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Maximum;
 
 
             if (x != position.X || y != position.Y)
             {
 
-                if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible)
                 {
-                    Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value = y;
+                    Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Value = y;
                 }
-                if (Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                if (Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible)
                 {
-                    Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value = x;
+                    Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Value = x;
                 }
 
-                Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
+                Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel.OnMouseMoveEventCreate();
 
             }
-            Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel.Render();
+            Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel.Render();
 
         }
 
@@ -1210,8 +1210,8 @@ namespace ManiacEditor
             void EdgeMove()
             {
                 System.Windows.Point position = new System.Windows.Point(Classes.Core.SolutionState.ViewPositionX, Classes.Core.SolutionState.ViewPositionY); ;
-                double ScreenMaxX = position.X + Controls.Base.MainEditor.Instance.FormsModel.splitContainer1.Panel1.Width - (int)Controls.Base.MainEditor.Instance.FormsModel.vScrollBar.ActualWidth;
-                double ScreenMaxY = position.Y + Controls.Base.MainEditor.Instance.FormsModel.splitContainer1.Panel1.Height - (int)Controls.Base.MainEditor.Instance.FormsModel.hScrollBar.ActualHeight;
+                double ScreenMaxX = position.X + Controls.Base.MainEditor.Instance.DeviceModel.splitContainer1.Panel1.Width - (int)Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar.ActualWidth;
+                double ScreenMaxY = position.Y + Controls.Base.MainEditor.Instance.DeviceModel.splitContainer1.Panel1.Height - (int)Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar.ActualHeight;
                 double ScreenMinX = position.X;
                 double ScreenMinY = position.Y;
 
@@ -1237,20 +1237,20 @@ namespace ManiacEditor
 
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
-                if (x > Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum) x = Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Maximum;
-                if (y > Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum) y = Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Maximum;
+                if (x > Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Maximum) x = Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Maximum;
+                if (y > Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Maximum) y = Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Maximum;
 
                 if (x != position.X || y != position.Y)
                 {
-                    if (Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.IsVisible)
+                    if (Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.IsVisible)
                     {
-                        Controls.Base.MainEditor.Instance.FormsModel.vScrollBar1.Value = y;
+                        Controls.Base.MainEditor.Instance.DeviceModel.vScrollBar1.Value = y;
                     }
-                    if (Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.IsVisible)
+                    if (Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.IsVisible)
                     {
-                        Controls.Base.MainEditor.Instance.FormsModel.hScrollBar1.Value = x;
+                        Controls.Base.MainEditor.Instance.DeviceModel.hScrollBar1.Value = x;
                     }
-                    Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel.OnMouseMoveEventCreate();
+                    Controls.Base.MainEditor.Instance.DeviceModel.GraphicPanel.OnMouseMoveEventCreate();
                     // FIX: Determine if this is Needed
                     //if (!Classes.Edit.SolutionState.Scrolling) Editor.Instance.FormsModel.GraphicPanel.Render();
 

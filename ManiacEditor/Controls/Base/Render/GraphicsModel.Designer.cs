@@ -1,6 +1,6 @@
 ﻿namespace ManiacEditor.Controls
 {
-    partial class EditorFormsModel
+    partial class GraphicsModel
     {
         /// <summary> 
         /// Required designer variable.
