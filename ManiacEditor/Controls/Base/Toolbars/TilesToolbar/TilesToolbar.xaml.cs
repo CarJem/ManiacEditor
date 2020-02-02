@@ -84,7 +84,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 			setCheckboxes = false;
 		}
 
-		public TilesToolbar(Classes.Editor.Scene.StageTiles tiles, String data_directory, String Colors, ManiacEditor.Controls.Base.MainEditor instance)
+		public TilesToolbar(Classes.Editor.Scene.EditorTiles tiles, String data_directory, String Colors, ManiacEditor.Controls.Base.MainEditor instance)
 		{
             try
             {

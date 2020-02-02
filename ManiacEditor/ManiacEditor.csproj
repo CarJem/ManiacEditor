@@ -197,7 +197,6 @@
     <Compile Include="Classes\Editor\Constants.cs" />
     <Compile Include="Classes\Editor\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Editor\Scene\EditorScene.cs" />
-    <Compile Include="Classes\Editor\Scene\EditorTiles.cs" />
     <Compile Include="Classes\Internal\DataStateHistoryCollection.cs" />
     <Compile Include="Classes\Internal\SceneHistoryCollection.cs" />
     <Compile Include="Extensions\SystemColorsUtility.cs" />
@@ -598,7 +597,7 @@
     <Compile Include="Classes\Editor\Draw\GIF.cs" />
     <Compile Include="Classes\Editor\Draw\GraphicsHandler.cs" />
     <Compile Include="Methods\ImageExtensions.cs" />
-    <Compile Include="Classes\Editor\Scene\StageTiles.cs" />
+    <Compile Include="Classes\Editor\Scene\EditorTiles.cs" />
     <Compile Include="Controls\Utility\ExportAsImageGUI.xaml.cs">
       <DependentUpon>ExportAsImageGUI.xaml</DependentUpon>
     </Compile>

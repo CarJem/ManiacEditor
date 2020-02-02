@@ -99,7 +99,7 @@ namespace ManiacEditor.Methods
         {
             if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
             Editor.TileManiacInstance.Show();
-            if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
+            if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles != null)
             {
                 if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                 {
@@ -122,7 +122,7 @@ namespace ManiacEditor.Methods
                 {
                     Editor.TileManiacInstance.Show();
                 }
-                if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
+                if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles != null)
                 {
                     if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                     {

@@ -262,9 +262,9 @@ namespace ManiacEditor
                 if (Controls.Base.MainEditor.Instance.TilesToolbar == null)
                 {
                     if (Classes.Editor.SolutionState.UseEncoreColors)
-                        Controls.Base.MainEditor.Instance.TilesToolbar = new Controls.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles.StageTiles, Controls.Base.MainEditor.Instance.Paths.StageTiles_Source, Controls.Base.MainEditor.Instance.EncorePalette[0], Controls.Base.MainEditor.Instance);
+                        Controls.Base.MainEditor.Instance.TilesToolbar = new Controls.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Controls.Base.MainEditor.Instance.Paths.StageTiles_Source, Controls.Base.MainEditor.Instance.EncorePalette[0], Controls.Base.MainEditor.Instance);
                     else
-                        Controls.Base.MainEditor.Instance.TilesToolbar = new Controls.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles.StageTiles, Controls.Base.MainEditor.Instance.Paths.StageTiles_Source, null, Controls.Base.MainEditor.Instance);
+                        Controls.Base.MainEditor.Instance.TilesToolbar = new Controls.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Controls.Base.MainEditor.Instance.Paths.StageTiles_Source, null, Controls.Base.MainEditor.Instance);
 
 
                     Controls.Base.MainEditor.Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
@@ -741,12 +741,12 @@ namespace ManiacEditor
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (Classes.Editor.SolutionState.UseEncoreColors == true)
                 {
-                    Classes.Editor.Solution.CurrentTiles.StageTiles?.Image.Reload(Controls.Base.MainEditor.Instance.EncorePalette[0]);
+                    Classes.Editor.Solution.CurrentTiles?.Image.Reload(Controls.Base.MainEditor.Instance.EncorePalette[0]);
                     Controls.Base.MainEditor.Instance.TilesToolbar?.Reload(Controls.Base.MainEditor.Instance.EncorePalette[0]);
                 }
                 else
                 {
-                    Classes.Editor.Solution.CurrentTiles.StageTiles?.Image.Reload();
+                    Classes.Editor.Solution.CurrentTiles?.Image.Reload();
                     Controls.Base.MainEditor.Instance.TilesToolbar?.Reload();
                 }
 

@@ -426,7 +426,7 @@ namespace ManiacEditor.Methods.Entities
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(Classes.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
@@ -808,7 +808,7 @@ namespace ManiacEditor.Methods.Entities
             ColorPalette[] stageConfigColors = new ColorPalette[8];
             for (int i = 0; i < 8; i++)
             {
-                stageConfigColors[i] = Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+                stageConfigColors[i] = Classes.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
             }
             for (int i = 0; i < 8; i++)
             {

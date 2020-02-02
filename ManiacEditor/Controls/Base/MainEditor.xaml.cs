@@ -980,11 +980,11 @@ namespace ManiacEditor.Controls.Base
 
 				if (Classes.Editor.SolutionState.UseEncoreColors)
 				{
-                    if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles.StageTiles?.Image.Reload(EncorePalette[0]);
+                    if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles?.Image.Reload(EncorePalette[0]);
 				}
 				else
 				{
-                    if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles.StageTiles?.Image.Reload();
+                    if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles?.Image.Reload();
 				}
 
 			}
@@ -1012,7 +1012,7 @@ namespace ManiacEditor.Controls.Base
 		}
 		public void RefreshCollisionColours(bool RefreshMasks = false)
 		{
-			if (Classes.Editor.Solution.CurrentScene != null && Classes.Editor.Solution.CurrentTiles.StageTiles != null)
+			if (Classes.Editor.Solution.CurrentScene != null && Classes.Editor.Solution.CurrentTiles != null)
 			{
                 switch (Classes.Editor.SolutionState.CollisionPreset)
                 {

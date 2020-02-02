@@ -40,7 +40,7 @@ namespace ManiacEditor.Classes.Editor
 
                 Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(Instance.DeviceModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
                 Classes.Editor.Solution.TileConfig = new Tileconfig();
-                Classes.Editor.Solution.CurrentTiles.StageTiles = new Classes.Editor.Scene.StageTiles();
+                Classes.Editor.Solution.CurrentTiles = new Classes.Editor.Scene.EditorTiles();
                 Classes.Editor.Solution.StageConfig = new StageConfig();
 
                 string ImagePath = directoryPath + "//16x16Tiles.gif";
@@ -54,7 +54,7 @@ namespace ManiacEditor.Classes.Editor
                 //EditorScene.Write(SceneFilepath);
                 Classes.Editor.Solution.TileConfig.Write(TilesPath);
                 //StageConfig.Write(StagePath);
-                Classes.Editor.Solution.CurrentTiles.StageTiles.Write(ImagePath);
+                Classes.Editor.Solution.CurrentTiles.Write(ImagePath);
 
 
                 Instance.UpdateDataFolderLabel(null, null);
@@ -560,7 +560,7 @@ namespace ManiacEditor.Classes.Editor
                 SetupObjectsList();
                 SetupDiscordRP(Instance.Paths.SceneFilePath);
                 Stamps StageStamps = Instance.Paths.GetEditorStamps(Instance.Paths.CurrentZone);
-                Instance.Chunks = new Classes.Editor.Scene.EditorChunks(Instance, Classes.Editor.Solution.CurrentTiles.StageTiles, StageStamps);
+                Instance.Chunks = new Classes.Editor.Scene.EditorChunks(Instance, Classes.Editor.Solution.CurrentTiles, StageStamps);
                 Instance.BackgroundDX = new Classes.Editor.Scene.EditorBackground(Instance);
                 Classes.Editor.Solution.Entities = new Classes.Editor.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
 
@@ -589,7 +589,6 @@ namespace ManiacEditor.Classes.Editor
         {
             Classes.Editor.Solution.UnloadScene();
             Methods.Internal.Settings.UseDefaultPrefrences();
-            Classes.Editor.Solution.CurrentTiles = new Classes.Editor.Scene.EditorTiles(Instance);
             return Instance.SetGameConfig();
         }
 
@@ -818,7 +817,7 @@ namespace ManiacEditor.Classes.Editor
             {
                 if (saveAsMode)
                 {
-                    Classes.Editor.Solution.CurrentTiles.StageTiles?.Write(SaveAsFilePath);
+                    Classes.Editor.Solution.CurrentTiles?.Write(SaveAsFilePath);
                     Instance.Paths.StageTiles_Source = SaveAsFilePath;
                     Instance.Paths.StageTiles_SourceID = -3;
                 }

@@ -1136,7 +1136,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb((int)EditorInstance.EditorToolbar.collisionOpacitySlider.Value, EditorInstance.CollisionLRDSolid.R, EditorInstance.CollisionLRDSolid.G, EditorInstance.CollisionLRDSolid.B);
             System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb((int)EditorInstance.EditorToolbar.collisionOpacitySlider.Value, EditorInstance.CollisionTopOnlySolid.R, EditorInstance.CollisionTopOnlySolid.G, EditorInstance.CollisionTopOnlySolid.B);
 
-            g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY),
+            g.DrawImage(Classes.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY),
                 new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
 
             if (Classes.Editor.SolutionState.ShowCollisionA)
@@ -1160,20 +1160,20 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 
             if (Classes.Editor.SolutionState.ShowFlippedTileHelper == true)
             {
-                g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), false, false),
+                g.DrawImage(Classes.Editor.Solution.CurrentTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), false, false),
                             new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
             }
             if (Classes.Editor.SolutionState.ShowTileID == true)
             {
-                g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), false, false),
+                g.DrawImage(Classes.Editor.Solution.CurrentTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), false, false),
                             new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
             }
 
             void DrawCollision(bool drawA, System.Drawing.Color colur)
             {
                 Bitmap Map;
-                if (drawA) Map = Classes.Editor.Solution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
-                else Map = Classes.Editor.Solution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
+                if (drawA) Map = Classes.Editor.Solution.CurrentTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
+                else Map = Classes.Editor.Solution.CurrentTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
 
                 Map = Extensions.Extensions.ChangeImageColor(Map, System.Drawing.Color.White, colur);
 
@@ -1419,7 +1419,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 System.Drawing.Color LRDSolid = ManiacEditor.Controls.Base.MainEditor.Instance.CollisionLRDSolid;
                 System.Drawing.Color TopOnlySolid = ManiacEditor.Controls.Base.MainEditor.Instance.CollisionTopOnlySolid;
 
-                g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
+                g.DrawImage(Classes.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
 
                 if (Classes.Editor.SolutionState.ShowCollisionA)
                 {
@@ -1478,8 +1478,8 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 
                 Bitmap collisionMap;
 
-                if (drawA) collisionMap = Classes.Editor.Solution.CurrentTiles.StageTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
-                else collisionMap = Classes.Editor.Solution.CurrentTiles.StageTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
+                if (drawA) collisionMap = Classes.Editor.Solution.CurrentTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
+                else collisionMap = Classes.Editor.Solution.CurrentTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY);
 
 
                 g.DrawImage(collisionMap, dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);

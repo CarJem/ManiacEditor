@@ -298,7 +298,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 		{
 			try
 			{
-				Classes.Editor.Solution.CurrentTiles.StageTiles = new StageTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
+				Classes.Editor.Solution.CurrentTiles = new EditorTiles(Path.Combine(tilePath, "Stages", CurrentZone), colors);
 				StageTiles_Source = Path.Combine(tilePath, "Stages", CurrentZone);
 				return true;
 			}
@@ -313,7 +313,7 @@ namespace ManiacEditor.Classes.Editor.Scene
         {
             try
             {
-                Classes.Editor.Solution.CurrentTiles.StageTiles = new StageTiles(Path.Combine(filePath), colors);
+                Classes.Editor.Solution.CurrentTiles = new EditorTiles(Path.Combine(filePath), colors);
                 StageTiles_Source = Path.Combine(filePath);
                 return true;
             }

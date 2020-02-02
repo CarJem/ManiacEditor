@@ -12,7 +12,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
 		public Controls.Base.MainEditor EditorInstance;
 
-		private Classes.Editor.Scene.StageTiles Tiles;
+		private Classes.Editor.Scene.EditorTiles Tiles;
 
 		public Stamps StageStamps;
 
@@ -20,13 +20,13 @@ namespace ManiacEditor.Classes.Editor.Scene
 
 		public IList<Bitmap> ChunkImagesA = new List<Bitmap>();
 		public IList<Bitmap> ChunkImagesAB = new List<Bitmap>();
-		public EditorChunks(Controls.Base.MainEditor instance, Classes.Editor.Scene.StageTiles stageTiles, Stamps stageStamps)
+		public EditorChunks(Controls.Base.MainEditor instance, Classes.Editor.Scene.EditorTiles stageTiles, Stamps stageStamps)
 		{
 			EditorInstance = instance;
 			StageStamps = stageStamps;
 			EditorStamps = new Stamps();
 			AddBlankMap();
-			Tiles = Classes.Editor.Solution.CurrentTiles.StageTiles;
+			Tiles = Classes.Editor.Solution.CurrentTiles;
 		}
 		public void DrawTile(Graphics g, ushort tile, int x, int y, bool semitransparent = false)
 		{
@@ -41,12 +41,12 @@ namespace ManiacEditor.Classes.Editor.Scene
 
             if (semitransparent)
             {
-                g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
+                g.DrawImage(Classes.Editor.Solution.CurrentTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
 
             }
             else
             {
-                g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
+                g.DrawImage(Classes.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
 
             }
 

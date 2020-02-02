@@ -101,7 +101,7 @@ namespace ManiacEditor.Entity_Renders
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY),
+            d.DrawBitmap(Classes.Editor.Solution.CurrentTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY),
             x, y, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, selected, Transperncy);
         }
 
