@@ -1,0 +1,71 @@
+﻿<Window x:Class="ManiacEditor.Controls.Utility.Editor.Configuration.CheatCodeManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:maniac="clr-namespace:ManiacEditor"
+        xmlns:local="clr-namespace:ManiacEditor.Controls"
+        mc:Ignorable="d"
+        Title="Game Lock On Options..." Height="450" Width="326" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NormalBackground}">
+    <Grid HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.ColumnSpan="2">
+                <TextBlock Text="Cheat Codes:" FontWeight="Bold" Foreground="{DynamicResource NormalText}"></TextBlock>
+                <CheckBox x:Name="DisableBackgroundPausingCheckbox" Content="Disable Background Pausing" IsChecked="{maniac:GameSettingsBindingExtension DisableBackgroundPausing}"></CheckBox>
+                <CheckBox x:Name="EnableDebugModeCheckbox" Content="Enable Debug Mode" IsChecked="{maniac:GameSettingsBindingExtension EnableDebugMode}"></CheckBox>
+                <CheckBox x:Name="EnableDevMenuCheckbox" Content="Enable Dev Menu" IsChecked="{maniac:GameSettingsBindingExtension EnableDevMode}"></CheckBox>
+                <TextBlock Text="Editor Options:" FontWeight="Bold" Foreground="{DynamicResource NormalText}"></TextBlock>
+                <CheckBox Content="Just Run the Game" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension RunGameOnly}"/>
+                <CheckBox Content="Disable Menu Quitting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension GameQuitOnMenu}"/>
+                <CheckBox Content="Disable Auto Input Binding" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension GameAutoInput}"/>
+                <CheckBox Content="Enable Real Time Object Moving" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:GameSettingsBindingExtension RealTimeObjectMovementMode}"/>
+                <TextBlock Text="Compatibility Options:" FontWeight="Bold" Foreground="{DynamicResource NormalText}"></TextBlock>
+                <TextBlock Height="2"></TextBlock>
+                <Grid Margin="1,0,0,0" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Version: " VerticalAlignment="Center" Foreground="{DynamicResource NormalText}"></TextBlock>
+                    <ComboBox Grid.Column="1" Width="228" IsEnabled="True" x:Name="VersionSelector" SelectedIndex="2" Foreground="{DynamicResource NormalText}" SelectionChanged="VersionSelector_SelectionChanged">
+                        <ComboBoxItem Foreground="{DynamicResource NormalText}">1.03 (Pre-Plus) - Partial Support</ComboBoxItem>
+                        <ComboBoxItem Foreground="{DynamicResource NormalText}">1.04 (Mania Plus)</ComboBoxItem>
+                        <ComboBoxItem Foreground="{DynamicResource NormalText}">1.06 (Denevo Removo) - WIP</ComboBoxItem>
+                        <ComboBoxItem Foreground="{DynamicResource NormalText}">None - Disabled</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+                <StackPanel>
+                    <TextBlock Text="Game Path: " FontWeight="Normal" Foreground="{DynamicResource NormalText}"></TextBlock>
+                    <TextBlock Height="2"></TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Width="254" HorizontalAlignment="Left" Text="{maniac:DefaultSettingsBinding SonicManiaPath}"></TextBox>
+                        <Button Width="20" Content="..." Click="button13_Click"></Button>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Mod Loader Path:" FontWeight="Normal" Foreground="{DynamicResource NormalText}"></TextBlock>
+                    <TextBlock Height="2"></TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Width="254" HorizontalAlignment="Left" Text="{maniac:DefaultSettingsBinding ModLoaderPath}"></TextBox>
+                        <Button Width="20" Content="..." Click="button14_Click"></Button>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+            <Button Grid.Row="1" Margin="5" Content="Save" Click="Button_Click"></Button>
+            <Button Grid.Row="1" Grid.Column="1" Margin="5" Content="Cancel" Click="Button_Click_1"></Button>
+
+        </Grid>
+    </Grid>
+</Window>

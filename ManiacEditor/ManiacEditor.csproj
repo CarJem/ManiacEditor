@@ -280,7 +280,9 @@
     <Compile Include="Classes\Edit\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Edit\Scene\EditorScene.cs" />
     <Compile Include="Classes\Edit\Scene\EditorTiles.cs" />
-    <Compile Include="Classes\VersionCheck.cs" />
+    <Compile Include="Classes\Internal\VersionCheck.cs" />
+    <Compile Include="Converters\RemoveTabConverter.cs" />
+    <Compile Include="Converters\TilePixelConverter.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\MonkeyDude.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\SchrodingersCapsule.cs" />
     <Compile Include="Entity Renders\Normal Renders\CPZ\DNARiser.cs" />
@@ -456,28 +458,30 @@
     <Compile Include="Entity Renders\Normal Renders\Unordered\TwistedTubes.cs" />
     <Compile Include="Entity Renders\Normal Renders\Unordered\TwistingDoor.cs" />
     <Compile Include="Entity Renders\Normal Renders\Unordered\TwistingSlide.cs" />
-    <Compile Include="Functions\Actions\ActionOptimizeSlotIDs.cs" />
-    <Compile Include="Functions\Actions\ActionSortSlotIDs.cs" />
-    <Compile Include="Functions\Actions\ActionSwapSlotIDs.cs" />
-    <Compile Include="Functions\Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Actions\ActionOptimizeSlotIDs.cs" />
+    <Compile Include="Actions\ActionSortSlotIDs.cs" />
+    <Compile Include="Actions\ActionSwapSlotIDs.cs" />
+    <Compile Include="Actions\ActionMultipleMoveEntities.cs" />
+    <Compile Include="Enums\DuplicateAction.cs" />
+    <Compile Include="Enums\FlipDirection.cs" />
     <Compile Include="Methods\ProgramBase.cs" />
-    <Compile Include="Methods\EditorUI\EditorControl.cs" />
-    <Compile Include="Methods\EditorRecentsList.cs" />
-    <Compile Include="Methods\EditorExternal\EditorLaunch.cs" />
+    <Compile Include="Unsorted\EditorUI\EditorControl.cs" />
+    <Compile Include="Unsorted\EditorRecentsList.cs" />
+    <Compile Include="Unsorted\EditorExternal\EditorLaunch.cs" />
     <Compile Include="Classes\Edit\Solution.cs" />
-    <Compile Include="Methods\EditorDefaults.cs" />
-    <Compile Include="Methods\EditorManiacINI.cs" />
-    <Compile Include="Methods\EditorDataPacks.cs" />
+    <Compile Include="Unsorted\EditorDefaults.cs" />
+    <Compile Include="Unsorted\EditorManiacINI.cs" />
+    <Compile Include="Unsorted\EditorDataPacks.cs" />
     <Compile Include="Functions\Addons\DiscordRP.cs" />
-    <Compile Include="Methods\EditorFindReplace.cs" />
-    <Compile Include="Methods\EditorExternal\EditorInGame.cs" />
-    <Compile Include="Methods\EditorLayer\EditorChunk.cs" />
-    <Compile Include="Methods\EditorUI\EditorUIEvents.cs" />
+    <Compile Include="Unsorted\EditorFindReplace.cs" />
+    <Compile Include="Unsorted\EditorExternal\EditorInGame.cs" />
+    <Compile Include="Unsorted\EditorLayer\EditorChunk.cs" />
+    <Compile Include="Unsorted\EditorUI\EditorUIEvents.cs" />
     <Compile Include="Classes\Edit\Scene\EditorPath.cs" />
-    <Compile Include="Methods\EditorFileHandler.cs" />
-    <Compile Include="Methods\EditorTheming.cs" />
-    <Compile Include="Methods\EditorUI\EditorUI.cs" />
-    <Compile Include="Methods\EditorUI\EditorZoomModel.cs" />
+    <Compile Include="Unsorted\EditorFileHandler.cs" />
+    <Compile Include="Unsorted\EditorTheming.cs" />
+    <Compile Include="Unsorted\EditorUI\EditorUI.cs" />
+    <Compile Include="Unsorted\EditorUI\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
@@ -625,29 +629,28 @@
     <Compile Include="Entity Renders\Normal Renders\UI\UIPicture.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Functions\Converters.cs" />
-    <Compile Include="Functions\Settings.cs" />
+    <Compile Include="Core\Settings.cs" />
     <Compile Include="Functions\Extensions\Spline\ArrayUtil.cs" />
     <Compile Include="Functions\Extensions\Spline\CubicSpline.cs" />
-    <Compile Include="Interfaces\Base\Elements\MenuBar.xaml.cs">
+    <Compile Include="Controls\Base\Elements\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Elements\StatusBar.xaml.cs">
+    <Compile Include="Controls\Base\Elements\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Elements\Toolbar.xaml.cs">
+    <Compile Include="Controls\Base\Elements\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Render\DevicePanel.cs">
+    <Compile Include="Controls\Base\Render\DevicePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\Base\Render\DevicePanel.designer.cs" />
-    <Compile Include="Interfaces\Base\Render\GraphicsModel.cs">
+    <Compile Include="Controls\Base\Render\DevicePanel.designer.cs" />
+    <Compile Include="Controls\Base\Render\GraphicsModel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\Base\Render\GraphicsModel.Designer.cs" />
-    <Compile Include="Interfaces\Updater\DownloadWindow.xaml.cs" />
-    <Compile Include="Interfaces\Updater\ManiacUpdater.xaml.cs">
+    <Compile Include="Controls\Base\Render\GraphicsModel.Designer.cs" />
+    <Compile Include="Controls\Updater\DownloadWindow.xaml.cs" />
+    <Compile Include="Controls\Updater\ManiacUpdater.xaml.cs">
       <DependentUpon>ManiacUpdater.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Defaults.Designer.cs">
@@ -670,144 +673,144 @@
     <Compile Include="Properties\SettingsProviders\DocumentsSettingsProvider.cs" />
     <Compile Include="Functions\Extensions\Spline\TriDiagonalMatrix.cs" />
     <Compile Include="Functions\Extensions\WindowHelper.cs" />
-    <Compile Include="Graphics\GIF.cs" />
-    <Compile Include="Graphics\GraphicsHandler.cs" />
-    <Compile Include="Graphics\ImageExtensions.cs" />
-    <Compile Include="Graphics\StageTiles.cs" />
-    <Compile Include="Interfaces\Utility\ExportAsImageGUI.xaml.cs">
+    <Compile Include="Classes\Draw %28Unfinished%29\GIF.cs" />
+    <Compile Include="Classes\Draw %28Unfinished%29\GraphicsHandler.cs" />
+    <Compile Include="Classes\Draw %28Unfinished%29\ImageExtensions.cs" />
+    <Compile Include="Classes\Draw %28Unfinished%29\StageTiles.cs" />
+    <Compile Include="Controls\Utility\ExportAsImageGUI.xaml.cs">
       <DependentUpon>ExportAsImageGUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Options\SettingsHeader.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Options\SettingsHeader.xaml.cs">
       <DependentUpon>SettingsHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Controls\EditLayerToggleButton.xaml.cs">
+    <Compile Include="Controls\Base\Controls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Elements\ManiaHost.xaml.cs">
+    <Compile Include="Controls\Base\Elements\ManiaHost.xaml.cs">
       <DependentUpon>ManiaHost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
+    <Compile Include="Controls\Base\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Multipurpose\Controls\VScrollBar.xaml.cs">
+    <Compile Include="Controls\Global\Controls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Configuration\CheatCodeManager.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Configuration\CheatCodeManager.xaml.cs">
       <DependentUpon>CheatCodeManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Configuration\RenderListManager.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Configuration\RenderListManager.xaml.cs">
       <DependentUpon>RenderListManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\FindandReplaceTool.xaml.cs">
+    <Compile Include="Controls\Utility\FindandReplaceTool.xaml.cs">
       <DependentUpon>FindandReplaceTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Dialog\UnloadingSceneWarning.xaml.cs">
+    <Compile Include="Controls\Dialog\UnloadingSceneWarning.xaml.cs">
       <DependentUpon>UnloadingSceneWarning.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Configuration\ModConfigManager.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Configuration\ModConfigManager.xaml.cs">
       <DependentUpon>ModConfigManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\MainEditor.xaml.cs">
+    <Compile Include="Controls\Base\MainEditor.xaml.cs">
       <DependentUpon>MainEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Configuration\ModConfigEditor.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Configuration\ModConfigEditor.xaml.cs">
       <DependentUpon>ModConfigEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Dev\MD5HashGen.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Dev\MD5HashGen.xaml.cs">
       <DependentUpon>MD5HashGen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Updater\ManiacUpdaterWindow.xaml.cs">
+    <Compile Include="Controls\Updater\ManiacUpdaterWindow.xaml.cs">
       <DependentUpon>ManiacUpdaterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Configuration\ManiacINIEditor.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Configuration\ManiacINIEditor.xaml.cs">
       <DependentUpon>ManiacINIEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\SceneSelect\EditSceneSelectInfoWindow.xaml.cs">
+    <Compile Include="Controls\SceneSelect\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\SceneSelect\DataPackEditor.xaml.cs">
+    <Compile Include="Controls\SceneSelect\DataPackEditor.xaml.cs">
       <DependentUpon>DataPackEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\SceneSelect\NewSceneWindow.xaml.cs">
+    <Compile Include="Controls\SceneSelect\NewSceneWindow.xaml.cs">
       <DependentUpon>NewSceneWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\SceneSelect\SceneSelectWindow.xaml.cs">
+    <Compile Include="Controls\SceneSelect\SceneSelectWindow.xaml.cs">
       <DependentUpon>SceneSelectWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Object Manager\SoundImporter.xaml.cs">
+    <Compile Include="Controls\Utility\Object Manager\SoundImporter.xaml.cs">
       <DependentUpon>SoundImporter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Object Manager\ObjectImporter.xaml.cs">
+    <Compile Include="Controls\Utility\Object Manager\ObjectImporter.xaml.cs">
       <DependentUpon>ObjectImporter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Functions\Actions\ActionAddDeleteEntities.cs" />
-    <Compile Include="Functions\Actions\ActionDummy.cs" />
-    <Compile Include="Functions\Actions\ActionEntityPropertyChange.cs" />
-    <Compile Include="Functions\Actions\ActionMoveEntities.cs" />
-    <Compile Include="Functions\Actions\ActionChangeTile.cs" />
-    <Compile Include="Functions\Actions\ActionsGroup.cs" />
-    <Compile Include="Functions\Actions\ActionsGroupCloseMarker.cs" />
-    <Compile Include="Functions\Actions\IAction.cs" />
-    <Compile Include="Interfaces\Utility\Editor\Dev\AboutWindow.xaml.cs">
+    <Compile Include="Actions\ActionAddDeleteEntities.cs" />
+    <Compile Include="Actions\ActionDummy.cs" />
+    <Compile Include="Actions\ActionEntityPropertyChange.cs" />
+    <Compile Include="Actions\ActionMoveEntities.cs" />
+    <Compile Include="Actions\ActionChangeTile.cs" />
+    <Compile Include="Actions\ActionsGroup.cs" />
+    <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
+    <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Controls\Utility\Editor\Options\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Dev\DeveloperInterface.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Dev\DeveloperInterface.xaml.cs">
       <DependentUpon>DeveloperInterface.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\GoToPositionWindow.xaml.cs">
+    <Compile Include="Controls\Utility\GoToPositionWindow.xaml.cs">
       <DependentUpon>GoToPositionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Options\KeyBindConfigurator.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Options\KeyBindConfigurator.xaml.cs">
       <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\LayerManager.xaml.cs">
+    <Compile Include="Controls\Utility\LayerManager.xaml.cs">
       <DependentUpon>LayerManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Object Manager\ObjectManager.xaml.cs">
+    <Compile Include="Controls\Utility\Object Manager\ObjectManager.xaml.cs">
       <DependentUpon>ObjectManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Editor\Options\OptionsMenu.xaml.cs">
+    <Compile Include="Controls\Utility\Editor\Options\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Utility\Object Manager\AddAttributeWindow.xaml.cs">
+    <Compile Include="Controls\Utility\Object Manager\AddAttributeWindow.xaml.cs">
       <DependentUpon>AddAttributeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\SceneSelect\SceneSelectHost.xaml.cs">
+    <Compile Include="Controls\SceneSelect\SceneSelectHost.xaml.cs">
       <DependentUpon>SceneSelectHost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml.cs">
+    <Compile Include="Controls\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml.cs">
       <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Elements\StartScreen.xaml.cs">
+    <Compile Include="Controls\Base\Elements\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml.cs">
+    <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml.cs">
       <DependentUpon>EntitiesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
+    <Compile Include="Controls\Base\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Methods\EditorEntities\AttributeValidater.cs" />
-    <Compile Include="Interfaces\Utility\Object ID Repair Tool\ColorConsole.cs" />
-    <Compile Include="Interfaces\Utility\Object ID Repair Tool\ColorsCaching.cs" />
+    <Compile Include="Unsorted\EditorEntities\AttributeValidater.cs" />
+    <Compile Include="Controls\Utility\Object ID Repair Tool\ColorConsole.cs" />
+    <Compile Include="Controls\Utility\Object ID Repair Tool\ColorsCaching.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\DeviceEventArgs.cs" />
-    <Compile Include="Interfaces\Multipurpose\Controls\HScrollBar.xaml.cs">
+    <Compile Include="Event Handlers\DeviceEventArgs.cs" />
+    <Compile Include="Controls\Global\Controls\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Multipurpose\Controls\RetroEDTileList.cs">
+    <Compile Include="Controls\Global\Controls\RetroEDTileList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\Multipurpose\Controls\RetroEDTileList.Designer.cs">
+    <Compile Include="Controls\Global\Controls\RetroEDTileList.Designer.cs">
       <DependentUpon>RetroEDTileList.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Edit\SolutionState.cs" />
-    <Compile Include="Functions\Enums.cs" />
-    <Compile Include="Methods\EditorEntities\EditorAnimations.cs" />
+    <Compile Include="Enums\ScrollDir.cs" />
+    <Compile Include="Unsorted\EditorEntities\EditorAnimations.cs" />
     <Compile Include="Classes\Edit\Scene\EditorBackground.cs" />
-    <Compile Include="Methods\EditorEntities\EditorEntityDrawing.cs" />
+    <Compile Include="Unsorted\EditorEntities\EditorEntityDrawing.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZEggRobo.cs" />
     <Compile Include="Entity Renders\Normal Renders\AIZ\AIZRockPile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -892,84 +895,84 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Interfaces\TileManiac\TileManiac.xaml.cs">
+    <Compile Include="Controls\TileManiac\TileManiac.xaml.cs">
       <DependentUpon>TileManiac.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\TileManiac\Controls\NearestNighborhoodPictureBox.cs">
+    <Compile Include="Controls\TileManiac\Controls\NearestNighborhoodPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Functions\Extensions\KeyEventExt.cs" />
-    <Compile Include="Interfaces\Utility\Object ID Repair Tool\ObjectIDHealer.cs" />
+    <Compile Include="Controls\Utility\Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Properties\KeyBinds.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>KeyBinds.settings</DependentUpon>
     </Compile>
-    <Compile Include="Methods\EditorLayer\HorizontalLayerScroll.cs" />
-    <Compile Include="Graphics\IDrawArea.cs" />
-    <Compile Include="Interfaces\Base\Render\ImageViewer.cs">
+    <Compile Include="Unsorted\EditorLayer\HorizontalLayerScroll.cs" />
+    <Compile Include="Interfaces\IDrawArea.cs" />
+    <Compile Include="Controls\Base\Render\ImageViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Interfaces\Base\Render\ImageViewer.designer.cs">
+    <Compile Include="Controls\Base\Render\ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
-    <Compile Include="Interfaces\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
+    <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
+    <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Classes\Edit\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Edit\Scene\Sets\EditorEntity.cs" />
-    <Compile Include="Functions\Memory Editing\ProcessMemory.cs" />
-    <Compile Include="Methods\EditorLayer\ScrollInfoLines.cs" />
-    <Compile Include="Methods\EditorSettings.cs" />
-    <Compile Include="Interfaces\Assets\SkinResourceDictionary.cs" />
-    <Compile Include="Interfaces\Dialog\TextPrompt.cs" />
-    <Compile Include="Graphics\TextureCreator.cs" />
-    <Compile Include="Interfaces\Base\Render\ThumbnailFlowLayoutPanel.cs">
+    <Compile Include="Core\ProcessMemory.cs" />
+    <Compile Include="Unsorted\EditorLayer\ScrollInfoLines.cs" />
+    <Compile Include="Unsorted\EditorSettings.cs" />
+    <Compile Include="Controls\Assets\SkinResourceDictionary.cs" />
+    <Compile Include="Controls\Dialog\TextPrompt.cs" />
+    <Compile Include="Classes\Draw %28Unfinished%29\TextureCreator.cs" />
+    <Compile Include="Controls\Base\Render\ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Graphics\IDrawable.cs" />
+    <Compile Include="Interfaces\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structures\EntityRenderingOptions.cs" />
-    <Compile Include="Structures\EntityDefinitions.cs" />
-    <Compile Include="Structures\LoadPrefrences.cs" />
-    <Resource Include="Interfaces\TileManiac\Resources\Maniac.bmp" />
-    <Resource Include="Interfaces\TileManiac\Resources\Green.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\9.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\8.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\7.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\6.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\5.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\4.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\3.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\2.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\16.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\15.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\14.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\13.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\12.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\11.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\10.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\1.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\0.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_9_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_8_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_7_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_6_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_6.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_5_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_4_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_3_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_2_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_16_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_15_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_14_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_13_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_12_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_11_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_10_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_1_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\_0_NoCol.png" />
-    <Resource Include="Interfaces\TileManiac\Resources\Red.png" />
+    <Compile Include="Classes\Internal\EntityRenderingOptions.cs" />
+    <Compile Include="Classes\Internal\EntityDefinitions.cs" />
+    <Compile Include="Classes\Internal\LoadPrefrences.cs" />
+    <Resource Include="Controls\TileManiac\Resources\Maniac.bmp" />
+    <Resource Include="Controls\TileManiac\Resources\Green.png" />
+    <Resource Include="Controls\TileManiac\Resources\9.png" />
+    <Resource Include="Controls\TileManiac\Resources\8.png" />
+    <Resource Include="Controls\TileManiac\Resources\7.png" />
+    <Resource Include="Controls\TileManiac\Resources\6.png" />
+    <Resource Include="Controls\TileManiac\Resources\5.png" />
+    <Resource Include="Controls\TileManiac\Resources\4.png" />
+    <Resource Include="Controls\TileManiac\Resources\3.png" />
+    <Resource Include="Controls\TileManiac\Resources\2.png" />
+    <Resource Include="Controls\TileManiac\Resources\16.png" />
+    <Resource Include="Controls\TileManiac\Resources\15.png" />
+    <Resource Include="Controls\TileManiac\Resources\14.png" />
+    <Resource Include="Controls\TileManiac\Resources\13.png" />
+    <Resource Include="Controls\TileManiac\Resources\12.png" />
+    <Resource Include="Controls\TileManiac\Resources\11.png" />
+    <Resource Include="Controls\TileManiac\Resources\10.png" />
+    <Resource Include="Controls\TileManiac\Resources\1.png" />
+    <Resource Include="Controls\TileManiac\Resources\0.png" />
+    <Resource Include="Controls\TileManiac\Resources\_9_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_8_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_7_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_6_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_6.png" />
+    <Resource Include="Controls\TileManiac\Resources\_5_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_4_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_3_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_2_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_16_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_15_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_14_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_13_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_12_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_11_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_10_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_1_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\_0_NoCol.png" />
+    <Resource Include="Controls\TileManiac\Resources\Red.png" />
     <Resource Include="Resources\App Icons\64x64_2.ico" />
     <Resource Include="Resources\Images\AboutImage.png" />
     <Resource Include="Resources\App Icons\Neo\128x128.ico" />
@@ -1020,8 +1023,8 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>DevSettings.Designer.cs</LastGenOutput>
     </None>
-    <EmbeddedResource Include="Interfaces\Base\Render\DevicePanel.resx" />
-    <EmbeddedResource Include="Interfaces\Base\Render\GraphicsModel.resx" />
+    <EmbeddedResource Include="Controls\Base\Render\DevicePanel.resx" />
+    <EmbeddedResource Include="Controls\Base\Render\GraphicsModel.resx" />
     <None Include="Properties\GameOptions.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>GameOptions.Designer.cs</LastGenOutput>
@@ -1046,7 +1049,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Resources\Sounds\ScoreTotal.wav" />
-    <EmbeddedResource Include="Interfaces\Multipurpose\Controls\RetroEDTileList.resx">
+    <EmbeddedResource Include="Controls\Global\Controls\RetroEDTileList.resx">
       <DependentUpon>RetroEDTileList.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="Resources\Global\SuperSpecialRing.bin">
@@ -1057,7 +1060,7 @@
       <LastGenOutput>KeyBinds.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <EmbeddedResource Include="Interfaces\Base\Render\ImageViewer.resx">
+    <EmbeddedResource Include="Controls\Base\Render\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -1228,199 +1231,199 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Base\Elements\MenuBar.xaml">
+    <Page Include="Controls\Base\Elements\MenuBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Elements\StatusBar.xaml">
+    <Page Include="Controls\Base\Elements\StatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Elements\Toolbar.xaml">
+    <Page Include="Controls\Base\Elements\Toolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Multipurpose\Styles\ContextMenuPanel.xaml">
+    <Page Include="Controls\Global\Styles\ContextMenuPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Assets\IconLibrary.xaml">
+    <Page Include="Controls\Assets\IconLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Utility\ExportAsImageGUI.xaml">
+    <Page Include="Controls\Utility\ExportAsImageGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Options\SettingsHeader.xaml">
+    <Page Include="Controls\Utility\Editor\Options\SettingsHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Controls\EditLayerToggleButton.xaml">
+    <Page Include="Controls\Base\Controls\EditLayerToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Assets\Icons.xaml">
+    <Page Include="Controls\Assets\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Elements\ManiaHost.xaml">
+    <Page Include="Controls\Base\Elements\ManiaHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Configuration\CheatCodeManager.xaml">
+    <Page Include="Controls\Utility\Editor\Configuration\CheatCodeManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Configuration\RenderListManager.xaml">
+    <Page Include="Controls\Utility\Editor\Configuration\RenderListManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Utility\FindandReplaceTool.xaml">
+    <Page Include="Controls\Utility\FindandReplaceTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Dialog\UnloadingSceneWarning.xaml">
+    <Page Include="Controls\Dialog\UnloadingSceneWarning.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Configuration\ModConfigManager.xaml">
+    <Page Include="Controls\Utility\Editor\Configuration\ModConfigManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Configuration\ModConfigEditor.xaml">
+    <Page Include="Controls\Utility\Editor\Configuration\ModConfigEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Dev\AboutWindow.xaml">
+    <Page Include="Controls\Utility\Editor\Options\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Toolbars\TilesToolbar\TilesTabControl.xaml">
+    <Page Include="Controls\Base\Toolbars\TilesToolbar\TilesTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Multipurpose\Controls\VScrollBar.xaml">
+    <Page Include="Controls\Global\Controls\VScrollBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Dev\DeveloperInterface.xaml">
+    <Page Include="Controls\Utility\Editor\Dev\DeveloperInterface.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\MainEditor.xaml">
+    <Page Include="Controls\Base\MainEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Dev\MD5HashGen.xaml">
+    <Page Include="Controls\Utility\Editor\Dev\MD5HashGen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\BaseStyles.xaml">
+    <Page Include="Controls\Base\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Updater\DownloadWindow.xaml">
+    <Page Include="Controls\Updater\DownloadWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Updater\ManiacUpdaterWindow.xaml">
+    <Page Include="Controls\Updater\ManiacUpdaterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Configuration\ManiacINIEditor.xaml">
+    <Page Include="Controls\Utility\Editor\Configuration\ManiacINIEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\SceneSelect\EditSceneSelectInfoWindow.xaml">
+    <Page Include="Controls\SceneSelect\EditSceneSelectInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\GoToPositionWindow.xaml">
+    <Page Include="Controls\Utility\GoToPositionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Options\KeyBindConfigurator.xaml">
+    <Page Include="Controls\Utility\Editor\Options\KeyBindConfigurator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\LayerManager.xaml">
+    <Page Include="Controls\Utility\LayerManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Multipurpose\Controls\HScrollBar.xaml">
+    <Page Include="Controls\Global\Controls\HScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\SceneSelect\DataPackEditor.xaml">
+    <Page Include="Controls\SceneSelect\DataPackEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\SceneSelect\NewSceneWindow.xaml">
+    <Page Include="Controls\SceneSelect\NewSceneWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\SceneSelect\SceneSelectWindow.xaml">
+    <Page Include="Controls\SceneSelect\SceneSelectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Object Manager\SoundImporter.xaml">
+    <Page Include="Controls\Utility\Object Manager\SoundImporter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Utility\Object Manager\ObjectImporter.xaml">
+    <Page Include="Controls\Utility\Object Manager\ObjectImporter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Object Manager\ObjectManager.xaml">
+    <Page Include="Controls\Utility\Object Manager\ObjectManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Editor\Options\OptionsMenu.xaml">
+    <Page Include="Controls\Utility\Editor\Options\OptionsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Utility\Object Manager\AddAttributeWindow.xaml">
+    <Page Include="Controls\Utility\Object Manager\AddAttributeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\SceneSelect\SceneSelectHost.xaml">
+    <Page Include="Controls\SceneSelect\SceneSelectHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml">
+    <Page Include="Controls\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Elements\StartScreen.xaml">
+    <Page Include="Controls\Base\Elements\StartScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml">
+    <Page Include="Controls\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Base\Toolbars\TilesToolbar\TilesToolbar.xaml">
+    <Page Include="Controls\Base\Toolbars\TilesToolbar\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interfaces\TileManiac\TileManiac.xaml">
+    <Page Include="Controls\TileManiac\TileManiac.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\TileManiac\TileManiacStyles.xaml">
+    <Page Include="Controls\TileManiac\TileManiacStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Assets\ColorLibraryDark.xaml">
+    <Page Include="Controls\Assets\ColorLibraryDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Assets\ColorLibraryLight.xaml">
+    <Page Include="Controls\Assets\ColorLibraryLight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interfaces\Updater\ManiacUpdater.xaml">
+    <Page Include="Controls\Updater\ManiacUpdater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 animID = 0;
             }
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Turntable", d.DevicePanel, animID, -1, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Turntable", d.DevicePanel, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

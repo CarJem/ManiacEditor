@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
                 type = 9;
             else
                 type = 6;
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, type, false, false, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, type, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

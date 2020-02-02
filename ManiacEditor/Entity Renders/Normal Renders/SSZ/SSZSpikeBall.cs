@@ -27,8 +27,8 @@ namespace ManiacEditor.Entity_Renders
                     animID = 3;
                     break;
             } 
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 0, animID, fliph, flipv, false);
-            var editorAnimSpikeBall = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 0, animID, fliph, flipv, false);
+            var editorAnimSpikeBall = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnimSpikeBall != null && editorAnim.Frames.Count != 0 && editorAnimSpikeBall.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

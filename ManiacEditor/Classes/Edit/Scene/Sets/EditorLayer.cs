@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
+using ManiacEditor.Enums;
 
 namespace ManiacEditor.Classes.Editor.Scene.Sets
 {
@@ -21,7 +22,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 
         public DevicePanel GraphicsPanel;
 
-        public ManiacEditor.Interfaces.Base.MainEditor EditorInstance;
+        public ManiacEditor.Controls.Base.MainEditor EditorInstance;
 
         private ChunkVBO[][] ChunkMap;
 
@@ -203,7 +204,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 
         }
 
-        public EditorLayer(SceneLayer layer, ManiacEditor.Interfaces.Base.MainEditor instance)
+        public EditorLayer(SceneLayer layer, ManiacEditor.Controls.Base.MainEditor instance)
         {
             EditorInstance = instance;
             _layer = layer;
@@ -1296,9 +1297,9 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 bool SolidTopB = ((tile >> 14) & 1) == 1;
                 bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-                System.Drawing.Color AllSolid = ManiacEditor.Interfaces.Base.MainEditor.Instance.CollisionAllSolid;
-                System.Drawing.Color LRDSolid = ManiacEditor.Interfaces.Base.MainEditor.Instance.CollisionLRDSolid;
-                System.Drawing.Color TopOnlySolid = ManiacEditor.Interfaces.Base.MainEditor.Instance.CollisionTopOnlySolid;
+                System.Drawing.Color AllSolid = ManiacEditor.Controls.Base.MainEditor.Instance.CollisionAllSolid;
+                System.Drawing.Color LRDSolid = ManiacEditor.Controls.Base.MainEditor.Instance.CollisionLRDSolid;
+                System.Drawing.Color TopOnlySolid = ManiacEditor.Controls.Base.MainEditor.Instance.CollisionTopOnlySolid;
 
                 g.DrawImage(Classes.Editor.Solution.CurrentTiles.StageTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
 
@@ -1333,7 +1334,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 ImageAttributes attributes = new ImageAttributes();
 
                 //TODO : Collision Opacity
-                int opacity = (int)ManiacEditor.Interfaces.Base.MainEditor.Instance.EditorToolbar.collisionOpacitySlider.Value;
+                int opacity = (int)ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.collisionOpacitySlider.Value;
 
                 float[][] colourMatrixElements =
                 {
@@ -1447,7 +1448,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             {
                 foreach (var lines in layer.LinesMapList)
                 {
-                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", ManiacEditor.Interfaces.Base.MainEditor.Instance.FormsModel.GraphicPanel);
+                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", ManiacEditor.Controls.Base.MainEditor.Instance.FormsModel.GraphicPanel);
                     HorizontalRuleMapIndex++;
                 }
                 HorizontalRuleMapIndex = 0;

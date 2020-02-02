@@ -38,8 +38,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnimNode = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimType = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, animID, frameID, fliph, flipv, false);
+            var editorAnimNode = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimType = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, animID, frameID, fliph, flipv, false);
             if (editorAnimNode != null && editorAnimNode.Frames.Count != 0 && editorAnimType != null && editorAnimType.Frames.Count != 0)
             {
                 var frame = editorAnimNode.Frames[0];

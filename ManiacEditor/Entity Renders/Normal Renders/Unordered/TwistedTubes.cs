@@ -10,8 +10,8 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int height = (int)entity.attributesMap["height"].ValueUInt8;
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TwistedTubes", d.DevicePanel, 0, 1, fliph, flipv, false);
-            var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TwistedTubes", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TwistedTubes", d.DevicePanel, 0, 1, fliph, flipv, false);
+            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TwistedTubes", d.DevicePanel, 0, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

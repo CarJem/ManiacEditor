@@ -10,10 +10,10 @@ namespace ManiacEditor.Entity_Renders
             int type = (int)entity.attributesMap["type"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimHead = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 1, 0, fliph, flipv, false);
-            var editorAnimBoost = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 3, -1, fliph, flipv, false);
-            var editorAnimRider = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 4, -1, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimHead = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnimBoost = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnimRider = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Armadiloid", d.DevicePanel, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHead != null && editorAnimHead.Frames.Count != 0 && editorAnimBoost != null && editorAnimBoost.Frames.Count != 0 && editorAnimRider != null && editorAnimRider.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

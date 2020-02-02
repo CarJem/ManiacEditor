@@ -67,7 +67,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2(sprite, d.DevicePanel, animID, -1, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2(sprite, d.DevicePanel, animID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -94,7 +94,7 @@ namespace ManiacEditor.Entity_Renders
                         animID2 = 1;
                         break;
                 }
-                var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2(sprite2, d.DevicePanel, animID2, -1, fliph, flipv, false);
+                var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2(sprite2, d.DevicePanel, animID2, -1, fliph, flipv, false);
                 if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                 {
                     var frame = editorAnim2.Frames[Animation.index];

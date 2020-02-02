@@ -29,8 +29,8 @@ namespace ManiacEditor.Entity_Renders
                     */
             }
 
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Toxomister", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Toxomister", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Toxomister", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Toxomister", d.DevicePanel, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

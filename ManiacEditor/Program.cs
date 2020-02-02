@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Linq;
 using System.Collections.Generic;
-using ManiacEditor.Structures;
+using ManiacEditor.Classes.Internal;
 
 namespace ManiacEditor
 {
@@ -35,7 +35,7 @@ namespace ManiacEditor
 
         private static void StartApp()
         {
-            if (Settings.MySettings.ShowUnhandledExceptions)
+            if (Core.Settings.MySettings.ShowUnhandledExceptions)
             {
                 try
                 {

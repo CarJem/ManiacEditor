@@ -7,12 +7,12 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, EditorAnimations Animation = null, bool selected = false, AttributeValidater attribMap = null)
         {
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimEye = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 1, false, false, false);
-            var editorAnimPupil = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 2, false, false, false);
-            var editorAnimHeadJoint = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 6, false, false, false);
-            var editorAnimNose = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 1, 0, false, false, false);
-            var editorAnimBolt = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 2, 0, false, false, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimEye = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 1, false, false, false);
+            var editorAnimPupil = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 2, false, false, false);
+            var editorAnimHeadJoint = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 6, false, false, false);
+            var editorAnimNose = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 1, 0, false, false, false);
+            var editorAnimBolt = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 2, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimEye != null && editorAnimEye.Frames.Count != 0 && editorAnimPupil != null && editorAnimPupil.Frames.Count != 0 && editorAnimHeadJoint != null && editorAnimHeadJoint.Frames.Count != 0 && editorAnimNose != null && editorAnimNose.Frames.Count != 0 && editorAnimBolt != null && editorAnimBolt.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

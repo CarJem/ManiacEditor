@@ -14,11 +14,11 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 0, 1, fliph, flipv, false);
-            var editorAnim3 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 4, 0, fliph, flipv, false);
-            var editorAnim4 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 5, 0, fliph, flipv, false);
-            var editorAnim5 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 6, 0, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 0, 1, fliph, flipv, false);
+            var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 4, 0, fliph, flipv, false);
+            var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 5, 0, fliph, flipv, false);
+            var editorAnim5 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 6, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

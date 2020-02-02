@@ -41,10 +41,10 @@ namespace ManiacEditor.Entity_Renders
             bool extra = false;
             count *= 2; // I made all this with an incorrect assumption so here's a cheap fix
             int count2 = count >> 2;
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, animID, 0, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, animID, 0, fliph, flipv, false);
             if (isFBZ)
             {
-                editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, animID, -1, fliph, flipv, false);
+                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, animID, -1, fliph, flipv, false);
             }
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
@@ -126,7 +126,7 @@ namespace ManiacEditor.Entity_Renders
 
         public void IceDraw(GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, 0, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

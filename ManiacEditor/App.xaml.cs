@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using ManiacEditor.Interfaces.Assets;
+using ManiacEditor.Controls.Assets;
 
 namespace ManiacEditor
 {
@@ -30,7 +30,7 @@ namespace ManiacEditor
 
 		public void Load()
         {
-			var UI = new ManiacEditor.Interfaces.Base.MainEditor();
+			var UI = new ManiacEditor.Controls.Base.MainEditor();
             UI.Run();
         }
 

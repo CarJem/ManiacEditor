@@ -14,11 +14,11 @@ namespace ManiacEditor.Entity_Renders
 				buttonID = 4;
 			}
 			double alignmentVal = 0;
-			var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 0, buttonID, false, false, false);
-			var editorAnim2 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 1, buttonID, false, false, false);
-			var editorAnim3 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 0, 3, false, false, false);
-			var editorAnim4 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 1, 3, false, false, false);
-			var editorAnim5 = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 1, buttonID, false, false, false);
+			var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 0, buttonID, false, false, false);
+			var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 1, buttonID, false, false, false);
+			var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 0, 3, false, false, false);
+			var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("MainIcons", d.DevicePanel, 1, 3, false, false, false);
+			var editorAnim5 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 1, buttonID, false, false, false);
 			if (editorAnim != null && editorAnim.Frames.Count != 0 && !disabled)
             {
                 var frame = editorAnim.Frames[0];

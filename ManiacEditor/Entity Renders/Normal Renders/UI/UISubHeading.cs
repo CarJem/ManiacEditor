@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
 			int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
 			int align = (int)entity.attributesMap["align"].ValueEnum;
 			double alignmentVal = 0;
-			var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
+			var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

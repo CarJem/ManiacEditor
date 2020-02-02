@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public abstract class LinkedRenderer
     {
-        public Interfaces.Base.MainEditor EditorInstance;
+        public Controls.Base.MainEditor EditorInstance;
 
         public virtual void Draw(GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Editor.Scene.Sets.EditorEntity ObjectInstance)
         {
@@ -145,15 +145,15 @@ namespace ManiacEditor.Entity_Renders
                  * 
                  */
                 filteredOut =
-                    ((filter == 1 || filter == 5) && !Settings.MyDefaults.ShowBothEntities) ||
-                    (filter == 2 && !Settings.MyDefaults.ShowManiaEntities) ||
-                    (filter == 4 && !Settings.MyDefaults.ShowEncoreEntities) ||
-                    (filter == 255 && !Settings.MyDefaults.ShowPinballEntities) ||
-                    ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !Settings.MyDefaults.ShowOtherEntities);
+                    ((filter == 1 || filter == 5) && !Core.Settings.MyDefaults.ShowBothEntities) ||
+                    (filter == 2 && !Core.Settings.MyDefaults.ShowManiaEntities) ||
+                    (filter == 4 && !Core.Settings.MyDefaults.ShowEncoreEntities) ||
+                    (filter == 255 && !Core.Settings.MyDefaults.ShowPinballEntities) ||
+                    ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !Core.Settings.MyDefaults.ShowOtherEntities);
             }
             else
             {
-                filteredOut = !Settings.MyDefaults.ShowFilterlessEntities;
+                filteredOut = !Core.Settings.MyDefaults.ShowFilterlessEntities;
             }
 
             if (EditorInstance != null)

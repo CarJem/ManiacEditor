@@ -27,45 +27,45 @@ namespace ManiacEditor.Classes.Editor
 
         public static void UpgradeAllSettings()
         {
-            Settings.MyPerformance.Upgrade();
-            Settings.MyDefaults.Upgrade();
-            Settings.MyGameOptions.Upgrade();
-            Settings.MyDevSettings.Upgrade();
-            Settings.MyKeyBinds.Upgrade();
-            Settings.MySettings.Upgrade();
+            Core.Settings.MyPerformance.Upgrade();
+            Core.Settings.MyDefaults.Upgrade();
+            Core.Settings.MyGameOptions.Upgrade();
+            Core.Settings.MyDevSettings.Upgrade();
+            Core.Settings.MyKeyBinds.Upgrade();
+            Core.Settings.MySettings.Upgrade();
             Properties.Internal.Default.Upgrade();
         }
 
         public static void SaveAllSettings()
         {
-            Settings.MyDefaults.Save();
-            Settings.MyDevSettings.Save();
-            Settings.MyGameOptions.Save();
-            Settings.MyKeyBinds.Save();
-            Settings.MyPerformance.Save();
-            Settings.MySettings.Save();
+            Core.Settings.MyDefaults.Save();
+            Core.Settings.MyDevSettings.Save();
+            Core.Settings.MyGameOptions.Save();
+            Core.Settings.MyKeyBinds.Save();
+            Core.Settings.MyPerformance.Save();
+            Core.Settings.MySettings.Save();
             Properties.Internal.Default.Save();
         }
 
         public static void ReloadAllSettings()
         {
-            Settings.MyDefaults.Reload();
-            Settings.MyDevSettings.Reload();
-            Settings.MyGameOptions.Reload();
-            Settings.MyPerformance.Reload();
-            Settings.MyKeyBinds.Reload();
-            Settings.MySettings.Reload();
+            Core.Settings.MyDefaults.Reload();
+            Core.Settings.MyDevSettings.Reload();
+            Core.Settings.MyGameOptions.Reload();
+            Core.Settings.MyPerformance.Reload();
+            Core.Settings.MyKeyBinds.Reload();
+            Core.Settings.MySettings.Reload();
             Properties.Internal.Default.Reload();
         }
 
         public static void ResetAllSettings()
         {
-            Settings.MyDefaults.Reset();
-            Settings.MyDevSettings.Reset();
-            Settings.MyGameOptions.Reset();
-            Settings.MyPerformance.Reset();
-            Settings.MyKeyBinds.Reset();
-            Settings.MySettings.Reset();
+            Core.Settings.MyDefaults.Reset();
+            Core.Settings.MyDevSettings.Reset();
+            Core.Settings.MyGameOptions.Reset();
+            Core.Settings.MyPerformance.Reset();
+            Core.Settings.MyKeyBinds.Reset();
+            Core.Settings.MySettings.Reset();
         }
 
         private static string GetPortableSettingsDirectoryName()

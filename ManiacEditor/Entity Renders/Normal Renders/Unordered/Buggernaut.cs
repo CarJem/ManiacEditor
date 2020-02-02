@@ -14,8 +14,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Buggernaut", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimWings = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Buggernaut", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Buggernaut", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimWings = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Buggernaut", d.DevicePanel, 2, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimWings != null && editorAnimWings.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

@@ -31,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
                     animID = 3;
                     break;
             }
-            var editorAnim = Interfaces.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpinSign", d.DevicePanel, animID, frameID, fliph, flipv, false);
+            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpinSign", d.DevicePanel, animID, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
 using System.Windows;
-using ManiacEditor.Structures;
+using ManiacEditor.Classes.Internal;
 
 
 namespace ManiacEditor.Methods
@@ -176,7 +176,7 @@ namespace ManiacEditor.Methods
                 Console.WriteLine("Setting up Object & Attribute Definitions");
 
                 string data = File.ReadAllText(definitions_file);
-                Structures.EntityDefinitions definitions = Newtonsoft.Json.JsonConvert.DeserializeObject<EntityDefinitions>(data);
+                EntityDefinitions definitions = Newtonsoft.Json.JsonConvert.DeserializeObject<EntityDefinitions>(data);
 
                 foreach (string attribute in definitions.Attributes) RSDKv5.Objects.AddAttributeName(attribute);
                 foreach (string entityObject in definitions.Objects) RSDKv5.Objects.AddObjectName(entityObject);

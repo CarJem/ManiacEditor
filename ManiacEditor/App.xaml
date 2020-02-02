@@ -4,13 +4,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=Xceed.Wpf.Toolkit"     
-             xmlns:skin="clr-namespace:ManiacEditor.Interfaces.Assets"
+             xmlns:skin="clr-namespace:ManiacEditor.Controls.Assets"
              xmlns:local="clr-namespace:ManiacEditor">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <skin:SkinResourceDictionary DarkSource="Interfaces/Assets/ColorLibraryDark.xaml" LightSource="Interfaces/Assets/ColorLibraryLight.xaml" />
-                <ResourceDictionary Source="Interfaces/Assets/Icons.xaml"></ResourceDictionary>
+                <skin:SkinResourceDictionary DarkSource="Controls/Assets/ColorLibraryDark.xaml" LightSource="Controls/Assets/ColorLibraryLight.xaml" />
+                <ResourceDictionary Source="Controls/Assets/Icons.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/IconLibrary.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/CheckboxStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ButtonStyle.xaml"></ResourceDictionary>
