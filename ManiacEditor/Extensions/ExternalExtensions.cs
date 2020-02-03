@@ -9,7 +9,9 @@ namespace ManiacEditor.Extensions
 {
     public static class ExternalExtensions
     {
-		#region DLL Import Stuff
+		[DllImport("User32.dll")]
+		public static extern bool SetCursorPos(int X, int Y);
+
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		[return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
 		private static extern bool ShowWindow(IntPtr hWnd, ShowWindowEnum flags);
@@ -70,6 +72,6 @@ namespace ManiacEditor.Extensions
 
 		const int SW_HIDE = 0;
 		const int SW_SHOW = 5;
-		#endregion
+
 	}
 }

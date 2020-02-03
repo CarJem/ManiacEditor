@@ -189,6 +189,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\UndoRedoModel.cs" />
     <Compile Include="Bindings\DevSettingsBindingExtension.cs" />
     <Compile Include="Bindings\PerformanceSettingsBindingExtension.cs" />
     <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />

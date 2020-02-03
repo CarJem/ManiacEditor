@@ -457,13 +457,13 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 		{
 			if (show)
 			{
-				option1CheckBox.Content = "Flip Horizontal " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipHTiles", true);
-				option2CheckBox.Content = "Flip Vertical " + Environment.NewLine + EditorInstance.EditorControls.KeyBindPraser("FlipVTiles", true);
+				option1CheckBox.Content = "Flip Horizontal " + Environment.NewLine + Extensions.KeyEventExts.KeyBindPraser("FlipHTiles", true);
+				option2CheckBox.Content = "Flip Vertical " + Environment.NewLine + Extensions.KeyEventExts.KeyBindPraser("FlipVTiles", true);
 			}
 			else
 			{
-				option1CheckBox.Content = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipH"));
-				option2CheckBox.Content = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", EditorInstance.EditorControls.KeyBindPraser("FlipV"));
+				option1CheckBox.Content = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", Extensions.KeyEventExts.KeyBindPraser("FlipH"));
+				option2CheckBox.Content = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", Extensions.KeyEventExts.KeyBindPraser("FlipV"));
 			}
 		}
 

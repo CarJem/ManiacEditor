@@ -737,7 +737,7 @@ namespace ManiacEditor.Controls.TileManiac
 
         public void RefreshUI()
 		{
-            if (EditorControls != null) EditorControls.TileManiac_UpdateMenuItems();
+            if (EditorControls != null) Methods.Internal.UserInterface.TileManiac_UpdateMenuItems();
             UpdateThemeColors();
             if (tcf != null)
             {

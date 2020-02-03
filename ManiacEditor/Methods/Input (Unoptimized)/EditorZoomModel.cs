@@ -22,7 +22,6 @@ namespace ManiacEditor
             }
             Editor.DeviceModel.GraphicPanel.Render();
         }
-
         public void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
             if (AllowScrollUpdate)
@@ -32,7 +31,6 @@ namespace ManiacEditor
             }
             Editor.DeviceModel.GraphicPanel.Render();
         }
-
         public void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (AllowScrollUpdate)
@@ -48,7 +46,6 @@ namespace ManiacEditor
             }
 
         }
-
         public void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (AllowScrollUpdate)
@@ -64,7 +61,6 @@ namespace ManiacEditor
             }
 
         }
-
         public void UpdateScrollBars()
         {
             //TODO: Determine if we still need this
@@ -73,7 +69,6 @@ namespace ManiacEditor
             Editor.editorView.vScrollBar1.Value = (int)Editor.editorView.vScrollBar1.Value;
             AllowScrollUpdate = true;*/
         }
-
         public void VScrollBar1_Entered(object sender, EventArgs e)
         {
             if (!Classes.Editor.SolutionState.ScrollLocked)
@@ -81,7 +76,6 @@ namespace ManiacEditor
                 Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.Y;
             }
         }
-
         public void HScrollBar1_Entered(object sender, EventArgs e)
         {
             if (!Classes.Editor.SolutionState.ScrollLocked)
@@ -89,7 +83,6 @@ namespace ManiacEditor
                 Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.X;
             }
         }
-
         public void Resize(object sender, RoutedEventArgs e)
         {
             
@@ -140,7 +133,6 @@ namespace ManiacEditor
             while (Classes.Editor.SolutionState.ScreenHeight > Editor.DeviceModel.GraphicPanel.Height)
                 ResizeGraphicPanel(Editor.DeviceModel.GraphicPanel.Width, Editor.DeviceModel.GraphicPanel.Height * 2);
         }
-
         public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true)
         {
             if (Core.Settings.MySettings.EntityFreeCam)
@@ -164,9 +156,6 @@ namespace ManiacEditor
             }
 
         }
-
-        #region Zooming/Resizing Related Methods
-
         public void SetZoomLevel(int zoom_level, System.Drawing.Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true)
         {
             double old_zoom = Classes.Editor.SolutionState.Zoom;
@@ -225,7 +214,6 @@ namespace ManiacEditor
 
             if (updateControls) Methods.Internal.UserInterface.UpdateControls();
         }
-
         public void ResetViewSize()
         {
             Editor.ZoomModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
@@ -246,6 +234,5 @@ namespace ManiacEditor
             Editor.DeviceModel.GraphicPanel.DrawWidth = Math.Min((int)Editor.DeviceModel.hScrollBar1.Maximum, Editor.DeviceModel.GraphicPanel.Width);
             Editor.DeviceModel.GraphicPanel.DrawHeight = Math.Min((int)Editor.DeviceModel.vScrollBar1.Maximum, Editor.DeviceModel.GraphicPanel.Height);
         }
-        #endregion
     }
 }

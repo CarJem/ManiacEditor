@@ -7,6 +7,7 @@ using ManiacEditor.Actions;
 using System.Windows.Controls;
 using ManiacEditor.Controls.Base;
 using ManiacEditor.Controls.Base.Toolbars;
+using ManiacEditor.Controls.TileManiac;
 
 namespace ManiacEditor.Methods.Internal
 {
@@ -16,8 +17,8 @@ namespace ManiacEditor.Methods.Internal
         public static void UpdateInstance(MainEditor _instance)
         {
             Instance = _instance;
+            UpdateTooltips();
         }
-
         public static void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
         {
             Instance.EditorToolbar.SetSceneOnlyButtonsState(enabled, stageLoad);
@@ -475,7 +476,7 @@ namespace ManiacEditor.Methods.Internal
                 Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Properties.Defaults.Default.CustomGridSizeValue);
             }
         }
-        private static void UpdateTooltips()
+        public static void UpdateTooltips()
         {
             UpdateTooltipForStacks(Instance.EditorToolbar.UndoButton, Instance.UndoStack);
             UpdateTooltipForStacks(Instance.EditorToolbar.RedoButton, Instance.RedoStack);
@@ -486,11 +487,49 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.IsVisible)
                 {
                     Instance.EditorMenuBar.UpdateMenuItems();
-                    Instance.EditorControls.UpdateTooltips();
+                    Instance.EditorStatusBar.UpdateTooltips();
+                    Instance.EditorToolbar.UpdateTooltips();
                 }
 
             }
 
+        }
+        public static void TileManiac_UpdateMenuItems()
+        {
+            CollisionEditor.Instance.newInstanceMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("NewInstance");
+            CollisionEditor.Instance.openMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacOpen");
+            CollisionEditor.Instance.saveMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSave");
+            CollisionEditor.Instance.saveAsMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSaveAs");
+            CollisionEditor.Instance.saveAsUncompressedMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSaveAsUncompressed");
+            CollisionEditor.Instance.saveUncompressedMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSaveUncompressed");
+            CollisionEditor.Instance.backupTilesConfigMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacbackupConfig", false, true);
+            CollisionEditor.Instance.backupTilesMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacbackupImage", false, true);
+            CollisionEditor.Instance.importMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacImportFromOlderRSDK", false, true);
+            CollisionEditor.Instance.OpenSingleColMaskMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacOpenSingleColMask", false, true);
+            CollisionEditor.Instance.exportCurrentMaskMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacExportColMask", false, true);
+
+            CollisionEditor.Instance.copyMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacCopy");
+            CollisionEditor.Instance.copyToOtherPathMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacPastetoOther");
+            CollisionEditor.Instance.pasteMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacPaste");
+            CollisionEditor.Instance.mirrorPathsToolStripMenuItem1.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacMirrorMode");
+            CollisionEditor.Instance.restorePathAMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacRestorePathA", false, true);
+            CollisionEditor.Instance.restorePathBMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacRestorePathB", false, true);
+            CollisionEditor.Instance.restoreBothMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacRestorePaths", false, true);
+
+            CollisionEditor.Instance.showPathBToolStripMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacShowPathB");
+            CollisionEditor.Instance.showGridToolStripMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacShowGrid");
+            CollisionEditor.Instance.classicViewModeToolStripMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacClassicMode", false, true);
+            CollisionEditor.Instance.windowAlwaysOnTop.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacWindowAlwaysOnTop");
+
+
+            CollisionEditor.Instance.splitFileMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSplitFile", false, true);
+            CollisionEditor.Instance.flipTileHMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacFlipTileH", false, true);
+            CollisionEditor.Instance.flipTileVMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacFlipTileV", false, true);
+
+            CollisionEditor.Instance.openCollisionHomeFolderToolStripMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacHomeFolderOpen", false, true);
+
+            CollisionEditor.Instance.aboutMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacAbout", false, true);
+            CollisionEditor.Instance.settingsMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSettings", false, true);
         }
         private static void UpdateTextBlockForStacks(TextBlock tsb, Stack<IAction> actionStack)
         {
