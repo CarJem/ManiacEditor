@@ -35,6 +35,7 @@ namespace ManiacEditor.Controls.Base.Elements
     /// </summary>
     public partial class Toolbar : UserControl
     {
+        private bool HasFullyInitialized { get; set; } = false;
         public Toolbar()
         {
             InitializeComponent();
@@ -48,6 +49,7 @@ namespace ManiacEditor.Controls.Base.Elements
             EditFGLow.RightClick += EditFGLow_RightClick;
             EditFGHigh.RightClick += EditFGHigh_RightClick;
             EditFGHigher.RightClick += EditFGHigher_RightClick;
+            HasFullyInitialized = true;
         }
 
         #region Action Events (MenuItems, Clicks, etc.)
@@ -248,7 +250,7 @@ namespace ManiacEditor.Controls.Base.Elements
         private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SplineMode(); }
         private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ChunksMode(); }
         public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(); }
-        public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowTileID ^= true; }
+        public void ToggleShowTileIDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowTileID ^= true; }
         private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Classes.Editor.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
         public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowCollisionA ^= true; }
@@ -296,8 +298,12 @@ namespace ManiacEditor.Controls.Base.Elements
 
         private void CustomGridSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Classes.Editor.SolutionState.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
-            Classes.Editor.SolutionState.GridSize = -1;
+            if (HasFullyInitialized)
+            {
+                Classes.Editor.SolutionState.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
+                Classes.Editor.SolutionState.GridSize = -1;
+            }
+
         }
         #endregion
 
@@ -1076,6 +1082,10 @@ namespace ManiacEditor.Controls.Base.Elements
             ShowFGHigher.IsEnabled = enabled && Classes.Editor.Solution.FGHigher != null;
             ShowFGLower.IsEnabled = enabled && Classes.Editor.Solution.FGLower != null;
             ShowEntities.IsEnabled = enabled;
+
+            ShowGridButton.IsEnabled = enabled;
+            CollisionSettingsDropdown.IsEnabled = enabled;
+            OtherDropdown.IsEnabled = enabled;
 
             ReloadButton.IsEnabled = enabled;
 

@@ -259,7 +259,12 @@ namespace ManiacEditor.Methods.Internal
             Classes.Editor.SolutionState.UseLargeDebugStats = ManiacEditor.Core.Settings.MyDefaults.LargeDebugStatsDefault;
 
             Classes.Editor.SolutionState.GridCustomSize = ManiacEditor.Core.Settings.MyDefaults.CustomGridSizeValue;
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridSizeAdjuster.Value = Classes.Editor.SolutionState.GridCustomSize;
+
+            if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 0) Classes.Editor.SolutionState.GridCustomSize = 16;
+            else if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 1) Classes.Editor.SolutionState.GridCustomSize = 32;
+            else if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 2) Classes.Editor.SolutionState.GridCustomSize = 128;
+            else if (ManiacEditor.Core.Settings.MyDefaults.DefaultGridSizeOption == 3) Classes.Editor.SolutionState.GridCustomSize = ManiacEditor.Core.Settings.MyDefaults.CustomGridSizeValue;
+
 
             Classes.Editor.SolutionState.CollisionSAColour = ManiacEditor.Core.Settings.MyDefaults.CollisionSAColour;
             Classes.Editor.SolutionState.CollisionLRDColour = ManiacEditor.Core.Settings.MyDefaults.CollisionLRDColour;

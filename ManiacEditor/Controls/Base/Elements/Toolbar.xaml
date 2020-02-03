@@ -103,7 +103,7 @@
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <Label Content="Brush Size (Tiles Edit Only)" x:Name="DrawTileSizeLabel"></Label>
-                            <Slider Width="256" Value="1" Minimum="1" Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
+                            <Slider Width="128" Value="1" Minimum="1" Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
                             <wpfTool:IntegerUpDown x:Name="DrawTileSizeNUD" Value="1" Minimum="1" Maximum="16" ValueChanged="DrawToolSizeChanged"></wpfTool:IntegerUpDown>
                         </ContextMenu>
                     </Button.ContextMenu>
@@ -193,7 +193,7 @@
                 <ToggleButton x:Name="ChunksToolButton" Style="{DynamicResource ToolbarToggleButton}"   Click="ToggleChunksToolEvent" Content="{StaticResource Stamp}"></ToggleButton>
                 <Separator/>
                 <ToggleButton x:Name="EncorePaletteButton" Style="{DynamicResource ToolbarToggleButton}"  Click="EnableEncorePaletteEvent" Content="{StaticResource PaletteWheel}"></ToggleButton>
-                <ToggleButton x:Name="ShowTileIDButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ToggleSlotIDEvent" Content="{StaticResource Info}"></ToggleButton>
+                <ToggleButton x:Name="ShowTileIDButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ToggleShowTileIDEvent" Content="{StaticResource Info}"></ToggleButton>
                 <ToggleButton x:Name="FlipAssistButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ShowFlippedTileHelperEvent" Content="{StaticResource RotateFlip}"></ToggleButton>
                 <ToggleButton x:Name="ShowGridToggleButton" Click="ToggleGridEvent" Content="{StaticResource Grid}"  Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
 
@@ -252,57 +252,56 @@
                             <CheckBox x:Name="defaultToolStripMenuItem" IsTabStop="False" Focusable="False" Content="Default (Mania)" Click="UseNormalCollisionEvent"/>
                             <CheckBox x:Name="invertedToolStripMenuItem" IsTabStop="False" Focusable="False"  Content="Inverted" Click="UseInvertedCollisionEvent"/>
                             <CheckBox x:Name="customToolStripMenuItem1" IsTabStop="False" Focusable="False"  Content="Custom" Click="UseCustomCollisionEvent"/>
-                            <Expander Header="Custom Values..." IsTabStop="False" Focusable="False" Foreground="{DynamicResource NormalText}">
-                                <StackPanel>
-                                    <MenuItem>
-                                        <MenuItem.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <Label Content="All"></Label>
-                                                <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
-                                            </Grid>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-
-
-                                    <MenuItem>
-                                        <MenuItem.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <Label Content="Top Only"></Label>
-                                                <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
-                                            </Grid>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <MenuItem.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <wpfTool:ColorPicker IsTabStop="False" Focusable="False" Style="{DynamicResource ColorPickerStyle1}"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
-                                                <Label Content="LRD"></Label>
-                                            </Grid>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-                                </StackPanel>
-                            </Expander>
-                            <StackPanel Orientation="Vertical">
-                                <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
-                                <Slider x:Name="collisionOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
-                            </StackPanel>
+                            <MenuItem Header="Custom Values..." IsTabStop="False" IsEnabled="False" Focusable="False" Foreground="{DynamicResource DisabledText}"></MenuItem>
+                            <MenuItem>
+                                <MenuItem.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="All" Grid.Column="1"></Label>
+                                        <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
+                                    </Grid>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False"  ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
+                                        <Label Content="Top Only" Grid.Column="1"></Label>
+                                    </Grid>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False" Style="{DynamicResource ColorPickerStyle1}"  ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
+                                        <Label Content="LRD" Grid.Column="1"></Label>
+                                    </Grid>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
+                                        <Slider x:Name="collisionOpacitySlider" Width="128" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
+                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Name="OtherDropdown" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ToolbarBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem>

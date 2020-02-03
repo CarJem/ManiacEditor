@@ -1439,7 +1439,20 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                         if (SolidLrbB && !SolidTopB) DrawCollision(false, LRDSolid, flipX, flipY);
                     }
                 }
+
+                if (Classes.Editor.SolutionState.ShowFlippedTileHelper == true)
+                {
+                    g.DrawImage(Classes.Editor.Solution.CurrentTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), false, false),
+                                new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
+                }
+                if (Classes.Editor.SolutionState.ShowTileID == true)
+                {
+                    g.DrawImage(Classes.Editor.Solution.CurrentTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), false, false),
+                                new Rectangle(x * Classes.Editor.Constants.TILE_SIZE, y * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE));
+                }
             }
+
+
 
             if (isSelected)
             {

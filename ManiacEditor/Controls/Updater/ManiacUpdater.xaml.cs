@@ -33,7 +33,7 @@ namespace ManiacEditor.Controls.Updater
         }
 
 
-        private bool allowUsage { get; set; } = true;
+        private bool AwaitingAsync { get; set; } = false;
         public bool isOnline { get; private set; }
         public string VersionCheckFileName { get; private set; }
         public string InstallerDownloadURL { get; private set; }
@@ -108,8 +108,11 @@ namespace ManiacEditor.Controls.Updater
         #region Update Checking
         private void CheckForUpdates()
         {
-            CleanCache();
-            if (!allowUsage) return;
+            if (AwaitingAsync) return;
+
+
+            AwaitingAsync = true;
+            CleanCache();            
             try
             {
                 UpdateUpdaterText(3);
@@ -131,6 +134,7 @@ namespace ManiacEditor.Controls.Updater
             {
                 UpdateUpdaterText(2);
             }
+            AwaitingAsync = false;
         }
 
         private void CleanCache()

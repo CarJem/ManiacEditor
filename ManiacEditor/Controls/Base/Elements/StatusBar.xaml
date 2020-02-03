@@ -13,46 +13,64 @@
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <StatusBar x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="35" Grid.Row="0" BorderThickness="1" Foreground="{DynamicResource NormalText}" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
-            <Label x:Name="positionLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator1" Visibility="Collapsed"/>
-            <Label x:Name="selectedPositionLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator2" Visibility="Collapsed"/>
-            <Label x:Name="selectionSizeLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator3" Visibility="Collapsed"/>
-            <Label x:Name="selectionBoxSizeLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator4" Visibility="Collapsed"/>
-            <Label x:Name="hVScrollBarXYLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator6" Visibility="Collapsed"/>
-            <Label x:Name="hScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator8" Visibility="Collapsed"/>
-            <Label x:Name="vScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator9" Visibility="Collapsed"/>
-            <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
+        <Grid x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="35" Grid.Row="0" Background="{DynamicResource StatusBarBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label x:Name="positionLabel" Foreground="{DynamicResource NormalText}"/>
+                <Separator x:Name="seperator1" Visibility="Collapsed"  Style="{DynamicResource VerticalSeparatorStyle}"/>
+                <Label x:Name="selectedPositionLabel" Foreground="{DynamicResource NormalText}"/>
+                <Separator x:Name="seperator2" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
+                <Label x:Name="selectionSizeLabel"  Foreground="{DynamicResource NormalText}"/>
+                <Separator x:Name="seperator3" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
+                <Label x:Name="selectionBoxSizeLabel"  Foreground="{DynamicResource NormalText}"/>
+                <Separator x:Name="seperator4" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
+                <Label x:Name="hVScrollBarXYLabel" Foreground="{DynamicResource NormalText}"/>
+                <Separator x:Name="seperator6"  Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
+                <Label x:Name="hScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
+                <Separator x:Name="seperator8" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
+                <Label x:Name="vScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
+                <Separator x:Name="seperator9" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
+            </StackPanel>
+
+            <StatusBarItem Margin="0" Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
-                    <wpfTool:SplitButton Style="{DynamicResource StatusBarSplitButton}" x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2" Content="{DynamicResource Gear}">
-                        <wpfTool:SplitButton.DropDownContent>
-                            <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                                <MenuItem x:Name="QuickEditEntitiesTransparentLayers" Header="Edit Entites Transparency" Click="QuickButtonClickEvent"></MenuItem>
-                                <MenuItem x:Name="QuickSwapEncoreManiaEntitVisibility" Header="Toggle Encore/Mania Entities" Click="QuickButtonClickEvent"></MenuItem>
-                                <MenuItem x:Name="QuickSwapScrollDirection" Header="Swap Scroll Lock Direction" Click="QuickButtonClickEvent"></MenuItem>
-                            </StackPanel>
-                        </wpfTool:SplitButton.DropDownContent>
-                    </wpfTool:SplitButton>
-                    <Button Name="FilterButton" Margin="4,-2,0,-2" Width="30" Content="{StaticResource Invert}" Padding="2" Click="FilterButtonOpenContextMenuEvent">
-                        <Button.ContextMenu>
-                            <ContextMenu Style="{DynamicResource DefaultContextMenuStyle}">
-                                <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="maniaFilterCheck" Margin="5">Mania (000000)</CheckBox>
-                                <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="bothFilterCheck" Margin="5">Common (000000)</CheckBox>
-                                <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="pinballFilterCheck" Margin="5">Pinball (000000)</CheckBox>
-                                <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="encoreFilterCheck" Margin="5">Encore (000000)</CheckBox>
-                                <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="otherFilterCheck" Margin="5" Content="Other (000000)"></CheckBox>
-                                <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="prePlusFilterCheck" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="5"/>
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="scrollLockButton" Content="Scroll Lock" Click="ToggleScrollLockEvent" Padding="5"/>
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
                 </StackPanel>
             </StatusBarItem>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="5">
+                <wpfTool:SplitButton Style="{DynamicResource StatusBarSplitButton}" x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2" Content="{DynamicResource Gear}">
+                    <wpfTool:SplitButton.DropDownContent>
+                        <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                            <MenuItem x:Name="QuickEditEntitiesTransparentLayers" Header="Edit Entites Transparency" Click="QuickButtonClickEvent"></MenuItem>
+                            <MenuItem x:Name="QuickSwapEncoreManiaEntitVisibility" Header="Toggle Encore/Mania Entities" Click="QuickButtonClickEvent"></MenuItem>
+                            <MenuItem x:Name="QuickSwapScrollDirection" Header="Swap Scroll Lock Direction" Click="QuickButtonClickEvent"></MenuItem>
+                        </StackPanel>
+                    </wpfTool:SplitButton.DropDownContent>
+                </wpfTool:SplitButton>
+                <Button Name="FilterButton" Margin="4,-2,0,-2" Width="30" Content="{StaticResource Invert}" Padding="2" Click="FilterButtonOpenContextMenuEvent">
+                    <Button.ContextMenu>
+                        <ContextMenu Style="{DynamicResource DefaultContextMenuStyle}">
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="maniaFilterCheck" Margin="5">Mania (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="bothFilterCheck" Margin="5">Common (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="pinballFilterCheck" Margin="5">Pinball (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="encoreFilterCheck" Margin="5">Encore (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="otherFilterCheck" Margin="5" Content="Other (000000)"></CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="prePlusFilterCheck" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </StackPanel>
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
             </StatusBarItem>
             <MenuItem x:Name="EntityContext" Visibility="Collapsed">
@@ -68,41 +86,39 @@
                 <Separator/>
                 <MenuItem x:Name="TileManiacIntergrationItem" Header="Edit Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
             </MenuItem>
-        </StatusBar>
-        <StatusBar x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
-            <StatusBarItem HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="0">
-                <StackPanel Orientation="Horizontal" Margin="0">
+        </Grid>
+        <Grid x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Height="35" Background="{DynamicResource StatusBarBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StatusBarItem Margin="0">
+                <StackPanel Orientation="Horizontal">
                     <Label x:Name="_levelIDLabel" Foreground="{DynamicResource NormalText}"/>
                     <Separator x:Name="seperator7" Visibility="Collapsed"/>
-                    <Label x:Name="_baseDataDirectoryLabel" Tag=" " MaxWidth="480" Foreground="{DynamicResource NormalText}"/>
+                    <Label x:Name="_baseDataDirectoryLabel" Tag=" " Foreground="{DynamicResource NormalText}"/>
                 </StackPanel>
             </StatusBarItem>
-
-
-
-            <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
-                <Label x:Name="scrollLockDirLabel" Foreground="{DynamicResource NormalText}"/>
-            </StatusBarItem>
-            <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
-                <Separator x:Name="seperator5" Visibility="Collapsed"/>
-            </StatusBarItem>
-            <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <StatusBarItem Margin="0" Grid.Column="2">
                 <StackPanel Orientation="Horizontal">
-                    <Separator/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
-                    <Separator/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="5"/>
-                    <Separator/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="scrollLockButton" Content="Scroll Lock" Click="ToggleScrollLockEvent" Padding="5"/>
-                    <Separator/>
+                    <Separator x:Name="seperator5" Visibility="Collapsed"/>
+                    <Label x:Name="scrollLockDirLabel" Foreground="{DynamicResource NormalText}"/>
                 </StackPanel>
             </StatusBarItem>
-        </StatusBar>
+        </Grid>
     </Grid>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ManiacEditor;component/Controls/Base/BaseStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary>
+                    <Style TargetType="ContextMenu">
+                        <Style.Setters>
+                            <Setter Property="Background" Value="{DynamicResource NormalContextMenuBackground}"></Setter>
+                            <Setter Property="Style" Value="{DynamicResource DefaultContextMenuStyle}"></Setter>
+                        </Style.Setters>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

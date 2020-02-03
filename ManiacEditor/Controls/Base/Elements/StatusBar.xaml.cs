@@ -25,10 +25,14 @@ namespace ManiacEditor.Controls.Base.Elements
         public StatusBar()
         {
             InitializeComponent();
+            UpdatePositionLabel();
         }
 
-        public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs e)
+        public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs m = null)
         {
+            System.Drawing.Point e;
+            if (m != null) e = m.Location;
+            else e = new System.Drawing.Point(0, 0);
 
             if (Classes.Editor.SolutionState.CountTilesSelectedInPixels == false)
             {
