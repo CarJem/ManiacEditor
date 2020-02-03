@@ -803,7 +803,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
             ManiacEditor.Controls.Base.MainEditor.Instance.UndoStack.Push(action);
             ManiacEditor.Controls.Base.MainEditor.Instance.RedoStack.Clear();
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
 
         }
         public void SwapSlotIDsFromPair()
@@ -818,7 +818,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
             ManiacEditor.Controls.Base.MainEditor.Instance.UndoStack.Push(action);
             ManiacEditor.Controls.Base.MainEditor.Instance.RedoStack.Clear();
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         public void ChangeSeveralSlotIDs(IList<SceneEntity> entities, IList<ushort> slots)
         {
@@ -850,7 +850,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
             ManiacEditor.Controls.Base.MainEditor.Instance.UndoStack.Push(action);
             ManiacEditor.Controls.Base.MainEditor.Instance.RedoStack.Clear();
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         private void FindDuplicateIds()
         {

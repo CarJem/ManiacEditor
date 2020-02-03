@@ -536,7 +536,7 @@ namespace ManiacEditor.Methods
                     {
                         // Attach and Apply Cheats
                         UseCheatCodes(GameProcess);
-                        Editor.UI.UpdateControls();
+                        Methods.Internal.UserInterface.UpdateControls();
                         GameReady = true;
 
                         // Wait until there is a Running Scene.
@@ -571,7 +571,7 @@ namespace ManiacEditor.Methods
                             GameRunning = false;
                             if (Editor.IsVisible)
                             {
-                                Editor.Dispatcher.Invoke(new Action(() => Editor.UI.UpdateControls()));
+                                Editor.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.UpdateControls()));
                             }
                             return;
                         }
@@ -589,7 +589,7 @@ namespace ManiacEditor.Methods
                     // Close the game
                     Editor.GameMemory.WriteByte(IsGameRunning_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                     GameRunning = false;
-                    Editor.Dispatcher.Invoke(new Action(() => Editor.UI.UpdateControls()));
+                    Editor.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.UpdateControls()));
                 }).Start();
                 #endregion
             }

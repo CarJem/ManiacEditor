@@ -295,7 +295,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _ParallaxAnimationChecked = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+                Methods.Internal.UserInterface.UpdateControls();
             }
         }
         private static bool _ParallaxAnimationChecked = false;
@@ -309,7 +309,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _AllowAnimations = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+                Methods.Internal.UserInterface.UpdateControls();
             }
         }
         private static bool _AllowAnimations = true;
@@ -814,7 +814,7 @@ namespace ManiacEditor.Classes.Editor
         public static void ChunksMode()
         {
             if (IsTilesEdit()) ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsChecked ^= true;
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         public static void SetToolModes(int selectedID, bool value)
         {
@@ -823,7 +823,7 @@ namespace ManiacEditor.Classes.Editor
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked = (selectedID == 2 ? value : false);
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.InteractionToolButton.IsChecked = (selectedID == 3 ? value : false);
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         #endregion
 
@@ -840,7 +840,7 @@ namespace ManiacEditor.Classes.Editor
             private void SetSplineSize(int value)
             {
                 _SplineSize = value;
-                if (ManiacEditor.Controls.Base.MainEditor.Instance.UI != null) ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+                Methods.Internal.UserInterface.UpdateControls();
             }
 
 
@@ -1084,7 +1084,7 @@ namespace ManiacEditor.Classes.Editor
 
             if (!enabled) Classes.Editor.Solution.EditLayerB = null;
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
 
         public static void UpdateMultiLayerSelectMode(bool updateControls = false)
@@ -1108,7 +1108,7 @@ namespace ManiacEditor.Classes.Editor
 
             if (!enabled) Classes.Editor.Solution.EditLayerB = null;
 
-            if (updateControls) ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            if (updateControls) Methods.Internal.UserInterface.UpdateControls();
         }
 
         #endregion

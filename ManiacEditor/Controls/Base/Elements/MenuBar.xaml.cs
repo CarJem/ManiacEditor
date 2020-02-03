@@ -260,8 +260,8 @@ namespace ManiacEditor.Controls.Base.Elements
         private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.FindAndReplaceTool(sender, e); }
         private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.ConsoleWindowToolStripMenuItem_Click(sender, e); }
         private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
-        private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateToolbars(false, true); }
-        private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateToolbars(true, true); }
+        private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.UpdateToolbars(false, true); }
+        private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.UpdateToolbars(true, true); }
         private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
         #endregion
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.GoToPosition(sender, e); }

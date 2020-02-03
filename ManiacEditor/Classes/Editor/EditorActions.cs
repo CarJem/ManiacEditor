@@ -83,13 +83,13 @@ namespace ManiacEditor.Classes.Editor
             {
                 if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA?.SelectAll();
                 if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB?.SelectAll();
-                Instance.UI.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
             }
             else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
                 Classes.Editor.Solution.Entities.SelectAll();
             }
-            Instance.UI.SetSelectOnlyButtonsState();
+            Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
             Classes.Editor.SolutionState.RegionX1 = -1;
             Classes.Editor.SolutionState.RegionY1 = -1;
         }
@@ -97,13 +97,13 @@ namespace ManiacEditor.Classes.Editor
         {
             Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
             Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
-            Instance.UI.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
         }
         public static void FlipHorizontalIndividual()
         {
             Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
             Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
-            Instance.UI.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
         }
         public static void Delete()
         {
@@ -119,7 +119,7 @@ namespace ManiacEditor.Classes.Editor
                 Classes.Editor.EditorActions.CopyEntitiesToClipboard();
 
 
-            Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Duplicate()
         {
@@ -127,7 +127,7 @@ namespace ManiacEditor.Classes.Editor
             {
                 Classes.Editor.Solution.EditLayerA?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerA?.CopyToClipboard(true));
                 Classes.Editor.Solution.EditLayerB?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerB?.CopyToClipboard(true));
-                Instance.UI.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
             }
             else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
@@ -141,8 +141,8 @@ namespace ManiacEditor.Classes.Editor
                     System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
                     return;
                 }
-                Instance.UI.SetSelectOnlyButtonsState();
-                Instance.UI.UpdateEntitiesToolbarList();
+                Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
+                Methods.Internal.UserInterface.UpdateEntitiesToolbarList();
 
             }
         }
@@ -152,8 +152,8 @@ namespace ManiacEditor.Classes.Editor
             {
                 Classes.Editor.EditorActions.CopyTilesToClipboard();
                 Classes.Editor.EditorActions.DeleteSelected();
-                Instance.UI.UpdateControls();
-                Instance.UI.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.UpdateControls();
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
             }
             else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
@@ -161,8 +161,8 @@ namespace ManiacEditor.Classes.Editor
                 {
                     Classes.Editor.EditorActions.CopyEntitiesToClipboard();
                     Classes.Editor.EditorActions.DeleteSelected();
-                    Instance.UI.UpdateControls();
-                    Instance.UI.UpdateEntitiesToolbarList();
+                    Methods.Internal.UserInterface.UpdateControls();
+                    Methods.Internal.UserInterface.UpdateEntitiesToolbarList();
                 }
             }
         }
@@ -178,7 +178,7 @@ namespace ManiacEditor.Classes.Editor
                     if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
                     if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
 
-                    Instance.UI.UpdateEditLayerActions();
+                    Methods.Internal.UserInterface.UpdateEditLayerActions();
                 }
 
                 // if there's none, use the internal clipboard
@@ -187,7 +187,7 @@ namespace ManiacEditor.Classes.Editor
                     Point pastePoint = GetPastePoint();
                     if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item1);
                     if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item2);
-                    Instance.UI.UpdateEditLayerActions();
+                    Methods.Internal.UserInterface.UpdateEditLayerActions();
                 }
 
             }
@@ -215,13 +215,13 @@ namespace ManiacEditor.Classes.Editor
         {
             Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
             Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
-            Instance.UI.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
         }
         public static void FlipVerticalIndividual()
         {
             Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
             Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
-            Instance.UI.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
         }
         public static void EditorPlaceTile(Point position, int tile, Classes.Editor.Scene.Sets.EditorLayer layer, bool isDrawing = false)
         {
@@ -252,7 +252,7 @@ namespace ManiacEditor.Classes.Editor
         {
             Classes.Editor.Solution.EditLayerA?.DeleteSelected();
             Classes.Editor.Solution.EditLayerB?.DeleteSelected();
-            Instance.UI.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
 
             if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
@@ -273,7 +273,7 @@ namespace ManiacEditor.Classes.Editor
                 Instance.UndoStack.Push(Classes.Editor.Solution.Entities.LastActionInternal);
                 Classes.Editor.Solution.Entities.LastActionInternal = null;
             }
-            if (Classes.Editor.Solution.Entities.LastAction != null || Classes.Editor.Solution.Entities.LastActionInternal != null) Instance.UI.UpdateControls();
+            if (Classes.Editor.Solution.Entities.LastAction != null || Classes.Editor.Solution.Entities.LastActionInternal != null) Methods.Internal.UserInterface.UpdateControls();
 
         }
         public static void FlipEntities(FlipDirection direction)
@@ -303,9 +303,9 @@ namespace ManiacEditor.Classes.Editor
                 Classes.Editor.Solution.EditLayerB?.Deselect();
 
                 if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) Classes.Editor.Solution.Entities.Deselect();
-                Instance.UI.SetSelectOnlyButtonsState(false);
+                Methods.Internal.UserInterface.SetSelectOnlyButtonsState(false);
                 if (updateControls)
-                    Instance.UI.UpdateEditLayerActions();
+                    Methods.Internal.UserInterface.UpdateEditLayerActions();
             }
         }
         public static void EditorUndo()
@@ -335,7 +335,7 @@ namespace ManiacEditor.Classes.Editor
                 }
             }
             Instance.DeviceModel.GraphicPanel.Render();
-            Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         public static void EditorRedo()
         {
@@ -351,7 +351,7 @@ namespace ManiacEditor.Classes.Editor
                 }
             }
             Instance.DeviceModel.GraphicPanel.Render();
-            Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         public static void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
         {
@@ -429,8 +429,8 @@ namespace ManiacEditor.Classes.Editor
                     System.Windows.MessageBox.Show("Too many Classes.Edit.Scene.EditorSolution.Entities! (limit: 2048)");
                     return;
                 }
-                Instance.UI.UpdateEntitiesToolbarList();
-                Instance.UI.SetSelectOnlyButtonsState();
+                Methods.Internal.UserInterface.UpdateEntitiesToolbarList();
+                Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
             }
         }
         public static void MoveEntityOrTiles(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -499,7 +499,7 @@ namespace ManiacEditor.Classes.Editor
             Classes.Editor.Solution.EditLayerA?.MoveSelectedQuonta(new Point(x, y));
             Classes.Editor.Solution.EditLayerB?.MoveSelectedQuonta(new Point(x, y));
 
-            Instance.UI.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
 
             if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
@@ -537,7 +537,7 @@ namespace ManiacEditor.Classes.Editor
                     if (SelectedInternalList.Count != 0) Instance.UndoStack.Push(new ActionMoveEntities(SelectedInternalList, new Point(x, y), true));
 
                     Instance.RedoStack.Clear();
-                    Instance.UI.UpdateControls();
+                    Methods.Internal.UserInterface.UpdateControls();
                 }
             }
         }

@@ -210,7 +210,7 @@ namespace ManiacEditor.Controls
             GraphicPanel.bRender = state;
             if (state == true)
             {
-                EditorInstance.UI.ReloadSpritesAndTextures();
+                Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             }
         }
         private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
@@ -439,7 +439,7 @@ namespace ManiacEditor.Controls
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 e.Effect = System.Windows.Forms.DragDropEffects.Move;
                 Classes.Editor.Solution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Editor.SolutionState.ViewPositionX) / Classes.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Editor.SolutionState.ViewPositionY) / Classes.Editor.SolutionState.Zoom)), (ushort)EditorInstance.TilesToolbar.SelectedTile);
-                EditorInstance.UI.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
             }
             else
             {

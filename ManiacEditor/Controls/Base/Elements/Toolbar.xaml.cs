@@ -123,7 +123,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
         private void SplineOptionsIDChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && SplineGroupID != null && AllowSplineUpdateEvent)
+            if (SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && SplineGroupID != null && AllowSplineUpdateEvent)
             {
                 SelectedSplineIDChangedEvent(SplineGroupID.Value.Value);
             }
@@ -136,7 +136,7 @@ namespace ManiacEditor.Controls.Base.Elements
             SplineGroupID.Value = value;
             Classes.Editor.SolutionState.SelectedSplineID = value;
             SplineSpawnID.Value = value;
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateSplineSettings(value);
+            Methods.Internal.UserInterface.UpdateSplineSettings(value);
             Classes.Editor.SolutionState.AllowSplineOptionsUpdate = true;
             AllowSplineUpdateEvent = true;
 
@@ -145,7 +145,7 @@ namespace ManiacEditor.Controls.Base.Elements
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.UI != null && SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
+            if (SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationNUD.Value;
@@ -158,7 +158,7 @@ namespace ManiacEditor.Controls.Base.Elements
         private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.UI != null && SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
+            if (SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
             {
                 AllowSplineFreqeunceUpdate = false;
                 int size = (int)SplinePointSeperationSlider.Value;
@@ -218,7 +218,7 @@ namespace ManiacEditor.Controls.Base.Elements
         {
             if (ManiacEditor.Controls.Base.MainEditor.Instance != null)
             {
-                if (ManiacEditor.Controls.Base.MainEditor.Instance.UI != null && DrawTileSizeNUD != null && DrawTileSizeSlider != null && AllowDrawBrushSizeChange)
+                if (DrawTileSizeNUD != null && DrawTileSizeSlider != null && AllowDrawBrushSizeChange)
                 {
                     AllowDrawBrushSizeChange = false;
                     int size = (wasSlider ? (int)DrawTileSizeSlider.Value : (int)DrawTileSizeNUD.Value);
@@ -247,7 +247,7 @@ namespace ManiacEditor.Controls.Base.Elements
         private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.InteractionMode(); }
         private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SplineMode(); }
         private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ChunksMode(); }
-        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UI.ReloadSpritesAndTextures(); }
+        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(); }
         public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowTileID ^= true; }
         private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Classes.Editor.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
@@ -434,7 +434,7 @@ namespace ManiacEditor.Controls.Base.Elements
             {
                 if (ClickType == MouseButton.Left) Normal();
             }
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
 
 
             void EditEntitiesMode()
@@ -780,7 +780,7 @@ namespace ManiacEditor.Controls.Base.Elements
                 }
             }
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         #endregion
 

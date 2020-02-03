@@ -482,9 +482,9 @@ namespace ManiacEditor.Methods
                     return; // nothing to do
 
                 // user clicked Import, get to it!
-                Editor.UI.UpdateControls();
+                Methods.Internal.UserInterface.UpdateControls();
                 Editor.EntitiesToolbar?.RefreshSpawningObjects(Classes.Editor.Solution.CurrentScene.Objects);
-                Editor.UI.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
+                Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
 
             }
             catch (Exception ex)
@@ -538,9 +538,9 @@ namespace ManiacEditor.Methods
                             return; // nothing to do
 
                         // user clicked Import, get to it!
-                        Editor.UI.UpdateControls();
+                        Methods.Internal.UserInterface.UpdateControls();
                         Editor.EntitiesToolbar?.RefreshSpawningObjects(Classes.Editor.Solution.CurrentScene.Objects);
-                        Editor.UI.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
+                        Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
                     }
                 }
 
@@ -620,7 +620,7 @@ namespace ManiacEditor.Methods
 
             Editor.SetupLayerButtons();
             Editor.ZoomModel.ResetViewSize();
-            Editor.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
             Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;
         }
 

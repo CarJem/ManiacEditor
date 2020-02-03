@@ -153,8 +153,8 @@ namespace ManiacEditor.Classes.Editor.Scene
 
         public void AutoGenerateChunks(Classes.Editor.Scene.Sets.EditorLayer LayerA)
         {
-            EditorInstance.UI.UpdateWaitingScreen(true);
-            EditorInstance.UI.ToggleEditorButtons(false);
+            Methods.Internal.UserInterface.UpdateWaitingScreen(true);
+            Methods.Internal.UserInterface.ToggleEditorButtons(false);
 
             System.Threading.Thread thread = new System.Threading.Thread(() => {
                 int width = LayerA.Width;
@@ -190,8 +190,8 @@ namespace ManiacEditor.Classes.Editor.Scene
                         if (duplicate == false) StageStamps.StampList.Add(newChunk);
                     }
                 }
-                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.UpdateWaitingScreen(false)));
-                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.ToggleEditorButtons(true)));
+                EditorInstance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.UpdateWaitingScreen(false)));
+                EditorInstance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.ToggleEditorButtons(true)));
 
             })
             { IsBackground = true };
@@ -200,8 +200,8 @@ namespace ManiacEditor.Classes.Editor.Scene
 
         public void AutoGenerateChunks(Classes.Editor.Scene.Sets.EditorLayer LayerA, Classes.Editor.Scene.Sets.EditorLayer LayerB)
         {
-            EditorInstance.UI.UpdateWaitingScreen(true);
-            EditorInstance.UI.ToggleEditorButtons(false);
+            Methods.Internal.UserInterface.UpdateWaitingScreen(true);
+            Methods.Internal.UserInterface.ToggleEditorButtons(false);
 
             System.Threading.Thread thread = new System.Threading.Thread(() => {
                 int width = (LayerA.Width > LayerB.Width ? LayerA.Width : LayerB.Width);
@@ -237,8 +237,8 @@ namespace ManiacEditor.Classes.Editor.Scene
                         if (duplicate == false) StageStamps.StampList.Add(newChunk);
                     }
                 }
-                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.UpdateWaitingScreen(false)));
-                EditorInstance.Dispatcher.Invoke(new Action(() => EditorInstance.UI.ToggleEditorButtons(true)));
+                EditorInstance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.UpdateWaitingScreen(false)));
+                EditorInstance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.ToggleEditorButtons(true)));
 
             })
             { IsBackground = true };
@@ -323,7 +323,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
 			EditLayerA?.PasteFromClipboard(TileCoord, ConvertedChunkA);
 			EditLayerB?.PasteFromClipboard(TileCoord, ConvertedChunkB);
-			EditorInstance.UI.UpdateEditLayerActions();
+			Methods.Internal.UserInterface.UpdateEditLayerActions();
 			EditLayerA?.Deselect();
 			EditLayerB?.Deselect();
 		}

@@ -100,7 +100,6 @@ namespace ManiacEditor.Controls.Base
         public Classes.Editor.Scene.EditorPath Paths;
         public Methods.Layers.TileFindReplace FindAndReplace;
         public EditorZoomModel ZoomModel;
-        public EditorUI UI;
         public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost DeviceHost;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
@@ -183,7 +182,6 @@ namespace ManiacEditor.Controls.Base
             Paths = new Classes.Editor.Scene.EditorPath(this);
             FindAndReplace = new Methods.Layers.TileFindReplace(this);
             ZoomModel = new EditorZoomModel(this);
-            UI = new EditorUI();
 
             //Controls
             StartScreen = new ManiacEditor.Controls.Base.Elements.StartScreen(this);
@@ -191,6 +189,7 @@ namespace ManiacEditor.Controls.Base
 
             //Classes
             Methods.Prefrences.SceneCurrentSettings.UpdateInstance(this);
+            Methods.Internal.UserInterface.UpdateInstance(this);
             ManiacEditor.Classes.Editor.SolutionLoader.UpdateInstance(this);
             Methods.Prefrences.SceneHistoryStorage.Initilize(this);
             ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Initilize(this);
@@ -212,7 +211,7 @@ namespace ManiacEditor.Controls.Base
             Extensions.ExternalExtensions.HideConsoleWindow();
             RefreshCollisionColours();
             ZoomModel.SetViewSize();
-            UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
             Methods.Internal.Settings.TryLoadSettings();
 
 
@@ -269,7 +268,7 @@ namespace ManiacEditor.Controls.Base
             DeviceModel.GraphicPanel.Focus();
             if (TileManiacInstance.hasModified)
             {
-                UI.ReloadSpritesAndTextures();
+                Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             }
 
         }
@@ -389,7 +388,7 @@ namespace ManiacEditor.Controls.Base
                 this.OverlayPanel.Children.Add(StartScreen);
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
-                UI.UpdateToolbars(false, false, true);
+                Methods.Internal.UserInterface.UpdateToolbars(false, false, true);
                 RefreshRecentScenes();
                 RefreshDataSources();
             }
@@ -398,7 +397,7 @@ namespace ManiacEditor.Controls.Base
                 StartScreen.Visibility = Visibility.Visible;
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Hidden;
-                UI.UpdateToolbars(false, false, true);
+                Methods.Internal.UserInterface.UpdateToolbars(false, false, true);
                 RefreshRecentScenes();
                 RefreshDataSources();
             }
@@ -407,7 +406,7 @@ namespace ManiacEditor.Controls.Base
                 StartScreen.Visibility = Visibility.Hidden;
                 StartScreen.SelectScreen.ReloadRecentsTree();
                 this.ViewPanelForm.Visibility = Visibility.Visible;
-                UI.UpdateToolbars(false, false, false);
+                Methods.Internal.UserInterface.UpdateToolbars(false, false, false);
             }
 
         }
@@ -680,7 +679,7 @@ namespace ManiacEditor.Controls.Base
                 }
             }
 
-            UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         #endregion
 
@@ -914,15 +913,15 @@ namespace ManiacEditor.Controls.Base
         #region Toolbar Events
         private void LeftToolbarToolbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (UI != null && ZoomModel != null && StartScreen.Visibility != Visibility.Visible)
+            if (ZoomModel != null && StartScreen.Visibility != Visibility.Visible)
             {
                 if (LeftToolbarToolbox.SelectedIndex == 0)
                 {
-                    UI.UpdateToolbars(false, false);
+                    Methods.Internal.UserInterface.UpdateToolbars(false, false);
                 }
                 else
                 {
-                    UI.UpdateToolbars(false, true);
+                    Methods.Internal.UserInterface.UpdateToolbars(false, true);
                 }
                 ManiacEditor.Controls.Base.MainEditor.Instance.Editor_Resize(null, null);
             }

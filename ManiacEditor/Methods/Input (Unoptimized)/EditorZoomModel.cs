@@ -223,7 +223,7 @@ namespace ManiacEditor
 
             Classes.Editor.SolutionState.Zooming = false;
 
-            if (updateControls) Editor.UI.UpdateControls();
+            if (updateControls) Methods.Internal.UserInterface.UpdateControls();
         }
 
         public void ResetViewSize()

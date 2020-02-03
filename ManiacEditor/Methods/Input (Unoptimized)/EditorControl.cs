@@ -95,7 +95,7 @@ namespace ManiacEditor
                     }
                     Controls.Base.MainEditor.Instance.UndoStack.Push(action);
                     Controls.Base.MainEditor.Instance.RedoStack.Clear();
-                    Controls.Base.MainEditor.Instance.UI.UpdateControls();
+                    Methods.Internal.UserInterface.UpdateControls();
                 }
                 if (Classes.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
                 {
@@ -112,7 +112,7 @@ namespace ManiacEditor
                     }
                     Controls.Base.MainEditor.Instance.UndoStack.Push(action);
                     Controls.Base.MainEditor.Instance.RedoStack.Clear();
-                    Controls.Base.MainEditor.Instance.UI.UpdateControls();
+                    Methods.Internal.UserInterface.UpdateControls();
                 }
 
 
@@ -307,7 +307,7 @@ namespace ManiacEditor
                         else if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit()) ChunksEditMouseUp(e);
                         else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) EntitiesEditMouseUp(e);
                     }
-                    Controls.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
+                    Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
                     Classes.Editor.SolutionState.RegionX1 = -1;
                     Classes.Editor.SolutionState.RegionY1 = -1;
                 }
@@ -316,8 +316,8 @@ namespace ManiacEditor
             }
             ScrollerMouseUp(e);
 
-            Controls.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
-            Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateControls();
 
 
         }
@@ -353,8 +353,8 @@ namespace ManiacEditor
 
                     if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) Classes.Editor.Solution.Entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
                 }
-                Controls.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
-                Controls.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
 
             }
             Classes.Editor.SolutionState.DraggingSelection = false;
@@ -513,7 +513,7 @@ namespace ManiacEditor
                 //EditLayer.Select(clicked_point, ShiftPressed || CtrlPressed, CtrlPressed);
                 if (!ShiftPressed() && !CtrlPressed())
                     ManiacEditor.Classes.Editor.EditorActions.Deselect();
-                Controls.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
 
                 Classes.Editor.SolutionState.DraggingSelection = true;
                 Classes.Editor.SolutionState.RegionX2 = Classes.Editor.SolutionState.RegionX1;
@@ -710,7 +710,7 @@ namespace ManiacEditor
                     else if (!ShiftPressed() && !CtrlPressed() && Classes.Editor.Solution.Entities.GetEntityAt(clicked_point) != null)
                     {
                         Classes.Editor.Solution.Entities.Select(clicked_point);
-                        Controls.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
+                        Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
                         // Start dragging the single selected entity
                         Classes.Editor.SolutionState.Dragged = true;
                         Classes.Editor.SolutionState.DraggedX = 0;
@@ -899,7 +899,7 @@ namespace ManiacEditor
                 // Start drag selection
                 if (!ShiftPressed() && !CtrlPressed())
                     ManiacEditor.Classes.Editor.EditorActions.Deselect();
-                Controls.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
 
                 Classes.Editor.SolutionState.DraggingSelection = true;
                 Classes.Editor.SolutionState.RegionX2 = e.X;
@@ -957,7 +957,7 @@ namespace ManiacEditor
 
             Classes.Editor.Solution.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
             Classes.Editor.Solution.EditLayerB?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
-            Controls.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
+            Methods.Internal.UserInterface.UpdateEditLayerActions();
         }
 
         #endregion
@@ -1276,7 +1276,7 @@ namespace ManiacEditor
                         Classes.Editor.Solution.EditLayerA?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
                         Classes.Editor.Solution.EditLayerB?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
 
-                        Controls.Base.MainEditor.Instance.UI.UpdateTilesOptions();
+                        Methods.Internal.UserInterface.UpdateTilesOptions();
                     }
                 }
                 void Normal()
@@ -1300,7 +1300,7 @@ namespace ManiacEditor
                         Classes.Editor.Solution.EditLayerA?.TempSelection(new Rectangle(Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY1, Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1), CtrlPressed());
                         Classes.Editor.Solution.EditLayerB?.TempSelection(new Rectangle(Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY1, Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1), CtrlPressed());
 
-                        Controls.Base.MainEditor.Instance.UI.UpdateTilesOptions();
+                        Methods.Internal.UserInterface.UpdateTilesOptions();
 
                         if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) Classes.Editor.Solution.Entities.TempSelection(new Rectangle(Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY1, Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1, Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1), CtrlPressed());
                     }
@@ -1408,8 +1408,8 @@ namespace ManiacEditor
                     }
                     if (CtrlPressed() && Classes.Editor.SolutionState.StartDragged)
                     {
-                        Controls.Base.MainEditor.Instance.UI.UpdateEntitiesToolbarList();
-                        Controls.Base.MainEditor.Instance.UI.SetSelectOnlyButtonsState();
+                        Methods.Internal.UserInterface.UpdateEntitiesToolbarList();
+                        Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
                     }
                     Controls.Base.MainEditor.Instance.EntitiesToolbar.UpdateCurrentEntityProperites();
                 }
@@ -1542,7 +1542,7 @@ namespace ManiacEditor
             //Refresh Tiles and Sprites
             else if (isCombo(e, myKeyBinds.RefreshResources))
             {
-                Controls.Base.MainEditor.Instance.UI.ReloadSpritesAndTextures();
+                Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             }
             //Run Scene
             else if (isCombo(e, myKeyBinds.RunScene))

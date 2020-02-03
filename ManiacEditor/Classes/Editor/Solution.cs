@@ -93,7 +93,7 @@ namespace ManiacEditor.Classes.Editor
 
             ManiacEditor.Controls.Base.MainEditor.Instance.ZoomModel.SetViewSize();
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
 
             // clear memory a little more aggressively 
             ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.ReleaseResources();
