@@ -619,7 +619,7 @@ namespace ManiacEditor.Methods
 
 
             Editor.SetupLayerButtons();
-            Editor.ZoomModel.ResetViewSize();
+            Editor.DeviceModel.ResetViewSize();
             Methods.Internal.UserInterface.UpdateControls();
             Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;
         }

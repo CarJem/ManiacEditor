@@ -98,7 +98,6 @@ namespace ManiacEditor.Controls.Base
         public Classes.Editor.Scene.EditorChunks Chunks;
         public Classes.Editor.Scene.EditorPath Paths;
         public Methods.Layers.TileFindReplace FindAndReplace;
-        public EditorZoomModel ZoomModel;
         public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost DeviceHost;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
@@ -179,10 +178,9 @@ namespace ManiacEditor.Controls.Base
             StateModel = new Classes.Editor.SolutionState(this);
             Paths = new Classes.Editor.Scene.EditorPath(this);
             FindAndReplace = new Methods.Layers.TileFindReplace(this);
-            ZoomModel = new EditorZoomModel(this);
+
             //Controls
             StartScreen = new ManiacEditor.Controls.Base.Elements.StartScreen(this);
-
 
             //Classes
             Methods.Prefrences.SceneCurrentSettings.UpdateInstance(this);
@@ -208,7 +206,7 @@ namespace ManiacEditor.Controls.Base
             Extensions.ExternalExtensions.AllocConsole();
             Extensions.ExternalExtensions.HideConsoleWindow();
             RefreshCollisionColours();
-            ZoomModel.SetViewSize();
+            DeviceModel.SetViewSize();
             Methods.Internal.UserInterface.UpdateControls();
             Methods.Internal.Settings.TryLoadSettings();
 
@@ -319,7 +317,7 @@ namespace ManiacEditor.Controls.Base
 
         }
 
-        public void Editor_Resize(object sender, RoutedEventArgs e) { ZoomModel.Resize(sender, e); }
+        public void Editor_Resize(object sender, RoutedEventArgs e) { DeviceModel.GraphicsResize(sender, e); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the interop host control.
@@ -341,8 +339,8 @@ namespace ManiacEditor.Controls.Base
         #endregion
 
         #region Splitter Events
-        private void Spliter_DragDelta(object sender, DragDeltaEventArgs e) { ZoomModel.Resize(sender, e); }
-        private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e) { ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY), 0.0, false); }
+        private void Spliter_DragDelta(object sender, DragDeltaEventArgs e) { DeviceModel.GraphicsResize(sender, e); }
+        private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e) { DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY), 0.0, false); }
         #endregion
 
         #region Misc Events
@@ -911,7 +909,7 @@ namespace ManiacEditor.Controls.Base
         #region Toolbar Events
         private void LeftToolbarToolbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ZoomModel != null && StartScreen.Visibility != Visibility.Visible)
+            if (StartScreen.Visibility != Visibility.Visible)
             {
                 if (LeftToolbarToolbox.SelectedIndex == 0)
                 {

@@ -30,7 +30,7 @@ namespace ManiacEditor.Methods.Internal
 
             if (stageLoad)
             {
-                Instance.ZoomModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
+                Instance.DeviceModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
             }
 
             Methods.Internal.Theming.UpdateButtonColors();

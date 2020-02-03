@@ -404,7 +404,6 @@
     <Compile Include="Classes\Editor\Scene\EditorPath.cs" />
     <Compile Include="Classes\Editor\SolutionLoader.cs" />
     <Compile Include="Methods\Internal\Theming.cs" />
-    <Compile Include="Methods\Input %28Unoptimized%29\EditorZoomModel.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />

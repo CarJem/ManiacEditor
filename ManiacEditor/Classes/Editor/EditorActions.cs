@@ -58,7 +58,7 @@ namespace ManiacEditor.Classes.Editor
             if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
             if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
 
-            Instance.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
         }
         public static void ZoomOut()
         {
@@ -66,7 +66,7 @@ namespace ManiacEditor.Classes.Editor
             if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
             if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
 
-            Instance.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
         }
         public static void PasteToChunks()
         {

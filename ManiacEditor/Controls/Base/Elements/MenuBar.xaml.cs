@@ -272,7 +272,7 @@ namespace ManiacEditor.Controls.Base.Elements
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EnableFasterNudge ^= true; }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
         public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true; }
-        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.ZoomModel.SetZoomLevel(0, new System.Drawing.Point(0, 0)); }
+        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.SetZoomLevel(0, new System.Drawing.Point(0, 0)); }
         private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseLargeDebugStats ^= true; }
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SetManiaMenuInputType(sender, e); }
         public void MenuButtonChangedEvent(string tag) { ManiacEditor.Classes.Editor.EditorActions.SetManiaMenuInputType(tag); }

@@ -91,7 +91,7 @@ namespace ManiacEditor.Classes.Editor
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
             ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.EditEntities.ClearCheckedItems();
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.ZoomModel.SetViewSize();
+            ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.SetViewSize();
 
             Methods.Internal.UserInterface.UpdateControls();
 

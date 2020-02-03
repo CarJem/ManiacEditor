@@ -466,7 +466,7 @@ namespace ManiacEditor.Methods.Internal
                 if (Classes.Editor.SolutionState.ZoomLevel > maxZoom) Classes.Editor.SolutionState.ZoomLevel = maxZoom;
                 if (Classes.Editor.SolutionState.ZoomLevel < minZoom) Classes.Editor.SolutionState.ZoomLevel = minZoom;
 
-                Instance.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
+                Instance.DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
             }
             void Normal()
             {
@@ -1452,7 +1452,7 @@ namespace ManiacEditor.Methods.Internal
             // Reset Zoom Level
             if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ResetZoomLevel))
             {
-                Instance.ZoomModel.SetZoomLevel(0, new Point(0, 0));
+                Instance.DeviceModel.SetZoomLevel(0, new Point(0, 0));
             }
             //Refresh Tiles and Sprites
             else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.RefreshResources))

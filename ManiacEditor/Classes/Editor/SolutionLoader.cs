@@ -67,7 +67,7 @@ namespace ManiacEditor.Classes.Editor
 
                 Classes.Editor.Solution.Entities = new Classes.Editor.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
 
-                Instance.ZoomModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
+                Instance.DeviceModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
 
                 Methods.Internal.UserInterface.UpdateControls(true);
             }
@@ -570,7 +570,7 @@ namespace ManiacEditor.Classes.Editor
                 Instance.UpdateStartScreen(false);
                 Instance.UpdateDataFolderLabel(null, null);
                 Instance.SetupLayerButtons();
-                Instance.ZoomModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
+                Instance.DeviceModel.SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
                 Classes.Editor.SolutionState.UpdateMultiLayerSelectMode();
                 Methods.Internal.UserInterface.UpdateControls(true);
                 Methods.Prefrences.SceneHistoryStorage.AddRecentFile(Methods.Prefrences.SceneHistoryStorage.GenerateNewEntry());
